@@ -349,60 +349,50 @@
         }
 
         /* Features Section */
-      <section class="features" id="plans">
-    <div class="container">
-        <h2>Why Families Nationwide Choose Us</h2>
-        <div class="features-grid">
-            <div class="feature-card fade-in-up">
-                <div class="feature-icon">🏠</div>
-                <h3>Central Florida Expertise</h3>
-                <p>Based in Central Florida with deep understanding of the healthcare landscape across the nation. We serve families from coast to coast.</p>
-            </div>
-            
-            <div class="feature-card fade-in-up">
-                <div class="feature-icon">🛡️</div>
-                <h3>Comprehensive Coverage</h3>
-                <p>From routine checkups to emergency care, we've got you covered with plans that fit your lifestyle and budget, wherever you live.</p>
-            </div>
-            
-            <div class="feature-card fade-in-up">
-                <div class="feature-icon">💰</div>
-                <h3>Affordable Rates</h3>
-                <p>Compare multiple insurance providers nationwide to find the best rates. Save up to 40% on your monthly premiums.</p>
-            </div>
+        .features {
+            padding: 100px 0;
+            background: white;
+        }
 
-            <div class="feature-card fade-in-up">
-                <div class="feature-icon">📊</div>
-                <h3>Compare Plans</h3>
-                <p>Side-by-side plan comparison tool helps you find the perfect coverage. We'll show you exactly what you get for your money.</p>
-            </div>
-            
-            <div class="feature-card fade-in-up">
-                <div class="feature-icon">⚡</div>
-                <h3>Quick Approval</h3>
-                <p>Get approved in minutes, not days. Our streamlined process gets you covered fast when you need it most.</p>
-            </div>
-            
-            <div class="feature-card fade-in-up">
-                <div class="feature-icon">👥</div>
-                <h3>Expert Support</h3>
-                <p>Our licensed insurance professionals guide you through every step, ensuring you make the best decision for your health.</p>
-            </div>
-            
-            <div class="feature-card fade-in-up">
-                <div class="feature-icon">🏥</div>
-                <h3>Top Provider Networks</h3>
-                <p>Access to major healthcare networks nationwide including top hospitals, doctors and specialists in your area.</p>
-            </div>
-            
-            <div class="feature-card fade-in-up">
-                <div class="feature-icon">🎯</div>
-                <h3>Personalized Matching</h3>
-                <p>Our smart matching system finds plans tailored to your specific needs, medical history, and budget requirements.</p>
-            </div>
-        </div>
-    </div>
-</section>
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
         /* Benefits Section */
         .benefits {
             padding: 100px 0;
@@ -605,54 +595,60 @@
         </div>
     </section>
 
-    <<div class="feature-card fade-in-up">
-    <div class="feature-icon">🏠</div>
-    <h3>Central Florida Expertise</h3>
-    <p>Based in Central Florida with deep understanding of the healthcare landscape across the nation. We serve families from coast to coast.</p>
-</div>
+    <section class="features" id="plans">
+        <div class="container">
+            <h2>Why Families Nationwide Choose Us</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">🏠</div>
+                    <h3>Central Florida Expertise</h3>
+                    <p>Based in Central Florida with deep understanding of the healthcare landscape across the nation. We serve families from coast to coast.</p>
+                </div>
+                
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Comprehensive Coverage</h3>
+                    <p>From routine checkups to emergency care, we've got you covered with plans that fit your lifestyle and budget, wherever you live.</p>
+                </div>
+                
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">💰</div>
+                    <h3>Affordable Rates</h3>
+                    <p>Compare multiple insurance providers nationwide to find the best rates. Save up to 40% on your monthly premiums.</p>
+                </div>
 
-<div class="feature-card fade-in-up">
-    <div class="feature-icon">🛡️</div>
-    <h3>Comprehensive Coverage</h3>
-    <p>From routine checkups to emergency care, we've got you covered with plans that fit your lifestyle and budget, wherever you live.</p>
-</div>
-
-<div class="feature-card fade-in-up">
-    <div class="feature-icon">💰</div>
-    <h3>Affordable Rates</h3>
-    <p>Compare multiple insurance providers nationwide to find the best rates. Save up to 40% on your monthly premiums.</p>
-</div>
-
-<div class="feature-card fade-in-up highlight">
-    <div class="feature-icon">📊</div>
-    <h3>Compare Plans</h3>
-    <p>Side-by-side plan comparison tool helps you find the perfect coverage. We'll show you exactly what you get for your money.</p>
-    <div class="cta-text">✨ Free Comparison Service</div>
-</div>
-
-<div class="feature-card fade-in-up">
-    <div class="feature-icon">⚡</div>
-    <h3>Quick Approval</h3>
-    <p>Get approved in minutes, not days. Our streamlined process gets you covered fast when you need it most.</p>
-</div>
-
-<div class="feature-card fade-in-up">
-    <div class="feature-icon">👥</div>
-    <h3>Expert Support</h3>
-    <p>Our licensed insurance professionals guide you through every step, ensuring you make the best decision for your health.</p>
-</div>
-
-<div class="feature-card fade-in-up">
-    <div class="feature-icon">🏥</div>
-    <h3>Top Provider Networks</h3>
-    <p>Access to major healthcare networks nationwide including top hospitals, doctors and specialists in your area.</p>
-</div>
-
-<div class="feature-card fade-in-up">
-    <div class="feature-icon">🎯</div>
-    <h3>Personalized Matching</h3>
-    <p>Our smart matching system finds plans tailored to your specific needs, medical history, and budget requirements.</p>
-</div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">📊</div>
+                    <h3>Compare Plans</h3>
+                    <p>Side-by-side plan comparison tool helps you find the perfect coverage. We'll show you exactly what you get for your money.</p>
+                </div>
+                
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Quick Approval</h3>
+                    <p>Get approved in minutes, not days. Our streamlined process gets you covered fast when you need it most.</p>
+                </div>
+                
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">👥</div>
+                    <h3>Expert Support</h3>
+                    <p>Our licensed insurance professionals guide you through every step, ensuring you make the best decision for your health.</p>
+                </div>
+                
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">🏥</div>
+                    <h3>Top Provider Networks</h3>
+                    <p>Access to major healthcare networks nationwide including top hospitals, doctors and specialists in your area.</p>
+                </div>
+                
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Personalized Matching</h3>
+                    <p>Our smart matching system finds plans tailored to your specific needs, medical history, and budget requirements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section class="benefits" id="about">
         <div class="container">
