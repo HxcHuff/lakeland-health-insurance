@@ -380,6 +380,18 @@
             transform: translateY(-10px);
         }
 
+        .subsidy-calculator {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .subsidy-calculator h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
         .feature-icon {
             width: 60px;
             height: 60px;
@@ -609,6 +621,13 @@
                     <div class="feature-icon">🏛️</div>
                     <h3>ACA Plans</h3>
                     <p>Affordable Care Act marketplace plans with essential health benefits, preventive care, and subsidies available. Open enrollment and special enrollment periods.</p>
+                    <div class="subsidy-calculator">
+                        <h4>Quick Subsidy Estimate</h4>
+                        <input type="number" id="household-income" placeholder="Annual household income" style="width: 100%; margin: 5px 0; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                        <input type="number" id="household-size" placeholder="Household size" style="width: 100%; margin: 5px 0; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                        <button onclick="calculateSubsidy()" style="width: 100%; padding: 10px; background: #3b82f6; color: white; border: none; border-radius: 5px; margin-top: 10px;">Calculate Savings</button>
+                        <div id="subsidy-result" style="margin-top: 10px; font-weight: bold; color: #10b981;"></div>
+                    </div>
                 </div>
                 
                 <div class="feature-card fade-in-up">
@@ -766,6 +785,44 @@
         document.querySelectorAll('.feature-card').forEach(card => {
             observer.observe(card);
         });
+
+        // Subsidy Calculator Function
+        function calculateSubsidy() {
+            const income = parseInt(document.getElementById('household-income').value);
+            const size = parseInt(document.getElementById('household-size').value);
+            const resultDiv = document.getElementById('subsidy-result');
+            
+            if (!income || !size) {
+                resultDiv.innerHTML = 'Please enter both income and household size';
+                resultDiv.style.color = '#ff4444';
+                return;
+            }
+            
+            // 2025 Federal Poverty Level guidelines (simplified)
+            const fpl = {
+                1: 15060, 2: 20440, 3: 25820, 4: 31200, 
+                5: 36580, 6: 41960, 7: 47340, 8: 52720
+            };
+            
+            const baseFPL = fpl[size] || (fpl[8] + (size - 8) * 5380);
+            const percentOfFPL = (income / baseFPL) * 100;
+            
+            let subsidy = '';
+            if (percentOfFPL <= 150) {
+                subsidy = 'You likely qualify for premium tax credits up to $500+ per month!';
+            } else if (percentOfFPL <= 200) {
+                subsidy = 'You may qualify for premium tax credits up to $300+ per month!';
+            } else if (percentOfFPL <= 250) {
+                subsidy = 'You may qualify for premium tax credits up to $200+ per month!';
+            } else if (percentOfFPL <= 400) {
+                subsidy = 'You may qualify for some premium assistance!';
+            } else {
+                subsidy = 'Call us to explore all available options and employer plans!';
+            }
+            
+            resultDiv.innerHTML = subsidy;
+            resultDiv.style.color = '#10b981';
+        }
     </script>
 </body>
 </html>
