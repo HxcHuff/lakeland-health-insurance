@@ -56,6 +56,12 @@
             padding: 1rem 0;
         }
 
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .logo {
             font-size: 1.8rem;
             font-weight: 800;
@@ -69,6 +75,76 @@
             display: block;
             line-height: 1;
             font-weight: 600;
+        }
+
+        /* Ellipses Menu Styles */
+        .menu-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .menu-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .ellipses {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .dot {
+            width: 4px;
+            height: 4px;
+            background-color: #666;
+            border-radius: 50%;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 100px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: #333;
+            display: block;
         }
 
         .nav-links {
@@ -419,7 +495,24 @@
 <body>
     <header>
         <nav class="container">
-            <div class="logo">LHI</div>
+            <div class="logo-container">
+                <div class="logo">LHI</div>
+                <button class="menu-button" onclick="toggleMenu()">
+                    <div class="ellipses">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </button>
+                
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="menu-item"><a href="#plans">Health Plans</a></div>
+                    <div class="menu-item"><a href="#quote">Get Quote</a></div>
+                    <div class="menu-item"><a href="#about">About Us</a></div>
+                    <div class="menu-item"><a href="#contact">Contact</a></div>
+                    <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
+                </div>
+            </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#plans">Plans</a></li>
@@ -586,6 +679,11 @@
                 
                 <div class="benefits-image">
 <img src="Hospital_Stock.png" alt="Healthcare professionals and hospital" style="width: 80%; height: 250px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); display: block; margin: 0 auto;">
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer id="contact">
         <div class="container">
             <div class="footer-content">
@@ -627,6 +725,22 @@
     </a>
 
     <script>
+        // Ellipses menu toggle function
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.classList.toggle('show');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdownMenu');
+            const button = document.querySelector('.menu-button');
+            
+            if (!menu.contains(event.target) && !button.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
         // Only smooth scrolling - NO form interference
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
