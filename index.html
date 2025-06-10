@@ -232,24 +232,28 @@
         }
 
         /* Facebook Messenger Widget positioning */
-        .fb-customerchat {
-            z-index: 999 !important;
-        }
+.fb-customerchat {
+    z-index: 999 !important;
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 100px !important;
+}
 
-        /* Mobile optimization for click to call */
-        @media (max-width: 768px) {
-            .click-to-call {
-                bottom: 15px;
-                right: 15px;
-                padding: 12px 16px;
-                font-size: 1rem;
-            }
-            
-            /* Adjust Facebook widget on mobile to not conflict with call button */
-            .fb-customerchat {
-                bottom: 80px !important;
-            }
-        }
+/* Mobile optimization - update your existing mobile section */
+@media (max-width: 768px) {
+    .click-to-call {
+        bottom: 15px;
+        right: 15px;
+        padding: 12px 16px;
+        font-size: 1rem;
+    }
+    
+    /* Add this to prevent button conflicts */
+    .fb-customerchat {
+        bottom: 80px !important;
+        right: 15px !important;
+    }
+}
 
         /* Hero Section */
         .hero {
