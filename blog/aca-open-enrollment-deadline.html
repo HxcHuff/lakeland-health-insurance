@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -76,6 +76,76 @@
             display: block;
             line-height: 1;
             font-weight: 600;
+        }
+
+        /* Ellipses Menu Styles */
+        .menu-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .menu-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .ellipses {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .dot {
+            width: 4px;
+            height: 4px;
+            background-color: #666;
+            border-radius: 50%;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 100px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: #333;
+            display: block;
         }
 
         .nav-links {
@@ -409,6 +479,22 @@
         <nav>
             <div class="logo-container">
                 <a href="../index.html" class="logo">LHI</a>
+                <button class="menu-button" onclick="toggleMenu()">
+                    <div class="ellipses">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </button>
+                
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="menu-item"><a href="../index.html#plans">Health Plans</a></div>
+                    <div class="menu-item"><a href="../index.html#quote">Get Quote</a></div>
+                    <div class="menu-item"><a href="index.html">Blog</a></div>
+                    <div class="menu-item"><a href="../index.html#about">About Us</a></div>
+                    <div class="menu-item"><a href="../index.html#contact">Contact</a></div>
+                    <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
+                </div>
             </div>
             <ul class="nav-links">
                 <li><a href="../index.html#home">Home</a></li>
@@ -433,7 +519,7 @@
                         <p>Licensed Insurance Agent</p>
                     </div>
                 </div>
-                <div class="article-date">June 10, 2025</div>
+                <div class="article-date">June 15, 2025</div>
             </div>
         </div>
     </section>
@@ -626,8 +712,8 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>Contact David</h4>
-                <p>📞 (863) 640-3102</p>
-                <p>✉️ david@lakelandhealthinsurance.com</p>
+                <p>📞 <a href="tel:+18636403102" style="color: white; text-decoration: none;">(863) 640-3102</a></p>
+                <p>✉️ <a href="mailto:david@lakelandhealthinsurance.com" style="color: white; text-decoration: none;">david@lakelandhealthinsurance.com</a></p>
                 <p>📍 Central Florida</p>
             </div>
             
@@ -651,5 +737,23 @@
             <p style="font-size: 0.9rem; margin-top: 1rem;"><a href="https://www.facebook.com/HealthMarkets.David.Huff/" target="_blank" style="color: #3b82f6; text-decoration: none;">Sponsored by David the Insurance Dude</a></p>
         </div>
     </footer>
+
+    <script>
+        // Ellipses menu toggle function
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.classList.toggle('show');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdownMenu');
+            const button = document.querySelector('.menu-button');
+            
+            if (!menu.contains(event.target) && !button.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        });
+    </script>
 </body>
 </html>
