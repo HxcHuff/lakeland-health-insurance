@@ -231,6 +231,11 @@
             }
         }
 
+        /* Facebook Messenger Widget positioning */
+        .fb-customerchat {
+            z-index: 999 !important;
+        }
+
         /* Mobile optimization for click to call */
         @media (max-width: 768px) {
             .click-to-call {
@@ -238,6 +243,11 @@
                 right: 15px;
                 padding: 12px 16px;
                 font-size: 1rem;
+            }
+            
+            /* Adjust Facebook widget on mobile to not conflict with call button */
+            .fb-customerchat {
+                bottom: 80px !important;
             }
         }
 
@@ -570,6 +580,25 @@
     </style>
 </head>
 <body>
+    <!-- Facebook Messenger SDK - Must be right after opening body tag -->
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml: true,
+          version: 'v18.0'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+
     <header>
         <nav class="container">
             <div class="logo-container">
@@ -842,6 +871,15 @@
         Call Now: (863) 640-3102
     </a>
 
+    <!-- Facebook Messenger Chat Widget -->
+    <div class="fb-customerchat"
+      attribution="setup_tool"
+      page_id="2330958066941437"
+      theme_color="#1e3a8a"
+      logged_in_greeting="Hi! Got questions about health insurance? I'm here to help!"
+      logged_out_greeting="Hi! Got questions about health insurance? I'm here to help!">
+    </div>
+
     <script>
         // Ellipses menu toggle function
         function toggleMenu() {
@@ -933,35 +971,5 @@
             resultDiv.style.color = '#10b981';
         }
     </script>
-   <!-- Facebook Messenger Chat Plugin -->
-<div id="fb-root"></div>
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      xfbml: true,
-      version: 'v18.0'
-    });
-  };
-
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-</script>
-
-<!-- Your Messenger Chat Widget -->
-<div class="fb-customerchat"
-  attribution="setup_tool"
-  page_id="2330958066941437"
-  theme_color="#1e3a8a"
-  logged_in_greeting="Hi! Got questions about health insurance? I'm here to help!"
-  logged_out_greeting="Hi! Got questions about health insurance? I'm here to help!">
-</div>
-
-</body>
-</html>
 </body>
 </html>
