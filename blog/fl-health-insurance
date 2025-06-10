@@ -196,7 +196,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">Lakeland Health Insurance</div>
-                <a href="/blog/" class="back-link">← Back to Blog</a>
+                <a href="index.html" class="back-link">← Back to Blog</a>
             </div>
         </div>
     </header>
