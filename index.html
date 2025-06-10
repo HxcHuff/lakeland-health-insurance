@@ -674,6 +674,777 @@
                 </div>
                 
                 <div class="benefits-image">
+<img src="david_the_dude2.jpg" alt="Healthcare professionals and hospital" style="width: 80%; height: 250px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); display: block; margin: 0 auto;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact Our Team</h4>
+                    <p>📞 (863) 640-3102</p>
+                    <p>✉️ david@lakelandhealthinsurance.com</p>
+                    <p>📍 Central Florida Headquarters</p>
+                    <p>🕒 Mon-Fri 8AM-8PM EST, Sat 9AM-5PM EST</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Service Areas</h4>
+                    <p>Nationwide Coverage</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Insurance Options</h4>
+                    <p>Individual Health Plans</p>
+                    <p>Family Coverage Options</p>
+                    <p>Small Business Group Plans</p>
+                    <p>Medicare Supplements</p>
+                    <p>Short-Term Health Insurance</p>
+                    <p>Dental & Vision Plans</p>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid #555; padding-top: 2rem; margin-top: 2rem;">
+                <p>&copy; 2025 Lakeland Health Insurance. Licensed insurance agency serving families and businesses nationwide.</p>
+                <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.8;">FL License #W371813 | Proudly serving most of the United States with personalized health insurance solutions for a long long time</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Click to Call Button -->
+    <a href="tel:+18636403102" class="click-to-call">
+        <span class="phone-icon">📞</span>
+        Call Now: (863) 640-3102
+    </a>
+
+    <script>
+        // Ellipses menu toggle function
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.classList.toggle('show');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdownMenu');
+            const button = document.querySelector('.menu-button');
+            
+            if (!menu.contains(event.target) && !button.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // Only smooth scrolling - NO form interference
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html><html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-W45RMKHXV0');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lakeland Health Insurance | Affordable Coverage Nationwide | Get Free Quote Today</title>
+    <meta name="description" content="Get affordable health insurance in Central Florida and nationwide. Compare plans, save money, and get covered fast. Licensed agents serving families and businesses across the country.">
+    <meta name="keywords" content="health insurance Central Florida, Florida health insurance, nationwide health insurance agent, health insurance quotes">
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Central Florida">
+    <meta name="geo.position" content="28.0395;-81.9498">
+    <meta name="ICBM" content="28.0395, -81.9498">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1e3a8a;
+        }
+
+        .logo::after {
+            content: "Lakeland";
+            font-size: 0.8rem;
+            color: #10b981;
+            display: block;
+            line-height: 1;
+            font-weight: 600;
+        }
+
+        /* Ellipses Menu Styles */
+        .menu-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .menu-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .ellipses {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .dot {
+            width: 4px;
+            height: 4px;
+            background-color: #666;
+            border-radius: 50%;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 100px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #1e3a8a;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+        }
+
+        /* Click to Call Button */
+        .click-to-call {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .click-to-call:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+
+        .click-to-call .phone-icon {
+            font-size: 1.2rem;
+            animation: ring 2s ease-in-out infinite;
+        }
+
+        @keyframes ring {
+            0%, 20%, 50%, 80%, 100% {
+                transform: rotate(0deg);
+            }
+            10% {
+                transform: rotate(-10deg);
+            }
+            30% {
+                transform: rotate(10deg);
+            }
+            60% {
+                transform: rotate(-5deg);
+            }
+            70% {
+                transform: rotate(5deg);
+            }
+        }
+
+        /* Mobile optimization for click to call */
+        @media (max-width: 768px) {
+            .click-to-call {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px 16px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.15"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Lead Form */
+        .lead-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: -50px auto 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .lead-form h3 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .benefits-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .benefits-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .benefit-check {
+            width: 24px;
+            height: 24px;
+            background: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #3b82f6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .benefits-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .lead-form {
+                margin: -30px 20px 0;
+                padding: 2rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo-container">
+                <div class="logo">LHI</div>
+                <button class="menu-button" onclick="toggleMenu()">
+                    <div class="ellipses">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </button>
+                
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="menu-item"><a href="#plans">Health Plans</a></div>
+                    <div class="menu-item"><a href="#quote">Get Quote</a></div>
+                    <div class="menu-item"><a href="/blog/">Blog</a></div>
+                    <div class="menu-item"><a href="#about">About Us</a></div>
+                    <div class="menu-item"><a href="#contact">Contact</a></div>
+                    <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#plans">Plans</a></li>
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#quote" class="cta-button">Get Free Quote</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+           <div class="hero-content fade-in-up">
+    <h1>Lakeland Health Insurance</h1>
+    <h2 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem; opacity: 0.95;">Because signing up for health insurance has never been easier!</h2>
+    <p>Serving families and businesses in Florida and all over the country. Get comprehensive health insurance coverage with local, personalized service you can trust.</p>
+</div>
+        </div>
+    </section>
+
+    <section class="lead-form" id="quote">
+        <div class="container">
+            <h3>Get Your Free Health Insurance Quote</h3>
+            <p style="text-align: center; margin-bottom: 1.5rem; color: #666; font-size: 0.9rem;">
+                ⭐ The Entire State of Florida ⭐
+            </p>
+            <!-- WORKING FORM - Submits directly to Formspree -->
+            <form action="https://formspree.io/f/xwpbvjvw" method="POST">
+                <div class="form-group">
+                    <label for="zipCode">Zip Code *</label>
+                    <input type="text" id="zipCode" name="zipCode" placeholder="Enter your zip code" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="age">Age Range</label>
+                    <select id="age" name="age">
+                        <option value="">Select Age Range</option>
+                        <option value="18-25">18-25</option>
+                        <option value="26-35">26-35</option>
+                        <option value="36-45">36-45</option>
+                        <option value="46-55">46-55</option>
+                        <option value="56-65">56-65</option>
+                        <option value="65+">65+</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="coverage">Coverage Type</label>
+                    <select id="coverage" name="coverage">
+                        <option value="">Select Coverage</option>
+                        <option value="individual">Individual</option>
+                        <option value="family">Family</option>
+                    </select>
+                </div>
+                
+                <!-- Hidden Formspree fields -->
+                <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/">
+                <input type="hidden" name="_subject" value="New Health Insurance Quote Request">
+                
+                <button type="submit" class="submit-btn">Get My Free Quote</button>
+                <p style="text-align: center; font-size: 0.85rem; color: #666; margin-top: 0.75rem;">
+    * You will be called personally by the owner of this website
+</p>
+            </form>
+        </div>
+    </section>
+
+    <section class="features" id="plans">
+        <div class="container">
+            <h2>Insurance Plans Available</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Short Term Medical</h3>
+                    <p>Temporary coverage for gaps between jobs, waiting periods, or life transitions. Get coverage in minutes with flexible terms from 30 days to 3 years.</p>
+                </div>
+                
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">🏛️</div>
+                    <h3>ACA Plans</h3>
+                    <p>Affordable Care Act marketplace plans with essential health benefits, preventive care, and subsidies available. Open enrollment and special enrollment periods.</p>
+                </div>
+                
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">🇺🇸</div>
+                    <h3>Medicare Advantage</h3>
+                    <p>All-in-one alternative to Original Medicare with additional benefits like prescription drugs, dental, vision, and wellness programs from private insurers.</p>
+                </div>
+
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">📋</div>
+                    <h3>Medicare Supplement</h3>
+                    <p>Medigap insurance to fill the gaps in Original Medicare. Covers copayments, coinsurance, and deductibles that Medicare doesn't pay.</p>
+                </div>
+                
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">🦷</div>
+                    <h3>Dental & Vision</h3>
+                    <p>Standalone dental and vision plans with coverage for routine cleanings, major procedures, eye exams, glasses, and contacts. Individual and family options.</p>
+                </div>
+                
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Life Insurance</h3>
+                    <p>Term and permanent life insurance to protect your family's financial future. Quick approval process with competitive rates and flexible coverage amounts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits" id="about">
+        <div class="container">
+            <div class="benefits-content">
+                <div class="benefits-text">
+                    <h2>Protecting Families Nationwide</h2>
+                    <p>Don't let unexpected medical bills derail your financial future. As your trusted health insurance experts, we'll help you find the right coverage for your family's needs and budget, no matter where you live.</p>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-check">✓</div>
+                        <span>Works with major healthcare networks</span>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-check">✓</div>
+                        <span>Pre-existing conditions covered</span>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-check">✓</div>
+                        <span>Licensed agents in most parts of the country</span>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-check">✓</div>
+                        <span>Same-day quotes available</span>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-check">✓</div>
+                        <span>Free consultations nationwide</span>
+                    </div>
+                </div>
+                
+                <div class="benefits-image">
 <img src="lakeland-health-insurance/main/david_the_dude2.jpg" alt="Healthcare professionals and hospital" style="width: 80%; height: 250px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); display: block; margin: 0 auto;">
                 </div>
             </div>
