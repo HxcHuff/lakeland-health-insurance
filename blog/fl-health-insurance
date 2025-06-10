@@ -111,6 +111,11 @@
             padding-left: 2rem;
         }
 
+        .article ol {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+
         .article li {
             margin-bottom: 0.75rem;
             font-size: 1.1rem;
@@ -196,7 +201,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">Lakeland Health Insurance</div>
-                <a href="index.html" class="back-link">← Back to Blog</a>
+                <a href="blog.html" class="back-link">← Back to Blog</a>
             </div>
         </div>
     </header>
@@ -316,7 +321,7 @@
             <div class="cta-section">
                 <h3>Tired of Florida Insurance Confusion?</h3>
                 <p>Let's cut through the nonsense and find you coverage that actually works in the real Florida - the one with hurricanes, snowbirds, and humidity that makes you question your life choices.</p>
-                <a href="/#quote" class="cta-button">Get Your Florida Quote</a>
+                <a href="index.html#quote" class="cta-button">Get Your Florida Quote</a>
                 <p style="margin-top: 1rem; font-size: 0.9rem;">Call (863) 640-3102 - We speak fluent Florida insurance</p>
             </div>
 
