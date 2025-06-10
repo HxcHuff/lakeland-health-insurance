@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-W45RMKHXV0');
+      
+      // Track form conversion
+      gtag('event', 'conversion', {
+        'event_category': 'Lead Generation',
+        'event_label': 'Health Insurance Quote Request Completed',
+        'value': 1
+      });
+      
+      // Track goal completion
+      gtag('event', 'generate_lead', {
+        'event_category': 'engagement',
+        'event_label': 'quote_request_form'
+      });
+      
+      console.log('✅ Form conversion tracked successfully');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Lakeland Health Insurance | We'll Contact You Soon</title>
+    <meta name="description" content="Thank you for requesting a health insurance quote. David will personally contact you within 24 hours with your custom health insurance options.">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .thank-you-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thank-you-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.05), transparent);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2.5rem;
+            animation: checkmarkPop 0.6s ease-out;
+        }
+
+        @keyframes checkmarkPop {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #1e3a8a;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .next-steps {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .next-steps h3 {
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .contact-info h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .phone-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            animation: fadeInUp 0.8s ease 0.8s both;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #1e3a8a;
+            border: 2px solid #1e3a8a;
+        }
+
+        .btn-secondary:hover {
+            background: #1e3a8a;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .social-proof {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e5e5e5;
+            animation: fadeInUp 0.8s ease 1s both;
+        }
+
+        .social-proof p {
+            color: #666;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .thank-you-container {
+                padding: 2rem;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="thank-you-container">
+        <div class="content">
+            <div class="checkmark">
+                ✓
+            </div>
+            
+            <h1>Thank You!</h1>
+            <p class="subtitle">Your health insurance quote request has been received successfully.</p>
+            
+            <div class="next-steps">
+                <h3>What Happens Next?</h3>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <strong>Personal Call Within 24 Hours</strong><br>
+                        David will personally review your information and call you with customized health insurance options.
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <strong>Custom Quote Comparison</strong><br>
+                        We'll compare plans from multiple carriers to find the best coverage for your needs and budget.
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <strong>Easy Enrollment Process</strong><br>
+                        Once you choose a plan, we'll handle all the paperwork and get you covered quickly.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-info">
+                <h4>Need to Talk Sooner?</h4>
+                <div class="phone-number">📞 (863) 640-3102</div>
+                <p>Mon-Fri 8AM-8PM EST • Sat 9AM-5PM EST</p>
+                <p>david@lakelandhealthinsurance.com</p>
+            </div>
+            
+            <div class="cta-buttons">
+                <a href="tel:+18636403102" class="btn btn-primary">
+                    📞 Call Now
+                </a>
+                <a href="/" class="btn btn-secondary">
+                    ← Back to Website
+                </a>
+            </div>
+            
+            <div class="social-proof">
+                <p>"David helped us save over $300/month on our family health insurance while getting better coverage. Highly recommend!" - Sarah M., Lakeland</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced tracking for return visits -->
+    <script>
+        // Track time on thank you page
+        let startTime = Date.now();
+        
+        window.addEventListener('beforeunload', function() {
+            let timeOnPage = Math.round((Date.now() - startTime) / 1000);
+            gtag('event', 'timing_complete', {
+                'name': 'thankyou_page_time',
+                'value': timeOnPage
+            });
+        });
+        
+        // Track button clicks
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                gtag('event', 'click', {
+                    'event_category': 'engagement',
+                    'event_label': this.textContent.trim()
+                });
+            });
+        });
+    </script>
+</body>
+</html>
