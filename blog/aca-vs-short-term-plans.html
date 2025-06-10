@@ -11,9 +11,9 @@
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACA vs Short-Term Plans: Which is Actually Right for You? | Lakeland Health Insurance</title>
-    <meta name="description" content="Cut through the marketing fluff. Get the real pros and cons of ACA vs short-term health insurance plans from licensed insurance experts.">
-    <meta name="keywords" content="ACA vs short term insurance, health insurance comparison, Florida health insurance plans">
+    <title>Health Insurance Blog | Lakeland Health Insurance Tips & Guides</title>
+    <meta name="description" content="Expert health insurance advice, tips, and guides from Lakeland Health Insurance. Learn about ACA plans, Medicare, short-term coverage, and more.">
+    <meta name="keywords" content="health insurance tips, ACA plans guide, Medicare advice, insurance blog Florida">
     <style>
         * {
             margin: 0;
@@ -23,13 +23,13 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.7;
+            line-height: 1.6;
             color: #333;
             background: #f8f9fa;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
@@ -50,31 +50,12 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 0;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-left: 20px;
-            padding-right: 20px;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
             gap: 15px;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #1e3a8a;
-        }
-
-        .logo::after {
-            content: "Lakeland";
-            font-size: 0.8rem;
-            color: #10b981;
-            display: block;
-            line-height: 1;
-            font-weight: 600;
         }
 
         /* Ellipses Menu Styles */
@@ -147,6 +128,21 @@
             display: block;
         }
 
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1e3a8a;
+        }
+
+        .logo::after {
+            content: "Lakeland";
+            font-size: 0.8rem;
+            color: #10b981;
+            display: block;
+            line-height: 1;
+            font-weight: 600;
+        }
+
         .nav-links {
             display: flex;
             gap: 2rem;
@@ -182,129 +178,220 @@
             box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
         }
 
-        /* Article Styles */
-        .article-header {
-            background: white;
-            padding: 120px 0 40px;
-            margin-bottom: 2rem;
+        /* Blog Header */
+        .blog-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
         }
 
-        .article-meta {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .article-title {
-            font-size: 2.5rem;
+        .blog-header h1 {
+            font-size: 3rem;
             font-weight: 800;
-            color: #333;
             margin-bottom: 1rem;
-            line-height: 1.2;
         }
 
-        .article-subtitle {
+        .blog-header p {
             font-size: 1.2rem;
-            color: #666;
-            line-height: 1.6;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .article-content {
+        /* Blog Content */
+        .blog-content {
+            padding: 80px 0;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+
+        /* Featured Article */
+        .featured-article {
             background: white;
-            padding: 3rem;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             margin-bottom: 3rem;
         }
 
-        .article-content h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #333;
-            margin: 2rem 0 1rem 0;
-            border-bottom: 3px solid #1e3a8a;
-            padding-bottom: 0.5rem;
-        }
-
-        .article-content h3 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #1e3a8a;
-            margin: 1.5rem 0 1rem 0;
-        }
-
-        .article-content p {
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-        }
-
-        .article-content ul {
-            margin: 1.5rem 0;
-            padding-left: 2rem;
-        }
-
-        .article-content li {
-            margin-bottom: 0.75rem;
-            font-size: 1.1rem;
-        }
-
-        .article-content strong {
-            color: #1e3a8a;
-            font-weight: 600;
-        }
-
-        .highlight-box {
-            background: linear-gradient(135deg, #f0f7ff, #e6f3ff);
-            border-left: 4px solid #1e3a8a;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            border-radius: 8px;
-            font-style: italic;
-        }
-
-        .cta-section {
+        .featured-image {
+            height: 300px;
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
+            font-size: 3rem;
+        }
+
+        .featured-content {
             padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-            margin: 2rem 0;
         }
 
-        .cta-section h3 {
+        .featured-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .featured-title {
+            font-size: 2rem;
+            font-weight: 700;
             margin-bottom: 1rem;
-            font-size: 1.5rem;
+            color: #333;
         }
 
-        .cta-section p {
+        .featured-excerpt {
+            color: #666;
             margin-bottom: 1.5rem;
-            opacity: 0.9;
+            line-height: 1.7;
         }
 
-        .cta-section .cta-button {
-            background: white;
-            color: #1e3a8a;
-            margin-right: 1rem;
-        }
-
-        .cta-section .cta-button:hover {
-            background: #f8f9fa;
-        }
-
-        .phone-cta {
-            background: #10b981;
+        .read-more {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: white;
             padding: 12px 24px;
             border: none;
             border-radius: 50px;
-            font-weight: 600;
             text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
             display: inline-block;
+        }
+
+        .read-more:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
+        }
+
+        /* Blog Articles Grid */
+        .articles-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .article-date {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .article-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #333;
+        }
+
+        .article-excerpt {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar-widget {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .widget-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* Popular Posts */
+        .popular-post {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .popular-post:last-child {
+            border-bottom: none;
+        }
+
+        .post-number {
+            background: #1e3a8a;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .post-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        /* Newsletter Signup */
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .newsletter-input {
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .newsletter-btn {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .phone-cta:hover {
-            background: #059669;
+        .newsletter-btn:hover {
             transform: translateY(-2px);
         }
 
@@ -337,26 +424,25 @@
         footer {
             background: #333;
             color: white;
-            padding: 2rem 0;
+            padding: 3rem 0;
             text-align: center;
-            margin-top: 3rem;
         }
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .nav-links {
                 display: none;
             }
             
-            .article-title {
-                font-size: 1.8rem;
+            .blog-header h1 {
+                font-size: 2rem;
             }
             
-            .article-content {
-                padding: 1.5rem;
-            }
-            
-            .article-content h2 {
+            .featured-title {
                 font-size: 1.5rem;
             }
         }
@@ -364,9 +450,11 @@
 </head>
 <body>
     <header>
-        <nav>
+        <nav class="container">
             <div class="logo-container">
-                <div class="logo">LHI</div>
+                <a href="/" style="text-decoration: none;">
+                    <div class="logo">LHI</div>
+                </a>
                 <button class="menu-button" onclick="toggleMenu()">
                     <div class="ellipses">
                         <div class="dot"></div>
@@ -378,8 +466,8 @@
                 <div class="dropdown-menu" id="dropdownMenu">
                     <div class="menu-item"><a href="/">Home</a></div>
                     <div class="menu-item"><a href="/#plans">Health Plans</a></div>
+                    <div class="menu-item"><a href="/blog">Blog</a></div>
                     <div class="menu-item"><a href="/#quote">Get Quote</a></div>
-                    <div class="menu-item"><a href="/blog.html">Blog</a></div>
                     <div class="menu-item"><a href="/#about">About Us</a></div>
                     <div class="menu-item"><a href="/#contact">Contact</a></div>
                     <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
@@ -388,7 +476,7 @@
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/#plans">Plans</a></li>
-                <li><a href="/blog.html">Blog</a></li>
+                <li><a href="/blog">Blog</a></li>
                 <li><a href="/#about">About</a></li>
                 <li><a href="/#contact">Contact</a></li>
             </ul>
@@ -396,100 +484,144 @@
         </nav>
     </header>
 
-    <section class="article-header">
+    <section class="blog-header">
         <div class="container">
-            <div class="article-meta">June 6, 2025</div>
-            <h1 class="article-title">ACA vs Short-Term Plans: Which is Actually Right for You?</h1>
-            <p class="article-subtitle">The eternal debate. We'll cut through the marketing fluff and give you the real pros and cons of each option, because your health (and wallet) deserve the truth.</p>
+            <h1>Health Insurance Insights</h1>
+            <p>Expert advice, tips, and guides to help you navigate the world of health insurance with confidence.</p>
         </div>
     </section>
 
-    <article class="container">
-        <div class="article-content">
-            <h2>The Setup: David vs Goliath (But Which is Which?)</h2>
-            <p>Picture this: you're standing in the insurance aisle of life, staring at two very different products. On your left, you've got ACA plans – the government's well-intentioned attempt to make healthcare affordable. On your right, short-term plans – the scrappy underdog that promises quick relief from premium sticker shock.</p>
-            
-            <p>Both are shouting at you about how they're the "best choice," but here's the thing: they're designed for completely different people in completely different situations. Choosing wrong is like bringing a spoon to a knife fight – technically possible, but probably not going to end well.</p>
+    <section class="blog-content">
+        <div class="container">
+            <div class="blog-grid">
+                <main>
+                    <!-- Featured Article -->
+                    <article class="featured-article">
+                        <div class="featured-image">📋</div>
+                        <div class="featured-content">
+                            <div class="featured-date">June 10, 2025</div>
+                            <h2 class="featured-title">5 Critical Health Insurance Mistakes That Could Cost You Thousands</h2>
+                            <p class="featured-excerpt">
+                                Don't let these common health insurance blunders drain your bank account. From choosing the wrong deductible to missing enrollment deadlines, we break down the mistakes that could leave you financially vulnerable when you need coverage most.
+                            </p>
+                            <a href="/blog/5-critical-health-insurance-mistakes.html" class="read-more">Read Full Article</a>
+                        </div>
+                    </article>
 
-            <h2>ACA Plans: The Good, The Bad, and The Bureaucratic</h2>
+                    <!-- Articles Grid -->
+                    <div class="articles-grid">
+                        <article class="article-card">
+                            <div class="article-date">June 8, 2025</div>
+                            <h3 class="article-title"><a href="/blog/preexisting-condition-guide.html" style="text-decoration: none; color: inherit;">The Pre-Existing Condition Survival Guide</a></h3>
+                            <p class="article-excerpt">
+                                Navigate the complex world of pre-existing conditions with confidence. Learn how to find coverage, understand waiting periods, and avoid the traps that leave you unprotected when you need it most.
+                            </p>
+                        </article>
 
-            <h3>The Good News</h3>
-            <ul>
-                <li><strong>Comprehensive coverage</strong>: These plans cover everything from your annual checkup to that moment when you discover gravity still works (the hard way)</li>
-                <li><strong>Pre-existing conditions</strong>: They can't deny you for having the audacity to get sick before you met them</li>
-                <li><strong>Essential health benefits</strong>: Mental health, prescription drugs, maternity care – all the stuff you hope you'll never need until you desperately do</li>
-                <li><strong>Subsidies available</strong>: The government might actually help pay your premiums (shocking, I know)</li>
-            </ul>
+                        <article class="article-card">
+                            <div class="article-date">June 6, 2025</div>
+                            <h3 class="article-title"><a href="/blog/aca-vs-short-term-plans.html" style="text-decoration: none; color: inherit;">ACA vs Short-Term Plans: Which is Actually Right for You?</a></h3>
+                            <p class="article-excerpt">
+                                The eternal debate. We'll cut through the marketing fluff and give you the real pros and cons of each option, because your health (and wallet) deserve the truth.
+                            </p>
+                        </article>
 
-            <h3>The Reality Check</h3>
-            <ul>
-                <li><strong>Premium prices</strong>: Sometimes reading your monthly premium feels like a personal attack</li>
-                <li><strong>Limited enrollment periods</strong>: Miss the deadline? Enjoy your year of living dangerously</li>
-                <li><strong>Network restrictions</strong>: Your favorite doctor might not be "in-network," which is insurance-speak for "good luck with that"</li>
-                <li><strong>Deductibles</strong>: Often high enough to make you question your life choices</li>
-            </ul>
+                        <article class="article-card">
+                            <div class="article-date">June 4, 2025</div>
+                            <h3 class="article-title">How to Actually Use Your Health Insurance (Without Going Broke)</h3>
+                            <p class="article-excerpt">
+                                Having insurance is step one. Using it without triggering financial ruin is step two. Here's your survival guide to deductibles, copays, and other fun surprises.
+                            </p>
+                        </article>
 
-            <h2>Short-Term Plans: The Fast and the Furious (Emphasis on Furious)</h2>
+                        <article class="article-card">
+                            <div class="article-date">June 2, 2025</div>
+                            <h3 class="article-title">The Real Cost of Going Without Health Insurance (Hint: It's Terrifying)</h3>
+                            <p class="article-excerpt">
+                                Think you're saving money by skipping insurance? We've crunched the numbers on what happens when life decides to throw you a curveball.
+                            </p>
+                        </article>
 
-            <h3>The Appeal</h3>
-            <ul>
-                <li><strong>Quick approval</strong>: Get covered faster than you can say "medical bankruptcy"</li>
-                <li><strong>Lower premiums</strong>: Your wallet will thank you (at least initially)</li>
-                <li><strong>Flexible terms</strong>: 30 days to 3 years – choose your own adventure</li>
-                <li><strong>No network hassles</strong>: See any doctor willing to take your money</li>
-            </ul>
+                        <article class="article-card">
+                            <div class="article-date">May 30, 2025</div>
+                            <h3 class="article-title">Florida Health Insurance: Navigating the Sunshine State's Unique Challenges</h3>
+                            <p class="article-excerpt">
+                                From hurricanes to humidity-induced existential crises, Florida has its own special insurance considerations. Here's what you need to know.
+                            </p>
+                        </article>
 
-            <h3>The Plot Twist</h3>
-            <ul>
-                <li><strong>Pre-existing conditions</strong>: They treat your medical history like a vampire treats garlic</li>
-                <li><strong>Limited benefits</strong>: Mental health coverage? Prescription drugs? That's adorable</li>
-                <li><strong>No renewal guarantee</strong>: They can dump you faster than a bad Tinder date</li>
-                <li><strong>Potential gaps</strong>: Some things just aren't covered, period</li>
-            </ul>
+                        <article class="article-card">
+                            <div class="article-date">May 28, 2025</div>
+                            <h3 class="article-title">Dental Insurance: Worth It or Just Another Way to Fund Your Dentist's Yacht?</h3>
+                            <p class="article-excerpt">
+                                The tooth about dental coverage. When it makes sense, when it doesn't, and how to avoid getting drilled on costs.
+                            </p>
+                        </article>
+                    </div>
+                </main>
 
-            <h2>So, Which One is Right for You?</h2>
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <!-- Popular Posts Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Most Popular Articles</h3>
+                        <a href="/blog/5-critical-health-insurance-mistakes.html" style="text-decoration: none; color: inherit;">
+                            <div class="popular-post">
+                                <div class="post-number">1</div>
+                                <div class="post-title">5 Critical Health Insurance Mistakes That Could Cost You Thousands</div>
+                            </div>
+                        </a>
+                        <a href="/blog/preexisting-condition-guide.html" style="text-decoration: none; color: inherit;">
+                            <div class="popular-post">
+                                <div class="post-number">2</div>
+                                <div class="post-title">The Pre-Existing Condition Survival Guide</div>
+                            </div>
+                        </a>
+                        <a href="/blog/short-term-health-insurance-guide.html" style="text-decoration: none; color: inherit;">
+                            <div class="popular-post">
+                                <div class="post-number">3</div>
+                                <div class="post-title">Short-Term Health Insurance: Lifesaver or Financial Trap?</div>
+                            </div>
+                        </a>
+                        <a href="/blog/medicare-for-dummies.html" style="text-decoration: none; color: inherit;">
+                            <div class="popular-post">
+                                <div class="post-number">4</div>
+                                <div class="post-title">Medicare for Dummies (No Offense)</div>
+                            </div>
+                        </a>
+                        <a href="/blog/how-to-read-insurance-card.html" style="text-decoration: none; color: inherit;">
+                            <div class="popular-post">
+                                <div class="post-number">5</div>
+                                <div class="post-title">How to Read Your Insurance Card Without Having a Panic Attack</div>
+                            </div>
+                        </a>
+                    </div>
 
-            <h3>Choose ACA Plans If:</h3>
-            <ul>
-                <li>You have pre-existing conditions (or you're human and might develop some)</li>
-                <li>You want comprehensive coverage that won't leave you high and dry</li>
-                <li>You qualify for subsidies (free money is still free money)</li>
-                <li>You can handle the premium hit for peace of mind</li>
-                <li>You're planning to have kids (or already have tiny humans to protect)</li>
-            </ul>
+                    <!-- Newsletter Signup -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Get Insurance Tips</h3>
+                        <p style="margin-bottom: 1rem; font-size: 0.9rem; color: #666;">
+                            Weekly tips to avoid insurance nightmares. No spam, just practical advice.
+                        </p>
+                        <form class="newsletter-form" action="https://formspree.io/f/xwpbvjvw" method="POST">
+                            <input type="email" name="email" class="newsletter-input" placeholder="Your email address" required>
+                            <input type="hidden" name="_subject" value="Blog Newsletter Signup">
+                            <button type="submit" class="newsletter-btn">Subscribe</button>
+                        </form>
+                    </div>
 
-            <h3>Choose Short-Term If:</h3>
-            <ul>
-                <li>You're young, healthy, and feeling invincible (we've all been there)</li>
-                <li>You're between jobs and need temporary coverage</li>
-                <li>You missed ACA enrollment and need something NOW</li>
-                <li>You're willing to gamble that nothing catastrophic will happen</li>
-                <li>You understand the limitations and can live with them</li>
-            </ul>
-
-            <div class="highlight-box">
-                <strong>The Uncomfortable Truth:</strong> Here's what nobody wants to tell you: there's no perfect choice. ACA plans can be expensive and frustrating. Short-term plans can leave you exposed when you need coverage most.
+                    <!-- Quick Quote Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Need a Quote?</h3>
+                        <p style="margin-bottom: 1rem; font-size: 0.9rem; color: #666;">
+                            Stop reading about insurance and actually get some.
+                        </p>
+                        <a href="/#quote" class="read-more" style="display: block; text-align: center;">Get Free Quote</a>
+                    </div>
+                </aside>
             </div>
-
-            <p>The real question isn't which plan is better – it's which plan's problems you can best tolerate. Are you more comfortable paying higher premiums for comprehensive coverage, or lower premiums for basic protection?</p>
-
-            <h2>The Bottom Line (Because You're Busy)</h2>
-            <p>If you're healthy and need temporary coverage, short-term plans can be a reasonable bridge. If you have any ongoing health issues, take medications, or want true peace of mind, ACA plans are worth the extra cost.</p>
-            
-            <p>And if you're still confused? That's what licensed insurance agents are for. We've seen enough people make expensive mistakes to know which pitfalls to help you avoid.</p>
-
-            <div class="cta-section">
-                <h3>Ready to Stop Guessing?</h3>
-                <p>Contact Lakeland Health Insurance at (863) 640-3102. We'll help you figure out which option makes sense for your specific situation – without the sales pitch or the sugar-coating.</p>
-                <a href="/#quote" class="cta-button">Get Free Quote</a>
-                <a href="tel:+18636403102" class="phone-cta">📞 Call (863) 640-3102</a>
-            </div>
-
-            <p style="text-align: center; font-style: italic; color: #666; margin-top: 2rem;">
-                Because the only thing worse than paying for insurance is needing it and not having it.
-            </p>
         </div>
-    </article>
+    </section>
 
     <footer>
         <div class="container">
@@ -519,20 +651,6 @@
             if (!menu.contains(event.target) && !button.contains(event.target)) {
                 menu.classList.remove('show');
             }
-        });
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
         });
     </script>
 </body>
