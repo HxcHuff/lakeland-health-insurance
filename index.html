@@ -584,24 +584,25 @@
     </style>
 </head>
 <body>
-    <!-- Facebook Messenger SDK - Must be right after opening body tag -->
-    <div id="fb-root"></div>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          xfbml: true,
-          version: 'v18.0'
-        });
-      };
+   <!-- Facebook Messenger SDK -->
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      xfbml: true,
+      version: 'v19.0'
+    });
+    console.log('Facebook SDK loaded successfully');
+  };
 
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-    </script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
 
     <header>
         <nav class="container">
