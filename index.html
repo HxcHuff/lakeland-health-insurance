@@ -9,24 +9,6 @@
   gtag('js', new Date());
   gtag('config', 'G-W45RMKHXV0');
 </script>
-
-<!-- Facebook Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1822900971216472');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stop Getting Screwed by Your Health Insurance | Lakeland Health Insurance</title>
@@ -218,11 +200,11 @@ src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"
             box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
         }
 
-        /* Click to Call Button */
+        /* Click to Call Button - Adjusted position for Messenger */
         .click-to-call {
             position: fixed;
             bottom: 20px;
-            right: 20px;
+            left: 20px;
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             padding: 15px 20px;
@@ -707,7 +689,7 @@ src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"
             opacity: 0.8;
         }
 
-        /* Responsive */
+        /* Mobile optimization for call button repositioning */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2.5rem;
@@ -736,7 +718,7 @@ src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"
             
             .click-to-call {
                 bottom: 15px;
-                right: 15px;
+                left: 15px;
                 padding: 12px 16px;
                 font-size: 1rem;
             }
@@ -760,6 +742,34 @@ src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"
     </style>
 </head>
 <body>
+    <!-- Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                xfbml: true,
+                version: 'v19.0'
+            });
+        };
+
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <!-- Your Facebook Messenger customer chat plugin code -->
+    <div class="fb-customerchat"
+         attribution="setup_tool"
+         page_id="2330958066941437"
+         theme_color="#1e3a8a"
+         logged_in_greeting="Hi! Ready to stop getting ripped off by insurance companies? Ask me anything!"
+         logged_out_greeting="Hi! Ready to stop getting ripped off by insurance companies? Ask me anything!">
+    </div>
+
     <header>
         <nav class="container">
             <div class="logo-container">
@@ -1029,14 +1039,11 @@ src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"
                     FL License #W371813 | Serving most of the United States with honest insurance advice since forever | 
                     <a href="/privacy-policy.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Privacy Policy</a>
                 </p>
-                <p style="font-size: 0.85rem; margin-top: 1rem; opacity: 0.9;">
-                    🎯 Powered by <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 600;">David the Insurance Dude</a> | Follow for daily insurance reality checks
-                </p>
             </div>
         </div>
     </footer>
 
-    <!-- Click to Call Button -->
+    <!-- Click to Call Button (moved to left since Messenger is on right) -->
     <a href="tel:+18636403102" class="click-to-call">
         <span class="phone-icon">📞</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
@@ -1046,40 +1053,6 @@ src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"
     </a>
 
     <script>
-        // Facebook Pixel event tracking
-        function trackFacebookEvent(eventName, parameters = {}) {
-            if (typeof fbq !== 'undefined') {
-                fbq('track', eventName, parameters);
-            }
-        }
-
-        // Track phone clicks
-        document.querySelectorAll('a[href^="tel:"]').forEach(link => {
-            link.addEventListener('click', function() {
-                trackFacebookEvent('Contact', {
-                    contact_method: 'phone'
-                });
-            });
-        });
-
-        // Track email clicks
-        document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
-            link.addEventListener('click', function() {
-                trackFacebookEvent('Contact', {
-                    contact_method: 'email'
-                });
-            });
-        });
-
-        // Track form submissions
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', function() {
-                trackFacebookEvent('Lead', {
-                    content_name: 'Insurance Quote Form'
-                });
-            });
-        });
-
         // Ellipses menu toggle function
         function toggleMenu() {
             const menu = document.getElementById('dropdownMenu');
