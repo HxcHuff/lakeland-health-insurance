@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-W45RMKHXV0');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About David | Lakeland Health Insurance | Your Trusted Florida Insurance Agent</title>
+    <meta name="description" content="Meet David, your honest health insurance agent in Florida. No BS advice, real experience, and someone who actually gives a damn about your coverage.">
+    <meta name="keywords" content="David Lakeland Health Insurance, Florida insurance agent, honest insurance broker, health insurance expert">
+    
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "InsuranceAgency",
+  "name": "Lakeland Health Insurance",
+  "url": "https://lakelandhealthinsurance.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Lakeland",
+    "addressRegion": "FL",
+    "postalCode": "33805",
+    "addressCountry": "US"
+  },
+  "telephone": "+1-863-640-3102"
+}
+</script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1e3a8a;
+        }
+
+        .logo::after {
+            content: "Lakeland";
+            font-size: 0.8rem;
+            color: #10b981;
+            display: block;
+            line-height: 1;
+            font-weight: 600;
+        }
+
+        /* Ellipses Menu Styles */
+        .menu-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .menu-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .ellipses {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .dot {
+            width: 4px;
+            height: 4px;
+            background-color: #666;
+            border-radius: 50%;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 100px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #1e3a8a;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+        }
+
+        /* Click to Call Button */
+        .click-to-call {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .click-to-call:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+        }
+
+        /* About Header */
+        .about-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+
+        .about-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .about-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* About Content */
+        .about-content {
+            padding: 80px 0;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: #666;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .about-image img {
+            width: 80%;
+            max-width: 400px;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .placeholder-image {
+            width: 80%;
+            max-width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+
+        /* Credentials Section */
+        .credentials {
+            background: white;
+            padding: 80px 0;
+        }
+
+        .credentials h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .credentials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .credential-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border-left: 4px solid #1e3a8a;
+        }
+
+        .credential-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .credential-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .credential-card h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .credential-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Why Choose Section */
+        .why-choose {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .why-choose h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .reason-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .reason-card h3 {
+            margin-bottom: 1rem;
+            color: #1e3a8a;
+            font-size: 1.3rem;
+        }
+
+        .reason-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-primary {
+            background: white;
+            color: #1e3a8a;
+            padding: 18px 36px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            padding: 18px 36px;
+            border: 2px solid white;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-secondary:hover {
+            background: white;
+            color: #1e3a8a;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #3b82f6;
+        }
+
+        .footer-section p {
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: #3b82f6;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #555;
+            padding-top: 2rem;
+            opacity: 0.8;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .about-header h1 {
+                font-size: 2rem;
+            }
+            
+            .about-text h2 {
+                font-size: 2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .click-to-call {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px 16px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo-container">
+                <div class="logo">LHI</div>
+                <button class="menu-button" onclick="toggleMenu()">
+                    <div class="ellipses">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </button>
+                
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="menu-item"><a href="/#plans">Health Plans</a></div>
+                    <div class="menu-item"><a href="/#quote">Get Quote</a></div>
+                    <div class="menu-item"><a href="/blog/">Blog</a></div>
+                    <div class="menu-item"><a href="/about/">About Us</a></div>
+                    <div class="menu-item"><a href="/#contact">Contact</a></div>
+                    <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#plans">Plans</a></li>
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/#contact">Contact</a></li>
+            </ul>
+            <a href="/#contact" class="cta-button">Get Free Quote</a>
+        </nav>
+    </header>
+
+    <section class="about-header">
+        <div class="container">
+            <h1>Meet David</h1>
+            <p>Your straight-talking, no-BS health insurance agent who actually gives a damn about your coverage.</p>
+        </div>
+    </section>
+
+    <section class="about-content">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text fade-in-up">
+                    <h2>Finally, An Insurance Agent Who Speaks Human</h2>
+                    <p>I'm David, and I'm probably not like the insurance agents you've dealt with before. I don't wear a cheap suit, drive a flashy car, or promise you the moon. What I do promise is straight talk about health insurance that actually makes sense.</p>
+                    
+                    <p>After years of watching people get screwed by their insurance (and by agents who disappeared after getting their commission), I decided to do things differently. No sales pressure, no insurance jargon, just honest advice about what you actually need.</p>
+                    
+                    <p>Based in Central Florida but licensed across the nation, I help families and businesses find health insurance that works for their real lives, not some marketing brochure fantasy.</p>
+                </div>
+                
+                <div class="about-image fade-in-up">
+                    <div class="placeholder-image">
+                        [Your Photo Goes Here]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="credentials">
+        <div class="container">
+            <h2>Why You Can Trust Me</h2>
+            <div class="credentials-grid">
+                <div class="credential-card fade-in-up">
+                    <div class="credential-icon">📋</div>
+                    <h3>Florida Licensed Agent</h3>
+                    <p>FL License #W371813. Fully licensed and regulated by the Florida Department of Financial Services.</p>
+                </div>
+                
+                <div class="credential-card fade-in-up">
+                    <div class="credential-icon">🇺🇸</div>
+                    <h3>Coverage Across the Nation</h3>
+                    <p>Licensed in most states to help families across the country, not just Florida residents.</p>
+                </div>
+                
+                <div class="credential-card fade-in-up">
+                    <div class="credential-icon">🏆</div>
+                    <h3>Years of Experience</h3>
+                    <p>Been in the insurance industry long enough to know where all the bodies are buried (and how to avoid them).</p>
+                </div>
+                
+                <div class="credential-card fade-in-up">
+                    <div class="credential-icon">💼</div>
+                    <h3>Independent Agent</h3>
+                    <p>Not tied to any single insurance company, so I can actually recommend what's best for you, not what pays me the most.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-choose">
+        <div class="container">
+            <h2>Why People Choose to Work With Me</h2>
+            <div class="reasons-grid">
+                <div class="reason-card fade-in-up">
+                    <h3>🎯 I Actually Answer My Phone</h3>
+                    <p>Shocking concept in the insurance world, I know. When you call, you get me, not some call center in another time zone. And I return calls the same day, because I'm not a sociopath.</p>
+                </div>
+                
+                <div class="reason-card fade-in-up">
+                    <h3>💰 I Save You Money</h3>
+                    <p>Not by selling you garbage coverage, but by finding plans that actually work for your situation. Most people are either overpaying or buying the wrong coverage entirely.</p>
+                </div>
+                
+                <div class="reason-card fade-in-up">
+                    <h3>🚫 No High-Pressure Sales</h3>
+                    <p>I'm not going to chase you around with phone calls or show up at your house uninvited. You're an adult, you can make your own decisions when you're ready.</p>
+                </div>
+                
+                <div class="reason-card fade-in-up">
+                    <h3>📚 I Educate, Don't Manipulate</h3>
+                    <p>I'll explain exactly what you're buying, what it covers, and what it doesn't. No fine print surprises, no "gotcha" moments when you need to use your insurance.</p>
+                </div>
+                
+                <div class="reason-card fade-in-up">
+                    <h3>🔧 I Stick Around</h3>
+                    <p>Most agents disappear after they get their commission. I'm here for the long haul - when you have questions, claims issues, or need to make changes, I'm your guy.</p>
+                </div>
+                
+                <div class="reason-card fade-in-up">
+                    <h3>😂 I Have a Sense of Humor</h3>
+                    <p>Insurance is boring and depressing enough without having to deal with someone who acts like they're selling funeral plots. We might as well have some fun while figuring out your coverage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Work With Someone Who Actually Cares?</h2>
+            <p>Let's have a real conversation about your health insurance. No pressure, no BS, just honest advice.</p>
+            <div class="cta-buttons">
+                <a href="/#contact" class="cta-primary">Get Free Insurance Checkup</a>
+                <a href="tel:+18636403102" class="cta-secondary">Call Now: (863) 640-3102</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact David</h4>
+                    <p>📞 <a href="tel:+18636403102">(863) 640-3102</a></p>
+                    <p>✉️ <a href="mailto:david@lakelandhealthinsurance.com">david@lakelandhealthinsurance.com</a></p>
+                    <p>📍 Central Florida Headquarters</p>
+                    <p>🕒 Mon-Fri 8AM-8PM EST</p>
+                    <p>🕒 Sat 9AM-5PM EST</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Service Areas</h4>
+                    <p>🏠 Florida Residents</p>
+                    <p>🇺🇸 Coverage Across the Nation</p>
+                    <p>💼 Small Business Groups</p>
+                    <p>👥 Individual & Family Plans</p>
+                    <p>😊 Medicare Specialists</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <p><a href="/">Home</a></p>
+                    <p><a href="/#plans">Insurance Plans</a></p>
+                    <p><a href="/blog/">Blog</a></p>
+                    <p><a href="/#contact">Get Quote</a></p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
+                <p style="font-size: 0.8rem; margin-top: 0.5rem;">FL License #W371813 | Serving most of the United States with honest insurance advice</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Click to Call Button -->
+    <a href="tel:+18636403102" class="click-to-call">
+        <span>📞</span>
+        Call Now: (863) 640-3102
+    </a>
+
+    <script>
+        // Ellipses menu toggle function
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.classList.toggle('show');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdownMenu');
+            const button = document.querySelector('.menu-button');
+            
+            if (!menu.contains(event.target) && !button.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards for animation
+        document.querySelectorAll('.credential-card, .reason-card, .about-text, .about-image').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
