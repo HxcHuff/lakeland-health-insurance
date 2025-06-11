@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-W45RMKHXV0');
-</script>
+    <!-- Google tag (gtag.js) - FIXED VERSION -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-W45RMKHXV0');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stop Getting Screwed by Your Health Insurance | Lakeland Health Insurance</title>
@@ -200,11 +200,11 @@
             box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
         }
 
-        /* Click to Call Button - Adjusted position for Messenger */
+        /* Click to Call Button */
         .click-to-call {
             position: fixed;
             bottom: 20px;
-            left: 20px;
+            right: 20px;
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             padding: 15px 20px;
@@ -689,7 +689,7 @@
             opacity: 0.8;
         }
 
-        /* Mobile optimization for call button repositioning */
+        /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2.5rem;
@@ -718,7 +718,7 @@
             
             .click-to-call {
                 bottom: 15px;
-                left: 15px;
+                right: 15px;
                 padding: 12px 16px;
                 font-size: 1rem;
             }
@@ -742,34 +742,6 @@
     </style>
 </head>
 <body>
-    <!-- Facebook SDK for JavaScript -->
-    <div id="fb-root"></div>
-    <script>
-        window.fbAsyncInit = function() {
-            FB.init({
-                xfbml: true,
-                version: 'v19.0'
-            });
-        };
-
-        (function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-
-    <!-- Your Facebook Messenger customer chat plugin code -->
-    <div class="fb-customerchat"
-         attribution="setup_tool"
-         page_id="2330958066941437"
-         theme_color="#1e3a8a"
-         logged_in_greeting="Hi! Ready to stop getting ripped off by insurance companies? Ask me anything!"
-         logged_out_greeting="Hi! Ready to stop getting ripped off by insurance companies? Ask me anything!">
-    </div>
-
     <header>
         <nav class="container">
             <div class="logo-container">
@@ -785,17 +757,14 @@
                 <div class="dropdown-menu" id="dropdownMenu">
                     <div class="menu-item"><a href="#plans">Health Plans</a></div>
                     <div class="menu-item"><a href="#tips">Free Tips</a></div>
-                    <div class="menu-item"><a href="/blog/">Blog</a></div>
                     <div class="menu-item"><a href="#about">About</a></div>
                     <div class="menu-item"><a href="#contact">Contact</a></div>
-                    <div class="menu-item"><a href="/privacy-policy.html">Privacy Policy</a></div>
                     <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
                 </div>
             </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#plans">Plans</a></li>
-                <li><a href="/blog/">Blog</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -839,41 +808,36 @@
 
     <section class="quick-wins" id="tips">
         <div class="container">
-            <h2><a href="/blog/5-critical-health-insurance-mistakes.html" style="text-decoration: none; color: #333;">5 Critical Health Insurance Mistakes That Could Cost You Thousands</a></h2>
+            <h2>5 Critical Health Insurance Mistakes That Could Cost You Thousands</h2>
             <div class="wins-grid">
                 <div class="win-card fade-in-up">
                     <div class="win-number">1</div>
-                    <h3><a href="/blog/aca-vs-short-term-plans.html" style="text-decoration: none; color: #333;">ACA vs Short-Term Plans: Which is Actually Right for You?</a></h3>
+                    <h3>ACA vs Short-Term Plans: Which is Actually Right for You?</h3>
                     <p>The eternal debate. We'll cut through the marketing fluff and give you the real pros and cons of each option, because your health (and wallet) deserve the truth.</p>
-                    <a href="/blog/aca-vs-short-term-plans.html" style="color: #1e3a8a; font-weight: 600; text-decoration: none;">Read More →</a>
                 </div>
                 
                 <div class="win-card fade-in-up">
                     <div class="win-number">2</div>
-                    <h3><a href="/blog/medicare-advantage-vs-supplement.html" style="text-decoration: none; color: #333;">Medicare Advantage vs Medicare Supplement: The Ultimate Showdown</a></h3>
+                    <h3>Medicare Advantage vs Medicare Supplement: The Ultimate Showdown</h3>
                     <p>Two titans enter, one emerges victorious for your specific situation. Spoiler alert: it's not always the one with the flashy TV commercials.</p>
-                    <a href="/blog/medicare-advantage-vs-supplement.html" style="color: #1e3a8a; font-weight: 600; text-decoration: none;">Read More →</a>
                 </div>
                 
                 <div class="win-card fade-in-up">
                     <div class="win-number">3</div>
-                    <h3><a href="/blog/how-to-use-health-insurance-without-going-broke.html" style="text-decoration: none; color: #333;">How to Actually Use Your Health Insurance (Without Going Broke)</a></h3>
+                    <h3>How to Actually Use Your Health Insurance (Without Going Broke)</h3>
                     <p>Having insurance is step one. Using it without triggering financial ruin is step two. Here's your survival guide to deductibles, copays, and other fun surprises.</p>
-                    <a href="/blog/how-to-use-health-insurance-without-going-broke.html" style="color: #1e3a8a; font-weight: 600; text-decoration: none;">Read More →</a>
                 </div>
                 
                 <div class="win-card fade-in-up">
                     <div class="win-number">4</div>
-                    <h3><a href="/blog/real-cost-going-without-health-insurance.html" style="text-decoration: none; color: #333;">The Real Cost of Going Without Health Insurance</a></h3>
+                    <h3>The Real Cost of Going Without Health Insurance</h3>
                     <p>Think you're saving money by skipping insurance? We've crunched the numbers on what happens when life decides to throw you a curveball.</p>
-                    <a href="/blog/real-cost-going-without-health-insurance.html" style="color: #1e3a8a; font-weight: 600; text-decoration: none;">Read More →</a>
                 </div>
                 
                 <div class="win-card fade-in-up">
                     <div class="win-number">5</div>
-                    <h3><a href="/blog/florida-insurance-guide.html" style="text-decoration: none; color: #333;">Florida Health Insurance: Navigating the Sunshine State's Unique Challenges</a></h3>
+                    <h3>Florida Health Insurance: Navigating the Sunshine State's Unique Challenges</h3>
                     <p>From hurricanes to humidity-induced existential crises, Florida has its own special insurance considerations. Here's what you need to know.</p>
-                    <a href="/blog/florida-insurance-guide.html" style="color: #1e3a8a; font-weight: 600; text-decoration: none;">Read More →</a>
                 </div>
             </div>
         </div>
@@ -1036,14 +1000,13 @@
             <div class="footer-bottom">
                 <p>&copy; 2025 Lakeland Health Insurance. Licensed insurance agency serving families and businesses nationwide.</p>
                 <p style="font-size: 0.8rem; margin-top: 0.5rem;">
-                    FL License #W371813 | Serving most of the United States with honest insurance advice since forever | 
-                    <a href="/privacy-policy.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Privacy Policy</a>
+                    FL License #W371813 | Serving most of the United States with honest insurance advice since forever
                 </p>
             </div>
         </div>
     </footer>
 
-    <!-- Click to Call Button (moved to left since Messenger is on right) -->
+    <!-- Click to Call Button -->
     <a href="tel:+18636403102" class="click-to-call">
         <span class="phone-icon">📞</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
