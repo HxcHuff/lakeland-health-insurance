@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) - PROPERLY FIXED VERSION -->
+    <!-- Google tag (gtag.js) - CLEAN VERSION -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-W45RMKHXV0');
+      gtag('config', 'G-W45RMKHXV0', {
+        cookie_domain: 'auto',
+        cookie_flags: 'SameSite=None;Secure'
+      });
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Health Insurance Without Runaround| Lakeland Health Insurance</title>
+    <title>Health Insurance Without the Runaround | Lakeland Health Insurance</title>
     <meta name="description" content="Finally, an insurance agent who speaks human. No BS advice on health insurance that actually works for real people. Serving Florida and nationwide.">
     <meta name="keywords" content="honest health insurance agent, no BS insurance advice, Florida health insurance, insurance that actually works">
     <meta name="geo.region" content="US-FL">
@@ -963,7 +966,7 @@
                     <h4>Free Insurance Checkup</h4>
                     <p class="subtitle">Find out if you're overpaying or underprotected. Takes 2 minutes.</p>
                     
-                    <form action="https://formspree.io/f/xwpbvjvw" method="POST">
+                    <form action="https://formspree.io/f/xwpbvjvw" method="POST" onsubmit="trackFormSubmission()">
                         <div class="form-group">
                             <input type="text" id="zipCode" name="zipCode" placeholder="Your Zip Code" required>
                         </div>
@@ -1016,7 +1019,7 @@
     </footer>
 
     <!-- Click to Call Button -->
-    <a href="tel:+18636403102" class="click-to-call">
+    <a href="tel:+18636403102" class="click-to-call" onclick="trackPhoneCall()">
         <span class="phone-icon">📞</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <span>Call Now: (863) 640-3102</span>
@@ -1025,6 +1028,28 @@
     </a>
 
     <script>
+        // Analytics Event Tracking Functions
+        function trackFormSubmission() {
+            gtag('event', 'form_submit', {
+                event_category: 'engagement',
+                event_label: 'insurance_checkup_form'
+            });
+        }
+
+        function trackPhoneCall() {
+            gtag('event', 'phone_call', {
+                event_category: 'engagement',
+                event_label: 'click_to_call_button'
+            });
+        }
+
+        function trackButtonClick(buttonName) {
+            gtag('event', 'button_click', {
+                event_category: 'engagement',
+                event_label: buttonName
+            });
+        }
+
         // Ellipses menu toggle function
         function toggleMenu() {
             const menu = document.getElementById('dropdownMenu');
@@ -1072,6 +1097,24 @@
         // Observe all cards for animation
         document.querySelectorAll('.value-card, .win-card, .testimonial-card, .feature-card').forEach(card => {
             observer.observe(card);
+        });
+
+        // Track CTA button clicks
+        document.querySelectorAll('.cta-button, .cta-primary, .cta-secondary, .hero-cta').forEach(button => {
+            button.addEventListener('click', function() {
+                trackButtonClick(this.textContent.trim());
+            });
+        });
+
+        // Track external link clicks
+        document.querySelectorAll('a[href^="http"], a[href^="mailto:"]').forEach(link => {
+            link.addEventListener('click', function() {
+                gtag('event', 'click', {
+                    event_category: 'outbound',
+                    event_label: this.href,
+                    transport_type: 'beacon'
+                });
+            });
         });
     </script>
 </body>
