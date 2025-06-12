@@ -5,59 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Pre-Existing Condition Survival Guide | Lakeland Health Insurance</title>
     <meta name="description" content="Navigate health insurance with pre-existing conditions. Expert tips on ACA protections, disclosure strategies, and avoiding coverage gaps.">
+    
     <style>
+        /* Base and Main Site Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.7;
             color: #333;
             background: #f8f9fa;
+            padding-top: 80px; /* Adjust for fixed header */
         }
-
         .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .article-container {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 20px;
         }
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1e3a8a;
+            text-decoration: none;
+        }
+        .logo::after {
+            content: "Lakeland";
+            font-size: 0.8rem;
+            color: #10b981;
+            display: block;
+            line-height: 1;
+            font-weight: 600;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #1e3a8a;
+        }
+        .cta-button {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+        }
 
-        /* Header */
+        /* Blog Post Specific Styles */
         .blog-header {
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             color: white;
             padding: 60px 0;
             text-align: center;
+            margin-top: -80px; /* Counteract body padding */
         }
-
         .blog-header h1 {
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 1rem;
         }
-
         .blog-meta {
             opacity: 0.9;
             font-size: 1rem;
         }
-
-        /* Article Content */
         .article-content {
             background: white;
-            margin: -40px auto 0;
+            margin: -40px auto 4rem;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             position: relative;
             z-index: 10;
         }
-
         .article-body {
             padding: 3rem;
         }
-
         .article-body h2 {
             color: #1e3a8a;
             font-size: 1.5rem;
@@ -66,69 +132,45 @@
             border-left: 4px solid #3b82f6;
             padding-left: 1rem;
         }
-
         .article-body h3 {
             color: #333;
             font-size: 1.2rem;
             font-weight: 600;
             margin: 1.5rem 0 0.75rem;
         }
-
         .article-body p {
             margin-bottom: 1.25rem;
             font-size: 1.05rem;
         }
-
+        .highlight-box, .warning-box, .pro-tip {
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
         .highlight-box {
             background: linear-gradient(135deg, #eff6ff, #dbeafe);
             border: 2px solid #3b82f6;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 2rem 0;
         }
-
-        .highlight-box h3 {
-            color: #1e3a8a;
-            margin-top: 0;
-        }
-
+        .highlight-box h3 { color: #1e3a8a; margin-top: 0; }
         .warning-box {
             background: linear-gradient(135deg, #fef2f2, #fee2e2);
             border: 2px solid #ef4444;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 2rem 0;
         }
-
-        .warning-box h3 {
-            color: #dc2626;
-            margin-top: 0;
-        }
-
+        .warning-box h3 { color: #dc2626; margin-top: 0; }
         .pro-tip {
             background: linear-gradient(135deg, #f0fdf4, #dcfce7);
             border: 2px solid #10b981;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 2rem 0;
         }
-
-        .pro-tip h3 {
-            color: #059669;
-            margin-top: 0;
-        }
-
+        .pro-tip h3 { color: #059669; margin-top: 0; }
         .bullet-list {
             list-style: none;
             padding-left: 0;
         }
-
         .bullet-list li {
             position: relative;
             padding-left: 2rem;
             margin-bottom: 0.75rem;
         }
-
         .bullet-list li:before {
             content: "✓";
             position: absolute;
@@ -137,8 +179,7 @@
             font-weight: bold;
             font-size: 1.2rem;
         }
-
-        .cta-section {
+        .article-cta {
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: white;
             padding: 2rem;
@@ -146,58 +187,141 @@
             text-align: center;
             margin: 2rem 0;
         }
-
-        .cta-button {
+        .article-cta .cta-button {
             background: white;
             color: #1e3a8a;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 1rem;
-            transition: all 0.3s ease;
         }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
+        .article-cta .cta-button:hover {
             box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
         }
 
-        /* Mobile Responsive */
+        /* Footer and Click-to-Call */
+        footer {
+            background: #252525;
+            color: #e0e0e0;
+            padding: 5rem 0 3rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+            text-align: left;
+        }
+        .footer-column h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-column li {
+            margin-bottom: 1rem;
+        }
+        .footer-column a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
+        .footer-column a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #555;
+        }
+        .footer-bottom p {
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.5;
+            margin: 0.25rem 0;
+        }
+        .click-to-call {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .click-to-call:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+        .click-to-call .phone-icon {
+            font-size: 1.2rem;
+            animation: ring 2s ease-in-out infinite;
+        }
+        @keyframes ring {
+            0%, 20%, 50%, 80%, 100% { transform: rotate(0deg); }
+            10% { transform: rotate(-10deg); }
+            30% { transform: rotate(10deg); }
+            60% { transform: rotate(-5deg); }
+            70% { transform: rotate(5deg); }
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .blog-header h1 {
-                font-size: 2rem;
+            .nav-links { display: none; }
+            .blog-header h1 { font-size: 2rem; }
+            .article-body { padding: 2rem; }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
-            
-            .article-body {
-                padding: 2rem;
-            }
+            .footer-column { text-align: center; }
+            .footer-column ul { display: inline-block; text-align: left; }
         }
     </style>
 </head>
 <body>
-    <header class="blog-header">
-        <div class="container">
+    <header>
+        <nav class="container">
+            <a href="../index.html" class="logo">LHI</a>
+            <ul class="nav-links">
+                <li><a href="../index.html#home">Home</a></li>
+                <li><a href="../index.html#plans">Plans</a></li>
+                <li><a href="index.html">Blog</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+            <a href="../index.html#contact" class="cta-button">Get Free Quote</a>
+        </nav>
+    </header>
+
+    <div class="blog-header">
+        <div class="article-container">
             <h1>The Pre-Existing Condition Survival Guide</h1>
             <div class="blog-meta">Published June 10, 2025 | 8 min read</div>
         </div>
-    </header>
+    </div>
 
     <article class="article-content">
-        <div class="container">
+        <div class="article-container">
             <div class="article-body">
                 <p><strong>So you've got a pre-existing condition.</strong> Welcome to the club nobody wanted to join, but somehow half of America has a membership card. The good news? It's not the insurance death sentence it used to be. The bad news? You still need to navigate this maze without stepping on any landmines.</p>
-
                 <p>Let's cut through the nonsense and get you covered without going broke or insane. (Well, more insane.)</p>
-
-                <h2>What Actually Counts as "Pre-Existing"?</h2>
                 
+                <h2>What Actually Counts as "Pre-Existing"?</h2>
                 <p>Pretty much anything your body decided to do before you signed up for insurance. Diabetes, high blood pressure, that suspicious mole you've been ignoring, depression, anxiety, arthritis, sleep apnea, or even pregnancy (because apparently creating life is now a medical condition).</p>
-
                 <p>The magic cutoff? Any condition diagnosed, treated, or for which you received medical advice in the past... well, it depends on the plan. Some say 6 months, others go back further than your browser history.</p>
-
+                
                 <div class="highlight-box">
                     <h3>🛡️ ACA Protection: Your Insurance Superhero</h3>
                     <p>Thanks to the Affordable Care Act, ACA-compliant plans <strong>cannot</strong> deny you coverage or charge you more for pre-existing conditions. This includes employer plans, marketplace plans, and Medicaid.</p>
@@ -205,7 +329,6 @@
                 </div>
 
                 <h2>The Good, The Bad, and The Ugly</h2>
-
                 <h3>The Good: ACA Plans</h3>
                 <ul class="bullet-list">
                     <li><strong>No medical underwriting</strong> - They can't even ask about your conditions</li>
@@ -213,107 +336,93 @@
                     <li><strong>No lifetime limits</strong> - Your chronic condition won't max out your coverage</li>
                     <li><strong>Preventive care</strong> - Free screenings to catch problems early</li>
                 </ul>
-
+                
                 <h3>The Bad: Non-ACA Plans</h3>
                 <p>Short-term plans, health sharing ministries, and other "alternative" options often exclude pre-existing conditions faster than you can say "prior authorization."</p>
-
+                
                 <div class="warning-box">
                     <h3>⚠️ Short-Term Plan Reality Check</h3>
                     <p>That cheap short-term plan? It's probably going to exclude anything you've ever been treated for. Great for covering you if you get hit by a meteor, not so much for your ongoing diabetes management.</p>
                 </div>
-
+                
                 <h3>The Ugly: Coverage Gaps</h3>
                 <p>Let your coverage lapse for more than 63 days, and some plans can impose waiting periods for pre-existing conditions. It's like insurance purgatory, but with more paperwork.</p>
 
                 <h2>The Disclosure Dilemma</h2>
-
                 <p>Here's where things get morally gray (and legally important):</p>
-
                 <p><strong>For ACA plans:</strong> They literally cannot ask about your health history. Don't volunteer information they're not requesting.</p>
-
                 <p><strong>For non-ACA plans:</strong> You're required to answer honestly. Lying on an insurance application is fraud, and insurance companies have teams of people whose job is to find reasons not to pay claims.</p>
-
+                
                 <div class="pro-tip">
                     <h3>💡 Pro Tip: The "Innocent Until Proven Guilty" Approach</h3>
                     <p>If a condition hasn't been formally diagnosed, it doesn't exist in insurance land. That nagging back pain you've been self-treating with ibuprofen and denial? Not a pre-existing condition until a doctor says it is.</p>
                 </div>
 
                 <h2>Strategic Timing: When to Shop</h2>
-
                 <p><strong>Open Enrollment (November 1 - January 15):</strong> Your annual "get out of jail free" card. No medical questions asked for ACA plans.</p>
-
                 <p><strong>Special Enrollment Periods:</strong> Lost your job? Got married? Had a baby? These life events give you 60 days to enroll outside of open enrollment.</p>
-
-                <p><strong>Any other time:</strong> You're probably looking at short-term plans or health sharing ministries. Proceed with extreme caution and low expectations.</p>
-
-                <h2>The Cost Reality Check</h2>
-
-                <p>Yes, ACA plans with pre-existing condition protections cost more than plans that exclude everything interesting about your medical history. That's like being surprised that a car with working brakes costs more than one without.</p>
-
-                <p>But here's the math that matters:</p>
-
-                <ul class="bullet-list">
-                    <li>Monthly premium for ACA plan: $400</li>
-                    <li>Monthly cost of diabetes medications without insurance: $800+</li>
-                    <li>One ER visit without insurance: $3,000+</li>
-                    <li>Peace of mind: Priceless (and tax-deductible)</li>
-                </ul>
-
-                <h2>Medication Coverage: The Fine Print That Matters</h2>
-
-                <p>All ACA plans must cover prescription drugs, but they don't have to cover YOUR prescription drugs. Each plan has a formulary (fancy word for "list of drugs we'll pay for").</p>
-
-                <p>Before enrolling, check if your specific medications are covered. Finding out your $300/month medication isn't covered after you've already enrolled is like discovering your parachute is actually a backpack full of disappointment.</p>
-
-                <div class="highlight-box">
-                    <h3>🔍 Formulary Checking 101</h3>
-                    <p>Most insurance company websites have formulary lookup tools. Type in your medication name, and it'll tell you what tier it's on and what you'll pay. If it's not covered, ask your doctor about alternatives that are.</p>
-                </div>
-
-                <h2>Provider Networks: Don't Get Trapped</h2>
-
-                <p>That specialist who's been managing your condition for years? Make sure they're in your new plan's network. Out-of-network specialists are expensive enough to require a second mortgage.</p>
-
-                <p>HMO plans typically have smaller networks but lower costs. PPO plans have larger networks but higher premiums. Choose based on whether you prioritize saving money or maintaining access to your current doctors.</p>
-
-                <h2>The Appeals Process: Your Insurance Lifeline</h2>
-
-                <p>Insurance companies say "no" first and ask questions later. Learn the appeals process like your financial life depends on it (because it does).</p>
-
-                <ul class="bullet-list">
-                    <li><strong>Internal appeal:</strong> Ask the insurance company to reconsider</li>
-                    <li><strong>External appeal:</strong> Get an independent reviewer involved</li>
-                    <li><strong>Expedited appeal:</strong> For urgent situations that can't wait</li>
-                </ul>
-
-                <p>Keep records of everything. Insurance companies have selective memory problems.</p>
-
-                <div class="warning-box">
-                    <h3>⚠️ The "Wait and See" Trap</h3>
-                    <p>Delaying treatment to avoid creating a "pre-existing condition" is like not going to the dentist to avoid cavities. Problems don't disappear; they just get more expensive.</p>
-                </div>
-
-                <h2>Bottom Line</h2>
-
-                <p>Having a pre-existing condition doesn't mean you're doomed to a life of medical bankruptcy. It just means you need to be smarter about your insurance choices.</p>
-
-                <p>Stick with ACA-compliant plans during open enrollment, keep your coverage continuous, and remember that the most expensive insurance is the one that doesn't pay when you need it.</p>
-
-                <p>Your pre-existing condition might be permanent, but your insurance problems don't have to be.</p>
-
-                <div class="cta-section">
+                
+                <div class="article-cta">
                     <h3>Ready to Find Coverage That Actually Covers You?</h3>
                     <p>Stop playing insurance roulette with your health. Let's find you a plan that won't abandon you when you actually need it.</p>
-                    <a href="/#quote" class="cta-button">Get Your Free Quote</a>
+                    <a href="../index.html#contact" class="cta-button">Get Your Free Insurance Checkup</a>
                 </div>
 
                 <hr style="margin: 2rem 0; border: none; border-top: 1px solid #eee;">
-                
                 <p style="font-size: 0.9rem; color: #666; font-style: italic;">
                     <strong>Disclaimer:</strong> This article is for educational purposes and should not be considered medical or legal advice. Insurance regulations vary by state and plan. Always read your policy documents and consult with a licensed insurance professional for guidance specific to your situation.
                 </p>
             </div>
         </div>
     </article>
+
+    <footer id="footer-info">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Contact David</h3>
+                    <ul>
+                        <li><a href="tel:+18636403102">📞 (863) 640-3102</a></li>
+                        <li><a href="mailto:david@lakelandhealthinsurance.com">📧 david@lakelandhealthinsurance.com</a></li>
+                        <li>📍 Central Florida Headquarters</li>
+                        <li>⏰ Mon-Fri 8AM-8PM EST</li>
+                        <li>⏰ Sat 9AM-5PM EST</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Service Areas</h3>
+                    <ul>
+                        <li>🏡 Florida Residents</li>
+                        <li>🇺🇸 Coverage Across the Nation</li>
+                        <li>💼 Small Business Groups</li>
+                        <li>👨‍👩‍👧‍👦 Individual & Family Plans</li>
+                        <li>🤓 Medicare Specialists</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html#home">Home</a></li>
+                        <li><a href="../index.html#plans">Insurance Plans</a></li>
+                        <li><a href="index.html">Blog</a></li>
+                        <li><a href="../index.html#contact">Get Quote</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
+                <p>FL License #W371813 | Serving most of the United States with honest insurance advice</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Click to Call Button -->
+    <a href="tel:+18636403102" class="click-to-call">
+        <span class="phone-icon">📞</span>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <span>Call: (863) 640-3102</span>
+            <span style="font-size: 0.8rem; opacity: 0.9;">David answers personally</span>
+        </div>
+    </a>
 </body>
 </html>
