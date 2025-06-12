@@ -749,28 +749,48 @@
     </a>
 
     <script>
-        // ======================= TCPA Banner Logic =======================
+        // ======================= TCPA Banner Logic (Corrected) =======================
         document.addEventListener('DOMContentLoaded', function() {
             const banner = document.getElementById('tcpa-banner');
             const agreeBtn = document.getElementById('tcpa-agree-btn');
             const closeBtn = document.getElementById('tcpa-close-btn');
-            
-            // Use a simple in-memory flag instead of localStorage
-            let tcpaConsentGiven = false;
+            const tcpaConsentKey = 'tcpaConsentGiven';
 
-            // Show banner immediately since we can't persist across sessions anyway
-            banner.classList.add('show');
+            // A function to safely check if localStorage is available and usable
+            function isStorageAvailable(type) {
+                let storage;
+                try {
+                    storage = window[type];
+                    const x = '__storage_test__';
+                    storage.setItem(x, x);
+                    storage.removeItem(x);
+                    return true;
+                }
+                catch (e) {
+                    return false;
+                }
+            }
+
+            // Check if storage is available AND if consent has been given before
+            if (isStorageAvailable('localStorage')) {
+                if (!localStorage.getItem(tcpaConsentKey)) {
+                    // If no consent is stored, show the banner
+                    banner.classList.add('show');
+                }
+            } else {
+                // If localStorage isn't available at all, just show the banner for the session
+                banner.classList.add('show');
+            }
 
             function hideBanner() {
                 banner.classList.remove('show');
-                tcpaConsentGiven = true;
-                
-                // Try to use localStorage if available, but don't break if it's not
-                try {
-                    localStorage.setItem('tcpaConsentGiven', 'true');
-                } catch (e) {
-                    // Browser doesn't like localStorage, that's fine - banner is hidden anyway
-                    console.log('localStorage not available, using session-only consent');
+                // If storage is available, try to save the consent
+                if (isStorageAvailable('localStorage')) {
+                    try {
+                        localStorage.setItem(tcpaConsentKey, 'true');
+                    } catch (e) {
+                        console.error('Could not save TCPA consent to localStorage.', e);
+                    }
                 }
             }
 
@@ -826,4 +846,3 @@
     </script>
 </body>
 </html>
-                }
