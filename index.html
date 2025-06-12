@@ -219,4 +219,261 @@
             color: white;
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             position: relative;
-            overflow:
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.15"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .hero h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            opacity: 0.95;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-cta {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 18px 36px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        .hero-cta:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        /* Value Proposition Section */
+        .value-props {
+            padding: 100px 0;
+            background: white;
+        }
+        .value-props h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .value-props .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .value-card {
+            background: #f8f9fa;
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: left;
+            transition: transform 0.3s ease;
+            border-left: 4px solid #1e3a8a;
+        }
+        .value-card:hover {
+            transform: translateY(-10px);
+        }
+        .value-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1e3a8a;
+        }
+        .value-card p {
+            color: #666;
+            line-height: 1.7;
+        }
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero h2 { font-size: 1.4rem; }
+            .nav-links { display: none; }
+            .value-grid { grid-template-columns: 1fr; }
+            .click-to-call {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px 16px;
+                font-size: 1rem;
+            }
+        }
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo-container">
+                <div class="logo">LHI</div>
+                <button class="menu-button" onclick="toggleMenu()">
+                    <div class="ellipses">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </button>
+                
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="menu-item"><a href="#plans">Health Plans</a></div>
+                    <div class="menu-item"><a href="#tips">Free Tips</a></div>
+                    <div class="menu-item"><a href="/blog/">Blog</a></div>
+                    <div class="menu-item"><a href="/about">About</a></div>
+                    <div class="menu-item"><a href="#contact">Contact</a></div>
+                    <div class="menu-item"><a href="/privacy-policy.html">Privacy Policy</a></div>
+                    <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#plans">Plans</a></li>
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#contact" class="cta-button">Get Free Quote</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content fade-in-up">
+                <h1>Health Insurance Without the Runaround</h1>
+                <h2>Finally, Someone Who Speaks Human Instead of Insurance Gibberish</h2>
+                <p>Serving families and businesses in Florida and nationwide. Get straight talk about health insurance from someone who actually gives a damn about your financial future.</p>
+                <a href="tel:+18636403102" class="hero-cta">Call Now: (863) 640-3102</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="value-props" id="tips">
+        <div class="container">
+            <h2>Why People Are Tired of Insurance BS</h2>
+            <p class="subtitle">The industry is broken. We're here to fix it, one honest conversation at a time.</p>
+            <div class="value-grid">
+                <div class="value-card fade-in-up">
+                    <h3>🎭 No More Insurance Theater</h3>
+                    <p>Tired of agents who disappear after they get their commission? We stick around because your health insurance actually matters to us. Crazy concept, right?</p>
+                </div>
+                
+                <div class="value-card fade-in-up">
+                    <h3>💰 Stop Overpaying Like a Sucker</h3>
+                    <p>Most people are throwing money away on coverage they don't need or missing out on savings they deserve. We'll tell you exactly what you need and nothing you don't.</p>
+                </div>
+                
+                <div class="value-card fade-in-up">
+                    <h3>🚨 Avoid the $50,000 Surprise</h3>
+                    <p>Medical bankruptcies happen to people with insurance too. We'll make sure you understand exactly what you're buying so there are no nasty surprises when you actually need care.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <h2>Ready to Stop Getting Ripped Off?</h2>
+            <p>Call (863) 640-3102 for honest insurance advice.</p>
+            <p style="margin-top: 2rem; opacity: 0.8;">&copy; 2025 Lakeland Health Insurance. FL License #W371813</p>
+        </div>
+    </footer>
+
+    <!-- Click to Call Button -->
+    <a href="tel:+18636403102" class="click-to-call" onclick="trackPhoneCall()">
+        <span class="phone-icon">📞</span>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <span>Call: (863) 640-3102</span>
+            <span style="font-size: 0.8rem; opacity: 0.9;">David answers personally</span>
+        </div>
+    </a>
+
+    <script>
+        // Analytics Event Tracking
+        function trackPhoneCall() {
+            gtag('event', 'phone_call', {
+                event_category: 'engagement',
+                event_label: 'click_to_call_button'
+            });
+        }
+
+        // Menu toggle
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.classList.toggle('show');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdownMenu');
+            const button = document.querySelector('.menu-button');
+            
+            if (!menu.contains(event.target) && !button.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
