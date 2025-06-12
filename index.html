@@ -1,3 +1,10 @@
+Got it. Let's get those cards linked up to your excellent blog posts. This is a great way to guide visitors to more detailed information and demonstrate your expertise.
+
+I've updated the three value proposition cards to act as clickable links pointing to the `.html` pages you provided. Now, when a user hovers over one of these cards, the whole area will be a clickable link that takes them directly to the relevant article.
+
+Here is the complete code with the updated links.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -327,6 +334,12 @@
         .value-card:hover {
             transform: translateY(-10px);
         }
+        .card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+        }
         .value-card h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
@@ -547,18 +560,24 @@
             <p class="subtitle">The industry is broken. We're here to fix it, one honest conversation at a time.</p>
             <div class="value-grid">
                 <div class="value-card fade-in-up">
-                    <h3>🧭 The Pre-Existing Condition Survival Guide</h3>
-                    <p>Navigate the complex world of pre-existing conditions with confidence. Learn how to find coverage, understand waiting periods, and avoid the traps that leave you unprotected.</p>
+                    <a href="preexisting-condition-guide.html" class="card-link">
+                        <h3>🧭 The Pre-Existing Condition Survival Guide</h3>
+                        <p>Navigate the complex world of pre-existing conditions with confidence. Learn how to find coverage, understand waiting periods, and avoid the traps that leave you unprotected.</p>
+                    </a>
                 </div>
                 
                 <div class="value-card fade-in-up">
-                    <h3>⚖️ ACA vs. Short-Term Plans: The Real Deal</h3>
-                    <p>We'll cut through the marketing fluff and give you the real pros and cons of each option, because your health (and wallet) deserve the honest truth.</p>
+                    <a href="aca-vs-short-term-plans.html" class="card-link">
+                        <h3>⚖️ ACA vs. Short-Term Plans: The Real Deal</h3>
+                        <p>We'll cut through the marketing fluff and give you the real pros and cons of each option, because your health (and wallet) deserve the honest truth.</p>
+                    </a>
                 </div>
                 
                 <div class="value-card fade-in-up">
-                    <h3>💳 Use Your Insurance Without Going Broke</h3>
-                    <p>Having insurance is step one. Using it without triggering financial ruin is step two. Here's your survival guide to deductibles, copays, and other "fun" surprises.</p>
+                    <a href="how-to-use-health-insurance-without-going-broke.html" class="card-link">
+                        <h3>💳 Use Your Insurance Without Going Broke</h3>
+                        <p>Having insurance is step one. Using it without triggering financial ruin is step two. Here's your survival guide to deductibles, copays, and other "fun" surprises.</p>
+                    </a>
                 </div>
             </div>
         </div>
@@ -649,10 +668,12 @@
     <script>
         // Analytics Event Tracking
         function trackPhoneCall() {
-            gtag('event', 'phone_call', {
-                event_category: 'engagement',
-                event_label: 'click_to_call_button'
-            });
+            if (typeof gtag === 'function') {
+                gtag('event', 'phone_call', {
+                    event_category: 'engagement',
+                    event_label: 'click_to_call_button'
+                });
+            }
         }
 
         // Menu toggle
@@ -665,19 +686,22 @@
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('dropdownMenu');
             const button = document.querySelector('.menu-button');
+            const isClickInsideMenu = menu.contains(event.target);
+            const isClickOnButton = button.contains(event.target);
             
-            if (!menu.contains(event.target) && !button.contains(event.target)) {
+            if (!isClickInsideMenu && !isClickOnButton) {
                 menu.classList.remove('show');
             }
         });
 
-        // Smooth scrolling
+        // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
