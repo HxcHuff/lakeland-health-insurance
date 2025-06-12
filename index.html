@@ -323,11 +323,50 @@
         }
         /* Footer */
         footer {
-            background: #333;
-            color: white;
-            padding: 4rem 0 2rem;
-            text-align: center;
+            background: #252525;
+            color: #e0e0e0;
+            padding: 5rem 0 3rem;
         }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+            text-align: left;
+        }
+        .footer-column h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+        .footer-column ul {
+            list-style: none;
+        }
+        .footer-column li {
+            margin-bottom: 1rem;
+        }
+        .footer-column a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
+        .footer-column a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #555;
+        }
+        .footer-bottom p {
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.5;
+            margin: 0.25rem 0;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
@@ -339,6 +378,17 @@
                 right: 15px;
                 padding: 12px 16px;
                 font-size: 1rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .footer-column {
+                text-align: center;
+            }
+            .footer-column ul {
+                display: inline-block;
+                text-align: left;
             }
         }
         /* Animations */
@@ -421,13 +471,44 @@
 
     <footer id="contact">
         <div class="container">
-            <h2>Ready to Stop Getting Ripped Off?</h2>
-            <p>Call (863) 640-3102 for honest insurance advice.</p>
-            <p style="margin-top: 2rem; opacity: 0.8;">&copy; 2025 Lakeland Health Insurance. FL License #W371813</p>
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Contact David</h3>
+                    <ul>
+                        <li><a href="tel:+18636403102">📞 (863) 640-3102</a></li>
+                        <li><a href="mailto:david@lakelandhealthinsurance.com">📧 david@lakelandhealthinsurance.com</a></li>
+                        <li>📍 Central Florida Headquarters</li>
+                        <li>⏰ Mon-Fri 8AM-8PM EST</li>
+                        <li>⏰ Sat 9AM-5PM EST</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Service Areas</h3>
+                    <ul>
+                        <li>🏡 Florida Residents</li>
+                        <li>🇺🇸 Coverage Across the Nation</li>
+                        <li>💼 Small Business Groups</li>
+                        <li>👨‍👩‍👧‍👦 Individual & Family Plans</li>
+                        <li>🤓 Medicare Specialists</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#plans">Insurance Plans</a></li>
+                        <li><a href="/blog/">Blog</a></li>
+                        <li><a href="#contact">Get Quote</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
+                <p>FL License #W371813 | Serving most of the United States with honest insurance advice</p>
+            </div>
         </div>
     </footer>
 
-    <!-- Click to Call Button -->
     <a href="tel:+18636403102" class="click-to-call" onclick="trackPhoneCall()">
         <span class="phone-icon">📞</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
