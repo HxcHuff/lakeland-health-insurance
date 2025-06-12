@@ -255,40 +255,25 @@
             margin-left: auto;
             margin-right: auto;
         }
-        .hero-cta-group {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
         .hero-cta {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.3);
             color: white;
-            padding: 16px 32px;
+            padding: 18px 36px;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            margin-top: 1rem;
         }
         .hero-cta:hover {
             background: rgba(255, 255, 255, 0.25);
             transform: translateY(-3px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
-        .hero-cta.secondary {
-            background: transparent;
-            border-color: rgba(255, 255, 255, 0.8);
-        }
-        .hero-cta.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: none;
         }
         /* Value Proposition Section */
         .value-props {
@@ -335,74 +320,6 @@
         .value-card p {
             color: #666;
             line-height: 1.7;
-        }
-        /* Form Section */
-        .form-section {
-            padding: 100px 0;
-            background: #f8f9fa;
-        }
-        .form-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            text-align: center;
-        }
-        .form-container h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-        .form-container .subtitle {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            text-align: left;
-            margin-bottom: 2rem;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-        .form-group label {
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: #555;
-        }
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #1e3a8a;
-            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
-        }
-        .form-submit-btn {
-            padding: 16px 32px;
-            font-size: 1.1rem;
-            width: auto;
-            margin-top: 1rem;
         }
         /* Footer */
         footer {
@@ -461,15 +378,6 @@
                 right: 15px;
                 padding: 12px 16px;
                 font-size: 1rem;
-            }
-            .hero-cta-group {
-                flex-direction: column;
-            }
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .form-container {
-                padding: 2rem;
             }
             .footer-grid {
                 grid-template-columns: 1fr;
@@ -533,17 +441,14 @@
                 <h1>Health Insurance Without the Runaround</h1>
                 <h2>Finally, Someone Who Speaks Human Instead of Insurance Gibberish</h2>
                 <p>Serving families and businesses in Florida and nationwide. Get straight talk about health insurance from someone who actually gives a damn about your financial future.</p>
-                <div class="hero-cta-group">
-                    <a href="#contact" class="hero-cta">Get a Free Checkup</a>
-                    <a href="tel:+18636403102" class="hero-cta secondary">Call Now: (863) 640-3102</a>
-                </div>
+                <a href="tel:+18636403102" class="hero-cta">Call Now: (863) 640-3102</a>
             </div>
         </div>
     </section>
 
     <section class="value-props" id="tips">
         <div class="container">
-            <h2>Tired of the Same Old Insurance Runaround?</h2>
+            <h2>Why People Are Tired of Insurance BS</h2>
             <p class="subtitle">The industry is broken. We're here to fix it, one honest conversation at a time.</p>
             <div class="value-grid">
                 <div class="value-card fade-in-up">
@@ -564,41 +469,7 @@
         </div>
     </section>
 
-    <section class="form-section" id="contact">
-        <div class="container">
-            <div class="form-container fade-in-up">
-                <h2>Get Your Free Insurance Checkup</h2>
-                <p class="subtitle">Let's peek under the hood of your current policy. No sales pressure, just honest advice to see if you can get better coverage or save some cash. It's like a spa day for your wallet.</p>
-                <form action="#" method="POST">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" placeholder="John Doe" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" placeholder="you@example.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
-                        </div>
-                        <div class="form-group">
-                            <label for="state">State</label>
-                            <input type="text" id="state" name="state" placeholder="e.g., Florida" required>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="message">What would you like to review? (Optional)</label>
-                            <textarea id="message" name="message" rows="4" placeholder="e.g., 'My family plan seems expensive', 'Am I ready for Medicare?', 'Just want a general review'"></textarea>
-                        </div>
-                    </div>
-                    <button type="submit" class="cta-button form-submit-btn">Analyze My Policy!</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <footer id="footer-info">
+    <footer id="contact">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-column">
