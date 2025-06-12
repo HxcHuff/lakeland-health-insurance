@@ -498,6 +498,14 @@
                 display: inline-block;
                 text-align: left;
             }
+            .tcpa-banner-container {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+            .tcpa-content {
+                margin-bottom: 1rem;
+            }
         }
         /* Animations */
         @keyframes fadeInUp {
@@ -506,6 +514,68 @@
         }
         .fade-in-up {
             animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* ======================= TCPA Banner Styles ======================= */
+        .tcpa-banner-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #212529;
+            color: #f8f9fa;
+            padding: 1rem 1.5rem;
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .tcpa-banner-container.show {
+            display: flex;
+        }
+
+        .tcpa-content p {
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .tcpa-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tcpa-button {
+            background-color: #20c997;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: background-color 0.2s;
+        }
+
+        .tcpa-button:hover {
+            background-color: #1a9c7d;
+        }
+
+        .tcpa-close {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .tcpa-close:hover {
+            color: white;
         }
     </style>
 </head>
@@ -659,7 +729,17 @@
             </div>
         </div>
     </footer>
-
+    
+    <div id="tcpa-banner" class="tcpa-banner-container">
+        <div class="tcpa-content">
+            <p><strong>Real talk:</strong> By giving us your number, you're saying it's cool if I call or text you about insurance stuff. No robots here - just me, David, probably calling while drinking too much coffee. You can tell me to buzz off anytime, and you don't have to agree to get quotes. Your phone company will charge you for texts like they always do.</p>
+        </div>
+        <div class="tcpa-actions">
+            <button id="tcpa-agree-btn" class="tcpa-button">I'm Cool With That</button>
+            <button id="tcpa-close-btn" class="tcpa-close">×</button>
+        </div>
+    </div>
+    
     <a href="tel:+18636403102" class="click-to-call" onclick="trackPhoneCall()">
         <span class="phone-icon" aria-hidden="true">📞</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
@@ -669,6 +749,35 @@
     </a>
 
     <script>
+        // ======================= TCPA Banner Logic =======================
+        document.addEventListener('DOMContentLoaded', function() {
+            const banner = document.getElementById('tcpa-banner');
+            const agreeBtn = document.getElementById('tcpa-agree-btn');
+            const closeBtn = document.getElementById('tcpa-close-btn');
+            
+            // Use a simple in-memory flag instead of localStorage
+            let tcpaConsentGiven = false;
+
+            // Show banner immediately since we can't persist across sessions anyway
+            banner.classList.add('show');
+
+            function hideBanner() {
+                banner.classList.remove('show');
+                tcpaConsentGiven = true;
+                
+                // Try to use localStorage if available, but don't break if it's not
+                try {
+                    localStorage.setItem('tcpaConsentGiven', 'true');
+                } catch (e) {
+                    // Browser doesn't like localStorage, that's fine - banner is hidden anyway
+                    console.log('localStorage not available, using session-only consent');
+                }
+            }
+
+            agreeBtn.addEventListener('click', hideBanner);
+            closeBtn.addEventListener('click', hideBanner);
+        });
+
         // Analytics Event Tracking
         function trackPhoneCall() {
             if (typeof gtag === 'function') {
@@ -717,3 +826,4 @@
     </script>
 </body>
 </html>
+                }
