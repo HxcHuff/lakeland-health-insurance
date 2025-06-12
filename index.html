@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-W45RMKHXV0', {
-        cookie_domain: 'auto',
-        cookie_flags: 'SameSite=None;Secure'
-      });
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health Insurance Without the Runaround | Lakeland Health Insurance</title>
@@ -20,23 +10,35 @@
     <meta name="geo.placename" content="Central Florida">
     <meta name="geo.position" content="28.0395;-81.9498">
     <meta name="ICBM" content="28.0395, -81.9498">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-W45RMKHXV0', {
+            cookie_domain: 'auto',
+            cookie_flags: 'SameSite=None;Secure'
+        });
+    </script>
     
     <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "InsuranceAgency",
-  "name": "Lakeland Health Insurance",
-  "url": "https://lakelandhealthinsurance.com",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Lakeland",
-    "addressRegion": "FL",
-    "postalCode": "33805",
-    "addressCountry": "US"
-  },
-  "telephone": "+1-863-640-3102"
-}
-</script>
+    {
+      "@context": "https://schema.org",
+      "@type": "InsuranceAgency",
+      "name": "Lakeland Health Insurance",
+      "url": "https://lakelandhealthinsurance.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Lakeland",
+        "addressRegion": "FL",
+        "postalCode": "33805",
+        "addressCountry": "US"
+      },
+      "telephone": "+1-863-640-3102"
+    }
+    </script>
     
     <style>
         * {
@@ -44,21 +46,17 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
             color: #333;
             background: #f8f9fa;
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-
-        /* Header */
         header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -68,26 +66,22 @@
             z-index: 1000;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
-
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 0;
         }
-
         .logo-container {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-
         .logo {
             font-size: 1.8rem;
             font-weight: 800;
             color: #1e3a8a;
         }
-
         .logo::after {
             content: "Lakeland";
             font-size: 0.8rem;
@@ -96,8 +90,6 @@
             line-height: 1;
             font-weight: 600;
         }
-
-        /* Ellipses Menu Styles */
         .menu-button {
             background: none;
             border: none;
@@ -106,24 +98,20 @@
             border-radius: 4px;
             transition: background-color 0.2s;
         }
-
         .menu-button:hover {
             background-color: #f0f0f0;
         }
-
         .ellipses {
             display: flex;
             flex-direction: column;
             gap: 3px;
         }
-
         .dot {
             width: 4px;
             height: 4px;
             background-color: #666;
             border-radius: 50%;
         }
-
         .dropdown-menu {
             position: absolute;
             top: 100%;
@@ -139,51 +127,42 @@
             transform: translateY(-10px);
             transition: all 0.2s ease;
         }
-
         .dropdown-menu.show {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
         }
-
         .menu-item {
             padding: 12px 16px;
             cursor: pointer;
             border-bottom: 1px solid #eee;
             transition: background-color 0.2s;
         }
-
         .menu-item:hover {
             background-color: #f8f9fa;
         }
-
         .menu-item:last-child {
             border-bottom: none;
         }
-
         .menu-item a {
             text-decoration: none;
             color: #333;
             display: block;
         }
-
         .nav-links {
             display: flex;
             gap: 2rem;
             list-style: none;
         }
-
         .nav-links a {
             text-decoration: none;
             color: #333;
             font-weight: 500;
             transition: color 0.3s ease;
         }
-
         .nav-links a:hover {
             color: #1e3a8a;
         }
-
         .cta-button {
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: white;
@@ -196,13 +175,10 @@
             text-decoration: none;
             display: inline-block;
         }
-
         .cta-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
         }
-
-        /* Click to Call Button */
         .click-to-call {
             position: fixed;
             bottom: 20px;
@@ -221,900 +197,26 @@
             align-items: center;
             gap: 8px;
         }
-
         .click-to-call:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
             background: linear-gradient(135deg, #059669, #047857);
         }
-
         .click-to-call .phone-icon {
             font-size: 1.2rem;
             animation: ring 2s ease-in-out infinite;
         }
-
         @keyframes ring {
-            0%, 20%, 50%, 80%, 100% {
-                transform: rotate(0deg);
-            }
-            10% {
-                transform: rotate(-10deg);
-            }
-            30% {
-                transform: rotate(10deg);
-            }
-            60% {
-                transform: rotate(-5deg);
-            }
-            70% {
-                transform: rotate(5deg);
-            }
+            0%, 20%, 50%, 80%, 100% { transform: rotate(0deg); }
+            10% { transform: rotate(-10deg); }
+            30% { transform: rotate(10deg); }
+            60% { transform: rotate(-5deg); }
+            70% { transform: rotate(5deg); }
         }
-
-        /* Hero Section */
         .hero {
             padding: 120px 0 80px;
             text-align: center;
             color: white;
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.15"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .hero h2 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            opacity: 0.95;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-cta {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 18px 36px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 1rem;
-        }
-
-        .hero-cta:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Value Proposition Section */
-        .value-props {
-            padding: 100px 0;
-            background: white;
-        }
-
-        .value-props h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-
-        .value-props .subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .value-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .value-card {
-            background: #f8f9fa;
-            padding: 2.5rem;
-            border-radius: 15px;
-            text-align: left;
-            transition: transform 0.3s ease;
-            border-left: 4px solid #1e3a8a;
-        }
-
-        .value-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .value-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #1e3a8a;
-        }
-
-        .value-card p {
-            color: #666;
-            line-height: 1.7;
-        }
-
-        /* Quick Wins Section */
-        .quick-wins {
-            padding: 100px 0;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        }
-
-        .quick-wins h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #333;
-        }
-
-        .wins-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .win-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .win-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .win-number {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        .win-card h3 {
-            margin-bottom: 1rem;
-            color: #333;
-            font-size: 1.3rem;
-        }
-
-        .win-card p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            padding: 100px 0;
-            background: white;
-        }
-
-        .testimonials h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #333;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .testimonial-card {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 15px;
-            position: relative;
-        }
-
-        .testimonial-card::before {
-            content: '"';
-            font-size: 4rem;
-            color: #1e3a8a;
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            line-height: 1;
-        }
-
-        .testimonial-text {
-            margin-bottom: 1.5rem;
-            font-style: italic;
-            color: #555;
-            line-height: 1.6;
-        }
-
-        .testimonial-author {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .testimonial-location {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        /* Features Section */
-        .features {
-            padding: 100px 0;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        }
-
-        .features h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #333;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-            transition: transform 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-            text-align: center;
-            color: white;
-        }
-
-        .cta-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .cta-section p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-primary {
-            background: white;
-            color: #1e3a8a;
-            padding: 18px 36px;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .cta-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .cta-secondary {
-            background: transparent;
-            color: white;
-            padding: 18px 36px;
-            border: 2px solid white;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .cta-secondary:hover {
-            background: white;
-            color: #1e3a8a;
-            transform: translateY(-3px);
-        }
-
-        /* Footer with Form */
-        footer {
-            background: #333;
-            color: white;
-            padding: 4rem 0 2rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr 400px;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-section h4 {
-            margin-bottom: 1rem;
-            color: #3b82f6;
-            font-size: 1.2rem;
-        }
-
-        .footer-section p {
-            margin-bottom: 0.5rem;
-            opacity: 0.9;
-        }
-
-        /* Footer Form */
-        .footer-form {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .footer-form h4 {
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-form .subtitle {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: white;
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: white;
-            color: #1e3a8a;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #555;
-            padding-top: 2rem;
-            text-align: center;
-            opacity: 0.8;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero h2 {
-                font-size: 1.4rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .value-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .click-to-call {
-                bottom: 15px;
-                right: 15px;
-                padding: 12px 16px;
-                font-size: 1rem;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in-up {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <nav class="container">
-            <div class="logo-container">
-                <div class="logo">LHI</div>
-                <button class="menu-button" onclick="toggleMenu()">
-                    <div class="ellipses">
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                    </div>
-                </button>
-                
-                <div class="dropdown-menu" id="dropdownMenu">
-                    <div class="menu-item"><a href="#plans">Health Plans</a></div>
-                    <div class="menu-item"><a href="#tips">Free Tips</a></div>
-                    <div class="menu-item"><a href="/blog/">Blog</a></div>
-                    <div class="menu-item"><a href="/about">About</a></div>
-                    <div class="menu-item"><a href="#contact">Contact</a></div>
-                    <div class="menu-item"><a href="/privacy-policy.html">Privacy Policy</a></div>
-                    <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
-                </div>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#plans">Plans</a></li>
-                <li><a href="/blog/">Blog</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <a href="#contact" class="cta-button">Get Free Quote</a>
-        </nav>
-    </header>
-
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content fade-in-up">
-                <h1>Health Insurance Without the Runaround</h1>
-                <h2>Finally, Someone Who Speaks Human Instead of Insurance Gibberish</h2>
-                <p>Serving families and businesses in Florida and nationwide. Get straight talk about health insurance from someone who actually gives a damn about your financial future.</p>
-                <a href="#tips" class="hero-cta">Show Me How to Save Money</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="value-props">
-        <div class="container">
-            <h2>Why People Are Tired of Insurance BS</h2>
-            <p class="subtitle">The industry is broken. We're here to fix it, one honest conversation at a time.</p>
-            <div class="value-grid">
-                <div class="value-card fade-in-up">
-                    <h3>🎭 No More Insurance Theater</h3>
-                    <p>Tired of agents who disappear after they get their commission? We stick around because your health insurance actually matters to us. Crazy concept, right?</p>
-                </div>
-                
-                <div class="value-card fade-in-up">
-                    <h3>💰 Stop Overpaying Like a Sucker</h3>
-                    <p>Most people are throwing money away on coverage they don't need or missing out on savings they deserve. We'll tell you exactly what you need and nothing you don't.</p>
-                </div>
-                
-                <div class="value-card fade-in-up">
-                    <h3>🚨 Avoid the $50,000 Surprise</h3>
-                    <p>Medical bankruptcies happen to people with insurance too. We'll make sure you understand exactly what you're buying so there are no nasty surprises when you actually need care.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="quick-wins" id="tips">
-        <div class="container">
-            <h2>5 Critical Health Insurance Mistakes That Could Cost You Thousands</h2>
-            <div class="wins-grid">
-                <div class="win-card fade-in-up">
-                    <div class="win-number">1</div>
-                    <h3><a href="/blog/aca-vs-short-term-plans.html" style="text-decoration: none; color: #333;">ACA vs Short-Term Plans: Which is Actually Right for You?</a></h3>
-                    <p>The eternal debate. We'll cut through the marketing fluff and give you the real pros and cons of each option, because your health (and wallet) deserve the truth.</p>
-                    <a href="/blog/aca-vs-short-term-plans.html" style="color: #1e3a8a; font-weight: 600; text-decoration: none;">Read More →</a>
-                </div>
-                
-                <div class="win-card fade-in-up">
-                    <div class="win-number">2</div>
-                    <h3><a href="/blog/medicare-advantage-vs-supplement.html" style="text-decoration: none; color: #333;">Medicare Advantage vs Medicare Supplement: The Ultimate Showdown</a></h3>
-                    <p>Two titans enter, one emerges victorious for your specific situation. Spoiler alert: it's not always the one with the flashy TV commercials.</p>
-                    <a href="/blog/medicare-advantage-vs-supplement.html" style="color: #1e3a8a; font-weight: 600; text-decoration: none;">Read More →</a>
-                </div>
-                
-                <div class="win-card fade-in-up">
-                    <div class="win-number">3</div>
-                    <h3><a href="/blog/how-to-use-health-insurance-without-going-broke.html" style="text-decoration: none; color: #333;">How to Actually Use Your Health Insurance (Without Going Broke)</a></h3>
-                    <p>Having insurance is step one. Using it without triggering financial ruin is step two. Here's your survival guide to deductibles, copays, and other fun surprises.</p>
-                    <a href="/blog/how-to-use-health-insurance-without-going-broke.html" style="color: #1e3a8a; font-weight: 600; text-decoration: none;">Read More →</a>
-                </div>
-                
-                <div class="win-card fade-in-up">
-                    <div class="win-number">4</div>
-                    <h3><a href="/blog/real-cost-going-without-health-insurance.html" style="text-decoration: none; color: #333;">The Real Cost of Going Without Health Insurance</a></h3>
-                    <p>Think you're saving money by skipping insurance? We've crunched the numbers on what happens when life decides to throw you a curveball.</p>
-                    <a href="/blog/real-cost-going-without-health-insurance.html" style="color: #1e3a8a; font-weight: 600; text-decoration: none;">Read More →</a>
-                </div>
-                
-                <div class="win-card fade-in-up">
-                    <div class="win-number">5</div>
-                    <h3><a href="/blog/florida-insurance-guide.html" style="text-decoration: none; color: #333;">Florida Health Insurance: Navigating the Sunshine State's Unique Challenges</a></h3>
-                    <p>From hurricanes to humidity-induced existential crises, Florida has its own special insurance considerations. Here's what you need to know.</p>
-                    <a href="/blog/florida-insurance-guide.html" style="color: #1e3a8a; font-weight: 600; text-decoration: none;">Read More →</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="testimonials">
-        <div class="container">
-            <h2>What Real People Say (Not Paid Actors)</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card fade-in-up">
-                    <div class="testimonial-text">
-                        David saved us $400 a month and got us better coverage. I was ready to cancel our insurance entirely because we couldn't afford it. Now we actually use it because we understand it.
-                    </div>
-                    <div class="testimonial-author">Sarah M.</div>
-                    <div class="testimonial-location">Tampa, FL</div>
-                </div>
-                
-                <div class="testimonial-card fade-in-up">
-                    <div class="testimonial-text">
-                        Finally, someone who doesn't treat me like an idiot. He explained everything in plain English and didn't try to oversell me. My old agent would have pushed the most expensive plan.
-                    </div>
-                    <div class="testimonial-author">Mike R.</div>
-                    <div class="testimonial-location">Orlando, FL</div>
-                </div>
-                
-                <div class="testimonial-card fade-in-up">
-                    <div class="testimonial-text">
-                        When my husband got diagnosed with diabetes, David walked us through every step of dealing with insurance. Most agents disappear when things get complicated. Not this guy.
-                    </div>
-                    <div class="testimonial-author">Linda K.</div>
-                    <div class="testimonial-location">Jacksonville, FL</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="features" id="plans">
-        <div class="container">
-            <h2>Insurance Plans That Actually Work</h2>
-            <div class="features-grid">
-                <div class="feature-card fade-in-up">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Short Term Medical</h3>
-                    <p>Perfect for gaps between jobs or life transitions. Get covered in minutes, not months. We'll tell you exactly when these work and when they don't.</p>
-                </div>
-                
-                <div class="feature-card fade-in-up">
-                    <div class="feature-icon">🏛️</div>
-                    <h3>ACA Marketplace Plans</h3>
-                    <p>The good, the bad, and the ugly of Obamacare plans. We'll navigate the subsidies and help you avoid the common pitfalls that cost people thousands.</p>
-                </div>
-                
-                <div class="feature-card fade-in-up">
-                    <div class="feature-icon">🇺🇸</div>
-                    <h3>Medicare Advantage</h3>
-                    <p>Medicare with extra benefits that actually matter. We'll cut through the TV commercial BS and find plans that work for your real life, not their marketing budget.</p>
-                </div>
-
-                <div class="feature-card fade-in-up">
-                    <div class="feature-icon">📋</div>
-                    <h3>Medicare Supplement</h3>
-                    <p>Fill the gaps in Original Medicare without the restrictions. Perfect for people who want choice in doctors and don't want to deal with network limitations.</p>
-                </div>
-                
-                <div class="feature-card fade-in-up">
-                    <div class="feature-icon">🦷</div>
-                    <h3>Dental & Vision</h3>
-                    <p>Standalone coverage that's actually worth the money. We'll show you which dental plans pay for themselves and which ones are just expensive discount cards.</p>
-                </div>
-                
-                <div class="feature-card fade-in-up">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>Life Insurance</h3>
-                    <p>Protect your family without getting ripped off. Term vs whole life explained in plain English, plus the tricks agents use to oversell you.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="cta-section">
-        <div class="container">
-            <h2>Ready to Stop Getting Ripped Off?</h2>
-            <p>Get a free insurance checkup. No pressure, no BS, just honest advice about your coverage.</p>
-            <div class="cta-buttons">
-                <a href="tel:+18636403102" class="cta-primary">Call for Free Reality Check</a>
-                <a href="#contact" class="cta-secondary">Skip the Form - Just Call</a>
-            </div>
-            <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">No robo-calls, David answers personally</p>
-        </div>
-    </section>
-
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Contact Our Team</h4>
-                    <p>📞 <a href="tel:+18636403102" style="color: white; text-decoration: none;">(863) 640-3102</a></p>
-                    <p style="font-size: 0.9rem; opacity: 0.8;">No robo-calls, David answers personally</p>
-                    <p>✉️ <a href="mailto:david@lakelandhealthinsurance.com" style="color: white; text-decoration: none;">david@lakelandhealthinsurance.com</a></p>
-                    <p>📍 Central Florida Headquarters</p>
-                    <p>🕒 Mon-Fri 8AM-8PM EST</p>
-                    <p>🕒 Sat 9AM-5PM EST</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Service Areas</h4>
-                    <p>🏠 Florida Residents</p>
-                    <p>🇺🇸 Nationwide Coverage</p>
-                    <p>💼 Small Business Groups</p>
-                    <p>👥 Individual & Family Plans</p>
-                    <p>😊 Medicare Specialists</p>
-                </div>
-                
-                <div class="footer-form">
-                    <h4>Free Insurance Checkup</h4>
-                    <p class="subtitle">Find out if you're overpaying or underprotected. Takes 2 minutes.</p>
-                    
-                    <form action="https://formspree.io/f/xwpbvjvw" method="POST" onsubmit="trackFormSubmission()">
-                        <div class="form-group">
-                            <input type="text" id="zipCode" name="zipCode" placeholder="Your Zip Code" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <input type="text" id="fullName" name="fullName" placeholder="Your Name" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Email Address" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <select id="situation" name="situation">
-                                <option value="">What's your situation?</option>
-                                <option value="no-insurance">No insurance currently</option>
-                                <option value="too-expensive">Insurance too expensive</option>
-                                <option value="bad-coverage">Coverage sucks</option>
-                                <option value="job-change">Changing jobs</option>
-                                <option value="life-change">Life change (marriage, baby, etc)</option>
-                                <option value="medicare-time">Turning 65 soon</option>
-                                <option value="just-shopping">Just shopping around</option>
-                            </select>
-                        </div>
-                        
-                        <!-- Hidden Formspree fields -->
-                        <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thanks">
-                        <input type="hidden" name="_subject" value="Free Insurance Checkup Request">
-                        
-                        <button type="submit" class="submit-btn">Get My Free Checkup</button>
-                        <p style="text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-top: 0.5rem;">
-                            No spam. David will personally review your situation.
-                        </p>
-                    </form>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 Lakeland Health Insurance. Licensed insurance agency serving families and businesses nationwide.</p>
-                <p style="font-size: 0.8rem; margin-top: 0.5rem;">
-                    FL License #W371813 | Powered by <a href="https://www.facebook.com/DavidTheInsuranceDude" target="_blank" style="color: rgba(255,255,255,0.9); text-decoration: none;">David the Insurance Dude</a> | Serving most of the United States with honest insurance advice since forever | 
-                    <a href="/privacy-policy.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Privacy Policy</a>
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Click to Call Button -->
-    <a href="tel:+18636403102" class="click-to-call" onclick="trackPhoneCall()">
-        <span class="phone-icon">📞</span>
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <span>Call Now: (863) 640-3102</span>
-            <span style="font-size: 0.8rem; opacity: 0.9;">No robo-calls, David answers personally</span>
-        </div>
-    </a>
-
-    <script>
-        // Analytics Event Tracking Functions
-        function trackFormSubmission() {
-            gtag('event', 'form_submit', {
-                event_category: 'engagement',
-                event_label: 'insurance_checkup_form'
-            });
-        }
-
-        function trackPhoneCall() {
-            gtag('event', 'phone_call', {
-                event_category: 'engagement',
-                event_label: 'click_to_call_button'
-            });
-        }
-
-        function trackButtonClick(buttonName) {
-            gtag('event', 'button_click', {
-                event_category: 'engagement',
-                event_label: buttonName
-            });
-        }
-
-        // Ellipses menu toggle function
-        function toggleMenu() {
-            const menu = document.getElementById('dropdownMenu');
-            menu.classList.toggle('show');
-        }
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const menu = document.getElementById('dropdownMenu');
-            const button = document.querySelector('.menu-button');
-            
-            if (!menu.contains(event.target) && !button.contains(event.target)) {
-                menu.classList.remove('show');
-            }
-        });
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Add fade-in animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in-up');
-                }
-            });
-        }, observerOptions);
-
-        // Observe all cards for animation
-        document.querySelectorAll('.value-card, .win-card, .testimonial-card, .feature-card').forEach(card => {
-            observer.observe(card);
-        });
-
-        // Track CTA button clicks
-        document.querySelectorAll('.cta-button, .cta-primary, .cta-secondary, .hero-cta').forEach(button => {
-            button.addEventListener('click', function() {
-                trackButtonClick(this.textContent.trim());
-            });
-        });
-
-        // Track external link clicks
-        document.querySelectorAll('a[href^="http"], a[href^="mailto:"]').forEach(link => {
-            link.addEventListener('click', function() {
-                gtag('event', 'click', {
-                    event_category: 'outbound',
-                    event_label: this.href,
-                    transport_type: 'beacon'
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+            overflow:
