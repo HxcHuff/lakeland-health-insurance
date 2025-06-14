@@ -640,7 +640,6 @@
                         <option value="">Select Type</option>
                         <option value="aca">ACA/Marketplace</option>
                         <option value="short">Short-Term</option>
-                        <option value="medicare">Medicare Plans</option>
                     </select>
                 </div>
                 <button type="submit" class="calc-button">Show Me Real Prices</button>
@@ -916,8 +915,6 @@
                 estimatedCost = age < 30 ? 250 : age < 40 ? 350 : age < 50 ? 450 : age < 60 ? 550 : 650;
             } else if (plantype === 'short') {
                 estimatedCost = age < 30 ? 80 : age < 40 ? 120 : age < 50 ? 180 : age < 60 ? 250 : 350;
-            } else if (plantype === 'medicare') {
-                estimatedCost = age >= 65 ? 25 : 0;
             }
             
             // Add some randomness to make it feel more realistic
