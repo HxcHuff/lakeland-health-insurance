@@ -399,7 +399,8 @@
             color: #555;
         }
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 12px 16px;
             border: 1px solid #ddd;
@@ -409,7 +410,8 @@
             transition: border-color 0.3s, box-shadow 0.3s;
         }
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
             border-color: #1e3a8a;
             box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
@@ -419,6 +421,28 @@
             font-size: 1.1rem;
             width: auto;
             margin-top: 1rem;
+        }
+        .form-disclaimer {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 1rem;
+            line-height: 1.4;
+        }
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+        }
+        .success-message.show {
+            display: block;
+        }
+        .success-message h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
         /* Footer */
         footer {
@@ -659,33 +683,64 @@
     <section class="form-section" id="contact">
         <div class="container">
             <div class="form-container fade-in-up">
-                <h2>Get Your Free Insurance Checkup</h2>
-                <p class="subtitle">Let's peek under the hood of your current policy. No sales pressure, just honest advice to see if you can get better coverage or save some cash. It's like a spa day for your wallet.</p>
-                <form action="YOUR_FORM_HANDLER_URL" method="POST">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" placeholder="John Doe" required autocomplete="name">
+                <div id="contact-form">
+                    <h2>Get Your Free Insurance Checkup</h2>
+                    <p class="subtitle">Let's peek under the hood of your current policy. No sales pressure, just honest advice to see if you can get better coverage or save some cash. It's like a spa day for your wallet.</p>
+                    <form action="https://formspree.io/f/xwpbvjvw" method="POST" id="insurance-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" name="name" placeholder="John Doe" required autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" autocomplete="tel">
+                            </div>
+                            <div class="form-group">
+                                <label for="zipcode">Zip Code</label>
+                                <input type="text" id="zipcode" name="zipcode" placeholder="33805" required autocomplete="postal-code">
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="situation">What's your situation?</label>
+                                <select id="situation" name="situation">
+                                    <option value="">Select your situation...</option>
+                                    <option value="no-insurance">No insurance currently</option>
+                                    <option value="too-expensive">Insurance too expensive</option>
+                                    <option value="bad-coverage">Coverage sucks</option>
+                                    <option value="job-change">Changing jobs</option>
+                                    <option value="life-change">Life change (marriage, baby, etc)</option>
+                                    <option value="medicare-time">Turning 65 soon</option>
+                                    <option value="just-shopping">Just shopping around</option>
+                                </select>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="message">Anything else you want to review? (Optional)</label>
+                                <textarea id="message" name="message" rows="4" placeholder="e.g., 'My family plan seems expensive', 'Am I ready for Medicare?', 'Just want a general review'"></textarea>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" autocomplete="tel">
-                        </div>
-                        <div class="form-group">
-                            <label for="state">State</label>
-                            <input type="text" id="state" name="state" placeholder="e.g., Florida" required autocomplete="address-level1">
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="message">What would you like to review? (Optional)</label>
-                            <textarea id="message" name="message" rows="4" placeholder="e.g., 'My family plan seems expensive', 'Am I ready for Medicare?', 'Just want a general review'"></textarea>
-                        </div>
-                    </div>
-                    <button type="submit" class="cta-button form-submit-btn">Analyze My Policy!</button>
-                </form>
+                        
+                        <!-- Hidden Formspree fields -->
+                        <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thank-you">
+                        <input type="hidden" name="_subject" value="Free Insurance Checkup Request">
+                        <input type="hidden" name="_captcha" value="false">
+                        
+                        <button type="submit" class="cta-button form-submit-btn">Analyze My Policy!</button>
+                        <p class="form-disclaimer">
+                            No spam. David will personally review your situation within 24 hours. 
+                            By submitting, you agree to receive calls/texts about insurance options.
+                        </p>
+                    </form>
+                </div>
+                
+                <div id="success-message" class="success-message">
+                    <h3>🎉 Thanks! Your Info is Safe with Us</h3>
+                    <p>David will personally review your situation and get back to you within 24 hours. No robo-calls, no spam - just honest advice about your insurance options.</p>
+                    <p style="margin-top: 1rem;">In the meantime, feel free to call directly: <strong>(863) 640-3102</strong></p>
+                </div>
             </div>
         </div>
     </section>
@@ -749,14 +804,62 @@
     </a>
 
     <script>
-        // ======================= TCPA Banner Logic (Corrected) =======================
+        // ======================= Form Handling =======================
+        document.getElementById('insurance-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('.form-submit-btn');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading state
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Submit to Formspree
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show success message
+                    document.getElementById('contact-form').style.display = 'none';
+                    document.getElementById('success-message').classList.add('show');
+                    
+                    // Track form submission
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'form_submit', {
+                            event_category: 'engagement',
+                            event_label: 'insurance_checkup_form'
+                        });
+                    }
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            })
+            .catch(error => {
+                alert('Oops! Something went wrong. Please try calling (863) 640-3102 directly or try again.');
+                console.error('Form submission error:', error);
+            })
+            .finally(() => {
+                // Reset button state
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+
+        // ======================= TCPA Banner Logic =======================
         document.addEventListener('DOMContentLoaded', function() {
             const banner = document.getElementById('tcpa-banner');
             const agreeBtn = document.getElementById('tcpa-agree-btn');
             const closeBtn = document.getElementById('tcpa-close-btn');
             const tcpaConsentKey = 'tcpaConsentGiven';
 
-            // A function to safely check if localStorage is available and usable
             function isStorageAvailable(type) {
                 let storage;
                 try {
@@ -771,20 +874,16 @@
                 }
             }
 
-            // Check if storage is available AND if consent has been given before
             if (isStorageAvailable('localStorage')) {
                 if (!localStorage.getItem(tcpaConsentKey)) {
-                    // If no consent is stored, show the banner
                     banner.classList.add('show');
                 }
             } else {
-                // If localStorage isn't available at all, just show the banner for the session
                 banner.classList.add('show');
             }
 
             function hideBanner() {
                 banner.classList.remove('show');
-                // If storage is available, try to save the consent
                 if (isStorageAvailable('localStorage')) {
                     try {
                         localStorage.setItem(tcpaConsentKey, 'true');
