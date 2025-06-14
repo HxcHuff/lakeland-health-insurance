@@ -221,6 +221,29 @@
             box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
         }
 
+        .phone-icon {
+            font-size: 1.2rem;
+            animation: ring 2s ease-in-out infinite;
+        }
+
+        @keyframes ring {
+            0%, 20%, 50%, 80%, 100% {
+                transform: rotate(0deg);
+            }
+            10% {
+                transform: rotate(-10deg);
+            }
+            30% {
+                transform: rotate(10deg);
+            }
+            60% {
+                transform: rotate(-5deg);
+            }
+            70% {
+                transform: rotate(5deg);
+            }
+        }
+
         /* About Header */
         .about-header {
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
@@ -585,12 +608,14 @@
         <div class="container">
             <div class="about-grid">
                 <div class="about-text fade-in-up">
-                    <h2>Finally, An Insurance Agent Who Speaks Human</h2>
-                    <p>I'm David, and I'm probably not like the insurance agents you've dealt with before. I don't wear a cheap suit, drive a flashy car, or promise you the moon. What I do promise is straight talk about health insurance that actually makes sense.</p>
+                    <h2>From Marine Sergeant to Your Insurance Guardian</h2>
+                    <p>I'm David, former Marine Sergeant (0811 Cannoneer) turned insurance agent. Why the career change? Because watching my mother navigate the healthcare system during her disability taught me that families need someone who won't back down when insurance companies start playing games.</p>
                     
-                    <p>After years of watching people get screwed by their insurance (and by agents who disappeared after getting their commission), I decided to do things differently. No sales pressure, no insurance jargon, just honest advice about what you actually need.</p>
+                    <p>In the Marines, we had a saying: "Leave no one behind." That applies to insurance too. When my teenage kids got hurt playing sports, the policies I recommend covered those unexpected expenses without breaking our budget. That's when I knew I was in the right business - protecting families from financial disasters they never saw coming.</p>
                     
-                    <p>Based in Central Florida but licensed across the nation, I help families and businesses find health insurance that works for their real lives, not some marketing brochure fantasy.</p>
+                    <p>I hate seeing good people get hurt by outside forces. Nobody asks for cancer, car accidents, or medical emergencies. But when life throws you a curveball, you need someone in your corner who knows how to fight back. If insurance companies have games, I'm Milton Bradley.</p>
+                    
+                    <p>Based in Central Florida but serving families nationwide. Marine-trained discipline meets real-world family experience.</p>
                 </div>
                 
                 <div class="about-image fade-in-up">
@@ -617,15 +642,15 @@
                 </div>
                 
                 <div class="credential-card fade-in-up">
-                    <div class="credential-icon">🏆</div>
-                    <h3>Years of Experience</h3>
-                    <p>Been in the insurance industry long enough to know where all the bodies are buried (and how to avoid them).</p>
+                    <div class="credential-icon">⚓</div>
+                    <h3>Former Marine Sergeant</h3>
+                    <p>USMC 0811 Cannoneer. Trained to complete the mission under pressure. Your insurance claims won't intimidate me like they do other agents.</p>
                 </div>
                 
                 <div class="credential-card fade-in-up">
-                    <div class="credential-icon">💼</div>
-                    <h3>Independent Agent</h3>
-                    <p>Not tied to any single insurance company, so I can actually recommend what's best for you, not what pays me the most.</p>
+                    <div class="credential-icon">👨‍👩‍👧‍👦</div>
+                    <h3>Father & Family Man</h3>
+                    <p>Two teenage kids who play sports. I buy the same insurance for my family that I recommend to yours. Skin in the game.</p>
                 </div>
             </div>
         </div>
@@ -636,13 +661,23 @@
             <h2>Why People Choose to Work With Me</h2>
             <div class="reasons-grid">
                 <div class="reason-card fade-in-up">
+                    <h3>⚔️ I Don't Back Down From Insurance Companies</h3>
+                    <p>Marines are trained to complete the mission. When your claim gets denied or your coverage gets canceled, I don't roll over like most agents. I've fought through extraordinary circumstances for clients - illnesses, major losses, and every curveball insurance companies throw.</p>
+                </div>
+                
+                <div class="reason-card fade-in-up">
                     <h3>🎯 I Actually Answer My Phone</h3>
                     <p>Shocking concept in the insurance world, I know. When you call, you get me, not some call center in another time zone. And I return calls the same day, because I'm not a sociopath.</p>
                 </div>
                 
                 <div class="reason-card fade-in-up">
-                    <h3>💰 I Save You Money</h3>
+                    <h3>💰 I Save You Money (The Right Way)</h3>
                     <p>Not by selling you garbage coverage, but by finding plans that actually work for your situation. Most people are either overpaying or buying the wrong coverage entirely.</p>
+                </div>
+                
+                <div class="reason-card fade-in-up">
+                    <h3>👨‍👩‍👧‍👦 I Get It - I'm a Parent Too</h3>
+                    <p>Two teenage athletes means I know exactly what families worry about. The policies I recommend? I buy them for my own kids. When they got hurt playing sports, our coverage handled it without financial stress.</p>
                 </div>
                 
                 <div class="reason-card fade-in-up">
@@ -651,18 +686,8 @@
                 </div>
                 
                 <div class="reason-card fade-in-up">
-                    <h3>📚 I Educate, Don't Manipulate</h3>
-                    <p>I'll explain exactly what you're buying, what it covers, and what it doesn't. No fine print surprises, no "gotcha" moments when you need to use your insurance.</p>
-                </div>
-                
-                <div class="reason-card fade-in-up">
-                    <h3>🔧 I Stick Around</h3>
-                    <p>Most agents disappear after they get their commission. I'm here for the long haul - when you have questions, claims issues, or need to make changes, I'm your guy.</p>
-                </div>
-                
-                <div class="reason-card fade-in-up">
-                    <h3>😂 I Have a Sense of Humor</h3>
-                    <p>Insurance is boring and depressing enough without having to deal with someone who acts like they're selling funeral plots. We might as well have some fun while figuring out your coverage.</p>
+                    <h3>🎮 If Insurance Companies Have Games, I'm Milton Bradley</h3>
+                    <p>They've got rules, loopholes, and tricks designed to avoid paying claims. I know every game they play because I've been protecting families from them for years. You need someone who plays to win.</p>
                 </div>
             </div>
         </div>
@@ -718,8 +743,11 @@
 
     <!-- Click to Call Button -->
     <a href="tel:+18636403102" class="click-to-call">
-        <span>📞</span>
-        Call Now: (863) 640-3102
+        <span class="phone-icon">📞</span>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <span>Call: (863) 640-3102</span>
+            <span style="font-size: 0.8rem; opacity: 0.9;">David answers personally</span>
+        </div>
     </a>
 
     <script>
