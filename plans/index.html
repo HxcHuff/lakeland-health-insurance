@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-W45RMKHXV0');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Insurance Plans | Real Coverage That Actually Works | Lakeland Health Insurance</title>
+    <meta name="description" content="Cut through the insurance BS. See real health insurance plans with honest pricing. ACA, Medicare, Short-Term, and more. No hidden fees, no surprises.">
+    <meta name="keywords" content="health insurance plans Florida, honest insurance quotes, ACA plans, Medicare Advantage, short-term medical insurance">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1e3a8a;
+        }
+
+        .logo::after {
+            content: "Lakeland";
+            font-size: 0.8rem;
+            color: #10b981;
+            display: block;
+            line-height: 1;
+            font-weight: 600;
+        }
+
+        /* Ellipses Menu Styles */
+        .menu-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .menu-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .ellipses {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .dot {
+            width: 4px;
+            height: 4px;
+            background-color: #666;
+            border-radius: 50%;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 100px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #1e3a8a;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 60px;
+            text-align: center;
+            color: white;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .price-disclaimer {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 2rem auto 0;
+            max-width: 500px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Quick Calculator */
+        .quick-calc {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: -30px auto 0;
+            max-width: 600px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .calc-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .calc-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .form-group select,
+        .form-group input {
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .calc-button {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .calc-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
+        }
+
+        .calc-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f0f9ff;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .calc-result.show {
+            display: block;
+        }
+
+        /* Plans Section */
+        .plans-section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .plan-card.featured {
+            border: 3px solid #10b981;
+        }
+
+        .plan-card.featured::before {
+            content: "Most Popular";
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #10b981;
+            color: white;
+            padding: 8px 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-bottom-left-radius: 10px;
+        }
+
+        .plan-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .plan-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .plan-subtitle {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .plan-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e3a8a;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price-note {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .plan-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-check {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .feature-x {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .plan-cta {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .plan-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
+        }
+
+        /* Comparison Table */
+        .comparison-section {
+            background: white;
+            padding: 60px 0;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table th {
+            background: #1e3a8a;
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Click to Call Button */
+        .click-to-call {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .click-to-call:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #3b82f6;
+            font-size: 1.2rem;
+        }
+
+        .footer-section p {
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: #3b82f6;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #555;
+            padding-top: 2rem;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .calc-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-table {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo-container">
+                <a href="/" style="text-decoration: none;">
+                    <div class="logo">LHI</div>
+                </a>
+                <button class="menu-button" onclick="toggleMenu()">
+                    <div class="ellipses">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </button>
+                
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="menu-item"><a href="/">Home</a></div>
+                    <div class="menu-item"><a href="/plans">Health Plans</a></div>
+                    <div class="menu-item"><a href="/blog">Blog</a></div>
+                    <div class="menu-item"><a href="/#quote">Get Quote</a></div>
+                    <div class="menu-item"><a href="/#about">About Us</a></div>
+                    <div class="menu-item"><a href="/#contact">Contact</a></div>
+                    <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/plans">Plans</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/#about">About</a></li>
+                <li><a href="/#contact">Contact</a></li>
+            </ul>
+            <a href="#quote" class="cta-button">Get Free Quote</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Health Insurance Plans That Don't Suck</h1>
+            <p>Real coverage, honest pricing, no BS. See what you'll actually pay before you talk to anyone. Revolutionary concept, we know.</p>
+            
+            <div class="price-disclaimer">
+                <strong>🚨 Reality Check:</strong> These are starting prices. Your actual cost depends on your age, location, and how many times you've bungee jumped this year. But at least we're not hiding the ball.
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="quick-calc">
+            <h3 class="calc-title">Quick Price Check (Takes 30 Seconds)</h3>
+            <form class="calc-form" id="quickCalc">
+                <div class="form-group">
+                    <label>Your Age</label>
+                    <select id="age" required>
+                        <option value="">Select Age</option>
+                        <option value="25">18-29</option>
+                        <option value="35">30-39</option>
+                        <option value="45">40-49</option>
+                        <option value="55">50-59</option>
+                        <option value="62">60-64</option>
+                        <option value="66">65+</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>ZIP Code</label>
+                    <input type="text" id="zipcode" placeholder="33805" maxlength="5" required>
+                </div>
+                <div class="form-group">
+                    <label>Coverage Type</label>
+                    <select id="plantype" required>
+                        <option value="">Select Type</option>
+                        <option value="aca">ACA/Marketplace</option>
+                        <option value="short">Short-Term</option>
+                        <option value="medicare">Medicare Plans</option>
+                    </select>
+                </div>
+                <button type="submit" class="calc-button">Show Me Real Prices</button>
+            </form>
+            <div class="calc-result" id="calcResult">
+                <p><strong>Estimated Monthly Cost: $<span id="estimatedCost">0</span></strong></p>
+                <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Want exact numbers? Call us. This is just to stop you from having a heart attack.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="plans-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Choose Your Coverage Adventure</h2>
+                <p class="section-subtitle">Each option has pros and cons. We'll tell you both because we're not here to BS you.</p>
+            </div>
+
+            <div class="plans-grid">
+                <!-- ACA Plans -->
+                <div class="plan-card featured">
+                    <div class="plan-icon">🏛️</div>
+                    <h3 class="plan-title">ACA Marketplace Plans</h3>
+                    <p class="plan-subtitle">The "Obamacare" plans everyone loves to hate</p>
+                    <div class="plan-price">$200-800<span style="font-size: 1rem;">/mo</span></div>
+                    <p class="plan-price-note">*After subsidies (if you qualify)</p>
+                    
+                    <ul class="plan-features">
+                        <li><span class="feature-check">✓</span> Can't be denied for pre-existing conditions</li>
+                        <li><span class="feature-check">✓</span> Essential health benefits included</li>
+                        <li><span class="feature-check">✓</span> Subsidies available for many people</li>
+                        <li><span class="feature-x">✗</span> Limited enrollment periods</li>
+                        <li><span class="feature-x">✗</span> Can be expensive without subsidies</li>
+                    </ul>
+                    
+                    <a href="#quote" class="plan-cta">Check ACA Prices</a>
+                </div>
+
+                <!-- Short-Term Plans -->
+                <div class="plan-card">
+                    <div class="plan-icon">⚡</div>
+                    <h3 class="plan-title">Short-Term Medical</h3>
+                    <p class="plan-subtitle">Quick coverage for life transitions</p>
+                    <div class="plan-price">$50-300<span style="font-size: 1rem;">/mo</span></div>
+                    <p class="plan-price-note">*Healthy people only, sorry</p>
+                    
+                    <ul class="plan-features">
+                        <li><span class="feature-check">✓</span> Start coverage immediately</li>
+                        <li><span class="feature-check">✓</span> Lower cost for healthy people</li>
+                        <li><span class="feature-check">✓</span> No enrollment restrictions</li>
+                        <li><span class="feature-x">✗</span> No pre-existing condition coverage</li>
+                        <li><span class="feature-x">✗</span> Limited benefits</li>
+                    </ul>
+                    
+                    <a href="#quote" class="plan-cta">Get Short-Term Quote</a>
+                </div>
+
+                <!-- Medicare Plans -->
+                <div class="plan-card">
+                    <div class="plan-icon">🇺🇸</div>
+                    <h3 class="plan-title">Medicare Plans</h3>
+                    <p class="plan-subtitle">For the over-65 crowd (lucky you!)</p>
+                    <div class="plan-price">$0-200<span style="font-size: 1rem;">/mo</span></div>
+                    <p class="plan-price-note">*Plus your Medicare Part B premium</p>
+                    
+                    <ul class="plan-features">
+                        <li><span class="feature-check">✓</span> Builds on Medicare coverage</li>
+                        <li><span class="feature-check">✓</span> Often includes extras (dental, vision)</li>
+                        <li><span class="feature-check">✓</span> Prescription drug coverage</li>
+                        <li><span class="feature-x">✗</span> Network restrictions may apply</li>
+                        <li><span class="feature-x">✗</span> Must be 65+ or disabled</li>
+                    </ul>
+                    
+                    <a href="#quote" class="plan-cta">Compare Medicare Options</a>
+                </div>
+
+                <!-- Dental & Vision -->
+                <div class="plan-card">
+                    <div class="plan-icon">🦷</div>
+                    <h3 class="plan-title">Dental & Vision</h3>
+                    <p class="plan-subtitle">Because teeth and eyes matter too</p>
+                    <div class="plan-price">$20-80<span style="font-size: 1rem;">/mo</span></div>
+                    <p class="plan-price-note">*Standalone or add-on coverage</p>
+                    
+                    <ul class="plan-features">
+                        <li><span class="feature-check">✓</span> Routine cleanings covered</li>
+                        <li><span class="feature-check">✓</span> Eye exams and glasses</li>
+                        <li><span class="feature-check">✓</span> Can buy separately</li>
+                        <li><span class="feature-x">✗</span> Usually has waiting periods</li>
+                        <li><span class="feature-x">✗</span> Annual maximums apply</li>
+                    </ul>
+                    
+                    <a href="#quote" class="plan-cta">Add Dental/Vision</a>
+                </div>
+
+                <!-- Life Insurance -->
+                <div class="plan-card">
+                    <div class="plan-icon">🛡️</div>
+                    <h3 class="plan-title">Life Insurance</h3>
+                    <p class="plan-subtitle">For when you're not around to argue about money</p>
+                    <div class="plan-price">$15-100<span style="font-size: 1rem;">/mo</span></div>
+                    <p class="plan-price-note">*Term life, not the expensive stuff</p>
+                    
+                    <ul class="plan-features">
+                        <li><span class="feature-check">✓</span> Protects your family financially</li>
+                        <li><span class="feature-check">✓</span> Term life is affordable</li>
+                        <li><span class="feature-check">✓</span> Coverage up to millions</li>
+                        <li><span class="feature-x">✗</span> Requires medical exam usually</li>
+                        <li><span class="feature-x">✗</span> Gets expensive as you age</li>
+                    </ul>
+                    
+                    <a href="#quote" class="plan-cta">Calculate Life Insurance</a>
+                </div>
+
+                <!-- Business Plans -->
+                <div class="plan-card">
+                    <div class="plan-icon">💼</div>
+                    <h3 class="plan-title">Small Business Plans</h3>
+                    <p class="plan-subtitle">Keep your employees happy and insured</p>
+                    <div class="plan-price">$250-600<span style="font-size: 1rem;">/employee</span></div>
+                    <p class="plan-price-note">*Per employee per month</p>
+                    
+                    <ul class="plan-features">
+                        <li><span class="feature-check">✓</span> Group rates (usually better)</li>
+                        <li><span class="feature-check">✓</span> Attract better employees</li>
+                        <li><span class="feature-check">✓</span> Tax advantages</li>
+                        <li><span class="feature-x">✗</span> Minimum participation requirements</li>
+                        <li><span class="feature-x">✗</span> More paperwork (sorry)</li>
+                    </ul>
+                    
+                    <a href="#quote" class="plan-cta">Get Business Quote</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="comparison-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">The Truth About Each Option</h2>
+                <p class="section-subtitle">No sugar-coating, just the facts you need to make a smart decision.</p>
+            </div>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Plan Type</th>
+                        <th>Best For</th>
+                        <th>Worst For</th>
+                        <th>Gotchas</th>
+                        <th>David's Take</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>ACA Plans</strong></td>
+                        <td>People with pre-existing conditions, comprehensive coverage needs</td>
+                        <td>Healthy people who make too much for subsidies</td>
+                        <td>Limited enrollment periods, narrow networks</td>
+                        <td>"Your safety net, even if it's expensive"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Short-Term</strong></td>
+                        <td>Healthy people between jobs, temporary gaps</td>
+                        <td>Anyone with health issues, long-term needs</td>
+                        <td>No pre-existing coverage, can drop you</td>
+                        <td>"Great until you actually need it"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Medicare Advantage</strong></td>
+                        <td>Medicare folks who want extras, don't travel much</td>
+                        <td>People who want any doctor, any time</td>
+                        <td>Network restrictions, can change annually</td>
+                        <td>"Good value if you stay in network"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Medicare Supplement</strong></td>
+                        <td>Medicare folks who travel, want choice</td>
+                        <td>People on tight budgets</td>
+                        <td>No prescription coverage, higher premiums</td>
+                        <td>"Freedom costs more, but worth it for many"</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer id="quote">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact David</h4>
+                    <p>📞 <a href="tel:+18636403102">(863) 640-3102</a></p>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">David answers personally</p>
+                    <p>✉️ <a href="mailto:david@lakelandhealthinsurance.com">david@lakelandhealthinsurance.com</a></p>
+                    <p>📍 Central Florida Headquarters</p>
+                    <p>🕒 Mon-Fri 8AM-8PM EST</p>
+                    <p>🕒 Sat 9AM-5PM EST</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Service Areas</h4>
+                    <p>🏠 Florida Residents</p>
+                    <p>🇺🇸 Coverage Across the Nation</p>
+                    <p>💼 Small Business Groups</p>
+                    <p>👥 Individual & Family Plans</p>
+                    <p>😊 Medicare Specialists</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <p><a href="/">Home</a></p>
+                    <p><a href="/plans">Insurance Plans</a></p>
+                    <p><a href="/blog">Blog</a></p>
+                    <p><a href="/#quote">Get Quote</a></p>
+                    <p><a href="/privacy-policy.html">Privacy Policy</a></p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
+                <p style="font-size: 0.8rem; margin-top: 0.5rem;">
+                    FL License #W371813 | Serving most of the United States with honest insurance advice | 
+                    <a href="/privacy-policy.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Privacy Policy</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Click to Call Button -->
+    <a href="tel:+18636403102" class="click-to-call">
+        <span>📞</span>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <span>Call Now: (863) 640-3102</span>
+            <span style="font-size: 0.8rem; opacity: 0.9;">David answers personally</span>
+        </div>
+    </a>
+
+    <script>
+        // Ellipses menu toggle function
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.classList.toggle('show');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdownMenu');
+            const button = document.querySelector('.menu-button');
+            
+            if (!menu.contains(event.target) && !button.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // Quick calculator functionality
+        document.getElementById('quickCalc').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const age = parseInt(document.getElementById('age').value);
+            const plantype = document.getElementById('plantype').value;
+            const zipcode = document.getElementById('zipcode').value;
+            
+            if (!age || !plantype || !zipcode) {
+                alert('Come on, fill out all the fields. We promise not to spam you.');
+                return;
+            }
+            
+            let estimatedCost = 0;
+            
+            // Simple cost estimation logic
+            if (plantype === 'aca') {
+                estimatedCost = age < 30 ? 250 : age < 40 ? 350 : age < 50 ? 450 : age < 60 ? 550 : 650;
+            } else if (plantype === 'short') {
+                estimatedCost = age < 30 ? 80 : age < 40 ? 120 : age < 50 ? 180 : age < 60 ? 250 : 350;
+            } else if (plantype === 'medicare') {
+                estimatedCost = age >= 65 ? 25 : 0;
+            }
+            
+            // Add some randomness to make it feel more realistic
+            estimatedCost += Math.floor(Math.random() * 50) - 25;
+            
+            document.getElementById('estimatedCost').textContent = estimatedCost;
+            document.getElementById('calcResult').classList.add('show');
+            
+            // Scroll to result
+            document.getElementById('calcResult').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
