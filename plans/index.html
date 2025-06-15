@@ -605,7 +605,7 @@
 
     <section class="hero">
         <div class="container">
-            <h1>Health Insurance Plans That Don't Suck</h1>
+            <h1>Plans That Do Not Suck</h1>
             <p>Real coverage, honest pricing, no BS. See what you'll actually pay before you talk to anyone. Revolutionary concept, we know.</p>
             
             <div class="price-disclaimer">
@@ -638,8 +638,10 @@
                     <label>Coverage Type</label>
                     <select id="plantype" required>
                         <option value="">Select Type</option>
-                        <option value="aca">ACA/Marketplace</option>
-                        <option value="short">Short-Term</option>
+                        <option value="aca">🏛️ ACA/Marketplace</option>
+                        <option value="short">⚡ Short-Term</option>
+                        <option value="dental">🦷 Dental & Vision</option>
+                        <option value="life">🛡️ Life Insurance</option>
                     </select>
                 </div>
                 <button type="submit" class="calc-button">Show Me Real Prices</button>
@@ -915,6 +917,10 @@
                 estimatedCost = age < 30 ? 250 : age < 40 ? 350 : age < 50 ? 450 : age < 60 ? 550 : 650;
             } else if (plantype === 'short') {
                 estimatedCost = age < 30 ? 80 : age < 40 ? 120 : age < 50 ? 180 : age < 60 ? 250 : 350;
+            } else if (plantype === 'dental') {
+                estimatedCost = age < 30 ? 25 : age < 40 ? 35 : age < 50 ? 45 : age < 60 ? 55 : 65;
+            } else if (plantype === 'life') {
+                estimatedCost = age < 30 ? 15 : age < 40 ? 25 : age < 50 ? 45 : age < 60 ? 85 : 150;
             }
             
             // Add some randomness to make it feel more realistic
