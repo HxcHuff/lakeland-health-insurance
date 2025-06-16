@@ -3,6 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Content Security Policy for Facebook Messenger and other scripts -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' 
+                   https://www.googletagmanager.com 
+                   https://www.google-analytics.com 
+                   https://connect.facebook.net 
+                   https://www.facebook.com;
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data: https: 
+                https://www.google-analytics.com 
+                https://scontent.xx.fbcdn.net 
+                https://*.fbcdn.net;
+        connect-src 'self' 
+                    https://www.google-analytics.com 
+                    https://analytics.google.com 
+                    https://www.facebook.com 
+                    https://*.facebook.com 
+                    wss://*.facebook.com 
+                    https://formspree.io;
+        frame-src 'self' 
+                  https://www.facebook.com 
+                  https://web.facebook.com;
+        font-src 'self' data:;
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self' https://formspree.io;
+    ">
+    
     <title>Health Insurance Without the Runaround | Lakeland Health Insurance</title>
     <meta name="description" content="Finally, an insurance agent who speaks human. No BS advice on health insurance that actually works for real people. Serving Florida and nationwide.">
     <meta name="google-site-verification" content="Sitwkhl-IJxkcjYluwgCR5XgzQacova8H-DDb4_HiDM" />
@@ -696,7 +726,7 @@
             .nav-links { display: none; }
             .value-grid { grid-template-columns: 1fr; }
             .click-to-call {
-                bottom: 15px;
+                bottom: 80px;
                 right: 15px;
                 padding: 12px 16px;
                 font-size: 1rem;
@@ -810,6 +840,9 @@
     </style>
 </head>
 <body>
+    <!-- Facebook Messenger Root -->
+    <div id="fb-root"></div>
+
     <header>
         <nav class="container">
             <div class="logo-container">
@@ -1071,7 +1104,34 @@
         </div>
     </a>
 
+    <!-- Facebook Messenger Chat Bubble -->
+    <div class="fb-customerchat"
+      page_id="2330958066941437"
+      greeting_dialog_display="fade"
+      greeting_dialog_delay="60"
+      minimized="true"
+      theme_color="#1e3a8a"
+      logged_in_greeting="Hey there! Got insurance questions that aren't *insuring* your peace of mind? Chat with David for real answers, no fluff. We're here to help!"
+      logged_out_greeting="Hey there! Got insurance questions that aren't *insuring* your peace of mind? Chat with David for real answers, no fluff. We're here to help!">
+    </div>
+
     <script>
+        // ======================= Facebook Messenger Setup =======================
+        window.fbAsyncInit = function() {
+            FB.init({
+                xfbml: true,
+                version: 'v19.0'
+            });
+        };
+
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
         // ======================= Form Handling =======================
         document.getElementById('insurance-form').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1211,37 +1271,5 @@
         // Automatically update footer year
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
-
-    ---
-
-    ### Facebook Messenger Chat Bubble
-
-    <div id="fb-root"></div>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          xfbml            : true,
-          version          : 'v19.0'
-        });
-      };
-
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-    </script>
-
-    <div class="fb-customerchat"
-      page_id="2330958066941437"
-      greeting_dialog_display="fade"
-      greeting_dialog_delay="60"
-      minimized="true"
-      theme_color="#1e3a8a"
-      logged_in_greeting="Hey there! Got insurance questions that aren't *insuring* your peace of mind? Chat with David for real answers, no fluff. We're here to help!"
-      logged_out_greeting="Hey there! Got insurance questions that aren't *insuring* your peace of mind? Chat with David for real answers, no fluff. We're here to help!">
-    </div>
 </body>
 </html>
