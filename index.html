@@ -4,62 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Content Security Policy - Wildcard approach for Google domains -->
+    <!-- Content Security Policy - Ultra permissive for Google -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
         script-src 'self' 'unsafe-inline' 'unsafe-eval' 
-                   https://*.google.com
-                   https://*.googletagmanager.com 
-                   https://*.google-analytics.com 
-                   https://*.googleadservices.com
-                   https://*.doubleclick.net
-                   https://connect.facebook.net 
-                   https://www.facebook.com
-                   https://*.facebook.com
-                   https://*.fbcdn.net;
+                   https: data:;
         style-src 'self' 'unsafe-inline' 
-                  https://www.facebook.com
-                  https://*.facebook.com;
-        img-src 'self' data: https: 
-                https://*.google.com
-                https://*.google-analytics.com 
-                https://*.googleadservices.com
-                https://*.doubleclick.net
-                https://scontent.xx.fbcdn.net 
-                https://*.fbcdn.net
-                https://scontent-*.xx.fbcdn.net
-                https://static.xx.fbcdn.net
-                https://www.facebook.com
-                https://*.facebook.com;
+                  https:;
+        img-src 'self' data: https:;
         connect-src 'self' 
-                    https://*.google.com
-                    https://*.google-analytics.com 
-                    https://*.googleadservices.com
-                    https://*.doubleclick.net
-                    https://ingesteer.services-prod.nsvcs.net
-                    https://www.facebook.com 
-                    https://*.facebook.com 
-                    https://*.fbcdn.net
-                    wss://*.facebook.com 
-                    wss://*.fbcdn.net
+                    https: wss:
                     https://formspree.io;
         frame-src 'self' 
-                  https://*.google.com
-                  https://*.googletagmanager.com
-                  https://*.googleadservices.com
-                  https://*.doubleclick.net
-                  https://www.facebook.com 
-                  https://web.facebook.com
-                  https://*.facebook.com;
+                  https:;
         font-src 'self' data: 
-                 https://*.fbcdn.net
-                 https://www.facebook.com;
+                 https:;
         object-src 'none';
         base-uri 'self';
         form-action 'self' https://formspree.io;
-        child-src https://www.facebook.com 
-                  https://*.facebook.com;
-        worker-src 'self' blob:;
+        child-src https:;
+        worker-src 'self' blob: https:;
     ">
     
     <title>Health Insurance Without the Runaround | Lakeland Health Insurance</title>
@@ -1149,7 +1113,7 @@
         window.fbAsyncInit = function() {
             FB.init({
                 xfbml: true,
-                version: 'v19.0'
+                version: 'v20.0'  // Updated to latest version
             });
         };
 
@@ -1157,7 +1121,7 @@
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
             js = d.createElement(s); js.id = id;
-            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+            js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v20.0';
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
 
