@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Content Security Policy for Facebook Messenger and other scripts -->
+    <!-- Content Security Policy - Fixed for Google Analytics and Facebook -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
         script-src 'self' 'unsafe-inline' 'unsafe-eval' 
@@ -19,6 +19,9 @@
                   https://*.facebook.com;
         img-src 'self' data: https: 
                 https://www.google-analytics.com 
+                https://www.google.com
+                https://googleads.g.doubleclick.net
+                https://td.doubleclick.net
                 https://scontent.xx.fbcdn.net 
                 https://*.fbcdn.net
                 https://scontent-*.xx.fbcdn.net
@@ -28,6 +31,10 @@
         connect-src 'self' 
                     https://www.google-analytics.com 
                     https://analytics.google.com 
+                    https://www.google.com
+                    https://googleads.g.doubleclick.net
+                    https://td.doubleclick.net
+                    https://ingesteer.services-prod.nsvcs.net
                     https://www.facebook.com 
                     https://*.facebook.com 
                     https://*.fbcdn.net
@@ -35,6 +42,7 @@
                     wss://*.fbcdn.net
                     https://formspree.io;
         frame-src 'self' 
+                  https://www.googletagmanager.com
                   https://www.facebook.com 
                   https://web.facebook.com
                   https://*.facebook.com;
