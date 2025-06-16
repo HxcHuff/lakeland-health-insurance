@@ -972,7 +972,6 @@
                             </div>
                         </div>
                         
-                        <!-- Hidden Formspree fields -->
                         <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thank-you">
                         <input type="hidden" name="_subject" value="Free Insurance Checkup Request">
                         <input type="hidden" name="_captcha" value="false">
@@ -1212,5 +1211,37 @@
         // Automatically update footer year
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
+
+    ---
+
+    ### Facebook Messenger Chat Bubble
+
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v19.0'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <div class="fb-customerchat"
+      page_id="2330958066941437"
+      greeting_dialog_display="fade"
+      greeting_dialog_delay="60"
+      minimized="true"
+      theme_color="#1e3a8a"
+      logged_in_greeting="Hey there! Got insurance questions that aren't *insuring* your peace of mind? Chat with David for real answers, no fluff. We're here to help!"
+      logged_out_greeting="Hey there! Got insurance questions that aren't *insuring* your peace of mind? Chat with David for real answers, no fluff. We're here to help!">
+    </div>
 </body>
 </html>
