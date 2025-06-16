@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Content Security Policy - Complete Google Analytics domains -->
+    <!-- Content Security Policy - Wildcard approach for Google domains -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
         script-src 'self' 'unsafe-inline' 'unsafe-eval' 
-                   https://www.googletagmanager.com 
-                   https://www.google-analytics.com 
-                   https://googleads.g.doubleclick.net
-                   https://www.googleadservices.com
+                   https://*.google.com
+                   https://*.googletagmanager.com 
+                   https://*.google-analytics.com 
+                   https://*.googleadservices.com
+                   https://*.doubleclick.net
                    https://connect.facebook.net 
                    https://www.facebook.com
                    https://*.facebook.com
@@ -20,12 +21,10 @@
                   https://www.facebook.com
                   https://*.facebook.com;
         img-src 'self' data: https: 
-                https://www.google-analytics.com 
-                https://www.google.com
-                https://googleads.g.doubleclick.net
-                https://www.googleadservices.com
-                https://td.doubleclick.net
-                https://stats.g.doubleclick.net
+                https://*.google.com
+                https://*.google-analytics.com 
+                https://*.googleadservices.com
+                https://*.doubleclick.net
                 https://scontent.xx.fbcdn.net 
                 https://*.fbcdn.net
                 https://scontent-*.xx.fbcdn.net
@@ -33,13 +32,10 @@
                 https://www.facebook.com
                 https://*.facebook.com;
         connect-src 'self' 
-                    https://www.google-analytics.com 
-                    https://analytics.google.com 
-                    https://www.google.com
-                    https://googleads.g.doubleclick.net
-                    https://www.googleadservices.com
-                    https://td.doubleclick.net
-                    https://stats.g.doubleclick.net
+                    https://*.google.com
+                    https://*.google-analytics.com 
+                    https://*.googleadservices.com
+                    https://*.doubleclick.net
                     https://ingesteer.services-prod.nsvcs.net
                     https://www.facebook.com 
                     https://*.facebook.com 
@@ -48,10 +44,10 @@
                     wss://*.fbcdn.net
                     https://formspree.io;
         frame-src 'self' 
-                  https://www.googletagmanager.com
-                  https://googleads.g.doubleclick.net
-                  https://www.googleadservices.com
-                  https://td.doubleclick.net
+                  https://*.google.com
+                  https://*.googletagmanager.com
+                  https://*.googleadservices.com
+                  https://*.doubleclick.net
                   https://www.facebook.com 
                   https://web.facebook.com
                   https://*.facebook.com;
