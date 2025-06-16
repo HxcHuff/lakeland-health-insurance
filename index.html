@@ -11,26 +11,42 @@
                    https://www.googletagmanager.com 
                    https://www.google-analytics.com 
                    https://connect.facebook.net 
-                   https://www.facebook.com;
-        style-src 'self' 'unsafe-inline';
+                   https://www.facebook.com
+                   https://*.facebook.com
+                   https://*.fbcdn.net;
+        style-src 'self' 'unsafe-inline' 
+                  https://www.facebook.com
+                  https://*.facebook.com;
         img-src 'self' data: https: 
                 https://www.google-analytics.com 
                 https://scontent.xx.fbcdn.net 
-                https://*.fbcdn.net;
+                https://*.fbcdn.net
+                https://scontent-*.xx.fbcdn.net
+                https://static.xx.fbcdn.net
+                https://www.facebook.com
+                https://*.facebook.com;
         connect-src 'self' 
                     https://www.google-analytics.com 
                     https://analytics.google.com 
                     https://www.facebook.com 
                     https://*.facebook.com 
+                    https://*.fbcdn.net
                     wss://*.facebook.com 
+                    wss://*.fbcdn.net
                     https://formspree.io;
         frame-src 'self' 
                   https://www.facebook.com 
-                  https://web.facebook.com;
-        font-src 'self' data:;
+                  https://web.facebook.com
+                  https://*.facebook.com;
+        font-src 'self' data: 
+                 https://*.fbcdn.net
+                 https://www.facebook.com;
         object-src 'none';
         base-uri 'self';
         form-action 'self' https://formspree.io;
+        child-src https://www.facebook.com 
+                  https://*.facebook.com;
+        worker-src 'self' blob:;
     ">
     
     <title>Health Insurance Without the Runaround | Lakeland Health Insurance</title>
