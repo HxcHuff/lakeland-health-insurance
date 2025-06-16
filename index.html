@@ -4,26 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Content Security Policy - Ultra permissive for Google -->
+    <!-- Content Security Policy - Maximum compatibility -->
     <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self';
-        script-src 'self' 'unsafe-inline' 'unsafe-eval' 
-                   https: data:;
-        style-src 'self' 'unsafe-inline' 
-                  https:;
-        img-src 'self' data: https:;
-        connect-src 'self' 
-                    https: wss:
-                    https://formspree.io;
-        frame-src 'self' 
-                  https:;
-        font-src 'self' data: 
-                 https:;
+        default-src 'self' https: data: blob:;
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;
+        style-src 'self' 'unsafe-inline' https: data:;
+        img-src 'self' data: https: blob:;
+        connect-src 'self' https: wss: data: blob:;
+        frame-src 'self' https: data:;
+        font-src 'self' data: https: blob:;
+        media-src 'self' https: data: blob:;
         object-src 'none';
         base-uri 'self';
-        form-action 'self' https://formspree.io;
-        child-src https:;
-        worker-src 'self' blob: https:;
+        form-action 'self' https:;
+        child-src 'self' https: data: blob:;
+        worker-src 'self' blob: https: data:;
+        manifest-src 'self' https:;
     ">
     
     <title>Health Insurance Without the Runaround | Lakeland Health Insurance</title>
