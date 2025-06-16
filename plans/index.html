@@ -219,14 +219,26 @@
             max-width: 600px;
             position: relative;
             z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .quick-calc:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
 
         .calc-title {
             font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             color: #333;
             text-align: center;
+        }
+
+        .calc-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
         }
 
         .calc-form {
@@ -239,12 +251,16 @@
         .form-group {
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .form-group label {
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .form-group select,
@@ -253,12 +269,21 @@
             border: 2px solid #e1e5e9;
             border-radius: 8px;
             font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
         .form-group select:focus,
         .form-group input:focus {
             outline: none;
             border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group.completed select,
+        .form-group.completed input {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
         }
 
         .calc-button {
@@ -272,6 +297,8 @@
             width: 100%;
             font-size: 1rem;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .calc-button:hover {
@@ -279,17 +306,101 @@
             box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
         }
 
+        .calc-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .calc-button.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .calc-result {
             margin-top: 1rem;
-            padding: 1rem;
-            background: #f0f9ff;
-            border-radius: 8px;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
             text-align: center;
             display: none;
+            animation: slideIn 0.5s ease;
         }
 
         .calc-result.show {
             display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e3a8a;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-disclaimer {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .result-cta {
+            background: #10b981;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .result-cta:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #e1e5e9;
+            border-radius: 2px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+            width: 0%;
+            transition: width 0.3s ease;
         }
 
         /* Plans Section */
@@ -617,9 +728,15 @@
     <div class="container">
         <div class="quick-calc">
             <h3 class="calc-title">Quick Price Check (Takes 30 Seconds)</h3>
+            <p class="calc-subtitle">🎯 No email required. No sales calls. Just honest numbers.</p>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            
             <form class="calc-form" id="quickCalc">
                 <div class="form-group">
-                    <label>Your Age</label>
+                    <label>👤 Your Age</label>
                     <select id="age" required>
                         <option value="">Select Age</option>
                         <option value="25">18-29</option>
@@ -631,11 +748,11 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>ZIP Code</label>
+                    <label>📍 ZIP Code</label>
                     <input type="text" id="zipcode" placeholder="33805" maxlength="5" required>
                 </div>
                 <div class="form-group">
-                    <label>Coverage Type</label>
+                    <label>🎯 Coverage Type</label>
                     <select id="plantype" required>
                         <option value="">Select Type</option>
                         <option value="aca">🏛️ ACA/Marketplace</option>
@@ -644,11 +761,38 @@
                         <option value="life">🛡️ Life Insurance</option>
                     </select>
                 </div>
-                <button type="submit" class="calc-button">Show Me Real Prices</button>
+                <div class="form-group" id="householdGroup" style="display: none;">
+                    <label>👨‍👩‍👧‍👦 Household Size <span style="font-size: 0.8rem; font-weight: normal; color: #666;">(affects subsidy calculations)</span></label>
+                    <select id="household">
+                        <option value="">Select Household Size</option>
+                        <option value="1">Just me (1 person)</option>
+                        <option value="2">2 people</option>
+                        <option value="3">3 people</option>
+                        <option value="4">4 people</option>
+                        <option value="5">5 people</option>
+                        <option value="6">6+ people</option>
+                    </select>
+                </div>
+                <div class="form-group" id="incomeGroup" style="display: none;">
+                    <label>💰 Household Income <span style="font-size: 0.8rem; font-weight: normal; color: #666;">(determines your subsidies)</span></label>
+                    <select id="income">
+                        <option value="">Select Income Range</option>
+                        <option value="20000">Under $25k</option>
+                        <option value="35000">$25k - $45k</option>
+                        <option value="55000">$45k - $65k</option>
+                        <option value="75000">$65k - $85k</option>
+                        <option value="95000">$85k - $105k</option>
+                        <option value="125000">Over $105k</option>
+                    </select>
+                </div>
+                <button type="submit" class="calc-button" id="calcBtn">
+                    <span id="btnText">Show Me Real Prices</span>
+                </button>
             </form>
             <div class="calc-result" id="calcResult">
-                <p><strong>Estimated Monthly Cost: $<span id="estimatedCost">0</span></strong></p>
-                <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Want exact numbers? Call us. This is just to stop you from having a heart attack.</p>
+                <div class="result-price">$<span id="estimatedCost">0</span>/month</div>
+                <p class="result-disclaimer" id="resultMessage">💡 This is a ballpark estimate. Call for your exact price.</p>
+                <a href="tel:+18636403102" class="result-cta">📞 Get Exact Quote Now</a>
             </div>
         </div>
     </div>
@@ -898,39 +1042,190 @@
         });
 
         // Quick calculator functionality
-        document.getElementById('quickCalc').addEventListener('submit', function(e) {
+        const form = document.getElementById('quickCalc');
+        const progressFill = document.getElementById('progressFill');
+        const calcBtn = document.getElementById('calcBtn');
+        const btnText = document.getElementById('btnText');
+        const incomeGroup = document.getElementById('incomeGroup');
+        const householdGroup = document.getElementById('householdGroup');
+        const plantypeField = document.getElementById('plantype');
+        
+        // Show/hide income and household fields based on plan type
+        plantypeField.addEventListener('change', function() {
+            if (this.value === 'aca') {
+                incomeGroup.style.display = 'flex';
+                incomeGroup.style.flexDirection = 'column';
+                householdGroup.style.display = 'flex';
+                householdGroup.style.flexDirection = 'column';
+                document.getElementById('income').required = true;
+                document.getElementById('household').required = true;
+            } else {
+                incomeGroup.style.display = 'none';
+                householdGroup.style.display = 'none';
+                document.getElementById('income').required = false;
+                document.getElementById('household').required = false;
+                document.getElementById('income').value = '';
+                document.getElementById('household').value = '';
+                document.getElementById('income').closest('.form-group').classList.remove('completed');
+                document.getElementById('household').closest('.form-group').classList.remove('completed');
+            }
+            updateProgress();
+        });
+        
+        // Track form completion
+        function updateProgress() {
+            let fields = ['age', 'zipcode', 'plantype'];
+            
+            // Add income and household fields if ACA is selected
+            if (plantypeField.value === 'aca') {
+                fields.push('income', 'household');
+            }
+            
+            let completed = 0;
+            
+            fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                const group = field.closest('.form-group');
+                
+                if (field.value) {
+                    completed++;
+                    group.classList.add('completed');
+                } else {
+                    group.classList.remove('completed');
+                }
+            });
+            
+            const progress = (completed / fields.length) * 100;
+            progressFill.style.width = progress + '%';
+            
+            if (completed === fields.length) {
+                calcBtn.disabled = false;
+                btnText.textContent = '🚀 Calculate My Price';
+            } else {
+                calcBtn.disabled = true;
+                btnText.textContent = 'Fill out all fields';
+            }
+        }
+        
+        // Add event listeners to form fields
+        ['age', 'zipcode', 'plantype', 'income', 'household'].forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.addEventListener('change', updateProgress);
+                field.addEventListener('input', updateProgress);
+            }
+        });
+        
+        // Initialize progress
+        updateProgress();
+        
+        // Federal Poverty Level calculation (2025 estimates)
+        function getFPL(householdSize) {
+            const fplBase = {
+                1: 15060,
+                2: 20440,
+                3: 25820,
+                4: 31200,
+                5: 36580,
+                6: 41960
+            };
+            return fplBase[householdSize] || 41960; // Default to 6+ if larger
+        }
+        
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
             
             const age = parseInt(document.getElementById('age').value);
             const plantype = document.getElementById('plantype').value;
             const zipcode = document.getElementById('zipcode').value;
+            const income = document.getElementById('income').value ? parseInt(document.getElementById('income').value) : null;
+            const household = document.getElementById('household').value ? parseInt(document.getElementById('household').value) : null;
             
-            if (!age || !plantype || !zipcode) {
+            // Validate required fields
+            let requiredFields = ['age', 'plantype', 'zipcode'];
+            if (plantype === 'aca') {
+                requiredFields.push('income', 'household');
+            }
+            
+            const missingField = requiredFields.find(fieldId => !document.getElementById(fieldId).value);
+            if (missingField) {
                 alert('Come on, fill out all the fields. We promise not to spam you.');
                 return;
             }
             
-            let estimatedCost = 0;
+            // Add loading state
+            calcBtn.classList.add('loading');
+            btnText.textContent = '';
+            calcBtn.disabled = true;
             
-            // Simple cost estimation logic
-            if (plantype === 'aca') {
-                estimatedCost = age < 30 ? 250 : age < 40 ? 350 : age < 50 ? 450 : age < 60 ? 550 : 650;
-            } else if (plantype === 'short') {
-                estimatedCost = age < 30 ? 80 : age < 40 ? 120 : age < 50 ? 180 : age < 60 ? 250 : 350;
-            } else if (plantype === 'dental') {
-                estimatedCost = age < 30 ? 25 : age < 40 ? 35 : age < 50 ? 45 : age < 60 ? 55 : 65;
-            } else if (plantype === 'life') {
-                estimatedCost = age < 30 ? 15 : age < 40 ? 25 : age < 50 ? 45 : age < 60 ? 85 : 150;
-            }
-            
-            // Add some randomness to make it feel more realistic
-            estimatedCost += Math.floor(Math.random() * 50) - 25;
-            
-            document.getElementById('estimatedCost').textContent = estimatedCost;
-            document.getElementById('calcResult').classList.add('show');
-            
-            // Scroll to result
-            document.getElementById('calcResult').scrollIntoView({ behavior: 'smooth' });
+            // Simulate API call delay for better UX
+            setTimeout(() => {
+                let estimatedCost = 0;
+                let message = '💡 This is a ballpark estimate. Call for your exact price.';
+                
+                // Simple cost estimation logic
+                if (plantype === 'aca') {
+                    // Base cost before subsidies
+                    let baseCost = age < 30 ? 350 : age < 40 ? 450 : age < 50 ? 550 : age < 60 ? 650 : 750;
+                    
+                    // Calculate Federal Poverty Level percentage
+                    const fpl = getFPL(household);
+                    const fplPercent = (income / fpl) * 100;
+                    
+                    // Apply subsidy logic based on FPL percentage
+                    if (fplPercent <= 150) {
+                        estimatedCost = Math.max(25, baseCost * 0.02); // 98% subsidy
+                        message = '🎉 Jackpot! You qualify for massive subsidies. Could be as low as $25/month with cost-sharing reductions!';
+                    } else if (fplPercent <= 200) {
+                        estimatedCost = baseCost * 0.06; // ~94% subsidy
+                        message = '💰 Excellent! You qualify for major premium tax credits and cost-sharing help.';
+                    } else if (fplPercent <= 250) {
+                        estimatedCost = baseCost * 0.08; // ~92% subsidy
+                        message = '👍 Very good! Significant subsidies available at your income level.';
+                    } else if (fplPercent <= 300) {
+                        estimatedCost = baseCost * 0.095; // ~90% subsidy
+                        message = '😊 Good news! You should qualify for decent premium assistance.';
+                    } else if (fplPercent <= 400) {
+                        estimatedCost = baseCost * 0.125; // ~87% subsidy
+                        message = '👌 You qualify for some premium tax credits to help with costs.';
+                    } else {
+                        estimatedCost = baseCost; // No subsidies
+                        message = '😬 Above the subsidy cutoff. You\'ll pay full price, but at least no surprises.';
+                    }
+                    
+                    // Add family size context to message
+                    if (household >= 4) {
+                        message += ` Family of ${household} helps with subsidy thresholds!`;
+                    }
+                    
+                } else if (plantype === 'short') {
+                    estimatedCost = age < 30 ? 80 : age < 40 ? 120 : age < 50 ? 180 : age < 60 ? 250 : 350;
+                    message = '⚡ Short-term plans are cheaper but have limitations. Good for healthy people in transitions.';
+                } else if (plantype === 'dental') {
+                    estimatedCost = age < 30 ? 25 : age < 40 ? 35 : age < 50 ? 45 : age < 60 ? 55 : 65;
+                    message = '🦷 Dental plans usually pay for themselves if you actually use them.';
+                } else if (plantype === 'life') {
+                    estimatedCost = age < 30 ? 15 : age < 40 ? 25 : age < 50 ? 45 : age < 60 ? 85 : 150;
+                    message = '🛡️ Life insurance gets expensive fast as you age. Don\'t wait too long.';
+                }
+                
+                // Add some randomness to make it feel more realistic
+                estimatedCost += Math.floor(Math.random() * 15) - 7;
+                estimatedCost = Math.round(Math.max(estimatedCost, 10)); // Minimum $10
+                
+                document.getElementById('estimatedCost').textContent = estimatedCost;
+                document.getElementById('resultMessage').textContent = message;
+                document.getElementById('calcResult').classList.add('show');
+                
+                // Remove loading state
+                calcBtn.classList.remove('loading');
+                btnText.textContent = '🎉 Calculate Another Price';
+                calcBtn.disabled = false;
+                
+                // Scroll to result
+                document.getElementById('calcResult').scrollIntoView({ behavior: 'smooth' });
+                
+            }, 1500); // 1.5 second delay for dramatic effect
         });
 
         // Smooth scrolling for anchor links
