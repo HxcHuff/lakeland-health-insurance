@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Content Security Policy - Maximum compatibility -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self' https: data: blob:;
-        script-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob: https://*.doubleclick.net https://connect.facebook.net;
         style-src 'self' 'unsafe-inline' https: data:;
-        img-src 'self' data: https: blob:;
-        connect-src 'self' https: wss: data: blob:;
-        frame-src 'self' https: data:;
+        img-src 'self' data: https: blob: https://*.doubleclick.net https://www.facebook.com https://static.xx.fbcdn.net;
+        connect-src 'self' https: wss: data: blob: https://*.doubleclick.net https://www.facebook.com;
+        frame-src 'self' https: data: https://www.facebook.com;
         font-src 'self' data: https: blob:;
         media-src 'self' https: data: blob:;
         object-src 'none';
@@ -641,7 +640,7 @@
         }
         
         .trust-icon {
-            color: #10b981;
+            color: #10b980;
             font-size: 1.1rem;
         }
         
@@ -829,7 +828,6 @@
     </style>
 </head>
 <body>
-    <!-- Facebook Messenger Root -->
     <div id="fb-root"></div>
 
     <header>
@@ -1053,8 +1051,8 @@
                         <li><span aria-hidden="true">🏡</span> Florida Residents</li>
                         <li><span aria-hidden="true">🇺🇸</span> Coverage Across the Nation</li>
                         <li><span aria-hidden="true">💼</span> Small Business Groups</li>
-                        <li><span aria-hidden="true">👨‍👩‍👧‍👦</span> Individual & Family Plans</li>
-                        <li><span aria-hidden="true">🤓</span> Medicare Specialists</li>
+                        <li><a href="https://www.lakelandhealthinsurance.com/individual-health-insurance"><span aria-hidden="true">👨‍👩‍👧‍👦</span> Individual & Family Plans</a></li>
+                        <li><a href="https://www.lakelandhealthinsurance.com/medicare-advantage-plans"><span aria-hidden="true">🤓</span> Medicare Specialists</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -1093,7 +1091,6 @@
         </div>
     </a>
 
-    <!-- Facebook Messenger Chat Bubble -->
     <div class="fb-customerchat"
       page_id="2330958066941437"
       greeting_dialog_display="fade"
