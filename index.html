@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Content Security Policy - Fixed for Google Analytics and Facebook -->
+    <!-- Content Security Policy - Complete Google Analytics domains -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
         script-src 'self' 'unsafe-inline' 'unsafe-eval' 
                    https://www.googletagmanager.com 
                    https://www.google-analytics.com 
+                   https://googleads.g.doubleclick.net
+                   https://www.googleadservices.com
                    https://connect.facebook.net 
                    https://www.facebook.com
                    https://*.facebook.com
@@ -21,7 +23,9 @@
                 https://www.google-analytics.com 
                 https://www.google.com
                 https://googleads.g.doubleclick.net
+                https://www.googleadservices.com
                 https://td.doubleclick.net
+                https://stats.g.doubleclick.net
                 https://scontent.xx.fbcdn.net 
                 https://*.fbcdn.net
                 https://scontent-*.xx.fbcdn.net
@@ -33,7 +37,9 @@
                     https://analytics.google.com 
                     https://www.google.com
                     https://googleads.g.doubleclick.net
+                    https://www.googleadservices.com
                     https://td.doubleclick.net
+                    https://stats.g.doubleclick.net
                     https://ingesteer.services-prod.nsvcs.net
                     https://www.facebook.com 
                     https://*.facebook.com 
@@ -43,6 +49,9 @@
                     https://formspree.io;
         frame-src 'self' 
                   https://www.googletagmanager.com
+                  https://googleads.g.doubleclick.net
+                  https://www.googleadservices.com
+                  https://td.doubleclick.net
                   https://www.facebook.com 
                   https://web.facebook.com
                   https://*.facebook.com;
