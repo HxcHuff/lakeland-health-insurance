@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- Content Security Policy - Maximum compatibility -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self' https: data: blob:;
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;
+        style-src 'self' 'unsafe-inline' https: data:;
+        img-src 'self' data: https: blob:;
+        connect-src 'self' https: wss: data: blob:;
+        frame-src 'self' https: data:;
+        font-src 'self' data: https: blob:;
+        media-src 'self' https: data: blob:;
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self' https:;
+        child-src 'self' https: data: blob:;
+        worker-src 'self' blob: https: data:;
+        manifest-src 'self' https:;
+    ">
     
     <title>Health Insurance Without the Runaround | Lakeland Health Insurance</title>
     <meta name="description" content="Finally, an insurance agent who speaks human. No BS advice on health insurance that actually works for real people. Serving Florida and nationwide.">
@@ -12,6 +29,10 @@
     <meta name="geo.placename" content="Central Florida">
     <meta name="geo.position" content="28.0395;-81.9498">
     <meta name="ICBM" content="28.0395, -81.9498">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5wEQEQcZvN+2CwAAAShJREFUOMvF0z9Lw1AUxvGfSZpWqVgHwUVwcHBxdHFwdHJwcXFxcXFxcHBwcXFxcHBwcXFxcHBwcXFxcHBwcXFxcHBwcXBxcHFxcXBxcXBwcHBxcXFxcHBwcHBxcXFxcHBwcHBwcXFxcXFxcHBwcXFxcXFxcHBwcXBxcXFxcHBwcXFxcXBwcHBxcXFxcHBwcXFxcXBwcHBxcXFxcHBwcXFxcXBwcHBxcXFxcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcXFxcXBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXF=">
+    <link rel="shortcut icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5wEQEQcZvN+2CwAAAShJREFUOMvF0z9Lw1AUxvGfSZpWqVgHwUVwcHBxdHFwdHJwcXFxcHBwcXFxcHBwcXFxcHBwcXFxcHBwcXFxcHBwcXFxcHBwcXBxcHFxcXBxcXBwcHBxcXFxcHBwcHBxcXFxcHBwcHBwcXFxcXFxcHBwcXFxcXFxcHBwcXBxcXFxcHBwcXFxcXBwcHBxcXFxcHBwcXFxcXBwcHBxcXFxcHBwcXFxcXBwcHBxcXFxcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXFxcXBwcHBwcXF=">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
     <script>
@@ -375,12 +396,8 @@
         }
         
         @keyframes float {
-            0%, 100% { 
-                transform: translateY(0px) rotate(0deg); 
-            }
-            50% { 
-                transform: translateY(-20px) rotate(5deg); 
-            }
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
         }
         
         .form-container {
@@ -628,7 +645,7 @@
         }
         
         .trust-icon {
-            color: #10b980;
+            color: #10b981;
             font-size: 1.1rem;
         }
         
@@ -816,6 +833,7 @@
     </style>
 </head>
 <body>
+    <!-- Facebook Messenger Root -->
     <div id="fb-root"></div>
 
     <header>
@@ -1039,8 +1057,8 @@
                         <li><span aria-hidden="true">🏡</span> Florida Residents</li>
                         <li><span aria-hidden="true">🇺🇸</span> Coverage Across the Nation</li>
                         <li><span aria-hidden="true">💼</span> Small Business Groups</li>
-                        <li><a href="https://www.lakelandhealthinsurance.com/individual-health-insurance"><span aria-hidden="true">👨‍👩‍👧‍👦</span> Individual & Family Plans</a></li>
-                        <li><a href="https://www.lakelandhealthinsurance.com/medicare-advantage-plans"><span aria-hidden="true">🤓</span> Medicare Specialists</a></li>
+                        <li><span aria-hidden="true">👨‍👩‍👧‍👦</span> Individual & Family Plans</li>
+                        <li><span aria-hidden="true">🤓</span> Medicare Specialists</li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -1079,15 +1097,16 @@
         </div>
     </a>
 
+    <!-- Facebook Messenger Chat Bubble -->
     <div class="fb-customerchat"
-     page_id="2330958066941437"
-     greeting_dialog_display="fade"
-     greeting_dialog_delay="60"
-     minimized="true"
-     theme_color="#1e3a8a"
-     logged_in_greeting="Hey there! Got insurance questions that aren&#39;t &#39;insuring&#39; your peace of mind? Chat with David for real answers, no fluff. We&#39;re here to help!"
-     logged_out_greeting="Hey there! Got insurance questions that aren&#39;t &#39;insuring&#39; your peace of mind? Chat with David for real answers, no fluff. We&#39;re here to help!">
-</div>
+      page_id="2330958066941437"
+      greeting_dialog_display="fade"
+      greeting_dialog_delay="60"
+      minimized="true"
+      theme_color="#1e3a8a"
+      logged_in_greeting="Hey there! Got insurance questions that aren't *insuring* your peace of mind? Chat with David for real answers, no fluff. We're here to help!"
+      logged_out_greeting="Hey there! Got insurance questions that aren't *insuring* your peace of mind? Chat with David for real answers, no fluff. We're here to help!">
+    </div>
 
     <script>
         // ======================= Facebook Messenger Setup =======================
