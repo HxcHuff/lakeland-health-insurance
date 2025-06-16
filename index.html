@@ -6,10 +6,11 @@
     
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self' https: data: blob:;
-        script-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob: https://*.doubleclick.net https://connect.facebook.net;
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob: https://*.doubleclick.net https://connect.facebook.net https://www.googleadservices.com;
+        script-src-elem 'self' 'unsafe-inline' https://*.doubleclick.net https://www.googleadservices.com https://connect.facebook.net;
         style-src 'self' 'unsafe-inline' https: data:;
-        img-src 'self' data: https: blob: https://*.doubleclick.net https://www.facebook.com https://static.xx.fbcdn.net;
-        connect-src 'self' https: wss: data: blob: https://*.doubleclick.net https://www.facebook.com;
+        img-src 'self' data: https: blob: https://*.doubleclick.net https://www.facebook.com https://static.xx.fbcdn.net https://www.googleadservices.com;
+        connect-src 'self' https: wss: data: blob: https://*.doubleclick.net https://www.facebook.com https://www.googleadservices.com;
         frame-src 'self' https: data: https://www.facebook.com;
         font-src 'self' data: https: blob:;
         media-src 'self' https: data: blob:;
