@@ -1,18 +1,4 @@
-@media (max-width: 768px) {
-                .footer-grid {
-                    grid-template-columns: 1fr;
-                    gap: 2rem;
-                }
-                
-                .footer-column {
-                    text-align: center;
-                }
-                
-                .footer-column ul {
-                    display: inline-block;
-                    text-align: left;
-                }
-            }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
@@ -90,7 +76,6 @@
             font-weight: 600;
         }
 
-        /* Menu Styles */
         .menu-button {
             background: none;
             border: none;
@@ -216,6 +201,32 @@
             margin: 0 auto;
         }
 
+        /* Tag Filter Section */
+        .tag-filter-section {
+            background: white;
+            padding: 2rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-header h3 {
+            font-size: 1.3rem;
+            color: #1e3a8a;
+            margin: 0;
+        }
+
+        .tag-filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
         /* Blog Content */
         .blog-content {
             padding: 80px 0;
@@ -307,6 +318,76 @@
             align-items: center;
             color: #666;
             font-weight: 500;
+        }
+
+        /* Tags */
+        .tag-container {
+            margin-top: 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: #1e3a8a;
+            color: white;
+            font-size: 0.75rem;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin: 5px 5px 0 0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background-color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .tag.active {
+            background-color: #10b981;
+        }
+
+        .filter-indicator {
+            background: #e6f3ff;
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .clear-filter-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .clear-filter-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .no-results p {
+            margin-bottom: 1rem;
+            color: #666;
         }
 
         /* Footer */
@@ -406,6 +487,20 @@
                 flex-direction: column;
                 align-items: center;
             }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .footer-column {
+                text-align: center;
+            }
+            
+            .footer-column ul {
+                display: inline-block;
+                text-align: left;
+            }
         }
     </style>
 </head>
@@ -449,6 +544,19 @@
         <div class="container">
             <h1>Health Insurance Insights</h1>
             <p>Expert advice, tips, and guides to help you navigate the world of health insurance with confidence.</p>
+        </div>
+    </section>
+
+    <!-- Tag Filter Section -->
+    <section class="tag-filter-section">
+        <div class="container">
+            <div class="filter-header">
+                <h3>Browse by Topic</h3>
+                <button id="clear-all-btn" onclick="clearFilter()" class="clear-filter-btn" style="display: none;">Clear Filter</button>
+            </div>
+            <div id="tag-filter" class="tag-filter-container">
+                <!-- Tags populated by JavaScript -->
+            </div>
         </div>
     </section>
 
@@ -526,66 +634,77 @@
                 title: "5 Critical Health Insurance Mistakes That Could Cost You Thousands",
                 date: "2025-06-10",
                 excerpt: "Don't let these common health insurance blunders drain your bank account. From choosing the wrong deductible to missing enrollment deadlines, we break down the mistakes that could leave you financially vulnerable when you need coverage most.",
-                link: "/blog/5-critical-health-insurance-mistakes"
+                link: "/blog/5-critical-health-insurance-mistakes",
+                tags: ["ACA", "Mistakes", "Financial"]
             },
             {
                 title: "The Pre-Existing Condition Survival Guide",
                 date: "2025-06-08",
                 excerpt: "Navigate the complex world of pre-existing conditions with confidence. Learn how to find coverage, understand waiting periods, and avoid the traps that leave you unprotected when you need it most.",
-                link: "/blog/preexisting-condition-guide.html"
+                link: "/blog/preexisting-condition-guide.html",
+                tags: ["Pre-Existing", "Coverage", "ACA"]
             },
             {
                 title: "ACA vs Short-Term Plans: Which is Actually Right for You?",
                 date: "2025-06-06",
                 excerpt: "The eternal debate. We'll cut through the marketing fluff and give you the real pros and cons of each option, because your health (and wallet) deserve the truth.",
-                link: "/blog/aca-vs-short-term-plans.html"
+                link: "/blog/aca-vs-short-term-plans.html",
+                tags: ["ACA", "Short-Term", "Comparison"]
             },
             {
                 title: "How to Actually Use Your Health Insurance (Without Going Broke)",
                 date: "2025-06-04",
                 excerpt: "Having insurance is step one. Using it without triggering financial ruin is step two. Here's your survival guide to deductibles, copays, and other fun surprises.",
-                link: "/blog/how-to-use-health-insurance-without-going-broke.html"
+                link: "/blog/how-to-use-health-insurance-without-going-broke.html",
+                tags: ["Tips", "Coverage", "Financial"]
             },
             {
                 title: "The Real Cost of Going Without Health Insurance",
                 date: "2025-06-02",
                 excerpt: "Think you're saving money by skipping insurance? We've crunched the numbers on what happens when life decides to throw you a curveball.",
-                link: "/blog/real-cost-going-without-health-insurance.html"
+                link: "/blog/real-cost-going-without-health-insurance.html",
+                tags: ["Financial", "Uninsured", "Tips"]
             },
             {
                 title: "Florida Health Insurance: Navigating the Sunshine State's Challenges",
                 date: "2025-05-30",
                 excerpt: "From hurricanes to humidity-induced existential crises, Florida has its own special insurance considerations. Here's what you need to know.",
-                link: "/blog/florida-insurance-guide.html"
+                link: "/blog/florida-insurance-guide.html",
+                tags: ["Florida", "State-Specific", "ACA"]
             },
             {
                 title: "Dental Insurance: Worth It or Just Another Way to Fund Your Dentist's Yacht?",
                 date: "2025-05-28",
                 excerpt: "The tooth about dental coverage. When it makes sense, when it doesn't, and how to avoid getting drilled on costs.",
-                link: "/blog/dental-insurance-guide.html"
+                link: "/blog/dental-insurance-guide.html",
+                tags: ["Dental", "Coverage", "Tips"]
             },
             {
                 title: "Short-Term Health Insurance: Lifesaver or Financial Trap?",
                 date: "2025-05-26",
                 excerpt: "When short-term plans make sense and when they're basically expensive tissue paper for your medical bills.",
-                link: "/blog/short-term-health-insurance-guide.html"
+                link: "/blog/short-term-health-insurance-guide.html",
+                tags: ["Short-Term", "Coverage", "Comparison"]
             },
             {
                 title: "Medicare for Dummies (No Offense)",
                 date: "2025-05-24",
                 excerpt: "Medicare doesn't have to be more confusing than assembling IKEA furniture. Here's everything you need to know in plain English.",
-                link: "/blog/medicare-for-dummies.html"
+                link: "/blog/medicare-for-dummies.html",
+                tags: ["Medicare", "Seniors", "Tips"]
             },
             {
                 title: "How to Read Your Insurance Card Without Having a Panic Attack",
                 date: "2025-05-22",
                 excerpt: "Decode all those mysterious numbers and acronyms so you can actually use your insurance like a pro.",
-                link: "/blog/how-to-read-insurance-card.html"
+                link: "/blog/how-to-read-insurance-card.html",
+                tags: ["Tips", "Coverage", "Basics"]
             }
         ];
 
         let currentPage = 1;
         const postsPerPage = 5;
+        let filteredTag = null;
 
         function sortByDateDesc(a, b) {
             return new Date(b.date) - new Date(a.date);
@@ -596,16 +715,65 @@
             return new Date(dateString).toLocaleDateString('en-US', options);
         }
 
+        function getUniqueTags() {
+            const tagSet = new Set();
+            posts.forEach(post => {
+                if (post.tags) post.tags.forEach(tag => tagSet.add(tag));
+            });
+            return Array.from(tagSet).sort();
+        }
+
+        function renderTags() {
+            const tagContainer = document.getElementById('tag-filter');
+            const clearBtn = document.getElementById('clear-all-btn');
+            const tags = getUniqueTags();
+            
+            tagContainer.innerHTML = tags.map(tag => 
+                `<span class="tag ${filteredTag === tag ? 'active' : ''}" onclick="filterByTag('${tag}')">${tag}</span>`
+            ).join('');
+            
+            // Show/hide clear button
+            clearBtn.style.display = filteredTag ? 'block' : 'none';
+        }
+
         function renderPosts() {
             const sortedPosts = posts.sort(sortByDateDesc);
+            const visiblePosts = filteredTag
+                ? sortedPosts.filter(post => post.tags && post.tags.includes(filteredTag))
+                : sortedPosts;
+
             const start = (currentPage - 1) * postsPerPage;
             const end = start + postsPerPage;
-            const paginatedPosts = sortedPosts.slice(start, end);
+            const paginatedPosts = visiblePosts.slice(start, end);
             const container = document.getElementById('blog-posts');
             
             container.innerHTML = '';
 
+            if (filteredTag && visiblePosts.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <p>No blog posts match the tag: <strong>${filteredTag}</strong></p>
+                        <button onclick="clearFilter()" class="clear-filter-btn">Show All Posts</button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Add filter indicator if active
+            if (filteredTag) {
+                container.innerHTML = `
+                    <div class="filter-indicator">
+                        <span>Showing posts tagged: <strong>${filteredTag}</strong></span>
+                        <button onclick="clearFilter()" class="clear-filter-btn">Clear Filter</button>
+                    </div>
+                `;
+            }
+
             paginatedPosts.forEach(post => {
+                const tagHTML = post.tags?.map(tag => 
+                    `<span class="tag ${tag === filteredTag ? 'active' : ''}" onclick="filterByTag('${tag}')">${tag}</span>`
+                ).join(' ') || '';
+                
                 const articleHtml = `
                     <article class="article-card">
                         <div class="article-date">${formatDate(post.date)}</div>
@@ -613,16 +781,31 @@
                             <a href="${post.link}">${post.title}</a>
                         </h2>
                         <p class="article-excerpt">${post.excerpt}</p>
+                        <div class="tag-container">${tagHTML}</div>
                     </article>
                 `;
                 container.innerHTML += articleHtml;
             });
 
             // Update pagination controls
-            const totalPages = Math.ceil(posts.length / postsPerPage);
+            const totalPages = Math.ceil(visiblePosts.length / postsPerPage);
             document.getElementById('prev-btn').disabled = currentPage === 1;
             document.getElementById('next-btn').disabled = currentPage === totalPages;
             document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+        }
+
+        function filterByTag(tag) {
+            filteredTag = tag;
+            currentPage = 1;
+            renderTags();
+            renderPosts();
+        }
+
+        function clearFilter() {
+            filteredTag = null;
+            currentPage = 1;
+            renderTags();
+            renderPosts();
         }
 
         function changePage(direction) {
@@ -659,6 +842,7 @@
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
+            renderTags();
             renderPosts();
             
             // Set current year in footer
