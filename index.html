@@ -351,6 +351,17 @@
             border-color: #166fe5;
             box-shadow: 0 15px 40px rgba(24, 119, 242, 0.3);
         }
+        .hero-cta.text {
+            background: #10b981;
+            border-color: #10b981;
+            font-size: 1rem;
+            padding: 12px 24px;
+        }
+        .hero-cta.text:hover {
+            background: #059669;
+            border-color: #059669;
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3);
+        }
         /* Value Proposition Section */
         .value-props {
             padding: 100px 0;
@@ -906,9 +917,14 @@
                 <h2>Finally, Someone Who Speaks Human Instead of Insurance Gibberish</h2>
                 <p>Serving families and businesses in Florida and nationwide. Get straight talk about health insurance from someone who actually gives a damn about your financial future.</p>
                 <div class="hero-cta-group">
-                    <a href="#contact" class="hero-cta">Get a Free Checkup</a>
-                    <a href="tel:+18636403102" class="hero-cta secondary">Call Now: (863) 640-3102</a>
+                    <a href="tel:+18636403102" class="hero-cta">📞 Call Now: (863) 640-3102</a>
                     <a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer" class="hero-cta messenger">💬 Chat with David</a>
+                </div>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <a href="sms:+18636403102?body=Hi David! I'm interested in getting a health insurance quote. Can you help?" class="hero-cta text">📱 Text David: (863) 640-3102</a>
+                </div>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <a href="#contact" class="hero-cta secondary">Get a Free Checkup</a>
                 </div>
             </div>
         </div>
@@ -1329,6 +1345,25 @@
                 });
             }
         }
+
+        // Track SMS clicks
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('a[href^="sms:"]')) {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'sms_click', {
+                        event_category: 'engagement',
+                        event_label: 'text_message_david',
+                        value: 1
+                    });
+                }
+                
+                if (typeof fbq === 'function') {
+                    fbq('track', 'Contact', {
+                        content_name: 'SMS Text Click'
+                    });
+                }
+            }
+        });
 
         // Track Messenger clicks
         document.addEventListener('click', function(e) {
