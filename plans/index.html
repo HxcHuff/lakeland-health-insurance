@@ -263,6 +263,11 @@
             gap: 0.5rem;
         }
 
+        .label-icon {
+            font-size: 1.1rem;
+            color: #1e3a8a;
+        }
+
         .form-group select,
         .form-group input {
             padding: 12px;
@@ -749,6 +754,12 @@
                 </a>
             </div>
             
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <a href="sms:+18636403102?body=Hi David! I'm interested in getting a health insurance quote. Can you help?" style="background: #10b981; border: 2px solid #10b981; color: white; padding: 12px 24px; border-radius: 50px; font-weight: 600; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.background='#059669'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='#10b981'; this.style.transform='translateY(0)'">
+                    📱 Text David: (863) 640-3102
+                </a>
+            </div>
+            
             <div class="price-disclaimer">
                 <strong>🚨 Reality Check:</strong> These are starting prices. Your actual cost depends on your age, location, and how many times you've bungee jumped this year. But at least we're not hiding the ball.
             </div>
@@ -766,8 +777,11 @@
             
             <form class="calc-form" id="quickCalc">
                 <div class="form-group">
-                    <label for="age">👤 Your Age</label>
-                    <select id="age" name="age" required>
+                    <label for="age">
+                        <span class="label-icon">👤</span>
+                        Your Age
+                    </label>
+                    <select id="age" name="age" required aria-describedby="age-help">
                         <option value="">Select Age</option>
                         <option value="25">18-29</option>
                         <option value="35">30-39</option>
@@ -778,12 +792,18 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="zipcode">📍 ZIP Code</label>
-                    <input type="text" id="zipcode" name="zipcode" placeholder="33805" maxlength="5" required>
+                    <label for="zipcode">
+                        <span class="label-icon">📍</span>
+                        ZIP Code
+                    </label>
+                    <input type="text" id="zipcode" name="zipcode" placeholder="33805" maxlength="5" required aria-describedby="zip-help">
                 </div>
                 <div class="form-group">
-                    <label for="plantype">🎯 Coverage Type</label>
-                    <select id="plantype" name="plantype" required>
+                    <label for="plantype">
+                        <span class="label-icon">🎯</span>
+                        Coverage Type
+                    </label>
+                    <select id="plantype" name="plantype" required aria-describedby="plantype-help">
                         <option value="">Select Type</option>
                         <option value="aca">🏛️ ACA/Marketplace</option>
                         <option value="short">⚡ Short-Term</option>
@@ -793,8 +813,12 @@
                     </select>
                 </div>
                 <div class="form-group" id="householdGroup" style="display: none;">
-                    <label for="household">👨‍👩‍👧‍👦 Household Size <span style="font-size: 0.8rem; font-weight: normal; color: #666;">(affects subsidy calculations)</span></label>
-                    <select id="household" name="household">
+                    <label for="household">
+                        <span class="label-icon">👨‍👩‍👧‍👦</span>
+                        Household Size
+                    </label>
+                    <div id="household-help" style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">(affects subsidy calculations)</div>
+                    <select id="household" name="household" aria-describedby="household-help">
                         <option value="">Select Household Size</option>
                         <option value="1">Just me (1 person)</option>
                         <option value="2">2 people</option>
@@ -805,8 +829,12 @@
                     </select>
                 </div>
                 <div class="form-group" id="incomeGroup" style="display: none;">
-                    <label for="income">💰 Household Income <span style="font-size: 0.8rem; font-weight: normal; color: #666;">(determines your subsidies)</span></label>
-                    <select id="income" name="income">
+                    <label for="income">
+                        <span class="label-icon">💰</span>
+                        Household Income
+                    </label>
+                    <div id="income-help" style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">(determines your subsidies)</div>
+                    <select id="income" name="income" aria-describedby="income-help">
                         <option value="">Select Income Range</option>
                         <option value="20000">Under $25k</option>
                         <option value="35000">$25k - $45k</option>
