@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-W45RMKHXV0');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-W45RMKHXV0');
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,71 +14,20 @@
     <meta name="description" content="Expert health insurance advice, tips, and guides from Lakeland Health Insurance. Learn about ACA plans, Medicare, short-term coverage, and more.">
     <meta name="keywords" content="health insurance tips, ACA plans guide, Medicare advice, insurance blog Florida">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
-            text-align: left;
-        }
-
-        .footer-column {
-            text-align: center;
-        }
-
-        .footer-column ul {
-            display: inline-block;
-            text-align: left;
-        }
-    </style>
+    
+    <link rel="stylesheet" href="/css/main.css"> 
+    
+    <link rel="stylesheet" href="/css/blog.css"> 
 </head>
 <body>
-    <!-- Existing blog and site content here -->
-
     <footer>
         <div class="footer-bottom">
             <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
         </div>
     </footer>
 
-    <script>
-        // Toggle ellipses menu
-        function toggleMenu() {
-            const menu = document.getElementById('dropdownMenu');
-            menu.classList.toggle('show');
-        }
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const menu = document.getElementById('dropdownMenu');
-            const button = document.querySelector('.menu-button');
-
-            if (!menu.contains(event.target) && !button.contains(event.target)) {
-                menu.classList.remove('show');
-            }
-        });
-
-        // Set footer year safely after DOM loads
-        document.addEventListener("DOMContentLoaded", function () {
-            const yearSpan = document.getElementById("current-year");
-            if (yearSpan) {
-                yearSpan.textContent = new Date().getFullYear();
-            }
-        });
-    </script>
+    <script src="/js/main.js"></script>
+    
+    <script src="/js/blog.js"></script> 
 </body>
 </html>
