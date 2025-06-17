@@ -370,6 +370,13 @@
             margin-bottom: 1rem;
         }
 
+        .result-cta-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         .result-cta {
             background: #10b981;
             color: white;
@@ -386,6 +393,14 @@
         .result-cta:hover {
             background: #059669;
             transform: translateY(-2px);
+        }
+
+        .result-cta.messenger {
+            background: #0084ff;
+        }
+
+        .result-cta.messenger:hover {
+            background: #0066cc;
         }
 
         .progress-bar {
@@ -675,6 +690,10 @@
             .comparison-table {
                 font-size: 0.8rem;
             }
+
+            .result-cta-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -697,6 +716,7 @@
                     <div class="menu-item"><a href="/">Home</a></div>
                     <div class="menu-item"><a href="/plans">Health Plans</a></div>
                     <div class="menu-item"><a href="/blog">Blog</a></div>
+                    <div class="menu-item"><a href="/our-approach.html">Our Approach</a></div>
                     <div class="menu-item"><a href="/#quote">Get Quote</a></div>
                     <div class="menu-item"><a href="/#about">About Us</a></div>
                     <div class="menu-item"><a href="/#contact">Contact</a></div>
@@ -707,6 +727,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/plans">Plans</a></li>
                 <li><a href="/blog">Blog</a></li>
+                <li><a href="/our-approach.html">Our Approach</a></li>
                 <li><a href="/#about">About</a></li>
                 <li><a href="/#contact">Contact</a></li>
             </ul>
@@ -718,6 +739,15 @@
         <div class="container">
             <h1>Plans That Do Not Suck</h1>
             <p>Real coverage, honest pricing, no BS. See what you'll actually pay before you talk to anyone. Revolutionary concept, we know.</p>
+            
+            <div style="display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap;">
+                <a href="tel:+18636403102" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.3); color: white; padding: 16px 32px; border-radius: 50px; font-weight: 600; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255, 255, 255, 0.25)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.15)'; this.style.transform='translateY(0)'">
+                    📞 Call David: (863) 640-3102
+                </a>
+                <a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer" style="background: #0084ff; border: 2px solid #0084ff; color: white; padding: 16px 32px; border-radius: 50px; font-weight: 600; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.background='#0066cc'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='#0084ff'; this.style.transform='translateY(0)'">
+                    💬 Message David on Facebook
+                </a>
+            </div>
             
             <div class="price-disclaimer">
                 <strong>🚨 Reality Check:</strong> These are starting prices. Your actual cost depends on your age, location, and how many times you've bungee jumped this year. But at least we're not hiding the ball.
@@ -757,6 +787,7 @@
                         <option value="">Select Type</option>
                         <option value="aca">🏛️ ACA/Marketplace</option>
                         <option value="short">⚡ Short-Term</option>
+                        <option value="supplements">🩹 Supplement Plans</option>
                         <option value="dental">🦷 Dental & Vision</option>
                         <option value="life">🛡️ Life Insurance</option>
                     </select>
@@ -792,7 +823,9 @@
             <div class="calc-result" id="calcResult">
                 <div class="result-price">$<span id="estimatedCost">0</span>/month</div>
                 <p class="result-disclaimer" id="resultMessage">💡 This is a ballpark estimate. Call for your exact price.</p>
-                <a href="tel:+18636403102" class="result-cta">📞 Get Exact Quote Now</a>
+                <div class="result-cta-group">
+                    <a href="tel:+18636403102" class="result-cta">📞 Get Exact Quote Now</a>
+                </div>
             </div>
         </div>
     </div>
@@ -843,11 +876,11 @@
                     <a href="#quote" class="plan-cta">Get Short-Term Quote</a>
                 </div>
 
-                <!-- Medicare Plans -->
+                <!-- Medicare Advantage -->
                 <div class="plan-card">
                     <div class="plan-icon">🇺🇸</div>
-                    <h3 class="plan-title">Medicare Plans</h3>
-                    <p class="plan-subtitle">For the over-65 crowd (lucky you!)</p>
+                    <h3 class="plan-title">Medicare Advantage</h3>
+                    <p class="plan-subtitle">Medicare with extras (for the over-65 crowd)</p>
                     <div class="plan-price">$0-200<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*Plus your Medicare Part B premium</p>
                     
@@ -859,7 +892,26 @@
                         <li><span class="feature-x">✗</span> Must be 65+ or disabled</li>
                     </ul>
                     
-                    <a href="#quote" class="plan-cta">Compare Medicare Options</a>
+                    <a href="#quote" class="plan-cta">Compare Medicare Advantage</a>
+                </div>
+
+                <!-- Medicare Supplement -->
+                <div class="plan-card">
+                    <div class="plan-icon">📋</div>
+                    <h3 class="plan-title">Medicare Supplement</h3>
+                    <p class="plan-subtitle">Fill the gaps in Original Medicare</p>
+                    <div class="plan-price">$100-400<span style="font-size: 1rem;">/mo</span></div>
+                    <p class="plan-price-note">*Plus Medicare Part B & D premiums</p>
+                    
+                    <ul class="plan-features">
+                        <li><span class="feature-check">✓</span> Works with any Medicare doctor</li>
+                        <li><span class="feature-check">✓</span> Covers Medicare deductibles/coinsurance</li>
+                        <li><span class="feature-check">✓</span> No network restrictions</li>
+                        <li><span class="feature-x">✗</span> Higher monthly premiums</li>
+                        <li><span class="feature-x">✗</span> Need separate Part D for drugs</li>
+                    </ul>
+                    
+                    <a href="#quote" class="plan-cta">Compare Supplement Plans</a>
                 </div>
 
                 <!-- Dental & Vision -->
@@ -898,6 +950,25 @@
                     </ul>
                     
                     <a href="#quote" class="plan-cta">Calculate Life Insurance</a>
+                </div>
+
+                <!-- Supplement Plans -->
+                <div class="plan-card">
+                    <div class="plan-icon">🩹</div>
+                    <h3 class="plan-title">Supplement Plans</h3>
+                    <p class="plan-subtitle">Critical illness, accident, cancer coverage</p>
+                    <div class="plan-price">$25-150<span style="font-size: 1rem;">/mo</span></div>
+                    <p class="plan-price-note">*Stacks with your main insurance</p>
+                    
+                    <ul class="plan-features">
+                        <li><span class="feature-check">✓</span> Cash payouts for covered events</li>
+                        <li><span class="feature-check">✓</span> Use money however you want</li>
+                        <li><span class="feature-check">✓</span> Affordable add-on coverage</li>
+                        <li><span class="feature-x">✗</span> Limited to specific conditions</li>
+                        <li><span class="feature-x">✗</span> Waiting periods for some benefits</li>
+                    </ul>
+                    
+                    <a href="#quote" class="plan-cta">Add Supplement Coverage</a>
                 </div>
 
                 <!-- Business Plans -->
@@ -968,6 +1039,13 @@
                         <td>No prescription coverage, higher premiums</td>
                         <td>"Freedom costs more, but worth it for many"</td>
                     </tr>
+                    <tr>
+                        <td><strong>Supplement Plans</strong></td>
+                        <td>People who want extra protection, cash payouts</td>
+                        <td>People who think they'll never get sick</td>
+                        <td>Only pays for specific conditions, waiting periods</td>
+                        <td>"Nice safety net, but read the fine print"</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -979,7 +1057,6 @@
                 <div class="footer-section">
                     <h4>Contact David</h4>
                     <p>📞 <a href="tel:+18636403102">(863) 640-3102</a></p>
-                    <p style="font-size: 0.9rem; opacity: 0.8;">David answers personally</p>
                     <p>✉️ <a href="mailto:david@lakelandhealthinsurance.com">david@lakelandhealthinsurance.com</a></p>
                     <p>📍 Central Florida Headquarters</p>
                     <p>🕒 Mon-Fri 8AM-8PM EST</p>
@@ -1000,6 +1077,7 @@
                     <p><a href="/">Home</a></p>
                     <p><a href="/plans">Insurance Plans</a></p>
                     <p><a href="/blog">Blog</a></p>
+                    <p><a href="/our-approach.html">Our Approach</a></p>
                     <p><a href="/#quote">Get Quote</a></p>
                     <p><a href="/privacy-policy.html">Privacy Policy</a></p>
                 </div>
@@ -1011,6 +1089,11 @@
                     FL License #W371813 | Serving most of the United States with honest insurance advice | 
                     <a href="/privacy-policy.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Privacy Policy</a>
                 </p>
+                <p style="margin-top: 1rem;">
+                    <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none; font-weight: 500;">
+                        Powered by David the Insurance Dude
+                    </a>
+                </p>
             </div>
         </div>
     </footer>
@@ -1020,7 +1103,7 @@
         <span>📞</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <span>Call Now: (863) 640-3102</span>
-            <span style="font-size: 0.8rem; opacity: 0.9;">David answers personally</span>
+            <span style="font-size: 0.8rem; opacity: 0.9;">Or message David on Facebook</span>
         </div>
     </a>
 
@@ -1119,6 +1202,13 @@
         // Initialize progress
         updateProgress();
         
+        // ZIP code validation
+        document.getElementById('zipcode').addEventListener('input', function(e) {
+            // Only allow numbers
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            updateProgress();
+        });
+        
         // Federal Poverty Level calculation (2025 estimates)
         function getFPL(householdSize) {
             const fplBase = {
@@ -1141,15 +1231,30 @@
             const income = document.getElementById('income').value ? parseInt(document.getElementById('income').value) : null;
             const household = document.getElementById('household').value ? parseInt(document.getElementById('household').value) : null;
             
+            // Debug logging
+            console.log('Form submitted:', { age, plantype, zipcode, income, household });
+            
             // Validate required fields
             let requiredFields = ['age', 'plantype', 'zipcode'];
             if (plantype === 'aca') {
                 requiredFields.push('income', 'household');
             }
             
-            const missingField = requiredFields.find(fieldId => !document.getElementById(fieldId).value);
+            const missingField = requiredFields.find(fieldId => {
+                const fieldValue = document.getElementById(fieldId).value;
+                console.log(`Field ${fieldId}:`, fieldValue);
+                return !fieldValue;
+            });
+            
             if (missingField) {
                 alert('Come on, fill out all the fields. We promise not to spam you.');
+                return;
+            }
+            
+            // Validate ZIP code
+            if (zipcode.length !== 5) {
+                alert('Please enter a valid 5-digit ZIP code.');
+                document.getElementById('zipcode').focus();
                 return;
             }
             
@@ -1163,59 +1268,70 @@
                 let estimatedCost = 0;
                 let message = '💡 This is a ballpark estimate. Call for your exact price.';
                 
-                // Simple cost estimation logic
-                if (plantype === 'aca') {
-                    // Base cost before subsidies
-                    let baseCost = age < 30 ? 350 : age < 40 ? 450 : age < 50 ? 550 : age < 60 ? 650 : 750;
-                    
-                    // Calculate Federal Poverty Level percentage
-                    const fpl = getFPL(household);
-                    const fplPercent = (income / fpl) * 100;
-                    
-                    // Apply subsidy logic based on FPL percentage
-                    if (fplPercent <= 150) {
-                        estimatedCost = Math.max(25, baseCost * 0.02); // 98% subsidy
-                        message = '🎉 Jackpot! You qualify for massive subsidies. Could be as low as $25/month with cost-sharing reductions!';
-                    } else if (fplPercent <= 200) {
-                        estimatedCost = baseCost * 0.06; // ~94% subsidy
-                        message = '💰 Excellent! You qualify for major premium tax credits and cost-sharing help.';
-                    } else if (fplPercent <= 250) {
-                        estimatedCost = baseCost * 0.08; // ~92% subsidy
-                        message = '👍 Very good! Significant subsidies available at your income level.';
-                    } else if (fplPercent <= 300) {
-                        estimatedCost = baseCost * 0.095; // ~90% subsidy
-                        message = '😊 Good news! You should qualify for decent premium assistance.';
-                    } else if (fplPercent <= 400) {
-                        estimatedCost = baseCost * 0.125; // ~87% subsidy
-                        message = '👌 You qualify for some premium tax credits to help with costs.';
-                    } else {
-                        estimatedCost = baseCost; // No subsidies
-                        message = '😬 Above the subsidy cutoff. You\'ll pay full price, but at least no surprises.';
+                try {
+                    // Simple cost estimation logic
+                    if (plantype === 'aca') {
+                        // Base cost before subsidies
+                        let baseCost = age < 30 ? 350 : age < 40 ? 450 : age < 50 ? 550 : age < 60 ? 650 : 750;
+                        
+                        // Calculate Federal Poverty Level percentage
+                        const fpl = getFPL(household);
+                        const fplPercent = (income / fpl) * 100;
+                        
+                        // Apply subsidy logic based on FPL percentage
+                        if (fplPercent <= 150) {
+                            estimatedCost = Math.max(25, baseCost * 0.02); // 98% subsidy
+                            message = '🎉 Jackpot! You qualify for massive subsidies. Could be as low as $25/month with cost-sharing reductions!';
+                        } else if (fplPercent <= 200) {
+                            estimatedCost = baseCost * 0.06; // ~94% subsidy
+                            message = '💰 Excellent! You qualify for major premium tax credits and cost-sharing help.';
+                        } else if (fplPercent <= 250) {
+                            estimatedCost = baseCost * 0.08; // ~92% subsidy
+                            message = '👍 Very good! Significant subsidies available at your income level.';
+                        } else if (fplPercent <= 300) {
+                            estimatedCost = baseCost * 0.095; // ~90% subsidy
+                            message = '😊 Good news! You should qualify for decent premium assistance.';
+                        } else if (fplPercent <= 400) {
+                            estimatedCost = baseCost * 0.125; // ~87% subsidy
+                            message = '👌 You qualify for some premium tax credits to help with costs.';
+                        } else {
+                            estimatedCost = baseCost; // No subsidies
+                            message = '😬 Above the subsidy cutoff. You\'ll pay full price, but at least no surprises.';
+                        }
+                        
+                        // Add family size context to message
+                        if (household >= 4) {
+                            message += ` Family of ${household} helps with subsidy thresholds!`;
+                        }
+                        
+                    } else if (plantype === 'short') {
+                        estimatedCost = age < 30 ? 80 : age < 40 ? 120 : age < 50 ? 180 : age < 60 ? 250 : 350;
+                        message = '⚡ Short-term plans are cheaper but have limitations. Good for healthy people in transitions.';
+                    } else if (plantype === 'supplements') {
+                        estimatedCost = age < 30 ? 35 : age < 40 ? 45 : age < 50 ? 65 : age < 60 ? 85 : 120;
+                        message = '🩹 Supplement plans pay cash for specific events. Great add-on to your main coverage.';
+                    } else if (plantype === 'dental') {
+                        estimatedCost = age < 30 ? 25 : age < 40 ? 35 : age < 50 ? 45 : age < 60 ? 55 : 65;
+                        message = '🦷 Dental plans usually pay for themselves if you actually use them.';
+                    } else if (plantype === 'life') {
+                        estimatedCost = age < 30 ? 15 : age < 40 ? 25 : age < 50 ? 45 : age < 60 ? 85 : 150;
+                        message = '🛡️ Life insurance gets expensive fast as you age. Don\'t wait too long.';
                     }
                     
-                    // Add family size context to message
-                    if (household >= 4) {
-                        message += ` Family of ${household} helps with subsidy thresholds!`;
-                    }
+                    // Add some randomness to make it feel more realistic
+                    estimatedCost += Math.floor(Math.random() * 15) - 7;
+                    estimatedCost = Math.round(Math.max(estimatedCost, 10)); // Minimum $10
                     
-                } else if (plantype === 'short') {
-                    estimatedCost = age < 30 ? 80 : age < 40 ? 120 : age < 50 ? 180 : age < 60 ? 250 : 350;
-                    message = '⚡ Short-term plans are cheaper but have limitations. Good for healthy people in transitions.';
-                } else if (plantype === 'dental') {
-                    estimatedCost = age < 30 ? 25 : age < 40 ? 35 : age < 50 ? 45 : age < 60 ? 55 : 65;
-                    message = '🦷 Dental plans usually pay for themselves if you actually use them.';
-                } else if (plantype === 'life') {
-                    estimatedCost = age < 30 ? 15 : age < 40 ? 25 : age < 50 ? 45 : age < 60 ? 85 : 150;
-                    message = '🛡️ Life insurance gets expensive fast as you age. Don\'t wait too long.';
+                    console.log('Calculated cost:', estimatedCost);
+                    
+                    document.getElementById('estimatedCost').textContent = estimatedCost;
+                    document.getElementById('resultMessage').textContent = message;
+                    document.getElementById('calcResult').classList.add('show');
+                    
+                } catch (error) {
+                    console.error('Calculation error:', error);
+                    alert('Oops! Something went wrong with the calculation. Just call (863) 640-3102 for a quote.');
                 }
-                
-                // Add some randomness to make it feel more realistic
-                estimatedCost += Math.floor(Math.random() * 15) - 7;
-                estimatedCost = Math.round(Math.max(estimatedCost, 10)); // Minimum $10
-                
-                document.getElementById('estimatedCost').textContent = estimatedCost;
-                document.getElementById('resultMessage').textContent = message;
-                document.getElementById('calcResult').classList.add('show');
                 
                 // Remove loading state
                 calcBtn.classList.remove('loading');
