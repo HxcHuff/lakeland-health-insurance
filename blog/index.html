@@ -1,115 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-W45RMKHXV0');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Insurance Blog | Lakeland Health Insurance Tips & Guides</title>
-    <meta name="description" content="Expert health insurance advice, tips, and guides from Lakeland Health Insurance. Learn about ACA plans, Medicare, short-term coverage, and more.">
-    <meta name="keywords" content="health insurance tips, ACA plans guide, Medicare advice, insurance blog Florida">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://www.lakelandhealthinsurance.com/blog/">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: sans-serif; background: #f8f9fa; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+<script>
+  const posts = [
+    {
+      title: "5 Critical Health Insurance Mistakes That Could Cost You Thousands",
+      date: "2025-06-10",
+      excerpt: "Don't let these common health insurance blunders drain your bank account...",
+      link: "/blog/5-critical-health-insurance-mistakes"
+    },
+    {
+      title: "The Pre-Existing Condition Survival Guide",
+      date: "2025-06-08",
+      excerpt: "Navigate the complex world of pre-existing conditions with confidence...",
+      link: "/blog/preexisting-condition-guide.html"
+    },
+    {
+      title: "ACA vs Short-Term Plans: Which is Actually Right for You?",
+      date: "2025-06-06",
+      excerpt: "We’ll cut through the marketing fluff and give you the real pros and cons...",
+      link: "/blog/aca-vs-short-term-plans.html"
+    },
+    {
+      title: "How to Actually Use Your Health Insurance (Without Going Broke)",
+      date: "2025-06-04",
+      excerpt: "Having insurance is step one. Using it without triggering financial ruin...",
+      link: "/blog/how-to-use-health-insurance-without-going-broke.html"
+    },
+    {
+      title: "The Real Cost of Going Without Health Insurance",
+      date: "2025-06-02",
+      excerpt: "Think you're saving money by skipping insurance? We've crunched the numbers...",
+      link: "/blog/real-cost-going-without-health-insurance.html"
+    },
+    {
+      title: "Florida Health Insurance: Navigating the Sunshine State's Challenges",
+      date: "2025-05-30",
+      excerpt: "Florida has its own special insurance considerations. Here's what you need to know...",
+      link: "/blog/florida-insurance-guide.html"
+    },
+    {
+      title: "Dental Insurance: Worth It or Yacht Money?",
+      date: "2025-05-28",
+      excerpt: "The tooth about dental coverage. When it makes sense, when it doesn't...",
+      link: "/blog/dental-insurance-guide.html"
+    }
+  ];
 
-        header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+  let currentPage = 1;
+  const postsPerPage = 3;
 
-        .logo-container { display: flex; align-items: center; gap: 15px; }
-        .logo { font-size: 1.8rem; font-weight: 800; color: #1e3a8a; }
-        .logo::after { content: "Lakeland"; font-size: 0.8rem; color: #10b981; display: block; line-height: 1; font-weight: 600; }
+  function sortByDateDesc(a, b) {
+    return new Date(b.date) - new Date(a.date);
+  }
 
-        .menu-button { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 4px; }
-        .ellipses { display: flex; flex-direction: column; gap: 3px; }
-        .dot { width: 4px; height: 4px; background-color: #666; border-radius: 50%; }
+  function renderPosts() {
+    const sortedPosts = posts.sort(sortByDateDesc);
+    const start = (currentPage - 1) * postsPerPage;
+    const end = start + postsPerPage;
+    const paginatedPosts = sortedPosts.slice(start, end);
+    const container = document.getElementById('blog-posts');
+    container.innerHTML = '';
 
-        .dropdown-menu { position: absolute; top: 100%; left: 100px; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.2s ease; }
-        .dropdown-menu.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    paginatedPosts.forEach(post => {
+      container.innerHTML += `
+        <div class="article-card">
+          <div class="article-title"><a href="${post.link}">${post.title}</a></div>
+          <div class="article-date">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+          <div class="article-excerpt">${post.excerpt}</div>
+        </div>`;
+    });
 
-        .menu-item { padding: 12px 16px; cursor: pointer; border-bottom: 1px solid #eee; }
-        .menu-item a { text-decoration: none; color: #333; display: block; }
-        .menu-item:hover { background-color: #f8f9fa; }
-        .menu-item:last-child { border-bottom: none; }
+    document.getElementById('prev-btn').disabled = currentPage === 1;
+    document.getElementById('next-btn').disabled = end >= posts.length;
+  }
 
-        .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a { text-decoration: none; color: #333; font-weight: 500; transition: color 0.3s ease; }
-        .nav-links a:hover { color: #1e3a8a; }
+  function changePage(direction) {
+    currentPage += direction;
+    renderPosts();
+  }
 
-        .cta-button { background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 12px 24px; border: none; border-radius: 50px; font-weight: 600; text-decoration: none; display: inline-block; }
-        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4); }
-
-        .blog-header { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 120px 0 60px; text-align: center; }
-        .blog-header h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; }
-        .blog-header p { font-size: 1.2rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
-
-        .blog-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; padding: 80px 0; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-
-        footer { background: #333; color: white; padding: 3rem 0; }
-        .footer-column { text-align: center; }
-        .footer-column ul { display: inline-block; text-align: left; }
-        .footer-bottom { text-align: center; margin-top: 1rem; font-size: 0.85rem; opacity: 0.8; }
-
-        .click-to-call { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 15px 20px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4); z-index: 1000; display: flex; align-items: center; gap: 8px; }
-        .click-to-call:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6); }
-
-        @media (max-width: 768px) {
-            .blog-grid { grid-template-columns: 1fr; }
-            .nav-links { display: none; }
-            .blog-header h1 { font-size: 2rem; }
-        }
-    </style>
-</head>
-<body>
-    <!-- Page content here -->
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Lakeland Health Insurance. Licensed insurance agency serving families and businesses nationwide.</p>
-            <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.8;">FL License #W371813</p>
-            <div class="footer-bottom">
-                <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
-            </div>
-        </div>
-    </footer>
-
-    <a href="tel:+18636403102" class="click-to-call">
-        <span>📞</span>
-        Call Now: (863) 640-3102
-    </a>
-
-    <script>
-        function toggleMenu() {
-            const menu = document.getElementById('dropdownMenu');
-            menu.classList.toggle('show');
-        }
-
-        document.addEventListener('click', function(event) {
-            const menu = document.getElementById('dropdownMenu');
-            const button = document.querySelector('.menu-button');
-            if (!menu.contains(event.target) && !button.contains(event.target)) {
-                menu.classList.remove('show');
-            }
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const yearSpan = document.getElementById("current-year");
-            if (yearSpan) {
-                yearSpan.textContent = new Date().getFullYear();
-            }
-        });
-    </script>
-</body>
-</html>
+  document.addEventListener('DOMContentLoaded', renderPosts);
+</script>
