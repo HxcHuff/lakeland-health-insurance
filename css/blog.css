@@ -1,1 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #f8f9fa;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+    text-align: left;
+}
+
+.footer-column {
+    text-align: center;
+}
+
+.footer-column ul {
+    display: inline-block;
+    text-align: left;
+}
+
+.article-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+}
+
+.article-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(30, 58, 138, 0.15);
+}
+
+.article-card::before {
+    content: "";
+    display: block;
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    height: 4px;
+    width: 0;
+    transition: width 0.4s ease;
+}
+
+.article-card:hover::before {
+    width: 100%;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
