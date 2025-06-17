@@ -501,7 +501,9 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .cta-primary:hover {
@@ -520,12 +522,36 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .cta-secondary:hover {
             background: white;
             color: #1e3a8a;
+            transform: translateY(-3px);
+        }
+
+        .cta-tertiary {
+            background: rgba(16, 185, 129, 0.8);
+            color: white;
+            padding: 18px 36px;
+            border: 2px solid rgba(16, 185, 129, 0.5);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cta-tertiary:hover {
+            background: #10b981;
+            border-color: #10b981;
             transform: translateY(-3px);
         }
 
@@ -892,7 +918,18 @@
             <h2>Ready to Experience the Difference?</h2>
             <p>Start your honest conversation today. No pressure, no BS, just straight talk about your insurance options.</p>
             <div class="cta-buttons">
-                <a href="tel:+18636403102" class="cta-primary">Call for Free Reality Check</a>
+                <a href="tel:+18636403102" class="cta-primary">
+                    <span>📞</span>
+                    Call David
+                </a>
+                <a href="https://m.me/2330958066941437" class="cta-secondary" target="_blank" rel="noopener noreferrer">
+                    <span>💬</span>
+                    Message on Facebook
+                </a>
+                <a href="sms:+18636403102" class="cta-tertiary">
+                    <span>📱</span>
+                    Text David
+                </a>
                 <a href="/#contact" class="cta-secondary">Get Your Free Analysis</a>
             </div>
             <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">No robo-calls, David answers personally</p>
@@ -905,8 +942,9 @@
                 <div class="footer-section">
                     <h4>Contact David</h4>
                     <p>📞 <a href="tel:+18636403102" style="color: white; text-decoration: none;">(863) 640-3102</a></p>
-                    <p style="font-size: 0.9rem; opacity: 0.8;">David personally answers</p>
                     <p>✉️ <a href="mailto:david@lakelandhealthinsurance.com" style="color: white; text-decoration: none;">david@lakelandhealthinsurance.com</a></p>
+                    <p>💬 <a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer" style="color: white; text-decoration: none;">Message on Facebook</a></p>
+                    <p>📱 <a href="sms:+18636403102" style="color: white; text-decoration: none;">Text: (863) 640-3102</a></p>
                     <p>📍 Central Florida Headquarters</p>
                     <p>🕒 Mon-Fri 8AM-8PM EST</p>
                     <p>🕒 Sat 9AM-5PM EST</p>
