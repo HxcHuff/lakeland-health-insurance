@@ -766,8 +766,8 @@
             
             <form class="calc-form" id="quickCalc">
                 <div class="form-group">
-                    <label>👤 Your Age</label>
-                    <select id="age" required>
+                    <label for="age">👤 Your Age</label>
+                    <select id="age" name="age" required>
                         <option value="">Select Age</option>
                         <option value="25">18-29</option>
                         <option value="35">30-39</option>
@@ -778,12 +778,12 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>📍 ZIP Code</label>
-                    <input type="text" id="zipcode" placeholder="33805" maxlength="5" required>
+                    <label for="zipcode">📍 ZIP Code</label>
+                    <input type="text" id="zipcode" name="zipcode" placeholder="33805" maxlength="5" required>
                 </div>
                 <div class="form-group">
-                    <label>🎯 Coverage Type</label>
-                    <select id="plantype" required>
+                    <label for="plantype">🎯 Coverage Type</label>
+                    <select id="plantype" name="plantype" required>
                         <option value="">Select Type</option>
                         <option value="aca">🏛️ ACA/Marketplace</option>
                         <option value="short">⚡ Short-Term</option>
@@ -793,8 +793,8 @@
                     </select>
                 </div>
                 <div class="form-group" id="householdGroup" style="display: none;">
-                    <label>👨‍👩‍👧‍👦 Household Size <span style="font-size: 0.8rem; font-weight: normal; color: #666;">(affects subsidy calculations)</span></label>
-                    <select id="household">
+                    <label for="household">👨‍👩‍👧‍👦 Household Size <span style="font-size: 0.8rem; font-weight: normal; color: #666;">(affects subsidy calculations)</span></label>
+                    <select id="household" name="household">
                         <option value="">Select Household Size</option>
                         <option value="1">Just me (1 person)</option>
                         <option value="2">2 people</option>
@@ -805,8 +805,8 @@
                     </select>
                 </div>
                 <div class="form-group" id="incomeGroup" style="display: none;">
-                    <label>💰 Household Income <span style="font-size: 0.8rem; font-weight: normal; color: #666;">(determines your subsidies)</span></label>
-                    <select id="income">
+                    <label for="income">💰 Household Income <span style="font-size: 0.8rem; font-weight: normal; color: #666;">(determines your subsidies)</span></label>
+                    <select id="income" name="income">
                         <option value="">Select Income Range</option>
                         <option value="20000">Under $25k</option>
                         <option value="35000">$25k - $45k</option>
