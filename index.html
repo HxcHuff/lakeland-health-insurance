@@ -3,68 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Content Security Policy - Maximum compatibility -->
-    <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self' https: data: blob:;
-        script-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;
-        style-src 'self' 'unsafe-inline' https: data:;
-        img-src 'self' data: https: blob:;
-        connect-src 'self' https: wss: data: blob:;
-        frame-src 'self' https: data:;
-        font-src 'self' data: https: blob:;
-        media-src 'self' https: data: blob:;
-        object-src 'none';
-        base-uri 'self';
-        form-action 'self' https:;
-        child-src 'self' https: data: blob:;
-        worker-src 'self' blob: https: data:;
-        manifest-src 'self' https:;
-    ">
-    
     <title>Health Insurance Without the Runaround | Lakeland Health Insurance</title>
     <meta name="description" content="Finally, an insurance agent who speaks human. No BS advice on health insurance that actually works for real people. Serving Florida and nationwide.">
     <meta name="google-site-verification" content="Sitwkhl-IJxkcjYluwgCR5XgzQacova8H-DDb4_HiDM" />
     <meta name="geo.region" content="US-FL">
     <meta name="geo.placename" content="Central Florida">
-    <meta name="geo.position" content="28.0395;-81.9498">
-    <meta name="ICBM" content="28.0395, -81.9498">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    
-    <!-- Google Analytics -->
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-W45RMKHXV0', {
-            cookie_domain: 'auto',
-            cookie_flags: 'SameSite=None;Secure'
-        });
+        gtag('config', 'G-W45RMKHXV0');
     </script>
     
-    <!-- Facebook Pixel Code -->
-    <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1822900971216472');
-        fbq('track', 'PageView');
-    </script>
-    <noscript>
-        <img height="1" width="1" style="display:none"
-             src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/>
-    </noscript>
-    <!-- End Facebook Pixel Code -->
-
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -252,11 +204,44 @@
         .click-to-call:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
-            background: linear-gradient(135deg, #059669, #047857);
         }
         .click-to-call .phone-icon {
             font-size: 1.2rem;
             animation: ring 2s ease-in-out infinite;
+        }
+        
+        /* Messenger Button */
+        .messenger-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #0084ff, #0063d1);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 8px 25px rgba(0, 132, 255, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .messenger-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 132, 255, 0.6);
+            background: linear-gradient(135deg, #0063d1, #004494);
+        }
+        .messenger-icon {
+            font-size: 1.2rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-5px); }
+            60% { transform: translateY(-3px); }
         }
         @keyframes ring {
             0%, 20%, 50%, 80%, 100% { transform: rotate(0deg); }
@@ -272,16 +257,6 @@
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             position: relative;
             overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.15"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.1;
         }
         .hero-content {
             position: relative;
@@ -342,27 +317,8 @@
             background: rgba(255, 255, 255, 0.1);
             box-shadow: none;
         }
-        .hero-cta.messenger {
-            background: #1877f2;
-            border-color: #1877f2;
-        }
-        .hero-cta.messenger:hover {
-            background: #166fe5;
-            border-color: #166fe5;
-            box-shadow: 0 15px 40px rgba(24, 119, 242, 0.3);
-        }
-        .hero-cta.text {
-            background: #10b981;
-            border-color: #10b981;
-            font-size: 1rem;
-            padding: 12px 24px;
-        }
-        .hero-cta.text:hover {
-            background: #059669;
-            border-color: #059669;
-            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3);
-        }
-        /* Value Proposition Section */
+        
+        /* Value Props Section */
         .value-props {
             padding: 100px 0;
             background: white;
@@ -415,62 +371,34 @@
             line-height: 1.7;
         }
         
-        /* Form Section - Enhanced */
+        /* Streamlined Form Section */
         .form-section {
             padding: 100px 0;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #f8f9fa 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .form-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(30, 58, 138, 0.03) 0%, transparent 70%);
-            animation: float 20s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
         }
         
         .form-container {
-            max-width: 900px;
+            max-width: 520px;
             margin: 0 auto;
-            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
-            padding: 3rem;
-            border-radius: 24px;
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.1),
-                0 8px 25px rgba(0, 0, 0, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
             text-align: center;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .form-header {
-            margin-bottom: 2.5rem;
-            position: relative;
+            border: 1px solid rgba(30, 58, 138, 0.1);
         }
         
         .form-icon {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            border-radius: 20px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1.5rem;
             font-size: 2rem;
             color: white;
-            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3);
             animation: pulse-glow 2s ease-in-out infinite;
         }
         
@@ -486,132 +414,65 @@
         }
         
         .form-container h2 {
-            font-size: 2.8rem;
-            margin-bottom: 1rem;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
             color: #1e3a8a;
             font-weight: 800;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .form-container .subtitle {
-            font-size: 1.2rem;
-            color: #4b5563;
-            margin-bottom: 3rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0 3rem;
-            text-align: left;
-        }
-        
-        .benefit-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem;
-            background: rgba(30, 58, 138, 0.03);
-            border-radius: 12px;
-            border-left: 4px solid #10b981;
-            transition: transform 0.2s ease;
-        }
-        
-        .benefit-item:hover {
-            transform: translateY(-2px);
-        }
-        
-        .benefit-icon {
-            font-size: 1.5rem;
-            color: #10b981;
-        }
-        
-        .benefit-text {
-            font-size: 0.9rem;
-            color: #374151;
-            font-weight: 500;
-        }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            text-align: left;
+            font-size: 1.1rem;
+            color: #666;
             margin-bottom: 2rem;
+            line-height: 1.5;
         }
         
         .form-group {
-            display: flex;
-            flex-direction: column;
-            position: relative;
+            margin-bottom: 1.2rem;
+            text-align: left;
         }
         
-        .form-group.full-width {
-            grid-column: 1 / -1;
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
         }
         
         .form-group label {
+            display: block;
             font-weight: 600;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
             color: #374151;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .label-icon {
-            font-size: 1.1rem;
-            color: #1e3a8a;
+            font-size: 0.9rem;
         }
         
         .form-group input,
-        .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 16px 20px;
+            padding: 14px 18px;
             border: 2px solid #e5e7eb;
-            border-radius: 12px;
+            border-radius: 10px;
             font-size: 1rem;
             font-family: inherit;
-            background: #ffffff;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            background: white;
+            transition: all 0.2s ease;
         }
         
         .form-group input:focus,
-        .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
             border-color: #1e3a8a;
-            box-shadow: 
-                0 0 0 4px rgba(30, 58, 138, 0.1),
-                0 4px 12px rgba(0,0,0,0.05);
-            transform: translateY(-1px);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
         }
         
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
+        .form-group input::placeholder {
             color: #9ca3af;
             font-style: italic;
         }
         
-        .form-submit-container {
-            margin-top: 2.5rem;
-            text-align: center;
-        }
-        
-        .form-submit-btn {
-            padding: 18px 48px;
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
             font-size: 1.2rem;
             font-weight: 700;
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
@@ -620,75 +481,25 @@
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 
-                0 8px 25px rgba(30, 58, 138, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
+            margin-top: 1.5rem;
         }
         
-        .form-submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .form-submit-btn:hover::before {
-            left: 100%;
-        }
-        
-        .form-submit-btn:hover {
+        .submit-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 
-                0 12px 35px rgba(30, 58, 138, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
-        
-        .form-submit-btn:active {
-            transform: translateY(-1px);
+            box-shadow: 0 12px 35px rgba(30, 58, 138, 0.4);
         }
         
         .form-disclaimer {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #6b7280;
-            margin-top: 1.5rem;
-            line-height: 1.5;
+            margin-top: 1rem;
+            line-height: 1.4;
             padding: 1rem;
             background: rgba(16, 185, 129, 0.05);
             border-radius: 8px;
             border-left: 3px solid #10b981;
         }
         
-        .trust-badges {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid #e5e7eb;
-        }
-        
-        .trust-badge {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            color: #6b7280;
-            font-weight: 500;
-        }
-        
-        .trust-icon {
-            color: #10b981;
-            font-size: 1.1rem;
-        }
-        
-        /* Success Message */
         .success-message {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
@@ -709,7 +520,7 @@
         footer {
             background: #252525;
             color: #e0e0e0;
-            padding: 5rem 0 3rem;
+            padding: 4rem 0 2rem;
         }
         .footer-grid {
             display: grid;
@@ -733,7 +544,7 @@
         .footer-column a {
             color: #e0e0e0;
             text-decoration: none;
-            transition: color 0.3s ease, text-decoration 0.3s ease;
+            transition: color 0.3s ease;
         }
         .footer-column a:hover {
             color: white;
@@ -758,123 +569,31 @@
             .nav-links { display: none; }
             .value-grid { grid-template-columns: 1fr; }
             .click-to-call {
-                bottom: 80px;
+                bottom: 15px;
                 right: 15px;
                 padding: 12px 16px;
                 font-size: 1rem;
             }
+            .messenger-button {
+                bottom: 15px;
+                left: 15px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
             .hero-cta-group {
                 flex-direction: column;
             }
-            .form-grid {
+            .form-row {
                 grid-template-columns: 1fr;
             }
             .form-container {
                 padding: 2rem;
+                margin: 0 1rem;
             }
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            .footer-column {
-                text-align: center;
-            }
-            .footer-column ul {
-                display: inline-block;
-                text-align: left;
-            }
-            .tcpa-banner-container {
-                flex-direction: column;
-                text-align: center;
-                padding: 1rem;
-            }
-            .tcpa-content {
-                margin-bottom: 1rem;
-            }
-            .benefits-grid {
-                grid-template-columns: 1fr;
-            }
-            .trust-badges {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-        /* Animations */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-in-up {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        /* ======================= TCPA Banner Styles ======================= */
-        .tcpa-banner-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #212529;
-            color: #f8f9fa;
-            padding: 1rem 1.5rem;
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .tcpa-banner-container.show {
-            display: flex;
-        }
-
-        .tcpa-content p {
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        .tcpa-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .tcpa-button {
-            background-color: #20c997;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            white-space: nowrap;
-            transition: background-color 0.2s;
-        }
-
-        .tcpa-button:hover {
-            background-color: #1a9c7d;
-        }
-
-        .tcpa-close {
-            background: none;
-            border: none;
-            color: #ccc;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0 0.5rem;
-            transition: color 0.2s;
-        }
-
-        .tcpa-close:hover {
-            color: white;
         }
     </style>
 </head>
 <body>
-    <!-- Facebook Messenger Root -->
-    <div id="fb-root"></div>
-
     <header>
         <nav class="container">
             <div class="logo-container">
@@ -888,11 +607,11 @@
                 </button>
                 
                 <div class="dropdown-menu" id="dropdownMenu">
-                    <div class="menu-item"><a href="plans">Health Plans</a></div>
+                    <div class="menu-item"><a href="#plans">Health Plans</a></div>
                     <div class="menu-item"><a href="#tips">Free Tips</a></div>
                     <div class="menu-item"><a href="/blog/">Blog</a></div>
                     <div class="menu-item"><a href="/our-approach.html">Our Approach</a></div>
-                    <div class="menu-item"><a href="about">About</a></div>
+                    <div class="menu-item"><a href="/about">About</a></div>
                     <div class="menu-item"><a href="#contact">Contact</a></div>
                     <div class="menu-item"><a href="/privacy-policy.html">Privacy Policy</a></div>
                     <div class="menu-item"><a href="tel:+18636403102"><span aria-hidden="true">📞</span> Call Now</a></div>
@@ -900,10 +619,10 @@
             </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="plans">Plans</a></li>
+                <li><a href="#plans">Plans</a></li>
                 <li><a href="/blog/">Blog</a></li>
                 <li><a href="/our-approach.html">Our Approach</a></li>
-                <li><a href="about">About</a></li>
+                <li><a href="/about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <a href="#contact" class="cta-button">Get Free Quote</a>
@@ -912,19 +631,13 @@
 
     <section class="hero" id="home">
         <div class="container">
-            <div class="hero-content fade-in-up">
+            <div class="hero-content">
                 <h1>Health Insurance Without the Runaround</h1>
                 <h2>Finally, Someone Who Speaks Human Instead of Insurance Gibberish</h2>
                 <p>Serving families and businesses in Florida and nationwide. Get straight talk about health insurance from someone who actually gives a damn about your financial future.</p>
                 <div class="hero-cta-group">
-                    <a href="tel:+18636403102" class="hero-cta">📞 Call Now: (863) 640-3102</a>
-                    <a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer" class="hero-cta messenger">💬 Chat with David</a>
-                </div>
-                <div style="text-align: center; margin-top: 1rem;">
-                    <a href="sms:+18636403102?body=Hi David! I'm interested in getting a health insurance quote. Can you help?" class="hero-cta text">📱 Text David: (863) 640-3102</a>
-                </div>
-                <div style="text-align: center; margin-top: 1rem;">
-                    <a href="#contact" class="hero-cta secondary">Get a Free Checkup</a>
+                    <a href="#contact" class="hero-cta">Get a Free Checkup</a>
+                    <a href="tel:+18636403102" class="hero-cta secondary">Call Now: (863) 640-3102</a>
                 </div>
             </div>
         </div>
@@ -933,24 +646,24 @@
     <section class="value-props" id="tips">
         <div class="container">
             <h2>Tired of the Same Old Insurance Runaround?</h2>
-            <p class="subtitle"><a href="/our-approach.html" style="color: #666; text-decoration: none; border-bottom: 2px solid #1e3a8a; transition: color 0.3s ease;" onmouseover="this.style.color='#1e3a8a'" onmouseout="this.style.color='#666'">The industry is broken. We're here to fix it, one honest conversation at a time.</a></p>
+            <p class="subtitle">The industry is broken. We're here to fix it, one honest conversation at a time.</p>
             <div class="value-grid">
-                <div class="value-card fade-in-up">
-                    <a href="/blog/preexisting-condition-guide.html" class="card-link">
+                <div class="value-card">
+                    <a href="blog/preexisting-condition-guide.html" class="card-link">
                         <h3><span aria-hidden="true">🧭</span> The Pre-Existing Condition Survival Guide</h3>
                         <p>Navigate the complex world of pre-existing conditions with confidence. Learn how to find coverage, understand waiting periods, and avoid the traps that leave you unprotected.</p>
                     </a>
                 </div>
                 
-                <div class="value-card fade-in-up">
-                    <a href="/blog/aca-vs-short-term-plans.html" class="card-link">
+                <div class="value-card">
+                    <a href="blog/aca-vs-short-term-plans.html" class="card-link">
                         <h3><span aria-hidden="true">⚖️</span> ACA vs. Short-Term Plans: The Real Deal</h3>
                         <p>We'll cut through the marketing fluff and give you the real pros and cons of each option, because your health (and wallet) deserve the honest truth.</p>
                     </a>
                 </div>
                 
-                <div class="value-card fade-in-up">
-                    <a href="/blog/how-to-use-health-insurance-without-going-broke.html" class="card-link">
+                <div class="value-card">
+                    <a href="blog/how-to-use-health-insurance-without-going-broke.html" class="card-link">
                         <h3><span aria-hidden="true">💳</span> Use Your Insurance Without Going Broke</h3>
                         <p>Having insurance is step one. Using it without triggering financial ruin is step two. Here's your survival guide to deductibles, copays, and other "fun" surprises.</p>
                     </a>
@@ -961,129 +674,70 @@
 
     <section class="form-section" id="contact">
         <div class="container">
-            <div class="form-container fade-in-up">
+            <div class="form-container">
                 <div id="contact-form">
-                    <div class="form-header">
-                        <div class="form-icon">🔍</div>
-                        <h2>Get Your Free Insurance Checkup</h2>
-                        <p class="subtitle">Let's peek under the hood of your current policy. No sales pressure, just honest advice to see if you can get better coverage or save some cash. It's like a spa day for your wallet.</p>
-                    </div>
-                    
-                    <div class="benefits-grid">
-                        <div class="benefit-item">
-                            <span class="benefit-icon">⚡</span>
-                            <span class="benefit-text">Free Analysis</span>
-                        </div>
-                        <div class="benefit-item">
-                            <span class="benefit-icon">💰</span>
-                            <span class="benefit-text">Save Money</span>
-                        </div>
-                        <div class="benefit-item">
-                            <span class="benefit-icon">🛡️</span>
-                            <span class="benefit-text">Better Coverage</span>
-                        </div>
-                        <div class="benefit-item">
-                            <span class="benefit-icon">📞</span>
-                            <span class="benefit-text">Personal Service</span>
-                        </div>
-                    </div>
+                    <div class="form-icon">🔍</div>
+                    <h2>Free Insurance Reality Check</h2>
+                    <p class="subtitle">No BS. Just tell us if you're overpaying or underprotected.</p>
                     
                     <form action="https://formspree.io/f/xwpbvjvw" method="POST" id="insurance-form">
-                        <div class="form-grid">
+                        <div class="form-row">
                             <div class="form-group">
-                                <label for="name">
-                                    <span class="label-icon">👤</span>
-                                    Full Name
-                                </label>
-                                <input type="text" id="name" name="name" placeholder="What should we call you?" required autocomplete="name">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" placeholder="What do we call you?" required autocomplete="name">
                             </div>
                             <div class="form-group">
-                                <label for="email">
-                                    <span class="label-icon">📧</span>
-                                    Email Address
-                                </label>
-                                <input type="email" id="email" name="email" placeholder="your.email@example.com" required autocomplete="email">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required autocomplete="tel">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email">
                             </div>
                             <div class="form-group">
-                                <label for="phone">
-                                    <span class="label-icon">📱</span>
-                                    Phone Number
-                                </label>
-                                <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" autocomplete="tel">
+                                <label for="zipcode">Zip Code</label>
+                                <input type="text" id="zipcode" name="zipcode" placeholder="12345" required autocomplete="postal-code">
                             </div>
-                            <div class="form-group">
-                                <label for="zipcode">
-                                    <span class="label-icon">📍</span>
-                                    Zip Code
-                                </label>
-                                <input type="text" id="zipcode" name="zipcode" placeholder="Where are you located?" required autocomplete="postal-code">
-                            </div>
-                            <div class="form-group full-width">
-                                <label for="situation">
-                                    <span class="label-icon">🤔</span>
-                                    What's your situation?
-                                </label>
-                                <select id="situation" name="situation">
-                                    <option value="">Tell us what's going on...</option>
-                                    <option value="no-insurance">😬 No insurance currently</option>
-                                    <option value="too-expensive">💸 Insurance too expensive</option>
-                                    <option value="bad-coverage">😤 Coverage sucks</option>
-                                    <option value="job-change">🔄 Changing jobs</option>
-                                    <option value="life-change">👶 Life change (marriage, baby, etc)</option>
-                                    <option value="medicare-time">🎂 Turning 65 soon</option>
-                                    <option value="just-shopping">🛍️ Just shopping around</option>
-                                </select>
-                            </div>
-                            <div class="form-group full-width">
-                                <label for="message">
-                                    <span class="label-icon">💭</span>
-                                    Anything else you want to review? (Optional)
-                                </label>
-                                <textarea id="message" name="message" rows="4" placeholder="e.g., 'My family plan seems expensive', 'Am I ready for Medicare?', 'Just want a general review'"></textarea>
-                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="situation">What's Going On?</label>
+                            <select id="situation" name="situation" required>
+                                <option value="">Pick your poison...</option>
+                                <option value="no-insurance">No insurance (living dangerously)</option>
+                                <option value="too-expensive">Paying too much (probably)</option>
+                                <option value="bad-coverage">Coverage sucks</option>
+                                <option value="job-change">Job change chaos</option>
+                                <option value="medicare-time">Medicare time (scary!)</option>
+                                <option value="just-shopping">Just browsing</option>
+                            </select>
                         </div>
                         
                         <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thank-you">
-                        <input type="hidden" name="_subject" value="Free Insurance Checkup Request">
+                        <input type="hidden" name="_subject" value="Quick Insurance Checkup">
                         <input type="hidden" name="_captcha" value="false">
                         
-                        <div class="form-submit-container">
-                            <button type="submit" class="form-submit-btn">🚀 Analyze My Policy!</button>
-                        </div>
+                        <button type="submit" class="submit-btn">Get My Reality Check 🚀</button>
                         
                         <p class="form-disclaimer">
-                            <strong>🔒 Privacy Promise:</strong> No spam, no robo-calls, no sharing your info. 
-                            David will personally review your situation within 24 hours. 
-                            By submitting, you agree to receive calls/texts about insurance options.
+                            <strong>Promise:</strong> David will personally call within 24 hours. No robots, no spam, no selling your soul to lead farms.
                         </p>
-                        
-                        <div class="trust-badges">
-                            <div class="trust-badge">
-                                <span class="trust-icon">✅</span>
-                                Licensed Agent
-                            </div>
-                            <div class="trust-badge">
-                                <span class="trust-icon">⭐</span>
-                                5-Star Reviews
-                            </div>
-                            <div class="trust-badge">
-                                <span class="trust-icon">🏆</span>
-                                FL License #W371813
-                            </div>
-                        </div>
                     </form>
                 </div>
                 
                 <div id="success-message" class="success-message">
-                    <h3>🎉 Thanks! Your Info is Safe with Us</h3>
-                    <p>David will personally review your situation and get back to you within 24 hours. No robo-calls, no spam - just honest advice about your insurance options.</p>
-                    <p style="margin-top: 1rem;">In the meantime, feel free to call directly: <strong>(863) 640-3102</strong></p>
+                    <h3>🎉 Got It!</h3>
+                    <p>David will call you back faster than a denied claim appeal. Usually within 24 hours.</p>
+                    <p style="margin-top: 1rem;">Impatient? Call now: <strong>(863) 640-3102</strong></p>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer id="footer-info">
+    <footer>
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-column">
@@ -1091,7 +745,7 @@
                     <ul>
                         <li><a href="tel:+18636403102"><span aria-hidden="true">📞</span> (863) 640-3102</a></li>
                         <li><a href="mailto:david@lakelandhealthinsurance.com"><span aria-hidden="true">📧</span> david@lakelandhealthinsurance.com</a></li>
-                        <li><a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">💬</span> Chat with David</a></li>
+                        <li><a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">💬</span> David the Insurance Dude</a></li>
                         <li><span aria-hidden="true">📍</span> Central Florida Headquarters</li>
                         <li><span aria-hidden="true">⏰</span> Mon-Fri 8AM-8PM EST</li>
                         <li><span aria-hidden="true">⏰</span> Sat 9AM-5PM EST</li>
@@ -1111,13 +765,11 @@
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#home">Home</a></li>
-                        <li><a href="plans">Insurance Plans</a></li>
+                        <li><a href="#plans">Insurance Plans</a></li>
                         <li><a href="/blog/">Blog</a></li>
                         <li><a href="/our-approach.html">Our Approach</a></li>
-                        <li><a href="/about">About Us</a></li>
                         <li><a href="#contact">Get Quote</a></li>
                         <li><a href="/privacy-policy.html">Privacy Policy</a></li>
-                        <li><a href="/sitemap.xml">Sitemap</a></li>
                     </ul>
                 </div>
             </div>
@@ -1133,15 +785,14 @@
         </div>
     </footer>
     
-    <div id="tcpa-banner" class="tcpa-banner-container">
-        <div class="tcpa-content">
-            <p><strong>Real talk:</strong> By giving us your number, you're saying it's cool if I call or text you about insurance stuff. No robots here - just me, David, probably calling while drinking too much coffee. You can tell me to buzz off anytime, and you don't have to agree to get quotes. Your phone company will charge you for texts like they always do.</p>
+    <!-- Floating Action Buttons -->
+    <a href="https://m.me/2330958066941437" class="messenger-button" target="_blank" rel="noopener noreferrer" onclick="trackMessengerClick()">
+        <span class="messenger-icon" aria-hidden="true">💬</span>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <span>Message David</span>
+            <span style="font-size: 0.8rem; opacity: 0.9;">Usually replies fast</span>
         </div>
-        <div class="tcpa-actions">
-            <button id="tcpa-agree-btn" class="tcpa-button">I'm Cool With That</button>
-            <button id="tcpa-close-btn" class="tcpa-close">×</button>
-        </div>
-    </div>
+    </a>
     
     <a href="tel:+18636403102" class="click-to-call" onclick="trackPhoneCall()">
         <span class="phone-icon" aria-hidden="true">📞</span>
@@ -1151,74 +802,19 @@
         </div>
     </a>
 
-    <!-- Facebook Messenger Chat Bubble -->
-    <div class="fb-customerchat"
-      page_id="2330958066941437"
-      greeting_dialog_display="fade"
-      greeting_dialog_delay="60"
-      minimized="true"
-      theme_color="#1e3a8a"
-      logged_in_greeting="Hey there! Got insurance questions that aren't *insuring* your peace of mind? Chat with David for real answers, no fluff. We're here to help!"
-      logged_out_greeting="Hey there! Got insurance questions that aren't *insuring* your peace of mind? Chat with David for real answers, no fluff. We're here to help!">
-    </div>
-
     <script>
-        // ======================= Facebook Messenger Setup =======================
-        window.fbAsyncInit = function() {
-            FB.init({
-                xfbml: true,
-                version: 'v20.0'
-            });
-        };
-
-        (function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v20.0';
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-
-        // ======================= Form Handling with Advanced Tracking =======================
+        // Form handling
         document.getElementById('insurance-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const form = e.target;
             const formData = new FormData(form);
-            const submitBtn = form.querySelector('.form-submit-btn');
+            const submitBtn = form.querySelector('.submit-btn');
             const originalText = submitBtn.textContent;
             
-            // Show loading state
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
             
-            // Track form submission events BEFORE sending
-            if (typeof gtag === 'function') {
-                gtag('event', 'form_submit', {
-                    event_category: 'engagement',
-                    event_label: 'insurance_checkup_form',
-                    value: 1
-                });
-                gtag('event', 'generate_lead', {
-                    event_category: 'conversion',
-                    event_label: 'insurance_quote_request',
-                    value: 1
-                });
-            }
-            
-            if (typeof fbq === 'function') {
-                fbq('track', 'Lead', {
-                    content_name: 'Insurance Checkup Form',
-                    content_category: 'Insurance Quote',
-                    value: 1,
-                    currency: 'USD'
-                });
-                fbq('track', 'Contact', {
-                    content_name: 'Insurance Checkup Request'
-                });
-            }
-            
-            // Submit to Formspree
             fetch(form.action, {
                 method: 'POST',
                 body: formData,
@@ -1228,22 +824,14 @@
             })
             .then(response => {
                 if (response.ok) {
-                    // Show success message
                     document.getElementById('contact-form').style.display = 'none';
                     document.getElementById('success-message').classList.add('show');
                     
-                    // Track successful submission
+                    // Track form submission
                     if (typeof gtag === 'function') {
-                        gtag('event', 'form_submit_success', {
-                            event_category: 'conversion',
-                            event_label: 'insurance_checkup_complete',
-                            value: 1
-                        });
-                    }
-                    
-                    if (typeof fbq === 'function') {
-                        fbq('track', 'SubmitApplication', {
-                            content_name: 'Insurance Checkup Form Success'
+                        gtag('event', 'form_submit', {
+                            event_category: 'engagement',
+                            event_label: 'insurance_checkup_form'
                         });
                     }
                 } else {
@@ -1251,154 +839,44 @@
                 }
             })
             .catch(error => {
-                alert('Oops! Something went wrong. Please try calling (863) 640-3102 directly or try again.');
+                alert('Something broke. Just call (863) 640-3102 instead.');
                 console.error('Form submission error:', error);
-                
-                // Track form errors
-                if (typeof gtag === 'function') {
-                    gtag('event', 'form_error', {
-                        event_category: 'error',
-                        event_label: 'insurance_form_submission_failed'
-                    });
-                }
             })
             .finally(() => {
-                // Reset button state
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             });
         });
 
-        // ======================= TCPA Banner Logic =======================
-        document.addEventListener('DOMContentLoaded', function() {
-            const banner = document.getElementById('tcpa-banner');
-            const agreeBtn = document.getElementById('tcpa-agree-btn');
-            const closeBtn = document.getElementById('tcpa-close-btn');
-            const tcpaConsentKey = 'tcpaConsentGiven';
-
-            function isStorageAvailable(type) {
-                let storage;
-                try {
-                    storage = window[type];
-                    const x = '__storage_test__';
-                    storage.setItem(x, x);
-                    storage.removeItem(x);
-                    return true;
-                }
-                catch (e) {
-                    return false;
-                }
+        // Auto-format phone number
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 6) {
+                value = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6,10)}`;
+            } else if (value.length >= 3) {
+                value = `(${value.slice(0,3)}) ${value.slice(3)}`;
             }
-
-            if (isStorageAvailable('localStorage')) {
-                if (!localStorage.getItem(tcpaConsentKey)) {
-                    banner.classList.add('show');
-                }
-            } else {
-                banner.classList.add('show');
-            }
-
-            function hideBanner() {
-                banner.classList.remove('show');
-                if (isStorageAvailable('localStorage')) {
-                    try {
-                        localStorage.setItem(tcpaConsentKey, 'true');
-                    } catch (e) {
-                        console.error('Could not save TCPA consent to localStorage.', e);
-                    }
-                }
-                
-                // Track TCPA consent
-                if (typeof gtag === 'function') {
-                    gtag('event', 'tcpa_consent', {
-                        event_category: 'engagement',
-                        event_label: 'user_agreed_to_contact'
-                    });
-                }
-            }
-
-            agreeBtn.addEventListener('click', hideBanner);
-            closeBtn.addEventListener('click', function() {
-                banner.classList.remove('show');
-                if (typeof gtag === 'function') {
-                    gtag('event', 'tcpa_declined', {
-                        event_category: 'engagement',
-                        event_label: 'user_declined_contact'
-                    });
-                }
-            });
+            e.target.value = value;
         });
 
-        // ======================= Enhanced Analytics Event Tracking =======================
+        // Analytics Event Tracking
         function trackPhoneCall() {
             if (typeof gtag === 'function') {
                 gtag('event', 'phone_call', {
                     event_category: 'engagement',
-                    event_label: 'click_to_call_button',
-                    value: 1
-                });
-            }
-            
-            if (typeof fbq === 'function') {
-                fbq('track', 'Contact', {
-                    content_name: 'Phone Call Click'
+                    event_label: 'click_to_call_button'
                 });
             }
         }
 
-        // Track SMS clicks
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('a[href^="sms:"]')) {
-                if (typeof gtag === 'function') {
-                    gtag('event', 'sms_click', {
-                        event_category: 'engagement',
-                        event_label: 'text_message_david',
-                        value: 1
-                    });
-                }
-                
-                if (typeof fbq === 'function') {
-                    fbq('track', 'Contact', {
-                        content_name: 'SMS Text Click'
-                    });
-                }
+        function trackMessengerClick() {
+            if (typeof gtag === 'function') {
+                gtag('event', 'messenger_click', {
+                    event_category: 'engagement',
+                    event_label: 'messenger_button'
+                });
             }
-        });
-
-        // Track Messenger clicks
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.hero-cta.messenger') || e.target.closest('a[href*="m.me"]')) {
-                if (typeof gtag === 'function') {
-                    gtag('event', 'messenger_click', {
-                        event_category: 'engagement',
-                        event_label: 'facebook_messenger_chat',
-                        value: 1
-                    });
-                }
-                
-                if (typeof fbq === 'function') {
-                    fbq('track', 'Contact', {
-                        content_name: 'Messenger Chat Click'
-                    });
-                }
-            }
-        });
-
-        // Track scroll depth
-        let maxScrollDepth = 0;
-        window.addEventListener('scroll', function() {
-            const scrollDepth = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-            if (scrollDepth > maxScrollDepth && scrollDepth % 25 === 0) {
-                maxScrollDepth = scrollDepth;
-                if (typeof gtag === 'function') {
-                    gtag('event', 'scroll_depth', {
-                        event_category: 'engagement',
-                        event_label: `${scrollDepth}%`,
-                        value: scrollDepth
-                    });
-                }
-            }
-        });
+        }
 
         // Menu toggle
         function toggleMenu() {
@@ -1435,19 +913,6 @@
 
         // Automatically update footer year
         document.getElementById('current-year').textContent = new Date().getFullYear();
-
-        // Track page engagement
-        let startTime = Date.now();
-        window.addEventListener('beforeunload', function() {
-            const timeOnPage = Math.round((Date.now() - startTime) / 1000);
-            if (typeof gtag === 'function' && timeOnPage > 10) {
-                gtag('event', 'page_engagement', {
-                    event_category: 'engagement',
-                    event_label: 'time_on_page',
-                    value: timeOnPage
-                });
-            }
-        });
     </script>
 </body>
 </html>
