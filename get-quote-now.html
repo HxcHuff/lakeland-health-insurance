@@ -206,6 +206,85 @@
       font-size: 1rem;
     }
 
+    .pdf-download-section {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 193, 7, 0.6);
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pdf-download-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 193, 7, 0.1), transparent);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+      }
+      100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+      }
+    }
+
+    .pdf-download-section h3 {
+      font-size: 1.6rem;
+      margin-bottom: 0.75rem;
+      color: #FFC107;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 2;
+    }
+
+    .pdf-download-section p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.95;
+      line-height: 1.4;
+      position: relative;
+      z-index: 2;
+    }
+
+    .pdf-download-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #FFC107, #FF9800);
+      color: #1a1a1a;
+      padding: 16px 32px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+      position: relative;
+      z-index: 2;
+    }
+
+    .pdf-download-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(255, 193, 7, 0.6);
+      background: linear-gradient(135deg, #FFD54F, #FFB74D);
+    }
+
+    .pdf-features {
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      opacity: 0.9;
+      position: relative;
+      z-index: 2;
+    }
+
     .form-container {
       background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(20px);
@@ -398,6 +477,10 @@
         padding: 1.5rem;
       }
       
+      .pdf-download-section {
+        padding: 1.5rem;
+      }
+      
       .trust-indicators {
         justify-content: center;
       }
@@ -424,6 +507,11 @@
         font-size: 1.1rem;
         padding: 16px;
       }
+      
+      .pdf-download-btn {
+        font-size: 1.1rem;
+        padding: 14px 28px;
+      }
     }
   </style>
 </head>
@@ -446,6 +534,22 @@
         <div class="benefit-item"><span class="benefit-icon">🔍</span><span class="benefit-text">Get honest options without the sales fog</span></div>
         <div class="benefit-item"><span class="benefit-icon">⚡</span><span class="benefit-text">Quote faster than a claim gets denied</span></div>
       </div>
+
+      <!-- PDF Download Section -->
+      <div class="pdf-download-section">
+        <h3>🎯 FREE: Florida Health Insurance Survival Guide</h3>
+        <p>Before getting your quote, grab this brutally honest 16-page guide that exposes what insurance companies don't want you to know.</p>
+        <a href="./assets/florida-health-insurance-survival-guide.pdf" 
+           download="Florida-Health-Insurance-Survival-Guide.pdf"
+           class="pdf-download-btn"
+           onclick="gtag('event', 'pdf_download', {event_category: 'lead_magnet', event_label: 'survival_guide'});">
+          📥 Download FREE Guide (No Email Required)
+        </a>
+        <div class="pdf-features">
+          ✓ Hurricane season prep tips • ✓ Carrier insider secrets • ✓ Money-saving strategies
+        </div>
+      </div>
+
       <div class="form-container">
         <form action="https://formspree.io/f/xwpbvjvw" method="POST" id="insurance-form">
           <div class="form-row">
