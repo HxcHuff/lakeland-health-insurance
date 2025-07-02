@@ -1,4 +1,4 @@
-!DOCTYPE html
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -38,7 +38,6 @@
       padding: 1rem;
     }
 
-    /* Animated background elements */
     .bg-animation {
       position: absolute;
       top: 0;
@@ -271,6 +270,12 @@
       transform: translateY(-1px);
     }
 
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .social-proof {
       text-align: center;
       margin-bottom: 1.5rem;
@@ -424,7 +429,7 @@
         <div class="benefit-item"><span class="benefit-icon">⚡</span><span class="benefit-text">Quote faster than a claim gets denied</span></div>
       </div>
       <div class="form-container">
-        <form action="https://formspree.io/f/xwpbvjvw" method="POST" id="lead-form-element">
+        <form action="https://formspree.io/f/xwpbvjvw" method="POST" id="insurance-form">
           <div class="form-row">
             <div class="form-group">
               <label for="firstName">First Name</label>
@@ -519,94 +524,69 @@
   </div>
 
   <script>
-    // Auto-format phone number as user types
-    document.getElementById('phone').addEventListener('input', function(e) {
-      let value = e.target.value.replace(/\D/g, '');
-      if (value.length >= 6) {
-        value = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6,10)}`;
-      } else if (value.length >= 3) {
-        value = `(${value.slice(0,3)}) ${value.slice(3)}`;
+    document.addEventListener('DOMContentLoaded', function() {
+      // Auto-format phone number
+      const phoneInput = document.getElementById('phone');
+      if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+          let value = e.target.value.replace(/\D/g, '');
+          if (value.length >= 6) {
+            value = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6,10)}`;
+          } else if (value.length >= 3) {
+            value = `(${value.slice(0,3)}) ${value.slice(3)}`;
+          }
+          e.target.value = value;
+        });
       }
-      e.target.value = value;
-    });
 
-    // Form submission handling
-    document.getElementById('lead-form-element').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const form = e.target;
-      const formData = new FormData(form);
-      const submitBtn = form.querySelector('.submit-btn');
-      const originalText = submitBtn.textContent;
-      
-      // Show loading state
-      submitBtn.textContent = 'Sending Your Quote Request...';
-      submitBtn.disabled = true;
-      
-      // Submit to Formspree
-      fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
-      })
-      .then(response => {
-        if (response.ok) {
-          // Hide form and show success message
-          document.getElementById('lead-form').style.display = 'none';
-          document.getElementById('success-message').classList.add('show');
+      // Form submission
+      const form = document.getElementById('insurance-form');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
           
-          // Track conversion with Google Analytics
-          if (typeof gtag === 'function') {
-            gtag('event', 'form_submit', {
-              event_category: 'lead_generation',
-              event_label: 'quote_request_form',
-              value: 1
-            });
-          }
+          const formData = new FormData(form);
+          const submitBtn = form.querySelector('.submit-btn');
+          const originalText = submitBtn.textContent;
           
-          // Track high-intent conversion
-          gtag('event', 'conversion', {
-            send_to: 'G-W45RMKHXV0/quote_request'
+          // Show loading state
+          submitBtn.textContent = 'Sending Your Quote Request...';
+          submitBtn.disabled = true;
+          
+          // Submit to Formspree
+          fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Accept': 'application/json'
+            }
+          })
+          .then(response => {
+            if (response.ok) {
+              // Hide form and show success message
+              document.getElementById('lead-form').style.display = 'none';
+              document.getElementById('success-message').classList.add('show');
+              
+              // Track conversion
+              if (typeof gtag === 'function') {
+                gtag('event', 'form_submit', {
+                  event_category: 'lead_generation',
+                  event_label: 'quote_request_form'
+                });
+              }
+            } else {
+              throw new Error('Form submission failed');
+            }
+          })
+          .catch(error => {
+            alert('Oops! Something went wrong. Please try calling (863) 640-3102 directly or refresh and try again.');
+            console.error('Form submission error:', error);
+          })
+          .finally(() => {
+            // Reset button state
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
           });
-          
-        } else {
-          throw new Error('Form submission failed');
-        }
-      })
-      .catch(error => {
-        alert('Oops! Something went wrong. Please try calling (863) 640-3102 directly or refresh and try again.');
-        console.error('Form submission error:', error);
-      })
-      .finally(() => {
-        // Reset button state
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-      });
-    });
-
-    // Add some visual feedback for form interactions
-    const formInputs = document.querySelectorAll('input, select');
-    formInputs.forEach(input => {
-      input.addEventListener('focus', function() {
-        this.parentElement.style.transform = 'translateY(-2px)';
-      });
-      
-      input.addEventListener('blur', function() {
-        this.parentElement.style.transform = 'translateY(0)';
-      });
-    });
-
-    // Validate required fields in real-time
-    formInputs.forEach(input => {
-      if (input.hasAttribute('required')) {
-        input.addEventListener('blur', function() {
-          if (this.value.trim() === '') {
-            this.style.borderColor = '#ef4444';
-          } else {
-            this.style.borderColor = '#10b981';
-          }
         });
       }
     });
