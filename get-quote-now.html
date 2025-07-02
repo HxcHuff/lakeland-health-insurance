@@ -18,6 +18,24 @@
     gtag("js", new Date());
     gtag("config", "G-W45RMKHXV0");
   </script>
+  
+  <!-- Facebook Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1822900971216472');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Facebook Pixel Code -->
   <style>
     * {
       margin: 0;
@@ -418,7 +436,7 @@
   <div class="container">
     <div id="lead-form">
       <div class="logo">LHI</div>
-      <h1 class="headline">You're Overpaying for Insurance — Let's Fix That</h1>
+      <h1 class="headline">You're Overpaying for Insurance, Let's Fix That</h1>
       <p class="subheadline">2-minute quote. No gimmicks, no spam. Just a real agent showing you what you <em>should</em> be paying — probably less.</p>
       <div class="urgency-banner">
         <strong>⚡ This Week Only:</strong> Most people save <strong>$200–400/month</strong>. Get your free quote before it closes. No fees. No commitment. Just answers.
@@ -567,11 +585,21 @@
               document.getElementById('lead-form').style.display = 'none';
               document.getElementById('success-message').classList.add('show');
               
-              // Track conversion
+              // Track conversion - Google Analytics
               if (typeof gtag === 'function') {
                 gtag('event', 'form_submit', {
                   event_category: 'lead_generation',
                   event_label: 'quote_request_form'
+                });
+              }
+              
+              // Track conversion - Facebook Pixel
+              if (typeof fbq === 'function') {
+                fbq('track', 'Lead', {
+                  content_name: 'Insurance Quote Request',
+                  content_category: 'Insurance',
+                  value: 100,
+                  currency: 'USD'
                 });
               }
             } else {
