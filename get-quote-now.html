@@ -1,7 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- [Head content unchanged for brevity] -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thanks! We Got Your Request | Lakeland Health Insurance</title>
+  <meta name="description" content="Thanks for requesting a quote! David will call you back within 24 hours, or schedule your appointment now." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- GOOGLE ANALYTICS 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-W45RMKHXV0');
+  </script>
+
+  <!-- FACEBOOK PIXEL -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () { n.callMethod ?
+        n.callMethod.apply(n, arguments) : n.queue.push(arguments) };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1822900971216472');
+    fbq('track', 'PageView');
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #10b981 100%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
+      padding: 1rem;
+    }
+
+    .bg-animation {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .floating-shape {
+      position: absolute;
+      opacity: 0.1;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .shape-1 {
+      top: 20%;
+      left: 10%;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation-delay: 0s;
+    }
+
+    .shape-2 {
+      top: 60%;
+      right: 15%;
+      width: 150px;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      animation-delay: 2s;
+    }
+
+    .shape-3 {
+      bottom: 30%;
+      left: 20%;
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+      animation-delay: 4s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(180deg);
+      }
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      position: relative;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .header {
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(59, 130, 246, 0.2));
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .success-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: bounce 1s ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-20px); }
+      60% { transform: translateY(-10px); }
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: #10b981;
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+
+    .phone-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #10b981;
+      text-decoration: none;
+      display: inline-block;
+      margin: 1rem 0;
+      padding: 12px 24px;
+      background: rgba(16, 185, 129, 0.2);
+      border: 2px solid rgba(16, 185, 129, 0.3);
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .phone-number:hover {
+      background: rgba(16, 185, 129, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .calendly-section {
+      padding: 2rem;
+    }
+
+    .calendly-header {
+      margin-bottom: 2rem;
+    }
+
+    .calendly-header h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    .calendly-header p {
+      opacity: 0.9;
+      font-size: 1.1rem;
+    }
+
+    .calendly-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      height: 650px;
+      position: relative;
+    }
+
+    .calendly-loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      color: #666;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .calendly-fallback {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .calendly-fallback a {
+      color: #10b981;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .calendly-fallback a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .footer p {
+      margin: 0.5rem 0;
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    .footer a {
+      color: #10b981;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 640px) {
+      .container {
+        margin: 0.5rem;
+        max-width: none;
+      }
+      
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .phone-number {
+        font-size: 1.2rem;
+      }
+      
+      .calendly-container {
+        height: 500px;
+      }
+      
+      .header,
+      .calendly-section {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Loading spinner */
+    .spinner {
+      border: 3px solid rgba(102, 102, 102, 0.3);
+      border-top: 3px solid #666;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
   <div class="bg-animation">
@@ -11,54 +308,91 @@
   </div>
 
   <div class="container">
-    <div id="lead-form">
-      <!-- [Form content unchanged for brevity] -->
+    <div class="header">
+      <div class="success-icon">🎉</div>
+      <h1>Got It!</h1>
+      <p>David will call you back faster than a denied claim appeal.</p>
+      <p><strong>Usually within 24 hours.</strong></p>
+      
+      <p style="margin-top: 1.5rem;">Impatient? Call now:</p>
+      <a href="tel:+18636403102" class="phone-number" onclick="gtag('event','phone_call',{event_category:'conversion',event_label:'success_page_call'});">
+        📞 (863) 640-3102
+      </a>
     </div>
 
-    <div id="success-message" class="success-message">
-      <h3>🎉 Got It!</h3>
-      <p>David will call you back faster than a denied claim appeal. Usually within 24 hours.</p>
-      <p style="margin-top: 1rem;">Impatient? Call now: <strong>(863) 640-3102</strong></p>
-      <div style="margin-top: 2rem;">
-        <p>Or schedule your 15-minute reality check now:</p>
-        <div style="max-width: 100%; height: 650px; overflow: hidden;">
-          <iframe src="https://calendly.com/dhuff-health" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
-        </div>
+    <div class="calendly-section">
+      <div class="calendly-header">
+        <h2>Or schedule your 15-minute reality check now:</h2>
+        <p>Skip the phone tag and book directly with David's calendar</p>
       </div>
+
+      <div class="calendly-container">
+        <div id="calendly-loading" class="calendly-loading">
+          <div class="spinner"></div>
+          Loading calendar...
+        </div>
+        <iframe 
+          src="https://calendly.com/dhuff-health" 
+          width="100%" 
+          height="100%" 
+          frameborder="0" 
+          scrolling="no"
+          onload="document.getElementById('calendly-loading').style.display='none'">
+        </iframe>
+      </div>
+
+      <div class="calendly-fallback">
+        <p>Calendar not loading? 
+          <a href="https://calendly.com/dhuff-health" target="_blank" onclick="gtag('event','calendly_fallback_click',{event_category:'conversion',event_label:'external_calendly'});">
+            Click here to book on Calendly →
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>&copy; 2025 Lakeland Health Insurance | FL License #W371813</p>
+      <p>📞 <a href="tel:+18636403102">(863) 640-3102</a> | 📧 <a href="mailto:david@lakelandhealthinsurance.com">david@lakelandhealthinsurance.com</a></p>
+      <p><a href="/">← Back to Homepage</a></p>
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <!-- [Footer content unchanged for brevity] -->
-  </footer>
-
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // [Script logic unchanged for brevity]
+    // Calendly event tracking
+    window.addEventListener('message', function(e) {
+      if (e.origin === "https://calendly.com" && e.data.event === "calendly.event_scheduled") {
+        // Google Analytics 4 event
+        if (typeof gtag === 'function') {
+          gtag('event', 'calendly_booking', {
+            event_category: 'conversion',
+            event_label: 'calendly_appointment_booked',
+            value: 1
+          });
+        }
+        
+        // Facebook Pixel event
+        if (typeof fbq === 'function') {
+          fbq('track', 'Lead', {
+            content_name: 'Calendly Appointment Booked',
+            value: 1.00,
+            currency: 'USD'
+          });
+        }
+        
+        // Show confirmation message
+        setTimeout(() => {
+          alert('🎉 Appointment booked! You should receive a confirmation email shortly. David\'s looking forward to talking with you!');
+        }, 1000);
+      }
     });
-  </script>
-<script>
-  window.addEventListener('message', function(e) {
-    if (e.origin === "https://calendly.com" && e.data.event === "calendly.event_scheduled") {
-      // Google Analytics 4 event
-      if (typeof gtag === 'function') {
-        gtag('event', 'calendly_booking', {
-          event_category: 'booking',
-          event_label: 'Calendly Booking Confirmation'
-        });
-      }
 
-      // Facebook Pixel event
-      if (typeof fbq === 'function') {
-        fbq('track', 'Lead', {
-          content_name: 'Calendly Appointment Booked',
-          value: 0.00,
-          currency: 'USD'
-        });
-      }
+    // Track page load conversion
+    if (typeof gtag === 'function') {
+      gtag('event', 'conversion_page_view', {
+        event_category: 'conversion',
+        event_label: 'success_page_load'
+      });
     }
-  });
-</script>
+  </script>
 </body>
 </html>
