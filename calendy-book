@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Your Free Insurance Reality Check | David Huff</title>
+  <meta name="description" content="Skip the phone tag. Book your free 15-30 minute insurance consultation directly with David. No BS, just honest advice about your coverage." />
+  <meta name="robots" content="index, follow" />
+
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- UTM CAPTURE / SESSION STORAGE -->
+  <script>
+    (function () {
+      const KEYS = [
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'utm_term',
+        'utm_content',
+        'fbclid',
+        'gclid'
+      ];
+
+      function collectParams() {
+        const params = new URLSearchParams(window.location.search);
+        const data = {};
+        KEYS.forEach((k) => {
+          const val = params.get(k) || sessionStorage.getItem(k);
+          if (val) {
+            data[k] = val;
+            sessionStorage.setItem(k, val);
+          }
+        });
+        return data;
+      }
+
+      window.UTM_DATA = collectParams();
+    })();
+  </script>
+
+  <!-- GOOGLE ANALYTICS 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-W45RMKHXV0');
+  </script>
+
+  <!-- FACEBOOK PIXEL -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () { n.callMethod ?
+        n.callMethod.apply(n, arguments) : n.queue.push(arguments) };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1822900971216472');
+    fbq('track', 'PageView');
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #10b981 100%);
+      color: white;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      padding: 1rem;
+    }
+
+    .bg-animation {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .floating-shape {
+      position: absolute;
+      opacity: 0.1;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .shape-1 {
+      top: 20%;
+      left: 10%;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation-delay: 0s;
+    }
+
+    .shape-2 {
+      top: 60%;
+      right: 15%;
+      width: 150px;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      animation-delay: 2s;
+    }
+
+    .shape-3 {
+      bottom: 30%;
+      left: 20%;
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+      animation-delay: 4s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(180deg);
+      }
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 2rem;
+    }
+
+    .header h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .header p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .benefit-item {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .benefit-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .benefit-text {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .phone-cta {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1.5rem;
+    }
+
+    .phone-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #10b981;
+      text-decoration: none;
+      display: inline-block;
+      margin: 0.5rem 0;
+      padding: 12px 24px;
+      background: rgba(16, 185, 129, 0.2);
+      border: 2px solid rgba(16, 185, 129, 0.3);
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .phone-number:hover {
+      background: rgba(16, 185, 129, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .calendly-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      margin-top: 2rem;
+    }
+
+    .calendly-header {
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .calendly-header h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .calendly-header p {
+      opacity: 0.9;
+      font-size: 1.1rem;
+    }
+
+    .calendly-container {
+      height: 700px;
+      position: relative;
+      background: white;
+    }
+
+    .calendly-loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      color: #666;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .calendly-fallback {
+      padding: 2rem;
+      text-align: center;
+      background: #f8f9fa;
+      color: #333;
+    }
+
+    .calendly-fallback a {
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.2rem;
+      display: inline-block;
+      padding: 12px 24px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .calendly-fallback a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .footer {
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .footer p {
+      margin: 0.5rem 0;
+      opacity: 0.8;
+    }
+
+    .footer a {
+      color: #10b981;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2.2rem;
+      }
+      
+      .header p {
+        font-size: 1.1rem;
+      }
+      
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .calendly-container {
+        height: 600px;
+      }
+      
+      .header,
+      .calendly-header {
+        padding: 1.5rem;
+      }
+      
+      .phone-number {
+        font-size: 1.2rem;
+      }
+    }
+
+    /* Loading spinner */
+    .spinner {
+      border: 3px solid rgba(102, 102, 102, 0.3);
+      border-top: 3px solid #666;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animation">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <h1>Book Your Free Insurance Reality Check</h1>
+      <p>Skip the phone tag. Get straight talk about your health insurance from someone who actually gives a damn about your financial future.</p>
+      
+      <div class="benefits-grid">
+        <div class="benefit-item">
+          <span class="benefit-icon">🎯</span>
+          <div class="benefit-text">No Sales Pressure</div>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-icon">💰</span>
+          <div class="benefit-text">Find Hidden Savings</div>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-icon">🛡️</span>
+          <div class="benefit-text">Better Coverage</div>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-icon">⚡</span>
+          <div class="benefit-text">15-30 Minutes</div>
+        </div>
+      </div>
+
+      <div class="phone-cta">
+        <p><strong>Prefer to talk now?</strong></p>
+        <a href="tel:+18636403102" class="phone-number" onclick="gtag('event','phone_call',{event_category:'conversion',event_label:'calendly_page_call'});">
+          📞 Call David: (863) 640-3102
+        </a>
+        <p style="font-size: 0.9rem; opacity: 0.8;">David answers personally, no robots</p>
+      </div>
+    </div>
+
+    <div class="calendly-section">
+      <div class="calendly-header">
+        <h2>Choose Your Appointment Time</h2>
+        <p>David's calendar is below - pick what works for your schedule</p>
+      </div>
+
+      <div class="calendly-container">
+        <div id="calendly-loading" class="calendly-loading">
+          <div class="spinner"></div>
+          Loading David's calendar...
+        </div>
+        <iframe 
+          src="https://calendly.com/dhuff-health" 
+          width="100%" 
+          height="100%" 
+          frameborder="0" 
+          scrolling="no"
+          onload="document.getElementById('calendly-loading').style.display='none'">
+        </iframe>
+      </div>
+
+      <div class="calendly-fallback">
+        <p><strong>Calendar not loading?</strong></p>
+        <a href="https://calendly.com/dhuff-health" target="_blank" onclick="gtag('event','calendly_fallback_click',{event_category:'conversion',event_label:'external_calendly'});">
+          Open David's Calendar in New Window →
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p><strong>David Huff</strong> | Licensed Insurance Agent</p>
+      <p>FL License #W371813</p>
+      <p>📞 <a href="tel:+18636403102">(863) 640-3102</a> | 📧 <a href="mailto:david@lakelandhealthinsurance.com">david@lakelandhealthinsurance.com</a></p>
+      <p style="margin-top: 1rem;">
+        <a href="/">← Back to Lakeland Health Insurance</a> | 
+        <a href="/privacy-policy.html">Privacy Policy</a>
+      </p>
+      <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 1rem;">
+        Serving Florida and nationwide with honest insurance advice
+      </p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Append UTM params to Calendly URL if present
+      const utm = window.UTM_DATA || {};
+      const iframe = document.querySelector('iframe');
+      const fallbackLink = document.querySelector('.calendly-fallback a');
+      
+      if (Object.keys(utm).length && iframe) {
+        const currentSrc = iframe.getAttribute('src');
+        const url = new URL(currentSrc);
+        Object.entries(utm).forEach(([key, val]) => {
+          url.searchParams.set(key, val);
+        });
+        iframe.setAttribute('src', url.toString());
+        
+        // Update fallback link too
+        if (fallbackLink) {
+          const fallbackUrl = new URL(fallbackLink.getAttribute('href'));
+          Object.entries(utm).forEach(([key, val]) => {
+            fallbackUrl.searchParams.set(key, val);
+          });
+          fallbackLink.setAttribute('href', fallbackUrl.toString());
+        }
+      }
+
+      // Track page load
+      if (typeof gtag === 'function') {
+        gtag('event', 'calendly_page_view', {
+          event_category: 'engagement',
+          event_label: 'calendly_direct_page'
+        });
+      }
+    });
+
+    // Calendly event tracking
+    window.addEventListener('message', function(e) {
+      if (e.origin === "https://calendly.com" && e.data.event === "calendly.event_scheduled") {
+        // Google Analytics 4 event
+        if (typeof gtag === 'function') {
+          gtag('event', 'calendly_booking', {
+            event_category: 'conversion',
+            event_label: 'direct_calendly_booking',
+            value: 1
+          });
+        }
+        
+        // Facebook Pixel event
+        if (typeof fbq === 'function') {
+          fbq('track', 'Lead', {
+            content_name: 'Direct Calendly Appointment',
+            value: 1.00,
+            currency: 'USD'
+          });
+        }
+        
+        // Optional: Show confirmation
+        setTimeout(() => {
+          console.log('🎉 Appointment booked successfully!');
+        }, 1000);
+      }
+    });
+  </script>
+</body>
+</html>
