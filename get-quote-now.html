@@ -1,878 +1,745 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stop Overpaying for Insurance | Free Quote</title>
-  <meta name="description" content="Get a brutally honest insurance quote in under 2 minutes. No BS, no hidden fees, just the truth about what you should be paying." />
-  <meta name="robots" content="index, follow" />
-
-  <!-- GOOGLE FONTS -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- UTM CAPTURE / SESSION STORAGE -->
-  <script>
-    (function () {
-      const KEYS = [
-        'utm_source',
-        'utm_medium',
-        'utm_campaign',
-        'utm_term',
-        'utm_content',
-        'fbclid',
-        'gclid'
-      ];
-
-      function collectParams() {
-        const params = new URLSearchParams(window.location.search);
-        const data = {};
-        KEYS.forEach((k) => {
-          const val = params.get(k) || sessionStorage.getItem(k);
-          if (val) {
-            data[k] = val;
-            sessionStorage.setItem(k, val);
-          }
-        });
-        return data;
-      }
-
-      window.UTM_DATA = collectParams();
-    })();
-  </script>
-
-  <!-- GOOGLE ANALYTICS 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-W45RMKHXV0');
-  </script>
-  
-  <!-- FACEBOOK PIXEL -->
-  <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1822900971216472');
-    fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1" /></noscript>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #10b981 100%);
-      color: white;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow-x: hidden;
-      padding: 1rem;
-    }
-
-    .bg-animation {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    .floating-shape {
-      position: absolute;
-      opacity: 0.1;
-      animation: float 8s ease-in-out infinite;
-    }
-
-    .shape-1 {
-      top: 20%;
-      left: 10%;
-      width: 120px;
-      height: 120px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 50%;
-      animation-delay: 0s;
-    }
-
-    .shape-2 {
-      top: 60%;
-      right: 15%;
-      width: 180px;
-      height: 180px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 30px;
-      animation-delay: 3s;
-    }
-
-    .shape-3 {
-      bottom: 30%;
-      left: 20%;
-      width: 90px;
-      height: 90px;
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 50%;
-      animation-delay: 6s;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-      }
-      33% {
-        transform: translateY(-20px) rotate(120deg);
-      }
-      66% {
-        transform: translateY(10px) rotate(240deg);
-      }
-    }
-
-    .container {
-      max-width: 600px;
-      width: 100%;
-      position: relative;
-      z-index: 10;
-    }
-
-    .logo {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: white;
-      text-align: center;
-      margin-bottom: 2rem;
-      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .logo::after {
-      content: "Lakeland";
-      font-size: 1rem;
-      color: #10b981;
-      display: block;
-      font-weight: 600;
-      margin-top: 0.25rem;
-    }
-
-    .headline {
-      font-size: 2.8rem;
-      font-weight: 800;
-      text-align: center;
-      margin-bottom: 1rem;
-      line-height: 1.2;
-      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .subheadline {
-      font-size: 1.3rem;
-      text-align: center;
-      margin-bottom: 2rem;
-      opacity: 0.95;
-      line-height: 1.4;
-      max-width: 550px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .urgency-banner {
-      background: rgba(16, 185, 129, 0.2);
-      border: 2px solid #10b981;
-      border-radius: 12px;
-      padding: 1rem;
-      text-align: center;
-      margin-bottom: 2rem;
-      backdrop-filter: blur(10px);
-      animation: pulse-glow 3s ease-in-out infinite;
-    }
-
-    @keyframes pulse-glow {
-      0%, 100% {
-        box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-      }
-      50% {
-        box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
-      }
-    }
-
-    .benefits-list {
-      display: grid;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .benefit-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 1rem;
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .benefit-icon {
-      font-size: 1.5rem;
-      flex-shrink: 0;
-    }
-
-    .benefit-text {
-      font-weight: 500;
-      font-size: 1rem;
-    }
-
-    .pdf-download-section {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(20px);
-      border: 2px solid rgba(255, 193, 7, 0.6);
-      border-radius: 20px;
-      padding: 2rem;
-      text-align: center;
-      margin-bottom: 2rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .pdf-download-section::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255, 193, 7, 0.1), transparent);
-      animation: shimmer 3s infinite;
-    }
-
-    @keyframes shimmer {
-      0% {
-        transform: translateX(-100%) translateY(-100%) rotate(45deg);
-      }
-      100% {
-        transform: translateX(100%) translateY(100%) rotate(45deg);
-      }
-    }
-
-    .pdf-download-section h3 {
-      font-size: 1.6rem;
-      margin-bottom: 0.75rem;
-      color: #FFC107;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      position: relative;
-      z-index: 2;
-    }
-
-    .pdf-download-section p {
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-      opacity: 0.95;
-      line-height: 1.4;
-      position: relative;
-      z-index: 2;
-    }
-
-    .pdf-download-btn {
-      display: inline-block;
-      background: linear-gradient(135deg, #FFC107, #FF9800);
-      color: #1a1a1a;
-      padding: 16px 32px;
-      text-decoration: none;
-      border-radius: 50px;
-      font-size: 1.2rem;
-      font-weight: 700;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
-      position: relative;
-      z-index: 2;
-    }
-
-    .pdf-download-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 35px rgba(255, 193, 7, 0.6);
-      background: linear-gradient(135deg, #FFD54F, #FFB74D);
-    }
-
-    .pdf-features {
-      font-size: 0.9rem;
-      margin-top: 1rem;
-      opacity: 0.9;
-      position: relative;
-      z-index: 2;
-    }
-
-    .form-container {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 2rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      margin-bottom: 2rem;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .form-group.full-width {
-      grid-column: 1 / -1;
-    }
-
-    .form-group label {
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: white;
-      font-size: 0.95rem;
-    }
-
-    .form-group input,
-    .form-group select {
-      padding: 14px 18px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 10px;
-      font-size: 1rem;
-      font-family: inherit;
-      background: rgba(255, 255, 255, 0.9);
-      color: #333;
-      transition: all 0.3s ease;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: #10b981;
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
-      background: white;
-    }
-
-    .form-group input::placeholder {
-      color: #666;
-      font-style: italic;
-    }
-
-    .submit-btn {
-      width: 100%;
-      padding: 18px;
-      font-size: 1.3rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 1rem;
-      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
-    }
-
-    .submit-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
-    }
-
-    .submit-btn:active {
-      transform: translateY(-1px);
-    }
-
-    .submit-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .social-proof {
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .social-proof h4 {
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-      color: #10b981;
-    }
-
-    .testimonial {
-      font-style: italic;
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-      line-height: 1.5;
-    }
-
-    .testimonial-author {
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-
-    .trust-indicators {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .trust-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    .trust-icon {
-      font-size: 1.2rem;
-      color: #10b981;
-    }
-
-    .disclaimer {
-      font-size: 0.9rem;
-      text-align: center;
-      opacity: 0.8;
-      line-height: 1.4;
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 8px;
-      border-left: 3px solid #10b981;
-      margin-bottom: 1rem;
-    }
-
-    .calendly-section {
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .calendly-text {
-      font-size: 1rem;
-      opacity: 0.9;
-      color: white;
-    }
-
-    .calendly-link {
-      color: #FFC107;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      border-bottom: 2px solid transparent;
-    }
-
-    .calendly-link:hover {
-      color: #FFD54F;
-      border-bottom: 2px solid #FFC107;
-      transform: translateY(-1px);
-    }
-
-    .success-message {
-      background: rgba(16, 185, 129, 0.15);
-      backdrop-filter: blur(20px);
-      border: 2px solid #10b981;
-      border-radius: 20px;
-      padding: 2rem;
-      text-align: center;
-      display: none;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    }
-
-    .success-message.show {
-      display: block;
-    }
-
-    .success-message h3 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      color: white;
-    }
-
-    .success-message p {
-      font-size: 1.1rem;
-      line-height: 1.5;
-      margin-bottom: 0.5rem;
-    }
-
-    /* Mobile responsive */
-    @media (max-width: 768px) {
-      body {
-        padding: 0.5rem;
-      }
-      
-      .headline {
-        font-size: 2.2rem;
-      }
-      
-      .subheadline {
-        font-size: 1.1rem;
-      }
-      
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-      
-      .form-container {
-        padding: 1.5rem;
-      }
-      
-      .pdf-download-section {
-        padding: 1.5rem;
-      }
-      
-      .trust-indicators {
-        justify-content: center;
-      }
-      
-      .benefits-list {
-        gap: 0.75rem;
-      }
-      
-      .benefit-item {
-        padding: 0.75rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .headline {
-        font-size: 1.8rem;
-      }
-      
-      .logo {
-        font-size: 2rem;
-      }
-      
-      .submit-btn {
-        font-size: 1.1rem;
-        padding: 16px;
-      }
-      
-      .pdf-download-btn {
-        font-size: 1.1rem;
-        padding: 14px 28px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Health Insurance Reality Check Guide | Lakeland Health Insurance</title>
+    <meta name="description" content="Download your free guide: 5 Critical Health Insurance Mistakes That Could Cost You Thousands. No BS advice from an agent who actually gives a damn.">
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-W45RMKHXV0');
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header - Minimal */
+        .header {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e3a8a;
+        }
+        
+        .logo::after {
+            content: " Lakeland Health Insurance";
+            font-size: 0.7rem;
+            color: #10b981;
+            display: block;
+            font-weight: 600;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .hero .description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Guide Preview */
+        .guide-preview {
+            background: white;
+            margin: -2rem 0 3rem;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .guide-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+            color: white;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(30, 58, 138, 0.4); }
+        }
+        
+        .guide-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        /* What's Inside */
+        .whats-inside {
+            margin-bottom: 2rem;
+        }
+        
+        .whats-inside h3 {
+            font-size: 1.3rem;
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .benefits-list {
+            list-style: none;
+        }
+        
+        .benefits-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 1rem;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #10b981;
+        }
+        
+        .benefit-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .benefit-text {
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        /* Download Form */
+        .download-form {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 2px solid #1e3a8a;
+            margin-bottom: 2rem;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-header h3 {
+            font-size: 1.4rem;
+            color: #1e3a8a;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-header p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            background: white;
+            transition: all 0.2s ease;
+            min-height: 52px; /* Mobile-optimized touch target */
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
+        }
+        
+        .form-group input::placeholder {
+            color: #9ca3af;
+            font-style: italic;
+        }
+        
+        .download-btn {
+            width: 100%;
+            padding: 18px 24px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 56px; /* Extra large for mobile */
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .download-btn:hover::before {
+            left: 100%;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
+        }
+        
+        .download-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .form-disclaimer {
+            font-size: 0.85rem;
+            color: #6b7280;
+            text-align: center;
+            margin-top: 1rem;
+            line-height: 1.4;
+        }
+        
+        /* Social Proof */
+        .social-proof {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .social-proof h3 {
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #10b981;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .testimonial {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        
+        .testimonial::before {
+            content: '"';
+            font-size: 2rem;
+            color: #1e3a8a;
+            position: absolute;
+            left: -15px;
+            top: -5px;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
+        /* FAQ Section */
+        .faq {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .faq h3 {
+            color: #1e3a8a;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .faq-item {
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 1rem;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .faq-answer {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            display: none;
+            margin-bottom: 2rem;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        .success-message h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .success-message .download-link {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .success-message .download-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* Footer CTA */
+        .footer-cta {
+            background: #333;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-cta h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .footer-cta p {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        .phone-btn {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            min-height: 52px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .phone-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(30, 58, 138, 0.4);
+        }
+        
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .hero {
+                padding: 2rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .guide-preview {
+                margin: -1.5rem 15px 2rem;
+                padding: 1.5rem;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .download-btn {
+                font-size: 1.2rem;
+                padding: 20px 24px;
+                min-height: 60px; /* Even bigger on mobile */
+            }
+            
+            .form-group input {
+                font-size: 16px; /* Prevents zoom on iOS */
+                min-height: 56px;
+            }
+        }
+        
+        /* Loading state */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .loading .download-btn {
+            background: #ccc;
+        }
+    </style>
 </head>
 <body>
-  <div class="bg-animation">
-    <div class="floating-shape shape-1"></div>
-    <div class="floating-shape shape-2"></div>
-    <div class="floating-shape shape-3"></div>
-  </div>
+    <header class="header">
+        <div class="container">
+            <div class="logo">LHI</div>
+        </div>
+    </header>
 
-  <div class="container">
-    <div id="lead-form">
-      <div class="logo">LHI</div>
-      <h1 class="headline">You're Overpaying for Insurance, Let's Fix That</h1>
-      <p class="subheadline">2-minute quote. No gimmicks, no spam. Just a real agent showing you what you <em>should</em> be paying — probably less.</p>
-      
-      <div class="urgency-banner">
-        Most people save <strong>$200–400/month</strong> with a honest quote comparison. No fees. No commitment. Just answers.
-      </div>
-      
-      <div class="benefits-list">
-        <div class="benefit-item">
-          <span class="benefit-icon">💰</span>
-          <span class="benefit-text">Stop wasting money on overpriced plans</span>
+    <section class="hero">
+        <div class="container">
+            <h1>Stop Getting Screwed by Your Health Insurance</h1>
+            <div class="subtitle">Free Reality Check Guide</div>
+            <p class="description">5 critical mistakes that could cost you thousands + the insider secrets insurance companies don't want you to know</p>
         </div>
-        <div class="benefit-item">
-          <span class="benefit-icon">🔍</span>
-          <span class="benefit-text">Get honest options without the sales fog</span>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-icon">⚡</span>
-          <span class="benefit-text">Quote faster than a claim gets denied</span>
-        </div>
-      </div>
+    </section>
 
-      <!-- PDF Download Section -->
-      <div class="pdf-download-section">
-        <h3>🎯 FREE: Florida Health Insurance Survival Guide</h3>
-        <p>Before getting your quote, grab this brutally honest 16-page guide that exposes what insurance companies don't want you to know.</p>
-        <a id="pdfLink" 
-           href="./assets/Florida_Health_Insurance_Survival_Guide_.pdf" 
-           download="Florida-Health-Insurance-Survival-Guide.pdf" 
-           class="pdf-download-btn" 
-           onclick="gtag('event','pdf_download',{event_category:'lead_magnet',event_label:'survival_guide'});">
-          📥 Download FREE Guide (No Email Required)
-        </a>
-        <div class="pdf-features">
-          ✓ Hurricane season prep tips • ✓ Carrier insider secrets • ✓ Money-saving strategies
-        </div>
-      </div>
-
-      <!-- Main Form -->
-      <div class="form-container">
-        <form action="https://formspree.io/f/xwpbvjvw" method="POST" id="insurance-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="firstName">First Name</label>
-              <input type="text" id="firstName" name="firstName" placeholder="What should I call you (besides genius)?" required autocomplete="given-name" />
+    <section class="guide-preview">
+        <div class="container">
+            <div class="guide-icon">📋</div>
+            <h2 class="guide-title">Your Free Health Insurance Reality Check</h2>
+            
+            <div class="whats-inside">
+                <h3>What's Inside (No Fluff, Just Facts):</h3>
+                <ul class="benefits-list">
+                    <li>
+                        <span class="benefit-icon">💸</span>
+                        <span class="benefit-text"><strong>The Deductible Trap:</strong> Why choosing the wrong deductible could bankrupt you</span>
+                    </li>
+                    <li>
+                        <span class="benefit-icon">🚨</span>
+                        <span class="benefit-text"><strong>Network Nightmares:</strong> How to avoid $50,000+ surprise bills</span>
+                    </li>
+                    <li>
+                        <span class="benefit-icon">📅</span>
+                        <span class="benefit-text"><strong>Enrollment Deadlines:</strong> Miss these dates, pay the price all year</span>
+                    </li>
+                    <li>
+                        <span class="benefit-icon">💰</span>
+                        <span class="benefit-text"><strong>Hidden Subsidies:</strong> Money you're leaving on the table</span>
+                    </li>
+                    <li>
+                        <span class="benefit-icon">🎭</span>
+                        <span class="benefit-text"><strong>Agent Red Flags:</strong> How to spot BS before you buy</span>
+                    </li>
+                </ul>
             </div>
-            <div class="form-group">
-              <label for="lastName">Last Name</label>
-              <input type="text" id="lastName" name="lastName" placeholder="Optional, unless you're fancy" autocomplete="family-name" />
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email" />
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone</label>
-              <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required autocomplete="tel" />
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="zipcode">Zip Code</label>
-              <input type="text" id="zipcode" name="zipcode" placeholder="12345" required autocomplete="postal-code" />
-            </div>
-            <div class="form-group">
-              <label for="age">Age</label>
-              <select id="age" name="age" required>
-                <option value="">Select age range</option>
-                <option value="18-25">18-25</option>
-                <option value="26-35">26-35</option>
-                <option value="36-45">36-45</option>
-                <option value="46-55">46-55</option>
-                <option value="56-64">56-64</option>
-                <option value="65+">65+ (Medicare eligible)</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="form-group full-width">
-            <label for="currentSituation">What best describes you?</label>
-            <select id="currentSituation" name="currentSituation" required>
-              <option value="">Choose one...</option>
-              <option value="no-insurance">No insurance (living dangerously)</option>
-              <option value="employer-insurance">Employer insurance (probably overpaying)</option>
-              <option value="marketplace-insurance">ACA/Marketplace plan</option>
-              <option value="private-insurance">Private plan</option>
-              <option value="medicare">On Medicare (need supplement?)</option>
-              <option value="cobra">On COBRA (expensive as hell)</option>
-              <option value="short-term">Short-term coverage</option>
-              <option value="losing-coverage">Losing coverage soon</option>
-            </select>
-          </div>
-          
-          <div class="form-group full-width">
-            <label for="monthlyBudget">What Are You Paying Monthly?</label>
-            <select id="monthlyBudget" name="monthlyBudget" required>
-              <option value="">Your best guess...</option>
-              <option value="0">$0 (No insurance)</option>
-              <option value="100-200">$100-200</option>
-              <option value="200-400">$200-400</option>
-              <option value="400-600">$400-600</option>
-              <option value="600-800">$600-800</option>
-              <option value="800-1000">$800-1,000</option>
-              <option value="1000+">$1,000+ (Ouch!)</option>
-            </select>
-          </div>
 
-          <!-- Hidden Form Fields -->
-          <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thank-you" />
-          <input type="hidden" name="_subject" value="High-Intent Lead - Free Quote Request" />
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="source" value="quote_now_landing_page" />
-          
-          <!-- UTM Tracking Fields -->
-          <input type="hidden" name="utm_source" id="utm_source" />
-          <input type="hidden" name="utm_medium" id="utm_medium" />
-          <input type="hidden" name="utm_campaign" id="utm_campaign" />
-          <input type="hidden" name="utm_term" id="utm_term" />
-          <input type="hidden" name="utm_content" id="utm_content" />
-          <input type="hidden" name="fbclid" id="fbclid" />
-          <input type="hidden" name="gclid" id="gclid" />
-
-          <button type="submit" class="submit-btn">Get My Free Quote Checkup 🚀</button>
-        </form>
-      </div>
-
-      <div class="social-proof">
-        <h4>What Others Are Saying:</h4>
-        <div class="testimonial">"David saved us $400/month and actually explained what we were buying. Finally, someone who doesn't speak in insurance riddles."</div>
-        <div class="testimonial-author">- Sarah M., Tampa</div>
-      </div>
-
-      <div class="trust-indicators">
-        <div class="trust-item">
-          <span class="trust-icon">🔒</span>
-          <span>100% Secure</span>
+            <div class="download-form" id="downloadForm">
+                <div class="form-header">
+                    <h3>Get Your Free Guide Now</h3>
+                    <p>No credit card. No spam. No selling your soul to lead farms.</p>
+                </div>
+                
+                <form action="https://formspree.io/f/xwpbvjvw" method="POST" id="guideForm">
+                    <div class="form-group">
+                        <label for="name">What should we call you?</label>
+                        <input type="text" id="name" name="name" placeholder="Your first name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Where should we send it?</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/guide-download-success">
+                    <input type="hidden" name="_subject" value="Free Health Insurance Guide Download">
+                    <input type="hidden" name="guide_request" value="Health Insurance Reality Check">
+                    
+                    <button type="submit" class="download-btn">
+                        📥 Download My Free Guide
+                    </button>
+                    
+                    <p class="form-disclaimer">
+                        <strong>Promise:</strong> David will personally email you the guide within 5 minutes. No robots, no runaround.
+                    </p>
+                </form>
+            </div>
         </div>
-        <div class="trust-item">
-          <span class="trust-icon">⭐</span>
-          <span>5-Star Reviews</span>
-        </div>
-        <div class="trust-item">
-          <span class="trust-icon">🏆</span>
-          <span>Licensed in 26 States</span>
-        </div>
-      </div>
+    </section>
 
-      <div class="disclaimer">
-        <strong>FYI:</strong> Submitting this form lets us contact you about insurance options. David reviews each quote personally. We don't sell your data, spam your inbox, or call during dinner. Opt-out anytime.
-      </div>
-
-      <!-- Calendly Booking Option -->
-      <div class="calendly-section">
-        <p class="calendly-text">Prefer to skip the back-and-forth? 
-          <a href="https://lakelandhealthinsurance.com/calendly-book.html" target="_blank" class="calendly-link">Click here to book a time!</a>
-        </p>
-      </div>
+    <div id="successMessage" class="success-message">
+        <div class="container">
+            <h3>🎉 Check Your Email!</h3>
+            <p>Your free guide is on its way. David's personally sending it over within the next 5 minutes.</p>
+            <p style="margin-top: 1rem;">Impatient? Questions? Call David directly:</p>
+            <a href="tel:+18636403102" class="download-link">📞 (863) 640-3102</a>
+        </div>
     </div>
 
-    <div id="success-message" class="success-message">
-      <h3>🎉 Got Your Info!</h3>
-      <p>David will personally review your situation and call you within 24 hours with a brutally honest assessment of your options.</p>
-      <p style="margin-top: 1rem;"><strong>Can't wait?</strong> Call now: <strong>(863) 640-3102</strong></p>
-    </div>
-  </div>
+    <section class="social-proof">
+        <div class="container">
+            <h3>Join 500+ Smart People Who Stopped Overpaying</h3>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-number">$847</span>
+                    <span class="stat-label">Average Annual Savings</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Happy Customers</span>
+                </div>
+            </div>
+            <div class="testimonial">
+                This guide saved me $400 a month. I was basically paying for a BMW and getting a bicycle.
+            </div>
+            <div class="testimonial-author">- Sarah M., Tampa FL</div>
+        </div>
+    </section>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // 1. Populate hidden UTM inputs
-      const utm = window.UTM_DATA || {};
-      Object.entries(utm).forEach(([key, val]) => {
-        const input = document.getElementById(key);
-        if (input) input.value = val;
-      });
+    <section class="faq">
+        <div class="container">
+            <h3>Quick Questions (Because Everyone Has Them)</h3>
+            
+            <div class="faq-item">
+                <div class="faq-question">Is this actually free?</div>
+                <div class="faq-answer">Yes, completely free. No hidden costs, no credit card required. David's not running a carnival here.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Will you spam me to death?</div>
+                <div class="faq-answer">Nope. You'll get the guide, maybe some helpful tips occasionally, and that's it. Unsubscribe anytime.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Who is David anyway?</div>
+                <div class="faq-answer">Licensed insurance agent (FL #W371813) who got tired of the industry BS and decided to actually help people instead of just selling them stuff.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">How fast will I get the guide?</div>
+                <div class="faq-answer">Within 5 minutes. David personally reviews and sends every guide request because he's obsessive like that.</div>
+            </div>
+        </div>
+    </section>
 
-      // 2. Append UTM params to the PDF link
-      const pdfLink = document.getElementById('pdfLink');
-      if (pdfLink && Object.keys(utm).length) {
-        const url = new URL(pdfLink.getAttribute('href'), window.location.origin);
-        Object.entries(utm).forEach(([key, val]) => url.searchParams.set(key, val));
-        pdfLink.setAttribute('href', url.toString());
-      }
+    <section class="footer-cta">
+        <div class="container">
+            <h3>Want to Talk to a Human Instead?</h3>
+            <p>Skip the guide and get personalized advice right now. David answers personally, no phone trees or hold music.</p>
+            <a href="tel:+18636403102" class="phone-btn">
+                📞 Call David: (863) 640-3102
+            </a>
+        </div>
+    </section>
 
-      // 3. Auto-format phone number
-      const phoneInput = document.getElementById('phone');
-      if (phoneInput) {
-        phoneInput.addEventListener('input', function(e) {
-          let value = e.target.value.replace(/\D/g, '');
-          if (value.length >= 6) {
-            value = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6,10)}`;
-          } else if (value.length >= 3) {
-            value = `(${value.slice(0,3)}) ${value.slice(3)}`;
-          }
-          e.target.value = value;
-        });
-      }
-
-      // Track Calendly link clicks
-      const calendlyLink = document.querySelector('.calendly-link');
-      if (calendlyLink) {
-        calendlyLink.addEventListener('click', function() {
-          if (typeof gtag === 'function') {
-            gtag('event', 'calendly_click', {
-              event_category: 'engagement',
-              event_label: 'book_appointment'
+    <script>
+        // Form handling
+        document.getElementById('guideForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('.download-btn');
+            const originalText = submitBtn.innerHTML;
+            
+            // Show loading state
+            submitBtn.innerHTML = '📤 Sending...';
+            submitBtn.disabled = true;
+            document.getElementById('downloadForm').classList.add('loading');
+            
+            // Submit to Formspree
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show success message
+                    document.getElementById('downloadForm').style.display = 'none';
+                    document.getElementById('successMessage').classList.add('show');
+                    
+                    // Track conversion
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'guide_download', {
+                            event_category: 'engagement',
+                            event_label: 'free_guide_download',
+                            value: 1
+                        });
+                    }
+                    
+                    // Scroll to success message
+                    document.getElementById('successMessage').scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            })
+            .catch(error => {
+                alert('Something went wrong. Call David directly at (863) 640-3102 for your guide.');
+                console.error('Form submission error:', error);
+            })
+            .finally(() => {
+                // Reset button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                document.getElementById('downloadForm').classList.remove('loading');
             });
-          }
-          if (typeof fbq === 'function') {
-            fbq('track', 'Schedule', {
-              content_name: 'Calendly Appointment Booking',
-              content_category: 'Scheduling'
+        });
+
+        // Enhanced mobile experience
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-focus on name field for desktop (but not mobile to avoid keyboard popup)
+            if (window.innerWidth > 768) {
+                document.getElementById('name').focus();
+            }
+            
+            // Track scroll depth for analytics
+            let maxScroll = 0;
+            window.addEventListener('scroll', function() {
+                const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                if (scrollPercent > maxScroll) {
+                    maxScroll = scrollPercent;
+                    
+                    // Track scroll milestones
+                    if (maxScroll >= 75 && typeof gtag === 'function') {
+                        gtag('event', 'scroll_75_percent', {
+                            event_category: 'engagement',
+                            event_label: 'guide_page_scroll'
+                        });
+                    }
+                }
             });
-          }
         });
-      }
-      const form = document.getElementById('insurance-form');
-      if (form) {
-        form.addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          const formData = new FormData(form);
-          const submitBtn = form.querySelector('.submit-btn');
-          const originalText = submitBtn.textContent;
-          
-          // Show loading state
-          submitBtn.textContent = 'Sending Your Quote Request...';
-          submitBtn.disabled = true;
-          
-          // Submit to Formspree
-          fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-              'Accept': 'application/json'
-            }
-          })
-          .then(response => {
-            if (response.ok) {
-              // Calculate lead quality metrics
-              const timeOnPage = Math.round((Date.now() - pageStartTime) / 1000);
-              const formCompletionTime = formStartTime ? Math.round((Date.now() - formStartTime) / 1000) : 0;
-              
-              // Hide form and show success message
-              document.getElementById('lead-form').style.display = 'none';
-              document.getElementById('success-message').classList.add('show');
-              
-              // Track conversion with quality metrics
-              if (typeof gtag === 'function') {
-                gtag('event', 'form_submit', {
-                  event_category: 'lead_generation',
-                  event_label: 'quote_request_form',
-                  custom_parameters: {
-                    time_on_page: timeOnPage,
-                    scroll_depth: maxScrollDepth,
-                    form_completion_time: formCompletionTime
-                  }
+
+        // Phone button tracking
+        document.querySelector('.phone-btn').addEventListener('click', function() {
+            if (typeof gtag === 'function') {
+                gtag('event', 'phone_call', {
+                    event_category: 'engagement',
+                    event_label: 'guide_page_phone_call'
                 });
-              }
-              
-              // Track conversion - Facebook Pixel
-              if (typeof fbq === 'function') {
-                fbq('track', 'Lead', {
-                  content_name: 'Insurance Quote Request',
-                  content_category: 'Insurance',
-                  value: 100,
-                  currency: 'USD',
-                  custom_data: {
-                    time_on_page: timeOnPage,
-                    scroll_depth: maxScrollDepth
-                  }
-                });
-              }
-            } else {
-              throw new Error('Form submission failed');
             }
-          })
-          .catch(error => {
-            alert('Oops! Something went wrong. Please try calling (863) 640-3102 directly or refresh and try again.');
-            console.error('Form submission error:', error);
-          })
-          .finally(() => {
-            // Reset button state
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-          });
         });
-      }
-    });
-  </script>
+    </script>
 </body>
 </html>
