@@ -211,7 +211,7 @@
             font-family: inherit;
             background: white;
             transition: all 0.2s ease;
-            min-height: 52px; /* Mobile-optimized touch target */
+            min-height: 52px;
         }
         
         .form-group input:focus {
@@ -236,7 +236,7 @@
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-height: 56px; /* Extra large for mobile */
+            min-height: 56px;
             margin-top: 1rem;
             position: relative;
             overflow: hidden;
@@ -272,6 +272,105 @@
             text-align: center;
             margin-top: 1rem;
             line-height: 1.4;
+        }
+        
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            text-align: center;
+            display: none;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .success-message::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(180deg); }
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        .success-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .success-message h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .download-link {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 18px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin: 1.5rem 0;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .download-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+        }
+        
+        .backup-info {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .backup-info h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .backup-info p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        
+        .phone-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            transition: border-color 0.2s ease;
+        }
+        
+        .phone-link:hover {
+            border-bottom-color: white;
         }
         
         /* Social Proof */
@@ -375,44 +474,6 @@
             line-height: 1.5;
         }
         
-        /* Success Message */
-        .success-message {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            padding: 2rem;
-            border-radius: 16px;
-            text-align: center;
-            display: none;
-            margin-bottom: 2rem;
-        }
-        
-        .success-message.show {
-            display: block;
-        }
-        
-        .success-message h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .success-message .download-link {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-block;
-            margin-top: 1rem;
-            border: 2px solid rgba(255,255,255,0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .success-message .download-link:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-        }
-        
         /* Footer CTA */
         .footer-cta {
             background: #333;
@@ -440,12 +501,11 @@
             text-decoration: none;
             font-weight: 600;
             font-size: 1.1rem;
-            display: inline-block;
-            transition: all 0.3s ease;
-            min-height: 52px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            min-height: 52px;
+            transition: all 0.3s ease;
         }
         
         .phone-btn:hover {
@@ -483,12 +543,16 @@
             .download-btn {
                 font-size: 1.2rem;
                 padding: 20px 24px;
-                min-height: 60px; /* Even bigger on mobile */
+                min-height: 60px;
             }
             
             .form-group input {
-                font-size: 16px; /* Prevents zoom on iOS */
+                font-size: 16px;
                 min-height: 56px;
+            }
+            
+            .success-message {
+                padding: 2rem;
             }
         }
         
@@ -512,7 +576,7 @@
 
     <section class="hero">
         <div class="container">
-            <h1>Stop Getting Screwed by Your Health Insurance</h1>
+            <h1>Health Insurance Without the Runaround</h1>
             <div class="subtitle">Free Reality Check Guide</div>
             <p class="description">5 critical mistakes that could cost you thousands + the insider secrets insurance companies don't want you to know</p>
         </div>
@@ -552,7 +616,7 @@
             <div class="download-form" id="downloadForm">
                 <div class="form-header">
                     <h3>Get Your Free Guide Now</h3>
-                    <p>No credit card. No spam. No selling your soul to lead farms.</p>
+                    <p>Instant download. No waiting around.</p>
                 </div>
                 
                 <form action="https://formspree.io/f/xwpbvjvw" method="POST" id="guideForm">
@@ -562,11 +626,10 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="email">Where should we send it?</label>
+                        <label for="email">Your email address</label>
                         <input type="email" id="email" name="email" placeholder="your@email.com" required>
                     </div>
                     
-                    <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/guide-download-success">
                     <input type="hidden" name="_subject" value="Free Health Insurance Guide Download">
                     <input type="hidden" name="guide_request" value="Health Insurance Reality Check">
                     
@@ -575,7 +638,7 @@
                     </button>
                     
                     <p class="form-disclaimer">
-                        <strong>Promise:</strong> David will personally email you the guide within 5 minutes. No robots, no runaround.
+                        <strong>Instant Access:</strong> Your guide downloads immediately after you submit. David will also follow up personally within 24 hours.
                     </p>
                 </form>
             </div>
@@ -584,10 +647,20 @@
 
     <div id="successMessage" class="success-message">
         <div class="container">
-            <h3>🎉 Check Your Email!</h3>
-            <p>Your free guide is on its way. David's personally sending it over within the next 5 minutes.</p>
-            <p style="margin-top: 1rem;">Impatient? Questions? Call David directly:</p>
-            <a href="tel:+18636403102" class="download-link">📞 (863) 640-3102</a>
+            <div class="success-content">
+                <h3><span>🎉</span> Success! Here's Your Guide</h3>
+                <p>Click the button below to download your free Health Insurance Reality Check guide right now:</p>
+                
+                <a href="/downloads/health-insurance-reality-check-guide.pdf" class="download-link" download target="_blank" onclick="trackDownload()">
+                    📥 Download Your Guide (PDF)
+                </a>
+                
+                <div class="backup-info">
+                    <h4>📧 Also Sent to Your Email</h4>
+                    <p>A copy is on its way to your inbox as backup. If you don't see it in 5 minutes, check your spam folder or call David directly.</p>
+                    <a href="tel:+18636403102" class="phone-link">📞 (863) 640-3102</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -621,6 +694,11 @@
             </div>
             
             <div class="faq-item">
+                <div class="faq-question">Do I get the guide immediately?</div>
+                <div class="faq-answer">Absolutely. The download starts as soon as you submit the form. No waiting for emails or manual approvals.</div>
+            </div>
+            
+            <div class="faq-item">
                 <div class="faq-question">Will you spam me to death?</div>
                 <div class="faq-answer">Nope. You'll get the guide, maybe some helpful tips occasionally, and that's it. Unsubscribe anytime.</div>
             </div>
@@ -628,11 +706,6 @@
             <div class="faq-item">
                 <div class="faq-question">Who is David anyway?</div>
                 <div class="faq-answer">Licensed insurance agent (FL #W371813) who got tired of the industry BS and decided to actually help people instead of just selling them stuff.</div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">How fast will I get the guide?</div>
-                <div class="faq-answer">Within 5 minutes. David personally reviews and sends every guide request because he's obsessive like that.</div>
             </div>
         </div>
     </section>
@@ -648,7 +721,7 @@
     </section>
 
     <script>
-        // Form handling
+        // Form handling with instant download
         document.getElementById('guideForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -662,7 +735,7 @@
             submitBtn.disabled = true;
             document.getElementById('downloadForm').classList.add('loading');
             
-            // Submit to Formspree
+            // Submit to Formspree (for lead capture)
             fetch(form.action, {
                 method: 'POST',
                 body: formData,
@@ -672,14 +745,14 @@
             })
             .then(response => {
                 if (response.ok) {
-                    // Show success message
+                    // Show success message with download
                     document.getElementById('downloadForm').style.display = 'none';
                     document.getElementById('successMessage').classList.add('show');
                     
                     // Track conversion
                     if (typeof gtag === 'function') {
                         gtag('event', 'guide_download', {
-                            event_category: 'engagement',
+                            event_category: 'conversion',
                             event_label: 'free_guide_download',
                             value: 1
                         });
@@ -695,7 +768,14 @@
                 }
             })
             .catch(error => {
-                alert('Something went wrong. Call David directly at (863) 640-3102 for your guide.');
+                // Even if form fails, still show download (user experience first)
+                document.getElementById('downloadForm').style.display = 'none';
+                document.getElementById('successMessage').classList.add('show');
+                document.getElementById('successMessage').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+                
                 console.error('Form submission error:', error);
             })
             .finally(() => {
@@ -706,9 +786,20 @@
             });
         });
 
+        // Track download clicks
+        function trackDownload() {
+            if (typeof gtag === 'function') {
+                gtag('event', 'file_download', {
+                    event_category: 'engagement',
+                    event_label: 'guide_pdf_download',
+                    value: 1
+                });
+            }
+        }
+
         // Enhanced mobile experience
         document.addEventListener('DOMContentLoaded', function() {
-            // Auto-focus on name field for desktop (but not mobile to avoid keyboard popup)
+            // Auto-focus on name field for desktop
             if (window.innerWidth > 768) {
                 document.getElementById('name').focus();
             }
@@ -720,7 +811,6 @@
                 if (scrollPercent > maxScroll) {
                     maxScroll = scrollPercent;
                     
-                    // Track scroll milestones
                     if (maxScroll >= 75 && typeof gtag === 'function') {
                         gtag('event', 'scroll_75_percent', {
                             event_category: 'engagement',
