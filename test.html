@@ -247,6 +247,118 @@
             page-break-inside: avoid;
         }
         
+        .email-capture {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 2.5em;
+            margin: 3em 0;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+            page-break-inside: avoid;
+        }
+        
+        .email-capture h3 {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 0.8em;
+        }
+        
+        .email-form {
+            display: flex;
+            max-width: 400px;
+            margin: 1.5em auto;
+            gap: 10px;
+        }
+        
+        .email-input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            outline: none;
+        }
+        
+        .email-submit {
+            background: #fbbf24;
+            color: #1d4ed8;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .email-submit:hover {
+            background: #f59e0b;
+            transform: translateY(-2px);
+        }
+        
+        .mini-capture {
+            background: rgba(37, 99, 235, 0.1);
+            border: 2px solid #2563eb;
+            padding: 1.5em;
+            margin: 2em 0;
+            border-radius: 12px;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+        
+        .mini-capture h4 {
+            color: #1e40af;
+            margin-bottom: 0.8em;
+            font-size: 1.3em;
+        }
+        
+        .mini-form {
+            display: flex;
+            max-width: 350px;
+            margin: 1em auto;
+            gap: 8px;
+        }
+        
+        .mini-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 0.9em;
+            outline: none;
+        }
+        
+        .mini-input:focus {
+            border-color: #2563eb;
+        }
+        
+        .mini-submit {
+            background: #2563eb;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .mini-submit:hover {
+            background: #1d4ed8;
+        }
+        
+        @media (max-width: 768px) {
+            .email-form, .mini-form {
+                flex-direction: column;
+            }
+            
+            .email-submit, .mini-submit {
+                margin-top: 10px;
+            }
+        }
+        
         .page-break {
             page-break-before: always;
         }
@@ -351,6 +463,16 @@
             A plan that costs $200 more per month but saves you $5,000 when you need care is actually $2,600 cheaper per year. Do the math.
         </div>
 
+        <div class="email-capture">
+            <h3>🚨 Don't Make These Mistakes!</h3>
+            <p>Get my weekly "Insurance Reality Check" emails with insider tips that could save you thousands. Real advice, no sales pitches.</p>
+            <form class="email-form">
+                <input type="email" class="email-input" placeholder="Enter your email address" required>
+                <button type="submit" class="email-submit">Get Tips</button>
+            </form>
+            <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">No spam. Unsubscribe anytime.</p>
+        </div>
+
         <div class="page-break"></div>
 
         <h1>Mistake #2: Missing Hidden Money</h1>
@@ -387,6 +509,15 @@
 
         <div class="pro-tip">
             Even if you think you don't qualify, check anyway. Subsidy calculations include family size, location, and available employer coverage. The formula is more forgiving than you think.
+        </div>
+
+        <div class="mini-capture">
+            <h4>💰 Want me to check if you qualify for subsidies?</h4>
+            <p>I'll personally review your situation and let you know what money you might be missing.</p>
+            <form class="mini-form">
+                <input type="email" class="mini-input" placeholder="Your email" required>
+                <button type="submit" class="mini-submit">Check Now</button>
+            </form>
         </div>
 
         <h1>Mistake #3: The Network Nightmare</h1>
@@ -482,6 +613,15 @@
             Good agents ask more questions than they answer. If someone is doing all the talking and pushing for a quick decision, you're being sold, not helped.
         </div>
 
+        <div class="mini-capture">
+            <h4>🤝 Need help finding a trustworthy agent?</h4>
+            <p>I'll connect you with vetted agents in your area who actually care about your best interests.</p>
+            <form class="mini-form">
+                <input type="email" class="mini-input" placeholder="Your email" required>
+                <button type="submit" class="mini-submit">Get Referral</button>
+            </form>
+        </div>
+
         <h1>Mistake #5: Fine Print Failures</h1>
         <div class="mistake-title">Ignoring the 12 Words That Can Bankrupt You</div>
 
@@ -575,9 +715,35 @@
         <p>Your future self (and your bank account) will thank you.</p>
 
         <div class="contact-box">
-            <h3>Ready to Stop Getting Screwed by Health Insurance?</h3>
-            <p>This guide is brought to you by insurance professionals who believe you deserve straight talk instead of sales pitches. For personalized help with your specific situation, contact us for a free consultation where we'll give you honest advice about your options.</p>
-            <p><strong>"Making insurance make sense, one family at a time."</strong></p>
+            <h3>🚀 Ready to Stop Getting Screwed by Health Insurance?</h3>
+            <p style="font-size: 1.1em; margin-bottom: 2em;">Want personalized help with your specific situation? Let's cut through the BS and find you coverage that actually works.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin: 2.5em 0;">
+                <div style="background: rgba(255,255,255,0.15); padding: 25px; border-radius: 15px; backdrop-filter: blur(10px); transition: all 0.3s ease; border: 2px solid transparent;">
+                    <div style="font-size: 2.5em; margin-bottom: 15px;">📧</div>
+                    <h4 style="color: white; margin-bottom: 12px; font-size: 1.3em;">Email David</h4>
+                    <a href="mailto:david@lakelandhealthinsurance.com" style="color: #fbbf24; text-decoration: none; font-weight: 600; font-size: 1.1em; word-break: break-word;">david@lakelandhealthinsurance.com</a>
+                    <p style="font-size: 0.9em; opacity: 0.8; margin-top: 8px;">Quick questions & quotes</p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.15); padding: 25px; border-radius: 15px; backdrop-filter: blur(10px); transition: all 0.3s ease; border: 2px solid transparent;">
+                    <div style="font-size: 2.5em; margin-bottom: 15px;">📞</div>
+                    <h4 style="color: white; margin-bottom: 12px; font-size: 1.3em;">Call Direct</h4>
+                    <a href="tel:8636403102" style="color: #fbbf24; text-decoration: none; font-weight: 600; font-size: 1.3em;">(863) 640-3102</a>
+                    <p style="font-size: 0.9em; opacity: 0.8; margin-top: 8px;">Immediate assistance</p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.15); padding: 25px; border-radius: 15px; backdrop-filter: blur(10px); transition: all 0.3s ease; border: 2px solid transparent; grid-column: 1 / -1; max-width: 400px; margin: 0 auto; width: 100%;">
+                    <div style="font-size: 2.5em; margin-bottom: 15px;">📅</div>
+                    <h4 style="color: white; margin-bottom: 12px; font-size: 1.3em;">Schedule Free Consultation</h4>
+                    <a href="https://calendly.com/davidlakelandhealth/15min" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1d4ed8; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.1em; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3); margin-top: 10px;">Book Your Call Now</a>
+                    <p style="font-size: 0.9em; opacity: 0.8; margin-top: 12px;">15-minute strategy session</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2em; padding-top: 2em; border-top: 1px solid rgba(255,255,255,0.2);">
+                <p style="font-size: 1.2em; font-weight: 700; font-style: italic;">"Making insurance make sense, one family at a time."</p>
+            </div>
         </div>
 
         <div class="footer-box">
