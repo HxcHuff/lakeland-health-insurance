@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Health Insurance Reality Check Guide | Lakeland Health Insurance</title>
+    <title>Free Health Insurance Reality Check | Stop Overpaying</title>
     <meta name="description" content="Download your free guide: 5 Critical Health Insurance Mistakes That Could Cost You Thousands. No BS advice from an agent who actually gives a damn.">
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
@@ -21,34 +21,39 @@
             box-sizing: border-box;
         }
         
-        body {
+        body, html {
+            height: 100vh;
+            overflow: hidden;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
         }
         
         .container {
-            max-width: 600px;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            gap: 2rem;
+            padding: 2rem;
         }
         
-        /* Header - Minimal */
-        .header {
-            background: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        /* Left Column - Persuasion */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            padding-right: 1rem;
         }
         
         .logo {
-            text-align: center;
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
             font-size: 1.5rem;
             font-weight: 800;
-            color: #1e3a8a;
+            color: white;
         }
         
         .logo::after {
@@ -59,165 +64,170 @@
             font-weight: 600;
         }
         
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-            color: white;
-            padding: 3rem 0;
+        .main-headline {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subheadline {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+            color: #fbbf24;
+        }
+        
+        .pain-points {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .pain-points h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #fbbf24;
+        }
+        
+        .pain-list {
+            list-style: none;
+        }
+        
+        .pain-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        
+        .pain-list li::before {
+            content: "❌";
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        
+        .social-proof-compact {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .stat-mini {
             text-align: center;
         }
         
-        .hero h1 {
-            font-size: 2.2rem;
+        .stat-mini .number {
+            font-size: 2rem;
             font-weight: 800;
-            margin-bottom: 1rem;
-            line-height: 1.2;
+            color: #10b981;
+            display: block;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
         
-        .hero .subtitle {
-            font-size: 1.3rem;
-            opacity: 0.95;
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-        }
-        
-        .hero .description {
-            font-size: 1.1rem;
+        .stat-mini .label {
+            font-size: 0.85rem;
             opacity: 0.9;
-            margin-bottom: 2rem;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
         }
         
-        /* Guide Preview */
-        .guide-preview {
+        /* Right Column - Form */
+        .right-column {
             background: white;
-            margin: -2rem 0 3rem;
             border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             position: relative;
-            z-index: 10;
+            overflow: hidden;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
         }
         
         .guide-icon {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            border-radius: 16px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2.5rem;
+            margin: 0 auto 1rem;
+            font-size: 1.8rem;
             color: white;
             animation: pulse-glow 2s ease-in-out infinite;
         }
         
         @keyframes pulse-glow {
-            0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3); }
-            50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(30, 58, 138, 0.4); }
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 12px 35px rgba(30, 58, 138, 0.4); }
         }
         
-        .guide-title {
-            font-size: 1.8rem;
+        .form-title {
+            font-size: 1.6rem;
             font-weight: 700;
             color: #1e3a8a;
-            margin-bottom: 1rem;
-            text-align: center;
+            margin-bottom: 0.5rem;
         }
         
-        /* What's Inside */
-        .whats-inside {
-            margin-bottom: 2rem;
-        }
-        
-        .whats-inside h3 {
-            font-size: 1.3rem;
-            color: #1e3a8a;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        .benefits-list {
-            list-style: none;
-        }
-        
-        .benefits-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 1rem;
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            border-left: 4px solid #10b981;
-        }
-        
-        .benefit-icon {
-            font-size: 1.3rem;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-        
-        .benefit-text {
-            font-weight: 500;
-            color: #374151;
-        }
-        
-        /* Download Form */
-        .download-form {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 2rem;
-            border-radius: 16px;
-            border: 2px solid #1e3a8a;
-            margin-bottom: 2rem;
-        }
-        
-        .form-header {
-            text-align: center;
+        .form-subtitle {
+            color: #666;
+            font-size: 0.95rem;
             margin-bottom: 1.5rem;
         }
         
-        .form-header h3 {
-            font-size: 1.4rem;
-            color: #1e3a8a;
-            margin-bottom: 0.5rem;
+        .benefits-compact {
+            list-style: none;
+            margin-bottom: 1.5rem;
         }
         
-        .form-header p {
-            color: #666;
-            font-size: 0.95rem;
+        .benefits-compact li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.6rem;
+            font-size: 0.9rem;
+            color: #374151;
+        }
+        
+        .benefits-compact li::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1rem;
+            flex-shrink: 0;
         }
         
         .form-group {
-            margin-bottom: 1.2rem;
-        }
-        
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #374151;
+            margin-bottom: 1rem;
         }
         
         .form-group input {
             width: 100%;
-            padding: 16px 20px;
+            padding: 14px 18px;
             border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            border-radius: 10px;
+            font-size: 1rem;
             font-family: inherit;
             background: white;
             transition: all 0.2s ease;
-            min-height: 52px;
         }
         
         .form-group input:focus {
             outline: none;
             border-color: #1e3a8a;
-            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
         }
         
         .form-group input::placeholder {
@@ -227,8 +237,8 @@
         
         .download-btn {
             width: 100%;
-            padding: 18px 24px;
-            font-size: 1.3rem;
+            padding: 16px 24px;
+            font-size: 1.2rem;
             font-weight: 700;
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
@@ -236,8 +246,7 @@
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-height: 56px;
-            margin-top: 1rem;
+            margin: 1rem 0;
             position: relative;
             overflow: hidden;
         }
@@ -258,301 +267,153 @@
         }
         
         .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
-        }
-        
-        .download-btn:active {
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
         }
         
         .form-disclaimer {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #6b7280;
             text-align: center;
-            margin-top: 1rem;
-            line-height: 1.4;
+            line-height: 1.3;
         }
         
-        /* Success Message */
+        .phone-cta {
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .phone-cta p {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .phone-link {
+            color: #1e3a8a;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .phone-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Success State */
         .success-message {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
-            padding: 2.5rem;
+            padding: 2rem;
             border-radius: 16px;
             text-align: center;
             display: none;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .success-message::before {
-            content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(180deg); }
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10;
         }
         
         .success-message.show {
-            display: block;
-        }
-        
-        .success-content {
-            position: relative;
-            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         
         .success-message h3 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
         }
         
         .download-link {
             background: rgba(255,255,255,0.2);
             color: white;
-            padding: 18px 32px;
+            padding: 16px 32px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             display: inline-block;
-            margin: 1.5rem 0;
+            margin: 1rem 0;
             border: 2px solid rgba(255,255,255,0.3);
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
         }
         
         .download-link:hover {
             background: rgba(255,255,255,0.3);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
         }
         
-        .backup-info {
-            background: rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        
-        .backup-info h4 {
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-        
-        .backup-info p {
-            font-size: 0.95rem;
-            opacity: 0.9;
-            margin-bottom: 1rem;
-        }
-        
-        .phone-link {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            border-bottom: 2px solid rgba(255,255,255,0.3);
-            transition: border-color 0.2s ease;
-        }
-        
-        .phone-link:hover {
-            border-bottom-color: white;
-        }
-        
-        /* Social Proof */
-        .social-proof {
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            margin-bottom: 2rem;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-        
-        .social-proof h3 {
-            color: #1e3a8a;
-            margin-bottom: 1rem;
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .stat {
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 12px;
-        }
-        
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #10b981;
-            display: block;
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: #666;
-            font-weight: 500;
-        }
-        
-        .testimonial {
-            font-style: italic;
-            color: #555;
-            margin-bottom: 0.5rem;
-            position: relative;
-        }
-        
-        .testimonial::before {
-            content: '"';
-            font-size: 2rem;
-            color: #1e3a8a;
-            position: absolute;
-            left: -15px;
-            top: -5px;
-        }
-        
-        .testimonial-author {
-            font-weight: 600;
-            color: #333;
-            font-size: 0.9rem;
-        }
-        
-        /* FAQ Section */
-        .faq {
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-        
-        .faq h3 {
-            color: #1e3a8a;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        
-        .faq-item {
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-            padding-bottom: 1rem;
-        }
-        
-        .faq-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        
-        .faq-question {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-        
-        .faq-answer {
-            color: #666;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        
-        /* Footer CTA */
-        .footer-cta {
-            background: #333;
-            color: white;
-            padding: 2rem;
-            text-align: center;
-            border-radius: 16px;
-            margin-bottom: 2rem;
-        }
-        
-        .footer-cta h3 {
-            margin-bottom: 1rem;
-        }
-        
-        .footer-cta p {
-            opacity: 0.9;
-            margin-bottom: 1.5rem;
-        }
-        
-        .phone-btn {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
-            padding: 16px 32px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            min-height: 52px;
-            transition: all 0.3s ease;
-        }
-        
-        .phone-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(30, 58, 138, 0.4);
-        }
-        
-        /* Mobile Optimizations */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .container {
-                padding: 0 15px;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+                gap: 1rem;
+                padding: 1rem;
+                height: 100vh;
             }
             
-            .hero {
-                padding: 2rem 0;
+            .logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 1rem;
             }
             
-            .hero h1 {
-                font-size: 1.8rem;
+            .left-column {
+                padding-right: 0;
+                justify-content: flex-start;
             }
             
-            .hero .subtitle {
+            .main-headline {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .subheadline {
                 font-size: 1.1rem;
+                margin-bottom: 1rem;
             }
             
-            .guide-preview {
-                margin: -1.5rem 15px 2rem;
+            .pain-points {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .pain-points h3 {
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .pain-list li {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .social-proof-compact {
+                gap: 1rem;
+                justify-content: center;
+            }
+            
+            .stat-mini .number {
+                font-size: 1.5rem;
+            }
+            
+            .right-column {
                 padding: 1.5rem;
             }
             
-            .stats {
-                grid-template-columns: 1fr;
+            .form-title {
+                font-size: 1.3rem;
             }
             
-            .download-btn {
-                font-size: 1.2rem;
-                padding: 20px 24px;
-                min-height: 60px;
-            }
-            
-            .form-group input {
-                font-size: 16px;
-                min-height: 56px;
-            }
-            
-            .success-message {
-                padding: 2rem;
+            .benefits-compact li {
+                font-size: 0.85rem;
             }
         }
         
@@ -568,65 +429,61 @@
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="container">
+    <div class="container">
+        <div class="left-column">
             <div class="logo">LHI</div>
-        </div>
-    </header>
-
-    <section class="hero">
-        <div class="container">
-            <h1>Health Insurance Without the Runaround</h1>
-            <div class="subtitle">Free Reality Check Guide</div>
-            <p class="description">5 critical mistakes that could cost you thousands + the insider secrets insurance companies don't want you to know</p>
-        </div>
-    </section>
-
-    <section class="guide-preview">
-        <div class="container">
-            <div class="guide-icon">📋</div>
-            <h2 class="guide-title">The Florida Health Insurance Survival Guide</h2>
             
-            <div class="whats-inside">
-                <h3>What's Inside (No Fluff, Just Facts):</h3>
-                <ul class="benefits-list">
-                    <li>
-                        <span class="benefit-icon">💸</span>
-                        <span class="benefit-text"><strong>The Deductible Trap:</strong> Why choosing the wrong deductible could bankrupt you</span>
-                    </li>
-                    <li>
-                        <span class="benefit-icon">🚨</span>
-                        <span class="benefit-text"><strong>Network Nightmares:</strong> How to avoid $50,000+ surprise bills</span>
-                    </li>
-                    <li>
-                        <span class="benefit-icon">📅</span>
-                        <span class="benefit-text"><strong>Enrollment Deadlines:</strong> Miss these dates, pay the price all year</span>
-                    </li>
-                    <li>
-                        <span class="benefit-icon">💰</span>
-                        <span class="benefit-text"><strong>Hidden Subsidies:</strong> Money you're leaving on the table</span>
-                    </li>
-                    <li>
-                        <span class="benefit-icon">🎭</span>
-                        <span class="benefit-text"><strong>Agent Red Flags:</strong> How to spot BS before you buy</span>
-                    </li>
+            <h1 class="main-headline">Stop Getting Screwed by Health Insurance</h1>
+            <p class="subheadline">Free guide reveals the 5 mistakes costing you thousands</p>
+            
+            <div class="pain-points">
+                <h3>Are You Making These Expensive Mistakes?</h3>
+                <ul class="pain-list">
+                    <li>Choosing the wrong deductible (can cost $10K+)</li>
+                    <li>Missing hidden subsidies you qualify for</li>
+                    <li>Falling for "network tricks" that bankrupt you</li>
+                    <li>Getting fooled by agent sales tactics</li>
                 </ul>
             </div>
-
-            <div class="download-form" id="downloadForm">
-                <div class="form-header">
-                    <h3>Get Your Free Guide Now</h3>
-                    <p>Instant download. No waiting around.</p>
+            
+            <div class="social-proof-compact">
+                <div class="stat-mini">
+                    <span class="number">$847</span>
+                    <span class="label">Avg. Annual Savings</span>
                 </div>
+                <div class="stat-mini">
+                    <span class="number">500+</span>
+                    <span class="label">Happy Customers</span>
+                </div>
+                <div class="stat-mini">
+                    <span class="number">4.9★</span>
+                    <span class="label">Google Rating</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-column">
+            <div id="formContainer">
+                <div class="form-header">
+                    <div class="guide-icon">📋</div>
+                    <h2 class="form-title">Get Your Free Reality Check</h2>
+                    <p class="form-subtitle">Instant download • No BS • Just facts</p>
+                </div>
+                
+                <ul class="benefits-compact">
+                    <li>Network nightmare survival tactics</li>
+                    <li>Deductible decision framework</li>
+                    <li>Hidden subsidy calculator</li>
+                    <li>Agent red flag checklist</li>
+                    <li>Emergency room cost hacks</li>
+                </ul>
                 
                 <form action="https://formspree.io/f/xwpbvjvw" method="POST" id="guideForm">
                     <div class="form-group">
-                        <label for="name">What should we call you?</label>
                         <input type="text" id="name" name="name" placeholder="Your first name" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="email">Your email address</label>
                         <input type="email" id="email" name="email" placeholder="your@email.com" required>
                     </div>
                     
@@ -634,91 +491,34 @@
                     <input type="hidden" name="guide_request" value="Health Insurance Reality Check">
                     
                     <button type="submit" class="download-btn">
-                        📥 Download My Free Guide
+                        📥 Download Free Guide Now
                     </button>
                     
                     <p class="form-disclaimer">
-                        <strong>Instant Access:</strong> Your guide downloads immediately after you submit. David will also follow up personally within 24 hours.
+                        <strong>Instant access.</strong> David follows up personally within 24 hours.
                     </p>
                 </form>
-            </div>
-        </div>
-    </section>
-
-    <div id="successMessage" class="success-message">
-        <div class="container">
-            <div class="success-content">
-                <h3><span>🎉</span> Success! Here's Your Guide</h3>
-                <p>Click the button below to download your free Health Insurance Reality Check guide right now:</p>
                 
-                <a href="downloads/Florida Health Insurance.pdf" class="download-link" download target="_blank" onclick="trackDownload()">
-                    📥 Download Your Guide (PDF)
-                </a>
-                
-                <div class="backup-info">
-                    <h4>📧 Also Sent to Your Email</h4>
-                    <p>A copy is on its way to your inbox as backup. If you don't see it in 5 minutes, check your spam folder or call David directly.</p>
+                <div class="phone-cta">
+                    <p>Rather talk to a human?</p>
                     <a href="tel:+18636403102" class="phone-link">📞 (863) 640-3102</a>
                 </div>
             </div>
+            
+            <div id="successMessage" class="success-message">
+                <h3>🎉 Success! Here's Your Guide</h3>
+                <p>Your Health Insurance Reality Check is ready:</p>
+                
+                <a href="downloads/Florida Health Insurance.pdf" class="download-link" download target="_blank" onclick="trackDownload()">
+                    📥 Download Now (PDF)
+                </a>
+                
+                <p style="font-size: 0.9rem; opacity: 0.9;">
+                    Also sent to your email • Questions? Call David: (863) 640-3102
+                </p>
+            </div>
         </div>
     </div>
-
-    <section class="social-proof">
-        <div class="container">
-            <h3>Join 500+ Smart People Who Stopped Overpaying</h3>
-            <div class="stats">
-                <div class="stat">
-                    <span class="stat-number">$847</span>
-                    <span class="stat-label">Average Annual Savings</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">500+</span>
-                    <span class="stat-label">Happy Customers</span>
-                </div>
-            </div>
-            <div class="testimonial">
-                This guide saved me $400 a month. I was basically paying for a BMW and getting a bicycle.
-            </div>
-            <div class="testimonial-author">- Sarah M., Tampa FL</div>
-        </div>
-    </section>
-
-    <section class="faq">
-        <div class="container">
-            <h3>Quick Questions (Because Everyone Has Them)</h3>
-            
-            <div class="faq-item">
-                <div class="faq-question">Is this actually free?</div>
-                <div class="faq-answer">Yes, completely free. No hidden costs, no credit card required. David's not running a carnival here.</div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">Do I get the guide immediately?</div>
-                <div class="faq-answer">Absolutely. The download starts as soon as you submit the form. No waiting for emails or manual approvals.</div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">Will you spam me to death?</div>
-                <div class="faq-answer">Nope. You'll get the guide, maybe some helpful tips occasionally, and that's it. Unsubscribe anytime.</div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">Who is David anyway?</div>
-                <div class="faq-answer">Licensed insurance agent (FL #W371813) who got tired of the industry BS and decided to actually help people instead of just selling them stuff.</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="footer-cta">
-        <div class="container">
-            <h3>Want to Talk to a Human Instead?</h3>
-            <p>Skip the guide and get personalized advice right now. David answers personally, no phone trees or hold music.</p>
-            <a href="tel:+18636403102" class="phone-btn">
-                📞 Call David: (863) 640-3102
-            </a>
-        </div>
-    </section>
 
     <script>
         // Form handling with instant download
@@ -733,7 +533,7 @@
             // Show loading state
             submitBtn.innerHTML = '📤 Sending...';
             submitBtn.disabled = true;
-            document.getElementById('downloadForm').classList.add('loading');
+            document.getElementById('formContainer').classList.add('loading');
             
             // Submit to Formspree (for lead capture)
             fetch(form.action, {
@@ -746,7 +546,6 @@
             .then(response => {
                 if (response.ok) {
                     // Show success message with download
-                    document.getElementById('downloadForm').style.display = 'none';
                     document.getElementById('successMessage').classList.add('show');
                     
                     // Track conversion
@@ -757,32 +556,20 @@
                             value: 1
                         });
                     }
-                    
-                    // Scroll to success message
-                    document.getElementById('successMessage').scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'center'
-                    });
                 } else {
                     throw new Error('Form submission failed');
                 }
             })
             .catch(error => {
                 // Even if form fails, still show download (user experience first)
-                document.getElementById('downloadForm').style.display = 'none';
                 document.getElementById('successMessage').classList.add('show');
-                document.getElementById('successMessage').scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-                
                 console.error('Form submission error:', error);
             })
             .finally(() => {
                 // Reset button state
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
-                document.getElementById('downloadForm').classList.remove('loading');
+                document.getElementById('formContainer').classList.remove('loading');
             });
         });
 
@@ -797,37 +584,20 @@
             }
         }
 
-        // Enhanced mobile experience
-        document.addEventListener('DOMContentLoaded', function() {
-            // Auto-focus on name field for desktop
-            if (window.innerWidth > 768) {
-                document.getElementById('name').focus();
-            }
-            
-            // Track scroll depth for analytics
-            let maxScroll = 0;
-            window.addEventListener('scroll', function() {
-                const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-                if (scrollPercent > maxScroll) {
-                    maxScroll = scrollPercent;
-                    
-                    if (maxScroll >= 75 && typeof gtag === 'function') {
-                        gtag('event', 'scroll_75_percent', {
-                            event_category: 'engagement',
-                            event_label: 'guide_page_scroll'
-                        });
-                    }
-                }
-            });
-        });
-
         // Phone button tracking
-        document.querySelector('.phone-btn').addEventListener('click', function() {
+        document.querySelector('.phone-link').addEventListener('click', function() {
             if (typeof gtag === 'function') {
                 gtag('event', 'phone_call', {
                     event_category: 'engagement',
                     event_label: 'guide_page_phone_call'
                 });
+            }
+        });
+
+        // Auto-focus on name field for desktop
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.innerWidth > 768) {
+                document.getElementById('name').focus();
             }
         });
     </script>
