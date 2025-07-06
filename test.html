@@ -750,5 +750,45 @@
             <p><strong>Disclaimer:</strong> This guide contains more useful information than your average insurance brochure and significantly less BS than most sales presentations. For actual coverage decisions, consult with a licensed agent who actually cares about your financial wellbeing.</p>
         </div>
     </div>
+
+    <script>
+        // Handle email form submissions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle all email forms
+            const emailForms = document.querySelectorAll('.email-form, .mini-form');
+            
+            emailForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Prevent page refresh
+                    
+                    const email = form.querySelector('input[type="email"]').value;
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    
+                    // Simple email validation
+                    if (!email || !email.includes('@')) {
+                        alert('Please enter a valid email address');
+                        return;
+                    }
+                    
+                    // Update button to show success
+                    submitBtn.textContent = '✓ Added!';
+                    submitBtn.style.background = '#22c55e';
+                    submitBtn.disabled = true;
+                    
+                    // Here you would typically send the email to your email service
+                    console.log('Email submitted:', email);
+                    
+                    // Optional: Reset form after a delay
+                    setTimeout(() => {
+                        form.reset();
+                        submitBtn.textContent = originalText;
+                        submitBtn.style.background = '';
+                        submitBtn.disabled = false;
+                    }, 3000);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
