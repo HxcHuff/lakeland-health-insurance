@@ -81,18 +81,22 @@
             align-items: center;
             gap: 15px;
         }
-        .logo {
-            font-size: 1.8rem;
+        .brand-name {
+            font-size: 1.4rem;
             font-weight: 800;
             color: #1e3a8a;
+            line-height: 1.2;
+            text-decoration: none;
         }
-        .logo::after {
-            content: "Lakeland";
-            font-size: 0.8rem;
+        .brand-name:hover {
+            color: #3b82f6;
+        }
+        .license-tag {
+            font-size: 0.7rem;
             color: #10b981;
+            font-weight: 600;
             display: block;
             line-height: 1;
-            font-weight: 600;
         }
         .menu-button {
             background: none;
@@ -182,6 +186,28 @@
         .cta-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+        }
+        .cta-group {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        .cta-secondary {
+            background: transparent;
+            color: #1e3a8a;
+            padding: 12px 20px;
+            border: 2px solid #1e3a8a;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .cta-secondary:hover {
+            background: #1e3a8a;
+            color: white;
+            transform: translateY(-2px);
         }
         .click-to-call {
             position: fixed;
@@ -567,6 +593,7 @@
             .hero h1 { font-size: 2.5rem; }
             .hero h2 { font-size: 1.4rem; }
             .nav-links { display: none; }
+            .cta-group { display: none; }
             .value-grid { grid-template-columns: 1fr; }
             .click-to-call {
                 bottom: 15px;
@@ -597,7 +624,10 @@
     <header>
         <nav class="container">
             <div class="logo-container">
-                <div class="logo">LHI</div>
+                <div>
+                    <a href="#home" class="brand-name">Lakeland Health Insurance</a>
+                    <span class="license-tag">Licensed FL Broker #W371813</span>
+                </div>
                 <button class="menu-button" onclick="toggleMenu()" aria-label="Toggle navigation menu">
                     <div class="ellipses">
                         <div class="dot"></div>
@@ -607,25 +637,24 @@
                 </button>
                 
                 <div class="dropdown-menu" id="dropdownMenu">
-                    <div class="menu-item"><a href="#plans">🏥 Health Plans</a></div>
-                    <div class="menu-item"><a href="#tips">💡 Free Tips</a></div>
-                    <div class="menu-item"><a href="/blog/">📝 Blog</a></div>
-                    <div class="menu-item"><a href="/our-approach.html">🎯 Our Approach</a></div>
-                    <div class="menu-item"><a href="/about">👨‍💼 About</a></div>
-                    <div class="menu-item"><a href="#contact">📧 Contact</a></div>
-                    <div class="menu-item"><a href="/privacy-policy.html">🔒 Privacy Policy</a></div>
-                    <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
+                    <div class="menu-item"><a href="#plans">Health Plans</a></div>
+                    <div class="menu-item"><a href="/blog/">Blog</a></div>
+                    <div class="menu-item"><a href="/about">About Us</a></div>
+                    <div class="menu-item"><a href="#contact">Contact</a></div>
+                    <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
                 </div>
             </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#plans">Plans</a></li>
+                <li><a href="#plans">Health Plans</a></li>
                 <li><a href="/blog/">Blog</a></li>
-                <li><a href="/our-approach.html">Our Approach</a></li>
                 <li><a href="/about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <a href="#contact" class="cta-button">Get Free Quote</a>
+            <div class="cta-group">
+                <a href="#contact" class="cta-button">Get Free Quote</a>
+                <a href="tel:+18636403102" class="cta-secondary">📞 Call</a>
+            </div>
         </nav>
     </header>
 
