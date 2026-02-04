@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Chat with Us — Lakeland Health Insurance</title>
+    <meta name="description" content="Chat with David the Insurance Dude — get quick answers about plans, Medicare, and quotes.">
+    <link rel="icon" href="/favicon.ico">
+    <style>
+        body{font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#f8fafc;color:#111}
+        .container{max-width:1200px;margin:0 auto;padding:20px}
+        header{background:#fff;padding:18px 0;box-shadow:0 4px 12px rgba(0,0,0,0.06);position:sticky;top:0;z-index:50}
+        .brand{font-weight:800;color:#1e3a8a;font-size:1.25rem}
+        nav{display:flex;justify-content:space-between;align-items:center}
+        a.cta{background:linear-gradient(135deg,#1e3a8a,#3b82f6);color:#fff;padding:10px 16px;border-radius:999px;text-decoration:none;font-weight:700}
+        main{padding:28px 0}
+        .hero{max-width:900px;margin:0 auto 20px;text-align:center}
+        .hero h1{font-size:2rem;margin-bottom:8px;color:#1e3a8a}
+        .hero p{color:#475569}
+        .chat-frame{width:100%;height:calc(100vh - 220px);border:0;border-radius:12px;box-shadow:0 20px 60px rgba(2,6,23,0.08)}
+        footer{background:#252525;color:#e6e6e6;padding:28px 0;margin-top:28px;text-align:center}
+        footer a{color:#3b82f6;text-decoration:none}
+        @media(max-width:768px){.chat-frame{height:60vh}}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="brand"><a href="/" style="text-decoration:none;color:inherit">Lakeland Health Insurance</a></div>
+                <div style="display:flex;gap:12px;align-items:center">
+                    <a href="/blog/">Blog</a>
+                    <a href="/plans/">Plans</a>
+                    <a class="cta" href="/">Home</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="hero">
+                <h1>Chat with David — Get quick answers</h1>
+                <p>Use this dedicated chat page to ask about plans, Medicare, or to request a quote. David usually replies promptly.</p>
+            </div>
+
+            <iframe class="chat-frame" loading="lazy"
+                src="https://www.genspark.ai/agents?type=custom_super_agent&agent_id=eeee3a51-ad35-4269-9aae-e945275e1375"
+                title="Lakeland Chatbot">
+            </iframe>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Lakeland Health Insurance — <a href="mailto:david@lakelandhealthinsurance.com">david@lakelandhealthinsurance.com</a></p>
+        </div>
+    </footer>
+</body>
+</html>
