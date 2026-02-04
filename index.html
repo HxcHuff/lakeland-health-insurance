@@ -866,21 +866,69 @@
         </div>
     </footer>
     
-    <!-- Chatbot (bottom of page) -->
-    <section class="chatbot-section" id="chatbot" style="padding: 24px 0; background: #ffffff;">
-        <div class="container">
-            <div style="max-width: 1200px; margin: 0 auto;">
-                <iframe
-                    src="https://www.genspark.ai/agents?type=custom_super_agent&agent_id=eeee3a51-ad35-4269-9aae-e945275e1375"
-                    width="100%"
-                    height="700"
-                    frameborder="0"
-                    aria-label="Chatbot"
-                    title="Chatbot">
-                </iframe>
-            </div>
+    <!-- Floating Chat Widget (lazy-loads iframe) -->
+    <style>
+        .chat-widget-button {
+            position: fixed;
+            bottom: 110px;
+            right: 20px;
+            z-index: 2000;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 14px 18px;
+            border-radius: 999px;
+            box-shadow: 0 10px 30px rgba(30,58,138,0.25);
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .chat-widget-button:hover { transform: translateY(-3px); }
+
+        .chat-widget-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.5);
+            z-index: 2001;
+            padding: 20px;
+        }
+        .chat-widget-overlay.show { display: flex; }
+
+        .chat-widget-modal {
+            width: 100%;
+            max-width: 980px;
+            height: 80vh;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .chat-widget-close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.05);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 10;
+        }
+    </style>
+
+    <button id="openChat" class="chat-widget-button" aria-label="Open chat">💬 Chat</button>
+
+    <div id="chatOverlay" class="chat-widget-overlay" aria-hidden="true">
+        <div class="chat-widget-modal" role="dialog" aria-modal="true">
+            <button id="closeChat" class="chat-widget-close" aria-label="Close chat">✕</button>
+            <iframe id="chatIframe" src="" title="Chat" width="100%" height="100%" frameborder="0" loading="lazy"></iframe>
         </div>
-    </section>
+    </div>
 
     <!-- Floating Action Buttons -->
     <a href="https://m.me/2330958066941437" class="messenger-button" target="_blank" rel="noopener noreferrer" onclick="trackMessengerClick()">
@@ -1010,6 +1058,35 @@
 
         // Automatically update footer year
         document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Floating chat widget behavior
+        (function() {
+            const openBtn = document.getElementById('openChat');
+            const closeBtn = document.getElementById('closeChat');
+            const overlay = document.getElementById('chatOverlay');
+            const iframe = document.getElementById('chatIframe');
+            const agentUrl = 'https://www.genspark.ai/agents?type=custom_super_agent&agent_id=eeee3a51-ad35-4269-9aae-e945275e1375';
+
+            function openChat() {
+                if (!iframe.src) iframe.src = agentUrl;
+                overlay.classList.add('show');
+                overlay.setAttribute('aria-hidden', 'false');
+            }
+
+            function closeChat() {
+                overlay.classList.remove('show');
+                overlay.setAttribute('aria-hidden', 'true');
+            }
+
+            if (openBtn) openBtn.addEventListener('click', openChat);
+            if (closeBtn) closeBtn.addEventListener('click', closeChat);
+            if (overlay) overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) closeChat();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeChat();
+            });
+        })();
     </script>
 </body>
 </html>
