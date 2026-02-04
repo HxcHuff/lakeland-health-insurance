@@ -785,16 +785,8 @@
                         <span class="label-icon">👤</span>
                         Your Age
                     </label>
-                    <div id="age-help" style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">(biggest factor in 2026 rates)</div>
-                    <select id="age" name="age" required aria-describedby="age-help">
-                        <option value="">Select Age</option>
-                        <option value="25">18-29</option>
-                        <option value="35">30-39</option>
-                        <option value="45">40-49</option>
-                        <option value="55">50-59</option>
-                        <option value="62">60-64</option>
-                        <option value="66">65+</option>
-                    </select>
+                    <div id="age-help" style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">(19-64 years old)</div>
+                    <input type="number" id="age" name="age" min="19" max="64" placeholder="Enter your exact age" required aria-describedby="age-help">
                 </div>
                 <div class="form-group">
                     <label for="zipcode">
@@ -838,18 +830,10 @@
                 <div class="form-group" id="incomeGroup" style="display: none;">
                     <label for="income">
                         <span class="label-icon">💰</span>
-                        Household Income
+                        Annual Household Income
                     </label>
                     <div id="income-help" style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">(determines your subsidies)</div>
-                    <select id="income" name="income" aria-describedby="income-help">
-                        <option value="">Select Income Range</option>
-                        <option value="20000">Under $25k</option>
-                        <option value="35000">$25k - $45k</option>
-                        <option value="55000">$45k - $65k</option>
-                        <option value="75000">$65k - $85k</option>
-                        <option value="95000">$85k - $105k</option>
-                        <option value="125000">Over $105k</option>
-                    </select>
+                    <input type="number" id="income" name="income" placeholder="Enter annual household income" aria-describedby="income-help" inputmode="numeric">
                 </div>
                 <button type="submit" class="calc-button" id="calcBtn">
                     <span id="btnText">Show Me Real Prices</span>
@@ -1298,6 +1282,13 @@
                 return;
             }
             
+            // Validate age range
+            if (age < 19 || age > 64) {
+                alert('Please enter an age between 19 and 64.');
+                document.getElementById('age').focus();
+                return;
+            }
+            
             // Validate ZIP code
             if (zipcode.length !== 5) {
                 alert('Please enter a valid 5-digit ZIP code.');
@@ -1318,8 +1309,18 @@
                 try {
                     // Simple cost estimation logic (2026 rates)
                     if (plantype === 'aca') {
-                        // Base cost before subsidies (2026 average Silver plan rates)
-                        let baseCost = age < 30 ? 385 : age < 40 ? 495 : age < 50 ? 605 : age < 60 ? 715 : 825;
+                        // Base cost before subsidies (2026 average Silver plan rates) - granular by age
+                        let baseCost;
+                        if (age < 21) baseCost = 340;
+                        else if (age < 25) baseCost = 355;
+                        else if (age < 30) baseCost = 375;
+                        else if (age < 35) baseCost = 410;
+                        else if (age < 40) baseCost = 485;
+                        else if (age < 45) baseCost = 550;
+                        else if (age < 50) baseCost = 625;
+                        else if (age < 55) baseCost = 695;
+                        else if (age < 60) baseCost = 760;
+                        else baseCost = 850; // 60-64
                         
                         // Calculate Federal Poverty Level percentage
                         const fpl = getFPL(household);
@@ -1352,16 +1353,52 @@
                         }
                         
                     } else if (plantype === 'short') {
-                        estimatedCost = age < 30 ? 90 : age < 40 ? 135 : age < 50 ? 205 : age < 60 ? 285 : 395;
+                        if (age < 21) estimatedCost = 70;
+                        else if (age < 25) estimatedCost = 78;
+                        else if (age < 30) estimatedCost = 90;
+                        else if (age < 35) estimatedCost = 108;
+                        else if (age < 40) estimatedCost = 132;
+                        else if (age < 45) estimatedCost = 165;
+                        else if (age < 50) estimatedCost = 210;
+                        else if (age < 55) estimatedCost = 245;
+                        else if (age < 60) estimatedCost = 295;
+                        else estimatedCost = 400; // 60-64
                         message = '⚡ <strong>Short-Term Medical (2026 Rates):</strong> Budget-friendly option for healthy people in life transitions. Covers major medical events but has limits. Good bridge coverage only—not ACA replacement.';
                     } else if (plantype === 'supplements') {
-                        estimatedCost = age < 30 ? 42 : age < 40 ? 54 : age < 50 ? 78 : age < 60 ? 102 : 144;
+                        if (age < 21) estimatedCost = 32;
+                        else if (age < 25) estimatedCost = 36;
+                        else if (age < 30) estimatedCost = 42;
+                        else if (age < 35) estimatedCost = 48;
+                        else if (age < 40) estimatedCost = 54;
+                        else if (age < 45) estimatedCost = 66;
+                        else if (age < 50) estimatedCost = 78;
+                        else if (age < 55) estimatedCost = 90;
+                        else if (age < 60) estimatedCost = 108;
+                        else estimatedCost = 132; // 60-64
                         message = '🩹 <strong>Critical Illness/Accident Plans:</strong> Pay cash directly to YOU for covered events (heart attack, cancer diagnosis, accidents). Stacks on top of any health coverage. No medical exam required.';
                     } else if (plantype === 'dental') {
-                        estimatedCost = age < 30 ? 30 : age < 40 ? 42 : age < 50 ? 54 : age < 60 ? 66 : 78;
+                        if (age < 21) estimatedCost = 24;
+                        else if (age < 25) estimatedCost = 27;
+                        else if (age < 30) estimatedCost = 30;
+                        else if (age < 35) estimatedCost = 36;
+                        else if (age < 40) estimatedCost = 42;
+                        else if (age < 45) estimatedCost = 48;
+                        else if (age < 50) estimatedCost = 54;
+                        else if (age < 55) estimatedCost = 60;
+                        else if (age < 60) estimatedCost = 72;
+                        else estimatedCost = 84; // 60-64
                         message = '🦷 <strong>Dental Insurance (2026):</strong> Most plans cover cleanings at 100%, fillings at 80%, major work at 50%. Average person saves $500+/year. Usually hit break-even in month 2-3.';
                     } else if (plantype === 'life') {
-                        estimatedCost = age < 30 ? 18 : age < 40 ? 30 : age < 50 ? 54 : age < 60 ? 102 : 180;
+                        if (age < 21) estimatedCost = 10;
+                        else if (age < 25) estimatedCost = 12;
+                        else if (age < 30) estimatedCost = 18;
+                        else if (age < 35) estimatedCost = 22;
+                        else if (age < 40) estimatedCost = 30;
+                        else if (age < 45) estimatedCost = 42;
+                        else if (age < 50) estimatedCost = 54;
+                        else if (age < 55) estimatedCost = 72;
+                        else if (age < 60) estimatedCost = 108;
+                        else estimatedCost = 168; // 60-64
                         message = '🛡️ <strong>Term Life Insurance (2026):</strong> Locks in your rate for 10, 20, or 30 years. Cheap now while you\'re healthy. Wait until 50 and prices triple. Protect your family\'s financial future.';
                     }
                     
