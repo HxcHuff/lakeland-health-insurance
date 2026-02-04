@@ -694,89 +694,53 @@
         <div class="container">
             <div class="form-container">
                 <div id="contact-form">
-                    <div class="form-icon">🔍</div>
-                    <h2>Free Insurance Reality Check</h2>
-                    <p class="subtitle">No BS. Just tell us if you're overpaying or underprotected.</p>
-                    
+                    <h2>Get Your Free Insurance Consultation</h2>
+                    <p class="subtitle">Tell us a little about yourself and we'll be in touch within 24 hours.</p>
+
                     <form action="https://formspree.io/f/xwpbvjvw" method="POST" id="insurance-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" id="name" name="name" placeholder="What do we call you?" required autocomplete="name">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone</label>
-                                <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required autocomplete="tel">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email">
-                            </div>
-                            <div class="form-group">
-                                <label for="age">Age</label>
-                                <select id="age" name="age" required>
-                                    <option value="">How old are you?</option>
-                                    <option value="18-25">📱 18-25</option>
-                                    <option value="26-35">💼 26-35</option>
-                                    <option value="36-45">🏠 36-45</option>
-                                    <option value="46-55">👔 46-55</option>
-                                    <option value="56-64">⏰ 56-64</option>
-                                    <option value="65+">🎂 65+ (Medicare time!)</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="zipcode">Zip Code</label>
-                                <input type="text" id="zipcode" name="zipcode" placeholder="12345" required autocomplete="postal-code">
-                            </div>
-                            <div class="form-group">
-                                <label for="income">Household Income</label>
-                                <select id="income" name="income" required>
-                                    <option value="">What's your ballpark?</option>
-                                    <option value="under-30k">💰 Under $30k</option>
-                                    <option value="30k-50k">💵 $30k - $50k</option>
-                                    <option value="50k-75k">💸 $50k - $75k</option>
-                                    <option value="75k-100k">💳 $75k - $100k</option>
-                                    <option value="100k-150k">🏦 $100k - $150k</option>
-                                    <option value="150k+">🤑 $150k+</option>
-                                </select>
-                            </div>
-                        </div>
-                        
                         <div class="form-group">
-                            <label for="situation">What's Going On?</label>
-                            <select id="situation" name="situation" required>
-                                <option value="">Pick your poison...</option>
-                                <option value="no-insurance">😬 No insurance (living dangerously)</option>
-                                <option value="too-expensive">💸 Paying too much (probably)</option>
-                                <option value="bad-coverage">😤 Coverage sucks</option>
-                                <option value="job-change">🔄 Job change chaos</option>
-                                <option value="medicare-time">🎂 Medicare time (scary!)</option>
-                                <option value="just-shopping">🛍️ Just browsing</option>
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required autocomplete="tel">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="interest">I'm interested in...</label>
+                            <select id="interest" name="interest" required>
+                                <option value="">Select an option</option>
+                                <option value="individual-health">Individual Health Insurance</option>
+                                <option value="family-health">Family Health Insurance</option>
+                                <option value="medicare">Medicare</option>
+                                <option value="supplemental">Supplemental Coverage</option>
+                                <option value="other">Other / Not Sure</option>
                             </select>
                         </div>
-                        
+
                         <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thank-you">
-                        <input type="hidden" name="_subject" value="Quick Insurance Checkup">
+                        <input type="hidden" name="_subject" value="New Insurance Consultation Request">
                         <input type="hidden" name="_captcha" value="false">
-                        
-                        <button type="submit" class="submit-btn">Get My Reality Check 🚀</button>
-                        
+
+                        <button type="submit" class="submit-btn">Request Consultation</button>
+
                         <p class="form-disclaimer">
-                            <strong>Promise:</strong> David will personally call within 24 hours. No robots, no spam, no selling your soul to lead farms.
+                            David will personally reach out within 24 hours. No spam, no pressure.
                         </p>
                     </form>
                 </div>
-                
+
                 <div id="success-message" class="success-message">
-                    <h3>🎉 Got It!</h3>
-                    <p>David will call you back faster than a denied claim appeal. Usually within 24 hours.</p>
-                    <p style="margin-top: 1rem;">Impatient? Call now: <strong>(863) 640-3102</strong></p>
+                    <h3>Thank You!</h3>
+                    <p>David will be in touch within 24 hours.</p>
+                    <p style="margin-top: 1rem;">Need immediate help? Call <strong>(863) 640-3102</strong></p>
                 </div>
             </div>
         </div>
