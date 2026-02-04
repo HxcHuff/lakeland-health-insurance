@@ -76,19 +76,19 @@
             gap: 15px;
         }
 
-        .logo {
-            font-size: 1.8rem;
+        .brand-name {
+            font-size: 1.2rem;
             font-weight: 800;
             color: #1e3a8a;
+            line-height: 1.2;
         }
 
-        .logo::after {
-            content: "Lakeland";
-            font-size: 0.8rem;
+        .license-tag {
+            font-size: 0.7rem;
             color: #10b981;
-            display: block;
-            line-height: 1;
             font-weight: 600;
+            display: block;
+            margin-top: 2px;
         }
 
         /* Ellipses Menu Styles */
@@ -588,9 +588,10 @@
     <header>
         <nav class="container">
             <div class="logo-container">
-                <a href="/" style="text-decoration: none;">
-                    <div class="logo">LHI</div>
-                </a>
+                <div class="brand-name">
+                    Lakeland Health Insurance
+                    <span class="license-tag">Licensed FL Broker #W371813</span>
+                </div>
                 <button class="menu-button" onclick="toggleMenu()">
                     <div class="ellipses">
                         <div class="dot"></div>
@@ -600,11 +601,11 @@
                 </button>
                 
                 <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="menu-item"><a href="/">Home</a></div>
                     <div class="menu-item"><a href="/#plans">Health Plans</a></div>
-                    <div class="menu-item"><a href="/#quote">Get Quote</a></div>
-                    <div class="menu-item"><a href="/blog/">Blog</a></div>
-                    <div class="menu-item"><a href="/our-approach.html">Our Approach</a></div>
-                    <div class="menu-item"><a href="/about/">About Us</a></div>
+                    <div class="menu-item"><a href="/blog/">Professional Blog</a></div>
+                    <div class="menu-item"><a href="/dudes-corner/">Dude's Corner</a></div>
+                    <div class="menu-item"><a href="/about">About</a></div>
                     <div class="menu-item"><a href="/#contact">Contact</a></div>
                     <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
                 </div>
@@ -612,10 +613,9 @@
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/#plans">Plans</a></li>
-                <li><a href="/blog/">Blog</a></li>
-                <li><a href="/our-approach.html">Our Approach</a></li>
-                <li><a href="/about/">About</a></li>
-                <li><a href="/chat.html">Chat</a></li>
+                <li><a href="/blog/">Professional Blog</a></li>
+                <li><a href="/dudes-corner/">Dude's Corner</a></li>
+                <li><a href="/about">About</a></li>
                 <li><a href="/#contact">Contact</a></li>
             </ul>
             <a href="/#contact" class="cta-button">Get Free Quote</a>
