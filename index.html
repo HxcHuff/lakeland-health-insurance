@@ -606,6 +606,70 @@
                 padding: 2rem;
                 margin: 0 1rem;
             }
+            .plans-table { overflow-x: auto; }
+            .plans-table table { font-size: 0.9rem; }
+            .plans-table th, .plans-table td { padding: 0.75rem 0.5rem; }
+        }
+
+        /* Health Plans Section */
+        .health-plans {
+            padding: 4rem 0;
+            background: #f8fafc;
+        }
+        .health-plans h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            color: #1e3a8a;
+            margin-bottom: 0.5rem;
+        }
+        .health-plans .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        .plans-table {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+        .plans-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .plans-table th {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        .plans-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            color: #475569;
+        }
+        .plans-table tr:hover {
+            background: #f1f5f9;
+        }
+        .plans-table .plan-name {
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        .plans-table .best-for {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        .plans-cta {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .plans-cta p {
+            color: #64748b;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
@@ -653,6 +717,81 @@
                 <h1>Health Insurance That Makes Sense</h1>
                 <h2>Florida families trust us to cut through the confusion and find coverage that works.</h2>
                 <p>Licensed broker David Huff specializes in individual plans and Medicare. Real expertise, zero corporate script.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="health-plans" id="plans">
+        <div class="container">
+            <h2>Insurance Plans We Offer</h2>
+            <p class="subtitle">As an independent broker, we work with multiple carriers to find the right fit for your situation.</p>
+
+            <div class="plans-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Plan Type</th>
+                            <th>Best For</th>
+                            <th>Key Benefits</th>
+                            <th>Typical Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="plan-name">ACA Health Plans</td>
+                            <td class="best-for">Individuals and families needing comprehensive coverage</td>
+                            <td>Pre-existing conditions covered, subsidies available, essential health benefits</td>
+                            <td>$200-$800/mo (before subsidies)</td>
+                        </tr>
+                        <tr>
+                            <td class="plan-name">Medicare Advantage</td>
+                            <td class="best-for">Seniors wanting all-in-one coverage</td>
+                            <td>Combines Parts A, B, often D; may include dental, vision, hearing</td>
+                            <td>$0-$150/mo + Part B premium</td>
+                        </tr>
+                        <tr>
+                            <td class="plan-name">Medicare Supplement</td>
+                            <td class="best-for">Seniors wanting predictable costs</td>
+                            <td>Fills gaps in Original Medicare, see any doctor accepting Medicare</td>
+                            <td>$100-$300/mo</td>
+                        </tr>
+                        <tr>
+                            <td class="plan-name">Short-Term Medical</td>
+                            <td class="best-for">Healthy individuals between coverage</td>
+                            <td>Lower premiums, quick enrollment, flexible terms</td>
+                            <td>$50-$200/mo</td>
+                        </tr>
+                        <tr>
+                            <td class="plan-name">Dental Insurance</td>
+                            <td class="best-for">Anyone wanting to protect their smile</td>
+                            <td>Preventive care covered, major work discounted</td>
+                            <td>$20-$50/mo</td>
+                        </tr>
+                        <tr>
+                            <td class="plan-name">Vision Insurance</td>
+                            <td class="best-for">Glasses or contact lens wearers</td>
+                            <td>Annual exams, frames and lenses allowance</td>
+                            <td>$10-$25/mo</td>
+                        </tr>
+                        <tr>
+                            <td class="plan-name">Life Insurance</td>
+                            <td class="best-for">Anyone with dependents or debts</td>
+                            <td>Term and permanent options, income replacement</td>
+                            <td>$20-$100/mo (varies by age/health)</td>
+                        </tr>
+                        <tr>
+                            <td class="plan-name">Supplemental Coverage</td>
+                            <td class="best-for">Those wanting extra protection</td>
+                            <td>Accident, critical illness, hospital indemnity plans</td>
+                            <td>$15-$75/mo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="plans-cta">
+                <p>Not sure which plan is right for you? Let's figure it out together.</p>
+                <a href="#contact" class="cta-button">Get Personalized Recommendations</a>
             </div>
         </div>
     </section>
