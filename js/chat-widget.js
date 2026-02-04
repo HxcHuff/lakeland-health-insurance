@@ -17,14 +17,18 @@
   const btn = document.createElement('button');
   btn.id = 'openChat';
   btn.className = 'chat-widget-button';
-  btn.setAttribute('aria-label','Open chat');
-  btn.innerText = '💬 Chat';
+  btn.setAttribute('aria-label','Open chat with David');
+  btn.setAttribute('title','Opens in a new tab — Chat with David');
+  btn.innerText = '💬 Chat with David';
 
   // Simpler behavior: open genspark agent in a new tab/window.
   // Many providers (including Genspark) send X-Frame-Options:SAMEORIGIN which blocks embedding.
   // Opening in a new tab is a reliable fallback that preserves the user's context.
   document.body.appendChild(btn);
   btn.addEventListener('click', function () {
+    if (typeof gtag === 'function') {
+      try { gtag('event', 'open_chat', { event_category: 'engagement', event_label: 'genspark_chat_button' }); } catch (e) {}
+    }
     window.open(agentUrl, '_blank', 'noopener');
   });
 })();
