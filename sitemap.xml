@@ -169,6 +169,12 @@
 
   <!-- Blog Articles - Lakeland-Specific -->
   <url>
+    <loc>https://lakelandhealthinsurance.com/blog/lakeland-healthcare-expansion-2026.html</loc>
+    <lastmod>2026-02-05</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
     <loc>https://lakelandhealthinsurance.com/blog/lakeland-regional-watson-clinic-insurance-2026.html</loc>
     <lastmod>2026-02-04</lastmod>
     <priority>0.80</priority>
