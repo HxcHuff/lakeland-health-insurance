@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Lakeland Health Insurance</title>
+  <meta name="description" content="Contact David the Insurance Dude for a fast health insurance checkup. Call, text, or use the consultation form.">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: #333; background: #f8f9fa; }
+    .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+    header { background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 100; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+    .brand-name { font-size: 1.1rem; font-weight: 800; color: #1e3a8a; text-decoration: none; }
+    .nav-links { display: flex; list-style: none; gap: 1rem; }
+    .nav-links a { text-decoration: none; color: #334155; font-weight: 500; }
+    .nav-links a:hover { color: #1e3a8a; }
+    .contact-hero { padding: 3rem 0 2rem; }
+    h1 { color: #1e3a8a; margin-bottom: 0.75rem; }
+    .intro { max-width: 680px; color: #475569; }
+    .quick-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.25rem; }
+    .quick-actions a { text-decoration: none; color: #fff; padding: 0.75rem 1rem; border-radius: 999px; font-weight: 600; }
+    .call-btn { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+    .text-btn { background: linear-gradient(135deg, #10b981, #059669); }
+    .form-section { padding: 1rem 0 3rem; }
+    .form-container { background: #fff; border-radius: 18px; box-shadow: 0 15px 45px rgba(30,58,138,0.12); padding: 2rem; }
+    .form-container h2 { color: #1e3a8a; margin-bottom: 0.5rem; }
+    .subtitle { color: #64748b; margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.4rem; font-weight: 600; color: #334155; }
+    .form-group input, .form-group select { width: 100%; border: 2px solid #e2e8f0; border-radius: 10px; padding: 0.8rem; font-size: 1rem; }
+    .form-group input:focus, .form-group select:focus { outline: none; border-color: #3b82f6; }
+    .submit-btn { width: 100%; border: none; border-radius: 999px; color: #fff; background: linear-gradient(135deg, #1e3a8a, #3b82f6); padding: 0.9rem 1rem; font-weight: 700; cursor: pointer; }
+    .form-disclaimer { margin-top: 1rem; font-size: 0.85rem; color: #64748b; text-align: center; }
+    footer { background: #0f172a; color: #cbd5e1; padding: 1.5rem 0; }
+    .footer-bottom { text-align: center; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <a class="brand-name" href="/">Lakeland Health Insurance</a>
+      <ul class="nav-links">
+        <li><a href="/plans/">Plans</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="contact-hero">
+    <div class="container">
+      <h1>Contact</h1>
+      <p class="intro">Got insurance questions and zero patience for runaround? Same. Reach out and we’ll keep it human, clear, and useful from the first call.</p>
+      <div class="quick-actions">
+        <a class="call-btn" href="tel:+18636403102">📞 Click to Call</a>
+        <a class="text-btn" href="sms:+18636403102?body=Hi David! I'm interested in getting a health insurance quote. Can you help?">📱 Click to Text</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section" id="contact-form">
+    <div class="container">
+      <div class="form-container">
+        <h2>Get Your Free Insurance Consultation</h2>
+        <p class="subtitle">Tell us a little about yourself and we'll be in touch within 24 hours.</p>
+        <form action="https://formspree.io/f/xwpbvjvw" method="POST" id="insurance-form">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required autocomplete="tel">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label for="interest">I'm interested in...</label>
+            <select id="interest" name="interest" required>
+              <option value="">Select an option</option>
+              <option value="individual-health">Individual Health Insurance</option>
+              <option value="family-health">Family Health Insurance</option>
+              <option value="medicare">Medicare</option>
+              <option value="supplemental">Supplemental Coverage</option>
+              <option value="other">Other / Not Sure</option>
+            </select>
+          </div>
+
+          <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thank-you">
+          <input type="hidden" name="_subject" value="New Insurance Consultation Request">
+          <input type="hidden" name="_captcha" value="false">
+
+          <button type="submit" class="submit-btn">Request Consultation</button>
+          <p class="form-disclaimer">David will personally reach out within 24 hours. No spam, no pressure.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 Lakeland Health Insurance</p>
+      </div>
+    </div>
+  </footer>
+  <script src="/js/site-enhancements.js" defer></script>
+</body>
+</html>
