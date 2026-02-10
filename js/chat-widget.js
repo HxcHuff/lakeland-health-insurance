@@ -1,6 +1,13 @@
 (function(){
   if (window.__LHI_CHAT_WIDGET_LOADED__) return;
   window.__LHI_CHAT_WIDGET_LOADED__ = true;
+  const ENABLE_THIRD_PARTY_BOT = false;
+
+  if (!ENABLE_THIRD_PARTY_BOT) {
+    window.__LHI_THIRD_PARTY_BOT_DISABLED__ = true;
+    return;
+  }
+
   const agentUrl = 'https://www.genspark.ai/agents?type=custom_super_agent&agent_id=eeee3a51-ad35-4269-9aae-e945275e1375';
 
   const style = document.createElement('style');

@@ -741,7 +741,6 @@
         </nav>
     </header>
 
-    <script src="/js/chat-widget.js" defer></script>
 
     <section class="hero">
         <div class="container">
@@ -769,6 +768,11 @@
         </div>
     </section>
 
+
+    <div class="container">
+        <div data-decision-bot data-form-target="#quickCalc" data-summary-target="decisionBotSummaryPlans"></div>
+    </div>
+
     <div class="container">
         <div class="quick-calc">
             <h3 class="calc-title">2026 Health Insurance Price Estimator</h3>
@@ -780,6 +784,7 @@
             </div>
             
             <form class="calc-form" id="quickCalc">
+                <input type="hidden" id="decisionBotSummaryPlans" name="decision_bot_summary" value="">
                 <div class="form-group">
                     <label for="age">
                         <span class="label-icon">👤</span>
@@ -1137,6 +1142,8 @@
             <span style="font-size: 0.8rem; opacity: 0.9;">Or message David on Facebook</span>
         </div>
     </a>
+
+    <script src="/js/decision-bot.js" defer></script>
 
     <script>
         // Ellipses menu toggle function
