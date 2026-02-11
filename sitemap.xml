@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Home Page -->
   <url>
     <loc>https://lakelandhealthinsurance.com/</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>1.00</priority>
+    <priority>1.0</priority>
   </url>
 
-  <!-- Plans & Pricing -->
   <url>
     <loc>https://lakelandhealthinsurance.com/plans/</loc>
     <lastmod>2026-02-11</lastmod>
@@ -16,7 +14,6 @@
     <priority>0.95</priority>
   </url>
 
-  <!-- Core Pages -->
   <url>
     <loc>https://lakelandhealthinsurance.com/about/</loc>
     <lastmod>2026-02-11</lastmod>
@@ -38,7 +35,6 @@
     <priority>0.70</priority>
   </url>
 
-  <!-- Chat & Booking -->
   <url>
     <loc>https://lakelandhealthinsurance.com/chat.html</loc>
     <lastmod>2026-02-11</lastmod>
@@ -53,7 +49,6 @@
     <priority>0.70</priority>
   </url>
 
-  <!-- Blog Index -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/</loc>
     <lastmod>2026-02-11</lastmod>
@@ -61,7 +56,6 @@
     <priority>0.85</priority>
   </url>
 
-  <!-- Blog Articles - ACA/Marketplace -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/aca-subsidy-cliff.html</loc>
     <lastmod>2026-02-11</lastmod>
@@ -83,15 +77,13 @@
     <priority>0.75</priority>
   </url>
 
-  <!-- Blog Articles - Self-Employed & Freelancers -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/freelancer-health-insurance-lakeland-2026.html</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.75</priority>
   </url>
 
-  <!-- Blog Articles - Short-Term & Fixed Indemnity -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/short-term-health-insurance-guide.html</loc>
     <lastmod>2026-02-11</lastmod>
@@ -113,7 +105,6 @@
     <priority>0.75</priority>
   </url>
 
-  <!-- Blog Articles - Medicare -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/medicare-for-dummies.html</loc>
     <lastmod>2026-02-11</lastmod>
@@ -135,7 +126,6 @@
     <priority>0.75</priority>
   </url>
 
-  <!-- Blog Articles - Coverage & Costs -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/preexisting-condition-guide.html</loc>
     <lastmod>2026-02-11</lastmod>
@@ -157,33 +147,32 @@
     <priority>0.75</priority>
   </url>
 
-  <!-- Blog Articles - General Information -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/how-to-read-insurance-card.html</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/how-to-use-health-insurance-without-going-broke.html</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/no-your-agent-doesnt-hate-you.html</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/dental-insurance-guide.html</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
+    <priority>0.75</priority>
   </url>
 
   <url>
@@ -193,15 +182,13 @@
     <priority>0.75</priority>
   </url>
 
-  <!-- Blog Articles - Lakeland-Specific -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/lakeland-regional-watson-clinic-insurance-2026.html</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.75</priority>
   </url>
 
-  <!-- Dudes' Corner -->
   <url>
     <loc>https://lakelandhealthinsurance.com/dudes-corner/</loc>
     <lastmod>2026-02-11</lastmod>
@@ -223,7 +210,6 @@
     <priority>0.70</priority>
   </url>
 
-  <!-- Utility Pages -->
   <url>
     <loc>https://lakelandhealthinsurance.com/download-free-guide-here.html</loc>
     <lastmod>2026-02-11</lastmod>
