@@ -3,206 +3,238 @@
   <!-- Home Page -->
   <url>
     <loc>https://lakelandhealthinsurance.com/</loc>
-    <lastmod>2026-02-04</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.00</priority>
   </url>
 
   <!-- Plans & Pricing -->
   <url>
     <loc>https://lakelandhealthinsurance.com/plans/</loc>
-    <lastmod>2026-02-04</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
 
   <!-- Core Pages -->
   <url>
     <loc>https://lakelandhealthinsurance.com/about/</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/our-approach.html</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/privacy-policy.html</loc>
-    <lastmod>2025-12-01</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>yearly</changefreq>
     <priority>0.70</priority>
   </url>
 
   <!-- Chat & Booking -->
   <url>
     <loc>https://lakelandhealthinsurance.com/chat.html</loc>
-    <lastmod>2026-02-04</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/calendly-book.html</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
 
   <!-- Blog Index -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/</loc>
-    <lastmod>2026-02-04</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <!-- Blog Articles - ACA/Marketplace -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/aca-subsidy-cliff.html</loc>
-    <lastmod>2025-12-15</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/aca-open-enrollment-deadline.html</loc>
-    <lastmod>2025-12-01</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/aca-vs-short-term-plans.html</loc>
-    <lastmod>2025-11-20</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <!-- Blog Articles - Self-Employed & Freelancers -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/freelancer-health-insurance-lakeland-2026.html</loc>
-    <lastmod>2026-02-04</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <!-- Blog Articles - Short-Term & Fixed Indemnity -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/short-term-health-insurance-guide.html</loc>
-    <lastmod>2025-10-15</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/short-term-medical-guide.html</loc>
-    <lastmod>2025-10-15</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/fixed-indemnity-analysis.html</loc>
-    <lastmod>2025-12-18</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <!-- Blog Articles - Medicare -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/medicare-for-dummies.html</loc>
-    <lastmod>2025-09-10</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/medicare-advantage-vs-supplement.html</loc>
-    <lastmod>2025-09-10</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/medicare-advantage-lakeland-2026.html</loc>
-    <lastmod>2026-02-04</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <!-- Blog Articles - Coverage & Costs -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/preexisting-condition-guide.html</loc>
-    <lastmod>2025-07-22</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/real-cost-going-without-health-insurance.html</loc>
-    <lastmod>2025-08-15</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/5-critical-health-insurance-mistakes.html</loc>
-    <lastmod>2025-08-20</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <!-- Blog Articles - General Information -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/how-to-read-insurance-card.html</loc>
-    <lastmod>2025-07-10</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/how-to-use-health-insurance-without-going-broke.html</loc>
-    <lastmod>2025-07-15</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/no-your-agent-doesnt-hate-you.html</loc>
-    <lastmod>2025-06-20</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/dental-insurance-guide.html</loc>
-    <lastmod>2025-08-05</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/florida-insurance-guide.html</loc>
-    <lastmod>2025-09-01</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <!-- Blog Articles - Lakeland-Specific -->
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/lakeland-regional-watson-clinic-insurance-2026.html</loc>
-    <lastmod>2026-02-04</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <!-- Dudes' Corner -->
   <url>
     <loc>https://lakelandhealthinsurance.com/dudes-corner/</loc>
-    <lastmod>2025-12-18</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/dudes-corner/subsidy-cliff-dudes-take.html</loc>
-    <lastmod>2025-12-18</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/dudes-corner/fixed-indemnity-dudes-take.html</loc>
-    <lastmod>2025-12-18</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
 
   <!-- Utility Pages -->
   <url>
     <loc>https://lakelandhealthinsurance.com/download-free-guide-here.html</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/thanks.html</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>yearly</changefreq>
     <priority>0.50</priority>
   </url>
 </urlset>
