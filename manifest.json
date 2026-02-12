@@ -1,0 +1,46 @@
+{
+  "name": "Lakeland Health Insurance",
+  "short_name": "LHI",
+  "description": "Health Insurance That Makes Sense - David Huff, Licensed FL Broker",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#1e3a8a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Call David",
+      "url": "tel:+18636403102",
+      "description": "Call (863) 640-3102"
+    },
+    {
+      "name": "Get Quote",
+      "url": "/#contact",
+      "description": "Request a free consultation"
+    },
+    {
+      "name": "Book Appointment",
+      "url": "/calendly-book.html",
+      "description": "Schedule a meeting"
+    }
+  ],
+  "categories": ["health", "insurance", "business"]
+}
