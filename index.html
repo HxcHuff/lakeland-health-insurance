@@ -672,6 +672,16 @@
             font-size: 0.85rem;
             color: #1e3a8a;
         }
+        .coverage-hint {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            margin-top: 0.5rem;
+            font-style: italic;
+            transition: opacity 0.3s ease;
+        }
+        .coverage-hint.hidden {
+            opacity: 0;
+        }
         .wizard-nav {
             display: flex;
             gap: 0.75rem;
@@ -699,9 +709,15 @@
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: white;
         }
-        .wiz-btn-next:hover {
+        .wiz-btn-next:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(30,58,138,0.35);
+        }
+        .wiz-btn-next:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
         @media (max-width: 768px) {
             .coverage-grid { grid-template-columns: 1fr; }
@@ -1092,6 +1108,7 @@
                                     <div class="co-label">Other / Not Sure</div>
                                 </div>
                             </div>
+                            <p class="coverage-hint" id="coverageHint" aria-live="polite">Select your coverage type to continue</p>
                             <input type="hidden" id="interest" name="interest" value="">
                             <div class="wizard-nav">
                                 <button type="button" class="wiz-btn wiz-btn-next" id="wizNext1" disabled>Next</button>
@@ -1114,7 +1131,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="zip">Florida Zip Code</label>
+                                <label for="zip">Zip Code</label>
                                 <input type="text" id="zip" name="zip_code" placeholder="e.g. 33805" maxlength="5" inputmode="numeric" autocomplete="postal-code">
                             </div>
                             <div class="form-group">
@@ -1466,22 +1483,35 @@
                 steps[currentStep].style.display = 'block';
                 dots[currentStep - 1].classList.add('active');
                 dots[currentStep - 1].classList.remove('done');
+                // Restore Step 1 button state when going back
+                if (n === 1 && interestInput.value) {
+                    nextBtn1.disabled = false;
+                }
             }
 
-            // Step 1: Coverage type selection
+            // Step 1: Coverage type selection (auto-advance after selection)
+            var coverageHint = document.getElementById('coverageHint');
+            var autoAdvanceTimeout = null;
             options.forEach(function(opt) {
                 opt.addEventListener('click', function() {
+                    if (autoAdvanceTimeout) { clearTimeout(autoAdvanceTimeout); autoAdvanceTimeout = null; }
                     options.forEach(function(o) { o.classList.remove('selected'); });
                     opt.classList.add('selected');
                     interestInput.value = opt.getAttribute('data-value');
                     nextBtn1.disabled = false;
+                    if (coverageHint) coverageHint.classList.add('hidden');
+                    // Auto-advance to Step 2 after brief visual feedback
+                    autoAdvanceTimeout = setTimeout(function() { goToStep(2); autoAdvanceTimeout = null; }, 350);
                 });
                 opt.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); opt.click(); }
                 });
             });
 
-            nextBtn1.addEventListener('click', function() { if (interestInput.value) goToStep(2); });
+            nextBtn1.addEventListener('click', function() {
+                if (autoAdvanceTimeout) { clearTimeout(autoAdvanceTimeout); autoAdvanceTimeout = null; }
+                if (interestInput.value) goToStep(2);
+            });
             document.getElementById('wizNext2').addEventListener('click', function() { goToStep(3); });
             document.getElementById('wizBack2').addEventListener('click', function() { goBack(1); });
             document.getElementById('wizBack3').addEventListener('click', function() { goBack(2); });
