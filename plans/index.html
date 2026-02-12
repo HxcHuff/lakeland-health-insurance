@@ -227,15 +227,6 @@
             margin: 0 auto 2rem;
         }
 
-        .price-disclaimer {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 2rem auto 0;
-            max-width: 500px;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
 
         /* Quick Calculator */
         .quick-calc {
@@ -632,30 +623,6 @@
             background: #f8f9fa;
         }
 
-        /* Click to Call Button */
-        .click-to-call {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
-            z-index: 1000;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .click-to-call:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
-        }
 
         /* Footer */
         footer {
@@ -774,34 +741,23 @@
     <section class="hero">
         <div class="container">
             <h1>Health Insurance Plans That Work</h1>
-            <p>Real coverage, transparent pricing. See estimated costs upfront with expert guidance every step of the way.</p>
-            
+            <p>Transparent pricing and expert guidance for individuals, families, and businesses across Florida and nationwide.</p>
+
             <div style="display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap;">
-                <a href="tel:+18636403102" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.3); color: white; padding: 16px 32px; border-radius: 50px; font-weight: 600; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255, 255, 255, 0.25)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.15)'; this.style.transform='translateY(0)'">
-                    📞 Call David: (863) 640-3102
+                <a href="#plans" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.3); color: white; padding: 14px 32px; border-radius: 50px; font-weight: 600; font-size: 1.05rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255, 255, 255, 0.25)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.15)'; this.style.transform='translateY(0)'">
+                    View All Plans
                 </a>
-                <a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer" style="background: #0084ff; border: 2px solid #0084ff; color: white; padding: 16px 32px; border-radius: 50px; font-weight: 600; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.background='#0066cc'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='#0084ff'; this.style.transform='translateY(0)'">
-                    💬 Message David on Facebook
+                <a href="#estimator" style="background: white; border: 2px solid white; color: #1e3a8a; padding: 14px 32px; border-radius: 50px; font-weight: 600; font-size: 1.05rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    Get a Price Estimate
                 </a>
-            </div>
-            
-            <div style="text-align: center; margin-bottom: 1rem;">
-                <a href="sms:+18636403102?body=Hi David! I'm interested in getting a health insurance quote. Can you help?" style="background: #10b981; border: 2px solid #10b981; color: white; padding: 12px 24px; border-radius: 50px; font-weight: 600; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.background='#059669'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='#10b981'; this.style.transform='translateY(0)'">
-                    📱 Text David: (863) 640-3102
-                </a>
-            </div>
-            
-            <div class="price-disclaimer">
-                <strong>2026 Pricing Note:</strong> Estimates reflect 2026 ACA rates and federal poverty levels. Your actual cost depends on age, ZIP code, health status, income, and household size. These estimates assume a Silver-level ACA plan. No medical underwriting—everyone qualifies for comprehensive coverage. Hidden fees don't exist in regulated insurance; what you see is what you pay.
             </div>
         </div>
     </section>
 
-    <div class="container">
+    <div class="container" id="estimator">
         <div class="quick-calc">
             <h3 class="calc-title">2026 Health Insurance Price Estimator</h3>
-            <p class="calc-subtitle">📊 Get a realistic estimate in under a minute. No email. No spam. No fluff.</p>
-            <p style="text-align: center; color: #666; font-size: 0.85rem; margin-bottom: 1rem;">Based on 2026 rates, FPL thresholds, and real subsidy calculations</p>
+            <p class="calc-subtitle">Get a realistic estimate based on 2026 rates, federal poverty level thresholds, and current subsidy calculations.</p>
             
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
@@ -869,19 +825,19 @@
             </form>
             <div class="calc-result" id="calcResult">
                 <div class="result-price">$<span id="estimatedCost">0</span>/month</div>
-                <p class="result-disclaimer" id="resultMessage">💡 This is a ballpark estimate. Call for your exact price.</p>
+                <p class="result-disclaimer" id="resultMessage">This is a ballpark estimate. Contact us for your exact rate.</p>
                 <div class="result-cta-group">
-                    <a href="tel:+18636403102" class="result-cta">📞 Get Exact Quote Now</a>
+                    <a href="tel:+18636403102" class="result-cta">Request Exact Quote</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <section class="plans-section">
+    <section class="plans-section" id="plans">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Choose Your Coverage Adventure</h2>
-                <p class="section-subtitle">Each option has pros and cons. We'll tell you both because we're not here to BS you.</p>
+                <h2 class="section-title">Available Coverage Options</h2>
+                <p class="section-subtitle">Compare plans side by side with transparent pricing and honest assessments of each option.</p>
             </div>
 
             <div class="plans-grid">
@@ -889,7 +845,7 @@
                 <div class="plan-card featured">
                     <div class="plan-icon">🏛️</div>
                     <h3 class="plan-title">ACA Marketplace Plans</h3>
-                    <p class="plan-subtitle">The "Obamacare" plans everyone loves to hate</p>
+                    <p class="plan-subtitle">Comprehensive coverage through the federal marketplace</p>
                     <div class="plan-price">$200-800<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*After subsidies (if you qualify)</p>
                     
@@ -910,7 +866,7 @@
                     <h3 class="plan-title">Short-Term Medical</h3>
                     <p class="plan-subtitle">Quick coverage for life transitions</p>
                     <div class="plan-price">$50-300<span style="font-size: 1rem;">/mo</span></div>
-                    <p class="plan-price-note">*Healthy people only, sorry</p>
+                    <p class="plan-price-note">*Requires medical underwriting</p>
                     
                     <ul class="plan-features">
                         <li><span class="feature-check">✓</span> Start coverage immediately</li>
@@ -927,7 +883,7 @@
                 <div class="plan-card">
                     <div class="plan-icon">🇺🇸</div>
                     <h3 class="plan-title">Medicare Advantage</h3>
-                    <p class="plan-subtitle">Medicare with extras (for the over-65 crowd)</p>
+                    <p class="plan-subtitle">Enhanced Medicare with additional benefits</p>
                     <div class="plan-price">$0-200<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*Plus your Medicare Part B premium</p>
                     
@@ -965,7 +921,7 @@
                 <div class="plan-card">
                     <div class="plan-icon">🦷</div>
                     <h3 class="plan-title">Dental & Vision</h3>
-                    <p class="plan-subtitle">Because teeth and eyes matter too</p>
+                    <p class="plan-subtitle">Standalone or supplemental coverage for dental and vision care</p>
                     <div class="plan-price">$20-80<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*Standalone or add-on coverage</p>
                     
@@ -984,9 +940,9 @@
                 <div class="plan-card">
                     <div class="plan-icon">🛡️</div>
                     <h3 class="plan-title">Life Insurance</h3>
-                    <p class="plan-subtitle">For when you're not around to argue about money</p>
+                    <p class="plan-subtitle">Financial protection for your family's future</p>
                     <div class="plan-price">$15-100<span style="font-size: 1rem;">/mo</span></div>
-                    <p class="plan-price-note">*Term life, not the expensive stuff</p>
+                    <p class="plan-price-note">*Term life rates shown</p>
                     
                     <ul class="plan-features">
                         <li><span class="feature-check">✓</span> Protects your family financially</li>
@@ -1005,7 +961,7 @@
                     <h3 class="plan-title">Supplement Plans</h3>
                     <p class="plan-subtitle">Critical illness, accident, cancer coverage</p>
                     <div class="plan-price">$25-150<span style="font-size: 1rem;">/mo</span></div>
-                    <p class="plan-price-note">*Stacks with your main insurance</p>
+                    <p class="plan-price-note">*Pairs with your primary coverage</p>
                     
                     <ul class="plan-features">
                         <li><span class="feature-check">✓</span> Cash payouts for covered events</li>
@@ -1022,7 +978,7 @@
                 <div class="plan-card">
                     <div class="plan-icon">💼</div>
                     <h3 class="plan-title">Small Business Plans</h3>
-                    <p class="plan-subtitle">Keep your employees happy and insured</p>
+                    <p class="plan-subtitle">Group health coverage for employers</p>
                     <div class="plan-price">$250-600<span style="font-size: 1rem;">/employee</span></div>
                     <p class="plan-price-note">*Per employee per month</p>
                     
@@ -1031,7 +987,7 @@
                         <li><span class="feature-check">✓</span> Attract better employees</li>
                         <li><span class="feature-check">✓</span> Tax advantages</li>
                         <li><span class="feature-x">✗</span> Minimum participation requirements</li>
-                        <li><span class="feature-x">✗</span> More paperwork (sorry)</li>
+                        <li><span class="feature-x">✗</span> Additional administrative requirements</li>
                     </ul>
 
                     <a href="#quote" class="plan-cta">Get Business Quote</a>
@@ -1058,7 +1014,7 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Complete Plan Comparison</h2>
-                <p class="section-subtitle">All 9 plan types we offer, with honest pricing and who they're best for.</p>
+                <p class="section-subtitle">All plan types at a glance with typical pricing and target audiences.</p>
             </div>
 
             <table class="comparison-table">
@@ -1097,7 +1053,7 @@
                     </tr>
                     <tr>
                         <td><strong>Dental Insurance</strong></td>
-                        <td>Anyone wanting to protect their smile</td>
+                        <td>Individuals seeking preventive dental care</td>
                         <td>Preventive care covered, major work discounted</td>
                         <td>$20-$50/mo</td>
                     </tr>
@@ -1177,14 +1133,6 @@
         </div>
     </footer>
 
-    <!-- Click to Call Button -->
-    <a href="tel:+18636403102" class="click-to-call">
-        <span>📞</span>
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <span>Call Now: (863) 640-3102</span>
-            <span style="font-size: 0.8rem; opacity: 0.9;">Or message David on Facebook</span>
-        </div>
-    </a>
 
     <script>
         // Ellipses menu toggle function
