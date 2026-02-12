@@ -8,6 +8,28 @@
     <meta name="google-site-verification" content="Sitwkhl-IJxkcjYluwgCR5XgzQacova8H-DDb4_HiDM" />
     <meta name="geo.region" content="US-FL">
     <meta name="geo.placename" content="Central Florida">
+    <link rel="canonical" href="https://lakelandhealthinsurance.com/">
+
+    <!-- OpenGraph Tags -->
+    <meta property="og:title" content="Health Insurance Without the Runaround | Lakeland Health Insurance">
+    <meta property="og:description" content="Finally, an insurance agent who speaks human. No BS advice on health insurance that actually works for real people. Serving Florida and nationwide.">
+    <meta property="og:url" content="https://lakelandhealthinsurance.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Lakeland Health Insurance">
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1e3a8a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://formspree.io">
+    <link rel="dns-prefetch" href="https://connect.facebook.net">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
     <script>
@@ -16,13 +38,35 @@
         gtag('js', new Date());
         gtag('config', 'G-W45RMKHXV0');
     </script>
-    
+
+    <!-- Facebook Pixel -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1822900971216472');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "InsuranceAgency",
       "name": "Lakeland Health Insurance",
+      "alternateName": "David The Insurance Dude",
       "url": "https://lakelandhealthinsurance.com",
+      "description": "Licensed Florida health insurance broker specializing in ACA plans, Medicare, and individual coverage. Free consultations, zero pressure.",
+      "founder": {
+        "@type": "Person",
+        "name": "David Huff",
+        "jobTitle": "Licensed Insurance Broker"
+      },
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Lakeland",
@@ -31,6 +75,12 @@
         "addressCountry": "US"
       },
       "telephone": "+1-863-640-3102",
+      "email": "david@lakelandhealthinsurance.com",
+      "openingHours": ["Mo-Fr 08:00-20:00", "Sa 09:00-17:00"],
+      "priceRange": "Free consultations",
+      "sameAs": [
+        "https://www.facebook.com/HealthMarkets.David.Huff"
+      ],
       "areaServed": [
         {
           "@type": "State",
@@ -40,7 +90,27 @@
           "@type": "Country",
           "name": "United States"
         }
-      ]
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Health Insurance Plans",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "ACA Health Plans"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Medicare Advantage"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Medicare Supplement"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Short-Term Medical"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Dental Insurance"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Vision Insurance"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Life Insurance"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Health Protector Guard"}}
+        ]
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "40",
+        "bestRating": "5"
+      }
     }
     </script>
     
@@ -530,6 +600,112 @@
             font-size: 1.5rem;
             margin-bottom: 1rem;
         }
+
+        /* Multi-Step Wizard */
+        .wizard-progress {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        .wizard-step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        .wizard-step-dot.active {
+            background: #1e3a8a;
+            transform: scale(1.3);
+        }
+        .wizard-step-dot.done {
+            background: #10b981;
+        }
+        .wizard-step {
+            display: none;
+            animation: wizardFade 0.3s ease;
+        }
+        .wizard-step.active {
+            display: block;
+        }
+        @keyframes wizardFade {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .wizard-step h3 {
+            font-size: 1.1rem;
+            color: #374151;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+        .coverage-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .coverage-option {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: white;
+        }
+        .coverage-option:hover {
+            border-color: #3b82f6;
+            background: rgba(59,130,246,0.04);
+        }
+        .coverage-option.selected {
+            border-color: #1e3a8a;
+            background: rgba(30,58,138,0.06);
+            box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
+        }
+        .coverage-option .co-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+        .coverage-option .co-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1e3a8a;
+        }
+        .wizard-nav {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        .wizard-nav .wiz-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            border: none;
+        }
+        .wiz-btn-back {
+            background: #f1f5f9;
+            color: #475569;
+        }
+        .wiz-btn-back:hover {
+            background: #e2e8f0;
+        }
+        .wiz-btn-next {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+        }
+        .wiz-btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30,58,138,0.35);
+        }
+        @media (max-width: 768px) {
+            .coverage-grid { grid-template-columns: 1fr; }
+        }
         
         /* Footer */
         footer {
@@ -671,6 +847,93 @@
             color: #64748b;
             margin-bottom: 1rem;
         }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 0;
+            background: white;
+        }
+        .testimonials h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            color: #1e3a8a;
+            margin-bottom: 0.5rem;
+        }
+        .testimonials .section-subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .testimonials .rating-badge {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .rating-badge .stars {
+            color: #f59e0b;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+        }
+        .rating-badge .rating-text {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .testimonial-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            border-left: 4px solid #f59e0b;
+            transition: transform 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+        .testimonial-card .review-stars {
+            color: #f59e0b;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        .testimonial-card .review-text {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+        .testimonial-card .reviewer {
+            font-weight: 600;
+            color: #1e3a8a;
+            font-size: 0.9rem;
+        }
+        .testimonial-card .reviewer-meta {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .testimonials .google-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .testimonials .google-link a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+        .testimonials .google-link a:hover {
+            color: #1e3a8a;
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .testimonial-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -742,50 +1005,164 @@
         </div>
     </section>
 
+    <section class="testimonials" id="reviews">
+        <div class="container">
+            <h2>What Florida Families Say</h2>
+            <p class="section-subtitle">Real reviews from real clients on Google</p>
+            <div class="rating-badge">
+                <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <div class="rating-text">4.8 out of 5 &mdash; 40 Google Reviews</div>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-text">"David is my healthcare savior! Unless you're a healthcare professional yourself, or you have all the time in the world to research plans, you need someone like David in your corner."</p>
+                    <div class="reviewer">Geoff C.</div>
+                    <div class="reviewer-meta">Florida &middot; Google Review</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-text">"David did all the legwork for me &mdash; checked in with my providers to learn which insurance plans cover them in real life. Health plan finders have a lot of incorrect information in them."</p>
+                    <div class="reviewer">Tracy V.</div>
+                    <div class="reviewer-meta">Lakeland, FL &middot; Google Review</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-text">"I was nervous calling to get health insurance. I had so many questions. David was patient and explained everything clearly. I felt comfortable the entire time."</p>
+                    <div class="reviewer">Ja G.</div>
+                    <div class="reviewer-meta">Florida &middot; Google Review</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-text">"David Huff is the ultimate professional! He was referred to me by a well-trusted friend who had an excellent experience. He exceeded all my expectations."</p>
+                    <div class="reviewer">Deborah P.</div>
+                    <div class="reviewer-meta">Florida &middot; Google Review</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-text">"Mr. Huff was patient and he explained everything in a way that I could understand. He also got back in touch with me in a timely manner. I would like to thank Mr. Huff for all his help."</p>
+                    <div class="reviewer">Anita W.</div>
+                    <div class="reviewer-meta">Florida &middot; Google Review</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-text">"David has always made managing our insurance the easiest task on our to-do list! Thank you for everything!"</p>
+                    <div class="reviewer">Whitney M.</div>
+                    <div class="reviewer-meta">Florida &middot; Google Review</div>
+                </div>
+            </div>
+            <div class="google-link">
+                <a href="https://www.google.com/search?q=David+Huff+HealthMarkets+Lakeland+Florida+reviews" target="_blank" rel="noopener noreferrer">Read all 40 reviews on Google &rarr;</a>
+            </div>
+        </div>
+    </section>
+
     <section class="form-section" id="contact">
         <div class="container">
             <div class="form-container">
                 <div id="contact-form">
                     <h2>Get Your Free Insurance Consultation</h2>
-                    <p class="subtitle">Tell us a little about yourself and we'll be in touch within 24 hours.</p>
+                    <p class="subtitle">3 quick steps and David will find the right plan for you.</p>
+
+                    <div class="wizard-progress">
+                        <div class="wizard-step-dot active" data-step="1"></div>
+                        <div class="wizard-step-dot" data-step="2"></div>
+                        <div class="wizard-step-dot" data-step="3"></div>
+                    </div>
 
                     <form action="https://formspree.io/f/xwpbvjvw" method="POST" id="insurance-form">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
+                        <!-- Step 1: Coverage Type -->
+                        <div class="wizard-step active" id="wizStep1">
+                            <h3>What type of coverage are you looking for?</h3>
+                            <div class="coverage-grid">
+                                <div class="coverage-option" data-value="individual-health" tabindex="0">
+                                    <div class="co-icon">&#129489;</div>
+                                    <div class="co-label">Individual</div>
+                                </div>
+                                <div class="coverage-option" data-value="family-health" tabindex="0">
+                                    <div class="co-icon">&#128106;</div>
+                                    <div class="co-label">Family</div>
+                                </div>
+                                <div class="coverage-option" data-value="medicare" tabindex="0">
+                                    <div class="co-icon">&#129505;</div>
+                                    <div class="co-label">Medicare</div>
+                                </div>
+                                <div class="coverage-option" data-value="other" tabindex="0">
+                                    <div class="co-icon">&#128736;</div>
+                                    <div class="co-label">Other / Not Sure</div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="interest" name="interest" value="">
+                            <div class="wizard-nav">
+                                <button type="button" class="wiz-btn wiz-btn-next" id="wizNext1" disabled>Next</button>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required autocomplete="tel">
+                        <!-- Step 2: Quick Details -->
+                        <div class="wizard-step" id="wizStep2">
+                            <h3>A couple quick details</h3>
+                            <div class="form-group">
+                                <label for="age-range">Age Range</label>
+                                <select id="age-range" name="age_range">
+                                    <option value="">Select</option>
+                                    <option value="18-25">18-25</option>
+                                    <option value="26-35">26-35</option>
+                                    <option value="36-45">36-45</option>
+                                    <option value="46-55">46-55</option>
+                                    <option value="56-64">56-64</option>
+                                    <option value="65+">65+</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="zip">Florida Zip Code</label>
+                                <input type="text" id="zip" name="zip_code" placeholder="e.g. 33805" maxlength="5" inputmode="numeric" autocomplete="postal-code">
+                            </div>
+                            <div class="form-group">
+                                <label for="coverage-status">Current Coverage</label>
+                                <select id="coverage-status" name="current_coverage">
+                                    <option value="">Select</option>
+                                    <option value="uninsured">No coverage right now</option>
+                                    <option value="employer">Employer plan</option>
+                                    <option value="marketplace">ACA / Marketplace</option>
+                                    <option value="medicare">Medicare</option>
+                                    <option value="cobra">COBRA</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="wizard-nav">
+                                <button type="button" class="wiz-btn wiz-btn-back" id="wizBack2">Back</button>
+                                <button type="button" class="wiz-btn wiz-btn-next" id="wizNext2">Next</button>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email">
+                        <!-- Step 3: Contact Info -->
+                        <div class="wizard-step" id="wizStep3">
+                            <h3>How should David reach you?</h3>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required autocomplete="tel">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email">
+                            </div>
+
+                            <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thank-you">
+                            <input type="hidden" name="_subject" value="New Insurance Consultation Request">
+                            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+                            <div class="wizard-nav">
+                                <button type="button" class="wiz-btn wiz-btn-back" id="wizBack3">Back</button>
+                                <button type="submit" class="wiz-btn wiz-btn-next">Get My Free Quote</button>
+                            </div>
+                            <p class="form-disclaimer">
+                                David will personally reach out within 24 hours. No spam, no pressure.
+                            </p>
                         </div>
-
-                        <div class="form-group">
-                            <label for="interest">I'm interested in...</label>
-                            <select id="interest" name="interest" required>
-                                <option value="">Select an option</option>
-                                <option value="individual-health">Individual Health Insurance</option>
-                                <option value="family-health">Family Health Insurance</option>
-                                <option value="medicare">Medicare</option>
-                                <option value="supplemental">Supplemental Coverage</option>
-                                <option value="other">Other / Not Sure</option>
-                            </select>
-                        </div>
-
-                        <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thank-you">
-                        <input type="hidden" name="_subject" value="New Insurance Consultation Request">
-                        <input type="hidden" name="_captcha" value="false">
-
-                        <button type="submit" class="submit-btn">Request Consultation</button>
-
-                        <p class="form-disclaimer">
-                            David will personally reach out within 24 hours. No spam, no pressure.
-                        </p>
                     </form>
                 </div>
 
@@ -848,6 +1225,132 @@
         </div>
     </footer>
     
+    <!-- Exit-Intent Popup -->
+    <style>
+        .exit-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .exit-overlay.show { display: flex; }
+        .exit-popup {
+            background: white;
+            border-radius: 20px;
+            max-width: 480px;
+            width: 100%;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .exit-popup-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #94a3b8;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        .exit-popup-close:hover { background: #f1f5f9; color: #333; }
+        .exit-popup h3 {
+            font-size: 1.6rem;
+            color: #1e3a8a;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        .exit-popup p {
+            color: #64748b;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+        .exit-popup .exit-form { text-align: left; }
+        .exit-popup .exit-form input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            margin-bottom: 0.75rem;
+            transition: border-color 0.2s;
+        }
+        .exit-popup .exit-form input:focus {
+            outline: none;
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
+        }
+        .exit-popup .exit-cta {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .exit-popup .exit-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(30,58,138,0.4);
+        }
+        .exit-popup .exit-note {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 0.75rem;
+        }
+        .exit-popup .exit-success {
+            display: none;
+            padding: 1rem 0;
+        }
+        .exit-popup .exit-success h4 {
+            color: #059669;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        .exit-popup .exit-success p { color: #475569; margin-bottom: 0; }
+    </style>
+
+    <div id="exitOverlay" class="exit-overlay" aria-hidden="true">
+        <div class="exit-popup" role="dialog" aria-modal="true">
+            <button class="exit-popup-close" id="exitClose" aria-label="Close popup">&times;</button>
+            <div id="exitFormWrap">
+                <h3>Before you go...</h3>
+                <p>Get our free <strong>Florida Health Insurance Survival Guide</strong> — the no-BS breakdown of what you actually need to know.</p>
+                <form class="exit-form" id="exitForm" action="https://formspree.io/f/xwpbvjvw" method="POST">
+                    <input type="text" name="name" placeholder="Your name" required autocomplete="name">
+                    <input type="email" name="email" placeholder="Your email" required autocomplete="email">
+                    <input type="hidden" name="_subject" value="Exit Popup - Guide Download Request">
+                    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+                    <button type="submit" class="exit-cta">Send Me the Free Guide</button>
+                </form>
+                <p class="exit-note">No spam ever. Just the guide + David's personal follow-up.</p>
+            </div>
+            <div class="exit-success" id="exitSuccess">
+                <h4>Check your inbox!</h4>
+                <p>Your guide is on the way. David will follow up personally.</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Floating Chat Widget (lazy-loads iframe) -->
     <style>
         .chat-widget-button {
@@ -930,46 +1433,95 @@
     </a>
 
     <script>
-        // Form handling
+        // Multi-Step Wizard Logic
+        (function() {
+            var currentStep = 1;
+            var steps = [null, document.getElementById('wizStep1'), document.getElementById('wizStep2'), document.getElementById('wizStep3')];
+            var dots = document.querySelectorAll('.wizard-step-dot');
+            var interestInput = document.getElementById('interest');
+            var options = document.querySelectorAll('.coverage-option');
+            var nextBtn1 = document.getElementById('wizNext1');
+
+            function goToStep(n) {
+                steps[currentStep].classList.remove('active');
+                steps[currentStep].style.display = 'none';
+                dots[currentStep - 1].classList.remove('active');
+                dots[currentStep - 1].classList.add('done');
+                currentStep = n;
+                steps[currentStep].classList.add('active');
+                steps[currentStep].style.display = 'block';
+                dots[currentStep - 1].classList.add('active');
+                dots[currentStep - 1].classList.remove('done');
+                if (typeof gtag === 'function') {
+                    gtag('event', 'wizard_step', { event_category: 'engagement', event_label: 'step_' + n });
+                }
+            }
+
+            function goBack(n) {
+                steps[currentStep].classList.remove('active');
+                steps[currentStep].style.display = 'none';
+                dots[currentStep - 1].classList.remove('active');
+                currentStep = n;
+                steps[currentStep].classList.add('active');
+                steps[currentStep].style.display = 'block';
+                dots[currentStep - 1].classList.add('active');
+                dots[currentStep - 1].classList.remove('done');
+            }
+
+            // Step 1: Coverage type selection
+            options.forEach(function(opt) {
+                opt.addEventListener('click', function() {
+                    options.forEach(function(o) { o.classList.remove('selected'); });
+                    opt.classList.add('selected');
+                    interestInput.value = opt.getAttribute('data-value');
+                    nextBtn1.disabled = false;
+                });
+                opt.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); opt.click(); }
+                });
+            });
+
+            nextBtn1.addEventListener('click', function() { if (interestInput.value) goToStep(2); });
+            document.getElementById('wizNext2').addEventListener('click', function() { goToStep(3); });
+            document.getElementById('wizBack2').addEventListener('click', function() { goBack(1); });
+            document.getElementById('wizBack3').addEventListener('click', function() { goBack(2); });
+        })();
+
+        // Form submission handling
         document.getElementById('insurance-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const form = e.target;
-            const formData = new FormData(form);
-            const submitBtn = form.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
-            
+
+            var form = e.target;
+            var formData = new FormData(form);
+            var submitBtn = form.querySelector('.wiz-btn-next[type="submit"]');
+            var originalText = submitBtn.textContent;
+
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
-            
+
             fetch(form.action, {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
+                headers: { 'Accept': 'application/json' }
             })
-            .then(response => {
+            .then(function(response) {
                 if (response.ok) {
                     document.getElementById('contact-form').style.display = 'none';
                     document.getElementById('success-message').classList.add('show');
-                    
-                    // Track form submission
                     if (typeof gtag === 'function') {
-                        gtag('event', 'form_submit', {
-                            event_category: 'engagement',
-                            event_label: 'insurance_checkup_form'
-                        });
+                        gtag('event', 'form_submit', { event_category: 'engagement', event_label: 'insurance_checkup_form' });
+                    }
+                    if (typeof fbq === 'function') {
+                        fbq('track', 'Lead', {content_name: 'insurance_consultation'});
                     }
                 } else {
                     throw new Error('Form submission failed');
                 }
             })
-            .catch(error => {
+            .catch(function() {
                 alert('Something broke. Just call (863) 640-3102 instead.');
-                console.error('Form submission error:', error);
             })
-            .finally(() => {
+            .finally(function() {
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             });
@@ -977,11 +1529,11 @@
 
         // Auto-format phone number
         document.getElementById('phone').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
+            var value = e.target.value.replace(/\D/g, '');
             if (value.length >= 6) {
-                value = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6,10)}`;
+                value = '(' + value.slice(0,3) + ') ' + value.slice(3,6) + '-' + value.slice(6,10);
             } else if (value.length >= 3) {
-                value = `(${value.slice(0,3)}) ${value.slice(3)}`;
+                value = '(' + value.slice(0,3) + ') ' + value.slice(3);
             }
             e.target.value = value;
         });
@@ -994,6 +1546,9 @@
                     event_label: 'click_to_call_button'
                 });
             }
+            if (typeof fbq === 'function') {
+                fbq('track', 'Contact', {content_name: 'phone_call'});
+            }
         }
 
         function trackMessengerClick() {
@@ -1002,6 +1557,9 @@
                     event_category: 'engagement',
                     event_label: 'messenger_button'
                 });
+            }
+            if (typeof fbq === 'function') {
+                fbq('track', 'Contact', {content_name: 'messenger'});
             }
         }
 
@@ -1041,6 +1599,11 @@
         // Automatically update footer year
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(function() {});
+        }
+
         // Floating chat widget behavior
         (function() {
             const openBtn = document.getElementById('openChat');
@@ -1068,6 +1631,78 @@
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') closeChat();
             });
+        })();
+
+        // Exit-Intent Popup
+        (function() {
+            var shown = false;
+            var exitOverlay = document.getElementById('exitOverlay');
+            var exitClose = document.getElementById('exitClose');
+            var exitForm = document.getElementById('exitForm');
+            var exitFormWrap = document.getElementById('exitFormWrap');
+            var exitSuccess = document.getElementById('exitSuccess');
+
+            function showExit() {
+                if (shown) return;
+                if (sessionStorage.getItem('exit_shown')) return;
+                shown = true;
+                sessionStorage.setItem('exit_shown', '1');
+                exitOverlay.classList.add('show');
+                exitOverlay.setAttribute('aria-hidden', 'false');
+                if (typeof gtag === 'function') {
+                    gtag('event', 'exit_intent_shown', { event_category: 'engagement' });
+                }
+            }
+
+            function hideExit() {
+                exitOverlay.classList.remove('show');
+                exitOverlay.setAttribute('aria-hidden', 'true');
+            }
+
+            // Desktop: mouse leaves viewport toward top
+            document.addEventListener('mouseout', function(e) {
+                if (e.clientY < 5 && e.relatedTarget == null) {
+                    showExit();
+                }
+            });
+
+            // Mobile: trigger after 45 seconds on page
+            if ('ontouchstart' in window) {
+                setTimeout(showExit, 45000);
+            }
+
+            if (exitClose) exitClose.addEventListener('click', hideExit);
+            if (exitOverlay) exitOverlay.addEventListener('click', function(e) {
+                if (e.target === exitOverlay) hideExit();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') hideExit();
+            });
+
+            // Exit form submission
+            if (exitForm) {
+                exitForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    var fd = new FormData(exitForm);
+                    fetch(exitForm.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } })
+                    .then(function(r) {
+                        if (r.ok) {
+                            exitFormWrap.style.display = 'none';
+                            exitSuccess.style.display = 'block';
+                            if (typeof gtag === 'function') {
+                                gtag('event', 'exit_intent_converted', { event_category: 'lead_generation' });
+                            }
+                            if (typeof fbq === 'function') {
+                                fbq('track', 'Lead', { content_name: 'exit_intent_guide' });
+                            }
+                        }
+                    })
+                    .catch(function() {
+                        exitFormWrap.style.display = 'none';
+                        exitSuccess.style.display = 'block';
+                    });
+                });
+            }
         })();
     </script>
 </body>
