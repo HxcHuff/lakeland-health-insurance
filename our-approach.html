@@ -29,9 +29,40 @@
     <meta name="description" content="Discover how Lakeland Health Insurance breaks the broken insurance model. No BS, no disappearing acts, just honest advice that puts your health and wallet first.">
     <meta name="keywords" content="honest insurance broker, personalized health insurance, Florida insurance approach, no pressure insurance sales">
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#1e3a8a">
+    <meta name="theme-color" content="#1B2A4A">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --navy: #1B2A4A;
+            --navy-deep: #0F1A2E;
+            --blue: #2563EB;
+            --blue-light: #3B82F6;
+            --sky: #E8F0FE;
+            --sky-soft: #F0F5FF;
+            --white: #FFFFFF;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-500: #64748B;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+            --gold: #D4A843;
+            --gold-soft: #F5ECD7;
+            --green: #16A34A;
+            --green-soft: #DCFCE7;
+            --red-soft: #FEF2F2;
+            --orange: #EA580C;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -39,16 +70,34 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.65;
+            color: var(--gray-800);
+            background: var(--white);
+        }
+
+        .serif {
+            font-family: 'Instrument Serif', serif;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        /* Compliance Banner */
+        .compliance-banner {
+            background: var(--navy-deep);
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .compliance-banner strong {
+            color: var(--gold);
         }
 
         /* Header */
@@ -59,7 +108,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
         }
 
         nav {
@@ -76,16 +125,18 @@
         }
 
         .logo {
+            font-family: 'Instrument Serif', serif;
             font-size: 1.8rem;
-            font-weight: 800;
-            color: #1e3a8a;
+            font-weight: 400;
+            color: var(--navy);
             text-decoration: none;
         }
 
         .logo::after {
             content: "Lakeland";
+            font-family: 'DM Sans', sans-serif;
             font-size: 0.8rem;
-            color: #10b981;
+            color: var(--blue);
             display: block;
             line-height: 1;
             font-weight: 600;
@@ -102,7 +153,7 @@
         }
 
         .menu-button:hover {
-            background-color: #f0f0f0;
+            background-color: var(--gray-100);
         }
 
         .ellipses {
@@ -114,7 +165,7 @@
         .dot {
             width: 4px;
             height: 4px;
-            background-color: #666;
+            background-color: var(--gray-500);
             border-radius: 50%;
         }
 
@@ -122,10 +173,10 @@
             position: absolute;
             top: 100%;
             left: 100px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
             min-width: 200px;
             z-index: 1000;
             opacity: 0;
@@ -143,12 +194,12 @@
         .menu-item {
             padding: 12px 16px;
             cursor: pointer;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--gray-100);
             transition: background-color 0.2s;
         }
 
         .menu-item:hover {
-            background-color: #f8f9fa;
+            background-color: var(--gray-50);
         }
 
         .menu-item:last-child {
@@ -157,7 +208,7 @@
 
         .menu-item a {
             text-decoration: none;
-            color: #333;
+            color: var(--gray-800);
             display: block;
         }
 
@@ -169,21 +220,21 @@
 
         .nav-links a {
             text-decoration: none;
-            color: #333;
+            color: var(--gray-700);
             font-weight: 500;
             transition: color 0.3s ease;
         }
 
         .nav-links a:hover {
-            color: #1e3a8a;
+            color: var(--navy);
         }
 
         .cta-button {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 12px 24px;
             border: none;
-            border-radius: 50px;
+            border-radius: 100px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -193,15 +244,15 @@
 
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+            box-shadow: 0 10px 30px rgba(212, 168, 67, 0.3);
         }
 
         /* Hero Section */
         .hero {
             padding: 120px 0 80px;
             text-align: center;
-            color: white;
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: var(--white);
+            background: linear-gradient(165deg, var(--navy-deep) 0%, var(--navy) 50%, #1E3A5F 100%);
             position: relative;
             overflow: hidden;
         }
@@ -214,7 +265,7 @@
             right: 0;
             bottom: 0;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.1;
+            opacity: 0.05;
         }
 
         .hero-content {
@@ -223,14 +274,15 @@
         }
 
         .hero h1 {
+            font-family: 'Instrument Serif', serif;
             font-size: 3.5rem;
-            font-weight: 800;
+            font-weight: 400;
             margin-bottom: 1rem;
             line-height: 1.2;
         }
 
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 2rem;
             opacity: 0.9;
             max-width: 700px;
@@ -241,14 +293,16 @@
         /* Philosophy Section */
         .philosophy {
             padding: 100px 0;
-            background: white;
+            background: var(--white);
         }
 
         .philosophy h2 {
             text-align: center;
+            font-family: 'Instrument Serif', serif;
+            font-weight: 400;
             font-size: 2.5rem;
             margin-bottom: 2rem;
-            color: #333;
+            color: var(--navy);
         }
 
         .philosophy-content {
@@ -258,8 +312,8 @@
         }
 
         .philosophy p {
-            font-size: 1.2rem;
-            color: #666;
+            font-size: 1.1rem;
+            color: var(--gray-600);
             margin-bottom: 2rem;
             line-height: 1.7;
         }
@@ -272,35 +326,37 @@
         }
 
         .philosophy-card {
-            background: #f8f9fa;
+            background: var(--sky-soft);
             padding: 2rem;
-            border-radius: 15px;
+            border-radius: var(--radius);
             text-align: center;
-            border-left: 4px solid #1e3a8a;
+            border-left: 4px solid var(--blue);
         }
 
         .philosophy-card h3 {
             font-size: 1.3rem;
             margin-bottom: 1rem;
-            color: #1e3a8a;
+            color: var(--navy);
         }
 
         .philosophy-card p {
             font-size: 1rem;
-            color: #666;
+            color: var(--gray-600);
         }
 
         /* Process Section */
         .process {
             padding: 100px 0;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: var(--gray-50);
         }
 
         .process h2 {
             text-align: center;
+            font-family: 'Instrument Serif', serif;
+            font-weight: 400;
             font-size: 2.5rem;
             margin-bottom: 3rem;
-            color: #333;
+            color: var(--navy);
         }
 
         .process-steps {
@@ -311,16 +367,17 @@
         }
 
         .process-step {
-            background: white;
+            background: var(--white);
             padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
             position: relative;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .process-step:hover {
-            transform: translateY(-10px);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
         }
 
         .step-number {
@@ -329,35 +386,35 @@
             left: 30px;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
+            background: var(--navy);
+            color: var(--white);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             font-size: 1.5rem;
-            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
+            box-shadow: var(--shadow-md);
         }
 
         .process-step h3 {
             margin-top: 1rem;
             margin-bottom: 1rem;
-            color: #333;
+            color: var(--navy);
             font-size: 1.5rem;
         }
 
         .process-step p {
-            color: #666;
-            line-height: 1.6;
+            color: var(--gray-600);
+            line-height: 1.65;
             margin-bottom: 1rem;
         }
 
         .step-details {
-            background: #f8f9fa;
+            background: var(--sky-soft);
             padding: 1rem;
-            border-radius: 10px;
-            border-left: 3px solid #1e3a8a;
+            border-radius: var(--radius);
+            border-left: 3px solid var(--blue);
         }
 
         .step-details ul {
@@ -366,96 +423,108 @@
         }
 
         .step-details li {
-            color: #555;
+            color: var(--gray-600);
             margin-bottom: 0.5rem;
         }
 
         /* What Makes Us Different */
         .differentiators {
             padding: 100px 0;
-            background: white;
+            background: var(--white);
         }
 
         .differentiators h2 {
             text-align: center;
+            font-family: 'Instrument Serif', serif;
+            font-weight: 400;
             font-size: 2.5rem;
             margin-bottom: 3rem;
-            color: #333;
+            color: var(--navy);
         }
 
         .diff-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 2rem;
         }
 
         .diff-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: var(--gray-50);
             padding: 2rem;
-            border-radius: 15px;
-            transition: transform 0.3s ease;
-            border-top: 4px solid #1e3a8a;
+            border-radius: var(--radius);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid var(--blue);
         }
 
         .diff-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
         }
 
         .diff-icon {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            background: var(--navy);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            color: white;
+            color: var(--white);
             margin-bottom: 1rem;
         }
 
         .diff-card h3 {
             margin-bottom: 1rem;
-            color: #333;
+            color: var(--navy);
             font-size: 1.3rem;
         }
 
         .diff-card p {
-            color: #666;
-            line-height: 1.6;
+            color: var(--gray-600);
+            line-height: 1.65;
         }
 
         /* Testimonials */
         .testimonials {
             padding: 100px 0;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: var(--gray-50);
         }
 
         .testimonials h2 {
             text-align: center;
+            font-family: 'Instrument Serif', serif;
+            font-weight: 400;
             font-size: 2.5rem;
             margin-bottom: 3rem;
-            color: #333;
+            color: var(--navy);
         }
 
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 2rem;
         }
 
         .testimonial-card {
-            background: white;
+            background: var(--white);
             padding: 2rem;
-            border-radius: 15px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
             position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
         }
 
         .testimonial-card::before {
-            content: '"';
+            content: '\201C';
+            font-family: 'Instrument Serif', serif;
             font-size: 4rem;
-            color: #1e3a8a;
+            color: var(--blue);
             position: absolute;
             top: -10px;
             left: 20px;
@@ -465,17 +534,17 @@
         .testimonial-text {
             margin-bottom: 1.5rem;
             font-style: italic;
-            color: #555;
-            line-height: 1.6;
+            color: var(--gray-600);
+            line-height: 1.65;
         }
 
         .testimonial-author {
             font-weight: 600;
-            color: #333;
+            color: var(--navy);
         }
 
         .testimonial-context {
-            color: #666;
+            color: var(--gray-500);
             font-size: 0.9rem;
             margin-top: 0.5rem;
         }
@@ -483,18 +552,20 @@
         /* CTA Section */
         .cta-section {
             padding: 80px 0;
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            background: linear-gradient(165deg, var(--navy-deep) 0%, var(--navy) 100%);
             text-align: center;
-            color: white;
+            color: var(--white);
         }
 
         .cta-section h2 {
+            font-family: 'Instrument Serif', serif;
+            font-weight: 400;
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
 
         .cta-section p {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             margin-bottom: 2rem;
             opacity: 0.9;
         }
@@ -507,11 +578,11 @@
         }
 
         .cta-primary {
-            background: white;
-            color: #1e3a8a;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 18px 36px;
             border: none;
-            border-radius: 50px;
+            border-radius: 100px;
             font-weight: 600;
             font-size: 1.1rem;
             cursor: pointer;
@@ -524,15 +595,15 @@
 
         .cta-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 40px rgba(212, 168, 67, 0.3);
         }
 
         .cta-secondary {
             background: transparent;
-            color: white;
+            color: var(--white);
             padding: 18px 36px;
-            border: 2px solid white;
-            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 100px;
             font-weight: 600;
             font-size: 1.1rem;
             cursor: pointer;
@@ -544,17 +615,17 @@
         }
 
         .cta-secondary:hover {
-            background: white;
-            color: #1e3a8a;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
             transform: translateY(-3px);
         }
 
         .cta-tertiary {
-            background: rgba(16, 185, 129, 0.8);
-            color: white;
+            background: transparent;
+            color: var(--white);
             padding: 18px 36px;
-            border: 2px solid rgba(16, 185, 129, 0.5);
-            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 100px;
             font-weight: 600;
             font-size: 1.1rem;
             cursor: pointer;
@@ -566,8 +637,8 @@
         }
 
         .cta-tertiary:hover {
-            background: #10b981;
-            border-color: #10b981;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
             transform: translateY(-3px);
         }
 
@@ -576,14 +647,14 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 15px 20px;
-            border-radius: 50px;
+            border-radius: 100px;
             text-decoration: none;
             font-weight: 600;
             font-size: 1.1rem;
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            box-shadow: var(--shadow-lg);
             z-index: 1000;
             transition: all 0.3s ease;
             display: flex;
@@ -593,14 +664,15 @@
 
         .click-to-call:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+            box-shadow: var(--shadow-xl);
         }
 
         /* Footer */
         footer {
-            background: #333;
-            color: white;
+            background: var(--navy-deep);
+            color: rgba(255, 255, 255, 0.8);
             padding: 4rem 0 2rem;
+            text-align: center;
         }
 
         .footer-content {
@@ -608,11 +680,12 @@
             grid-template-columns: 1fr 1fr 400px;
             gap: 3rem;
             margin-bottom: 3rem;
+            text-align: left;
         }
 
         .footer-section h4 {
             margin-bottom: 1rem;
-            color: #3b82f6;
+            color: var(--gold);
             font-size: 1.2rem;
         }
 
@@ -621,21 +694,30 @@
             opacity: 0.9;
         }
 
+        .footer-section a {
+            color: var(--gold);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            opacity: 0.8;
+        }
+
         /* Footer Form */
         .footer-form {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            background: rgba(255, 255, 255, 0.08);
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-lg);
         }
 
         .footer-form h4 {
-            color: white;
+            color: var(--white);
             margin-bottom: 0.5rem;
         }
 
         .footer-form .subtitle {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.9rem;
             margin-bottom: 1.5rem;
         }
@@ -648,32 +730,39 @@
         .form-group select {
             width: 100%;
             padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: var(--radius);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
             font-size: 1rem;
             transition: border-color 0.3s ease;
         }
 
         .form-group input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.5);
         }
 
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
-            border-color: white;
-            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .form-group select option {
+            background: var(--navy-deep);
+            color: var(--white);
         }
 
         .submit-btn {
             width: 100%;
-            background: white;
-            color: #1e3a8a;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 12px;
             border: none;
-            border-radius: 8px;
+            border-radius: 100px;
+            font-family: 'DM Sans', sans-serif;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
@@ -682,13 +771,24 @@
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(212, 168, 67, 0.3);
         }
 
         .footer-bottom {
-            border-top: 1px solid #555;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 2rem;
             text-align: center;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-bottom a:hover {
             opacity: 0.8;
         }
 
@@ -697,20 +797,25 @@
             .hero h1 {
                 font-size: 2.5rem;
             }
-            
+
             .nav-links {
                 display: none;
             }
-            
+
             .process-steps {
                 grid-template-columns: 1fr;
             }
-            
+
+            .diff-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
             .cta-buttons {
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             .footer-content {
                 grid-template-columns: 1fr;
             }
@@ -718,6 +823,10 @@
     </style>
 </head>
 <body>
+    <div class="compliance-banner">
+        <strong>Important:</strong> Fixed indemnity products provide limited benefits and are <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA. &nbsp;|&nbsp; FL Broker License #W371813
+    </div>
+
     <header>
         <nav class="container">
             <div class="logo-container">
@@ -729,7 +838,7 @@
                         <div class="dot"></div>
                     </div>
                 </button>
-                
+
                 <div class="dropdown-menu" id="dropdownMenu">
                     <div class="menu-item"><a href="/">Home</a></div>
                     <div class="menu-item"><a href="/#plans">Health Plans</a></div>
@@ -737,7 +846,7 @@
                     <div class="menu-item"><a href="/our-approach.html">Our Approach</a></div>
                     <div class="menu-item"><a href="/about">About</a></div>
                     <div class="menu-item"><a href="/#contact">Contact</a></div>
-                    <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
+                    <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
                 </div>
             </div>
             <ul class="nav-links">
@@ -766,23 +875,23 @@
             <h2>Our Philosophy: Insurance That Actually Makes Sense</h2>
             <div class="philosophy-content">
                 <p>Most insurance agents treat you like a walking commission check. We treat you like a human being with real problems that need real solutions. Revolutionary concept, right?</p>
-                
+
                 <p>Our approach is simple: listen first, educate always, and never sell you something that keeps us happy but leaves you broke when you need care most.</p>
             </div>
-            
+
             <div class="philosophy-grid">
                 <div class="philosophy-card">
-                    <h3>🎯 Transparency Over Tricks</h3>
+                    <h3>Transparency Over Tricks</h3>
                     <p>No hidden fees, no fine print surprises, no "gotcha" moments. If we can't explain it in plain English, we won't sell it to you.</p>
                 </div>
-                
+
                 <div class="philosophy-card">
-                    <h3>🛡️ Protection Over Profit</h3>
+                    <h3>Protection Over Profit</h3>
                     <p>We make money when you get the right coverage, not the most expensive coverage. Your financial security comes first.</p>
                 </div>
-                
+
                 <div class="philosophy-card">
-                    <h3>🤝 Education Over Exploitation</h3>
+                    <h3>Education Over Exploitation</h3>
                     <p>An informed customer makes better decisions. We'll teach you how insurance actually works so nobody can take advantage of you.</p>
                 </div>
             </div>
@@ -792,7 +901,7 @@
     <section class="process">
         <div class="container">
             <h2>Our Simple 4-Step Process to Better Insurance</h2>
-            
+
             <div class="process-steps">
                 <div class="process-step">
                     <div class="step-number">1</div>
@@ -807,7 +916,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="process-step">
                     <div class="step-number">2</div>
                     <h3>Research & Compare</h3>
@@ -821,7 +930,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="process-step">
                     <div class="step-number">3</div>
                     <h3>Explain & Educate</h3>
@@ -835,7 +944,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="process-step">
                     <div class="step-number">4</div>
                     <h3>Support & Stick Around</h3>
@@ -856,40 +965,40 @@
     <section class="differentiators">
         <div class="container">
             <h2>What Actually Makes Us Different</h2>
-            
+
             <div class="diff-grid">
                 <div class="diff-card">
-                    <div class="diff-icon">👤</div>
+                    <div class="diff-icon">&#x1F464;</div>
                     <h3>You Always Talk to David</h3>
                     <p>No call centers, no rotating reps, no "let me transfer you to someone else." When you call, David answers. When you have a problem, David fixes it. Crazy concept in today's world.</p>
                 </div>
-                
+
                 <div class="diff-card">
-                    <div class="diff-icon">🎯</div>
+                    <div class="diff-icon">&#x1F3AF;</div>
                     <h3>Independent & Unbiased</h3>
                     <p>We work with 20+ insurance carriers, not just one. That means we find the best plan for YOU, not the best commission for US. Most agents can't say that with a straight face.</p>
                 </div>
-                
+
                 <div class="diff-card">
-                    <div class="diff-icon">🏠</div>
+                    <div class="diff-icon">&#x1F3E0;</div>
                     <h3>Local Florida Expertise</h3>
                     <p>We understand Florida's unique insurance landscape - from hurricane considerations to snowbird coverage. Plus, we actually live here and deal with the same challenges you do.</p>
                 </div>
-                
+
                 <div class="diff-card">
-                    <div class="diff-icon">🚫</div>
+                    <div class="diff-icon">&#x1F6AB;</div>
                     <h3>Zero Pressure Sales</h3>
                     <p>Good insurance decisions aren't made under pressure. Take your time, ask questions, compare options. We'll be here when you're ready, not pushing you to sign today for some fake discount.</p>
                 </div>
-                
+
                 <div class="diff-card">
-                    <div class="diff-icon">📚</div>
+                    <div class="diff-icon">&#x1F4DA;</div>
                     <h3>Education First</h3>
                     <p>We'd rather you understand your options and make an informed decision than buy the wrong plan because we rushed you. Smart customers make better choices and stay happier longer.</p>
                 </div>
-                
+
                 <div class="diff-card">
-                    <div class="diff-icon">💰</div>
+                    <div class="diff-icon">&#x1F4B0;</div>
                     <h3>Real Cost Analysis</h3>
                     <p>We show you the TOTAL cost of ownership, not just the monthly premium. Deductibles, copays, out-of-pocket maximums - you'll know exactly what you'll pay before you ever need care.</p>
                 </div>
@@ -900,7 +1009,7 @@
     <section class="testimonials">
         <div class="container">
             <h2>What Happens When Insurance Actually Works</h2>
-            
+
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <div class="testimonial-text">
@@ -909,7 +1018,7 @@
                     <div class="testimonial-author">Sarah M.</div>
                     <div class="testimonial-context">Family of 4, switched from employer plan to ACA marketplace</div>
                 </div>
-                
+
                 <div class="testimonial-card">
                     <div class="testimonial-text">
                         When my husband was diagnosed with diabetes, our old agent literally stopped returning calls. David walked us through every step of managing it with our insurance and helped us find specialists in our network.
@@ -917,7 +1026,7 @@
                     <div class="testimonial-author">Linda K.</div>
                     <div class="testimonial-context">Medicare Advantage member, ongoing health challenges</div>
                 </div>
-                
+
                 <div class="testimonial-card">
                     <div class="testimonial-text">
                         I'm a contractor, so I need flexibility. David set me up with short-term coverage between projects and ACA plans when I need long-term coverage. He actually understands how real people work.
@@ -935,20 +1044,20 @@
             <p>Start your honest conversation today. No pressure, no BS, just straight talk about your insurance options.</p>
             <div class="cta-buttons">
                 <a href="tel:+18636403102" class="cta-primary">
-                    <span>📞</span>
+                    <span>&#x1F4DE;</span>
                     Call David
                 </a>
                 <a href="https://m.me/2330958066941437" class="cta-secondary" target="_blank" rel="noopener noreferrer">
-                    <span>💬</span>
+                    <span>&#x1F4AC;</span>
                     Message on Facebook
                 </a>
                 <a href="sms:+18636403102" class="cta-tertiary">
-                    <span>📱</span>
+                    <span>&#x1F4F1;</span>
                     Text David
                 </a>
                 <a href="/#contact" class="cta-secondary">Get Your Free Analysis</a>
             </div>
-            <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">No robo-calls, David answers personally</p>
+            <p style="margin-top: 1rem; opacity: 0.7; font-size: 0.9rem;">No robo-calls, David answers personally</p>
         </div>
     </section>
 
@@ -957,77 +1066,77 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>Contact David</h4>
-                    <p>📞 <a href="tel:+18636403102" style="color: white; text-decoration: none;">(863) 640-3102</a></p>
-                    <p>✉️ <a href="mailto:dhuff@healthmarkets.com" style="color: white; text-decoration: none;">dhuff@healthmarkets.com</a></p>
-                    <p>💬 <a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer" style="color: white; text-decoration: none;">Message on Facebook</a></p>
-                    <p>📱 <a href="sms:+18636403102" style="color: white; text-decoration: none;">Text: (863) 640-3102</a></p>
-                    <p>📍 Central Florida Headquarters</p>
-                    <p>🕒 Mon-Fri 8AM-8PM EST</p>
-                    <p>🕒 Sat 9AM-5PM EST</p>
+                    <p>&#x1F4DE; <a href="tel:+18636403102">(863) 640-3102</a></p>
+                    <p>&#x2709;&#xFE0F; <a href="mailto:dhuff@healthmarkets.com">dhuff@healthmarkets.com</a></p>
+                    <p>&#x1F4AC; <a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer">Message on Facebook</a></p>
+                    <p>&#x1F4F1; <a href="sms:+18636403102">Text: (863) 640-3102</a></p>
+                    <p>&#x1F4CD; Central Florida Headquarters</p>
+                    <p>&#x1F552; Mon-Fri 8AM-8PM EST</p>
+                    <p>&#x1F552; Sat 9AM-5PM EST</p>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Service Areas</h4>
-                    <p>🏠 Florida Residents</p>
-                    <p>🇺🇸 Coverage Across the Nation</p>
-                    <p>💼 Small Business Groups</p>
-                    <p>👥 Individual & Family Plans</p>
-                    <p>😊 Medicare Specialists</p>
+                    <p>&#x1F3E0; Florida Residents</p>
+                    <p>&#x1F1FA;&#x1F1F8; Coverage Across the Nation</p>
+                    <p>&#x1F4BC; Small Business Groups</p>
+                    <p>&#x1F465; Individual & Family Plans</p>
+                    <p>&#x1F60A; Medicare Specialists</p>
                 </div>
-                
+
                 <div class="footer-form">
                     <h4>Free Insurance Checkup</h4>
                     <p class="subtitle">Find out if you're overpaying or underprotected. Takes 2 minutes.</p>
-                    
+
                     <form action="https://formspree.io/f/xwpbvjvw" method="POST">
                         <div class="form-group">
                             <input type="text" id="zipCode" name="zipCode" placeholder="Your Zip Code" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <input type="text" id="fullName" name="fullName" placeholder="Your Name" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <input type="email" id="email" name="email" placeholder="Email Address" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <select id="situation" name="situation">
                                 <option value="">What's your situation?</option>
-                                <option value="no-insurance">🚫 No insurance currently</option>
-                                <option value="too-expensive">💸 Insurance too expensive</option>
-                                <option value="bad-coverage">😤 Coverage sucks</option>
-                                <option value="job-change">🔄 Changing jobs</option>
-                                <option value="life-change">👶 Life change (marriage, baby, etc)</option>
-                                <option value="medicare-time">🎂 Turning 65 soon</option>
-                                <option value="just-shopping">🛒 Just shopping around</option>
+                                <option value="no-insurance">No insurance currently</option>
+                                <option value="too-expensive">Insurance too expensive</option>
+                                <option value="bad-coverage">Coverage isn't working</option>
+                                <option value="job-change">Changing jobs</option>
+                                <option value="life-change">Life change (marriage, baby, etc)</option>
+                                <option value="medicare-time">Turning 65 soon</option>
+                                <option value="just-shopping">Just shopping around</option>
                             </select>
                         </div>
-                        
+
                         <!-- Hidden Formspree fields -->
                         <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thanks">
                         <input type="hidden" name="_subject" value="Free Insurance Checkup Request - Our Approach Page">
-                        
+
                         <button type="submit" class="submit-btn">Get My Free Checkup</button>
-                        <p style="text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-top: 0.5rem;">
+                        <p style="text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem;">
                             No spam. David will personally review your situation.
                         </p>
                     </form>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>&copy; 2025 Lakeland Health Insurance. Licensed insurance agency serving families and businesses nationwide.</p>
                 <p style="font-size: 0.8rem; margin-top: 0.5rem;">
                     FL License #W371813 | Serving most of the United States with honest insurance advice since forever
                 </p>
                 <p style="margin-top: 1rem;">
-                    <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none; font-weight: 500;">
+                    <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer">
                         Powered by David the Insurance Dude
                     </a>
                 </p>
@@ -1037,7 +1146,7 @@
 
     <!-- Click to Call Button -->
     <a href="tel:+18636403102" class="click-to-call">
-        <span>📞</span>
+        <span>&#x1F4DE;</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <span>Call Now: (863) 640-3102</span>
             <span style="font-size: 0.8rem; opacity: 0.9;">David personally answers</span>
@@ -1055,7 +1164,7 @@
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('dropdownMenu');
             const button = document.querySelector('.menu-button');
-            
+
             if (!menu.contains(event.target) && !button.contains(event.target)) {
                 menu.classList.remove('show');
             }

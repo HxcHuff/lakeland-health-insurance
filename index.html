@@ -19,7 +19,7 @@
 
     <!-- PWA -->
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#1e3a8a">
+    <meta name="theme-color" content="#1B2A4A">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
@@ -30,6 +30,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://formspree.io">
     <link rel="dns-prefetch" href="https://connect.facebook.net">
+
+    <!-- Google Fonts: DM Sans + Instrument Serif -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
     <script>
@@ -113,24 +116,71 @@
       }
     }
     </script>
-    
+
     <style>
+        :root {
+            --navy: #1B2A4A;
+            --navy-deep: #0F1A2E;
+            --blue: #2563EB;
+            --blue-light: #3B82F6;
+            --sky: #E8F0FE;
+            --sky-soft: #F0F5FF;
+            --white: #FFFFFF;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-500: #64748B;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+            --gold: #D4A843;
+            --gold-soft: #F5ECD7;
+            --green: #16A34A;
+            --green-soft: #DCFCE7;
+            --red-soft: #FEF2F2;
+            --orange: #EA580C;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+        }
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.65;
+            color: var(--gray-800);
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+        .serif {
+            font-family: 'Instrument Serif', serif;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
         }
+
+        /* Compliance Banner */
+        .compliance-banner {
+            background: var(--navy-deep);
+            color: rgba(255,255,255,0.85);
+            font-size: 0.72rem;
+            text-align: center;
+            padding: 10px 20px;
+            line-height: 1.5;
+        }
+        .compliance-banner strong {
+            color: var(--gold);
+        }
+
         header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -138,7 +188,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
         }
         nav {
             display: flex;
@@ -152,14 +202,16 @@
             gap: 15px;
         }
         .brand-name {
+            font-family: 'Instrument Serif', serif;
             font-size: 1.2rem;
-            font-weight: 800;
-            color: #1e3a8a;
+            font-weight: 400;
+            color: var(--navy);
             line-height: 1.2;
         }
         .license-tag {
+            font-family: 'DM Sans', sans-serif;
             font-size: 0.7rem;
-            color: #10b981;
+            color: var(--green);
             font-weight: 600;
             display: block;
             margin-top: 2px;
@@ -173,7 +225,7 @@
             transition: background-color 0.2s;
         }
         .menu-button:hover {
-            background-color: #f0f0f0;
+            background-color: var(--gray-100);
         }
         .ellipses {
             display: flex;
@@ -183,17 +235,17 @@
         .dot {
             width: 4px;
             height: 4px;
-            background-color: #666;
+            background-color: var(--gray-600);
             border-radius: 50%;
         }
         .dropdown-menu {
             position: absolute;
             top: 100%;
             left: 100px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
             min-width: 200px;
             z-index: 1000;
             opacity: 0;
@@ -209,18 +261,18 @@
         .menu-item {
             padding: 12px 16px;
             cursor: pointer;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--gray-100);
             transition: background-color 0.2s;
         }
         .menu-item:hover {
-            background-color: #f8f9fa;
+            background-color: var(--gray-50);
         }
         .menu-item:last-child {
             border-bottom: none;
         }
         .menu-item a {
             text-decoration: none;
-            color: #333;
+            color: var(--gray-800);
             display: block;
         }
         .nav-links {
@@ -230,28 +282,29 @@
         }
         .nav-links a {
             text-decoration: none;
-            color: #333;
+            color: var(--gray-800);
             font-weight: 500;
             transition: color 0.3s ease;
         }
         .nav-links a:hover {
-            color: #1e3a8a;
+            color: var(--blue);
         }
         .cta-button {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 12px 24px;
             border: none;
-            border-radius: 50px;
+            border-radius: 100px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            box-shadow: 0 4px 15px rgba(212, 168, 67, 0.3);
         }
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+            box-shadow: 0 10px 30px rgba(212, 168, 67, 0.45);
         }
         .cta-group {
             display: flex;
@@ -260,26 +313,27 @@
         }
         .cta-button.secondary {
             background: transparent;
-            color: #1e3a8a;
-            border: 2px solid #1e3a8a;
+            color: var(--navy);
+            border: 2px solid var(--navy);
             padding: 10px 18px;
+            box-shadow: none;
         }
         .cta-button.secondary:hover {
-            background: rgba(30, 58, 138, 0.1);
+            background: rgba(27, 42, 74, 0.06);
             box-shadow: none;
         }
         .click-to-call {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: linear-gradient(135deg, var(--green), #059669);
             color: white;
             padding: 15px 20px;
-            border-radius: 50px;
+            border-radius: 100px;
             text-decoration: none;
             font-weight: 600;
             font-size: 1.1rem;
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.4);
             z-index: 1000;
             transition: all 0.3s ease;
             display: flex;
@@ -288,13 +342,13 @@
         }
         .click-to-call:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+            box-shadow: 0 12px 35px rgba(22, 163, 74, 0.6);
         }
         .click-to-call .phone-icon {
             font-size: 1.2rem;
             animation: ring 2s ease-in-out infinite;
         }
-        
+
         /* Messenger Button */
         .messenger-button {
             position: fixed;
@@ -303,7 +357,7 @@
             background: linear-gradient(135deg, #0084ff, #0063d1);
             color: white;
             padding: 15px 20px;
-            border-radius: 50px;
+            border-radius: 100px;
             text-decoration: none;
             font-weight: 600;
             font-size: 1rem;
@@ -339,30 +393,43 @@
             padding: 120px 0 80px;
             text-align: center;
             color: white;
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            background: linear-gradient(165deg, var(--navy-deep) 0%, var(--navy) 50%, #1E3A5F 100%);
             position: relative;
             overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(212, 168, 67, 0.08) 0%, transparent 50%);
+            pointer-events: none;
         }
         .hero-content {
             position: relative;
             z-index: 2;
         }
         .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 400;
             margin-bottom: 1rem;
             line-height: 1.2;
         }
         .hero h2 {
+            font-family: 'DM Sans', sans-serif;
             font-size: 1.8rem;
-            font-weight: 600;
+            font-weight: 400;
             margin-bottom: 1rem;
             opacity: 0.95;
         }
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 2rem;
-            opacity: 0.9;
+            opacity: 0.85;
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
@@ -376,48 +443,62 @@
             flex-wrap: wrap;
         }
         .hero-cta {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 16px 32px;
-            border-radius: 50px;
+            border-radius: 100px;
             font-weight: 600;
             font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            border: none;
+            box-shadow: 0 4px 20px rgba(212, 168, 67, 0.35);
         }
         .hero-cta:hover {
-            background: rgba(255, 255, 255, 0.25);
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 40px rgba(212, 168, 67, 0.5);
         }
         .hero-cta.secondary {
             background: transparent;
-            border-color: rgba(255, 255, 255, 0.8);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: none;
         }
         .hero-cta.secondary:hover {
             background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.8);
             box-shadow: none;
         }
-        
+
+        /* Section Labels */
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 0.75rem;
+        }
+
         /* Value Props Section */
         .value-props {
             padding: 100px 0;
-            background: white;
+            background: var(--white);
         }
         .value-props h2 {
             text-align: center;
-            font-size: 2.5rem;
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 400;
             margin-bottom: 1rem;
-            color: #333;
+            color: var(--navy);
         }
         .value-props .subtitle {
             text-align: center;
-            font-size: 1.2rem;
-            color: #666;
+            font-size: 1.1rem;
+            color: var(--gray-600);
             margin-bottom: 3rem;
             max-width: 600px;
             margin-left: auto;
@@ -430,15 +511,17 @@
             margin-top: 2rem;
         }
         .value-card {
-            background: #f8f9fa;
+            background: var(--white);
             padding: 2.5rem;
-            border-radius: 15px;
+            border-radius: var(--radius-lg);
             text-align: left;
-            transition: transform 0.3s ease;
-            border-left: 4px solid #1e3a8a;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
         }
         .value-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--blue-light);
         }
         .card-link {
             text-decoration: none;
@@ -447,36 +530,38 @@
             height: 100%;
         }
         .value-card h3 {
+            font-family: 'Instrument Serif', serif;
             font-size: 1.5rem;
+            font-weight: 400;
             margin-bottom: 1rem;
-            color: #1e3a8a;
+            color: var(--navy);
         }
         .value-card p {
-            color: #666;
+            color: var(--gray-600);
             line-height: 1.7;
         }
-        
+
         /* Streamlined Form Section */
         .form-section {
             padding: 100px 0;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #f8f9fa 100%);
+            background: var(--sky-soft);
         }
-        
+
         .form-container {
             max-width: 520px;
             margin: 0 auto;
-            background: white;
+            background: var(--white);
             padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
             text-align: center;
-            border: 1px solid rgba(30, 58, 138, 0.1);
+            border: 1px solid var(--gray-200);
         }
-        
+
         .form-icon {
             width: 70px;
             height: 70px;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            background: linear-gradient(165deg, var(--navy-deep), var(--navy));
             border-radius: 16px;
             display: flex;
             align-items: center;
@@ -486,110 +571,112 @@
             color: white;
             animation: pulse-glow 2s ease-in-out infinite;
         }
-        
+
         @keyframes pulse-glow {
-            0%, 100% { 
+            0%, 100% {
                 transform: scale(1);
-                box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3);
+                box-shadow: 0 10px 30px rgba(27, 42, 74, 0.3);
             }
-            50% { 
+            50% {
                 transform: scale(1.05);
-                box-shadow: 0 15px 40px rgba(30, 58, 138, 0.4);
+                box-shadow: 0 15px 40px rgba(27, 42, 74, 0.4);
             }
         }
-        
+
         .form-container h2 {
+            font-family: 'Instrument Serif', serif;
             font-size: 2.2rem;
             margin-bottom: 0.5rem;
-            color: #1e3a8a;
-            font-weight: 800;
+            color: var(--navy);
+            font-weight: 400;
         }
-        
+
         .form-container .subtitle {
             font-size: 1.1rem;
-            color: #666;
+            color: var(--gray-600);
             margin-bottom: 2rem;
             line-height: 1.5;
         }
-        
+
         .form-group {
             margin-bottom: 1.2rem;
             text-align: left;
         }
-        
+
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
         }
-        
+
         .form-group label {
             display: block;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #374151;
+            color: var(--gray-700);
             font-size: 0.9rem;
         }
-        
+
         .form-group input,
         .form-group select {
             width: 100%;
             padding: 14px 18px;
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
             font-size: 1rem;
             font-family: inherit;
-            background: white;
+            background: var(--white);
             transition: all 0.2s ease;
         }
-        
+
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #1e3a8a;
-            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
-        
+
         .form-group input::placeholder {
-            color: #9ca3af;
+            color: var(--gray-300);
             font-style: italic;
         }
-        
+
         .submit-btn {
             width: 100%;
             padding: 16px;
             font-size: 1.2rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             border: none;
-            border-radius: 50px;
+            border-radius: 100px;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(212, 168, 67, 0.3);
         }
-        
+
         .submit-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(30, 58, 138, 0.4);
+            box-shadow: 0 12px 35px rgba(212, 168, 67, 0.45);
         }
-        
+
         .form-disclaimer {
             font-size: 0.85rem;
-            color: #6b7280;
+            color: var(--gray-500);
             margin-top: 1rem;
             line-height: 1.4;
             padding: 1rem;
-            background: rgba(16, 185, 129, 0.05);
+            background: var(--green-soft);
             border-radius: 8px;
-            border-left: 3px solid #10b981;
+            border-left: 3px solid var(--green);
         }
-        
+
         .success-message {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: linear-gradient(135deg, var(--green), #059669);
             color: white;
             padding: 2rem;
-            border-radius: 15px;
+            border-radius: var(--radius-lg);
             text-align: center;
             display: none;
         }
@@ -597,7 +684,9 @@
             display: block;
         }
         .success-message h3 {
+            font-family: 'Instrument Serif', serif;
             font-size: 1.5rem;
+            font-weight: 400;
             margin-bottom: 1rem;
         }
 
@@ -612,15 +701,15 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: #e5e7eb;
+            background: var(--gray-200);
             transition: all 0.3s ease;
         }
         .wizard-step-dot.active {
-            background: #1e3a8a;
+            background: var(--navy);
             transform: scale(1.3);
         }
         .wizard-step-dot.done {
-            background: #10b981;
+            background: var(--green);
         }
         .wizard-step {
             display: none;
@@ -635,7 +724,7 @@
         }
         .wizard-step h3 {
             font-size: 1.1rem;
-            color: #374151;
+            color: var(--gray-700);
             margin-bottom: 1.2rem;
             font-weight: 600;
         }
@@ -646,22 +735,22 @@
             margin-bottom: 1rem;
         }
         .coverage-option {
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
             padding: 1rem;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s ease;
-            background: white;
+            background: var(--white);
         }
         .coverage-option:hover {
-            border-color: #3b82f6;
-            background: rgba(59,130,246,0.04);
+            border-color: var(--blue-light);
+            background: var(--sky-soft);
         }
         .coverage-option.selected {
-            border-color: #1e3a8a;
-            background: rgba(30,58,138,0.06);
-            box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
+            border-color: var(--navy);
+            background: var(--sky);
+            box-shadow: 0 0 0 3px rgba(27, 42, 74, 0.1);
         }
         .coverage-option .co-icon {
             font-size: 1.5rem;
@@ -670,7 +759,7 @@
         .coverage-option .co-label {
             font-weight: 600;
             font-size: 0.85rem;
-            color: #1e3a8a;
+            color: var(--navy);
         }
         .coverage-hint {
             font-size: 0.85rem;
@@ -690,7 +779,7 @@
         .wizard-nav .wiz-btn {
             flex: 1;
             padding: 14px;
-            border-radius: 50px;
+            border-radius: 100px;
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
@@ -699,19 +788,20 @@
             border: none;
         }
         .wiz-btn-back {
-            background: #f1f5f9;
-            color: #475569;
+            background: var(--gray-100);
+            color: var(--gray-600);
         }
         .wiz-btn-back:hover {
-            background: #e2e8f0;
+            background: var(--gray-200);
         }
         .wiz-btn-next {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
+            box-shadow: 0 4px 15px rgba(212, 168, 67, 0.3);
         }
         .wiz-btn-next:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(30,58,138,0.35);
+            box-shadow: 0 8px 25px rgba(212, 168, 67, 0.45);
         }
         .wiz-btn-next:disabled {
             opacity: 0.45;
@@ -722,11 +812,11 @@
         @media (max-width: 768px) {
             .coverage-grid { grid-template-columns: 1fr; }
         }
-        
+
         /* Footer */
         footer {
-            background: #252525;
-            color: #e0e0e0;
+            background: var(--navy-deep);
+            color: rgba(255,255,255,0.8);
             padding: 4rem 0 2rem;
         }
         .footer-grid {
@@ -737,8 +827,9 @@
             text-align: left;
         }
         .footer-column h3 {
+            font-family: 'Instrument Serif', serif;
             font-size: 1.25rem;
-            font-weight: 600;
+            font-weight: 400;
             color: white;
             margin-bottom: 1.5rem;
         }
@@ -749,22 +840,22 @@
             margin-bottom: 1rem;
         }
         .footer-column a {
-            color: #e0e0e0;
+            color: var(--gold);
             text-decoration: none;
             transition: color 0.3s ease;
         }
         .footer-column a:hover {
-            color: white;
+            color: var(--gold-soft);
             text-decoration: underline;
         }
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
-            border-top: 1px solid #555;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
         .footer-bottom p {
             font-size: 0.9rem;
-            color: #aaa;
+            color: rgba(255,255,255,0.5);
             line-height: 1.5;
             margin: 0.25rem 0;
         }
@@ -806,17 +897,19 @@
         /* Health Plans Section */
         .health-plans {
             padding: 4rem 0;
-            background: #f8fafc;
+            background: var(--gray-50);
         }
         .health-plans h2 {
             text-align: center;
-            font-size: 2.2rem;
-            color: #1e3a8a;
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            font-weight: 400;
+            color: var(--navy);
             margin-bottom: 0.5rem;
         }
         .health-plans .subtitle {
             text-align: center;
-            color: #64748b;
+            color: var(--gray-500);
             margin-bottom: 2rem;
             font-size: 1.1rem;
         }
@@ -827,13 +920,13 @@
         .plans-table table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            border-radius: 12px;
+            background: var(--white);
+            border-radius: var(--radius);
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-md);
         }
         .plans-table th {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            background: linear-gradient(165deg, var(--navy-deep), var(--navy));
             color: white;
             padding: 1rem;
             text-align: left;
@@ -841,43 +934,45 @@
         }
         .plans-table td {
             padding: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-            color: #475569;
+            border-bottom: 1px solid var(--gray-200);
+            color: var(--gray-600);
         }
         .plans-table tr:hover {
-            background: #f1f5f9;
+            background: var(--gray-50);
         }
         .plans-table .plan-name {
             font-weight: 600;
-            color: #1e3a8a;
+            color: var(--navy);
         }
         .plans-table .best-for {
             font-size: 0.85rem;
-            color: #64748b;
+            color: var(--gray-500);
         }
         .plans-cta {
             text-align: center;
             margin-top: 2rem;
         }
         .plans-cta p {
-            color: #64748b;
+            color: var(--gray-500);
             margin-bottom: 1rem;
         }
 
         /* Testimonials Section */
         .testimonials {
             padding: 80px 0;
-            background: white;
+            background: var(--white);
         }
         .testimonials h2 {
             text-align: center;
-            font-size: 2.2rem;
-            color: #1e3a8a;
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            font-weight: 400;
+            color: var(--navy);
             margin-bottom: 0.5rem;
         }
         .testimonials .section-subtitle {
             text-align: center;
-            color: #64748b;
+            color: var(--gray-500);
             margin-bottom: 0.5rem;
             font-size: 1.1rem;
         }
@@ -886,12 +981,12 @@
             margin-bottom: 2.5rem;
         }
         .rating-badge .stars {
-            color: #f59e0b;
+            color: var(--gold);
             font-size: 1.4rem;
             letter-spacing: 2px;
         }
         .rating-badge .rating-text {
-            color: #64748b;
+            color: var(--gray-500);
             font-size: 0.95rem;
             margin-top: 4px;
         }
@@ -901,22 +996,24 @@
             gap: 1.5rem;
         }
         .testimonial-card {
-            background: #f8f9fa;
-            border-radius: 15px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
             padding: 2rem;
-            border-left: 4px solid #f59e0b;
-            transition: transform 0.3s ease;
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
         }
         .testimonial-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--blue-light);
         }
         .testimonial-card .review-stars {
-            color: #f59e0b;
+            color: var(--gold);
             font-size: 1rem;
             margin-bottom: 0.75rem;
         }
         .testimonial-card .review-text {
-            color: #475569;
+            color: var(--gray-600);
             font-size: 0.95rem;
             line-height: 1.7;
             margin-bottom: 1rem;
@@ -924,11 +1021,11 @@
         }
         .testimonial-card .reviewer {
             font-weight: 600;
-            color: #1e3a8a;
+            color: var(--navy);
             font-size: 0.9rem;
         }
         .testimonial-card .reviewer-meta {
-            color: #94a3b8;
+            color: var(--gray-500);
             font-size: 0.8rem;
             margin-top: 2px;
         }
@@ -937,14 +1034,14 @@
             margin-top: 2rem;
         }
         .testimonials .google-link a {
-            color: #3b82f6;
+            color: var(--blue);
             text-decoration: none;
             font-weight: 600;
             font-size: 0.95rem;
             transition: color 0.3s ease;
         }
         .testimonials .google-link a:hover {
-            color: #1e3a8a;
+            color: var(--navy);
             text-decoration: underline;
         }
         @media (max-width: 768px) {
@@ -953,6 +1050,10 @@
     </style>
 </head>
 <body>
+    <div class="compliance-banner">
+        <strong>Important:</strong> Fixed indemnity products provide limited benefits and are <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA. &nbsp;|&nbsp; FL Broker License #W371813
+    </div>
+
     <header>
         <nav class="container">
             <div class="logo-container">
@@ -967,7 +1068,7 @@
                         <div class="dot"></div>
                     </div>
                 </button>
-                
+
                 <div class="dropdown-menu" id="dropdownMenu">
                     <div class="menu-item"><a href="/plans/">Health Plans</a></div>
                     <div class="menu-item"><a href="/blog/">Blog</a></div>
@@ -993,7 +1094,7 @@
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
-                <h1>Health Insurance That Makes Sense</h1>
+                <h1>Health Insurance That <em class="serif" style="color: var(--gold); font-style: italic;">Makes Sense</em></h1>
                 <h2>Florida families trust us to cut through the confusion and find coverage that works.</h2>
                 <p>Licensed broker David Huff specializes in individual plans and Medicare. Real expertise, zero corporate script.</p>
             </div>
@@ -1002,6 +1103,7 @@
 
     <section class="health-plans" id="plans">
         <div class="container">
+            <p class="section-label" style="text-align:center;">Coverage Options</p>
             <h2>Our Plans</h2>
             <p class="subtitle">We offer 8 types of coverage: ACA Health Plans, Medicare Advantage, Medicare Supplement, Short-Term Medical, Dental, Vision, Life Insurance, and Health Protector Guard.</p>
 
@@ -1011,10 +1113,11 @@
         </div>
     </section>
 
-    <section class="blog-cta" id="tips" style="padding:60px 0; background: #ffffff;">
+    <section class="blog-cta" id="tips" style="padding:60px 0; background: var(--white);">
         <div class="container">
-            <h2 style="text-align:center; color:#1e3a8a; margin-bottom:8px;">Want more in-depth articles?</h2>
-            <p style="text-align:center; color:#64748b; max-width:800px; margin:0 auto 16px;">All articles and guides live on the dedicated Blog page. Visit the blog for full posts, guides, and detailed insurance advice.</p>
+            <p class="section-label" style="text-align:center;">Resources</p>
+            <h2 style="text-align:center; font-family:'Instrument Serif',serif; font-weight:400; color:var(--navy); margin-bottom:8px;">Want more in-depth articles?</h2>
+            <p style="text-align:center; color:var(--gray-500); max-width:800px; margin:0 auto 16px;">All articles and guides live on the dedicated Blog page. Visit the blog for full posts, guides, and detailed insurance advice.</p>
             <div style="text-align:center; margin-top:12px;">
                 <a href="/blog/" class="cta-button" style="display:inline-block;">Visit Our Blog</a>
             </div>
@@ -1023,6 +1126,7 @@
 
     <section class="testimonials" id="reviews">
         <div class="container">
+            <p class="section-label" style="text-align:center;">Testimonials</p>
             <h2>What Florida Families Say</h2>
             <p class="section-subtitle">Real reviews from real clients on Google</p>
             <div class="rating-badge">
@@ -1077,6 +1181,7 @@
         <div class="container">
             <div class="form-container">
                 <div id="contact-form">
+                    <p class="section-label">Get Started</p>
                     <h2>Get Your Free Insurance Consultation</h2>
                     <p class="subtitle">3 quick steps and David will find the right plan for you.</p>
 
@@ -1224,7 +1329,7 @@
                         <li><a href="/health-protector-guard/">Health Protector Guard</a></li>
                         <li><a href="/blog/">Blog</a></li>
                         <li><a href="/our-approach.html">Our Approach</a></li>
-                        <li><a href="/blog/florida-insurance-guide.html">🌴 Florida Health Insurance Guide</a></li>
+                        <li><a href="/blog/florida-insurance-guide.html">Florida Health Insurance Guide</a></li>
                         <li><a href="#contact">Get Quote</a></li>
                         <li><a href="/privacy-policy.html">Privacy Policy</a></li>
                     </ul>
@@ -1234,14 +1339,14 @@
                 <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
                 <p>FL License #W371813 | Serving most of the United States with honest insurance advice</p>
                 <p style="margin-top: 1rem;">
-                    <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none; font-weight: 500;">
+                    <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: var(--gold); text-decoration: none; font-weight: 500;">
                         Powered by David the Insurance Dude
                     </a>
                 </p>
             </div>
         </div>
     </footer>
-    
+
     <!-- Exit-Intent Popup -->
     <style>
         .exit-overlay {
@@ -1256,14 +1361,14 @@
         }
         .exit-overlay.show { display: flex; }
         .exit-popup {
-            background: white;
-            border-radius: 20px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
             max-width: 480px;
             width: 100%;
             padding: 2.5rem;
             text-align: center;
             position: relative;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+            box-shadow: var(--shadow-xl);
             animation: popIn 0.3s ease;
         }
         @keyframes popIn {
@@ -1278,21 +1383,22 @@
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
-            color: #94a3b8;
+            color: var(--gray-300);
             width: 36px;
             height: 36px;
             border-radius: 50%;
             transition: background 0.2s;
         }
-        .exit-popup-close:hover { background: #f1f5f9; color: #333; }
+        .exit-popup-close:hover { background: var(--gray-100); color: var(--gray-800); }
         .exit-popup h3 {
+            font-family: 'Instrument Serif', serif;
             font-size: 1.6rem;
-            color: #1e3a8a;
-            font-weight: 800;
+            color: var(--navy);
+            font-weight: 400;
             margin-bottom: 0.5rem;
         }
         .exit-popup p {
-            color: #64748b;
+            color: var(--gray-500);
             font-size: 1rem;
             line-height: 1.5;
             margin-bottom: 1.5rem;
@@ -1301,8 +1407,8 @@
         .exit-popup .exit-form input {
             width: 100%;
             padding: 14px 18px;
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
             font-size: 1rem;
             font-family: inherit;
             margin-bottom: 0.75rem;
@@ -1310,28 +1416,29 @@
         }
         .exit-popup .exit-form input:focus {
             outline: none;
-            border-color: #1e3a8a;
-            box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
         .exit-popup .exit-cta {
             width: 100%;
             padding: 16px;
             font-size: 1.1rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             border: none;
-            border-radius: 50px;
+            border-radius: 100px;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 168, 67, 0.3);
         }
         .exit-popup .exit-cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(30,58,138,0.4);
+            box-shadow: 0 10px 30px rgba(212, 168, 67, 0.45);
         }
         .exit-popup .exit-note {
             font-size: 0.8rem;
-            color: #94a3b8;
+            color: var(--gray-500);
             margin-top: 0.75rem;
         }
         .exit-popup .exit-success {
@@ -1339,11 +1446,11 @@
             padding: 1rem 0;
         }
         .exit-popup .exit-success h4 {
-            color: #059669;
+            color: var(--green);
             font-size: 1.3rem;
             margin-bottom: 0.5rem;
         }
-        .exit-popup .exit-success p { color: #475569; margin-bottom: 0; }
+        .exit-popup .exit-success p { color: var(--gray-600); margin-bottom: 0; }
     </style>
 
     <div id="exitOverlay" class="exit-overlay" aria-hidden="true">
@@ -1375,16 +1482,18 @@
             bottom: 110px;
             right: 20px;
             z-index: 2000;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            background: linear-gradient(165deg, var(--navy-deep), var(--navy));
             color: white;
             padding: 14px 18px;
             border-radius: 999px;
-            box-shadow: 0 10px 30px rgba(30,58,138,0.25);
+            box-shadow: 0 10px 30px rgba(27, 42, 74, 0.25);
             border: none;
             cursor: pointer;
             font-weight: 700;
+            font-family: inherit;
+            transition: all 0.3s ease;
         }
-        .chat-widget-button:hover { transform: translateY(-3px); }
+        .chat-widget-button:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(27, 42, 74, 0.35); }
 
         .chat-widget-overlay {
             position: fixed;
@@ -1402,11 +1511,11 @@
             width: 100%;
             max-width: 980px;
             height: 80vh;
-            background: white;
-            border-radius: 12px;
+            background: var(--white);
+            border-radius: var(--radius);
             overflow: hidden;
             position: relative;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: var(--shadow-xl);
         }
         .chat-widget-close {
             position: absolute;
@@ -1440,7 +1549,7 @@
             <span style="font-size: 0.8rem; opacity: 0.9;">Usually replies fast</span>
         </div>
     </a>
-    
+
     <a href="tel:+18636403102" class="click-to-call" onclick="trackPhoneCall()">
         <span class="phone-icon" aria-hidden="true">📞</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
@@ -1605,7 +1714,7 @@
             const button = document.querySelector('.menu-button');
             const isClickInsideMenu = menu.contains(event.target);
             const isClickOnButton = button.contains(event.target);
-            
+
             if (!isClickInsideMenu && !isClickOnButton) {
                 menu.classList.remove('show');
             }
