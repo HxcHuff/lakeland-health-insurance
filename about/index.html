@@ -35,13 +35,14 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lakeland Health Insurance">
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#1e3a8a">
+    <meta name="theme-color" content="#1B2A4A">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://connect.facebook.net">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
     <script type="application/ld+json">
 {
@@ -59,8 +60,38 @@
   "telephone": "+1-863-640-3102"
 }
 </script>
-    
+
     <style>
+        :root {
+            --navy: #1B2A4A;
+            --navy-deep: #0F1A2E;
+            --blue: #2563EB;
+            --blue-light: #3B82F6;
+            --sky: #E8F0FE;
+            --sky-soft: #F0F5FF;
+            --white: #FFFFFF;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-500: #64748B;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+            --gold: #D4A843;
+            --gold-soft: #F5ECD7;
+            --green: #16A34A;
+            --green-soft: #DCFCE7;
+            --red-soft: #FEF2F2;
+            --orange: #EA580C;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -68,27 +99,51 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.65;
+            color: var(--gray-800);
+            background: var(--white);
+        }
+
+        .serif {
+            font-family: 'Instrument Serif', serif;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Instrument Serif', serif;
+            font-weight: 400;
+            color: var(--navy);
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
+        /* Compliance Banner */
+        .compliance-banner {
+            background: var(--navy-deep);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .compliance-banner strong {
+            color: var(--gold);
+        }
+
         /* Header */
         header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(12px);
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
         }
 
         nav {
@@ -105,15 +160,17 @@
         }
 
         .brand-name {
+            font-family: 'Instrument Serif', serif;
             font-size: 1.2rem;
-            font-weight: 800;
-            color: #1e3a8a;
+            font-weight: 400;
+            color: var(--navy);
             line-height: 1.2;
         }
 
         .license-tag {
+            font-family: 'DM Sans', sans-serif;
             font-size: 0.7rem;
-            color: #10b981;
+            color: var(--gold);
             font-weight: 600;
             display: block;
             margin-top: 2px;
@@ -130,7 +187,7 @@
         }
 
         .menu-button:hover {
-            background-color: #f0f0f0;
+            background-color: var(--gray-100);
         }
 
         .ellipses {
@@ -142,7 +199,7 @@
         .dot {
             width: 4px;
             height: 4px;
-            background-color: #666;
+            background-color: var(--gray-600);
             border-radius: 50%;
         }
 
@@ -150,10 +207,10 @@
             position: absolute;
             top: 100%;
             left: 100px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
             min-width: 200px;
             z-index: 1000;
             opacity: 0;
@@ -171,12 +228,12 @@
         .menu-item {
             padding: 12px 16px;
             cursor: pointer;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--gray-100);
             transition: background-color 0.2s;
         }
 
         .menu-item:hover {
-            background-color: #f8f9fa;
+            background-color: var(--sky-soft);
         }
 
         .menu-item:last-child {
@@ -185,7 +242,7 @@
 
         .menu-item a {
             text-decoration: none;
-            color: #333;
+            color: var(--gray-800);
             display: block;
         }
 
@@ -197,21 +254,21 @@
 
         .nav-links a {
             text-decoration: none;
-            color: #333;
+            color: var(--gray-700);
             font-weight: 500;
             transition: color 0.3s ease;
         }
 
         .nav-links a:hover {
-            color: #1e3a8a;
+            color: var(--navy);
         }
 
         .cta-button {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 12px 24px;
             border: none;
-            border-radius: 50px;
+            border-radius: 100px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -221,7 +278,7 @@
 
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+            box-shadow: 0 10px 30px rgba(212, 168, 67, 0.35);
         }
 
         /* Click to Call Button */
@@ -229,14 +286,14 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 15px 20px;
-            border-radius: 50px;
+            border-radius: 100px;
             text-decoration: none;
             font-weight: 600;
             font-size: 1.1rem;
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 8px 25px rgba(212, 168, 67, 0.4);
             z-index: 1000;
             transition: all 0.3s ease;
             display: flex;
@@ -246,7 +303,7 @@
 
         .click-to-call:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+            box-shadow: 0 12px 35px rgba(212, 168, 67, 0.6);
         }
 
         .phone-icon {
@@ -274,7 +331,7 @@
 
         /* About Header */
         .about-header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            background: linear-gradient(165deg, var(--navy-deep) 0%, var(--navy) 50%, #1E3A5F 100%);
             color: white;
             padding: 120px 0 60px;
             text-align: center;
@@ -282,8 +339,9 @@
 
         .about-header h1 {
             font-size: 3rem;
-            font-weight: 800;
+            font-weight: 400;
             margin-bottom: 1rem;
+            color: var(--white);
         }
 
         .about-header p {
@@ -309,12 +367,12 @@
         .about-text h2 {
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
-            color: #333;
+            color: var(--navy);
         }
 
         .about-text p {
             margin-bottom: 1.5rem;
-            color: #666;
+            color: var(--gray-600);
             line-height: 1.7;
             font-size: 1.1rem;
         }
@@ -328,28 +386,28 @@
             max-width: 400px;
             height: 400px;
             object-fit: cover;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
         }
 
         .placeholder-image {
             width: 80%;
             max-width: 400px;
             height: 400px;
-            background: linear-gradient(135deg, #e9ecef, #dee2e6);
-            border-radius: 20px;
+            background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
+            border-radius: var(--radius-lg);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #666;
+            color: var(--gray-600);
             font-size: 1.2rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-xl);
             margin: 0 auto;
         }
 
         /* Credentials Section */
         .credentials {
-            background: white;
+            background: var(--gray-50);
             padding: 80px 0;
         }
 
@@ -357,7 +415,7 @@
             text-align: center;
             font-size: 2.5rem;
             margin-bottom: 3rem;
-            color: #333;
+            color: var(--navy);
         }
 
         .credentials-grid {
@@ -367,22 +425,24 @@
         }
 
         .credential-card {
-            background: #f8f9fa;
+            background: var(--white);
             padding: 2rem;
-            border-radius: 15px;
+            border-radius: var(--radius-lg);
             text-align: center;
             transition: transform 0.3s ease;
-            border-left: 4px solid #1e3a8a;
+            border: 1px solid var(--gray-200);
+            border-left: 4px solid var(--gold);
         }
 
         .credential-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
         }
 
         .credential-icon {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            background: linear-gradient(165deg, var(--navy-deep), var(--navy));
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -394,25 +454,25 @@
 
         .credential-card h3 {
             margin-bottom: 1rem;
-            color: #333;
+            color: var(--navy);
         }
 
         .credential-card p {
-            color: #666;
-            line-height: 1.6;
+            color: var(--gray-600);
+            line-height: 1.65;
         }
 
         /* Why Choose Section */
         .why-choose {
             padding: 80px 0;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: var(--sky-soft);
         }
 
         .why-choose h2 {
             text-align: center;
             font-size: 2.5rem;
             margin-bottom: 3rem;
-            color: #333;
+            color: var(--navy);
         }
 
         .reasons-grid {
@@ -422,27 +482,34 @@
         }
 
         .reason-card {
-            background: white;
+            background: var(--white);
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .reason-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
         }
 
         .reason-card h3 {
             margin-bottom: 1rem;
-            color: #1e3a8a;
+            color: var(--navy);
             font-size: 1.3rem;
         }
 
         .reason-card p {
-            color: #666;
-            line-height: 1.6;
+            color: var(--gray-600);
+            line-height: 1.65;
         }
 
         /* CTA Section */
         .cta-section {
             padding: 80px 0;
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            background: linear-gradient(165deg, var(--navy-deep) 0%, var(--navy) 50%, #1E3A5F 100%);
             text-align: center;
             color: white;
         }
@@ -450,6 +517,7 @@
         .cta-section h2 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
+            color: var(--white);
         }
 
         .cta-section p {
@@ -466,11 +534,11 @@
         }
 
         .cta-primary {
-            background: white;
-            color: #1e3a8a;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 18px 36px;
             border: none;
-            border-radius: 50px;
+            border-radius: 100px;
             font-weight: 600;
             font-size: 1.1rem;
             cursor: pointer;
@@ -481,15 +549,15 @@
 
         .cta-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 40px rgba(212, 168, 67, 0.35);
         }
 
         .cta-secondary {
             background: transparent;
             color: white;
             padding: 18px 36px;
-            border: 2px solid white;
-            border-radius: 50px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 100px;
             font-weight: 600;
             font-size: 1.1rem;
             cursor: pointer;
@@ -499,17 +567,17 @@
         }
 
         .cta-secondary:hover {
-            background: white;
-            color: #1e3a8a;
+            background: rgba(255,255,255,0.1);
+            border-color: white;
             transform: translateY(-3px);
         }
 
         .cta-text {
-            background: #10b981;
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 16px 32px;
-            border: 2px solid #10b981;
-            border-radius: 50px;
+            border: 2px solid var(--gold);
+            border-radius: 100px;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
@@ -519,15 +587,14 @@
         }
 
         .cta-text:hover {
-            background: #059669;
-            border-color: #059669;
+            box-shadow: 0 10px 30px rgba(212, 168, 67, 0.35);
             transform: translateY(-3px);
         }
 
         /* Footer */
         footer {
-            background: #333;
-            color: white;
+            background: var(--navy-deep);
+            color: rgba(255,255,255,0.5);
             padding: 3rem 0;
             text-align: center;
         }
@@ -541,27 +608,29 @@
 
         .footer-section h4 {
             margin-bottom: 1rem;
-            color: #3b82f6;
+            color: var(--gold);
+            font-family: 'Instrument Serif', serif;
         }
 
         .footer-section p {
             margin-bottom: 0.5rem;
-            opacity: 0.9;
+            color: rgba(255,255,255,0.5);
         }
 
         .footer-section a {
-            color: white;
+            color: var(--gold);
             text-decoration: none;
+            transition: color 0.2s ease;
         }
 
         .footer-section a:hover {
-            color: #3b82f6;
+            color: var(--gold-soft);
         }
 
         .footer-bottom {
-            border-top: 1px solid #555;
+            border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: 2rem;
-            opacity: 0.8;
+            color: rgba(255,255,255,0.4);
         }
 
         /* Mobile Responsive */
@@ -569,29 +638,34 @@
             .about-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .nav-links {
                 display: none;
             }
-            
+
             .about-header h1 {
                 font-size: 2rem;
             }
-            
+
             .about-text h2 {
                 font-size: 2rem;
             }
-            
+
             .cta-buttons {
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             .click-to-call {
                 bottom: 15px;
                 right: 15px;
                 padding: 12px 16px;
                 font-size: 1rem;
+            }
+
+            .compliance-banner {
+                font-size: 0.72rem;
+                padding: 8px 15px;
             }
         }
 
@@ -613,6 +687,10 @@
     </style>
 </head>
 <body>
+    <div class="compliance-banner">
+      <strong>Important:</strong> Fixed indemnity products provide limited benefits and are <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA. &nbsp;|&nbsp; FL Broker License #W371813
+    </div>
+
     <header>
         <nav class="container">
             <div class="logo-container">
@@ -627,7 +705,7 @@
                         <div class="dot"></div>
                     </div>
                 </button>
-                
+
                 <div class="dropdown-menu" id="dropdownMenu">
                     <div class="menu-item"><a href="/">Home</a></div>
                     <div class="menu-item"><a href="/#plans">Health Plans</a></div>
@@ -665,16 +743,16 @@
                 <div class="about-text fade-in-up">
                     <h2>From Marine Sergeant to Your Insurance Guardian</h2>
                     <p>I'm David, former Marine Sergeant (0811 Cannoneer) turned insurance agent. Why the career change? Because watching my mother navigate the healthcare system during her disability taught me that families need someone who won't back down when insurance companies start playing games.</p>
-                    
+
                     <p>In the Marines, we had a saying: "Leave no one behind." That applies to insurance too. When my teenage kids got hurt playing sports, the policies I recommend covered those unexpected expenses without breaking our budget. That's when I knew I was in the right business - protecting families from financial disasters they never saw coming.</p>
-                    
+
                     <p>I hate seeing good people get hurt by outside forces. Nobody asks for cancer, car accidents, or medical emergencies. But when life throws you a curveball, you need someone in your corner who knows how to fight back. If insurance companies have games, I'm Milton Bradley.</p>
-                    
+
                     <p>Based in Central Florida but serving families nationwide. Marine-trained discipline meets real-world family experience.</p>
                 </div>
-                
+
                 <div class="about-image fade-in-up">
-                    <img src="david_the_dude2.jpg" alt="David - Lakeland Health Insurance Agent" style="width: 80%; max-width: 400px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1); display: block; margin: 0 auto;">
+                    <img src="david_the_dude2.jpg" alt="David - Lakeland Health Insurance Agent" style="width: 80%; max-width: 400px; height: 400px; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); display: block; margin: 0 auto;">
                 </div>
             </div>
         </div>
@@ -689,19 +767,19 @@
                     <h3>Florida Licensed Agent</h3>
                     <p>FL License #W371813. Fully licensed and regulated by the Florida Department of Financial Services.</p>
                 </div>
-                
+
                 <div class="credential-card fade-in-up">
                     <div class="credential-icon">🇺🇸</div>
                     <h3>Coverage Across the Nation</h3>
                     <p>Licensed in most states to help families across the country, not just Florida residents.</p>
                 </div>
-                
+
                 <div class="credential-card fade-in-up">
                     <div class="credential-icon">⚓</div>
                     <h3>Former Marine Sergeant</h3>
                     <p>USMC 0811 Cannoneer. Trained to complete the mission under pressure. Your insurance claims won't intimidate me like they do other agents.</p>
                 </div>
-                
+
                 <div class="credential-card fade-in-up">
                     <div class="credential-icon">👨‍👩‍👧‍👦</div>
                     <h3>Father & Family Man</h3>
@@ -719,27 +797,27 @@
                     <h3>⚔️ I Don't Back Down From Insurance Companies</h3>
                     <p>Marines are trained to complete the mission. When your claim gets denied or your coverage gets canceled, I don't roll over like most agents. I've fought through extraordinary circumstances for clients - illnesses, major losses, and every curveball insurance companies throw.</p>
                 </div>
-                
+
                 <div class="reason-card fade-in-up">
                     <h3>🎯 I Actually Answer My Phone</h3>
                     <p>Shocking concept in the insurance world, I know. When you call, you get me, not some call center in another time zone. And I return calls the same day, because I'm not a sociopath.</p>
                 </div>
-                
+
                 <div class="reason-card fade-in-up">
                     <h3>💰 I Save You Money (The Right Way)</h3>
                     <p>Not by selling you garbage coverage, but by finding plans that actually work for your situation. Most people are either overpaying or buying the wrong coverage entirely.</p>
                 </div>
-                
+
                 <div class="reason-card fade-in-up">
                     <h3>👨‍👩‍👧‍👦 I Get It - I'm a Parent Too</h3>
                     <p>Two teenage athletes means I know exactly what families worry about. The policies I recommend? I buy them for my own kids. When they got hurt playing sports, our coverage handled it without financial stress.</p>
                 </div>
-                
+
                 <div class="reason-card fade-in-up">
                     <h3>🚫 No High-Pressure Sales</h3>
                     <p>I'm not going to chase you around with phone calls or show up at your house uninvited. You're an adult, you can make your own decisions when you're ready.</p>
                 </div>
-                
+
                 <div class="reason-card fade-in-up">
                     <h3>🎮 If Insurance Companies Have Games, I'm Milton Bradley</h3>
                     <p>They've got rules, loopholes, and tricks designed to avoid paying claims. I know every game they play because I've been protecting families from them for years. You need someone who plays to win.</p>
@@ -772,7 +850,7 @@
                     <p>🕒 Mon-Fri 8AM-8PM EST</p>
                     <p>🕒 Sat 9AM-5PM EST</p>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Service Areas</h4>
                     <p>🏠 Florida Residents</p>
@@ -781,7 +859,7 @@
                     <p>👥 Individual & Family Plans</p>
                     <p>😊 Medicare Specialists</p>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Quick Links</h4>
                     <p><a href="/">Home</a></p>
@@ -792,12 +870,12 @@
                     <p><a href="/privacy-policy.html">Privacy Policy</a></p>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>&copy; 2025 Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
                 <p style="font-size: 0.8rem; margin-top: 0.5rem;">FL License #W371813 | Serving most of the United States with honest insurance advice</p>
                 <p style="margin-top: 1rem;">
-                    <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none; font-weight: 500;">
+                    <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: var(--gold); text-decoration: none; font-weight: 500;">
                         Powered by David the Insurance Dude
                     </a>
                 </p>
@@ -825,7 +903,7 @@
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('dropdownMenu');
             const button = document.querySelector('.menu-button');
-            
+
             if (!menu.contains(event.target) && !button.contains(event.target)) {
                 menu.classList.remove('show');
             }

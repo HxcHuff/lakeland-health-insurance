@@ -34,17 +34,48 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lakeland Health Insurance">
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#1e3a8a">
+    <meta name="theme-color" content="#1B2A4A">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <link rel="dns-prefetch" href="https://connect.facebook.net">
     <link rel="canonical" href="https://lakelandhealthinsurance.com/blog/">
     <meta name="robots" content="index, follow">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <style>
+        :root {
+            --navy: #1B2A4A;
+            --navy-deep: #0F1A2E;
+            --blue: #2563EB;
+            --blue-light: #3B82F6;
+            --sky: #E8F0FE;
+            --sky-soft: #F0F5FF;
+            --white: #FFFFFF;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-500: #64748B;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+            --gold: #D4A843;
+            --gold-soft: #F5ECD7;
+            --green: #16A34A;
+            --green-soft: #DCFCE7;
+            --red-soft: #FEF2F2;
+            --orange: #EA580C;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -52,27 +83,46 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.65;
+            color: var(--gray-800);
+            background: var(--white);
+        }
+
+        .serif {
+            font-family: 'Instrument Serif', serif;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
+        /* Compliance Banner */
+        .compliance-banner {
+            background: var(--navy-deep);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 0.78rem;
+            line-height: 1.5;
+            letter-spacing: 0.01em;
+        }
+
+        .compliance-banner strong {
+            color: var(--gold);
+        }
+
         /* Header */
         header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(12px);
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
         }
 
         nav {
@@ -91,13 +141,13 @@
         .brand-name {
             font-size: 1.2rem;
             font-weight: 800;
-            color: #1e3a8a;
+            color: var(--navy);
             line-height: 1.2;
         }
 
         .license-tag {
             font-size: 0.7rem;
-            color: #10b981;
+            color: var(--green);
             font-weight: 600;
             display: block;
             margin-top: 2px;
@@ -113,7 +163,7 @@
         }
 
         .menu-button:hover {
-            background-color: #f0f0f0;
+            background-color: var(--gray-100);
         }
 
         .ellipses {
@@ -125,7 +175,7 @@
         .dot {
             width: 4px;
             height: 4px;
-            background-color: #666;
+            background-color: var(--gray-500);
             border-radius: 50%;
         }
 
@@ -133,10 +183,10 @@
             position: absolute;
             top: 100%;
             left: 100px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
             min-width: 200px;
             z-index: 1000;
             opacity: 0;
@@ -154,12 +204,12 @@
         .menu-item {
             padding: 12px 16px;
             cursor: pointer;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--gray-100);
             transition: background-color 0.2s;
         }
 
         .menu-item:hover {
-            background-color: #f8f9fa;
+            background-color: var(--gray-50);
         }
 
         .menu-item:last-child {
@@ -168,7 +218,7 @@
 
         .menu-item a {
             text-decoration: none;
-            color: #333;
+            color: var(--gray-800);
             display: block;
         }
 
@@ -180,18 +230,18 @@
 
         .nav-links a {
             text-decoration: none;
-            color: #333;
+            color: var(--gray-700);
             font-weight: 500;
             transition: color 0.3s ease;
         }
 
         .nav-links a:hover {
-            color: #1e3a8a;
+            color: var(--navy);
         }
 
         .cta-button {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 12px 24px;
             border: none;
             border-radius: 50px;
@@ -204,35 +254,36 @@
 
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+            box-shadow: 0 10px 30px rgba(212, 168, 67, 0.35);
         }
 
         /* Blog Header */
         .blog-header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            background: linear-gradient(165deg, var(--navy-deep) 0%, var(--navy) 50%, #1E3A5F 100%);
             color: white;
             padding: 120px 0 60px;
             text-align: center;
         }
 
         .blog-header h1 {
+            font-family: 'Instrument Serif', serif;
             font-size: 3rem;
-            font-weight: 800;
+            font-weight: 400;
             margin-bottom: 1rem;
         }
 
         .blog-header p {
             font-size: 1.2rem;
-            opacity: 0.9;
+            opacity: 0.85;
             max-width: 600px;
             margin: 0 auto;
         }
 
         /* Tag Filter Section */
         .tag-filter-section {
-            background: white;
+            background: var(--white);
             padding: 2rem 0;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--gray-200);
         }
 
         .filter-header {
@@ -243,9 +294,11 @@
         }
 
         .filter-header h3 {
+            font-family: 'Instrument Serif', serif;
             font-size: 1.3rem;
-            color: #1e3a8a;
+            color: var(--navy);
             margin: 0;
+            font-weight: 400;
         }
 
         .tag-filter-container {
@@ -258,6 +311,7 @@
         .blog-content {
             padding: 80px 0;
             min-height: 60vh;
+            background: var(--gray-50);
         }
 
         .blog-container {
@@ -267,30 +321,32 @@
 
         /* Article Cards */
         .article-card {
-            background: white;
-            border-radius: 15px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
             padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
         }
 
         .article-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(30, 58, 138, 0.15);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--gray-300);
         }
 
         .article-date {
-            color: #666;
+            color: var(--gray-500);
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
         }
 
         .article-title {
+            font-family: 'Instrument Serif', serif;
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 400;
             margin-bottom: 1rem;
-            color: #1e3a8a;
+            color: var(--navy);
         }
 
         .article-title a {
@@ -300,13 +356,13 @@
         }
 
         .article-title a:hover {
-            color: #3b82f6;
+            color: var(--blue);
         }
 
         .article-excerpt {
-            color: #666;
+            color: var(--gray-600);
             font-size: 1rem;
-            line-height: 1.6;
+            line-height: 1.65;
         }
 
         /* Pagination */
@@ -319,8 +375,8 @@
         }
 
         .pagination button {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             border: none;
             padding: 12px 24px;
             border-radius: 50px;
@@ -331,7 +387,7 @@
 
         .pagination button:hover:not([disabled]) {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
+            box-shadow: 0 8px 25px rgba(212, 168, 67, 0.35);
         }
 
         .pagination button[disabled] {
@@ -343,7 +399,7 @@
         .page-info {
             display: flex;
             align-items: center;
-            color: #666;
+            color: var(--gray-600);
             font-weight: 500;
         }
 
@@ -354,7 +410,7 @@
 
         .tag {
             display: inline-block;
-            background-color: #1e3a8a;
+            background-color: var(--navy);
             color: white;
             font-size: 0.75rem;
             padding: 6px 12px;
@@ -366,18 +422,19 @@
         }
 
         .tag:hover {
-            background-color: #3b82f6;
+            background-color: var(--blue);
             transform: translateY(-1px);
         }
 
         .tag.active {
-            background-color: #10b981;
+            background-color: var(--gold);
+            color: var(--navy-deep);
         }
 
         .filter-indicator {
-            background: #e6f3ff;
-            border: 1px solid #3b82f6;
-            border-radius: 8px;
+            background: var(--sky-soft);
+            border: 1px solid var(--blue);
+            border-radius: var(--radius);
             padding: 1rem;
             margin-bottom: 2rem;
             display: flex;
@@ -407,20 +464,20 @@
         .no-results {
             text-align: center;
             padding: 3rem;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
         }
 
         .no-results p {
             margin-bottom: 1rem;
-            color: #666;
+            color: var(--gray-600);
         }
 
         /* Footer */
         footer {
-            background: #252525;
-            color: #e0e0e0;
+            background: var(--navy-deep);
+            color: rgba(255,255,255,0.5);
             padding: 5rem 0 3rem;
         }
 
@@ -433,8 +490,9 @@
         }
 
         .footer-column h3 {
+            font-family: 'Instrument Serif', serif;
             font-size: 1.25rem;
-            font-weight: 600;
+            font-weight: 400;
             color: white;
             margin-bottom: 1.5rem;
         }
@@ -445,28 +503,29 @@
 
         .footer-column li {
             margin-bottom: 1rem;
+            color: rgba(255,255,255,0.5);
         }
 
         .footer-column a {
-            color: #e0e0e0;
+            color: var(--gold);
             text-decoration: none;
             transition: color 0.3s ease, text-decoration 0.3s ease;
         }
 
         .footer-column a:hover {
-            color: white;
+            color: #ecc566;
             text-decoration: underline;
         }
 
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
-            border-top: 1px solid #555;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         .footer-bottom p {
             font-size: 0.9rem;
-            color: #aaa;
+            color: rgba(255,255,255,0.4);
             line-height: 1.5;
             margin: 0.25rem 0;
         }
@@ -476,14 +535,14 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: linear-gradient(135deg, var(--green), #059669);
             color: white;
             padding: 15px 20px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
             font-size: 1.1rem;
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.4);
             z-index: 1000;
             transition: all 0.3s ease;
             display: flex;
@@ -493,7 +552,7 @@
 
         .click-to-call:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+            box-shadow: 0 12px 35px rgba(22, 163, 74, 0.6);
         }
 
         /* Mobile Responsive */
@@ -501,37 +560,46 @@
             .nav-links {
                 display: none;
             }
-            
+
             .blog-header h1 {
                 font-size: 2rem;
             }
-            
+
             .article-card {
                 padding: 1.5rem;
             }
-            
+
             .pagination {
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             .footer-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
-            
+
             .footer-column {
                 text-align: center;
             }
-            
+
             .footer-column ul {
                 display: inline-block;
                 text-align: left;
+            }
+
+            .compliance-banner {
+                font-size: 0.7rem;
+                padding: 8px 15px;
             }
         }
     </style>
 </head>
 <body>
+    <div class="compliance-banner">
+        <strong>Important:</strong> Fixed indemnity products provide limited benefits and are <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA. &nbsp;|&nbsp; FL Broker License #W371813
+    </div>
+
     <header>
         <nav class="container">
             <div class="logo-container">
@@ -546,7 +614,7 @@
                         <div class="dot"></div>
                     </div>
                 </button>
-                
+
                 <div class="dropdown-menu" id="dropdownMenu">
                     <div class="menu-item"><a href="/">Home</a></div>
                     <div class="menu-item"><a href="/#plans">Health Plans</a></div>
@@ -643,7 +711,7 @@
                 <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
                 <p>FL License #W371813 | Serving most of the United States with honest insurance advice</p>
                 <p style="margin-top: 1rem;">
-                    <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none; font-weight: 500;">
+                    <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: var(--gold); text-decoration: none; font-weight: 500;">
                         Powered by David the Insurance Dude
                     </a>
                 </p>
@@ -777,11 +845,11 @@
             const tagContainer = document.getElementById('tag-filter');
             const clearBtn = document.getElementById('clear-all-btn');
             const tags = getUniqueTags();
-            
-            tagContainer.innerHTML = tags.map(tag => 
+
+            tagContainer.innerHTML = tags.map(tag =>
                 `<span class="tag ${filteredTag === tag ? 'active' : ''}" onclick="filterByTag('${tag}')">${tag}</span>`
             ).join('');
-            
+
             // Show/hide clear button
             clearBtn.style.display = filteredTag ? 'block' : 'none';
         }
@@ -796,7 +864,7 @@
             const end = start + postsPerPage;
             const paginatedPosts = visiblePosts.slice(start, end);
             const container = document.getElementById('blog-posts');
-            
+
             container.innerHTML = '';
 
             if (filteredTag && visiblePosts.length === 0) {
@@ -820,10 +888,10 @@
             }
 
             paginatedPosts.forEach(post => {
-                const tagHTML = post.tags?.map(tag => 
+                const tagHTML = post.tags?.map(tag =>
                     `<span class="tag ${tag === filteredTag ? 'active' : ''}" onclick="filterByTag('${tag}')">${tag}</span>`
                 ).join(' ') || '';
-                
+
                 const articleHtml = `
                     <article class="article-card">
                         <div class="article-date">${formatDate(post.date)}</div>
@@ -861,13 +929,13 @@
         function changePage(direction) {
             const totalPages = Math.ceil(posts.length / postsPerPage);
             const newPage = currentPage + direction;
-            
+
             if (newPage >= 1 && newPage <= totalPages) {
                 currentPage = newPage;
                 renderPosts();
-                
+
                 // Scroll to top of blog content
-                document.querySelector('.blog-content').scrollIntoView({ 
+                document.querySelector('.blog-content').scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
@@ -884,7 +952,7 @@
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('dropdownMenu');
             const button = document.querySelector('.menu-button');
-            
+
             if (!menu.contains(event.target) && !button.contains(event.target)) {
                 menu.classList.remove('show');
             }
@@ -894,7 +962,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             renderTags();
             renderPosts();
-            
+
             // Set current year in footer
             const yearSpan = document.getElementById('current-year');
             if (yearSpan) {
