@@ -35,14 +35,45 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lakeland Health Insurance">
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#1e3a8a">
+    <meta name="theme-color" content="#1B2A4A">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://connect.facebook.net">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --navy: #1B2A4A;
+            --navy-deep: #0F1A2E;
+            --blue: #2563EB;
+            --blue-light: #3B82F6;
+            --sky: #E8F0FE;
+            --sky-soft: #F0F5FF;
+            --white: #FFFFFF;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-500: #64748B;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+            --gold: #D4A843;
+            --gold-soft: #F5ECD7;
+            --green: #16A34A;
+            --green-soft: #DCFCE7;
+            --red-soft: #FEF2F2;
+            --orange: #EA580C;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -50,16 +81,78 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.65;
+            color: var(--gray-800);
+            background: var(--white);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        .serif {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        /* Compliance Banner */
+        .compliance-banner {
+            background: var(--navy-deep);
+            color: rgba(255,255,255,0.85);
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 0.78rem;
+            line-height: 1.5;
+        }
+
+        .compliance-banner strong {
+            color: var(--gold);
+        }
+
+        /* Section Labels & Titles */
+        .section-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--blue);
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--gray-800);
+            text-align: center;
+        }
+
+        .section-title em.serif {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--gray-500);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray-500);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
         }
 
         /* Header */
@@ -70,7 +163,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
         }
 
         nav {
@@ -87,15 +180,17 @@
         }
 
         .logo {
+            font-family: 'Instrument Serif', serif;
             font-size: 1.8rem;
-            font-weight: 800;
-            color: #1e3a8a;
+            font-weight: 400;
+            color: var(--navy);
         }
 
         .logo::after {
             content: "Lakeland";
+            font-family: 'DM Sans', sans-serif;
             font-size: 0.8rem;
-            color: #10b981;
+            color: var(--gold);
             display: block;
             line-height: 1;
             font-weight: 600;
@@ -112,7 +207,7 @@
         }
 
         .menu-button:hover {
-            background-color: #f0f0f0;
+            background-color: var(--gray-100);
         }
 
         .ellipses {
@@ -124,7 +219,7 @@
         .dot {
             width: 4px;
             height: 4px;
-            background-color: #666;
+            background-color: var(--gray-500);
             border-radius: 50%;
         }
 
@@ -132,10 +227,10 @@
             position: absolute;
             top: 100%;
             left: 100px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
             min-width: 200px;
             z-index: 1000;
             opacity: 0;
@@ -153,12 +248,12 @@
         .menu-item {
             padding: 12px 16px;
             cursor: pointer;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--gray-100);
             transition: background-color 0.2s;
         }
 
         .menu-item:hover {
-            background-color: #f8f9fa;
+            background-color: var(--gray-50);
         }
 
         .menu-item:last-child {
@@ -167,8 +262,9 @@
 
         .menu-item a {
             text-decoration: none;
-            color: #333;
+            color: var(--gray-800);
             display: block;
+            font-weight: 500;
         }
 
         .nav-links {
@@ -179,21 +275,21 @@
 
         .nav-links a {
             text-decoration: none;
-            color: #333;
+            color: var(--gray-700);
             font-weight: 500;
             transition: color 0.3s ease;
         }
 
         .nav-links a:hover {
-            color: #1e3a8a;
+            color: var(--blue);
         }
 
         .cta-button {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 12px 24px;
             border: none;
-            border-radius: 50px;
+            border-radius: 100px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -203,7 +299,7 @@
 
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+            box-shadow: 0 10px 30px rgba(212, 168, 67, 0.3);
         }
 
         /* Hero Section */
@@ -211,12 +307,13 @@
             padding: 120px 0 60px;
             text-align: center;
             color: white;
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            background: linear-gradient(165deg, var(--navy-deep) 0%, var(--navy) 50%, #1E3A5F 100%);
         }
 
         .hero h1 {
+            font-family: 'Instrument Serif', serif;
             font-size: 3rem;
-            font-weight: 800;
+            font-weight: 400;
             margin-bottom: 1rem;
         }
 
@@ -228,9 +325,10 @@
         }
 
         .price-disclaimer {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             padding: 1rem;
-            border-radius: 10px;
+            border-radius: var(--radius);
             margin: 2rem auto 0;
             max-width: 500px;
             font-size: 0.9rem;
@@ -239,32 +337,34 @@
 
         /* Quick Calculator */
         .quick-calc {
-            background: white;
+            background: var(--white);
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
             margin: -30px auto 0;
             max-width: 600px;
             position: relative;
             z-index: 100;
             transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
         }
 
         .quick-calc:hover {
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--shadow-xl);
         }
 
         .calc-title {
+            font-family: 'Instrument Serif', serif;
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 400;
             margin-bottom: 0.5rem;
-            color: #333;
+            color: var(--gray-800);
             text-align: center;
         }
 
         .calc-subtitle {
             text-align: center;
-            color: #666;
+            color: var(--gray-500);
             margin-bottom: 1.5rem;
             font-size: 0.9rem;
         }
@@ -285,7 +385,7 @@
         .form-group label {
             font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #333;
+            color: var(--gray-800);
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -293,42 +393,44 @@
 
         .label-icon {
             font-size: 1.1rem;
-            color: #1e3a8a;
+            color: var(--blue);
         }
 
         .form-group select,
         .form-group input {
             padding: 12px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
             font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
             transition: all 0.3s ease;
         }
 
         .form-group select:focus,
         .form-group input:focus {
             outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            border-color: var(--blue-light);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
             transform: translateY(-2px);
         }
 
         .form-group.completed select,
         .form-group.completed input {
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.05);
+            border-color: var(--green);
+            background: var(--green-soft);
         }
 
         .calc-button {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 12px 24px;
             border: none;
-            border-radius: 8px;
+            border-radius: 100px;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
             font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -336,11 +438,12 @@
 
         .calc-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
+            box-shadow: 0 8px 25px rgba(212, 168, 67, 0.3);
         }
 
         .calc-button:disabled {
-            background: #ccc;
+            background: var(--gray-300);
+            color: var(--gray-500);
             cursor: not-allowed;
             transform: none;
         }
@@ -354,7 +457,7 @@
             height: 20px;
             margin: -10px 0 0 -10px;
             border: 2px solid transparent;
-            border-top: 2px solid white;
+            border-top: 2px solid var(--navy-deep);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -367,9 +470,9 @@
         .calc-result {
             margin-top: 1rem;
             padding: 1.5rem;
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-            border: 2px solid #3b82f6;
-            border-radius: 12px;
+            background: var(--sky-soft);
+            border: 2px solid var(--blue-light);
+            border-radius: var(--radius);
             text-align: center;
             display: none;
             animation: slideIn 0.5s ease;
@@ -391,15 +494,16 @@
         }
 
         .result-price {
+            font-family: 'Instrument Serif', serif;
             font-size: 2rem;
-            font-weight: 800;
-            color: #1e3a8a;
+            font-weight: 400;
+            color: var(--navy);
             margin-bottom: 0.5rem;
         }
 
         .result-disclaimer {
             font-size: 0.9rem;
-            color: #666;
+            color: var(--gray-500);
             margin-bottom: 1rem;
         }
 
@@ -411,11 +515,11 @@
         }
 
         .result-cta {
-            background: #10b981;
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 10px 20px;
             border: none;
-            border-radius: 6px;
+            border-radius: 100px;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
@@ -424,12 +528,13 @@
         }
 
         .result-cta:hover {
-            background: #059669;
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 168, 67, 0.3);
         }
 
         .result-cta.messenger {
             background: #0084ff;
+            color: white;
         }
 
         .result-cta.messenger:hover {
@@ -438,7 +543,7 @@
 
         .progress-bar {
             height: 4px;
-            background: #e1e5e9;
+            background: var(--gray-200);
             border-radius: 2px;
             margin: 1rem 0;
             overflow: hidden;
@@ -446,7 +551,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+            background: linear-gradient(90deg, var(--blue), var(--blue-light));
             width: 0%;
             transition: width 0.3s ease;
         }
@@ -461,20 +566,6 @@
             margin-bottom: 3rem;
         }
 
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
         .plans-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -483,21 +574,24 @@
         }
 
         .plan-card {
-            background: white;
-            border-radius: 20px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
             padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
         .plan-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--blue-light);
         }
 
         .plan-card.featured {
-            border: 3px solid #10b981;
+            border: 2px solid var(--gold);
         }
 
         .plan-card.featured::before {
@@ -505,8 +599,8 @@
             position: absolute;
             top: 0;
             right: 0;
-            background: #10b981;
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 8px 20px;
             font-size: 0.8rem;
             font-weight: 600;
@@ -516,7 +610,7 @@
         .plan-icon {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            background: linear-gradient(165deg, var(--navy-deep) 0%, var(--navy) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -527,28 +621,30 @@
         }
 
         .plan-title {
+            font-family: 'Instrument Serif', serif;
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 400;
             margin-bottom: 0.5rem;
-            color: #333;
+            color: var(--gray-800);
         }
 
         .plan-subtitle {
-            color: #666;
+            color: var(--gray-500);
             margin-bottom: 1rem;
             font-size: 0.9rem;
         }
 
         .plan-price {
+            font-family: 'Instrument Serif', serif;
             font-size: 2rem;
-            font-weight: 800;
-            color: #1e3a8a;
+            font-weight: 400;
+            color: var(--navy);
             margin-bottom: 0.5rem;
         }
 
         .plan-price-note {
             font-size: 0.8rem;
-            color: #666;
+            color: var(--gray-500);
             margin-bottom: 1.5rem;
         }
 
@@ -559,10 +655,11 @@
 
         .plan-features li {
             padding: 0.5rem 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--gray-100);
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            color: var(--gray-700);
         }
 
         .plan-features li:last-child {
@@ -570,21 +667,21 @@
         }
 
         .feature-check {
-            color: #10b981;
+            color: var(--green);
             font-weight: bold;
         }
 
         .feature-x {
-            color: #ef4444;
+            color: var(--orange);
             font-weight: bold;
         }
 
         .plan-cta {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 12px 24px;
             border: none;
-            border-radius: 50px;
+            border-radius: 100px;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
@@ -596,12 +693,12 @@
 
         .plan-cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
+            box-shadow: 0 8px 25px rgba(212, 168, 67, 0.3);
         }
 
         /* Comparison Table */
         .comparison-section {
-            background: white;
+            background: var(--gray-50);
             padding: 60px 0;
         }
 
@@ -609,27 +706,84 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 2rem;
-            background: white;
-            border-radius: 15px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
         }
 
         .comparison-table th,
         .comparison-table td {
             padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--gray-100);
         }
 
         .comparison-table th {
-            background: #1e3a8a;
+            background: var(--navy);
             color: white;
             font-weight: 600;
         }
 
         .comparison-table tr:hover {
-            background: #f8f9fa;
+            background: var(--sky-soft);
+        }
+
+        /* Product Links Section */
+        .product-links-section {
+            background: var(--sky-soft);
+            padding: 80px 24px;
+        }
+        .product-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin-top: 40px;
+        }
+        .product-link-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .product-link-card:hover {
+            border-color: var(--blue-light);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        .product-link-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .product-link-name {
+            font-weight: 600;
+            color: var(--navy);
+            font-size: 0.95rem;
+            display: block;
+        }
+        .product-link-desc {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            display: block;
+            margin-top: 2px;
+        }
+        .product-link-arrow {
+            margin-left: auto;
+            color: var(--blue);
+            font-size: 1.2rem;
+            font-weight: 600;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        .product-link-card:hover .product-link-arrow {
+            transform: translateX(4px);
         }
 
         /* Click to Call Button */
@@ -637,14 +791,14 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
+            background: var(--gold);
+            color: var(--navy-deep);
             padding: 15px 20px;
-            border-radius: 50px;
+            border-radius: 100px;
             text-decoration: none;
             font-weight: 600;
             font-size: 1.1rem;
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 8px 25px rgba(212, 168, 67, 0.4);
             z-index: 1000;
             transition: all 0.3s ease;
             display: flex;
@@ -654,12 +808,12 @@
 
         .click-to-call:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+            box-shadow: 0 12px 35px rgba(212, 168, 67, 0.6);
         }
 
         /* Footer */
         footer {
-            background: #333;
+            background: var(--navy-deep);
             color: white;
             padding: 4rem 0 2rem;
         }
@@ -673,8 +827,10 @@
 
         .footer-section h4 {
             margin-bottom: 1rem;
-            color: #3b82f6;
+            color: var(--gold);
+            font-family: 'Instrument Serif', serif;
             font-size: 1.2rem;
+            font-weight: 400;
         }
 
         .footer-section p {
@@ -683,16 +839,17 @@
         }
 
         .footer-section a {
-            color: white;
+            color: var(--gold);
             text-decoration: none;
+            transition: opacity 0.2s ease;
         }
 
         .footer-section a:hover {
-            color: #3b82f6;
+            opacity: 0.8;
         }
 
         .footer-bottom {
-            border-top: 1px solid #555;
+            border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: 2rem;
             text-align: center;
             opacity: 0.8;
@@ -703,23 +860,23 @@
             .hero h1 {
                 font-size: 2rem;
             }
-            
+
             .nav-links {
                 display: none;
             }
-            
+
             .calc-form {
                 grid-template-columns: 1fr;
             }
-            
+
             .plans-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .footer-content {
                 grid-template-columns: 1fr;
             }
-            
+
             .comparison-table {
                 font-size: 0.8rem;
             }
@@ -727,10 +884,25 @@
             .result-cta-group {
                 flex-direction: column;
             }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .product-links-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .compliance-banner {
+                font-size: 0.7rem;
+                padding: 8px 12px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="compliance-banner"><strong>Important:</strong> This is a fixed indemnity insurance product that provides limited benefits. It is <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA. &nbsp;|&nbsp; FL Broker License #W371813</div>
+
     <header>
         <nav class="container">
             <div class="logo-container">
@@ -744,7 +916,7 @@
                         <div class="dot"></div>
                     </div>
                 </button>
-                
+
                 <div class="dropdown-menu" id="dropdownMenu">
                     <div class="menu-item"><a href="/">Home</a></div>
                     <div class="menu-item"><a href="/plans">Health Plans</a></div>
@@ -773,24 +945,24 @@
 
     <section class="hero">
         <div class="container">
-            <h1>Health Insurance Plans That Work</h1>
+            <h1>Health Insurance Plans <em class="serif">That Work</em></h1>
             <p>Real coverage, transparent pricing. See estimated costs upfront with expert guidance every step of the way.</p>
-            
+
             <div style="display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap;">
-                <a href="tel:+18636403102" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.3); color: white; padding: 16px 32px; border-radius: 50px; font-weight: 600; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255, 255, 255, 0.25)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.15)'; this.style.transform='translateY(0)'">
+                <a href="tel:+18636403102" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.2); color: white; padding: 16px 32px; border-radius: 100px; font-weight: 600; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.transform='translateY(0)'">
                     📞 Call David: (863) 640-3102
                 </a>
-                <a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer" style="background: #0084ff; border: 2px solid #0084ff; color: white; padding: 16px 32px; border-radius: 50px; font-weight: 600; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.background='#0066cc'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='#0084ff'; this.style.transform='translateY(0)'">
+                <a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer" style="background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255, 255, 255, 0.2); color: white; padding: 16px 32px; border-radius: 100px; font-weight: 600; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.transform='translateY(0)'">
                     💬 Message David on Facebook
                 </a>
             </div>
-            
+
             <div style="text-align: center; margin-bottom: 1rem;">
-                <a href="sms:+18636403102?body=Hi David! I'm interested in getting a health insurance quote. Can you help?" style="background: #10b981; border: 2px solid #10b981; color: white; padding: 12px 24px; border-radius: 50px; font-weight: 600; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.background='#059669'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='#10b981'; this.style.transform='translateY(0)'">
+                <a href="sms:+18636403102?body=Hi David! I'm interested in getting a health insurance quote. Can you help?" style="background: var(--gold); color: var(--navy-deep); padding: 12px 24px; border-radius: 100px; font-weight: 600; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
                     📱 Text David: (863) 640-3102
                 </a>
             </div>
-            
+
             <div class="price-disclaimer">
                 <strong>2026 Pricing Note:</strong> Estimates reflect 2026 ACA rates and federal poverty levels. Your actual cost depends on age, ZIP code, health status, income, and household size. These estimates assume a Silver-level ACA plan. No medical underwriting—everyone qualifies for comprehensive coverage. Hidden fees don't exist in regulated insurance; what you see is what you pay.
             </div>
@@ -799,21 +971,21 @@
 
     <div class="container">
         <div class="quick-calc">
-            <h3 class="calc-title">2026 Health Insurance Price Estimator</h3>
+            <h3 class="calc-title">2026 Health Insurance <em class="serif">Price Estimator</em></h3>
             <p class="calc-subtitle">📊 Get a realistic estimate in under a minute. No email. No spam. No fluff.</p>
-            <p style="text-align: center; color: #666; font-size: 0.85rem; margin-bottom: 1rem;">Based on 2026 rates, FPL thresholds, and real subsidy calculations</p>
-            
+            <p style="text-align: center; color: var(--gray-500); font-size: 0.85rem; margin-bottom: 1rem;">Based on 2026 rates, FPL thresholds, and real subsidy calculations</p>
+
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            
+
             <form class="calc-form" id="quickCalc">
                 <div class="form-group">
                     <label for="age">
                         <span class="label-icon">👤</span>
                         Your Age
                     </label>
-                    <div id="age-help" style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">(19-64 years old)</div>
+                    <div id="age-help" style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 0.5rem;">(19-64 years old)</div>
                     <input type="number" id="age" name="age" min="19" max="64" placeholder="Enter your exact age" required aria-describedby="age-help">
                 </div>
                 <div class="form-group">
@@ -821,7 +993,7 @@
                         <span class="label-icon">📍</span>
                         ZIP Code
                     </label>
-                    <div style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">(rates vary significantly by county/region)</div>
+                    <div style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 0.5rem;">(rates vary significantly by county/region)</div>
                     <input type="text" id="zipcode" name="zipcode" placeholder="33805" maxlength="5" required aria-describedby="zip-help">
                 </div>
                 <div class="form-group">
@@ -829,7 +1001,7 @@
                         <span class="label-icon">🎯</span>
                         Coverage Type
                     </label>
-                    <div style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">(primary insurance type you need)</div>
+                    <div style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 0.5rem;">(primary insurance type you need)</div>
                     <select id="plantype" name="plantype" required aria-describedby="plantype-help">
                         <option value="">Select Type</option>
                         <option value="aca">🏛️ ACA/Marketplace (most comprehensive)</option>
@@ -844,7 +1016,7 @@
                         <span class="label-icon">👨‍👩‍👧‍👦</span>
                         Household Size
                     </label>
-                    <div id="household-help" style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">(affects subsidy calculations)</div>
+                    <div id="household-help" style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 0.5rem;">(affects subsidy calculations)</div>
                     <select id="household" name="household" aria-describedby="household-help">
                         <option value="">Select Household Size</option>
                         <option value="1">Just me (1 person)</option>
@@ -860,7 +1032,7 @@
                         <span class="label-icon">💰</span>
                         Annual Household Income
                     </label>
-                    <div id="income-help" style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">(determines your subsidies)</div>
+                    <div id="income-help" style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 0.5rem;">(determines your subsidies)</div>
                     <input type="number" id="income" name="income" placeholder="Enter annual household income" aria-describedby="income-help" inputmode="numeric">
                 </div>
                 <button type="submit" class="calc-button" id="calcBtn">
@@ -880,7 +1052,8 @@
     <section class="plans-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Choose Your Coverage Adventure</h2>
+                <div class="section-label">Our Plans</div>
+                <h2 class="section-title">Choose Your Coverage <em class="serif">Adventure</em></h2>
                 <p class="section-subtitle">Each option has pros and cons. We'll tell you both because we're not here to BS you.</p>
             </div>
 
@@ -892,7 +1065,7 @@
                     <p class="plan-subtitle">The "Obamacare" plans everyone loves to hate</p>
                     <div class="plan-price">$200-800<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*After subsidies (if you qualify)</p>
-                    
+
                     <ul class="plan-features">
                         <li><span class="feature-check">✓</span> Can't be denied for pre-existing conditions</li>
                         <li><span class="feature-check">✓</span> Essential health benefits included</li>
@@ -900,7 +1073,7 @@
                         <li><span class="feature-x">✗</span> Limited enrollment periods</li>
                         <li><span class="feature-x">✗</span> Can be expensive without subsidies</li>
                     </ul>
-                    
+
                     <a href="#quote" class="plan-cta">Check ACA Prices</a>
                 </div>
 
@@ -911,7 +1084,7 @@
                     <p class="plan-subtitle">Quick coverage for life transitions</p>
                     <div class="plan-price">$50-300<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*Healthy people only, sorry</p>
-                    
+
                     <ul class="plan-features">
                         <li><span class="feature-check">✓</span> Start coverage immediately</li>
                         <li><span class="feature-check">✓</span> Lower cost for healthy people</li>
@@ -919,7 +1092,7 @@
                         <li><span class="feature-x">✗</span> No pre-existing condition coverage</li>
                         <li><span class="feature-x">✗</span> Limited benefits</li>
                     </ul>
-                    
+
                     <a href="#quote" class="plan-cta">Get Short-Term Quote</a>
                 </div>
 
@@ -930,7 +1103,7 @@
                     <p class="plan-subtitle">Medicare with extras (for the over-65 crowd)</p>
                     <div class="plan-price">$0-200<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*Plus your Medicare Part B premium</p>
-                    
+
                     <ul class="plan-features">
                         <li><span class="feature-check">✓</span> Builds on Medicare coverage</li>
                         <li><span class="feature-check">✓</span> Often includes extras (dental, vision)</li>
@@ -938,7 +1111,7 @@
                         <li><span class="feature-x">✗</span> Network restrictions may apply</li>
                         <li><span class="feature-x">✗</span> Must be 65+ or disabled</li>
                     </ul>
-                    
+
                     <a href="#quote" class="plan-cta">Compare Medicare Advantage</a>
                 </div>
 
@@ -949,7 +1122,7 @@
                     <p class="plan-subtitle">Fill the gaps in Original Medicare</p>
                     <div class="plan-price">$100-400<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*Plus Medicare Part B & D premiums</p>
-                    
+
                     <ul class="plan-features">
                         <li><span class="feature-check">✓</span> Works with any Medicare doctor</li>
                         <li><span class="feature-check">✓</span> Covers Medicare deductibles/coinsurance</li>
@@ -957,7 +1130,7 @@
                         <li><span class="feature-x">✗</span> Higher monthly premiums</li>
                         <li><span class="feature-x">✗</span> Need separate Part D for drugs</li>
                     </ul>
-                    
+
                     <a href="#quote" class="plan-cta">Compare Supplement Plans</a>
                 </div>
 
@@ -968,7 +1141,7 @@
                     <p class="plan-subtitle">Because teeth and eyes matter too</p>
                     <div class="plan-price">$20-80<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*Standalone or add-on coverage</p>
-                    
+
                     <ul class="plan-features">
                         <li><span class="feature-check">✓</span> Routine cleanings covered</li>
                         <li><span class="feature-check">✓</span> Eye exams and glasses</li>
@@ -976,7 +1149,7 @@
                         <li><span class="feature-x">✗</span> Usually has waiting periods</li>
                         <li><span class="feature-x">✗</span> Annual maximums apply</li>
                     </ul>
-                    
+
                     <a href="#quote" class="plan-cta">Add Dental/Vision</a>
                 </div>
 
@@ -987,7 +1160,7 @@
                     <p class="plan-subtitle">For when you're not around to argue about money</p>
                     <div class="plan-price">$15-100<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*Term life, not the expensive stuff</p>
-                    
+
                     <ul class="plan-features">
                         <li><span class="feature-check">✓</span> Protects your family financially</li>
                         <li><span class="feature-check">✓</span> Term life is affordable</li>
@@ -995,7 +1168,7 @@
                         <li><span class="feature-x">✗</span> Requires medical exam usually</li>
                         <li><span class="feature-x">✗</span> Gets expensive as you age</li>
                     </ul>
-                    
+
                     <a href="#quote" class="plan-cta">Calculate Life Insurance</a>
                 </div>
 
@@ -1006,7 +1179,7 @@
                     <p class="plan-subtitle">Critical illness, accident, cancer coverage</p>
                     <div class="plan-price">$25-150<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*Stacks with your main insurance</p>
-                    
+
                     <ul class="plan-features">
                         <li><span class="feature-check">✓</span> Cash payouts for covered events</li>
                         <li><span class="feature-check">✓</span> Use money however you want</li>
@@ -1014,7 +1187,7 @@
                         <li><span class="feature-x">✗</span> Limited to specific conditions</li>
                         <li><span class="feature-x">✗</span> Waiting periods for some benefits</li>
                     </ul>
-                    
+
                     <a href="#quote" class="plan-cta">Add Supplement Coverage</a>
                 </div>
 
@@ -1025,7 +1198,7 @@
                     <p class="plan-subtitle">Keep your employees happy and insured</p>
                     <div class="plan-price">$250-600<span style="font-size: 1rem;">/employee</span></div>
                     <p class="plan-price-note">*Per employee per month</p>
-                    
+
                     <ul class="plan-features">
                         <li><span class="feature-check">✓</span> Group rates (usually better)</li>
                         <li><span class="feature-check">✓</span> Attract better employees</li>
@@ -1057,7 +1230,8 @@
     <section class="comparison-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Complete Plan Comparison</h2>
+                <div class="section-label">Side by Side</div>
+                <h2 class="section-title">Complete Plan <em class="serif">Comparison</em></h2>
                 <p class="section-subtitle">All 9 plan types we offer, with honest pricing and who they're best for.</p>
             </div>
 
@@ -1130,6 +1304,71 @@
         </div>
     </section>
 
+    <!-- Product Pages -->
+    <section class="product-links-section">
+      <div class="container">
+        <div class="section-label">Explore Our Plans</div>
+        <div class="section-title">Learn more about each <em class="serif">plan type</em></div>
+        <p class="section-desc">Dive deeper into the details of each plan with our comprehensive product pages.</p>
+        <div class="product-links-grid">
+          <a href="/health-protector-guard/" class="product-link-card">
+            <span class="product-link-icon">🛡️</span>
+            <span class="product-link-name">Health Protector Guard</span>
+            <span class="product-link-desc">Fixed-benefit plans with UnitedHealthcare network</span>
+            <span class="product-link-arrow">→</span>
+          </a>
+          <a href="/#contact" class="product-link-card">
+            <span class="product-link-icon">🏛️</span>
+            <span class="product-link-name">ACA Marketplace Plans</span>
+            <span class="product-link-desc">Comprehensive coverage with subsidies available</span>
+            <span class="product-link-arrow">→</span>
+          </a>
+          <a href="/#contact" class="product-link-card">
+            <span class="product-link-icon">⚡</span>
+            <span class="product-link-name">Short-Term Medical</span>
+            <span class="product-link-desc">Quick, affordable bridge coverage</span>
+            <span class="product-link-arrow">→</span>
+          </a>
+          <a href="/#contact" class="product-link-card">
+            <span class="product-link-icon">🇺🇸</span>
+            <span class="product-link-name">Medicare Advantage</span>
+            <span class="product-link-desc">All-in-one Medicare coverage with extras</span>
+            <span class="product-link-arrow">→</span>
+          </a>
+          <a href="/#contact" class="product-link-card">
+            <span class="product-link-icon">📋</span>
+            <span class="product-link-name">Medicare Supplement</span>
+            <span class="product-link-desc">Fill the gaps in Original Medicare</span>
+            <span class="product-link-arrow">→</span>
+          </a>
+          <a href="/#contact" class="product-link-card">
+            <span class="product-link-icon">🦷</span>
+            <span class="product-link-name">Dental &amp; Vision</span>
+            <span class="product-link-desc">Standalone dental and vision coverage</span>
+            <span class="product-link-arrow">→</span>
+          </a>
+          <a href="/#contact" class="product-link-card">
+            <span class="product-link-icon">🛡️</span>
+            <span class="product-link-name">Life Insurance</span>
+            <span class="product-link-desc">Term life to protect your family's future</span>
+            <span class="product-link-arrow">→</span>
+          </a>
+          <a href="/#contact" class="product-link-card">
+            <span class="product-link-icon">🩹</span>
+            <span class="product-link-name">Supplement Plans</span>
+            <span class="product-link-desc">Critical illness, accident, and cancer coverage</span>
+            <span class="product-link-arrow">→</span>
+          </a>
+          <a href="/#contact" class="product-link-card">
+            <span class="product-link-icon">💼</span>
+            <span class="product-link-name">Small Business Plans</span>
+            <span class="product-link-desc">Group rates for your employees</span>
+            <span class="product-link-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <footer id="quote">
         <div class="container">
             <div class="footer-content">
@@ -1141,7 +1380,7 @@
                     <p>🕒 Mon-Fri 8AM-8PM EST</p>
                     <p>🕒 Sat 9AM-5PM EST</p>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Service Areas</h4>
                     <p>🏠 Florida Residents</p>
@@ -1150,7 +1389,7 @@
                     <p>👥 Individual & Family Plans</p>
                     <p>😊 Medicare Specialists</p>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Quick Links</h4>
                     <p><a href="/">Home</a></p>
@@ -1161,15 +1400,15 @@
                     <p><a href="/privacy-policy.html">Privacy Policy</a></p>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>&copy; 2026 Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
                 <p style="font-size: 0.8rem; margin-top: 0.5rem;">
-                    FL License #W371813 | Serving most of the United States with honest insurance advice | 
-                    <a href="/privacy-policy.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Privacy Policy</a>
+                    FL License #W371813 | Serving most of the United States with honest insurance advice |
+                    <a href="/privacy-policy.html" style="color: var(--gold); text-decoration: none;">Privacy Policy</a>
                 </p>
                 <p style="margin-top: 1rem;">
-                    <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none; font-weight: 500;">
+                    <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: var(--gold); text-decoration: none; font-weight: 500;">
                         Powered by David the Insurance Dude
                     </a>
                 </p>
@@ -1197,7 +1436,7 @@
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('dropdownMenu');
             const button = document.querySelector('.menu-button');
-            
+
             if (!menu.contains(event.target) && !button.contains(event.target)) {
                 menu.classList.remove('show');
             }
@@ -1211,7 +1450,7 @@
         const incomeGroup = document.getElementById('incomeGroup');
         const householdGroup = document.getElementById('householdGroup');
         const plantypeField = document.getElementById('plantype');
-        
+
         // Show/hide income and household fields based on plan type
         plantypeField.addEventListener('change', function() {
             if (this.value === 'aca') {
@@ -1233,22 +1472,22 @@
             }
             updateProgress();
         });
-        
+
         // Track form completion
         function updateProgress() {
             let fields = ['age', 'zipcode', 'plantype'];
-            
+
             // Add income and household fields if ACA is selected
             if (plantypeField.value === 'aca') {
                 fields.push('income', 'household');
             }
-            
+
             let completed = 0;
-            
+
             fields.forEach(fieldId => {
                 const field = document.getElementById(fieldId);
                 const group = field.closest('.form-group');
-                
+
                 if (field.value) {
                     completed++;
                     group.classList.add('completed');
@@ -1256,10 +1495,10 @@
                     group.classList.remove('completed');
                 }
             });
-            
+
             const progress = (completed / fields.length) * 100;
             progressFill.style.width = progress + '%';
-            
+
             if (completed === fields.length) {
                 calcBtn.disabled = false;
                 btnText.textContent = '🚀 Calculate My Price';
@@ -1268,7 +1507,7 @@
                 btnText.textContent = 'Fill out all fields';
             }
         }
-        
+
         // Add event listeners to form fields
         ['age', 'zipcode', 'plantype', 'income', 'household'].forEach(fieldId => {
             const field = document.getElementById(fieldId);
@@ -1277,17 +1516,17 @@
                 field.addEventListener('input', updateProgress);
             }
         });
-        
+
         // Initialize progress
         updateProgress();
-        
+
         // ZIP code validation
         document.getElementById('zipcode').addEventListener('input', function(e) {
             // Only allow numbers
             e.target.value = e.target.value.replace(/[^0-9]/g, '');
             updateProgress();
         });
-        
+
         // Federal Poverty Level calculation (2026 estimates per HHS guidelines)
         function getFPL(householdSize) {
             const fplBase = {
@@ -1300,60 +1539,60 @@
             };
             return fplBase[householdSize] || 42900; // Default to 6+ if larger
         }
-        
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const age = parseInt(document.getElementById('age').value);
             const plantype = document.getElementById('plantype').value;
             const zipcode = document.getElementById('zipcode').value;
             const income = document.getElementById('income').value ? parseInt(document.getElementById('income').value) : null;
             const household = document.getElementById('household').value ? parseInt(document.getElementById('household').value) : null;
-            
+
             // Debug logging
             console.log('Form submitted:', { age, plantype, zipcode, income, household });
-            
+
             // Validate required fields
             let requiredFields = ['age', 'plantype', 'zipcode'];
             if (plantype === 'aca') {
                 requiredFields.push('income', 'household');
             }
-            
+
             const missingField = requiredFields.find(fieldId => {
                 const fieldValue = document.getElementById(fieldId).value;
                 console.log(`Field ${fieldId}:`, fieldValue);
                 return !fieldValue;
             });
-            
+
             if (missingField) {
                 alert('Come on, fill out all the fields. We promise not to spam you.');
                 return;
             }
-            
+
             // Validate age range
             if (age < 19 || age > 64) {
                 alert('Please enter an age between 19 and 64.');
                 document.getElementById('age').focus();
                 return;
             }
-            
+
             // Validate ZIP code
             if (zipcode.length !== 5) {
                 alert('Please enter a valid 5-digit ZIP code.');
                 document.getElementById('zipcode').focus();
                 return;
             }
-            
+
             // Add loading state
             calcBtn.classList.add('loading');
             btnText.textContent = '';
             calcBtn.disabled = true;
-            
+
             // Simulate API call delay for better UX
             setTimeout(() => {
                 let estimatedCost = 0;
                 let message = '💡 This is a ballpark estimate. Call for your exact price.';
-                
+
                 try {
                     // Simple cost estimation logic (2026 rates)
                     if (plantype === 'aca') {
@@ -1369,11 +1608,11 @@
                         else if (age < 55) baseCost = 695;
                         else if (age < 60) baseCost = 760;
                         else baseCost = 850; // 60-64
-                        
+
                         // Calculate Federal Poverty Level percentage
                         const fpl = getFPL(household);
                         const fplPercent = (income / fpl) * 100;
-                        
+
                         // Apply subsidy logic based on FPL percentage (2026 ACA guidelines)
                         if (fplPercent <= 150) {
                             estimatedCost = Math.max(25, baseCost * 0.02); // 98% subsidy
@@ -1394,12 +1633,12 @@
                             estimatedCost = baseCost; // No subsidies
                             message = '📌 <strong>Above Subsidy Threshold:</strong> You\'ll pay the full ACA rate, but you\'re getting comprehensive coverage with no medical underwriting. That\'s still valuable protection.';
                         }
-                        
+
                         // Add family size context to message
                         if (household >= 4) {
                             message += ` Family of ${household} helps with subsidy thresholds!`;
                         }
-                        
+
                     } else if (plantype === 'short') {
                         if (age < 21) estimatedCost = 70;
                         else if (age < 25) estimatedCost = 78;
@@ -1449,30 +1688,30 @@
                         else estimatedCost = 168; // 60-64
                         message = '🛡️ <strong>Term Life Insurance (2026):</strong> Locks in your rate for 10, 20, or 30 years. Cheap now while you\'re healthy. Wait until 50 and prices triple. Protect your family\'s financial future.';
                     }
-                    
+
                     // Add some randomness to make it feel more realistic
                     estimatedCost += Math.floor(Math.random() * 15) - 7;
                     estimatedCost = Math.round(Math.max(estimatedCost, 10)); // Minimum $10
-                    
+
                     console.log('Calculated cost:', estimatedCost);
-                    
+
                     document.getElementById('estimatedCost').textContent = estimatedCost;
                     document.getElementById('resultMessage').textContent = message;
                     document.getElementById('calcResult').classList.add('show');
-                    
+
                 } catch (error) {
                     console.error('Calculation error:', error);
                     alert('Oops! Something went wrong with the calculation. Just call (863) 640-3102 for a quote.');
                 }
-                
+
                 // Remove loading state
                 calcBtn.classList.remove('loading');
                 btnText.textContent = '🎉 Calculate Another Price';
                 calcBtn.disabled = false;
-                
+
                 // Scroll to result
                 document.getElementById('calcResult').scrollIntoView({ behavior: 'smooth' });
-                
+
             }, 1500); // 1.5 second delay for dramatic effect
         });
 
