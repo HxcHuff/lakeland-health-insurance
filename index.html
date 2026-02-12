@@ -600,6 +600,112 @@
             font-size: 1.5rem;
             margin-bottom: 1rem;
         }
+
+        /* Multi-Step Wizard */
+        .wizard-progress {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        .wizard-step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        .wizard-step-dot.active {
+            background: #1e3a8a;
+            transform: scale(1.3);
+        }
+        .wizard-step-dot.done {
+            background: #10b981;
+        }
+        .wizard-step {
+            display: none;
+            animation: wizardFade 0.3s ease;
+        }
+        .wizard-step.active {
+            display: block;
+        }
+        @keyframes wizardFade {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .wizard-step h3 {
+            font-size: 1.1rem;
+            color: #374151;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+        .coverage-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .coverage-option {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: white;
+        }
+        .coverage-option:hover {
+            border-color: #3b82f6;
+            background: rgba(59,130,246,0.04);
+        }
+        .coverage-option.selected {
+            border-color: #1e3a8a;
+            background: rgba(30,58,138,0.06);
+            box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
+        }
+        .coverage-option .co-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+        .coverage-option .co-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1e3a8a;
+        }
+        .wizard-nav {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        .wizard-nav .wiz-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            border: none;
+        }
+        .wiz-btn-back {
+            background: #f1f5f9;
+            color: #475569;
+        }
+        .wiz-btn-back:hover {
+            background: #e2e8f0;
+        }
+        .wiz-btn-next {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+        }
+        .wiz-btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30,58,138,0.35);
+        }
+        @media (max-width: 768px) {
+            .coverage-grid { grid-template-columns: 1fr; }
+        }
         
         /* Footer */
         footer {
@@ -956,46 +1062,107 @@
             <div class="form-container">
                 <div id="contact-form">
                     <h2>Get Your Free Insurance Consultation</h2>
-                    <p class="subtitle">Tell us a little about yourself and we'll be in touch within 24 hours.</p>
+                    <p class="subtitle">3 quick steps and David will find the right plan for you.</p>
+
+                    <div class="wizard-progress">
+                        <div class="wizard-step-dot active" data-step="1"></div>
+                        <div class="wizard-step-dot" data-step="2"></div>
+                        <div class="wizard-step-dot" data-step="3"></div>
+                    </div>
 
                     <form action="https://formspree.io/f/xwpbvjvw" method="POST" id="insurance-form">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
+                        <!-- Step 1: Coverage Type -->
+                        <div class="wizard-step active" id="wizStep1">
+                            <h3>What type of coverage are you looking for?</h3>
+                            <div class="coverage-grid">
+                                <div class="coverage-option" data-value="individual-health" tabindex="0">
+                                    <div class="co-icon">&#129489;</div>
+                                    <div class="co-label">Individual</div>
+                                </div>
+                                <div class="coverage-option" data-value="family-health" tabindex="0">
+                                    <div class="co-icon">&#128106;</div>
+                                    <div class="co-label">Family</div>
+                                </div>
+                                <div class="coverage-option" data-value="medicare" tabindex="0">
+                                    <div class="co-icon">&#129505;</div>
+                                    <div class="co-label">Medicare</div>
+                                </div>
+                                <div class="coverage-option" data-value="other" tabindex="0">
+                                    <div class="co-icon">&#128736;</div>
+                                    <div class="co-label">Other / Not Sure</div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="interest" name="interest" value="">
+                            <div class="wizard-nav">
+                                <button type="button" class="wiz-btn wiz-btn-next" id="wizNext1" disabled>Next</button>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required autocomplete="tel">
+                        <!-- Step 2: Quick Details -->
+                        <div class="wizard-step" id="wizStep2">
+                            <h3>A couple quick details</h3>
+                            <div class="form-group">
+                                <label for="age-range">Age Range</label>
+                                <select id="age-range" name="age_range">
+                                    <option value="">Select</option>
+                                    <option value="18-25">18-25</option>
+                                    <option value="26-35">26-35</option>
+                                    <option value="36-45">36-45</option>
+                                    <option value="46-55">46-55</option>
+                                    <option value="56-64">56-64</option>
+                                    <option value="65+">65+</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="zip">Florida Zip Code</label>
+                                <input type="text" id="zip" name="zip_code" placeholder="e.g. 33805" maxlength="5" inputmode="numeric" autocomplete="postal-code">
+                            </div>
+                            <div class="form-group">
+                                <label for="coverage-status">Current Coverage</label>
+                                <select id="coverage-status" name="current_coverage">
+                                    <option value="">Select</option>
+                                    <option value="uninsured">No coverage right now</option>
+                                    <option value="employer">Employer plan</option>
+                                    <option value="marketplace">ACA / Marketplace</option>
+                                    <option value="medicare">Medicare</option>
+                                    <option value="cobra">COBRA</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="wizard-nav">
+                                <button type="button" class="wiz-btn wiz-btn-back" id="wizBack2">Back</button>
+                                <button type="button" class="wiz-btn wiz-btn-next" id="wizNext2">Next</button>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email">
+                        <!-- Step 3: Contact Info -->
+                        <div class="wizard-step" id="wizStep3">
+                            <h3>How should David reach you?</h3>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required autocomplete="tel">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email">
+                            </div>
+
+                            <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thank-you">
+                            <input type="hidden" name="_subject" value="New Insurance Consultation Request">
+                            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+                            <div class="wizard-nav">
+                                <button type="button" class="wiz-btn wiz-btn-back" id="wizBack3">Back</button>
+                                <button type="submit" class="wiz-btn wiz-btn-next">Get My Free Quote</button>
+                            </div>
+                            <p class="form-disclaimer">
+                                David will personally reach out within 24 hours. No spam, no pressure.
+                            </p>
                         </div>
-
-                        <div class="form-group">
-                            <label for="interest">I'm interested in...</label>
-                            <select id="interest" name="interest" required>
-                                <option value="">Select an option</option>
-                                <option value="individual-health">Individual Health Insurance</option>
-                                <option value="family-health">Family Health Insurance</option>
-                                <option value="medicare">Medicare</option>
-                                <option value="supplemental">Supplemental Coverage</option>
-                                <option value="other">Other / Not Sure</option>
-                            </select>
-                        </div>
-
-                        <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thank-you">
-                        <input type="hidden" name="_subject" value="New Insurance Consultation Request">
-                        <!-- Honeypot spam protection -->
-                        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-
-                        <button type="submit" class="submit-btn">Request Consultation</button>
-
-                        <p class="form-disclaimer">
-                            David will personally reach out within 24 hours. No spam, no pressure.
-                        </p>
                     </form>
                 </div>
 
@@ -1058,6 +1225,132 @@
         </div>
     </footer>
     
+    <!-- Exit-Intent Popup -->
+    <style>
+        .exit-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .exit-overlay.show { display: flex; }
+        .exit-popup {
+            background: white;
+            border-radius: 20px;
+            max-width: 480px;
+            width: 100%;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .exit-popup-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #94a3b8;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        .exit-popup-close:hover { background: #f1f5f9; color: #333; }
+        .exit-popup h3 {
+            font-size: 1.6rem;
+            color: #1e3a8a;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        .exit-popup p {
+            color: #64748b;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+        .exit-popup .exit-form { text-align: left; }
+        .exit-popup .exit-form input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            margin-bottom: 0.75rem;
+            transition: border-color 0.2s;
+        }
+        .exit-popup .exit-form input:focus {
+            outline: none;
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
+        }
+        .exit-popup .exit-cta {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .exit-popup .exit-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(30,58,138,0.4);
+        }
+        .exit-popup .exit-note {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 0.75rem;
+        }
+        .exit-popup .exit-success {
+            display: none;
+            padding: 1rem 0;
+        }
+        .exit-popup .exit-success h4 {
+            color: #059669;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        .exit-popup .exit-success p { color: #475569; margin-bottom: 0; }
+    </style>
+
+    <div id="exitOverlay" class="exit-overlay" aria-hidden="true">
+        <div class="exit-popup" role="dialog" aria-modal="true">
+            <button class="exit-popup-close" id="exitClose" aria-label="Close popup">&times;</button>
+            <div id="exitFormWrap">
+                <h3>Before you go...</h3>
+                <p>Get our free <strong>Florida Health Insurance Survival Guide</strong> — the no-BS breakdown of what you actually need to know.</p>
+                <form class="exit-form" id="exitForm" action="https://formspree.io/f/xwpbvjvw" method="POST">
+                    <input type="text" name="name" placeholder="Your name" required autocomplete="name">
+                    <input type="email" name="email" placeholder="Your email" required autocomplete="email">
+                    <input type="hidden" name="_subject" value="Exit Popup - Guide Download Request">
+                    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+                    <button type="submit" class="exit-cta">Send Me the Free Guide</button>
+                </form>
+                <p class="exit-note">No spam ever. Just the guide + David's personal follow-up.</p>
+            </div>
+            <div class="exit-success" id="exitSuccess">
+                <h4>Check your inbox!</h4>
+                <p>Your guide is on the way. David will follow up personally.</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Floating Chat Widget (lazy-loads iframe) -->
     <style>
         .chat-widget-button {
@@ -1140,38 +1433,84 @@
     </a>
 
     <script>
-        // Form handling
+        // Multi-Step Wizard Logic
+        (function() {
+            var currentStep = 1;
+            var steps = [null, document.getElementById('wizStep1'), document.getElementById('wizStep2'), document.getElementById('wizStep3')];
+            var dots = document.querySelectorAll('.wizard-step-dot');
+            var interestInput = document.getElementById('interest');
+            var options = document.querySelectorAll('.coverage-option');
+            var nextBtn1 = document.getElementById('wizNext1');
+
+            function goToStep(n) {
+                steps[currentStep].classList.remove('active');
+                steps[currentStep].style.display = 'none';
+                dots[currentStep - 1].classList.remove('active');
+                dots[currentStep - 1].classList.add('done');
+                currentStep = n;
+                steps[currentStep].classList.add('active');
+                steps[currentStep].style.display = 'block';
+                dots[currentStep - 1].classList.add('active');
+                dots[currentStep - 1].classList.remove('done');
+                if (typeof gtag === 'function') {
+                    gtag('event', 'wizard_step', { event_category: 'engagement', event_label: 'step_' + n });
+                }
+            }
+
+            function goBack(n) {
+                steps[currentStep].classList.remove('active');
+                steps[currentStep].style.display = 'none';
+                dots[currentStep - 1].classList.remove('active');
+                currentStep = n;
+                steps[currentStep].classList.add('active');
+                steps[currentStep].style.display = 'block';
+                dots[currentStep - 1].classList.add('active');
+                dots[currentStep - 1].classList.remove('done');
+            }
+
+            // Step 1: Coverage type selection
+            options.forEach(function(opt) {
+                opt.addEventListener('click', function() {
+                    options.forEach(function(o) { o.classList.remove('selected'); });
+                    opt.classList.add('selected');
+                    interestInput.value = opt.getAttribute('data-value');
+                    nextBtn1.disabled = false;
+                });
+                opt.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); opt.click(); }
+                });
+            });
+
+            nextBtn1.addEventListener('click', function() { if (interestInput.value) goToStep(2); });
+            document.getElementById('wizNext2').addEventListener('click', function() { goToStep(3); });
+            document.getElementById('wizBack2').addEventListener('click', function() { goBack(1); });
+            document.getElementById('wizBack3').addEventListener('click', function() { goBack(2); });
+        })();
+
+        // Form submission handling
         document.getElementById('insurance-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const form = e.target;
-            const formData = new FormData(form);
-            const submitBtn = form.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
-            
+
+            var form = e.target;
+            var formData = new FormData(form);
+            var submitBtn = form.querySelector('.wiz-btn-next[type="submit"]');
+            var originalText = submitBtn.textContent;
+
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
-            
+
             fetch(form.action, {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
+                headers: { 'Accept': 'application/json' }
             })
-            .then(response => {
+            .then(function(response) {
                 if (response.ok) {
                     document.getElementById('contact-form').style.display = 'none';
                     document.getElementById('success-message').classList.add('show');
-                    
-                    // Track form submission
                     if (typeof gtag === 'function') {
-                        gtag('event', 'form_submit', {
-                            event_category: 'engagement',
-                            event_label: 'insurance_checkup_form'
-                        });
+                        gtag('event', 'form_submit', { event_category: 'engagement', event_label: 'insurance_checkup_form' });
                     }
-                    // Facebook Pixel lead event
                     if (typeof fbq === 'function') {
                         fbq('track', 'Lead', {content_name: 'insurance_consultation'});
                     }
@@ -1179,11 +1518,10 @@
                     throw new Error('Form submission failed');
                 }
             })
-            .catch(error => {
+            .catch(function() {
                 alert('Something broke. Just call (863) 640-3102 instead.');
-                console.error('Form submission error:', error);
             })
-            .finally(() => {
+            .finally(function() {
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             });
@@ -1191,11 +1529,11 @@
 
         // Auto-format phone number
         document.getElementById('phone').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
+            var value = e.target.value.replace(/\D/g, '');
             if (value.length >= 6) {
-                value = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6,10)}`;
+                value = '(' + value.slice(0,3) + ') ' + value.slice(3,6) + '-' + value.slice(6,10);
             } else if (value.length >= 3) {
-                value = `(${value.slice(0,3)}) ${value.slice(3)}`;
+                value = '(' + value.slice(0,3) + ') ' + value.slice(3);
             }
             e.target.value = value;
         });
@@ -1293,6 +1631,78 @@
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') closeChat();
             });
+        })();
+
+        // Exit-Intent Popup
+        (function() {
+            var shown = false;
+            var exitOverlay = document.getElementById('exitOverlay');
+            var exitClose = document.getElementById('exitClose');
+            var exitForm = document.getElementById('exitForm');
+            var exitFormWrap = document.getElementById('exitFormWrap');
+            var exitSuccess = document.getElementById('exitSuccess');
+
+            function showExit() {
+                if (shown) return;
+                if (sessionStorage.getItem('exit_shown')) return;
+                shown = true;
+                sessionStorage.setItem('exit_shown', '1');
+                exitOverlay.classList.add('show');
+                exitOverlay.setAttribute('aria-hidden', 'false');
+                if (typeof gtag === 'function') {
+                    gtag('event', 'exit_intent_shown', { event_category: 'engagement' });
+                }
+            }
+
+            function hideExit() {
+                exitOverlay.classList.remove('show');
+                exitOverlay.setAttribute('aria-hidden', 'true');
+            }
+
+            // Desktop: mouse leaves viewport toward top
+            document.addEventListener('mouseout', function(e) {
+                if (e.clientY < 5 && e.relatedTarget == null) {
+                    showExit();
+                }
+            });
+
+            // Mobile: trigger after 45 seconds on page
+            if ('ontouchstart' in window) {
+                setTimeout(showExit, 45000);
+            }
+
+            if (exitClose) exitClose.addEventListener('click', hideExit);
+            if (exitOverlay) exitOverlay.addEventListener('click', function(e) {
+                if (e.target === exitOverlay) hideExit();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') hideExit();
+            });
+
+            // Exit form submission
+            if (exitForm) {
+                exitForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    var fd = new FormData(exitForm);
+                    fetch(exitForm.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } })
+                    .then(function(r) {
+                        if (r.ok) {
+                            exitFormWrap.style.display = 'none';
+                            exitSuccess.style.display = 'block';
+                            if (typeof gtag === 'function') {
+                                gtag('event', 'exit_intent_converted', { event_category: 'lead_generation' });
+                            }
+                            if (typeof fbq === 'function') {
+                                fbq('track', 'Lead', { content_name: 'exit_intent_guide' });
+                            }
+                        }
+                    })
+                    .catch(function() {
+                        exitFormWrap.style.display = 'none';
+                        exitSuccess.style.display = 'block';
+                    });
+                });
+            }
         })();
     </script>
 </body>
