@@ -1475,7 +1475,7 @@
         </div>
     </div>
 
-    <!-- Floating Chat Widget (lazy-loads iframe) -->
+    <!-- Floating Chat Widget -->
     <style>
         .chat-widget-button {
             position: fixed;
@@ -1494,52 +1494,9 @@
             transition: all 0.3s ease;
         }
         .chat-widget-button:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(27, 42, 74, 0.35); }
-
-        .chat-widget-overlay {
-            position: fixed;
-            inset: 0;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0,0,0,0.5);
-            z-index: 2001;
-            padding: 20px;
-        }
-        .chat-widget-overlay.show { display: flex; }
-
-        .chat-widget-modal {
-            width: 100%;
-            max-width: 980px;
-            height: 80vh;
-            background: var(--white);
-            border-radius: var(--radius);
-            overflow: hidden;
-            position: relative;
-            box-shadow: var(--shadow-xl);
-        }
-        .chat-widget-close {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(0,0,0,0.05);
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 18px;
-            z-index: 10;
-        }
     </style>
 
     <button id="openChat" class="chat-widget-button" aria-label="Open chat">💬 Chat</button>
-
-    <div id="chatOverlay" class="chat-widget-overlay" aria-hidden="true">
-        <div class="chat-widget-modal" role="dialog" aria-modal="true">
-            <button id="closeChat" class="chat-widget-close" aria-label="Close chat">✕</button>
-            <iframe id="chatIframe" src="" title="Chat" width="100%" height="100%" frameborder="0" loading="lazy"></iframe>
-        </div>
-    </div>
 
     <!-- Floating Action Buttons -->
     <a href="https://m.me/2330958066941437" class="messenger-button" target="_blank" rel="noopener noreferrer" onclick="trackMessengerClick()">
@@ -1746,30 +1703,19 @@
         // Floating chat widget behavior
         (function() {
             const openBtn = document.getElementById('openChat');
-            const closeBtn = document.getElementById('closeChat');
-            const overlay = document.getElementById('chatOverlay');
-            const iframe = document.getElementById('chatIframe');
-            const agentUrl = 'https://www.genspark.ai/agents?type=custom_super_agent&agent_id=eeee3a51-ad35-4269-9aae-e945275e1375';
+            const messengerUrl = 'https://m.me/2330958066941437';
 
             function openChat() {
-                if (!iframe.src) iframe.src = agentUrl;
-                overlay.classList.add('show');
-                overlay.setAttribute('aria-hidden', 'false');
-            }
-
-            function closeChat() {
-                overlay.classList.remove('show');
-                overlay.setAttribute('aria-hidden', 'true');
+                window.open(messengerUrl, '_blank', 'noopener');
+                if (typeof gtag === 'function') {
+                    gtag('event', 'messenger_click', {
+                        event_category: 'engagement',
+                        event_label: 'chat_widget_button'
+                    });
+                }
             }
 
             if (openBtn) openBtn.addEventListener('click', openChat);
-            if (closeBtn) closeBtn.addEventListener('click', closeChat);
-            if (overlay) overlay.addEventListener('click', function(e) {
-                if (e.target === overlay) closeChat();
-            });
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') closeChat();
-            });
         })();
 
         // Exit-Intent Popup
