@@ -324,16 +324,6 @@
             margin: 0 auto 2rem;
         }
 
-        .price-disclaimer {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 1rem;
-            border-radius: var(--radius);
-            margin: 2rem auto 0;
-            max-width: 500px;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
 
         /* Quick Calculator */
         .quick-calc {
@@ -945,6 +935,17 @@
 
     <section class="hero">
         <div class="container">
+            <h1>Health Insurance Plans </h1>
+            <p>Transparent pricing and expert guidance for individuals, families, and businesses across Florida and nationwide.</p>
+
+            <div style="display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap;">
+                <a href="#plans" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.3); color: white; padding: 14px 32px; border-radius: 50px; font-weight: 600; font-size: 1.05rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255, 255, 255, 0.25)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.15)'; this.style.transform='translateY(0)'">
+                    View All Plans
+                </a>
+                <a href="#estimator" style="background: white; border: 2px solid white; color: #1e3a8a; padding: 14px 32px; border-radius: 50px; font-weight: 600; font-size: 1.05rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    Get a Price Estimate
+                </a>
+            </div>
             <h1>Health Insurance Plans <em class="serif">That Work</em></h1>
             <p>Real coverage, transparent pricing. See estimated costs upfront with expert guidance every step of the way.</p>
 
@@ -969,7 +970,7 @@
         </div>
     </section>
 
-    <div class="container">
+    <div class="container" id="estimator">
         <div class="quick-calc">
             <h3 class="calc-title">2026 Health Insurance <em class="serif">Price Estimator</em></h3>
             <p class="calc-subtitle">📊 Get a realistic estimate in under a minute. No email. No spam. No fluff.</p>
@@ -1041,15 +1042,15 @@
             </form>
             <div class="calc-result" id="calcResult">
                 <div class="result-price">$<span id="estimatedCost">0</span>/month</div>
-                <p class="result-disclaimer" id="resultMessage">💡 This is a ballpark estimate. Call for your exact price.</p>
+                <p class="result-disclaimer" id="resultMessage">This is a ballpark estimate. Contact us for your exact rate.</p>
                 <div class="result-cta-group">
-                    <a href="tel:+18636403102" class="result-cta">📞 Get Exact Quote Now</a>
+                    <a href="tel:+18636403102" class="result-cta">Request Exact Quote</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <section class="plans-section">
+    <section class="plans-section" id="plans">
         <div class="container">
             <div class="section-header">
                 <div class="section-label">Our Plans</div>
@@ -1062,7 +1063,7 @@
                 <div class="plan-card featured">
                     <div class="plan-icon">🏛️</div>
                     <h3 class="plan-title">ACA Marketplace Plans</h3>
-                    <p class="plan-subtitle">The "Obamacare" plans everyone loves to hate</p>
+                    <p class="plan-subtitle">Comprehensive coverage through the federal marketplace</p>
                     <div class="plan-price">$200-800<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*After subsidies (if you qualify)</p>
 
@@ -1100,7 +1101,7 @@
                 <div class="plan-card">
                     <div class="plan-icon">🇺🇸</div>
                     <h3 class="plan-title">Medicare Advantage</h3>
-                    <p class="plan-subtitle">Medicare with extras (for the over-65 crowd)</p>
+                    <p class="plan-subtitle">Enhanced Medicare with additional benefits</p>
                     <div class="plan-price">$0-200<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*Plus your Medicare Part B premium</p>
 
@@ -1138,7 +1139,7 @@
                 <div class="plan-card">
                     <div class="plan-icon">🦷</div>
                     <h3 class="plan-title">Dental & Vision</h3>
-                    <p class="plan-subtitle">Because teeth and eyes matter too</p>
+                    <p class="plan-subtitle">Standalone or supplemental coverage for dental and vision care</p>
                     <div class="plan-price">$20-80<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*Standalone or add-on coverage</p>
 
@@ -1157,7 +1158,7 @@
                 <div class="plan-card">
                     <div class="plan-icon">🛡️</div>
                     <h3 class="plan-title">Life Insurance</h3>
-                    <p class="plan-subtitle">For when you're not around to argue about money</p>
+                    <p class="plan-subtitle">Financial protection for your family's future</p>
                     <div class="plan-price">$15-100<span style="font-size: 1rem;">/mo</span></div>
                     <p class="plan-price-note">*Term life, not the expensive stuff</p>
 
@@ -1195,7 +1196,7 @@
                 <div class="plan-card">
                     <div class="plan-icon">💼</div>
                     <h3 class="plan-title">Small Business Plans</h3>
-                    <p class="plan-subtitle">Keep your employees happy and insured</p>
+                    <p class="plan-subtitle">Group health coverage for employers</p>
                     <div class="plan-price">$250-600<span style="font-size: 1rem;">/employee</span></div>
                     <p class="plan-price-note">*Per employee per month</p>
 
@@ -1204,7 +1205,7 @@
                         <li><span class="feature-check">✓</span> Attract better employees</li>
                         <li><span class="feature-check">✓</span> Tax advantages</li>
                         <li><span class="feature-x">✗</span> Minimum participation requirements</li>
-                        <li><span class="feature-x">✗</span> More paperwork (sorry)</li>
+                        <li><span class="feature-x">✗</span> Additional administrative requirements</li>
                     </ul>
 
                     <a href="#quote" class="plan-cta">Get Business Quote</a>
@@ -1271,7 +1272,7 @@
                     </tr>
                     <tr>
                         <td><strong>Dental Insurance</strong></td>
-                        <td>Anyone wanting to protect their smile</td>
+                        <td>Individuals seeking preventive dental care</td>
                         <td>Preventive care covered, major work discounted</td>
                         <td>$20-$50/mo</td>
                     </tr>
@@ -1416,14 +1417,6 @@
         </div>
     </footer>
 
-    <!-- Click to Call Button -->
-    <a href="tel:+18636403102" class="click-to-call">
-        <span>📞</span>
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <span>Call Now: (863) 640-3102</span>
-            <span style="font-size: 0.8rem; opacity: 0.9;">Or message David on Facebook</span>
-        </div>
-    </a>
 
     <script>
         // Ellipses menu toggle function
