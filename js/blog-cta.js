@@ -19,10 +19,10 @@
     var style = document.createElement('style');
     style.textContent = '#stickyCta{position:fixed;bottom:-80px;left:0;right:0;z-index:999;transition:bottom 0.4s ease;pointer-events:none}' +
         '#stickyCta.visible{bottom:0;pointer-events:auto}' +
-        '.sticky-cta-inner{background:linear-gradient(135deg,#1e3a8a,#2563eb);padding:12px 20px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;box-shadow:0 -4px 20px rgba(0,0,0,0.15)}' +
-        '.sticky-cta-text{color:white;font-weight:600;font-size:0.95rem;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif}' +
+        '.sticky-cta-inner{background:linear-gradient(135deg,#1B2A4A,#2563EB);padding:12px 20px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;box-shadow:0 -4px 20px rgba(0,0,0,0.15)}' +
+        '.sticky-cta-text{color:white;font-weight:600;font-size:0.95rem;font-family:DM Sans,-apple-system,BlinkMacSystemFont,sans-serif}' +
         '.sticky-cta-buttons{display:flex;gap:10px;align-items:center}' +
-        '.sticky-cta-call{background:linear-gradient(135deg,#10b981,#059669);color:white;padding:8px 18px;border-radius:50px;text-decoration:none;font-weight:600;font-size:0.9rem;transition:transform 0.2s;font-family:inherit}' +
+        '.sticky-cta-call{background:linear-gradient(135deg,#D4A843,#B8962D);color:white;padding:8px 18px;border-radius:50px;text-decoration:none;font-weight:600;font-size:0.9rem;transition:transform 0.2s;font-family:inherit}' +
         '.sticky-cta-call:hover{transform:translateY(-2px)}' +
         '.sticky-cta-quote{background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.4);color:white;padding:8px 18px;border-radius:50px;text-decoration:none;font-weight:600;font-size:0.9rem;transition:all 0.2s;font-family:inherit}' +
         '.sticky-cta-quote:hover{background:rgba(255,255,255,0.25)}' +
