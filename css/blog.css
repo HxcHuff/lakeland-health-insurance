@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     line-height: 1.6;
     color: #333;
     background: #f8f9fa;
@@ -48,7 +48,7 @@ body {
 .article-card::before {
     content: "";
     display: block;
-    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    background: linear-gradient(135deg, #1B2A4A, #2563EB);
     height: 4px;
     width: 0;
     transition: width 0.4s ease;
