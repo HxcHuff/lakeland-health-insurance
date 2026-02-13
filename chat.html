@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!-- Facebook Pixel -->
     <script>
         !function(f,b,e,v,n,t,s)
@@ -17,39 +18,359 @@
         fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
-    <title>Chat with Us — Lakeland Health Insurance</title>
-    <meta name="description" content="Chat with David the Insurance Dude — get quick answers about plans, Medicare, and quotes.">
+
+    <title>Contact David — Lakeland Health Insurance</title>
+    <meta name="description" content="Chat with David the Insurance Dude — get quick answers about plans, Medicare, and quotes via Messenger or email.">
     <link rel="icon" href="/favicon.ico">
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#1e3a8a">
+    <meta name="theme-color" content="#1B2A4A">
+
+    <!-- Google Fonts: DM Sans + Instrument Serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
     <style>
-        body{font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#f8fafc;color:#111}
-        .container{max-width:1200px;margin:0 auto;padding:20px}
-        header{background:#fff;padding:18px 0;box-shadow:0 4px 12px rgba(0,0,0,0.06);position:sticky;top:0;z-index:50}
-        .brand{font-weight:800;color:#1e3a8a;font-size:1.25rem}
-        nav{display:flex;justify-content:space-between;align-items:center}
-        a.cta{background:linear-gradient(135deg,#1e3a8a,#3b82f6);color:#fff;padding:10px 16px;border-radius:999px;text-decoration:none;font-weight:700}
-        main{padding:28px 0}
-        .hero{max-width:900px;margin:0 auto 20px;text-align:center}
-        .hero h1{font-size:2rem;margin-bottom:8px;color:#1e3a8a}
-        .hero p{color:#475569}
-        .chat-frame{width:100%;height:calc(100vh - 220px);border:0;border-radius:12px;box-shadow:0 20px 60px rgba(2,6,23,0.08)}
-        footer{background:#252525;color:#e6e6e6;padding:28px 0;margin-top:28px;text-align:center}
-        footer a{color:#3b82f6;text-decoration:none}
-        @media(max-width:768px){.chat-frame{height:60vh}}
+        :root {
+            --navy: #1B2A4A;
+            --navy-deep: #0F1A2E;
+            --blue: #2563EB;
+            --blue-light: #3B82F6;
+            --sky: #E8F0FE;
+            --sky-soft: #F0F5FF;
+            --white: #FFFFFF;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-500: #64748B;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+            --gold: #D4A843;
+            --gold-soft: #F5ECD7;
+            --green: #16A34A;
+            --green-soft: #DCFCE7;
+            --messenger-blue: #0084ff;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.65;
+            color: var(--gray-800);
+            background: var(--gray-50);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .serif {
+            font-family: 'Instrument Serif', serif;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .brand-name {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--navy);
+            text-decoration: none;
+            line-height: 1.2;
+        }
+
+        .license-tag {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.7rem;
+            color: var(--green);
+            font-weight: 600;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-800);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--blue);
+        }
+
+        .cta-button {
+            background: var(--gold);
+            color: var(--navy-deep);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(212, 168, 67, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 168, 67, 0.45);
+        }
+
+        /* Main Content */
+        main {
+            padding: 60px 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.5rem;
+            color: var(--navy);
+            margin-bottom: 12px;
+            font-weight: 400;
+        }
+
+        .hero p {
+            color: var(--gray-600);
+            font-size: 1.1rem;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        /* Contact Options Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .contact-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .contact-card h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            color: var(--navy);
+            margin-bottom: 12px;
+            font-weight: 400;
+        }
+
+        .contact-card p {
+            color: var(--gray-600);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* Messenger Button */
+        .messenger-button {
+            background: linear-gradient(135deg, #0084ff, #0063d1);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 8px 20px rgba(0, 132, 255, 0.3);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .messenger-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 132, 255, 0.5);
+        }
+
+        /* Email Form */
+        .email-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        .submit-button {
+            background: var(--navy);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(27, 42, 74, 0.3);
+        }
+
+        .submit-button:hover {
+            background: var(--navy-deep);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(27, 42, 74, 0.4);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            display: none;
+            background: var(--green-soft);
+            color: var(--green);
+            padding: 16px;
+            border-radius: var(--radius);
+            text-align: center;
+            font-weight: 600;
+            margin-top: 16px;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--navy-deep);
+            color: rgba(255, 255, 255, 0.85);
+            padding: 32px 0;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--gold-soft);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
             <nav>
-                <div class="brand"><a href="/" style="text-decoration:none;color:inherit">Lakeland Health Insurance</a></div>
-                <div style="display:flex;gap:12px;align-items:center">
-                    <a href="/blog/">Blog</a>
-                    <a href="/plans/">Plans</a>
-                    <a href="/chat.html">Chat</a>
-                    <a class="cta" href="/">Home</a>
+                <div>
+                    <a href="/" class="brand-name">
+                        Lakeland Health Insurance
+                        <span class="license-tag">Licensed FL Broker</span>
+                    </a>
                 </div>
+                <ul class="nav-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/plans/">Plans</a></li>
+                    <li><a href="/chat.html">Contact</a></li>
+                    <li><a class="cta-button" href="/">Home</a></li>
+                </ul>
             </nav>
         </div>
     </header>
@@ -57,13 +378,66 @@
     <main>
         <div class="container">
             <div class="hero">
-                <h1>Chat with David — Get quick answers</h1>
-                <p>Use this dedicated chat page to ask about plans, Medicare, or to request a quote. David usually replies promptly.</p>
+                <h1>Let's Talk Insurance</h1>
+                <p>Choose your preferred way to connect with David. Whether you need a quick answer or detailed guidance, I'm here to help.</p>
             </div>
 
-            <div style="text-align:center; margin-top:18px;">
-                <p style="font-size:1rem; color:#475569; max-width:720px; margin:0 auto 12px;">This chat opens on the Genspark.ai platform. If the chat does not appear embedded, click the button below to open the chat in a new tab.</p>
-                <a href="https://www.genspark.ai/agents?type=custom_super_agent&agent_id=eeee3a51-ad35-4269-9aae-e945275e1375" target="_blank" rel="noopener" class="cta" style="display:inline-block;" onclick="if(typeof gtag==='function'){try{gtag('event','open_chat',{event_category:'engagement',event_label:'chat_page_cta'});}catch(e){}}">Open Chat (opens in new tab)</a>
+            <div class="contact-grid">
+                <!-- Messenger Card -->
+                <div class="contact-card">
+                    <h2>💬 Message on Messenger</h2>
+                    <p>Get instant responses on Facebook Messenger. Perfect for quick questions about plans, pricing, or coverage options.</p>
+                    <a href="https://m.me/2330958066941437" target="_blank" rel="noopener" class="messenger-button" onclick="if(typeof gtag==='function'){try{gtag('event','messenger_click',{event_category:'engagement',event_label:'chat_page_messenger'});}catch(e){}}">
+                        Open Messenger
+                    </a>
+                </div>
+
+                <!-- Email Form Card -->
+                <div class="contact-card">
+                    <h2>✉️ Send an Email</h2>
+                    <p>Prefer email? Send me a message below and I'll get back to you within 24 hours (usually much faster).</p>
+
+                    <form action="https://formspree.io/f/xwpbvjvw" method="POST" class="email-form" id="contactForm">
+                        <input type="hidden" name="_subject" value="Chat Page Contact Form">
+                        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" required autocomplete="name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" required autocomplete="email">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number (optional)</label>
+                            <input type="tel" id="phone" name="phone" autocomplete="tel">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" name="message" required placeholder="Tell me what you're looking for..."></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-button" id="submitBtn">Send Message</button>
+                    </form>
+
+                    <div class="success-message" id="successMessage">
+                        ✓ Message sent! I'll get back to you soon.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Contact Info -->
+            <div style="text-align: center; margin-top: 40px; padding: 24px; background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);">
+                <p style="color: var(--gray-600); margin-bottom: 12px;">You can also reach me directly:</p>
+                <p style="font-size: 1.1rem; font-weight: 600; color: var(--navy);">
+                    📧 <a href="mailto:dhuff@healthmarkets.com" style="color: var(--blue); text-decoration: none;">dhuff@healthmarkets.com</a>
+                    &nbsp;|&nbsp;
+                    📞 <a href="tel:+18636403102" style="color: var(--blue); text-decoration: none;">863-640-3102</a>
+                </p>
             </div>
         </div>
     </main>
@@ -71,7 +445,38 @@
     <footer>
         <div class="container">
             <p>&copy; 2026 Lakeland Health Insurance — <a href="mailto:dhuff@healthmarkets.com">dhuff@healthmarkets.com</a></p>
+            <p style="font-size: 0.85rem; margin-top: 8px; opacity: 0.8;">Licensed Florida Insurance Broker — Serving Florida and nationwide</p>
         </div>
     </footer>
+
+    <script>
+        // Form submission handling
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', function(e) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+        });
+
+        // Check for Formspree success redirect
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('success')) {
+            successMessage.classList.add('show');
+            form.style.display = 'none';
+
+            // Track conversion
+            if (typeof gtag === 'function') {
+                gtag('event', 'form_submission', {
+                    event_category: 'engagement',
+                    event_label: 'chat_page_email_form'
+                });
+            }
+            if (typeof fbq === 'function') {
+                fbq('track', 'Contact');
+            }
+        }
+    </script>
 </body>
 </html>
