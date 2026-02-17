@@ -125,22 +125,21 @@
             gap: 15px;
         }
 
-        .logo {
+        .brand-name {
             font-family: 'Instrument Serif', serif;
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             font-weight: 400;
             color: var(--navy);
-            text-decoration: none;
+            line-height: 1.2;
         }
 
-        .logo::after {
-            content: "Lakeland";
+        .license-tag {
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.8rem;
-            color: var(--blue);
-            display: block;
-            line-height: 1;
+            font-size: 0.7rem;
+            color: var(--gold);
             font-weight: 600;
+            display: block;
+            margin-top: 2px;
         }
 
         /* Ellipses Menu */
@@ -649,7 +648,10 @@
     <header>
         <nav class="container">
             <div class="logo-container">
-                <a href="/" class="logo">LHI</a>
+                <div class="brand-name">
+                    Lakeland Health Insurance
+                    <span class="license-tag">Licensed FL Broker #W371813</span>
+                </div>
                 <button class="menu-button" onclick="toggleMenu()">
                     <div class="ellipses">
                         <div class="dot"></div>
