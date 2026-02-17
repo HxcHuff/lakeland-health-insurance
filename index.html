@@ -1477,29 +1477,6 @@
         </div>
     </div>
 
-    <!-- Floating Chat Widget -->
-    <style>
-        .chat-widget-button {
-            position: fixed;
-            bottom: 110px;
-            right: 20px;
-            z-index: 2000;
-            background: linear-gradient(165deg, var(--navy-deep), var(--navy));
-            color: white;
-            padding: 14px 18px;
-            border-radius: 999px;
-            box-shadow: 0 10px 30px rgba(27, 42, 74, 0.25);
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            font-family: inherit;
-            transition: all 0.3s ease;
-        }
-        .chat-widget-button:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(27, 42, 74, 0.35); }
-    </style>
-
-    <button id="openChat" class="chat-widget-button" aria-label="Open chat">💬 Chat</button>
-
     <!-- Floating Action Buttons -->
     <a href="https://m.me/2330958066941437" class="messenger-button" target="_blank" rel="noopener noreferrer" onclick="trackMessengerClick()">
         <span class="messenger-icon" aria-hidden="true">💬</span>
@@ -1701,24 +1678,6 @@
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js').catch(function() {});
         }
-
-        // Floating chat widget behavior
-        (function() {
-            const openBtn = document.getElementById('openChat');
-            const messengerUrl = 'https://m.me/2330958066941437';
-
-            function openChat() {
-                window.open(messengerUrl, '_blank', 'noopener');
-                if (typeof gtag === 'function') {
-                    gtag('event', 'messenger_click', {
-                        event_category: 'engagement',
-                        event_label: 'chat_widget_button'
-                    });
-                }
-            }
-
-            if (openBtn) openBtn.addEventListener('click', openChat);
-        })();
 
         // Exit-Intent Popup
         (function() {
