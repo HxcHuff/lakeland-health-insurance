@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /test.html
+Disallow: /offline.html
+Disallow: /thanks.html
+Disallow: /our%20approach/
 
 Sitemap: https://lakelandhealthinsurance.com/sitemap.xml
