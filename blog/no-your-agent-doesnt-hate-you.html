@@ -422,33 +422,71 @@
             margin: 0.25rem 0;
         }
 
+        .related-posts {
+            padding: 80px 0;
+        }
+        .related-posts h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .related-post {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .related-post:hover {
+            transform: translateY(-5px);
+        }
+        .related-post h3 {
+            margin-bottom: 0.5rem;
+            color: #1B2A4A;
+        }
+        .related-post p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .related-post a {
+            color: #2563EB;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
-            
+
             .article-header h1 {
                 font-size: 2rem;
             }
-            
+
             .article-container {
                 padding: 0 15px;
             }
-            
+
             .article-container h2 {
                 font-size: 1.5rem;
             }
-            
+
             .footer-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
-            
+
             .footer-column {
                 text-align: center;
             }
-            
+
             .footer-column ul {
                 display: inline-block;
                 text-align: left;
@@ -616,6 +654,29 @@
             </div>
 
             <p style="text-align: center; margin-top: 2rem;"><strong>Want more straight talk about insurance?</strong> <a href="/#contact" style="color: #1B2A4A;">Subscribe to our newsletter</a> for weekly tips that might save your financial bacon.</p>
+        </div>
+    </section>
+
+    <section class="related-posts">
+        <div class="container">
+            <h2>Related Articles</h2>
+            <div class="related-grid">
+                <div class="related-post">
+                    <h3>5 Critical Health Insurance Mistakes</h3>
+                    <p>Avoid these expensive mistakes that could cost you thousands.</p>
+                    <a href="5-critical-health-insurance-mistakes.html">Read More →</a>
+                </div>
+                <div class="related-post">
+                    <h3>How to Use Health Insurance Without Going Broke</h3>
+                    <p>Your complete survival guide to deductibles, copays, and networks.</p>
+                    <a href="how-to-use-health-insurance-without-going-broke.html">Read More →</a>
+                </div>
+                <div class="related-post">
+                    <h3>Our Approach: How We Fix Broken Health Insurance</h3>
+                    <p>No BS, no disappearing acts, just honest advice for your health and wallet.</p>
+                    <a href="/our-approach.html">Read More →</a>
+                </div>
+            </div>
         </div>
     </section>
 

@@ -317,6 +317,44 @@
             text-align: center;
         }
 
+        .related-posts {
+            padding: 80px 0;
+        }
+        .related-posts h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .related-post {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .related-post:hover {
+            transform: translateY(-5px);
+        }
+        .related-post h3 {
+            margin-bottom: 0.5rem;
+            color: #1B2A4A;
+        }
+        .related-post p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .related-post a {
+            color: #2563EB;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .nav-links {
@@ -509,6 +547,29 @@
                 <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
                     We'll help you find coverage that protects both your health and your bank account—before you need to use either.
                 </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="related-posts">
+        <div class="container">
+            <h2>Related Articles</h2>
+            <div class="related-grid">
+                <div class="related-post">
+                    <h3>How to Budget for Healthcare Costs in 2026</h3>
+                    <p>Real strategies for planning your medical spending this year.</p>
+                    <a href="planning-healthcare-budget-2026.html">Read More →</a>
+                </div>
+                <div class="related-post">
+                    <h3>Out-of-Pocket Maximum Explained</h3>
+                    <p>The most important number in your health insurance policy.</p>
+                    <a href="understanding-out-of-pocket-maximum.html">Read More →</a>
+                </div>
+                <div class="related-post">
+                    <h3>5 Critical Health Insurance Mistakes</h3>
+                    <p>Avoid these expensive mistakes that could cost you thousands.</p>
+                    <a href="5-critical-health-insurance-mistakes.html">Read More →</a>
+                </div>
             </div>
         </div>
     </section>

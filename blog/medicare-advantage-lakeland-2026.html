@@ -351,6 +351,44 @@
             margin-top: 4rem;
         }
 
+        .related-posts {
+            padding: 80px 0;
+        }
+        .related-posts h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .related-post {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .related-post:hover {
+            transform: translateY(-5px);
+        }
+        .related-post h3 {
+            margin-bottom: 0.5rem;
+            color: #1B2A4A;
+        }
+        .related-post p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .related-post a {
+            color: #2563EB;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .nav-links {
@@ -491,6 +529,29 @@
             </div>
         </div>
     </article>
+
+    <section class="related-posts">
+        <div class="container">
+            <h2>Related Articles</h2>
+            <div class="related-grid">
+                <div class="related-post">
+                    <h3>Medicare for Dummies: The No-BS Guide</h3>
+                    <p>Medicare explained without the government jargon. Parts A, B, C, D made simple.</p>
+                    <a href="medicare-for-dummies.html">Read More →</a>
+                </div>
+                <div class="related-post">
+                    <h3>Medicare Advantage vs Medicare Supplement</h3>
+                    <p>The brutal truth about which Medicare option won't leave you broke.</p>
+                    <a href="medicare-advantage-vs-supplement.html">Read More →</a>
+                </div>
+                <div class="related-post">
+                    <h3>Does My Insurance Work at Lakeland Regional?</h3>
+                    <p>Which plans are accepted at Lakeland Regional Health and Watson Clinic in 2026.</p>
+                    <a href="lakeland-regional-watson-clinic-insurance-2026.html">Read More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <div class="container">

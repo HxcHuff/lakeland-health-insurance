@@ -230,16 +230,54 @@
             box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
         }
 
+        .related-posts {
+            padding: 80px 0;
+        }
+        .related-posts h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .related-post {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .related-post:hover {
+            transform: translateY(-5px);
+        }
+        .related-post h3 {
+            margin-bottom: 0.5rem;
+            color: #1B2A4A;
+        }
+        .related-post p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .related-post a {
+            color: #2563EB;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .article-header h1 {
                 font-size: 2rem;
             }
-            
+
             .content-body {
                 padding: 2rem;
             }
-            
+
             .content-body h2 {
                 font-size: 1.5rem;
             }
@@ -402,6 +440,29 @@
             <a href="/#quote" class="cta-button">Get Your Free Quote</a>
         </div>
     </article>
+    <section class="related-posts">
+        <div class="container">
+            <h2>Related Articles</h2>
+            <div class="related-grid">
+                <div class="related-post">
+                    <h3>How to Read Your Insurance Card</h3>
+                    <p>Decode your insurance card like a pro. No panic attacks required.</p>
+                    <a href="how-to-read-insurance-card.html">Read More →</a>
+                </div>
+                <div class="related-post">
+                    <h3>Insurance Denied Your Claim? How to Fight Back</h3>
+                    <p>Step-by-step guide to appealing and overturning insurance denials.</p>
+                    <a href="what-to-do-when-insurance-denies-claim.html">Read More →</a>
+                </div>
+                <div class="related-post">
+                    <h3>Out-of-Pocket Maximum Explained</h3>
+                    <p>The most important number in your health insurance policy.</p>
+                    <a href="understanding-out-of-pocket-maximum.html">Read More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer style="background:#1B2A4A;color:white;text-align:center;padding:2rem 1rem;margin-top:3rem;">
         <p>&copy; <script>document.write(new Date().getFullYear())</script> Lakeland Health Insurance. FL License #W371813</p>
         <p style="margin-top:0.5rem;"><a href="/privacy-policy.html" style="color:#D4A843;">Privacy Policy</a></p>

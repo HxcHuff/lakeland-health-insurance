@@ -383,6 +383,44 @@
             margin-top: 3rem;
         }
 
+        .related-posts {
+            padding: 80px 0;
+        }
+        .related-posts h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .related-post {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .related-post:hover {
+            transform: translateY(-5px);
+        }
+        .related-post h3 {
+            margin-bottom: 0.5rem;
+            color: #1B2A4A;
+        }
+        .related-post p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .related-post a {
+            color: #2563EB;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .nav-links {
@@ -533,6 +571,29 @@
             </p>
         </div>
     </article>
+
+    <section class="related-posts">
+        <div class="container">
+            <h2>Related Articles</h2>
+            <div class="related-grid">
+                <div class="related-post">
+                    <h3>Short-Term Medical Insurance: The Good, Bad, and Ugly</h3>
+                    <p>When short-term coverage makes sense and when it's a terrible idea.</p>
+                    <a href="short-term-medical-guide.html">Read More →</a>
+                </div>
+                <div class="related-post">
+                    <h3>The ACA Subsidy Cliff: Strategic MAGI Management</h3>
+                    <p>Expert analysis of the 400% FPL subsidy cliff and income management tactics.</p>
+                    <a href="aca-subsidy-cliff.html">Read More →</a>
+                </div>
+                <div class="related-post">
+                    <h3>The Pre-Existing Condition Survival Guide</h3>
+                    <p>Navigate health insurance with pre-existing conditions and ACA protections.</p>
+                    <a href="preexisting-condition-guide.html">Read More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <div class="container">
