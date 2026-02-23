@@ -757,8 +757,17 @@
         <p style="font-size: 0.8rem; margin-top: 1rem; text-align: center;"><a href="/privacy-policy.html">Privacy Policy</a></p>
     </div>
 
+    <form name="guide-email-signup" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+        <input type="hidden" name="form-name" value="guide-email-signup">
+        <input type="email" name="email">
+        <input type="text" name="formType">
+        <input type="text" name="source">
+        <input type="text" name="timestamp">
+        <input type="text" name="bot-field">
+    </form>
+
     <script>
-        // Handle email form submissions with Formspree
+        // Handle email form submissions with Netlify Forms
         document.addEventListener('DOMContentLoaded', function() {
             // Handle all email forms
             const emailForms = document.querySelectorAll('.email-form, .mini-form');
@@ -794,13 +803,14 @@
                         }
                     }
                     
-                    // Submit to Formspree
-                    fetch('https://formspree.io/f/xwpbvjvw', {
+                    // Submit to Netlify Forms
+                    fetch('/', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded',
                         },
-                        body: JSON.stringify({
+                        body: new URLSearchParams({
+                            'form-name': 'guide-email-signup',
                             email: email,
                             formType: formType,
                             source: 'Insurance Guide',

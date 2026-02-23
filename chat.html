@@ -411,9 +411,12 @@
                     <h2>✉️ Send an Email</h2>
                     <p>Prefer email? Send me a message below and I'll get back to you within 24 hours (usually much faster).</p>
 
-                    <form action="https://formspree.io/f/xwpbvjvw" method="POST" class="email-form" id="contactForm">
+                    <form name="chat-contact-form" action="/thanks.html" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" class="email-form" id="contactForm">
+                        <input type="hidden" name="form-name" value="chat-contact-form">
+                        <p style="display:none;">
+                            <label>Don't fill this out: <input name="bot-field"></label>
+                        </p>
                         <input type="hidden" name="_subject" value="Chat Page Contact Form">
-                        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
 
                         <div class="form-group">
                             <label for="name">Your Name</label>
@@ -475,7 +478,7 @@
             submitBtn.textContent = 'Sending...';
         });
 
-        // Check for Formspree success redirect
+        // Check for success redirect query flag
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('success')) {
             successMessage.classList.add('show');

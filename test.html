@@ -753,8 +753,17 @@
         <p style="font-size: 0.8rem; margin-top: 1rem; text-align: center;"><a href="/privacy-policy.html">Privacy Policy</a></p>
     </div>
 
+    <form name="insurance-guide-signup" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+        <input type="hidden" name="form-name" value="insurance-guide-signup">
+        <input type="email" name="email">
+        <input type="text" name="formType">
+        <input type="text" name="source">
+        <input type="text" name="timestamp">
+        <input type="text" name="bot-field">
+    </form>
+
     <script>
-        // Handle email form submissions with Formspree
+        // Handle email form submissions through Netlify Forms
         document.addEventListener('DOMContentLoaded', function() {
             // Handle all email forms
             const emailForms = document.querySelectorAll('.email-form, .mini-form');
@@ -790,18 +799,22 @@
                         }
                     }
                     
-                    // Submit to Formspree
-                    fetch('https://formspree.io/f/xwpbvjvw', {
+                    // Submit as URL-encoded payload for Netlify form handling
+                    const payload = new URLSearchParams({
+                        'form-name': 'insurance-guide-signup',
+                        email: email,
+                        formType: formType,
+                        source: 'Insurance Guide',
+                        timestamp: new Date().toISOString(),
+                        'bot-field': ''
+                    });
+
+                    fetch('/', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded',
                         },
-                        body: JSON.stringify({
-                            email: email,
-                            formType: formType,
-                            source: 'Insurance Guide',
-                            timestamp: new Date().toISOString()
-                        })
+                        body: payload.toString()
                     })
                     .then(response => {
                         if (response.ok) {

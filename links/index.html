@@ -970,7 +970,11 @@
                     <h4>Free Insurance Checkup</h4>
                     <p class="subtitle">Find out if you're overpaying or underprotected. Takes 2 minutes.</p>
 
-                    <form action="https://formspree.io/f/xwpbvjvw" method="POST">
+                    <form name="links-checkup-form" action="/thanks.html" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+                        <input type="hidden" name="form-name" value="links-checkup-form">
+                        <p style="display:none;">
+                            <label>Don't fill this out: <input name="bot-field"></label>
+                        </p>
                         <div class="form-group">
                             <input type="text" id="zipCode" name="zipCode" placeholder="Your Zip Code" required>
                         </div>
@@ -1000,8 +1004,7 @@
                             </select>
                         </div>
 
-                        <!-- Hidden Formspree fields -->
-                        <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thanks.html">
+                        <!-- Hidden fields -->
                         <input type="hidden" name="_subject" value="Free Insurance Checkup Request - Links Page">
 
                         <button type="submit" class="submit-btn">Get My Free Checkup</button>
