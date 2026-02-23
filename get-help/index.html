@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Plan-Specific Help | Lakeland Health Insurance</title>
+  <meta name="description" content="Tell us your situation in 3 quick steps and get plan-specific help from David. ACA, Medicare, short-term, and family coverage guidance.">
+  <meta name="keywords" content="health insurance lead form, get plan specific help, Florida ACA help, Lakeland insurance consultation">
+  <link rel="canonical" href="https://lakelandhealthinsurance.com/get-help/">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Get Plan-Specific Help | Lakeland Health Insurance">
+  <meta property="og:description" content="3-step lead form for personalized health insurance guidance.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://lakelandhealthinsurance.com/get-help/">
+  <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Get Plan-Specific Help">
+  <meta name="twitter:description" content="Complete a quick 3-step form and David will follow up personally.">
+  <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('js', new Date());
+    gtag('config', 'G-W45RMKHXV0');
+  </script>
+
+  <style>
+    :root { --navy:#1B2A4A; --gold:#D4A843; --line:#E2E8F0; --bg:#F8FAFC; --card:#FFFFFF; --muted:#64748B; --good:#16A34A; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:'DM Sans',sans-serif; color:#1e293b; background:var(--bg); line-height:1.6; }
+    .container { max-width:760px; margin:0 auto; padding:0 20px; }
+    header { background:#fff; border-bottom:1px solid var(--line); }
+    nav { display:flex; justify-content:space-between; align-items:center; padding:14px 0; gap:10px; flex-wrap:wrap; }
+    nav a { text-decoration:none; color:var(--navy); font-weight:700; }
+    .hero { padding:34px 0 14px; }
+    h1 { margin:0 0 6px; color:var(--navy); font-size:2rem; }
+    .sub { margin:0; color:var(--muted); }
+    .trust { margin-top:10px; color:var(--good); font-weight:600; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin:18px 0 28px; }
+    .progress { display:flex; align-items:center; gap:8px; margin-bottom:14px; }
+    .dot { width:10px; height:10px; border-radius:50%; background:#cbd5e1; }
+    .dot.active { background:var(--gold); }
+    .dot.done { background:var(--good); }
+    .step { display:none; }
+    .step.active { display:block; }
+    h2 { margin:0 0 10px; color:var(--navy); font-size:1.2rem; }
+    .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    @media (max-width:700px){ .row{grid-template-columns:1fr;} }
+    label { display:block; font-weight:600; margin-bottom:5px; font-size:.95rem; }
+    input, select, textarea {
+      width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:10px; font:inherit; background:#fff;
+    }
+    textarea { min-height:90px; resize:vertical; }
+    .help { font-size:.85rem; color:var(--muted); margin-top:5px; }
+    .actions { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:14px; }
+    .btn { border:0; border-radius:10px; padding:12px 16px; font-weight:700; cursor:pointer; text-decoration:none; display:inline-block; }
+    .btn-primary { background:var(--gold); color:#111827; }
+    .btn-secondary { background:#e2e8f0; color:#0f172a; }
+    .alt { margin-top:12px; font-size:.92rem; color:var(--muted); }
+    .alt a { color:var(--navy); font-weight:700; }
+    .note { font-size:.8rem; color:var(--muted); margin-top:10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="/">Lakeland Health Insurance</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Get Plan-Specific Help</h1>
+      <p class="sub">Three quick steps. No fluff. David follows up personally.</p>
+      <p class="trust">Usually responds fast during business hours.</p>
+    </section>
+
+    <section class="card">
+      <form name="plan-help-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm">
+        <input type="hidden" name="form-name" value="plan-help-lead">
+        <p style="display:none;">
+          <label>Don't fill this out: <input name="bot-field"></label>
+        </p>
+        <div class="progress">
+          <div class="dot active" data-step="1"></div>
+          <div class="dot" data-step="2"></div>
+          <div class="dot" data-step="3"></div>
+        </div>
+
+        <div class="step active" id="step1">
+          <h2>Step 1: Basics</h2>
+          <div class="row">
+            <div>
+              <label for="zip">ZIP Code</label>
+              <input id="zip" name="zip_code" type="text" inputmode="numeric" maxlength="5" placeholder="33805" required>
+            </div>
+            <div>
+              <label for="coverage">Coverage Type</label>
+              <select id="coverage" name="coverage_type" required>
+                <option value="">Select one...</option>
+                <option value="ACA Individual/Family">ACA Individual/Family</option>
+                <option value="Medicare">Medicare</option>
+                <option value="Short-Term Medical">Short-Term Medical</option>
+                <option value="Dental/Vision">Dental/Vision</option>
+                <option value="Life Insurance">Life Insurance</option>
+                <option value="Small Business Group">Small Business Group</option>
+                <option value="Not Sure">Not Sure Yet</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="household">Household Size</label>
+            <select id="household" name="household_size" required>
+              <option value="">Select one...</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6+</option>
+            </select>
+          </div>
+          <div class="actions">
+            <span></span>
+            <button class="btn btn-primary" type="button" id="next1">Continue</button>
+          </div>
+        </div>
+
+        <div class="step" id="step2">
+          <h2>Step 2: Your Situation</h2>
+          <div class="row">
+            <div>
+              <label for="current">Current Coverage</label>
+              <select id="current" name="current_coverage_status" required>
+                <option value="">Select one...</option>
+                <option value="No coverage">No coverage</option>
+                <option value="Covered now">Covered now</option>
+                <option value="Coverage ending soon">Coverage ending soon</option>
+                <option value="Not sure">Not sure</option>
+              </select>
+            </div>
+            <div>
+              <label for="renewal">Renewal / Effective Timing</label>
+              <input id="renewal" name="renewal_timing" type="text" placeholder="e.g. next month, Jan 1, ASAP" required>
+            </div>
+          </div>
+          <div>
+            <label for="concern">Main Concern</label>
+            <select id="concern" name="main_concern" required>
+              <option value="">Select one...</option>
+              <option value="Lower monthly premium">Lower monthly premium</option>
+              <option value="Better doctor network">Better doctor network</option>
+              <option value="Lower deductible / out-of-pocket">Lower deductible / out-of-pocket</option>
+              <option value="Prescription coverage">Prescription coverage</option>
+              <option value="Need help understanding options">Need help understanding options</option>
+            </select>
+          </div>
+          <div>
+            <label for="notes">Anything else David should know? (Optional)</label>
+            <textarea id="notes" name="notes" placeholder="Current meds, doctors, budget target, etc."></textarea>
+          </div>
+          <div class="actions">
+            <button class="btn btn-secondary" type="button" id="back2">Back</button>
+            <button class="btn btn-primary" type="button" id="next2">Continue</button>
+          </div>
+        </div>
+
+        <div class="step" id="step3">
+          <h2>Step 3: Contact Details</h2>
+          <div class="row">
+            <div>
+              <label for="name">Full Name</label>
+              <input id="name" name="full_name" type="text" required>
+            </div>
+            <div>
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" required>
+            </div>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required>
+          </div>
+          <div>
+            <label for="consent">
+              <input id="consent" name="consent" type="checkbox" required style="width:auto; margin-right:8px;">I agree to be contacted about plan options.
+            </label>
+          </div>
+
+          <input type="hidden" name="_subject" value="New Lead: Plan-Specific Help Request">
+          <input type="hidden" name="_next" value="https://lakelandhealthinsurance.com/thanks.html">
+          <input type="hidden" name="source_page" value="/get-help/">
+
+          <div class="actions">
+            <button class="btn btn-secondary" type="button" id="back3">Back</button>
+            <button class="btn btn-primary" type="submit">Send My Request</button>
+          </div>
+          <p class="note">Submission is captured by Netlify Forms and should notify dhuff@healthmarkets.com after notification rules are enabled in Netlify.</p>
+        </div>
+      </form>
+
+      <p class="alt">Prefer direct contact? Email <a href="mailto:dhuff@healthmarkets.com">dhuff@healthmarkets.com</a> or call <a href="tel:+18636403102">(863) 640-3102</a>.</p>
+    </section>
+  </main>
+
+  <script>
+    (function() {
+      const steps = [document.getElementById('step1'), document.getElementById('step2'), document.getElementById('step3')];
+      const dots = document.querySelectorAll('.dot');
+      let current = 0;
+
+      function showStep(index) {
+        steps.forEach((s, i) => s.classList.toggle('active', i === index));
+        dots.forEach((d, i) => {
+          d.classList.remove('active', 'done');
+          if (i < index) d.classList.add('done');
+          if (i === index) d.classList.add('active');
+        });
+        current = index;
+      }
+
+      function validFields(ids) {
+        for (const id of ids) {
+          const el = document.getElementById(id);
+          if (!el.checkValidity()) {
+            el.reportValidity();
+            return false;
+          }
+        }
+        return true;
+      }
+
+      document.getElementById('next1').addEventListener('click', () => {
+        const zip = document.getElementById('zip').value.trim();
+        if (!validFields(['zip', 'coverage', 'household'])) return;
+        if (!/^\d{5}$/.test(zip)) {
+          document.getElementById('zip').setCustomValidity('Enter a valid 5-digit ZIP code.');
+          document.getElementById('zip').reportValidity();
+          return;
+        }
+        document.getElementById('zip').setCustomValidity('');
+        if (typeof gtag === 'function') gtag('event', 'lead_step_1_complete');
+        showStep(1);
+      });
+
+      document.getElementById('back2').addEventListener('click', () => showStep(0));
+      document.getElementById('next2').addEventListener('click', () => {
+        if (!validFields(['current', 'renewal', 'concern'])) return;
+        if (typeof gtag === 'function') gtag('event', 'lead_step_2_complete');
+        showStep(2);
+      });
+
+      document.getElementById('back3').addEventListener('click', () => showStep(1));
+      document.getElementById('leadForm').addEventListener('submit', () => {
+        if (typeof gtag === 'function') gtag('event', 'lead_submit');
+      });
+    })();
+  </script>
+</body>
+</html>
