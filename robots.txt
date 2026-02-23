@@ -2,7 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /test.html
 Disallow: /offline.html
-Disallow: /thanks.html
-Disallow: /our%20approach/
+Disallow: /health-protector-guard/nav-snippet.html
 
 Sitemap: https://lakelandhealthinsurance.com/sitemap.xml
