@@ -126,6 +126,46 @@
       border-radius: 12px;
       padding: 13px 20px;
     }
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .hero-cta-row .btn-primary { margin-top: 0; }
+    .hero-cta-row a {
+      width: 210px;
+      height: 54px;
+      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.2;
+    }
+    .btn-secondary {
+      display: inline-block;
+      border: 1px solid var(--gold);
+      color: #0F172A;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 12px;
+      padding: 12px 18px;
+      background: var(--gold);
+    }
+    .explore-strip {
+      margin-top: 10px;
+      border-left: 2px solid var(--gold);
+      background: rgba(255, 255, 255, 0.08);
+      padding: 11px 14px;
+      border-radius: 8px;
+      max-width: 760px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.96rem;
+    }
+    .explore-strip a {
+      color: #fff;
+      text-underline-offset: 2px;
+    }
 
     section { padding: 34px 0; }
     .card {
@@ -170,6 +210,7 @@
       .grid { grid-template-columns: 1fr; }
       .hero { padding: 44px 0 36px; }
       .card, .form-wrap { padding: 16px; }
+      .hero-cta-row a { width: 100%; text-align: center; }
     }
     label {
       display: block;
@@ -219,7 +260,17 @@
         <p>I help working professionals enroll in Affordable Care Act (ACA) Marketplace coverage with clarity, compliance, and long-term stability.</p>
         <p>No hype. No guesswork. Just structured enrollment.</p>
         <p>Licensed. Local. Accountable.</p>
-        <a class="btn-primary" href="#eligibility-form">Check My Eligibility</a>
+        <div class="hero-cta-row">
+          <a class="btn-primary" href="#eligibility-form">Check My Eligibility</a>
+          <a class="btn-secondary" href="/carriers/aca-florida-2026/">Compare ACA Plans</a>
+          <a class="btn-secondary" href="/blog/florida-aca-enrollment-and-benefits-2026.html">Read 2026 ACA Guide</a>
+        </div>
+        <p class="explore-strip">
+          Not ready to submit yet? Start with
+          <a href="/carriers/aca-florida-2026/">carrier plan comparisons</a>
+          or the
+          <a href="/blog/florida-aca-enrollment-and-benefits-2026.html">Florida ACA enrollment guide</a>.
+        </p>
       </div>
     </section>
 
