@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Get Plan-Specific Help | Lakeland Health Insurance</title>
   <meta name="description" content="Tell us your situation in 3 quick steps and get plan-specific help from David. ACA, Medicare, short-term, and family coverage guidance.">
   <meta name="keywords" content="health insurance lead form, get plan specific help, Florida ACA help, Lakeland insurance consultation">
@@ -26,6 +26,21 @@
     gtag('js', new Date());
     gtag('config', 'G-W45RMKHXV0');
   </script>
+
+  <!-- Facebook Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1822900971216472');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
 
   <style>
     :root { --navy:#1B2A4A; --gold:#D4A843; --line:#E2E8F0; --bg:#F8FAFC; --card:#FFFFFF; --muted:#64748B; --good:#16A34A; }
@@ -62,6 +77,43 @@
     .alt { margin-top:12px; font-size:.92rem; color:var(--muted); }
     .alt a { color:var(--navy); font-weight:700; }
     .note { font-size:.8rem; color:var(--muted); margin-top:10px; }
+  
+/* LHI Header Standardization Override */
+header .brand-name,
+header .logo {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #1B2A4A) !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+}
+
+header .license-tag,
+header .logo::after {
+  content: 'Licensed FL Broker #W371813' !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: var(--gold, #D4A843) !important;
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+header .nav-links a {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+header .cta-button {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
   </style>
 </head>
 <body>
@@ -254,6 +306,7 @@
       document.getElementById('back3').addEventListener('click', () => showStep(1));
       document.getElementById('leadForm').addEventListener('submit', () => {
         if (typeof gtag === 'function') gtag('event', 'lead_submit');
+        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'get_help_form' });
       });
     })();
   </script>

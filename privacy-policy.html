@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
 <script>
@@ -23,8 +24,7 @@
         fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy | Lakeland Health Insurance</title>
     <meta name="description" content="Privacy Policy for Lakeland Health Insurance - How we collect, use, and protect your personal information. Updated for 2026 compliance.">
     <link rel="canonical" href="https://lakelandhealthinsurance.com/privacy-policy.html">
@@ -91,7 +91,7 @@
         }
 
         .logo::after {
-            content: "Lakeland";
+            content: "Licensed FL Broker #W371813";
             font-size: 0.8rem;
             color: #D4A843;
             display: block;
@@ -214,12 +214,49 @@
                 font-size: 2rem;
             }
         }
-    </style>
+    
+/* LHI Header Standardization Override */
+header .brand-name,
+header .logo {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #1B2A4A) !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+}
+
+header .license-tag,
+header .logo::after {
+  content: 'Licensed FL Broker #W371813' !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: var(--gold, #D4A843) !important;
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+header .nav-links a {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+header .cta-button {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+  </style>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo">LHI</div>
+            <div class="logo">Lakeland Health Insurance</div>
             <a href="/" class="back-home">&larr; Back to Home</a>
         </nav>
     </header>

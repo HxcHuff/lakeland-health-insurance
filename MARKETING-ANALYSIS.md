@@ -34,7 +34,7 @@
 - **Clean visual design** — Professional gradient scheme, glassmorphism header, responsive layout
 - **GA4 + Facebook Pixel tracking** — Events properly configured for form submissions, calls, messenger clicks
 - **Schema.org markup** — InsuranceAgency structured data on key pages
-- **Lead magnet exists** — "Florida Health Insurance Survival Guide" PDF
+- **Lead magnet exists** — "Florida Health Insurance Guide" PDF
 - **Formspree form** working with auto-format phone and success tracking
 
 ### Critical Gaps Identified
@@ -349,7 +349,7 @@ Your current InsuranceAgency schema is basic. Enhance it:
 
 When a visitor moves to close the tab, show:
 > **"Wait — before you go..."**
-> Download our free Florida Health Insurance Survival Guide.
+> Download our free Florida Health Insurance Guide.
 > [Name] [Email] [Send Me the Guide]
 
 Implementation: Pure JavaScript (no library needed). Track with GA4 event `exit_intent_shown` and `exit_intent_converted`.
@@ -534,7 +534,7 @@ Your existing 25 articles are strong but missing key topics for Florida dominanc
 Add a **lead magnet download** to every blog post:
 - ACA articles → "ACA Subsidy Calculator Cheat Sheet" (PDF)
 - Medicare articles → "Medicare Enrollment Checklist" (PDF)
-- General articles → "Florida Health Insurance Survival Guide" (existing PDF)
+- General articles → "Florida Health Insurance Guide" (existing PDF)
 
 Currently your blog posts have no conversion mechanism beyond the main nav link.
 

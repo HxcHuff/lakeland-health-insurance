@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
 <script>
@@ -48,8 +49,7 @@
       }
     }
     </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medicare for Dummies: The No-BS Guide to Not Screwing This Up | Lakeland Health Insurance</title>
     <meta name="description" content="Finally, someone explains Medicare without the government jargon. Learn Parts A, B, C, D and how to avoid the most expensive mistakes people make at 65.">
     <meta name="keywords" content="Medicare explained simply, Medicare Parts A B C D, Medicare for beginners, Medicare mistakes to avoid">
@@ -123,7 +123,7 @@
         }
 
         .logo::after {
-            content: "Lakeland";
+            content: "Licensed FL Broker #W371813";
             font-size: 0.8rem;
             color: #D4A843;
             display: block;
@@ -463,14 +463,51 @@
                 align-items: center;
             }
         }
-    </style>
+    
+/* LHI Header Standardization Override */
+header .brand-name,
+header .logo {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #1B2A4A) !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+}
+
+header .license-tag,
+header .logo::after {
+  content: 'Licensed FL Broker #W371813' !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: var(--gold, #D4A843) !important;
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+header .nav-links a {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+header .cta-button {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+  </style>
 </head>
 <body>
     <header>
         <nav>
             <div class="logo-container">
                 <a href="/" style="text-decoration: none;">
-                    <div class="logo">LHI</div>
+                    <div class="logo">Lakeland Health Insurance</div>
                 </a>
             </div>
             <ul class="nav-links">
@@ -666,17 +703,17 @@
                 <div class="related-post">
                     <h3>Medicare Advantage vs Medicare Supplement</h3>
                     <p>The brutal truth about which Medicare option won't leave you broke.</p>
-                    <a href="medicare-advantage-vs-supplement.html">Read More →</a>
+                    <a href="medicare-advantage-vs-supplement.html">Read More &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>2026 Medicare Advantage Plans in Lakeland</h3>
                     <p>Compare 91 Medicare Advantage plans available in Polk County.</p>
-                    <a href="medicare-advantage-lakeland-2026.html">Read More →</a>
+                    <a href="medicare-advantage-lakeland-2026.html">Read More &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>5 Critical Health Insurance Mistakes</h3>
                     <p>Avoid these expensive mistakes that could cost you thousands.</p>
-                    <a href="5-critical-health-insurance-mistakes.html">Read More →</a>
+                    <a href="5-critical-health-insurance-mistakes.html">Read More &rarr;</a>
                 </div>
             </div>
         </div>
@@ -693,7 +730,7 @@
 
     <!-- Click to Call Button -->
     <a href="tel:+18636403102" class="click-to-call">
-        <span>📞</span>
+        <span>&#128222;</span>
         Call Now: (863) 640-3102
     </a>
     <script src="/js/blog-cta.js" defer></script>

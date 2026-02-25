@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health Insurance Without the Runaround | Lakeland Health Insurance</title>
     <meta name="description" content="Finally, an insurance agent who speaks human. No BS advice on health insurance that actually works for real people. Serving Florida and nationwide.">
     <meta name="google-site-verification" content="Sitwkhl-IJxkcjYluwgCR5XgzQacova8H-DDb4_HiDM" />
@@ -217,7 +217,7 @@
         .license-tag {
             font-family: 'DM Sans', sans-serif;
             font-size: 0.7rem;
-            color: var(--green);
+            color: var(--gold);
             font-weight: 600;
             display: block;
             margin-top: 2px;
@@ -1053,7 +1053,44 @@
         @media (max-width: 768px) {
             .testimonial-grid { grid-template-columns: 1fr; }
         }
-    </style>
+    
+/* LHI Header Standardization Override */
+header .brand-name,
+header .logo {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #1B2A4A) !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+}
+
+header .license-tag,
+header .logo::after {
+  content: 'Licensed FL Broker #W371813' !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: var(--gold, #D4A843) !important;
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+header .nav-links a {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+header .cta-button {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+  </style>
 </head>
 <body>
     <div class="compliance-banner">
@@ -1086,7 +1123,7 @@
                 </div>
             </div>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li><a href="/plans/">Health Plans</a></li>
                 <li><a href="/blog/">Blog</a></li>
                 <li><a href="/about">About</a></li>
@@ -1112,8 +1149,19 @@
     <section class="health-plans" id="plans">
         <div class="container">
             <p class="section-label" style="text-align:center;">Coverage Options</p>
-            <h2>Our Plans</h2>
-            <p class="subtitle">We offer 8 types of coverage: ACA Health Plans, Medicare Advantage, Medicare Supplement, Short-Term Medical, Dental, Vision, Life Insurance, and Health Protector Guard.</p>
+            <h2>Our Coverage Options in Lakeland &amp; Polk County</h2>
+            <p class="subtitle">Lakeland Health Insurance provides structured enrollment guidance for a full range of health coverage options serving Lakeland and surrounding Polk County communities.</p>
+            <p class="subtitle" style="margin-top:8px; margin-bottom:8px;">Our services include:</p>
+            <ul class="subtitle" style="max-width:900px; margin:0 auto 16px; text-align:left; list-style-position:outside; padding-left:22px;">
+                <li>ACA Marketplace Health Insurance Plans for individuals and families</li>
+                <li>Medicare Advantage Plans (Part C)</li>
+                <li>Medicare Supplement (Medigap) Plans</li>
+                <li>TriTerm Medical Insurance Plans (extended-duration short-term coverage options)</li>
+                <li>Short-Term Medical Coverage</li>
+                <li>Dental and Vision Insurance</li>
+                <li>Life Insurance Solutions</li>
+                <li>Health Protector Guard &amp; Supplemental Coverage</li>
+            </ul>
 
             <div class="plans-cta">
                 <a href="/plans/" class="cta-button">View Comparison Chart</a>
@@ -1190,118 +1238,14 @@
             <div class="form-container">
                 <div id="contact-form">
                     <p class="section-label">Get Started</p>
-                    <h2>Get Your Free Insurance Consultation</h2>
-                    <p class="subtitle">3 quick steps and David will find the right plan for you.</p>
-
-                    <div class="wizard-progress">
-                        <div class="wizard-step-dot active" data-step="1"></div>
-                        <div class="wizard-step-dot" data-step="2"></div>
-                        <div class="wizard-step-dot" data-step="3"></div>
+                    <h2>Need Plan-Specific Help?</h2>
+                    <p class="subtitle">Use the structured lead form so everything stays in one place and follow-up stays fast.</p>
+                    <div class="wizard-nav" style="justify-content: center; margin-top: 1.5rem;">
+                        <a class="btn btn-primary" href="/get-help/">Go to Structured Help Form</a>
                     </div>
-
-                    <form name="home-insurance-form" action="/thanks.html" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="insurance-form">
-                        <input type="hidden" name="form-name" value="home-insurance-form">
-                        <p style="display:none;">
-                            <label>Don't fill this out: <input name="bot-field"></label>
-                        </p>
-                        <!-- Step 1: Coverage Type -->
-                        <div class="wizard-step active" id="wizStep1">
-                            <h3>What type of coverage are you looking for?</h3>
-                            <div class="coverage-grid">
-                                <div class="coverage-option" data-value="individual-health" tabindex="0">
-                                    <div class="co-icon">&#129489;</div>
-                                    <div class="co-label">Individual</div>
-                                </div>
-                                <div class="coverage-option" data-value="family-health" tabindex="0">
-                                    <div class="co-icon">&#128106;</div>
-                                    <div class="co-label">Family</div>
-                                </div>
-                                <div class="coverage-option" data-value="medicare" tabindex="0">
-                                    <div class="co-icon">&#129505;</div>
-                                    <div class="co-label">Medicare</div>
-                                </div>
-                                <div class="coverage-option" data-value="other" tabindex="0">
-                                    <div class="co-icon">&#128736;</div>
-                                    <div class="co-label">HPG / Other</div>
-                                </div>
-                            </div>
-                            <p class="coverage-hint" id="coverageHint" aria-live="polite">Select your coverage type to continue</p>
-                            <input type="hidden" id="interest" name="interest" value="">
-                            <div class="wizard-nav">
-                                <button type="button" class="wiz-btn wiz-btn-next" id="wizNext1" disabled>Next</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 2: Quick Details -->
-                        <div class="wizard-step" id="wizStep2">
-                            <h3>A couple quick details</h3>
-                            <div class="form-group">
-                                <label for="age-range">Age Range</label>
-                                <select id="age-range" name="age_range">
-                                    <option value="">Select</option>
-                                    <option value="18-25">18-25</option>
-                                    <option value="26-35">26-35</option>
-                                    <option value="36-45">36-45</option>
-                                    <option value="46-55">46-55</option>
-                                    <option value="56-64">56-64</option>
-                                    <option value="65+">65+</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="zip">Zip Code</label>
-                                <input type="text" id="zip" name="zip_code" placeholder="e.g. 33805" maxlength="5" inputmode="numeric" autocomplete="postal-code">
-                            </div>
-                            <div class="form-group">
-                                <label for="coverage-status">Current Coverage</label>
-                                <select id="coverage-status" name="current_coverage">
-                                    <option value="">Select</option>
-                                    <option value="uninsured">No coverage right now</option>
-                                    <option value="employer">Employer plan</option>
-                                    <option value="marketplace">ACA / Marketplace</option>
-                                    <option value="medicare">Medicare</option>
-                                    <option value="cobra">COBRA</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <div class="wizard-nav">
-                                <button type="button" class="wiz-btn wiz-btn-back" id="wizBack2">Back</button>
-                                <button type="button" class="wiz-btn wiz-btn-next" id="wizNext2">Next</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 3: Contact Info -->
-                        <div class="wizard-step" id="wizStep3">
-                            <h3>How should David reach you?</h3>
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone</label>
-                                <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required autocomplete="tel">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email">
-                            </div>
-
-                            <input type="hidden" name="_subject" value="New Insurance Consultation Request">
-
-                            <div class="wizard-nav">
-                                <button type="button" class="wiz-btn wiz-btn-back" id="wizBack3">Back</button>
-                                <button type="submit" class="wiz-btn wiz-btn-next">See My Plan Options</button>
-                            </div>
-                            <p class="form-disclaimer">
-                                David will personally reach out within 24 hours. No spam, no pressure.
-                            </p>
-                        </div>
-                    </form>
-                </div>
-
-                <div id="success-message" class="success-message">
-                    <h3>Thank You!</h3>
-                    <p>David will be in touch within 24 hours.</p>
-                    <p style="margin-top: 1rem;">Need immediate help? Call <strong>(863) 640-3102</strong></p>
+                    <p class="form-disclaimer" style="text-align: center; margin-top: 1rem;">
+                        For paid traffic, the dedicated ACA landing page also routes to the same process.
+                    </p>
                 </div>
             </div>
         </div>
@@ -1313,9 +1257,9 @@
                 <div class="footer-column">
                     <h3>Contact David</h3>
                     <ul>
-                        <li><a href="tel:+18636403102"><span aria-hidden="true">📞</span> (863) 640-3102</a></li>
+                        <li><a href="tel:+18636403102"><span aria-hidden="true">&#128222;</span> (863) 640-3102</a></li>
                         <li><a href="mailto:dhuff@healthmarkets.com"><span aria-hidden="true">📧</span> dhuff@healthmarkets.com</a></li>
-                        <li><a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">💬</span> David the Insurance Dude</a></li>
+                        <li><a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
                         <li><span aria-hidden="true">📍</span> Central Florida Headquarters</li>
                         <li><span aria-hidden="true">⏰</span> Mon-Fri 8AM-8PM EST</li>
                         <li><span aria-hidden="true">⏰</span> Sat 9AM-5PM EST</li>
@@ -1334,7 +1278,7 @@
                 <div class="footer-column">
                     <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="#home">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li><a href="/plans/">Insurance Plans</a></li>
                         <li><a href="/health-protector-guard/">Health Protector Guard</a></li>
                         <li><a href="/blog/">Blog</a></li>
@@ -1357,10 +1301,9 @@
         </div>
     </footer>
 
-
     <!-- Floating Action Buttons -->
     <a href="https://m.me/2330958066941437" class="messenger-button" target="_blank" rel="noopener noreferrer" onclick="trackMessengerClick()">
-        <span class="messenger-icon" aria-hidden="true">💬</span>
+        <span class="messenger-icon" aria-hidden="true">&#128172;</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <span>Message David</span>
             <span style="font-size: 0.8rem; opacity: 0.9;">Usually replies fast</span>
@@ -1368,7 +1311,7 @@
     </a>
 
     <a href="tel:+18636403102" class="click-to-call" onclick="trackPhoneCall()">
-        <span class="phone-icon" aria-hidden="true">📞</span>
+        <span class="phone-icon" aria-hidden="true">&#128222;</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <span>Call: (863) 640-3102</span>
             <span style="font-size: 0.8rem; opacity: 0.9;">David answers personally</span>
@@ -1376,96 +1319,8 @@
     </a>
 
     <script>
-        // Multi-Step Wizard Logic
-        (function() {
-            var currentStep = 1;
-            var steps = [null, document.getElementById('wizStep1'), document.getElementById('wizStep2'), document.getElementById('wizStep3')];
-            var dots = document.querySelectorAll('.wizard-step-dot');
-            var interestInput = document.getElementById('interest');
-            var options = document.querySelectorAll('.coverage-option');
-            var nextBtn1 = document.getElementById('wizNext1');
-
-            function goToStep(n) {
-                steps[currentStep].classList.remove('active');
-                steps[currentStep].style.display = 'none';
-                dots[currentStep - 1].classList.remove('active');
-                dots[currentStep - 1].classList.add('done');
-                currentStep = n;
-                steps[currentStep].classList.add('active');
-                steps[currentStep].style.display = 'block';
-                dots[currentStep - 1].classList.add('active');
-                dots[currentStep - 1].classList.remove('done');
-                if (typeof gtag === 'function') {
-                    gtag('event', 'wizard_step', { event_category: 'engagement', event_label: 'step_' + n });
-                }
-            }
-
-            function goBack(n) {
-                steps[currentStep].classList.remove('active');
-                steps[currentStep].style.display = 'none';
-                dots[currentStep - 1].classList.remove('active');
-                currentStep = n;
-                steps[currentStep].classList.add('active');
-                steps[currentStep].style.display = 'block';
-                dots[currentStep - 1].classList.add('active');
-                dots[currentStep - 1].classList.remove('done');
-                // Restore Step 1 button state when going back
-                if (n === 1 && interestInput.value) {
-                    nextBtn1.disabled = false;
-                }
-            }
-
-            // Step 1: Coverage type selection (auto-advance after selection)
-            var coverageHint = document.getElementById('coverageHint');
-            var autoAdvanceTimeout = null;
-            options.forEach(function(opt) {
-                opt.addEventListener('click', function() {
-                    if (autoAdvanceTimeout) { clearTimeout(autoAdvanceTimeout); autoAdvanceTimeout = null; }
-                    options.forEach(function(o) { o.classList.remove('selected'); });
-                    opt.classList.add('selected');
-                    interestInput.value = opt.getAttribute('data-value');
-                    nextBtn1.disabled = false;
-                    if (coverageHint) coverageHint.classList.add('hidden');
-                    // Auto-advance to Step 2 after brief visual feedback
-                    autoAdvanceTimeout = setTimeout(function() { goToStep(2); autoAdvanceTimeout = null; }, 350);
-                });
-                opt.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); opt.click(); }
-                });
-            });
-
-            nextBtn1.addEventListener('click', function() {
-                if (autoAdvanceTimeout) { clearTimeout(autoAdvanceTimeout); autoAdvanceTimeout = null; }
-                if (interestInput.value) goToStep(2);
-            });
-            document.getElementById('wizNext2').addEventListener('click', function() { goToStep(3); });
-            document.getElementById('wizBack2').addEventListener('click', function() { goBack(1); });
-            document.getElementById('wizBack3').addEventListener('click', function() { goBack(2); });
-        })();
-
-        // Form submission handling
-        document.getElementById('insurance-form').addEventListener('submit', function(e) {
-            var submitBtn = e.target.querySelector('.wiz-btn-next[type="submit"]');
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-            if (typeof gtag === 'function') {
-                gtag('event', 'form_submit', { event_category: 'engagement', event_label: 'insurance_checkup_form' });
-            }
-            if (typeof fbq === 'function') {
-                fbq('track', 'Lead', {content_name: 'insurance_consultation'});
-            }
-        });
-
-        // Auto-format phone number
-        document.getElementById('phone').addEventListener('input', function(e) {
-            var value = e.target.value.replace(/\D/g, '');
-            if (value.length >= 6) {
-                value = '(' + value.slice(0,3) + ') ' + value.slice(3,6) + '-' + value.slice(6,10);
-            } else if (value.length >= 3) {
-                value = '(' + value.slice(0,3) + ') ' + value.slice(3);
-            }
-            e.target.value = value;
-        });
+        // Multi-step form logic is intentionally disabled on home page.
+        // Lead capture is consolidated to /get-help/ and the paid ACA landing page.
 
         // Analytics Event Tracking
         function trackPhoneCall() {

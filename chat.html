@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Facebook Pixel -->
     <script>
@@ -125,7 +125,7 @@
         .license-tag {
             font-family: 'DM Sans', sans-serif;
             font-size: 0.7rem;
-            color: var(--green);
+            color: var(--gold);
             font-weight: 600;
             display: block;
             margin-top: 2px;
@@ -365,7 +365,44 @@
                 gap: 1rem;
             }
         }
-    </style>
+    
+/* LHI Header Standardization Override */
+header .brand-name,
+header .logo {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #1B2A4A) !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+}
+
+header .license-tag,
+header .logo::after {
+  content: 'Licensed FL Broker #W371813' !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: var(--gold, #D4A843) !important;
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+header .nav-links a {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+header .cta-button {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+  </style>
 </head>
 <body>
     <header>
@@ -406,44 +443,12 @@
                     </a>
                 </div>
 
-                <!-- Email Form Card -->
+                <!-- Structured Review Card -->
                 <div class="contact-card">
-                    <h2>✉️ Send an Email</h2>
-                    <p>Prefer email? Send me a message below and I'll get back to you within 24 hours (usually much faster).</p>
-
-                    <form name="chat-contact-form" action="/thanks.html" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" class="email-form" id="contactForm">
-                        <input type="hidden" name="form-name" value="chat-contact-form">
-                        <p style="display:none;">
-                            <label>Don't fill this out: <input name="bot-field"></label>
-                        </p>
-                        <input type="hidden" name="_subject" value="Chat Page Contact Form">
-
-                        <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" id="name" name="name" required autocomplete="name">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Your Email</label>
-                            <input type="email" id="email" name="email" required autocomplete="email">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="phone">Phone Number (optional)</label>
-                            <input type="tel" id="phone" name="phone" autocomplete="tel">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="message">Your Message</label>
-                            <textarea id="message" name="message" required placeholder="Tell me what you're looking for..."></textarea>
-                        </div>
-
-                        <button type="submit" class="submit-button" id="submitBtn">Send Message</button>
-                    </form>
-
-                    <div class="success-message" id="successMessage">
-                        ✓ Message sent! I'll get back to you soon.
-                    </div>
+                    <h2>Structured Plan Review</h2>
+                    <p>For the fastest response and best plan matching, use the unified intake form.</p>
+                    <a href="/get-help/" class="submit-button" style="display:block; text-align:center; text-decoration:none;">Start Structured Review</a>
+                    <p style="margin-top:12px; color: var(--gray-500); font-size: 0.9rem;">This keeps your request in one queue for faster follow-up.</p>
                 </div>
             </div>
 
@@ -473,14 +478,16 @@
         const submitBtn = document.getElementById('submitBtn');
         const successMessage = document.getElementById('successMessage');
 
-        form.addEventListener('submit', function(e) {
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-        });
+        if (form && submitBtn) {
+            form.addEventListener('submit', function(e) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+            });
+        }
 
         // Check for success redirect query flag
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('success')) {
+        if (urlParams.has('success') && successMessage && form) {
             successMessage.classList.add('show');
             form.style.display = 'none';
 

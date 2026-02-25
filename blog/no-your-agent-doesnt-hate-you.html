@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
     <script>
@@ -48,8 +49,7 @@
       }
     }
     </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Why Your Insurance Agent Probably Hates You (And How to Fix That) | Lakeland Health Insurance</title>
     <meta name="description" content="Let's be honest - if your insurance agent could block your number without losing commission, they probably would. Here's how to become the client they actually want to help.">
     <meta name="keywords" content="insurance agent tips, client relationships, health insurance advice, life insurance tips, Medicare guidance">
@@ -119,7 +119,7 @@
         }
 
         .logo::after {
-            content: "Lakeland";
+            content: "Licensed FL Broker #W371813";
             font-size: 0.8rem;
             color: #D4A843;
             display: block;
@@ -505,14 +505,51 @@
                 text-align: left;
             }
         }
-    </style>
+    
+/* LHI Header Standardization Override */
+header .brand-name,
+header .logo {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #1B2A4A) !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+}
+
+header .license-tag,
+header .logo::after {
+  content: 'Licensed FL Broker #W371813' !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: var(--gold, #D4A843) !important;
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+header .nav-links a {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+header .cta-button {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+  </style>
 </head>
 <body>
     <header>
         <nav class="container">
             <div class="logo-container">
                 <a href="/" style="text-decoration: none;">
-                    <div class="logo">LHI</div>
+                    <div class="logo">Lakeland Health Insurance</div>
                 </a>
                 <button class="menu-button" onclick="toggleMenu()">
                     <div class="ellipses">
@@ -677,17 +714,17 @@
                 <div class="related-post">
                     <h3>5 Critical Health Insurance Mistakes</h3>
                     <p>Avoid these expensive mistakes that could cost you thousands.</p>
-                    <a href="5-critical-health-insurance-mistakes.html">Read More →</a>
+                    <a href="5-critical-health-insurance-mistakes.html">Read More &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>How to Use Health Insurance Without Going Broke</h3>
-                    <p>Your complete survival guide to deductibles, copays, and networks.</p>
-                    <a href="how-to-use-health-insurance-without-going-broke.html">Read More →</a>
+                    <p>Your complete guide to deductibles, copays, and networks.</p>
+                    <a href="how-to-use-health-insurance-without-going-broke.html">Read More &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>Our Approach: How We Fix Broken Health Insurance</h3>
                     <p>No BS, no disappearing acts, just honest advice for your health and wallet.</p>
-                    <a href="/our-approach.html">Read More →</a>
+                    <a href="/our-approach.html">Read More &rarr;</a>
                 </div>
             </div>
         </div>
@@ -737,7 +774,7 @@
 
     <!-- Click to Call Button -->
     <a href="tel:+18636403102" class="click-to-call">
-        <span>📞</span>
+        <span>&#128222;</span>
         Call Now: (863) 640-3102
     </a>
 

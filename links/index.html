@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
 <script>
@@ -23,8 +24,7 @@
         fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Helpful Links & Carrier Resources | Lakeland Health Insurance</title>
     <meta name="description" content="Quick links to Healthcare.gov, CMS, Department of Health, and the insurance carriers we work with. Your one-stop resource page from Lakeland Health Insurance.">
     <meta name="keywords" content="healthcare.gov, CMS, insurance carriers, Florida Blue, Humana, Aetna, UnitedHealthcare, Cigna, Molina, health insurance links">
@@ -650,7 +650,44 @@
                 grid-template-columns: 1fr;
             }
         }
-    </style>
+    
+/* LHI Header Standardization Override */
+header .brand-name,
+header .logo {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #1B2A4A) !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+}
+
+header .license-tag,
+header .logo::after {
+  content: 'Licensed FL Broker #W371813' !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: var(--gold, #D4A843) !important;
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+header .nav-links a {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+header .cta-button {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+  </style>
 </head>
 <body>
     <div class="compliance-banner">
@@ -969,49 +1006,10 @@
                 <div class="footer-form">
                     <h4>Free Insurance Checkup</h4>
                     <p class="subtitle">Find out if you're overpaying or underprotected. Takes 2 minutes.</p>
-
-                    <form name="links-checkup-form" action="/thanks.html" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
-                        <input type="hidden" name="form-name" value="links-checkup-form">
-                        <p style="display:none;">
-                            <label>Don't fill this out: <input name="bot-field"></label>
-                        </p>
-                        <div class="form-group">
-                            <input type="text" id="zipCode" name="zipCode" placeholder="Your Zip Code" required>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="text" id="fullName" name="fullName" placeholder="Your Name" required>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Email Address" required>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
-                        </div>
-
-                        <div class="form-group">
-                            <select id="situation" name="situation">
-                                <option value="">What's your situation?</option>
-                                <option value="no-insurance">No insurance currently</option>
-                                <option value="too-expensive">Insurance too expensive</option>
-                                <option value="bad-coverage">Coverage isn't working</option>
-                                <option value="job-change">Changing jobs</option>
-                                <option value="life-change">Life change (marriage, baby, etc)</option>
-                                <option value="medicare-time">Turning 65 soon</option>
-                                <option value="just-shopping">Just shopping around</option>
-                            </select>
-                        </div>
-
-                        <!-- Hidden fields -->
-                        <input type="hidden" name="_subject" value="Free Insurance Checkup Request - Links Page">
-
-                        <button type="submit" class="submit-btn">Get My Free Checkup</button>
-                        <p style="text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem;">
-                            No spam. David will personally review your situation.
-                        </p>
-                    </form>
+                    <a href="/get-help/" class="submit-btn" style="display:block; text-align:center; text-decoration:none;">Start My Structured Review</a>
+                    <p style="text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem;">
+                        One form. One follow-up path. Faster response.
+                    </p>
                 </div>
             </div>
 

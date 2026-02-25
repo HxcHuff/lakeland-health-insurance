@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Book Your Free Insurance Reality Check | David Huff</title>
   <meta name="description" content="Skip the phone tag. Book your free 15-30 minute insurance consultation directly with David. No BS, just honest advice about your coverage." />
   <link rel="canonical" href="https://lakelandhealthinsurance.com/calendly-book.html">
@@ -376,6 +376,43 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+  
+/* LHI Header Standardization Override */
+header .brand-name,
+header .logo {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #1B2A4A) !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+}
+
+header .license-tag,
+header .logo::after {
+  content: 'Licensed FL Broker #W371813' !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: var(--gold, #D4A843) !important;
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+header .nav-links a {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+header .cta-button {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
   </style>
 </head>
 <body>
@@ -442,7 +479,7 @@
       <div class="calendly-fallback">
         <p><strong>Calendar not loading?</strong></p>
         <a href="https://health-markets.vanillasoft.net/appt/U8wDu147wb/david-huff" target="_blank" onclick="gtag('event','calendly_fallback_click',{event_category:'conversion',event_label:'external_calendly'});">
-          Open David's Calendar in New Window →
+          Open David's Calendar in New Window &rarr;
         </a>
       </div>
     </div>
@@ -452,7 +489,7 @@
       <p>FL License #W371813</p>
       <p>📞 <a href="tel:+18636403102">(863) 640-3102</a> | 📧 <a href="mailto:dhuff@healthmarkets.com">dhuff@healthmarkets.com</a></p>
       <p style="margin-top: 1rem;">
-        <a href="/">← Back to Lakeland Health Insurance</a> | 
+        <a href="/">&larr; Back to Lakeland Health Insurance</a> | 
         <a href="/privacy-policy.html">Privacy Policy</a>
       </p>
       <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 1rem;">

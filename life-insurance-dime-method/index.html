@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Life Insurance Calculator: DIME Method | Lakeland Health Insurance</title>
+  <meta name="description" content="Use the DIME method to estimate life insurance needs: Debt, Income, Mortgage, and Education.">
+  <link rel="canonical" href="https://lakelandhealthinsurance.com/life-insurance-dime-method/">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Life Insurance Calculator: DIME Method">
+  <meta property="og:description" content="Estimate life insurance needs with a practical DIME framework.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://lakelandhealthinsurance.com/life-insurance-dime-method/">
+  <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Life Insurance Calculator: DIME Method">
+  <meta name="twitter:description" content="Debt + Income + Mortgage + Education = a practical life insurance target range.">
+  <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Facebook Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1822900971216472');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
+
+  <style>
+    :root {
+      --navy: #1B2A4A;
+      --gold: #D4A843;
+      --line: #E2E8F0;
+      --text: #1E293B;
+      --muted: #64748B;
+      --bg: #F8FAFC;
+      --card: #FFFFFF;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.65;
+    }
+    .container { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+    header { background: #fff; border-bottom: 1px solid var(--line); }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+    }
+    .brand {
+      color: var(--navy);
+      text-decoration: none;
+      font-family: "Instrument Serif", serif;
+      font-size: 1.2rem;
+      line-height: 1.2;
+    }
+    .license {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--gold);
+      margin-top: 2px;
+    }
+    .nav-cta {
+      background: var(--gold);
+      color: #111827;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: 999px;
+    }
+    .hero {
+      padding: 44px 0 22px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-family: "Instrument Serif", serif;
+      font-weight: 400;
+      color: var(--navy);
+      font-size: clamp(2rem, 4.2vw, 2.8rem);
+      line-height: 1.15;
+    }
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      max-width: 760px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 14px 0;
+    }
+    h2 {
+      color: var(--navy);
+      margin: 0 0 8px;
+      font-size: 1.3rem;
+    }
+    .dime-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 760px) {
+      .dime-grid { grid-template-columns: 1fr; }
+    }
+    .dime-item {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      background: #fff;
+    }
+    .dime-item h3 {
+      margin: 0 0 6px;
+      font-size: 1.05rem;
+      color: var(--navy);
+    }
+    .example {
+      margin-top: 12px;
+      color: #334155;
+      font-size: 0.95rem;
+    }
+    .calc-target {
+      margin-top: 12px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .cta-wrap {
+      text-align: center;
+      margin-top: 18px;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: var(--gold);
+      color: #111827;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 12px 18px;
+    }
+    .muted { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a class="brand" href="/">
+          Lakeland Health Insurance
+          <span class="license">Licensed FL Broker #W371813</span>
+        </a>
+        <a class="nav-cta" href="/get-help/">Talk to David</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Life Insurance Planning with the DIME Method</h1>
+      <p class="sub">DIME is a practical framework to estimate coverage: Debt + Income + Mortgage + Education. It gives you a rational starting target before comparing plan types.</p>
+    </section>
+
+    <section class="card">
+      <h2>How DIME Works</h2>
+      <div class="dime-grid">
+        <div class="dime-item">
+          <h3>D: Debt</h3>
+          <p>Add non-mortgage debts: car loans, credit cards, personal loans, and final expenses.</p>
+        </div>
+        <div class="dime-item">
+          <h3>I: Income</h3>
+          <p>Multiply annual income by the number of years your household needs replacement income (often 7-10 years).</p>
+        </div>
+        <div class="dime-item">
+          <h3>M: Mortgage</h3>
+          <p>Use current mortgage payoff amount so your household can keep the home without forced downsizing.</p>
+        </div>
+        <div class="dime-item">
+          <h3>E: Education</h3>
+          <p>Add projected education costs for children or dependents who rely on your income plan.</p>
+        </div>
+      </div>
+      <p class="example"><strong>Example:</strong> Debt $35k + Income ($70k x 8 years = $560k) + Mortgage $240k + Education $80k = <strong>$915,000 target</strong>.</p>
+      <p class="calc-target">D + I + M + E = starting life insurance target range.</p>
+    </section>
+
+    <section class="card">
+      <h2>Important Notes</h2>
+      <ul>
+        <li>DIME is a planning framework, not a final underwriting quote.</li>
+        <li>Final premium depends on age, health profile, tobacco status, and term length.</li>
+        <li>Most families can compare multiple term amounts around the DIME target to balance budget and protection.</li>
+      </ul>
+      <div class="cta-wrap">
+        <a class="cta-btn" href="/get-help/">Request Structured Life Insurance Review</a>
+      </div>
+      <p class="muted" style="text-align:center; margin-top:10px;">Need fast help? Call (863) 640-3102.</p>
+    </section>
+  </main>
+</body>
+</html>

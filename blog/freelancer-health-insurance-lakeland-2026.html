@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
 <script>
@@ -48,8 +49,7 @@
       }
     }
     </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Freelancer's Guide to Health Insurance in Lakeland & Polk County (2026)</title>
     <meta name="description" content="Expert guide for self-employed freelancers in Lakeland, FL. Discover ACA marketplace plans, subsidy strategies, and Polk Healthcare options for 2026.">
     <meta name="keywords" content="health insurance for self-employed Lakeland FL, freelancer health insurance, ACA marketplace Polk County, independent contractor coverage 2026">
@@ -193,7 +193,7 @@
         }
 
         .logo::after {
-            content: "Lakeland";
+            content: "Licensed FL Broker #W371813";
             font-size: 0.8rem;
             color: #D4A843;
             display: block;
@@ -557,14 +557,51 @@
                 font-size: 0.9rem;
             }
         }
-    </style>
+    
+/* LHI Header Standardization Override */
+header .brand-name,
+header .logo {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #1B2A4A) !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+}
+
+header .license-tag,
+header .logo::after {
+  content: 'Licensed FL Broker #W371813' !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: var(--gold, #D4A843) !important;
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+header .nav-links a {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+header .cta-button {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+  </style>
 </head>
 <body>
     <!-- Header and Navigation -->
     <header>
         <nav>
             <div class="logo-container">
-                <div class="logo">LHI</div>
+                <div class="logo">Lakeland Health Insurance</div>
             </div>
             <button class="menu-button" onclick="toggleMenu()">
                 <div class="ellipses">
@@ -716,17 +753,17 @@
                 <div class="related-post">
                     <h3>Self-Employed Health Insurance Tax Deductions</h3>
                     <p>Deduct 100% of your health insurance premiums and save thousands on taxes.</p>
-                    <a href="health-insurance-self-employed-tax-deductions.html">Read More →</a>
+                    <a href="health-insurance-self-employed-tax-deductions.html">Read More &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>The ACA Subsidy Cliff: Strategic MAGI Management</h3>
                     <p>Understand how your income affects your insurance subsidies.</p>
-                    <a href="aca-subsidy-cliff.html">Read More →</a>
+                    <a href="aca-subsidy-cliff.html">Read More &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>How to Budget for Healthcare Costs in 2026</h3>
                     <p>Real strategies for planning your medical spending this year.</p>
-                    <a href="planning-healthcare-budget-2026.html">Read More →</a>
+                    <a href="planning-healthcare-budget-2026.html">Read More &rarr;</a>
                 </div>
             </div>
         </div>
@@ -743,7 +780,7 @@
 
     <!-- Click to Call Button -->
     <a href="tel:+18636403102" class="click-to-call">
-        <span>📞</span>
+        <span>&#128222;</span>
         Call Now
     </a>
 

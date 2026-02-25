@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
     <script>
@@ -38,9 +39,7 @@
         fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thank You - Lakeland Health Insurance | We'll Contact You Soon</title>
     <meta name="description" content="Thank you for requesting a health insurance quote. David will personally contact you within 24 hours with your custom health insurance options.">
     <link rel="canonical" href="https://lakelandhealthinsurance.com/thanks.html">
@@ -278,7 +277,44 @@
                 max-width: 250px;
             }
         }
-    </style>
+    
+/* LHI Header Standardization Override */
+header .brand-name,
+header .logo {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #1B2A4A) !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+}
+
+header .license-tag,
+header .logo::after {
+  content: 'Licensed FL Broker #W371813' !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: var(--gold, #D4A843) !important;
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+header .nav-links a {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+header .cta-button {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+  </style>
 </head>
 <body>
     <div class="thank-you-container">
@@ -287,34 +323,50 @@
                 ✓
             </div>
             
-            <h1>Thank You!</h1>
-            <p class="subtitle">Your health insurance quote request has been received successfully.</p>
+            <h1>Thank You - You're In</h1>
+            <p class="subtitle">Your request was submitted successfully. Here is exactly what to expect next.</p>
             
             <div class="next-steps">
-                <h3>What Happens Next?</h3>
+                <h3>What to Expect Next</h3>
                 
                 <div class="step">
                     <div class="step-number">1</div>
                     <div>
-                        <strong>Personal Call Within 24 Hours</strong><br>
-                        David will personally review your information and call you with customized health insurance options.
+                        <strong>Initial Review (Same Day)</strong><br>
+                        We review your ZIP, coverage type, and timeline to prepare the right plan path before outreach.
                     </div>
                 </div>
                 
                 <div class="step">
                     <div class="step-number">2</div>
                     <div>
-                        <strong>Custom Quote Comparison</strong><br>
-                        We'll compare plans from multiple carriers to find the best coverage for your needs and budget.
+                        <strong>Direct Contact (Usually Within 5-60 Minutes During Business Hours)</strong><br>
+                        David will call or text you directly. If submitted after hours, outreach starts the next business morning.
                     </div>
                 </div>
                 
                 <div class="step">
                     <div class="step-number">3</div>
                     <div>
-                        <strong>Easy Enrollment Process</strong><br>
-                        Once you choose a plan, we'll handle all the paperwork and get you covered quickly.
+                        <strong>Structured Recommendation + Enrollment Steps</strong><br>
+                        You get a clear plan comparison, exact next actions, and guided enrollment support.
                     </div>
+                </div>
+            </div>
+
+            <div class="next-steps" style="margin-top:1rem;">
+                <h3>What to Have Ready</h3>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div><strong>Household info:</strong> names, ZIP, and household size.</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div><strong>Income estimate:</strong> projected annual household income.</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div><strong>Current coverage status:</strong> active coverage, end date, or qualifying event details.</div>
                 </div>
             </div>
             
@@ -330,7 +382,7 @@
                     📞 Call Now
                 </a>
                 <a href="/" class="btn btn-secondary">
-                    ← Back to Website
+                    &larr; Back to Website
                 </a>
             </div>
             

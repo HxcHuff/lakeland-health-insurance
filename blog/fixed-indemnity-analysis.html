@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UnitedHealthcare Health Protector Guard: Technical Product Analysis | Lakeland Health Insurance</title>
     <meta name="description" content="In-depth technical analysis of UnitedHealthcare's fixed-indemnity product, comparing fixed-indemnity vs. major medical plans, cash benefits for hospitalization, and gap coverage strategies.">
     <meta name="keywords" content="UnitedHealthcare Health Protector Guard, fixed-indemnity insurance, hospital cash plans, high deductible plans, gap insurance">
@@ -128,7 +128,7 @@
             text-decoration: none;
         }
         .logo::after {
-            content: "Lakeland";
+            content: "Licensed FL Broker #W371813";
             font-size: 0.8rem;
             color: #D4A843;
             display: block;
@@ -594,13 +594,50 @@
                 padding: 0.75rem;
             }
         }
-    </style>
+    
+/* LHI Header Standardization Override */
+header .brand-name,
+header .logo {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #1B2A4A) !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+}
+
+header .license-tag,
+header .logo::after {
+  content: 'Licensed FL Broker #W371813' !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: var(--gold, #D4A843) !important;
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+header .nav-links a {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+header .cta-button {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+  </style>
 </head>
 <body>
     <header>
         <nav class="container">
             <div class="logo-container">
-                <a href="/" class="logo">LHI</a>
+                <a href="/" class="logo">Lakeland Health Insurance</a>
                 <button class="menu-button" onclick="toggleMenu()">
                     <div class="ellipses">
                         <div class="dot"></div>
@@ -901,7 +938,7 @@
             </article>
 
             <div class="back-to-blog">
-                <a href="/blog/">← Back to All Posts</a>
+                <a href="/blog/">&larr; Back to All Posts</a>
             </div>
         </div>
     </section>
@@ -913,17 +950,17 @@
                 <div class="related-post">
                     <h3>Dental Insurance: Worth It or Funding Your Dentist's Yacht?</h3>
                     <p>The brutal truth about dental insurance and when it actually saves you money.</p>
-                    <a href="dental-insurance-guide.html">Read More →</a>
+                    <a href="dental-insurance-guide.html">Read More &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>ACA vs Short-Term Plans: Which is Right for You?</h3>
                     <p>Cut through the marketing fluff and get real pros and cons of each plan type.</p>
-                    <a href="aca-vs-short-term-plans.html">Read More →</a>
+                    <a href="aca-vs-short-term-plans.html">Read More &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>Short-Term Medical Insurance: The Good, Bad, and Ugly</h3>
                     <p>When short-term coverage makes sense and when it's a terrible idea.</p>
-                    <a href="short-term-medical-guide.html">Read More →</a>
+                    <a href="short-term-medical-guide.html">Read More &rarr;</a>
                 </div>
             </div>
         </div>
@@ -970,7 +1007,7 @@
     </footer>
 
     <a href="tel:+18636403102" class="click-to-call" onclick="trackPhoneCall()">
-        <span class="phone-icon">📞</span>
+        <span class="phone-icon">&#128222;</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <span>Call: (863) 640-3102</span>
             <span style="font-size: 0.8rem; opacity: 0.9;">David answers personally</span>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How to Read Your Insurance Card Without Having a Panic Attack | Lakeland Health Insurance</title>
     <meta name="description" content="Decode your insurance card like a pro. No panic attacks required. Simple guide to understanding member IDs, copays, deductibles and more confusing insurance stuff.">
     <meta name="keywords" content="how to read insurance card, insurance card guide, member ID, copay, deductible, health insurance help">
@@ -129,7 +129,7 @@
             text-decoration: none;
         }
         .logo::after {
-            content: "Lakeland";
+            content: "Licensed FL Broker #W371813";
             font-size: 0.8rem;
             color: #D4A843;
             display: block;
@@ -470,13 +470,50 @@
                 text-align: left;
             }
         }
-    </style>
+    
+/* LHI Header Standardization Override */
+header .brand-name,
+header .logo {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #1B2A4A) !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+}
+
+header .license-tag,
+header .logo::after {
+  content: 'Licensed FL Broker #W371813' !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: var(--gold, #D4A843) !important;
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+header .nav-links a {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+header .cta-button {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+  </style>
 </head>
 <body>
     <header>
         <nav class="container">
             <div class="logo-container">
-                <a href="/" class="logo">LHI</a>
+                <a href="/" class="logo">Lakeland Health Insurance</a>
                 <button class="menu-button" onclick="toggleMenu()">
                     <div class="ellipses">
                         <div class="dot"></div>
@@ -594,7 +631,7 @@
             </article>
 
             <div class="back-to-blog">
-                <a href="/blog/">← Back to All Posts</a>
+                <a href="/blog/">&larr; Back to All Posts</a>
             </div>
         </div>
     </section>
@@ -606,17 +643,17 @@
                 <div class="related-post">
                     <h3>HMO vs PPO vs EPO Explained</h3>
                     <p>How health insurance networks differ and which gives you the most freedom.</p>
-                    <a href="hmo-vs-ppo-vs-epo-explained.html">Read More →</a>
+                    <a href="hmo-vs-ppo-vs-epo-explained.html">Read More &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>How to Use Health Insurance Without Going Broke</h3>
-                    <p>Your complete survival guide to deductibles, copays, and networks.</p>
-                    <a href="how-to-use-health-insurance-without-going-broke.html">Read More →</a>
+                    <p>Your complete guide to deductibles, copays, and networks.</p>
+                    <a href="how-to-use-health-insurance-without-going-broke.html">Read More &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>Out-of-Pocket Maximum Explained</h3>
                     <p>The most important number in your health insurance policy.</p>
-                    <a href="understanding-out-of-pocket-maximum.html">Read More →</a>
+                    <a href="understanding-out-of-pocket-maximum.html">Read More &rarr;</a>
                 </div>
             </div>
         </div>
@@ -663,7 +700,7 @@
     </footer>
 
     <a href="tel:+18636403102" class="click-to-call" onclick="trackPhoneCall()">
-        <span class="phone-icon">📞</span>
+        <span class="phone-icon">&#128222;</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <span>Call: (863) 640-3102</span>
             <span style="font-size: 0.8rem; opacity: 0.9;">David answers personally</span>

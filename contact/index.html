@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Lakeland Health Insurance | David Huff</title>
   <meta name="description" content="Contact Lakeland Health Insurance. Call, email, or message David Huff for ACA, Medicare, and health insurance guidance in Florida and nationwide.">
   <meta name="keywords" content="contact Lakeland Health Insurance, David Huff email, Florida health insurance broker contact">
@@ -45,14 +45,102 @@
   }
   </script>
 
+  <!-- Facebook Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1822900971216472');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
+
   <style>
     :root { --navy:#1B2A4A; --gold:#D4A843; --line:#E2E8F0; --bg:#F8FAFC; --card:#FFFFFF; --muted:#64748B; }
     * { box-sizing: border-box; }
     body { margin:0; font-family:'DM Sans',sans-serif; background:var(--bg); color:#1e293b; line-height:1.65; }
-    .container { max-width:980px; margin:0 auto; padding:0 20px; }
+    .container { max-width:1100px; margin:0 auto; padding:0 20px; }
     header { background:#fff; border-bottom:1px solid var(--line); }
-    nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:14px 0; }
+    nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 0; }
     nav a { text-decoration:none; color:var(--navy); font-weight:700; }
+    .logo-container { display:flex; align-items:center; gap:15px; }
+    .brand-name {
+      font-family:'Instrument Serif',serif;
+      font-size:1.2rem;
+      font-weight:400;
+      color:var(--navy);
+      line-height:1.2;
+    }
+    .license-tag {
+      font-family:'DM Sans',sans-serif;
+      font-size:0.7rem;
+      color:var(--gold);
+      font-weight:600;
+      display:block;
+      margin-top:2px;
+    }
+    .menu-button {
+      background:none;
+      border:none;
+      cursor:pointer;
+      padding:8px;
+      border-radius:4px;
+      transition:background-color 0.2s;
+    }
+    .menu-button:hover { background-color:#F1F5F9; }
+    .ellipses { display:flex; flex-direction:column; gap:3px; }
+    .dot { width:4px; height:4px; background-color:#475569; border-radius:50%; }
+    .dropdown-menu {
+      position:absolute;
+      top:100%;
+      left:100px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:12px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.08);
+      min-width:200px;
+      z-index:1000;
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(-10px);
+      transition:all 0.2s ease;
+    }
+    .dropdown-menu.show { opacity:1; visibility:visible; transform:translateY(0); }
+    .menu-item {
+      padding:12px 16px;
+      cursor:pointer;
+      border-bottom:1px solid #F1F5F9;
+      transition:background-color 0.2s;
+    }
+    .menu-item:hover { background-color:#F8FAFC; }
+    .menu-item:last-child { border-bottom:none; }
+    .menu-item a { font-weight:500; color:#334155; font-size:0.95rem; }
+    .nav-links { display:flex; list-style:none; gap:2rem; align-items:center; margin:0; padding:0; }
+    .nav-links a {
+      text-decoration:none;
+      color:#334155;
+      font-weight:500;
+      font-size:0.95rem;
+      transition:color 0.2s;
+    }
+    .nav-links a:hover { color:var(--blue); }
+    .cta-button {
+      background:linear-gradient(135deg,var(--gold),#B8962D);
+      color:#111827;
+      padding:11px 24px;
+      border-radius:100px;
+      text-decoration:none;
+      font-weight:700;
+      font-size:1.05rem;
+      box-shadow:0 10px 30px rgba(212,168,67,0.2);
+      transition:all 0.3s ease;
+    }
+    .cta-button:hover { transform:translateY(-2px); box-shadow:0 12px 34px rgba(212,168,67,0.3); }
     .hero { padding:44px 0 18px; }
     .hero h1 { margin:0 0 8px; color:var(--navy); }
     .hero p { margin:0; color:var(--muted); }
@@ -61,16 +149,84 @@
     h2 { margin:0 0 8px; color:var(--navy); font-size:1.1rem; }
     a.cta { display:inline-block; margin-top:8px; background:var(--gold); color:#111827; text-decoration:none; font-weight:700; padding:12px 16px; border-radius:10px; }
     .small { font-size:.9rem; color:var(--muted); }
+    @media (max-width: 900px) {
+      .nav-links { display:none; }
+      .cta-button { display:none; }
+    }
+  
+/* LHI Header Standardization Override */
+header .brand-name,
+header .logo {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #1B2A4A) !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+}
+
+header .license-tag,
+header .logo::after {
+  content: 'Licensed FL Broker #W371813' !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: var(--gold, #D4A843) !important;
+  line-height: 1.1 !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+header .nav-links a {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+header .cta-button {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
   </style>
 </head>
 <body>
   <header>
     <div class="container">
       <nav>
-        <a href="/">Lakeland Health Insurance</a>
-        <a href="/plans/">Plans</a>
-        <a href="/blog/">Blog</a>
-        <a href="/contact/">Contact</a>
+        <div class="logo-container">
+          <div class="brand-name">
+            Lakeland Health Insurance
+            <span class="license-tag">Licensed FL Broker #W371813</span>
+          </div>
+          <button class="menu-button" onclick="toggleMenu()" aria-label="Toggle navigation menu">
+            <div class="ellipses">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+          </button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <div class="menu-item"><a href="/">Home</a></div>
+            <div class="menu-item"><a href="/plans/">Health Plans</a></div>
+            <div class="menu-item"><a href="/blog/">Blog</a></div>
+            <div class="menu-item"><a href="/about">About</a></div>
+            <div class="menu-item"><a href="/links/">Links</a></div>
+            <div class="menu-item"><a href="/contact/">Contact</a></div>
+            <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
+          </div>
+        </div>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/plans/">Health Plans</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/links/">Links</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+        <a href="/get-help/" class="cta-button">Talk to David</a>
       </nav>
     </div>
   </header>
@@ -105,5 +261,19 @@
       <a class="cta" href="/get-help/">Talk to David</a>
     </section>
   </main>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('dropdownMenu');
+      menu.classList.toggle('show');
+    }
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('dropdownMenu');
+      const button = document.querySelector('.menu-button');
+      if (!menu || !button) return;
+      if (!menu.contains(event.target) && !button.contains(event.target)) {
+        menu.classList.remove('show');
+      }
+    });
+  </script>
 </body>
 </html>

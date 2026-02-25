@@ -14,8 +14,8 @@
   btn.id = 'openChat';
   btn.className = 'chat-widget-button';
   btn.setAttribute('aria-label','Message David on Messenger');
-  btn.setAttribute('title','Opens Facebook Messenger — Chat with David');
-  btn.innerText = '💬 Chat with David';
+  btn.setAttribute('title','Opens Facebook Messenger - Chat with David');
+  btn.innerHTML = '&#128172; Chat with David';
 
   // Open Facebook Messenger in a new tab/window
   document.body.appendChild(btn);
