@@ -84,12 +84,15 @@
     nav {
       display: flex;
       align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
       padding: 14px 0;
     }
     .brand {
       color: var(--navy);
       font-family: "Instrument Serif", serif;
       font-size: 1.2rem;
+      text-decoration: none;
     }
     .license {
       display: block;
@@ -99,6 +102,47 @@
       font-weight: 600;
       margin-top: 2px;
     }
+    .menu-wrap { position: relative; }
+    .menu-button {
+      background: none;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 8px 10px;
+    }
+    .dots {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      min-width: 220px;
+      z-index: 50;
+      display: none;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+    }
+    .dropdown-menu.show { display: block; }
+    .menu-item a {
+      display: block;
+      padding: 11px 14px;
+      text-decoration: none;
+      color: var(--text);
+      border-bottom: 1px solid #F1F5F9;
+    }
+    .menu-item:last-child a { border-bottom: 0; }
+    .menu-item a:hover { background: #F8FAFC; }
     .hero {
       background: linear-gradient(135deg, var(--navy-deep), #1E3A6B);
       color: #fff;
@@ -204,7 +248,6 @@
     }
     @media (max-width: 760px) {
       nav {
-        flex-direction: column;
         align-items: flex-start;
       }
       .grid { grid-template-columns: 1fr; }
@@ -243,9 +286,25 @@
   <header>
     <div class="container">
       <nav>
-        <div class="brand">
+        <a class="brand" href="/">
           Lakeland Health Insurance
           <span class="license">Licensed FL Broker #W371813</span>
+        </a>
+        <div class="menu-wrap">
+          <button class="menu-button" onclick="toggleMenu()" aria-label="Toggle navigation menu">
+            <div class="dots">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+          </button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <div class="menu-item"><a href="/">Home</a></div>
+            <div class="menu-item"><a href="/plans/">Health Plans</a></div>
+            <div class="menu-item"><a href="/blog/">Blog</a></div>
+            <div class="menu-item"><a href="/carriers/aca-florida-2026/">ACA Carrier Hub</a></div>
+            <div class="menu-item"><a href="/contact/">Contact</a></div>
+          </div>
         </div>
       </nav>
     </div>
@@ -420,6 +479,20 @@
     </section>
   </main>
   <script>
+    function toggleMenu() {
+      const menu = document.getElementById('dropdownMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    document.addEventListener('click', function (event) {
+      const menu = document.getElementById('dropdownMenu');
+      const button = document.querySelector('.menu-button');
+      if (!menu || !button) return;
+      if (!menu.contains(event.target) && !button.contains(event.target)) {
+        menu.classList.remove('show');
+      }
+    });
+
     // Local preview fallback: python http.server does not handle POST for Netlify forms.
     (function () {
       const isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
