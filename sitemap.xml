@@ -341,4 +341,25 @@
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
+  
+  <url>
+    <loc>https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/life-insurance-dime-method/</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/what-is-supplemental-coverage.html</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
 </urlset>

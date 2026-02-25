@@ -35,6 +35,21 @@
     fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "ACA Health Insurance for Self-Employed and Working Families in Lakeland, FL",
+    "description": "Structured ACA enrollment guidance for self-employed professionals and working families in Lakeland and Polk County.",
+    "url": "https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/",
+    "dateModified": "2026-02-25",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Lakeland Health Insurance",
+      "url": "https://lakelandhealthinsurance.com/"
+    }
+  }
+  </script>
 
   <style>
     :root {
@@ -148,7 +163,13 @@
       gap: 12px;
     }
     @media (max-width: 760px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
       .grid { grid-template-columns: 1fr; }
+      .hero { padding: 44px 0 36px; }
+      .card, .form-wrap { padding: 16px; }
     }
     label {
       display: block;
