@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Get Help | Lakeland Health Insurance</title>
-  <meta name="description" content="Tell us your situation in 3 quick steps and get plan-specific help from David. ACA, Medicare, short-term, and family coverage guidance.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Plan-Specific Help | Lakeland Health Insurance</title>
+  <meta name="description" content="Tell us your situation in a quick conversational flow and get plan-specific help from David. ACA, Medicare, short-term, and family coverage guidance.">
   <meta name="keywords" content="health insurance lead form, get plan specific help, Florida ACA help, Lakeland insurance consultation">
   <link rel="canonical" href="https://lakelandhealthinsurance.com/get-help/">
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Get Help | Lakeland Health Insurance">
-  <meta property="og:description" content="3-step lead form for personalized health insurance guidance.">
+  <meta property="og:title" content="Get Plan-Specific Help | Lakeland Health Insurance">
+  <meta property="og:description" content="Conversational lead flow for personalized health insurance guidance.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://lakelandhealthinsurance.com/get-help/">
   <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Get Help">
-  <meta name="twitter:description" content="Complete a quick 3-step form and David will follow up personally.">
+  <meta name="twitter:title" content="Get Plan-Specific Help">
+  <meta name="twitter:description" content="Answer a few quick questions and David will follow up personally.">
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
   <script>
@@ -27,7 +31,6 @@
     gtag('config', 'G-W45RMKHXV0');
   </script>
 
-  <!-- Facebook Pixel -->
   <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -43,271 +46,652 @@
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
 
   <style>
-    :root { --navy:#1B2A4A; --gold:#D4A843; --line:#E2E8F0; --bg:#F8FAFC; --card:#FFFFFF; --muted:#64748B; --good:#16A34A; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:'DM Sans',sans-serif; color:#1e293b; background:var(--bg); line-height:1.6; }
-    .container { max-width:760px; margin:0 auto; padding:0 20px; }
-    header { background:#fff; border-bottom:1px solid var(--line); }
-    nav { display:flex; justify-content:space-between; align-items:center; padding:14px 0; gap:10px; flex-wrap:wrap; }
-    nav a { text-decoration:none; color:var(--navy); font-weight:700; }
-    .hero { padding:34px 0 14px; }
-    h1 { margin:0 0 6px; color:var(--navy); font-size:2rem; }
-    .sub { margin:0; color:var(--muted); }
-    .trust { margin-top:10px; color:var(--good); font-weight:600; }
-    .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin:18px 0 28px; }
-    .progress { display:flex; align-items:center; gap:8px; margin-bottom:14px; }
-    .dot { width:10px; height:10px; border-radius:50%; background:#cbd5e1; }
-    .dot.active { background:var(--gold); }
-    .dot.done { background:var(--good); }
-    .step { display:none; }
-    .step.active { display:block; }
-    h2 { margin:0 0 10px; color:var(--navy); font-size:1.2rem; }
-    .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    @media (max-width:700px){ .row{grid-template-columns:1fr;} }
-    label { display:block; font-weight:600; margin-bottom:5px; font-size:.95rem; }
-    input, select, textarea {
-      width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:10px; font:inherit; background:#fff;
+    :root {
+      --bg: #111118;
+      --card: #1a1a28;
+      --panel: #222233;
+      --line: #2a2a3a;
+      --ink: #e8e8ec;
+      --muted: #888;
+      --muted-2: #666;
+      --gold: #c8a45e;
+      --gold-soft: rgba(200, 164, 94, 0.15);
     }
-    textarea { min-height:90px; resize:vertical; }
-    .help { font-size:.85rem; color:var(--muted); margin-top:5px; }
-    .actions { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:14px; }
-    .btn { border:0; border-radius:10px; padding:12px 16px; font-weight:700; cursor:pointer; text-decoration:none; display:inline-block; }
-    .btn-primary { background:var(--gold); color:#111827; }
-    .btn-secondary { background:#e2e8f0; color:#0f172a; }
-    .alt { margin-top:12px; font-size:.92rem; color:var(--muted); }
-    .alt a { color:var(--navy); font-weight:700; }
-    .note { font-size:.8rem; color:var(--muted); margin-top:10px; }
-  
-/* LHI Header Standardization Override */
-header .brand-name,
-header .logo {
-  font-family: 'Instrument Serif', serif !important;
-  font-size: 1.2rem !important;
-  font-weight: 400 !important;
-  line-height: 1.2 !important;
-  color: var(--navy, #1B2A4A) !important;
-  letter-spacing: 0 !important;
-  text-decoration: none !important;
-}
 
-header .license-tag,
-header .logo::after {
-  content: 'Licensed FL Broker #W371813' !important;
-  font-family: 'DM Sans', sans-serif !important;
-  font-size: 0.7rem !important;
-  font-weight: 600 !important;
-  color: var(--gold, #D4A843) !important;
-  line-height: 1.1 !important;
-  display: block !important;
-  margin-top: 2px !important;
-}
+    * { box-sizing: border-box; }
 
-header .nav-links a {
-  font-size: 1rem !important;
-  font-weight: 500 !important;
-  line-height: 1.2 !important;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: 'Libre Franklin', sans-serif;
+      padding: 24px;
+      color: var(--ink);
+    }
 
-header .cta-button {
-  font-size: 1rem !important;
-  font-weight: 600 !important;
-  line-height: 1.2 !important;
-}
+    .wrap {
+      min-height: calc(100vh - 48px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
+    .card {
+      background: var(--card);
+      border-radius: 24px;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+      overflow: hidden;
+    }
+
+    .head {
+      padding: 28px 28px 20px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .name { font-size: 15px; font-weight: 600; }
+    .brand { color: var(--muted-2); font-size: 12px; }
+
+    .chat {
+      padding: 24px 28px;
+      max-height: 460px;
+      min-height: 300px;
+      overflow-y: auto;
+    }
+
+    .q-wrap { display: flex; justify-content: flex-start; margin-bottom: 12px; }
+
+    .q {
+      background: #2a2a3a;
+      color: var(--ink);
+      padding: 14px 20px;
+      border-radius: 18px 18px 18px 4px;
+      font-size: 16px;
+      font-weight: 500;
+      max-width: 380px;
+      line-height: 1.5;
+    }
+
+    .q-sub { font-size: 12px; color: #777; margin-top: 4px; margin-left: 8px; }
+
+    .a-wrap { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+
+    .a {
+      background: var(--gold);
+      color: #1a1a1a;
+      padding: 10px 18px;
+      border-radius: 18px 18px 4px 18px;
+      font-size: 15px;
+      font-weight: 500;
+      max-width: 80%;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .opts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin-bottom: 8px; }
+
+    .opt {
+      padding: 10px 18px;
+      border-radius: 20px;
+      border: 1.5px solid #3a3a4a;
+      background: transparent;
+      color: #ccc;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all .15s ease;
+      font-family: 'Libre Franklin', sans-serif;
+    }
+
+    .opt:hover { border-color: var(--gold); color: var(--gold); }
+    .opt.active { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
+
+    .mini-btn {
+      padding: 8px 20px;
+      border-radius: 20px;
+      border: none;
+      background: var(--gold);
+      color: #1a1a1a;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Libre Franklin', sans-serif;
+    }
+
+    .text-row { display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 8px; }
+
+    .text-input {
+      padding: 10px 16px;
+      border-radius: 20px;
+      border: 1.5px solid #3a3a4a;
+      background: transparent;
+      color: var(--ink);
+      font-size: 14px;
+      width: 120px;
+      outline: none;
+      font-family: 'Libre Franklin', sans-serif;
+    }
+
+    .send {
+      padding: 10px 16px;
+      border-radius: 20px;
+      border: none;
+      background: var(--gold);
+      color: #1a1a1a;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Libre Franklin', sans-serif;
+    }
+
+    .contact {
+      background: var(--panel);
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 8px;
+    }
+
+    .field { margin-bottom: 14px; }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1.5px solid #3a3a4a;
+      background: #1a1a2a;
+      color: var(--ink);
+      font-size: 14px;
+      font-family: 'Libre Franklin', sans-serif;
+      outline: none;
+    }
+
+    .consent { display: flex; align-items: flex-start; gap: 10px; margin-top: 8px; }
+    .consent input { margin-top: 2px; accent-color: var(--gold); }
+    .consent span { font-size: 12px; color: #777; line-height: 1.5; }
+
+    .submit {
+      width: 100%;
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Libre Franklin', sans-serif;
+      transition: all .15s ease;
+    }
+
+    .submit.enabled { background: var(--gold); color: #1a1a1a; cursor: pointer; }
+    .submit.disabled { background: #3a3a4a; color: #666; cursor: not-allowed; }
+
+    .foot {
+      padding: 12px 28px 16px;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      font-size: 12px;
+      color: #555;
+    }
+
+    .foot a { color: var(--gold); text-decoration: none; }
+
+    .done {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .done h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      color: var(--ink);
+      margin: 0 0 12px;
+      font-weight: 700;
+    }
+
+    .done p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .done-call {
+      margin-top: 32px;
+      padding: 14px 24px;
+      background: #2a2a3a;
+      border-radius: 12px;
+      display: inline-block;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .done-call a { color: var(--gold); text-decoration: none; font-weight: 600; }
+
+    @media (max-width: 640px) {
+      body { padding: 12px; }
+      .wrap { min-height: auto; }
+      .head { padding: 18px 18px 16px; }
+      .chat { padding: 18px; max-height: 60vh; }
+      .foot { padding: 12px 18px 16px; }
+      .q { max-width: 88vw; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <nav>
-        <a href="/">Lakeland Health Insurance</a>
-        <a href="/contact/">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="hero">
-      <h1>Get Help</h1>
-      <p class="sub">Three quick steps. No fluff. David follows up personally.</p>
-      <p class="trust">Usually responds fast during business hours.</p>
-    </section>
-
+  <main class="wrap">
     <section class="card">
-      <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm">
-        <input type="hidden" name="form-name" value="get-help">
-        <p style="display:none;">
-          <label>Don't fill this out: <input name="bot-field"></label>
-        </p>
-        <div class="progress">
-          <div class="dot active" data-step="1"></div>
-          <div class="dot" data-step="2"></div>
-          <div class="dot" data-step="3"></div>
-        </div>
-
-        <div class="step active" id="step1">
-          <h2>Step 1: Basics</h2>
-          <div class="row">
-            <div>
-              <label for="zip">ZIP Code</label>
-              <input id="zip" name="zip_code" type="text" inputmode="numeric" maxlength="5" placeholder="33805" required>
-            </div>
-            <div>
-              <label for="coverage">Coverage Type</label>
-              <select id="coverage" name="coverage_type" required>
-                <option value="">Select one...</option>
-                <option value="ACA Individual/Family">ACA Individual/Family</option>
-                <option value="Medicare">Medicare</option>
-                <option value="Short-Term Medical">Short-Term Medical</option>
-                <option value="Dental/Vision">Dental/Vision</option>
-                <option value="Life Insurance">Life Insurance</option>
-                <option value="Small Business Group">Small Business Group</option>
-                <option value="Not Sure">Not Sure Yet</option>
-              </select>
-            </div>
-          </div>
+      <div id="activeState">
+        <div class="head">
+          <div class="avatar">D</div>
           <div>
-            <label for="household">Household Size</label>
-            <select id="household" name="household_size" required>
-              <option value="">Select one...</option>
-              <option>1</option><option>2</option><option>3</option><option>4</option>
-              <option>5</option><option>6+</option>
-            </select>
-          </div>
-          <div class="actions">
-            <span></span>
-            <button class="btn btn-primary" type="button" id="next1">Continue</button>
+            <div class="name">David Huff</div>
+            <div class="brand">Lakeland Health Insurance</div>
           </div>
         </div>
 
-        <div class="step" id="step2">
-          <h2>Step 2: Your Situation</h2>
-          <div class="row">
-            <div>
-              <label for="current">Current Coverage</label>
-              <select id="current" name="current_coverage_status" required>
-                <option value="">Select one...</option>
-                <option value="No coverage">No coverage</option>
-                <option value="Covered now">Covered now</option>
-                <option value="Coverage ending soon">Coverage ending soon</option>
-                <option value="Not sure">Not sure</option>
-              </select>
-            </div>
-            <div>
-              <label for="renewal">Renewal / Effective Timing</label>
-              <input id="renewal" name="renewal_timing" type="text" placeholder="e.g. next month, Jan 1, ASAP" required>
-            </div>
-          </div>
-          <div>
-            <label for="concern">Main Concern</label>
-            <select id="concern" name="main_concern" required>
-              <option value="">Select one...</option>
-              <option value="Lower monthly premium">Lower monthly premium</option>
-              <option value="Better doctor network">Better doctor network</option>
-              <option value="Lower deductible / out-of-pocket">Lower deductible / out-of-pocket</option>
-              <option value="Prescription coverage">Prescription coverage</option>
-              <option value="Need help understanding options">Need help understanding options</option>
-            </select>
-          </div>
-          <div>
-            <label for="notes">Anything else David should know? (Optional)</label>
-            <textarea id="notes" name="notes" placeholder="Current meds, doctors, budget target, etc."></textarea>
-          </div>
-          <div class="actions">
-            <button class="btn btn-secondary" type="button" id="back2">Back</button>
-            <button class="btn btn-primary" type="button" id="next2">Continue</button>
-          </div>
-        </div>
+        <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm">
+          <input type="hidden" name="form-name" value="get-help">
+          <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
 
-        <div class="step" id="step3">
-          <h2>Step 3: Contact Details</h2>
-          <div class="row">
-            <div>
-              <label for="name">Full Name</label>
-              <input id="name" name="full_name" type="text" required>
-            </div>
-            <div>
-              <label for="phone">Phone</label>
-              <input id="phone" name="phone" type="tel" required>
-            </div>
-          </div>
-          <div>
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required>
-          </div>
-          <div>
-            <label for="consent">
-              <input id="consent" name="consent" type="checkbox" required style="width:auto; margin-right:8px;">I agree to be contacted about plan options.
-            </label>
-          </div>
-
+          <input type="hidden" name="coverage_type" id="coverageInput">
+          <input type="hidden" name="household_size" id="householdInput">
+          <input type="hidden" name="current_coverage_status" id="statusInput">
+          <input type="hidden" name="renewal_timing" id="timingInput">
+          <input type="hidden" name="main_concern" id="concernsInput">
+          <input type="hidden" name="zip_code" id="zipInput">
           <input type="hidden" name="_subject" value="New Lead: Plan-Specific Help Request">
           <input type="hidden" name="source_page" value="/get-help/">
 
-          <div class="actions">
-            <button class="btn btn-secondary" type="button" id="back3">Back</button>
-            <button class="btn btn-primary" type="submit">Send My Request</button>
-          </div>
-          <p class="note">Submission is captured by Netlify Forms and should notify dhuff@healthmarkets.com after notification rules are enabled in Netlify.</p>
-        </div>
-      </form>
+          <div class="chat" id="chat"></div>
+        </form>
 
-      <p class="alt">Prefer direct contact? Email <a href="mailto:dhuff@healthmarkets.com">dhuff@healthmarkets.com</a> or call <a href="tel:+18636403102">(863) 640-3102</a>.</p>
+        <div class="foot">
+          Or call directly:
+          <a href="tel:8636403102">(863) 640-3102</a>
+        </div>
+      </div>
+
+      <div id="doneState" class="done" style="display:none;">
+        <div style="font-size:44px; margin-bottom:20px;">🤝</div>
+        <h2>Got it. David's on it.</h2>
+        <p>Expect a call or text within one business day.</p>
+        <div class="done-call">
+          Can't wait?
+          <a href="tel:8636403102">(863) 640-3102</a>
+        </div>
+      </div>
     </section>
   </main>
 
   <script>
     (function() {
-      const steps = [document.getElementById('step1'), document.getElementById('step2'), document.getElementById('step3')];
-      const dots = document.querySelectorAll('.dot');
-      let current = 0;
-
-      function showStep(index) {
-        steps.forEach((s, i) => s.classList.toggle('active', i === index));
-        dots.forEach((d, i) => {
-          d.classList.remove('active', 'done');
-          if (i < index) d.classList.add('done');
-          if (i === index) d.classList.add('active');
-        });
-        current = index;
-      }
-
-      function validFields(ids) {
-        for (const id of ids) {
-          const el = document.getElementById(id);
-          if (!el.checkValidity()) {
-            el.reportValidity();
-            return false;
-          }
+      var QUESTIONS = [
+        {
+          id: 'coverageType',
+          question: 'What kind of coverage are you looking for?',
+          type: 'single',
+          options: [
+            'ACA / Marketplace',
+            'Medicare',
+            'Short-Term / Gap',
+            'Dental & Vision',
+            'Not sure - help me figure it out'
+          ]
+        },
+        {
+          id: 'householdSize',
+          question: 'Who needs coverage?',
+          type: 'single',
+          options: ['Just me', 'Me + spouse', 'Me + child(ren)', 'Family (3+)']
+        },
+        {
+          id: 'status',
+          question: "What's your current situation?",
+          type: 'single',
+          options: [
+            'Currently uninsured',
+            'Have coverage, want to switch',
+            'Losing coverage soon',
+            'New to Medicare / turning 65',
+            'Just moved to Florida'
+          ]
+        },
+        {
+          id: 'timing',
+          question: 'How soon do you need coverage?',
+          type: 'single',
+          options: ['ASAP', 'Within 30 days', 'Next open enrollment', 'Just exploring']
+        },
+        {
+          id: 'concerns',
+          question: 'What matters most to you?',
+          subtitle: 'Pick all that apply',
+          type: 'multi',
+          options: ['Lower premiums', 'Keep my doctors', 'Rx coverage', 'Low deductibles', 'Understanding my options']
+        },
+        {
+          id: 'zip',
+          question: "What's your ZIP code?",
+          type: 'text',
+          placeholder: '33801'
         }
-        return true;
+      ];
+
+      var answers = {};
+      var currentQ = 0;
+      var showContact = false;
+      var textInput = '';
+
+      var contact = { name: '', phone: '', email: '', consent: false };
+
+      var chat = document.getElementById('chat');
+      var form = document.getElementById('leadForm');
+      var activeState = document.getElementById('activeState');
+      var doneState = document.getElementById('doneState');
+
+      function scrollToBottom() {
+        chat.scrollTop = chat.scrollHeight;
       }
 
-      document.getElementById('next1').addEventListener('click', () => {
-        const zip = document.getElementById('zip').value.trim();
-        if (!validFields(['zip', 'coverage', 'household'])) return;
-        if (!/^\d{5}$/.test(zip)) {
-          document.getElementById('zip').setCustomValidity('Enter a valid 5-digit ZIP code.');
-          document.getElementById('zip').reportValidity();
+      function qBubble(text, subtitle) {
+        var wrap = document.createElement('div');
+        wrap.className = 'q-wrap';
+
+        var holder = document.createElement('div');
+
+        var q = document.createElement('div');
+        q.className = 'q';
+        q.textContent = text;
+        holder.appendChild(q);
+
+        if (subtitle) {
+          var sub = document.createElement('div');
+          sub.className = 'q-sub';
+          sub.textContent = subtitle;
+          holder.appendChild(sub);
+        }
+
+        wrap.appendChild(holder);
+        return wrap;
+      }
+
+      function aBubble(text) {
+        var wrap = document.createElement('div');
+        wrap.className = 'a-wrap';
+
+        var a = document.createElement('div');
+        a.className = 'a';
+        a.textContent = text;
+
+        wrap.appendChild(a);
+        return wrap;
+      }
+
+      function syncHiddenFields() {
+        document.getElementById('coverageInput').value = answers.coverageType || '';
+        document.getElementById('householdInput').value = answers.householdSize || '';
+        document.getElementById('statusInput').value = answers.status || '';
+        document.getElementById('timingInput').value = answers.timing || '';
+        document.getElementById('concernsInput').value = (answers.concerns || []).join(', ');
+        document.getElementById('zipInput').value = answers.zip || '';
+      }
+
+      function validateZip(zip) {
+        return /^\d{5}$/.test(zip);
+      }
+
+      function renderOptions(q) {
+        if (q.type === 'single') {
+          var row = document.createElement('div');
+          row.className = 'opts';
+          q.options.forEach(function(opt) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'opt';
+            btn.textContent = opt;
+            btn.addEventListener('click', function() {
+              answers[q.id] = opt;
+              syncHiddenFields();
+              if (currentQ === 0 && typeof gtag === 'function') gtag('event', 'lead_step_1_complete');
+              currentQ += 1;
+              render();
+            });
+            row.appendChild(btn);
+          });
+          return row;
+        }
+
+        if (q.type === 'multi') {
+          var holder = document.createElement('div');
+          var row = document.createElement('div');
+          row.className = 'opts';
+
+          if (!answers[q.id]) answers[q.id] = [];
+
+          q.options.forEach(function(opt) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'opt' + (answers[q.id].indexOf(opt) >= 0 ? ' active' : '');
+            btn.textContent = opt;
+            btn.addEventListener('click', function() {
+              var idx = answers[q.id].indexOf(opt);
+              if (idx >= 0) answers[q.id].splice(idx, 1);
+              else answers[q.id].push(opt);
+              syncHiddenFields();
+              render();
+            });
+            row.appendChild(btn);
+          });
+
+          holder.appendChild(row);
+
+          if ((answers[q.id] || []).length > 0) {
+            var action = document.createElement('div');
+            action.style.display = 'flex';
+            action.style.justifyContent = 'flex-end';
+            action.style.marginTop = '10px';
+
+            var next = document.createElement('button');
+            next.type = 'button';
+            next.className = 'mini-btn';
+            next.textContent = 'Continue →';
+            next.addEventListener('click', function() {
+              syncHiddenFields();
+              currentQ += 1;
+              render();
+            });
+
+            action.appendChild(next);
+            holder.appendChild(action);
+          }
+
+          return holder;
+        }
+
+        if (q.type === 'text') {
+          var row = document.createElement('div');
+          row.className = 'text-row';
+
+          var input = document.createElement('input');
+          input.type = 'text';
+          input.className = 'text-input';
+          input.placeholder = q.placeholder || '';
+          input.value = textInput;
+          input.autofocus = true;
+          input.addEventListener('input', function(e) { textInput = e.target.value; });
+          input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              submitText(q.id);
+            }
+          });
+
+          var send = document.createElement('button');
+          send.type = 'button';
+          send.className = 'send';
+          send.textContent = '→';
+          send.addEventListener('click', function() { submitText(q.id); });
+
+          row.appendChild(input);
+          row.appendChild(send);
+          return row;
+        }
+
+        return document.createElement('div');
+      }
+
+      function submitText(id) {
+        var val = String(textInput || '').trim();
+        if (!val) return;
+        if (id === 'zip' && !validateZip(val)) {
+          alert('Please enter a valid 5-digit ZIP code.');
           return;
         }
-        document.getElementById('zip').setCustomValidity('');
-        if (typeof gtag === 'function') gtag('event', 'lead_step_1_complete');
-        showStep(1);
-      });
-
-      document.getElementById('back2').addEventListener('click', () => showStep(0));
-      document.getElementById('next2').addEventListener('click', () => {
-        if (!validFields(['current', 'renewal', 'concern'])) return;
+        answers[id] = val;
+        textInput = '';
+        syncHiddenFields();
+        currentQ += 1;
         if (typeof gtag === 'function') gtag('event', 'lead_step_2_complete');
-        showStep(2);
-      });
+        render();
+      }
 
-      document.getElementById('back3').addEventListener('click', () => showStep(1));
-      document.getElementById('leadForm').addEventListener('submit', () => {
+      function contactBlock() {
+        var block = document.createElement('div');
+
+        block.appendChild(aBubble(answers.zip || ''));
+        block.appendChild(qBubble('Perfect. Last step - how should I reach you?'));
+
+        var c = document.createElement('div');
+        c.className = 'contact';
+
+        function field(label, key, type, placeholder) {
+          var w = document.createElement('div');
+          w.className = 'field';
+
+          var l = document.createElement('label');
+          l.textContent = label + ' *';
+
+          var i = document.createElement('input');
+          i.type = type;
+          i.placeholder = placeholder;
+          i.value = contact[key];
+          i.addEventListener('input', function(e) { contact[key] = e.target.value; refreshSubmit(); });
+
+          w.appendChild(l);
+          w.appendChild(i);
+          return w;
+        }
+
+        c.appendChild(field('Full Name', 'name', 'text', 'John Smith'));
+        c.appendChild(field('Phone', 'phone', 'tel', '(863) 555-1234'));
+        c.appendChild(field('Email', 'email', 'email', 'john@example.com'));
+
+        var consent = document.createElement('label');
+        consent.className = 'consent';
+
+        var chk = document.createElement('input');
+        chk.type = 'checkbox';
+        chk.checked = !!contact.consent;
+        chk.addEventListener('change', function(e) { contact.consent = e.target.checked; refreshSubmit(); });
+
+        var cText = document.createElement('span');
+        cText.textContent = 'I agree to be contacted about plan options.';
+
+        consent.appendChild(chk);
+        consent.appendChild(cText);
+        c.appendChild(consent);
+
+        var submit = document.createElement('button');
+        submit.type = 'button';
+        submit.className = 'submit';
+        submit.id = 'submitBtn';
+        submit.textContent = 'Send My Request';
+        submit.addEventListener('click', submitLead);
+        c.appendChild(submit);
+
+        block.appendChild(c);
+
+        function refreshSubmit() {
+          var ok = !!(contact.name.trim() && contact.phone.trim() && contact.email.trim() && contact.consent);
+          submit.classList.toggle('enabled', ok);
+          submit.classList.toggle('disabled', !ok);
+          submit.disabled = !ok;
+        }
+
+        refreshSubmit();
+        return block;
+      }
+
+      function submitLead() {
+        if (!(contact.name.trim() && contact.phone.trim() && contact.email.trim() && contact.consent)) return;
+
+        var n = document.createElement('input'); n.type = 'hidden'; n.name = 'full_name'; n.value = contact.name; form.appendChild(n);
+        var p = document.createElement('input'); p.type = 'hidden'; p.name = 'phone'; p.value = contact.phone; form.appendChild(p);
+        var e = document.createElement('input'); e.type = 'hidden'; e.name = 'email'; e.value = contact.email; form.appendChild(e);
+        var c = document.createElement('input'); c.type = 'hidden'; c.name = 'consent'; c.value = 'yes'; form.appendChild(c);
+
         if (typeof gtag === 'function') gtag('event', 'lead_submit');
-        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'get_help_form' });
-      });
+        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'get_help_form_conversational' });
+
+        form.submit();
+      }
+
+      function render() {
+        syncHiddenFields();
+        chat.innerHTML = '';
+
+        chat.appendChild(qBubble("Hey - let's find you the right plan. I've got a few quick questions."));
+
+        for (var i = 0; i <= currentQ && i < QUESTIONS.length; i += 1) {
+          var q = QUESTIONS[i];
+          var answer = answers[q.id];
+          var isCurrent = i === currentQ;
+
+          if (i > 0) chat.appendChild(qBubble(q.question, q.subtitle));
+
+          if (answer && !isCurrent) {
+            chat.appendChild(aBubble(Array.isArray(answer) ? answer.join(', ') : answer));
+          }
+
+          if (isCurrent) {
+            chat.appendChild(renderOptions(q));
+          }
+        }
+
+        if (currentQ >= QUESTIONS.length && !showContact) {
+          showContact = true;
+        }
+
+        if (showContact) {
+          chat.appendChild(contactBlock());
+        }
+
+        scrollToBottom();
+      }
+
+      render();
     })();
   </script>
 </body>
