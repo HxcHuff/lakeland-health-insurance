@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Coverage Insider Newsletter | Lakeland Health Insurance</title>
+  <meta name="description" content="Join The Coverage Insider for monthly health insurance tips on ACA subsidies, Medicare windows, tax forms, and money-saving plan perks.">
+  <link rel="canonical" href="https://lakelandhealthinsurance.com/newsletter/">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="The Coverage Insider Newsletter">
+  <meta property="og:description" content="No fluff. Real monthly health insurance tips from David Huff.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://lakelandhealthinsurance.com/newsletter/">
+  <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Coverage Insider Newsletter">
+  <meta name="twitter:description" content="Monthly coverage guidance in plain English.">
+  <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy-900: #0d1b3d;
+      --navy-700: #1e3a8a;
+      --teal-500: #10b981;
+      --teal-600: #059669;
+      --sky-100: #eaf2ff;
+      --ink: #10203e;
+      --muted: #54627f;
+      --line: #d8e4fb;
+      --paper: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 20% -20%, #102f7a 0%, rgba(16, 47, 122, 0) 62%),
+        radial-gradient(1100px 500px at 90% -30%, #0369a1 0%, rgba(3, 105, 161, 0) 58%),
+        #dce8ff;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .topbar {
+      padding: 18px 0;
+      background: linear-gradient(90deg, #081735 0%, #0d2a66 100%);
+    }
+
+    .brand {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-wrap {
+      padding: 12px 0 52px;
+    }
+
+    .hero {
+      background: linear-gradient(150deg, #071330 0%, #0e2f78 62%, #1450c7 100%);
+      color: #f8fbff;
+      border-radius: 26px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 26px 74px rgba(7, 19, 48, 0.48);
+      overflow: hidden;
+      position: relative;
+      animation: rise 700ms ease-out;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.2);
+      right: -120px;
+      top: -120px;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 28px;
+      grid-template-columns: 1.15fr 0.85fr;
+      padding: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #9cd8ff;
+    }
+
+    h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.05;
+      margin: 0 0 14px;
+      letter-spacing: 0.01em;
+    }
+
+    .hero p {
+      margin: 0 0 22px;
+      color: #d6e6ff;
+      max-width: 60ch;
+    }
+
+    .bullets {
+      margin: 0 0 24px;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .bullets li {
+      position: relative;
+      padding-left: 28px;
+      color: #dff9ee;
+      font-weight: 600;
+    }
+
+    .bullets li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.25);
+      color: #6ee7b7;
+      text-align: center;
+      line-height: 20px;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .meta {
+      font-size: 0.9rem;
+      color: #9dc2f4;
+    }
+
+    .hero-actions {
+      margin: 0 0 18px;
+    }
+
+    .hero-link {
+      display: inline-block;
+      text-decoration: none;
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(110, 231, 183, 0.45);
+      color: #dff9ee;
+      font-weight: 800;
+      padding: 10px 14px;
+      border-radius: 10px;
+    }
+
+    .signup {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: inset 0 0 0 1px #e2ecff;
+      color: var(--ink);
+    }
+
+    .signup h2 {
+      margin: 0 0 6px;
+      font-size: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .signup p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .field { margin-bottom: 10px; }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #30476f;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      border: 1px solid #c8daf9;
+      border-radius: 10px;
+      padding: 12px;
+      font: inherit;
+      color: var(--ink);
+      background: #fbfdff;
+    }
+
+    input:focus, select:focus {
+      outline: 2px solid #8ab4f8;
+      border-color: #8ab4f8;
+    }
+
+    .split {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .consent {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      margin: 10px 0 0;
+      font-size: 0.8rem;
+      color: #4f6285;
+    }
+
+    .consent input {
+      width: auto;
+      margin-top: 3px;
+      accent-color: var(--teal-500);
+    }
+
+    .btn {
+      width: 100%;
+      margin-top: 12px;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(140deg, var(--teal-500), var(--teal-600));
+      color: #ffffff;
+      padding: 13px 18px;
+      font-weight: 800;
+      font-size: 0.98rem;
+      cursor: pointer;
+      box-shadow: 0 12px 24px rgba(16, 185, 129, 0.25);
+      transition: transform 150ms ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .trust {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: #64789d;
+      text-align: center;
+    }
+
+    .sections {
+      padding: 0 0 54px;
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 24px rgba(41, 79, 145, 0.08);
+      animation: rise 700ms ease-out both;
+    }
+
+    .card:nth-child(2) { animation-delay: 70ms; }
+    .card:nth-child(3) { animation-delay: 130ms; }
+    .card:nth-child(4) { animation-delay: 180ms; }
+    .card:nth-child(5) { animation-delay: 230ms; }
+    .card:nth-child(6) { animation-delay: 280ms; }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 4px 9px;
+      color: #114995;
+      background: var(--sky-100);
+    }
+
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: 1.07rem;
+      line-height: 1.3;
+      color: #122c55;
+    }
+
+    .card p {
+      margin: 0;
+      color: #4d5f80;
+      font-size: 0.92rem;
+    }
+
+    .final-cta {
+      background: linear-gradient(120deg, #ffffff 0%, #f5f9ff 100%);
+      border: 1px solid #ccddfb;
+      border-radius: 20px;
+      padding: 26px;
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .final-cta h2 {
+      margin: 0 0 6px;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: #1a3e7e;
+      font-family: "Cormorant Garamond", serif;
+    }
+
+    .final-cta p {
+      margin: 0 0 14px;
+      color: #51668d;
+    }
+
+    .final-cta a {
+      display: inline-block;
+      background: #1e3a8a;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 12px 18px;
+      border-radius: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 0 0 34px;
+      color: #55698e;
+      font-size: 0.84rem;
+    }
+
+    footer a {
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 960px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        padding: 28px 20px;
+      }
+      .sections {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .sections {
+        grid-template-columns: 1fr;
+      }
+      .split {
+        grid-template-columns: 1fr;
+      }
+      .hero-wrap {
+        padding-bottom: 34px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <a class="brand" href="/">Lakeland Health Insurance</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-wrap">
+      <div class="container">
+        <article class="hero">
+          <div class="hero-grid">
+            <div>
+              <p class="eyebrow">Monthly Newsletter</p>
+              <h1>The Coverage Insider</h1>
+              <p>Everything your health plan will not explain clearly, delivered once per month by David Huff. Practical ACA, Medicare, subsidy, and tax guidance in plain language.</p>
+              <ul class="bullets">
+                <li>ACA subsidy protection and income-change alerts</li>
+                <li>Medicare enrollment deadlines and switch windows</li>
+                <li>1095 and tax-season updates to avoid repayment issues</li>
+              </ul>
+              <div class="hero-actions">
+                <a class="hero-link" href="#signup">Schedule a Free Coverage Review</a>
+              </div>
+              <p class="meta">No spam. No cold calls. Unsubscribe anytime. FL License #W371813</p>
+            </div>
+
+            <aside class="signup" id="signup">
+              <h2>Add Me to the List</h2>
+              <p>Get one high-value email each month.</p>
+              <form name="newsletter-signup" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field">
+                <input type="hidden" name="form-name" value="newsletter-signup">
+                <p style="display:none;">
+                  <label>Do not fill this out: <input name="bot-field"></label>
+                </p>
+                <input type="hidden" name="source_page" value="/newsletter/">
+                <input type="hidden" name="_subject" value="New Newsletter Signup - The Coverage Insider">
+
+                <div class="split">
+                  <div class="field">
+                    <label for="first_name">First Name</label>
+                    <input id="first_name" name="first_name" type="text" required>
+                  </div>
+                  <div class="field">
+                    <label for="last_name">Last Name</label>
+                    <input id="last_name" name="last_name" type="text">
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" required>
+                </div>
+
+                <div class="field">
+                  <label for="phone">Phone (optional)</label>
+                  <input id="phone" name="phone" type="tel" placeholder="(863) 555-1234">
+                </div>
+
+                <div class="field">
+                  <label for="interest">Most relevant topic for you</label>
+                  <select id="interest" name="interest">
+                    <option value="general">General Health Insurance Tips</option>
+                    <option value="aca">ACA / Marketplace</option>
+                    <option value="medicare">Medicare</option>
+                    <option value="taxes">1095 / Tax Questions</option>
+                    <option value="subsidies">Subsidies & Savings</option>
+                  </select>
+                </div>
+
+                <label class="consent">
+                  <input type="checkbox" name="consent" required>
+                  <span>I agree to receive newsletter emails from Lakeland Health Insurance. I understand I can unsubscribe at any time.</span>
+                </label>
+
+                <button class="btn" type="submit">Subscribe for Free</button>
+                <p class="trust">Trusted local guidance from David Huff in Lakeland, Florida.</p>
+              </form>
+            </aside>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="container sections">
+      <article class="card">
+        <span class="tag">Tax Season</span>
+        <h3>1095 Form Breakdowns</h3>
+        <p>Which 1095 form matters, when to wait before filing, and the mistakes that trigger subsidy repayment notices.</p>
+      </article>
+      <article class="card">
+        <span class="tag">Savings</span>
+        <h3>Keep Your Subsidy Protected</h3>
+        <p>How to report income changes properly and avoid surprises when your tax return reconciles your advance credits.</p>
+      </article>
+      <article class="card">
+        <span class="tag">Medicare</span>
+        <h3>Turning 65 Timelines</h3>
+        <p>Simple reminders for IEP, OEP, and AEP windows so you do not miss enrollment opportunities.</p>
+      </article>
+      <article class="card">
+        <span class="tag">Carrier Perks</span>
+        <h3>Member Rewards Most People Miss</h3>
+        <p>Actionable instructions for getting gift cards, OTC allowances, and fitness perks from your plan.</p>
+      </article>
+      <article class="card">
+        <span class="tag">Practical</span>
+        <h3>Monthly Coverage Tips</h3>
+        <p>What to do now, what to avoid, and what changes are worth reviewing with a broker before they cost you money.</p>
+      </article>
+      <article class="card">
+        <span class="tag">Real Voice</span>
+        <h3>No-Fluff Updates</h3>
+        <p>Clear guidance from a local licensed broker, plus occasional healthy recipes and a Friday joke to keep it human.</p>
+      </article>
+    </section>
+
+    <section class="container">
+      <div class="final-cta">
+        <h2>Know someone paying too much for coverage?</h2>
+        <p>Share this page and help them make better health insurance decisions.</p>
+        <a href="#signup">Schedule My Free Review</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    Lakeland Health Insurance · David Huff · FL License #W371813 ·
+    <a href="https://www.facebook.com/HealthMarkets.David.Huff">Facebook</a> ·
+    <a href="/privacy-policy.html">Privacy Policy</a>
+  </footer>
+</body>
+</html>
