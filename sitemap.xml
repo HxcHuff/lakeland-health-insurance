@@ -23,7 +23,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/our-approach.html</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -51,7 +51,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/</loc>
-    <lastmod>2026-02-17</lastmod>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -72,7 +72,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/aca-vs-short-term-plans.html</loc>
-    <lastmod>2026-02-17</lastmod>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
@@ -128,7 +128,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/preexisting-condition-guide.html</loc>
-    <lastmod>2026-02-17</lastmod>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
@@ -366,6 +366,20 @@
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/trump-state-of-the-union-healthcare-hsa-2026.html</loc>
     <lastmod>2026-02-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/self-employed-tax-deductions-ichra-guide.html</loc>
+    <lastmod>2026-02-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/why-florida-health-insurance-premiums-increased-2026.html</loc>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
