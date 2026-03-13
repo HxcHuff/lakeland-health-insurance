@@ -1,0 +1,97 @@
+:root {
+  --lhi-navy: #1B2A4A;
+  --lhi-gold: #D4A843;
+  --lhi-line: #E2E8F0;
+  --lhi-bg: #F8FAFC;
+  --lhi-body: #1E293B;
+  --lhi-muted: #475569;
+}
+
+body {
+  background: var(--lhi-bg) !important;
+  color: var(--lhi-body) !important;
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+.lhi-topbar {
+  background: var(--lhi-navy);
+  color: #fff;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.lhi-topbar a {
+  color: #fff;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+header {
+  background: #fff !important;
+  border-bottom: 1px solid var(--lhi-line) !important;
+  box-shadow: none !important;
+}
+
+header .logo,
+header .brand-name {
+  font-family: 'Instrument Serif', serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  color: var(--lhi-navy) !important;
+  line-height: 1.2 !important;
+  text-decoration: none !important;
+}
+
+header .logo::after,
+header .license-tag {
+  content: 'Licensed FL Broker #W371813' !important;
+  display: block !important;
+  color: var(--lhi-gold) !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  margin-top: 2px !important;
+}
+
+header nav a,
+.nav-links a,
+.menu-item a {
+  color: var(--lhi-navy) !important;
+}
+
+.article-header,
+.blog-header,
+.hero,
+.page-hero {
+  background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%) !important;
+}
+
+.article-content,
+.blog-article,
+.card,
+.content-card {
+  background: #fff !important;
+  border: 1px solid var(--lhi-line);
+  border-radius: 14px !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important;
+}
+
+h1, h2, h3 {
+  color: var(--lhi-navy) !important;
+}
+
+p, li {
+  color: var(--lhi-body);
+}
+
+footer {
+  background: #fff !important;
+  color: var(--lhi-muted) !important;
+  border-top: 1px solid var(--lhi-line);
+}
+
+@media (max-width: 768px) {
+  .lhi-topbar {
+    font-size: 0.82rem;
+  }
+}
