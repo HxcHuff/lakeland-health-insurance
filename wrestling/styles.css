@@ -1,0 +1,635 @@
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface-2: #242835;
+  --border: #2e3345;
+  --text: #e4e7f1;
+  --text-muted: #8b90a5;
+  --accent: #6c5ce7;
+  --accent-glow: rgba(108, 92, 231, 0.3);
+  --gold: #f9ca24;
+  --silver: #bdc3c7;
+  --bronze: #e67e22;
+  --green: #00b894;
+  --red: #e74c3c;
+  --blue: #0984e3;
+  --radius: 10px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+header {
+  background: linear-gradient(135deg, #1a1d27 0%, #2d1f5e 50%, #1a1d27 100%);
+  border-bottom: 2px solid var(--accent);
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #fff 0%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+
+/* ── Navigation ── */
+nav {
+  display: flex;
+  gap: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-btn {
+  flex: 1;
+  min-width: max-content;
+  padding: 0.85rem 1.2rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.nav-btn:hover { color: var(--text); background: var(--surface-2); }
+.nav-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  background: var(--surface-2);
+}
+
+/* ── Main ── */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.view { display: none; }
+.view.active { display: block; }
+
+.view h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+/* ── Scoring Legend ── */
+.scoring-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+}
+
+.legend-title {
+  font-weight: 700;
+  color: var(--text);
+  margin-right: 0.25rem;
+}
+
+.legend-item {
+  color: var(--text-muted);
+  padding: 0.15rem 0.5rem;
+  background: var(--surface-2);
+  border-radius: 4px;
+}
+
+/* ── Standings Table ── */
+.standings-container {
+  overflow-x: auto;
+}
+
+table.standings {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+table.standings thead th {
+  background: var(--surface-2);
+  padding: 0.75rem 0.6rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+
+table.standings thead th.score-col {
+  text-align: center;
+}
+
+table.standings tbody td {
+  padding: 0.7rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+table.standings tbody td.score-col {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+table.standings tbody tr:last-child td { border-bottom: none; }
+
+table.standings tbody tr:hover { background: var(--surface-2); }
+
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 0.8rem;
+}
+
+.rank-1 { background: var(--gold); color: #1a1d27; }
+.rank-2 { background: var(--silver); color: #1a1d27; }
+.rank-3 { background: var(--bronze); color: #fff; }
+.rank-other { background: var(--surface-2); color: var(--text-muted); }
+
+.team-name-cell {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.total-score {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--accent);
+}
+
+/* ── Team Rosters ── */
+.team-selector {
+  margin-bottom: 1.5rem;
+}
+
+.team-selector select,
+.results-weight-select select {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.7rem 1rem;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.team-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.team-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.team-card-header h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.team-total {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.team-total span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.roster-row {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.roster-row:last-child { border-bottom: none; }
+.roster-row:hover { background: var(--surface-2); }
+
+.roster-weight {
+  width: 55px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.roster-seed {
+  width: 30px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.roster-wrestler {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.roster-school {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+.roster-record {
+  width: 50px;
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.roster-points {
+  width: 45px;
+  text-align: right;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.pts-positive { color: var(--green); }
+.pts-zero { color: var(--text-muted); }
+
+/* ── Placement Badge ── */
+.placement-badge {
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-left: 0.5rem;
+}
+
+.place-1 { background: var(--gold); color: #1a1d27; }
+.place-2 { background: var(--silver); color: #1a1d27; }
+.place-3 { background: var(--bronze); color: #fff; }
+.place-4, .place-5, .place-6, .place-7, .place-8 { background: var(--surface-2); color: var(--text-muted); }
+.place-r12 { background: #2d3436; color: var(--text-muted); }
+
+/* ── Weight Class View ── */
+.weight-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.weight-tab {
+  padding: 0.5rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.weight-tab:hover { border-color: var(--accent); color: var(--text); }
+.weight-tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.weight-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.weight-card-header {
+  padding: 1rem 1.25rem;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.weight-card-header h3 {
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.weight-wrestler-row {
+  display: flex;
+  align-items: center;
+  padding: 0.65rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.weight-wrestler-row:last-child { border-bottom: none; }
+.weight-wrestler-row:hover { background: var(--surface-2); }
+
+.ww-seed {
+  width: 35px;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.ww-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.ww-school {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+
+.ww-record {
+  width: 50px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.ww-owner {
+  width: 90px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.ww-points {
+  width: 45px;
+  text-align: right;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* ── Draft Board ── */
+.draft-board-scroll { overflow-x: auto; }
+
+table.draft-board {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  min-width: 900px;
+}
+
+table.draft-board th {
+  background: var(--surface-2);
+  padding: 0.65rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  border-bottom: 2px solid var(--border);
+  text-align: center;
+  white-space: nowrap;
+}
+
+table.draft-board th:first-child {
+  text-align: left;
+  padding-left: 1rem;
+}
+
+table.draft-board td {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  font-size: 0.75rem;
+  text-align: center;
+  vertical-align: top;
+  line-height: 1.4;
+}
+
+table.draft-board td:first-child {
+  text-align: left;
+  padding-left: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+table.draft-board td:last-child { border-right: none; }
+table.draft-board tr:last-child td { border-bottom: none; }
+
+.db-wrestler-name { font-weight: 600; display: block; }
+.db-wrestler-school { color: var(--text-muted); font-size: 0.7rem; }
+.db-wrestler-seed { color: var(--accent); font-weight: 700; }
+
+/* ── Results Entry ── */
+.results-info {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.results-weight-select { margin-bottom: 1.5rem; }
+
+.result-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.65rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 0.5rem;
+}
+
+.result-seed {
+  font-weight: 700;
+  color: var(--accent);
+  width: 30px;
+  flex-shrink: 0;
+}
+
+.result-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.result-owner {
+  font-size: 0.8rem;
+  color: var(--gold);
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.result-select {
+  width: 120px;
+  padding: 0.4rem 0.5rem;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.results-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-primary {
+  padding: 0.75rem 2rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover { background: #5a4bd1; transform: translateY(-1px); }
+
+.btn-secondary {
+  padding: 0.75rem 2rem;
+  background: var(--surface);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover { border-color: var(--red); color: var(--red); }
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  header h1 { font-size: 1.4rem; }
+  main { padding: 1rem; }
+  .view h2 { font-size: 1.2rem; }
+
+  .roster-school, .ww-school { display: none; }
+
+  .roster-row, .weight-wrestler-row {
+    font-size: 0.8rem;
+  }
+
+  .result-row {
+    flex-wrap: wrap;
+  }
+
+  .result-owner { width: auto; }
+}
+
+@media (max-width: 480px) {
+  header { padding: 1.2rem 1rem; }
+  header h1 { font-size: 1.2rem; }
+  .nav-btn { padding: 0.7rem 0.8rem; font-size: 0.75rem; }
+  .scoring-legend { font-size: 0.7rem; }
+}
+
+/* ── Toast Notification ── */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--green);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}

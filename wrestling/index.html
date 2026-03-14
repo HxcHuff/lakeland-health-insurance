@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 NCAA Wrestling Fantasy Draft</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>2026 NCAA Wrestling Fantasy Draft</h1>
+      <p class="subtitle">10 Teams &bull; 10 Weight Classes &bull; 100 Wrestlers</p>
+    </div>
+  </header>
+
+  <nav>
+    <button class="nav-btn active" data-view="standings">Standings</button>
+    <button class="nav-btn" data-view="teams">My Teams</button>
+    <button class="nav-btn" data-view="weights">By Weight</button>
+    <button class="nav-btn" data-view="draft-board">Draft Board</button>
+    <button class="nav-btn" data-view="results">Enter Results</button>
+  </nav>
+
+  <main>
+    <!-- Standings View -->
+    <section id="standings-view" class="view active">
+      <h2>Leaderboard</h2>
+      <div class="scoring-legend">
+        <span class="legend-title">Scoring:</span>
+        <span class="legend-item">1st=16</span>
+        <span class="legend-item">2nd=12</span>
+        <span class="legend-item">3rd=10</span>
+        <span class="legend-item">4th=8</span>
+        <span class="legend-item">5th=6</span>
+        <span class="legend-item">6th=5</span>
+        <span class="legend-item">7th=4</span>
+        <span class="legend-item">8th=3</span>
+        <span class="legend-item">R12=1.5</span>
+      </div>
+      <div id="standings-table"></div>
+    </section>
+
+    <!-- Teams View -->
+    <section id="teams-view" class="view">
+      <h2>Team Rosters</h2>
+      <div class="team-selector">
+        <select id="team-select">
+          <option value="all">All Teams</option>
+        </select>
+      </div>
+      <div id="team-rosters"></div>
+    </section>
+
+    <!-- Weight Classes View -->
+    <section id="weights-view" class="view">
+      <h2>Weight Classes</h2>
+      <div class="weight-tabs" id="weight-tabs"></div>
+      <div id="weight-detail"></div>
+    </section>
+
+    <!-- Draft Board View -->
+    <section id="draft-board-view" class="view">
+      <h2>Draft Board</h2>
+      <div class="draft-board-scroll">
+        <div id="draft-board"></div>
+      </div>
+    </section>
+
+    <!-- Results Entry View -->
+    <section id="results-view" class="view">
+      <h2>Enter Tournament Results</h2>
+      <p class="results-info">Select a weight class and assign placements to calculate fantasy scores.</p>
+      <div class="results-weight-select">
+        <select id="results-weight-select"></select>
+      </div>
+      <div id="results-entry"></div>
+      <div class="results-actions">
+        <button id="save-results" class="btn-primary">Save Results</button>
+        <button id="clear-results" class="btn-secondary">Clear All Results</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>2026 NCAA Wrestling Fantasy Draft &bull; Season 2025-26</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
