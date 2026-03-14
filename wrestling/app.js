@@ -1,5 +1,27 @@
 // ── 2026 NCAA Wrestling Fantasy Draft App ──
 
+// ── Theme Toggle ──
+function initTheme() {
+  const saved = localStorage.getItem("wrestlingTheme");
+  if (saved) {
+    document.documentElement.setAttribute("data-theme", saved);
+  }
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute("data-theme");
+  const next = current === "light" ? "dark" : "light";
+  if (next === "dark") {
+    document.documentElement.removeAttribute("data-theme");
+  } else {
+    document.documentElement.setAttribute("data-theme", next);
+  }
+  localStorage.setItem("wrestlingTheme", next);
+}
+
+// Apply theme immediately (before DOM ready) to prevent flash
+initTheme();
+
 const TEAM_NAMES = [
   "Joe Lowe", "Eli", "Jerry", "Ab", "Levi",
   "Issac", "Jason", "Sher", "Huff", "Connor"
@@ -406,6 +428,9 @@ function showToast(msg) {
 
 // ── Event Listeners ──
 document.addEventListener("DOMContentLoaded", () => {
+  // Theme toggle
+  document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
+
   // Nav
   document.querySelectorAll(".nav-btn").forEach(btn => {
     btn.addEventListener("click", () => {
