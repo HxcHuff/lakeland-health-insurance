@@ -68,6 +68,9 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1B2A4A">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -351,24 +354,140 @@ header .cta-button {
   line-height: 1.2 !important;
 }
 
-  </style>
+  
+/* Standard Navigation */
+.logo-container { display: flex; align-items: center; gap: 15px; }
+.brand-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--navy, #1B2A4A);
+    line-height: 1.2;
+}
+.license-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    color: var(--gold, #D4A843);
+    font-weight: 600;
+    display: block;
+    margin-top: 2px;
+}
+.menu-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+.menu-button:hover { background-color: #F1F5F9; }
+.ellipses { display: flex; flex-direction: column; gap: 3px; }
+.dot { width: 4px; height: 4px; background-color: #475569; border-radius: 50%; }
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 100px;
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    min-width: 200px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+}
+.dropdown-menu.show { opacity: 1; visibility: visible; transform: translateY(0); }
+.menu-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #F1F5F9;
+    transition: background-color 0.2s;
+}
+.menu-item:hover { background-color: #F8FAFC; }
+.menu-item:last-child { border-bottom: none; }
+.menu-item a { font-weight: 500; color: #334155; font-size: 0.95rem; text-decoration: none; }
+.nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; margin: 0; padding: 0; }
+.nav-links a {
+    text-decoration: none;
+    color: #334155;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--gold, #D4A843); }
+.cta-button {
+    background: linear-gradient(135deg, var(--gold, #D4A843), #B8962D);
+    color: #111827;
+    padding: 11px 24px;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.05rem;
+    box-shadow: 0 10px 30px rgba(212,168,67,0.2);
+    transition: all 0.3s ease;
+}
+.cta-button:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(212,168,67,0.3); }
+@media (max-width: 900px) {
+    .nav-links { display: none; }
+    .cta-button { display: none; }
+}
+
+/* Footer */
+footer .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    padding: 2.5rem 0;
+}
+footer .footer-column h3 { margin-bottom: 0.75rem; }
+footer .footer-column ul { list-style: none; padding: 0; }
+footer .footer-column li { margin-bottom: 0.5rem; font-size: 0.9rem; }
+footer .footer-column a { text-decoration: none; transition: color 0.2s; }
+footer .footer-bottom { border-top: 1px solid rgba(0,0,0,0.1); padding-top: 1.5rem; text-align: center; font-size: 0.85rem; }
+</style>
 
     <link rel="stylesheet" href="/css/blog-unified.css">
 </head>
 <body>
     <header>
+    <div class="container">
         <nav>
             <div class="logo-container">
-                <a href="/" class="logo">Lakeland Health Insurance</a>
+                <div class="brand-name">
+                    Lakeland Health Insurance
+                    <span class="license-tag">Licensed FL Broker #W371813</span>
+                </div>
+                <button class="menu-button" onclick="toggleMenu()" aria-label="Toggle navigation menu">
+                    <div class="ellipses">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="menu-item"><a href="/">Home</a></div>
+                    <div class="menu-item"><a href="/plans/">Health Plans</a></div>
+                    <div class="menu-item"><a href="/blog/">Blog</a></div>
+                    <div class="menu-item"><a href="/about/">About</a></div>
+                    <div class="menu-item"><a href="/links/">Links</a></div>
+                    <div class="menu-item"><a href="/contact/">Contact</a></div>
+                    <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
+                </div>
             </div>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
+                <li><a href="/plans/">Health Plans</a></li>
                 <li><a href="/blog/">Blog</a></li>
                 <li><a href="/about/">About</a></li>
+                <li><a href="/links/">Links</a></li>
+                <li><a href="/contact/">Contact</a></li>
             </ul>
-            <a href="tel:+18636403102" class="cta-button">Call Now</a>
+            <a href="/get-help/" class="cta-button">Talk to David</a>
         </nav>
-    </header>
+    </div>
+</header>
 
     <section class="article-header">
         <div class="container">
@@ -682,15 +801,73 @@ header .cta-button {
     </section>
 
     <footer>
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2026 Lakeland Health Insurance. Licensed FL Broker #W371813</p>
-                <p style="font-size: 0.8rem; margin-top: 0.5rem;"><a href="/privacy-policy.html">Privacy Policy</a></p>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>Contact David</h3>
+                <ul>
+                    <li><a href="tel:+18636403102"><span aria-hidden="true">&#128222;</span> (863) 640-3102</a></li>
+                    <li><a href="mailto:dhuff@healthmarkets.com"><span aria-hidden="true">✉️</span> dhuff@healthmarkets.com</a></li>
+                    <li><a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
+                    <li><span aria-hidden="true">📍</span> Central Florida Headquarters</li>
+                    <li><span aria-hidden="true">⏰</span> Mon-Fri 8AM-8PM EST</li>
+                    <li><span aria-hidden="true">⏰</span> Sat 9AM-5PM EST</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Service Areas</h3>
+                <ul>
+                    <li><span aria-hidden="true">🏡</span> Florida Residents</li>
+                    <li><span aria-hidden="true">🇺🇸</span> Coverage Across the Nation</li>
+                    <li><span aria-hidden="true">💼</span> Small Business Groups</li>
+                    <li><span aria-hidden="true">👨‍👩‍👧‍👦</span> Individual &amp; Family Plans</li>
+                    <li><span aria-hidden="true">🤓</span> Medicare Specialists</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/plans/">Insurance Plans</a></li>
+                    <li><a href="/health-protector-guard/">Health Protector Guard</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/our-approach.html">Our Approach</a></li>
+                    <li><a href="/about/">About Us</a></li>
+                    <li><a href="/blog/florida-insurance-guide.html">Florida Health Insurance Guide</a></li>
+                    <li><a href="/contact/">Get Quote</a></li>
+                    <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+                </ul>
             </div>
         </div>
-    </footer>
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
+            <p>FL License #W371813 | Serving most of the United States with honest insurance advice</p>
+            <p style="margin-top: 1rem;">
+                <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: var(--gold); text-decoration: none; font-weight: 500;">
+                    Powered by David the Insurance Dude
+                </a>
+            </p>
+        </div>
+    </div>
+</footer>
     <script src="/js/blog-cta.js" defer></script>
 
     <script src="/js/blog-theme.js" defer></script>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.classList.toggle('show');
+        }
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdownMenu');
+            const button = document.querySelector('.menu-button');
+            if (menu && button && !menu.contains(event.target) && !button.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        });
+        var yearSpan = document.getElementById('current-year');
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

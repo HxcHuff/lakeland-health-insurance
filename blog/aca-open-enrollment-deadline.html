@@ -68,6 +68,9 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1B2A4A">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -563,46 +566,61 @@ header .cta-button {
   line-height: 1.2 !important;
 }
 
-  </style>
+  
+/* Footer */
+footer .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    padding: 2.5rem 0;
+}
+footer .footer-column h3 { margin-bottom: 0.75rem; }
+footer .footer-column ul { list-style: none; padding: 0; }
+footer .footer-column li { margin-bottom: 0.5rem; font-size: 0.9rem; }
+footer .footer-column a { text-decoration: none; transition: color 0.2s; }
+footer .footer-bottom { border-top: 1px solid rgba(0,0,0,0.1); padding-top: 1.5rem; text-align: center; font-size: 0.85rem; }
+</style>
 
     <link rel="stylesheet" href="/css/blog-unified.css">
 </head>
 <body>
     <header>
+    <div class="container">
         <nav>
             <div class="logo-container">
-                <a href="../index.html" class="logo">Lakeland Health Insurance</a>
-                <button class="menu-button" onclick="toggleMenu()">
+                <div class="brand-name">
+                    Lakeland Health Insurance
+                    <span class="license-tag">Licensed FL Broker #W371813</span>
+                </div>
+                <button class="menu-button" onclick="toggleMenu()" aria-label="Toggle navigation menu">
                     <div class="ellipses">
                         <div class="dot"></div>
                         <div class="dot"></div>
                         <div class="dot"></div>
                     </div>
                 </button>
-                
                 <div class="dropdown-menu" id="dropdownMenu">
-                    <div class="menu-item"><a href="../index.html#plans">Health Plans</a></div>
-                    <div class="menu-item"><a href="/contact/">Get Quote</a></div>
-                    <div class="menu-item"><a href="index.html">Blog</a></div>
-                    <div class="menu-item"><a href="../index.html#about">About Us</a></div>
+                    <div class="menu-item"><a href="/">Home</a></div>
+                    <div class="menu-item"><a href="/plans/">Health Plans</a></div>
+                    <div class="menu-item"><a href="/blog/">Blog</a></div>
+                    <div class="menu-item"><a href="/about/">About</a></div>
                     <div class="menu-item"><a href="/links/">Links</a></div>
-                    <div class="menu-item"><a href="../index.html#contact">Contact</a></div>
-                    <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
-                        <div class="menu-item"><a href="/chat.html">Chat</a></div>
+                    <div class="menu-item"><a href="/contact/">Contact</a></div>
+                    <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
                 </div>
             </div>
             <ul class="nav-links">
-                <li><a href="../index.html#home">Home</a></li>
-                <li><a href="../index.html#plans">Plans</a></li>
-                <li><a href="index.html">Blog</a></li>
-                <li><a href="../index.html#about">About</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/plans/">Health Plans</a></li>
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="/about/">About</a></li>
                 <li><a href="/links/">Links</a></li>
-                <li><a href="../index.html#contact">Contact</a></li>
-                    <li><a href="/chat.html">Chat</a></li>
+                <li><a href="/contact/">Contact</a></li>
             </ul>
             <a href="/get-help/" class="cta-button">Talk to David</a>
         </nav>
-    </header>
+    </div>
+</header>
 
     <section class="article-header">
         <div class="container">
@@ -610,7 +628,7 @@ header .cta-button {
             
             <div class="article-meta">
                 <div class="author-info">
-                    <img src="../david_the_dude2.jpg" alt="David the Insurance Dude" class="author-avatar" loading="lazy">
+                    <img src="/david_the_dude2.jpg" alt="David the Insurance Dude" class="author-avatar" loading="lazy">
                     <div class="author-details">
                         <h3>David the Insurance Dude</h3>
                         <p>Licensed Insurance Agent</p>
@@ -834,36 +852,56 @@ header .cta-button {
         </div>
     </section>
 
-    <footer id="contact">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Contact David</h4>
-                <p>📞 <a href="tel:+18636403102" style="color: white; text-decoration: none;">(863) 640-3102</a></p>
-                <p>✉️ <a href="mailto:dhuff@healthmarkets.com" style="color: white; text-decoration: none;">dhuff@healthmarkets.com</a></p>
-                <p>📍 Central Florida</p>
+    <footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>Contact David</h3>
+                <ul>
+                    <li><a href="tel:+18636403102"><span aria-hidden="true">&#128222;</span> (863) 640-3102</a></li>
+                    <li><a href="mailto:dhuff@healthmarkets.com"><span aria-hidden="true">✉️</span> dhuff@healthmarkets.com</a></li>
+                    <li><a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
+                    <li><span aria-hidden="true">📍</span> Central Florida Headquarters</li>
+                    <li><span aria-hidden="true">⏰</span> Mon-Fri 8AM-8PM EST</li>
+                    <li><span aria-hidden="true">⏰</span> Sat 9AM-5PM EST</li>
+                </ul>
             </div>
-            
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <p><a href="../index.html#plans" style="color: #ccc; text-decoration: none;">Insurance Plans</a></p>
-                <p><a href="/contact/" style="color: #ccc; text-decoration: none;">Get Quote</a></p>
-                <p><a href="../index.html#about" style="color: #ccc; text-decoration: none;">About David</a></p>
-                <p><a href="/privacy-policy.html" style="color: #ccc; text-decoration: none;">Privacy Policy</a></p>
+            <div class="footer-column">
+                <h3>Service Areas</h3>
+                <ul>
+                    <li><span aria-hidden="true">🏡</span> Florida Residents</li>
+                    <li><span aria-hidden="true">🇺🇸</span> Coverage Across the Nation</li>
+                    <li><span aria-hidden="true">💼</span> Small Business Groups</li>
+                    <li><span aria-hidden="true">👨‍👩‍👧‍👦</span> Individual &amp; Family Plans</li>
+                    <li><span aria-hidden="true">🤓</span> Medicare Specialists</li>
+                </ul>
             </div>
-            
-            <div class="footer-section">
-                <h4>More Articles</h4>
-                <p><a href="index.html" style="color: #ccc; text-decoration: none;">All Blog Posts</a></p>
-                <p><a href="short-term-medical-guide.html" style="color: #ccc; text-decoration: none;">Short-Term Medical</a></p>
-                <p><a href="medicare-advantage-vs-supplement.html" style="color: #ccc; text-decoration: none;">Medicare Guide</a></p>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/plans/">Insurance Plans</a></li>
+                    <li><a href="/health-protector-guard/">Health Protector Guard</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/our-approach.html">Our Approach</a></li>
+                    <li><a href="/about/">About Us</a></li>
+                    <li><a href="/blog/florida-insurance-guide.html">Florida Health Insurance Guide</a></li>
+                    <li><a href="/contact/">Get Quote</a></li>
+                    <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+                </ul>
             </div>
         </div>
-        
-        <div style="border-top: 1px solid #555; padding-top: 2rem; margin-top: 2rem;">
-            <p>&copy; 2026 Lakeland Health Insurance. Licensed insurance agency serving families nationwide.</p>
-            <p style="font-size: 0.9rem; margin-top: 1rem;"><a href="https://www.facebook.com/HealthMarkets.David.Huff/" target="_blank" style="color: #2563EB; text-decoration: none;">Sponsored by David the Insurance Dude</a></p>
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
+            <p>FL License #W371813 | Serving most of the United States with honest insurance advice</p>
+            <p style="margin-top: 1rem;">
+                <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: var(--gold); text-decoration: none; font-weight: 500;">
+                    Powered by David the Insurance Dude
+                </a>
+            </p>
         </div>
-    </footer>
+    </div>
+</footer>
 
     <script>
         // Ellipses menu toggle function
@@ -885,5 +923,7 @@ header .cta-button {
     <script src="/js/blog-cta.js" defer></script>
 
     <script src="/js/blog-theme.js" defer></script>
+
+    <script>var ys=document.getElementById("current-year");if(ys)ys.textContent=new Date().getFullYear();</script>
 </body>
 </html>
