@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 ACA Subsidy Estimator | Lakeland Health Insurance</title>
+  <meta name="description" content="Free ACA subsidy calculator for 2026 coverage. Estimate your premium tax credit based on household size and income using 2025 Federal Poverty Guidelines and IRS Rev. Proc. 2025-25 applicable percentages.">
+  <meta name="keywords" content="ACA subsidy calculator 2026, premium tax credit estimator, health insurance subsidy Florida, Obamacare subsidy calculator, Marketplace subsidy, Lakeland FL health insurance">
+  <link rel="canonical" href="https://lakelandhealthinsurance.com/aca-subsidy-estimator/">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="2026 ACA Subsidy Estimator | How Much Can You Save?">
+  <meta property="og:description" content="Estimate your Marketplace premium tax credit in 30 seconds. Free calculator using official 2026 applicable percentages.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://lakelandhealthinsurance.com/aca-subsidy-estimator/">
+  <meta property="og:image" content="https://lakelandhealthinsurance.com/about/david_the_dude2.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="2026 ACA Subsidy Estimator | How Much Can You Save?">
+  <meta name="twitter:description" content="Estimate your Marketplace premium tax credit in 30 seconds. Free calculator using official 2026 applicable percentages.">
+  <meta name="twitter:image" content="https://lakelandhealthinsurance.com/about/david_the_dude2.jpg">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-W45RMKHXV0');
+  </script>
+
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '296757110861706');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=296757110861706&ev=PageView&noscript=1"/></noscript>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "2026 ACA Subsidy Estimator",
+    "description": "Estimate your Affordable Care Act premium tax credit for 2026 Marketplace health insurance coverage based on household size and income.",
+    "url": "https://lakelandhealthinsurance.com/aca-subsidy-estimator/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "provider": {
+      "@type": "InsuranceAgency",
+      "name": "Lakeland Health Insurance",
+      "url": "https://lakelandhealthinsurance.com",
+      "telephone": "+1-863-640-3102",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Lakeland",
+        "addressRegion": "FL"
+      }
+    }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f8f9fb; }
+    #root { min-height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel" data-type="module">
+    const { useState, useEffect, useRef } = React;
+
+    // 2025 FPL (used for 2026 coverage) - 48 contiguous states
+    const FPL_BASE = 15650;
+    const FPL_INCREMENT = 5500;
+
+    // 2026 Applicable Percentages from IRS Rev. Proc. 2025-25
+    const APPLICABLE_PERCENTAGES = [
+      { min: 1.00, max: 1.33, initialPct: 0.021, finalPct: 0.021 },
+      { min: 1.33, max: 1.50, initialPct: 0.0314, finalPct: 0.0419 },
+      { min: 1.50, max: 2.00, initialPct: 0.0419, finalPct: 0.066 },
+      { min: 2.00, max: 2.50, initialPct: 0.066, finalPct: 0.0844 },
+      { min: 2.50, max: 3.00, initialPct: 0.0844, finalPct: 0.0996 },
+      { min: 3.00, max: 4.01, initialPct: 0.0996, finalPct: 0.0996 },
+    ];
+
+    function getFPL(householdSize) {
+      return FPL_BASE + (householdSize - 1) * FPL_INCREMENT;
+    }
+
+    function getApplicablePercentage(fplPercent) {
+      const ratio = fplPercent / 100;
+      for (const bracket of APPLICABLE_PERCENTAGES) {
+        if (ratio >= bracket.min && ratio < bracket.max) {
+          const position = (ratio - bracket.min) / (bracket.max - bracket.min);
+          return bracket.initialPct + position * (bracket.finalPct - bracket.initialPct);
+        }
+      }
+      return null;
+    }
+
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(amount);
+    }
+
+    function formatCurrencyExact(amount) {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(amount);
+    }
+
+    // Animated counter
+    function AnimatedNumber({ value, format = "currency", duration = 600 }) {
+      const [display, setDisplay] = useState(0);
+      const frameRef = useRef(null);
+      const startRef = useRef(null);
+      const fromRef = useRef(0);
+
+      useEffect(() => {
+        fromRef.current = display;
+        startRef.current = null;
+        if (frameRef.current) cancelAnimationFrame(frameRef.current);
+
+        function step(ts) {
+          if (!startRef.current) startRef.current = ts;
+          const progress = Math.min((ts - startRef.current) / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          setDisplay(fromRef.current + (value - fromRef.current) * ease);
+          if (progress < 1) frameRef.current = requestAnimationFrame(step);
+        }
+        frameRef.current = requestAnimationFrame(step);
+        return () => cancelAnimationFrame(frameRef.current);
+      }, [value]);
+
+      if (format === "currency") return formatCurrency(Math.round(display));
+      if (format === "currencyExact") return formatCurrencyExact(display);
+      if (format === "percent") return `${display.toFixed(1)}%`;
+      return Math.round(display);
+    }
+
+    function ACASubsidyEstimator() {
+      const [householdSize, setHouseholdSize] = useState(1);
+      const [income, setIncome] = useState("");
+      const [incomeInput, setIncomeInput] = useState("");
+      const [result, setResult] = useState(null);
+      const [showResult, setShowResult] = useState(false);
+      const resultRef = useRef(null);
+
+      function handleIncomeChange(e) {
+        const raw = e.target.value.replace(/[^0-9]/g, "");
+        setIncomeInput(raw);
+        setIncome(raw ? parseInt(raw, 10) : "");
+      }
+
+      function formatIncomeDisplay(val) {
+        if (!val) return "";
+        const num = typeof val === "string" ? parseInt(val, 10) : val;
+        if (isNaN(num)) return "";
+        return new Intl.NumberFormat("en-US").format(num);
+      }
+
+      function calculate() {
+        if (!income || income < 1) return;
+
+        const fpl = getFPL(householdSize);
+        const fplPercent = (income / fpl) * 100;
+
+        let status, monthlyContribution, annualContribution, applicablePct;
+
+        if (fplPercent < 100) {
+          status = "gap";
+        } else if (fplPercent > 400) {
+          status = "over";
+        } else {
+          status = "eligible";
+          applicablePct = getApplicablePercentage(fplPercent);
+          annualContribution = income * applicablePct;
+          monthlyContribution = annualContribution / 12;
+        }
+
+        setResult({
+          fpl,
+          fplPercent,
+          status,
+          monthlyContribution,
+          annualContribution,
+          applicablePct,
+        });
+        setShowResult(true);
+
+        // Track calculation event
+        if (typeof gtag === "function") {
+          gtag("event", "subsidy_calculated", {
+            event_category: "calculator",
+            event_label: status,
+            value: Math.round(fplPercent),
+          });
+        }
+        if (typeof fbq === "function") {
+          fbq("track", "Lead", { content_name: "subsidy_calculator", status: status });
+        }
+
+        setTimeout(() => {
+          resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+      }
+
+      function reset() {
+        setShowResult(false);
+        setTimeout(() => {
+          setResult(null);
+          setIncome("");
+          setIncomeInput("");
+          setHouseholdSize(1);
+        }, 300);
+      }
+
+      const canCalculate = income && income > 0;
+
+      return (
+        <div style={{
+          fontFamily: "'DM Sans', 'Helvetica Neue', sans-serif",
+          minHeight: "100vh",
+          background: "#f8f9fb",
+          color: "#1a1f36",
+        }}>
+          <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+
+          {/* Header */}
+          <div style={{
+            background: "linear-gradient(135deg, #0f2b46 0%, #163d5e 50%, #1a5276 100%)",
+            padding: "40px 24px 48px",
+            textAlign: "center",
+            position: "relative",
+            overflow: "hidden",
+          }}>
+            <div style={{
+              position: "absolute",
+              top: 0, left: 0, right: 0, bottom: 0,
+              background: "radial-gradient(circle at 20% 80%, rgba(46,204,113,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(52,152,219,0.08) 0%, transparent 50%)",
+            }} />
+            <div style={{ position: "relative", maxWidth: 600, margin: "0 auto" }}>
+              <a href="https://lakelandhealthinsurance.com" style={{ textDecoration: "none" }}>
+                <div style={{
+                  fontSize: 13,
+                  color: "rgba(255,255,255,0.5)",
+                  marginBottom: 12,
+                  fontWeight: 400,
+                  letterSpacing: "0.02em",
+                }}>
+                  Lakeland Health Insurance
+                </div>
+              </a>
+              <div style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                borderRadius: 20,
+                padding: "6px 14px",
+                marginBottom: 20,
+                fontSize: 12,
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.7)",
+                letterSpacing: "0.04em",
+                textTransform: "uppercase",
+              }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#2ecc71" }} />
+                2026 Coverage Year
+              </div>
+              <h1 style={{
+                fontFamily: "'DM Serif Display', Georgia, serif",
+                fontSize: "clamp(28px, 5vw, 40px)",
+                fontWeight: 400,
+                color: "#fff",
+                margin: "0 0 12px",
+                lineHeight: 1.15,
+              }}>
+                ACA Subsidy Estimator
+              </h1>
+              <p style={{
+                fontSize: 16,
+                color: "rgba(255,255,255,0.65)",
+                margin: 0,
+                lineHeight: 1.5,
+                fontWeight: 300,
+              }}>
+                Estimate your premium tax credit for Marketplace health insurance
+              </p>
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div style={{ maxWidth: 520, margin: "-24px auto 0", padding: "0 16px 40px", position: "relative" }}>
+
+            {/* Input Card */}
+            <div style={{
+              background: "#fff",
+              borderRadius: 16,
+              boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)",
+              padding: "32px 28px",
+              marginBottom: 16,
+            }}>
+              {/* Household Size */}
+              <div style={{ marginBottom: 28 }}>
+                <label style={{
+                  display: "block",
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "#5a607f",
+                  marginBottom: 10,
+                  letterSpacing: "0.02em",
+                  textTransform: "uppercase",
+                }}>
+                  Household Size
+                </label>
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+                    <button
+                      key={n}
+                      onClick={() => setHouseholdSize(n)}
+                      style={{
+                        width: 52,
+                        height: 48,
+                        borderRadius: 10,
+                        border: householdSize === n ? "2px solid #1a5276" : "1.5px solid #e2e5ed",
+                        background: householdSize === n ? "#eef5fb" : "#fff",
+                        color: householdSize === n ? "#1a5276" : "#5a607f",
+                        fontSize: 16,
+                        fontWeight: householdSize === n ? 700 : 500,
+                        cursor: "pointer",
+                        transition: "all 0.15s ease",
+                        fontFamily: "inherit",
+                      }}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Annual Income */}
+              <div style={{ marginBottom: 28 }}>
+                <label style={{
+                  display: "block",
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "#5a607f",
+                  marginBottom: 10,
+                  letterSpacing: "0.02em",
+                  textTransform: "uppercase",
+                }}>
+                  Annual Household Income (MAGI)
+                </label>
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  border: "1.5px solid #e2e5ed",
+                  borderRadius: 10,
+                  overflow: "hidden",
+                  transition: "border-color 0.15s ease",
+                }}>
+                  <span style={{
+                    padding: "14px 0 14px 16px",
+                    fontSize: 18,
+                    fontWeight: 600,
+                    color: "#9ca3af",
+                  }}>$</span>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={formatIncomeDisplay(incomeInput)}
+                    onChange={handleIncomeChange}
+                    placeholder="45,000"
+                    style={{
+                      flex: 1,
+                      border: "none",
+                      outline: "none",
+                      padding: "14px 16px 14px 4px",
+                      fontSize: 18,
+                      fontWeight: 500,
+                      fontFamily: "inherit",
+                      color: "#1a1f36",
+                      background: "transparent",
+                    }}
+                  />
+                </div>
+                <p style={{
+                  fontSize: 12,
+                  color: "#9ca3af",
+                  margin: "8px 0 0",
+                  lineHeight: 1.4,
+                }}>
+                  Modified Adjusted Gross Income — wages, self-employment, investments, etc.
+                </p>
+              </div>
+
+              {/* Calculate Button */}
+              <button
+                onClick={calculate}
+                disabled={!canCalculate}
+                style={{
+                  width: "100%",
+                  padding: "16px 24px",
+                  borderRadius: 12,
+                  border: "none",
+                  background: canCalculate
+                    ? "linear-gradient(135deg, #1a5276 0%, #1e6f96 100%)"
+                    : "#e2e5ed",
+                  color: canCalculate ? "#fff" : "#9ca3af",
+                  fontSize: 16,
+                  fontWeight: 600,
+                  cursor: canCalculate ? "pointer" : "default",
+                  transition: "all 0.2s ease",
+                  fontFamily: "inherit",
+                  letterSpacing: "0.01em",
+                  boxShadow: canCalculate ? "0 4px 12px rgba(26,82,118,0.25)" : "none",
+                }}
+              >
+                Estimate My Subsidy
+              </button>
+            </div>
+
+            {/* Results */}
+            {result && (
+              <div
+                ref={resultRef}
+                style={{
+                  opacity: showResult ? 1 : 0,
+                  transform: showResult ? "translateY(0)" : "translateY(12px)",
+                  transition: "all 0.4s ease",
+                }}
+              >
+                {/* FPL Badge */}
+                <div style={{
+                  background: "#fff",
+                  borderRadius: 16,
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)",
+                  padding: "24px 28px",
+                  marginBottom: 16,
+                  textAlign: "center",
+                }}>
+                  <p style={{ fontSize: 13, color: "#5a607f", margin: "0 0 4px", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                    Your Income as % of Federal Poverty Level
+                  </p>
+                  <p style={{
+                    fontFamily: "'DM Serif Display', Georgia, serif",
+                    fontSize: 48,
+                    color: result.status === "eligible" ? "#1a5276" : result.status === "gap" ? "#c0392b" : "#7f8c8d",
+                    margin: "4px 0 8px",
+                    lineHeight: 1,
+                  }}>
+                    <AnimatedNumber value={result.fplPercent} format="percent" />
+                  </p>
+                  <p style={{ fontSize: 13, color: "#9ca3af", margin: 0 }}>
+                    {formatCurrency(result.fpl)} FPL for household of {householdSize} (2025 guidelines)
+                  </p>
+                </div>
+
+                {/* Status-specific result card */}
+                {result.status === "eligible" && (
+                  <div style={{
+                    background: "linear-gradient(135deg, #0f2b46 0%, #1a5276 100%)",
+                    borderRadius: 16,
+                    padding: "28px",
+                    marginBottom: 16,
+                    color: "#fff",
+                    position: "relative",
+                    overflow: "hidden",
+                  }}>
+                    <div style={{
+                      position: "absolute",
+                      top: -40, right: -40,
+                      width: 120, height: 120,
+                      borderRadius: "50%",
+                      background: "rgba(46,204,113,0.1)",
+                    }} />
+                    <div style={{
+                      display: "inline-block",
+                      background: "rgba(46,204,113,0.15)",
+                      border: "1px solid rgba(46,204,113,0.3)",
+                      borderRadius: 8,
+                      padding: "4px 10px",
+                      fontSize: 12,
+                      fontWeight: 600,
+                      color: "#2ecc71",
+                      marginBottom: 16,
+                      letterSpacing: "0.03em",
+                      textTransform: "uppercase",
+                    }}>
+                      ✓ You Likely Qualify
+                    </div>
+
+                    <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", margin: "0 0 4px", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                      Estimated Monthly Premium Contribution
+                    </p>
+                    <p style={{
+                      fontFamily: "'DM Serif Display', Georgia, serif",
+                      fontSize: 44,
+                      margin: "4px 0 4px",
+                      lineHeight: 1,
+                    }}>
+                      <AnimatedNumber value={result.monthlyContribution} format="currencyExact" />
+                    </p>
+                    <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", margin: "0 0 20px" }}>
+                      toward the benchmark Silver plan ({(result.applicablePct * 100).toFixed(2)}% of income)
+                    </p>
+
+                    <div style={{
+                      background: "rgba(255,255,255,0.06)",
+                      borderRadius: 10,
+                      padding: "14px 16px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}>
+                      <div>
+                        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", margin: 0, textTransform: "uppercase", letterSpacing: "0.04em" }}>Annual Contribution</p>
+                        <p style={{ fontSize: 20, fontWeight: 600, margin: "2px 0 0" }}>
+                          <AnimatedNumber value={result.annualContribution} />
+                        </p>
+                      </div>
+                      <div style={{ width: 1, height: 36, background: "rgba(255,255,255,0.1)" }} />
+                      <div style={{ textAlign: "right" }}>
+                        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", margin: 0, textTransform: "uppercase", letterSpacing: "0.04em" }}>Tax Credit Covers</p>
+                        <p style={{ fontSize: 20, fontWeight: 600, margin: "2px 0 0" }}>The Rest</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {result.status === "gap" && (
+                  <div style={{
+                    background: "#fff",
+                    borderRadius: 16,
+                    boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)",
+                    padding: "28px",
+                    marginBottom: 16,
+                    borderLeft: "4px solid #e74c3c",
+                  }}>
+                    <p style={{
+                      fontSize: 18,
+                      fontWeight: 700,
+                      color: "#c0392b",
+                      margin: "0 0 8px",
+                    }}>Coverage Gap</p>
+                    <p style={{ fontSize: 14, color: "#5a607f", margin: 0, lineHeight: 1.6 }}>
+                      Your income is below 100% FPL. Florida has not expanded Medicaid, so you may fall into a coverage gap — not eligible for Medicaid or Marketplace subsidies at this income level.
+                      <strong style={{ color: "#1a1f36" }}> You may still have options.</strong> Contact us to explore alternatives.
+                    </p>
+                  </div>
+                )}
+
+                {result.status === "over" && (
+                  <div style={{
+                    background: "#fff",
+                    borderRadius: 16,
+                    boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)",
+                    padding: "28px",
+                    marginBottom: 16,
+                    borderLeft: "4px solid #f39c12",
+                  }}>
+                    <p style={{
+                      fontSize: 18,
+                      fontWeight: 700,
+                      color: "#e67e22",
+                      margin: "0 0 8px",
+                    }}>Above Subsidy Threshold</p>
+                    <p style={{ fontSize: 14, color: "#5a607f", margin: 0, lineHeight: 1.6 }}>
+                      Your income exceeds 400% of the Federal Poverty Level. With the enhanced subsidies expired for 2026, the subsidy cliff has returned — you would pay full premium.
+                      <strong style={{ color: "#1a1f36" }}> We can still help you find the most cost-effective plan.</strong>
+                    </p>
+                  </div>
+                )}
+
+                {/* Important context for 2026 */}
+                {result.status === "eligible" && (
+                  <div style={{
+                    background: "#fffbeb",
+                    borderRadius: 12,
+                    padding: "16px 20px",
+                    marginBottom: 16,
+                    border: "1px solid #fde68a",
+                  }}>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: "#92400e", margin: "0 0 6px" }}>
+                      ⚠ 2026 Subsidy Change
+                    </p>
+                    <p style={{ fontSize: 13, color: "#78716c", margin: 0, lineHeight: 1.5 }}>
+                      Enhanced subsidies from the Inflation Reduction Act expired Dec 31, 2025. The 400% FPL subsidy cliff has returned. Your actual savings depend on benchmark Silver plan pricing in your area.
+                    </p>
+                  </div>
+                )}
+
+                {/* CTA Card */}
+                <div style={{
+                  background: "#fff",
+                  borderRadius: 16,
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)",
+                  padding: "28px",
+                  marginBottom: 16,
+                  textAlign: "center",
+                }}>
+                  <p style={{
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: "#1a1f36",
+                    margin: "0 0 6px",
+                  }}>Get Your Exact Numbers</p>
+                  <p style={{ fontSize: 14, color: "#5a607f", margin: "0 0 20px", lineHeight: 1.5 }}>
+                    This is an estimate. Your actual subsidy depends on your zip code, age, and available plans. Let's find your real savings.
+                  </p>
+
+                  <a
+                    href="tel:8636403102"
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      padding: "15px 24px",
+                      borderRadius: 12,
+                      border: "none",
+                      background: "linear-gradient(135deg, #1a5276 0%, #1e6f96 100%)",
+                      color: "#fff",
+                      fontSize: 16,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      textDecoration: "none",
+                      fontFamily: "inherit",
+                      boxShadow: "0 4px 12px rgba(26,82,118,0.25)",
+                      marginBottom: 10,
+                      boxSizing: "border-box",
+                      textAlign: "center",
+                    }}
+                  >
+                    Call (863) 640-3102
+                  </a>
+
+                  <a
+                    href="https://lakelandhealthinsurance.com/get-help/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      padding: "15px 24px",
+                      borderRadius: 12,
+                      border: "1.5px solid #1a5276",
+                      background: "transparent",
+                      color: "#1a5276",
+                      fontSize: 16,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      textDecoration: "none",
+                      fontFamily: "inherit",
+                      boxSizing: "border-box",
+                      textAlign: "center",
+                    }}
+                  >
+                    Request Free Consultation
+                  </a>
+                </div>
+
+                {/* Recalculate */}
+                <button
+                  onClick={reset}
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    padding: "14px",
+                    borderRadius: 12,
+                    border: "1.5px solid #e2e5ed",
+                    background: "#fff",
+                    color: "#5a607f",
+                    fontSize: 14,
+                    fontWeight: 500,
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                    marginBottom: 16,
+                  }}
+                >
+                  ← Start Over
+                </button>
+              </div>
+            )}
+
+            {/* Disclaimer */}
+            <div style={{
+              padding: "20px 0",
+              borderTop: "1px solid #e2e5ed",
+              marginTop: 8,
+            }}>
+              <p style={{
+                fontSize: 11,
+                color: "#9ca3af",
+                margin: "0 0 8px",
+                lineHeight: 1.6,
+              }}>
+                <strong>Disclaimer:</strong> This tool provides estimates only and does not guarantee eligibility or subsidy amounts. Actual premium tax credits depend on your Modified Adjusted Gross Income (MAGI), household composition, age, tobacco use, geographic rating area, and available benchmark Silver plan pricing. This calculator uses 2025 Federal Poverty Guidelines for 2026 coverage year eligibility per IRS Rev. Proc. 2025-25.
+              </p>
+              <p style={{
+                fontSize: 11,
+                color: "#9ca3af",
+                margin: "0 0 8px",
+                lineHeight: 1.6,
+              }}>
+                Florida has not expanded Medicaid under the ACA. Individuals below 100% FPL may fall into a coverage gap. For official eligibility determination, visit HealthCare.gov or contact the Marketplace directly.
+              </p>
+              <p style={{
+                fontSize: 11,
+                color: "#b0b5c3",
+                margin: 0,
+                lineHeight: 1.6,
+              }}>
+                Lakeland Health Insurance · David Huff, Licensed Insurance Broker · FL License #W371813 · <a href="https://lakelandhealthinsurance.com" style={{ color: "#b0b5c3" }}>lakelandhealthinsurance.com</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<ACASubsidyEstimator />);
+  </script>
+</body>
+</html>
