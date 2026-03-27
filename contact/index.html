@@ -190,6 +190,11 @@ header .cta-button {
   line-height: 1.2 !important;
 }
 
+    footer { background:var(--navy); color:#94a3b8; padding:2rem 0 1.5rem; margin-top:2rem; }
+    footer h4 { color:var(--gold); }
+    footer a { color:#cbd5e1; text-decoration:none; }
+    footer a:hover { color:#fff; }
+    footer p { margin:0.3rem 0; font-size:0.9rem; }
   </style>
 </head>
 <body>
@@ -261,6 +266,48 @@ header .cta-button {
       <a class="cta" href="/get-help/">Talk to David</a>
     </section>
   </main>
+  <footer>
+    <div class="container">
+      <div class="footer-content" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;padding:2.5rem 0;">
+        <div class="footer-section">
+          <h4 style="color:var(--gold);margin-bottom:0.75rem;">Contact David</h4>
+          <p>📞 <a href="tel:+18636403102" style="color:#cbd5e1;text-decoration:none;">(863) 640-3102</a></p>
+          <p>✉️ <a href="mailto:dhuff@healthmarkets.com" style="color:#cbd5e1;text-decoration:none;">dhuff@healthmarkets.com</a></p>
+          <p><a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer" style="color:#cbd5e1;text-decoration:none;">💬 David the Insurance Dude</a></p>
+          <p>📍 Central Florida Headquarters</p>
+          <p>🕒 Mon-Fri 8AM-8PM EST</p>
+          <p>🕒 Sat 9AM-5PM EST</p>
+        </div>
+        <div class="footer-section">
+          <h4 style="color:var(--gold);margin-bottom:0.75rem;">Service Areas</h4>
+          <p>🏠 Florida Residents</p>
+          <p>🇺🇸 Coverage Across the Nation</p>
+          <p>💼 Small Business Groups</p>
+          <p>👥 Individual & Family Plans</p>
+          <p>😊 Medicare Specialists</p>
+        </div>
+        <div class="footer-section">
+          <h4 style="color:var(--gold);margin-bottom:0.75rem;">Quick Links</h4>
+          <p><a href="/" style="color:#cbd5e1;text-decoration:none;">Home</a></p>
+          <p><a href="/plans/" style="color:#cbd5e1;text-decoration:none;">Insurance Plans</a></p>
+          <p><a href="/blog/" style="color:#cbd5e1;text-decoration:none;">Blog</a></p>
+          <p><a href="/our-approach.html" style="color:#cbd5e1;text-decoration:none;">Our Approach</a></p>
+          <p><a href="/about/" style="color:#cbd5e1;text-decoration:none;">About Us</a></p>
+          <p><a href="/contact/" style="color:#cbd5e1;text-decoration:none;">Get Quote</a></p>
+          <p><a href="/privacy-policy.html" style="color:#cbd5e1;text-decoration:none;">Privacy Policy</a></p>
+        </div>
+      </div>
+      <div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1);padding-top:1.5rem;text-align:center;">
+        <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
+        <p style="font-size:0.8rem;margin-top:0.5rem;">FL License #W371813 | Serving most of the United States with honest insurance advice</p>
+        <p style="margin-top:1rem;">
+          <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:none;font-weight:500;">
+            Powered by David the Insurance Dude
+          </a>
+        </p>
+      </div>
+    </div>
+  </footer>
   <script>
     function toggleMenu() {
       const menu = document.getElementById('dropdownMenu');
@@ -274,6 +321,9 @@ header .cta-button {
         menu.classList.remove('show');
       }
     });
+    // Set current year in footer
+    const yearSpan = document.getElementById('current-year');
+    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

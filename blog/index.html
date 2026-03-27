@@ -1153,10 +1153,12 @@ header .cta-button {
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="/">Home</a></li>
-                        <li><a href="/#plans">Insurance Plans</a></li>
+                        <li><a href="/plans/">Insurance Plans</a></li>
+                        <li><a href="/health-protector-guard/">Health Protector Guard</a></li>
                         <li><a href="/blog/">Blog</a></li>
                         <li><a href="/our-approach.html">Our Approach</a></li>
-                        <li><a href="/#about">About Us</a></li>
+                        <li><a href="/about/">About Us</a></li>
+                        <li><a href="/blog/florida-insurance-guide.html">Florida Health Insurance Guide</a></li>
                         <li><a href="/contact/">Get Quote</a></li>
                         <li><a href="/privacy-policy.html">Privacy Policy</a></li>
                     </ul>
@@ -1182,80 +1184,80 @@ header .cta-button {
 
     <script>
         let filteredTag = null;
-        let tagSearchQuery = ‘’;
+        let tagSearchQuery = '';
 
         function getUniqueTags() {
             const tagSet = new Set();
-            document.querySelectorAll(‘.article-card’).forEach(card => {
-                const tags = card.getAttribute(‘data-tags’);
-                if (tags) tags.split(‘,’).forEach(tag => tagSet.add(tag.trim()));
+            document.querySelectorAll('.article-card').forEach(card => {
+                const tags = card.getAttribute('data-tags');
+                if (tags) tags.split(',').forEach(tag => tagSet.add(tag.trim()));
             });
             return Array.from(tagSet).sort();
         }
 
         function renderTags() {
-            const tagContainer = document.getElementById(‘tag-filter’);
-            const clearBtn = document.getElementById(‘clear-all-btn’);
+            const tagContainer = document.getElementById('tag-filter');
+            const clearBtn = document.getElementById('clear-all-btn');
             const allTags = getUniqueTags();
             const tags = tagSearchQuery
                 ? allTags.filter(tag => tag.toLowerCase().includes(tagSearchQuery.toLowerCase()))
                 : allTags;
 
             if (tags.length === 0) {
-                tagContainer.innerHTML = ‘<span class="tag-search-empty">No topics match "’ + tagSearchQuery + ‘".</span>’;
+                tagContainer.innerHTML = '<span class="tag-search-empty">No topics match "' + tagSearchQuery + '".</span>';
             } else {
                 tagContainer.innerHTML = tags.map(tag =>
-                    ‘<span class="tag ‘ + (filteredTag === tag ? ‘active’ : ‘’) + ‘" onclick="filterByTag(\’’ + tag + ‘\’)">’ + tag + ‘</span>’
-                ).join(‘’);
+                    '<span class="tag ' + (filteredTag === tag ? 'active' : '') + '" onclick="filterByTag(\'' + tag + '\')">' + tag + '</span>'
+                ).join('');
             }
 
-            clearBtn.style.display = filteredTag ? ‘block’ : ‘none’;
+            clearBtn.style.display = filteredTag ? 'block' : 'none';
         }
 
         function filterByTag(tag) {
             filteredTag = tag;
             renderTags();
-            const indicator = document.getElementById(‘filter-indicator’);
-            indicator.innerHTML = ‘<div class="filter-indicator"><span>Showing posts tagged: <strong>’ + tag + ‘</strong></span><button onclick="clearFilter()" class="clear-filter-btn">Clear Filter</button></div>’;
+            const indicator = document.getElementById('filter-indicator');
+            indicator.innerHTML = '<div class="filter-indicator"><span>Showing posts tagged: <strong>' + tag + '</strong></span><button onclick="clearFilter()" class="clear-filter-btn">Clear Filter</button></div>';
 
-            document.querySelectorAll(‘.article-card’).forEach(card => {
-                const tags = card.getAttribute(‘data-tags’);
-                card.style.display = (tags && tags.split(‘,’).map(t => t.trim()).includes(tag)) ? ‘’ : ‘none’;
+            document.querySelectorAll('.article-card').forEach(card => {
+                const tags = card.getAttribute('data-tags');
+                card.style.display = (tags && tags.split(',').map(t => t.trim()).includes(tag)) ? '' : 'none';
             });
 
-            document.querySelector(‘.blog-content’).scrollIntoView({ behavior: ‘smooth’, block: ‘start’ });
+            document.querySelector('.blog-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function clearFilter() {
             filteredTag = null;
             renderTags();
-            document.getElementById(‘filter-indicator’).innerHTML = ‘’;
-            document.querySelectorAll(‘.article-card’).forEach(card => {
-                card.style.display = ‘’;
+            document.getElementById('filter-indicator').innerHTML = '';
+            document.querySelectorAll('.article-card').forEach(card => {
+                card.style.display = '';
             });
         }
 
         // Menu toggle function
         function toggleMenu() {
-            const menu = document.getElementById(‘dropdownMenu’);
-            menu.classList.toggle(‘show’);
+            const menu = document.getElementById('dropdownMenu');
+            menu.classList.toggle('show');
         }
 
         // Close menu when clicking outside
-        document.addEventListener(‘click’, function(event) {
-            const menu = document.getElementById(‘dropdownMenu’);
-            const button = document.querySelector(‘.menu-button’);
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdownMenu');
+            const button = document.querySelector('.menu-button');
 
             if (!menu.contains(event.target) && !button.contains(event.target)) {
-                menu.classList.remove(‘show’);
+                menu.classList.remove('show');
             }
         });
 
         // Initialize on page load
-        document.addEventListener(‘DOMContentLoaded’, function() {
-            const tagSearchInput = document.getElementById(‘tag-search-input’);
+        document.addEventListener('DOMContentLoaded', function() {
+            const tagSearchInput = document.getElementById('tag-search-input');
             if (tagSearchInput) {
-                tagSearchInput.addEventListener(‘input’, function (e) {
+                tagSearchInput.addEventListener('input', function (e) {
                     tagSearchQuery = e.target.value.trim();
                     renderTags();
                 });
@@ -1263,7 +1265,7 @@ header .cta-button {
             renderTags();
 
             // Set current year in footer
-            const yearSpan = document.getElementById(‘current-year’);
+            const yearSpan = document.getElementById('current-year');
             if (yearSpan) {
                 yearSpan.textContent = new Date().getFullYear();
             }
