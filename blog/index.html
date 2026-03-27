@@ -717,7 +717,7 @@ header .cta-button {
                     <div class="menu-item"><a href="/">Home</a></div>
                     <div class="menu-item"><a href="/plans/">Health Plans</a></div>
                     <div class="menu-item"><a href="/blog/">Blog</a></div>
-                    <div class="menu-item"><a href="/about">About</a></div>
+                    <div class="menu-item"><a href="/about/">About</a></div>
                     <div class="menu-item"><a href="/links/">Links</a></div>
                     <div class="menu-item"><a href="/contact/">Contact</a></div>
                     <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
@@ -727,7 +727,7 @@ header .cta-button {
                 <li><a href="/">Home</a></li>
                 <li><a href="/plans/">Health Plans</a></li>
                 <li><a href="/blog/">Blog</a></li>
-                <li><a href="/about">About</a></li>
+                <li><a href="/about/">About</a></li>
                 <li><a href="/links/">Links</a></li>
                 <li><a href="/contact/">Contact</a></li>
             </ul>
@@ -739,19 +739,6 @@ header .cta-button {
         <div class="container">
             <h1>Straight Talk on Health Insurance</h1>
             <p>No corporate scripts. No jargon. Just the stuff you actually need to know.</p>
-        </div>
-    </section>
-
-    <section class="blog-content">
-        <div class="container">
-            <div class="blog-container">
-                <div id="blog-posts"></div>
-                <div class="pagination">
-                    <button id="prev-btn" onclick="changePage(-1)">&larr; Previous</button>
-                    <div class="page-info" id="page-info"></div>
-                    <button id="next-btn" onclick="changePage(1)">Next &rarr;</button>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -771,6 +758,369 @@ header .cta-button {
             >
             <div id="tag-filter" class="tag-filter-container">
                 <!-- Tags populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-content">
+        <div class="container">
+            <div class="blog-container">
+                <div id="filter-indicator"></div>
+                <div id="blog-posts">
+
+                <article class="article-card" data-tags="ACA,Consumer Protection,Tax Planning">
+                    <div class="article-date">March 27, 2026</div>
+                    <h2 class="article-title"><a href="/blog/aca-subsidy-tax-return-clawback.html">ACA Subsidy Clawback: What Happens When Your Agent Lied About Your Income</a></h2>
+                    <p class="article-excerpt">Learn what happens when an insurance agent falsifies your income for maximum ACA subsidies. Understand Form 8962 reconciliation, potential $2K-$8K+ clawbacks, and how to protect yourself.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('ACA')">ACA</span>
+                        <span class="tag" onclick="filterByTag('Consumer Protection')">Consumer Protection</span>
+                        <span class="tag" onclick="filterByTag('Tax Planning')">Tax Planning</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Florida,Coverage,Alternatives">
+                    <div class="article-date">March 27, 2026</div>
+                    <h2 class="article-title"><a href="/blog/non-income-based-health-insurance-florida.html">Non-Income Based Health Insurance Options in Florida (2026 Guide)</a></h2>
+                    <p class="article-excerpt">Explore health insurance options in Florida that don't depend on your income. Fixed indemnity, health sharing ministries, short-term plans, DPC, and more alternatives to ACA coverage.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Florida')">Florida</span>
+                        <span class="tag" onclick="filterByTag('Coverage')">Coverage</span>
+                        <span class="tag" onclick="filterByTag('Alternatives')">Alternatives</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Florida,ACA,Premiums">
+                    <div class="article-date">March 4, 2026</div>
+                    <h2 class="article-title"><a href="/blog/why-florida-health-insurance-premiums-increased-2026.html">Why Florida Health Insurance Premiums Increased in 2026</a></h2>
+                    <p class="article-excerpt">Many Floridians are seeing higher 2026 premiums. Here are the key reasons: subsidy changes, rising healthcare costs, and Marketplace enrollment dynamics.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Florida')">Florida</span>
+                        <span class="tag" onclick="filterByTag('ACA')">ACA</span>
+                        <span class="tag" onclick="filterByTag('Premiums')">Premiums</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Self-Employed,Tax Planning,ICHRA">
+                    <div class="article-date">February 26, 2026</div>
+                    <h2 class="article-title"><a href="/blog/self-employed-tax-deductions-ichra-guide.html">Self-Employment Tax Deductions and ICHRA: What Business Owners Need to Know</a></h2>
+                    <p class="article-excerpt">A practical guide to self-employed health insurance deductions and ICHRA strategy in 2026. Learn where each option fits and what to review with your CPA.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Self-Employed')">Self-Employed</span>
+                        <span class="tag" onclick="filterByTag('Tax Planning')">Tax Planning</span>
+                        <span class="tag" onclick="filterByTag('ICHRA')">ICHRA</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Opinion,Healthcare Policy,HSA">
+                    <div class="article-date">February 25, 2026</div>
+                    <h2 class="article-title"><a href="/blog/trump-state-of-the-union-healthcare-hsa-2026.html">My Take: Trump's 2026 State of the Union on Healthcare and HSAs</a></h2>
+                    <p class="article-excerpt">An opinion column on what was said, what was not said about HSAs, and what Florida families should actually do with their coverage decisions.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Opinion')">Opinion</span>
+                        <span class="tag" onclick="filterByTag('Healthcare Policy')">Healthcare Policy</span>
+                        <span class="tag" onclick="filterByTag('HSA')">HSA</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Supplemental,Coverage,Plan Types">
+                    <div class="article-date">February 25, 2026</div>
+                    <h2 class="article-title"><a href="/blog/what-is-supplemental-coverage.html">What Is Supplemental Coverage?</a></h2>
+                    <p class="article-excerpt">A clear breakdown of supplemental plans, what they actually cover, and where they fit with ACA or major medical coverage.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Supplemental')">Supplemental</span>
+                        <span class="tag" onclick="filterByTag('Coverage')">Coverage</span>
+                        <span class="tag" onclick="filterByTag('Plan Types')">Plan Types</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="ACA,Florida,Open Enrollment">
+                    <div class="article-date">February 23, 2026</div>
+                    <h2 class="article-title"><a href="/blog/florida-aca-enrollment-and-benefits-2026.html">Florida ACA Enrollment and Benefits Guide (2026)</a></h2>
+                    <p class="article-excerpt">The statewide master guide for HealthCare.gov enrollment, first-30-day setup, and carrier-specific benefit optimization. Includes direct links to 2026 Polk-relevant carrier playbooks.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('ACA')">ACA</span>
+                        <span class="tag" onclick="filterByTag('Florida')">Florida</span>
+                        <span class="tag" onclick="filterByTag('Open Enrollment')">Open Enrollment</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Medicare,Lakeland,Local">
+                    <div class="article-date">February 4, 2026</div>
+                    <h2 class="article-title"><a href="/blog/medicare-advantage-lakeland-2026.html">Lakeland Medicare Advantage Plans for 2026: Compare 91 Local Options</a></h2>
+                    <p class="article-excerpt">Compare 2026 Lakeland Medicare Advantage plans by premium, MOOP, and Watson Clinic or Lakeland Regional access before you enroll.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Medicare')">Medicare</span>
+                        <span class="tag" onclick="filterByTag('Lakeland')">Lakeland</span>
+                        <span class="tag" onclick="filterByTag('Local')">Local</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Lakeland,Local,Networks">
+                    <div class="article-date">February 4, 2026</div>
+                    <h2 class="article-title"><a href="/blog/lakeland-regional-watson-clinic-insurance-2026.html">Watson Clinic and Lakeland Regional Insurance Guide for 2026</a></h2>
+                    <p class="article-excerpt">Check which 2026 Medicare Advantage and ACA plans work at Watson Clinic and Lakeland Regional Health, including specialty-only and referral traps.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Lakeland')">Lakeland</span>
+                        <span class="tag" onclick="filterByTag('Local')">Local</span>
+                        <span class="tag" onclick="filterByTag('Networks')">Networks</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Self-Employed,Lakeland,ACA">
+                    <div class="article-date">January 28, 2026</div>
+                    <h2 class="article-title"><a href="/blog/freelancer-health-insurance-lakeland-2026.html">The Freelancer's Guide to Health Insurance in Lakeland &amp; Polk County (2026)</a></h2>
+                    <p class="article-excerpt">Expert guide for self-employed freelancers in Lakeland, FL. Discover ACA marketplace plans, subsidy strategies, and Polk County healthcare options for 2026.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Self-Employed')">Self-Employed</span>
+                        <span class="tag" onclick="filterByTag('Lakeland')">Lakeland</span>
+                        <span class="tag" onclick="filterByTag('ACA')">ACA</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Claims,Appeals,Tips">
+                    <div class="article-date">January 25, 2026</div>
+                    <h2 class="article-title"><a href="/blog/what-to-do-when-insurance-denies-claim.html">Insurance Denied Your Claim? Fight Back.</a></h2>
+                    <p class="article-excerpt">Don't accept a denied insurance claim without a fight. Here's exactly how to appeal and overturn denials — step by step, with actual success strategies.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Claims')">Claims</span>
+                        <span class="tag" onclick="filterByTag('Appeals')">Appeals</span>
+                        <span class="tag" onclick="filterByTag('Tips')">Tips</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Medical Bills,Financial,Tips">
+                    <div class="article-date">January 22, 2026</div>
+                    <h2 class="article-title"><a href="/blog/how-to-negotiate-hospital-bills.html">How to Negotiate Hospital Bills</a></h2>
+                    <p class="article-excerpt">Hospital bills are negotiable. Here's exactly how to negotiate medical debt, request itemized bills, spot errors, and cut your costs by 50% or more.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Medical Bills')">Medical Bills</span>
+                        <span class="tag" onclick="filterByTag('Financial')">Financial</span>
+                        <span class="tag" onclick="filterByTag('Tips')">Tips</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Plan Types,Coverage,Comparison">
+                    <div class="article-date">January 20, 2026</div>
+                    <h2 class="article-title"><a href="/blog/hmo-vs-ppo-vs-epo-explained.html">HMO vs PPO vs EPO: Decoded</a></h2>
+                    <p class="article-excerpt">Confused about HMO, PPO, and EPO health plans? Here's exactly how they differ, which costs more, and which gives you the most freedom to choose doctors.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Plan Types')">Plan Types</span>
+                        <span class="tag" onclick="filterByTag('Coverage')">Coverage</span>
+                        <span class="tag" onclick="filterByTag('Comparison')">Comparison</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Coverage,Financial,Basics">
+                    <div class="article-date">January 18, 2026</div>
+                    <h2 class="article-title"><a href="/blog/understanding-out-of-pocket-maximum.html">Out-of-Pocket Maximum: Your Financial Safety Net</a></h2>
+                    <p class="article-excerpt">The out-of-pocket maximum is the most important number in your health insurance policy. Here's exactly how it works and why it could save you from financial disaster.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Coverage')">Coverage</span>
+                        <span class="tag" onclick="filterByTag('Financial')">Financial</span>
+                        <span class="tag" onclick="filterByTag('Basics')">Basics</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Self-Employed,Tax Deductions,Financial">
+                    <div class="article-date">January 15, 2026</div>
+                    <h2 class="article-title"><a href="/blog/health-insurance-self-employed-tax-deductions.html">Self-Employed? Deduct Your Health Insurance</a></h2>
+                    <p class="article-excerpt">If you're self-employed, you can deduct 100% of your health insurance premiums. Here's exactly how to claim this deduction and save thousands on taxes.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Self-Employed')">Self-Employed</span>
+                        <span class="tag" onclick="filterByTag('Tax Deductions')">Tax Deductions</span>
+                        <span class="tag" onclick="filterByTag('Financial')">Financial</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Financial,Budgeting,Tips">
+                    <div class="article-date">January 10, 2026</div>
+                    <h2 class="article-title"><a href="/blog/planning-healthcare-budget-2026.html">How to Budget for Healthcare in 2026</a></h2>
+                    <p class="article-excerpt">Learn how to accurately budget for healthcare costs including premiums, deductibles, and out-of-pocket expenses. Real strategies for planning your medical spending in 2026.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Financial')">Financial</span>
+                        <span class="tag" onclick="filterByTag('Budgeting')">Budgeting</span>
+                        <span class="tag" onclick="filterByTag('Tips')">Tips</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Products,Coverage,Gap Insurance">
+                    <div class="article-date">December 18, 2025</div>
+                    <h2 class="article-title"><a href="/blog/fixed-indemnity-analysis.html">UnitedHealthcare Health Protector Guard: Technical Breakdown &amp; Gap Coverage Strategy</a></h2>
+                    <p class="article-excerpt">In-depth technical analysis of fixed-indemnity insurance. Compare fixed-indemnity vs major medical plans, understand how to use it as HDHP deductible protection, and learn strategic integration with high-deductible plans.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Products')">Products</span>
+                        <span class="tag" onclick="filterByTag('Coverage')">Coverage</span>
+                        <span class="tag" onclick="filterByTag('Gap Insurance')">Gap Insurance</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="ACA,Subsidies,Tax Planning">
+                    <div class="article-date">December 15, 2025</div>
+                    <h2 class="article-title"><a href="/blog/aca-subsidy-cliff.html">The ACA Subsidy Cliff: Strategic MAGI Management for Tax Optimization</a></h2>
+                    <p class="article-excerpt">Expert analysis of the 400% FPL subsidy threshold, Inflation Reduction Act changes through 2025, and strategic income management to minimize tax-time repayments. Understand the subsidy cliff and learn tactical MAGI reduction strategies.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('ACA')">ACA</span>
+                        <span class="tag" onclick="filterByTag('Subsidies')">Subsidies</span>
+                        <span class="tag" onclick="filterByTag('Tax Planning')">Tax Planning</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Tips,Insurance Agents,Humor">
+                    <div class="article-date">June 17, 2025</div>
+                    <h2 class="article-title"><a href="/blog/no-your-agent-doesnt-hate-you.html">Why Your Insurance Agent Probably Hates You (And How to Fix That)</a></h2>
+                    <p class="article-excerpt">Let's be honest — if your insurance agent could block your number without losing commission, they probably would. Here's how to become the client they actually want to help.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Tips')">Tips</span>
+                        <span class="tag" onclick="filterByTag('Insurance Agents')">Insurance Agents</span>
+                        <span class="tag" onclick="filterByTag('Humor')">Humor</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="ACA,Open Enrollment,Subsidies">
+                    <div class="article-date">June 15, 2025</div>
+                    <h2 class="article-title"><a href="/blog/aca-open-enrollment-deadline.html">ACA Open Enrollment 2025: How to Get Ready for the Best Coverage</a></h2>
+                    <p class="article-excerpt">Get ready for ACA open enrollment with expert tips. Learn how to maximize subsidies and avoid costly mistakes during the enrollment window.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('ACA')">ACA</span>
+                        <span class="tag" onclick="filterByTag('Open Enrollment')">Open Enrollment</span>
+                        <span class="tag" onclick="filterByTag('Subsidies')">Subsidies</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Medicare,Comparison,Seniors">
+                    <div class="article-date">June 11, 2025</div>
+                    <h2 class="article-title"><a href="/blog/medicare-advantage-vs-supplement.html">Medicare Advantage vs Medicare Supplement: The Ultimate Showdown</a></h2>
+                    <p class="article-excerpt">The real differences between Medicare Advantage and Medicare Supplement plans. No BS analysis of which option won't leave you broke when you need care most.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Medicare')">Medicare</span>
+                        <span class="tag" onclick="filterByTag('Comparison')">Comparison</span>
+                        <span class="tag" onclick="filterByTag('Seniors')">Seniors</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="ACA,Mistakes,Financial">
+                    <div class="article-date">June 10, 2025</div>
+                    <h2 class="article-title"><a href="/blog/5-critical-health-insurance-mistakes.html">5 Critical Health Insurance Mistakes That Could Cost You Thousands</a></h2>
+                    <p class="article-excerpt">Don't let these common health insurance blunders drain your bank account. From choosing the wrong deductible to missing enrollment deadlines, we break down the mistakes that could leave you financially vulnerable when you need coverage most.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('ACA')">ACA</span>
+                        <span class="tag" onclick="filterByTag('Mistakes')">Mistakes</span>
+                        <span class="tag" onclick="filterByTag('Financial')">Financial</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Pre-Existing,Coverage,ACA">
+                    <div class="article-date">June 8, 2025</div>
+                    <h2 class="article-title"><a href="/blog/preexisting-condition-guide.html">The Pre-Existing Condition Guide</a></h2>
+                    <p class="article-excerpt">Navigate the complex world of pre-existing conditions with confidence. Learn how to find coverage, understand waiting periods, and avoid the traps that leave you unprotected when you need it most.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Pre-Existing')">Pre-Existing</span>
+                        <span class="tag" onclick="filterByTag('Coverage')">Coverage</span>
+                        <span class="tag" onclick="filterByTag('ACA')">ACA</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="ACA,Short-Term,Comparison">
+                    <div class="article-date">June 6, 2025</div>
+                    <h2 class="article-title"><a href="/blog/aca-vs-short-term-plans.html">ACA vs Short-Term Plans: Which is Actually Right for You?</a></h2>
+                    <p class="article-excerpt">The eternal debate. We'll cut through the marketing fluff and give you the real pros and cons of each option, because your health (and wallet) deserve the truth.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('ACA')">ACA</span>
+                        <span class="tag" onclick="filterByTag('Short-Term')">Short-Term</span>
+                        <span class="tag" onclick="filterByTag('Comparison')">Comparison</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Short-Term,Coverage,Comparison">
+                    <div class="article-date">June 5, 2025</div>
+                    <h2 class="article-title"><a href="/blog/short-term-medical-guide.html">Short-Term Medical Insurance: The Good, Bad, and Ugly Truth</a></h2>
+                    <p class="article-excerpt">When short-term medical insurance makes sense and when it doesn't. Get the real truth about short-term medical coverage from a licensed insurance professional.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Short-Term')">Short-Term</span>
+                        <span class="tag" onclick="filterByTag('Coverage')">Coverage</span>
+                        <span class="tag" onclick="filterByTag('Comparison')">Comparison</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Tips,Coverage,Financial">
+                    <div class="article-date">June 4, 2025</div>
+                    <h2 class="article-title"><a href="/blog/how-to-use-health-insurance-without-going-broke.html">How to Actually Use Your Health Insurance (Without Going Broke)</a></h2>
+                    <p class="article-excerpt">Having insurance is step one. Using it without triggering financial ruin is step two. Here's your guide to deductibles, copays, and other fun surprises.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Tips')">Tips</span>
+                        <span class="tag" onclick="filterByTag('Coverage')">Coverage</span>
+                        <span class="tag" onclick="filterByTag('Financial')">Financial</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Financial,Uninsured,Tips">
+                    <div class="article-date">June 2, 2025</div>
+                    <h2 class="article-title"><a href="/blog/real-cost-going-without-health-insurance.html">The Real Cost of Going Without Health Insurance</a></h2>
+                    <p class="article-excerpt">Think you're saving money by skipping insurance? We've crunched the numbers on what happens when life decides to throw you a curveball.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Financial')">Financial</span>
+                        <span class="tag" onclick="filterByTag('Uninsured')">Uninsured</span>
+                        <span class="tag" onclick="filterByTag('Tips')">Tips</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Florida,State-Specific,ACA">
+                    <div class="article-date">May 30, 2025</div>
+                    <h2 class="article-title"><a href="/blog/florida-insurance-guide.html">Florida Health Insurance: Navigating the Sunshine State's Challenges</a></h2>
+                    <p class="article-excerpt">From hurricanes to humidity-induced existential crises, Florida has its own special insurance considerations. Here's what you need to know.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Florida')">Florida</span>
+                        <span class="tag" onclick="filterByTag('State-Specific')">State-Specific</span>
+                        <span class="tag" onclick="filterByTag('ACA')">ACA</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Dental,Coverage,Tips">
+                    <div class="article-date">May 28, 2025</div>
+                    <h2 class="article-title"><a href="/blog/dental-insurance-guide.html">Dental Insurance: Worth It or Just Another Way to Fund Your Dentist's Yacht?</a></h2>
+                    <p class="article-excerpt">The tooth about dental coverage. When it makes sense, when it doesn't, and how to avoid getting drilled on costs.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Dental')">Dental</span>
+                        <span class="tag" onclick="filterByTag('Coverage')">Coverage</span>
+                        <span class="tag" onclick="filterByTag('Tips')">Tips</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Short-Term,Coverage,Comparison">
+                    <div class="article-date">May 26, 2025</div>
+                    <h2 class="article-title"><a href="/blog/short-term-health-insurance-guide.html">Short-Term Health Insurance: Lifesaver or Financial Trap?</a></h2>
+                    <p class="article-excerpt">When short-term plans make sense and when they're basically expensive tissue paper for your medical bills.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Short-Term')">Short-Term</span>
+                        <span class="tag" onclick="filterByTag('Coverage')">Coverage</span>
+                        <span class="tag" onclick="filterByTag('Comparison')">Comparison</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Medicare,Seniors,Tips">
+                    <div class="article-date">May 24, 2025</div>
+                    <h2 class="article-title"><a href="/blog/medicare-for-dummies.html">Medicare for Dummies (No Offense)</a></h2>
+                    <p class="article-excerpt">Medicare doesn't have to be more confusing than assembling IKEA furniture. Here's everything you need to know in plain English.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Medicare')">Medicare</span>
+                        <span class="tag" onclick="filterByTag('Seniors')">Seniors</span>
+                        <span class="tag" onclick="filterByTag('Tips')">Tips</span>
+                    </div>
+                </article>
+
+                <article class="article-card" data-tags="Tips,Coverage,Basics">
+                    <div class="article-date">May 22, 2025</div>
+                    <h2 class="article-title"><a href="/blog/how-to-read-insurance-card.html">How to Read Your Insurance Card Without Having a Panic Attack</a></h2>
+                    <p class="article-excerpt">Decode all those mysterious numbers and acronyms so you can actually use your insurance like a pro.</p>
+                    <div class="tag-container">
+                        <span class="tag" onclick="filterByTag('Tips')">Tips</span>
+                        <span class="tag" onclick="filterByTag('Coverage')">Coverage</span>
+                        <span class="tag" onclick="filterByTag('Basics')">Basics</span>
+                    </div>
+                </article>
+
+                </div>
             </div>
         </div>
     </section>
@@ -831,388 +1181,89 @@ header .cta-button {
     </a>
 
     <script>
-        const posts = [
-            {
-                title: "Why Florida Health Insurance Premiums Increased in 2026",
-                date: "2026-03-04",
-                excerpt: "Many Floridians are seeing higher 2026 premiums. Here are the key reasons: subsidy changes, rising healthcare costs, and Marketplace enrollment dynamics.",
-                link: "/blog/why-florida-health-insurance-premiums-increased-2026.html",
-                tags: ["Florida", "ACA", "Premiums"]
-            },
-            {
-                title: "Self-Employment Tax Deductions and ICHRA: What Business Owners Need to Know",
-                date: "2026-02-26",
-                excerpt: "A practical guide to self-employed health insurance deductions and ICHRA strategy in 2026. Learn where each option fits and what to review with your CPA.",
-                link: "/blog/self-employed-tax-deductions-ichra-guide.html",
-                tags: ["Self-Employed", "Tax Planning", "ICHRA"]
-            },
-            {
-                title: "My Take: Trump’s 2026 State of the Union on Healthcare and HSAs",
-                date: "2026-02-25",
-                excerpt: "An opinion column on what was said, what was not said about HSAs, and what Florida families should actually do with their coverage decisions.",
-                link: "/blog/trump-state-of-the-union-healthcare-hsa-2026.html",
-                tags: ["Opinion", "Healthcare Policy", "HSA"]
-            },
-            {
-                title: "Florida ACA Enrollment and Benefits Guide (2026)",
-                date: "2026-02-23",
-                excerpt: "The statewide master guide for HealthCare.gov enrollment, first-30-day setup, and carrier-specific benefit optimization. Includes direct links to 2026 Polk-relevant carrier playbooks.",
-                link: "/blog/florida-aca-enrollment-and-benefits-2026.html",
-                tags: ["ACA", "Florida", "Open Enrollment"]
-            },
-            {
-                title: "What Is Supplemental Coverage?",
-                date: "2026-02-25",
-                excerpt: "A clear breakdown of supplemental plans, what they actually cover, and where they fit with ACA or major medical coverage.",
-                link: "/blog/what-is-supplemental-coverage.html",
-                tags: ["Supplemental", "Coverage", "Plan Types"]
-            },
-            {
-                title: "Lakeland Medicare Advantage Plans for 2026: Compare 91 Local Options",
-                date: "2026-02-04",
-                excerpt: "Compare 2026 Lakeland Medicare Advantage plans by premium, MOOP, and Watson Clinic or Lakeland Regional access before you enroll.",
-                link: "/blog/medicare-advantage-lakeland-2026.html",
-                tags: ["Medicare", "Lakeland", "Local"]
-            },
-            {
-                title: "The ACA Subsidy Cliff: Strategic MAGI Management for Tax Optimization",
-                date: "2025-12-15",
-                excerpt: "Expert analysis of the 400% FPL subsidy threshold, Inflation Reduction Act changes through 2025, and strategic income management to minimize tax-time repayments. Understand the subsidy cliff and learn tactical MAGI reduction strategies.",
-                link: "/blog/aca-subsidy-cliff.html",
-                tags: ["ACA", "Subsidies", "Tax Planning"]
-            },
-            {
-                title: "UnitedHealthcare Health Protector Guard: Technical Breakdown & Gap Coverage Strategy",
-                date: "2025-12-18",
-                excerpt: "In-depth technical analysis of fixed-indemnity insurance. Compare fixed-indemnity vs major medical plans, understand how to use it as HDHP deductible protection, and learn strategic integration with high-deductible plans.",
-                link: "/blog/fixed-indemnity-analysis.html",
-                tags: ["Products", "Coverage", "Gap Insurance"]
-            },
-            {
-                title: "5 Critical Health Insurance Mistakes That Could Cost You Thousands",
-                date: "2025-06-10",
-                excerpt: "Don't let these common health insurance blunders drain your bank account. From choosing the wrong deductible to missing enrollment deadlines, we break down the mistakes that could leave you financially vulnerable when you need coverage most.",
-                link: "/blog/5-critical-health-insurance-mistakes.html",
-                tags: ["ACA", "Mistakes", "Financial"]
-            },
-            {
-                title: "The Pre-Existing Condition Guide",
-                date: "2025-06-08",
-                excerpt: "Navigate the complex world of pre-existing conditions with confidence. Learn how to find coverage, understand waiting periods, and avoid the traps that leave you unprotected when you need it most.",
-                link: "/blog/preexisting-condition-guide.html",
-                tags: ["Pre-Existing", "Coverage", "ACA"]
-            },
-            {
-                title: "ACA vs Short-Term Plans: Which is Actually Right for You?",
-                date: "2025-06-06",
-                excerpt: "The eternal debate. We'll cut through the marketing fluff and give you the real pros and cons of each option, because your health (and wallet) deserve the truth.",
-                link: "/blog/aca-vs-short-term-plans.html",
-                tags: ["ACA", "Short-Term", "Comparison"]
-            },
-            {
-                title: "How to Actually Use Your Health Insurance (Without Going Broke)",
-                date: "2025-06-04",
-                excerpt: "Having insurance is step one. Using it without triggering financial ruin is step two. Here's your guide to deductibles, copays, and other fun surprises.",
-                link: "/blog/how-to-use-health-insurance-without-going-broke.html",
-                tags: ["Tips", "Coverage", "Financial"]
-            },
-            {
-                title: "The Real Cost of Going Without Health Insurance",
-                date: "2025-06-02",
-                excerpt: "Think you're saving money by skipping insurance? We've crunched the numbers on what happens when life decides to throw you a curveball.",
-                link: "/blog/real-cost-going-without-health-insurance.html",
-                tags: ["Financial", "Uninsured", "Tips"]
-            },
-            {
-                title: "Florida Health Insurance: Navigating the Sunshine State's Challenges",
-                date: "2025-05-30",
-                excerpt: "From hurricanes to humidity-induced existential crises, Florida has its own special insurance considerations. Here's what you need to know.",
-                link: "/blog/florida-insurance-guide.html",
-                tags: ["Florida", "State-Specific", "ACA"]
-            },
-            {
-                title: "Dental Insurance: Worth It or Just Another Way to Fund Your Dentist's Yacht?",
-                date: "2025-05-28",
-                excerpt: "The tooth about dental coverage. When it makes sense, when it doesn't, and how to avoid getting drilled on costs.",
-                link: "/blog/dental-insurance-guide.html",
-                tags: ["Dental", "Coverage", "Tips"]
-            },
-            {
-                title: "Short-Term Health Insurance: Lifesaver or Financial Trap?",
-                date: "2025-05-26",
-                excerpt: "When short-term plans make sense and when they're basically expensive tissue paper for your medical bills.",
-                link: "/blog/short-term-health-insurance-guide.html",
-                tags: ["Short-Term", "Coverage", "Comparison"]
-            },
-            {
-                title: "Medicare for Dummies (No Offense)",
-                date: "2025-05-24",
-                excerpt: "Medicare doesn't have to be more confusing than assembling IKEA furniture. Here's everything you need to know in plain English.",
-                link: "/blog/medicare-for-dummies.html",
-                tags: ["Medicare", "Seniors", "Tips"]
-            },
-            {
-                title: "How to Read Your Insurance Card Without Having a Panic Attack",
-                date: "2025-05-22",
-                excerpt: "Decode all those mysterious numbers and acronyms so you can actually use your insurance like a pro.",
-                link: "/blog/how-to-read-insurance-card.html",
-                tags: ["Tips", "Coverage", "Basics"]
-            },
-            {
-                title: "Watson Clinic and Lakeland Regional Insurance Guide for 2026",
-                date: "2026-02-04",
-                excerpt: "Check which 2026 Medicare Advantage and ACA plans work at Watson Clinic and Lakeland Regional Health, including specialty-only and referral traps.",
-                link: "/blog/lakeland-regional-watson-clinic-insurance-2026.html",
-                tags: ["Lakeland", "Local", "Networks"]
-            },
-            {
-                title: "Insurance Denied Your Claim? Fight Back.",
-                date: "2026-01-25",
-                excerpt: "Don't accept a denied insurance claim without a fight. Here's exactly how to appeal and overturn denials — step by step, with actual success strategies.",
-                link: "/blog/what-to-do-when-insurance-denies-claim.html",
-                tags: ["Claims", "Appeals", "Tips"]
-            },
-            {
-                title: "How to Negotiate Hospital Bills",
-                date: "2026-01-22",
-                excerpt: "Hospital bills are negotiable. Here's exactly how to negotiate medical debt, request itemized bills, spot errors, and cut your costs by 50% or more.",
-                link: "/blog/how-to-negotiate-hospital-bills.html",
-                tags: ["Medical Bills", "Financial", "Tips"]
-            },
-            {
-                title: "HMO vs PPO vs EPO: Decoded",
-                date: "2026-01-20",
-                excerpt: "Confused about HMO, PPO, and EPO health plans? Here's exactly how they differ, which costs more, and which gives you the most freedom to choose doctors.",
-                link: "/blog/hmo-vs-ppo-vs-epo-explained.html",
-                tags: ["Plan Types", "Coverage", "Comparison"]
-            },
-            {
-                title: "Out-of-Pocket Maximum: Your Financial Safety Net",
-                date: "2026-01-18",
-                excerpt: "The out-of-pocket maximum is the most important number in your health insurance policy. Here's exactly how it works and why it could save you from financial disaster.",
-                link: "/blog/understanding-out-of-pocket-maximum.html",
-                tags: ["Coverage", "Financial", "Basics"]
-            },
-            {
-                title: "Self-Employed? Deduct Your Health Insurance",
-                date: "2026-01-15",
-                excerpt: "If you're self-employed, you can deduct 100% of your health insurance premiums. Here's exactly how to claim this deduction and save thousands on taxes.",
-                link: "/blog/health-insurance-self-employed-tax-deductions.html",
-                tags: ["Self-Employed", "Tax Deductions", "Financial"]
-            },
-            {
-                title: "How to Budget for Healthcare in 2026",
-                date: "2026-01-10",
-                excerpt: "Learn how to accurately budget for healthcare costs including premiums, deductibles, and out-of-pocket expenses. Real strategies for planning your medical spending in 2026.",
-                link: "/blog/planning-healthcare-budget-2026.html",
-                tags: ["Financial", "Budgeting", "Tips"]
-            },
-            {
-                title: "Why Your Insurance Agent Probably Hates You (And How to Fix That)",
-                date: "2025-06-17",
-                excerpt: "Let's be honest — if your insurance agent could block your number without losing commission, they probably would. Here's how to become the client they actually want to help.",
-                link: "/blog/no-your-agent-doesnt-hate-you.html",
-                tags: ["Tips", "Insurance Agents", "Humor"]
-            },
-            {
-                title: "ACA Open Enrollment 2025: How to Get Ready for the Best Coverage",
-                date: "2025-06-15",
-                excerpt: "Get ready for ACA open enrollment with expert tips. Learn how to maximize subsidies and avoid costly mistakes during the enrollment window.",
-                link: "/blog/aca-open-enrollment-deadline.html",
-                tags: ["ACA", "Open Enrollment", "Subsidies"]
-            },
-            {
-                title: "Medicare Advantage vs Medicare Supplement: The Ultimate Showdown",
-                date: "2025-06-11",
-                excerpt: "The real differences between Medicare Advantage and Medicare Supplement plans. No BS analysis of which option won't leave you broke when you need care most.",
-                link: "/blog/medicare-advantage-vs-supplement.html",
-                tags: ["Medicare", "Comparison", "Seniors"]
-            },
-            {
-                title: "Short-Term Medical Insurance: The Good, Bad, and Ugly Truth",
-                date: "2025-06-05",
-                excerpt: "When short-term medical insurance makes sense and when it doesn't. Get the real truth about short-term medical coverage from a licensed insurance professional.",
-                link: "/blog/short-term-medical-guide.html",
-                tags: ["Short-Term", "Coverage", "Comparison"]
-            },
-            {
-                title: "The Freelancer's Guide to Health Insurance in Lakeland & Polk County (2026)",
-                date: "2026-01-28",
-                excerpt: "Expert guide for self-employed freelancers in Lakeland, FL. Discover ACA marketplace plans, subsidy strategies, and Polk County healthcare options for 2026.",
-                link: "/blog/freelancer-health-insurance-lakeland-2026.html",
-                tags: ["Self-Employed", "Lakeland", "ACA"]
-            }
-        ];
-
-        let currentPage = 1;
-        const postsPerPage = 5;
         let filteredTag = null;
-        let tagSearchQuery = '';
-
-        function parseLocalIsoDate(dateString) {
-            // Parse YYYY-MM-DD in local time to avoid UTC timezone day-shift.
-            const parts = dateString.split('-').map(Number);
-            if (parts.length === 3 && parts.every(Number.isFinite)) {
-                return new Date(parts[0], parts[1] - 1, parts[2], 12, 0, 0);
-            }
-            return new Date(dateString);
-        }
-
-        function sortByDateDesc(a, b) {
-            return parseLocalIsoDate(b.date) - parseLocalIsoDate(a.date);
-        }
-
-        function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return parseLocalIsoDate(dateString).toLocaleDateString('en-US', options);
-        }
+        let tagSearchQuery = ‘’;
 
         function getUniqueTags() {
             const tagSet = new Set();
-            posts.forEach(post => {
-                if (post.tags) post.tags.forEach(tag => tagSet.add(tag));
+            document.querySelectorAll(‘.article-card’).forEach(card => {
+                const tags = card.getAttribute(‘data-tags’);
+                if (tags) tags.split(‘,’).forEach(tag => tagSet.add(tag.trim()));
             });
             return Array.from(tagSet).sort();
         }
 
         function renderTags() {
-            const tagContainer = document.getElementById('tag-filter');
-            const clearBtn = document.getElementById('clear-all-btn');
+            const tagContainer = document.getElementById(‘tag-filter’);
+            const clearBtn = document.getElementById(‘clear-all-btn’);
             const allTags = getUniqueTags();
             const tags = tagSearchQuery
                 ? allTags.filter(tag => tag.toLowerCase().includes(tagSearchQuery.toLowerCase()))
                 : allTags;
 
             if (tags.length === 0) {
-                tagContainer.innerHTML = `<span class="tag-search-empty">No topics match "${tagSearchQuery}".</span>`;
+                tagContainer.innerHTML = ‘<span class="tag-search-empty">No topics match "’ + tagSearchQuery + ‘".</span>’;
             } else {
                 tagContainer.innerHTML = tags.map(tag =>
-                    `<span class="tag ${filteredTag === tag ? 'active' : ''}" onclick="filterByTag('${tag}')">${tag}</span>`
-                ).join('');
+                    ‘<span class="tag ‘ + (filteredTag === tag ? ‘active’ : ‘’) + ‘" onclick="filterByTag(\’’ + tag + ‘\’)">’ + tag + ‘</span>’
+                ).join(‘’);
             }
 
-            // Show/hide clear button
-            clearBtn.style.display = filteredTag ? 'block' : 'none';
-        }
-
-        function renderPosts() {
-            const sortedPosts = posts.sort(sortByDateDesc);
-            const visiblePosts = filteredTag
-                ? sortedPosts.filter(post => post.tags && post.tags.includes(filteredTag))
-                : sortedPosts;
-
-            const start = (currentPage - 1) * postsPerPage;
-            const end = start + postsPerPage;
-            const paginatedPosts = visiblePosts.slice(start, end);
-            const container = document.getElementById('blog-posts');
-
-            container.innerHTML = '';
-
-            if (filteredTag && visiblePosts.length === 0) {
-                container.innerHTML = `
-                    <div class="no-results">
-                        <p>No blog posts match the tag: <strong>${filteredTag}</strong></p>
-                        <button onclick="clearFilter()" class="clear-filter-btn">Show All Posts</button>
-                    </div>
-                `;
-                return;
-            }
-
-            // Add filter indicator if active
-            if (filteredTag) {
-                container.innerHTML = `
-                    <div class="filter-indicator">
-                        <span>Showing posts tagged: <strong>${filteredTag}</strong></span>
-                        <button onclick="clearFilter()" class="clear-filter-btn">Clear Filter</button>
-                    </div>
-                `;
-            }
-
-            paginatedPosts.forEach(post => {
-                const tagHTML = post.tags?.map(tag =>
-                    `<span class="tag ${tag === filteredTag ? 'active' : ''}" onclick="filterByTag('${tag}')">${tag}</span>`
-                ).join(' ') || '';
-
-                const articleHtml = `
-                    <article class="article-card">
-                        <div class="article-date">${formatDate(post.date)}</div>
-                        <h2 class="article-title">
-                            <a href="${post.link}">${post.title}</a>
-                        </h2>
-                        <p class="article-excerpt">${post.excerpt}</p>
-                        <div class="tag-container">${tagHTML}</div>
-                    </article>
-                `;
-                container.innerHTML += articleHtml;
-            });
-
-            // Update pagination controls
-            const totalPages = Math.ceil(visiblePosts.length / postsPerPage);
-            document.getElementById('prev-btn').disabled = currentPage === 1;
-            document.getElementById('next-btn').disabled = currentPage === totalPages;
-            document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+            clearBtn.style.display = filteredTag ? ‘block’ : ‘none’;
         }
 
         function filterByTag(tag) {
             filteredTag = tag;
-            currentPage = 1;
             renderTags();
-            renderPosts();
+            const indicator = document.getElementById(‘filter-indicator’);
+            indicator.innerHTML = ‘<div class="filter-indicator"><span>Showing posts tagged: <strong>’ + tag + ‘</strong></span><button onclick="clearFilter()" class="clear-filter-btn">Clear Filter</button></div>’;
+
+            document.querySelectorAll(‘.article-card’).forEach(card => {
+                const tags = card.getAttribute(‘data-tags’);
+                card.style.display = (tags && tags.split(‘,’).map(t => t.trim()).includes(tag)) ? ‘’ : ‘none’;
+            });
+
+            document.querySelector(‘.blog-content’).scrollIntoView({ behavior: ‘smooth’, block: ‘start’ });
         }
 
         function clearFilter() {
             filteredTag = null;
-            currentPage = 1;
             renderTags();
-            renderPosts();
-        }
-
-        function changePage(direction) {
-            const totalPages = Math.ceil(posts.length / postsPerPage);
-            const newPage = currentPage + direction;
-
-            if (newPage >= 1 && newPage <= totalPages) {
-                currentPage = newPage;
-                renderPosts();
-
-                // Scroll to top of blog content
-                document.querySelector('.blog-content').scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+            document.getElementById(‘filter-indicator’).innerHTML = ‘’;
+            document.querySelectorAll(‘.article-card’).forEach(card => {
+                card.style.display = ‘’;
+            });
         }
 
         // Menu toggle function
         function toggleMenu() {
-            const menu = document.getElementById('dropdownMenu');
-            menu.classList.toggle('show');
+            const menu = document.getElementById(‘dropdownMenu’);
+            menu.classList.toggle(‘show’);
         }
 
         // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const menu = document.getElementById('dropdownMenu');
-            const button = document.querySelector('.menu-button');
+        document.addEventListener(‘click’, function(event) {
+            const menu = document.getElementById(‘dropdownMenu’);
+            const button = document.querySelector(‘.menu-button’);
 
             if (!menu.contains(event.target) && !button.contains(event.target)) {
-                menu.classList.remove('show');
+                menu.classList.remove(‘show’);
             }
         });
 
         // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const tagSearchInput = document.getElementById('tag-search-input');
+        document.addEventListener(‘DOMContentLoaded’, function() {
+            const tagSearchInput = document.getElementById(‘tag-search-input’);
             if (tagSearchInput) {
-                tagSearchInput.addEventListener('input', function (e) {
+                tagSearchInput.addEventListener(‘input’, function (e) {
                     tagSearchQuery = e.target.value.trim();
                     renderTags();
                 });
             }
             renderTags();
-            renderPosts();
 
             // Set current year in footer
-            const yearSpan = document.getElementById('current-year');
+            const yearSpan = document.getElementById(‘current-year’);
             if (yearSpan) {
                 yearSpan.textContent = new Date().getFullYear();
             }

@@ -51,7 +51,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/</loc>
-    <lastmod>2026-03-04</lastmod>
+    <lastmod>2026-03-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -380,6 +380,27 @@
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/why-florida-health-insurance-premiums-increased-2026.html</loc>
     <lastmod>2026-03-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/aca-subsidy-estimator/</loc>
+    <lastmod>2026-03-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/non-income-based-health-insurance-florida.html</loc>
+    <lastmod>2026-03-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/aca-subsidy-tax-return-clawback.html</loc>
+    <lastmod>2026-03-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
