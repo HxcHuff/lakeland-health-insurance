@@ -1,2 +1,13 @@
 # Local Netlify folder
 .netlify
+
+# macOS / editor temp files
+.DS_Store
+*.swp
+*.swo
+
+# Node
+node_modules/
+
+# Claude worktrees
+.claude/worktrees/
