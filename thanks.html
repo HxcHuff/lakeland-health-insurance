@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-W6MZ7XT6');</script>
+    <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
+    <!-- Conversion tracking (GA4 base config handled by GTM) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-W45RMKHXV0');
-      
+
       // Track form conversion
       gtag('event', 'conversion', {
         'event_category': 'Lead Generation',
         'event_label': 'Health Insurance Quote Request Completed',
         'value': 1
       });
-      
+
       // Track goal completion
       gtag('event', 'generate_lead', {
         'event_category': 'engagement',
         'event_label': 'quote_request_form'
       });
-      
-      console.log('✅ Form conversion tracked successfully');
     </script>
     <!-- Facebook Pixel -->
     <script>
@@ -370,6 +372,10 @@ header .cta-button {
   </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W6MZ7XT6"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
     <div class="thank-you-container">
         <div class="content">
             <div class="checkmark">
