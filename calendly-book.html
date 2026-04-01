@@ -20,9 +20,9 @@
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
   <!-- GOOGLE FONTS -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
 
   <!-- UTM CAPTURE / SESSION STORAGE -->
   <script>
@@ -54,29 +54,6 @@
     })();
   </script>
 
-  <!-- GOOGLE ANALYTICS 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-W45RMKHXV0');
-  </script>
-
-  <!-- FACEBOOK PIXEL -->
-  <script>
-    !function (f, b, e, v, n, t, s) {
-      if (f.fbq) return; n = f.fbq = function () { n.callMethod ?
-        n.callMethod.apply(n, arguments) : n.queue.push(arguments) };
-      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
-      n.queue = []; t = b.createElement(e); t.async = !0;
-      t.src = v; s = b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t, s)
-    }(window, document, 'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1822900971216472');
-    fbq('track', 'PageView');
-  </script>
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#1B2A4A">
 
@@ -414,6 +391,7 @@ header .cta-button {
 }
 
   </style>
+    <script defer src="/js/analytics.js"></script>
 </head>
 <body>
   <div class="bg-animation">
