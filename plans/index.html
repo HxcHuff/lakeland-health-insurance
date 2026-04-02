@@ -489,225 +489,46 @@
       margin: 0 auto 2rem;
     }
 
-    /* Quick Calculator */
-    .quick-calc {
-      background: var(--white);
-      padding: 2rem;
+    /* Estimator CTA Banner */
+    .estimator-cta-banner {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      background: var(--sky-soft);
+      border: 2px solid var(--blue-light);
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
-      margin: -30px auto 0;
-      max-width: 600px;
-      position: relative;
-      z-index: 100;
-      transition: all 0.3s ease;
-      border: 1px solid var(--gray-200);
+      max-width: 700px;
+      margin: 0 auto 3rem;
     }
 
-    .quick-calc:hover {
-      box-shadow: var(--shadow-xl);
-    }
-
-    .calc-title {
+    .estimator-cta-banner h3 {
       font-family: 'Instrument Serif', serif;
       font-size: 1.5rem;
       font-weight: 400;
-      margin-bottom: 0.5rem;
       color: var(--gray-800);
-      text-align: center;
+      margin-bottom: 0.5rem;
     }
 
-    .calc-subtitle {
-      text-align: center;
+    .estimator-cta-banner p {
       color: var(--gray-500);
-      margin-bottom: 1.5rem;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
     }
 
-    .calc-form {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .form-group label {
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: var(--gray-800);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .label-icon {
-      font-size: 1.1rem;
-      color: var(--blue);
-    }
-
-    .form-group select,
-    .form-group input {
-      padding: 12px;
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius);
-      font-size: 1rem;
-      font-family: 'DM Sans', sans-serif;
-      transition: all 0.3s ease;
-    }
-
-    .form-group select:focus,
-    .form-group input:focus {
-      outline: none;
-      border-color: var(--blue-light);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-      transform: translateY(-2px);
-    }
-
-    .form-group.completed select,
-    .form-group.completed input {
-      border-color: var(--green);
-      background: var(--green-soft);
-    }
-
-    .calc-button {
+    .estimator-cta-banner a {
       background: var(--gold);
       color: var(--navy-deep);
-      padding: 12px 24px;
-      border: none;
+      padding: 12px 28px;
       border-radius: 100px;
       font-weight: 600;
-      cursor: pointer;
-      width: 100%;
       font-size: 1rem;
-      font-family: 'DM Sans', sans-serif;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .calc-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(212, 168, 67, 0.3);
-    }
-
-    .calc-button:disabled {
-      background: var(--gray-300);
-      color: var(--gray-500);
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .calc-button.loading::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 20px;
-      height: 20px;
-      margin: -10px 0 0 -10px;
-      border: 2px solid transparent;
-      border-top: 2px solid var(--navy-deep);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .calc-result {
-      margin-top: 1rem;
-      padding: 1.5rem;
-      background: var(--sky-soft);
-      border: 2px solid var(--blue-light);
-      border-radius: var(--radius);
-      text-align: center;
-      display: none;
-      animation: slideIn 0.5s ease;
-    }
-
-    .calc-result.show {
-      display: block;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .result-price {
-      font-family: 'Instrument Serif', serif;
-      font-size: 2rem;
-      font-weight: 400;
-      color: var(--navy);
-      margin-bottom: 0.5rem;
-    }
-
-    .result-disclaimer {
-      font-size: 0.9rem;
-      color: var(--gray-500);
-      margin-bottom: 1rem;
-    }
-
-    .result-cta-group {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .result-cta {
-      background: var(--gold);
-      color: var(--navy-deep);
-      padding: 10px 20px;
-      border: none;
-      border-radius: 100px;
-      font-weight: 600;
-      cursor: pointer;
       text-decoration: none;
       display: inline-block;
       transition: all 0.3s ease;
     }
 
-    .result-cta:hover {
+    .estimator-cta-banner a:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(212, 168, 67, 0.3);
-    }
-
-    .result-cta.messenger {
-      background: #0084ff;
-      color: white;
-    }
-
-    .result-cta.messenger:hover {
-      background: #0066cc;
-    }
-
-    .progress-bar {
-      height: 4px;
-      background: var(--gray-200);
-      border-radius: 2px;
-      margin: 1rem 0;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--blue), var(--blue-light));
-      width: 0%;
-      transition: width 0.3s ease;
     }
 
     /* Plans Section */
@@ -1159,86 +980,6 @@ header .cta-button {
     </div>
   </section>
 
-  <div class="container" id="estimator">
-    <div class="quick-calc">
-      <h3 class="calc-title">2026 Health Insurance <em class="serif">Price Estimator</em></h3>
-      <p class="calc-subtitle">Get a realistic estimate in under a minute. No email. No spam. No fluff.</p>
-      <p style="text-align: center; color: var(--gray-500); font-size: 0.85rem; margin-bottom: 1rem;">Based on 2026 rates, FPL thresholds, and real subsidy calculations</p>
-
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-
-      <form class="calc-form" id="quickCalc">
-        <div class="form-group">
-          <label for="age">
-            <span class="label-icon"></span>
-            Your Age
-          </label>
-          <div id="age-help" style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 0.5rem;">(19-64 years old)</div>
-          <input type="number" id="age" name="age" min="19" max="64" placeholder="Enter your exact age" required aria-describedby="age-help">
-        </div>
-        <div class="form-group">
-          <label for="zipcode">
-            <span class="label-icon"></span>
-            ZIP Code
-          </label>
-          <div style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 0.5rem;">(rates vary significantly by county/region)</div>
-          <input type="text" id="zipcode" name="zipcode" placeholder="33805" maxlength="5" required aria-describedby="zip-help">
-        </div>
-        <div class="form-group">
-          <label for="plantype">
-            <span class="label-icon"></span>
-            Coverage Type
-          </label>
-          <div style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 0.5rem;">(primary insurance type you need)</div>
-          <select id="plantype" name="plantype" required aria-describedby="plantype-help">
-            <option value="">Select Type</option>
-            <option value="aca">ACA/Marketplace (most comprehensive)</option>
-            <option value="short">Short-Term (budget friendly)</option>
-            <option value="supplements">Supplement Plans (add-on coverage)</option>
-            <option value="dental">Dental & Vision</option>
-            <option value="life">Life Insurance</option>
-          </select>
-        </div>
-        <div class="form-group" id="householdGroup" style="display: none;">
-          <label for="household">
-            <span class="label-icon"></span>
-            Household Size
-          </label>
-          <div id="household-help" style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 0.5rem;">(affects subsidy calculations)</div>
-          <select id="household" name="household" aria-describedby="household-help">
-            <option value="">Select Household Size</option>
-            <option value="1">Just me (1 person)</option>
-            <option value="2">2 people</option>
-            <option value="3">3 people</option>
-            <option value="4">4 people</option>
-            <option value="5">5 people</option>
-            <option value="6">6+ people</option>
-          </select>
-        </div>
-        <div class="form-group" id="incomeGroup" style="display: none;">
-          <label for="income">
-            <span class="label-icon"></span>
-            Annual Household Income
-          </label>
-          <div id="income-help" style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 0.5rem;">(determines your subsidies)</div>
-          <input type="number" id="income" name="income" placeholder="Enter annual household income" aria-describedby="income-help" inputmode="numeric">
-        </div>
-        <button type="submit" class="calc-button" id="calcBtn">
-          <span id="btnText">Show Me Real Prices</span>
-        </button>
-      </form>
-      <div class="calc-result" id="calcResult">
-        <div class="result-price">$<span id="estimatedCost">0</span>/month</div>
-        <p class="result-disclaimer" id="resultMessage">This is a ballpark estimate. Contact us for your exact rate.</p>
-        <div class="result-cta-group">
-          <a href="/get-help/" class="result-cta">Request Exact Quote</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <section class="plans-section" id="plans">
     <div class="container">
       <div class="section-header">
@@ -1422,6 +1163,14 @@ header .cta-button {
       </div>
     </div>
   </section>
+
+  <div class="container">
+    <div class="estimator-cta-banner">
+      <h3>Wondering what you'd <em class="serif">actually pay?</em></h3>
+      <p>Try our free ACA Subsidy Estimator — no email required.</p>
+      <a href="/aca-subsidy-estimator/">Check Your Price</a>
+    </div>
+  </div>
 
   <section class="comparison-section">
     <div class="container">
@@ -1690,235 +1439,6 @@ header .cta-button {
 
       if (!menu.contains(event.target) && !button.contains(event.target)) {
         menu.classList.remove('show');
-      }
-    });
-
-    // Quick calculator functionality (deterministic model)
-    const form = document.getElementById('quickCalc');
-    const progressFill = document.getElementById('progressFill');
-    const calcBtn = document.getElementById('calcBtn');
-    const btnText = document.getElementById('btnText');
-    const incomeGroup = document.getElementById('incomeGroup');
-    const householdGroup = document.getElementById('householdGroup');
-    const plantypeField = document.getElementById('plantype');
-
-    // Show/hide income and household fields based on plan type
-    plantypeField.addEventListener('change', function() {
-      if (this.value === 'aca') {
-        incomeGroup.style.display = 'flex';
-        incomeGroup.style.flexDirection = 'column';
-        householdGroup.style.display = 'flex';
-        householdGroup.style.flexDirection = 'column';
-        document.getElementById('income').required = true;
-        document.getElementById('household').required = true;
-      } else {
-        incomeGroup.style.display = 'none';
-        householdGroup.style.display = 'none';
-        document.getElementById('income').required = false;
-        document.getElementById('household').required = false;
-        document.getElementById('income').value = '';
-        document.getElementById('household').value = '';
-        document.getElementById('income').closest('.form-group').classList.remove('completed');
-        document.getElementById('household').closest('.form-group').classList.remove('completed');
-      }
-      updateProgress();
-    });
-
-    // Track form completion
-    function updateProgress() {
-      let fields = ['age', 'zipcode', 'plantype'];
-
-      // Add income and household fields if ACA is selected
-      if (plantypeField.value === 'aca') {
-        fields.push('income', 'household');
-      }
-
-      let completed = 0;
-
-      fields.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        const group = field.closest('.form-group');
-
-        if (field.value) {
-          completed++;
-          group.classList.add('completed');
-        } else {
-          group.classList.remove('completed');
-        }
-      });
-
-      const progress = (completed / fields.length) * 100;
-      progressFill.style.width = progress + '%';
-
-      if (completed === fields.length) {
-        calcBtn.disabled = false;
-        btnText.textContent = 'Calculate Estimate';
-      } else {
-        calcBtn.disabled = true;
-        btnText.textContent = 'Fill out all fields';
-      }
-    }
-
-    // Add event listeners to form fields
-    ['age', 'zipcode', 'plantype', 'income', 'household'].forEach(fieldId => {
-      const field = document.getElementById(fieldId);
-      if (field) {
-        field.addEventListener('change', updateProgress);
-        field.addEventListener('input', updateProgress);
-      }
-    });
-
-    // Initialize progress
-    updateProgress();
-
-    // ZIP code validation
-    document.getElementById('zipcode').addEventListener('input', function(e) {
-      // Only allow numbers
-      e.target.value = e.target.value.replace(/[^0-9]/g, '');
-      updateProgress();
-    });
-
-    // Federal Poverty Level calculation (2026 estimate inputs)
-    function getFPL(householdSize) {
-      const fplBase = {
-        1: 15600,
-        2: 21060,
-        3: 26520,
-        4: 31980,
-        5: 37440,
-        6: 42900
-      };
-      return fplBase[householdSize] || 42900; // Default to 6+ if larger
-    }
-
-    // ACA age rating factors (approximate federal 3:1 curve)
-    function getAcaAgeFactor(age) {
-      if (age <= 20) return 0.765;
-      if (age === 21) return 1.0;
-      const factorTable = {
-        22: 1.0, 23: 1.0, 24: 1.0, 25: 1.004, 26: 1.024, 27: 1.048, 28: 1.087,
-        29: 1.119, 30: 1.135, 31: 1.159, 32: 1.183, 33: 1.214, 34: 1.246,
-        35: 1.278, 36: 1.31, 37: 1.341, 38: 1.373, 39: 1.405, 40: 1.444,
-        41: 1.476, 42: 1.524, 43: 1.571, 44: 1.619, 45: 1.667, 46: 1.714,
-        47: 1.762, 48: 1.81, 49: 1.857, 50: 1.905, 51: 1.952, 52: 2.0,
-        53: 2.095, 54: 2.19, 55: 2.286, 56: 2.381, 57: 2.476, 58: 2.571,
-        59: 2.667, 60: 2.714, 61: 2.81, 62: 2.857, 63: 2.952, 64: 3.0
-      };
-      return factorTable[age] || 3.0;
-    }
-
-    function getHouseholdPremiumFactor(size) {
-      const map = { 1: 1.0, 2: 1.95, 3: 2.45, 4: 2.85, 5: 3.2, 6: 3.45 };
-      return map[size] || 3.45;
-    }
-
-    // Sliding-scale expected contribution (for planning only; final APTC is set by Marketplace)
-    function getExpectedContributionRate(fplPercent) {
-      if (fplPercent <= 150) return 0.00;
-      if (fplPercent <= 200) return ((fplPercent - 150) / 50) * 0.02;
-      if (fplPercent <= 250) return 0.02 + ((fplPercent - 200) / 50) * 0.02;
-      if (fplPercent <= 300) return 0.04 + ((fplPercent - 250) / 50) * 0.02;
-      if (fplPercent <= 400) return 0.06 + ((fplPercent - 300) / 100) * 0.025;
-      return 0.085;
-    }
-
-    function formatMoney(amount) {
-      return '$' + Math.round(amount).toLocaleString();
-    }
-
-    function setResult(monthlyEstimate, messageHtml) {
-      document.getElementById('estimatedCost').textContent = Math.round(monthlyEstimate).toLocaleString();
-      document.getElementById('resultMessage').innerHTML = messageHtml;
-      document.getElementById('calcResult').classList.add('show');
-      document.getElementById('calcResult').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const age = parseInt(document.getElementById('age').value);
-      const plantype = document.getElementById('plantype').value;
-      const zipcode = document.getElementById('zipcode').value;
-      const income = document.getElementById('income').value ? parseInt(document.getElementById('income').value) : null;
-      const household = document.getElementById('household').value ? parseInt(document.getElementById('household').value) : null;
-
-      // Validate required fields
-      let requiredFields = ['age', 'plantype', 'zipcode'];
-      if (plantype === 'aca') {
-        requiredFields.push('income', 'household');
-      }
-
-      const missingField = requiredFields.find(fieldId => {
-        const fieldValue = document.getElementById(fieldId).value;
-        return !fieldValue;
-      });
-
-      if (missingField) {
-        alert('Please complete all required fields first.');
-        return;
-      }
-
-      // Validate age range
-      if (age < 19 || age > 64) {
-        alert('Please enter an age between 19 and 64.');
-        document.getElementById('age').focus();
-        return;
-      }
-
-      // Validate ZIP code
-      if (zipcode.length !== 5) {
-        alert('Please enter a valid 5-digit ZIP code.');
-        document.getElementById('zipcode').focus();
-        return;
-      }
-
-      calcBtn.disabled = true;
-      btnText.textContent = 'Calculating...';
-
-      try {
-        let estimatedCost = 0;
-        let message = 'Estimate generated. Final pricing is set by carrier underwriting rules and Marketplace calculations.';
-
-        if (plantype === 'aca') {
-          // Polk County benchmark assumption for a 21-year-old Silver plan.
-          const benchmark21 = 395;
-          const ageFactor = getAcaAgeFactor(age);
-          const householdFactor = getHouseholdPremiumFactor(household);
-          const grossMonthly = benchmark21 * ageFactor * householdFactor;
-
-          const fpl = getFPL(household);
-          const fplPercent = (income / fpl) * 100;
-          const contributionRate = getExpectedContributionRate(fplPercent);
-          const expectedMonthlyContribution = (income * contributionRate) / 12;
-          const aptcEstimate = Math.max(0, grossMonthly - expectedMonthlyContribution);
-          const netMonthly = Math.max(0, grossMonthly - aptcEstimate);
-
-          estimatedCost = netMonthly;
-
-          message = `<strong>ACA Estimate (Polk-based model):</strong> Gross benchmark ${formatMoney(grossMonthly)}/mo before subsidy. ` +
-            `Estimated credit ${formatMoney(aptcEstimate)}/mo. Estimated member premium ${formatMoney(netMonthly)}/mo. ` +
-            `Income is ${Math.round(fplPercent)}% of FPL. ` +
-            `Final APTC and plan pricing are confirmed on HealthCare.gov with your exact household details.`;
-        } else if (plantype === 'short') {
-          estimatedCost = Math.max(65, 95 + (age - 19) * 4.5);
-          message = '<strong>Short-Term Medical estimate:</strong> rate varies by health history, carrier, deductible, and term length.';
-        } else if (plantype === 'supplements') {
-          estimatedCost = Math.max(25, 30 + (age - 19) * 1.9);
-          message = '<strong>Supplement estimate:</strong> quote depends on benefit amounts, waiting periods, and health profile.';
-        } else if (plantype === 'dental') {
-          estimatedCost = Math.max(18, 24 + (age - 19) * 1.1);
-          message = '<strong>Dental/Vision estimate:</strong> plan design, network, and annual max drive final monthly premium.';
-        } else if (plantype === 'life') {
-          estimatedCost = Math.max(12, 14 + (age - 19) * 2.4);
-          message = '<strong>Life estimate:</strong> final rate depends on coverage amount, term length, tobacco use, and underwriting class.';
-        }
-
-        setResult(estimatedCost, message);
-      } catch (error) {
-        alert('Something went wrong calculating this estimate. Call (863) 640-3102 for an exact quote.');
-      } finally {
-        btnText.textContent = 'Calculate Again';
-        calcBtn.disabled = false;
       }
     });
 
