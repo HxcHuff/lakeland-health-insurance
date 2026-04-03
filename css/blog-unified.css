@@ -64,6 +64,21 @@ header nav a,
 .hero,
 .page-hero {
   background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%) !important;
+  color: #fff !important;
+}
+
+.article-header h1,
+.blog-header h1,
+.hero h1,
+.page-hero h1 {
+  color: #fff !important;
+}
+
+.article-header p,
+.blog-header p,
+.hero p,
+.page-hero p {
+  color: rgba(255,255,255,0.9) !important;
 }
 
 .article-content,

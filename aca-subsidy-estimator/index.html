@@ -70,6 +70,191 @@
     </script>
 
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.65;
+            color: #1E293B;
+            background: #FFFFFF;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .compliance-banner {
+            background: #0F1A2E;
+            color: rgba(255,255,255,0.85);
+            font-size: 0.72rem;
+            text-align: center;
+            padding: 10px 20px;
+            line-height: 1.5;
+        }
+        .compliance-banner strong { color: #D4A843; }
+        header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .brand-name {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #1B2A4A;
+            line-height: 1.2;
+        }
+        .license-tag {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.7rem;
+            color: #D4A843;
+            font-weight: 600;
+            display: block;
+            margin-top: 2px;
+        }
+        .menu-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .menu-button:hover { background-color: #F1F5F9; }
+        .ellipses {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .dot {
+            width: 4px;
+            height: 4px;
+            background-color: #475569;
+            border-radius: 50%;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 100px;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+        }
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #F1F5F9;
+            transition: background-color 0.2s;
+        }
+        .menu-item:hover { background-color: #F8FAFC; }
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item a {
+            text-decoration: none;
+            color: #1E293B;
+            display: block;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #334155;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover { color: #2563EB; }
+        .cta-button {
+            background: #D4A843;
+            color: #0F1A2E;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(212,168,67,0.3);
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212,168,67,0.45);
+        }
+        footer {
+            background: #0F1A2E;
+            color: rgba(255,255,255,0.8);
+            padding: 4rem 0 2rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+            text-align: left;
+        }
+        .footer-column h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+        .footer-column ul { list-style: none; }
+        .footer-column li { margin-bottom: 1rem; }
+        .footer-column a {
+            color: #D4A843;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-column a:hover {
+            color: #F5ECD7;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer-bottom p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.5;
+            margin: 0.25rem 0;
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .cta-button { display: none; }
+        }
+
         :root {
             --navy: #1B2A4A;
             --navy-deep: #0F1A2E;
@@ -100,40 +285,15 @@
             --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
         }
 
-        /* LHI Header Standardization Override */
-        header .brand-name,
-        header .logo {
-          font-family: 'Instrument Serif', serif !important;
-          font-size: 1.2rem !important;
-          font-weight: 400 !important;
-          line-height: 1.2 !important;
-          color: var(--navy, #1B2A4A) !important;
-          letter-spacing: 0 !important;
-          text-decoration: none !important;
+        /* Override blog-unified.css color rules for dark-bg sections */
+        .hero-section h1,
+        .hero-section p,
+        .cta-section h2,
+        .cta-section p {
+            color: var(--white) !important;
         }
-
-        header .license-tag,
-        header .logo::after {
-          content: 'Licensed FL Broker #W371813' !important;
-          font-family: 'DM Sans', sans-serif !important;
-          font-size: 0.7rem !important;
-          font-weight: 600 !important;
-          color: var(--gold, #D4A843) !important;
-          line-height: 1.1 !important;
-          display: block !important;
-          margin-top: 2px !important;
-        }
-
-        header .nav-links a {
-          font-size: 1rem !important;
-          font-weight: 500 !important;
-          line-height: 1.2 !important;
-        }
-
-        header .cta-button {
-          font-size: 1rem !important;
-          font-weight: 600 !important;
-          line-height: 1.2 !important;
+        .footer-column h3 {
+            color: white !important;
         }
 
         /* Breadcrumb */
@@ -435,6 +595,114 @@
             box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
         }
 
+        /* Toggle Group */
+        .toggle-group {
+            display: flex;
+            gap: 0;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            overflow: hidden;
+            width: fit-content;
+        }
+        .toggle-btn {
+            padding: 12px 28px;
+            border: none;
+            background: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .toggle-btn + .toggle-btn {
+            border-left: 2px solid var(--gray-200);
+        }
+        .toggle-btn.active {
+            background: var(--blue);
+            color: var(--white);
+        }
+
+        /* Lead Capture */
+        .lead-capture {
+            margin-top: 36px;
+            border-top: 2px solid var(--sky);
+            padding-top: 36px;
+        }
+        .lead-capture-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .lead-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+        .lead-capture-header h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.6rem;
+            color: var(--navy);
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+        .lead-capture-header p {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
+        .report-preview {
+            background: var(--sky-soft);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin-bottom: 28px;
+        }
+        .preview-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            line-height: 1.4;
+        }
+        .preview-item + .preview-item {
+            border-top: 1px solid var(--gray-200);
+        }
+        .preview-check {
+            color: var(--green);
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .lead-fields {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .lead-submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--green), #15803d);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .lead-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.35);
+        }
+        .lead-privacy {
+            text-align: center;
+            font-size: 0.82rem;
+            color: var(--gray-500);
+            margin-top: 14px;
+            line-height: 1.5;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero-section {
@@ -459,6 +727,15 @@
             .cta-section .cta-buttons {
                 flex-direction: column;
                 align-items: center;
+            }
+            .lead-capture-header h3 {
+                font-size: 1.35rem;
+            }
+            .report-preview {
+                padding: 16px;
+            }
+            .preview-item {
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -550,9 +827,30 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="applicant-age">Your Age</label>
+                    <input type="number" id="applicant-age" placeholder="35" min="0" max="64" inputmode="numeric">
+                    <div class="help-text">Age of the primary applicant. ACA Marketplace plans are available for those under 65.</div>
+                </div>
+
+                <div class="form-group">
                     <label for="annual-income">Annual Household Income</label>
                     <input type="text" id="annual-income" placeholder="$55,000" inputmode="numeric">
                     <div class="help-text">Your total expected modified adjusted gross income (MAGI) for 2026.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="zip-code">ZIP Code</label>
+                    <input type="text" id="zip-code" placeholder="33801" maxlength="5" inputmode="numeric">
+                    <div class="help-text">Your ZIP code helps us find plans available in your area.</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Tobacco Use</label>
+                    <div class="toggle-group" id="tobacco-toggle">
+                        <button type="button" class="toggle-btn active" data-value="no">No</button>
+                        <button type="button" class="toggle-btn" data-value="yes">Yes</button>
+                    </div>
+                    <div class="help-text">Tobacco use can affect your premium but not your subsidy amount.</div>
                 </div>
 
                 <button class="calculate-btn" onclick="calculateSubsidy()">Calculate My Estimate</button>
@@ -561,6 +859,78 @@
                 <div class="results-panel" id="results-panel">
                     <h3>Your Estimated Results</h3>
                     <div id="results-content"></div>
+
+                    <!-- Lead Capture Form -->
+                    <div class="lead-capture" id="lead-capture" style="display:none;">
+                        <div class="lead-capture-header">
+                            <div class="lead-icon">&#128203;</div>
+                            <h3>Get Your Personalized Savings Report</h3>
+                            <p>Your estimate above is a great start. Your personalized report includes:</p>
+                        </div>
+
+                        <div class="report-preview">
+                            <div class="preview-item">
+                                <span class="preview-check">&#10003;</span>
+                                <span>Exact ACA plans available in your ZIP code</span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-check">&#10003;</span>
+                                <span>Real premiums after your subsidy is applied</span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-check">&#10003;</span>
+                                <span>Side-by-side comparison of Bronze, Silver &amp; Gold options</span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-check">&#10003;</span>
+                                <span>Deductible &amp; out-of-pocket maximums for each plan</span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-check">&#10003;</span>
+                                <span>Cost-Sharing Reduction (CSR) eligibility check</span>
+                            </div>
+                        </div>
+
+                        <form name="subsidy-estimator-lead" method="POST" action="/thanks.html"
+                              data-netlify="true" data-netlify-honeypot="bot-field" id="leadCaptureForm">
+                            <input type="hidden" name="form-name" value="subsidy-estimator-lead">
+                            <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+
+                            <input type="hidden" name="household_size" id="lead-household-size">
+                            <input type="hidden" name="annual_income" id="lead-income">
+                            <input type="hidden" name="age" id="lead-age">
+                            <input type="hidden" name="zip_code" id="lead-zip">
+                            <input type="hidden" name="tobacco_use" id="lead-tobacco">
+                            <input type="hidden" name="fpl_percent" id="lead-fpl-percent">
+                            <input type="hidden" name="benchmark_premium" id="lead-benchmark">
+                            <input type="hidden" name="estimated_monthly_subsidy" id="lead-subsidy">
+                            <input type="hidden" name="estimated_annual_savings" id="lead-annual-savings">
+                            <input type="hidden" name="expected_contribution" id="lead-contribution">
+                            <input type="hidden" name="_subject" value="New Lead: ACA Subsidy Estimator">
+                            <input type="hidden" name="source_page" value="/aca-subsidy-estimator/">
+
+                            <div class="lead-fields">
+                                <div class="form-group">
+                                    <label for="lead-name">First Name</label>
+                                    <input type="text" id="lead-name" name="first_name" placeholder="John" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lead-phone">Phone Number</label>
+                                    <input type="tel" id="lead-phone" name="phone" placeholder="(863) 555-1234" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lead-email">Email Address</label>
+                                    <input type="email" id="lead-email" name="email" placeholder="john@example.com" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="lead-submit-btn">Send My Free Report</button>
+
+                            <p class="lead-privacy">
+                                &#128274; Your info is safe. We'll reach out to review your personalized options &mdash; no spam, no obligation.
+                            </p>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -644,8 +1014,18 @@
         };
         var FPL_ADDITIONAL = 5500;
 
-        // Benchmark Silver plan premium (approximate for a 40-year-old)
-        var BENCHMARK_MONTHLY = 620;
+        // Age-adjusted benchmark Silver plan premium
+        var BASE_RATE_21 = 310;
+
+        function getAgeFactor(age) {
+            if (age < 21) return 0.765;
+            if (age > 64) return 3.0;
+            return 1.0 + (age - 21) * (2.0 / 43);
+        }
+
+        function getBenchmarkPremium(age) {
+            return BASE_RATE_21 * getAgeFactor(age);
+        }
 
         function getFPL(householdSize) {
             if (householdSize <= 8) {
@@ -698,9 +1078,21 @@
         function calculateSubsidy() {
             var householdSize = parseInt(document.getElementById('household-size').value, 10);
             var income = parseIncome(document.getElementById('annual-income').value);
+            var age = parseInt(document.getElementById('applicant-age').value, 10);
+            var zip = document.getElementById('zip-code').value.trim();
+            var tobaccoBtn = document.querySelector('#tobacco-toggle .toggle-btn.active');
+            var tobacco = tobaccoBtn ? tobaccoBtn.getAttribute('data-value') : 'no';
 
+            if (isNaN(age) || age < 0 || age > 64) {
+                alert('Please enter a valid age (0-64). Those 65+ should explore Medicare options.');
+                return;
+            }
             if (income <= 0) {
                 alert('Please enter a valid annual household income.');
+                return;
+            }
+            if (!/^\d{5}$/.test(zip)) {
+                alert('Please enter a valid 5-digit ZIP code.');
                 return;
             }
 
@@ -709,8 +1101,9 @@
             var applicablePct = getApplicablePercentage(fplPercent);
             var expectedContributionAnnual = income * (applicablePct / 100);
             var expectedContributionMonthly = expectedContributionAnnual / 12;
-            var benchmarkAnnual = BENCHMARK_MONTHLY * 12;
-            var estimatedSubsidyMonthly = Math.max(0, BENCHMARK_MONTHLY - expectedContributionMonthly);
+            var benchmarkMonthly = getBenchmarkPremium(age);
+            var benchmarkAnnual = benchmarkMonthly * 12;
+            var estimatedSubsidyMonthly = Math.max(0, benchmarkMonthly - expectedContributionMonthly);
             var estimatedSubsidyAnnual = estimatedSubsidyMonthly * 12;
 
             var resultsPanel = document.getElementById('results-panel');
@@ -747,6 +1140,12 @@
                 html += '<div class="result-value">' + Math.round(fplPercent) + '%</div>';
                 html += '</div>';
 
+                // Benchmark Premium
+                html += '<div class="result-item">';
+                html += '<div class="result-label">Benchmark Premium (Age ' + age + ')</div>';
+                html += '<div class="result-value">' + formatCurrency(benchmarkMonthly) + '/mo</div>';
+                html += '</div>';
+
                 // Expected Contribution
                 html += '<div class="result-item">';
                 html += '<div class="result-label">Your Expected Contribution</div>';
@@ -779,14 +1178,92 @@
             html += '<strong>Disclaimer:</strong> This tool provides estimates only and does not guarantee eligibility or subsidy amounts. ';
             html += 'Actual premium tax credits depend on your MAGI, household composition, age, tobacco use, geographic rating area, and available benchmark Silver plan pricing. ';
             html += 'This calculator uses 2025 Federal Poverty Guidelines for 2026 coverage year eligibility per IRS Rev. Proc. 2025-25. ';
-            html += 'The estimate above uses an approximate benchmark premium of $620/month for a 40-year-old. ';
+            html += 'The estimate above uses an age-adjusted benchmark premium of ' + formatCurrency(benchmarkMonthly) + '/month based on age ' + age + '. ';
             html += 'Florida has not expanded Medicaid under the ACA. For official eligibility, visit HealthCare.gov.';
             html += '</div>';
 
             resultsContent.innerHTML = html;
             resultsPanel.classList.add('visible');
             resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Store results and populate lead capture hidden fields
+            window._subsidyResults = {
+                householdSize: householdSize,
+                income: income,
+                age: age,
+                zip: zip,
+                tobacco: tobacco,
+                fplPercent: Math.round(fplPercent),
+                benchmarkPremium: Math.round(benchmarkMonthly),
+                estimatedSubsidyMonthly: Math.round(estimatedSubsidyMonthly),
+                estimatedSubsidyAnnual: Math.round(estimatedSubsidyAnnual),
+                expectedContributionMonthly: Math.round(expectedContributionMonthly)
+            };
+
+            var leadCapture = document.getElementById('lead-capture');
+            if (leadCapture) {
+                leadCapture.style.display = 'block';
+                document.getElementById('lead-household-size').value = householdSize;
+                document.getElementById('lead-income').value = income;
+                document.getElementById('lead-age').value = age;
+                document.getElementById('lead-zip').value = zip;
+                document.getElementById('lead-tobacco').value = tobacco;
+                document.getElementById('lead-fpl-percent').value = Math.round(fplPercent);
+                document.getElementById('lead-benchmark').value = Math.round(benchmarkMonthly);
+                document.getElementById('lead-subsidy').value = Math.round(estimatedSubsidyMonthly);
+                document.getElementById('lead-annual-savings').value = Math.round(estimatedSubsidyAnnual);
+                document.getElementById('lead-contribution').value = Math.round(expectedContributionMonthly);
+            }
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'subsidy_calculator_complete', {
+                    fpl_percent: Math.round(fplPercent),
+                    estimated_subsidy: Math.round(estimatedSubsidyMonthly)
+                });
+            }
         }
+
+        // Tobacco toggle handler
+        document.getElementById('tobacco-toggle').addEventListener('click', function(e) {
+            if (e.target.classList.contains('toggle-btn')) {
+                this.querySelectorAll('.toggle-btn').forEach(function(btn) {
+                    btn.classList.remove('active');
+                });
+                e.target.classList.add('active');
+            }
+        });
+
+        // ZIP code input formatter
+        document.getElementById('zip-code').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 5);
+        });
+
+        // Lead form submission tracking
+        (function() {
+            var leadForm = document.getElementById('leadCaptureForm');
+            if (!leadForm) return;
+
+            leadForm.addEventListener('submit', function() {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'lead_submit', { form_name: 'subsidy_estimator_lead' });
+                    gtag('event', 'generate_lead', {
+                        event_category: 'engagement',
+                        event_label: 'subsidy_estimator_lead'
+                    });
+                }
+                if (typeof fbq === 'function') {
+                    fbq('track', 'Lead', { content_name: 'subsidy_estimator_lead_form' });
+                }
+            });
+
+            var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+            if (isLocal) {
+                leadForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    window.location.href = leadForm.getAttribute('action') || '/thanks.html';
+                });
+            }
+        })();
 
         // Menu toggle function
         function toggleMenu() {
