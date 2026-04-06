@@ -410,7 +410,7 @@
           <p>Documentation may be required for Special Enrollment verification.</p>
           <p class="muted">If you live in Lakeland or anywhere in Polk County and need structured ACA enrollment guidance, start here.</p>
 
-          <form name="aca-lakeland-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field">
+          <form id="acaLakelandForm" name="aca-lakeland-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="aca-lakeland-lead">
             <p style="display:none;">
               <label>Do not fill this out: <input name="bot-field"></label>
@@ -480,21 +480,29 @@
       }
     });
 
-    // Local preview fallback: python http.server does not handle POST for Netlify forms.
+    // Form submit via fetch (Netlify requires POST to a page with the form definition)
     (function () {
-      const isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
-      const form = document.querySelector('form[name="aca-lakeland-lead"]');
+      var form = document.getElementById('acaLakelandForm');
       if (!form) return;
 
-      form.addEventListener('submit', function () {
-        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'aca_lakeland_lead_form' });
-        if (typeof gtag === 'function') gtag('event', 'lead_submit', { form_name: 'aca_lakeland_lead' });
-      });
-
-      if (!isLocal) return;
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        window.location.href = form.getAttribute('action') || '/thanks.html';
+        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'aca_lakeland_lead_form' });
+        if (typeof gtag === 'function') gtag('event', 'lead_submit', { form_name: 'aca_lakeland_lead' });
+
+        var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+        if (isLocal) { window.location.href = '/thanks.html'; return; }
+
+        var formData = new FormData(form);
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString()
+        }).then(function() {
+          window.location.href = '/thanks.html';
+        }).catch(function() {
+          form.submit();
+        });
       });
     })();
   </script>
