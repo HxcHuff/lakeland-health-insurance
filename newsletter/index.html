@@ -417,7 +417,7 @@
             <aside class="signup" id="signup">
               <h2>Add Me to the List</h2>
               <p>Get one high-value email each month.</p>
-              <form name="newsletter-signup" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field">
+              <form id="newsletterForm" name="newsletter-signup" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field">
                 <input type="hidden" name="form-name" value="newsletter-signup">
                 <p style="display:none;">
                   <label>Do not fill this out: <input name="bot-field"></label>
@@ -518,5 +518,20 @@
     <a href="https://www.facebook.com/HealthMarkets.David.Huff">Facebook</a> ·
     <a href="/privacy-policy.html">Privacy Policy</a>
   </footer>
+  <script>
+    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      }).then(function() {
+        window.location.href = '/thanks.html';
+      }).catch(function() {
+        e.target.submit();
+      });
+    });
+  </script>
 </body>
 </html>
