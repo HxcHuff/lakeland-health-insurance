@@ -299,6 +299,10 @@
           <input type="hidden" name="renewal_timing" id="timingInput">
           <input type="hidden" name="main_concern" id="concernsInput">
           <input type="hidden" name="zip_code" id="zipInput">
+          <input type="hidden" name="full_name" id="fullNameInput">
+          <input type="hidden" name="phone" id="phoneInput">
+          <input type="hidden" name="email" id="emailInput">
+          <input type="hidden" name="consent" id="consentInput">
           <input type="hidden" name="_subject" value="New Lead: Plan-Specific Help Request">
           <input type="hidden" name="source_page" value="/get-help/">
 
@@ -625,10 +629,10 @@
       function submitLead() {
         if (!(contact.name.trim() && contact.phone.trim() && contact.email.trim() && contact.consent)) return;
 
-        var n = document.createElement('input'); n.type = 'hidden'; n.name = 'full_name'; n.value = contact.name; form.appendChild(n);
-        var p = document.createElement('input'); p.type = 'hidden'; p.name = 'phone'; p.value = contact.phone; form.appendChild(p);
-        var e = document.createElement('input'); e.type = 'hidden'; e.name = 'email'; e.value = contact.email; form.appendChild(e);
-        var c = document.createElement('input'); c.type = 'hidden'; c.name = 'consent'; c.value = 'yes'; form.appendChild(c);
+        document.getElementById('fullNameInput').value = contact.name;
+        document.getElementById('phoneInput').value = contact.phone;
+        document.getElementById('emailInput').value = contact.email;
+        document.getElementById('consentInput').value = 'yes';
 
         if (typeof gtag === 'function') gtag('event', 'lead_submit');
         if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'get_help_form_conversational' });
