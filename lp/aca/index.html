@@ -364,22 +364,28 @@
       });
     })();
 
-    // Form submit tracking
+    // Form submit via fetch (Netlify requires POST to a page with the form definition)
     document.getElementById('acaLeadForm').addEventListener('submit', function(e) {
+      e.preventDefault();
       // Google Ads conversion event
       if (typeof gtag === 'function') {
-        gtag('event', 'generate_lead', {
-          event_category: 'form',
-          event_label: 'lp_aca'
-        });
-        gtag('event', 'lead_submit', {
-          form_name: 'lp_aca'
-        });
+        gtag('event', 'generate_lead', { event_category: 'form', event_label: 'lp_aca' });
+        gtag('event', 'lead_submit', { form_name: 'lp_aca' });
       }
       // Facebook Lead event
       if (typeof fbq === 'function') {
         fbq('track', 'Lead', { content_name: 'lp_aca_lead_form' });
       }
+      var formData = new FormData(this);
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      }).then(function() {
+        window.location.href = '/thanks.html';
+      }).catch(function() {
+        e.target.submit();
+      });
     });
   </script>
 
