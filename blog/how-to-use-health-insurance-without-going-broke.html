@@ -180,7 +180,7 @@
 
         /* Quote highlight */
         .highlight-quote {
-            background: linear-gradient(135deg, #1B2A4A, #2563EB);
+            background: var(--gold, #D4A843);
             color: white;
             padding: 2rem;
             border-radius: 15px;
@@ -192,7 +192,7 @@
 
         /* CTA Section */
         .article-cta {
-            background: linear-gradient(135deg, #1B2A4A, #2563EB);
+            background: var(--gold, #D4A843);
             color: white;
             padding: 3rem;
             text-align: center;
@@ -210,22 +210,23 @@
         }
 
         .cta-button {
-            background: white;
-            color: #1B2A4A;
+            background: var(--gold, #D4A843);
+            color: #0F1A2E;
             padding: 15px 30px;
             border: none;
-            border-radius: 50px;
+            border-radius: 100px;
             font-weight: 600;
             font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            box-shadow: 0 4px 15px rgba(212,168,67,0.3);
         }
 
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(212,168,67,0.45);
         }
 
         .related-posts {
