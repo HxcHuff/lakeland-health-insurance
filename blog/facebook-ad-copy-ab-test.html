@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Ad Copy — A/B Test Campaign | Lakeland Health Insurance</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        :root {
+            --navy: #1B2A4A;
+            --gold: #D4A843;
+            --blue: #2563EB;
+            --line: #E2E8F0;
+            --text: #1E293B;
+            --muted: #64748B;
+            --bg: #F8FAFC;
+            --card: #FFFFFF;
+            --green: #10B981;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.7;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+        .page-header {
+            background: linear-gradient(135deg, #0F1A2E 0%, #1B2A4A 100%);
+            color: #fff;
+            padding: 48px 0 40px;
+            text-align: center;
+        }
+        .page-header h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); line-height: 1.2; margin-bottom: 8px; }
+        .page-header p { color: rgba(255,255,255,0.85); }
+        .badge {
+            display: inline-block;
+            background: var(--gold);
+            color: #111;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+        .section {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 28px;
+            margin: 24px auto;
+        }
+        .section h2 {
+            color: var(--navy);
+            font-size: 1.35rem;
+            margin-bottom: 6px;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 8px;
+            display: inline-block;
+        }
+        h3 { color: var(--navy); margin: 16px 0 8px; font-size: 1.15rem; }
+        p { margin-bottom: 10px; }
+        .post-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        .tag-a { background: #DBEAFE; color: #1E40AF; }
+        .tag-b { background: #FEF3C7; color: #92400E; }
+        .tag-c { background: #FEE2E2; color: #991B1B; }
+        .ad-card {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 14px 0;
+        }
+        .ad-card h4 {
+            color: var(--navy);
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        .ad-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .ad-field {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+        .ad-field .field-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--blue);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .small { color: var(--muted); font-size: 0.88rem; }
+        .highlight-box {
+            border-left: 4px solid var(--gold);
+            background: #FFFBF2;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin: 14px 0;
+        }
+        .tip-box {
+            border-left: 4px solid var(--green);
+            background: #F0FDF4;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin: 14px 0;
+        }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        th { background: linear-gradient(135deg, var(--navy), var(--blue)); color: #fff; padding: 10px; text-align: left; }
+        td { border: 1px solid var(--line); padding: 10px; text-align: left; }
+        @media (max-width: 768px) {
+            .section { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-header">
+    <div class="container">
+        <span class="badge">INTERNAL — AD COPY</span>
+        <h1>Facebook Ad Copy Variants</h1>
+        <p>3 Posts × 2 Ad Variants Each = 6 Total Creatives for A/B Testing</p>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- CAMPAIGN SETTINGS -->
+    <div class="section">
+        <h2>Campaign Settings (All Ad Sets)</h2>
+        <table>
+            <thead><tr><th>Setting</th><th>Value</th></tr></thead>
+            <tbody>
+                <tr><td>Campaign Objective</td><td>Traffic (optimize for Link Clicks → shift to Conversions once pixel matures)</td></tr>
+                <tr><td>Placement</td><td>Facebook Feed + Instagram Feed (manual placement — no Audience Network)</td></tr>
+                <tr><td>Location</td><td>Lakeland, FL + 25 mile radius</td></tr>
+                <tr><td>Age</td><td>26–64</td></tr>
+                <tr><td>CTA Button</td><td>"Learn More"</td></tr>
+                <tr><td>Pixel</td><td>1822900971216472</td></tr>
+                <tr><td>UTM Source</td><td>facebook</td></tr>
+                <tr><td>UTM Medium</td><td>paid</td></tr>
+                <tr><td>UTM Campaign</td><td>blog_ab_test</td></tr>
+            </tbody>
+        </table>
+        <div class="tip-box">
+            <strong>Creative Note:</strong> Use a clean photo of you (David) — not a stock photo. The "david_the_dude2.jpg" from the site works. People trust faces, especially a local broker. Avoid graphics that look like insurance ads. Make it look like a post from a person, not a brand.
+        </div>
+    </div>
+
+    <!-- POST A ADS -->
+    <div class="section">
+        <span class="post-tag tag-a">POST A — $0 PREMIUM PLAN</span>
+        <h2>Ad Variants for Post A</h2>
+        <p class="small">Destination: <code>/blog/zero-premium-health-insurance-florida-2026.html</code></p>
+
+        <div class="ad-card">
+            <h4>Variant A1 — "The Discovery"</h4>
+            <div class="ad-field">
+                <div class="field-label">Primary Text</div>
+                Most people in Lakeland don't know this exists.<br><br>
+                There's a specific ACA Silver plan that costs $0/month in premiums — and covers more than Gold plans. It's not Medicaid. It's not a stripped-down plan. It's full health insurance with low copays and a tiny deductible.<br><br>
+                The catch? You have to pick the right plan tier and be in the right income range. Most people who qualify don't even realize it.<br><br>
+                I wrote a breakdown of exactly how it works and who qualifies in Polk County.
+            </div>
+            <div class="ad-field">
+                <div class="field-label">Headline</div>
+                The $0 Health Insurance Plan Most Florida Families Miss
+            </div>
+            <div class="ad-field">
+                <div class="field-label">Description</div>
+                See if you qualify — no cost to check.
+            </div>
+            <div class="ad-field">
+                <div class="field-label">UTM Content</div>
+                post_a_zero_premium_v1
+            </div>
+        </div>
+
+        <div class="ad-card">
+            <h4>Variant A2 — "The Question"</h4>
+            <div class="ad-field">
+                <div class="field-label">Primary Text</div>
+                Are you paying $300–$500/month for health insurance?<br><br>
+                Thousands of Florida families are on the wrong plan. They're paying full price when they qualify for a Silver CSR plan that could bring their premium to $0 — with better coverage than what they have now.<br><br>
+                Self-employed? Freelancer? Gig worker? Your net income (after business deductions) is what counts. That number might be lower than you think.<br><br>
+                I put together the full breakdown for Central Florida — real numbers, real examples.
+            </div>
+            <div class="ad-field">
+                <div class="field-label">Headline</div>
+                You Might Qualify for $0/Month Health Insurance
+            </div>
+            <div class="ad-field">
+                <div class="field-label">Description</div>
+                Licensed FL broker breaks down who qualifies and how.
+            </div>
+            <div class="ad-field">
+                <div class="field-label">UTM Content</div>
+                post_a_zero_premium_v2
+            </div>
+        </div>
+    </div>
+
+    <!-- POST B ADS -->
+    <div class="section">
+        <span class="post-tag tag-b">POST B — LIFE CHANGE / 60-DAY WINDOW</span>
+        <h2>Ad Variants for Post B</h2>
+        <p class="small">Destination: <code>/blog/life-change-health-insurance-60-day-window-florida.html</code></p>
+
+        <div class="ad-card">
+            <h4>Variant B1 — "The Clock"</h4>
+            <div class="ad-field">
+                <div class="field-label">Primary Text</div>
+                If you just went through a divorce, lost a job, turned 26, had a baby, or moved to a new area — you have exactly 60 days to get health insurance.<br><br>
+                Not during Open Enrollment. Right now.<br><br>
+                It's called a Special Enrollment Period, and most people either don't know about it or run out the clock without realizing it.<br><br>
+                I put together a step-by-step guide for Florida residents — what qualifies, what you need, and how to get covered before the window closes.
+            </div>
+            <div class="ad-field">
+                <div class="field-label">Headline</div>
+                Your 60-Day Health Insurance Window Is Open
+            </div>
+            <div class="ad-field">
+                <div class="field-label">Description</div>
+                Divorce, job loss, turning 26 — here's what to do now.
+            </div>
+            <div class="ad-field">
+                <div class="field-label">UTM Content</div>
+                post_b_life_change_v1
+            </div>
+        </div>
+
+        <div class="ad-card">
+            <h4>Variant B2 — "The Mistake"</h4>
+            <div class="ad-field">
+                <div class="field-label">Primary Text</div>
+                The biggest mistake I see? People assume they can't get health insurance until November.<br><br>
+                If your life just changed — divorce, layoff, turning 26, new baby, relocation — you qualify for a Special Enrollment Period. You can sign up right now. With subsidies.<br><br>
+                But the window is 60 days. Miss it and you're locked out until the next Open Enrollment. That could be months with no coverage.<br><br>
+                Here's the full breakdown of who qualifies and exactly what to do.
+            </div>
+            <div class="ad-field">
+                <div class="field-label">Headline</div>
+                Don't Wait Until November — You Can Get Insurance Now
+            </div>
+            <div class="ad-field">
+                <div class="field-label">Description</div>
+                Special Enrollment guide for Florida residents.
+            </div>
+            <div class="ad-field">
+                <div class="field-label">UTM Content</div>
+                post_b_life_change_v2
+            </div>
+        </div>
+    </div>
+
+    <!-- POST C ADS -->
+    <div class="section">
+        <span class="post-tag tag-c">POST C — ER COST / UNINSURED RISK</span>
+        <h2>Ad Variants for Post C</h2>
+        <p class="small">Destination: <code>/blog/er-visit-cost-lakeland-without-insurance-2026.html</code></p>
+
+        <div class="ad-card">
+            <h4>Variant C1 — "The Bill"</h4>
+            <div class="ad-field">
+                <div class="field-label">Primary Text</div>
+                A broken arm in Lakeland: $2,500 – $7,500.<br>
+                A chest pain workup: $5,000 – $15,000.<br>
+                An appendectomy: $25,000 – $45,000.<br><br>
+                That's what the ER charges without insurance. And those are just the facility fees — the doctor's bill comes separately.<br><br>
+                Meanwhile, an ACA plan with subsidies might cost you $0–$100/month. One ER visit without insurance costs more than a full year of premiums.<br><br>
+                I put together the real Lakeland numbers — what things actually cost, and what coverage would change.
+            </div>
+            <div class="ad-field">
+                <div class="field-label">Headline</div>
+                What One ER Visit Costs in Lakeland Without Insurance
+            </div>
+            <div class="ad-field">
+                <div class="field-label">Description</div>
+                The real numbers will change your mind about skipping coverage.
+            </div>
+            <div class="ad-field">
+                <div class="field-label">UTM Content</div>
+                post_c_er_cost_v1
+            </div>
+        </div>
+
+        <div class="ad-card">
+            <h4>Variant C2 — "The Gamble"</h4>
+            <div class="ad-field">
+                <div class="field-label">Primary Text</div>
+                "I'm healthy. I don't need insurance. I'll just pay cash if something happens."<br><br>
+                I hear this every week. Here's the problem: one kidney stone is $4,000–$12,000. One car accident can be $15,000–$80,000+. And medical debt is the #1 cause of bankruptcy in the US.<br><br>
+                The part most people don't realize: an ACA plan with subsidies in Polk County might cost you $0–$50/month. That's $600/year to protect yourself against a $45,000 bill.<br><br>
+                I broke down the actual ER costs in Lakeland vs. what you'd pay with coverage.
+            </div>
+            <div class="ad-field">
+                <div class="field-label">Headline</div>
+                Skipping Health Insurance? Here's What You're Betting
+            </div>
+            <div class="ad-field">
+                <div class="field-label">Description</div>
+                Real Lakeland ER costs vs. what ACA coverage actually costs with subsidies.
+            </div>
+            <div class="ad-field">
+                <div class="field-label">UTM Content</div>
+                post_c_er_cost_v2
+            </div>
+        </div>
+    </div>
+
+    <!-- CREATIVE GUIDELINES -->
+    <div class="section">
+        <h2>Creative Guidelines</h2>
+
+        <h3>Image Recommendations</h3>
+        <table>
+            <thead><tr><th>Post</th><th>Primary Image</th><th>Alt Image to Test</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td>Post A — $0 Premium</td>
+                    <td>Photo of David (professional, approachable) with text overlay: "$0/month"</td>
+                    <td>Simple graphic: "$0 Premium" on navy background with gold accent</td>
+                </tr>
+                <tr>
+                    <td>Post B — Life Change</td>
+                    <td>Photo of David with text overlay: "60 Days"</td>
+                    <td>Split image showing life events (moving boxes, diploma, etc.) — avoid stock photo feel</td>
+                </tr>
+                <tr>
+                    <td>Post C — ER Cost</td>
+                    <td>Photo of David with text overlay showing ER cost range</td>
+                    <td>Simple graphic: mock ER bill with large dollar amount — navy/red color scheme</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="highlight-box">
+            <strong>Facebook Ad Image Rules:</strong> Keep text to under 20% of the image area (Facebook's old rule is gone, but text-heavy images still get lower delivery). Use 1200×628px for feed placement. High contrast, readable on mobile. Your face performs better than graphics — always test a photo of you first.
+        </div>
+
+        <h3>Copy Rules</h3>
+        <ul style="margin:8px 0 14px 20px;">
+            <li>No ALL CAPS (except "$0" or "ER" as abbreviations)</li>
+            <li>No exclamation marks in headlines</li>
+            <li>No "FREE" — use "$0" or "no cost" instead</li>
+            <li>No health claims or guarantees of specific savings</li>
+            <li>Include "Licensed FL broker" somewhere in the ad or landing page</li>
+            <li>Keep primary text under 300 characters for mobile feed (the full text shows on click)</li>
+        </ul>
+
+        <h3>Compliance Notes</h3>
+        <div class="ad-field">
+            <p><strong>CMS/ACA compliance:</strong> Don't guarantee specific dollar amounts for subsidies. Use "may qualify," "estimated," and "depends on income" language. Never say "free health insurance" — say "$0 premium" or "no monthly premium cost." All blog posts include proper disclaimers.</p>
+            <p><strong>Facebook ad policy:</strong> Health insurance ads on Facebook must not imply the viewer has a specific condition. Avoid "Are you sick?" or "Do you have diabetes?" framing. The current ad copy focuses on financial situations (income, costs) rather than health conditions — keep it that way.</p>
+            <p><strong>Florida DOI:</strong> All ads must be truthful and not misleading. License number should be visible on the landing page (it's in the blog footer and disclaimer). No bait-and-switch — the blog content must deliver on the ad's promise.</p>
+        </div>
+    </div>
+
+</div>
+
+<footer style="background:#fff;border-top:1px solid #E2E8F0;padding:24px 0;margin-top:30px;">
+    <div class="container">
+        <p class="small" style="text-align:center;">Internal Strategy Document — Lakeland Health Insurance | Not for public distribution</p>
+    </div>
+</footer>
+
+</body>
+</html>
