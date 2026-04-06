@@ -3,8 +3,8 @@
 /get-help /get-help/index.html 200
 /get-help/ /get-help/index.html 200
 /our%20approach/ /our-approach.html 301
-/our-approach /our-approach.html 301!
-/our-approach/ /our-approach.html 301!
+/our-approach /our-approach.html 200
+/our-approach/ /our-approach.html 200
 
 # PDF redirect (lowercase URL to actual filename)
 /downloads/florida-health-insurance-survival-guide.pdf /downloads/Florida-Health-Insurance-Survival-Guide.pdf 301!
@@ -14,7 +14,7 @@
 /blog/5-critical-health-insurance-mistakes/ /blog/5-critical-health-insurance-mistakes.html 301!
 /blog/aca-open-enrollment-deadline /blog/aca-open-enrollment-deadline.html 301!
 /blog/aca-open-enrollment-deadline/ /blog/aca-open-enrollment-deadline.html 301!
-/blog/aca-subsidy-cliff /blog/aca-subsidy-cliff.html 301!
+/blog/aca-subsidy-cliff /blog/aca-subsidy-cliff.html 301
 /blog/aca-subsidy-cliff/ /blog/aca-subsidy-cliff.html 301!
 /blog/aca-subsidy-tax-return-clawback /blog/aca-subsidy-tax-return-clawback.html 301!
 /blog/aca-subsidy-tax-return-clawback/ /blog/aca-subsidy-tax-return-clawback.html 301!
@@ -36,8 +36,8 @@
 /blog/hmo-vs-ppo-vs-epo-explained/ /blog/hmo-vs-ppo-vs-epo-explained.html 301!
 /blog/how-to-negotiate-hospital-bills /blog/how-to-negotiate-hospital-bills.html 301!
 /blog/how-to-negotiate-hospital-bills/ /blog/how-to-negotiate-hospital-bills.html 301!
-/blog/how-to-read-insurance-card /blog/how-to-read-insurance-card.html 301!
-/blog/how-to-read-insurance-card/ /blog/how-to-read-insurance-card.html 301!
+/blog/how-to-read-insurance-card /blog/how-to-read-insurance-card.html 200
+/blog/how-to-read-insurance-card/ /blog/how-to-read-insurance-card.html 200
 /blog/how-to-use-health-insurance-without-going-broke /blog/how-to-use-health-insurance-without-going-broke.html 301!
 /blog/how-to-use-health-insurance-without-going-broke/ /blog/how-to-use-health-insurance-without-going-broke.html 301!
 /blog/lakeland-regional-watson-clinic-insurance-2026 /blog/lakeland-regional-watson-clinic-insurance-2026.html 301!
