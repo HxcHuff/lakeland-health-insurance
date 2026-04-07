@@ -635,16 +635,25 @@
         document.getElementById('consentInput').value = 'yes';
 
         if (typeof gtag === 'function') gtag('event', 'lead_submit');
-        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'get_help_form_conversational' });
 
-        var formData = new FormData(form);
-        fetch('/', {
+        // POST to /api/lead -> server fires Meta CAPI + forwards to Netlify Forms,
+        // returns event_id; browser fires fbq Lead with that ID for dedup.
+        var contentName = 'get_help_form_conversational';
+        var payload = { content_name: contentName, source_url: window.location.href };
+        new FormData(form).forEach(function(v, k) { payload[k] = v; });
+
+        fetch('/api/lead', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(formData).toString()
-        }).then(function() {
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(function(r) { return r.ok ? r.json() : null; }).then(function(data) {
+          if (typeof fbq === 'function') {
+            var opts = data && data.event_id ? { eventID: data.event_id } : undefined;
+            fbq('track', 'Lead', { content_name: contentName }, opts);
+          }
           window.location.href = '/thanks.html';
         }).catch(function() {
+          if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: contentName });
           form.submit();
         });
       }

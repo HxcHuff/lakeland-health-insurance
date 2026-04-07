@@ -1238,12 +1238,15 @@
             e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 5);
         });
 
-        // Lead form submission tracking
+        // Lead form submission: POST to /api/lead -> server fires Meta CAPI
+        // + forwards to Netlify Forms, returns event_id; browser fires fbq Lead
+        // with that ID for dedup.
         (function() {
             var leadForm = document.getElementById('leadCaptureForm');
             if (!leadForm) return;
 
-            leadForm.addEventListener('submit', function() {
+            leadForm.addEventListener('submit', function(e) {
+                e.preventDefault();
                 if (typeof gtag === 'function') {
                     gtag('event', 'lead_submit', { form_name: 'subsidy_estimator_lead' });
                     gtag('event', 'generate_lead', {
@@ -1251,18 +1254,33 @@
                         event_label: 'subsidy_estimator_lead'
                     });
                 }
-                if (typeof fbq === 'function') {
-                    fbq('track', 'Lead', { content_name: 'subsidy_estimator_lead_form' });
-                }
-            });
 
-            var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
-            if (isLocal) {
-                leadForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
+                var contentName = 'subsidy_estimator_lead_form';
+                var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+                if (isLocal) {
+                    if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: contentName });
                     window.location.href = leadForm.getAttribute('action') || '/thanks.html';
+                    return;
+                }
+
+                var payload = { content_name: contentName, source_url: window.location.href };
+                new FormData(leadForm).forEach(function(v, k) { payload[k] = v; });
+
+                fetch('/api/lead', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }).then(function(r) { return r.ok ? r.json() : null; }).then(function(data) {
+                    if (typeof fbq === 'function') {
+                        var opts = data && data.event_id ? { eventID: data.event_id } : undefined;
+                        fbq('track', 'Lead', { content_name: contentName }, opts);
+                    }
+                    window.location.href = leadForm.getAttribute('action') || '/thanks.html';
+                }).catch(function() {
+                    if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: contentName });
+                    leadForm.submit();
                 });
-            }
+            });
         })();
 
         // Menu toggle function

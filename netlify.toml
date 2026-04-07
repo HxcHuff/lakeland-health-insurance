@@ -1,6 +1,17 @@
 [build.processing.html]
   pretty_urls = false
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# /api/lead -> serverless function (Meta CAPI + Netlify Forms forward)
+[[redirects]]
+  from = "/api/lead"
+  to = "/.netlify/functions/lead"
+  status = 200
+  force = true
+
 # Redirect lowercase PDF URL to actual filename
 [[redirects]]
   from = "/downloads/florida-health-insurance-survival-guide.pdf"
