@@ -166,6 +166,59 @@
             display: inline-block;
             margin: 8px 6px 0;
         }
+        .sponsored-ad {
+            position: relative;
+            background: linear-gradient(135deg, #FFFBF2 0%, #FFFFFF 100%);
+            border: 2px solid var(--gold);
+            border-radius: 14px;
+            padding: 22px 22px 20px;
+            margin: 28px 0;
+            box-shadow: 0 6px 24px rgba(27, 42, 74, 0.08);
+        }
+        .sponsored-ad .ad-label {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+        .sponsored-ad h3 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 1.55rem;
+            color: var(--navy);
+            margin: 0 0 6px;
+            line-height: 1.2;
+        }
+        .sponsored-ad p {
+            color: var(--text);
+            margin: 0 0 14px;
+            font-size: 0.98rem;
+        }
+        .sponsored-ad .ad-cta {
+            display: inline-block;
+            background: var(--navy);
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.98rem;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .sponsored-ad .ad-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(27, 42, 74, 0.18);
+            text-decoration: none;
+        }
+        .sponsored-ad .ad-sub {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 10px;
+        }
         .disclaimer {
             background: #F1F5F9;
             border: 1px solid #CBD5E1;
@@ -338,6 +391,14 @@
         <p>The instinct is to take COBRA. Don't do it reflexively. COBRA preserves your old plan, but at the full unsubsidized cost. For a family, that's often $1,800+ per month. An ACA plan with a subsidy — using your new, lower projected income — might be $50 to $200 per month for the same level of coverage.</p>
 
         <p>The key variable: your projected income for the rest of the year. If you were earning $70,000 and lost your job in April, your projected 2026 income might only be $25,000–$35,000 (a few months of salary plus any severance). That lower projected income unlocks significant subsidies.</p>
+
+        <aside class="sponsored-ad" aria-label="Sponsored">
+            <span class="ad-label">Sponsored</span>
+            <h3>See Your 2026 Subsidy in 30 Seconds</h3>
+            <p>Enter your household size and projected income — get an instant estimate of your ACA premium tax credit using the 2026 IRS Applicable Percentages. No email required.</p>
+            <a class="ad-cta" href="https://lakelandhealthinsurance.com/aca-subsidy-estimator/?utm_source=blog&utm_medium=inline_ad&utm_campaign=sep_life_change&utm_content=subsidy_estimator">Calculate My Subsidy →</a>
+            <span class="ad-sub">Free tool · Lakeland Health Insurance</span>
+        </aside>
 
         <h2>Scenario 4: Marriage, Baby, or Relocation</h2>
 
