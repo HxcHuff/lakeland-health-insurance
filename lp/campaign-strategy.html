@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Campaign Strategy - Lakeland Health Insurance</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #1B2A4A;
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 15px;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1B2A4A;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #D4A843;
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1B2A4A;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            padding-left: 12px;
+            border-left: 4px solid #D4A843;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0 40px 0;
+        }
+
+        .overview-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border-top: 4px solid #D4A843;
+        }
+
+        .overview-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #1B2A4A;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .overview-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #D4A843;
+            margin-bottom: 5px;
+        }
+
+        .overview-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .timeline {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin: 25px 0;
+        }
+
+        .phase {
+            margin-bottom: 35px;
+            padding-bottom: 35px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .phase:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+
+        .phase-number {
+            background: #1B2A4A;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .phase-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1B2A4A;
+        }
+
+        .phase-timing {
+            font-size: 13px;
+            color: #999;
+            margin-top: 3px;
+        }
+
+        .phase-content {
+            margin-left: 60px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .phase-content ul {
+            margin: 12px 0 12px 20px;
+            list-style: disc;
+        }
+
+        .phase-content li {
+            margin-bottom: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        thead {
+            background: #1B2A4A;
+            color: white;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .asset-type {
+            display: inline-block;
+            background: #E8F0F7;
+            color: #1B2A4A;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+
+        .asset-type.blog {
+            background: #E8F7E8;
+        }
+
+        .asset-type.lp {
+            background: #F7E8E8;
+        }
+
+        .asset-type.ad {
+            background: #F7F0E8;
+        }
+
+        .utm-box {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-left: 4px solid #D4A843;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #555;
+            overflow-x: auto;
+        }
+
+        .utm-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #1B2A4A;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .kpi-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border-left: 4px solid #D4A843;
+        }
+
+        .kpi-phase {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #999;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .kpi-metric {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1B2A4A;
+            margin-bottom: 5px;
+        }
+
+        .kpi-target {
+            font-size: 16px;
+            font-weight: 700;
+            color: #D4A843;
+            margin-bottom: 8px;
+        }
+
+        .kpi-note {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .audience-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin: 20px 0;
+        }
+
+        .audience-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1B2A4A;
+            margin-bottom: 12px;
+        }
+
+        .audience-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .audience-item {
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 4px;
+            border-left: 3px solid #D4A843;
+        }
+
+        .audience-item-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #1B2A4A;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .audience-item-value {
+            font-size: 13px;
+            color: #555;
+        }
+
+        .compliance-box {
+            background: #FFF8DC;
+            border: 1px solid #FFD700;
+            border-left: 4px solid #FFD700;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .compliance-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1B2A4A;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .compliance-text {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .compliance-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .redirect-box {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #555;
+            overflow-x: auto;
+        }
+
+        .note-box {
+            background: #E8F4F8;
+            border-left: 4px solid #0088cc;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .note-title {
+            font-weight: 700;
+            color: #0088cc;
+            margin-bottom: 5px;
+        }
+
+        footer {
+            background: #1B2A4A;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .overview-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .phase-content {
+                margin-left: 20px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .audience-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Campaign Strategy & Execution Plan</h1>
+        <p>Lakeland Health Insurance | Lead Generation & Pixel Training | April 2026</p>
+    </header>
+
+    <div class="container">
+        <!-- CAMPAIGN OVERVIEW -->
+        <section>
+            <h2>1. Campaign Overview</h2>
+
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <span class="overview-label">Primary Objective</span>
+                    <div class="overview-desc">Lead generation + pixel training across three audience segments to build historical conversion data and retargeting audiences.</div>
+                </div>
+                <div class="overview-card">
+                    <span class="overview-label">Campaign Duration</span>
+                    <div class="overview-value">6-8 Weeks</div>
+                    <div class="overview-desc">Three sequential phases with built-in optimization cycles.</div>
+                </div>
+                <div class="overview-card">
+                    <span class="overview-label">Total Budget</span>
+                    <div class="overview-value">$30-150/day</div>
+                    <div class="overview-desc">Phased allocation with scaling as winners emerge from Phase 1 testing.</div>
+                </div>
+                <div class="overview-card">
+                    <span class="overview-label">Target Segments</span>
+                    <div class="overview-desc">ACA/Subsidy (self-employed, gig workers, families) | Medicare (63-67, adult children) | Uninsured/Gap (25-64)</div>
+                </div>
+            </div>
+
+            <div class="note-box">
+                <div class="note-title">Campaign Positioning</div>
+                This campaign uses educational content (blog posts) as the conversion driver. Each segment receives dedicated messaging that addresses their primary pain point: missed subsidies (ACA), complexity/mistakes (Medicare), or affordability barriers (Uninsured). Success depends on high-quality content, precise audience targeting, and rapid iteration on messaging.
+            </div>
+        </section>
+
+        <!-- PHASE BREAKDOWN -->
+        <section>
+            <h2>2. Phase Breakdown & Timeline</h2>
+
+            <div class="timeline">
+                <div class="phase">
+                    <div class="phase-header">
+                        <div class="phase-number">1</div>
+                        <div>
+                            <div class="phase-title">Content A/B Test</div>
+                            <div class="phase-timing">Weeks 1-2 | Budget: $30-50/day</div>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <strong>Goal:</strong> Identify which blog content resonates most with each segment and validate messaging angles before scaling.
+                        <ul>
+                            <li><strong>Audience:</strong> Broad audience per segment (minimal exclusions)</li>
+                            <li><strong>Ad Creative:</strong> 2 variants per segment (6 total ad creatives)</li>
+                            <li><strong>Landing Experience:</strong> Direct to blog post with /get-help/ CTA in blog</li>
+                            <li><strong>Metrics Focus:</strong> CTR, Time on Page (TOS), Scroll Depth</li>
+                            <li><strong>Duration:</strong> Run for 10-14 days with daily budget cap to spread impressions evenly</li>
+                            <li><strong>Success Criteria:</strong> CTR > 2%, CPC < $1.50, TOS > 90 seconds</li>
+                        </ul>
+                        <strong>Output:</strong> Identify top-performing creative variant per segment + blog post engagement insights.
+                    </div>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-header">
+                        <div class="phase-number">2</div>
+                        <div>
+                            <div class="phase-title">Funnel Flow Test</div>
+                            <div class="phase-timing">Weeks 3-4 | Budget: $50-80/day</div>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <strong>Goal:</strong> Test three funnel flows to identify optimal path to lead capture and maximize conversion rates.
+                        <ul>
+                            <li><strong>Winning Creative:</strong> Use top 2 blog posts from Phase 1 (best CTR/TOS per segment cluster)</li>
+                            <li><strong>Three Funnel Variants:</strong>
+                                <ul style="margin-top: 8px;">
+                                    <li><em>Flow A (Blog > CTA in Blog):</em> Direct to blog, /get-help/ CTA, forms on /get-help/ page</li>
+                                    <li><em>Flow B (Blog > Dedicated LP > Form):</em> Blog → dedicated landing page → form capture</li>
+                                    <li><em>Flow C (Direct to Form):</em> Ad → Dedicated form page, minimal intermediate steps</li>
+                                </ul>
+                            </li>
+                            <li><strong>Audience Refinement:</strong> Use Phase 1 pixel data to retarget warm audiences + expand lookalike</li>
+                            <li><strong>Metrics Focus:</strong> CVR (lead submission rate), CPL (cost per lead)</li>
+                            <li><strong>Duration:</strong> 10-14 days, equal budget split across flows</li>
+                            <li><strong>Success Criteria:</strong> CVR > 3%, CPL < $25 on winning flow</li>
+                        </ul>
+                        <strong>Output:</strong> Winning funnel flow per segment + optimized landing page for Phase 3 scaling.
+                    </div>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-header">
+                        <div class="phase-number">3</div>
+                        <div>
+                            <div class="phase-title">Scale Winner + Retarget + Lookalike</div>
+                            <div class="phase-timing">Weeks 5+ | Budget: $100-150/day</div>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <strong>Goal:</strong> Maximize lead volume from winning creative + funnel while building robust retargeting and lookalike audiences for long-term growth.
+                        <ul>
+                            <li><strong>Scale Primary Campaign:</strong> Winner from Phase 2 funnel at 2-3x daily budget</li>
+                            <li><strong>Retargeting Campaigns:</strong> 4 custom audiences (see Retargeting Strategy section)
+                                <ul style="margin-top: 8px;">
+                                    <li>Website visitors (no conversion)</li>
+                                    <li>Blog readers (engaged but no form submission)</li>
+                                    <li>Form abandoners</li>
+                                    <li>Low-intent viewers</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lookalike Expansion:</strong> 1% and 5% lookalike audiences seeded from converted leads</li>
+                            <li><strong>Metrics Focus:</strong> CPL (target < $20 on primary), ROAS on retargeting</li>
+                            <li><strong>Duration:</strong> Ongoing, continuous optimization</li>
+                        </ul>
+                        <strong>Output:</strong> Repeatable, profitable lead generation funnel with trained pixel audiences.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ASSETS CREATED -->
+        <section>
+            <h2>3. Assets Created & Inventory</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Asset Type</th>
+                        <th>Filename / Path</th>
+                        <th>Description</th>
+                        <th>Segment</th>
+                        <th>Phase(s)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="asset-type blog">Blog</span></td>
+                        <td>/blog/florida-aca-subsidy-most-people-miss.html</td>
+                        <td>Long-form content addressing missed ACA subsidies, qualification thresholds ($700+/mo benefit), and how to check. Includes subsidy calculator embed and /get-help/ CTA.</td>
+                        <td>ACA/Subsidy</td>
+                        <td>1, 2, 3</td>
+                    </tr>
+                    <tr>
+                        <td><span class="asset-type blog">Blog</span></td>
+                        <td>/blog/turning-65-florida-medicare-mistakes.html</td>
+                        <td>Educational content on three costly Medicare enrollment mistakes: late Part B enrollment (10% lifetime penalty), wrong plan type, lack of annual review. Emphasis on avoiding penalties.</td>
+                        <td>Medicare</td>
+                        <td>1, 2, 3</td>
+                    </tr>
+                    <tr>
+                        <td><span class="asset-type blog">Blog</span></td>
+                        <td>/blog/no-health-insurance-florida-er-cost.html</td>
+                        <td>Cost-shock content with real ER pricing data ($2,500-$5,000 visits, $7,500 broken arm, $33,000 appendectomy). Addresses affordability misconception and positions ACA as alternative to no coverage.</td>
+                        <td>Uninsured/Gap</td>
+                        <td>1, 2, 3</td>
+                    </tr>
+                    <tr>
+                        <td><span class="asset-type lp">Landing Page</span></td>
+                        <td>/lp/aca/</td>
+                        <td>Existing ACA landing page. Utilized in Phase 2 Flow B testing (blog → dedicated LP → form).</td>
+                        <td>ACA/Subsidy</td>
+                        <td>2, 3</td>
+                    </tr>
+                    <tr>
+                        <td><span class="asset-type lp">Landing Page</span></td>
+                        <td>/lp/medicare/</td>
+                        <td>New Medicare landing page for Phase 2 testing. Includes Medicare overview, mistake list with consequences, broker credentials, and lead capture form.</td>
+                        <td>Medicare</td>
+                        <td>2, 3</td>
+                    </tr>
+                    <tr>
+                        <td><span class="asset-type lp">Landing Page</span></td>
+                        <td>/lp/gap/</td>
+                        <td>New Uninsured/Gap landing page for Phase 2 testing. Addresses cost concerns, clarifies ACA vs. Medicaid, includes life event qualification triggers, and lead form.</td>
+                        <td>Uninsured/Gap</td>
+                        <td>2, 3</td>
+                    </tr>
+                    <tr>
+                        <td><span class="asset-type ad">Ad Copy</span></td>
+                        <td>/lp/facebook-ad-copy.html</td>
+                        <td>Complete set of 6 ad copy variants (2 per segment) with primary text, extended copy, headlines, descriptions, CTAs, and full UTM-tagged links. Reference document for ad manager.</td>
+                        <td>All</td>
+                        <td>1, 2, 3</td>
+                    </tr>
+                    <tr>
+                        <td><span class="asset-type ad">Funnel Map</span></td>
+                        <td>/lp/campaign-strategy.html</td>
+                        <td>This document. Complete campaign strategy, phase breakdown, KPI targets, retargeting strategy, compliance notes, and Netlify redirects.</td>
+                        <td>All</td>
+                        <td>1, 2, 3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- UTM TAXONOMY -->
+        <section>
+            <h2>4. UTM Taxonomy & Tracking Structure</h2>
+
+            <h3>UTM Parameter Definitions</h3>
+            <div style="margin: 20px 0;">
+                <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 15px;">
+                    <strong style="color: #1B2A4A; display: block; margin-bottom: 8px;">utm_source</strong>
+                    <div style="font-size: 13px; color: #666; margin-bottom: 12px;">
+                        <strong>Value:</strong> <code>facebook</code><br>
+                        <strong>Purpose:</strong> Identifies paid Facebook as the traffic source. Allows distinction from organic social, referrals, or direct traffic.
+                    </div>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 15px;">
+                    <strong style="color: #1B2A4A; display: block; margin-bottom: 8px;">utm_medium</strong>
+                    <div style="font-size: 13px; color: #666; margin-bottom: 12px;">
+                        <strong>Value:</strong> <code>paid</code><br>
+                        <strong>Purpose:</strong> Classifies traffic as paid advertising (vs. organic, email, etc.). Used for ROI calculations and channel attribution.
+                    </div>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 15px;">
+                    <strong style="color: #1B2A4A; display: block; margin-bottom: 8px;">utm_campaign</strong>
+                    <div style="font-size: 13px; color: #666; margin-bottom: 12px;">
+                        <strong>Value:</strong> <code>blog_ab_p1_apr2026</code><br>
+                        <strong>Purpose:</strong> Identifies the campaign cohort, test phase, and month. Breakdown: <code>blog_ab</code> = blog A/B test, <code>p1</code> = Phase 1, <code>apr2026</code> = April 2026.
+                    </div>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 15px;">
+                    <strong style="color: #1B2A4A; display: block; margin-bottom: 8px;">utm_content</strong>
+                    <div style="font-size: 13px; color: #666; margin-bottom: 12px;">
+                        <strong>Value:</strong> Variant + segment identifier. E.g., <code>aca_subsidy_v1</code>, <code>medicare_mistakes_v2</code>, <code>uninsured_er_v1</code><br>
+                        <strong>Purpose:</strong> Tracks which ad creative variant performed best within each segment. Critical for Phase 1 testing comparisons.
+                    </div>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 15px;">
+                    <strong style="color: #1B2A4A; display: block; margin-bottom: 8px;">utm_term</strong>
+                    <div style="font-size: 13px; color: #666; margin-bottom: 12px;">
+                        <strong>Value:</strong> Audience/interest identifier. E.g., <code>aca_interest_fl</code>, <code>turning_65_fl</code>, <code>uninsured_fl</code><br>
+                        <strong>Purpose:</strong> Allows grouping of traffic by audience segment for cohort analysis and lookalike modeling.
+                    </div>
+                </div>
+            </div>
+
+            <h3>UTM Examples by Segment</h3>
+
+            <h4 style="font-size: 16px; color: #1B2A4A; margin-top: 25px; margin-bottom: 12px;">ACA / Subsidy</h4>
+            <div class="utm-box">utm_source=facebook<br>
+utm_medium=paid<br>
+utm_campaign=blog_ab_p1_apr2026<br>
+utm_content=aca_subsidy_v1<br>
+utm_term=aca_interest_fl</div>
+
+            <h4 style="font-size: 16px; color: #1B2A4A; margin-top: 25px; margin-bottom: 12px;">Medicare</h4>
+            <div class="utm-box">utm_source=facebook<br>
+utm_medium=paid<br>
+utm_campaign=blog_ab_p1_apr2026<br>
+utm_content=medicare_mistakes_v1<br>
+utm_term=turning_65_fl</div>
+
+            <h4 style="font-size: 16px; color: #1B2A4A; margin-top: 25px; margin-bottom: 12px;">Uninsured / Gap</h4>
+            <div class="utm-box">utm_source=facebook<br>
+utm_medium=paid<br>
+utm_campaign=blog_ab_p1_apr2026<br>
+utm_content=uninsured_er_v1<br>
+utm_term=uninsured_fl</div>
+
+            <div class="note-box">
+                <div class="note-title">Phase 2 & 3 Adjustments</div>
+                In Phase 2, update <code>utm_campaign=funnel_test_p2_apr2026</code> and add flow variant to <code>utm_content</code> (e.g., <code>aca_subsidy_flow_a</code>). In Phase 3 (scaling), use <code>utm_campaign=scale_p3_apr2026</code> with maintained <code>utm_content</code> to preserve attribution.
+            </div>
+        </section>
+
+        <!-- PIXEL EVENT PLAN -->
+        <section>
+            <h2>5. Pixel Event Plan & Custom Audiences</h2>
+
+            <h3>Events to Fire</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Trigger Location</th>
+                        <th>Purpose</th>
+                        <th>Custom Audience Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>PageView</strong></td>
+                        <td>Every page (base tracking)</td>
+                        <td>Track all site visits for funnel analysis and reach measurement</td>
+                        <td>Website Visitor audience (retargeting)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ViewContent</strong></td>
+                        <td>Blog post pages (on load)</td>
+                        <td>Track blog engagement and content consumption by segment</td>
+                        <td>Blog Reader audience (warm retargeting)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>InitiateCheckout</strong></td>
+                        <td>Form page load (when user scrolls to form)</td>
+                        <td>Track form views and intent-to-fill</td>
+                        <td>Form Viewer audience (high-intent retargeting)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AddPaymentInfo</strong></td>
+                        <td>Form field focus (first input interaction)</td>
+                        <td>Track form engagement and field interaction</td>
+                        <td>Form Interactor audience (conversion-ready retargeting)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Purchase</strong></td>
+                        <td>Form submission success page</td>
+                        <td>Track lead conversions and attribute to campaigns</td>
+                        <td>Converted Lead audience (lookalike seed + exclusion)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lead</strong></td>
+                        <td>Form submission success page (alternative)</td>
+                        <td>Explicit lead event for cleaner reporting</td>
+                        <td>Alternative to Purchase event; choose one</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Custom Audiences to Build</h3>
+            <div class="audience-section">
+                <div class="audience-title">1. Website Visitor (Broad Retargeting)</div>
+                <div class="audience-list">
+                    <div class="audience-item">
+                        <span class="audience-item-label">Trigger</span>
+                        <span class="audience-item-value">PageView pixel fires on all site pages</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Window</span>
+                        <span class="audience-item-value">Last 30 days</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Exclusions</span>
+                        <span class="audience-item-value">Converted leads (exclude Purchase event in last 90 days)</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Expected Size</span>
+                        <span class="audience-item-value">2,000-5,000 monthly</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Retargeting Strategy</span>
+                        <span class="audience-item-value">Broad awareness + education messaging (carousel ads showing benefits)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="audience-section">
+                <div class="audience-title">2. Blog Reader (Warm Retargeting)</div>
+                <div class="audience-list">
+                    <div class="audience-item">
+                        <span class="audience-item-label">Trigger</span>
+                        <span class="audience-item-value">ViewContent event fires on blog pages</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Window</span>
+                        <span class="audience-item-value">Last 14 days</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Segment Breakdown</span>
+                        <span class="audience-item-value">Create separate audiences per blog segment (ACA readers, Medicare readers, Uninsured readers)</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Expected Size</span>
+                        <span class="audience-item-value">500-1,500 per segment monthly</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Retargeting Strategy</span>
+                        <span class="audience-item-value">Segment-specific CTA ads highlighting next step (free broker consultation, quick quote)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="audience-section">
+                <div class="audience-title">3. Form Abandoner (High-Intent Retargeting)</div>
+                <div class="audience-list">
+                    <div class="audience-item">
+                        <span class="audience-item-label">Trigger</span>
+                        <span class="audience-item-value">InitiateCheckout or AddPaymentInfo fires but Purchase/Lead does NOT fire within 24 hours</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Window</span>
+                        <span class="audience-item-value">Last 7 days</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Exclusions</span>
+                        <span class="audience-item-value">Converted leads, Website Visitor audience</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Expected Size</span>
+                        <span class="audience-item-value">100-300 monthly (Phase 2+)</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Retargeting Strategy</span>
+                        <span class="audience-item-value">Reassurance + urgency messaging ("Your free consultation is just one click away. No obligation.")</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="audience-section">
+                <div class="audience-title">4. Converted Lead (Lookalike Seed + Exclusion)</div>
+                <div class="audience-list">
+                    <div class="audience-item">
+                        <span class="audience-item-label">Trigger</span>
+                        <span class="audience-item-value">Purchase or Lead event fires (form submission confirmed)</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Window</span>
+                        <span class="audience-item-value">Last 90 days (for 1% and 5% lookalikes)</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Size Target</span>
+                        <span class="audience-item-value">Min 100 conversions to create 1% lookalike; 500+ for reliable 5% lookalike</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Segment Breakdown</span>
+                        <span class="audience-item-value">Create lookalikes by segment (1% ACA Lookalike, 5% Medicare Lookalike, etc.)</span>
+                    </div>
+                    <div class="audience-item">
+                        <span class="audience-item-label">Retargeting Strategy</span>
+                        <span class="audience-item-label">EXCLUDE from retargeting campaigns. Use as seed for lookalike prospecting (Phase 3 scaling).</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KPI TARGETS -->
+        <section>
+            <h2>6. KPI Targets & Success Metrics</h2>
+
+            <h3>Phase 1: Content A/B Test (Weeks 1-2)</h3>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-phase">Phase 1 Target</div>
+                    <div class="kpi-metric">Click-Through Rate (CTR)</div>
+                    <div class="kpi-target">> 2.0%</div>
+                    <div class="kpi-note">Mobile-optimized ad copy and strong emotional hooks (financial loss, confusion, cost shock) drive above-average engagement for B2C health.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-phase">Phase 1 Target</div>
+                    <div class="kpi-metric">Cost Per Click (CPC)</div>
+                    <div class="kpi-target">< $1.50</div>
+                    <div class="kpi-note">Tight audience targeting + educational positioning (not product sales) reduces competition and cost. This is below CPE average.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-phase">Phase 1 Target</div>
+                    <div class="kpi-metric">Time on Page (TOS)</div>
+                    <div class="kpi-target">> 90 seconds</div>
+                    <div class="kpi-note">Blog content quality + segment-specific messaging = deep engagement. Indicates content resonance and high-intent readers.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-phase">Phase 1 Target</div>
+                    <div class="kpi-metric">Scroll Depth</div>
+                    <div class="kpi-target">> 60%</div>
+                    <div class="kpi-note">Measures blog content engagement. >60% depth indicates quality read; <40% signals content mismatch or poor UX.</div>
+                </div>
+            </div>
+
+            <h3>Phase 2: Funnel Flow Test (Weeks 3-4)</h3>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-phase">Phase 2 Target</div>
+                    <div class="kpi-metric">Conversion Rate (CVR)</div>
+                    <div class="kpi-target">> 3.0%</div>
+                    <div class="kpi-note">Form submission rate from ad click. Three funnel variants tested; winning flow should exceed 3% baseline for B2C lead gen.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-phase">Phase 2 Target</div>
+                    <div class="kpi-metric">Cost Per Lead (CPL)</div>
+                    <div class="kpi-target">< $25</div>
+                    <div class="kpi-note">Total ad spend / leads. At $25 CPL, even low-ticket ACA ($700 commission potential) scales profitably after 2-3 conversions to policy.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-phase">Phase 2 Target</div>
+                    <div class="kpi-metric">Form Abandonment Rate</div>
+                    <div class="kpi-target">< 70%</div>
+                    <div class="kpi-note">Benchmark: 60-70% abandonment is standard; <70% indicates good form UX and messaging clarity.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-phase">Phase 2 Target</div>
+                    <div class="kpi-metric">Lead Quality Score</div>
+                    <div class="kpi-target">TBD (Baseline)</div>
+                    <div class="kpi-note">Measure % leads that convert to consultation booked or policy issued. Phase 2 establishes baseline for Phase 3 optimization.</div>
+                </div>
+            </div>
+
+            <h3>Phase 3: Scale + Retarget (Weeks 5+)</h3>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-phase">Phase 3 Target</div>
+                    <div class="kpi-metric">CPL (Primary Campaign)</div>
+                    <div class="kpi-target">< $20</div>
+                    <div class="kpi-note">Scaling winner from Phase 2. Increased volume, optimized audience, and pixel feedback reduce cost. Target 20-25% CPL improvement from Phase 2.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-phase">Phase 3 Target</div>
+                    <div class="kpi-metric">ROAS (Retargeting)</div>
+                    <div class="kpi-target">Positive within 60 days</div>
+                    <div class="kpi-note">Return on Ad Spend. Retargeting should convert at 2-3x primary campaign rate, yielding positive ROAS earlier than 60 days if Phase 2 CVR > 3%.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-phase">Phase 3 Target</div>
+                    <div class="kpi-metric">Lookalike Audience Quality</div>
+                    <div class="kpi-target">CPL ≤ Primary campaign</div>
+                    <div class="kpi-note">1% lookalike should perform at parity or better than primary audience. If CPL > primary, expand to 5% lookalike or pause lookalike spend.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-phase">Phase 3 Target</div>
+                    <div class="kpi-metric">Total Leads Per Month</div>
+                    <div class="kpi-target">100+ (Primary) | 20-30 (Retargeting) | 15-25 (Lookalike)</div>
+                    <div class="kpi-note">At $25 CPL primary, $15 CPL retargeting, $30 CPL lookalike, a $100/day budget ($3,000/month) targets 85-110 total leads/month.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RETARGETING STRATEGY -->
+        <section>
+            <h2>7. Retargeting Strategy</h2>
+
+            <h3>Retargeting Campaign Structure</h3>
+            <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 20px;">
+                <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0;">
+                    <strong style="color: #1B2A4A; display: block; margin-bottom: 8px; font-size: 14px;">Campaign 1: Website Visitor Awareness (Broad Retargeting)</strong>
+                    <div style="font-size: 13px; color: #555; line-height: 1.6;">
+                        <div style="margin-bottom: 8px;"><strong>Audience:</strong> All site visitors, last 30 days (exclude converts)</div>
+                        <div style="margin-bottom: 8px;"><strong>Creative:</strong> Carousel ads showcasing segment benefits (e.g., "3 Ways We Help Self-Employed Floridians Save on Health Insurance")</div>
+                        <div style="margin-bottom: 8px;"><strong>Budget:</strong> $10-15/day</div>
+                        <div style="margin-bottom: 8px;"><strong>Objective:</strong> Re-engage passive visitors, build familiarity, drive return to blog/LP</div>
+                        <div><strong>CPL Target:</strong> $35-45 (lower conversion rate, broad audience)</div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0;">
+                    <strong style="color: #1B2A4A; display: block; margin-bottom: 8px; font-size: 14px;">Campaign 2: Blog Reader Warm Retargeting</strong>
+                    <div style="font-size: 13px; color: #555; line-height: 1.6;">
+                        <div style="margin-bottom: 8px;"><strong>Audience:</strong> Blog readers (ViewContent event), last 14 days per segment</div>
+                        <div style="margin-bottom: 8px;"><strong>Creative:</strong> Segment-specific CTAs (e.g., "Ready for a Free Medicare Review?" for Medicare readers)</div>
+                        <div style="margin-bottom: 8px;"><strong>Budget:</strong> $20-25/day (split across 3 segment campaigns)</div>
+                        <div style="margin-bottom: 8px;"><strong>Objective:</strong> Convert warm, engaged readers to form submission</div>
+                        <div><strong>CPL Target:</strong> $15-20 (highest intent segment)</div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0;">
+                    <strong style="color: #1B2A4A; display: block; margin-bottom: 8px; font-size: 14px;">Campaign 3: Form Abandoner Recovery</strong>
+                    <div style="font-size: 13px; color: #555; line-height: 1.6;">
+                        <div style="margin-bottom: 8px;"><strong>Audience:</strong> Form viewers/interactors without conversion, last 7 days</div>
+                        <div style="margin-bottom: 8px;"><strong>Creative:</strong> Reassurance + urgency ("Your Free Consultation Takes 2 Minutes—No Obligation")</div>
+                        <div style="margin-bottom: 8px;"><strong>Budget:</strong> $5-10/day</div>
+                        <div style="margin-bottom: 8px;"><strong>Objective:</strong> Recover lost conversions from high-intent users</div>
+                        <div><strong>CPL Target:</strong> $10-15 (very high intent; should convert at 5-10% rate)</div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 0;">
+                    <strong style="color: #1B2A4A; display: block; margin-bottom: 8px; font-size: 14px;">Campaign 4: Lookalike Prospecting (Phase 3+)</strong>
+                    <div style="font-size: 13px; color: #555; line-height: 1.6;">
+                        <div style="margin-bottom: 8px;"><strong>Audience:</strong> 1% lookalike (primary) and 5% lookalike (secondary) seeded from converted leads (last 90 days)</div>
+                        <div style="margin-bottom: 8px;"><strong>Creative:</strong> Winning primary campaign ad creative from Phase 2</div>
+                        <div style="margin-bottom: 8px;"><strong>Budget:</strong> $30-40/day (Phase 3+)</div>
+                        <div style="margin-bottom: 8px;"><strong>Objective:</strong> Acquire new high-quality prospects similar to best customers</div>
+                        <div><strong>CPL Target:</strong> $25-30 (lookalike quality degrades with expansion; 1% < 5%)</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Retargeting Frequency & Ad Rotation</h3>
+            <div class="note-box">
+                <div class="note-title">Frequency Capping</div>
+                <div style="font-size: 13px; color: #555; line-height: 1.6;">
+                    Set frequency cap at 3-5 impressions per user per day to avoid ad fatigue. Retargeting audiences are smaller (500-2,000), so capping ensures sustainable reach and prevents rising CPL from saturation.
+                </div>
+            </div>
+
+            <div class="note-box">
+                <div class="note-title">Seasonal & Performance Adjustments</div>
+                <div style="font-size: 13px; color: #555; line-height: 1.6;">
+                    <div style="margin-bottom: 8px;"><strong>ACA:</strong> Increase retargeting budget Oct-Dec (open enrollment peak). Reduce or pause Jun-Aug (low volume).</div>
+                    <div style="margin-bottom: 8px;"><strong>Medicare:</strong> High volume Oct-Dec (AEP) and Jan-Mar (SEP eligibility). Steady May-Sep.</div>
+                    <div><strong>Uninsured:</strong> Higher post-life-event (job loss, divorce, move). Less seasonal than ACA/Medicare.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPLIANCE NOTES -->
+        <section>
+            <h2>8. Compliance & Regulatory Requirements</h2>
+
+            <h3>ACA / Subsidy Messaging</h3>
+            <div class="compliance-box">
+                <div class="compliance-title">Key Compliance Points</div>
+                <div class="compliance-text">
+                    <strong>No Guarantee of Savings:</strong> All ACA ads must include a disclaimer stating "Actual subsidy amounts depend on household income, family size, and current year Federal Poverty Level guidelines. Check Healthcare.gov or consult with a broker for personalized estimates."
+                </div>
+                <div class="compliance-text">
+                    <strong>Accurate Income Thresholds:</strong> Current 2026 guidelines: 100%-400% FPL qualifies for APTC (Advanced Premium Tax Credit). For a family of 4 in 2026, 400% FPL ≈ $118,000. Our ads state "<$125K" which is conservative and compliant.
+                </div>
+                <div class="compliance-text">
+                    <strong>Subsidy Percentages:</strong> Claims of "50-80% savings" or "$700+/month subsidies" must be supported by actual plan data in your market. These figures are typical for lower-income households but not guaranteed. Include "typical" or "based on 2025 data" language.
+                </div>
+                <div class="compliance-text">
+                    <strong>Marketplace Neutrality:</strong> No steering toward specific plans or carriers. Reference "plans from all major carriers" and direct to Healthcare.gov or neutral comparison tools.
+                </div>
+            </div>
+
+            <h3>Medicare Messaging</h3>
+            <div class="compliance-box">
+                <div class="compliance-title">CMS Marketing Guidelines (42 CFR 422.2260)</div>
+                <div class="compliance-text">
+                    <strong>No Unsolicited Contact:</strong> Do not make unsolicited calls or in-person visits to beneficiaries. This campaign uses passive digital advertising (Facebook), which is compliant.
+                </div>
+                <div class="compliance-text">
+                    <strong>No Misleading Comparisons:</strong> Ads must not compare Medicare Advantage unfavorably to Original Medicare or vice versa. Our messaging focuses on "three common mistakes" (neutral) rather than "Original Medicare is bad."
+                </div>
+                <div class="compliance-text">
+                    <strong>Accurate Part B Penalty Statement:</strong> "One wrong move during enrollment and you pay a penalty for the rest of your life" refers to the 10% per-12-month late enrollment penalty on Part B premiums. This is accurate; include link to Medicare.gov for details.
+                </div>
+                <div class="compliance-text">
+                    <strong>Licensed Agent Requirement:</strong> All lead follow-up must be conducted by licensed insurance agents. Display agent license prominently in follow-up materials.
+                </div>
+                <div class="compliance-text">
+                    <strong>Annual Attestation:</strong> Ensure all ads and landing pages are reviewed and attested by compliance team before launch. Update annually.
+                </div>
+            </div>
+
+            <h3>State of Florida Compliance (DOI)</h3>
+            <div class="compliance-box">
+                <div class="compliance-title">Florida Department of Insurance (DOI) Requirements</div>
+                <div class="compliance-text">
+                    <strong>Agent License Display:</strong> All customer-facing materials must display responsible agent/agency FL License #. Include on landing pages, email signatures, and follow-up documents.
+                </div>
+                <div class="compliance-text">
+                    <strong>Privacy & Consent:</strong> Collect explicit opt-in for email/SMS prior to contact. Form should include checkbox: "I consent to be contacted by phone, text, or email about my insurance options."
+                </div>
+                <div class="compliance-text">
+                    <strong>No Deceptive Practices:</strong> Ads and landing pages must not misrepresent coverage, benefits, or obligations. All claims must be substantiated and accurate.
+                </div>
+                <div class="compliance-text">
+                    <strong>Prohibition on High-Pressure Sales:</strong> Marketing must not use high-pressure tactics (countdown timers, fake urgency beyond genuine enrollment windows, misleading stock indicators). This campaign uses educational, low-pressure positioning.
+                </div>
+            </div>
+
+            <h3>General Advertising Standards</h3>
+            <div class="compliance-box">
+                <div class="compliance-title">FTC Endorsement & Testimonial Guides</div>
+                <div class="compliance-text">
+                    <strong>No Fake Reviews:</strong> Do not create or use fake customer testimonials. Any testimonials must be from real customers with documented consent.
+                </div>
+                <div class="compliance-text">
+                    <strong>Disclosure of Incentives:</strong> If you offer incentives for leads/referrals, clearly disclose "In exchange for a referral, we offer..." in marketing materials.
+                </div>
+                <div class="compliance-text">
+                    <strong>Clear Disclaimers:</strong> All material limitations, exclusions, and disclaimers should be clearly visible (not hidden in fine print or requiring scroll).
+                </div>
+            </div>
+
+            <h3>Implementation Checklist</h3>
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-top: 20px; font-size: 13px; color: #555;">
+                <div style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+                    <span style="color: #1B2A4A; font-weight: 700; margin-right: 8px;">□</span>
+                    <span>Obtain legal review of all ad copy and landing page messaging before launch</span>
+                </div>
+                <div style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+                    <span style="color: #1B2A4A; font-weight: 700; margin-right: 8px;">□</span>
+                    <span>Display FL Insurance Agent License # on all customer-facing pages</span>
+                </div>
+                <div style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+                    <span style="color: #1B2A4A; font-weight: 700; margin-right: 8px;">□</span>
+                    <span>Include explicit consent checkbox for contact (email, phone, SMS)</span>
+                </div>
+                <div style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+                    <span style="color: #1B2A4A; font-weight: 700; margin-right: 8px;">□</span>
+                    <span>Add ACA subsidy disclaimer: "Actual subsidies vary by income and family size..."</span>
+                </div>
+                <div style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+                    <span style="color: #1B2A4A; font-weight: 700; margin-right: 8px;">□</span>
+                    <span>Link Medicare content to Medicare.gov for official information</span>
+                </div>
+                <div style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+                    <span style="color: #1B2A4A; font-weight: 700; margin-right: 8px;">□</span>
+                    <span>Ensure ER cost data is cited from reputable source (hospital billing data, health plan claims)</span>
+                </div>
+                <div style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+                    <span style="color: #1B2A4A; font-weight: 700; margin-right: 8px;">□</span>
+                    <span>Train all agents/brokers on policy regarding lead follow-up timing and pressure</span>
+                </div>
+                <div style="display: flex; align-items: flex-start;">
+                    <span style="color: #1B2A4A; font-weight: 700; margin-right: 8px;">□</span>
+                    <span>Document all campaign changes and approvals in compliance folder</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- NETLIFY REDIRECTS -->
+        <section>
+            <h2>9. Netlify Redirects</h2>
+
+            <p style="margin-bottom: 20px; font-size: 13px; color: #666;">
+                Add the following redirect rules to your <code>_redirects</code> file in the Netlify project root. These rules ensure clean URLs and preserve SEO authority during migration/restructuring.
+            </p>
+
+            <h3>Redirect Rules</h3>
+            <div class="redirect-box">
+# New Landing Page Redirects
+/lp/medicare  /lp/medicare/  301
+/lp/gap  /lp/gap/  301
+
+# Blog Post Redirects (without .html extension)
+/blog/florida-aca-subsidy-most-people-miss  /blog/florida-aca-subsidy-most-people-miss.html  301
+/blog/turning-65-florida-medicare-mistakes  /blog/turning-65-florida-medicare-mistakes.html  301
+/blog/no-health-insurance-florida-er-cost  /blog/no-health-insurance-florida-er-cost.html  301
+
+# Alternative /get-help/ Redirect (if not already in routing)
+/get-help  /lp/aca/  301
+            </div>
+
+            <h3>Redirect Rules Explained</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>From URL</th>
+                        <th>To URL</th>
+                        <th>Type</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>/lp/medicare</td>
+                        <td>/lp/medicare/</td>
+                        <td>301 (Permanent)</td>
+                        <td>Ensures trailing slash consistency; improves SEO and cache efficiency</td>
+                    </tr>
+                    <tr>
+                        <td>/lp/gap</td>
+                        <td>/lp/gap/</td>
+                        <td>301 (Permanent)</td>
+                        <td>Ensures trailing slash consistency; improves SEO and cache efficiency</td>
+                    </tr>
+                    <tr>
+                        <td>/blog/florida-aca-subsidy-most-people-miss</td>
+                        <td>/blog/florida-aca-subsidy-most-people-miss.html</td>
+                        <td>301 (Permanent)</td>
+                        <td>Allows cleaner URLs without .html extension; UTM parameters in links don't need updating</td>
+                    </tr>
+                    <tr>
+                        <td>/blog/turning-65-florida-medicare-mistakes</td>
+                        <td>/blog/turning-65-florida-medicare-mistakes.html</td>
+                        <td>301 (Permanent)</td>
+                        <td>Allows cleaner URLs without .html extension; preserves existing UTM-tagged links</td>
+                    </tr>
+                    <tr>
+                        <td>/blog/no-health-insurance-florida-er-cost</td>
+                        <td>/blog/no-health-insurance-florida-er-cost.html</td>
+                        <td>301 (Permanent)</td>
+                        <td>Allows cleaner URLs without .html extension; preserves existing UTM-tagged links</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="note-box">
+                <div class="note-title">Implementation Notes</div>
+                <div style="font-size: 13px; color: #555; line-height: 1.6;">
+                    <div style="margin-bottom: 8px;">Use 301 (Permanent Redirect) for all rules to preserve SEO authority and ensure Google re-crawls with updated URLs.</div>
+                    <div style="margin-bottom: 8px;">Test all redirects after deployment using curl or a tool like Redirect Checker to ensure they resolve correctly.</div>
+                    <div style="margin-bottom: 8px;">If you have existing links in ads or external sites, keep the .html extension in your UTM-tagged links; redirects will handle the clean URL internally.</div>
+                    <div>Cache headers: Netlify caches 301 redirects. If you need to update a redirect rule, deploy a new version and clear cache if necessary.</div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>Lakeland Health Insurance | Campaign Strategy v1.0 | April 2026 | Internal Reference Document — Not for Public Distribution</p>
+    </footer>
+</body>
+</html>

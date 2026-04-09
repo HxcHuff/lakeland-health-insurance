@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Facebook Ad Copy Variants - Lakeland Health Insurance Campaign</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #1B2A4A;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .segment {
+            margin-bottom: 60px;
+        }
+
+        .segment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #D4A843;
+        }
+
+        .segment-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1B2A4A;
+        }
+
+        .segment-subtitle {
+            font-size: 13px;
+            color: #666;
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 2px solid #D4A843;
+        }
+
+        .ads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .ad-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border-top: 4px solid #D4A843;
+        }
+
+        .ad-variant-label {
+            display: inline-block;
+            background: #1B2A4A;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .ad-headline {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1B2A4A;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .char-count {
+            font-size: 11px;
+            color: #999;
+            font-weight: 500;
+        }
+
+        .ad-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .ad-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #1B2A4A;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .primary-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .extended-text {
+            font-size: 13px;
+            color: #666;
+            background: #f9f9f9;
+            padding: 12px;
+            border-left: 3px solid #D4A843;
+            border-radius: 4px;
+            line-height: 1.5;
+        }
+
+        .meta-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .meta-item {
+            font-size: 13px;
+        }
+
+        .meta-label {
+            font-weight: 700;
+            color: #1B2A4A;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-value {
+            color: #555;
+            font-size: 13px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #D4A843;
+            color: #1B2A4A;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 12px;
+            text-decoration: none;
+            margin-right: 8px;
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .link-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .utm-link {
+            font-size: 11px;
+            color: #999;
+            word-break: break-all;
+            background: #f9f9f9;
+            padding: 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .targeting-section {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+
+        .targeting-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #1B2A4A;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .targeting-item {
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .targeting-item strong {
+            color: #1B2A4A;
+        }
+
+        .hypothesis {
+            background: #f0f8ff;
+            border-left: 4px solid #1B2A4A;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .hypothesis-label {
+            font-weight: 700;
+            color: #1B2A4A;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .placement-badges {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .placement-badge {
+            background: #1B2A4A;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        footer {
+            background: #1B2A4A;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .ads-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            .segment-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .segment-subtitle {
+                margin-left: 0;
+                padding-left: 0;
+                border-left: none;
+                margin-top: 10px;
+            }
+
+            .meta-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Facebook Ad Copy Variants</h1>
+        <p>Lakeland Health Insurance Campaign - A/B Testing Reference Document | April 2026</p>
+    </header>
+
+    <div class="container">
+        <!-- SEGMENT 1: ACA/SUBSIDY -->
+        <div class="segment">
+            <div class="segment-header">
+                <div class="segment-title">SEGMENT 1: ACA / SUBSIDY</div>
+                <div class="segment-subtitle">Florida families, self-employed, gig workers | Ages 25-64</div>
+            </div>
+
+            <div class="ads-grid">
+                <!-- ACA Variant A -->
+                <div class="ad-card">
+                    <span class="ad-variant-label">Variant A</span>
+                    <h3 class="ad-headline">"Money Left on the Table" Angle</h3>
+
+                    <div class="ad-section">
+                        <span class="section-label">Primary Text (Mobile)</span>
+                        <div class="primary-text">Most Florida families qualify for health insurance subsidies worth $700+/month — and don't even know it. If your household earns under $125K, you could be leaving thousands on the table every year.</div>
+                        <div class="char-count">121 characters</div>
+                    </div>
+
+                    <div class="ad-section">
+                        <span class="section-label">Extended Primary Text</span>
+                        <div class="extended-text">Most Florida families qualify for health insurance subsidies worth $700+/month — and don't even know it. If your household earns under $125K, you could be leaving thousands on the table every year. Checking takes just 2 minutes, you'll get free broker help, and there's zero obligation. See what you might qualify for.</div>
+                    </div>
+
+                    <div class="ad-section">
+                        <div class="meta-row">
+                            <div class="meta-item">
+                                <span class="meta-label">Headline</span>
+                                <span class="meta-value">Are You Missing $8,400/Year?</span>
+                                <div class="char-count">34 characters</div>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Description</span>
+                                <span class="meta-value">Check your FL subsidy now</span>
+                                <div class="char-count">26 characters</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ad-section">
+                        <span class="section-label">CTA Button</span>
+                        <div class="cta-button">Learn More</div>
+                    </div>
+
+                    <div class="link-section">
+                        <span class="section-label">Link Destination</span>
+                        <div class="utm-link">https://lakelandhealthinsurance.com/blog/florida-aca-subsidy-most-people-miss.html?utm_source=facebook&utm_medium=paid&utm_campaign=blog_ab_p1_apr2026&utm_content=aca_subsidy_v1&utm_term=aca_interest_fl</div>
+                    </div>
+
+                    <div class="targeting-section">
+                        <span class="targeting-label">Suggested Audience Targeting</span>
+                        <div class="targeting-item"><strong>Interests:</strong> Health insurance, ACA, small business, self-employed, independent contractors</div>
+                        <div class="targeting-item"><strong>Demographics:</strong> Ages 25-64, Florida, household income $30K-$125K</div>
+                        <div class="targeting-item"><strong>Behaviors:</strong> Recently searched health insurance, interested in financial services</div>
+                        <div class="targeting-item"><strong>Exclusions:</strong> Currently employed at large companies with benefits, Medicare-eligible</div>
+                    </div>
+
+                    <div class="targeting-section">
+                        <span class="targeting-label">Suggested Placement</span>
+                        <div class="placement-badges">
+                            <span class="placement-badge">Feed</span>
+                            <span class="placement-badge">Stories</span>
+                            <span class="placement-badge">Reels</span>
+                        </div>
+                    </div>
+
+                    <div class="hypothesis">
+                        <span class="hypothesis-label">A/B Test Hypothesis</span>
+                        Financial loss framing (leaving money on table) will outperform lifestyle positioning. Cost transparency ($700+/month, $8,400/year) creates urgency and specificity that drives higher CTR among income-conscious audience.
+                    </div>
+                </div>
+
+                <!-- ACA Variant B -->
+                <div class="ad-card">
+                    <span class="ad-variant-label">Variant B</span>
+                    <h3 class="ad-headline">"Self-Employed" Angle</h3>
+
+                    <div class="ad-section">
+                        <span class="section-label">Primary Text (Mobile)</span>
+                        <div class="primary-text">Self-employed in Florida? 1099 contractor? You're probably overpaying for health insurance. Most self-employed Floridians qualify for subsidies that cut premiums by 50-80%.</div>
+                        <div class="char-count">125 characters</div>
+                    </div>
+
+                    <div class="ad-section">
+                        <span class="section-label">Extended Primary Text</span>
+                        <div class="extended-text">Self-employed in Florida? 1099 contractor? You're probably overpaying for health insurance. Most self-employed Floridians qualify for subsidies that cut premiums by 50-80%. We'll help you project your income accurately, connect you with a licensed broker at no cost, and show you plans from all major carriers—not just one.</div>
+                    </div>
+
+                    <div class="ad-section">
+                        <div class="meta-row">
+                            <div class="meta-item">
+                                <span class="meta-label">Headline</span>
+                                <span class="meta-value">Self-Employed? You Overpay.</span>
+                                <div class="char-count">31 characters</div>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Description</span>
+                                <span class="meta-value">Free FL subsidy check</span>
+                                <div class="char-count">21 characters</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ad-section">
+                        <span class="section-label">CTA Button</span>
+                        <div class="cta-button">Learn More</div>
+                    </div>
+
+                    <div class="link-section">
+                        <span class="section-label">Link Destination</span>
+                        <div class="utm-link">https://lakelandhealthinsurance.com/blog/florida-aca-subsidy-most-people-miss.html?utm_source=facebook&utm_medium=paid&utm_campaign=blog_ab_p1_apr2026&utm_content=aca_subsidy_v2&utm_term=aca_interest_fl</div>
+                    </div>
+
+                    <div class="targeting-section">
+                        <span class="targeting-label">Suggested Audience Targeting</span>
+                        <div class="targeting-item"><strong>Interests:</strong> Freelancing, self-employment, 1099 work, gig economy, small business</div>
+                        <div class="targeting-item"><strong>Demographics:</strong> Ages 25-64, Florida, self-employed/entrepreneur job title</div>
+                        <div class="targeting-item"><strong>Behaviors:</strong> Small business ownership signals, freelance platform users, professional networks</div>
+                        <div class="targeting-item"><strong>Lookalike:</strong> Based on existing self-employed customer list</div>
+                    </div>
+
+                    <div class="targeting-section">
+                        <span class="targeting-label">Suggested Placement</span>
+                        <div class="placement-badges">
+                            <span class="placement-badge">Feed</span>
+                            <span class="placement-badge">Stories</span>
+                            <span class="placement-badge">Reels</span>
+                        </div>
+                    </div>
+
+                    <div class="hypothesis">
+                        <span class="hypothesis-label">A/B Test Hypothesis</span>
+                        Direct audience call-out ("Self-Employed? You Overpay") will segment better than generic household framing. Self-employed identity is strong, and percentage-based savings (50-80%) will resonate more than absolute dollar figures within this income-variable segment.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEGMENT 2: MEDICARE -->
+        <div class="segment">
+            <div class="segment-header">
+                <div class="segment-title">SEGMENT 2: MEDICARE</div>
+                <div class="segment-subtitle">Adults 63-67 in Florida, adult children of aging parents | All ages</div>
+            </div>
+
+            <div class="ads-grid">
+                <!-- Medicare Variant A -->
+                <div class="ad-card">
+                    <span class="ad-variant-label">Variant A</span>
+                    <h3 class="ad-headline">"Costly Mistakes" Angle</h3>
+
+                    <div class="ad-section">
+                        <span class="section-label">Primary Text (Mobile)</span>
+                        <div class="primary-text">Turning 65? Three Medicare mistakes cost Florida retirees thousands every year — and most are completely avoidable. One wrong move during enrollment and you pay a penalty for the rest of your life.</div>
+                        <div class="char-count">125 characters</div>
+                    </div>
+
+                    <div class="ad-section">
+                        <span class="section-label">Extended Primary Text</span>
+                        <div class="extended-text">Turning 65? Three Medicare mistakes cost Florida retirees thousands every year — and most are completely avoidable. Missing enrollment deadlines triggers a 10% Part B penalty for life. Picking the wrong network leaves you out-of-pocket. And not reviewing plans annually means you're stuck with outdated coverage. A licensed Florida broker can walk you through all of it.</div>
+                    </div>
+
+                    <div class="ad-section">
+                        <div class="meta-row">
+                            <div class="meta-item">
+                                <span class="meta-label">Headline</span>
+                                <span class="meta-value">3 Medicare Mistakes to Avoid</span>
+                                <div class="char-count">32 characters</div>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Description</span>
+                                <span class="meta-value">Free Medicare review</span>
+                                <div class="char-count">19 characters</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ad-section">
+                        <span class="section-label">CTA Button</span>
+                        <div class="cta-button">Learn More</div>
+                    </div>
+
+                    <div class="link-section">
+                        <span class="section-label">Link Destination</span>
+                        <div class="utm-link">https://lakelandhealthinsurance.com/blog/turning-65-florida-medicare-mistakes.html?utm_source=facebook&utm_medium=paid&utm_campaign=blog_ab_p1_apr2026&utm_content=medicare_mistakes_v1&utm_term=turning_65_fl</div>
+                    </div>
+
+                    <div class="targeting-section">
+                        <span class="targeting-label">Suggested Audience Targeting</span>
+                        <div class="targeting-item"><strong>Interests:</strong> Medicare, retirement planning, senior health, life changes</div>
+                        <div class="targeting-item"><strong>Demographics:</strong> Ages 63-67 (primary) and 40-62 (adult children), Florida</div>
+                        <div class="targeting-item"><strong>Behaviors:</strong> Recently searched Medicare, life event signals (turning 65), interested in financial planning</div>
+                        <div class="targeting-item"><strong>Lookalike:</strong> Based on existing Medicare client base</div>
+                    </div>
+
+                    <div class="targeting-section">
+                        <span class="targeting-label">Suggested Placement</span>
+                        <div class="placement-badges">
+                            <span class="placement-badge">Feed</span>
+                            <span class="placement-badge">Stories</span>
+                        </div>
+                    </div>
+
+                    <div class="hypothesis">
+                        <span class="hypothesis-label">A/B Test Hypothesis</span>
+                        Fear/avoidance framing (costly mistakes, lifetime penalties) will drive higher engagement and longer time-on-page than reassurance messaging. Specific mention of the 10% lifetime penalty creates urgency and specificity that motivates Medicare-eligible audiences to act.
+                    </div>
+                </div>
+
+                <!-- Medicare Variant B -->
+                <div class="ad-card">
+                    <span class="ad-variant-label">Variant B</span>
+                    <h3 class="ad-headline">"Confusion" Angle</h3>
+
+                    <div class="ad-section">
+                        <span class="section-label">Primary Text (Mobile)</span>
+                        <div class="primary-text">Medicare is confusing on purpose. Parts A, B, C, D, Advantage vs Supplement, enrollment periods, penalties... It doesn't have to be this hard. A licensed FL broker breaks it all down.</div>
+                        <div class="char-count">125 characters</div>
+                    </div>
+
+                    <div class="ad-section">
+                        <span class="section-label">Extended Primary Text</span>
+                        <div class="extended-text">Medicare is confusing on purpose. Parts A, B, C, D, Advantage vs Supplement, enrollment periods, penalties... It doesn't have to be this hard. A licensed Florida broker will give you a free review, explain your options in plain English, answer every question, and never pressure you to buy anything. Based in Lakeland, serving Florida families since 2010.</div>
+                    </div>
+
+                    <div class="ad-section">
+                        <div class="meta-row">
+                            <div class="meta-item">
+                                <span class="meta-label">Headline</span>
+                                <span class="meta-value">Medicare Doesn't Have to Be Hard</span>
+                                <div class="char-count">37 characters</div>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Description</span>
+                                <span class="meta-value">Licensed FL broker explains</span>
+                                <div class="char-count">28 characters</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ad-section">
+                        <span class="section-label">CTA Button</span>
+                        <div class="cta-button">Learn More</div>
+                    </div>
+
+                    <div class="link-section">
+                        <span class="section-label">Link Destination</span>
+                        <div class="utm-link">https://lakelandhealthinsurance.com/blog/turning-65-florida-medicare-mistakes.html?utm_source=facebook&utm_medium=paid&utm_campaign=blog_ab_p1_apr2026&utm_content=medicare_mistakes_v2&utm_term=turning_65_fl</div>
+                    </div>
+
+                    <div class="targeting-section">
+                        <span class="targeting-label">Suggested Audience Targeting</span>
+                        <div class="targeting-item"><strong>Interests:</strong> Medicare, health insurance, retirement, senior living communities</div>
+                        <div class="targeting-item"><strong>Demographics:</strong> Ages 63-67 (primary) and 40-62 (adult children), Florida, affluent areas</div>
+                        <div class="targeting-item"><strong>Behaviors:</strong> Recently searched Medicare information, life event signals, interested in financial advisory</div>
+                        <div class="targeting-item"><strong>Exclusions:</strong> Already contacted Medicare.gov, competitor customers</div>
+                    </div>
+
+                    <div class="targeting-section">
+                        <span class="targeting-label">Suggested Placement</span>
+                        <div class="placement-badges">
+                            <span class="placement-badge">Feed</span>
+                            <span class="placement-badge">Stories</span>
+                        </div>
+                    </div>
+
+                    <div class="hypothesis">
+                        <span class="hypothesis-label">A/B Test Hypothesis</span>
+                        Validation/reassurance framing (it doesn't have to be hard) will outperform fear messaging with older audiences. Emphasizing local expertise and human touch ("based in Lakeland since 2010") will build trust better than complexity warnings and drive higher conversion rates.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEGMENT 3: UNINSURED/GAP -->
+        <div class="segment">
+            <div class="segment-header">
+                <div class="segment-title">SEGMENT 3: UNINSURED / GAP</div>
+                <div class="segment-subtitle">Uninsured adults in Florida | Ages 25-64</div>
+            </div>
+
+            <div class="ads-grid">
+                <!-- Uninsured Variant A -->
+                <div class="ad-card">
+                    <span class="ad-variant-label">Variant A</span>
+                    <h3 class="ad-headline">"ER Cost" Shock Angle</h3>
+
+                    <div class="ad-section">
+                        <span class="section-label">Primary Text (Mobile)</span>
+                        <div class="primary-text">No health insurance? One ER visit in Florida averages $2,500-$5,000. A broken arm: $7,500. An appendectomy: $33,000. Most uninsured Floridians actually qualify for $0-50/month coverage.</div>
+                        <div class="char-count">125 characters</div>
+                    </div>
+
+                    <div class="ad-section">
+                        <span class="section-label">Extended Primary Text</span>
+                        <div class="extended-text">No health insurance? One ER visit in Florida averages $2,500-$5,000. A broken arm costs $7,500. An appendectomy: $33,000. That's not Medicaid — it's real ACA insurance with real doctors and real coverage. And most uninsured Floridians qualify for plans that cost $0-50/month after tax credits. You might actually qualify for subsidies.</div>
+                    </div>
+
+                    <div class="ad-section">
+                        <div class="meta-row">
+                            <div class="meta-item">
+                                <span class="meta-label">Headline</span>
+                                <span class="meta-value">What One ER Visit Costs</span>
+                                <div class="char-count">28 characters</div>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Description</span>
+                                <span class="meta-value">Check if you qualify for $0</span>
+                                <div class="char-count">29 characters</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ad-section">
+                        <span class="section-label">CTA Button</span>
+                        <div class="cta-button">Learn More</div>
+                    </div>
+
+                    <div class="link-section">
+                        <span class="section-label">Link Destination</span>
+                        <div class="utm-link">https://lakelandhealthinsurance.com/blog/no-health-insurance-florida-er-cost.html?utm_source=facebook&utm_medium=paid&utm_campaign=blog_ab_p1_apr2026&utm_content=uninsured_er_v1&utm_term=uninsured_fl</div>
+                    </div>
+
+                    <div class="targeting-section">
+                        <span class="targeting-label">Suggested Audience Targeting</span>
+                        <div class="targeting-item"><strong>Interests:</strong> Health, wellness, health insurance, financial planning, saving money</div>
+                        <div class="targeting-item"><strong>Demographics:</strong> Ages 25-64, Florida, uninsured (behavioral signals), lower income</div>
+                        <div class="targeting-item"><strong>Behaviors:</strong> Recently searched health insurance, financial assistance, gig work, cash-strapped signals</div>
+                        <div class="targeting-item"><strong>Lookalike:</strong> Based on existing uninsured-to-insured conversion customers</div>
+                    </div>
+
+                    <div class="targeting-section">
+                        <span class="targeting-label">Suggested Placement</span>
+                        <div class="placement-badges">
+                            <span class="placement-badge">Feed</span>
+                            <span class="placement-badge">Reels</span>
+                            <span class="placement-badge">Stories</span>
+                        </div>
+                    </div>
+
+                    <div class="hypothesis">
+                        <span class="hypothesis-label">A/B Test Hypothesis</span>
+                        Shock/consequence framing (specific ER cost examples) will drive higher CTR and time-on-page among uninsured audiences than price-first messaging. Concrete medical cost examples create urgency and legitimacy. Clarifying "not Medicaid" eliminates objections and increases conversion.
+                    </div>
+                </div>
+
+                <!-- Uninsured Variant B -->
+                <div class="ad-card">
+                    <span class="ad-variant-label">Variant B</span>
+                    <h3 class="ad-headline">"Affordable" Angle</h3>
+
+                    <div class="ad-section">
+                        <span class="section-label">Primary Text (Mobile)</span>
+                        <div class="primary-text">Think health insurance is too expensive? Most uninsured Floridians qualify for plans that cost $0-50/month after tax credits. Not Medicaid — real insurance with real doctors and real coverage.</div>
+                        <div class="char-count">125 characters</div>
+                    </div>
+
+                    <div class="ad-section">
+                        <span class="section-label">Extended Primary Text</span>
+                        <div class="extended-text">Think health insurance is too expensive? Most uninsured Floridians qualify for plans that cost $0-50/month after tax credits. Not Medicaid — real insurance with real doctors and real coverage. Life events like moving, job changes, or loss of coverage can open enrollment windows outside the annual deadline. Free broker help available.</div>
+                    </div>
+
+                    <div class="ad-section">
+                        <div class="meta-row">
+                            <div class="meta-item">
+                                <span class="meta-label">Headline</span>
+                                <span class="meta-value">Coverage Starting at $0/mo</span>
+                                <div class="char-count">28 characters</div>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Description</span>
+                                <span class="meta-value">See if you qualify today</span>
+                                <div class="char-count">25 characters</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ad-section">
+                        <span class="section-label">CTA Button</span>
+                        <div class="cta-button">Learn More</div>
+                    </div>
+
+                    <div class="link-section">
+                        <span class="section-label">Link Destination</span>
+                        <div class="utm-link">https://lakelandhealthinsurance.com/blog/no-health-insurance-florida-er-cost.html?utm_source=facebook&utm_medium=paid&utm_campaign=blog_ab_p1_apr2026&utm_content=uninsured_er_v2&utm_term=uninsured_fl</div>
+                    </div>
+
+                    <div class="targeting-section">
+                        <span class="targeting-label">Suggested Audience Targeting</span>
+                        <div class="targeting-item"><strong>Interests:</strong> Savings, deals, health insurance, budget-friendly options, personal finance</div>
+                        <div class="targeting-item"><strong>Demographics:</strong> Ages 25-64, Florida, uninsured or underinsured, price-sensitive</div>
+                        <div class="targeting-item"><strong>Behaviors:</strong> Coupon seekers, deal-focused, recently searched affordable insurance, life event signals</div>
+                        <div class="targeting-item"><strong>Exclusions:</strong> High income earners, currently insured</div>
+                    </div>
+
+                    <div class="targeting-section">
+                        <span class="targeting-label">Suggested Placement</span>
+                        <div class="placement-badges">
+                            <span class="placement-badge">Feed</span>
+                            <span class="placement-badge">Reels</span>
+                            <span class="placement-badge">Stories</span>
+                        </div>
+                    </div>
+
+                    <div class="hypothesis">
+                        <span class="hypothesis-label">A/B Test Hypothesis</span>
+                        Price-first framing ($0-50/month) will drive higher CTR among price-sensitive uninsured audiences than consequence-focused messaging. Emphasizing affordability and accessibility overcomes the main objection (cost). Mention of "real insurance, real doctors" addresses Medicaid concern and increases confidence/conversion.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Lakeland Health Insurance | Facebook Ad Copy Variants v1.0 | April 2026 | Reference Document - Not for Public Distribution</p>
+    </footer>
+</body>
+</html>

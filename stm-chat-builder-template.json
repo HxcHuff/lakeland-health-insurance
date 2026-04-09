@@ -1,0 +1,107 @@
+{
+  "template_name": "STM Job Loss Auto-Qualify",
+  "created": "2026-04-06",
+  "campaign": "STM Video - Engagement",
+  "ice_breakers": [
+    {
+      "title": "I just lost my job — what are my options?",
+      "response_node": "greeting"
+    },
+    {
+      "title": "How much does short-term coverage cost?",
+      "response_node": "greeting"
+    },
+    {
+      "title": "Is COBRA my only option?",
+      "response_node": "greeting"
+    }
+  ],
+  "nodes": {
+    "greeting": {
+      "type": "message",
+      "text": "Hey — thanks for reaching out. I'm David, a licensed health insurance broker. I help people find affordable coverage when they're between jobs.\n\nLet me ask a few quick questions so I can match you with the best options in your state. Takes about 60 seconds.",
+      "next": "ask_state"
+    },
+    "ask_state": {
+      "type": "question",
+      "text": "What state are you in?",
+      "quick_replies": [
+        { "title": "Florida", "payload": "STATE_FL" },
+        { "title": "Georgia", "payload": "STATE_GA" },
+        { "title": "Arizona", "payload": "STATE_AZ" },
+        { "title": "Other", "payload": "STATE_OTHER" }
+      ],
+      "save_as": "user_state",
+      "next": "ask_coverage_status"
+    },
+    "ask_coverage_status": {
+      "type": "question",
+      "text": "What's your current coverage situation?",
+      "quick_replies": [
+        { "title": "Lost employer coverage", "payload": "STATUS_LOST_EMPLOYER" },
+        { "title": "On COBRA (too expensive)", "payload": "STATUS_COBRA" },
+        { "title": "Currently uninsured", "payload": "STATUS_UNINSURED" },
+        { "title": "Between contracts/gigs", "payload": "STATUS_GIG" }
+      ],
+      "save_as": "coverage_status",
+      "next": "ask_timeline"
+    },
+    "ask_timeline": {
+      "type": "question",
+      "text": "When did your coverage end (or when does it end)?",
+      "quick_replies": [
+        { "title": "Already ended", "payload": "TIMELINE_ENDED" },
+        { "title": "Within 30 days", "payload": "TIMELINE_30" },
+        { "title": "30–60 days out", "payload": "TIMELINE_60" },
+        { "title": "Not sure", "payload": "TIMELINE_UNKNOWN" }
+      ],
+      "save_as": "coverage_timeline",
+      "next": "ask_household"
+    },
+    "ask_household": {
+      "type": "question",
+      "text": "Who needs coverage?",
+      "quick_replies": [
+        { "title": "Just me", "payload": "HH_SINGLE" },
+        { "title": "Me + spouse", "payload": "HH_COUPLE" },
+        { "title": "Me + kids", "payload": "HH_PARENT" },
+        { "title": "Me + family", "payload": "HH_FAMILY" }
+      ],
+      "save_as": "household_size",
+      "next": "ask_income"
+    },
+    "ask_income": {
+      "type": "question",
+      "text": "Roughly what's your annual household income? This helps me check if you qualify for subsidized plans too.",
+      "quick_replies": [
+        { "title": "Under $25K", "payload": "INCOME_UNDER_25K" },
+        { "title": "$25K – $45K", "payload": "INCOME_25_45K" },
+        { "title": "$45K – $65K", "payload": "INCOME_45_65K" },
+        { "title": "$65K+", "payload": "INCOME_OVER_65K" }
+      ],
+      "save_as": "income_range",
+      "next": "collect_contact"
+    },
+    "collect_contact": {
+      "type": "contact_form",
+      "text": "Almost done — what's your first name and best phone number? I'll personally follow up with your options, usually within a few hours.",
+      "fields": [
+        { "type": "FIRST_NAME", "required": true },
+        { "type": "PHONE", "required": true },
+        { "type": "EMAIL", "required": false, "label": "Email (optional)" }
+      ],
+      "next": "confirmation"
+    },
+    "confirmation": {
+      "type": "message",
+      "text": "Got it, {{first_name}}! I'm pulling together options for your state right now. You'll hear from me shortly.\n\nNeed something faster? Call or text me directly: 863-640-3102\n\n— David Huff, Licensed Insurance Broker\n\n⚠️ Short-Term Medical plans are not ACA-compliant minimum essential coverage. Pre-existing condition limitations and state availability may apply.",
+      "next": null
+    }
+  },
+  "notes": {
+    "qualification_logic": "Respondents who select 'Lost employer coverage' or 'On COBRA' with timeline within 60 days likely qualify for ACA SEP — flag for marketplace enrollment in addition to STM quote. Income under $45K for single or $65K for family strongly suggests APTC eligibility.",
+    "top_states": "Ad set targets: AL, AZ, FL, GA, IN, IA, LA, MS, MO, NE, OK, TN, WV. Quick replies show FL, GA, AZ (top population). Other captures remaining 10 states.",
+    "compliance": "STM disclaimer included in confirmation message. Do not promise specific savings or guaranteed coverage in any customization of this template.",
+    "follow_up_sla": "Recommend responding within 2 hours for highest conversion. Set up notification routing to ensure no lead sits overnight."
+  }
+}

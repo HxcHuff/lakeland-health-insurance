@@ -71,16 +71,30 @@
         .container { max-width: 850px; margin: 0 auto; padding: 0 20px; }
         .article-header {
             background: linear-gradient(135deg, #0F1A2E 0%, #1B2A4A 100%);
-            color: #fff;
+            color: #ffffff !important;
             padding: 56px 0 44px;
         }
-        .article-header h1 {
+        body .article-header h1,
+        section.article-header h1 {
+            color: #ffffff !important;
             font-size: clamp(2rem, 4vw, 2.8rem);
             line-height: 1.2;
             margin-bottom: 10px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.25);
         }
-        .article-header p { color: rgba(255, 255, 255, 0.9); max-width: 700px; }
-        .meta { margin-top: 12px; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; }
+        body .article-header p,
+        section.article-header p {
+            color: #ffffff !important;
+            opacity: 0.95;
+            max-width: 700px;
+        }
+        body .article-header .meta,
+        section.article-header .meta {
+            color: #ffffff !important;
+            opacity: 0.9;
+            margin-top: 12px;
+            font-size: 0.95rem;
+        }
         .article-content {
             background: var(--card);
             border: 1px solid var(--line);
@@ -137,13 +151,21 @@
         }
         .cta-section {
             background: linear-gradient(135deg, var(--navy), #2563EB);
-            color: white;
+            color: #ffffff !important;
             padding: 2rem;
             margin: 2rem 0;
             border-radius: 14px;
             text-align: center;
         }
-        .cta-section h3 { color: white; margin-top: 0; font-size: 1.3rem; }
+        body .cta-section h2,
+        body .cta-section h3,
+        body .cta-section h4 {
+            color: #ffffff !important;
+            margin-top: 0;
+            font-size: 1.45rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        body .cta-section p { color: #ffffff !important; opacity: 0.95; }
         .cta-section a {
             color: white;
             background: rgba(255,255,255,0.2);
