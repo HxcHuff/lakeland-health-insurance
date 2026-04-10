@@ -1258,7 +1258,7 @@
                 var contentName = 'subsidy_estimator_lead_form';
                 var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
                 if (isLocal) {
-                    if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: contentName });
+                    if (typeof fbLead === 'function') fbLead(contentName);
                     window.location.href = leadForm.getAttribute('action') || '/thanks.html';
                     return;
                 }
@@ -1271,13 +1271,13 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 }).then(function(r) { return r.ok ? r.json() : null; }).then(function(data) {
-                    if (typeof fbq === 'function') {
-                        var opts = data && data.event_id ? { eventID: data.event_id } : undefined;
-                        fbq('track', 'Lead', { content_name: contentName }, opts);
+                    if (typeof fbLead === 'function') {
+                        var extra = data && data.event_id ? { eventID: data.event_id } : undefined;
+                        fbLead(contentName, extra);
                     }
                     window.location.href = leadForm.getAttribute('action') || '/thanks.html';
                 }).catch(function() {
-                    if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: contentName });
+                    if (typeof fbLead === 'function') fbLead(contentName);
                     leadForm.submit();
                 });
             });

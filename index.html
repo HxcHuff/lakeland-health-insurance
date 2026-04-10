@@ -339,15 +339,13 @@
         // Lead capture is consolidated to /get-help/ and the paid ACA landing page.
 
         // Analytics Event Tracking
+        // Phone clicks auto-fire Contact via analytics.js tel: wiring
         function trackPhoneCall() {
             if (typeof gtag === 'function') {
                 gtag('event', 'phone_call', {
                     event_category: 'engagement',
                     event_label: 'click_to_call_button'
                 });
-            }
-            if (typeof fbq === 'function') {
-                fbq('track', 'Contact', {content_name: 'phone_call'});
             }
         }
 
@@ -358,9 +356,7 @@
                     event_label: 'messenger_button'
                 });
             }
-            if (typeof fbq === 'function') {
-                fbq('track', 'Contact', {content_name: 'messenger'});
-            }
+            if (typeof fbContact === 'function') fbContact();
         }
 
         // Menu toggle

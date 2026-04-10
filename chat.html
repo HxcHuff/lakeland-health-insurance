@@ -482,9 +482,7 @@ header .cta-button {
                     event_label: 'chat_page_email_form'
                 });
             }
-            if (typeof fbq === 'function') {
-                fbq('track', 'Contact');
-            }
+            if (typeof fbContact === 'function') fbContact();
         }
     </script>
 </body>
