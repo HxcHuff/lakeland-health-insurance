@@ -523,12 +523,8 @@ header .cta-button {
         }
         
         // Facebook Pixel event
-        if (typeof fbq === 'function') {
-          fbq('track', 'Lead', {
-            content_name: 'Direct Calendly Appointment',
-            value: 1.00,
-            currency: 'USD'
-          });
+        if (typeof fbLead === 'function') {
+          fbLead('Direct Calendly Appointment');
         }
         
         // Optional: Show confirmation
