@@ -286,7 +286,7 @@
       <h2>Get Your Free Medicare Review</h2>
       <p class="subtitle">Takes 30 seconds. I'll review your options and reach out within one business day.</p>
 
-      <form id="medicareLeadForm" name="lp-medicare-lead" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html">
+      <form id="medicareLeadForm" name="lp-medicare-lead" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html" data-funnel-track data-funnel-event="Lead" data-funnel-name="lp_medicare_lead_form">
         <input type="hidden" name="form-name" value="lp-medicare-lead">
         <input type="hidden" name="source_page" value="/lp/medicare/">
         <input type="hidden" name="utm_source" id="utm_source">
@@ -364,33 +364,22 @@
       });
     })();
 
-    // Form submit: POST to /api/lead -> server fires Meta CAPI + forwards to
-    // Netlify Forms, returns event_id; browser fires fbq Lead with that ID for dedup.
+    // Form submit tracking
     document.getElementById('medicareLeadForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      var form = this;
+      // Google Ads conversion event
       if (typeof gtag === 'function') {
-        gtag('event', 'generate_lead', { event_category: 'form', event_label: 'lp_medicare' });
-        gtag('event', 'lead_submit', { form_name: 'lp_medicare' });
+        gtag('event', 'generate_lead', {
+          event_category: 'form',
+          event_label: 'lp_medicare'
+        });
+        gtag('event', 'lead_submit', {
+          form_name: 'lp_medicare'
+        });
       }
-      var contentName = 'lp_medicare_lead_form';
-      var payload = { content_name: contentName, source_url: window.location.href };
-      new FormData(form).forEach(function(v, k) { payload[k] = v; });
-
-      fetch('/api/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      }).then(function(r) { return r.ok ? r.json() : null; }).then(function(data) {
-        if (typeof fbLead === 'function') {
-          var extra = data && data.event_id ? { eventID: data.event_id } : undefined;
-          fbLead(contentName, extra);
-        }
-        window.location.href = '/thanks.html';
-      }).catch(function() {
-        if (typeof fbLead === 'function') fbLead(contentName);
-        form.submit();
-      });
+      // Facebook Lead event
+      if (typeof fbq === 'function') {
+        fbq('track', 'Lead', { content_name: 'lp_medicare_lead_form' });
+      }
     });
   </script>
 

@@ -289,7 +289,7 @@
           </div>
         </div>
 
-        <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm">
+        <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm" data-funnel-track data-funnel-event="Lead" data-funnel-name="get_help_conversational">
           <input type="hidden" name="form-name" value="get-help">
           <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
 
@@ -635,25 +635,16 @@
         document.getElementById('consentInput').value = 'yes';
 
         if (typeof gtag === 'function') gtag('event', 'lead_submit');
+        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'get_help_form_conversational' });
 
-        // POST to /api/lead -> server fires Meta CAPI + forwards to Netlify Forms,
-        // returns event_id; browser fires fbq Lead with that ID for dedup.
-        var contentName = 'get_help_form_conversational';
-        var payload = { content_name: contentName, source_url: window.location.href };
-        new FormData(form).forEach(function(v, k) { payload[k] = v; });
-
-        fetch('/api/lead', {
+        var formData = new FormData(form);
+        fetch('/', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        }).then(function(r) { return r.ok ? r.json() : null; }).then(function(data) {
-          if (typeof fbLead === 'function') {
-            var extra = data && data.event_id ? { eventID: data.event_id } : undefined;
-            fbLead(contentName, extra);
-          }
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString()
+        }).then(function() {
           window.location.href = '/thanks.html';
         }).catch(function() {
-          if (typeof fbLead === 'function') fbLead(contentName);
           form.submit();
         });
       }

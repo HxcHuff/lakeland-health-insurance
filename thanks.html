@@ -455,5 +455,16 @@ header .cta-button {
         });
     </script>
     <script src="/js/chat-widget.js" defer></script>
+    <script>
+      // Fire CompleteRegistration on conversion page — delayed so pixel + funnel are ready.
+      (function(){
+        function fire(){
+          if (typeof fbq === 'function') fbq('track', 'CompleteRegistration', { content_name: 'form_submit_conversion' });
+          if (window.LHI && typeof window.LHI.track === 'function') window.LHI.track('CompleteRegistration', { content_name: 'thanks_page' });
+        }
+        if (document.readyState === 'complete') setTimeout(fire, 4000);
+        else window.addEventListener('load', function(){ setTimeout(fire, 4000); });
+      })();
+    </script>
 </body>
 </html>

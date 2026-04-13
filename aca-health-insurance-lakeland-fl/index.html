@@ -410,7 +410,7 @@
           <p>Documentation may be required for Special Enrollment verification.</p>
           <p class="muted">If you live in Lakeland or anywhere in Polk County and need structured ACA enrollment guidance, start here.</p>
 
-          <form id="acaLakelandForm" name="aca-lakeland-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field">
+          <form id="acaLakelandForm" name="aca-lakeland-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" data-funnel-track data-funnel-event="Lead" data-funnel-name="local_seo_aca_form">
             <input type="hidden" name="form-name" value="aca-lakeland-lead">
             <p style="display:none;">
               <label>Do not fill this out: <input name="bot-field"></label>
@@ -487,31 +487,20 @@
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
+        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'aca_lakeland_lead_form' });
         if (typeof gtag === 'function') gtag('event', 'lead_submit', { form_name: 'aca_lakeland_lead' });
 
-        var contentName = 'aca_lakeland_lead_form';
         var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
-        if (isLocal) {
-          if (typeof fbLead === 'function') fbLead(contentName);
-          window.location.href = '/thanks.html';
-          return;
-        }
+        if (isLocal) { window.location.href = '/thanks.html'; return; }
 
-        var payload = { content_name: contentName, source_url: window.location.href };
-        new FormData(form).forEach(function(v, k) { payload[k] = v; });
-
-        fetch('/api/lead', {
+        var formData = new FormData(form);
+        fetch('/', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        }).then(function(r) { return r.ok ? r.json() : null; }).then(function(data) {
-          if (typeof fbLead === 'function') {
-            var extra = data && data.event_id ? { eventID: data.event_id } : undefined;
-            fbLead(contentName, extra);
-          }
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString()
+        }).then(function() {
           window.location.href = '/thanks.html';
         }).catch(function() {
-          if (typeof fbLead === 'function') fbLead(contentName);
           form.submit();
         });
       });
