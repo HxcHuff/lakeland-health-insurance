@@ -3,5 +3,9 @@ Allow: /
 Disallow: /test.html
 Disallow: /offline.html
 Disallow: /health-protector-guard/nav-snippet.html
+Disallow: /funnel-dashboard.html
+Disallow: /lp/campaign-funnel-map.html
+Disallow: /lp/campaign-strategy.html
+Disallow: /lp/facebook-ad-copy.html
 
 Sitemap: https://lakelandhealthinsurance.com/sitemap.xml
