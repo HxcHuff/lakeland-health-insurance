@@ -5,6 +5,23 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+# Context-scoped env vars — Meta Pixel + CAPI only fire in production.
+# Deploy previews and branch deploys are explicitly quiet so Events Manager
+# stays clean and attribution windows aren't polluted by preview traffic.
+[context.production.environment]
+  LHI_SITE_ENV = "production"
+
+[context.deploy-preview.environment]
+  LHI_SITE_ENV = "preview"
+  # Blank the CAPI token on previews as a defense-in-depth measure; the
+  # function also checks CONTEXT, but clearing the token guarantees no
+  # accidental server-side fires if the guard is ever removed.
+  META_CAPI_ACCESS_TOKEN = ""
+
+[context.branch-deploy.environment]
+  LHI_SITE_ENV = "branch"
+  META_CAPI_ACCESS_TOKEN = ""
+
 # /api/lead -> serverless function (Meta CAPI + Netlify Forms forward)
 [[redirects]]
   from = "/api/lead"

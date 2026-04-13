@@ -1,8 +1,43 @@
 /* Deferred analytics: GTM + Facebook Pixel loaded after page interactive */
+/* Pixel + GTM only fire on production host. Netlify deploy previews, branch
+   deploys, and localhost are explicitly excluded to keep Events Manager clean. */
 (function(){
   var loaded=false;
+
+  /* ---- Production-host gate -------------------------------------------- */
+  var host = (typeof location !== 'undefined' && location.hostname || '').toLowerCase();
+  var PROD_HOSTS = ['lakelandhealthinsurance.com', 'www.lakelandhealthinsurance.com'];
+  var IS_PROD = PROD_HOSTS.indexOf(host) !== -1;
+
+  /* Expose for other scripts (funnel.js, page-level fbq calls) */
+  window.__LHI_IS_PROD = IS_PROD;
+
+  /* Stub fbq as a no-op on non-prod hosts so any inline fbq('track', ...)
+     calls on page do not throw and do not fire. This also short-circuits the
+     real pixel snippet if it ever loads (guarded by `if(f.fbq)return;`). */
+  if (!IS_PROD && typeof window.fbq !== 'function') {
+    var stub = function(){};
+    stub.version = '2.0';
+    stub.queue = [];
+    stub.loaded = true;
+    stub.disableAutoConfig = true;
+    window.fbq = stub;
+    window._fbq = stub;
+  }
+
   function init(){
     if(loaded)return;loaded=true;
+
+    if (!IS_PROD) {
+      /* Skip GTM + FB Pixel entirely on non-prod hosts. Still load funnel.js
+         so internal event bus / Supabase logging can continue for QA. */
+      var fqa=document.createElement('script');
+      fqa.async=true;
+      fqa.src='/js/funnel.js';
+      document.head.appendChild(fqa);
+      return;
+    }
+
     /* Google Tag Manager */
     window.dataLayer=window.dataLayer||[];
     window.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
