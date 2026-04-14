@@ -9,6 +9,10 @@ const crypto = require('crypto');
 const PIXEL_ID = process.env.META_PIXEL_ID;
 const ACCESS_TOKEN = process.env.META_CAPI_ACCESS_TOKEN;
 const TEST_EVENT_CODE = process.env.META_CAPI_TEST_EVENT_CODE; // optional
+// Netlify injects CONTEXT=production|deploy-preview|branch-deploy|dev.
+// Only fire CAPI on the production context — previews/branches must stay quiet.
+const NETLIFY_CONTEXT = process.env.CONTEXT || 'production';
+const IS_PROD_CONTEXT = NETLIFY_CONTEXT === 'production';
 
 const sha256 = (s) =>
   crypto.createHash('sha256').update(String(s).trim().toLowerCase()).digest('hex');
@@ -49,10 +53,12 @@ exports.handler = async (event) => {
   const fbp = pickCookie(cookieHeader, '_fbp');
   const fbc = pickCookie(cookieHeader, '_fbc');
 
-  // Fire Meta Conversions API
+  // Fire Meta Conversions API — production context only
   let capiOk = false;
   let capiError = null;
-  if (PIXEL_ID && ACCESS_TOKEN) {
+  if (!IS_PROD_CONTEXT) {
+    capiError = `CAPI skipped: non-production Netlify context (${NETLIFY_CONTEXT})`;
+  } else if (PIXEL_ID && ACCESS_TOKEN) {
     try {
       const userData = {};
       if (clientIp) userData.client_ip_address = clientIp;

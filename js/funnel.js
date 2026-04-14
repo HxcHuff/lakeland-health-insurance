@@ -119,6 +119,9 @@
 
   function fireMetaPixel(name, props) {
     if (typeof w.fbq !== 'function') return;
+    /* Production-host gate — mirrors analytics.js. Prevents any pixel
+       events on Netlify deploy previews, branch deploys, or localhost. */
+    if (w.__LHI_IS_PROD === false) return;
     try { w.fbq('track', name, props || {}); } catch (e) {}
   }
 
