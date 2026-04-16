@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /test.html
 Disallow: /offline.html
 Disallow: /health-protector-guard/nav-snippet.html
 Disallow: /funnel-dashboard.html
