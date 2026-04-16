@@ -20,13 +20,10 @@
     <meta name="twitter:description" content="Welcome to Dude's Corner: Where we tell you what health insurance really means in plain English (and some colorful language). Age-gated, unfiltered, irreverent.">
     <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
     <link rel="icon" href="/favicon.ico" type="image/x-icon"><script>
+        // GA4 + GTM are loaded by /js/analytics.js (prod-gated). This stub keeps
+        // later gtag('event', ...) calls safe if they fire before analytics.js loads.
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-W45RMKHXV0', {
-            cookie_domain: 'auto',
-            cookie_flags: 'SameSite=None;Secure'
-        });
+        window.gtag = window.gtag || function(){dataLayer.push(arguments);};
     </script><script type="application/ld+json">
     {
       "@context": "https://schema.org",
