@@ -88,3 +88,11 @@
 /lp/gap/ /lp/gap/index.html 200
 /lp/aca /lp/aca/index.html 200
 /lp/aca/ /lp/aca/index.html 200
+
+# Clean alias for embedded quote engine
+/find-plans /search-engine-from-zip/dist/index.html 200
+/find-plans/ /search-engine-from-zip/dist/index.html 200
+
+# 301 the deleted orphan root page to the blog version
+/lost-job-health-insurance-lakeland.html /blog/lost-job-health-insurance-lakeland.html 301!
+/lost-job-health-insurance-lakeland /blog/lost-job-health-insurance-lakeland.html 301!
