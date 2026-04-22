@@ -447,18 +447,4 @@
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
-
-  <url>
-    <loc>https://lakelandhealthinsurance.com/newsletter/</loc>
-    <lastmod>2026-04-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://lakelandhealthinsurance.com/sms-policy.html</loc>
-    <lastmod>2026-04-15</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.50</priority>
-  </url>
 </urlset>
