@@ -22,14 +22,10 @@
     <meta name="twitter:title" content="Florida Medicare Guide (2026): 65+ Enrollment and Plan Strategy">
     <meta name="twitter:description" content="Florida Medicare planning for 65+ adults: enrollment timing, plan choices, and cost plus network checks.">
     <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/lakeland-downtown-professional-district.jpg"><script>
+        // GA4 + GTM are loaded by /js/analytics.js (prod-gated). This stub keeps
+        // later gtag('event', ...) calls safe if they fire before analytics.js loads.
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-W45RMKHXV0', {
-            cookie_domain: 'auto',
-            cookie_flags: 'SameSite=None;Secure'
-        });
+        window.gtag = window.gtag || function(){dataLayer.push(arguments);};
     </script><script type="application/ld+json">
     {
       "@context": "https://schema.org",

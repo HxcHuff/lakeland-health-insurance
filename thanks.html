@@ -2,12 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Google tag (gtag.js) --><script>
+    <!-- GA4 + GTM loaded by /js/analytics.js (prod-gated). Conversion events below still fire via dataLayer. --><script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-W45RMKHXV0');
-      
+      window.gtag = window.gtag || function(){dataLayer.push(arguments);};
+
       // Track form conversion
       gtag('event', 'conversion', {
         'event_category': 'Lead Generation',

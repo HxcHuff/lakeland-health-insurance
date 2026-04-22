@@ -22,14 +22,10 @@
     <meta name="twitter:title" content="How to Read Your Insurance Card Without Having a Panic Attack">
     <meta name="twitter:description" content="Decode your insurance card like a pro. No panic attacks required. Simple guide to understanding member IDs, copays, deductibles and more confusing insurance stuff.">
     <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg"><script>
+        // GA4 + GTM are loaded by /js/analytics.js (prod-gated). This stub keeps
+        // later gtag('event', ...) calls safe if they fire before analytics.js loads.
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-W45RMKHXV0', {
-            cookie_domain: 'auto',
-            cookie_flags: 'SameSite=None;Secure'
-        });
+        window.gtag = window.gtag || function(){dataLayer.push(arguments);};
     </script><script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -58,7 +54,7 @@
     
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1B2A4A">
-    <link rel="canonical" href="https://lakelandhealthinsurance.com/blog/how-to-read-insurance-card">
+    <link rel="canonical" href="https://lakelandhealthinsurance.com/blog/how-to-read-insurance-card.html">
     <meta name="robots" content="index, follow">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <style>

@@ -703,6 +703,238 @@
             line-height: 1.5;
         }
 
+        /* Confidence Meter */
+        .confidence-meter {
+            margin-bottom: 28px;
+        }
+        .confidence-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .confidence-label span {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-500);
+        }
+        .confidence-label .confidence-pct {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--blue);
+        }
+        .confidence-track {
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .confidence-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--gray-300), var(--blue));
+            transition: width 0.4s ease, background 0.4s ease;
+            width: 0;
+        }
+        .confidence-fill.full {
+            background: linear-gradient(90deg, var(--blue), var(--green));
+        }
+        .confidence-steps {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .confidence-chip {
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: var(--gray-100);
+            color: var(--gray-500);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+        .confidence-chip.done {
+            background: var(--sky);
+            color: var(--blue);
+            border-color: var(--blue);
+        }
+
+        /* Live Results Panel */
+        .live-results {
+            margin-top: 28px;
+            border-top: 2px solid var(--sky);
+            padding-top: 24px;
+            transition: opacity 0.3s ease;
+        }
+        .live-results.hidden {
+            display: none;
+        }
+        .live-price-hero {
+            text-align: center;
+            padding: 28px 20px;
+            border-radius: var(--radius-lg);
+            background: var(--sky-soft);
+            margin-bottom: 20px;
+            transition: background 0.4s ease;
+        }
+        .live-price-hero.zero-premium {
+            background: linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%);
+            border: 2px solid var(--green);
+        }
+        .live-price-hero .price-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .live-price-hero .price-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1.1;
+        }
+        .live-price-hero.zero-premium .price-value {
+            color: var(--green);
+        }
+        .live-price-hero .price-period {
+            font-size: 1.1rem;
+            color: var(--gray-500);
+            font-weight: 500;
+        }
+        .zero-badge {
+            display: none;
+            margin-top: 10px;
+            padding: 6px 16px;
+            background: var(--green);
+            color: white;
+            font-size: 0.82rem;
+            font-weight: 700;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            animation: pulse-badge 2s ease-in-out infinite;
+        }
+        .live-price-hero.zero-premium .zero-badge {
+            display: inline-block;
+        }
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Why This Price Breakdown */
+        .price-breakdown {
+            margin-top: 16px;
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        .breakdown-toggle {
+            width: 100%;
+            padding: 14px 20px;
+            background: var(--gray-50);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--navy);
+            transition: background 0.2s ease;
+        }
+        .breakdown-toggle:hover {
+            background: var(--gray-100);
+        }
+        .breakdown-toggle .arrow {
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+        .breakdown-toggle.open .arrow {
+            transform: rotate(180deg);
+        }
+        .breakdown-body {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.35s ease;
+        }
+        .breakdown-body.open {
+            padding: 20px;
+            max-height: 400px;
+        }
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 10px 0;
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            flex-wrap: wrap;
+            gap: 4px 12px;
+        }
+        .breakdown-row + .breakdown-row {
+            border-top: 1px solid var(--gray-100);
+        }
+        .breakdown-row .row-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .breakdown-row .row-label .row-icon {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
+        }
+        .breakdown-row .row-value {
+            font-weight: 700;
+            color: var(--navy);
+            white-space: nowrap;
+            text-align: right;
+        }
+        .breakdown-row.subsidy-row .row-value {
+            color: var(--green);
+        }
+        .breakdown-row.total-row {
+            border-top: 2px solid var(--navy);
+            padding-top: 14px;
+            margin-top: 4px;
+        }
+        .breakdown-row.total-row .row-label {
+            font-weight: 700;
+            color: var(--navy);
+        }
+        .breakdown-row.total-row .row-value {
+            font-size: 1.2rem;
+            color: var(--navy);
+        }
+
+        /* Status Messages (cliff, gap) */
+        .status-message {
+            padding: 20px;
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .status-message.gap {
+            background: var(--red-soft);
+            border-left: 4px solid var(--orange);
+        }
+        .status-message.cliff {
+            background: #FFFBEB;
+            border-left: 4px solid #F59E0B;
+        }
+        .status-message strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero-section {
@@ -736,6 +968,16 @@
             }
             .preview-item {
                 font-size: 0.9rem;
+            }
+            .live-price-hero .price-value {
+                font-size: 2.2rem;
+            }
+            .confidence-steps {
+                gap: 4px;
+            }
+            .confidence-chip {
+                font-size: 0.7rem;
+                padding: 2px 8px;
             }
         }
     </style>
@@ -807,7 +1049,37 @@
         <div class="container">
             <div class="calculator-card">
                 <h2>Estimate Your Subsidy</h2>
-                <p class="subtitle">Enter your household size and annual income to see your estimated premium tax credit.</p>
+                <p class="subtitle">Enter your details below &mdash; your estimate updates instantly as you type.</p>
+
+                <!-- Confidence Meter -->
+                <div class="confidence-meter">
+                    <div class="confidence-label">
+                        <span>Estimate Confidence</span>
+                        <span class="confidence-pct" id="confidence-pct">0%</span>
+                    </div>
+                    <div class="confidence-track">
+                        <div class="confidence-fill" id="confidence-fill"></div>
+                    </div>
+                    <div class="confidence-steps">
+                        <span class="confidence-chip" id="chip-age">Age</span>
+                        <span class="confidence-chip" id="chip-income">Income</span>
+                        <span class="confidence-chip" id="chip-household">Household</span>
+                        <span class="confidence-chip" id="chip-zip">ZIP</span>
+                        <span class="confidence-chip" id="chip-tobacco">Tobacco</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="applicant-age">Exact Age</label>
+                    <input type="number" id="applicant-age" placeholder="35" min="0" max="64" inputmode="numeric">
+                    <div class="help-text">Age of the primary applicant (0&ndash;64). Those 65+ should explore Medicare.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="annual-income">Exact Annual Income</label>
+                    <input type="text" id="annual-income" placeholder="$55,000" inputmode="numeric">
+                    <div class="help-text">Your total expected MAGI for 2026. Be as precise as possible.</div>
+                </div>
 
                 <div class="form-group">
                     <label for="household-size">Household Size</label>
@@ -827,21 +1099,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="applicant-age">Your Age</label>
-                    <input type="number" id="applicant-age" placeholder="35" min="0" max="64" inputmode="numeric">
-                    <div class="help-text">Age of the primary applicant. ACA Marketplace plans are available for those under 65.</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="annual-income">Annual Household Income</label>
-                    <input type="text" id="annual-income" placeholder="$55,000" inputmode="numeric">
-                    <div class="help-text">Your total expected modified adjusted gross income (MAGI) for 2026.</div>
-                </div>
-
-                <div class="form-group">
                     <label for="zip-code">ZIP Code</label>
-                    <input type="text" id="zip-code" placeholder="33801" maxlength="5" inputmode="numeric">
-                    <div class="help-text">Your ZIP code helps us find plans available in your area.</div>
+                    <input type="text" id="zip-code" placeholder="33805" maxlength="5" inputmode="numeric" value="33805">
+                    <div class="help-text">Defaults to Lakeland, FL. Change if you live elsewhere.</div>
                 </div>
 
                 <div class="form-group">
@@ -853,84 +1113,141 @@
                     <div class="help-text">Tobacco use can affect your premium but not your subsidy amount.</div>
                 </div>
 
-                <button class="calculate-btn" onclick="calculateSubsidy()">Calculate My Estimate</button>
-
-                <!-- Results -->
-                <div class="results-panel" id="results-panel">
-                    <h3>Your Estimated Results</h3>
-                    <div id="results-content"></div>
-
-                    <!-- Lead Capture Form -->
-                    <div class="lead-capture" id="lead-capture" style="display:none;">
-                        <div class="lead-capture-header">
-                            <div class="lead-icon">&#128203;</div>
-                            <h3>Get Your Personalized Savings Report</h3>
-                            <p>Your estimate above is a great start. Your personalized report includes:</p>
-                        </div>
-
-                        <div class="report-preview">
-                            <div class="preview-item">
-                                <span class="preview-check">&#10003;</span>
-                                <span>Exact ACA plans available in your ZIP code</span>
-                            </div>
-                            <div class="preview-item">
-                                <span class="preview-check">&#10003;</span>
-                                <span>Real premiums after your subsidy is applied</span>
-                            </div>
-                            <div class="preview-item">
-                                <span class="preview-check">&#10003;</span>
-                                <span>Side-by-side comparison of Bronze, Silver &amp; Gold options</span>
-                            </div>
-                            <div class="preview-item">
-                                <span class="preview-check">&#10003;</span>
-                                <span>Deductible &amp; out-of-pocket maximums for each plan</span>
-                            </div>
-                            <div class="preview-item">
-                                <span class="preview-check">&#10003;</span>
-                                <span>Cost-Sharing Reduction (CSR) eligibility check</span>
-                            </div>
-                        </div>
-
-                        <form name="subsidy-estimator-lead" method="POST" action="/thanks.html"
-                              data-netlify="true" data-netlify-honeypot="bot-field" id="leadCaptureForm">
-                            <input type="hidden" name="form-name" value="subsidy-estimator-lead">
-                            <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
-
-                            <input type="hidden" name="household_size" id="lead-household-size">
-                            <input type="hidden" name="annual_income" id="lead-income">
-                            <input type="hidden" name="age" id="lead-age">
-                            <input type="hidden" name="zip_code" id="lead-zip">
-                            <input type="hidden" name="tobacco_use" id="lead-tobacco">
-                            <input type="hidden" name="fpl_percent" id="lead-fpl-percent">
-                            <input type="hidden" name="benchmark_premium" id="lead-benchmark">
-                            <input type="hidden" name="estimated_monthly_subsidy" id="lead-subsidy">
-                            <input type="hidden" name="estimated_annual_savings" id="lead-annual-savings">
-                            <input type="hidden" name="expected_contribution" id="lead-contribution">
-                            <input type="hidden" name="_subject" value="New Lead: ACA Subsidy Estimator">
-                            <input type="hidden" name="source_page" value="/aca-subsidy-estimator/">
-
-                            <div class="lead-fields">
-                                <div class="form-group">
-                                    <label for="lead-name">First Name</label>
-                                    <input type="text" id="lead-name" name="first_name" placeholder="John" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="lead-phone">Phone Number</label>
-                                    <input type="tel" id="lead-phone" name="phone" placeholder="(863) 555-1234" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="lead-email">Email Address</label>
-                                    <input type="email" id="lead-email" name="email" placeholder="john@example.com" required>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="lead-submit-btn">Send My Free Report</button>
-
-                            <p class="lead-privacy">
-                                &#128274; Your info is safe. We'll reach out to review your personalized options &mdash; no spam, no obligation.
-                            </p>
-                        </form>
+                <!-- Live Results (replaces old button + results-panel) -->
+                <div class="live-results hidden" id="live-results">
+                    <!-- Price Hero -->
+                    <div class="live-price-hero" id="price-hero">
+                        <div class="price-label">Estimated Monthly Premium</div>
+                        <div class="price-value" id="price-value">$0</div>
+                        <div class="price-period">per month after subsidy</div>
+                        <div class="zero-badge">YOU LIKELY QUALIFY FOR $0 BRONZE PLANS</div>
                     </div>
+
+                    <!-- Status Messages (gap / cliff) -->
+                    <div id="status-message-area"></div>
+
+                    <!-- Why This Price Breakdown -->
+                    <div class="price-breakdown" id="price-breakdown">
+                        <button type="button" class="breakdown-toggle" id="breakdown-toggle">
+                            <span>Why this price?</span>
+                            <span class="arrow">&#9660;</span>
+                        </button>
+                        <div class="breakdown-body" id="breakdown-body">
+                            <div class="breakdown-row">
+                                <span class="row-label"><span class="row-icon">&#127981;</span> Base Premium, age <span id="bd-age">--</span></span>
+                                <span class="row-value" id="bd-base">--</span>
+                            </div>
+                            <div class="breakdown-row">
+                                <span class="row-label"><span class="row-icon">&#128200;</span> Your FPL Level</span>
+                                <span class="row-value" id="bd-fpl">--</span>
+                            </div>
+                            <div class="breakdown-row">
+                                <span class="row-label"><span class="row-icon">&#128176;</span> IRS Expected Contribution</span>
+                                <span class="row-value" id="bd-contribution">--</span>
+                            </div>
+                            <div class="breakdown-row subsidy-row">
+                                <span class="row-label"><span class="row-icon">&#127775;</span> Your Tax Credit (APTC)</span>
+                                <span class="row-value" id="bd-subsidy">--</span>
+                            </div>
+                            <div class="breakdown-row total-row">
+                                <span class="row-label">Your Estimated Cost</span>
+                                <span class="row-value" id="bd-total">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Result Notes -->
+                    <div class="result-note" id="result-note" style="margin-top:16px;">
+                        <strong>2026 Subsidy Change:</strong> Enhanced subsidies from the Inflation Reduction Act expired Dec 31, 2025. The 400% FPL subsidy cliff has returned. Uses IRS Rev. Proc. 2025-25 applicable percentages.
+                    </div>
+
+                    <!-- Disclaimer -->
+                    <div class="disclaimer-box" id="disclaimer-box">
+                        <strong>Disclaimer:</strong> This tool provides estimates only and does not guarantee eligibility or subsidy amounts.
+                        Actual premium tax credits depend on your MAGI, household composition, age, tobacco use, geographic rating area, and available benchmark Silver plan pricing.
+                        Uses 2025 Federal Poverty Guidelines for 2026 coverage year per IRS Rev. Proc. 2025-25.
+                        Florida has not expanded Medicaid under the ACA. For official eligibility, visit HealthCare.gov.
+                    </div>
+                </div>
+
+                <!-- Get Exact Quote CTA (replaces old calculate button) -->
+                <div id="cta-exact-quote" style="margin-top:28px;">
+                    <a href="/get-help/" class="calculate-btn" id="get-exact-quote-btn" style="display:block;text-align:center;text-decoration:none;color:var(--white);">
+                        Get Your Exact Quote Now
+                    </a>
+                </div>
+
+                <!-- Lead Capture Form -->
+                <div class="lead-capture" id="lead-capture" style="display:none;">
+                    <div class="lead-capture-header">
+                        <div class="lead-icon">&#128203;</div>
+                        <h3>Get Your Personalized Savings Report</h3>
+                        <p>Your estimate above is a great start. Your personalized report includes:</p>
+                    </div>
+
+                    <div class="report-preview">
+                        <div class="preview-item">
+                            <span class="preview-check">&#10003;</span>
+                            <span>Exact ACA plans available in your ZIP code</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-check">&#10003;</span>
+                            <span>Real premiums after your subsidy is applied</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-check">&#10003;</span>
+                            <span>Side-by-side comparison of Bronze, Silver &amp; Gold options</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-check">&#10003;</span>
+                            <span>Deductible &amp; out-of-pocket maximums for each plan</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-check">&#10003;</span>
+                            <span>Cost-Sharing Reduction (CSR) eligibility check</span>
+                        </div>
+                    </div>
+
+                    <form name="subsidy-estimator-lead" method="POST" action="/thanks.html"
+                          data-netlify="true" data-netlify-honeypot="bot-field" id="leadCaptureForm">
+                        <input type="hidden" name="form-name" value="subsidy-estimator-lead">
+                        <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+
+                        <input type="hidden" name="household_size" id="lead-household-size">
+                        <input type="hidden" name="annual_income" id="lead-income">
+                        <input type="hidden" name="age" id="lead-age">
+                        <input type="hidden" name="zip_code" id="lead-zip">
+                        <input type="hidden" name="tobacco_use" id="lead-tobacco">
+                        <input type="hidden" name="fpl_percent" id="lead-fpl-percent">
+                        <input type="hidden" name="benchmark_premium" id="lead-benchmark">
+                        <input type="hidden" name="estimated_monthly_subsidy" id="lead-subsidy">
+                        <input type="hidden" name="estimated_annual_savings" id="lead-annual-savings">
+                        <input type="hidden" name="expected_contribution" id="lead-contribution">
+                        <input type="hidden" name="estimated_net_premium" id="lead-net-premium">
+                        <input type="hidden" name="_subject" value="New Lead: ACA Subsidy Estimator">
+                        <input type="hidden" name="source_page" value="/aca-subsidy-estimator/">
+
+                        <div class="lead-fields">
+                            <div class="form-group">
+                                <label for="lead-name">First Name</label>
+                                <input type="text" id="lead-name" name="first_name" placeholder="John" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lead-phone">Phone Number</label>
+                                <input type="tel" id="lead-phone" name="phone" placeholder="(863) 555-1234" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lead-email">Email Address</label>
+                                <input type="email" id="lead-email" name="email" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="lead-submit-btn">Send My Free Report</button>
+
+                        <p class="lead-privacy">
+                            &#128274; Your info is safe. We'll reach out to review your personalized options &mdash; no spam, no obligation.
+                        </p>
+                    </form>
                 </div>
             </div>
         </div>
@@ -1001,26 +1318,74 @@
     </a>
 
     <script>
-        // 2026 Federal Poverty Level guidelines
-        var FPL_2026 = {
-            1: 15650,
-            2: 21150,
-            3: 26650,
-            4: 32150,
-            5: 37650,
-            6: 43150,
-            7: 48650,
-            8: 54150
-        };
+        // =====================================================================
+        // ACA PRECISION CALCULATOR ENGINE v2.0
+        // Real CMS 3:1 age-curve | FPL-based APTC | Real-time updates
+        // =====================================================================
+
+        // -- 2026 Federal Poverty Level guidelines (48 contiguous states + DC) --
+        var FPL_2026 = { 1:15650, 2:21150, 3:26650, 4:32150, 5:37650, 6:43150, 7:48650, 8:54150 };
         var FPL_ADDITIONAL = 5500;
 
-        // Age-adjusted benchmark Silver plan premium
-        var BASE_RATE_21 = 310;
+        // -- CMS Age-Rating Curve (Federal Default, 45 discrete factors) --
+        // Source: 45 CFR 147.102 — standard 3:1 age curve used by all FFM states
+        // Index 0 = age 0-20 (all 0.765), then age 21 = index 1, age 22 = index 2, etc.
+        var CMS_AGE_FACTORS = [
+            0.765,  // 0-20
+            1.000,  // 21
+            1.000,  // 22
+            1.000,  // 23
+            1.000,  // 24
+            1.004,  // 25
+            1.024,  // 26
+            1.048,  // 27
+            1.087,  // 28
+            1.119,  // 29
+            1.135,  // 30
+            1.159,  // 31
+            1.183,  // 32
+            1.198,  // 33
+            1.214,  // 34
+            1.222,  // 35
+            1.230,  // 36
+            1.238,  // 37
+            1.246,  // 38
+            1.262,  // 39
+            1.278,  // 40
+            1.302,  // 41
+            1.325,  // 42
+            1.357,  // 43
+            1.397,  // 44
+            1.444,  // 45
+            1.500,  // 46
+            1.563,  // 47
+            1.635,  // 48
+            1.706,  // 49
+            1.786,  // 50
+            1.865,  // 51
+            1.952,  // 52
+            2.040,  // 53
+            2.135,  // 54
+            2.230,  // 55
+            2.333,  // 56
+            2.437,  // 57
+            2.548,  // 58
+            2.603,  // 59
+            2.714,  // 60
+            2.810,  // 61
+            2.873,  // 62
+            2.952,  // 63
+            3.000   // 64
+        ];
+
+        // -- Benchmark Silver plan base rate for a 21-year-old in ZIP 33805 --
+        var BASE_RATE_21 = 450;
 
         function getAgeFactor(age) {
-            if (age < 21) return 0.765;
-            if (age > 64) return 3.0;
-            return 1.0 + (age - 21) * (2.0 / 43);
+            if (age < 0) return CMS_AGE_FACTORS[0];
+            if (age <= 20) return CMS_AGE_FACTORS[0]; // 0.765
+            if (age >= 64) return CMS_AGE_FACTORS[44]; // 3.000
+            return CMS_AGE_FACTORS[age - 20]; // index 1 = age 21
         }
 
         function getBenchmarkPremium(age) {
@@ -1028,42 +1393,243 @@
         }
 
         function getFPL(householdSize) {
-            if (householdSize <= 8) {
-                return FPL_2026[householdSize];
-            }
+            if (householdSize <= 8) return FPL_2026[householdSize];
             return FPL_2026[8] + (householdSize - 8) * FPL_ADDITIONAL;
         }
 
-        // 2026 Applicable Percentages from IRS Rev. Proc. 2025-25
+        // -- 2026 Applicable Percentages (IRS Rev. Proc. 2025-25) --
+        // Subsidy cliff returned: no APTC above 400% FPL
         var APPLICABLE_PERCENTAGES = [
-            { min: 1.00, max: 1.33, initialPct: 0.021, finalPct: 0.021 },
+            { min: 1.00, max: 1.33, initialPct: 0.021,  finalPct: 0.021  },
             { min: 1.33, max: 1.50, initialPct: 0.0314, finalPct: 0.0419 },
-            { min: 1.50, max: 2.00, initialPct: 0.0419, finalPct: 0.066 },
-            { min: 2.00, max: 2.50, initialPct: 0.066, finalPct: 0.0844 },
+            { min: 1.50, max: 2.00, initialPct: 0.0419, finalPct: 0.066  },
+            { min: 2.00, max: 2.50, initialPct: 0.066,  finalPct: 0.0844 },
             { min: 2.50, max: 3.00, initialPct: 0.0844, finalPct: 0.0996 },
             { min: 3.00, max: 4.01, initialPct: 0.0996, finalPct: 0.0996 }
         ];
 
-        // Get applicable percentage using IRS brackets with linear interpolation
         function getApplicablePercentage(fplPercent) {
             var ratio = fplPercent / 100;
             for (var i = 0; i < APPLICABLE_PERCENTAGES.length; i++) {
-                var bracket = APPLICABLE_PERCENTAGES[i];
-                if (ratio >= bracket.min && ratio < bracket.max) {
-                    var position = (ratio - bracket.min) / (bracket.max - bracket.min);
-                    return (bracket.initialPct + position * (bracket.finalPct - bracket.initialPct)) * 100;
+                var b = APPLICABLE_PERCENTAGES[i];
+                if (ratio >= b.min && ratio < b.max) {
+                    var pos = (ratio - b.min) / (b.max - b.min);
+                    return (b.initialPct + pos * (b.finalPct - b.initialPct)) * 100;
                 }
             }
-            return null; // Over 400% FPL - no subsidy (cliff returned in 2026)
+            return null; // Over 400% FPL
         }
 
-        function formatCurrency(amount) {
+        function fmt(amount) {
             return '$' + Math.round(amount).toLocaleString('en-US');
         }
 
         function parseIncome(value) {
             return parseInt(value.replace(/[^0-9]/g, ''), 10) || 0;
         }
+
+        // =====================================================================
+        // CONFIDENCE METER
+        // =====================================================================
+        function updateConfidence() {
+            var age = document.getElementById('applicant-age').value.trim();
+            var income = parseIncome(document.getElementById('annual-income').value);
+            var zip = document.getElementById('zip-code').value.trim();
+            var household = document.getElementById('household-size').value;
+            var tobaccoBtn = document.querySelector('#tobacco-toggle .toggle-btn.active');
+
+            var checks = {
+                age: age !== '' && !isNaN(parseInt(age, 10)) && parseInt(age, 10) >= 0 && parseInt(age, 10) <= 64,
+                income: income > 0,
+                household: household !== '',
+                zip: /^\d{5}$/.test(zip),
+                tobacco: tobaccoBtn !== null
+            };
+
+            var filled = 0;
+            var total = 5;
+            var keys = ['age', 'income', 'household', 'zip', 'tobacco'];
+            keys.forEach(function(k) {
+                var chip = document.getElementById('chip-' + k);
+                if (checks[k]) {
+                    filled++;
+                    chip.classList.add('done');
+                } else {
+                    chip.classList.remove('done');
+                }
+            });
+
+            var pct = Math.round((filled / total) * 100);
+            var fill = document.getElementById('confidence-fill');
+            fill.style.width = pct + '%';
+            fill.classList.toggle('full', pct === 100);
+            document.getElementById('confidence-pct').textContent = pct + '%';
+
+            return checks.age && checks.income;
+        }
+
+        // =====================================================================
+        // REAL-TIME CALCULATION ENGINE
+        // =====================================================================
+        var _calcDebounce = null;
+
+        function liveCalculate() {
+            clearTimeout(_calcDebounce);
+            _calcDebounce = setTimeout(runCalculation, 150);
+        }
+
+        function runCalculation() {
+            var hasMinimum = updateConfidence();
+            var liveResults = document.getElementById('live-results');
+            var statusArea = document.getElementById('status-message-area');
+            var priceHero = document.getElementById('price-hero');
+            var breakdownEl = document.getElementById('price-breakdown');
+            var resultNote = document.getElementById('result-note');
+            var leadCapture = document.getElementById('lead-capture');
+
+            if (!hasMinimum) {
+                liveResults.classList.add('hidden');
+                if (leadCapture) leadCapture.style.display = 'none';
+                return;
+            }
+
+            var age = parseInt(document.getElementById('applicant-age').value, 10);
+            var income = parseIncome(document.getElementById('annual-income').value);
+            var householdSize = parseInt(document.getElementById('household-size').value, 10);
+            var zip = document.getElementById('zip-code').value.trim();
+            var tobaccoBtn = document.querySelector('#tobacco-toggle .toggle-btn.active');
+            var tobacco = tobaccoBtn ? tobaccoBtn.getAttribute('data-value') : 'no';
+
+            var fpl = getFPL(householdSize);
+            var fplPercent = (income / fpl) * 100;
+            var benchmarkMonthly = getBenchmarkPremium(age);
+            var tobaccoSurcharge = (tobacco === 'yes') ? benchmarkMonthly * 0.5 : 0;
+
+            liveResults.classList.remove('hidden');
+            statusArea.innerHTML = '';
+
+            // -- COVERAGE GAP (below 100% FPL in Florida) --
+            if (fplPercent < 100) {
+                priceHero.style.display = 'none';
+                breakdownEl.style.display = 'none';
+                resultNote.style.display = 'none';
+                statusArea.innerHTML =
+                    '<div class="status-message gap">' +
+                    '<strong>Coverage Gap (' + Math.round(fplPercent) + '% FPL)</strong>' +
+                    'Your income is below 100% of the Federal Poverty Level. Florida has not expanded Medicaid, ' +
+                    'so you may fall into a coverage gap. <strong>You may still have options</strong> &mdash; ' +
+                    'contact David to explore alternatives like fixed indemnity or short-term plans.' +
+                    '</div>';
+                populateLeadFields(householdSize, income, age, zip, tobacco, fplPercent, benchmarkMonthly, 0, 0, 0, benchmarkMonthly);
+                if (leadCapture) leadCapture.style.display = 'block';
+                return;
+            }
+
+            // -- SUBSIDY CLIFF (above 400% FPL) --
+            if (fplPercent > 400) {
+                var fullPremium = benchmarkMonthly + tobaccoSurcharge;
+                priceHero.style.display = '';
+                priceHero.classList.remove('zero-premium');
+                breakdownEl.style.display = '';
+                resultNote.style.display = '';
+                document.getElementById('price-value').textContent = fmt(fullPremium);
+                statusArea.innerHTML =
+                    '<div class="status-message cliff">' +
+                    '<strong>Above Subsidy Threshold (' + Math.round(fplPercent) + '% FPL)</strong>' +
+                    'Your income exceeds 400% FPL. The enhanced subsidies expired Dec 31, 2025 &mdash; ' +
+                    'the subsidy cliff has returned and you would pay full premium. ' +
+                    '<strong>We can still help you find the most cost-effective plan.</strong>' +
+                    '</div>';
+                updateBreakdown(age, benchmarkMonthly, fplPercent, 0, 0, fullPremium);
+                populateLeadFields(householdSize, income, age, zip, tobacco, fplPercent, benchmarkMonthly, 0, 0, 0, fullPremium);
+                if (leadCapture) leadCapture.style.display = 'block';
+                return;
+            }
+
+            // -- SUBSIDY ELIGIBLE (100-400% FPL) --
+            var applicablePct = getApplicablePercentage(fplPercent);
+            var expectedContribAnnual = income * (applicablePct / 100);
+            var expectedContribMonthly = expectedContribAnnual / 12;
+            var subsidyMonthly = Math.max(0, benchmarkMonthly - expectedContribMonthly);
+            var subsidyAnnual = subsidyMonthly * 12;
+            var netPremium = Math.max(0, benchmarkMonthly + tobaccoSurcharge - subsidyMonthly);
+
+            priceHero.style.display = '';
+            breakdownEl.style.display = '';
+            resultNote.style.display = '';
+
+            // Update price hero — flag "near-zero" when a Bronze plan would likely be $0
+            document.getElementById('price-value').textContent = fmt(netPremium);
+            var isNearZero = netPremium < 50;
+            priceHero.classList.toggle('zero-premium', isNearZero);
+
+            // Update breakdown
+            updateBreakdown(age, benchmarkMonthly, fplPercent, applicablePct, subsidyMonthly, netPremium);
+
+            // Populate lead hidden fields
+            populateLeadFields(householdSize, income, age, zip, tobacco, fplPercent, benchmarkMonthly,
+                               subsidyMonthly, subsidyAnnual, expectedContribMonthly, netPremium);
+
+            // Show lead capture
+            if (leadCapture) leadCapture.style.display = 'block';
+
+            // Store for external use
+            window._subsidyResults = {
+                householdSize: householdSize, income: income, age: age, zip: zip,
+                tobacco: tobacco, fplPercent: Math.round(fplPercent),
+                benchmarkPremium: Math.round(benchmarkMonthly),
+                estimatedSubsidyMonthly: Math.round(subsidyMonthly),
+                estimatedSubsidyAnnual: Math.round(subsidyAnnual),
+                expectedContributionMonthly: Math.round(expectedContribMonthly),
+                netPremium: Math.round(netPremium),
+                ageFactor: getAgeFactor(age)
+            };
+
+            // Fire analytics once per complete calculation
+            if (typeof gtag === 'function') {
+                gtag('event', 'subsidy_calculator_complete', {
+                    fpl_percent: Math.round(fplPercent),
+                    estimated_subsidy: Math.round(subsidyMonthly),
+                    net_premium: Math.round(netPremium)
+                });
+            }
+        }
+
+        function updateBreakdown(age, benchmark, fplPct, applPct, subsidy, net) {
+            document.getElementById('bd-age').textContent = age;
+            document.getElementById('bd-base').textContent = fmt(benchmark) + '/mo';
+            document.getElementById('bd-fpl').textContent = Math.round(fplPct) + '% FPL';
+            document.getElementById('bd-contribution').textContent = applPct ? applPct.toFixed(2) + '% of income' : 'N/A (above 400%)';
+            document.getElementById('bd-subsidy').textContent = subsidy > 0 ? '-' + fmt(subsidy) + '/mo' : '$0';
+            document.getElementById('bd-total').textContent = fmt(net) + '/mo';
+        }
+
+        function populateLeadFields(hs, inc, age, zip, tob, fpl, bench, sub, subAnnual, contrib, net) {
+            document.getElementById('lead-household-size').value = hs;
+            document.getElementById('lead-income').value = inc;
+            document.getElementById('lead-age').value = age;
+            document.getElementById('lead-zip').value = zip;
+            document.getElementById('lead-tobacco').value = tob;
+            document.getElementById('lead-fpl-percent').value = Math.round(fpl);
+            document.getElementById('lead-benchmark').value = Math.round(bench);
+            document.getElementById('lead-subsidy').value = Math.round(sub);
+            document.getElementById('lead-annual-savings').value = Math.round(subAnnual);
+            document.getElementById('lead-contribution').value = Math.round(contrib);
+            document.getElementById('lead-net-premium').value = Math.round(net);
+
+            // Update "Get Exact Quote" link with query params
+            var btn = document.getElementById('get-exact-quote-btn');
+            if (btn) {
+                var params = '?age=' + age + '&income=' + inc + '&household=' + hs +
+                             '&zip=' + zip + '&tobacco=' + tob + '&fpl=' + Math.round(fpl) +
+                             '&subsidy=' + Math.round(sub) + '&premium=' + Math.round(net);
+                btn.href = '/get-help/' + params;
+            }
+        }
+
+        // =====================================================================
+        // EVENT LISTENERS — real-time updates
+        // =====================================================================
 
         // Format income input as user types
         document.getElementById('annual-income').addEventListener('input', function(e) {
@@ -1073,155 +1639,15 @@
             } else {
                 e.target.value = '';
             }
+            liveCalculate();
         });
 
-        function calculateSubsidy() {
-            var householdSize = parseInt(document.getElementById('household-size').value, 10);
-            var income = parseIncome(document.getElementById('annual-income').value);
-            var age = parseInt(document.getElementById('applicant-age').value, 10);
-            var zip = document.getElementById('zip-code').value.trim();
-            var tobaccoBtn = document.querySelector('#tobacco-toggle .toggle-btn.active');
-            var tobacco = tobaccoBtn ? tobaccoBtn.getAttribute('data-value') : 'no';
-
-            if (isNaN(age) || age < 0 || age > 64) {
-                alert('Please enter a valid age (0-64). Those 65+ should explore Medicare options.');
-                return;
-            }
-            if (income <= 0) {
-                alert('Please enter a valid annual household income.');
-                return;
-            }
-            if (!/^\d{5}$/.test(zip)) {
-                alert('Please enter a valid 5-digit ZIP code.');
-                return;
-            }
-
-            var fpl = getFPL(householdSize);
-            var fplPercent = (income / fpl) * 100;
-            var applicablePct = getApplicablePercentage(fplPercent);
-            var expectedContributionAnnual = income * (applicablePct / 100);
-            var expectedContributionMonthly = expectedContributionAnnual / 12;
-            var benchmarkMonthly = getBenchmarkPremium(age);
-            var benchmarkAnnual = benchmarkMonthly * 12;
-            var estimatedSubsidyMonthly = Math.max(0, benchmarkMonthly - expectedContributionMonthly);
-            var estimatedSubsidyAnnual = estimatedSubsidyMonthly * 12;
-
-            var resultsPanel = document.getElementById('results-panel');
-            var resultsContent = document.getElementById('results-content');
-            var html = '';
-
-            // Below 100% FPL - Florida coverage gap
-            if (fplPercent < 100) {
-                html += '<div class="no-subsidy-msg">';
-                html += '<strong>Coverage Gap</strong><br>';
-                html += 'Your income is below 100% of the Federal Poverty Level (' + Math.round(fplPercent) + '% FPL). ';
-                html += 'Florida has not expanded Medicaid, so you may fall into a coverage gap &mdash; not eligible for Medicaid or Marketplace subsidies at this income level. ';
-                html += '<strong>You may still have options.</strong> Contact David to explore alternatives.';
-                html += '</div>';
-            } else if (fplPercent > 400) {
-                // Over 400% FPL - subsidy cliff returned in 2026
-                html += '<div class="result-grid">';
-                html += '<div class="result-item">';
-                html += '<div class="result-label">FPL Percentage</div>';
-                html += '<div class="result-value">' + Math.round(fplPercent) + '%</div>';
-                html += '</div>';
-                html += '</div>';
-                html += '<div class="result-note" style="border-left-color: #f39c12;">';
-                html += '<strong>Above Subsidy Threshold</strong><br>';
-                html += 'Your income exceeds 400% of the Federal Poverty Level. With the enhanced subsidies from the Inflation Reduction Act expired for 2026, the subsidy cliff has returned &mdash; you would pay full premium. ';
-                html += '<strong>We can still help you find the most cost-effective plan.</strong>';
-                html += '</div>';
-            } else {
-                html += '<div class="result-grid">';
-
-                // FPL Percentage
-                html += '<div class="result-item">';
-                html += '<div class="result-label">FPL Percentage</div>';
-                html += '<div class="result-value">' + Math.round(fplPercent) + '%</div>';
-                html += '</div>';
-
-                // Benchmark Premium
-                html += '<div class="result-item">';
-                html += '<div class="result-label">Benchmark Premium (Age ' + age + ')</div>';
-                html += '<div class="result-value">' + formatCurrency(benchmarkMonthly) + '/mo</div>';
-                html += '</div>';
-
-                // Expected Contribution
-                html += '<div class="result-item">';
-                html += '<div class="result-label">Your Expected Contribution</div>';
-                html += '<div class="result-value">' + formatCurrency(expectedContributionMonthly) + '/mo</div>';
-                html += '<div class="result-detail">(' + applicablePct.toFixed(2) + '% of income)</div>';
-                html += '</div>';
-
-                // Estimated Monthly Subsidy
-                html += '<div class="result-item highlight">';
-                html += '<div class="result-label">Estimated Monthly Subsidy</div>';
-                html += '<div class="result-value">' + formatCurrency(estimatedSubsidyMonthly) + '/mo</div>';
-                html += '</div>';
-
-                // Estimated Annual Savings
-                html += '<div class="result-item highlight">';
-                html += '<div class="result-label">Estimated Annual Savings</div>';
-                html += '<div class="result-value">' + formatCurrency(estimatedSubsidyAnnual) + '/yr</div>';
-                html += '</div>';
-
-                html += '</div>'; // end result-grid
-
-                html += '<div class="result-note">';
-                html += '<strong>2026 Subsidy Change:</strong> Enhanced subsidies from the Inflation Reduction Act expired Dec 31, 2025. The 400% FPL subsidy cliff has returned. ';
-                html += 'Your actual savings depend on benchmark Silver plan pricing in your area. Uses IRS Rev. Proc. 2025-25 applicable percentages.';
-                html += '</div>';
-            }
-
-            // Disclaimer
-            html += '<div class="disclaimer-box">';
-            html += '<strong>Disclaimer:</strong> This tool provides estimates only and does not guarantee eligibility or subsidy amounts. ';
-            html += 'Actual premium tax credits depend on your MAGI, household composition, age, tobacco use, geographic rating area, and available benchmark Silver plan pricing. ';
-            html += 'This calculator uses 2025 Federal Poverty Guidelines for 2026 coverage year eligibility per IRS Rev. Proc. 2025-25. ';
-            html += 'The estimate above uses an age-adjusted benchmark premium of ' + formatCurrency(benchmarkMonthly) + '/month based on age ' + age + '. ';
-            html += 'Florida has not expanded Medicaid under the ACA. For official eligibility, visit HealthCare.gov.';
-            html += '</div>';
-
-            resultsContent.innerHTML = html;
-            resultsPanel.classList.add('visible');
-            resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-            // Store results and populate lead capture hidden fields
-            window._subsidyResults = {
-                householdSize: householdSize,
-                income: income,
-                age: age,
-                zip: zip,
-                tobacco: tobacco,
-                fplPercent: Math.round(fplPercent),
-                benchmarkPremium: Math.round(benchmarkMonthly),
-                estimatedSubsidyMonthly: Math.round(estimatedSubsidyMonthly),
-                estimatedSubsidyAnnual: Math.round(estimatedSubsidyAnnual),
-                expectedContributionMonthly: Math.round(expectedContributionMonthly)
-            };
-
-            var leadCapture = document.getElementById('lead-capture');
-            if (leadCapture) {
-                leadCapture.style.display = 'block';
-                document.getElementById('lead-household-size').value = householdSize;
-                document.getElementById('lead-income').value = income;
-                document.getElementById('lead-age').value = age;
-                document.getElementById('lead-zip').value = zip;
-                document.getElementById('lead-tobacco').value = tobacco;
-                document.getElementById('lead-fpl-percent').value = Math.round(fplPercent);
-                document.getElementById('lead-benchmark').value = Math.round(benchmarkMonthly);
-                document.getElementById('lead-subsidy').value = Math.round(estimatedSubsidyMonthly);
-                document.getElementById('lead-annual-savings').value = Math.round(estimatedSubsidyAnnual);
-                document.getElementById('lead-contribution').value = Math.round(expectedContributionMonthly);
-            }
-
-            if (typeof gtag === 'function') {
-                gtag('event', 'subsidy_calculator_complete', {
-                    fpl_percent: Math.round(fplPercent),
-                    estimated_subsidy: Math.round(estimatedSubsidyMonthly)
-                });
-            }
-        }
+        document.getElementById('applicant-age').addEventListener('input', liveCalculate);
+        document.getElementById('household-size').addEventListener('change', liveCalculate);
+        document.getElementById('zip-code').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 5);
+            liveCalculate();
+        });
 
         // Tobacco toggle handler
         document.getElementById('tobacco-toggle').addEventListener('click', function(e) {
@@ -1230,12 +1656,19 @@
                     btn.classList.remove('active');
                 });
                 e.target.classList.add('active');
+                liveCalculate();
             }
         });
 
-        // ZIP code input formatter
-        document.getElementById('zip-code').addEventListener('input', function(e) {
-            e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 5);
+        // "Why this price?" toggle
+        document.getElementById('breakdown-toggle').addEventListener('click', function() {
+            this.classList.toggle('open');
+            document.getElementById('breakdown-body').classList.toggle('open');
+        });
+
+        // Initialize confidence meter on load (household + tobacco default = some chips lit)
+        document.addEventListener('DOMContentLoaded', function() {
+            updateConfidence();
         });
 
         // Lead form submission: POST to /api/lead -> server fires Meta CAPI
