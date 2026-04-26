@@ -31,6 +31,37 @@
   var SUPABASE_ANON = 'sb_publishable_4iawXiwpNvk04SziN4Bs5w_ECZ7qRPl';
   var TABLE = 'funnel_events';
 
+  /* SHA-256 helper. Returns a Promise<string> of the lowercase hex digest.
+     Used for hashing PII before it goes to Meta (Advanced Matching) and
+     before it goes to Supabase via funnel_events. */
+  function sha256(str) {
+    if (!str) return Promise.resolve(null);
+    var s = String(str).trim().toLowerCase();
+    var buf = new TextEncoder().encode(s);
+    return crypto.subtle.digest('SHA-256', buf).then(function (hashBuf) {
+      var bytes = new Uint8Array(hashBuf);
+      var hex = '';
+      for (var i = 0; i < bytes.length; i++) {
+        hex += bytes[i].toString(16).padStart(2, '0');
+      }
+      return hex;
+    });
+  }
+
+  /* Normalize phone: digits only, prepend US country code if missing. */
+  function normPhone(p) {
+    if (!p) return null;
+    var d = String(p).replace(/\D/g, '');
+    if (d.length === 10) d = '1' + d;
+    return d || null;
+  }
+
+  /* eventID generator — used for CAPI dedup. Same eventID must be sent
+     from both browser pixel and server-side CAPI for Meta to dedupe. */
+  function makeEventID() {
+    return 'lhi_' + Date.now() + '_' + Math.random().toString(36).slice(2, 12);
+  }
+
   function pageType() {
     var p = (w.location.pathname || '/').toLowerCase();
     if (p.indexOf('/lp/aca') === 0) return 'lp_aca';
@@ -117,12 +148,14 @@
     } catch (e) { /* swallow */ }
   }
 
-  function fireMetaPixel(name, props) {
+  function fireMetaPixel(name, props, eventID) {
     if (typeof w.fbq !== 'function') return;
     /* Production-host gate — mirrors analytics.js. Prevents any pixel
        events on Netlify deploy previews, branch deploys, or localhost. */
     if (w.__LHI_IS_PROD === false) return;
-    try { w.fbq('track', name, props || {}); } catch (e) {}
+    try {
+      w.fbq('track', name, props || {}, eventID ? { eventID: eventID } : undefined);
+    } catch (e) {}
   }
 
   function fireGA(name, props) {
@@ -136,13 +169,37 @@
   function identify(attrs) {
     identity = Object.assign({}, identity, attrs || {});
     try { cookie('lhi_id', JSON.stringify(identity), 365); } catch (e) {}
+
+    /* Push hashed identifiers to Meta Pixel as Advanced Matching.
+       Boosts Event Match Quality. fbq('set','userData',...) applies to
+       all subsequent track() calls in this session. */
+    if (w.__LHI_IS_PROD === false) return;
+    if (typeof w.fbq !== 'function') return;
+
+    var emailRaw = identity.email || null;
+    var phoneRaw = normPhone(identity.phone);
+
+    Promise.all([
+      sha256(emailRaw),
+      phoneRaw ? sha256(phoneRaw) : Promise.resolve(null)
+    ]).then(function (vals) {
+      var userData = {};
+      if (vals[0]) userData.em = vals[0];
+      if (vals[1]) userData.ph = vals[1];
+      if (identity.zip) userData.zp = identity.zip;
+      if (Object.keys(userData).length) {
+        try { w.fbq('set', 'userData', userData); } catch (e) {}
+      }
+    });
   }
 
   function track(name, props) {
     props = props || {};
     var pt = pageType();
+    var eventID = makeEventID();
     var payload = {
       event_name: name,
+      event_id: eventID,
       page_type: pt,
       page_path: w.location.pathname,
       page_url: w.location.href,
@@ -157,8 +214,8 @@
       fired_at: new Date().toISOString()
     };
 
-    // 1. Meta Pixel
-    fireMetaPixel(name, Object.assign({ page_type: pt }, props));
+    // 1. Meta Pixel — eventID enables CAPI dedup when server-side mirror lands
+    fireMetaPixel(name, Object.assign({ page_type: pt }, props), eventID);
 
     // 2. GTM / GA4 dataLayer
     fireGA(name, { page_type: pt, event_params: props });

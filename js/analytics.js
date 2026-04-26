@@ -55,12 +55,8 @@
     f.src='/js/funnel.js';
     document.head.appendChild(f);
   }
-  /* Load on first user interaction or after 3.5s, whichever comes first */
-  var events=['mouseover','touchstart','scroll','keydown'];
-  function onInteract(){
-    events.forEach(function(e){document.removeEventListener(e,onInteract,{passive:true})});
-    init();
-  }
-  events.forEach(function(e){document.addEventListener(e,onInteract,{passive:true})});
-  setTimeout(init,3500);
+  /* Pixel + GTM fire on script load. analytics.js is already <script defer>,
+     so this runs after HTML parse but well before any interaction-or-timeout
+     gate would. Ensures bounce traffic from paid ads is still tracked. */
+  init();
 })();
