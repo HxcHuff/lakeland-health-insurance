@@ -3,7 +3,7 @@
  * Single source of truth for pixel + GA4 + Supabase event tracking.
  *
  * Fires simultaneously to:
- *   - Meta Pixel (1822900971216472)
+ *   - Meta Pixel (1480756087079484)
  *   - Google Tag Manager (GTM-W6MZ7XT6)
  *   - Supabase funnel_events table (via publishable key)
  *
