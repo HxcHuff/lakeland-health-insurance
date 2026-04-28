@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Insurance Carriers | ACA Plans in Lakeland &amp; Polk County | Lakeland Health Insurance</title>
-  <meta name="description" content="Browse ACA insurance carriers available in Lakeland and Polk County, Florida for 2026. Carrier-specific enrollment guides, benefits breakdowns, and playbooks.">
-  <meta name="keywords" content="ACA carriers Lakeland FL, health insurance carriers Polk County, Florida Blue, UnitedHealthcare, Oscar, Ambetter, Molina, Wellpoint">
+  <meta name="description" content="Browse ACA, Medicare, and supplemental insurance carriers serving Lakeland and Polk County, Florida for 2026. Carrier-specific enrollment guides, contact info, and playbooks.">
+  <meta name="keywords" content="ACA carriers Lakeland FL, health insurance carriers Polk County, Florida Blue, UnitedHealthcare, Oscar, Ambetter, Molina, Wellpoint, Medicare carriers Florida">
   <link rel="canonical" href="https://lakelandhealthinsurance.com/carriers/">
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Insurance Carriers | ACA Plans in Lakeland & Polk County">
-  <meta property="og:description" content="Browse ACA insurance carriers available in Lakeland and Polk County for 2026. Carrier-specific guides and playbooks.">
+  <meta property="og:title" content="Insurance Carriers | ACA Plans in Lakeland &amp; Polk County">
+  <meta property="og:description" content="Browse ACA, Medicare, and supplemental carriers serving Polk County for 2026. Carrier-specific guides and playbooks.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://lakelandhealthinsurance.com/carriers/">
   <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Insurance Carriers | ACA Plans in Lakeland & Polk County">
-  <meta name="twitter:description" content="Browse ACA insurance carriers available in Lakeland and Polk County for 2026.">
+  <meta name="twitter:title" content="Insurance Carriers | ACA Plans in Lakeland &amp; Polk County">
+  <meta name="twitter:description" content="Browse ACA, Medicare, and supplemental carriers serving Polk County for 2026.">
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
 
   <script type="application/ld+json">
   {
@@ -49,7 +52,6 @@
   }
   </script>
 
-  <!-- Facebook Pixel -->
   <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -65,819 +67,860 @@
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=296757110861706&ev=PageView&noscript=1"/></noscript>
 
   <style>
-    :root { --navy:#1B2A4A; --gold:#D4A843; --line:#E2E8F0; --bg:#F8FAFC; --card:#FFFFFF; }
-    *{box-sizing:border-box;} body{margin:0;font-family:'DM Sans',sans-serif;background:var(--bg);color:#1e293b;line-height:1.65}
-    .container{max-width:1040px;margin:0 auto;padding:0 20px}
+    :root {
+      --navy: #1B2A4A;
+      --navy-deep: #0F1A2E;
+      --gold: #D4A843;
+      --gold-soft: #FEF6E0;
+      --line: #E2E8F0;
+      --text: #1E293B;
+      --muted: #64748B;
+      --bg: #F8FAFC;
+      --white: #FFFFFF;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.65;
+    }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+    .serif { font-family: "Instrument Serif", serif; }
+
+    .compliance-banner {
+      background: var(--navy-deep);
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 0.82rem;
+      padding: 8px 0;
+      text-align: center;
+    }
+    .compliance-banner .container { padding: 0 20px; }
+
     header {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
-      position: fixed;
+      border-bottom: 1px solid var(--line);
+      position: sticky;
       top: 0;
-      width: 100%;
-      z-index: 1000;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      z-index: 20;
     }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 0;
-    }
-
-    .logo-container {
+    nav.site-nav {
       display: flex;
       align-items: center;
-      gap: 15px;
+      justify-content: flex-start;
+      gap: 12px;
+      padding: 14px 0;
+    }
+    .brand {
+      color: var(--navy);
+      font-family: "Instrument Serif", serif;
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+    .license {
+      display: block;
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.7rem;
+      color: var(--gold);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .menu-wrap { position: relative; margin-left: auto; }
+    .menu-button {
+      background: none;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 8px 10px;
+    }
+    .dots { display: flex; flex-direction: column; gap: 3px; }
+    .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); }
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      min-width: 220px;
+      z-index: 50;
+      display: none;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+    }
+    .dropdown-menu.show { display: block; }
+    .menu-item a {
+      display: block;
+      padding: 11px 14px;
+      text-decoration: none;
+      color: var(--text);
+      border-bottom: 1px solid #F1F5F9;
+    }
+    .menu-item:last-child a { border-bottom: 0; }
+    .menu-item a:hover { background: #F8FAFC; }
+    .header-cta {
+      display: inline-block;
+      margin-left: 8px;
+      background: var(--gold);
+      color: #0F172A;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-size: 0.95rem;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--navy-deep), #1E3A6B);
+      color: #fff;
+      padding: 48px 0 40px;
+    }
+    .breadcrumb { font-size: 0.88rem; color: rgba(255, 255, 255, 0.75); margin-bottom: 14px; }
+    .breadcrumb ol { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; flex-wrap: wrap; }
+    .breadcrumb li::after { content: "/"; margin-left: 6px; color: rgba(255, 255, 255, 0.4); }
+    .breadcrumb li:last-child::after { content: ""; }
+    .breadcrumb a { color: rgba(255, 255, 255, 0.85); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .hero h1 {
+      margin: 0 0 14px;
+      font-size: clamp(2rem, 4.2vw, 2.8rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+    .hero h1 .accent { color: var(--gold); font-style: italic; font-family: "Instrument Serif", serif; }
+    .hero p {
+      margin: 0 0 16px;
+      max-width: 720px;
+      font-size: 1.05rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    .jump-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .jump-nav a {
+      display: inline-block;
+      padding: 7px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 999px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.92rem;
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .jump-nav a:hover { background: rgba(255, 255, 255, 0.14); }
+
+    section.carrier-category { padding: 40px 0; }
+    section.carrier-category.alt-bg { background: #EEF4FB; }
+    section.carrier-category h2 {
+      color: var(--navy);
+      margin: 0 0 6px;
+      font-size: 1.7rem;
+      letter-spacing: -0.01em;
+    }
+    .category-desc { color: var(--muted); margin: 0 0 22px; max-width: 720px; }
+
+    .carrier-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    /* ---- Flip card ---- */
+    .flip-card {
+      perspective: 1000px;
+      height: 220px;
+      cursor: pointer;
+      outline: none;
+    }
+    .flip-card-inner {
       position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(.2,.8,.2,1);
+      transform-style: preserve-3d;
+    }
+    .flip-card:hover .flip-card-inner,
+    .flip-card:focus-visible .flip-card-inner,
+    .flip-card.is-flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    .flip-card:hover .flip-card-front,
+    .flip-card:hover .flip-card-back,
+    .flip-card.is-flipped .flip-card-front,
+    .flip-card.is-flipped .flip-card-back {
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+    }
+    .flip-card-front {
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(180deg, #FFFFFF 0%, #F6F9FE 100%);
+    }
+    .logo-fallback {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: var(--navy);
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+    }
+    .flip-card-front h3 {
+      color: var(--navy);
+      margin: 0 0 8px;
+      font-size: 1.08rem;
+      line-height: 1.25;
+    }
+    .card-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background: var(--gold-soft);
+      border: 1px solid #F2D98A;
+      border-radius: 999px;
+      padding: 3px 9px;
+    }
+    .flip-hint-front {
+      margin-top: auto;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .flip-card-back h3 {
+      color: var(--navy);
+      margin: 0 0 10px;
+      font-size: 1rem;
+    }
+    .carrier-info {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      flex: 1;
+    }
+    .carrier-info li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 7px;
+      font-size: 0.92rem;
+    }
+    .carrier-info a {
+      color: var(--navy);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gold);
+    }
+    .carrier-info a:hover { color: var(--gold); }
+    .ci-icon { font-size: 0.95rem; }
+    .rewards-tag {
+      font-size: 0.78rem;
+      color: var(--navy);
+      background: var(--gold-soft);
+      border: 1px solid #F2D98A;
+      border-radius: 8px;
+      padding: 5px 8px;
+      margin-top: 6px;
+      align-self: flex-start;
+    }
+    .flip-hint {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin: 8px 0 0;
     }
 
-    /* Force consistent header styles */
-    header .brand-name{font-family:'Instrument Serif',serif !important;font-size:1.2rem !important;font-weight:400 !important;line-height:1.2 !important;color:var(--navy) !important}
-    header .nav-links a{font-size:1rem !important;font-weight:500 !important}
-    header .cta-button{font-size:1rem !important;font-weight:600 !important}
-    </style>
+    /* Closing CTA */
+    .closing-cta {
+      background: var(--navy-deep);
+      color: #fff;
+      padding: 36px 0;
+      margin-top: 16px;
+    }
+    .closing-cta h2 {
+      color: #fff;
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+    }
+    .closing-cta p {
+      color: rgba(255, 255, 255, 0.85);
+      margin: 0 0 16px;
+      max-width: 720px;
+    }
+    .closing-cta .btn {
+      display: inline-block;
+      background: var(--gold);
+      color: #0F172A;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 12px;
+      padding: 13px 20px;
+    }
 
-    <script defer src="/js/analytics.js"></script>
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
+    .disclaimer {
+      font-size: 0.82rem;
+      color: var(--muted);
+      padding: 24px 0 40px;
+    }
+
+    @media (max-width: 760px) {
+      .hero { padding: 36px 0 30px; }
+      .header-cta { display: none; }
+      .flip-card { height: auto; min-height: 200px; }
+    }
+
+    /* Touch devices: hover doesn't apply, rely on tap-to-flip via .is-flipped */
+    @media (hover: none) {
+      .flip-card:hover .flip-card-inner { transform: none; }
+      .flip-card.is-flipped .flip-card-inner { transform: rotateY(180deg); }
+    }
+  </style>
+
+  <script defer src="/js/analytics.js"></script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
 </head>
 <body>
-    <div class="compliance-banner">
-        <strong>Important:</strong> Fixed indemnity products provide limited benefits and are <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA. &nbsp;|&nbsp; FL Broker License #W371813
+  <div class="compliance-banner">
+    <div class="container">
+      <strong>Important:</strong> Fixed indemnity products provide limited benefits and are <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA.
+      &nbsp;|&nbsp; FL Broker License #W371813
     </div>
+  </div>
 
-    <header>
-        <nav class="container">
-            <div class="logo-container">
-                <div class="brand-name">
-                    Lakeland Health Insurance
-                    <span class="license-tag">Licensed FL Broker #W371813</span>
-                </div>
-                <button class="menu-button" onclick="toggleMenu()" aria-label="Toggle navigation menu">
-                    <div class="ellipses">
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                    </div>
-                </button>
-                <div class="dropdown-menu" id="dropdownMenu">
-                    <div class="menu-item"><a href="/">Home</a></div>
-                    <div class="menu-item"><a href="/plans/">Health Plans</a></div>
-                    <div class="menu-item"><a href="/carriers/">Carriers</a></div>
-                    <div class="menu-item"><a href="/blog/">Blog</a></div>
-                    <div class="menu-item"><a href="/about/">About</a></div>
-                    <div class="menu-item"><a href="/learning/">Learn</a></div>
-                    <div class="menu-item"><a href="/contact/">Contact</a></div>
-                    <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
-                </div>
+  <header>
+    <div class="container">
+      <nav class="site-nav">
+        <a class="brand" href="/">
+          Lakeland Health Insurance
+          <span class="license">Licensed FL Broker #W371813</span>
+        </a>
+        <div class="menu-wrap">
+          <button class="menu-button" onclick="toggleMenu()" aria-label="Toggle navigation menu">
+            <div class="dots">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
             </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/plans/">Health Plans</a></li>
-                <li><a href="/carriers/" style="color:var(--blue)">Carriers</a></li>
-                <li><a href="/blog/">Blog</a></li>
-                <li><a href="/about/">About</a></li>
-                <li><a href="/contact/">Contact</a></li>
-            </ul>
-            <div class="cta-group">
-                <a href="/get-help/" class="cta-button">Talk to David</a>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-    <!-- Hero -->
-    <section class="carriers-hero">
-        <div class="container">
-            <nav class="breadcrumb" aria-label="Breadcrumb">
-                <ol><li><a href="/">Home</a></li><li aria-current="page">Carriers</li></ol>
-            </nav>
-            <h1 class="serif">Our Insurance <em style="color:var(--gold);font-style:italic;">Carriers</em></h1>
-            <p>We represent 35+ carriers across ACA, Medicare, life, and supplemental lines in Florida. Hover or tap any card to see key contact info.</p>
-            <div class="jump-nav">
-                <a href="#aca">ACA Individual</a>
-                <a href="#medicare">Medicare</a>
-                <a href="#life">Life &amp; Supplemental</a>
-                <a href="#ancillary">Dental &amp; Vision</a>
-            </div>
+          </button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <div class="menu-item"><a href="/">Home</a></div>
+            <div class="menu-item"><a href="/plans/">Health Plans</a></div>
+            <div class="menu-item"><a href="/blog/">Blog</a></div>
+            <div class="menu-item"><a href="/carriers/">ACA Carrier Hub</a></div>
+            <div class="menu-item"><a href="/contact/">Contact</a></div>
+          </div>
         </div>
+        <a class="header-cta" href="/get-help/">Talk to David</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li aria-current="page">Carriers</li>
+          </ol>
+        </nav>
+        <h1>Insurance <span class="accent">Carriers</span></h1>
+        <p>ACA, Medicare, and supplemental carriers serving Lakeland and Polk County for 2026. Tap or hover any card for contact info, member portals, and enrollment guides.</p>
+        <div class="jump-nav">
+          <a href="#aca">ACA Individual</a>
+          <a href="#medicare">Medicare</a>
+          <a href="#life">Life &amp; Supplemental</a>
+        </div>
+      </div>
     </section>
 
     <!-- ============ ACA INDIVIDUAL ============ -->
     <section class="carrier-category" id="aca">
-        <div class="container">
-            <h2 class="serif">ACA Individual &amp; Family</h2>
-            <p class="category-desc">Marketplace plans available in Polk County for the 2026 plan year through HealthCare.gov.</p>
-            <div class="carrier-grid">
+      <div class="container">
+        <h2 class="serif">ACA Individual &amp; Family</h2>
+        <p class="category-desc">Marketplace plans available in Polk County for the 2026 plan year through HealthCare.gov. Each carrier has a dedicated enrollment playbook.</p>
+        <div class="carrier-grid">
 
-                <!-- Ambetter -->
-                <article class="flip-card" tabindex="0" role="button" aria-label="Ambetter Health - tap for contact info">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">AH</div>
-                            <h3>Ambetter Health</h3>
-                            <span class="card-badge">ACA</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>Ambetter Health</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18773020365">(877) 302-0365</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://member.ambetterhealth.com" target="_blank" rel="noopener">Member Portal</a></li>
-                            </ul>
-                            <div class="rewards-tag">&#127873; My Health Pays rewards</div>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Florida Blue -->
-                <article class="flip-card" tabindex="0" role="button" aria-label="Florida Blue - tap for contact info">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">FB</div>
-                            <h3>Florida Blue</h3>
-                            <span class="card-badge">ACA</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>Florida Blue</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18003522583">(800) 352-2583</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.floridablue.com/members" target="_blank" rel="noopener">Member Portal</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="/carriers/florida-blue-aca-2026/">Enrollment Guide</a></li>
-                            </ul>
-                            <div class="rewards-tag">&#127873; Blue365 + Healthy Rewards</div>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- GoldenRule -->
-                <article class="flip-card" tabindex="0" role="button" aria-label="GoldenRule - tap for contact info">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">GR</div>
-                            <h3>GoldenRule</h3>
-                            <span class="card-badge">ACA</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>GoldenRule (United)</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18004448990">(800) 444-8990</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.uhone.com" target="_blank" rel="noopener">Member Portal</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Molina -->
-                <article class="flip-card" tabindex="0" role="button" aria-label="Molina Healthcare - tap for contact info">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">MH</div>
-                            <h3>Molina Healthcare</h3>
-                            <span class="card-badge">ACA</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>Molina Healthcare</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18664724585">(866) 472-4585</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.molinahealthcare.com/members" target="_blank" rel="noopener">Member Portal</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="/carriers/molina-aca-2026/">Enrollment Guide</a></li>
-                            </ul>
-                            <div class="rewards-tag">&#127873; My Health Rewards</div>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Oscar -->
-                <article class="flip-card" tabindex="0" role="button" aria-label="Oscar Health - tap for contact info">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">OS</div>
-                            <h3>Oscar Health</h3>
-                            <span class="card-badge">ACA</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>Oscar Health</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18556722788">(855) 672-2788</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.hioscar.com" target="_blank" rel="noopener">Member Portal</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="/carriers/oscar-aca-2026/">Enrollment Guide</a></li>
-                            </ul>
-                            <div class="rewards-tag">&#127873; Concierge care team</div>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- UnitedHealthcare -->
-                <article class="flip-card" tabindex="0" role="button" aria-label="UnitedHealthcare - tap for contact info">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">UH</div>
-                            <h3>UnitedHealthcare</h3>
-                            <span class="card-badge">ACA</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>UnitedHealthcare</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18008279511">(800) 827-9511</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.myuhc.com" target="_blank" rel="noopener">Member Portal</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="/carriers/unitedhealthcare-aca-2026/">Enrollment Guide</a></li>
-                            </ul>
-                            <div class="rewards-tag">&#127873; Rally Health rewards</div>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Wellpoint -->
-                <article class="flip-card" tabindex="0" role="button" aria-label="Wellpoint - tap for contact info">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">WP</div>
-                            <h3>Wellpoint</h3>
-                            <span class="card-badge">ACA</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>Wellpoint</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18339211498">(833) 921-1498</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.wellpoint.com/members" target="_blank" rel="noopener">Member Portal</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="/carriers/wellpoint-aca-2026/">Enrollment Guide</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
+          <article class="flip-card" tabindex="0" role="button" aria-label="Ambetter Health - tap for contact info">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">AH</div>
+                <h3>Ambetter Health</h3>
+                <span class="card-badge">ACA</span>
+                <span class="flip-hint-front">Tap for contact &amp; playbook</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>Ambetter Health</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18773020365">(877) 302-0365</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://member.ambetterhealth.com" target="_blank" rel="noopener">Member Portal</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128214;</span> <a href="/carriers/ambetter-aca-2026/">Enrollment Playbook</a></li>
+                </ul>
+                <div class="rewards-tag">&#127873; My Health Pays rewards</div>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
             </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="Florida Blue - tap for contact info">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">FB</div>
+                <h3>Florida Blue</h3>
+                <span class="card-badge">ACA</span>
+                <span class="flip-hint-front">Tap for contact &amp; playbook</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>Florida Blue</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18003522583">(800) 352-2583</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.floridablue.com/members" target="_blank" rel="noopener">Member Portal</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128214;</span> <a href="/carriers/florida-blue-aca-2026/">Enrollment Playbook</a></li>
+                </ul>
+                <div class="rewards-tag">&#127873; Blue365 + Healthy Rewards</div>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="GoldenRule - tap for contact info">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">GR</div>
+                <h3>GoldenRule (United)</h3>
+                <span class="card-badge">ACA</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>GoldenRule (United)</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18004448990">(800) 444-8990</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.uhone.com" target="_blank" rel="noopener">Member Portal</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="Molina Healthcare - tap for contact info">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">MH</div>
+                <h3>Molina Healthcare</h3>
+                <span class="card-badge">ACA</span>
+                <span class="flip-hint-front">Tap for contact &amp; playbook</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>Molina Healthcare</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18664724585">(866) 472-4585</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.molinahealthcare.com/members" target="_blank" rel="noopener">Member Portal</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128214;</span> <a href="/carriers/molina-aca-2026/">Enrollment Playbook</a></li>
+                </ul>
+                <div class="rewards-tag">&#127873; My Health Rewards</div>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="Oscar Health - tap for contact info">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">OS</div>
+                <h3>Oscar Health</h3>
+                <span class="card-badge">ACA</span>
+                <span class="flip-hint-front">Tap for contact &amp; playbook</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>Oscar Health</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18556722788">(855) 672-2788</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.hioscar.com" target="_blank" rel="noopener">Member Portal</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128214;</span> <a href="/carriers/oscar-aca-2026/">Enrollment Playbook</a></li>
+                </ul>
+                <div class="rewards-tag">&#127873; Concierge care team</div>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="UnitedHealthcare - tap for contact info">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">UH</div>
+                <h3>UnitedHealthcare</h3>
+                <span class="card-badge">ACA</span>
+                <span class="flip-hint-front">Tap for contact &amp; playbook</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>UnitedHealthcare</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18008279511">(800) 827-9511</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.myuhc.com" target="_blank" rel="noopener">Member Portal</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128214;</span> <a href="/carriers/unitedhealthcare-aca-2026/">Enrollment Playbook</a></li>
+                </ul>
+                <div class="rewards-tag">&#127873; Rally Health rewards</div>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="Wellpoint - tap for contact info">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">WP</div>
+                <h3>Wellpoint</h3>
+                <span class="card-badge">ACA</span>
+                <span class="flip-hint-front">Tap for contact &amp; playbook</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>Wellpoint</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18339211498">(833) 921-1498</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.wellpoint.com/members" target="_blank" rel="noopener">Member Portal</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128214;</span> <a href="/carriers/wellpoint-aca-2026/">Enrollment Playbook</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
         </div>
+      </div>
     </section>
 
     <!-- ============ MEDICARE ============ -->
     <section class="carrier-category alt-bg" id="medicare">
-        <div class="container">
-            <h2 class="serif">Medicare</h2>
-            <p class="category-desc">Medicare Advantage, Supplement, and Part D carriers serving Florida.</p>
-            <div class="carrier-grid">
+      <div class="container">
+        <h2 class="serif">Medicare</h2>
+        <p class="category-desc">Medicare Advantage, Supplement, and Part D carriers serving Florida.</p>
+        <div class="carrier-grid">
 
-                <article class="flip-card" tabindex="0" role="button" aria-label="Aetna Medicare - tap for contact info">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">AE</div>
-                            <h3>Aetna Medicare</h3>
-                            <span class="card-badge">Medicare</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>Aetna Medicare</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18003074830">(800) 307-4830</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.aetnamedicare.com" target="_blank" rel="noopener">Member Portal</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="flip-card" tabindex="0" role="button" aria-label="America's 1st Choice Medicare">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">A1</div>
-                            <h3>America's 1st Choice</h3>
-                            <span class="card-badge">Medicare</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>America's 1st Choice</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18887831482">(888) 783-1482</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.americas1stchoice.com" target="_blank" rel="noopener">Member Portal</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="flip-card" tabindex="0" role="button" aria-label="BayCare Medicare">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">BC</div>
-                            <h3>BayCare</h3>
-                            <span class="card-badge">Medicare</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>BayCare Health Plans</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18552296848">(855) 229-6848</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.baycareplans.org" target="_blank" rel="noopener">Member Portal</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="flip-card" tabindex="0" role="button" aria-label="CarePlus Medicare">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">CP</div>
-                            <h3>CarePlus</h3>
-                            <span class="card-badge">Medicare</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>CarePlus Health Plans</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18007945907">(800) 794-5907</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.careplus-hp.com" target="_blank" rel="noopener">Member Portal</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="flip-card" tabindex="0" role="button" aria-label="Cigna Medicare">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">CI</div>
-                            <h3>Cigna Medicare</h3>
-                            <span class="card-badge">Medicare</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>Cigna Medicare</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18008597826">(800) 859-7826</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.cigna.com/medicare" target="_blank" rel="noopener">Member Portal</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="flip-card" tabindex="0" role="button" aria-label="Devoted Health Medicare">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">DH</div>
-                            <h3>Devoted Health</h3>
-                            <span class="card-badge">Medicare</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>Devoted Health</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18003386833">(800) 338-6833</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.devoted.com" target="_blank" rel="noopener">Member Portal</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="flip-card" tabindex="0" role="button" aria-label="Florida Blue Medicare">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">FB</div>
-                            <h3>Florida Blue Medicare</h3>
-                            <span class="card-badge">Medicare</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>Florida Blue Medicare</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18009266565">(800) 926-6565</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.floridabluemedicare.com" target="_blank" rel="noopener">Member Portal</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="flip-card" tabindex="0" role="button" aria-label="Humana Medicare">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">HU</div>
-                            <h3>Humana Medicare</h3>
-                            <span class="card-badge">Medicare</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>Humana Medicare</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18004574708">(800) 457-4708</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.humana.com/medicare" target="_blank" rel="noopener">Member Portal</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="flip-card" tabindex="0" role="button" aria-label="UnitedHealthcare Medicare">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">UH</div>
-                            <h3>UnitedHealthcare Medicare</h3>
-                            <span class="card-badge">Medicare</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>UnitedHealthcare Medicare</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18005555757">(800) 555-5757</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.uhcmedicaresolutions.com" target="_blank" rel="noopener">Member Portal</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="flip-card" tabindex="0" role="button" aria-label="WellCare Medicare">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">WC</div>
-                            <h3>WellCare Medicare</h3>
-                            <span class="card-badge">Medicare</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>WellCare Medicare</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18665309491">(866) 530-9491</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.wellcare.com" target="_blank" rel="noopener">Member Portal</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="flip-card" tabindex="0" role="button" aria-label="Centene Medicare">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">CE</div>
-                            <h3>Centene Medicare</h3>
-                            <span class="card-badge">Medicare</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>Centene Medicare</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18776580305">(877) 658-0305</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.centene.com" target="_blank" rel="noopener">Website</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
-
+          <article class="flip-card" tabindex="0" role="button" aria-label="Aetna Medicare - tap for contact info">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">AE</div>
+                <h3>Aetna Medicare</h3>
+                <span class="card-badge">Medicare</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>Aetna Medicare</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18003074830">(800) 307-4830</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.aetnamedicare.com" target="_blank" rel="noopener">Member Portal</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
             </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="America's 1st Choice Medicare">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">A1</div>
+                <h3>America's 1st Choice</h3>
+                <span class="card-badge">Medicare</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>America's 1st Choice</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18887831482">(888) 783-1482</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.americas1stchoice.com" target="_blank" rel="noopener">Member Portal</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="BayCare Medicare">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">BC</div>
+                <h3>BayCare</h3>
+                <span class="card-badge">Medicare</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>BayCare Health Plans</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18552296848">(855) 229-6848</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.baycareplans.org" target="_blank" rel="noopener">Member Portal</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="CarePlus Medicare">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">CP</div>
+                <h3>CarePlus</h3>
+                <span class="card-badge">Medicare</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>CarePlus Health Plans</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18007945907">(800) 794-5907</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.careplus-hp.com" target="_blank" rel="noopener">Member Portal</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="Cigna Medicare">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">CI</div>
+                <h3>Cigna Medicare</h3>
+                <span class="card-badge">Medicare</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>Cigna Medicare</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18008597826">(800) 859-7826</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.cigna.com/medicare" target="_blank" rel="noopener">Member Portal</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="Devoted Health Medicare">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">DH</div>
+                <h3>Devoted Health</h3>
+                <span class="card-badge">Medicare</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>Devoted Health</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18003386833">(800) 338-6833</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.devoted.com" target="_blank" rel="noopener">Member Portal</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="Florida Blue Medicare">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">FB</div>
+                <h3>Florida Blue Medicare</h3>
+                <span class="card-badge">Medicare</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>Florida Blue Medicare</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18009266565">(800) 926-6565</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.floridabluemedicare.com" target="_blank" rel="noopener">Member Portal</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="Humana Medicare">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">HU</div>
+                <h3>Humana Medicare</h3>
+                <span class="card-badge">Medicare</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>Humana Medicare</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18004574708">(800) 457-4708</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.humana.com/medicare" target="_blank" rel="noopener">Member Portal</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="UnitedHealthcare Medicare">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">UH</div>
+                <h3>UnitedHealthcare Medicare</h3>
+                <span class="card-badge">Medicare</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>UnitedHealthcare Medicare</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18005555757">(800) 555-5757</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.uhcmedicaresolutions.com" target="_blank" rel="noopener">Member Portal</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="WellCare Medicare">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">WC</div>
+                <h3>WellCare Medicare</h3>
+                <span class="card-badge">Medicare</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>WellCare Medicare</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18665309491">(866) 530-9491</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.wellcare.com" target="_blank" rel="noopener">Member Portal</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flip-card" tabindex="0" role="button" aria-label="Centene Medicare">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">CE</div>
+                <h3>Centene Medicare</h3>
+                <span class="card-badge">Medicare</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>Centene Medicare</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18776580305">(877) 658-0305</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.centene.com" target="_blank" rel="noopener">Website</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
+
         </div>
+      </div>
     </section>
 
     <!-- ============ LIFE & SUPPLEMENTAL ============ -->
     <section class="carrier-category" id="life">
-        <div class="container">
-            <h2 class="serif">Life &amp; Supplemental</h2>
-            <p class="category-desc">Life insurance, supplemental health, short-term medical, and gap coverage carriers.</p>
-            <div class="carrier-grid" id="lifeGrid">
+      <div class="container">
+        <h2 class="serif">Life &amp; Supplemental</h2>
+        <p class="category-desc">Life insurance, supplemental health, short-term medical, and gap coverage carriers.</p>
+        <div class="carrier-grid">
 
-                <!-- First 6 visible -->
-                <article class="flip-card" tabindex="0" role="button" aria-label="Accendo">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">AC</div>
-                            <h3>Accendo</h3>
-                            <span class="card-badge">Supplemental</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>Accendo Insurance</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18008267705">(800) 826-7705</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.accendo.com" target="_blank" rel="noopener">Website</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
+          <article class="flip-card" tabindex="0" role="button" aria-label="Accendo">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">AC</div>
+                <h3>Accendo</h3>
+                <span class="card-badge">Supplemental</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>Accendo Insurance</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18008267705">(800) 826-7705</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.accendo.com" target="_blank" rel="noopener">Website</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
 
-                <article class="flip-card" tabindex="0" role="button" aria-label="Aetna Health and Life">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="logo-fallback" style="display:flex">AE</div>
-                            <h3>Aetna Health &amp; Life</h3>
-                            <span class="card-badge">Supplemental</span>
-                        </div>
-                        <div class="flip-card-back" aria-hidden="true">
-                            <h3>Aetna Health &amp; Life</h3>
-                            <ul class="carrier-info">
-                                <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18008727713">(800) 872-7713</a></li>
-                                <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.aetna.com" target="_blank" rel="noopener">Website</a></li>
-                            </ul>
-                            <p class="flip-hint">Tap to flip back</p>
-                        </div>
-                    </div>
-                </article>
+          <article class="flip-card" tabindex="0" role="button" aria-label="Aetna Health and Life">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="logo-fallback">AE</div>
+                <h3>Aetna Health &amp; Life</h3>
+                <span class="card-badge">Supplemental</span>
+                <span class="flip-hint-front">Tap for contact info</span>
+              </div>
+              <div class="flip-card-back" aria-hidden="true">
+                <h3>Aetna Health &amp; Life</h3>
+                <ul class="carrier-info">
+                  <li><span class="ci-icon" aria-hidden="true">&#128222;</span> <a href="tel:+18008727713">(800) 872-7713</a></li>
+                  <li><span class="ci-icon" aria-hidden="true">&#128279;</span> <a href="https://www.aetna.com" target="_blank" rel="noopener">Website</a></li>
+                </ul>
+                <p class="flip-hint">Tap to flip back</p>
+              </div>
+            </div>
+          </article>
 
-    .license-tag {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.7rem;
-      color: var(--gold);
-      font-weight: 600;
-      display: block;
-      margin-top: 2px;
-    }
-
-    .menu-button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 4px;
-      transition: background-color 0.2s;
-    }
-
-    .menu-button:hover {
-      background-color: #f1f5f9;
-    }
-
-    .ellipses {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .dot {
-      width: 4px;
-      height: 4px;
-      background-color: #64748b;
-      border-radius: 50%;
-    }
-
-    .dropdown-menu {
-      position: absolute;
-      top: 100%;
-      left: 100px;
-      background: #ffffff;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      min-width: 200px;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.2s ease;
-    }
-
-    .dropdown-menu.show {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .menu-item {
-      padding: 12px 16px;
-      cursor: pointer;
-      border-bottom: 1px solid #f1f5f9;
-      transition: background-color 0.2s;
-    }
-
-    .menu-item:hover {
-      background-color: #eff6ff;
-    }
-
-    .menu-item:last-child {
-      border-bottom: none;
-    }
-
-    .menu-item a {
-      text-decoration: none;
-      color: #1f2937;
-      display: block;
-      font-weight: 500;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: #334155;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--navy);
-    }
-
-    .cta-button {
-      background: var(--gold);
-      color: #0f172a;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 100px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(212, 168, 67, 0.35);
-    }
-
-    main.container {
-      padding-top: 92px;
-    }
-
-    @media (max-width: 900px) {
-      .nav-links, .cta-button {
-        display: none;
-      }
-
-      .dropdown-menu {
-        left: 0;
-      }
-
-      main.container {
-        padding-top: 86px;
-      }
-    }
-
-    @media (min-width: 901px) {
-      .menu-button {
-        display: none;
-      }
-    }
-    .hero{padding:42px 0 16px}.hero h1{margin:0;color:var(--navy)}
-    .accent{color:var(--gold);font-style:italic}
-    .hero p{color:#475569;font-size:1.05rem;max-width:640px}
-    .btn{display:inline-block;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700;margin-right:10px;margin-top:10px}
-    .btn-primary{background:var(--gold);color:#111827}.btn-secondary{border:1px solid var(--line);color:var(--navy);background:#fff}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:24px 0 36px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;transition:box-shadow .2s,transform .2s}
-    .card:hover{box-shadow:0 6px 24px rgba(0,0,0,.08);transform:translateY(-2px)}
-    .card h2{font-size:1.15rem;color:var(--navy);margin:0 0 8px}
-    .card p{font-size:.92rem;color:#475569;margin:0 0 12px}
-    .card a{color:var(--navy);font-weight:600;text-decoration:none;font-size:.9rem}
-    .card a:hover{color:var(--gold)}
-    .hub-link{margin:28px 0 40px;padding:20px 24px;background:linear-gradient(135deg,#1B2A4A,#2d3f66);border-radius:14px;color:#fff}
-    .hub-link h2{color:#fff;margin:0 0 6px;font-size:1.1rem}
-    .hub-link p{color:#cbd5e1;margin:0 0 12px;font-size:.92rem}
-    .hub-link a{color:var(--gold);font-weight:600;text-decoration:none;font-size:.9rem}
-    .hub-link a:hover{text-decoration:underline}
-    .small{font-size:.9rem;color:#64748b}
-
-  /* LHI Header Standardization Override */
-  header .brand-name,
-  header .logo {
-    font-family: 'Instrument Serif', serif !important;
-    font-size: 1.2rem !important;
-    font-weight: 400 !important;
-    line-height: 1.2 !important;
-    color: var(--navy, #1B2A4A) !important;
-    letter-spacing: 0 !important;
-    text-decoration: none !important;
-  }
-
-  header .license-tag,
-  header .logo::after {
-    content: 'Licensed FL Broker #W371813' !important;
-    font-family: 'DM Sans', sans-serif !important;
-    font-size: 0.7rem !important;
-    font-weight: 600 !important;
-    color: var(--gold, #D4A843) !important;
-    line-height: 1.1 !important;
-    display: block !important;
-    margin-top: 2px !important;
-  }
-
-  header .nav-links a {
-    font-size: 1rem !important;
-    font-weight: 500 !important;
-    line-height: 1.2 !important;
-  }
-
-  header .cta-button {
-    font-size: 1rem !important;
-    font-weight: 600 !important;
-    line-height: 1.2 !important;
-  }
-
-  </style>
-</head>
-<body>
-  <header>
-  <nav class="container">
-    <div class="logo-container">
-      <div class="brand-name">
-        Lakeland Health Insurance
-        <span class="license-tag">Licensed FL Broker #W371813</span>
-      </div>
-      <button class="menu-button" onclick="toggleMenu()" aria-label="Toggle navigation menu">
-        <div class="ellipses">
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
         </div>
-      </button>
-
-      <div class="dropdown-menu" id="dropdownMenu">
-        <div class="menu-item"><a href="/">Home</a></div>
-        <div class="menu-item"><a href="/plans/">Health Plans</a></div>
-        <div class="menu-item"><a href="/carriers/">Carriers</a></div>
-        <div class="menu-item"><a href="/blog/">Blog</a></div>
-        <div class="menu-item"><a href="/about/">About</a></div>
-        <div class="menu-item"><a href="/links/">Links</a></div>
-        <div class="menu-item"><a href="/contact/">Contact</a></div>
-        <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
       </div>
-    </div>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/plans/">Health Plans</a></li>
-      <li><a href="/carriers/">Carriers</a></li>
-      <li><a href="/blog/">Blog</a></li>
-      <li><a href="/about/">About</a></li>
-      <li><a href="/links/">Links</a></li>
-      <li><a href="/contact/">Contact</a></li>
-    </ul>
-    <a href="/get-help/" class="cta-button">Talk to David</a>
-  </nav>
-</header>
-  <main class="container">
-    <section class="hero">
-      <h1>Insurance <em class="accent">Carriers</em></h1>
-      <p>Six ACA carriers serve Lakeland and Polk County for 2026. Each playbook covers enrollment, member setup, benefits optimization, and renewal strategy &mdash; everything you need after picking a plan.</p>
-      <a class="btn btn-primary" href="/get-help/">Not sure which carrier? Talk to David</a>
-      <a class="btn btn-secondary" href="/plans/">Compare Plans</a>
     </section>
 
-    <section class="grid">
-      <article class="card">
-        <h2>Florida Blue</h2>
-        <p>The state's largest ACA carrier. Strong local network with Lakeland Regional and Watson Clinic. Healthy rewards program and robust member portal.</p>
-        <a href="/carriers/florida-blue-aca-2026/">Open playbook &rarr;</a>
-      </article>
-
-      <article class="card">
-        <h2>UnitedHealthcare</h2>
-        <p>National carrier with broad provider networks. MyUHC portal, formulary tools, and value-add programs from day one.</p>
-        <a href="/carriers/unitedhealthcare-aca-2026/">Open playbook &rarr;</a>
-      </article>
-
-      <article class="card">
-        <h2>Oscar</h2>
-        <p>App-first experience with built-in care navigation and telemedicine. Reward-eligible wellness actions and a streamlined onboarding flow.</p>
-        <a href="/carriers/oscar-aca-2026/">Open playbook &rarr;</a>
-      </article>
-
-      <article class="card">
-        <h2>Ambetter</h2>
-        <p>Budget-friendly ACA option through Centene. HealthCare.gov enrollment flow with preventive care incentives and Rx savings tools.</p>
-        <a href="/carriers/ambetter-aca-2026/">Open playbook &rarr;</a>
-      </article>
-
-      <article class="card">
-        <h2>Molina</h2>
-        <p>Value-focused carrier with competitive premiums. Straightforward portal, referral/prior auth workflows, and renewal risk controls.</p>
-        <a href="/carriers/molina-aca-2026/">Open playbook &rarr;</a>
-      </article>
-
-      <article class="card">
-        <h2>Wellpoint</h2>
-        <p>Virtual-first model with incentive programs. Streamlined digital setup and annual redetermination support.</p>
-        <a href="/carriers/wellpoint-aca-2026/">Open playbook &rarr;</a>
-      </article>
+    <section class="closing-cta">
+      <div class="container">
+        <h2>Not sure which carrier fits?</h2>
+        <p>Pick the carrier that matches your doctors, prescriptions, and budget. As a licensed Florida broker, I compare every option in Polk County at no cost to you. Carriers pay broker fees, not clients.</p>
+        <a class="btn" href="/get-help/">Talk to David</a>
+      </div>
     </section>
 
-    <div class="hub-link">
-      <h2>Florida ACA Carrier Hub (2026)</h2>
-      <p>Side-by-side carrier comparison with quick links to every playbook, enrollment workflows, and benefit optimization strategies.</p>
-      <a href="/carriers/aca-florida-2026/">Open the Carrier Hub &rarr;</a>
-    </div>
-
-    <p class="small">All carriers listed are available on HealthCare.gov for Polk County (ZIP 33805) as of the 2026 plan year. Plan availability, networks, and benefits may vary. David Huffman is a licensed Florida broker (#W371813) &mdash; his help is free to you.</p>
+    <p class="container disclaimer">
+      Carriers listed are available to Polk County (ZIP 33805) for the 2026 plan year. Plan availability, networks, formularies, and benefits vary by ZIP and plan tier. David Huff is a licensed Florida broker (#W371813) &mdash; broker assistance is free to you.
+    </p>
   </main>
 
-<script>
-  function toggleMenu() {
-    const menu = document.getElementById('dropdownMenu');
-    if (menu) {
-      menu.classList.toggle('show');
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('dropdownMenu');
+      if (menu) menu.classList.toggle('show');
     }
-  }
+    document.addEventListener('click', function (event) {
+      const menu = document.getElementById('dropdownMenu');
+      const button = document.querySelector('.menu-button');
+      if (!menu || !button) return;
+      if (!menu.contains(event.target) && !button.contains(event.target)) {
+        menu.classList.remove('show');
+      }
+    });
 
-  document.addEventListener('click', function(event) {
-    const menu = document.getElementById('dropdownMenu');
-    const button = document.querySelector('.menu-button');
-    if (!menu || !button) {
-      return;
-    }
-    if (!menu.contains(event.target) && !button.contains(event.target)) {
-      menu.classList.remove('show');
-    }
-  });
-</script>
+    // Tap-to-flip support for touch devices and keyboard activation.
+    document.querySelectorAll('.flip-card').forEach(function (card) {
+      card.addEventListener('click', function (e) {
+        // Don't toggle when the click target is a real link inside the card.
+        if (e.target.closest('a')) return;
+        card.classList.toggle('is-flipped');
+      });
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          if (e.target.closest('a')) return;
+          e.preventDefault();
+          card.classList.toggle('is-flipped');
+        }
+      });
+    });
+  </script>
 </body>
 </html>

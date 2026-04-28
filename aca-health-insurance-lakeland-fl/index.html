@@ -266,6 +266,65 @@
       border-radius: 14px;
       padding: 20px;
     }
+    .guide-feature-section { padding: 28px 0 8px; }
+    .guide-feature {
+      display: block;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--gold);
+      border-radius: 14px;
+      padding: 24px 26px;
+      text-decoration: none;
+      color: var(--text);
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    .guide-feature:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.10);
+      border-color: #CBD5E1;
+      border-left-color: var(--gold);
+    }
+    .guide-feature__badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background: #FEF6E0;
+      border: 1px solid #F2D98A;
+      border-radius: 999px;
+      padding: 4px 10px;
+      margin-bottom: 12px;
+    }
+    .guide-feature__title {
+      color: var(--navy);
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    .guide-feature__lede {
+      color: var(--text);
+      margin: 0 0 14px;
+      max-width: 680px;
+    }
+    .guide-feature__contents {
+      margin: 0 0 16px 18px;
+      padding: 0;
+      color: var(--text);
+    }
+    .guide-feature__contents li { margin-bottom: 6px; }
+    .guide-feature__contents strong { color: var(--navy); }
+    .guide-feature__cta {
+      display: inline-block;
+      margin-top: 4px;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 1px;
+    }
     h2 {
       color: var(--navy);
       margin: 0 0 10px;
@@ -302,6 +361,8 @@
       .hero { padding: 44px 0 36px; }
       .card, .form-wrap { padding: 16px; }
       .hero-cta-row a { width: 100%; text-align: center; }
+      .guide-feature { padding: 18px 18px; }
+      .guide-feature__title { font-size: 1.25rem; }
     }
     label {
       display: block;
@@ -372,14 +433,29 @@
         <div class="hero-cta-row">
           <a class="btn-primary" href="#eligibility-form">Check My Eligibility</a>
           <a class="btn-secondary" href="/carriers/">Compare ACA Plans</a>
-          <a class="btn-secondary" href="/blog/florida-aca-enrollment-and-benefits-2026.html">Read 2026 ACA Guide</a>
         </div>
         <p class="explore-strip">
-          Not ready to submit yet? Start with
+          Not ready to submit yet? Start by browsing
           <a href="/carriers/">carrier plan comparisons</a>
-          or the
-          <a href="/blog/florida-aca-enrollment-and-benefits-2026.html">Florida ACA enrollment guide</a>.
+          for Polk County.
         </p>
+      </div>
+    </section>
+
+    <section class="guide-feature-section">
+      <div class="container">
+        <a class="guide-feature" href="/blog/florida-aca-enrollment-and-benefits-2026.html">
+          <div class="guide-feature__badge">2026 Guide &middot; Updated Feb 2026</div>
+          <h2 class="guide-feature__title">Florida ACA Enrollment &amp; Benefits Guide</h2>
+          <p class="guide-feature__lede">A step-by-step walkthrough for enrolling on HealthCare.gov, getting your plan working in the first 30 days, and choosing the right Polk County carrier.</p>
+          <ul class="guide-feature__contents">
+            <li><strong>HealthCare.gov enrollment</strong> &mdash; 5-step process and document checklist</li>
+            <li><strong>First 30 days</strong> &mdash; portal setup, PCP, Rx, preventive care</li>
+            <li><strong>Carrier comparison matrix</strong> &mdash; Florida Blue, UHC, Oscar, Ambetter, Molina, Wellpoint</li>
+            <li><strong>6 carrier playbooks</strong> &mdash; Polk ZIP 33805 priority</li>
+          </ul>
+          <span class="guide-feature__cta">Read the 2026 ACA Guide &rarr;</span>
+        </a>
       </div>
     </section>
 
