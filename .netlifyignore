@@ -1,0 +1,11 @@
+.claude/
+.git/
+.github/
+node_modules/
+search-engine-from-zip/
+deploy-funnel.sh
+MARKETING-ANALYSIS.md
+SEO_INDEXING_CHANGELOG_2026-02-19.md
+README.md
+deploy-*.zip
+*.zip

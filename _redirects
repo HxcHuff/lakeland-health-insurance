@@ -5,6 +5,8 @@
 /our%20approach/ /our-approach.html 301
 /our-approach /our-approach.html 200
 /our-approach/ /our-approach.html 200
+/links /learning/ 301
+/links/ /learning/ 301
 
 # PDF redirect (lowercase URL to actual filename)
 /downloads/florida-health-insurance-survival-guide.pdf /downloads/Florida-Health-Insurance-Survival-Guide.pdf 301!

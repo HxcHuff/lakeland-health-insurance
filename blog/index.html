@@ -16,7 +16,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="/icons/icon-192.png"><link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/css/fonts.css"><link rel="canonical" href="https://lakelandhealthinsurance.com/blog/">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/site-search.css"><link rel="canonical" href="https://lakelandhealthinsurance.com/blog/">
     <meta name="robots" content="index, follow">
     <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
     <meta name="twitter:card" content="summary_large_image">
@@ -667,7 +668,8 @@ header .cta-button {
 
     <link rel="stylesheet" href="/css/blog-unified.css">
     <script defer src="/js/analytics.js"></script>
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1480756087079484&ev=PageView&noscript=1"/></noscript>
+    <script defer src="/js/site-search.js"></script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
 </head>
 <body class="blog-post">
     <div class="compliance-banner">
@@ -694,7 +696,7 @@ header .cta-button {
                     <div class="menu-item"><a href="/plans/">Health Plans</a></div>
                     <div class="menu-item"><a href="/blog/">Blog</a></div>
                     <div class="menu-item"><a href="/about/">About</a></div>
-                    <div class="menu-item"><a href="/links/">Links</a></div>
+                    <div class="menu-item"><a href="/learning/">Learn</a></div>
                     <div class="menu-item"><a href="/contact/">Contact</a></div>
                     <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
                 </div>
@@ -704,7 +706,7 @@ header .cta-button {
                 <li><a href="/plans/">Health Plans</a></li>
                 <li><a href="/blog/">Blog</a></li>
                 <li><a href="/about/">About</a></li>
-                <li><a href="/links/">Links</a></li>
+                <li><a href="/learning/">Learn</a></li>
                 <li><a href="/contact/">Contact</a></li>
             </ul>
             <a href="/get-help/" class="cta-button">Talk to David</a>
@@ -715,6 +717,13 @@ header .cta-button {
         <div class="container">
             <h1>Straight Talk on Health Insurance</h1>
             <p>No corporate scripts. No jargon. Just the stuff you actually need to know.</p>
+            <div style="margin-top: 40px;">
+                <div class="site-search-bar" data-site-search="bar">
+                    <span class="search-bar-icon">&#128269;</span>
+                    <input type="search" placeholder="Search articles, tools, and resources..." aria-label="Search site">
+                    <div class="search-results-dropdown" data-site-search="results"></div>
+                </div>
+            </div>
         </div>
     </section>
 

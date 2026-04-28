@@ -303,6 +303,7 @@
           <input type="hidden" name="phone" id="phoneInput">
           <input type="hidden" name="email" id="emailInput">
           <input type="hidden" name="consent" id="consentInput">
+          <input type="hidden" name="lead_source" id="leadSourceInput">
           <input type="hidden" name="_subject" value="New Lead: Plan-Specific Help Request">
           <input type="hidden" name="source_page" value="/get-help/">
 
@@ -378,6 +379,19 @@
           question: "What's your ZIP code?",
           type: 'text',
           placeholder: '33801'
+        },
+        {
+          id: 'leadSource',
+          question: 'Last one — how did you find me?',
+          type: 'single',
+          options: [
+            'ChatGPT / AI assistant',
+            'Google search',
+            'Facebook',
+            'Referral from someone',
+            'Saw an ad',
+            'Other'
+          ]
         }
       ];
 
@@ -438,6 +452,7 @@
         document.getElementById('timingInput').value = answers.timing || '';
         document.getElementById('concernsInput').value = (answers.concerns || []).join(', ');
         document.getElementById('zipInput').value = answers.zip || '';
+        document.getElementById('leadSourceInput').value = answers.leadSource || '';
       }
 
       function validateZip(zip) {
@@ -562,7 +577,7 @@
       function contactBlock() {
         var block = document.createElement('div');
 
-        block.appendChild(aBubble(answers.zip || ''));
+        block.appendChild(aBubble(answers.leadSource || ''));
         block.appendChild(qBubble('Perfect. Last step - how should I reach you?'));
 
         var c = document.createElement('div');
