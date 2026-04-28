@@ -3,8 +3,8 @@
 /get-help /get-help/index.html 200
 /get-help/ /get-help/index.html 200
 /our%20approach/ /our-approach.html 301
-/our-approach /our-approach.html 301!
-/our-approach/ /our-approach.html 301!
+/our-approach /our-approach.html 200
+/our-approach/ /our-approach.html 200
 
 # PDF redirect (lowercase URL to actual filename)
 /downloads/florida-health-insurance-survival-guide.pdf /downloads/Florida-Health-Insurance-Survival-Guide.pdf 301!
@@ -14,7 +14,7 @@
 /blog/5-critical-health-insurance-mistakes/ /blog/5-critical-health-insurance-mistakes.html 301!
 /blog/aca-open-enrollment-deadline /blog/aca-open-enrollment-deadline.html 301!
 /blog/aca-open-enrollment-deadline/ /blog/aca-open-enrollment-deadline.html 301!
-/blog/aca-subsidy-cliff /blog/aca-subsidy-cliff.html 301!
+/blog/aca-subsidy-cliff /blog/aca-subsidy-cliff.html 301
 /blog/aca-subsidy-cliff/ /blog/aca-subsidy-cliff.html 301!
 /blog/aca-subsidy-tax-return-clawback /blog/aca-subsidy-tax-return-clawback.html 301!
 /blog/aca-subsidy-tax-return-clawback/ /blog/aca-subsidy-tax-return-clawback.html 301!
@@ -72,3 +72,39 @@
 /blog/what-is-supplemental-coverage/ /blog/what-is-supplemental-coverage.html 301!
 /blog/what-to-do-when-insurance-denies-claim /blog/what-to-do-when-insurance-denies-claim.html 301!
 /blog/what-to-do-when-insurance-denies-claim/ /blog/what-to-do-when-insurance-denies-claim.html 301!
+
+# Newer blog posts (non-.html → .html redirects)
+/blog/er-visit-cost-lakeland-without-insurance-2026 /blog/er-visit-cost-lakeland-without-insurance-2026.html 301!
+/blog/er-visit-cost-lakeland-without-insurance-2026/ /blog/er-visit-cost-lakeland-without-insurance-2026.html 301!
+/blog/life-change-health-insurance-60-day-window-florida /blog/life-change-health-insurance-60-day-window-florida.html 301!
+/blog/life-change-health-insurance-60-day-window-florida/ /blog/life-change-health-insurance-60-day-window-florida.html 301!
+/blog/lost-job-health-insurance-lakeland /blog/lost-job-health-insurance-lakeland.html 301!
+/blog/lost-job-health-insurance-lakeland/ /blog/lost-job-health-insurance-lakeland.html 301!
+/blog/why-florida-health-insurance-premiums-increased-2026 /blog/why-florida-health-insurance-premiums-increased-2026.html 301!
+/blog/why-florida-health-insurance-premiums-increased-2026/ /blog/why-florida-health-insurance-premiums-increased-2026.html 301!
+/blog/zero-premium-health-insurance-florida-2026 /blog/zero-premium-health-insurance-florida-2026.html 301!
+/blog/zero-premium-health-insurance-florida-2026/ /blog/zero-premium-health-insurance-florida-2026.html 301!
+
+# Campaign blog posts (April 2026 Facebook Ad Campaign)
+/blog/florida-aca-subsidy-most-people-miss /blog/florida-aca-subsidy-most-people-miss.html 301!
+/blog/florida-aca-subsidy-most-people-miss/ /blog/florida-aca-subsidy-most-people-miss.html 301!
+/blog/turning-65-florida-medicare-mistakes /blog/turning-65-florida-medicare-mistakes.html 301!
+/blog/turning-65-florida-medicare-mistakes/ /blog/turning-65-florida-medicare-mistakes.html 301!
+/blog/no-health-insurance-florida-er-cost /blog/no-health-insurance-florida-er-cost.html 301!
+/blog/no-health-insurance-florida-er-cost/ /blog/no-health-insurance-florida-er-cost.html 301!
+
+# Campaign landing pages
+/lp/medicare /lp/medicare/index.html 200
+/lp/medicare/ /lp/medicare/index.html 200
+/lp/gap /lp/gap/index.html 200
+/lp/gap/ /lp/gap/index.html 200
+/lp/aca /lp/aca/index.html 200
+/lp/aca/ /lp/aca/index.html 200
+
+# Clean alias for embedded quote engine
+/find-plans /search-engine-from-zip/dist/index.html 200
+/find-plans/ /search-engine-from-zip/dist/index.html 200
+
+# 301 the deleted orphan root page to the blog version
+/lost-job-health-insurance-lakeland.html /blog/lost-job-health-insurance-lakeland.html 301!
+/lost-job-health-insurance-lakeland /blog/lost-job-health-insurance-lakeland.html 301!

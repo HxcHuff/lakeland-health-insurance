@@ -19,33 +19,10 @@
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
-
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} 
-    gtag('js', new Date());
-    gtag('config', 'G-W45RMKHXV0');
-  </script>
-
-  <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '296757110861706');
-    fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=296757110861706&ev=PageView&noscript=1"/></noscript>
-
-  <style>
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+<style>
     :root {
       --bg: #111118;
       --card: #1a1a28;
@@ -298,6 +275,7 @@
       .q { max-width: 88vw; }
     }
   </style>
+    <script defer src="/js/analytics.js"></script>
 </head>
 <body>
   <main class="wrap">
@@ -311,7 +289,7 @@
           </div>
         </div>
 
-        <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm">
+        <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm" data-funnel-track data-funnel-event="Lead" data-funnel-name="get_help_conversational">
           <input type="hidden" name="form-name" value="get-help">
           <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
 
@@ -321,6 +299,10 @@
           <input type="hidden" name="renewal_timing" id="timingInput">
           <input type="hidden" name="main_concern" id="concernsInput">
           <input type="hidden" name="zip_code" id="zipInput">
+          <input type="hidden" name="full_name" id="fullNameInput">
+          <input type="hidden" name="phone" id="phoneInput">
+          <input type="hidden" name="email" id="emailInput">
+          <input type="hidden" name="consent" id="consentInput">
           <input type="hidden" name="_subject" value="New Lead: Plan-Specific Help Request">
           <input type="hidden" name="source_page" value="/get-help/">
 
@@ -647,15 +629,51 @@
       function submitLead() {
         if (!(contact.name.trim() && contact.phone.trim() && contact.email.trim() && contact.consent)) return;
 
-        var n = document.createElement('input'); n.type = 'hidden'; n.name = 'full_name'; n.value = contact.name; form.appendChild(n);
-        var p = document.createElement('input'); p.type = 'hidden'; p.name = 'phone'; p.value = contact.phone; form.appendChild(p);
-        var e = document.createElement('input'); e.type = 'hidden'; e.name = 'email'; e.value = contact.email; form.appendChild(e);
-        var c = document.createElement('input'); c.type = 'hidden'; c.name = 'consent'; c.value = 'yes'; form.appendChild(c);
+        document.getElementById('fullNameInput').value = contact.name;
+        document.getElementById('phoneInput').value = contact.phone;
+        document.getElementById('emailInput').value = contact.email;
+        document.getElementById('consentInput').value = 'yes';
 
-        if (typeof gtag === 'function') gtag('event', 'lead_submit');
-        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'get_help_form_conversational' });
+        /* Push identity first so funnel.js can hash email/phone and set them
+           as Meta Advanced Matching BEFORE the Lead event fires. */
+        if (window.LHI && typeof window.LHI.identify === 'function') {
+          window.LHI.identify({
+            email: contact.email,
+            phone: contact.phone,
+            name:  contact.name,
+            zip:   answers && answers.zip ? answers.zip : null
+          });
+        }
 
-        form.submit();
+        /* Fire Lead through the unified bus → Meta Pixel + GA4 + Supabase
+           with a single eventID for future CAPI dedup. Tiny delay lets
+           SHA-256 hashing + fbq('set','userData') resolve before the Lead
+           event is sent — needed for strict ordering on the first submit
+           of a session. 50ms is well under any UX threshold. */
+        if (window.LHI && typeof window.LHI.track === 'function') {
+          setTimeout(function () {
+            window.LHI.track('Lead', {
+              content_name: 'get_help_form_conversational',
+              line_of_business: answers && answers.coverageType ? answers.coverageType : null
+            });
+          }, 50);
+        } else {
+          /* Fallback if funnel.js failed to load — keep raw fires so we
+             never lose a lead. */
+          if (typeof gtag === 'function') gtag('event', 'lead_submit');
+          if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'get_help_form_conversational' });
+        }
+
+        var formData = new FormData(form);
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString()
+        }).then(function() {
+          window.location.href = '/thanks.html';
+        }).catch(function() {
+          form.submit();
+        });
       }
 
       function render() {

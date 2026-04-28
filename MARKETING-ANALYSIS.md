@@ -60,7 +60,7 @@
 
 ### 2.1 Add Facebook Pixel to ALL Pages (Not Just Calendly)
 
-**Problem:** Your Facebook Pixel (ID: `296757110861706`) currently only fires on `/calendly-book.html`. This means you cannot retarget anyone who visits your homepage, reads your blog, or looks at plans.
+**Problem:** Your Facebook Pixel (ID: `1480756087079484`) currently only fires on `/calendly-book.html`. This means you cannot retarget anyone who visits your homepage, reads your blog, or looks at plans.
 
 **Fix:** Add the pixel to every page's `<head>`, right after the GA4 tag:
 ```html
@@ -74,7 +74,7 @@
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '296757110861706');
+  fbq('init', '1480756087079484');
   fbq('track', 'PageView');
 </script>
 ```

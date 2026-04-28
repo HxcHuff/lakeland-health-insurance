@@ -1,5 +1,6 @@
 // Sticky CTA Bar for Blog Posts
 // Auto-injects a fixed bottom bar after scrolling 300px
+// ViewContent + tel: Contact tracking now handled by analytics.js auto-wiring
 (function() {
     // Create sticky bar HTML
     var bar = document.createElement('div');
@@ -9,8 +10,8 @@
     bar.innerHTML = '<div class="sticky-cta-inner">' +
         '<span class="sticky-cta-text">Need help choosing a plan?</span>' +
         '<div class="sticky-cta-buttons">' +
-            '<a href="tel:+18636403102" class="sticky-cta-call" onclick="if(typeof gtag===\'function\')gtag(\'event\',\'phone_call\',{event_category:\'blog_sticky_cta\'});if(typeof fbq===\'function\')fbq(\'track\',\'Contact\',{content_name:\'blog_sticky_cta\'})">Call (863) 640-3102</a>' +
-            '<a href="/#contact" class="sticky-cta-quote">Get Free Quote</a>' +
+            '<a href="tel:+18636403102" class="sticky-cta-call" onclick="if(typeof gtag===\'function\')gtag(\'event\',\'phone_call\',{event_category:\'blog_sticky_cta\'})">Call (863) 640-3102</a>' +
+            '<a href="/get-help/" class="sticky-cta-quote">Get Free Quote</a>' +
         '</div>' +
         '<button class="sticky-cta-dismiss" aria-label="Dismiss">&times;</button>' +
     '</div>';

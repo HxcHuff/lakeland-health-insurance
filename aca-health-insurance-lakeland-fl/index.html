@@ -17,25 +17,10 @@
   <meta name="twitter:description" content="Structured ACA Marketplace enrollment guidance in Lakeland and Polk County.">
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-
-  <!-- Facebook Pixel -->
-  <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '296757110861706');
-    fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=296757110861706&ev=PageView&noscript=1"/></noscript>
-  <script type="application/ld+json">
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -281,6 +266,8 @@
       width: 100%;
     }
   </style>
+    <script defer src="/js/analytics.js"></script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1480756087079484&ev=PageView&noscript=1"/></noscript>
 </head>
 <body>
   <header>
@@ -302,7 +289,7 @@
             <div class="menu-item"><a href="/">Home</a></div>
             <div class="menu-item"><a href="/plans/">Health Plans</a></div>
             <div class="menu-item"><a href="/blog/">Blog</a></div>
-            <div class="menu-item"><a href="/carriers/aca-florida-2026/">ACA Carrier Hub</a></div>
+            <div class="menu-item"><a href="/carriers/">ACA Carrier Hub</a></div>
             <div class="menu-item"><a href="/contact/">Contact</a></div>
           </div>
         </div>
@@ -321,12 +308,12 @@
         <p>Licensed. Local. Accountable.</p>
         <div class="hero-cta-row">
           <a class="btn-primary" href="#eligibility-form">Check My Eligibility</a>
-          <a class="btn-secondary" href="/carriers/aca-florida-2026/">Compare ACA Plans</a>
+          <a class="btn-secondary" href="/carriers/">Compare ACA Plans</a>
           <a class="btn-secondary" href="/blog/florida-aca-enrollment-and-benefits-2026.html">Read 2026 ACA Guide</a>
         </div>
         <p class="explore-strip">
           Not ready to submit yet? Start with
-          <a href="/carriers/aca-florida-2026/">carrier plan comparisons</a>
+          <a href="/carriers/">carrier plan comparisons</a>
           or the
           <a href="/blog/florida-aca-enrollment-and-benefits-2026.html">Florida ACA enrollment guide</a>.
         </p>
@@ -423,7 +410,7 @@
           <p>Documentation may be required for Special Enrollment verification.</p>
           <p class="muted">If you live in Lakeland or anywhere in Polk County and need structured ACA enrollment guidance, start here.</p>
 
-          <form name="aca-lakeland-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field">
+          <form id="acaLakelandForm" name="aca-lakeland-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" data-funnel-track data-funnel-event="Lead" data-funnel-name="local_seo_aca_form">
             <input type="hidden" name="form-name" value="aca-lakeland-lead">
             <p style="display:none;">
               <label>Do not fill this out: <input name="bot-field"></label>
@@ -493,21 +480,29 @@
       }
     });
 
-    // Local preview fallback: python http.server does not handle POST for Netlify forms.
+    // Form submit via fetch (Netlify requires POST to a page with the form definition)
     (function () {
-      const isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
-      const form = document.querySelector('form[name="aca-lakeland-lead"]');
+      var form = document.getElementById('acaLakelandForm');
       if (!form) return;
 
-      form.addEventListener('submit', function () {
-        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'aca_lakeland_lead_form' });
-        if (typeof gtag === 'function') gtag('event', 'lead_submit', { form_name: 'aca_lakeland_lead' });
-      });
-
-      if (!isLocal) return;
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        window.location.href = form.getAttribute('action') || '/thanks.html';
+        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'aca_lakeland_lead_form' });
+        if (typeof gtag === 'function') gtag('event', 'lead_submit', { form_name: 'aca_lakeland_lead' });
+
+        var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+        if (isLocal) { window.location.href = '/thanks.html'; return; }
+
+        var formData = new FormData(form);
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString()
+        }).then(function() {
+          window.location.href = '/thanks.html';
+        }).catch(function() {
+          form.submit();
+        });
       });
     })();
   </script>

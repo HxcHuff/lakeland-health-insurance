@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Ad Funnel Strategy — A/B Test Campaign | Lakeland Health Insurance</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        :root {
+            --navy: #1B2A4A;
+            --gold: #D4A843;
+            --blue: #2563EB;
+            --line: #E2E8F0;
+            --text: #1E293B;
+            --muted: #64748B;
+            --bg: #F8FAFC;
+            --card: #FFFFFF;
+            --green: #10B981;
+            --red: #EF4444;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.7;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+        .page-header {
+            background: linear-gradient(135deg, #0F1A2E 0%, #1B2A4A 100%);
+            color: #fff;
+            padding: 48px 0 40px;
+            text-align: center;
+        }
+        .page-header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+        .page-header p { color: rgba(255,255,255,0.85); }
+        .badge {
+            display: inline-block;
+            background: var(--gold);
+            color: #111;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .section {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 28px;
+            margin: 24px auto;
+        }
+        .section h2 {
+            color: var(--navy);
+            font-size: 1.35rem;
+            margin-bottom: 12px;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 8px;
+            display: inline-block;
+        }
+        h3 { color: var(--navy); margin: 16px 0 8px; font-size: 1.15rem; }
+        p { margin-bottom: 10px; }
+
+        /* Funnel Diagram */
+        .funnel { display: flex; flex-direction: column; align-items: center; gap: 0; margin: 20px 0; }
+        .funnel-stage {
+            background: linear-gradient(135deg, var(--navy), var(--blue));
+            color: #fff;
+            padding: 16px 24px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+        }
+        .funnel-stage.gold { background: linear-gradient(135deg, #B8941F, var(--gold)); color: #111; }
+        .funnel-stage.green { background: linear-gradient(135deg, #059669, var(--green)); }
+        .funnel-stage .label { font-size: 0.8rem; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.5px; }
+        .funnel-stage .main { font-size: 1.1rem; font-weight: 700; }
+        .funnel-stage .detail { font-size: 0.88rem; opacity: 0.9; }
+        .funnel-arrow { font-size: 1.5rem; color: var(--muted); margin: 4px 0; }
+        .funnel-pixel {
+            background: #FEF3C7;
+            border: 1px dashed var(--gold);
+            color: #92400E;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin: 4px 0;
+        }
+
+        /* Post Cards */
+        .post-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 16px 0; }
+        .post-card {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 20px;
+            background: var(--bg);
+        }
+        .post-card.active { border-color: var(--gold); border-width: 2px; }
+        .post-card h4 { color: var(--navy); font-size: 1rem; margin-bottom: 6px; }
+        .post-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        .tag-a { background: #DBEAFE; color: #1E40AF; }
+        .tag-b { background: #FEF3C7; color: #92400E; }
+        .tag-c { background: #FEE2E2; color: #991B1B; }
+
+        /* Budget Table */
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        th { background: linear-gradient(135deg, var(--navy), var(--blue)); color: #fff; padding: 10px; text-align: left; }
+        td { border: 1px solid var(--line); padding: 10px; text-align: left; }
+        tr:nth-child(even) { background: var(--bg); }
+
+        /* Metric Cards */
+        .metric-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 14px 0; }
+        .metric {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+        }
+        .metric .number { font-size: 1.6rem; font-weight: 800; color: var(--navy); }
+        .metric .label { font-size: 0.82rem; color: var(--muted); }
+
+        /* Timeline */
+        .timeline { margin: 16px 0; }
+        .timeline-item {
+            display: flex;
+            gap: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--line);
+        }
+        .timeline-item:last-child { border-bottom: none; }
+        .timeline-day {
+            background: var(--navy);
+            color: #fff;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            height: fit-content;
+        }
+        .timeline-day.gold-bg { background: var(--gold); color: #111; }
+        .timeline-day.green-bg { background: var(--green); }
+
+        .highlight-box {
+            border-left: 4px solid var(--gold);
+            background: #FFFBF2;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin: 14px 0;
+        }
+        .warn-box {
+            border-left: 4px solid var(--red);
+            background: #FEF2F2;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin: 14px 0;
+        }
+        .tip-box {
+            border-left: 4px solid var(--green);
+            background: #F0FDF4;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin: 14px 0;
+        }
+        .small { color: var(--muted); font-size: 0.88rem; }
+
+        @media (max-width: 768px) {
+            .section { padding: 18px; }
+            .post-grid { grid-template-columns: 1fr; }
+            .metric-row { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body class="blog-post">
+
+<div class="page-header">
+    <div class="container">
+        <span class="badge">INTERNAL STRATEGY DOC</span>
+        <h1>Facebook Ad → Blog → Lead Funnel</h1>
+        <p>A/B Test Campaign | 3 Blog Posts | $20–30/day Budget | Pixel Strengthening</p>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- SECTION 1: FUNNEL OVERVIEW -->
+    <div class="section">
+        <h2>Funnel Architecture</h2>
+        <p>Every dollar flows through one path. The blog post is the value layer — it warms cold traffic before the ask. The /get-help/ form is the only conversion endpoint.</p>
+
+        <div class="funnel">
+            <div class="funnel-stage">
+                <div class="label">Stage 1 — Paid Traffic</div>
+                <div class="main">Facebook Ad (Awareness / Traffic Objective)</div>
+                <div class="detail">Cold audience → Interest + geo targeting → Lakeland / Polk / Central FL</div>
+            </div>
+            <div class="funnel-pixel">Meta Pixel: PageView fires on blog load</div>
+            <div class="funnel-arrow">▼</div>
+            <div class="funnel-stage">
+                <div class="label">Stage 2 — Value Layer</div>
+                <div class="main">Blog Post (Education + Authority)</div>
+                <div class="detail">3 posts in rotation — each targets a different pain point</div>
+            </div>
+            <div class="funnel-pixel">Meta Pixel: ViewContent fires on scroll depth 50%+</div>
+            <div class="funnel-arrow">▼</div>
+            <div class="funnel-stage gold">
+                <div class="label">Stage 3 — Conversion</div>
+                <div class="main">/get-help/ Structured Lead Form</div>
+                <div class="detail">Multi-step conversational wizard → coverage type, ZIP, contact info</div>
+            </div>
+            <div class="funnel-pixel">Meta Pixel: Lead event fires on form completion</div>
+            <div class="funnel-arrow">▼</div>
+            <div class="funnel-stage green">
+                <div class="label">Stage 4 — Follow-Up</div>
+                <div class="main">Broker Contact (Phone / Email / Messenger)</div>
+                <div class="detail">David responds within 1 business hour — runs through HealthSherpa</div>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <strong>Pixel Strategy:</strong> This campaign is dual-purpose. Primary goal is lead generation. Secondary goal is feeding Meta Pixel with high-quality PageView and ViewContent events from your target demographic. Within 2–3 weeks of consistent traffic, you'll be able to build Lookalike Audiences off this data for Phase 2 retargeting campaigns.
+        </div>
+    </div>
+
+    <!-- SECTION 2: THE 3 BLOG POSTS -->
+    <div class="section">
+        <h2>A/B Test: 3 Blog Posts</h2>
+        <p>Each post targets a different audience segment and emotional trigger. All three funnel to <code>/get-help/</code> with UTM-tagged CTAs for attribution tracking.</p>
+
+        <div class="post-grid">
+            <div class="post-card active">
+                <span class="post-tag tag-a">POST A</span>
+                <h4>The $0 Premium Plan Most Florida Families Don't Know Exists</h4>
+                <p class="small"><strong>Target:</strong> ACA marketplace shoppers, self-employed, gig workers</p>
+                <p class="small"><strong>Hook:</strong> Curiosity gap — "$0 premium" stops the scroll. CSR Silver plans are under-marketed.</p>
+                <p class="small"><strong>Emotion:</strong> Discovery / "I've been overpaying"</p>
+                <p class="small"><strong>CTA UTM:</strong> <code>?utm_source=facebook&utm_medium=paid&utm_campaign=blog_ab_test&utm_content=post_a_zero_premium</code></p>
+            </div>
+            <div class="post-card">
+                <span class="post-tag tag-b">POST B</span>
+                <h4>Divorced, Fired, or Turning 26? Your 60-Day Health Insurance Window</h4>
+                <p class="small"><strong>Target:</strong> Life-changers — divorce, job loss, aging off parent's plan, new baby, relocation</p>
+                <p class="small"><strong>Hook:</strong> Urgency — "60-day window" creates time pressure. Multiple triggers = wider audience.</p>
+                <p class="small"><strong>Emotion:</strong> Anxiety → Relief</p>
+                <p class="small"><strong>CTA UTM:</strong> <code>?utm_source=facebook&utm_medium=paid&utm_campaign=blog_ab_test&utm_content=post_b_life_change</code></p>
+            </div>
+            <div class="post-card">
+                <span class="post-tag tag-c">POST C</span>
+                <h4>What One ER Visit Actually Costs in Lakeland Without Insurance</h4>
+                <p class="small"><strong>Target:</strong> Uninsured adults, cost-conscious, "I'll just pay cash" crowd</p>
+                <p class="small"><strong>Hook:</strong> Shock value — real ER bill numbers from Lakeland Regional. Local specificity.</p>
+                <p class="small"><strong>Emotion:</strong> Fear → Action</p>
+                <p class="small"><strong>CTA UTM:</strong> <code>?utm_source=facebook&utm_medium=paid&utm_campaign=blog_ab_test&utm_content=post_c_er_cost</code></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3: BUDGET ALLOCATION -->
+    <div class="section">
+        <h2>Budget Allocation Strategy</h2>
+        <p>At $20–30/day, every dollar has to earn its keep. Here's the phased approach:</p>
+
+        <h3>Phase 1: Discovery (Days 1–10)</h3>
+        <table>
+            <thead>
+                <tr><th>Ad Set</th><th>Blog Post</th><th>Daily Budget</th><th>Objective</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Ad Set A</td><td>Post A — $0 Premium</td><td>$10/day</td><td>Traffic → Blog</td></tr>
+                <tr><td>Ad Set B</td><td>Post B — Life Change</td><td>$10/day</td><td>Traffic → Blog</td></tr>
+                <tr><td>Ad Set C</td><td>Post C — ER Cost</td><td>$10/day</td><td>Traffic → Blog</td></tr>
+            </tbody>
+        </table>
+        <p class="small">Total: $30/day. Run all three evenly for 10 days to collect baseline data.</p>
+
+        <h3>Phase 2: Optimization (Days 11–21)</h3>
+        <table>
+            <thead>
+                <tr><th>Action</th><th>Trigger</th><th>Budget Shift</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Kill lowest performer</td><td>Highest CPC + lowest /get-help/ clicks</td><td>Reallocate to top 2</td></tr>
+                <tr><td>Scale winner</td><td>Lowest CPC + highest CTR to /get-help/</td><td>60% of budget</td></tr>
+                <tr><td>Test runner-up</td><td>Second best metrics</td><td>40% of budget</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Phase 3: Scale (Days 22–30)</h3>
+        <table>
+            <thead>
+                <tr><th>Action</th><th>Trigger</th><th>Budget Shift</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Double down on winner</td><td>Consistent sub-$1.50 CPC with /get-help/ conversions</td><td>$20–25/day on winner</td></tr>
+                <tr><td>Launch Lookalike Audience</td><td>500+ pixel events collected</td><td>$5–10/day test budget</td></tr>
+                <tr><td>Retarget blog readers</td><td>Custom audience of blog visitors who didn't convert</td><td>$5/day retarget</td></tr>
+            </tbody>
+        </table>
+
+        <div class="warn-box">
+            <strong>Decision Rule:</strong> If no post is getting below $2.00 CPC after 7 days, pause everything and test new ad creative — the blog content isn't the problem, the ad hook is. Don't burn budget on bad creative.
+        </div>
+    </div>
+
+    <!-- SECTION 4: TARGET METRICS -->
+    <div class="section">
+        <h2>Target KPIs</h2>
+
+        <div class="metric-row">
+            <div class="metric">
+                <div class="number">$0.80–1.50</div>
+                <div class="label">Target CPC (Link Click)</div>
+            </div>
+            <div class="metric">
+                <div class="number">2–4%</div>
+                <div class="label">Target CTR (Ad)</div>
+            </div>
+            <div class="metric">
+                <div class="number">8–15%</div>
+                <div class="label">Blog → /get-help/ Rate</div>
+            </div>
+            <div class="metric">
+                <div class="number">$15–40</div>
+                <div class="label">Cost Per Lead (Target)</div>
+            </div>
+        </div>
+
+        <div class="metric-row">
+            <div class="metric">
+                <div class="number">500+</div>
+                <div class="label">Pixel Events (30 Days)</div>
+            </div>
+            <div class="metric">
+                <div class="number">15–30</div>
+                <div class="label">Leads (30 Days)</div>
+            </div>
+            <div class="metric">
+                <div class="number">3–6</div>
+                <div class="label">Enrollments (30 Days)</div>
+            </div>
+            <div class="metric">
+                <div class="number">$900–1,800</div>
+                <div class="label">Est. Annual Commission Value</div>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <strong>ROI Math:</strong> At $30/day × 30 days = $900 total spend. If you close 3 enrollments at $300/yr commission each = $900/yr recurring. Break-even in month one, profitable in month two. With 6 enrollments, you're at 2x ROI in year one — and that commission recurs.
+        </div>
+    </div>
+
+    <!-- SECTION 5: AUDIENCE TARGETING -->
+    <div class="section">
+        <h2>Facebook Audience Targeting</h2>
+
+        <h3>Primary Audience (All Ad Sets)</h3>
+        <p><strong>Location:</strong> Lakeland, FL + 25 mile radius (covers Polk County, parts of Hillsborough, Osceola)</p>
+        <p><strong>Age:</strong> 26–64</p>
+        <p><strong>Exclude:</strong> People who work for health insurance companies, people already engaged with competitor pages</p>
+
+        <h3>Interest Layering by Post</h3>
+        <table>
+            <thead>
+                <tr><th>Post</th><th>Interest Targets</th><th>Behavior Targets</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Post A — $0 Premium</td>
+                    <td>Self-employed, Small business owners, Freelancing, Health insurance, Tax preparation</td>
+                    <td>Small business page admins, Recently moved</td>
+                </tr>
+                <tr>
+                    <td>Post B — Life Change</td>
+                    <td>Divorce support, Job searching, Career change, Parenting, College graduation</td>
+                    <td>Life events: Recently moved, New job, Newly engaged</td>
+                </tr>
+                <tr>
+                    <td>Post C — ER Cost</td>
+                    <td>Health and wellness, Personal finance, Budgeting, Dave Ramsey, Emergency savings</td>
+                    <td>No employer listed, Gig economy workers</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 6: PIXEL EVENT STRATEGY -->
+    <div class="section">
+        <h2>Pixel Event Architecture</h2>
+        <p>Every stage of the funnel fires a trackable event. This is how you build audiences and measure true attribution.</p>
+
+        <table>
+            <thead>
+                <tr><th>User Action</th><th>Pixel Event</th><th>Where</th><th>Use</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Lands on blog post</td><td><code>PageView</code></td><td>Blog page</td><td>Audience building, retargeting pool</td></tr>
+                <tr><td>Scrolls 50%+ of article</td><td><code>ViewContent</code></td><td>Blog page</td><td>Engagement quality signal</td></tr>
+                <tr><td>Clicks CTA to /get-help/</td><td><code>AddToCart</code> (custom)</td><td>Blog CTA button</td><td>Intent signal, high-value audience</td></tr>
+                <tr><td>Lands on /get-help/</td><td><code>PageView</code></td><td>/get-help/</td><td>Form visitor audience</td></tr>
+                <tr><td>Completes form step 2</td><td><code>lead_step_2_complete</code> (gtag)</td><td>/get-help/ form</td><td>Qualified lead tracking</td></tr>
+                <tr><td>Submits contact info</td><td><code>Lead</code></td><td>/get-help/ form</td><td>Conversion optimization target</td></tr>
+            </tbody>
+        </table>
+
+        <div class="highlight-box">
+            <strong>Implementation Note:</strong> You'll want to add a <code>ViewContent</code> event on blog scroll depth (50%) and an <code>AddToCart</code> custom event on the CTA click. These don't exist yet in your current analytics.js — add them to strengthen pixel signal quality. The existing <code>PageView</code> and <code>lead_step_2_complete</code> events are already in place.
+        </div>
+    </div>
+
+    <!-- SECTION 7: 30-DAY TIMELINE -->
+    <div class="section">
+        <h2>30-Day Execution Timeline</h2>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <span class="timeline-day">Day 0</span>
+                <div>
+                    <strong>Publish & Configure</strong>
+                    <p class="small">Deploy all 3 blog posts. Verify Meta Pixel fires on each. Set up UTM parameters. Create 3 ad sets in Facebook Ads Manager with Traffic objective. Upload ad creative.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-day">Days 1–3</span>
+                <div>
+                    <strong>Learning Phase</strong>
+                    <p class="small">Let all 3 ad sets run at $10/day each. Facebook is optimizing delivery — don't touch anything. Monitor for disapprovals or delivery issues only.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-day">Days 4–7</span>
+                <div>
+                    <strong>First Data Check</strong>
+                    <p class="small">Pull CPC, CTR, and blog-to-/get-help/ click rates. Identify early winner and laggard. No budget changes yet — need more data.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-day gold-bg">Days 8–10</span>
+                <div>
+                    <strong>Kill / Scale Decision</strong>
+                    <p class="small">Kill lowest-performing ad set. Redistribute its $10/day to the top two (60/40 split). This is the critical inflection point.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-day">Days 11–17</span>
+                <div>
+                    <strong>Optimize Top 2</strong>
+                    <p class="small">Test 2 ad creative variants per surviving post. Adjust audience targeting if needed. Monitor /get-help/ submissions closely.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-day gold-bg">Days 18–21</span>
+                <div>
+                    <strong>Second Kill / Scale</strong>
+                    <p class="small">Evaluate remaining 2 posts. If one is clearly winning, shift 70%+ budget to it. If both performing, keep split and test new audiences.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-day green-bg">Days 22–30</span>
+                <div>
+                    <strong>Scale & Retarget</strong>
+                    <p class="small">Launch Lookalike Audience (1%) from pixel data. Create retargeting campaign for blog visitors who didn't submit /get-help/. Consider increasing daily budget to $40–50 if CPL is under $30.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 8: WHAT TO TRACK -->
+    <div class="section">
+        <h2>Decision Dashboard (What to Check Daily)</h2>
+        <table>
+            <thead>
+                <tr><th>Metric</th><th>Where to Check</th><th>Good</th><th>Action if Bad</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>CPC (Link Click)</td><td>Ads Manager</td><td>Under $1.50</td><td>Test new ad creative / headline</td></tr>
+                <tr><td>CTR (Link)</td><td>Ads Manager</td><td>Above 2%</td><td>Change ad image or hook</td></tr>
+                <tr><td>Blog Bounce Rate</td><td>Google Analytics</td><td>Under 65%</td><td>Improve blog intro / mobile UX</td></tr>
+                <tr><td>Blog → /get-help/ Rate</td><td>GA UTM tracking</td><td>Above 8%</td><td>Strengthen in-article CTAs</td></tr>
+                <tr><td>/get-help/ Completion</td><td>GA Events</td><td>Above 30%</td><td>Simplify form or reduce steps</td></tr>
+                <tr><td>Cost Per Lead</td><td>Calculated</td><td>Under $30</td><td>Optimize full funnel, not just ads</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<footer style="background:#fff;border-top:1px solid #E2E8F0;padding:24px 0;margin-top:30px;">
+    <div class="container">
+        <p class="small" style="text-align:center;">Internal Strategy Document — Lakeland Health Insurance | Not for public distribution</p>
+    </div>
+</footer>
+
+</body>
+</html>

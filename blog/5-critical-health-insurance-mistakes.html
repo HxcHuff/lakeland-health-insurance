@@ -2,29 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-W45RMKHXV0');
-</script>
-    <!-- Facebook Pixel -->
-    <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '296757110861706');
-        fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=296757110861706&ev=PageView&noscript=1"/></noscript>
-    <script type="application/ld+json">
+    <!-- Google tag (gtag.js) --><script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
@@ -219,11 +197,12 @@
         }
 
         .cta-button {
-            background: linear-gradient(135deg, #1B2A4A, #2563EB);
-            color: white;
+            background: var(--gold, #D4A843);
+            color: #0F1A2E;
             padding: 12px 24px;
             border: none;
-            border-radius: 50px;
+            border-radius: 100px;
+            box-shadow: 0 4px 15px rgba(212,168,67,0.3);
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -233,7 +212,7 @@
 
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+            box-shadow: 0 10px 30px rgba(212,168,67,0.45);
         }
 
         /* Article Header */
@@ -384,7 +363,7 @@
 
         /* CTA Section */
         .article-cta {
-            background: linear-gradient(135deg, #1B2A4A, #2563EB);
+            background: var(--gold, #D4A843);
             color: white;
             padding: 3rem;
             border-radius: 20px;
@@ -574,8 +553,10 @@ header .cta-button {
   </style>
 
     <link rel="stylesheet" href="/css/blog-unified.css">
+    <script defer src="/js/analytics.js"></script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1480756087079484&ev=PageView&noscript=1"/></noscript>
 </head>
-<body>
+<body class="blog-post">
     <header>
         <nav>
             <div class="logo-container">
@@ -595,7 +576,7 @@ header .cta-button {
                     <div class="menu-item"><a href="/#about">About Us</a></div>
                     <div class="menu-item"><a href="/links/">Links</a></div>
                     <div class="menu-item"><a href="/chat.html">Chat</a></div>
-                    <div class="menu-item"><a href="/#contact">Contact</a></div>
+                    <div class="menu-item"><a href="/get-help/">Contact</a></div>
                     <div class="menu-item"><a href="tel:+18636403102">📞 Call Now</a></div>
                 </div>
             </div>
@@ -605,7 +586,7 @@ header .cta-button {
                 <li><a href="/blog/">Blog</a></li>
                 <li><a href="/chat.html">Chat</a></li>
                 <li><a href="/links/">Links</a></li>
-                <li><a href="/#contact">Contact</a></li>
+                <li><a href="/get-help/">Contact</a></li>
             </ul>
             <a href="/get-help/" class="cta-button">Talk to David</a>
         </nav>

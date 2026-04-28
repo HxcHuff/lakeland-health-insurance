@@ -1,196 +1,37 @@
 [build.processing.html]
   pretty_urls = false
 
-# Redirect lowercase PDF URL to actual filename
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Context-scoped env vars — Meta Pixel + CAPI only fire in production.
+# Deploy previews and branch deploys are explicitly quiet so Events Manager
+# stays clean and attribution windows aren't polluted by preview traffic.
+[context.production.environment]
+  LHI_SITE_ENV = "production"
+
+[context.deploy-preview.environment]
+  LHI_SITE_ENV = "preview"
+  # Blank the CAPI token on previews as a defense-in-depth measure; the
+  # function also checks CONTEXT, but clearing the token guarantees no
+  # accidental server-side fires if the guard is ever removed.
+  META_CAPI_ACCESS_TOKEN = ""
+
+[context.branch-deploy.environment]
+  LHI_SITE_ENV = "branch"
+  META_CAPI_ACCESS_TOKEN = ""
+
+# /api/lead -> serverless function (Meta CAPI + Netlify Forms forward)
+# Kept in netlify.toml because Netlify Functions rewrites are more reliable
+# when declared here than in _redirects.
 [[redirects]]
-  from = "/downloads/florida-health-insurance-survival-guide.pdf"
-  to = "/downloads/Florida-Health-Insurance-Survival-Guide.pdf"
-  status = 301
+  from = "/api/lead"
+  to = "/.netlify/functions/lead"
+  status = 200
   force = true
 
-# Redirect non-.html blog URLs to canonical .html versions
-[[redirects]]
-  from = "/blog/5-critical-health-insurance-mistakes"
-  to = "/blog/5-critical-health-insurance-mistakes.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/aca-open-enrollment-deadline"
-  to = "/blog/aca-open-enrollment-deadline.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/aca-subsidy-cliff"
-  to = "/blog/aca-subsidy-cliff.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/aca-subsidy-tax-return-clawback"
-  to = "/blog/aca-subsidy-tax-return-clawback.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/aca-vs-short-term-plans"
-  to = "/blog/aca-vs-short-term-plans.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/dental-insurance-guide"
-  to = "/blog/dental-insurance-guide.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/fixed-indemnity-analysis"
-  to = "/blog/fixed-indemnity-analysis.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/florida-aca-enrollment-and-benefits-2026"
-  to = "/blog/florida-aca-enrollment-and-benefits-2026.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/florida-insurance-guide"
-  to = "/blog/florida-insurance-guide.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/freelancer-health-insurance-lakeland-2026"
-  to = "/blog/freelancer-health-insurance-lakeland-2026.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/health-insurance-self-employed-tax-deductions"
-  to = "/blog/health-insurance-self-employed-tax-deductions.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/hmo-vs-ppo-vs-epo-explained"
-  to = "/blog/hmo-vs-ppo-vs-epo-explained.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/how-to-negotiate-hospital-bills"
-  to = "/blog/how-to-negotiate-hospital-bills.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/how-to-read-insurance-card"
-  to = "/blog/how-to-read-insurance-card.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/how-to-use-health-insurance-without-going-broke"
-  to = "/blog/how-to-use-health-insurance-without-going-broke.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/lakeland-regional-watson-clinic-insurance-2026"
-  to = "/blog/lakeland-regional-watson-clinic-insurance-2026.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/medicare-advantage-lakeland-2026"
-  to = "/blog/medicare-advantage-lakeland-2026.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/medicare-advantage-vs-supplement"
-  to = "/blog/medicare-advantage-vs-supplement.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/medicare-for-dummies"
-  to = "/blog/medicare-for-dummies.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/no-your-agent-doesnt-hate-you"
-  to = "/blog/no-your-agent-doesnt-hate-you.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/non-income-based-health-insurance-florida"
-  to = "/blog/non-income-based-health-insurance-florida.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/planning-healthcare-budget-2026"
-  to = "/blog/planning-healthcare-budget-2026.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/preexisting-condition-guide"
-  to = "/blog/preexisting-condition-guide.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/real-cost-going-without-health-insurance"
-  to = "/blog/real-cost-going-without-health-insurance.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/self-employed-tax-deductions-ichra-guide"
-  to = "/blog/self-employed-tax-deductions-ichra-guide.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/short-term-health-insurance-guide"
-  to = "/blog/short-term-health-insurance-guide.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/short-term-medical-guide"
-  to = "/blog/short-term-medical-guide.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/trump-state-of-the-union-healthcare-hsa-2026"
-  to = "/blog/trump-state-of-the-union-healthcare-hsa-2026.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/understanding-out-of-pocket-maximum"
-  to = "/blog/understanding-out-of-pocket-maximum.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/what-is-supplemental-coverage"
-  to = "/blog/what-is-supplemental-coverage.html"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/blog/what-to-do-when-insurance-denies-claim"
-  to = "/blog/what-to-do-when-insurance-denies-claim.html"
-  status = 301
-  force = true
+# NOTE: Page/blog redirects (PDF casing, non-.html → .html, /lp/ aliases,
+# /find-plans, etc.) live in /_redirects as the single source of truth.
+# Do not duplicate them here — Netlify processes _redirects first and
+# duplicates cause drift.
