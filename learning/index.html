@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Health Insurance Learning Hub | Lakeland Health Insurance</title>
+    <meta name="description" content="Access our collection of interactive tools, calculators, educational content, and resources to help you make informed health insurance decisions.">
+    <meta name="keywords" content="health insurance tools, calculators, educational guides, learning resources, ACA, Medicare, insurance guides">
+    <link rel="canonical" href="https://lakelandhealthinsurance.com/learning/">
+    <meta name="robots" content="index, follow">
+    <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
+    <meta property="og:title" content="Your Health Insurance Learning Hub | Lakeland Health Insurance">
+    <meta property="og:description" content="Access our collection of interactive tools, calculators, educational content, and resources to help you make informed health insurance decisions.">
+    <meta property="og:url" content="https://lakelandhealthinsurance.com/learning/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Lakeland Health Insurance">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Your Health Insurance Learning Hub | Lakeland Health Insurance">
+    <meta name="twitter:description" content="Access our collection of interactive tools, calculators, educational content, and resources to help you make informed health insurance decisions.">
+    <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
+
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1B2A4A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+
+    <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://lakelandhealthinsurance.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Learn",
+          "item": "https://lakelandhealthinsurance.com/learning/"
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --navy: #1B2A4A;
+            --navy-deep: #0F1A2E;
+            --blue: #2563EB;
+            --blue-light: #3B82F6;
+            --sky: #E8F0FE;
+            --sky-soft: #F0F5FF;
+            --white: #FFFFFF;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-500: #64748B;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+            --gold: #D4A843;
+            --gold-soft: #F5ECD7;
+            --green: #16A34A;
+            --green-soft: #DCFCE7;
+            --red-soft: #FEF2F2;
+            --orange: #EA580C;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.65;
+            color: var(--gray-800);
+            background: var(--white);
+        }
+
+        .serif {
+            font-family: 'Instrument Serif', serif;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Compliance Banner */
+        .compliance-banner {
+            background: var(--navy-deep);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 0.78rem;
+            line-height: 1.5;
+            letter-spacing: 0.01em;
+        }
+
+        .compliance-banner strong {
+            color: var(--gold);
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(12px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-name {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--navy);
+            line-height: 1.2;
+        }
+
+        .license-tag {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.7rem;
+            color: var(--gold);
+            font-weight: 600;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .menu-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .menu-button:hover {
+            background-color: var(--gray-100);
+        }
+
+        .ellipses {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .dot {
+            width: 4px;
+            height: 4px;
+            background-color: var(--gray-500);
+            border-radius: 50%;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 100px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--gray-100);
+            transition: background-color 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: var(--gray-50);
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: var(--gray-800);
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-700);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--navy);
+        }
+
+        .cta-button {
+            background: var(--gold);
+            color: var(--navy-deep);
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 168, 67, 0.35);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+            background: linear-gradient(165deg, var(--navy-deep) 0%, var(--navy) 50%, #1E3A5F 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 80%, rgba(37,99,235,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(212,168,67,0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2.5rem, 5vw, 3rem);
+            font-weight: 400;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.85;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Content Sections */
+        .learning-section {
+            padding: 80px 0;
+        }
+
+        .learning-section:nth-child(even) {
+            background: var(--gray-50);
+        }
+
+        .learning-section h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--navy);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray-600);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .content-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--blue-light);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .content-card h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            color: var(--navy);
+        }
+
+        .content-card p {
+            color: var(--gray-600);
+            line-height: 1.65;
+            font-size: 0.95rem;
+        }
+
+        /* External Resources List */
+        .resources-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .resource-link {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--blue-light);
+        }
+
+        .resource-link h4 {
+            color: var(--navy);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .resource-link p {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--navy-deep);
+            color: rgba(255,255,255,0.5);
+            padding: 5rem 0 3rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+            text-align: left;
+        }
+
+        .footer-column h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 1rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .footer-column a {
+            color: var(--gold);
+            text-decoration: none;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: #ecc566;
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-bottom p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.5;
+            margin: 0.25rem 0;
+        }
+
+        /* Click to Call Button */
+        .click-to-call {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--green), #059669);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .click-to-call:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(22, 163, 74, 0.6);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .resources-list {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-column {
+                text-align: center;
+            }
+
+            .footer-column ul {
+                display: inline-block;
+                text-align: left;
+            }
+
+            .click-to-call {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px 16px;
+                font-size: 1rem;
+            }
+        }
+
+        /* LHI Header Standardization Override */
+        header .brand-name,
+        header .logo {
+            font-family: 'Instrument Serif', serif !important;
+            font-size: 1.2rem !important;
+            font-weight: 400 !important;
+            line-height: 1.2 !important;
+            color: var(--navy, #1B2A4A) !important;
+            letter-spacing: 0 !important;
+            text-decoration: none !important;
+        }
+
+        header .license-tag,
+        header .logo::after {
+            content: 'Licensed FL Broker #W371813' !important;
+            font-family: 'DM Sans', sans-serif !important;
+            font-size: 0.7rem !important;
+            font-weight: 600 !important;
+            color: var(--gold, #D4A843) !important;
+            line-height: 1.1 !important;
+            display: block !important;
+            margin-top: 2px !important;
+        }
+
+        header .nav-links a {
+            font-size: 1rem !important;
+            font-weight: 500 !important;
+            line-height: 1.2 !important;
+        }
+
+        header .cta-button {
+            font-size: 1rem !important;
+            font-weight: 600 !important;
+            line-height: 1.2 !important;
+        }
+    </style>
+
+    <script defer src="/js/analytics.js"></script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1822900971216472&ev=PageView&noscript=1"/></noscript>
+</head>
+<body>
+    <div class="compliance-banner">
+        <strong>Important:</strong> Fixed indemnity products provide limited benefits and are <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA. &nbsp;|&nbsp; FL Broker License #W371813
+    </div>
+
+    <header>
+        <nav class="container">
+            <div class="logo-container">
+                <div class="brand-name">
+                    Lakeland Health Insurance
+                    <span class="license-tag">Licensed FL Broker #W371813</span>
+                </div>
+                <button class="menu-button" onclick="toggleMenu()">
+                    <div class="ellipses">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </button>
+
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="menu-item"><a href="/">Home</a></div>
+                    <div class="menu-item"><a href="/plans/">Health Plans</a></div>
+                    <div class="menu-item"><a href="/blog/">Blog</a></div>
+                    <div class="menu-item"><a href="/about/">About</a></div>
+                    <div class="menu-item"><a href="/learning/">Learn</a></div>
+                    <div class="menu-item"><a href="/contact/">Contact</a></div>
+                    <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/plans/">Health Plans</a></li>
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/learning/">Learn</a></li>
+                <li><a href="/contact/">Contact</a></li>
+            </ul>
+            <a href="/get-help/" class="cta-button">Talk to David</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Your Health Insurance Learning Hub</h1>
+                <p>Find the tools, calculators, guides, and resources you need to make confident health insurance decisions.</p>
+                <div style="margin-top: 1.5rem;">
+                    <a href="/get-help/" class="cta-button" style="font-size: 1.1rem; padding: 14px 28px;">Get Help Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Tools Section -->
+    <section class="learning-section">
+        <div class="container">
+            <h2 style="text-align: center;">Interactive Tools</h2>
+            <p class="section-subtitle">Use these tools to estimate costs, compare options, and understand your coverage.</p>
+            <div class="card-grid">
+                <a href="/aca-subsidy-estimator/" class="content-card">
+                    <span class="card-icon">&#128202;</span>
+                    <h3>ACA Subsidy Estimator</h3>
+                    <p>Calculate your estimated ACA subsidies and see what you might qualify for on the healthcare marketplace.</p>
+                </a>
+                <a href="/life-insurance-dime-method/" class="content-card">
+                    <span class="card-icon">&#128176;</span>
+                    <h3>DIME Life Insurance Calculator</h3>
+                    <p>Determine how much life insurance you need using the proven DIME method.</p>
+                </a>
+                <a href="/plans/" class="content-card">
+                    <span class="card-icon">&#128194;</span>
+                    <h3>Health Plans Comparison</h3>
+                    <p>Compare health insurance plans side-by-side and find the right coverage for your needs.</p>
+                </a>
+                <a href="/health-protector-guard/" class="content-card">
+                    <span class="card-icon">&#128559;</span>
+                    <h3>Health Protector Guard Info</h3>
+                    <p>Learn about fixed-indemnity coverage and how it can work with your primary health insurance.</p>
+                </a>
+                <a href="/get-help/" class="content-card">
+                    <span class="card-icon">&#128222;</span>
+                    <h3>Get Personalized Help</h3>
+                    <p>Get a free, personalized health insurance review and consultation with David.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Educational Content Section -->
+    <section class="learning-section">
+        <div class="container">
+            <h2 style="text-align: center;">Educational Content</h2>
+            <p class="section-subtitle">Read our in-depth guides and articles about health insurance, Medicare, and coverage strategies.</p>
+            <div class="card-grid">
+                <a href="/blog/" class="content-card">
+                    <span class="card-icon">&#128214;</span>
+                    <h3>Blog</h3>
+                    <p>Over 40 articles on ACA plans, Medicare, subsidies, short-term coverage, and strategies to save money on health insurance.</p>
+                </a>
+                <a href="/dudes-corner/" class="content-card">
+                    <span class="card-icon">&#128512;</span>
+                    <h3>Dude's Corner</h3>
+                    <p>David's straight talk take on insurance topics — no corporate nonsense, just real advice from the field.</p>
+                </a>
+                <a href="/our-approach.html" class="content-card">
+                    <span class="card-icon">&#128736;</span>
+                    <h3>Our Approach</h3>
+                    <p>Learn about our philosophy and how we help families find the right health insurance.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- External Resources Section -->
+    <section class="learning-section">
+        <div class="container">
+            <h2 style="text-align: center;">Government & Healthcare Resources</h2>
+            <p class="section-subtitle">Quick links to official government resources and trusted healthcare information.</p>
+            <div class="resources-list">
+                <a href="https://www.healthcare.gov" target="_blank" rel="noopener noreferrer" class="resource-link">
+                    <h4>Healthcare.gov</h4>
+                    <p>The official Health Insurance Marketplace. Enroll in ACA plans, check subsidies, and compare coverage.</p>
+                </a>
+                <a href="https://www.cms.gov" target="_blank" rel="noopener noreferrer" class="resource-link">
+                    <h4>CMS.gov</h4>
+                    <p>Centers for Medicare & Medicaid Services — official information on Medicare, Medicaid, and ACA marketplace rules.</p>
+                </a>
+                <a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer" class="resource-link">
+                    <h4>Medicare.gov</h4>
+                    <p>The official U.S. government site for Medicare. Compare plans, find doctors, and manage your benefits.</p>
+                </a>
+                <a href="https://www.floridahealth.gov" target="_blank" rel="noopener noreferrer" class="resource-link">
+                    <h4>Florida Department of Health</h4>
+                    <p>Florida's state health department. Find local health resources and public health programs.</p>
+                </a>
+                <a href="https://www.myfloridacfo.com/division/consumers" target="_blank" rel="noopener noreferrer" class="resource-link">
+                    <h4>Florida Office of Insurance Regulation</h4>
+                    <p>File insurance complaints, verify agent licenses, and learn about consumer rights.</p>
+                </a>
+                <a href="https://www.hhs.gov" target="_blank" rel="noopener noreferrer" class="resource-link">
+                    <h4>U.S. Department of Health & Human Services</h4>
+                    <p>The principal federal agency protecting the health of all Americans.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrier Pages Section -->
+    <section class="learning-section">
+        <div class="container">
+            <h2 style="text-align: center;">Insurance Carrier Guides</h2>
+            <p class="section-subtitle">Detailed enrollment and benefit guides for the carriers we work with.</p>
+            <div class="card-grid">
+                <a href="/carriers/" class="content-card">
+                    <span class="card-icon">&#128526;</span>
+                    <h3>All Carrier Pages</h3>
+                    <p>Browse comprehensive guides for every insurance carrier we represent.</p>
+                </a>
+                <a href="/carriers/florida-blue-aca-2026/" class="content-card">
+                    <span class="card-icon">&#128535;</span>
+                    <h3>Florida Blue Playbook</h3>
+                    <p>How to enroll, set up your account, and maximize your Florida Blue benefits.</p>
+                </a>
+                <a href="/carriers/unitedhealthcare-aca-2026/" class="content-card">
+                    <span class="card-icon">&#128534;</span>
+                    <h3>UnitedHealthcare Playbook</h3>
+                    <p>HealthCare.gov enrollment flow, MyUHC setup, and practical benefit strategy.</p>
+                </a>
+                <a href="/carriers/ambetter-aca-2026/" class="content-card">
+                    <span class="card-icon">&#128512;</span>
+                    <h3>Ambetter Playbook</h3>
+                    <p>Enrollment steps, referral checks, and preventive-first strategy for maximum value.</p>
+                </a>
+                <a href="/carriers/molina-aca-2026/" class="content-card">
+                    <span class="card-icon">&#128533;</span>
+                    <h3>Molina Playbook</h3>
+                    <p>Portal setup, formulary checks, prior auth workflow, and renewal readiness.</p>
+                </a>
+                <a href="/carriers/oscar-aca-2026/" class="content-card">
+                    <span class="card-icon">&#128538;</span>
+                    <h3>Oscar Playbook</h3>
+                    <p>App-first setup, network verification, and incentive-tracking workflow.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Contact David</h3>
+                    <ul>
+                        <li><a href="tel:+18636403102"><span aria-hidden="true">&#128222;</span> (863) 640-3102</a></li>
+                        <li><a href="mailto:dhuff@healthmarkets.com"><span aria-hidden="true">📧</span> dhuff@healthmarkets.com</a></li>
+                        <li><a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
+                        <li><span aria-hidden="true">📍</span> Central Florida Headquarters</li>
+                        <li><span aria-hidden="true">⏰</span> Mon-Fri 8AM-8PM EST</li>
+                        <li><span aria-hidden="true">⏰</span> Sat 9AM-5PM EST</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Service Areas</h3>
+                    <ul>
+                        <li><span aria-hidden="true">🏡</span> Florida Residents</li>
+                        <li><span aria-hidden="true">🇺🇸</span> Coverage Across the Nation</li>
+                        <li><span aria-hidden="true">💼</span> Small Business Groups</li>
+                        <li><span aria-hidden="true">👨‍👩‍👧‍👦</span> Individual & Family Plans</li>
+                        <li><span aria-hidden="true">🤓</span> Medicare Specialists</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/#plans">Insurance Plans</a></li>
+                        <li><a href="/blog/">Blog</a></li>
+                        <li><a href="/our-approach.html">Our Approach</a></li>
+                        <li><a href="/#about">About Us</a></li>
+                        <li><a href="/contact/">Get Quote</a></li>
+                        <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
+                <p>FL License #W371813 | Serving most of the United States with honest insurance advice</p>
+                <p style="margin-top: 1rem;">
+                    <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: var(--gold); text-decoration: none; font-weight: 500;">
+                        Powered by David the Insurance Dude
+                    </a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Click to Call Button -->
+    <a href="tel:+18636403102" class="click-to-call">
+        <span>&#128222;</span>
+        Call Now: (863) 640-3102
+    </a>
+
+    <script>
+        // Menu toggle function
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.classList.toggle('show');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdownMenu');
+            const button = document.querySelector('.menu-button');
+
+            if (!menu.contains(event.target) && !button.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // Automatically update footer year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
