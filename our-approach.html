@@ -456,6 +456,87 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Tagline Banner */
+        .tagline-banner {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .tagline-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 60%, #1E3A5F 100%);
+            border-radius: var(--radius-lg);
+            padding: 3.5rem 2.5rem;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            border-top: 4px solid var(--gold);
+        }
+
+        .tagline-card::before {
+            content: '\201C';
+            font-family: 'Instrument Serif', serif;
+            font-size: 8rem;
+            color: var(--gold);
+            opacity: 0.25;
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            line-height: 1;
+        }
+
+        .tagline-eyebrow {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.25rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tagline-text {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.4rem;
+            line-height: 1.3;
+            font-weight: 400;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tagline-text .accent {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .tagline-attribution {
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            opacity: 0.8;
+            position: relative;
+            z-index: 2;
+        }
+
+        @media (max-width: 768px) {
+            .tagline-card {
+                padding: 2.5rem 1.5rem;
+            }
+            .tagline-text {
+                font-size: 1.6rem;
+            }
+            .tagline-card::before {
+                font-size: 5rem;
+                top: -10px;
+                left: 15px;
+            }
+        }
+
         /* What Makes Us Different */
         .differentiators {
             padding: 100px 0;
@@ -694,6 +775,58 @@
         .click-to-call:hover {
             transform: translateY(-3px);
             box-shadow: var(--shadow-xl);
+        }
+
+        /* Messenger Button */
+        .messenger-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #0084ff, #0063d1);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 8px 25px rgba(0, 132, 255, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .messenger-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 132, 255, 0.6);
+            background: linear-gradient(135deg, #0063d1, #004494);
+        }
+
+        .messenger-icon {
+            font-size: 1.2rem;
+            animation: msgr-bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes msgr-bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-5px); }
+            60% { transform: translateY(-3px); }
+        }
+
+        @media (max-width: 768px) {
+            .messenger-button {
+                bottom: 15px;
+                left: 15px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            .click-to-call {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px 16px;
+                font-size: 1rem;
+            }
         }
 
         /* Footer */
@@ -1030,6 +1163,16 @@ header .cta-button {
         </div>
     </section>
 
+    <section class="tagline-banner">
+        <div class="container">
+            <div class="tagline-card">
+                <span class="tagline-eyebrow">Our Promise</span>
+                <p class="tagline-text">Enrollment is not the end of the relationship &mdash; <span class="accent">it's the beginning.</span></p>
+                <p class="tagline-attribution">&mdash; David Huff, Lakeland Health Insurance</p>
+            </div>
+        </div>
+    </section>
+
     <section class="differentiators">
         <div class="container">
             <h2>What Actually Makes Us Different</h2>
@@ -1205,7 +1348,15 @@ header .cta-button {
         </div>
     </footer>
 
-    <!-- Click to Call Button -->
+    <!-- Floating Action Buttons -->
+    <a href="https://m.me/2330958066941437" class="messenger-button" target="_blank" rel="noopener noreferrer">
+        <span class="messenger-icon" aria-hidden="true">&#128172;</span>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <span>Message David</span>
+            <span style="font-size: 0.8rem; opacity: 0.9;">Usually replies fast</span>
+        </div>
+    </a>
+
     <a href="tel:+18636403102" class="click-to-call">
         <span>&#x1F4DE;</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
