@@ -649,8 +649,35 @@
         document.getElementById('emailInput').value = contact.email;
         document.getElementById('consentInput').value = 'yes';
 
-        if (typeof gtag === 'function') gtag('event', 'lead_submit');
-        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'get_help_form_conversational' });
+        /* Push identity first so funnel.js can hash email/phone and set them
+           as Meta Advanced Matching BEFORE the Lead event fires. */
+        if (window.LHI && typeof window.LHI.identify === 'function') {
+          window.LHI.identify({
+            email: contact.email,
+            phone: contact.phone,
+            name:  contact.name,
+            zip:   answers && answers.zip ? answers.zip : null
+          });
+        }
+
+        /* Fire Lead through the unified bus → Meta Pixel + GA4 + Supabase
+           with a single eventID for future CAPI dedup. Tiny delay lets
+           SHA-256 hashing + fbq('set','userData') resolve before the Lead
+           event is sent — needed for strict ordering on the first submit
+           of a session. 50ms is well under any UX threshold. */
+        if (window.LHI && typeof window.LHI.track === 'function') {
+          setTimeout(function () {
+            window.LHI.track('Lead', {
+              content_name: 'get_help_form_conversational',
+              line_of_business: answers && answers.coverageType ? answers.coverageType : null
+            });
+          }, 50);
+        } else {
+          /* Fallback if funnel.js failed to load — keep raw fires so we
+             never lose a lead. */
+          if (typeof gtag === 'function') gtag('event', 'lead_submit');
+          if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'get_help_form_conversational' });
+        }
 
         var formData = new FormData(form);
         fetch('/', {
