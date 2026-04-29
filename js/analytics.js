@@ -9,6 +9,19 @@
   var PROD_HOSTS = ['lakelandhealthinsurance.com', 'www.lakelandhealthinsurance.com'];
   var IS_PROD = PROD_HOSTS.indexOf(host) !== -1;
 
+  /* QA override: ?fbq_test=1 on URL, or localStorage.lhi_fbq_test=1 once set,
+     forces pixel + GTM to fire on previews/localhost. Lets us validate Test
+     Events without polluting Events Manager from real-user prod traffic. */
+  try {
+    var qsForce = /[?&]fbq_test=1\b/.test(location.search);
+    if (qsForce) localStorage.setItem('lhi_fbq_test', '1');
+    if (qsForce || localStorage.getItem('lhi_fbq_test') === '1') IS_PROD = true;
+  } catch (e) {}
+
+  if (window.console && console.info) {
+    console.info('[LHI analytics] pixel/GTM gate:', IS_PROD ? 'ENABLED' : 'SKIPPED (non-prod host)');
+  }
+
   /* Expose for other scripts (funnel.js, page-level fbq calls) */
   window.__LHI_IS_PROD = IS_PROD;
 
