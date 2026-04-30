@@ -109,6 +109,26 @@
 /find-plans /search-engine-from-zip/dist/index.html 200
 /find-plans/ /search-engine-from-zip/dist/index.html 200
 
+# Medicare hub canonical aliases
+/medicare /medicare/index.html 200
+/medicare/ /medicare/index.html 200
+/compare-medicare-plans /medicare/ 301!
+/compare-medicare-plans/ /medicare/ 301!
+/medicare-plan-comparison /medicare/ 301!
+/medicare-plan-comparison/ /medicare/ 301!
+/medicare-plans-lakeland /medicare/ 301!
+/medicare-plans-lakeland/ /medicare/ 301!
+
+# Best Medicare Broker landing page aliases
+/best-medicare-broker-lakeland-fl /best-medicare-broker-lakeland-fl/index.html 200
+/best-medicare-broker-lakeland-fl/ /best-medicare-broker-lakeland-fl/index.html 200
+/local-medicare-broker-lakeland-fl /best-medicare-broker-lakeland-fl/ 301!
+/local-medicare-broker-lakeland-fl/ /best-medicare-broker-lakeland-fl/ 301!
+/licensed-medicare-broker-lakeland-fl /best-medicare-broker-lakeland-fl/ 301!
+/licensed-medicare-broker-lakeland-fl/ /best-medicare-broker-lakeland-fl/ 301!
+/medicare-broker-near-me /best-medicare-broker-lakeland-fl/ 301!
+/medicare-broker-near-me/ /best-medicare-broker-lakeland-fl/ 301!
+
 # Excluded carrier page redirect
 /carriers/florida-blue-aca-2026 /carriers/ 301!
 /carriers/florida-blue-aca-2026/ /carriers/ 301!
