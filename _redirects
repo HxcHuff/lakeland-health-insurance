@@ -94,6 +94,8 @@
 /blog/turning-65-florida-medicare-mistakes/ /blog/turning-65-florida-medicare-mistakes.html 301!
 /blog/no-health-insurance-florida-er-cost /blog/no-health-insurance-florida-er-cost.html 301!
 /blog/no-health-insurance-florida-er-cost/ /blog/no-health-insurance-florida-er-cost.html 301!
+/blog/aca-2026-subsidy-expiration-florida-impact /blog/aca-2026-subsidy-expiration-florida-impact.html 301!
+/blog/aca-2026-subsidy-expiration-florida-impact/ /blog/aca-2026-subsidy-expiration-florida-impact.html 301!
 
 # Campaign landing pages
 /lp/medicare /lp/medicare/index.html 200
@@ -106,6 +108,10 @@
 # Clean alias for embedded quote engine
 /find-plans /search-engine-from-zip/dist/index.html 200
 /find-plans/ /search-engine-from-zip/dist/index.html 200
+
+# Excluded carrier page redirect
+/carriers/florida-blue-aca-2026 /carriers/ 301!
+/carriers/florida-blue-aca-2026/ /carriers/ 301!
 
 # 301 the deleted orphan root page to the blog version
 /lost-job-health-insurance-lakeland.html /blog/lost-job-health-insurance-lakeland.html 301!

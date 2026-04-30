@@ -316,13 +316,6 @@
   </url>
 
   <url>
-    <loc>https://lakelandhealthinsurance.com/carriers/florida-blue-aca-2026/</loc>
-    <lastmod>2026-02-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
     <loc>https://lakelandhealthinsurance.com/carriers/unitedhealthcare-aca-2026/</loc>
     <lastmod>2026-02-23</lastmod>
     <changefreq>monthly</changefreq>
@@ -453,5 +446,47 @@
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/tampa-health-insurance/</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/learning/</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/newsletter/</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/lp/aca/</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/lp/medicare/</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/lp/gap/</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
 </urlset>

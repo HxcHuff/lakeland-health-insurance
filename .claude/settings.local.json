@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit -m ':*)",
+      "Bash(git push:*)",
+      "Bash(gh pr create --title 'SEO: rewrite title & meta tags for top 5 pages' --body ':*)",
+      "Bash(git stash:*)",
+      "Bash(git checkout:*)",
+      "Bash(git pull:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(git add:*)",
+      "Bash(wc -l /Users/david_huff/lakeland-health-insurance/blog/*.html)",
+      "Bash(grep -h \"<title>\" /Users/david_huff/lakeland-health-insurance/*.html /Users/david_huff/lakeland-health-insurance/*/index.html)",
+      "Bash(grep -h \"meta name=\\\\\"description\\\\\"\" /Users/david_huff/lakeland-health-insurance/*.html /Users/david_huff/lakeland-health-insurance/*/index.html)",
+      "WebSearch",
+      "Bash(grep -h \"og:image\\\\|twitter:image\\\\|src=\" /Users/david_huff/lakeland-health-insurance/blog/*.html)",
+      "Bash(grep -h \"Executive Summary\\\\|professional-intro\\\\|warning-box\\\\|takeaway-box\\\\|cta-section\" /Users/david_huff/lakeland-health-insurance/blog/*.html)",
+      "Bash(git commit -m ' *)",
+      "Bash(gh pr *)",
+      "Bash(git fetch *)",
+      "Bash(git merge *)",
+      "Bash(git commit *)"
+    ]
+  }
+}

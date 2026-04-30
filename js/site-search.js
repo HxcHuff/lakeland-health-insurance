@@ -294,12 +294,6 @@ const siteSearchIndex = [
     tags: ["Carriers", "Insurance Companies"]
   },
   {
-    title: "Florida Blue ACA 2026 Playbook",
-    url: "/carriers/florida-blue-aca-2026/",
-    excerpt: "How to enroll, set up your account, and track reward-eligible actions for 2026 Florida Blue plans.",
-    tags: ["Carriers", "ACA", "Florida Blue"]
-  },
-  {
     title: "UnitedHealthcare ACA 2026 Playbook",
     url: "/carriers/unitedhealthcare-aca-2026/",
     excerpt: "HealthCare.gov enrollment flow, MyUHC setup, and practical benefit-use strategy.",
