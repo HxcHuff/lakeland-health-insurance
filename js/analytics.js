@@ -58,6 +58,16 @@
     g.async=true;
     g.src='https://www.googletagmanager.com/gtm.js?id=GTM-W6MZ7XT6';
     document.head.appendChild(g);
+    /* Google Ads (gtag.js) — needed for AW-300112445 conversion events
+       (e.g. "Insurance reality check" click conversion fired from
+       calendly.event_scheduled). Coexists with GTM via shared dataLayer. */
+    var ga=document.createElement('script');
+    ga.async=true;
+    ga.src='https://www.googletagmanager.com/gtag/js?id=AW-300112445';
+    document.head.appendChild(ga);
+    window.gtag=window.gtag||function(){dataLayer.push(arguments);};
+    gtag('js', new Date());
+    gtag('config', 'AW-300112445');
     /* Facebook Pixel */
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
     fbq('init','1480756087079484');

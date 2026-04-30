@@ -510,9 +510,32 @@ header .cta-button {
       }
     });
 
+    // Google Ads "Insurance reality check" click conversion (AW-300112445).
+    // Defined as a reusable wrapper per Google Ads snippet pattern; can be
+    // attached to other reality-check CTAs later via onclick.
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) !== 'undefined') {
+          window.location = url;
+        }
+      };
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-300112445/a0DbCJLr--EaEL20jY8B',
+          'event_callback': callback
+        });
+      } else if (typeof url !== 'undefined') {
+        window.location = url;
+      }
+      return false;
+    }
+
     // Calendly event tracking
     window.addEventListener('message', function(e) {
       if (e.origin === "https://calendly.com" && e.data.event === "calendly.event_scheduled") {
+        // Google Ads conversion ("Insurance reality check")
+        gtag_report_conversion();
+
         // Google Analytics 4 event
         if (typeof gtag === 'function') {
           gtag('event', 'calendly_booking', {
@@ -521,12 +544,12 @@ header .cta-button {
             value: 1
           });
         }
-        
+
         // Facebook Pixel event
         if (typeof fbLead === 'function') {
           fbLead('Direct Calendly Appointment');
         }
-        
+
         // Optional: Show confirmation
         setTimeout(() => {
           console.log('🎉 Appointment booked successfully!');

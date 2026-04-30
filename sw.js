@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lhi-v2';
+const CACHE_NAME = 'lhi-v3';
 const OFFLINE_URL = '/offline.html';
 
 // Core pages to pre-cache for offline access
