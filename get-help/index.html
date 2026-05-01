@@ -655,7 +655,7 @@
         chk.addEventListener('change', function(e) { contact.consent = e.target.checked; refreshSubmit(); });
 
         var cText = document.createElement('span');
-        cText.textContent = 'I agree to be contacted about plan options.';
+        cText.innerHTML = 'By checking this box, I agree to receive SMS messages from Lakeland Health Insurance about insurance plans, enrollment, appointments, and account updates at the phone number provided. Consent is not a condition of purchase. Message frequency varies. Msg &amp; data rates may apply. Reply HELP for help, STOP to cancel. See our <a href="/privacy-policy.html" target="_blank" rel="noopener" style="color: var(--gold); text-decoration: underline;">Privacy Policy</a> and <a href="/sms-policy.html" target="_blank" rel="noopener" style="color: var(--gold); text-decoration: underline;">SMS Terms</a>.';
 
         consent.appendChild(chk);
         consent.appendChild(cText);
