@@ -82,4 +82,25 @@
      so this runs after HTML parse but well before any interaction-or-timeout
      gate would. Ensures bounce traffic from paid ads is still tracked. */
   init();
+
+  /* Google Ads "Insurance reality check" conversion wrapper. Defined globally
+     so any reality-check CTA can use onclick="gtag_report_conversion(this.href)"
+     for tel: / external links, or gtag_report_conversion() (no arg) inside JS
+     event handlers. No-ops gracefully on non-prod (gtag is undefined there). */
+  window.gtag_report_conversion = function (url) {
+    var callback = function () {
+      if (typeof url !== 'undefined') {
+        window.location = url;
+      }
+    };
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-300112445/a0DbCJLr--EaEL20jY8B',
+        'event_callback': callback
+      });
+    } else if (typeof url !== 'undefined') {
+      window.location = url;
+    }
+    return false;
+  };
 })();
