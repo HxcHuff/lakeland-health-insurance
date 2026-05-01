@@ -21,13 +21,16 @@ function getEnv(key) {
 }
 
 // --- VERIFY GOOGLE WEBHOOK KEY ---
+// Returns: { ok: true } | { ok: false, status, reason }
 function verifyGoogleKey(payload) {
   const expectedKey = getEnv("GOOGLE_WEBHOOK_KEY");
   if (!expectedKey) {
-    console.log("GOOGLE_WEBHOOK_KEY not set — skipping verification");
-    return true;
+    return { ok: false, status: 503, reason: "GOOGLE_WEBHOOK_KEY not configured" };
   }
-  return payload.google_key === expectedKey;
+  if (payload.google_key !== expectedKey) {
+    return { ok: false, status: 403, reason: "Invalid google_key" };
+  }
+  return { ok: true };
 }
 
 // --- PARSE GOOGLE LEAD DATA ---
@@ -66,6 +69,21 @@ async function storeInSupabase(lead) {
     Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
     Prefer: "return=representation",
   };
+
+  // Idempotency: if Google retries with the same lead_id, skip the insert.
+  if (lead.lead_id) {
+    const dedupRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/Lead?leadgenId=eq.${encodeURIComponent(lead.lead_id)}&select=id&limit=1`,
+      { headers }
+    );
+    if (dedupRes.ok) {
+      const existing = await dedupRes.json();
+      if (existing.length > 0) {
+        console.log("Lead already exists for lead_id, skipping insert:", lead.lead_id);
+        return existing[0];
+      }
+    }
+  }
 
   const leadRow = {
     id: crypto.randomUUID(),
@@ -241,12 +259,13 @@ export default async (req, context) => {
     return new Response("Invalid JSON", { status: 400 });
   }
 
-  console.log("Google webhook received:", JSON.stringify(payload, null, 2));
+  console.log("Google webhook received — campaign:", payload.campaign_name || payload.campaign_id || "unknown", "lead_id:", payload.lead_id || "none");
 
   // Verify google_key
-  if (!verifyGoogleKey(payload)) {
-    console.error("Invalid google_key");
-    return new Response("Unauthorized", { status: 403 });
+  const auth = verifyGoogleKey(payload);
+  if (!auth.ok) {
+    console.error(auth.reason);
+    return new Response(auth.reason, { status: auth.status });
   }
 
   try {
@@ -269,14 +288,22 @@ export default async (req, context) => {
       notified_at: new Date().toISOString(),
     };
 
-    // Store and notify in parallel
-    await Promise.all([
+    // Store and notify in parallel — allSettled so a Twilio/Resend failure
+    // doesn't 500 the response and trigger Google to retry the whole event
+    // (which would duplicate-insert before we caught up via idempotency).
+    const results = await Promise.allSettled([
       storeInSupabase(lead),
       sendEmailNotification(lead),
       sendSmsNotification(lead),
     ]);
+    results.forEach((r, i) => {
+      if (r.status === "rejected") {
+        const step = ["storeInSupabase", "sendEmailNotification", "sendSmsNotification"][i];
+        console.error(`${step} failed:`, r.reason);
+      }
+    });
 
-    console.log(`Google lead processed: ${lead.full_name} (${lead.email})`);
+    console.log(`Google lead processed: lead_id=${lead.lead_id || "none"}`);
   } catch (err) {
     console.error("Failed to process Google lead:", err);
     return new Response("Processing error", { status: 500 });
