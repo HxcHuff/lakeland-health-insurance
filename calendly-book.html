@@ -513,6 +513,10 @@ header .cta-button {
     // Calendly event tracking
     window.addEventListener('message', function(e) {
       if (e.origin === "https://calendly.com" && e.data.event === "calendly.event_scheduled") {
+        // Google Ads conversion ("Insurance reality check")
+        // gtag_report_conversion is defined globally in /js/analytics.js
+        if (typeof gtag_report_conversion === 'function') gtag_report_conversion();
+
         // Google Analytics 4 event
         if (typeof gtag === 'function') {
           gtag('event', 'calendly_booking', {
@@ -521,12 +525,12 @@ header .cta-button {
             value: 1
           });
         }
-        
+
         // Facebook Pixel event
         if (typeof fbLead === 'function') {
           fbLead('Direct Calendly Appointment');
         }
-        
+
         // Optional: Show confirmation
         setTimeout(() => {
           console.log('🎉 Appointment booked successfully!');
