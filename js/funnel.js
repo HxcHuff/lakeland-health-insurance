@@ -31,6 +31,12 @@
   var SUPABASE_ANON = 'sb_publishable_4iawXiwpNvk04SziN4Bs5w_ECZ7qRPl';
   var TABLE = 'funnel_events';
 
+  /* Google Ads "Submit lead form" conversion. Fires for every Lead event
+     across the site so Smart Bidding gets a cost-per-lead signal. Paired
+     with allow_enhanced_conversions=true in analytics.js for hashed-PII
+     match-back via gtag.set('user_data'). */
+  var LEAD_CONVERSION_SEND_TO = 'AW-300112445/hChjCJvYraUcEL20jY8B';
+
   /* SHA-256 helper. Returns a Promise<string> of the lowercase hex digest.
      Used for hashing PII before it goes to Meta (Advanced Matching) and
      before it goes to Supabase via funnel_events. */
@@ -163,6 +169,53 @@
     w.dataLayer.push(Object.assign({ event: name }, props || {}));
   }
 
+  /* Fire Google Ads conversion for Lead submissions, with Enhanced
+     Conversions for Leads (hashed PII passed via gtag.set('user_data')
+     so Google can match offline-closed leads back to the original click).
+     Skipped on non-prod, when gtag isn't loaded, or when the conversion
+     label is still the placeholder. transaction_id=eventID prevents
+     double-counting if the same Lead event fires twice. */
+  function fireGoogleAdsLead(eventID) {
+    if (w.__LHI_IS_PROD === false) return;
+    if (typeof w.gtag !== 'function') return;
+    if (LEAD_CONVERSION_SEND_TO.indexOf('PLACEHOLDER') !== -1) return;
+
+    var emailRaw = identity.email || null;
+    var phoneRaw = normPhone(identity.phone);
+    var first = null, last = null;
+    if (identity.name) {
+      var parts = String(identity.name).trim().split(/\s+/);
+      first = parts[0] || null;
+      if (parts.length > 1) last = parts.slice(1).join(' ');
+    }
+
+    Promise.all([
+      sha256(emailRaw),
+      phoneRaw ? sha256(phoneRaw) : Promise.resolve(null),
+      sha256(first),
+      sha256(last)
+    ]).then(function (vals) {
+      var userData = {};
+      if (vals[0]) userData.sha256_email_address = vals[0];
+      if (vals[1]) userData.sha256_phone_number = vals[1];
+      if (vals[2] || vals[3] || identity.zip) {
+        userData.address = {};
+        if (vals[2]) userData.address.sha256_first_name = vals[2];
+        if (vals[3]) userData.address.sha256_last_name = vals[3];
+        if (identity.zip) userData.address.postal_code = String(identity.zip).slice(0, 5);
+      }
+      try { w.gtag('set', 'user_data', userData); } catch (e) {}
+      try {
+        w.gtag('event', 'conversion', {
+          send_to: LEAD_CONVERSION_SEND_TO,
+          transaction_id: eventID,
+          value: 0,
+          currency: 'USD'
+        });
+      } catch (e) {}
+    });
+  }
+
   // Public API ------------------------------------------------------------
   var identity = {};
 
@@ -222,6 +275,9 @@
 
     // 3. Supabase stream
     sendSupabase(payload);
+
+    // 4. Google Ads conversion + Enhanced Conversions (Lead events only)
+    if (name === 'Lead') fireGoogleAdsLead(eventID);
   }
 
   function pageView() {
