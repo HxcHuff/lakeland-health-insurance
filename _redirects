@@ -3,8 +3,8 @@
 /get-help /get-help/index.html 200
 /get-help/ /get-help/index.html 200
 /our%20approach/ /our-approach.html 301
-/our-approach /our-approach.html 200
-/our-approach/ /our-approach.html 200
+/our-approach /our-approach.html 301!
+/our-approach/ /our-approach.html 301!
 /links /learning/ 301
 /links/ /learning/ 301
 
@@ -133,6 +133,10 @@
 # Excluded carrier page redirect
 /carriers/florida-blue-aca-2026 /carriers/ 301!
 /carriers/florida-blue-aca-2026/ /carriers/ 301!
+
+# Removed/never-shipped carrier page (was 404)
+/carriers/aca-florida-2026 /carriers/ 301!
+/carriers/aca-florida-2026/ /carriers/ 301!
 
 # 301 the deleted orphan root page to the blog version
 /lost-job-health-insurance-lakeland.html /blog/lost-job-health-insurance-lakeland.html 301!
