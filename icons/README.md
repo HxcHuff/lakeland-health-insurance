@@ -1,14 +1,9 @@
-## PWA Icons Required
+## PWA Icons
 
-Replace these placeholder files with your branded icons:
+Branded headshot favicons cropped from `david_the_dude2.jpg`:
 
-- `icon-192.png` — 192x192 pixels (required for PWA)
-- `icon-512.png` — 512x512 pixels (required for PWA splash screen)
-- `icon-maskable-512.png` — 512x512 pixels with safe zone padding (for adaptive icons on Android)
+- `icon-192.png` — 192x192 (PWA + Google SERP site icon)
+- `icon-512.png` — 512x512 (PWA splash screen, Apple touch high-res)
+- `icon-maskable-512.png` — 512x512, circular face inset on navy `#1B2A4A`, safe-zone padded for Android adaptive icons
 
-### Quick creation options:
-1. Use your logo on a #1e3a8a (dark blue) background
-2. Generate at https://www.pwabuilder.com/imageGenerator
-3. Use Canva with 512x512 custom dimensions
-
-The maskable icon should have the important content within the center 80% of the image (the outer 20% may be cropped on some devices).
+To regenerate from a new source photo, run `python3 /tmp/build_favicons.py` (or recreate the script — it crops a 700x700 face square at center (685, 320) of the source and writes all four files including `/favicon.ico`).
