@@ -14,6 +14,28 @@ const TEST_EVENT_CODE = process.env.META_CAPI_TEST_EVENT_CODE; // optional
 const NETLIFY_CONTEXT = process.env.CONTEXT || 'production';
 const IS_PROD_CONTEXT = NETLIFY_CONTEXT === 'production';
 
+// Mailchimp — single audience, tag-segmented. All three vars must be set
+// or the sync no-ops gracefully (matches the CAPI guard pattern above).
+const MC_API_KEY = process.env.MAILCHIMP_API_KEY;
+const MC_AUDIENCE_ID = process.env.MAILCHIMP_AUDIENCE_ID;
+const MC_SERVER = process.env.MAILCHIMP_SERVER_PREFIX; // e.g. "us12"
+
+// form-name → Mailchimp behavior. Newsletter forms get pending (double opt-in);
+// high-intent lead forms get subscribed (already gave phone + explicit consent).
+// Existing subscribers are never downgraded — pending only applies to NEW contacts.
+const FORM_MC_CONFIG = {
+  'homepage-newsletter':           { status: 'pending',    tags: ['homepage', 'newsletter'] },
+  'newsletter-signup':             { status: 'pending',    tags: ['newsletter', 'newsletter-page'] },
+  'get-help':                      { status: 'subscribed', tags: ['lead', 'get-help', 'hot-lead'] },
+  'lp-aca-lead':                   { status: 'subscribed', tags: ['aca', 'paid-ad', 'hot-lead'] },
+  'lp-medicare-lead':              { status: 'subscribed', tags: ['medicare', 'paid-ad', 'hot-lead'] },
+  'lp-gap-lead':                   { status: 'subscribed', tags: ['gap', 'paid-ad', 'hot-lead'] },
+  'aca-lakeland-lead':             { status: 'subscribed', tags: ['aca', 'local-seo', 'lakeland', 'hot-lead'] },
+  'tampa-health-insurance':        { status: 'subscribed', tags: ['aca', 'local-seo', 'tampa', 'hot-lead'] },
+  'winter-haven-health-insurance': { status: 'subscribed', tags: ['aca', 'local-seo', 'winter-haven', 'hot-lead'] },
+  'subsidy-estimator-lead':        { status: 'subscribed', tags: ['aca', 'subsidy-estimator', 'tool-lead'] }
+};
+
 const sha256 = (s) =>
   crypto.createHash('sha256').update(String(s).trim().toLowerCase()).digest('hex');
 
@@ -151,6 +173,22 @@ exports.handler = async (event) => {
     console.error('Forms forward exception', e);
   }
 
+  // Sync to Mailchimp — non-blocking, errors logged but don't fail the response.
+  // Runs after Forms forward so a Mailchimp outage can't drop submissions.
+  let mcOk = false;
+  let mcError = null;
+  try {
+    const result = await syncToMailchimp(payload);
+    mcOk = result.ok;
+    if (result.error) {
+      mcError = result.error;
+      console.error('Mailchimp sync error:', result.error);
+    }
+  } catch (e) {
+    mcError = String(e);
+    console.error('Mailchimp sync exception', e);
+  }
+
   return {
     statusCode: 200,
     headers: { ...corsHeaders(), 'Content-Type': 'application/json' },
@@ -158,11 +196,83 @@ exports.handler = async (event) => {
       event_id: eventId,
       capi: capiOk,
       forms: formsOk,
+      mailchimp: mcOk,
       ...(capiError ? { capi_error: capiError } : {}),
-      ...(formsError ? { forms_error: formsError } : {})
+      ...(formsError ? { forms_error: formsError } : {}),
+      ...(mcError ? { mc_error: mcError } : {})
     })
   };
 };
+
+async function syncToMailchimp(payload) {
+  if (!MC_API_KEY || !MC_AUDIENCE_ID || !MC_SERVER) {
+    return { ok: false, error: 'Mailchimp env vars not set (MAILCHIMP_API_KEY / MAILCHIMP_AUDIENCE_ID / MAILCHIMP_SERVER_PREFIX)' };
+  }
+  const email = payload.email && String(payload.email).trim();
+  if (!email) return { ok: false, error: 'no email in payload' };
+
+  const formName = payload['form-name'] || payload.form_name || '';
+  const config = FORM_MC_CONFIG[formName] || { status: 'pending', tags: ['unmapped', formName || 'unknown-form'] };
+
+  // subscriber_hash is MD5 of lowercased email — used for upsert by email.
+  const hash = crypto.createHash('md5').update(email.toLowerCase()).digest('hex');
+  const baseUrl = `https://${MC_SERVER}.api.mailchimp.com/3.0/lists/${MC_AUDIENCE_ID}/members/${hash}`;
+  const auth = 'Basic ' + Buffer.from('any:' + MC_API_KEY).toString('base64');
+
+  const mergeFields = {};
+  if (payload.first_name) mergeFields.FNAME = payload.first_name;
+  if (payload.last_name) mergeFields.LNAME = payload.last_name;
+  if (payload.full_name && !payload.first_name) {
+    const parts = String(payload.full_name).trim().split(/\s+/);
+    if (parts[0]) mergeFields.FNAME = parts[0];
+    if (parts.length > 1) mergeFields.LNAME = parts.slice(1).join(' ');
+  }
+  if (payload.phone) mergeFields.PHONE = payload.phone;
+
+  // status (force) for high-intent forms upgrades existing pending contacts.
+  // status_if_new (don't downgrade) for newsletter signups preserves existing subscribed status.
+  const upsertBody = { email_address: email, merge_fields: mergeFields };
+  if (config.status === 'subscribed') {
+    upsertBody.status = 'subscribed';
+  } else {
+    upsertBody.status_if_new = 'pending';
+  }
+
+  try {
+    const res = await fetch(baseUrl, {
+      method: 'PUT',
+      headers: { 'Authorization': auth, 'Content-Type': 'application/json' },
+      body: JSON.stringify(upsertBody)
+    });
+    if (!res.ok) {
+      const errText = await res.text();
+      return { ok: false, error: `MC upsert ${res.status}: ${errText.slice(0, 300)}` };
+    }
+  } catch (e) {
+    return { ok: false, error: `MC upsert exception: ${String(e)}` };
+  }
+
+  // Tags via separate endpoint — this ADDS without clobbering existing tags.
+  // (Tags inside the PUT body would replace the full tag list.)
+  if (config.tags.length) {
+    try {
+      const tagBody = { tags: config.tags.map(name => ({ name, status: 'active' })) };
+      const tagRes = await fetch(`${baseUrl}/tags`, {
+        method: 'POST',
+        headers: { 'Authorization': auth, 'Content-Type': 'application/json' },
+        body: JSON.stringify(tagBody)
+      });
+      if (!tagRes.ok) {
+        const errText = await tagRes.text();
+        return { ok: true, error: `MC tags ${tagRes.status}: ${errText.slice(0, 300)}` };
+      }
+    } catch (e) {
+      return { ok: true, error: `MC tags exception: ${String(e)}` };
+    }
+  }
+
+  return { ok: true };
+}
 
 function corsHeaders() {
   return {
