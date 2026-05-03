@@ -81,10 +81,39 @@
     f.src='/js/funnel.js';
     document.head.appendChild(f);
   }
-  /* Pixel + GTM fire on script load. analytics.js is already <script defer>,
-     so this runs after HTML parse but well before any interaction-or-timeout
-     gate would. Ensures bounce traffic from paid ads is still tracked. */
-  init();
+  /* Defer pixel/GTM until after LCP/FCP so 376 KiB of third-party JS isn't
+     fighting with the hero render. We still fire fast enough to capture bounce
+     traffic from paid ads:
+       - first user interaction (click / scroll / keydown / touchstart)
+       - OR requestIdleCallback (browser idle, typically <1s after LCP)
+       - OR a 2.5s hard timeout fallback for non-interactive bounces
+     Whichever comes first. Once init() runs it short-circuits via `loaded`. */
+  function scheduleInit() {
+    var fired = false;
+    function fire(){ if(fired) return; fired = true; init(); cleanup(); }
+
+    var events = ['pointerdown','keydown','touchstart','scroll'];
+    function cleanup(){
+      events.forEach(function(ev){
+        window.removeEventListener(ev, fire, { passive: true, capture: true });
+      });
+    }
+    events.forEach(function(ev){
+      window.addEventListener(ev, fire, { passive: true, capture: true, once: true });
+    });
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(fire, { timeout: 2500 });
+    } else {
+      setTimeout(fire, 2500);
+    }
+  }
+
+  if (document.readyState === 'complete') {
+    scheduleInit();
+  } else {
+    window.addEventListener('load', scheduleInit, { once: true });
+  }
 
   /* Google Ads "Insurance reality check" conversion wrapper. Defined globally
      so any reality-check CTA can use onclick="gtag_report_conversion(this.href)"
