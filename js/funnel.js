@@ -37,6 +37,33 @@
      match-back via gtag.set('user_data'). */
   var LEAD_CONVERSION_SEND_TO = 'AW-300112445/hChjCJvYraUcEL20jY8B';
 
+  /* Per-page-type lead value (USD) sent with the Google Ads conversion.
+     Smart Bidding uses these as a relative-LTV signal — Medicare residuals
+     are worth multiples of an ACA enrollment, so weighting matters. Edit
+     one place to tune. Default 0 = unchanged behavior; 'default' applies
+     when pageType() returns something not in the map. Anything <= 0 still
+     fires the conversion (count signal) but with value 0. */
+  var LEAD_VALUE_BY_PAGE_TYPE = {
+    lp_medicare: 0,
+    local_seo_medicare: 0,
+    lp_aca: 0,
+    local_seo_aca: 0,
+    lp_job_loss: 0,
+    estimator: 0,
+    lp_gap: 0,
+    guard_lp: 0,
+    dime_method: 0,
+    get_help: 0,
+    guide_optin: 0,
+    booking: 0,
+    'default': 0
+  };
+
+  function leadValueFor(pt) {
+    if (LEAD_VALUE_BY_PAGE_TYPE.hasOwnProperty(pt)) return LEAD_VALUE_BY_PAGE_TYPE[pt];
+    return LEAD_VALUE_BY_PAGE_TYPE['default'] || 0;
+  }
+
   /* SHA-256 helper. Returns a Promise<string> of the lowercase hex digest.
      Used for hashing PII before it goes to Meta (Advanced Matching) and
      before it goes to Supabase via funnel_events. */
@@ -209,11 +236,11 @@
         w.gtag('event', 'conversion', {
           send_to: LEAD_CONVERSION_SEND_TO,
           transaction_id: eventID,
-          value: 0,
+          value: leadValueFor(pageType()),
           currency: 'USD'
         });
       } catch (e) {}
-    });
+    }).catch(function () { /* swallow — never let analytics break the page */ });
   }
 
   // Public API ------------------------------------------------------------
@@ -315,6 +342,20 @@
 
   // Boot ------------------------------------------------------------------
   w.LHI = { track: track, identify: identify, pageType: pageType, session: getSession };
+
+  /* Test-only surface. Tree-shaken for prod by the gate: only attaches when
+     w.__LHI_TEST is set to true before this script evaluates (Node test
+     harness), so production bundles never expose helpers. */
+  if (w.__LHI_TEST === true) {
+    w.LHI._t = {
+      sha256: sha256,
+      normPhone: normPhone,
+      pageType: pageType,
+      leadValueFor: leadValueFor,
+      LEAD_VALUE_BY_PAGE_TYPE: LEAD_VALUE_BY_PAGE_TYPE,
+      LEAD_CONVERSION_SEND_TO: LEAD_CONVERSION_SEND_TO
+    };
+  }
 
   // Give pixel + GTM time to initialize (analytics.js loads on interaction/3.5s)
   function boot() {
