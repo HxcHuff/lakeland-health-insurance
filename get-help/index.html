@@ -701,18 +701,17 @@
           });
         }
 
-        /* Fire Lead through the unified bus → Meta Pixel + GA4 + Supabase
-           with a single eventID for future CAPI dedup. Tiny delay lets
-           SHA-256 hashing + fbq('set','userData') resolve before the Lead
-           event is sent — needed for strict ordering on the first submit
-           of a session. 50ms is well under any UX threshold. */
+        /* Fire Lead event FIRST, then submit form after pixel has time to send.
+           Previous bug: fetch() resolved in ~20ms and redirected to /thanks.html
+           before the 50ms setTimeout fired — killing the fbq beacon mid-flight.
+           Fix: fire pixel synchronously, wait 300ms for beacon to complete,
+           THEN submit form and redirect. 300ms is imperceptible to the user
+           but gives fbq + GA4 + Supabase time to send. */
         if (window.LHI && typeof window.LHI.track === 'function') {
-          setTimeout(function () {
-            window.LHI.track('Lead', {
-              content_name: 'get_help_form_conversational',
-              line_of_business: answers && answers.coverageType ? answers.coverageType : null
-            });
-          }, 50);
+          window.LHI.track('Lead', {
+            content_name: 'get_help_form_conversational',
+            line_of_business: answers && answers.coverageType ? answers.coverageType : null
+          });
         } else {
           /* Fallback if funnel.js failed to load — keep raw fires so we
              never lose a lead. */
@@ -720,16 +719,19 @@
           if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'get_help_form_conversational' });
         }
 
+        /* Delay form POST so pixel beacons complete before page navigates. */
         var formData = new FormData(form);
-        fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(formData).toString()
-        }).then(function() {
-          window.location.href = '/thanks.html';
-        }).catch(function() {
-          form.submit();
-        });
+        setTimeout(function () {
+          fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
+          }).then(function() {
+            window.location.href = '/thanks.html';
+          }).catch(function() {
+            form.submit();
+          });
+        }, 300);
       }
 
       function render() {
