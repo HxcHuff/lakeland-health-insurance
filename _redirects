@@ -123,6 +123,16 @@
 # Best Medicare Broker landing page aliases
 /best-medicare-broker-lakeland-fl /best-medicare-broker-lakeland-fl/index.html 200
 /best-medicare-broker-lakeland-fl/ /best-medicare-broker-lakeland-fl/index.html 200
+
+# Dental & Vision landing page aliases
+/dental-vision /dental-vision/index.html 200
+/dental-vision/ /dental-vision/index.html 200
+/dental /dental-vision/ 301!
+/dental/ /dental-vision/ 301!
+/vision /dental-vision/ 301!
+/vision/ /dental-vision/ 301!
+/dental-and-vision /dental-vision/ 301!
+/dental-and-vision/ /dental-vision/ 301!
 /local-medicare-broker-lakeland-fl /best-medicare-broker-lakeland-fl/ 301!
 /local-medicare-broker-lakeland-fl/ /best-medicare-broker-lakeland-fl/ 301!
 /licensed-medicare-broker-lakeland-fl /best-medicare-broker-lakeland-fl/ 301!
