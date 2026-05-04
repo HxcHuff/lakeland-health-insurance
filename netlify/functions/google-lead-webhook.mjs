@@ -6,7 +6,8 @@
  * requires x-hub-signature-256; Google's test POST does not → 403 and
  * "Your data management system didn't respond correctly" in Ads.
  *
- * Endpoint: https://lakelandhealthinsurance.com/api/google-lead-webhook
+ * Served at: https://lakelandhealthinsurance.com/api/google-lead-webhook
+ * (netlify.toml rewrite → /.netlify/functions/google-lead-webhook)
  *
  * Env (optional):
  *   GOOGLE_LEAD_FORM_WEBHOOK_KEY — must match the key configured on the lead
@@ -65,8 +66,4 @@ export default async (req) => {
     status: 200,
     headers: { "Content-Type": "application/json" },
   });
-};
-
-export const config = {
-  path: "/api/google-lead-webhook",
 };
