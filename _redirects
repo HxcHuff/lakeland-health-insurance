@@ -11,6 +11,11 @@
 # PDF redirect (lowercase URL to actual filename)
 /downloads/florida-health-insurance-survival-guide.pdf /downloads/Florida-Health-Insurance-Survival-Guide.pdf 301!
 
+# Cigna ACA exit post: consolidated to canonical 2026 URL
+/blog/cigna-leaving-florida-aca-marketplace-2027.html /blog/cigna-exiting-aca-marketplace-polk-county-2026.html 301!
+/blog/cigna-leaving-florida-aca-marketplace-2027 /blog/cigna-exiting-aca-marketplace-polk-county-2026.html 301!
+/blog/cigna-leaving-florida-aca-marketplace-2027/ /blog/cigna-exiting-aca-marketplace-polk-county-2026.html 301!
+
 # Blog post redirects: non-.html → .html (canonical)
 /blog/5-critical-health-insurance-mistakes /blog/5-critical-health-insurance-mistakes.html 301!
 /blog/5-critical-health-insurance-mistakes/ /blog/5-critical-health-insurance-mistakes.html 301!

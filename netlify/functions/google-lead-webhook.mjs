@@ -6,7 +6,8 @@
  * stores the lead in HuffHealthApp Supabase, syncs to Mailchimp,
  * and fires email + SMS notifications.
  *
- * Endpoint: https://lakelandhealthinsurance.com/api/google-lead-webhook
+ * Served at: https://lakelandhealthinsurance.com/api/google-lead-webhook
+ * (netlify.toml rewrite → /.netlify/functions/google-lead-webhook)
  *
  * Required env vars:
  *   GOOGLE_LEAD_WEBHOOK_KEY  — must equal the "Key" value pasted into the
@@ -372,8 +373,4 @@ export default async (req) => {
 
   console.log(`Google Ads lead processed: ${lead.full_name} (${lead.email})`);
   return new Response("OK", { status: 200 });
-};
-
-export const config = {
-  path: "/api/google-lead-webhook",
 };
