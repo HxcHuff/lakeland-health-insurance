@@ -6,6 +6,10 @@
  * stores in HuffHealthApp Supabase, and sends email notification.
  *
  * Endpoint: https://lakelandhealthinsurance.com/api/meta-lead-webhook
+ *
+ * Do not use this URL for Google Ads lead form webhooks — Google does not send
+ * Meta's x-hub-signature-256; requests will fail signature check (403).
+ * Use /api/google-lead-webhook for Google Ads instead.
  */
 
 import crypto from "crypto";
