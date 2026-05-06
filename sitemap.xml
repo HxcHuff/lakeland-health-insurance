@@ -106,20 +106,6 @@
   </url>
 
   <url>
-    <loc>https://lakelandhealthinsurance.com/chat.html</loc>
-    <lastmod>2026-02-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://lakelandhealthinsurance.com/calendly-book.html</loc>
-    <lastmod>2026-02-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
     <loc>https://lakelandhealthinsurance.com/blog/</loc>
     <lastmod>2026-03-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -330,13 +316,6 @@
   </url>
 
   <url>
-    <loc>https://lakelandhealthinsurance.com/download-free-guide-here.html</loc>
-    <lastmod>2026-02-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-
-  <url>
     <loc>https://lakelandhealthinsurance.com/health-protector-guard/</loc>
     <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -432,13 +411,6 @@
     <lastmod>2026-04-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
-  </url>
-
-  <url>
-    <loc>https://lakelandhealthinsurance.com/links/</loc>
-    <lastmod>2026-02-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
   </url>
 
   <url>
@@ -623,31 +595,4 @@
     <priority>0.70</priority>
   </url>
 
-  <url>
-    <loc>https://lakelandhealthinsurance.com/newsletter/</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.65</priority>
-  </url>
-
-  <url>
-    <loc>https://lakelandhealthinsurance.com/lp/aca/</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://lakelandhealthinsurance.com/lp/medicare/</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://lakelandhealthinsurance.com/lp/gap/</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-  </url>
 </urlset>
