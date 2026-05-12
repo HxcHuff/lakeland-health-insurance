@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://lakelandhealthinsurance.com/</loc>
-    <lastmod>2026-05-02</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -120,6 +120,34 @@
   </url>
 
   <url>
+    <loc>https://lakelandhealthinsurance.com/blog/florida-aca-premiums-up-31-percent-2026.html</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/cigna-exiting-aca-marketplace-polk-county-2026.html</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/medicaid-work-requirements-florida-coverage-2026.html</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/quote/</loc>
+    <lastmod>2026-05-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
     <loc>https://lakelandhealthinsurance.com/blog/3-things-changing-florida-health-insurance-may-2026.html</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -193,20 +221,6 @@
     <loc>https://lakelandhealthinsurance.com/privacy-policy.html</loc>
     <lastmod>2026-05-01</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://lakelandhealthinsurance.com/chat.html</loc>
-    <lastmod>2026-02-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://lakelandhealthinsurance.com/calendly-book.html</loc>
-    <lastmod>2026-02-17</lastmod>
-    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
 
@@ -323,6 +337,13 @@
   </url>
 
   <url>
+    <loc>https://lakelandhealthinsurance.com/blog/how-to-read-health-insurance-card-guide.html</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
     <loc>https://lakelandhealthinsurance.com/blog/how-to-use-health-insurance-without-going-broke.html</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
@@ -421,13 +442,6 @@
   </url>
 
   <url>
-    <loc>https://lakelandhealthinsurance.com/download-free-guide-here.html</loc>
-    <lastmod>2026-02-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-
-  <url>
     <loc>https://lakelandhealthinsurance.com/health-protector-guard/</loc>
     <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -523,13 +537,6 @@
     <lastmod>2026-04-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
-  </url>
-
-  <url>
-    <loc>https://lakelandhealthinsurance.com/links/</loc>
-    <lastmod>2026-02-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
   </url>
 
   <url>
@@ -714,31 +721,4 @@
     <priority>0.70</priority>
   </url>
 
-  <url>
-    <loc>https://lakelandhealthinsurance.com/newsletter/</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.65</priority>
-  </url>
-
-  <url>
-    <loc>https://lakelandhealthinsurance.com/lp/aca/</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://lakelandhealthinsurance.com/lp/medicare/</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://lakelandhealthinsurance.com/lp/gap/</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-  </url>
 </urlset>

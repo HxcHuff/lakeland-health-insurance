@@ -19,7 +19,21 @@
       "Bash(gh pr *)",
       "Bash(git fetch *)",
       "Bash(git merge *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Read(//Users/david_huff/.claude/**)",
+      "Bash(find /Users/david_huff -path \"*/skills/geo-optimization*\" -type f 2>/dev/null | head -20)",
+      "Read(//Users/david_huff/**)",
+      "Bash(git switch *)",
+      "Bash(git reset *)",
+      "Bash(git rebase *)",
+      "Bash(git config *)",
+      "Bash(git log *)",
+      "Bash(node -e \"console.log\\(typeof crypto.subtle?.digest, typeof TextEncoder, typeof crypto.getRandomValues\\)\")",
+      "Bash(node --test tests/funnel.test.mjs)",
+      "Bash(git check-ignore *)",
+      "Bash(git show *)",
+      "Bash(git branch *)",
+      "Bash(grep -rn *)"
     ]
   }
 }
