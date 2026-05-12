@@ -19,7 +19,10 @@
       "Bash(gh pr *)",
       "Bash(git fetch *)",
       "Bash(git merge *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Read(//Users/david_huff/.claude/**)",
+      "Bash(find /Users/david_huff -path \"*/skills/geo-optimization*\" -type f 2>/dev/null | head -20)",
+      "Read(//Users/david_huff/**)"
     ]
   }
 }
