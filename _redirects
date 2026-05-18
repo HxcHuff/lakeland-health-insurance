@@ -8,6 +8,10 @@
 /links /learning/ 301
 /links/ /learning/ 301
 
+# Twilio A2P 10DLC convention alias → SMS Terms page
+/sms-consent  /sms-policy.html  301
+/sms-consent/ /sms-policy.html  301
+
 # PDF redirect (lowercase URL to actual filename)
 /downloads/florida-health-insurance-survival-guide.pdf /downloads/Florida-Health-Insurance-Survival-Guide.pdf 301!
 
