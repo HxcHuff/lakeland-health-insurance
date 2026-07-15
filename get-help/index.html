@@ -333,6 +333,10 @@
         <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm" data-funnel-track data-funnel-event="Lead" data-funnel-name="get_help_conversational">
           <input type="hidden" name="form-name" value="get-help">
           <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+          <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;">
+            <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
+            <label>Company <input name="company" tabindex="-1" autocomplete="off"></label>
+          </div>
 
           <input type="hidden" name="coverage_type" id="coverageInput">
           <input type="hidden" name="household_size" id="householdInput">
@@ -347,6 +351,8 @@
           <input type="hidden" name="lead_source" id="leadSourceInput">
           <input type="hidden" name="_subject" value="New Lead: Plan-Specific Help Request">
           <input type="hidden" name="source_page" value="/get-help/">
+          <input type="hidden" name="started_at" id="startedAtInput">
+          <input type="hidden" name="human_check" id="humanCheckInput">
 
           <div class="chat" id="chat"></div>
         </form>
@@ -440,6 +446,8 @@
       var currentQ = 0;
       var showContact = false;
       var textInput = '';
+      var startedAt = String(Date.now());
+      var humanCheck = btoa(startedAt + ':lakeland-human');
 
       var contact = { name: '', phone: '', email: '', consent: false };
 
@@ -447,6 +455,8 @@
       var form = document.getElementById('leadForm');
       var activeState = document.getElementById('activeState');
       var doneState = document.getElementById('doneState');
+      document.getElementById('startedAtInput').value = startedAt;
+      document.getElementById('humanCheckInput').value = humanCheck;
 
       function scrollToBottom() {
         chat.scrollTop = chat.scrollHeight;
@@ -684,6 +694,10 @@
 
       function submitLead() {
         if (!(contact.name.trim() && contact.phone.trim() && contact.email.trim() && contact.consent)) return;
+        if (Date.now() - Number(startedAt) < 5000) {
+          alert('Please wait a moment, then send your request.');
+          return;
+        }
 
         document.getElementById('fullNameInput').value = contact.name;
         document.getElementById('phoneInput').value = contact.phone;
@@ -721,14 +735,26 @@
 
         /* Delay form POST so pixel beacons complete before page navigates. */
         var formData = new FormData(form);
+        var payload = {};
+        formData.forEach(function(value, key) {
+          payload[key] = value;
+        });
+        payload.source_url = window.location.href;
+        payload.content_name = 'get_help_form_conversational';
+
         setTimeout(function () {
-          fetch('/', {
+          fetch('/api/lead', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams(formData).toString()
-          }).then(function() {
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          }).then(function(response) {
+            if (!response.ok) throw new Error('Lead submission blocked');
             window.location.href = '/thanks.html';
-          }).catch(function() {
+          }).catch(function(error) {
+            if (error && error.message === 'Lead submission blocked') {
+              alert('Please wait a moment, then send your request again.');
+              return;
+            }
             form.submit();
           });
         }, 300);

@@ -62,6 +62,15 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers: corsHeaders(), body: 'Invalid JSON' };
   }
 
+  const botCheck = checkBotSubmission(payload);
+  if (!botCheck.ok) {
+    return {
+      statusCode: 422,
+      headers: { ...corsHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: false, error: botCheck.error })
+    };
+  }
+
   const headers = event.headers || {};
   const eventId = crypto.randomUUID();
   const eventTime = Math.floor(Date.now() / 1000);
@@ -203,6 +212,31 @@ exports.handler = async (event) => {
     })
   };
 };
+
+function checkBotSubmission(payload) {
+  const formName = payload['form-name'] || payload.form_name || '';
+  const trapFilled = ['bot-field', 'website', 'company'].some((key) => String(payload[key] || '').trim());
+  if (trapFilled) return { ok: false, error: 'bot trap field filled' };
+
+  if (formName !== 'get-help') return { ok: true };
+
+  const startedAt = Number(payload.started_at);
+  const humanCheck = String(payload.human_check || '');
+  const expectedCheck = Buffer.from(`${payload.started_at}:lakeland-human`).toString('base64');
+  const elapsedMs = Date.now() - startedAt;
+
+  if (!Number.isFinite(startedAt) || humanCheck !== expectedCheck) {
+    return { ok: false, error: 'human check failed' };
+  }
+  if (elapsedMs < 5000) {
+    return { ok: false, error: 'submitted too quickly' };
+  }
+  if (elapsedMs > 2 * 60 * 60 * 1000) {
+    return { ok: false, error: 'stale submission' };
+  }
+
+  return { ok: true };
+}
 
 async function syncToMailchimp(payload) {
   if (!MC_API_KEY || !MC_AUDIENCE_ID || !MC_SERVER) {

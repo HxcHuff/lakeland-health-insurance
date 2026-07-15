@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 const METAL_ORDER = ["Catastrophic", "Bronze", "Expanded Bronze", "Silver", "Gold", "Platinum"];
 
@@ -149,6 +149,22 @@ function CompareModal({ ids, plans, county, age, csrLevel, onClose, onRemove, su
 }
 
 function GetHelpPage() {
+  const formStartedAt = useRef(Date.now());
+  const challengeValue = useRef(String(Math.floor(100000 + Math.random() * 900000)));
+  const [formError, setFormError] = useState("");
+
+  function handleLeadSubmit(event) {
+    const formData = new FormData(event.currentTarget);
+    const elapsedMs = Date.now() - formStartedAt.current;
+    const trapsFilled = ["bot-field", "website", "company"].some((name) => String(formData.get(name) || "").trim());
+    const challengeFailed = formData.get("human_check") !== challengeValue.current;
+
+    if (trapsFilled || challengeFailed || elapsedMs < 5000) {
+      event.preventDefault();
+      setFormError("Please wait a moment, then submit the form again.");
+    }
+  }
+
   return (
     <div style={{ fontFamily: "DM Sans, sans-serif", background: "#F8FAFC", minHeight: "100vh", color: "#1e293b" }}>
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "24px 20px 40px" }}>
@@ -161,6 +177,7 @@ function GetHelpPage() {
           action="/thanks.html"
           data-netlify="true"
           data-netlify-honeypot="bot-field"
+          onSubmit={handleLeadSubmit}
           style={{
             marginTop: 18,
             background: "#fff",
@@ -173,9 +190,20 @@ function GetHelpPage() {
           }}
         >
           <input type="hidden" name="form-name" value="plan-help-lead" />
+          <input type="hidden" name="human_check" value={challengeValue.current} />
           <p style={{ display: "none" }}>
             <label>Don't fill this out: <input name="bot-field" /></label>
           </p>
+          <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}>
+            <label>
+              Website
+              <input name="website" tabIndex={-1} autoComplete="off" />
+            </label>
+            <label>
+              Company
+              <input name="company" tabIndex={-1} autoComplete="off" />
+            </label>
+          </div>
 
           <input name="zip_code" placeholder="ZIP Code" required />
           <input name="coverage_type" placeholder="Coverage Type (ACA, Medicare, etc.)" required />
@@ -207,6 +235,11 @@ function GetHelpPage() {
           >
             Send My Request
           </button>
+          {formError && (
+            <p role="alert" style={{ margin: 0, color: "#b91c1c", fontSize: 13 }}>
+              {formError}
+            </p>
+          )}
 
           <p style={{ margin: 0, fontSize: 13, color: "#64748B" }}>
             Prefer direct contact? Email <a href="mailto:dhuff@healthmarkets.com">dhuff@healthmarkets.com</a> or call{" "}
