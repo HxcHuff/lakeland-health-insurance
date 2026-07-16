@@ -349,8 +349,11 @@
           <input type="hidden" name="email" id="emailInput">
           <input type="hidden" name="consent" id="consentInput">
           <input type="hidden" name="lead_source" id="leadSourceInput">
+          <input type="hidden" name="product_interest" id="productInterestInput">
+          <input type="hidden" name="plan_interest" id="planInterestInput">
           <input type="hidden" name="_subject" value="New Lead: Plan-Specific Help Request">
-          <input type="hidden" name="source_page" value="/get-help/">
+          <input type="hidden" name="source_page" id="sourcePageInput" value="/get-help/">
+          <input type="hidden" name="referral_page" id="referralPageInput">
           <input type="hidden" name="started_at" id="startedAtInput">
           <input type="hidden" name="human_check" id="humanCheckInput">
 
@@ -386,6 +389,7 @@
             'ACA / Marketplace',
             'Medicare',
             'Short-Term / Gap',
+            'Supplemental / fixed indemnity',
             'Dental & Vision',
             'Not sure - help me figure it out'
           ]
@@ -448,6 +452,9 @@
       var textInput = '';
       var startedAt = String(Date.now());
       var humanCheck = btoa(startedAt + ':lakeland-human');
+      var params = new URLSearchParams(window.location.search);
+      var productInterest = params.get('product') || '';
+      var planInterest = params.get('plan') || '';
 
       var contact = { name: '', phone: '', email: '', consent: false };
 
@@ -457,6 +464,14 @@
       var doneState = document.getElementById('doneState');
       document.getElementById('startedAtInput').value = startedAt;
       document.getElementById('humanCheckInput').value = humanCheck;
+      document.getElementById('productInterestInput').value = productInterest;
+      document.getElementById('planInterestInput').value = planInterest;
+      document.getElementById('sourcePageInput').value = window.location.pathname + window.location.search;
+      document.getElementById('referralPageInput').value = document.referrer || '';
+
+      if (productInterest === 'hpg') {
+        answers.coverageType = 'Supplemental / fixed indemnity';
+      }
 
       function scrollToBottom() {
         chat.scrollTop = chat.scrollHeight;
