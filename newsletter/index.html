@@ -4,535 +4,689 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Coverage Insider Newsletter | Lakeland Health Insurance</title>
-  <meta name="description" content="Join The Coverage Insider for monthly health insurance tips on ACA subsidies, Medicare windows, tax forms, and money-saving plan perks.">
+  <meta name="description" content="Join The Coverage Insider for clear monthly health insurance updates from David Huff: ACA subsidies, Medicare deadlines, tax forms, carrier changes, and practical plan tips.">
   <link rel="canonical" href="https://lakelandhealthinsurance.com/newsletter/">
-  <meta name="robots" content="noindex, follow">
+  <meta name="robots" content="index, follow">
   <meta property="og:title" content="The Coverage Insider Newsletter">
-  <meta property="og:description" content="No fluff. Real monthly health insurance tips from David Huff.">
+  <meta property="og:description" content="Monthly health insurance updates in plain English from David Huff, licensed Florida broker.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://lakelandhealthinsurance.com/newsletter/">
   <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The Coverage Insider Newsletter">
-  <meta name="twitter:description" content="Monthly coverage guidance in plain English.">
+  <meta name="twitter:description" content="Monthly health insurance updates in plain English from David Huff, licensed Florida broker.">
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#1B2A4A">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <script defer src="/js/analytics.js"></script>
 
   <style>
     :root {
-      --navy-900: #0d1b3d;
-      --navy-700: #1e3a8a;
-      --teal-500: #10b981;
-      --teal-600: #059669;
-      --sky-100: #eaf2ff;
-      --ink: #10203e;
-      --muted: #54627f;
-      --line: #d8e4fb;
-      --paper: #ffffff;
+      --navy: #1B2A4A;
+      --navy-deep: #111C34;
+      --gold: #D4A843;
+      --ink: #172033;
+      --muted: #5B6475;
+      --line: #E2E8F0;
+      --soft: #F8FAFC;
+      --white: #FFFFFF;
+      --green: #0F766E;
+      --green-soft: #ECFDF5;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: "Manrope", sans-serif;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--ink);
-      background:
-        radial-gradient(1200px 500px at 20% -20%, #102f7a 0%, rgba(16, 47, 122, 0) 62%),
-        radial-gradient(1100px 500px at 90% -30%, #0369a1 0%, rgba(3, 105, 161, 0) 58%),
-        #dce8ff;
+      background: var(--soft);
       line-height: 1.6;
     }
 
-    .container {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0 20px;
+    a { color: inherit; }
+
+    .top-strip {
+      background: var(--navy-deep);
+      color: rgba(255, 255, 255, 0.88);
+      text-align: center;
+      padding: 9px 16px;
+      font-size: 0.9rem;
+      font-weight: 700;
     }
 
-    .topbar {
-      padding: 18px 0;
-      background: linear-gradient(90deg, #081735 0%, #0d2a66 100%);
+    .top-strip a {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
 
     .brand {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #ffffff;
+      font-family: 'Instrument Serif', serif;
+      color: var(--navy);
       text-decoration: none;
-      letter-spacing: 0.01em;
+      font-size: 1.28rem;
+      line-height: 1.1;
     }
 
-    .hero-wrap {
-      padding: 12px 0 52px;
+    .brand span {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gold);
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      color: var(--navy);
+      font-size: 0.96rem;
+      font-weight: 700;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    .nav-pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 13px;
     }
 
     .hero {
-      background: linear-gradient(150deg, #071330 0%, #0e2f78 62%, #1450c7 100%);
-      color: #f8fbff;
-      border-radius: 26px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 26px 74px rgba(7, 19, 48, 0.48);
-      overflow: hidden;
-      position: relative;
-      animation: rise 700ms ease-out;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      width: 360px;
-      height: 360px;
-      border-radius: 50%;
-      background: rgba(16, 185, 129, 0.2);
-      right: -120px;
-      top: -120px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
     }
 
     .hero-grid {
       display: grid;
-      gap: 28px;
-      grid-template-columns: 1.15fr 0.85fr;
-      padding: 40px;
-      position: relative;
-      z-index: 1;
+      grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.82fr);
+      gap: 44px;
+      align-items: center;
+      padding: 50px 0;
     }
 
     .eyebrow {
-      margin: 0 0 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.13em;
-      font-size: 0.72rem;
+      color: var(--green);
+      font-size: 0.82rem;
       font-weight: 800;
-      color: #9cd8ff;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
     }
 
     h1 {
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
+      margin: 0 0 16px;
+      color: var(--navy);
+      font-size: clamp(2.1rem, 4vw, 3.55rem);
       line-height: 1.05;
-      margin: 0 0 14px;
-      letter-spacing: 0.01em;
+      letter-spacing: 0;
     }
 
-    .hero p {
+    .serif {
+      font-family: 'Instrument Serif', serif;
+      color: var(--gold);
+      font-weight: 400;
+    }
+
+    .lead {
       margin: 0 0 22px;
-      color: #d6e6ff;
-      max-width: 60ch;
+      color: var(--muted);
+      max-width: 720px;
+      font-size: 1.12rem;
     }
 
-    .bullets {
-      margin: 0 0 24px;
-      padding: 0;
-      list-style: none;
+    .promise-list {
       display: grid;
-      gap: 8px;
-    }
-
-    .bullets li {
-      position: relative;
-      padding-left: 28px;
-      color: #dff9ee;
-      font-weight: 600;
-    }
-
-    .bullets li::before {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: rgba(16, 185, 129, 0.25);
-      color: #6ee7b7;
-      text-align: center;
-      line-height: 20px;
-      font-size: 0.78rem;
-      font-weight: 800;
-    }
-
-    .meta {
-      font-size: 0.9rem;
-      color: #9dc2f4;
-    }
-
-    .hero-actions {
-      margin: 0 0 18px;
-    }
-
-    .hero-link {
-      display: inline-block;
-      text-decoration: none;
-      background: rgba(16, 185, 129, 0.2);
-      border: 1px solid rgba(110, 231, 183, 0.45);
-      color: #dff9ee;
-      font-weight: 800;
-      padding: 10px 14px;
-      border-radius: 10px;
-    }
-
-    .signup {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 22px;
-      box-shadow: inset 0 0 0 1px #e2ecff;
-      color: var(--ink);
-    }
-
-    .signup h2 {
-      margin: 0 0 6px;
-      font-size: 1.25rem;
-      line-height: 1.2;
-    }
-
-    .signup p {
-      margin: 0 0 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      list-style: none;
+      padding: 0;
+      margin: 22px 0 0;
       color: var(--muted);
       font-size: 0.95rem;
     }
 
-    .field { margin-bottom: 10px; }
-
-    label {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #30476f;
-      margin-bottom: 5px;
+    .promise-list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
     }
 
-    input, select {
-      width: 100%;
-      border: 1px solid #c8daf9;
-      border-radius: 10px;
-      padding: 12px;
-      font: inherit;
-      color: var(--ink);
-      background: #fbfdff;
+    .promise-list li::before {
+      content: "";
+      flex: 0 0 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: 9px;
     }
 
-    input:focus, select:focus {
-      outline: 2px solid #8ab4f8;
-      border-color: #8ab4f8;
+    .signup-card {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    .signup-card h2 {
+      color: var(--navy);
+      font-size: 1.32rem;
+      margin: 0 0 6px;
+    }
+
+    .signup-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 0.95rem;
     }
 
     .split {
       display: grid;
-      gap: 10px;
       grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      color: var(--navy);
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      padding: 12px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    input:focus,
+    select:focus {
+      outline: 3px solid rgba(212, 168, 67, 0.22);
+      border-color: var(--gold);
     }
 
     .consent {
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 9px;
+      align-items: start;
       margin: 10px 0 0;
-      font-size: 0.8rem;
-      color: #4f6285;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
     }
 
     .consent input {
       width: auto;
       margin-top: 3px;
-      accent-color: var(--teal-500);
+      accent-color: var(--gold);
     }
 
     .btn {
-      width: 100%;
-      margin-top: 12px;
-      border: 0;
-      border-radius: 12px;
-      background: linear-gradient(140deg, var(--teal-500), var(--teal-600));
-      color: #ffffff;
-      padding: 13px 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 12px 18px;
+      text-decoration: none;
       font-weight: 800;
-      font-size: 0.98rem;
+      font: inherit;
       cursor: pointer;
-      box-shadow: 0 12px 24px rgba(16, 185, 129, 0.25);
-      transition: transform 150ms ease;
     }
 
-    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      width: 100%;
+      margin-top: 14px;
+      background: var(--gold);
+      color: #111827;
+    }
 
-    .trust {
-      margin-top: 10px;
+    .btn-secondary {
+      background: #fff;
+      color: var(--navy);
+      border-color: var(--line);
+    }
+
+    .trust-note {
+      color: var(--muted);
       font-size: 0.78rem;
-      color: #64789d;
       text-align: center;
+      margin: 10px 0 0;
     }
 
-    .sections {
-      padding: 0 0 54px;
+    .section {
+      padding: 42px 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+
+    .section-heading h2 {
+      color: var(--navy);
+      margin: 0;
+      font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin: 0;
+      max-width: 560px;
+    }
+
+    .topic-grid {
       display: grid;
-      gap: 18px;
       grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
     }
 
-    .card {
-      background: var(--paper);
+    .topic-card {
+      background: #fff;
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 8px;
       padding: 18px;
-      box-shadow: 0 10px 24px rgba(41, 79, 145, 0.08);
-      animation: rise 700ms ease-out both;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
     }
-
-    .card:nth-child(2) { animation-delay: 70ms; }
-    .card:nth-child(3) { animation-delay: 130ms; }
-    .card:nth-child(4) { animation-delay: 180ms; }
-    .card:nth-child(5) { animation-delay: 230ms; }
-    .card:nth-child(6) { animation-delay: 280ms; }
 
     .tag {
-      display: inline-block;
-      margin-bottom: 8px;
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      background: #EEF2FF;
+      color: var(--navy);
+      padding: 4px 9px;
       font-size: 0.68rem;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       font-weight: 800;
-      border-radius: 999px;
-      padding: 4px 9px;
-      color: #114995;
-      background: var(--sky-100);
+      margin-bottom: 10px;
     }
 
-    .card h3 {
-      margin: 0 0 6px;
-      font-size: 1.07rem;
-      line-height: 1.3;
-      color: #122c55;
+    .topic-card h3 {
+      color: var(--navy);
+      font-size: 1.08rem;
+      line-height: 1.28;
+      margin: 0 0 7px;
     }
 
-    .card p {
+    .topic-card p {
+      color: var(--muted);
+      font-size: 0.93rem;
       margin: 0;
-      color: #4d5f80;
-      font-size: 0.92rem;
+    }
+
+    .sample {
+      background: var(--navy);
+      color: #fff;
+      padding: 36px 0;
+    }
+
+    .sample-grid {
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .sample h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.5rem, 2.7vw, 2.2rem);
+    }
+
+    .sample p {
+      margin: 0;
+      color: rgba(255,255,255,0.76);
+    }
+
+    .sample-panel {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .sample-panel ul {
+      margin: 0;
+      padding-left: 20px;
+      color: rgba(255,255,255,0.88);
     }
 
     .final-cta {
-      background: linear-gradient(120deg, #ffffff 0%, #f5f9ff 100%);
-      border: 1px solid #ccddfb;
-      border-radius: 20px;
-      padding: 26px;
-      text-align: center;
-      margin-bottom: 56px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin: 42px auto;
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.06);
     }
 
     .final-cta h2 {
-      margin: 0 0 6px;
-      font-size: clamp(1.4rem, 3vw, 2rem);
-      color: #1a3e7e;
-      font-family: "Cormorant Garamond", serif;
+      margin: 0 0 4px;
+      color: var(--navy);
+      font-size: 1.35rem;
     }
 
     .final-cta p {
-      margin: 0 0 14px;
-      color: #51668d;
-    }
-
-    .final-cta a {
-      display: inline-block;
-      background: #1e3a8a;
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 700;
-      padding: 12px 18px;
-      border-radius: 10px;
+      margin: 0;
+      color: var(--muted);
     }
 
     footer {
-      text-align: center;
-      padding: 0 0 34px;
-      color: #55698e;
-      font-size: 0.84rem;
+      padding: 0 0 36px;
+      color: var(--muted);
+      font-size: 0.9rem;
     }
 
     footer a {
-      color: #1e3a8a;
-      text-decoration: none;
+      color: var(--navy);
       font-weight: 700;
+      text-decoration: none;
     }
 
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 960px) {
-      .hero-grid {
+    @media (max-width: 900px) {
+      .hero-grid,
+      .sample-grid {
         grid-template-columns: 1fr;
-        padding: 28px 20px;
       }
-      .sections {
+
+      .topic-grid {
         grid-template-columns: 1fr 1fr;
       }
+
+      .section-heading,
+      .final-cta {
+        display: block;
+      }
+
+      .section-heading p,
+      .final-cta p {
+        margin-top: 8px;
+      }
+
+      .final-cta .btn {
+        margin-top: 16px;
+      }
     }
 
-    @media (max-width: 700px) {
-      .sections {
-        grid-template-columns: 1fr;
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 28px, 1120px);
       }
-      .split {
-        grid-template-columns: 1fr;
+
+      nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px 0;
       }
-      .hero-wrap {
-        padding-bottom: 34px;
+
+      .nav-links {
+        gap: 12px;
+        font-size: 0.92rem;
+      }
+
+      .hero-grid {
+        padding: 34px 0;
+      }
+
+      .split,
+      .promise-list,
+      .topic-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
-  <script defer src="/js/analytics.js"></script>
 </head>
 <body>
-  <header class="topbar">
+  <div class="top-strip">
+    Need plan-specific help now? <a href="tel:+18636403102">(863) 640-3102</a>
+  </div>
+
+  <header>
     <div class="container">
-      <a class="brand" href="/">Lakeland Health Insurance</a>
+      <nav aria-label="Main navigation">
+        <a href="/" class="brand">Lakeland Health Insurance<span>Licensed FL Broker #W371813</span></a>
+        <div class="nav-links">
+          <a href="/plans/">Plans</a>
+          <a href="/blog/">Blog</a>
+          <a href="/get-help/">Get Help</a>
+          <a href="/calendly-book.html" class="nav-pill">Book Review</a>
+        </div>
+      </nav>
     </div>
   </header>
 
   <main>
-    <section class="hero-wrap">
-      <div class="container">
-        <article class="hero">
-          <div class="hero-grid">
-            <div>
-              <p class="eyebrow">Monthly Newsletter</p>
-              <h1>The Coverage Insider</h1>
-              <p>Everything your health plan will not explain clearly, delivered once per month by David Huff. Practical ACA, Medicare, subsidy, and tax guidance in plain language.</p>
-              <ul class="bullets">
-                <li>ACA subsidy protection and income-change alerts</li>
-                <li>Medicare enrollment deadlines and switch windows</li>
-                <li>1095 and tax-season updates to avoid repayment issues</li>
-              </ul>
-              <div class="hero-actions">
-                <a class="hero-link" href="/get-help/">Schedule a Free Coverage Review</a>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Monthly plain-English updates</div>
+          <h1>Join <span class="serif">The Coverage Insider</span>.</h1>
+          <p class="lead">A once-a-month note from David Huff with the health insurance details that actually matter: subsidy changes, Medicare windows, tax forms, carrier updates, network reminders, and simple ways to avoid expensive surprises.</p>
+          <ul class="promise-list">
+            <li>One useful email per month, not a daily blast</li>
+            <li>ACA, Medicare, supplemental, dental, and family coverage tips</li>
+            <li>Local Lakeland and Florida context when it matters</li>
+            <li>Unsubscribe anytime, no pressure and no clutter</li>
+          </ul>
+        </div>
+
+        <aside class="signup-card" id="signup">
+          <h2>Get the next issue</h2>
+          <p>Tell me where to send it and what coverage topic matters most to you.</p>
+          <form id="newsletterForm" name="newsletter-signup" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" data-funnel-track data-funnel-event="Subscribe" data-funnel-name="newsletter_optin">
+            <input type="hidden" name="form-name" value="newsletter-signup">
+            <p style="display:none;">
+              <label>Do not fill this out: <input name="bot-field"></label>
+            </p>
+            <input type="hidden" name="source_page" id="sourcePageInput" value="/newsletter/">
+            <input type="hidden" name="_subject" value="New Newsletter Signup - The Coverage Insider">
+
+            <div class="split">
+              <div class="field">
+                <label for="first_name">First Name</label>
+                <input id="first_name" name="first_name" type="text" autocomplete="given-name" required>
               </div>
-              <p class="meta">No spam. No cold calls. Unsubscribe anytime. FL License #W371813</p>
+              <div class="field">
+                <label for="last_name">Last Name</label>
+                <input id="last_name" name="last_name" type="text" autocomplete="family-name">
+              </div>
             </div>
 
-            <aside class="signup" id="signup">
-              <h2>Add Me to the List</h2>
-              <p>Get one high-value email each month.</p>
-              <form id="newsletterForm" name="newsletter-signup" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" data-funnel-track data-funnel-event="Subscribe" data-funnel-name="newsletter_optin">
-                <input type="hidden" name="form-name" value="newsletter-signup">
-                <p style="display:none;">
-                  <label>Do not fill this out: <input name="bot-field"></label>
-                </p>
-                <input type="hidden" name="source_page" value="/newsletter/">
-                <input type="hidden" name="_subject" value="New Newsletter Signup - The Coverage Insider">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required>
+            </div>
 
-                <div class="split">
-                  <div class="field">
-                    <label for="first_name">First Name</label>
-                    <input id="first_name" name="first_name" type="text" required>
-                  </div>
-                  <div class="field">
-                    <label for="last_name">Last Name</label>
-                    <input id="last_name" name="last_name" type="text">
-                  </div>
-                </div>
+            <div class="field">
+              <label for="phone">Phone (optional)</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(863) 555-1234">
+            </div>
 
-                <div class="field">
-                  <label for="email">Email</label>
-                  <input id="email" name="email" type="email" required>
-                </div>
+            <div class="field">
+              <label for="interest">Most relevant topic</label>
+              <select id="interest" name="interest">
+                <option value="general">General health insurance tips</option>
+                <option value="aca">ACA / Marketplace</option>
+                <option value="medicare">Medicare</option>
+                <option value="taxes">1095 / tax questions</option>
+                <option value="subsidies">Subsidies and savings</option>
+                <option value="supplemental">Supplemental coverage</option>
+              </select>
+            </div>
 
-                <div class="field">
-                  <label for="phone">Phone (optional)</label>
-                  <input id="phone" name="phone" type="tel" placeholder="(863) 555-1234">
-                </div>
+            <label class="consent">
+              <input type="checkbox" name="consent" required>
+              <span>I agree to receive newsletter emails from Lakeland Health Insurance. I understand I can unsubscribe at any time.</span>
+            </label>
 
-                <div class="field">
-                  <label for="interest">Most relevant topic for you</label>
-                  <select id="interest" name="interest">
-                    <option value="general">General Health Insurance Tips</option>
-                    <option value="aca">ACA / Marketplace</option>
-                    <option value="medicare">Medicare</option>
-                    <option value="taxes">1095 / Tax Questions</option>
-                    <option value="subsidies">Subsidies & Savings</option>
-                  </select>
-                </div>
-
-                <label class="consent">
-                  <input type="checkbox" name="consent" required>
-                  <span>I agree to receive newsletter emails from Lakeland Health Insurance. I understand I can unsubscribe at any time.</span>
-                </label>
-
-                <button class="btn" type="submit">Subscribe for Free</button>
-                <p class="trust">Trusted local guidance from David Huff in Lakeland, Florida.</p>
-              </form>
-            </aside>
-          </div>
-        </article>
+            <button class="btn btn-primary" type="submit">Subscribe for Free</button>
+            <p class="trust-note">David Huff, Licensed Florida Broker #W371813.</p>
+          </form>
+        </aside>
       </div>
     </section>
 
-    <section class="container sections">
-      <article class="card">
-        <span class="tag">Tax Season</span>
-        <h3>1095 Form Breakdowns</h3>
-        <p>Which 1095 form matters, when to wait before filing, and the mistakes that trigger subsidy repayment notices.</p>
-      </article>
-      <article class="card">
-        <span class="tag">Savings</span>
-        <h3>Keep Your Subsidy Protected</h3>
-        <p>How to report income changes properly and avoid surprises when your tax return reconciles your advance credits.</p>
-      </article>
-      <article class="card">
-        <span class="tag">Medicare</span>
-        <h3>Turning 65 Timelines</h3>
-        <p>Simple reminders for IEP, OEP, and AEP windows so you do not miss enrollment opportunities.</p>
-      </article>
-      <article class="card">
-        <span class="tag">Carrier Perks</span>
-        <h3>Member Rewards Most People Miss</h3>
-        <p>Actionable instructions for getting gift cards, OTC allowances, and fitness perks from your plan.</p>
-      </article>
-      <article class="card">
-        <span class="tag">Practical</span>
-        <h3>Monthly Coverage Tips</h3>
-        <p>What to do now, what to avoid, and what changes are worth reviewing with a broker before they cost you money.</p>
-      </article>
-      <article class="card">
-        <span class="tag">Real Voice</span>
-        <h3>No-Fluff Updates</h3>
-        <p>Clear guidance from a local licensed broker, plus occasional healthy recipes and a Friday joke to keep it human.</p>
-      </article>
+    <section class="section">
+      <div class="container">
+        <div class="section-heading">
+          <h2>What the newsletter covers</h2>
+          <p>Short, practical updates that help you use your plan better and avoid missing important enrollment or tax details.</p>
+        </div>
+
+        <div class="topic-grid">
+          <article class="topic-card">
+            <span class="tag">ACA</span>
+            <h3>Subsidy and income reminders</h3>
+            <p>When to update income, how advance premium tax credits work, and what can trigger repayment.</p>
+          </article>
+          <article class="topic-card">
+            <span class="tag">Medicare</span>
+            <h3>Enrollment windows</h3>
+            <p>AEP, MA-OEP, initial enrollment, prescription checks, and plan review timing before deadlines get busy.</p>
+          </article>
+          <article class="topic-card">
+            <span class="tag">Tax Season</span>
+            <h3>1095 forms and filing traps</h3>
+            <p>Which forms matter, when to wait, and what Marketplace households should check before filing.</p>
+          </article>
+          <article class="topic-card">
+            <span class="tag">Networks</span>
+            <h3>Doctor and hospital changes</h3>
+            <p>Local reminders when network, carrier, hospital, or pharmacy details deserve a second look.</p>
+          </article>
+          <article class="topic-card">
+            <span class="tag">Benefits</span>
+            <h3>Plan perks people miss</h3>
+            <p>OTC, rewards, dental, telehealth, preventive care, and other benefits that often go unused.</p>
+          </article>
+          <article class="topic-card">
+            <span class="tag">Plain English</span>
+            <h3>Insurance without the fog</h3>
+            <p>No jargon parade. Just what changed, who it affects, and what to do next.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sample">
+      <div class="container sample-grid">
+        <div>
+          <h2>A typical issue is quick to read.</h2>
+          <p>Useful enough to keep, short enough to actually finish.</p>
+        </div>
+        <div class="sample-panel">
+          <ul>
+            <li>One timely deadline or rule change</li>
+            <li>One money-saving action to check this month</li>
+            <li>One plain-English explanation of a confusing insurance term</li>
+            <li>One local or Florida-specific note when relevant</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <section class="container">
       <div class="final-cta">
-        <h2>Know someone paying too much for coverage?</h2>
-        <p>Share this page and help them make better health insurance decisions.</p>
-        <a href="#signup">Schedule My Free Review</a>
+        <div>
+          <h2>Want help with your current plan?</h2>
+          <p>Newsletter is great for staying informed. If you need a personal answer, book a free review.</p>
+        </div>
+        <a class="btn btn-secondary" href="/calendly-book.html">Book Free Review</a>
       </div>
     </section>
   </main>
 
   <footer class="container">
-    Lakeland Health Insurance · David Huff · FL License #W371813 ·
-    <a href="https://www.facebook.com/HealthMarkets.David.Huff">Facebook</a> ·
+    Lakeland Health Insurance | David Huff | FL License #W371813 |
+    <a href="tel:+18636403102">(863) 640-3102</a> |
     <a href="/privacy-policy.html">Privacy Policy</a>
   </footer>
+
   <script>
-    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      var formData = new FormData(this);
-      fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      }).then(function() {
-        window.location.href = '/thanks.html';
-      }).catch(function() {
-        e.target.submit();
+    (function () {
+      var sourceInput = document.getElementById('sourcePageInput');
+      if (sourceInput) sourceInput.value = window.location.pathname + window.location.search;
+
+      var form = document.getElementById('newsletterForm');
+      if (!form) return;
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        if (typeof gtag === 'function') {
+          gtag('event', 'newsletter_signup', {
+            event_category: 'conversion',
+            event_label: 'coverage_insider'
+          });
+        }
+
+        if (typeof fbLead === 'function') {
+          fbLead('Newsletter Signup');
+        }
+
+        var formData = new FormData(form);
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString()
+        }).then(function () {
+          window.location.href = '/thanks.html';
+        }).catch(function () {
+          form.submit();
+        });
       });
-    });
+    })();
   </script>
 </body>
 </html>
