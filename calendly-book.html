@@ -641,7 +641,7 @@
               </div>
               <iframe
                 id="booking-frame"
-                src="https://health-markets.vanillasoft.net/appt/U8wDu147wb/david-huff"
+                src="https://calendly.com/dhuff-healthmarkets"
                 title="Schedule an appointment with David Huff"
                 loading="lazy"
                 onload="document.getElementById('calendar-loading').style.display='none'">
@@ -649,7 +649,7 @@
             </div>
             <div class="fallback">
               <span>Calendar not loading or blocked by your browser?</span>
-              <a id="booking-fallback" href="https://health-markets.vanillasoft.net/appt/U8wDu147wb/david-huff" target="_blank" rel="noopener noreferrer">Open the calendar in a new window</a>
+              <a id="booking-fallback" href="https://calendly.com/dhuff-healthmarkets" target="_blank" rel="noopener noreferrer">Open the calendar in a new window</a>
             </div>
           </section>
         </div>
@@ -684,7 +684,7 @@
 
   <script>
     (function () {
-      var bookingBaseUrl = 'https://health-markets.vanillasoft.net/appt/U8wDu147wb/david-huff';
+      var bookingBaseUrl = 'https://calendly.com/dhuff-healthmarkets';
       var utm = window.UTM_DATA || {};
       var frame = document.getElementById('booking-frame');
       var fallback = document.getElementById('booking-fallback');
@@ -729,6 +729,25 @@
           event_label: 'booking_page'
         });
       }
+
+      window.addEventListener('message', function (event) {
+        if (event.origin !== 'https://calendly.com') return;
+        if (!event.data || event.data.event !== 'calendly.event_scheduled') return;
+
+        if (typeof gtag_report_conversion === 'function') gtag_report_conversion();
+
+        if (typeof gtag === 'function') {
+          gtag('event', 'calendly_booking', {
+            event_category: 'conversion',
+            event_label: 'booking_page_calendly',
+            value: 1
+          });
+        }
+
+        if (typeof fbLead === 'function') {
+          fbLead('Calendly Appointment');
+        }
+      });
     })();
   </script>
 </body>
