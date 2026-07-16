@@ -35,7 +35,7 @@
       "publisher": {
         "@type": "Organization",
         "name": "Lakeland Health Insurance",
-        "url": "https://lakelandhealthinsurance.com
+        "url": "https://lakelandhealthinsurance.com/"
       }
     }
     </script>
@@ -324,20 +324,10 @@
             flex-wrap: wrap;
             gap: 0.75rem;
         }
-        .tag-search-input {
-            width: 100%;
-            max-width: 420px;
-            border: 1px solid var(--gray-300);
-            border-radius: 10px;
-            padding: 10px 12px;
-            font: inherit;
-            color: var(--gray-800);
-            margin-bottom: 0.9rem;
-            background: var(--white);
-        }
-        .tag-search-empty {
+        .topic-helper {
             color: var(--gray-500);
-            font-size: 0.92rem;
+            font-size: 0.95rem;
+            margin: -0.5rem 0 1rem;
         }
 
         /* Blog Content */
@@ -452,6 +442,8 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
+            border: 0;
+            font-family: inherit;
         }
 
         .tag:hover {
@@ -735,13 +727,7 @@ header .cta-button {
                 <h3>Browse by Topic</h3>
                 <button id="clear-all-btn" onclick="clearFilter()" class="clear-filter-btn" style="display: none;">Clear Filter</button>
             </div>
-            <input
-                id="tag-search-input"
-                class="tag-search-input"
-                type="search"
-                placeholder="Search topics..."
-                aria-label="Search blog topics"
-            >
+            <p class="topic-helper">Use the search above for articles, tools, and resources. Use these topic chips to narrow the blog feed.</p>
             <div id="tag-filter" class="tag-filter-container">
                 <!-- Tags populated by JavaScript -->
             </div>
@@ -1357,88 +1343,88 @@ header .cta-button {
 
     <script>
         let filteredTag = null;
-        let tagSearchQuery = ‘’;
+
+        function escapeHtml(value) {
+            return value.replace(/[&<>"']/g, function(char) {
+                return {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    "\"": "&quot;",
+                    "'": "&#39;"
+                }[char];
+            });
+        }
 
         function getUniqueTags() {
             const tagSet = new Set();
-            document.querySelectorAll(‘.article-card’).forEach(card => {
-                const tags = card.getAttribute(‘data-tags’);
-                if (tags) tags.split(‘,’).forEach(tag => tagSet.add(tag.trim()));
+            document.querySelectorAll(".article-card").forEach(card => {
+                const tags = card.getAttribute("data-tags");
+                if (tags) tags.split(",").forEach(tag => tagSet.add(tag.trim()));
             });
             return Array.from(tagSet).sort();
         }
 
         function renderTags() {
-            const tagContainer = document.getElementById(‘tag-filter’);
-            const clearBtn = document.getElementById(‘clear-all-btn’);
-            const allTags = getUniqueTags();
-            const tags = tagSearchQuery
-                ? allTags.filter(tag => tag.toLowerCase().includes(tagSearchQuery.toLowerCase()))
-                : allTags;
+            const tagContainer = document.getElementById("tag-filter");
+            const clearBtn = document.getElementById("clear-all-btn");
+            const tags = getUniqueTags();
 
-            if (tags.length === 0) {
-                tagContainer.innerHTML = ‘<span class="tag-search-empty">No topics match "’ + tagSearchQuery + ‘".</span>’;
-            } else {
-                tagContainer.innerHTML = tags.map(tag =>
-                    ‘<span class="tag ‘ + (filteredTag === tag ? ‘active’ : ‘’) + ‘" onclick="filterByTag(\’’ + tag + ‘\’)">’ + tag + ‘</span>’
-                ).join(‘’);
-            }
+            tagContainer.innerHTML = tags.map(tag => {
+                const activeClass = filteredTag === tag ? " active" : "";
+                return "<button class=\"tag" + activeClass + "\" type=\"button\" data-filter-tag=\"" + escapeHtml(tag) + "\">" + escapeHtml(tag) + "</button>";
+            }).join("");
 
-            clearBtn.style.display = filteredTag ? ‘block’ : ‘none’;
+            tagContainer.querySelectorAll("[data-filter-tag]").forEach(button => {
+                button.addEventListener("click", function() {
+                    filterByTag(button.getAttribute("data-filter-tag"));
+                });
+            });
+
+            clearBtn.style.display = filteredTag ? "block" : "none";
         }
 
         function filterByTag(tag) {
             filteredTag = tag;
             renderTags();
-            const indicator = document.getElementById(‘filter-indicator’);
-            indicator.innerHTML = ‘<div class="filter-indicator"><span>Showing posts tagged: <strong>’ + tag + ‘</strong></span><button onclick="clearFilter()" class="clear-filter-btn">Clear Filter</button></div>’;
+            const indicator = document.getElementById("filter-indicator");
+            indicator.innerHTML = "<div class=\"filter-indicator\"><span>Showing posts tagged: <strong>" + escapeHtml(tag) + "</strong></span><button onclick=\"clearFilter()\" class=\"clear-filter-btn\">Clear Filter</button></div>";
 
-            document.querySelectorAll(‘.article-card’).forEach(card => {
-                const tags = card.getAttribute(‘data-tags’);
-                card.style.display = (tags && tags.split(‘,’).map(t => t.trim()).includes(tag)) ? ‘’ : ‘none’;
+            document.querySelectorAll(".article-card").forEach(card => {
+                const tags = card.getAttribute("data-tags");
+                card.style.display = (tags && tags.split(",").map(t => t.trim()).includes(tag)) ? "" : "none";
             });
 
-            document.querySelector(‘.blog-content’).scrollIntoView({ behavior: ‘smooth’, block: ‘start’ });
+            document.querySelector(".blog-content").scrollIntoView({ behavior: "smooth", block: "start" });
         }
 
         function clearFilter() {
             filteredTag = null;
             renderTags();
-            document.getElementById(‘filter-indicator’).innerHTML = ‘’;
-            document.querySelectorAll(‘.article-card’).forEach(card => {
-                card.style.display = ‘’;
+            document.getElementById("filter-indicator").innerHTML = "";
+            document.querySelectorAll(".article-card").forEach(card => {
+                card.style.display = "";
             });
         }
 
-        // Menu toggle function
         function toggleMenu() {
-            const menu = document.getElementById(‘dropdownMenu’);
-            menu.classList.toggle(‘show’);
+            const menu = document.getElementById("dropdownMenu");
+            menu.classList.toggle("show");
         }
 
-        // Close menu when clicking outside
-        document.addEventListener(‘click’, function(event) {
-            const menu = document.getElementById(‘dropdownMenu’);
-            const button = document.querySelector(‘.menu-button’);
+        document.addEventListener("click", function(event) {
+            const menu = document.getElementById("dropdownMenu");
+            const button = document.querySelector(".menu-button");
 
             if (!menu.contains(event.target) && !button.contains(event.target)) {
-                menu.classList.remove(‘show’);
+                menu.classList.remove("show");
             }
         });
 
-        // Initialize on page load
-        document.addEventListener(‘DOMContentLoaded’, function() {
-            const tagSearchInput = document.getElementById(‘tag-search-input’);
-            if (tagSearchInput) {
-                tagSearchInput.addEventListener(‘input’, function (e) {
-                    tagSearchQuery = e.target.value.trim();
-                    renderTags();
-                });
-            }
+        document.addEventListener("DOMContentLoaded", function() {
             renderTags();
 
-            // Set current year in footer
-            const yearSpan = document.getElementById(‘current-year’);
+            const yearSpan = document.getElementById("current-year");
             if (yearSpan) {
                 yearSpan.textContent = new Date().getFullYear();
             }
