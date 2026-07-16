@@ -1,50 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Book Your Free Insurance Reality Check | David Huff</title>
-  <meta name="description" content="Skip the phone tag. Book your free 15-30 minute insurance consultation directly with David. No BS, just honest advice about your coverage." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Free Insurance Review | Lakeland Health Insurance</title>
+  <meta name="description" content="Schedule a free 15-30 minute health insurance review with David Huff, licensed Florida broker. ACA, Medicare, supplemental, short-term, dental, and family coverage help.">
   <link rel="canonical" href="https://lakelandhealthinsurance.com/calendly-book.html">
-  <meta name="robots" content="noindex, follow" />
-  <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
-  <meta property="og:title" content="Book Your Free Insurance Reality Check | David Huff">
-  <meta property="og:description" content="Skip the phone tag. Book your free 15-30 minute insurance consultation directly with David. No BS, just honest advice about your coverage.">
+  <meta name="robots" content="noindex, follow">
+  <meta property="og:title" content="Book a Free Insurance Review | Lakeland Health Insurance">
+  <meta property="og:description" content="Schedule a free 15-30 minute health insurance review with David Huff, licensed Florida broker.">
   <meta property="og:url" content="https://lakelandhealthinsurance.com/calendly-book.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Lakeland Health Insurance">
+  <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Book Your Free Insurance Reality Check | David Huff">
-  <meta name="twitter:description" content="Skip the phone tag. Book your free 15-30 minute insurance consultation directly with David. No BS, just honest advice about your coverage.">
+  <meta name="twitter:title" content="Book a Free Insurance Review | Lakeland Health Insurance">
+  <meta name="twitter:description" content="Schedule a free 15-30 minute health insurance review with David Huff, licensed Florida broker.">
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-
-  <!-- GOOGLE FONTS -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#1B2A4A">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <script defer src="/js/analytics.js"></script>
 
-  <!-- UTM CAPTURE / SESSION STORAGE -->
   <script>
     (function () {
-      const KEYS = [
-        'utm_source',
-        'utm_medium',
-        'utm_campaign',
-        'utm_term',
-        'utm_content',
-        'fbclid',
-        'gclid'
-      ];
+      var KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'fbclid', 'gclid'];
 
       function collectParams() {
-        const params = new URLSearchParams(window.location.search);
-        const data = {};
-        KEYS.forEach((k) => {
-          const val = params.get(k) || sessionStorage.getItem(k);
+        var params = new URLSearchParams(window.location.search);
+        var data = {};
+        KEYS.forEach(function (key) {
+          var val = params.get(key) || sessionStorage.getItem(key);
           if (val) {
-            data[k] = val;
-            sessionStorage.setItem(k, val);
+            data[key] = val;
+            sessionStorage.setItem(key, val);
           }
         });
         return data;
@@ -54,489 +46,690 @@
     })();
   </script>
 
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#1B2A4A">
-
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --navy: #1B2A4A;
+      --navy-2: #243B67;
+      --gold: #D4A843;
+      --ink: #172033;
+      --muted: #5B6475;
+      --line: #E2E8F0;
+      --soft: #F8FAFC;
+      --white: #FFFFFF;
+      --teal: #0F766E;
     }
+
+    * { box-sizing: border-box; }
 
     body {
+      margin: 0;
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 50%, #D4A843 100%);
-      color: white;
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-      padding: 1rem;
+      background: var(--soft);
+      color: var(--ink);
+      line-height: 1.55;
     }
 
-    .bg-animation {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: 1;
+    a { color: inherit; }
+
+    .top-strip {
+      background: var(--navy);
+      color: #fff;
+      text-align: center;
+      padding: 8px 16px;
+      font-size: 0.92rem;
+      font-weight: 700;
     }
 
-    .floating-shape {
-      position: absolute;
-      opacity: 0.1;
-      animation: float 6s ease-in-out infinite;
-    }
-
-    .shape-1 {
-      top: 20%;
-      left: 10%;
-      width: 100px;
-      height: 100px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      animation-delay: 0s;
-    }
-
-    .shape-2 {
-      top: 60%;
-      right: 15%;
-      width: 150px;
-      height: 150px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      animation-delay: 2s;
-    }
-
-    .shape-3 {
-      bottom: 30%;
-      left: 20%;
-      width: 80px;
-      height: 80px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 50%;
-      animation-delay: 4s;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-      }
-      50% {
-        transform: translateY(-20px) rotate(180deg);
-      }
+    .top-strip a {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
 
     .container {
-      max-width: 1000px;
+      width: min(1120px, calc(100% - 40px));
       margin: 0 auto;
-      position: relative;
-      z-index: 10;
     }
 
-    .header {
-      text-align: center;
-      margin-bottom: 2rem;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      border-radius: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      padding: 2rem;
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
     }
 
-    .header h1 {
-      font-size: 3rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      line-height: 1.2;
+    nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
 
-    .header p {
-      font-size: 1.3rem;
-      opacity: 0.9;
-      margin-bottom: 1rem;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
+    .brand {
+      font-family: 'Instrument Serif', serif;
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 1.28rem;
+      line-height: 1.1;
     }
 
-    .benefits-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-
-    .benefit-item {
-      background: rgba(16, 185, 129, 0.2);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 1rem;
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .benefit-icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
+    .brand span {
       display: block;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gold);
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-top: 3px;
     }
 
-    .benefit-text {
-      font-weight: 600;
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      color: var(--navy);
+      font-size: 0.96rem;
+      font-weight: 700;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    .nav-call {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 13px;
+      background: #fff;
+    }
+
+    .hero {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.8fr);
+      gap: 42px;
+      align-items: center;
+      padding: 48px 0 42px;
+    }
+
+    .eyebrow {
+      color: var(--teal);
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      color: var(--navy);
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+      margin: 0 0 16px;
+      max-width: 760px;
+    }
+
+    .serif {
+      font-family: 'Instrument Serif', serif;
+      color: var(--gold);
+      font-weight: 400;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.12rem;
+      margin: 0 0 22px;
+      max-width: 720px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 22px 0 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      border-radius: 999px;
+      padding: 12px 18px;
+      text-decoration: none;
+      font-weight: 800;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #111827;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--navy);
+      border-color: var(--line);
+    }
+
+    .trust-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      list-style: none;
+      padding: 0;
+      margin: 22px 0 0;
+      color: var(--muted);
       font-size: 0.95rem;
     }
 
-    .phone-cta {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      padding: 1rem;
-      border-radius: 16px;
-      margin-top: 1.5rem;
+    .trust-list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
     }
 
-    .phone-number {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #D4A843;
-      text-decoration: none;
-      display: inline-block;
-      margin: 0.5rem 0;
-      padding: 12px 24px;
-      background: rgba(16, 185, 129, 0.2);
-      border: 2px solid rgba(16, 185, 129, 0.3);
-      border-radius: 50px;
-      transition: all 0.3s ease;
+    .trust-list li::before {
+      content: "";
+      flex: 0 0 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: 8px;
     }
 
-    .phone-number:hover {
-      background: rgba(16, 185, 129, 0.3);
-      transform: translateY(-2px);
+    .advisor-panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      padding: 20px;
     }
 
-    .calendly-section {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      margin-top: 2rem;
+    .advisor-row {
+      display: grid;
+      grid-template-columns: 86px 1fr;
+      gap: 16px;
+      align-items: center;
     }
 
-    .calendly-header {
-      background: var(--gold, #D4A843);
-      color: white;
-      padding: 2rem;
-      text-align: center;
+    .advisor-row img {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
     }
 
-    .calendly-header h2 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
+    .advisor-panel h2 {
+      color: var(--navy);
+      margin: 0 0 4px;
+      font-size: 1.2rem;
     }
 
-    .calendly-header p {
-      opacity: 0.9;
-      font-size: 1.1rem;
+    .advisor-panel p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 0.95rem;
     }
 
-    .calendly-container {
-      height: 700px;
+    .fact-list {
+      border-top: 1px solid var(--line);
+      margin-top: 18px;
+      padding-top: 16px;
+      display: grid;
+      gap: 10px;
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+
+    .fact-list strong {
+      color: var(--navy);
+    }
+
+    .booking-wrap {
+      padding: 38px 0 46px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin: 0;
+      max-width: 560px;
+    }
+
+    .booking-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.72fr) minmax(420px, 1.28fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .prep-panel,
+    .calendar-panel {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 16px 34px rgba(15, 23, 42, 0.06);
+    }
+
+    .prep-panel {
+      padding: 22px;
+    }
+
+    .prep-panel h3,
+    .calendar-top h3 {
+      color: var(--navy);
+      margin: 0 0 12px;
+      font-size: 1.08rem;
+    }
+
+    .steps {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 14px;
+      counter-reset: steps;
+    }
+
+    .steps li {
+      counter-increment: steps;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      color: var(--muted);
+    }
+
+    .steps li::before {
+      content: counter(steps);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #EEF2FF;
+      color: var(--navy);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+    }
+
+    .steps strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .calendar-top {
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .calendar-top p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    .calendar-frame {
+      height: 720px;
       position: relative;
-      background: white;
+      background: #fff;
     }
 
-    .calendly-loading {
+    .calendar-loading {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 10;
-      color: #666;
-      font-size: 1.1rem;
+      inset: 0;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      justify-content: center;
+      color: var(--muted);
+      font-weight: 700;
+      background: #fff;
+      z-index: 1;
     }
 
-    .calendly-fallback {
-      padding: 2rem;
-      text-align: center;
-      background: #f8f9fa;
-      color: #333;
-    }
-
-    .calendly-fallback a {
-      color: #1B2A4A;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.2rem;
-      display: inline-block;
-      padding: 12px 24px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-    }
-
-    .calendly-fallback a:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    }
-
-    .footer {
-      background: rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 2rem;
-      text-align: center;
-      margin-top: 2rem;
-    }
-
-    .footer p {
-      margin: 0.5rem 0;
-      opacity: 0.8;
-    }
-
-    .footer a {
-      color: #D4A843;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
-    }
-
-    /* Mobile responsive */
-    @media (max-width: 768px) {
-      .header h1 {
-        font-size: 2.2rem;
-      }
-      
-      .header p {
-        font-size: 1.1rem;
-      }
-      
-      .benefits-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .calendly-container {
-        height: 600px;
-      }
-      
-      .header,
-      .calendly-header {
-        padding: 1.5rem;
-      }
-      
-      .phone-number {
-        font-size: 1.2rem;
-      }
-    }
-
-    /* Loading spinner */
     .spinner {
-      border: 3px solid rgba(102, 102, 102, 0.3);
-      border-top: 3px solid #666;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
-      width: 24px;
-      height: 24px;
+      border: 3px solid #CBD5E1;
+      border-top-color: var(--navy);
       animation: spin 1s linear infinite;
+      margin-right: 10px;
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      to { transform: rotate(360deg); }
     }
-  
-/* LHI Header Standardization Override */
-header .brand-name,
-header .logo {
-  font-family: 'Instrument Serif', serif !important;
-  font-size: 1.2rem !important;
-  font-weight: 400 !important;
-  line-height: 1.2 !important;
-  color: var(--navy, #1B2A4A) !important;
-  letter-spacing: 0 !important;
-  text-decoration: none !important;
-}
 
-header .license-tag,
-header .logo::after {
-  content: 'Licensed FL Broker #W371813' !important;
-  font-family: 'DM Sans', sans-serif !important;
-  font-size: 0.7rem !important;
-  font-weight: 600 !important;
-  color: var(--gold, #D4A843) !important;
-  line-height: 1.1 !important;
-  display: block !important;
-  margin-top: 2px !important;
-}
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
 
-header .nav-links a {
-  font-size: 1rem !important;
-  font-weight: 500 !important;
-  line-height: 1.2 !important;
-}
+    .fallback {
+      padding: 16px 22px 20px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.94rem;
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-header .cta-button {
-  font-size: 1rem !important;
-  font-weight: 600 !important;
-  line-height: 1.2 !important;
-}
+    .fallback a {
+      color: var(--navy);
+      font-weight: 800;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
 
+    .alt-strip {
+      background: var(--navy);
+      color: #fff;
+      padding: 24px 0;
+    }
+
+    .alt-strip .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .alt-strip h2 {
+      margin: 0 0 4px;
+      font-size: 1.25rem;
+    }
+
+    .alt-strip p {
+      margin: 0;
+      color: rgba(255,255,255,0.78);
+    }
+
+    footer {
+      padding: 26px 0 38px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--navy);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .booking-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-heading p {
+        margin-top: 8px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 28px, 1120px);
+      }
+
+      nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px 0;
+      }
+
+      .nav-links {
+        gap: 12px;
+        font-size: 0.92rem;
+      }
+
+      .hero-grid {
+        padding: 34px 0 30px;
+      }
+
+      .trust-list {
+        grid-template-columns: 1fr;
+      }
+
+      .calendar-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .calendar-frame {
+        height: 640px;
+      }
+
+      .advisor-row {
+        grid-template-columns: 72px 1fr;
+      }
+
+      .advisor-row img {
+        width: 72px;
+        height: 72px;
+      }
+    }
   </style>
-    <script defer src="/js/analytics.js"></script>
 </head>
 <body>
-  <div class="bg-animation">
-    <div class="floating-shape shape-1"></div>
-    <div class="floating-shape shape-2"></div>
-    <div class="floating-shape shape-3"></div>
+  <div class="top-strip">
+    Prefer to call? <a href="tel:+18636403102" data-booking-phone>(863) 640-3102</a>
   </div>
 
-  <div class="container">
-    <div class="header">
-      <h1>Book Your Free Insurance Reality Check</h1>
-      <p>Skip the phone tag. Get straight talk about your health insurance from someone who actually gives a damn about your financial future.</p>
-      
-      <div class="benefits-grid">
-        <div class="benefit-item">
-          <span class="benefit-icon">🎯</span>
-          <div class="benefit-text">No Sales Pressure</div>
+  <header>
+    <div class="container">
+      <nav aria-label="Main navigation">
+        <a href="/" class="brand">Lakeland Health Insurance<span>Licensed FL Broker #W371813</span></a>
+        <div class="nav-links">
+          <a href="/plans/">Plans</a>
+          <a href="/blog/">Blog</a>
+          <a href="/get-help/">Get Help</a>
+          <a class="nav-call" href="tel:+18636403102" data-booking-phone>Call David</a>
         </div>
-        <div class="benefit-item">
-          <span class="benefit-icon">💰</span>
-          <div class="benefit-text">Find Hidden Savings</div>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-icon">🛡️</span>
-          <div class="benefit-text">Better Coverage</div>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-icon">⚡</span>
-          <div class="benefit-text">15-30 Minutes</div>
-        </div>
-      </div>
-
-      <div class="phone-cta">
-        <p><strong>Prefer to talk now?</strong></p>
-        <a href="tel:+18636403102" class="phone-number" onclick="gtag('event','phone_call',{event_category:'conversion',event_label:'calendly_page_call'});">
-          📞 Call David: (863) 640-3102
-        </a>
-        <p style="font-size: 0.9rem; opacity: 0.8;">David answers personally, no robots</p>
-      </div>
+      </nav>
     </div>
+  </header>
 
-    <div class="calendly-section">
-      <div class="calendly-header">
-        <h2>Choose Your Appointment Time</h2>
-        <p>David's calendar is below - pick what works for your schedule</p>
-      </div>
-
-      <div class="calendly-container">
-        <div id="calendly-loading" class="calendly-loading">
-          <div class="spinner"></div>
-          Loading David's calendar...
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Free 15-30 minute consultation</div>
+          <h1>Book a free insurance review with <span class="serif">David Huff</span>.</h1>
+          <p class="lead">Pick a time for a focused conversation about your coverage, costs, doctors, prescriptions, and next best move. No fee, no obligation, and no pressure to switch if your current plan already fits.</p>
+          <div class="button-row">
+            <a class="btn btn-primary" href="#book-calendar">Choose a Time</a>
+            <a class="btn btn-secondary" href="/get-help/">Use the Quick Form</a>
+          </div>
+          <ul class="trust-list">
+            <li>ACA Marketplace, Medicare, short-term, supplemental, dental, and family coverage</li>
+            <li>Local Lakeland guidance with Florida license #W371813</li>
+            <li>Plan review based on doctors, prescriptions, budget, and timing</li>
+            <li>Broker help is free to you; carriers pay licensed agents when enrollment happens</li>
+          </ul>
         </div>
-        <iframe 
-          src="https://health-markets.vanillasoft.net/appt/U8wDu147wb/david-huff" 
-          width="100%" 
-          height="100%" 
-          frameborder="0" 
-          scrolling="no"
-          onload="document.getElementById('calendly-loading').style.display='none'">
-        </iframe>
-      </div>
 
-      <div class="calendly-fallback">
-        <p><strong>Calendar not loading?</strong></p>
-        <a href="https://health-markets.vanillasoft.net/appt/U8wDu147wb/david-huff" target="_blank" onclick="gtag('event','calendly_fallback_click',{event_category:'conversion',event_label:'external_calendly'});">
-          Open David's Calendar in New Window &rarr;
-        </a>
+        <aside class="advisor-panel" aria-label="Advisor details">
+          <div class="advisor-row">
+            <img src="/david_the_dude2.jpg" alt="David Huff, licensed Florida insurance broker">
+            <div>
+              <h2>David Huff</h2>
+              <p>Lakeland Health Insurance<br>Licensed Florida Broker</p>
+            </div>
+          </div>
+          <div class="fact-list">
+            <div><strong>Best for:</strong> plan reviews, renewal questions, new coverage, Medicare decisions, and benefit tradeoffs.</div>
+            <div><strong>Bring:</strong> ZIP code, doctor list, prescriptions, current plan card, and any renewal notice.</div>
+            <div><strong>Outcome:</strong> a clear next step, even if that means staying where you are.</div>
+          </div>
+        </aside>
       </div>
-    </div>
+    </section>
 
-    <div class="footer">
-      <p><strong>David Huff</strong> | Licensed Insurance Agent</p>
-      <p>FL License #W371813</p>
-      <p>📞 <a href="tel:+18636403102">(863) 640-3102</a> | 📧 <a href="mailto:dhuff@healthmarkets.com">dhuff@healthmarkets.com</a></p>
-      <p style="margin-top: 1rem;">
-        <a href="/">&larr; Back to Lakeland Health Insurance</a> | 
+    <section class="booking-wrap" id="book-calendar">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Choose an appointment time</h2>
+          <p>The calendar below opens David's scheduling page. If the embed does not load, use the direct calendar link below it.</p>
+        </div>
+
+        <div class="booking-grid">
+          <aside class="prep-panel">
+            <h3>What happens on the call</h3>
+            <ol class="steps">
+              <li><span><strong>Confirm the basics</strong> Who needs coverage, where you live, and when coverage needs to start.</span></li>
+              <li><span><strong>Check the pressure points</strong> Doctors, prescriptions, budget, subsidy eligibility, networks, and plan rules.</span></li>
+              <li><span><strong>Compare realistic options</strong> ACA, Medicare, supplemental, short-term, dental, or staying put if that is best.</span></li>
+              <li><span><strong>Leave with a next step</strong> You will know what to do next and what to avoid.</span></li>
+            </ol>
+          </aside>
+
+          <section class="calendar-panel" aria-label="Scheduling calendar">
+            <div class="calendar-top">
+              <div>
+                <h3>David's calendar</h3>
+                <p>Choose the time that works best for you.</p>
+              </div>
+              <a class="btn btn-secondary" href="tel:+18636403102" data-booking-phone>Call Instead</a>
+            </div>
+            <div class="calendar-frame">
+              <div id="calendar-loading" class="calendar-loading">
+                <span class="spinner" aria-hidden="true"></span>
+                Loading calendar...
+              </div>
+              <iframe
+                id="booking-frame"
+                src="https://health-markets.vanillasoft.net/appt/U8wDu147wb/david-huff"
+                title="Schedule an appointment with David Huff"
+                loading="lazy"
+                onload="document.getElementById('calendar-loading').style.display='none'">
+              </iframe>
+            </div>
+            <div class="fallback">
+              <span>Calendar not loading or blocked by your browser?</span>
+              <a id="booking-fallback" href="https://health-markets.vanillasoft.net/appt/U8wDu147wb/david-huff" target="_blank" rel="noopener noreferrer">Open the calendar in a new window</a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt-strip">
+      <div class="container">
+        <div>
+          <h2>Need help faster?</h2>
+          <p>Call directly during business hours or use the short intake form if you want David to review details first.</p>
+        </div>
+        <div class="button-row" style="margin:0;">
+          <a class="btn btn-primary" href="tel:+18636403102" data-booking-phone>Call (863) 640-3102</a>
+          <a class="btn btn-secondary" href="/get-help/">Start Quick Form</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div>Lakeland Health Insurance | David Huff, Licensed FL Broker #W371813</div>
+      <div><a href="mailto:dhuff@healthmarkets.com">dhuff@healthmarkets.com</a> | <a href="tel:+18636403102" data-booking-phone>(863) 640-3102</a></div>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/plans/">Plans</a>
         <a href="/privacy-policy.html">Privacy Policy</a>
-      </p>
-      <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 1rem;">
-        Serving Florida and nationwide with honest insurance advice
-      </p>
+      </div>
     </div>
-  </div>
+  </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Append UTM params to Calendly URL if present
-      const utm = window.UTM_DATA || {};
-      const iframe = document.querySelector('iframe');
-      const fallbackLink = document.querySelector('.calendly-fallback a');
-      
-      if (Object.keys(utm).length && iframe) {
-        const currentSrc = iframe.getAttribute('src');
-        const url = new URL(currentSrc);
-        Object.entries(utm).forEach(([key, val]) => {
-          url.searchParams.set(key, val);
+    (function () {
+      var bookingBaseUrl = 'https://health-markets.vanillasoft.net/appt/U8wDu147wb/david-huff';
+      var utm = window.UTM_DATA || {};
+      var frame = document.getElementById('booking-frame');
+      var fallback = document.getElementById('booking-fallback');
+
+      function withTracking(urlString) {
+        var url = new URL(urlString);
+        Object.keys(utm).forEach(function (key) {
+          url.searchParams.set(key, utm[key]);
         });
-        iframe.setAttribute('src', url.toString());
-        
-        // Update fallback link too
-        if (fallbackLink) {
-          const fallbackUrl = new URL(fallbackLink.getAttribute('href'));
-          Object.entries(utm).forEach(([key, val]) => {
-            fallbackUrl.searchParams.set(key, val);
-          });
-          fallbackLink.setAttribute('href', fallbackUrl.toString());
-        }
+        url.searchParams.set('source_page', window.location.pathname);
+        return url.toString();
       }
 
-      // Track page load
-      if (typeof gtag === 'function') {
-        gtag('event', 'calendly_page_view', {
-          event_category: 'engagement',
-          event_label: 'calendly_direct_page'
-        });
-      }
-    });
+      var trackedUrl = withTracking(bookingBaseUrl);
+      if (frame) frame.setAttribute('src', trackedUrl);
+      if (fallback) fallback.setAttribute('href', trackedUrl);
 
-    // Calendly event tracking
-    window.addEventListener('message', function(e) {
-      if (e.origin === "https://calendly.com" && e.data.event === "calendly.event_scheduled") {
-        // Google Ads conversion ("Insurance reality check")
-        // gtag_report_conversion is defined globally in /js/analytics.js
-        if (typeof gtag_report_conversion === 'function') gtag_report_conversion();
-
-        // Google Analytics 4 event
+      function track(name, label) {
         if (typeof gtag === 'function') {
-          gtag('event', 'calendly_booking', {
+          gtag('event', name, {
             event_category: 'conversion',
-            event_label: 'direct_calendly_booking',
-            value: 1
+            event_label: label
           });
         }
-
-        // Facebook Pixel event
-        if (typeof fbLead === 'function') {
-          fbLead('Direct Calendly Appointment');
-        }
-
-        // Optional: Show confirmation
-        setTimeout(() => {
-          console.log('🎉 Appointment booked successfully!');
-        }, 1000);
       }
-    });
+
+      document.querySelectorAll('[data-booking-phone]').forEach(function (link) {
+        link.addEventListener('click', function () {
+          track('phone_call', 'booking_page_call');
+        });
+      });
+
+      if (fallback) {
+        fallback.addEventListener('click', function () {
+          track('booking_fallback_click', 'external_booking_calendar');
+        });
+      }
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'booking_page_view', {
+          event_category: 'engagement',
+          event_label: 'booking_page'
+        });
+      }
+    })();
   </script>
 </body>
 </html>
