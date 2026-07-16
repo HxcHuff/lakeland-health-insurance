@@ -471,6 +471,8 @@
 
       if (productInterest === 'hpg') {
         answers.coverageType = 'Supplemental / fixed indemnity';
+      } else if (productInterest === 'medicare' || productInterest === 'medicare-advantage') {
+        answers.coverageType = 'Medicare';
       }
 
       function scrollToBottom() {
