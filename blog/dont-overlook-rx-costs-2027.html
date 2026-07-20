@@ -228,6 +228,30 @@
             font-weight: 700;
         }
 
+        .click-to-call {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #16A34A, #059669);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.4);
+            z-index: 1500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .click-to-call:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(22, 163, 74, 0.55);
+        }
+
         footer {
             background: #252525;
             color: #e0e0e0;
@@ -247,6 +271,13 @@
 
             .article-content {
                 padding: 1.5rem;
+            }
+
+            .click-to-call {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px 15px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -342,7 +373,13 @@
             <p style="font-size: 0.8rem; margin-top: 0.5rem;"><a href="/privacy-policy.html">Privacy Policy</a></p>
         </div>
     </footer>
+    <a href="tel:+18636403102" class="click-to-call" onclick="trackPhoneCall()" aria-label="Call David now at 863-640-3102">
+        <span aria-hidden="true">&#128222;</span>
+        <span>Call David Now</span>
+    </a>
     <script src="/js/blog-cta.js" defer></script>
+    <script src="/js/chat-widget.js" defer></script>
     <script src="/js/blog-theme.js" defer></script>
+    <script src="/js/blog-floating-actions.js" defer></script>
 </body>
 </html>
