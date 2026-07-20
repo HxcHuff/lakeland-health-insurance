@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Florida Health Insurance Insights | Lakeland Health Insurance Blog</title>
-    <meta name="description" content="Current ACA, Medicare, and Florida market analysis from a licensed Lakeland broker — David Huff, FL License W371813.">
-    <meta property="og:title" content="Florida Health Insurance Insights | Lakeland Health Insurance Blog">
-    <meta property="og:description" content="Current ACA, Medicare, and Florida market analysis from a licensed Lakeland broker — David Huff, FL License W371813.">
+    <title>Medicare & Florida Health Insurance Insights | Lakeland Health Insurance Blog</title>
+    <meta name="description" content="Medicare-season guidance, plan reviews, and Florida health insurance analysis from licensed Lakeland broker David Huff, FL License W371813.">
+    <meta property="og:title" content="Medicare & Florida Health Insurance Insights | Lakeland Health Insurance Blog">
+    <meta property="og:description" content="Medicare-season guidance, plan reviews, and Florida health insurance analysis from licensed Lakeland broker David Huff, FL License W371813.">
     <meta property="og:url" content="https://lakelandhealthinsurance.com/blog/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lakeland Health Insurance">
@@ -20,8 +20,8 @@
     <meta name="robots" content="index, follow">
     <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Florida Health Insurance Insights | Lakeland Health Insurance Blog">
-    <meta name="twitter:description" content="Current ACA, Medicare, and Florida market analysis from a licensed Lakeland broker — David Huff, FL License W371813.">
+    <meta name="twitter:title" content="Medicare & Florida Health Insurance Insights | Lakeland Health Insurance Blog">
+    <meta name="twitter:description" content="Medicare-season guidance, plan reviews, and Florida health insurance analysis from licensed Lakeland broker David Huff, FL License W371813.">
     <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
@@ -29,8 +29,8 @@
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      "name": "Florida Health Insurance Insights",
-      "description": "Current ACA, Medicare, and Florida market analysis from a licensed Lakeland broker — David Huff, FL License W371813.",
+      "name": "Medicare & Florida Health Insurance Insights",
+      "description": "Medicare-season guidance, plan reviews, and Florida health insurance analysis from licensed Lakeland broker David Huff, FL License W371813.",
       "url": "https://lakelandhealthinsurance.com/blog/",
       "publisher": {
         "@type": "Organization",
@@ -297,37 +297,325 @@
             margin: 0 auto;
         }
 
-        /* Tag Filter Section */
-        .tag-filter-section {
-            background: var(--white);
-            padding: 2rem 0;
-            border-bottom: 1px solid var(--gray-200);
+        .blog-search-wrap {
+            margin: 36px auto 0;
+            max-width: 720px;
         }
 
-        .filter-header {
-            display: flex;
-            justify-content: space-between;
+        .blog-header .site-search-bar {
+            position: relative;
+            width: 100%;
+            max-width: none;
+            margin: 0 auto;
+        }
+
+        .blog-header .site-search-bar input {
+            width: 100%;
+            min-height: 58px;
+            padding: 0 22px 0 56px;
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.96);
+            box-shadow: 0 18px 45px rgba(6, 15, 35, 0.28);
+            color: var(--gray-800);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            line-height: 1.2;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .blog-header .site-search-bar input::placeholder {
+            color: var(--gray-500);
+        }
+
+        .blog-header .site-search-bar input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(212, 168, 67, 0.22), 0 22px 55px rgba(6, 15, 35, 0.34);
+            outline: none;
+            transform: translateY(-1px);
+        }
+
+        .blog-header .search-bar-icon {
             align-items: center;
-            margin-bottom: 1.5rem;
+            background: var(--gold);
+            border-radius: 8px;
+            color: var(--navy-deep);
+            display: flex;
+            font-size: 1rem;
+            height: 34px;
+            justify-content: center;
+            left: 12px;
+            pointer-events: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 34px;
+            z-index: 2;
         }
 
-        .filter-header h3 {
-            font-family: 'Instrument Serif', serif;
-            font-size: 1.3rem;
-            color: var(--navy);
-            margin: 0;
-            font-weight: 400;
+        .blog-header .search-results-dropdown {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            display: none;
+            left: 0;
+            margin-top: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            z-index: 20;
         }
 
-        .tag-filter-container {
+        .search-suggestions {
             display: flex;
             flex-wrap: wrap;
+            justify-content: center;
             gap: 0.75rem;
+            margin-top: 1rem;
         }
-        .topic-helper {
+
+        .search-suggestion {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.22);
+            color: white;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .search-suggestion:hover,
+        .search-suggestion:focus {
+            background: rgba(212, 168, 67, 0.22);
+            border-color: rgba(212, 168, 67, 0.75);
+            outline: none;
+        }
+
+        .medicare-season {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 2.5rem 0;
+        }
+
+        .medicare-season-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .season-kicker {
+            color: var(--gold);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+        }
+
+        .medicare-season h2,
+        .featured-medicare h2 {
+            color: var(--navy);
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 400;
+            line-height: 1.12;
+            margin-bottom: 0.85rem;
+        }
+
+        .medicare-season p,
+        .featured-medicare p {
+            color: var(--gray-600);
+        }
+
+        .season-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.85rem;
+            margin-top: 1.35rem;
+        }
+
+        .secondary-link {
+            border: 1px solid var(--gray-300);
+            border-radius: 999px;
+            color: var(--navy);
+            display: inline-block;
+            font-weight: 600;
+            padding: 11px 20px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .secondary-link:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .season-panel {
+            background: var(--sky-soft);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 1.4rem;
+        }
+
+        .season-panel h3 {
+            color: var(--navy);
+            font-size: 1rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .season-panel ul {
+            color: var(--gray-700);
+            display: grid;
+            gap: 0.5rem;
+            list-style-position: inside;
+        }
+
+        .featured-medicare {
+            padding: 0 0 2.5rem;
+        }
+
+        .featured-heading {
+            margin-bottom: 1.25rem;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1rem;
+        }
+
+        .featured-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            color: inherit;
+            min-height: 100%;
+            padding: 1.25rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .featured-card:hover {
+            border-color: var(--gold);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .featured-card span {
+            color: var(--gold);
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .featured-card h3 {
+            color: var(--navy);
+            font-size: 1.05rem;
+            line-height: 1.3;
+            margin-bottom: 0.5rem;
+        }
+
+        .featured-card p {
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .popular-posts {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            margin-bottom: 2.5rem;
+            overflow: hidden;
+        }
+
+        .popular-posts[hidden] {
+            display: none;
+        }
+
+        .popular-posts-header {
+            align-items: baseline;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.1rem 1.25rem;
+        }
+
+        .popular-posts-header h2 {
+            color: var(--navy);
+            font-size: 1.1rem;
+            line-height: 1.25;
+            margin: 0;
+        }
+
+        .popular-post-note {
             color: var(--gray-500);
-            font-size: 0.95rem;
-            margin: -0.5rem 0 1rem;
+            font-size: 0.82rem;
+            white-space: nowrap;
+        }
+
+        .popular-post-list {
+            display: grid;
+        }
+
+        .popular-post-row {
+            align-items: center;
+            color: inherit;
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: 48px minmax(0, 1fr) 86px;
+            padding: 1rem 1.25rem;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .popular-post-row + .popular-post-row {
+            border-top: 1px solid var(--gray-100);
+        }
+
+        .popular-post-row:hover {
+            background: var(--gray-50);
+        }
+
+        .popular-rank {
+            align-items: center;
+            background: var(--gold-soft);
+            border-radius: 999px;
+            color: var(--navy);
+            display: inline-flex;
+            font-size: 0.82rem;
+            font-weight: 800;
+            height: 32px;
+            justify-content: center;
+            width: 40px;
+        }
+
+        .popular-title {
+            color: var(--navy);
+            font-weight: 700;
+            line-height: 1.35;
+        }
+
+        .popular-count {
+            color: var(--gray-700);
+            font-weight: 800;
+            text-align: right;
+        }
+
+        .popular-count small {
+            color: var(--gray-500);
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
         }
 
         /* Blog Content */
@@ -360,8 +648,21 @@
 
         .article-date {
             color: var(--gray-500);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            align-items: center;
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
+        }
+
+        .visit-count-badge {
+            background: var(--green-soft);
+            border-radius: 999px;
+            color: #166534;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 3px 8px;
         }
 
         .article-title {
@@ -580,6 +881,31 @@
             box-shadow: 0 12px 35px rgba(22, 163, 74, 0.6);
         }
 
+        .chat-widget-button {
+            align-items: center;
+            background: linear-gradient(135deg, #0084ff, #0063d1);
+            border: none;
+            border-radius: 999px;
+            bottom: 88px;
+            box-shadow: 0 10px 30px rgba(0,132,255,0.25);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            font-weight: 700;
+            gap: 8px;
+            padding: 14px 18px;
+            position: fixed;
+            right: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 2000;
+        }
+
+        .chat-widget-button:hover {
+            box-shadow: 0 14px 40px rgba(0,132,255,0.35);
+            transform: translateY(-3px);
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .nav-links {
@@ -588,6 +914,48 @@
 
             .blog-header h1 {
                 font-size: 2rem;
+            }
+
+            .blog-search-wrap {
+                margin-top: 28px;
+            }
+
+            .blog-header .site-search-bar input {
+                font-size: 16px;
+                min-height: 54px;
+                padding-left: 52px;
+            }
+
+            .search-suggestions {
+                gap: 0.55rem;
+            }
+
+            .search-suggestion {
+                font-size: 0.82rem;
+                padding: 7px 11px;
+            }
+
+            .popular-posts-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .popular-post-note {
+                white-space: normal;
+            }
+
+            .popular-post-row {
+                grid-template-columns: 44px minmax(0, 1fr);
+            }
+
+            .popular-count {
+                grid-column: 2;
+                text-align: left;
+            }
+
+            .medicare-season-grid,
+            .featured-grid {
+                grid-template-columns: 1fr;
             }
 
             .article-card {
@@ -616,6 +984,13 @@
             .compliance-banner {
                 font-size: 0.7rem;
                 padding: 8px 15px;
+            }
+
+            .chat-widget-button {
+                bottom: 78px;
+                font-size: 0.9rem;
+                padding: 12px 15px;
+                right: 15px;
             }
         }
     
@@ -660,6 +1035,7 @@ header .cta-button {
     <link rel="stylesheet" href="/css/blog-unified.css">
     <script defer src="/js/analytics.js"></script>
     <script defer src="/js/site-search.js"></script>
+    <script defer src="../js/blog-popularity.js"></script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1480756087079484&ev=PageView&noscript=1"/></noscript>
 </head>
 <body class="blog-post">
@@ -708,28 +1084,46 @@ header .cta-button {
 
     <section class="blog-header">
         <div class="container">
-            <h1>Florida Health Insurance Insights</h1>
-            <p>Current ACA, Medicare, and Florida market analysis from a licensed Lakeland broker.</p>
-            <div style="margin-top: 40px;">
+            <h1>Medicare Season Starts Here</h1>
+            <p>Plain-English Medicare guidance for Lakeland and Polk County, plus Florida health insurance updates when they matter.</p>
+            <div class="blog-search-wrap">
                 <div class="site-search-bar" data-site-search="bar">
                     <span class="search-bar-icon">&#128269;</span>
-                    <input type="search" placeholder="Search articles, tools, and resources..." aria-label="Search site">
+                    <input type="search" placeholder="Search Medicare topics, doctors, prescriptions, Advantage, Supplement..." aria-label="Search Medicare and health insurance articles">
                     <div class="search-results-dropdown" data-site-search="results"></div>
+                </div>
+                <div class="search-suggestions" aria-label="Suggested Medicare searches">
+                    <button class="search-suggestion" type="button" data-search-suggestion="Medicare Advantage">Medicare Advantage</button>
+                    <button class="search-suggestion" type="button" data-search-suggestion="Medicare Supplement">Medicare Supplement</button>
+                    <button class="search-suggestion" type="button" data-search-suggestion="Part D prescriptions">Part D prescriptions</button>
+                    <button class="search-suggestion" type="button" data-search-suggestion="Watson Clinic">Watson Clinic</button>
+                    <button class="search-suggestion" type="button" data-search-suggestion="switch Medicare plans">Switching plans</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Tag Filter Section -->
-    <section class="tag-filter-section">
+    <section class="medicare-season">
         <div class="container">
-            <div class="filter-header">
-                <h3>Browse by Topic</h3>
-                <button id="clear-all-btn" onclick="clearFilter()" class="clear-filter-btn" style="display: none;">Clear Filter</button>
-            </div>
-            <p class="topic-helper">Use the search above for articles, tools, and resources. Use these topic chips to narrow the blog feed.</p>
-            <div id="tag-filter" class="tag-filter-container">
-                <!-- Tags populated by JavaScript -->
+            <div class="medicare-season-grid">
+                <div>
+                    <div class="season-kicker">Now focusing on Medicare</div>
+                    <h2>Review your plan before the busy season hits.</h2>
+                    <p>Ads are live and Medicare questions are coming in fast. This blog now points first-time visitors toward the decisions that matter most: doctors, prescriptions, total yearly cost, plan changes, and whether Advantage, Supplement, or Part D fits their situation.</p>
+                    <div class="season-actions">
+                        <a href="/lp/medicare/" class="cta-button">Get a Free Medicare Review</a>
+                        <a href="/medicare/" class="secondary-link">Compare Lakeland Medicare Plans</a>
+                    </div>
+                </div>
+                <div class="season-panel" aria-label="Medicare review checklist">
+                    <h3>Bring this to your review</h3>
+                    <ul>
+                        <li>Your doctors and preferred hospitals</li>
+                        <li>Your prescriptions and pharmacy</li>
+                        <li>Your current plan card or ANOC letter</li>
+                        <li>Any dental, vision, hearing, or travel needs</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
@@ -737,6 +1131,42 @@ header .cta-button {
     <section class="blog-content">
         <div class="container">
             <div class="blog-container">
+                <section class="featured-medicare" aria-labelledby="featured-medicare-heading">
+                    <div class="featured-heading">
+                        <div class="season-kicker">Start with these</div>
+                        <h2 id="featured-medicare-heading">Medicare guides for this season</h2>
+                        <p>Three quick paths for people coming from Medicare ads who need an answer before they book.</p>
+                    </div>
+                    <div class="featured-grid">
+                        <a href="/blog/when-can-i-switch-medicare-plans-florida.html" class="featured-card">
+                            <span>Enrollment timing</span>
+                            <h3>When can I switch Medicare plans in Florida?</h3>
+                            <p>AEP, MA-OEP, Initial Enrollment, and Special Enrollment Periods explained with exact windows.</p>
+                        </a>
+                        <a href="/blog/medicare-advantage-lakeland-2026.html" class="featured-card">
+                            <span>Local plan fit</span>
+                            <h3>Lakeland Medicare Advantage plans for 2026</h3>
+                            <p>Compare local options by premium, out-of-pocket risk, and provider access around Polk County.</p>
+                        </a>
+                        <a href="/blog/medicare-supplement-cost-lakeland.html" class="featured-card">
+                            <span>Supplement costs</span>
+                            <h3>How much does a Medicare Supplement cost?</h3>
+                            <p>What drives Medigap pricing in Lakeland and how to compare Plan G, Plan N, and high-deductible G.</p>
+                        </a>
+                        <a href="/medicare/east-polk/" class="featured-card">
+                            <span>East Polk local</span>
+                            <h3>Medicare help for Lake Alfred and Haines City</h3>
+                            <p>East Polk plan checks for doctors, prescriptions, pharmacies, and local care access.</p>
+                        </a>
+                    </div>
+                </section>
+                <section class="popular-posts" id="popular-posts" hidden aria-labelledby="popular-posts-heading">
+                    <div class="popular-posts-header">
+                        <h2 id="popular-posts-heading">Most visited articles</h2>
+                        <p class="popular-post-note" id="popular-post-note">Ranked by visits.</p>
+                    </div>
+                    <div class="popular-post-list" id="popular-post-list"></div>
+                </section>
                 <div id="filter-indicator"></div>
                 <div id="blog-posts">
 
@@ -1351,6 +1781,10 @@ header .cta-button {
         <span>&#128222;</span>
         Call Now: (863) 640-3102
     </a>
+    <a href="https://m.me/2330958066941437" class="chat-widget-button" id="openChat" target="_blank" rel="noopener noreferrer" aria-label="Message David on Messenger" title="Opens Facebook Messenger - Chat with David">
+        <span aria-hidden="true">&#128172;</span>
+        Chat with David
+    </a>
 
     <script>
         let filteredTag = null;
@@ -1379,6 +1813,7 @@ header .cta-button {
         function renderTags() {
             const tagContainer = document.getElementById("tag-filter");
             const clearBtn = document.getElementById("clear-all-btn");
+            if (!tagContainer || !clearBtn) return;
             const tags = getUniqueTags();
 
             tagContainer.innerHTML = tags.map(tag => {

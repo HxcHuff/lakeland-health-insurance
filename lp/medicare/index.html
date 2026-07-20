@@ -116,6 +116,180 @@
       line-height: 1.5;
     }
 
+    .review-details {
+      background: var(--white);
+      border-top: 1px solid var(--line);
+      padding: 54px 20px;
+    }
+    .section-wrap {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .section-kicker {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .review-details h2,
+    .local-context h2,
+    .faq h2 {
+      color: var(--navy);
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 400;
+      line-height: 1.12;
+      margin-bottom: 12px;
+    }
+    .section-intro {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 680px;
+    }
+    .detail-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 28px;
+    }
+    .detail-card {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .detail-card h3 {
+      color: var(--navy);
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .detail-card p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .local-context {
+      background: var(--bg);
+      border-top: 1px solid var(--line);
+      padding: 54px 20px;
+    }
+    .local-grid {
+      align-items: start;
+      display: grid;
+      gap: 24px;
+      grid-template-columns: minmax(0, 1fr) 320px;
+    }
+    .local-list {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .local-list h3 {
+      color: var(--navy);
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .local-list ul {
+      color: var(--text-muted);
+      display: grid;
+      gap: 8px;
+      list-style-position: inside;
+    }
+    .local-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+    .local-tags span {
+      background: #F5ECD7;
+      border-radius: 999px;
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 10px;
+    }
+
+    .faq {
+      background: var(--white);
+      border-top: 1px solid var(--line);
+      padding: 50px 20px;
+    }
+    .faq-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .faq-item {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+    .faq-item h3 {
+      color: var(--navy);
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+    .faq-item p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .resource-links {
+      background: var(--bg);
+      border-top: 1px solid var(--line);
+      padding: 46px 20px;
+      text-align: center;
+    }
+    .resource-links .section-intro {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .resource-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 24px auto 0;
+      max-width: 920px;
+      text-align: left;
+    }
+    .resource-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: inherit;
+      display: block;
+      padding: 18px;
+      text-decoration: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .resource-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 10px 25px rgba(15,26,46,0.08);
+      transform: translateY(-2px);
+    }
+    .resource-card span {
+      color: var(--gold);
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .resource-card strong {
+      color: var(--navy);
+      display: block;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+    .resource-card p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
     /* Form section */
     .form-section {
       padding: 48px 20px 60px;
@@ -236,6 +410,32 @@
       line-height: 1.7;
     }
     footer a { color: var(--gold); text-decoration: none; }
+    .click-to-call {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--green), #059669);
+      color: #fff;
+      padding: 13px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 8px 25px rgba(22,163,74,0.35);
+      z-index: 40;
+    }
+    .chat-widget-button {
+      position: fixed;
+      bottom: 78px;
+      right: 20px;
+      background: linear-gradient(135deg,#0084ff,#0063d1);
+      color: #fff;
+      padding: 13px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 8px 25px rgba(0,132,255,0.32);
+      z-index: 41;
+    }
 
     /* Responsive */
     @media (max-width: 640px) {
@@ -244,8 +444,11 @@
       .hero p { font-size: 16px; }
       .trust { padding: 32px 16px; }
       .trust-grid { grid-template-columns: 1fr; gap: 14px; }
+      .detail-grid, .local-grid, .resource-grid { grid-template-columns: 1fr; }
       .form-section { padding: 36px 16px 48px; }
       .form-grid { grid-template-columns: 1fr; }
+      .click-to-call { bottom: 14px; font-size: 14px; right: 14px; }
+      .chat-widget-button { bottom: 68px; font-size: 14px; right: 14px; }
     }
   </style>
     <script defer src="/js/analytics.js"></script>
@@ -277,9 +480,9 @@
   <!-- Hero -->
   <section class="hero">
     <div class="hero-inner">
-      <div class="hero-badge">Turning 65?</div>
-      <h1>Don't Let Medicare Mistakes Cost You Thousands</h1>
-      <p>Get a free, no-pressure review of your Medicare options from a licensed Florida broker. I'll show you what plans are available, what they actually cost, and which one fits your situation.</p>
+      <div class="hero-badge" id="medicareStageBadge">Turning 65?</div>
+      <h1 id="medicareStageHeadline">Don't Let Medicare Mistakes Cost You Thousands</h1>
+      <p id="medicareStageCopy">Get a free, no-pressure review of your Medicare options from a licensed Florida broker. I'll show you what plans are available, what they actually cost, and which one fits your situation.</p>
       <a href="#lead-form" class="hero-cta">Get My Free Medicare Review</a>
     </div>
   </section>
@@ -305,6 +508,58 @@
     </div>
   </section>
 
+  <section class="review-details" aria-labelledby="review-details-title">
+    <div class="section-wrap">
+      <div class="section-kicker">What gets checked</div>
+      <h2 id="review-details-title">A Medicare review should be more than comparing medications and copays.</h2>
+      <p class="section-intro">The right plan depends on the care you actually use. Before you enroll, switch, or renew, we look at the details that can change your real cost and access.</p>
+      <div class="detail-grid">
+        <div class="detail-card">
+          <h3>Doctors and hospitals</h3>
+          <p>We check your primary doctor, specialists, preferred hospital, and the exact plan network before you make a decision.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Prescriptions and pharmacy</h3>
+          <p>Drug tiers, preferred pharmacy pricing, prior authorization, and Part D costs can change the value of a plan quickly.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Total annual risk</h3>
+          <p>We look beyond the monthly premium at copays, deductibles, and Maximum Out-of-Pocket exposure.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Advantage vs Supplement</h3>
+          <p>Medicare Advantage and Medicare Supplement solve different problems. The better fit depends on your budget, providers, travel, and health needs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="local-context" aria-labelledby="local-context-title">
+    <div class="section-wrap local-grid">
+      <div>
+        <div class="section-kicker">Local Medicare context</div>
+        <h2 id="local-context-title">Built around Polk County plan decisions.</h2>
+        <p class="section-intro">David helps Medicare clients across Lakeland, Lake Alfred, Haines City, Winter Haven, Davenport, and nearby communities. The review is local enough to talk through doctors, pharmacies, and referral patterns, but broad enough to compare the major Medicare paths available in your ZIP code.</p>
+        <div class="local-tags" aria-label="Service areas">
+          <span>Lakeland</span>
+          <span>Lake Alfred</span>
+          <span>Haines City</span>
+          <span>Winter Haven</span>
+          <span>Davenport</span>
+        </div>
+      </div>
+      <div class="local-list">
+        <h3>Have ready when you call</h3>
+        <ul>
+          <li>Your current Medicare or plan card</li>
+          <li>Your doctors and specialists</li>
+          <li>Your prescriptions and pharmacy</li>
+          <li>Any dental, vision, hearing, or travel needs</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <!-- Lead form -->
   <section class="form-section" id="lead-form">
     <div class="form-wrap">
@@ -314,6 +569,7 @@
       <form id="medicareLeadForm" name="lp-medicare-lead" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html" data-funnel-track data-funnel-event="Lead" data-funnel-name="lp_medicare_lead_form">
         <input type="hidden" name="form-name" value="lp-medicare-lead">
         <input type="hidden" name="source_page" value="/lp/medicare/">
+        <input type="hidden" name="medicare_stage" id="medicare_stage">
         <input type="hidden" name="utm_source" id="utm_source">
         <input type="hidden" name="utm_medium" id="utm_medium">
         <input type="hidden" name="utm_campaign" id="utm_campaign">
@@ -338,7 +594,7 @@
             <input type="text" id="zip_code" name="zip_code" required placeholder="33801" pattern="[0-9]{5}" maxlength="5" inputmode="numeric">
           </div>
           <div class="full">
-            <label for="age_timeline">When do you turn 65?</label>
+            <label for="age_timeline" id="ageTimelineLabel">When do you turn 65?</label>
             <select id="age_timeline" name="age_timeline" required>
               <option value="" disabled selected>Select...</option>
               <option value="already_65+">Already 65+</option>
@@ -364,6 +620,53 @@
     </div>
   </section>
 
+  <section class="faq" aria-labelledby="medicare-faq-title">
+    <div class="section-wrap">
+      <div class="section-kicker">Quick questions</div>
+      <h2 id="medicare-faq-title">Common Medicare review questions</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>Does it cost anything to use a broker?</h3>
+          <p>No. You do not pay a broker fee. If you enroll, the carrier pays the broker. Your premium is the same whether you enroll direct or with help.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Can you compare both Medicare Advantage and Supplement?</h3>
+          <p>Yes. The review can compare Medicare Advantage, Medicare Supplement, and Part D options so you can see the tradeoffs clearly.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Should I switch plans every year?</h3>
+          <p>Not automatically. You should review your plan every year because networks, drug lists, and benefits can change. Switching only makes sense if the new plan is a better fit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="resource-links" aria-labelledby="turning-65-resources-title">
+    <div class="section-wrap">
+      <div class="section-kicker">Still reading?</div>
+      <h2 id="turning-65-resources-title">Helpful guides if you are turning 65</h2>
+      <p class="section-intro">If you are not ready to call yet, start with these. The review is still the fastest way to check your doctors, prescriptions, and timing.</p>
+      <p style="margin-top:18px;"><a href="#lead-form" class="hero-cta">Get My Free Medicare Review</a></p>
+      <div class="resource-grid">
+        <a class="resource-card" href="/blog/turning-65-medicare-checklist-florida.html">
+          <span>Checklist</span>
+          <strong>Turning 65 in Florida? Medicare checklist</strong>
+          <p>Timing, Parts A/B/D, doctors, prescriptions, and plan type basics before you enroll.</p>
+        </a>
+        <a class="resource-card" href="/blog/when-can-i-switch-medicare-plans-florida.html">
+          <span>Timing</span>
+          <strong>When can I switch Medicare plans?</strong>
+          <p>Initial Enrollment, AEP, MA-OEP, and Special Enrollment Periods explained.</p>
+        </a>
+        <a class="resource-card" href="/blog/medicare-advantage-vs-supplement.html">
+          <span>Plan choice</span>
+          <strong>Medicare Advantage vs Supplement</strong>
+          <p>How the two main Medicare paths differ on networks, premiums, and predictable costs.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- Social proof -->
   <section class="proof">
     <p><strong>David Huff</strong> &mdash; Licensed health insurance broker specializing in Medicare for Lakeland, Polk County, and families across Florida.</p>
@@ -376,7 +679,56 @@
     <div style="margin-top:6px;"><a href="/privacy-policy.html">Privacy Policy</a></div>
   </footer>
 
+  <a href="https://m.me/2330958066941437" class="chat-widget-button" id="openChat" target="_blank" rel="noopener noreferrer" aria-label="Message David on Messenger">Chat with David</a>
+  <a href="tel:+18636403102" class="click-to-call" aria-label="Call David at 863-640-3102">Call: (863) 640-3102</a>
+  <script src="/js/chat-widget.js" defer></script>
+
   <script>
+    // Personalize copy when the homepage routes visitors by Medicare stage.
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var stage = params.get('stage') || '';
+      var variants = {
+        'turning-65': {
+          badge: 'Turning 65 soon?',
+          headline: 'Get help setting up Medicare the right way.',
+          copy: 'Before you enroll, compare Medicare Advantage, Supplement, and Part D options around your doctors, prescriptions, pharmacy, and budget.',
+          label: 'When do you turn 65?',
+          selectValue: 'within_3_months'
+        },
+        'already-on-medicare': {
+          badge: 'Already on Medicare?',
+          headline: 'Review your current plan before you switch or renew.',
+          copy: 'Plans, drug lists, benefits, and provider networks can change. I will help you check your doctors, prescriptions, pharmacy, and total cost before you make a move.',
+          label: 'What best describes your Medicare timing?',
+          selectValue: 'already_65+'
+        },
+        caregiver: {
+          badge: 'Helping someone with Medicare?',
+          headline: 'Get help reviewing Medicare options for a parent or spouse.',
+          copy: 'We can compare doctors, prescriptions, pharmacy, plan type, and expected costs so your family can make a cleaner Medicare decision.',
+          label: 'Where are they in the Medicare process?',
+          selectValue: ''
+        }
+      };
+      var variant = variants[stage];
+      var hidden = document.getElementById('medicare_stage');
+      if (hidden) hidden.value = stage;
+      if (!variant) return;
+
+      var badge = document.getElementById('medicareStageBadge');
+      var headline = document.getElementById('medicareStageHeadline');
+      var copy = document.getElementById('medicareStageCopy');
+      var label = document.getElementById('ageTimelineLabel');
+      var select = document.getElementById('age_timeline');
+
+      if (badge) badge.textContent = variant.badge;
+      if (headline) headline.textContent = variant.headline;
+      if (copy) copy.textContent = variant.copy;
+      if (label) label.textContent = variant.label;
+      if (select && variant.selectValue) select.value = variant.selectValue;
+    })();
+
     // Capture UTM parameters from URL
     (function() {
       var params = new URLSearchParams(window.location.search);

@@ -1,5 +1,48 @@
 // Site-wide search index and functionality
 const siteSearchIndex = [
+  // Medicare season highlights
+  {
+    title: "Free Medicare Review — Lakeland, FL",
+    url: "/lp/medicare/",
+    excerpt: "Get a free, no-pressure review of your Medicare options from licensed Florida broker David Huff.",
+    tags: ["Medicare", "Lakeland", "Review", "Broker", "Appointment"]
+  },
+  {
+    title: "Compare 2026 Medicare Plans in Lakeland, FL",
+    url: "/medicare/",
+    excerpt: "Compare 2026 Medicare Advantage, Medicare Supplement, and Part D prescription plans in Lakeland and Polk County.",
+    tags: ["Medicare", "Medicare Advantage", "Medicare Supplement", "Part D", "Lakeland"]
+  },
+  {
+    title: "East Polk Medicare Help",
+    url: "/medicare/east-polk/",
+    excerpt: "Medicare plan review for Lake Alfred, Haines City, Davenport, and Winter Haven residents.",
+    tags: ["Medicare", "Lake Alfred", "Haines City", "Davenport", "Winter Haven", "East Polk"]
+  },
+  {
+    title: "When Can I Switch Medicare Plans in Florida? (2026 Guide)",
+    url: "/blog/when-can-i-switch-medicare-plans-florida.html",
+    excerpt: "AEP, MA-OEP, Initial Enrollment, and Special Enrollment Periods explained for Florida and Polk County Medicare clients.",
+    tags: ["Medicare", "AEP", "Enrollment", "Switching Plans", "Florida"]
+  },
+  {
+    title: "Turning 65 in Florida? Medicare Checklist",
+    url: "/blog/turning-65-medicare-checklist-florida.html",
+    excerpt: "A plain-English checklist for Florida residents turning 65 and comparing Medicare Advantage, Supplement, and Part D.",
+    tags: ["Medicare", "Turning 65", "Initial Enrollment", "Part B", "Part D"]
+  },
+  {
+    title: "Medicare AEP 2026 Polk County Checklist",
+    url: "/blog/aep-2026-polk-county-checklist.html",
+    excerpt: "A practical Annual Enrollment checklist for doctors, prescriptions, pharmacies, MOOP, and plan changes.",
+    tags: ["Medicare", "AEP", "Polk County", "Checklist", "Prescriptions"]
+  },
+  {
+    title: "How Much Does a Medicare Supplement Cost in Lakeland? (2026)",
+    url: "/blog/medicare-supplement-cost-lakeland.html",
+    excerpt: "Typical Medigap Plan G, Plan N, and high-deductible Plan G cost ranges in Lakeland and what drives rates.",
+    tags: ["Medicare", "Medicare Supplement", "Medigap", "Plan G", "Lakeland"]
+  },
   // Blog Posts - extracted from blog/index.html
   {
     title: "$0 Premium Health Insurance in Florida: How Silver CSR Plans Give You Better Coverage Than Gold",
@@ -358,6 +401,14 @@ class SiteSearch {
         input.addEventListener('input', (e) => this.handleSearch(e, dropdown));
         input.addEventListener('keydown', (e) => this.handleKeyboard(e, dropdown, input));
         input.addEventListener('focus', (e) => this.handleFocus(e, dropdown));
+
+        bar.parentElement.querySelectorAll('[data-search-suggestion]').forEach(button => {
+          button.addEventListener('click', () => {
+            input.value = button.getAttribute('data-search-suggestion') || '';
+            input.focus();
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+          });
+        });
 
         // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {

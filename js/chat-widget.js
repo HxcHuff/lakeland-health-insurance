@@ -10,19 +10,26 @@
   `;
   document.head.appendChild(style);
 
-  const btn = document.createElement('button');
-  btn.id = 'openChat';
-  btn.className = 'chat-widget-button';
-  btn.setAttribute('aria-label','Message David on Messenger');
-  btn.setAttribute('title','Opens Facebook Messenger - Chat with David');
-  btn.innerHTML = '&#128172; Chat with David';
+  let btn = document.getElementById('openChat');
+  if (!btn) {
+    btn = document.createElement('button');
+    btn.id = 'openChat';
+    btn.className = 'chat-widget-button';
+    btn.setAttribute('aria-label','Message David on Messenger');
+    btn.setAttribute('title','Opens Facebook Messenger - Chat with David');
+    btn.innerHTML = '&#128172; Chat with David';
+    document.body.appendChild(btn);
+  }
 
-  // Open Facebook Messenger in a new tab/window
-  document.body.appendChild(btn);
+  if (!btn.parentNode) {
+    document.body.appendChild(btn);
+  }
   btn.addEventListener('click', function () {
     if (typeof gtag === 'function') {
       try { gtag('event', 'messenger_click', { event_category: 'engagement', event_label: 'messenger_chat_button' }); } catch (e) {}
     }
-    window.open(messengerUrl, '_blank', 'noopener');
+    if (btn.tagName.toLowerCase() !== 'a') {
+      window.open(messengerUrl, '_blank', 'noopener');
+    }
   });
 })();

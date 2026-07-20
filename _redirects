@@ -102,6 +102,8 @@
 /blog/turning-65-florida-medicare-mistakes /blog/medicare-for-dummies.html 301!
 /blog/turning-65-florida-medicare-mistakes/ /blog/medicare-for-dummies.html 301!
 /blog/turning-65-florida-medicare-mistakes.html /blog/medicare-for-dummies.html 301!
+/blog/turning-65-medicare-checklist-florida /blog/turning-65-medicare-checklist-florida.html 301!
+/blog/turning-65-medicare-checklist-florida/ /blog/turning-65-medicare-checklist-florida.html 301!
 /blog/no-health-insurance-florida-er-cost /blog/no-health-insurance-florida-er-cost.html 301!
 /blog/no-health-insurance-florida-er-cost/ /blog/no-health-insurance-florida-er-cost.html 301!
 /blog/aca-2026-subsidy-expiration-florida-impact /blog/aca-2026-subsidy-expiration-florida-impact.html 301!
@@ -114,6 +116,12 @@
 /lp/gap/ /lp/gap/index.html 200
 /lp/aca /lp/aca/index.html 200
 /lp/aca/ /lp/aca/index.html 200
+
+# Medicare local bridge pages
+/medicare/east-polk /medicare/east-polk/index.html 200
+/medicare/east-polk/ /medicare/east-polk/index.html 200
+/medicare/us-27-east-polk /medicare/east-polk/ 301!
+/medicare/us-27-east-polk/ /medicare/east-polk/ 301!
 
 # Clean alias for embedded quote engine
 /find-plans /search-engine-from-zip/dist/index.html 200
