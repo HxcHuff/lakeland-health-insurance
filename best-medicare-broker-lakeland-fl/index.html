@@ -242,12 +242,45 @@
     footer { text-align: center; padding: 32px 20px; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--line); }
     footer a { color: var(--gold); text-decoration: none; }
     .disclosure { font-size: 0.78rem; color: var(--muted); margin-top: 14px; line-height: 1.5; max-width: 760px; margin-left: auto; margin-right: auto; }
+    .floating-contact {
+      position: fixed;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      z-index: 40;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 14px;
+      pointer-events: none;
+    }
+    .floating-contact a {
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 48px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 10px 28px rgba(15, 26, 46, 0.22);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .floating-contact a:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(15, 26, 46, 0.28); }
+    .facebook-bubble { background: linear-gradient(135deg, #0084FF, #0063D1); }
+    .call-david-button { background: linear-gradient(135deg, var(--green), #059669); }
     @media (max-width: 760px) {
       .hero-grid, .split { grid-template-columns: 1fr; }
       .hero-actions a, .cta-row a { width: 100%; text-align: center; }
       .side-cta { position: static; }
       .compare-table { display: block; overflow-x: auto; }
       .nav-links { gap: 10px; }
+      .floating-contact { bottom: 14px; left: 14px; right: 14px; }
+      .floating-contact a { min-height: 44px; padding: 11px 14px; font-size: 0.88rem; }
+      .facebook-bubble span:last-child { display: none; }
     }
   </style>
 </head>
@@ -475,6 +508,17 @@
     <p>&copy; 2026 Lakeland Health Insurance &middot; David Huff &middot; FL License #W371813 &middot; NPN 18213932 &middot; <a href="/privacy-policy.html">Privacy</a> &middot; <a href="/about/">About</a></p>
     <p class="disclosure">We do not offer every plan available in your area. Currently we represent organizations that offer products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Assistance Program (SHIP) to get information on all your options.</p>
   </footer>
+
+  <div class="floating-contact" aria-label="Quick contact options">
+    <a href="https://m.me/2330958066941437" class="facebook-bubble" target="_blank" rel="noopener noreferrer" aria-label="Message David on Facebook Messenger" onclick="if(typeof gtag==='function'){try{gtag('event','messenger_click',{event_category:'engagement',event_label:'best_medicare_broker_floating'});}catch(e){}}">
+      <span aria-hidden="true">&#128172;</span>
+      <span>Message David</span>
+    </a>
+    <a href="tel:+18636403102" class="call-david-button" aria-label="Call David at 863-640-3102" onclick="if(typeof gtag==='function'){try{gtag('event','phone_call',{event_category:'engagement',event_label:'best_medicare_broker_floating'});}catch(e){}}">
+      <span aria-hidden="true">&#128222;</span>
+      <span>Call David</span>
+    </a>
+  </div>
 
   <script defer src="/js/analytics.js"></script>
 </body>
