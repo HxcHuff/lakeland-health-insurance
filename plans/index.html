@@ -530,6 +530,74 @@
       box-shadow: 0 8px 25px rgba(212, 168, 67, 0.3);
     }
 
+    .medicare-ad-ramp {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 34px 0;
+    }
+
+    .medicare-ad-ramp .ramp-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+      gap: 28px;
+      align-items: center;
+    }
+
+    .ramp-kicker {
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .medicare-ad-ramp h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--navy-deep);
+      margin-bottom: 10px;
+    }
+
+    .medicare-ad-ramp p {
+      color: var(--gray-600);
+      margin: 0;
+      max-width: 700px;
+    }
+
+    .ramp-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .ramp-primary,
+    .ramp-secondary {
+      border-radius: 100px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      min-height: 46px;
+      padding: 12px 22px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .ramp-primary {
+      background: var(--gold);
+      color: var(--navy-deep);
+    }
+
+    .ramp-secondary {
+      background: var(--gray-100);
+      color: var(--navy-deep);
+      border: 1px solid var(--gray-200);
+    }
+
     /* Plans Section */
     .plans-section {
       padding: 80px 0;
@@ -859,6 +927,19 @@
         flex-direction: column;
       }
 
+      .medicare-ad-ramp .ramp-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .ramp-actions {
+        justify-content: stretch;
+      }
+
+      .ramp-primary,
+      .ramp-secondary {
+        width: 100%;
+      }
+
       .section-title {
         font-size: 2rem;
       }
@@ -1011,7 +1092,7 @@ header .cta-button {
   <section class="hero">
     <div class="container">
       <h1>Health Insurance Plans <em class="serif">That Work</em></h1>
-      <p>Real coverage, transparent pricing. See estimated costs upfront with expert guidance every step of the way.</p>
+      <p>Comparing Medicare, ACA, dental, vision, or short-term coverage in Polk County? Start with the plan type that matches your situation, then let David check the details with you.</p>
 
       <div style="display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap;">
         <a href="tel:+18636403102" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.2); color: white; padding: 16px 32px; border-radius: 100px; font-weight: 600; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.transform='translateY(0)'">
@@ -1030,6 +1111,20 @@ header .cta-button {
 
       <div class="price-disclaimer">
         <strong>2026 Pricing Note:</strong> Estimates reflect 2026 ACA rates and federal poverty levels. Your actual cost depends on age, ZIP code, health status, income, and household size. These estimates assume a Silver-level ACA plan. No medical underwriting - everyone qualifies for comprehensive coverage. Hidden fees don't exist in regulated insurance; what you see is what you pay.
+      </div>
+    </div>
+  </section>
+
+  <section class="medicare-ad-ramp" aria-label="Medicare review options">
+    <div class="container ramp-inner">
+      <div>
+        <div class="ramp-kicker">Here for Medicare?</div>
+        <h2>Start with a Medicare review before comparing every plan type.</h2>
+        <p>If you are turning 65, already on Medicare, or checking your 2026 options, have your doctors, prescriptions, pharmacy, and current plan card ready. David can compare Medicare Advantage, Supplement, and Part D options around how you actually use care.</p>
+      </div>
+      <div class="ramp-actions">
+        <a href="/lp/medicare/" class="ramp-primary">Get Medicare Review</a>
+        <a href="/lp/medicare/?stage=turning-65" class="ramp-secondary">Turning 65 Soon</a>
       </div>
     </div>
   </section>
@@ -1100,7 +1195,7 @@ header .cta-button {
             <li><span class="feature-x">✗</span> Must be 65+ or disabled</li>
           </ul>
 
-          <a href="/blog/medicare-advantage-lakeland-2026.html" class="plan-cta">Compare Lakeland MA Plans</a>
+          <a href="/lp/medicare/?stage=already-on-medicare" class="plan-cta">Review Medicare Advantage</a>
           <p class="plan-price-note" style="margin-top: 10px;">
             <a href="/blog/lakeland-regional-watson-clinic-insurance-2026.html">Check Watson Clinic and Lakeland Regional access.</a>
           </p>
@@ -1122,7 +1217,7 @@ header .cta-button {
             <li><span class="feature-x">✗</span> Need separate Part D for drugs</li>
           </ul>
 
-          <a href="/blog/medicare-advantage-vs-supplement.html" class="plan-cta">Compare Supplement Plans</a>
+          <a href="/lp/medicare/" class="plan-cta">Review Supplement Options</a>
         </div>
 
         <!-- Dental & Vision -->
@@ -1141,7 +1236,7 @@ header .cta-button {
             <li><span class="feature-x">✗</span> Annual maximums apply</li>
           </ul>
 
-          <a href="/blog/dental-insurance-guide.html" class="plan-cta">Add Dental/Vision</a>
+          <a href="/dental-vision/" class="plan-cta">Review Dental/Vision</a>
         </div>
 
         <!-- Life Insurance -->
@@ -1452,5 +1547,6 @@ header .cta-button {
       });
     });
   </script>
+  <script src="/js/chat-widget.js" defer></script>
 </body>
 </html>

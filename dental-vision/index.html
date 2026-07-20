@@ -219,6 +219,16 @@
     .proof-item .num { font-family: "Instrument Serif", serif; font-size: 1.8rem; color: var(--navy); }
     .proof-item .label { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
 
+    .medicare-dental-note { background: var(--white); border-bottom: 1px solid var(--line); padding: 30px 0; }
+    .medicare-dental-note .note-inner { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr); gap: 24px; align-items: center; }
+    .medicare-dental-note .eyebrow { color: var(--gold); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+    .medicare-dental-note h2 { margin-bottom: 8px; }
+    .medicare-dental-note p { color: var(--muted); margin: 0; }
+    .note-actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+    .note-actions a { border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; min-height: 44px; padding: 11px 18px; text-decoration: none; }
+    .note-actions .primary { background: var(--gold); color: var(--navy-deep); }
+    .note-actions .secondary { background: var(--bg); border: 1px solid var(--line); color: var(--navy); }
+
     section { padding: 44px 0; }
     section h2 { font-family: "Instrument Serif", serif; font-size: 1.7rem; color: var(--navy); margin-bottom: 14px; }
     section p, section li { color: var(--text); font-size: 1rem; }
@@ -261,6 +271,12 @@
 
     .stuck-cta { position: fixed; bottom: 18px; right: 18px; background: var(--green); color: var(--white); padding: 13px 22px; border-radius: 100px; font-weight: 700; text-decoration: none; box-shadow: 0 8px 25px rgba(22,163,74,0.4); z-index: 1000; }
     .stuck-cta:hover { background: #166534; }
+
+    @media (max-width: 760px) {
+      .medicare-dental-note .note-inner { grid-template-columns: 1fr; }
+      .note-actions { justify-content: stretch; }
+      .note-actions a { width: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -302,6 +318,20 @@
         <div class="proof-item"><div class="num">PPO · DHMO · Savings</div><div class="label">All three options</div></div>
         <div class="proof-item"><div class="num">Adult + Pediatric</div><div class="label">Coverage available</div></div>
         <div class="proof-item"><div class="num">Same-day</div><div class="label">Callback window</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="medicare-dental-note" aria-label="Medicare dental and vision review">
+    <div class="container note-inner">
+      <div>
+        <div class="eyebrow">Medicare dental and vision</div>
+        <h2>Checking dental benefits as part of Medicare?</h2>
+        <p>Medicare Advantage dental and vision benefits can look attractive, but the plan still needs to fit your doctors, prescriptions, pharmacy, and overall costs. David can review the Medicare plan first, then decide whether a standalone dental or vision option still makes sense.</p>
+      </div>
+      <div class="note-actions">
+        <a href="/lp/medicare/?stage=already-on-medicare" class="primary">Review Medicare First</a>
+        <a href="/lp/medicare/?stage=turning-65" class="secondary">Turning 65 Soon</a>
       </div>
     </div>
   </section>
@@ -528,12 +558,13 @@
 
   </main>
 
-  <a href="tel:+18636403102" class="stuck-cta">📞 Call David</a>
+  <a href="tel:+18636403102" class="click-to-call" aria-label="Call David at 863-640-3102">Call: (863) 640-3102</a>
 
   <footer>
     <p>&copy; 2026 Lakeland Health Insurance &middot; FL License #W371813 &middot; NPN 18213932 &middot; <a href="/privacy-policy.html">Privacy</a> &middot; <a href="/about/">About David</a></p>
     <p class="disclosure">Coverage details, premiums, waiting periods, annual maximums, and exclusions vary by carrier and plan. This page describes typical-case standalone dental and vision insurance features in Florida and is not an offer of insurance. The certificate of coverage controls. We do not offer every plan available in your area. Currently we represent organizations that offer products in your area. Please contact your State Health Insurance Assistance Program (SHIP) or HealthCare.gov for additional options.</p>
   </footer>
     <script defer src="/js/analytics.js"></script>
+    <script src="/js/chat-widget.js" defer></script>
 </body>
 </html>
