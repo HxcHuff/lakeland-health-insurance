@@ -32,7 +32,7 @@
          so internal event bus / Supabase logging can continue for QA. */
       var fqa=document.createElement('script');
       fqa.async=true;
-      fqa.src='/js/funnel.js';
+      fqa.src='/js/funnel.js?v=20260721-meta-removal';
       document.head.appendChild(fqa);
       return;
     }
@@ -61,7 +61,7 @@
     /* Funnel event bus — unifies GA + Supabase */
     var f=document.createElement('script');
     f.async=true;
-    f.src='/js/funnel.js';
+    f.src='/js/funnel.js?v=20260721-meta-removal';
     document.head.appendChild(f);
   }
   /* Defer Google tags until after LCP/FCP so third-party JS isn't
