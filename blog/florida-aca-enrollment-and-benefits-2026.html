@@ -71,99 +71,221 @@
       }
     ]
   }
-  </script><style>
-    :root { --navy:#1B2A4A; --gold:#D4A843; --gray:#475569; --bg:#F8FAFC; --card:#FFFFFF; --line:#E2E8F0; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:'DM Sans',sans-serif; color:#1e293b; background:var(--bg); line-height:1.65; }
-    .container { max-width:1040px; margin:0 auto; padding:0 20px; }
-    .hero { padding:150px 0 34px; }
-    .hero h1 { margin:0 0 10px; font-size:2rem; color:var(--navy); }
-    .accent { color:var(--gold); font-style:italic; }
-    .hero p { margin:0 0 14px; color:var(--gray); }
-    .cta-row { display:flex; gap:12px; flex-wrap:wrap; }
-    .btn { display:inline-block; padding:12px 18px; border-radius:10px; font-weight:700; text-decoration:none; }
-    .btn-primary { background:var(--gold); color:#111827; }
-    .btn-secondary { border:1px solid var(--line); color:var(--navy); background:#fff; }
-    .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; margin:16px 0; }
-    h2 { color:var(--navy); margin:8px 0; }
-    h3 { color:var(--navy); margin:14px 0 8px; }
-    .small { font-size:.9rem; color:var(--gray); }
-    table { width:100%; border-collapse:collapse; margin-top:8px; }
-    th, td { border:1px solid var(--line); padding:10px; text-align:left; vertical-align:top; }
-    th { background:#eff6ff; }
-    ul { margin:8px 0 0; }
-  </style>
+  </script>
 
     <link rel="stylesheet" href="/css/blog-unified.css">
     <script defer src="/js/analytics.js"></script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1480756087079484&ev=PageView&noscript=1"/></noscript>
     <link rel="stylesheet" href="/css/site-template.css">
+    <style>
+      body.blog-post {
+        background: var(--white);
+        color: var(--gray-800);
+        font-family: 'DM Sans', sans-serif;
+      }
+
+      .aca-guide-hero {
+        background: linear-gradient(165deg, var(--navy-deep) 0%, var(--navy) 50%, #1E3A5F 100%);
+        color: var(--white);
+        padding: 150px 0 82px;
+        text-align: center;
+      }
+
+      .aca-guide-hero h1 {
+        color: var(--white);
+        font-family: 'Instrument Serif', serif;
+        font-size: clamp(2.65rem, 6vw, 4.2rem);
+        font-weight: 400;
+        line-height: 1.05;
+        margin: 0 auto 1.2rem;
+        max-width: 900px;
+      }
+
+      .aca-guide-hero p {
+        color: rgba(255,255,255,0.86);
+        font-size: clamp(1.05rem, 2vw, 1.32rem);
+        line-height: 1.65;
+        margin: 0 auto;
+        max-width: 760px;
+      }
+
+      .aca-guide-hero .hero-cta-group {
+        margin-top: 2rem;
+      }
+
+      .aca-guide-hero .hero-cta.secondary {
+        border-color: rgba(255,255,255,0.52);
+        color: var(--white);
+      }
+
+      .aca-guide-hero .hero-cta.secondary:hover {
+        background: rgba(255,255,255,0.12);
+        border-color: rgba(255,255,255,0.82);
+      }
+
+      .aca-guide-content {
+        background: var(--white);
+        padding: 64px 0 82px;
+      }
+
+      .article-stack {
+        display: grid;
+        gap: 22px;
+      }
+
+      .article-card {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+        padding: clamp(1.35rem, 3vw, 2rem);
+      }
+
+      .article-card h2 {
+        color: var(--navy);
+        font-family: 'Instrument Serif', serif;
+        font-size: clamp(1.8rem, 4vw, 2.35rem);
+        font-weight: 400;
+        line-height: 1.12;
+        margin: 0 0 1rem;
+      }
+
+      .article-card h3 {
+        color: var(--navy);
+        font-size: 1.05rem;
+        margin: 1.35rem 0 0.55rem;
+      }
+
+      .article-card p,
+      .article-card li,
+      .article-card td {
+        color: var(--gray-600);
+      }
+
+      .article-card ol,
+      .article-card ul {
+        display: grid;
+        gap: 0.55rem;
+        margin: 0.6rem 0 0;
+        padding-left: 1.35rem;
+      }
+
+      .article-table-wrap {
+        overflow-x: auto;
+      }
+
+      .article-card table {
+        border-collapse: collapse;
+        margin-top: 0.75rem;
+        min-width: 760px;
+        width: 100%;
+      }
+
+      .article-card th,
+      .article-card td {
+        border: 1px solid var(--gray-200);
+        padding: 0.85rem;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .article-card th {
+        background: var(--sky-soft);
+        color: var(--navy);
+        font-weight: 700;
+      }
+
+      .article-card .small {
+        color: var(--gray-500);
+        font-size: 0.9rem;
+        margin-top: 0.9rem;
+      }
+
+      .accent {
+        color: var(--gold);
+        font-style: italic;
+      }
+    </style>
 </head>
 <body class="blog-post">
   <header></header>
 
-  <main class="container">
-    <section class="hero">
-      <h1>ACA Enrollment and Benefits <em class="accent">Guide (2026)</em></h1>
-      <p>Built for ACA shoppers who want to enroll correctly, set up coverage, and actually use the benefits they chose.</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Quote ACA Plans</a>
-        <a class="btn btn-secondary" href="/get-help/">Need plan-specific help? Start here.</a>
-        <a class="btn btn-secondary" href="/carriers/">Open Carrier Playbooks</a>
+  <main>
+    <section class="aca-guide-hero hero">
+      <div class="container hero-content">
+        <div class="hero-kicker">ACA enrollment guide</div>
+        <h1>ACA Enrollment and Benefits <em class="accent">Guide (2026)</em></h1>
+        <p>Enroll correctly, set up your member account, verify prescriptions and providers, and use the benefits included with the plan you chose.</p>
+        <div class="hero-cta-group">
+          <a class="hero-cta" href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Quote ACA Plans</a>
+          <a class="hero-cta secondary" href="/get-help/">Request Guided Help</a>
+          <a class="hero-cta secondary" href="/carriers/">Carrier Guides</a>
+        </div>
+        <div class="hero-trust-row" aria-label="ACA guide trust signals">
+          <span>HealthCare.gov workflow</span>
+          <span>Carrier setup steps</span>
+          <span>Benefit-use checklist</span>
+        </div>
       </div>
     </section>
 
-    <section class="card">
-      <h2>How HealthCare.gov Enrollment Works (2026)</h2>
-      <ol>
-        <li>Create/login to your HealthCare.gov account.</li>
-        <li>Complete household and income eligibility accurately.</li>
-        <li>Upload documents quickly if asked (income, immigration, address).</li>
-        <li>Compare plans by network, formulary, MOOP, and total annual cost.</li>
-        <li>Select plan, confirm effective date, and make first payment on time.</li>
-      </ol>
-      <h3>Document Prep Checklist</h3>
-      <ul>
-        <li>ID for all applicants</li>
-        <li>Income proof (recent pay stubs, self-employment records, tax docs)</li>
-        <li>Current doctors and medications list</li>
-        <li>Preferred hospitals (LRH/Watson verification ready)</li>
-      </ul>
-    </section>
+    <section class="aca-guide-content">
+      <div class="container article-stack">
+        <section class="article-card">
+          <h2>How HealthCare.gov Enrollment Works (2026)</h2>
+          <ol>
+            <li>Create/login to your HealthCare.gov account.</li>
+            <li>Complete household and income eligibility accurately.</li>
+            <li>Upload documents quickly if asked (income, immigration, address).</li>
+            <li>Compare plans by network, formulary, MOOP, and total annual cost.</li>
+            <li>Select plan, confirm effective date, and make first payment on time.</li>
+          </ol>
+          <h3>Document Prep Checklist</h3>
+          <ul>
+            <li>ID for all applicants</li>
+            <li>Income proof (recent pay stubs, self-employment records, tax docs)</li>
+            <li>Current doctors and medications list</li>
+            <li>Preferred hospitals (LRH/Watson verification ready)</li>
+          </ul>
+        </section>
 
-    <section class="card">
-      <h2>Universal First-30-Days Checklist</h2>
-      <ul>
-        <li>Create member portal and mobile app account</li>
-        <li>Select/confirm PCP assignment</li>
-        <li>Verify all chronic prescriptions on formulary tier and quantity limits</li>
-        <li>Schedule preventive annual visit and baseline labs</li>
-        <li>Turn on autopay and paperless billing</li>
-        <li>Save customer-service call logs and reference numbers</li>
-      </ul>
-    </section>
+        <section class="article-card">
+          <h2>Universal First-30-Days Checklist</h2>
+          <ul>
+            <li>Create member portal and mobile app account</li>
+            <li>Select/confirm PCP assignment</li>
+            <li>Verify all chronic prescriptions on formulary tier and quantity limits</li>
+            <li>Schedule preventive annual visit and baseline labs</li>
+            <li>Turn on autopay and paperless billing</li>
+            <li>Save customer-service call logs and reference numbers</li>
+          </ul>
+        </section>
 
-    <section class="card">
-      <h2>Carrier Comparison Matrix (Benefit Usage, Not Just Premium)</h2>
-      <table>
-        <thead>
-          <tr><th>Carrier</th><th>Best Use Case</th><th>Member Setup Priority</th><th>Healthy Rewards Focus</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>UnitedHealthcare</td><td>Wide network and strong digital tools</td><td>MyUHC setup + formulary + virtual care onboarding</td><td>Preventive completion and app-based engagement</td></tr>
-          <tr><td>Oscar</td><td>App-first experience</td><td>App onboarding + care routing behavior</td><td>Digital activity and preventive milestones</td></tr>
-          <tr><td>Ambetter</td><td>Budget-focused shoppers</td><td>Portal + PCP + referral rule clarity</td><td>Rewards account activation and qualifying actions</td></tr>
-          <tr><td>Molina</td><td>Value and affordability prioritization</td><td>Member dashboard + Rx/drug exceptions workflow</td><td>Preventive and member task completion incentives</td></tr>
-          <tr><td>Wellpoint</td><td>Shoppers wanting virtual-first value options</td><td>Virtual PCP + drug list checks</td><td>Incentive completion tied to member engagement</td></tr>
-        </tbody>
-      </table>
-      <p class="small">Rewards and incentives are plan-specific and may vary by county, metal level, and year.</p>
-    </section>
+        <section class="article-card">
+          <h2>Carrier Comparison Matrix (Benefit Usage, Not Just Premium)</h2>
+          <div class="article-table-wrap">
+            <table>
+              <thead>
+                <tr><th>Carrier</th><th>Best Use Case</th><th>Member Setup Priority</th><th>Healthy Rewards Focus</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>UnitedHealthcare</td><td>Wide network and strong digital tools</td><td>MyUHC setup + formulary + virtual care onboarding</td><td>Preventive completion and app-based engagement</td></tr>
+                <tr><td>Oscar</td><td>App-first experience</td><td>App onboarding + care routing behavior</td><td>Digital activity and preventive milestones</td></tr>
+                <tr><td>Ambetter</td><td>Budget-focused shoppers</td><td>Portal + PCP + referral rule clarity</td><td>Rewards account activation and qualifying actions</td></tr>
+                <tr><td>Molina</td><td>Value and affordability prioritization</td><td>Member dashboard + Rx/drug exceptions workflow</td><td>Preventive and member task completion incentives</td></tr>
+                <tr><td>Wellpoint</td><td>Shoppers wanting virtual-first value options</td><td>Virtual PCP + drug list checks</td><td>Incentive completion tied to member engagement</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="small">Rewards and incentives are plan-specific and may vary by county, metal level, and year.</p>
+        </section>
 
-    <section class="card">
-      <h2>Quarterly Update Rule</h2>
-      <p>Carrier participation, benefits, and reward programs can change. Re-verify during each quarter and before open enrollment decisions.</p>
-      <p class="small">Last verified against CMS PUF files: February 23, 2026.</p>
+        <section class="article-card">
+          <h2>Quarterly Update Rule</h2>
+          <p>Carrier participation, benefits, and reward programs can change. Re-verify during each quarter and before open enrollment decisions.</p>
+          <p class="small">Last verified against CMS PUF files: February 23, 2026.</p>
+        </section>
+      </div>
     </section>
   </main>
   <footer></footer>
