@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medicare &amp; Health Insurance Plans in Lakeland, FL | Lakeland Health Insurance</title>
-  <meta name="description" content="Compare Medicare Advantage, Medicare Supplement, Part D, ACA, dental, vision, and health insurance options with David Huff, a licensed Florida broker in Lakeland.">
+  <title>Medicare Plan Review in Lakeland, FL | David Huff</title>
+  <meta name="description" content="Start a Medicare Advantage, Medicare Supplement, or Part D plan review in Lakeland and Polk County. Under 65? Use the under-65 path for ACA health insurance help.">
+  <meta name="lhi-banner-focus" content="medicare">
   <link rel="canonical" href="https://lakelandhealthinsurance.com/plans/">
   <meta name="robots" content="index, follow">
   <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
-  <meta property="og:title" content="Medicare &amp; Health Insurance Plans in Lakeland, FL | Lakeland Health Insurance">
-  <meta property="og:description" content="Compare Medicare, ACA, dental, vision, and health insurance options with David Huff, a licensed Florida broker in Lakeland.">
+  <meta property="og:title" content="Medicare Plan Review in Lakeland, FL | David Huff">
+  <meta property="og:description" content="Medicare Advantage, Supplement, and Part D reviews with a licensed Florida broker. Under 65 visitors can route to ACA health insurance help.">
   <meta property="og:url" content="https://lakelandhealthinsurance.com/plans/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Lakeland Health Insurance">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Medicare &amp; Health Insurance Plans in Lakeland, FL | Lakeland Health Insurance">
-  <meta name="twitter:description" content="Compare Medicare, ACA, dental, vision, and health insurance options with David Huff, a licensed Florida broker in Lakeland.">
+  <meta name="twitter:title" content="Medicare Plan Review in Lakeland, FL | David Huff">
+  <meta name="twitter:description" content="Get Medicare plan help in Lakeland and Polk County. Under 65? Use the under-65 path for ACA coverage help.">
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#1B2A4A">
@@ -604,6 +605,51 @@
       transform: translateY(-2px);
     }
 
+    .router-button.under-65 {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.28);
+      box-shadow: none;
+    }
+
+    .router-button.under-65:hover {
+      background: rgba(255,255,255,0.14);
+      border-color: rgba(255,255,255,0.45);
+    }
+
+    .call-funnel-card {
+      margin: 2rem auto 0;
+      max-width: 860px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,0.16);
+      text-align: left;
+    }
+
+    .call-funnel-step {
+      background: rgba(255,255,255,0.08);
+      padding: 1rem;
+    }
+
+    .call-funnel-step strong {
+      display: block;
+      color: var(--gold);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+
+    .call-funnel-step span {
+      display: block;
+      color: rgba(255,255,255,0.86);
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
     .hero-trust-row {
       display: flex;
       flex-wrap: wrap;
@@ -1102,6 +1148,10 @@
         grid-template-columns: 1fr;
       }
 
+      .call-funnel-card {
+        grid-template-columns: 1fr;
+      }
+
       .section-title {
         font-size: 2rem;
       }
@@ -1208,6 +1258,7 @@ header .cta-button {
     ]
   }
   </script>
+    <link rel="stylesheet" href="/css/site-template.css">
 </head>
 <body>
   <div class="compliance-banner"><strong>Medicare season:</strong> Call <a href="tel:+18636403102" style="color: var(--gold); font-weight: 700;">(863) 640-3102</a> or <a href="/lp/medicare/" style="color: var(--gold); font-weight: 700;">start a Medicare review</a>. FL Broker License #W371813</div>
@@ -1257,19 +1308,33 @@ header .cta-button {
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <div class="hero-kicker">Medicare help for Lakeland &amp; Polk County</div>
-        <h1>Compare Medicare options without the guesswork.</h1>
-        <h2>Then see the other coverage options David can help review.</h2>
-        <p>Have your doctors, prescriptions, pharmacy, and current plan card ready. I will help you check the details before you enroll, switch, or stay put.</p>
+        <div class="hero-kicker">Medicare plan reviews for Lakeland &amp; Polk County</div>
+        <h1>Need help choosing a Medicare plan? Review your options before you switch.</h1>
+        <h2>Medicare Advantage, Medicare Supplement, and Part D reviews with a licensed Florida broker who checks doctors, prescriptions, pharmacy, and plan costs.</h2>
+        <p>If you are turning 65, already on Medicare, or confused by a plan mailer, start here. A focused review can prevent the wrong network, drug tier, or out-of-pocket surprise.</p>
         <div class="hero-cta-group">
-          <a href="/lp/medicare/" class="hero-cta">Get a Medicare Review</a>
+          <a href="/lp/medicare/" class="hero-cta">Start My Medicare Review</a>
         </div>
         <div class="medicare-router" aria-label="Choose your coverage situation">
-          <p>Start with one quick question:</p>
+          <p>Choose the path that matches you:</p>
           <div class="router-actions">
-            <a class="router-button" href="/lp/medicare/?stage=turning-65">I'm turning 65 soon</a>
-            <a class="router-button" href="/lp/medicare/?stage=already-on-medicare">I'm already on Medicare</a>
-            <a class="router-button" href="/aca-health-insurance-lakeland-fl/">I'm under 65</a>
+            <a class="router-button" href="/lp/medicare/?stage=turning-65">Turning 65 soon</a>
+            <a class="router-button" href="/lp/medicare/?stage=already-on-medicare">Already on Medicare</a>
+            <a class="router-button under-65" href="/aca-health-insurance-lakeland-fl/">Under 65? Go here</a>
+          </div>
+        </div>
+        <div class="call-funnel-card" aria-label="What happens during your review">
+          <div class="call-funnel-step">
+            <strong>1. Tell me your situation</strong>
+            <span>Turning 65, moving, retiring, losing coverage, or reviewing your current Medicare plan.</span>
+          </div>
+          <div class="call-funnel-step">
+            <strong>2. We check the details</strong>
+            <span>Doctors, prescriptions, pharmacy, local hospitals, dental needs, and total yearly risk.</span>
+          </div>
+          <div class="call-funnel-step">
+            <strong>3. You choose clearly</strong>
+            <span>No broker fee, no pressure, and no guessing through plan names alone.</span>
           </div>
         </div>
         <div class="hero-trust-row" aria-label="Broker trust signals">
@@ -1344,7 +1409,7 @@ header .cta-button {
             <li><span class="feature-x">✗</span> Can be expensive without subsidies</li>
           </ul>
 
-          <a href="/carriers/" class="plan-cta">Check ACA Prices</a>
+          <a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" class="plan-cta" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a>
           <p class="plan-price-note" style="margin-top: 10px;">
             <a href="/aca-health-insurance-lakeland-fl/">Prefer guided intake? Start ACA setup here.</a>
           </p>
@@ -1738,5 +1803,6 @@ header .cta-button {
     });
   </script>
   <script src="/js/chat-widget.js" defer></script>
+    <script src="/js/site-template.js" defer></script>
 </body>
 </html>

@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About David | Lakeland Health Insurance | Your Trusted Florida Insurance Agent</title>
-    <meta name="description" content="David Huff is a licensed Florida health insurance broker (FL #W371813, NPN 18213932) specializing in ACA Marketplace and Medicare plan comparisons for Lakeland and Polk County residents at no cost.">
+    <title>About David Huff | Licensed Health Insurance Broker in Lakeland, FL</title>
+    <meta name="description" content="Meet David Huff, a licensed Florida health insurance broker helping Lakeland, Polk County, and clients nationwide compare Medicare, ACA Marketplace, dental, vision, life, and supplemental coverage at no cost.">
     <link rel="canonical" href="https://lakelandhealthinsurance.com/about/">
     <meta name="robots" content="index, follow">
     <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
-    <meta property="og:title" content="About David | Lakeland Health Insurance | Your Trusted Florida Insurance Agent">
-    <meta property="og:description" content="David Huff is a licensed Florida insurance broker specializing in ACA and Medicare plan comparisons for Lakeland and Polk County.">
+    <meta property="og:title" content="About David Huff | Licensed Health Insurance Broker in Lakeland, FL">
+    <meta property="og:description" content="David Huff helps individuals, families, and Medicare beneficiaries compare health insurance options with plain-English guidance and no-cost broker support.">
     <meta property="og:url" content="https://lakelandhealthinsurance.com/about/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lakeland Health Insurance">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="About David | Lakeland Health Insurance | Your Trusted Florida Insurance Agent">
-    <meta name="twitter:description" content="David Huff is a licensed Florida insurance broker specializing in ACA and Medicare plan comparisons for Lakeland and Polk County.">
+    <meta name="twitter:title" content="About David Huff | Licensed Health Insurance Broker in Lakeland, FL">
+    <meta name="twitter:description" content="Meet David Huff, a licensed Florida broker helping people compare Medicare, ACA, and supplemental coverage without pressure.">
     <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1B2A4A">
@@ -44,7 +44,7 @@
         "@type": "Person",
         "name": "David Huff",
         "jobTitle": "Licensed Insurance Agent & Founder",
-        "description": "Former Marine Sergeant (USMC 0811 Cannoneer), licensed Florida insurance broker serving families nationwide with honest, no-BS health insurance advice.",
+        "description": "Licensed Florida insurance broker serving individuals, families, and Medicare beneficiaries with plain-English health insurance guidance.",
         "knowsAbout": ["Health Insurance", "ACA Marketplace Plans", "Medicare Advantage", "Medicare Supplement", "Short-Term Medical Insurance", "Life Insurance", "Dental Insurance", "Fixed-Benefit Insurance"],
         "hasCredential": {
           "@type": "EducationalOccupationalCredential",
@@ -363,21 +363,22 @@
         .about-header {
             background: linear-gradient(165deg, var(--navy-deep) 0%, var(--navy) 50%, #1E3A5F 100%);
             color: white;
-            padding: 120px 0 60px;
+            padding: 150px 0 76px;
             text-align: center;
         }
 
         .about-header h1 {
-            font-size: 3rem;
+            font-size: clamp(2.45rem, 6vw, 4.2rem);
             font-weight: 400;
             margin-bottom: 1rem;
             color: var(--white);
+            line-height: 1.02;
         }
 
         .about-header p {
             font-size: 1.2rem;
             opacity: 0.9;
-            max-width: 600px;
+            max-width: 760px;
             margin: 0 auto;
         }
 
@@ -714,6 +715,141 @@
         .fade-in-up {
             animation: fadeInUp 0.8s ease forwards;
         }
+
+        .about-header {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-header::before {
+            content: '';
+            position: absolute;
+            inset: -40%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(37,99,235,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(212,168,67,0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .about-header .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-header .hero-kicker {
+            margin-bottom: 1rem;
+        }
+
+        .about-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .about-header .hero-cta.secondary {
+            background: rgba(255,255,255,0.12);
+            border: 2px solid rgba(255,255,255,0.72);
+            color: var(--white);
+            box-shadow: none;
+        }
+
+        .about-header .hero-cta.secondary:hover {
+            background: var(--white);
+            border-color: var(--white);
+            color: var(--navy-deep);
+        }
+
+        .about-header .hero-trust-row {
+            margin-top: 1.35rem;
+        }
+
+        .trust-strip {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1.25rem 0;
+        }
+
+        .trust-strip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .trust-strip strong {
+            display: block;
+            color: var(--navy);
+            font-size: 1rem;
+        }
+
+        .trust-strip span {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        .about-note {
+            background: var(--sky-soft);
+            border: 1px solid var(--gray-200);
+            border-left: 4px solid var(--gold);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+            color: var(--gray-700);
+        }
+
+        .approach-list {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .approach-item {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+        }
+
+        .approach-item strong {
+            color: var(--navy);
+            display: block;
+            margin-bottom: 0.35rem;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .service-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .service-card p {
+            color: var(--gray-600);
+            line-height: 1.65;
+        }
+
+        .about-disclaimer {
+            color: rgba(255,255,255,0.72);
+            font-size: 0.9rem;
+            max-width: 760px;
+            margin: 1.25rem auto 0;
+            line-height: 1.6;
+        }
     
 /* LHI Header Standardization Override */
 header .brand-name,
@@ -754,6 +890,7 @@ header .cta-button {
   </style>
     <script defer src="/js/analytics.js"></script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1480756087079484&ev=PageView&noscript=1"/></noscript>
+    <link rel="stylesheet" href="/css/site-template.css">
 </head>
 <body>
     <div class="compliance-banner">
@@ -803,8 +940,29 @@ header .cta-button {
 
     <section class="about-header">
         <div class="container">
-            <h1>Meet David</h1>
-            <p>Your straight-talking, no-BS health insurance agent who actually gives a damn about your coverage.</p>
+            <div class="hero-kicker">Licensed FL Broker #W371813</div>
+            <h1>Meet David Huff</h1>
+            <p>Licensed health insurance broker helping individuals, families, and Medicare beneficiaries compare coverage with clear guidance and no pressure. I review doctors, prescriptions, costs, and plan details before you choose.</p>
+            <div class="about-actions">
+                <a href="/get-help/" class="hero-cta">Start a Free Plan Review</a>
+                <a href="/our-approach.html" class="hero-cta secondary">See How I Work</a>
+            </div>
+            <div class="hero-trust-row" aria-label="About David trust signals">
+                <span>No broker fee</span>
+                <span>Licensed in Florida</span>
+                <span>Medicare and ACA help</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="trust-strip" aria-label="Broker trust signals">
+        <div class="container">
+            <div class="trust-strip-grid">
+                <div><strong>FL #W371813</strong><span>Licensed Florida broker</span></div>
+                <div><strong>NPN 18213932</strong><span>National Producer Number</span></div>
+                <div><strong>Direct Broker Help</strong><span>Work with David directly</span></div>
+                <div><strong>$0 Broker Help</strong><span>Paid by carriers, not clients</span></div>
+            </div>
         </div>
     </section>
 
@@ -812,18 +970,21 @@ header .cta-button {
         <div class="container">
             <div class="about-grid">
                 <div class="about-text fade-in-up">
-                    <h2>From Marine Sergeant to Your Insurance Guardian</h2>
-                    <p>I'm David, former Marine Sergeant (0811 Cannoneer) turned insurance agent. Why the career change? Because watching my mother navigate the healthcare system during her disability taught me that families need someone who won't back down when insurance companies start playing games.</p>
+                    <p class="section-label">Why I Do This</p>
+                    <h2>Insurance should make life less confusing, not more.</h2>
+                    <p>I'm David Huff, a licensed health insurance broker based in Lakeland, Florida. I help people compare health coverage when the choices feel overwhelming: turning 65, losing employer coverage, shopping ACA Marketplace plans, checking doctor networks, or trying to understand whether a supplemental plan is worth it.</p>
 
-                    <p>In the Marines, we had a saying: "Leave no one behind." That applies to insurance too. When my teenage kids got hurt playing sports, the policies I recommend covered those unexpected expenses without breaking our budget. That's when I knew I was in the right business - protecting families from financial disasters they never saw coming.</p>
+                    <p>My approach is simple: I explain the tradeoffs in plain English, check the details that actually matter, and help you choose coverage that fits your doctors, prescriptions, budget, and timing. If a plan is not a good fit, I will tell you. If you need to slow down and compare, we slow down and compare.</p>
 
-                    <p>I hate seeing good people get hurt by outside forces. Nobody asks for cancer, car accidents, or medical emergencies. But when life throws you a curveball, you need someone in your corner who knows how to fight back. If insurance companies have games, I'm Milton Bradley.</p>
+                    <p>My work is built around preparation, honesty, and attention to detail. As a parent, I also know health coverage is not theoretical. It matters when someone gets hurt, a prescription changes, or a bill shows up at the wrong time.</p>
 
-                    <p>Based in Central Florida but serving families nationwide. Marine-trained discipline meets real-world family experience.</p>
+                    <div class="about-note">
+                        Broker consultations are free to you. Insurance companies compensate brokers, so you pay the same premium whether you enroll through me or directly with the carrier.
+                    </div>
                 </div>
 
                 <div class="about-image fade-in-up">
-                    <img src="david_the_dude2.jpg" alt="David - Lakeland Health Insurance Agent" loading="lazy" style="width: 80%; max-width: 400px; height: 400px; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); display: block; margin: 0 auto;">
+                    <img src="david_the_dude2.jpg" alt="David Huff, licensed health insurance broker in Lakeland Florida" loading="lazy" style="width: 80%; max-width: 400px; height: 400px; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); display: block; margin: 0 auto;">
                 </div>
             </div>
         </div>
@@ -831,30 +992,30 @@ header .cta-button {
 
     <section class="credentials">
         <div class="container">
-            <h2>Why You Can Trust Me</h2>
+            <h2>What I Help With</h2>
             <div class="credentials-grid">
                 <div class="credential-card fade-in-up">
-                    <div class="credential-icon">📋</div>
-                    <h3>Florida Licensed Agent</h3>
-                    <p>FL License #W371813 &bull; NPN 18213932. Fully licensed and regulated by the Florida Department of Financial Services.</p>
+                    <div class="credential-icon">&#128203;</div>
+                    <h3>Medicare Plan Reviews</h3>
+                    <p>Medicare Advantage, Medicare Supplement, and Part D comparisons with attention to doctors, prescriptions, pharmacies, networks, and total yearly cost.</p>
                 </div>
 
                 <div class="credential-card fade-in-up">
-                    <div class="credential-icon">🇺🇸</div>
-                    <h3>Coverage Across the Nation</h3>
-                    <p>Licensed in most states to help families across the country, not just Florida residents.</p>
+                    <div class="credential-icon">&#128269;</div>
+                    <h3>ACA Marketplace Coverage</h3>
+                    <p>Help comparing Marketplace plans, estimating subsidies, checking provider networks, and understanding enrollment windows or qualifying life events.</p>
                 </div>
 
                 <div class="credential-card fade-in-up">
-                    <div class="credential-icon">⚓</div>
-                    <h3>Former Marine Sergeant</h3>
-                    <p>USMC 0811 Cannoneer. Trained to complete the mission under pressure. Your insurance claims won't intimidate me like they do other agents.</p>
+                    <div class="credential-icon">&#128737;</div>
+                    <h3>Supplemental Protection</h3>
+                    <p>Dental, vision, life insurance, short-term medical, and fixed-indemnity options when extra coverage makes sense for your situation.</p>
                 </div>
 
                 <div class="credential-card fade-in-up">
-                    <div class="credential-icon">👨‍👩‍👧‍👦</div>
-                    <h3>Father & Family Man</h3>
-                    <p>Two teenage kids who play sports. I buy the same insurance for my family that I recommend to yours. Skin in the game.</p>
+                    <div class="credential-icon">&#128222;</div>
+                    <h3>Real Follow-Up</h3>
+                    <p>You work with David directly. No call-center maze, no vague handoff, and no pressure to pick a plan before you understand it.</p>
                 </div>
             </div>
         </div>
@@ -862,36 +1023,63 @@ header .cta-button {
 
     <section class="why-choose">
         <div class="container">
-            <h2>Why People Choose to Work With Me</h2>
+            <p class="section-label" style="text-align:center;">How I Work</p>
+            <h2>Direct, practical, and built around your real life.</h2>
             <div class="reasons-grid">
                 <div class="reason-card fade-in-up">
-                    <h3>⚔️ I Don't Back Down From Insurance Companies</h3>
-                    <p>Marines are trained to complete the mission. When your claim gets denied or your coverage gets canceled, I don't roll over like most agents. I've fought through extraordinary circumstances for clients - illnesses, major losses, and every curveball insurance companies throw.</p>
+                    <h3>We start with your details</h3>
+                    <p>Your doctors, prescriptions, household income, preferred hospitals, budget, and timeline matter more than a flashy premium. I use those details to narrow the options.</p>
                 </div>
 
                 <div class="reason-card fade-in-up">
-                    <h3>🎯 I Actually Answer My Phone</h3>
-                    <p>Shocking concept in the insurance world, I know. When you call, you get me, not some call center in another time zone. And I return calls the same day, because I'm not a sociopath.</p>
+                    <h3>I explain the tradeoffs</h3>
+                    <p>Every plan has tradeoffs. I help you understand networks, deductibles, copays, drug tiers, out-of-pocket exposure, referrals, and what those details mean day to day.</p>
                 </div>
 
                 <div class="reason-card fade-in-up">
-                    <h3>💰 I Save You Money (The Right Way)</h3>
-                    <p>Not by selling you garbage coverage, but by finding plans that actually work for your situation. Most people are either overpaying or buying the wrong coverage entirely.</p>
+                    <h3>No pressure, no scripts</h3>
+                    <p>You will not get a corporate sales routine. You get a real conversation, clear next steps, and enough context to make a decision with confidence.</p>
                 </div>
 
                 <div class="reason-card fade-in-up">
-                    <h3>👨‍👩‍👧‍👦 I Get It - I'm a Parent Too</h3>
-                    <p>Two teenage athletes means I know exactly what families worry about. The policies I recommend? I buy them for my own kids. When they got hurt playing sports, our coverage handled it without financial stress.</p>
+                    <h3>I stay practical</h3>
+                    <p>The best plan is not always the cheapest or the one with the longest brochure. The best plan is the one that fits your care, your risk, and your budget.</p>
                 </div>
 
                 <div class="reason-card fade-in-up">
-                    <h3>🚫 No High-Pressure Sales</h3>
-                    <p>I'm not going to chase you around with phone calls or show up at your house uninvited. You're an adult, you can make your own decisions when you're ready.</p>
+                    <h3>Local insight matters</h3>
+                    <p>Lakeland and Polk County networks can be confusing. I pay attention to local systems like Watson Clinic, Lakeland Regional Health, BayCare, Orlando Health, and nearby provider access.</p>
                 </div>
 
                 <div class="reason-card fade-in-up">
-                    <h3>🎮 If Insurance Companies Have Games, I'm Milton Bradley</h3>
-                    <p>They've got rules, loopholes, and tricks designed to avoid paying claims. I know every game they play because I've been protecting families from them for years. You need someone who plays to win.</p>
+                    <h3>I help beyond one page</h3>
+                    <p>Coverage questions do not always end after enrollment. When you need help understanding a card, comparing renewal options, or preparing for a plan change, you can reach out.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-content">
+        <div class="container">
+            <p class="section-label" style="text-align:center;">Who I Serve</p>
+            <h2 style="text-align:center; font-size:2.5rem; margin-bottom:1rem;">Health insurance help for people who want a human guide.</h2>
+            <p style="text-align:center; color:var(--gray-600); max-width:720px; margin:0 auto;">Most clients come to me because they are tired of guessing. They want someone who can compare options, translate the fine print, and keep the conversation grounded.</p>
+            <div class="service-grid">
+                <div class="service-card">
+                    <h3>Individuals & Families</h3>
+                    <p>ACA Marketplace plans, private options, short-term coverage, dental, vision, and life insurance for families trying to protect both health and budget.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Medicare Beneficiaries</h3>
+                    <p>Plan reviews for people turning 65, retiring, moving, losing employer coverage, or comparing Medicare Advantage, Medigap, and Part D options.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Self-Employed Workers</h3>
+                    <p>Coverage guidance for freelancers, contractors, business owners, and people whose income or tax situation makes subsidies and plan selection more complicated.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Central Florida & Beyond</h3>
+                    <p>Local help for Lakeland, Winter Haven, Bartow, Tampa, Plant City, and Polk County, with licensing to serve clients in many states.</p>
                 </div>
             </div>
         </div>
@@ -899,14 +1087,14 @@ header .cta-button {
 
     <section class="cta-section">
         <div class="container">
-            <h2>Ready to Work With Someone Who Actually Cares?</h2>
-            <p>Let's have a real conversation about your health insurance. No pressure, no BS, just honest advice.</p>
+            <h2>Need a second set of eyes on your coverage?</h2>
+            <p>Send the basics, and I’ll help you compare your options clearly. No pressure, no fee, and no guessing through it alone.</p>
             <div class="cta-buttons">
-                <a href="/contact/" class="cta-primary">Get Free Insurance Checkup</a>
-                <a href="tel:+18636403102" class="cta-secondary">Call Now: (863) 640-3102</a>
-                <a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer" class="cta-secondary">💬 Chat with David</a>
-                <a href="sms:+18636403102?body=Hi David! I'm interested in getting a health insurance quote. Can you help?" class="cta-text">📱 Text David</a>
+                <a href="/get-help/" class="cta-primary">Start Free Plan Review</a>
+                <a href="tel:+18636403102" class="cta-secondary">Call (863) 640-3102</a>
+                <a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer" class="cta-secondary">Message David</a>
             </div>
+            <p class="about-disclaimer">Medicare beneficiaries: we do not offer every plan available in your area. Please contact Medicare.gov, 1-800-MEDICARE, or SHIP for information on all options.</p>
         </div>
     </section>
 
@@ -999,5 +1187,6 @@ header .cta-button {
             observer.observe(card);
         });
     </script>
+    <script src="/js/site-template.js" defer></script>
 </body>
 </html>

@@ -358,9 +358,21 @@
         }
 
         .card-icon {
-            font-size: 2.5rem;
+            align-items: center;
+            background: var(--sky-soft);
+            border: 1px solid var(--gray-200);
+            border-radius: 999px;
+            color: var(--navy);
+            display: inline-flex;
+            font-size: 0.78rem;
+            font-weight: 800;
+            justify-content: center;
+            letter-spacing: 0.08em;
             margin-bottom: 1rem;
-            display: block;
+            min-height: 34px;
+            min-width: 64px;
+            padding: 0.35rem 0.75rem;
+            text-transform: uppercase;
         }
 
         .content-card h3 {
@@ -572,6 +584,7 @@
 
     <script defer src="/js/analytics.js"></script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1480756087079484&ev=PageView&noscript=1"/></noscript>
+    <link rel="stylesheet" href="/css/site-template.css">
 </head>
 <body>
     <div class="compliance-banner">
@@ -636,27 +649,27 @@
             <p class="section-subtitle">Use these tools to estimate costs, compare options, and understand your coverage.</p>
             <div class="card-grid">
                 <a href="/aca-subsidy-estimator/" class="content-card">
-                    <span class="card-icon">&#128202;</span>
+                    <span class="card-icon">ACA</span>
                     <h3>ACA Subsidy Estimator</h3>
                     <p>Calculate your estimated ACA subsidies and see what you might qualify for on the healthcare marketplace.</p>
                 </a>
                 <a href="/life-insurance-dime-method/" class="content-card">
-                    <span class="card-icon">&#128176;</span>
+                    <span class="card-icon">Life</span>
                     <h3>DIME Life Insurance Calculator</h3>
                     <p>Determine how much life insurance you need using the proven DIME method.</p>
                 </a>
                 <a href="/plans/" class="content-card">
-                    <span class="card-icon">&#128194;</span>
+                    <span class="card-icon">Plans</span>
                     <h3>Health Plans Comparison</h3>
                     <p>Compare health insurance plans side-by-side and find the right coverage for your needs.</p>
                 </a>
                 <a href="/health-protector-guard/" class="content-card">
-                    <span class="card-icon">&#128559;</span>
+                    <span class="card-icon">HPG</span>
                     <h3>Health Protector Guard Info</h3>
                     <p>Learn about fixed-indemnity coverage and how it can work with your primary health insurance.</p>
                 </a>
                 <a href="/get-help/" class="content-card">
-                    <span class="card-icon">&#128222;</span>
+                    <span class="card-icon">Help</span>
                     <h3>Get Personalized Help</h3>
                     <p>Get a free, personalized health insurance review and consultation with David.</p>
                 </a>
@@ -671,17 +684,17 @@
             <p class="section-subtitle">Read our in-depth guides and articles about health insurance, Medicare, and coverage strategies.</p>
             <div class="card-grid">
                 <a href="/blog/" class="content-card">
-                    <span class="card-icon">&#128214;</span>
+                    <span class="card-icon">Blog</span>
                     <h3>Blog</h3>
                     <p>Over 40 articles on ACA plans, Medicare, subsidies, short-term coverage, and strategies to save money on health insurance.</p>
                 </a>
                 <a href="/dudes-corner/" class="content-card">
-                    <span class="card-icon">&#128512;</span>
+                    <span class="card-icon">Guide</span>
                     <h3>Dude's Corner</h3>
                     <p>David's straight talk take on insurance topics — no corporate nonsense, just real advice from the field.</p>
                 </a>
                 <a href="/our-approach.html" class="content-card">
-                    <span class="card-icon">&#128736;</span>
+                    <span class="card-icon">Method</span>
                     <h3>Our Approach</h3>
                     <p>Learn about our philosophy and how we help families find the right health insurance.</p>
                 </a>
@@ -730,27 +743,27 @@
             <p class="section-subtitle">Detailed enrollment and benefit guides for the carriers we work with.</p>
             <div class="card-grid">
                 <a href="/carriers/" class="content-card">
-                    <span class="card-icon">&#128526;</span>
+                    <span class="card-icon">Carrier</span>
                     <h3>All Carrier Pages</h3>
                     <p>Browse comprehensive guides for every insurance carrier we represent.</p>
                 </a>
                 <a href="/carriers/unitedhealthcare-aca-2026/" class="content-card">
-                    <span class="card-icon">&#128534;</span>
+                    <span class="card-icon">UHC</span>
                     <h3>UnitedHealthcare Playbook</h3>
                     <p>HealthCare.gov enrollment flow, MyUHC setup, and practical benefit strategy.</p>
                 </a>
                 <a href="/carriers/ambetter-aca-2026/" class="content-card">
-                    <span class="card-icon">&#128512;</span>
+                    <span class="card-icon">AMB</span>
                     <h3>Ambetter Playbook</h3>
                     <p>Enrollment steps, referral checks, and preventive-first strategy for maximum value.</p>
                 </a>
                 <a href="/carriers/molina-aca-2026/" class="content-card">
-                    <span class="card-icon">&#128533;</span>
+                    <span class="card-icon">MOL</span>
                     <h3>Molina Playbook</h3>
                     <p>Portal setup, formulary checks, prior auth workflow, and renewal readiness.</p>
                 </a>
                 <a href="/carriers/oscar-aca-2026/" class="content-card">
-                    <span class="card-icon">&#128538;</span>
+                    <span class="card-icon">OSC</span>
                     <h3>Oscar Playbook</h3>
                     <p>App-first setup, network verification, and incentive-tracking workflow.</p>
                 </a>
@@ -764,22 +777,22 @@
                 <div class="footer-column">
                     <h3>Contact David</h3>
                     <ul>
-                        <li><a href="tel:+18636403102"><span aria-hidden="true">&#128222;</span> (863) 640-3102</a></li>
-                        <li><a href="mailto:dhuff@healthmarkets.com"><span aria-hidden="true">📧</span> dhuff@healthmarkets.com</a></li>
-                        <li><a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
-                        <li><span aria-hidden="true">📍</span> Central Florida Headquarters</li>
-                        <li><span aria-hidden="true">⏰</span> Mon-Fri 8AM-8PM EST</li>
-                        <li><span aria-hidden="true">⏰</span> Sat 9AM-5PM EST</li>
+                        <li><a href="tel:+18636403102">Phone: (863) 640-3102</a></li>
+                        <li><a href="mailto:dhuff@healthmarkets.com">Email: dhuff@healthmarkets.com</a></li>
+                        <li><a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer">Message David</a></li>
+                        <li>Central Florida Headquarters</li>
+                        <li>Mon-Fri 8AM-8PM EST</li>
+                        <li>Sat 9AM-5PM EST</li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Service Areas</h3>
                     <ul>
-                        <li><span aria-hidden="true">🏡</span> Florida Residents</li>
-                        <li><span aria-hidden="true">🇺🇸</span> Coverage Across the Nation</li>
-                        <li><span aria-hidden="true">💼</span> Small Business Groups</li>
-                        <li><span aria-hidden="true">👨‍👩‍👧‍👦</span> Individual & Family Plans</li>
-                        <li><span aria-hidden="true">🤓</span> Medicare Specialists</li>
+                        <li>Florida Residents</li>
+                        <li>Coverage Across the Nation</li>
+                        <li>Small Business Groups</li>
+                        <li>Individual &amp; Family Plans</li>
+                        <li>Medicare Specialists</li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -809,7 +822,6 @@
 
     <!-- Click to Call Button -->
     <a href="tel:+18636403102" class="click-to-call">
-        <span>&#128222;</span>
         Call Now: (863) 640-3102
     </a>
 
@@ -833,5 +845,6 @@
         // Automatically update footer year
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
+    <script src="/js/site-template.js" defer></script>
 </body>
 </html>
