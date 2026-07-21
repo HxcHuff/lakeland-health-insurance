@@ -1,9 +1,8 @@
 /*
  * Lakeland Health Insurance — Funnel Event Bus
- * Single source of truth for pixel + GA4 + Supabase event tracking.
+ * Single source of truth for GA4 + Supabase event tracking.
  *
  * Fires simultaneously to:
- *   - Meta Pixel (1480756087079484)
  *   - Google Tag Manager (GTM-W6MZ7XT6)
  *   - Supabase funnel_events table (via publishable key)
  *
@@ -65,8 +64,7 @@
   }
 
   /* SHA-256 helper. Returns a Promise<string> of the lowercase hex digest.
-     Used for hashing PII before it goes to Meta (Advanced Matching) and
-     before it goes to Supabase via funnel_events. */
+     Used for Google Enhanced Conversions and Supabase event hygiene. */
   function sha256(str) {
     if (!str) return Promise.resolve(null);
     var s = String(str).trim().toLowerCase();
@@ -89,8 +87,7 @@
     return d || null;
   }
 
-  /* eventID generator — used for CAPI dedup. Same eventID must be sent
-     from both browser pixel and server-side CAPI for Meta to dedupe. */
+  /* eventID generator — used for conversion transaction IDs and event audit trails. */
   function makeEventID() {
     return 'lhi_' + Date.now() + '_' + Math.random().toString(36).slice(2, 12);
   }
@@ -181,16 +178,6 @@
     } catch (e) { /* swallow */ }
   }
 
-  function fireMetaPixel(name, props, eventID) {
-    if (typeof w.fbq !== 'function') return;
-    /* Production-host gate — mirrors analytics.js. Prevents any pixel
-       events on Netlify deploy previews, branch deploys, or localhost. */
-    if (w.__LHI_IS_PROD === false) return;
-    try {
-      w.fbq('track', name, props || {}, eventID ? { eventID: eventID } : undefined);
-    } catch (e) {}
-  }
-
   function fireGA(name, props) {
     w.dataLayer = w.dataLayer || [];
     w.dataLayer.push(Object.assign({ event: name }, props || {}));
@@ -250,27 +237,8 @@
     identity = Object.assign({}, identity, attrs || {});
     try { cookie('lhi_id', JSON.stringify(identity), 365); } catch (e) {}
 
-    /* Push hashed identifiers to Meta Pixel as Advanced Matching.
-       Boosts Event Match Quality. fbq('set','userData',...) applies to
-       all subsequent track() calls in this session. */
-    if (w.__LHI_IS_PROD === false) return;
-    if (typeof w.fbq !== 'function') return;
-
-    var emailRaw = identity.email || null;
-    var phoneRaw = normPhone(identity.phone);
-
-    Promise.all([
-      sha256(emailRaw),
-      phoneRaw ? sha256(phoneRaw) : Promise.resolve(null)
-    ]).then(function (vals) {
-      var userData = {};
-      if (vals[0]) userData.em = vals[0];
-      if (vals[1]) userData.ph = vals[1];
-      if (identity.zip) userData.zp = identity.zip;
-      if (Object.keys(userData).length) {
-        try { w.fbq('set', 'userData', userData); } catch (e) {}
-      }
-    });
+    /* Identity is retained locally for Supabase payloads and Google Enhanced
+       Conversions when a Lead event fires. */
   }
 
   function track(name, props) {
@@ -294,22 +262,17 @@
       fired_at: new Date().toISOString()
     };
 
-    // 1. Meta Pixel — eventID enables CAPI dedup when server-side mirror lands
-    fireMetaPixel(name, Object.assign({ page_type: pt }, props), eventID);
-
-    // 2. GTM / GA4 dataLayer
+    // 1. GTM / GA4 dataLayer
     fireGA(name, { page_type: pt, event_params: props });
 
-    // 3. Supabase stream
+    // 2. Supabase stream
     sendSupabase(payload);
 
-    // 4. Google Ads conversion + Enhanced Conversions (Lead events only)
+    // 3. Google Ads conversion + Enhanced Conversions (Lead events only)
     if (name === 'Lead') fireGoogleAdsLead(eventID);
   }
 
   function pageView() {
-    // Wait for pixel to be ready — analytics.js already fires PageView automatically,
-    // but we also want the enriched Supabase + page_type row.
     track('PageView', { page_type: pageType() });
   }
 
@@ -357,19 +320,11 @@
     };
   }
 
-  // Give pixel + GTM time to initialize (analytics.js loads on interaction/3.5s)
+  // Give GTM time to initialize (analytics.js loads on interaction/idle/timeout)
   function boot() {
     getAttribution(); // persist UTMs on first hit
     wireForms();
-    // Fire enriched PageView once pixel exists, else after 4s
-    var tries = 0;
-    var t = setInterval(function () {
-      tries++;
-      if (typeof w.fbq === 'function' || tries > 20) {
-        clearInterval(t);
-        pageView();
-      }
-    }, 300);
+    setTimeout(pageView, 300);
     // Observe DOM for late-rendered forms (React/etc.)
     if (w.MutationObserver) {
       new MutationObserver(wireForms).observe(d.body, { childList: true, subtree: true });

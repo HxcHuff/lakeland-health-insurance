@@ -748,7 +748,6 @@
           /* Fallback if funnel.js failed to load — keep raw fires so we
              never lose a lead. */
           if (typeof gtag === 'function') gtag('event', 'lead_submit');
-          if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'get_help_form_conversational' });
         }
 
         /* Delay form POST so pixel beacons complete before page navigates. */

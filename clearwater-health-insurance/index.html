@@ -417,7 +417,6 @@
     }
   </style>
   <script defer src="/js/analytics.js"></script>
-  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1480756087079484&ev=PageView&noscript=1"/></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -654,7 +653,6 @@
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'clearwater_health_insurance_form' });
         if (typeof gtag === 'function') gtag('event', 'lead_submit', { form_name: 'clearwater_health_insurance' });
 
         var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';

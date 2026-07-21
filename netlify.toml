@@ -5,7 +5,7 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
-# Context-scoped env vars — Meta Pixel + CAPI only fire in production.
+# Context-scoped env vars — server-side Meta CAPI only fires in production.
 # Deploy previews and branch deploys are explicitly quiet so Events Manager
 # stays clean and attribution windows aren't polluted by preview traffic.
 [context.production.environment]
@@ -22,7 +22,7 @@
   LHI_SITE_ENV = "branch"
   META_CAPI_ACCESS_TOKEN = ""
 
-# /api/lead -> serverless function (Meta CAPI + Netlify Forms forward)
+# /api/lead -> serverless function (server-side CAPI + Netlify Forms forward)
 # Kept in netlify.toml because Netlify Functions rewrites are more reliable
 # when declared here than in _redirects.
 [[redirects]]

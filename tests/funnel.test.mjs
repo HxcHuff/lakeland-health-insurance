@@ -25,7 +25,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const FUNNEL_SRC = readFileSync(resolve(__dirname, '../js/funnel.js'), 'utf8');
 
 /* Build a sandbox that mimics the browser globals funnel.js touches.
-   __LHI_IS_PROD=false silences fbq/gtag/Supabase fire paths so loading
+   __LHI_IS_PROD=false silences gtag/Supabase fire paths so loading
    the script has no side-effects beyond attaching window.LHI. */
 function loadFunnel({ pathname = '/' } = {}) {
   const dataLayer = [];
@@ -55,11 +55,7 @@ function loadFunnel({ pathname = '/' } = {}) {
     Uint8Array: globalThis.Uint8Array,
     Blob: globalThis.Blob,
     fetch: () => Promise.resolve({ ok: true }),
-    setTimeout: globalThis.setTimeout,
-    /* boot() polls for fbq via setInterval; stub to a no-op so the test
-       harness never schedules timers that outlive the test. */
-    setInterval: () => 0,
-    clearInterval: () => {},
+    setTimeout: () => 0,
     dataLayer
   };
   /* funnel.js IIFE call: (function(w,d){...})(window||this, document).
@@ -94,7 +90,7 @@ test('test surface is gated — absent when __LHI_TEST is unset', () => {
     URLSearchParams: globalThis.URLSearchParams,
     Promise, Date, Math, JSON, Object, String, RegExp, Array, Uint8Array, Blob,
     fetch: () => Promise.resolve({ ok: true }),
-    setTimeout, setInterval: () => 0, clearInterval: () => {},
+    setTimeout: () => 0,
     dataLayer
   };
   sandbox.window = sandbox;
@@ -138,10 +134,9 @@ test('sha256 — known vector lower-case hex', async () => {
   assert.equal(out, '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824');
 });
 
-test('sha256 — trims and lowercases input (Google EC + Meta Advanced Matching contract)', async () => {
-  /* Google's Enhanced Conversions and Meta's Advanced Matching both spec
-     trim+lowercase before hashing. Both carriers fail-silent on mismatch,
-     which would tank match rate. Lock this in. */
+test('sha256 — trims and lowercases input (Google Enhanced Conversions contract)', async () => {
+  /* Google's Enhanced Conversions specs trim+lowercase before hashing.
+     Mismatches fail silently and reduce match rate. Lock this in. */
   const { sha256 } = loadFunnel().LHI._t;
   const a = await sha256('  HELLO@Example.COM  ');
   const b = await sha256('hello@example.com');

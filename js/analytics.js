@@ -1,6 +1,6 @@
-/* Deferred analytics: GTM + Facebook Pixel loaded after page interactive */
-/* Pixel + GTM only fire on production host. Netlify deploy previews, branch
-   deploys, and localhost are explicitly excluded to keep Events Manager clean. */
+/* Deferred analytics: GTM + Google Ads loaded after page interactive */
+/* Google tags only fire on production host. Netlify deploy previews, branch
+   deploys, and localhost are explicitly excluded to keep reporting clean. */
 (function(){
   var loaded=false;
 
@@ -9,40 +9,26 @@
   var PROD_HOSTS = ['lakelandhealthinsurance.com', 'www.lakelandhealthinsurance.com'];
   var IS_PROD = PROD_HOSTS.indexOf(host) !== -1;
 
-  /* QA override: ?fbq_test=1 on URL, or localStorage.lhi_fbq_test=1 once set,
-     forces pixel + GTM to fire on previews/localhost. Lets us validate Test
-     Events without polluting Events Manager from real-user prod traffic. */
+  /* QA override: ?analytics_test=1 on URL, or localStorage.lhi_analytics_test=1
+     once set, forces Google tags to fire on previews/localhost for validation. */
   try {
-    var qsForce = /[?&]fbq_test=1\b/.test(location.search);
-    if (qsForce) localStorage.setItem('lhi_fbq_test', '1');
-    if (qsForce || localStorage.getItem('lhi_fbq_test') === '1') IS_PROD = true;
+    var qsForce = /[?&]analytics_test=1\b/.test(location.search);
+    if (qsForce) localStorage.setItem('lhi_analytics_test', '1');
+    if (qsForce || localStorage.getItem('lhi_analytics_test') === '1') IS_PROD = true;
   } catch (e) {}
 
   if (window.console && console.info) {
-    console.info('[LHI analytics] pixel/GTM gate:', IS_PROD ? 'ENABLED' : 'SKIPPED (non-prod host)');
+    console.info('[LHI analytics] Google analytics gate:', IS_PROD ? 'ENABLED' : 'SKIPPED (non-prod host)');
   }
 
-  /* Expose for other scripts (funnel.js, page-level fbq calls) */
+  /* Expose for other scripts (funnel.js) */
   window.__LHI_IS_PROD = IS_PROD;
-
-  /* Stub fbq as a no-op on non-prod hosts so any inline fbq('track', ...)
-     calls on page do not throw and do not fire. This also short-circuits the
-     real pixel snippet if it ever loads (guarded by `if(f.fbq)return;`). */
-  if (!IS_PROD && typeof window.fbq !== 'function') {
-    var stub = function(){};
-    stub.version = '2.0';
-    stub.queue = [];
-    stub.loaded = true;
-    stub.disableAutoConfig = true;
-    window.fbq = stub;
-    window._fbq = stub;
-  }
 
   function init(){
     if(loaded)return;loaded=true;
 
     if (!IS_PROD) {
-      /* Skip GTM + FB Pixel entirely on non-prod hosts. Still load funnel.js
+      /* Skip Google tags entirely on non-prod hosts. Still load funnel.js
          so internal event bus / Supabase logging can continue for QA. */
       var fqa=document.createElement('script');
       fqa.async=true;
@@ -72,16 +58,13 @@
        events (Enhanced Conversions for Leads). Lifts Smart Bidding match
        rate. Must also be turned on per-conversion-action in Google Ads UI. */
     gtag('config', 'AW-300112445', { allow_enhanced_conversions: true });
-    /* Facebook Pixel */
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init','1480756087079484');
-    /* Funnel event bus — unifies pixel + GA + Supabase */
+    /* Funnel event bus — unifies GA + Supabase */
     var f=document.createElement('script');
     f.async=true;
     f.src='/js/funnel.js';
     document.head.appendChild(f);
   }
-  /* Defer pixel/GTM until after LCP/FCP so 376 KiB of third-party JS isn't
+  /* Defer Google tags until after LCP/FCP so third-party JS isn't
      fighting with the hero render. We still fire fast enough to capture bounce
      traffic from paid ads:
        - first user interaction (click / scroll / keydown / touchstart)

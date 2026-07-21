@@ -712,7 +712,6 @@
           }, 50);
         } else {
           if (typeof gtag === 'function') gtag('event', 'generate_lead', { event_category: 'form', event_label: 'get_help_v2' });
-          if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'get_help_form_v2' });
         }
 
         /* Submit to Netlify */

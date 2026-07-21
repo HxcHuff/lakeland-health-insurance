@@ -2,7 +2,7 @@
 // 1. Mints a server-side event_id (uuid)
 // 2. Fires Meta Conversions API "Lead" event server-side with that event_id
 // 3. Forwards the submission to Netlify Forms so submissions still get captured
-// 4. Returns { event_id } so the browser can fire fbq('track','Lead',{},{eventID}) for dedup
+// 4. Returns { event_id } for downstream attribution/audit use
 
 const crypto = require('crypto');
 
