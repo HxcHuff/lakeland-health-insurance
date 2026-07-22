@@ -160,7 +160,6 @@ test('pageType — known landing-page paths', () => {
     ['/aca-subsidy-estimator/', 'estimator'],
     ['/get-help/', 'get_help'],
     ['/health-protector-guard/', 'guard_lp'],
-    ['/dudes-corner/', 'dudes_corner'],
     ['/aca-health-insurance-lakeland-fl/', 'local_seo_aca'],
     ['/medicare-broker-lakeland/', 'local_seo_medicare'],
     ['/life-insurance-dime/', 'dime_method'],

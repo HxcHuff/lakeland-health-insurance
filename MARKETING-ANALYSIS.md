@@ -438,7 +438,7 @@ Florida consumers under 45 overwhelmingly prefer text communication. This one ch
 |-----|-------------|---------|
 | Monday | Educational Tip | "Medicare Monday: Did you know you can switch Advantage plans until March 31?" |
 | Tuesday | Client Win (anonymized) | "Just saved a Lakeland family $340/month by switching from COBRA to ACA" |
-| Wednesday | Video (60-90 sec) | "Dude's Take: Why your employer plan might not be the best option" |
+| Wednesday | Video (60-90 sec) | "Coverage Reality Check: Why your employer plan might not be the best option" |
 | Thursday | Local Content | "Watson Clinic just added a new specialist — here's which plans cover it" |
 | Friday | FAQ / Myth Bust | "MYTH: You can only get health insurance during open enrollment. TRUTH: ..." |
 | Saturday | Personal / Behind-scenes | David at a local event, helping a family, or a lifestyle post |
@@ -447,7 +447,7 @@ Florida consumers under 45 overwhelmingly prefer text communication. This one ch
 
 Facebook's algorithm heavily favors video. Create:
 
-**Weekly "Dude's Take" Reels (60-90 seconds):**
+**Weekly Coverage Reality Check Reels (60-90 seconds):**
 - Film on phone, casual setting (office, car, coffee shop)
 - Address ONE common question per video
 - End with: "Have questions? Comment below or call (863) 640-3102"
@@ -549,13 +549,13 @@ Every blog post should include:
 6. **Share buttons** (Facebook, Twitter/X, LinkedIn)
 7. **Article schema markup** (BlogPosting type)
 
-### 7.4 Dude's Corner Expansion
+### 7.4 Coverage Reality Check Expansion
 
-The "Dude's Corner" concept is your unique differentiator. Expand it:
+The direct coverage commentary concept is useful, but it should live inside the main blog and social channels rather than a separate sub-brand. Expand it:
 - Post biweekly (every other week at minimum)
 - Cross-post to Facebook as text posts
-- Create a email-subscribable newsletter: "The Dude's Dispatch"
-- Current articles (2) need to become 10+ to establish the section
+- Create an email-subscribable newsletter focused on practical coverage decisions
+- Turn the strongest topics into main blog articles and short videos
 
 ---
 
@@ -765,14 +765,14 @@ Create `/success-stories/` with 3-5 detailed (anonymized) stories:
 - [ ] Add FAQ schema to homepage
 - [ ] Enhance InsuranceAgency schema
 - [ ] Add author boxes to blog posts
-- [ ] Expand Dude's Corner to 10+ articles
+- [ ] Expand direct coverage commentary inside the main blog
 
 ### Phase 5: Paid & Social Growth
 - [ ] Set up Google Ads campaigns (brand + local + medicare)
 - [ ] Apply for Google Local Service Ads
 - [ ] Launch Facebook lead ad campaigns
 - [ ] Create Facebook Group
-- [ ] Start weekly video content (Dude's Take Reels)
+- [ ] Start weekly Coverage Reality Check video content
 - [ ] Execute Google + Facebook reviews push
 
 ### Phase 6: Optimize & Scale
@@ -810,7 +810,7 @@ What makes "David the Insurance Dude" win over corporate competitors in Florida:
 3. **Multi-channel accessibility** — Phone, text, Messenger, chat, Calendly, form
 4. **PWA advantage** — When implemented, you'll be on clients' home screens
 5. **Local expertise** — City-specific pages will crush national brands in local search
-6. **Authenticity** — "Dude's Corner" and no-BS positioning resonates in Florida's market
+6. **Authenticity** — Direct, practical coverage commentary can stand out without creating a separate off-brand section
 7. **Video opportunity** — Most FL insurance agents aren't doing video. First-mover advantage.
 
 The path from "good local agent" to "best in Florida" is execution on this plan. The foundation is solid — the amplification is what's missing.

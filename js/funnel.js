@@ -102,7 +102,6 @@
     if (p.indexOf('/aca-subsidy-estimator') === 0) return 'estimator';
     if (p.indexOf('/get-help') === 0) return 'get_help';
     if (p.indexOf('/health-protector-guard') === 0) return 'guard_lp';
-    if (p.indexOf('/dudes-corner') === 0) return 'dudes_corner';
     if (p.indexOf('/aca-health-insurance-lakeland') === 0) return 'local_seo_aca';
     if (p.indexOf('/medicare-broker-lakeland') === 0) return 'local_seo_medicare';
     if (p.indexOf('/life-insurance-dime') === 0) return 'dime_method';

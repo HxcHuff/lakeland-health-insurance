@@ -5,8 +5,18 @@
 /our%20approach/ /our-approach.html 301
 /our-approach /our-approach.html 301!
 /our-approach/ /our-approach.html 301!
+/privacy-policy /privacy-policy.html 301!
+/privacy-policy/ /privacy-policy.html 301!
 /links /learning/ 301
 /links/ /learning/ 301
+/dudes-corner /blog/ 301!
+/dudes-corner/ /blog/ 301!
+/dudes-corner/subsidy-cliff-dudes-take.html /blog/aca-subsidy-cliff.html 301!
+/dudes-corner/subsidy-cliff-dudes-take /blog/aca-subsidy-cliff.html 301!
+/dudes-corner/subsidy-cliff-dudes-take/ /blog/aca-subsidy-cliff.html 301!
+/dudes-corner/fixed-indemnity-dudes-take.html /blog/fixed-indemnity-analysis.html 301!
+/dudes-corner/fixed-indemnity-dudes-take /blog/fixed-indemnity-analysis.html 301!
+/dudes-corner/fixed-indemnity-dudes-take/ /blog/fixed-indemnity-analysis.html 301!
 
 # Twilio A2P 10DLC convention alias → SMS Terms page
 /sms-consent  /sms-policy.html  301

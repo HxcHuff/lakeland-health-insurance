@@ -305,12 +305,6 @@ const siteSearchIndex = [
     tags: ["Contact", "Support"]
   },
   {
-    title: "Dude's Corner",
-    url: "/dudes-corner/",
-    excerpt: "David's take on health insurance topics - straight talk, no corporate nonsense.",
-    tags: ["Blog", "Opinion", "Dude's Corner"]
-  },
-  {
     title: "DIME Life Insurance Calculator",
     url: "/life-insurance-dime-method/",
     excerpt: "Calculate your life insurance needs using the DIME method.",
@@ -366,20 +360,6 @@ const siteSearchIndex = [
     excerpt: "Virtual-first optimization, incentives workflow, and annual plan-change checklist.",
     tags: ["Carriers", "ACA", "Wellpoint"]
   },
-
-  // Dude's Corner
-  {
-    title: "The ACA Subsidy Cliff: Dude's Take",
-    url: "/dudes-corner/subsidy-cliff-dudes-take.html",
-    excerpt: "David's straight talk on the ACA subsidy cliff and how to navigate it.",
-    tags: ["Dude's Corner", "ACA", "Subsidies"]
-  },
-  {
-    title: "Fixed Indemnity Insurance: Dude's Take",
-    url: "/dudes-corner/fixed-indemnity-dudes-take.html",
-    excerpt: "David's perspective on fixed-indemnity insurance as a gap coverage solution.",
-    tags: ["Dude's Corner", "Fixed Indemnity", "Coverage"]
-  }
 ];
 
 // Search functionality
