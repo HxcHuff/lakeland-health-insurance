@@ -112,16 +112,11 @@
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'DM Sans', sans-serif; color: #1E293B; background: var(--bg); line-height: 1.65; }
     .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
-    .top { background: var(--navy); color: #fff; padding: 12px 0; font-size: 0.9rem; }
-    .top a { color: #fff; }
-    header { background: #fff; border-bottom: 1px solid var(--line); }
-    nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 14px 0; }
-    nav a { color: var(--navy); text-decoration: none; font-weight: 600; }
-    .hero { padding: 44px 0 22px; }
-    .hero h1 { margin: 0 0 10px; color: var(--navy); font-size: 2rem; line-height: 1.2; }
-    .accent { font-family: 'Instrument Serif', serif; color: var(--gold); font-style: italic; }
-    .hero p { margin: 0 0 12px; color: var(--gray); max-width: 860px; }
-    .meta { font-size: 0.92rem; color: var(--gray); }
+    .article-hero { background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%); color: #fff; padding: 44px 20px 22px; }
+    .article-hero h1 { margin: 0 0 10px; color: #fff !important; font-size: 2rem; line-height: 1.2; }
+    .accent { font-family: 'Instrument Serif', serif; color: var(--gold) !important; font-style: italic; }
+    .article-hero p { margin: 0 0 12px; color: rgba(255,255,255,0.9); max-width: 860px; }
+    .meta { font-size: 0.92rem; color: rgba(255,255,255,0.85); }
     .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 16px; }
     h2 { margin: 8px 0 10px; color: var(--navy); }
     h3 { margin: 14px 0 8px; color: var(--navy); }
@@ -140,7 +135,7 @@
     .small { font-size: 0.9rem; color: var(--gray); }
     footer { padding: 24px 0 40px; }
     @media (max-width: 720px) {
-      .hero h1 { font-size: 1.7rem; }
+      .article-hero h1 { font-size: 1.7rem; }
       .card { padding: 16px; }
     }
   </style>
@@ -150,23 +145,55 @@
     <link rel="stylesheet" href="/css/site-template.css">
 </head>
 <body class="blog-post">
-  <div class="top">
-    <div class="container">Need a Watson Clinic network check? Call <a href="tel:+18636403102">(863) 640-3102</a></div>
+  <div class="compliance-banner">
+    <strong>Insurance questions?</strong> Call <a href="tel:+18636403102">(863) 640-3102</a> or <a href="/get-help/">start a free plan review</a>. FL Broker License #W371813
   </div>
 
   <header>
-    <div class="container">
-      <nav>
-        <a href="/">Lakeland Health Insurance</a>
-        <a href="/blog/">Blog</a>
-        <a href="/plans/">Plans</a>
-        <a href="/get-help/">Get Help</a>
-      </nav>
-    </div>
+    <nav class="container">
+      <div class="logo-container">
+        <a class="brand-name" href="/">
+          Lakeland Health Insurance
+          <span class="license-tag">Licensed FL Broker #W371813</span>
+        </a>
+        <button class="menu-button" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+          <div class="ellipses" aria-hidden="true">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </button>
+
+        <div class="dropdown-menu" id="dropdownMenu">
+          <div class="menu-item"><a href="/">Home</a></div>
+          <div class="menu-item"><a href="/plans/">Health Plans</a></div>
+          <div class="menu-item"><a href="/carriers/">Carriers</a></div>
+          <div class="menu-item"><a href="/get-help/">Get Help</a></div>
+          <div class="menu-item"><a href="/blog/">Blog</a></div>
+          <div class="menu-item"><a href="/about/">About</a></div>
+          <div class="menu-item"><a href="/learning/">Learn</a></div>
+          <div class="menu-item"><a href="/calendly-book.html">Book a Call</a></div>
+          <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/plans/">Health Plans</a></li>
+        <li><a href="/carriers/">Carriers</a></li>
+        <li><a href="/medicare/">Medicare</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/learning/">Learn</a></li>
+        <li><a href="/get-help/">Get Help</a></li>
+      </ul>
+      <div class="cta-group">
+        <a href="/get-help/" class="cta-button">Talk to David</a>
+      </div>
+    </nav>
   </header>
 
   <main class="container">
-    <section class="hero">
+    <section class="article-hero">
       <h1>Orlando Health's Polk County Expansion and <em class="accent">the Watson Clinic Doctor Problem</em></h1>
       <p>Orlando Health's expansion into Polk County is good news for access. But for insurance shoppers, the bigger issue is not the logo on the hospital. It is whether your actual Watson Clinic doctor, your specialist, your referral path, and your exact plan ID still line up.</p>
       <p class="meta">Published July 15, 2026 | By David Huff, Licensed Florida Insurance Broker #W371813</p>
