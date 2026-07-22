@@ -98,12 +98,15 @@
     .cta-panel h2 { color: #fff; }
     .cta-panel p { color: rgba(255,255,255,0.84); margin: 0 auto 20px; max-width: 680px; }
     footer { background: var(--navy-deep); color: rgba(255,255,255,0.72); padding: 32px 0; text-align: center; }
-    .floating-call { background: linear-gradient(135deg, var(--green), #059669); border-radius: 999px; bottom: 20px; box-shadow: 0 10px 30px rgba(22,163,74,0.38); color: #fff; font-weight: 900; padding: 14px 20px; position: fixed; right: 20px; text-decoration: none; z-index: 30; }
+    .floating-call { align-items: center; background: linear-gradient(135deg, var(--green), #059669); border-radius: 999px; bottom: 20px; box-shadow: 0 10px 30px rgba(22,163,74,0.38); color: #fff; display: inline-flex; font-weight: 800; gap: 10px; line-height: 1.15; padding: 12px 18px; position: fixed; right: 20px; text-decoration: none; z-index: 30; }
+    .floating-call .phone-icon { font-size: 1.15rem; }
+    .floating-call-text { align-items: center; display: flex; flex-direction: column; }
+    .floating-call-subtext { font-size: 0.78rem; font-weight: 700; opacity: 0.9; }
     @media (max-width: 850px) {
       .nav-links { display: none; }
       .hero-grid, .card-grid, .compare-grid { grid-template-columns: 1fr; }
       .hero { padding: 48px 0 52px; }
-      .floating-call { bottom: 14px; left: 16px; right: 16px; text-align: center; }
+      .floating-call { bottom: 14px; justify-content: center; left: 16px; right: 16px; text-align: center; }
     }
   </style>
 </head>
@@ -249,6 +252,12 @@
     </div>
   </footer>
 
-  <a class="floating-call" href="tel:+18636403102">Call David: (863) 640-3102</a>
+  <a class="floating-call" href="tel:+18636403102" aria-label="Call David at 863-640-3102">
+    <span class="phone-icon" aria-hidden="true">&#128222;</span>
+    <span class="floating-call-text">
+      <span>Call: (863) 640-3102</span>
+      <span class="floating-call-subtext">David answers personally</span>
+    </span>
+  </a>
 </body>
 </html>
