@@ -165,10 +165,10 @@ const siteSearchIndex = [
     tags: ["Financial", "Budgeting", "Tips"]
   },
   {
-    title: "UnitedHealthcare Health Protector Guard: Technical Breakdown & Gap Coverage Strategy",
+    title: "Health Protector Guard, STM & TriTerm Medical Strategy for 2026",
     url: "/blog/fixed-indemnity-analysis.html",
-    excerpt: "In-depth technical analysis of fixed-indemnity insurance. Compare fixed-indemnity vs major medical plans, understand how to use it as HDHP deductible protection, and learn strategic integration with high-deductible plans.",
-    tags: ["Products", "Coverage", "Gap Insurance"]
+    excerpt: "How Health Protector Guard can pair with Short-Term Medical, TriTerm Medical, ACA, employer coverage, or Medicare when subsidies do not solve the coverage problem.",
+    tags: ["Products", "Coverage", "Gap Insurance", "Short-Term", "TriTerm"]
   },
   {
     title: "The ACA Subsidy Cliff: Strategic MAGI Management for Tax Optimization",
