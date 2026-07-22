@@ -28,7 +28,7 @@ const siteSearchIndex = [
   {
     title: "Turning 65 in Florida? Medicare Checklist",
     url: "/blog/turning-65-medicare-checklist-florida.html",
-    excerpt: "A plain-English checklist for Florida residents turning 65 and comparing Medicare Advantage, Supplement, and Part D.",
+    excerpt: "A practical checklist for Florida residents turning 65 and comparing Medicare Advantage, Supplement, and Part D.",
     tags: ["Medicare", "Turning 65", "Initial Enrollment", "Part B", "Part D"]
   },
   {
@@ -251,7 +251,7 @@ const siteSearchIndex = [
   {
     title: "Medicare for Dummies (No Offense)",
     url: "/blog/medicare-for-dummies.html",
-    excerpt: "Medicare doesn't have to be more confusing than assembling IKEA furniture. Here's everything you need to know in plain English.",
+    excerpt: "A practical Medicare basics guide covering enrollment, plan types, coverage tradeoffs, and the questions to ask before choosing a plan.",
     tags: ["Medicare", "Seniors", "Tips"]
   },
   {
