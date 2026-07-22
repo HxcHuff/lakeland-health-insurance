@@ -222,6 +222,109 @@
     .accent { font-family: 'Instrument Serif', serif; color: var(--gold); font-style: italic; }
     .hero p { margin: 0 0 12px; color: var(--gray); max-width: 860px; }
     .meta { font-size: 0.92rem; color: var(--gray); }
+    .blog-post .network-hero {
+      margin: 0 -20px 16px;
+      padding: 46px 38px;
+      color: #fff;
+      background: linear-gradient(135deg, #0f1a2e 0%, #1b2a4a 48%, #2359c9 100%);
+      border-bottom: 4px solid var(--gold);
+      overflow: hidden;
+    }
+    .blog-post .network-hero::before { display: none; }
+    .blog-post .network-hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 410px);
+      gap: 34px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .blog-post .network-hero h1 {
+      max-width: 760px;
+      margin-bottom: 14px;
+      color: #fff !important;
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.25rem, 4vw, 4rem);
+      font-weight: 400;
+      line-height: 1.06;
+    }
+    .blog-post .network-hero .accent { color: var(--gold); }
+    .blog-post .network-hero p {
+      max-width: 720px;
+      color: rgba(255, 255, 255, 0.9) !important;
+      font-size: 1.05rem;
+    }
+    .blog-post .network-hero .meta {
+      color: rgba(255, 255, 255, 0.74) !important;
+      font-size: 0.9rem;
+    }
+    .hero-visual {
+      position: relative;
+      min-height: 330px;
+    }
+    .hero-visual img {
+      width: 100%;
+      height: 330px;
+      object-fit: cover;
+      object-position: center;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 14px;
+      box-shadow: 0 24px 55px rgba(15, 23, 42, 0.35);
+    }
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .hero-check-card {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.24);
+    }
+    .hero-check-card strong {
+      display: block;
+      color: var(--navy);
+      font-size: 1rem;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+    .hero-check-card ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .hero-check-card li {
+      margin: 0 0 8px;
+      color: #334155;
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+    .hero-check-card li::before {
+      content: '';
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      margin-right: 8px;
+      border-radius: 999px;
+      background: var(--gold);
+      vertical-align: 0.08em;
+    }
     .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 16px; }
     h2 { margin: 8px 0 10px; color: var(--navy); }
     h3 { margin: 14px 0 8px; color: var(--navy); }
@@ -241,6 +344,16 @@
     footer { padding: 24px 0 40px; }
     @media (max-width: 720px) {
       .hero h1 { font-size: 1.7rem; }
+      .blog-post .network-hero {
+        margin: 0 -20px 14px;
+        padding: 28px 20px;
+      }
+      .blog-post .network-hero-grid { grid-template-columns: 1fr; gap: 18px; }
+      .blog-post .network-hero h1 { font-size: 2.05rem; }
+      .blog-post .network-hero p { font-size: 0.98rem; }
+      .hero-visual { min-height: 0; }
+      .hero-visual img { height: 170px; }
+      .hero-check-card { display: none; }
       .card { padding: 16px; }
     }
 
@@ -287,10 +400,6 @@ header .cta-button {
     <link rel="stylesheet" href="/css/site-template.css">
 </head>
 <body class="blog-post">
-  <div class="top">
-    <div class="container">Need local network help now? Call <a href="tel:+18636403102">(863) 640-3102</a></div>
-  </div>
-
   <header>
     <div class="container">
       <nav>
@@ -303,13 +412,30 @@ header .cta-button {
   </header>
 
   <main class="container">
-    <section class="hero">
-      <h1>Lakeland Regional and Watson Clinic <em class="accent">Insurance Guide (2026)</em></h1>
-      <p>Choosing a plan by premium alone can backfire if your providers are out of network or need referrals you did not expect. Use this page to verify access before you enroll.</p>
-      <p class="meta">Published February 4, 2026 | Updated March 13, 2026 | By David Huff, Licensed Insurance Agent</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="/get-help/">Request a Free Network Check</a>
-        <a class="btn btn-secondary" href="/blog/medicare-advantage-lakeland-2026.html">See Medicare Plan Guide</a>
+    <section class="hero network-hero">
+      <div class="network-hero-grid">
+        <div>
+          <span class="hero-kicker">Lakeland provider network guide</span>
+          <h1>Lakeland Regional and Watson Clinic <em class="accent">Insurance Guide (2026)</em></h1>
+          <p>Before you choose a Medicare Advantage or ACA plan, verify whether your exact doctors, clinics, hospital, referrals, and prescriptions line up with the plan ID you are considering.</p>
+          <p class="meta">Published February 4, 2026 | Updated March 13, 2026 | By David Huff, Licensed Insurance Agent</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="/get-help/">Request a Network Check</a>
+            <a class="btn btn-secondary" href="/blog/medicare-advantage-lakeland-2026.html">See Medicare Plan Guide</a>
+          </div>
+        </div>
+        <aside class="hero-visual" aria-label="Lakeland Regional network check summary">
+          <img src="/assets/lakeland-regional-health-facility.jpg" alt="Lakeland Regional Health facility exterior in Lakeland, Florida">
+          <div class="hero-check-card">
+            <strong>David checks the parts directories often miss.</strong>
+            <ul>
+              <li>Exact plan ID and effective date</li>
+              <li>Watson Clinic PCP and specialist rules</li>
+              <li>Lakeland Regional facility access</li>
+              <li>Referral and prescription traps</li>
+            </ul>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -384,11 +510,6 @@ header .cta-button {
     <p class="small">Lakeland Health Insurance | Licensed FL Broker #W371813 | <a href="/privacy-policy.html">Privacy Policy</a></p>
   </footer>
 
-  <script src="/js/blog-cta.js" defer></script>
-
-    <script src="/js/blog-theme.js" defer></script>
-    <script src="/js/chat-widget.js" defer></script>
-    <script src="/js/blog-floating-actions.js" defer></script>
     <script src="/js/site-template.js" defer></script>
 </body>
 </html>

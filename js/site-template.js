@@ -149,7 +149,7 @@
   }
 
   function removeOldFloatingActions() {
-    document.querySelectorAll('.click-to-call, .messenger-button, .chat-widget-button').forEach((node) => node.remove());
+    document.querySelectorAll('.click-to-call, .lhi-floating-call, [data-floating-call], .messenger-button, .chat-widget-button').forEach((node) => node.remove());
   }
 
   function wireMenu() {

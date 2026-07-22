@@ -5,7 +5,7 @@
   window.__LHI_BLOG_FLOATING_ACTIONS_LOADED__ = true;
 
   function hasFloatingCall() {
-    return document.querySelector('.click-to-call, [data-floating-call]') !== null;
+    return document.querySelector('.click-to-call, .lhi-floating-call, [data-floating-call]') !== null;
   }
 
   function trackCall() {

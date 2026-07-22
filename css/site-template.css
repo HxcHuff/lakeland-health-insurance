@@ -453,14 +453,29 @@ footer {
   .click-to-call {
     bottom: 15px;
     right: 15px;
-    padding: 12px 16px;
-    font-size: 1rem;
+    width: calc(50vw - 22px);
+    max-width: 190px;
+    min-height: 54px;
+    justify-content: center;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    text-align: center;
   }
 
   .messenger-button {
     bottom: 15px;
     left: 15px;
-    padding: 12px 16px;
-    font-size: 0.9rem;
+    width: calc(50vw - 22px);
+    max-width: 170px;
+    min-height: 54px;
+    justify-content: center;
+    padding: 10px 12px;
+    font-size: 0.86rem;
+    text-align: center;
+  }
+
+  .click-to-call div span:last-child,
+  .messenger-button div span:last-child {
+    display: none;
   }
 }
