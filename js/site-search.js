@@ -4,7 +4,7 @@ const siteSearchIndex = [
   {
     title: "Free Medicare Review — Lakeland, FL",
     url: "/lp/medicare/",
-    excerpt: "Get a free, no-pressure review of your Medicare options from licensed Florida broker David Huff.",
+    excerpt: "Get a no-pressure review of your Medicare options with licensed Florida coverage guidance.",
     tags: ["Medicare", "Lakeland", "Review", "Broker", "Appointment"]
   },
   {
@@ -44,6 +44,12 @@ const siteSearchIndex = [
     tags: ["Medicare", "Medicare Supplement", "Medigap", "Plan G", "Lakeland"]
   },
   // Blog Posts - extracted from blog/index.html
+  {
+    title: "The Coverage Gap Nobody Talks About: High Deductibles and Hospital Bills",
+    url: "/blog/high-deductible-hospital-bills-coverage-gap-florida.html",
+    excerpt: "Why people with real health insurance can still panic over high deductibles, hospital bills, and cash-flow risk - and when supplemental coverage may fit.",
+    tags: ["Deductibles", "Hospital Bills", "Supplemental", "Fixed Indemnity", "Florida"]
+  },
   {
     title: "$0 Premium Health Insurance in Florida: How Silver CSR Plans Give You Better Coverage Than Gold",
     url: "/blog/zero-premium-health-insurance-florida-2026.html",
@@ -265,7 +271,7 @@ const siteSearchIndex = [
   {
     title: "Health Insurance Broker in Lakeland, FL — ACA, Medicare & More",
     url: "/",
-    excerpt: "Licensed Lakeland broker David Huff helps Polk County families compare 2026 ACA, Medicare, and Guard plans — free, no pressure.",
+    excerpt: "Licensed Lakeland health insurance guidance for Polk County families comparing 2026 ACA, Medicare, and Guard plans.",
     tags: ["Home", "ACA", "Medicare", "Lakeland"]
   },
   {
@@ -287,9 +293,9 @@ const siteSearchIndex = [
     tags: ["Products", "Coverage", "Fixed Indemnity"]
   },
   {
-    title: "About David Huff",
+    title: "About Lakeland Health Insurance",
     url: "/about/",
-    excerpt: "Meet David Huff, licensed Florida health insurance broker in Lakeland.",
+    excerpt: "Learn about Lakeland Health Insurance and local Florida health coverage guidance.",
     tags: ["About", "Team"]
   },
   {
@@ -301,7 +307,7 @@ const siteSearchIndex = [
   {
     title: "Contact Lakeland Health Insurance",
     url: "/contact/",
-    excerpt: "Contact David Huff for health insurance questions and free consultation.",
+    excerpt: "Contact Lakeland Health Insurance for health insurance questions and plan review help.",
     tags: ["Contact", "Support"]
   },
   {
