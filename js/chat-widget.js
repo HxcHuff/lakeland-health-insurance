@@ -20,7 +20,7 @@
     callBtn = document.createElement('a');
     callBtn.className = 'click-to-call';
     callBtn.href = phoneUrl;
-    callBtn.setAttribute('aria-label','Call David at 863-640-3102');
+    callBtn.setAttribute('aria-label','Call Lakeland Health Insurance at 863-640-3102');
     document.body.appendChild(callBtn);
   }
   callBtn.innerHTML = '<span class="call-widget-icon" aria-hidden="true">&#9742;</span><span>Call: (863) 640-3102</span>';
@@ -38,15 +38,15 @@
     btn.href = messengerUrl;
     btn.target = '_blank';
     btn.rel = 'noopener noreferrer';
-    btn.setAttribute('aria-label','Message David on Messenger');
-    btn.setAttribute('title','Opens Facebook Messenger - Chat with David');
+    btn.setAttribute('aria-label','Message Lakeland Health Insurance on Messenger');
+    btn.setAttribute('title','Opens Facebook Messenger - Chat with Lakeland Health Insurance');
     document.body.appendChild(btn);
   }
 
   if (!btn.parentNode) {
     document.body.appendChild(btn);
   }
-  btn.innerHTML = '<span class="chat-widget-icon" aria-hidden="true">&#128172;</span><span>Chat with David</span>';
+  btn.innerHTML = '<span class="chat-widget-icon" aria-hidden="true">&#128172;</span><span>Chat with Us</span>';
   btn.addEventListener('click', function () {
     if (typeof gtag === 'function') {
       try { gtag('event', 'messenger_click', { event_category: 'engagement', event_label: 'messenger_chat_button' }); } catch (e) {}
