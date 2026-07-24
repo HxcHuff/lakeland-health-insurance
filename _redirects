@@ -7,8 +7,9 @@
 /our-approach/ /our-approach.html 301!
 /privacy-policy /privacy-policy.html 301!
 /privacy-policy/ /privacy-policy.html 301!
-/links /learning/ 301
-/links/ /learning/ 301
+/links /learning/ 301!
+/links/ /learning/ 301!
+/links/index.html /learning/ 301!
 /dudes-corner /blog/ 301!
 /dudes-corner/ /blog/ 301!
 /dudes-corner/subsidy-cliff-dudes-take.html /blog/aca-subsidy-cliff.html 301!
@@ -170,6 +171,7 @@
 # Excluded carrier page redirect
 /carriers/florida-blue-aca-2026 /carriers/ 301!
 /carriers/florida-blue-aca-2026/ /carriers/ 301!
+/carriers/florida-blue-aca-2026/index.html /carriers/ 301!
 
 # Removed/never-shipped carrier page (was 404)
 /carriers/aca-florida-2026 /carriers/ 301!

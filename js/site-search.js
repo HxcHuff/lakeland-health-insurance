@@ -51,6 +51,12 @@ const siteSearchIndex = [
     tags: ["Deductibles", "Hospital Bills", "Supplemental", "Fixed Indemnity", "Florida"]
   },
   {
+    title: "Florida ACA Too Expensive in 2026? Compare Your Options",
+    url: "/blog/health-insurance-too-expensive-florida-2026-short-term-options.html",
+    excerpt: "A decision framework for Floridians hit by 2026 premium increases: update subsidies, compare ACA plans, check COBRA, and only then review short-term medical or supplemental options.",
+    tags: ["ACA", "Florida", "Premiums", "Short-Term", "Strategy"]
+  },
+  {
     title: "$0 Premium Health Insurance in Florida: How Silver CSR Plans Give You Better Coverage Than Gold",
     url: "/blog/zero-premium-health-insurance-florida-2026.html",
     excerpt: "Most Florida families qualify for a $0 premium Silver plan with better coverage than Gold — thanks to Cost Sharing Reductions most people don't know exist.",
