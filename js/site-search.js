@@ -272,6 +272,168 @@ const siteSearchIndex = [
     excerpt: "Decode all those mysterious numbers and acronyms so you can actually use your insurance like a pro.",
     tags: ["Tips", "Coverage", "Basics"]
   },
+  {
+    title: "3 Things Changing Florida Health Insurance Right Now",
+    url: "/blog/3-things-changing-florida-health-insurance-may-2026.html",
+    excerpt: "Three shifts hitting Polk County health insurance in May 2026: subsidy cliff, carrier exits, and Bronze plans now HSA-eligible.",
+    tags: ["ACA", "Florida", "Subsidies", "HSA", "Premiums"]
+  },
+  {
+    title: "ACA 2026 Subsidy Expiration: What Florida Families Need to Know Now",
+    url: "/blog/aca-2026-subsidy-expiration-florida-impact.html",
+    excerpt: "How the expiration of enhanced ACA premium tax credits affects Florida families and what options to review.",
+    tags: ["ACA", "Florida", "Subsidies", "Premiums"]
+  },
+  {
+    title: "ACA Premiums Are Up in 2026 — Lakeland FL Health Insurance Guide",
+    url: "/blog/aca-premiums-2026-lakeland.html",
+    excerpt: "Why ACA premiums changed in Lakeland for 2026, who qualifies for an SEP, and how Bronze + HSA plans changed.",
+    tags: ["ACA", "Lakeland", "Premiums", "Florida"]
+  },
+  {
+    title: "Why Central Florida Health Insurance Is So Competitive",
+    url: "/blog/central-florida-health-insurance-competition.html",
+    excerpt: "Central Florida ACA market competition, carrier choices, and what local shoppers should compare before enrolling.",
+    tags: ["ACA", "Central Florida", "Competition", "Premiums"]
+  },
+  {
+    title: "Cigna Is Leaving the ACA Marketplace",
+    url: "/blog/cigna-exiting-aca-marketplace-polk-county-2026.html",
+    excerpt: "What Lakeland and Polk County ACA members should know when a carrier exits the individual market.",
+    tags: ["ACA", "Carrier Exit", "Polk County", "Florida"]
+  },
+  {
+    title: "Health Insurance for College Students in Lakeland & Polk County",
+    url: "/blog/college-student-health-insurance-lakeland.html",
+    excerpt: "Health insurance options for Florida Southern, Polk State, USF, and UCF students living in or commuting from Polk County.",
+    tags: ["College", "Lakeland", "ACA", "Florida"]
+  },
+  {
+    title: "Don't Overlook Prescription Costs for 2027",
+    url: "/blog/dont-overlook-rx-costs-2027.html",
+    excerpt: "Plan ahead for 2027 by checking prescriptions, pharmacies, and medication changes before choosing coverage.",
+    tags: ["Prescriptions", "RX", "ACA", "Medicare", "Planning"]
+  },
+  {
+    title: "Florida Health Insurance Premiums Are Up 31% in 2026",
+    url: "/blog/florida-aca-premiums-up-31-percent-2026.html",
+    excerpt: "What higher 2026 Florida ACA premiums mean for Lakeland residents and how subsidies affect the real cost.",
+    tags: ["ACA", "Florida", "Premiums", "Lakeland"]
+  },
+  {
+    title: "Health Insurance in Brandon FL — 2026 Family Premium Guide",
+    url: "/blog/health-insurance-brandon-2026.html",
+    excerpt: "Brandon ACA premium changes, family SEP triggers, HSA-eligible Bronze plans, and Medicare GLP-1 bridge considerations.",
+    tags: ["ACA", "Florida", "Brandon", "Hillsborough County"]
+  },
+  {
+    title: "Health Insurance in Clearwater FL — 2026 Premium Increases & SEPs",
+    url: "/blog/health-insurance-clearwater-2026.html",
+    excerpt: "Clearwater ACA premium changes, Special Enrollment Period eligibility, Bronze + HSA strategy, and Medicare GLP-1 bridge considerations.",
+    tags: ["ACA", "Florida", "Clearwater", "Pinellas County"]
+  },
+  {
+    title: "Health Insurance in Largo FL — 2026 Premium Increases & Affordable Coverage",
+    url: "/blog/health-insurance-largo-2026.html",
+    excerpt: "Largo ACA premium changes, Pinellas County SEP eligibility, Bronze + HSA plans, and Medicare GLP-1 bridge considerations.",
+    tags: ["ACA", "Florida", "Largo", "Pinellas County"]
+  },
+  {
+    title: "Health Insurance in New Port Richey FL — 2026 Premium Hikes & Pasco County Options",
+    url: "/blog/health-insurance-new-port-richey-2026.html",
+    excerpt: "New Port Richey ACA premium changes, Pasco County SEPs, Bronze + HSA options, and Medicare GLP-1 bridge considerations.",
+    tags: ["ACA", "Florida", "New Port Richey", "Pasco County"]
+  },
+  {
+    title: "Health Insurance in Riverview FL — 2026 Family Premium Changes",
+    url: "/blog/health-insurance-riverview-2026.html",
+    excerpt: "Riverview ACA premium changes, new-mover SEPs, Family Glitch Fix, Bronze + HSA strategy, and Medicare GLP-1 bridge considerations.",
+    tags: ["ACA", "Florida", "Riverview", "Hillsborough County"]
+  },
+  {
+    title: "Health Insurance in St. Petersburg FL — 2026 Premium Changes & Self-Employed Guide",
+    url: "/blog/health-insurance-st-petersburg-2026.html",
+    excerpt: "St. Petersburg ACA premium changes, self-employed SEPs, HSA-eligible Bronze plans, and Medicare GLP-1 bridge considerations.",
+    tags: ["ACA", "Florida", "St Petersburg", "Pinellas County"]
+  },
+  {
+    title: "Health Insurance in Tampa FL — 2026 Premium Changes & SEP Guide",
+    url: "/blog/health-insurance-tampa-2026.html",
+    excerpt: "Tampa ACA premium changes, Special Enrollment Period eligibility, HSA-eligible Bronze plans, and Medicare GLP-1 bridge considerations.",
+    tags: ["ACA", "Florida", "Tampa", "Hillsborough County"]
+  },
+  {
+    title: "Health Insurance in Wesley Chapel FL — 2026 Premium Changes Guide",
+    url: "/blog/health-insurance-wesley-chapel-2026.html",
+    excerpt: "Wesley Chapel ACA premium changes, new-mover SEPs, Bronze + HSA options, and Medicare GLP-1 bridge considerations.",
+    tags: ["ACA", "Florida", "Wesley Chapel", "Pasco County"]
+  },
+  {
+    title: "How to Read Your Health Insurance Card: 2026 Field-by-Field Guide",
+    url: "/blog/how-to-read-health-insurance-card-guide.html",
+    excerpt: "A field-by-field guide to member ID, group number, BIN, PCN, RxGroup, copays, and plan contact details.",
+    tags: ["Tips", "Coverage", "Insurance Card", "Basics"]
+  },
+  {
+    title: "How Lakeland's Growth Is Reshaping Your Health Insurance",
+    url: "/blog/lakeland-growth-health-insurance-impact.html",
+    excerpt: "How new hospitals, urgent care centers, and population growth affect networks and plan decisions in Polk County.",
+    tags: ["Lakeland", "Networks", "Local", "Growth"]
+  },
+  {
+    title: "Medicaid Work Requirements 2026: What Florida Residents Need to Know",
+    url: "/blog/medicaid-work-requirements-florida-coverage-2026.html",
+    excerpt: "What Medicaid work requirement news means for Florida residents comparing Medicaid, ACA, SEP, and Medicare options.",
+    tags: ["Medicaid", "Florida", "ACA", "SEP"]
+  },
+  {
+    title: "Medicare vs. ACA Coverage in Central Florida: What Changes at Age 65",
+    url: "/blog/medicare-vs-aca-central-florida-age-65.html",
+    excerpt: "Turning 65 in Central Florida? Learn how Medicare changes ACA coverage, enrollment windows, subsidy timing, and coverage-gap risk.",
+    tags: ["Medicare", "ACA", "Turning 65", "Central Florida"]
+  },
+  {
+    title: "Mental Health Awareness Month: How to Check Your Therapy Benefits in Lakeland",
+    url: "/blog/mental-health-awareness-month-therapy-benefit-lakeland-2026.html",
+    excerpt: "How Polk County residents can check therapy benefits, telehealth options, costs, and availability before using coverage.",
+    tags: ["Mental Health", "Therapy", "Telehealth", "Lakeland"]
+  },
+  {
+    title: "Orlando Health Lakeland: Early Approval and Quality Signals",
+    url: "/blog/orlando-health-lakeland-quality-approval-2026.html",
+    excerpt: "What public reporting, social media, licensing, and early quality signals show about the new Lakeland hospital.",
+    tags: ["Lakeland", "Networks", "Orlando Health", "Watson Clinic"]
+  },
+  {
+    title: "Orlando Health Lakeland Hospital 2026: What It Means for Your Plan",
+    url: "/blog/orlando-health-polk-county-expansion-2026.html",
+    excerpt: "How Orlando Health's South Lakeland hospital expansion may affect ACA and Medicare provider network checks.",
+    tags: ["Lakeland", "Networks", "Hospital Expansion", "ACA", "Medicare"]
+  },
+  {
+    title: "Orlando Health Expansion and Watson Clinic Doctors: The Network Issue",
+    url: "/blog/orlando-health-watson-clinic-doctors-network-2026.html",
+    excerpt: "Why hospital expansion does not automatically solve the doctor-network question for Watson Clinic patients.",
+    tags: ["Lakeland", "Networks", "Watson Clinic", "Orlando Health"]
+  },
+  {
+    title: "Short-Term Medical vs TriTerm Medical in Florida",
+    url: "/blog/short-term-vs-triterm-medical.html",
+    excerpt: "Compare Short-Term Medical and TriTerm Medical in Florida, including when ACA may be safer and what to verify before applying.",
+    tags: ["Short-Term", "TriTerm", "ACA", "Florida"]
+  },
+  {
+    title: "Why You're Overpaying for Health Insurance in Polk County",
+    url: "/blog/why-overpaying-health-insurance-central-florida.html",
+    excerpt: "Seven reasons Polk County residents overpay for health insurance and the practical fix for each.",
+    tags: ["ACA", "Florida", "Polk County", "Premiums"]
+  },
+  {
+    title: "How Your ZIP Code Affects Health Insurance Pricing in Florida",
+    url: "/blog/zip-code-health-insurance-pricing-florida.html",
+    excerpt: "Where ZIP code matters for Florida ACA pricing, Medicare options, and provider networks.",
+    tags: ["ACA", "Florida", "ZIP Code", "Networks"]
+  },
 
   // Main Pages
   {
