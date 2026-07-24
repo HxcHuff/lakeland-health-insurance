@@ -1,0 +1,1670 @@
+{
+  "built_at": "2026-07-23T18:02:16.423174+00:00",
+  "source_kind": "zip",
+  "source_path": "/Users/david_huff/Downloads/Golden Rule-20260723T171801Z-1-001.zip",
+  "manifest_path": "",
+  "drive_folder_url": "https://drive.google.com/drive/folders/1zxsh2hI7mvB7lWaZQL7byD_7lXcBBreA",
+  "document_count": 143,
+  "missing_count": 0,
+  "missing_pdfs": [],
+  "extract_error_count": 0,
+  "extract_errors": [],
+  "products": {
+    "General/Admin": 17,
+    "TriTerm Medical": 16,
+    "CriticalGuard": 15,
+    "Short Term Medical": 11,
+    "AdvantageGuard": 10,
+    "DentalWise": 10,
+    "Health ProtectorGuard": 10,
+    "Term Life": 8,
+    "Accident Pro": 7,
+    "Hospital SafeGuard GI": 7,
+    "HospitalWise": 7,
+    "AccidentWise": 6,
+    "VisionWise": 6,
+    "Accident ExpenseGuard": 5,
+    "Mind Your Health": 3,
+    "New Benefits": 3,
+    "HealthiestYou": 2
+  },
+  "sections": {
+    "Opportunities and Resources": 91,
+    "Brochures": 38,
+    "Other": 14
+  },
+  "material_types": {
+    "Brochure": 38,
+    "Flyer": 28,
+    "Sample Policy": 26,
+    "Sample Application Questions": 12,
+    "Sample Benefits/Exclusions": 10,
+    "Claim Form": 9,
+    "Consumer Flyer": 6,
+    "Prescription Drug List": 4,
+    "Authorization/Admin": 3,
+    "Build Chart": 2,
+    "Compliance/Policy": 2,
+    "Availability Grid": 1,
+    "Claim Examples Guide": 1,
+    "Underwriting Guide": 1
+  },
+  "languages": {
+    "English": 86,
+    "Spanish": 57
+  },
+  "outputs": {
+    "sqlite": "data/golden-rule/golden_rule_brochures.sqlite",
+    "documents_jsonl": "data/golden-rule/documents.jsonl",
+    "summary_json": "data/golden-rule/summary.json"
+  },
+  "product_documents": {
+    "Accident ExpenseGuard": [
+      {
+        "catalog_index": 1,
+        "title": "Accident ExpenseGuard Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "001 - Accident ExpenseGuard Brochure - 45395B-G202310.pdf",
+        "source_filename": "45395B-G202310.pdf",
+        "publication_code": "G202310",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45395B-G202310.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 2,
+        "title": "Accident ExpenseGuard Brochure Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "002 - Accident ExpenseGuard Brochure Spanish - 45395BSP-G202310.pdf",
+        "source_filename": "45395BSP-G202310.pdf",
+        "publication_code": "G202310",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45395BSP-G202310.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 39,
+        "title": "Accident ExpenseGuard Consumer Flyer",
+        "material_type": "Consumer Flyer",
+        "language": "English",
+        "drive_filename": "039 - Accident ExpenseGuard Consumer Flyer - 52494-G202508.pdf",
+        "source_filename": "52494-G202508.pdf",
+        "publication_code": "G202508",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52494-G202508.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 40,
+        "title": "Accident ExpenseGuard Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "040 - Accident ExpenseGuard Flyer - 51957-G202502.pdf",
+        "source_filename": "51957-G202502.pdf",
+        "publication_code": "G202502",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51957-G202502.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 41,
+        "title": "Accident ExpenseGuard Flyer - Spanish",
+        "material_type": "Flyer",
+        "language": "Spanish",
+        "drive_filename": "041 - Accident ExpenseGuard Flyer - Spanish - 51957SP-G202502.pdf",
+        "source_filename": "51957SP-G202502.pdf",
+        "publication_code": "G202502",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51957SP-G202502.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "Accident Pro": [
+      {
+        "catalog_index": 3,
+        "title": "Accident ProGap Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "003 - Accident ProGap Brochure - 45396B-G202310.pdf",
+        "source_filename": "45396B-G202310.pdf",
+        "publication_code": "G202310",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45396B-G202310.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 4,
+        "title": "Accident ProGap Brochure Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "004 - Accident ProGap Brochure Spanish - 45396BSP-G202310.pdf",
+        "source_filename": "45396BSP-G202310.pdf",
+        "publication_code": "G202310",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45396BSP-G202310.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 5,
+        "title": "Accident ProGuard Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "005 - Accident ProGuard Brochure - 45397B-G202310.pdf",
+        "source_filename": "45397B-G202310.pdf",
+        "publication_code": "G202310",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45397B-G202310.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 6,
+        "title": "Accident ProGuard Brochure Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "006 - Accident ProGuard Brochure Spanish - 45397BSP-G202310.pdf",
+        "source_filename": "45397BSP-G202310.pdf",
+        "publication_code": "G202310",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45397BSP-G202310.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 42,
+        "title": "Accident Pro Series Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "042 - Accident Pro Series Flyer - 51950-G202502.pdf",
+        "source_filename": "51950-G202502.pdf",
+        "publication_code": "G202502",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51950-G202502.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 43,
+        "title": "Accident Pro Series Flyer - Spanish",
+        "material_type": "Flyer",
+        "language": "Spanish",
+        "drive_filename": "043 - Accident Pro Series Flyer - Spanish - 51950SP-G202502.pdf",
+        "source_filename": "51950SP-G202502.pdf",
+        "publication_code": "G202502",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51950SP-G202502.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 44,
+        "title": "AccidentPro Consumer Flyer",
+        "material_type": "Consumer Flyer",
+        "language": "English",
+        "drive_filename": "044 - AccidentPro Consumer Flyer - 52551-G202508.pdf",
+        "source_filename": "52551-G202508.pdf",
+        "publication_code": "G202508",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52551-G202508.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "AccidentWise": [
+      {
+        "catalog_index": 7,
+        "title": "AccidentWise Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "007 - AccidentWise Brochure - 50341-G202503.pdf",
+        "source_filename": "50341-G202503.pdf",
+        "publication_code": "G202503",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50341-G202503.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 8,
+        "title": "AccidentWise Brochure - Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "008 - AccidentWise Brochure - Spanish - 50341SP-G202503.pdf",
+        "source_filename": "50341SP-G202503.pdf",
+        "publication_code": "G202503",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50341SP-G202503.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 45,
+        "title": "AccidentWise Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "045 - AccidentWise Flyer - 51743-G202506.pdf",
+        "source_filename": "51743-G202506.pdf",
+        "publication_code": "G202506",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51743-G202506.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 46,
+        "title": "AccidentWise Flyer - Spanish",
+        "material_type": "Flyer",
+        "language": "Spanish",
+        "drive_filename": "046 - AccidentWise Flyer - Spanish - 51743SP-G202506.pdf",
+        "source_filename": "51743SP-G202506.pdf",
+        "publication_code": "G202506",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51743SP-G202506.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 92,
+        "title": "Sample Policy - AccidentWise",
+        "material_type": "Sample Policy",
+        "language": "English",
+        "drive_filename": "092 - Sample Policy - AccidentWise - 51302-G202409.pdf",
+        "source_filename": "51302-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51302-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 93,
+        "title": "Sample Policy - AccidentWise Spanish",
+        "material_type": "Sample Policy",
+        "language": "Spanish",
+        "drive_filename": "093 - Sample Policy - AccidentWise Spanish - 51302SP-G202409.pdf",
+        "source_filename": "51302SP-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51302SP-G202409.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "AdvantageGuard": [
+      {
+        "catalog_index": 9,
+        "title": "AdvantageGuard Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "009 - AdvantageGuard Brochure - 49835-G202604.pdf",
+        "source_filename": "49835-G202604.pdf",
+        "publication_code": "G202604",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=49835-G202604.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 10,
+        "title": "AdvantageGuard Brochure-Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "010 - AdvantageGuard Brochure-Spanish - 49835SP-G202604.pdf",
+        "source_filename": "49835SP-G202604.pdf",
+        "publication_code": "G202604",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=49835SP-G202604.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 47,
+        "title": "AdvantageGuard Claim Examples Guide",
+        "material_type": "Claim Examples Guide",
+        "language": "English",
+        "drive_filename": "047 - AdvantageGuard Claim Examples Guide - 52117-G202504.pdf",
+        "source_filename": "52117-G202504.pdf",
+        "publication_code": "G202504",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52117-G202504.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 48,
+        "title": "AdvantageGuard Consumer Flyer",
+        "material_type": "Consumer Flyer",
+        "language": "English",
+        "drive_filename": "048 - AdvantageGuard Consumer Flyer - 52524-G202508.pdf",
+        "source_filename": "52524-G202508.pdf",
+        "publication_code": "G202508",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52524-G202508.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 49,
+        "title": "AdvantageGuard Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "049 - AdvantageGuard Flyer - 51554a-G202604.pdf",
+        "source_filename": "51554a-G202604.pdf",
+        "publication_code": "G202604",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51554a-G202604.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 50,
+        "title": "AdvantageGuard Flyer - Spanish",
+        "material_type": "Flyer",
+        "language": "Spanish",
+        "drive_filename": "050 - AdvantageGuard Flyer - Spanish - 51554aSP-G202506.pdf",
+        "source_filename": "51554aSP-G202506.pdf",
+        "publication_code": "G202506",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51554aSP-G202506.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 70,
+        "title": "Sample Application Questions - AdvantageGuard",
+        "material_type": "Sample Application Questions",
+        "language": "English",
+        "drive_filename": "070 - Sample Application Questions - AdvantageGuard - 50494-G202604.pdf",
+        "source_filename": "50494-G202604.pdf",
+        "publication_code": "G202604",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50494-G202604.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 71,
+        "title": "Sample Application Questions - AdvantageGuard Spanish",
+        "material_type": "Sample Application Questions",
+        "language": "Spanish",
+        "drive_filename": "071 - Sample Application Questions - AdvantageGuard Spanish - 50494SP-G202507.pdf",
+        "source_filename": "50494SP-G202507.pdf",
+        "publication_code": "G202507",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50494SP-G202507.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 94,
+        "title": "Sample Policy - AdvantageGuard",
+        "material_type": "Sample Policy",
+        "language": "English",
+        "drive_filename": "094 - Sample Policy - AdvantageGuard - 51303-G202604.pdf",
+        "source_filename": "51303-G202604.pdf",
+        "publication_code": "G202604",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51303-G202604.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 95,
+        "title": "Sample Policy - AdvantageGuard Spanish",
+        "material_type": "Sample Policy",
+        "language": "Spanish",
+        "drive_filename": "095 - Sample Policy - AdvantageGuard Spanish - 51303SP-G202409.pdf",
+        "source_filename": "51303SP-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51303SP-G202409.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "CriticalGuard": [
+      {
+        "catalog_index": 11,
+        "title": "CriticalGuard Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "011 - CriticalGuard Brochure - 49836-G202602.pdf",
+        "source_filename": "49836-G202602.pdf",
+        "publication_code": "G202602",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=49836-G202602.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 12,
+        "title": "CriticalGuard Brochure - Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "012 - CriticalGuard Brochure - Spanish - 49836SP-G202602.pdf",
+        "source_filename": "49836SP-G202602.pdf",
+        "publication_code": "G202602",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=49836SP-G202602.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 52,
+        "title": "CriticalGuard Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "052 - CriticalGuard Flyer - 51821-G202506.pdf",
+        "source_filename": "51821-G202506.pdf",
+        "publication_code": "G202506",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51821-G202506.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 53,
+        "title": "CriticalGuard Flyer - Spanish",
+        "material_type": "Flyer",
+        "language": "Spanish",
+        "drive_filename": "053 - CriticalGuard Flyer - Spanish - 51821SP-G202506.pdf",
+        "source_filename": "51821SP-G202506.pdf",
+        "publication_code": "G202506",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51821SP-G202506.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 72,
+        "title": "Sample Application Questions - CriticalGuard",
+        "material_type": "Sample Application Questions",
+        "language": "English",
+        "drive_filename": "072 - Sample Application Questions - CriticalGuard - 50495-G202312.pdf",
+        "source_filename": "50495-G202312.pdf",
+        "publication_code": "G202312",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50495-G202312.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 73,
+        "title": "Sample Application Questions - CriticalGuard Spanish",
+        "material_type": "Sample Application Questions",
+        "language": "Spanish",
+        "drive_filename": "073 - Sample Application Questions - CriticalGuard Spanish - 50495SP-G202312.pdf",
+        "source_filename": "50495SP-G202312.pdf",
+        "publication_code": "G202312",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50495SP-G202312.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 96,
+        "title": "Sample Policy - CriticalGuard Cancer",
+        "material_type": "Sample Policy",
+        "language": "English",
+        "drive_filename": "096 - Sample Policy - CriticalGuard Cancer - 51304-G202409.pdf",
+        "source_filename": "51304-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51304-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 97,
+        "title": "Sample Policy - CriticalGuard Cancer + Heart/Stroke",
+        "material_type": "Sample Policy",
+        "language": "English",
+        "drive_filename": "097 - Sample Policy - CriticalGuard Cancer + HeartStroke - 51306-G202409.pdf",
+        "source_filename": "51306-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51306-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 98,
+        "title": "Sample Policy - CriticalGuard Cancer + Heart/Stroke Spanish",
+        "material_type": "Sample Policy",
+        "language": "Spanish",
+        "drive_filename": "098 - Sample Policy - CriticalGuard Cancer + HeartStroke Spanish - 51306SP-G202409.pdf",
+        "source_filename": "51306SP-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51306SP-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 99,
+        "title": "Sample Policy - CriticalGuard Cancer Spanish",
+        "material_type": "Sample Policy",
+        "language": "Spanish",
+        "drive_filename": "099 - Sample Policy - CriticalGuard Cancer Spanish - 51304SP-G202409.pdf",
+        "source_filename": "51304SP-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51304SP-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 100,
+        "title": "Sample Policy - CriticalGuard Critical Illness",
+        "material_type": "Sample Policy",
+        "language": "English",
+        "drive_filename": "100 - Sample Policy - CriticalGuard Critical Illness - 51307-G202409.pdf",
+        "source_filename": "51307-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51307-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 101,
+        "title": "Sample Policy - CriticalGuard Critical Illness Spanish",
+        "material_type": "Sample Policy",
+        "language": "Spanish",
+        "drive_filename": "101 - Sample Policy - CriticalGuard Critical Illness Spanish - 51307SP-G202409.pdf",
+        "source_filename": "51307SP-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51307SP-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 102,
+        "title": "Sample Policy - CriticalGuard Heart/Stroke",
+        "material_type": "Sample Policy",
+        "language": "English",
+        "drive_filename": "102 - Sample Policy - CriticalGuard HeartStroke - 51305-G202409.pdf",
+        "source_filename": "51305-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51305-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 103,
+        "title": "Sample Policy - CriticalGuard Heart/Stroke Spanish",
+        "material_type": "Sample Policy",
+        "language": "Spanish",
+        "drive_filename": "103 - Sample Policy - CriticalGuard HeartStroke Spanish - 51305SP-G202409.pdf",
+        "source_filename": "51305SP-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51305SP-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 139,
+        "title": "GRIC Critical Illness Claim Form (Facets)",
+        "material_type": "Claim Form",
+        "language": "English",
+        "drive_filename": "139 - GRIC Critical Illness Claim Form (Facets) - 49617f-G202309.pdf",
+        "source_filename": "49617f-G202309.pdf",
+        "publication_code": "G202309",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=49617f-G202309.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "DentalWise": [
+      {
+        "catalog_index": 13,
+        "title": "DentalWise Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "013 - DentalWise Brochure - 50337-G202412.pdf",
+        "source_filename": "50337-G202412.pdf",
+        "publication_code": "G202412",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50337-G202412.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 14,
+        "title": "DentalWise Brochure - Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "014 - DentalWise Brochure - Spanish - 50337SP-G202412.pdf",
+        "source_filename": "50337SP-G202412.pdf",
+        "publication_code": "G202412",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50337SP-G202412.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 15,
+        "title": "DentalWise Max Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "015 - DentalWise Max Brochure - 50338-G202412.pdf",
+        "source_filename": "50338-G202412.pdf",
+        "publication_code": "G202412",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50338-G202412.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 16,
+        "title": "DentalWise Max Brochure - Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "016 - DentalWise Max Brochure - Spanish - 50338SP-G202412.pdf",
+        "source_filename": "50338SP-G202412.pdf",
+        "publication_code": "G202412",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50338SP-G202412.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 54,
+        "title": "DentalWise Consumer Flyer",
+        "material_type": "Consumer Flyer",
+        "language": "English",
+        "drive_filename": "054 - DentalWise Consumer Flyer - 52536-G202508.pdf",
+        "source_filename": "52536-G202508.pdf",
+        "publication_code": "G202508",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52536-G202508.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 55,
+        "title": "DentalWise Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "055 - DentalWise Flyer - 51847-G202506.pdf",
+        "source_filename": "51847-G202506.pdf",
+        "publication_code": "G202506",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51847-G202506.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 56,
+        "title": "DentalWise Flyer - Spanish",
+        "material_type": "Flyer",
+        "language": "Spanish",
+        "drive_filename": "056 - DentalWise Flyer - Spanish - 51847SP-G202506.pdf",
+        "source_filename": "51847SP-G202506.pdf",
+        "publication_code": "G202506",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51847SP-G202506.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 57,
+        "title": "DentalWise Max Broker Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "057 - DentalWise Max Broker Flyer - 50631-G202510.pdf",
+        "source_filename": "50631-G202510.pdf",
+        "publication_code": "G202510",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50631-G202510.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 116,
+        "title": "Sample Policy/Certificate for DentalWise",
+        "material_type": "Sample Policy",
+        "language": "English",
+        "drive_filename": "116 - Sample PolicyCertificate for DentalWise - 50691-G202402.pdf",
+        "source_filename": "50691-G202402.pdf",
+        "publication_code": "G202402",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50691-G202402.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 117,
+        "title": "Sample Policy/Certificate for DentalWise Spanish",
+        "material_type": "Sample Policy",
+        "language": "Spanish",
+        "drive_filename": "117 - Sample PolicyCertificate for DentalWise Spanish - 50691SP-G202402.pdf",
+        "source_filename": "50691SP-G202402.pdf",
+        "publication_code": "G202402",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50691SP-G202402.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "General/Admin": [
+      {
+        "catalog_index": 51,
+        "title": "Broker Underwriting Cheat Sheet",
+        "material_type": "Underwriting Guide",
+        "language": "English",
+        "drive_filename": "051 - Broker Underwriting Cheat Sheet - 52029-G202604.pdf",
+        "source_filename": "52029-G202604.pdf",
+        "publication_code": "G202604",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52029-G202604.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 74,
+        "title": "Sample Application Questions - Hospital & Doctor Spanish",
+        "material_type": "Sample Application Questions",
+        "language": "Spanish",
+        "drive_filename": "074 - Sample Application Questions - Hospital & Doctor Spanish - 45980SP-G202108.pdf",
+        "source_filename": "45980SP-G202108.pdf",
+        "publication_code": "G202108",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45980SP-G202108.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 75,
+        "title": "Sample Application Questions – Hospital & Doctor",
+        "material_type": "Sample Application Questions",
+        "language": "English",
+        "drive_filename": "075 - Sample Application Questions - Hospital & Doctor - 45980-G202108.pdf",
+        "source_filename": "45980-G202108.pdf",
+        "publication_code": "G202108",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45980-G202108.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 83,
+        "title": "Sample Benefits, Exclusions, Rx Rider - Short Term Hospital & Surgical (FACT)",
+        "material_type": "Sample Benefits/Exclusions",
+        "language": "English",
+        "drive_filename": "083 - Sample Benefits, Exclusions, Rx Rider - Short Term Hospital & Surgical (FACT) - 51326fh-G202409.pdf",
+        "source_filename": "51326fh-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51326fh-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 84,
+        "title": "Sample Benefits, Exclusions, Rx Rider - Short Term Hospital & Surgical (FACT) Spanish",
+        "material_type": "Sample Benefits/Exclusions",
+        "language": "Spanish",
+        "drive_filename": "084 - Sample Benefits, Exclusions, Rx Rider - Short Term Hospital & Surgical (FACT) Spanish - 51326fhSP-G202409.pdf",
+        "source_filename": "51326fhSP-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51326fhSP-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 123,
+        "title": "Social Media Policy",
+        "material_type": "Compliance/Policy",
+        "language": "English",
+        "drive_filename": "123 - Social Media Policy - 41853-G201401.pdf",
+        "source_filename": "41853-G201401.pdf",
+        "publication_code": "G201401",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=41853-G201401.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 130,
+        "title": "Accident Claim Form",
+        "material_type": "Claim Form",
+        "language": "English",
+        "drive_filename": "130 - Accident Claim Form - 49717f-G202503.pdf",
+        "source_filename": "49717f-G202503.pdf",
+        "publication_code": "G202503",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=49717f-G202503.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 131,
+        "title": "Authorization for Release of Information - Golden Rule Insurance Company",
+        "material_type": "Authorization/Admin",
+        "language": "English",
+        "drive_filename": "131 - Authorization for Release of Information - Golden Rule Insurance Company - 44534-G201609.pdf",
+        "source_filename": "44534-G201609.pdf",
+        "publication_code": "G201609",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=44534-G201609.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 133,
+        "title": "Claimant Statement and Authorization",
+        "material_type": "Claim Form",
+        "language": "English",
+        "drive_filename": "133 - Claimant Statement and Authorization - Claimant-Statement-and-Authorizationf-G202505.pdf",
+        "source_filename": "Claimant-Statement-and-Authorizationf-G202505.pdf",
+        "publication_code": "G202505",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=Claimant-Statement-and-Authorizationf-G202505.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 134,
+        "title": "Direct Deposit Authorization",
+        "material_type": "Authorization/Admin",
+        "language": "English",
+        "drive_filename": "134 - Direct Deposit Authorization - 43940-UL201504.pdf",
+        "source_filename": "43940-UL201504.pdf",
+        "publication_code": "UL201504",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=43940-UL201504.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 135,
+        "title": "Golden Rule Mental Health Parity and Addiction Equity Act",
+        "material_type": "Compliance/Policy",
+        "language": "English",
+        "drive_filename": "135 - Golden Rule Mental Health Parity and Addiction Equity Act - 45549-G201807.pdf",
+        "source_filename": "45549-G201807.pdf",
+        "publication_code": "G201807",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45549-G201807.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 136,
+        "title": "GRIC Accidental Injury Claim Form (Mainframe)",
+        "material_type": "Claim Form",
+        "language": "English",
+        "drive_filename": "136 - GRIC Accidental Injury Claim Form (Mainframe) - 46762-X202012.pdf",
+        "source_filename": "46762-X202012.pdf",
+        "publication_code": "X202012",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=46762-X202012.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 137,
+        "title": "GRIC Accidental Injury Details Questionnaire (Facets)",
+        "material_type": "Claim Form",
+        "language": "English",
+        "drive_filename": "137 - GRIC Accidental Injury Details Questionnaire (Facets) - 49685f-G202305.pdf",
+        "source_filename": "49685f-G202305.pdf",
+        "publication_code": "G202305",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=49685f-G202305.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 138,
+        "title": "GRIC Claimant Statement and Authorization (Mainframe)",
+        "material_type": "Claim Form",
+        "language": "English",
+        "drive_filename": "138 - GRIC Claimant Statement and Authorization (Mainframe) - Claimant-Statement-and-Authorizationmf-G202505.pdf",
+        "source_filename": "Claimant-Statement-and-Authorizationmf-G202505.pdf",
+        "publication_code": "G202505",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=Claimant-Statement-and-Authorizationmf-G202505.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 140,
+        "title": "GRIC Fixed Indemnity Claim Form (Facets)",
+        "material_type": "Claim Form",
+        "language": "English",
+        "drive_filename": "140 - GRIC Fixed Indemnity Claim Form (Facets) - 48435f-X202410.pdf",
+        "source_filename": "48435f-X202410.pdf",
+        "publication_code": "X202410",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=48435f-X202410.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 141,
+        "title": "GRIC Hospital Indemnity Plan Claim Form (Facets)",
+        "material_type": "Claim Form",
+        "language": "English",
+        "drive_filename": "141 - GRIC Hospital Indemnity Plan Claim Form (Facets) - 49741f-G202408.pdf",
+        "source_filename": "49741f-G202408.pdf",
+        "publication_code": "G202408",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=49741f-G202408.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 143,
+        "title": "Product Availability Grid",
+        "material_type": "Availability Grid",
+        "language": "English",
+        "drive_filename": "143 - Product Availability Grid - 42839-X202605.pdf",
+        "source_filename": "42839-X202605.pdf",
+        "publication_code": "X202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=42839-X202605.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "Health ProtectorGuard": [
+      {
+        "catalog_index": 17,
+        "title": "Enhanced Health ProtectorGuard Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "017 - Enhanced Health ProtectorGuard Brochure - 52001-G202605.pdf",
+        "source_filename": "52001-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52001-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 18,
+        "title": "Enhanced Health ProtectorGuard Brochure - Guard",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "018 - Enhanced Health ProtectorGuard Brochure - Guard - 52002-G202605.pdf",
+        "source_filename": "52002-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52002-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 19,
+        "title": "Enhanced Health ProtectorGuard Brochure - Guard Plans Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "019 - Enhanced Health ProtectorGuard Brochure - Guard Plans Spanish - 52002SP-G202605.pdf",
+        "source_filename": "52002SP-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52002SP-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 20,
+        "title": "Enhanced Health ProtectorGuard Brochure Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "020 - Enhanced Health ProtectorGuard Brochure Spanish - 52001SP-G202605.pdf",
+        "source_filename": "52001SP-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52001SP-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 58,
+        "title": "Enhanced Health ProtectorGuard Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "058 - Enhanced Health ProtectorGuard Flyer - 52436-G202605.pdf",
+        "source_filename": "52436-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52436-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 59,
+        "title": "Enhanced HealthProtector Guard Flyer - Spanish",
+        "material_type": "Flyer",
+        "language": "Spanish",
+        "drive_filename": "059 - Enhanced HealthProtector Guard Flyer - Spanish - 52436SP-G202506.pdf",
+        "source_filename": "52436SP-G202506.pdf",
+        "publication_code": "G202506",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52436SP-G202506.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 104,
+        "title": "Sample Policy - Enhanced Health ProtectorGuard",
+        "material_type": "Sample Policy",
+        "language": "English",
+        "drive_filename": "104 - Sample Policy - Enhanced Health ProtectorGuard - 52188-G202605.pdf",
+        "source_filename": "52188-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52188-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 105,
+        "title": "Sample Policy - Enhanced Health ProtectorGuard (Guard)",
+        "material_type": "Sample Policy",
+        "language": "English",
+        "drive_filename": "105 - Sample Policy - Enhanced Health ProtectorGuard (Guard) - 52189-G202605.pdf",
+        "source_filename": "52189-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52189-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 106,
+        "title": "Sample Policy - Enhanced Health ProtectorGuard (Guard) Spanish",
+        "material_type": "Sample Policy",
+        "language": "Spanish",
+        "drive_filename": "106 - Sample Policy - Enhanced Health ProtectorGuard (Guard) Spanish - 52189SP-G202506.pdf",
+        "source_filename": "52189SP-G202506.pdf",
+        "publication_code": "G202506",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52189SP-G202506.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 107,
+        "title": "Sample Policy - Enhanced Health ProtectorGuard Spanish",
+        "material_type": "Sample Policy",
+        "language": "Spanish",
+        "drive_filename": "107 - Sample Policy - Enhanced Health ProtectorGuard Spanish - 52188SP-G202506.pdf",
+        "source_filename": "52188SP-G202506.pdf",
+        "publication_code": "G202506",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52188SP-G202506.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "HealthiestYou": [
+      {
+        "catalog_index": 60,
+        "title": "HealthiestYou Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "060 - HealthiestYou Flyer - 51684-G202510.pdf",
+        "source_filename": "51684-G202510.pdf",
+        "publication_code": "G202510",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51684-G202510.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 61,
+        "title": "HealthiestYou Flyer - Spanish",
+        "material_type": "Flyer",
+        "language": "Spanish",
+        "drive_filename": "061 - HealthiestYou Flyer - Spanish - 51684SP-G202510.pdf",
+        "source_filename": "51684SP-G202510.pdf",
+        "publication_code": "G202510",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51684SP-G202510.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "Hospital SafeGuard GI": [
+      {
+        "catalog_index": 21,
+        "title": "Hospital SafeGuard GI Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "021 - Hospital SafeGuard GI Brochure - 47684-G202602.pdf",
+        "source_filename": "47684-G202602.pdf",
+        "publication_code": "G202602",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=47684-G202602.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 22,
+        "title": "Hospital Safeguard GI Brochure - Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "022 - Hospital Safeguard GI Brochure - Spanish - 47684SP-G202602.pdf",
+        "source_filename": "47684SP-G202602.pdf",
+        "publication_code": "G202602",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=47684SP-G202602.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 62,
+        "title": "Hospital SafeGuard GI Consumer Flyer",
+        "material_type": "Consumer Flyer",
+        "language": "English",
+        "drive_filename": "062 - Hospital SafeGuard GI Consumer Flyer - 51901-G202501.pdf",
+        "source_filename": "51901-G202501.pdf",
+        "publication_code": "G202501",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51901-G202501.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 63,
+        "title": "Hospital SafeGuard GI Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "063 - Hospital SafeGuard GI Flyer - 51900-G202501.pdf",
+        "source_filename": "51900-G202501.pdf",
+        "publication_code": "G202501",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51900-G202501.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 64,
+        "title": "Hospital SafeGuard GI Flyer - Spanish",
+        "material_type": "Flyer",
+        "language": "Spanish",
+        "drive_filename": "064 - Hospital SafeGuard GI Flyer - Spanish - 51900SP-G202501.pdf",
+        "source_filename": "51900SP-G202501.pdf",
+        "publication_code": "G202501",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51900SP-G202501.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 108,
+        "title": "Sample Policy - Hospital SafeGuard GI",
+        "material_type": "Sample Policy",
+        "language": "English",
+        "drive_filename": "108 - Sample Policy - Hospital SafeGuard GI - 51308-G202409.pdf",
+        "source_filename": "51308-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51308-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 109,
+        "title": "Sample Policy - Hospital SafeGuard GI Spanish",
+        "material_type": "Sample Policy",
+        "language": "Spanish",
+        "drive_filename": "109 - Sample Policy - Hospital SafeGuard GI Spanish - 51308SP-G202409.pdf",
+        "source_filename": "51308SP-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51308SP-G202409.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "HospitalWise": [
+      {
+        "catalog_index": 23,
+        "title": "HospitalWise Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "023 - HospitalWise Brochure - 50841-G202605.pdf",
+        "source_filename": "50841-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50841-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 24,
+        "title": "HospitalWise Brochure Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "024 - HospitalWise Brochure Spanish - 50841SP-G202605.pdf",
+        "source_filename": "50841SP-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50841SP-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 65,
+        "title": "HospitalWise Consumer Flyer",
+        "material_type": "Consumer Flyer",
+        "language": "English",
+        "drive_filename": "065 - HospitalWise Consumer Flyer - 52510-G202507.pdf",
+        "source_filename": "52510-G202507.pdf",
+        "publication_code": "G202507",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52510-G202507.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 66,
+        "title": "HospitalWise Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "066 - HospitalWise Flyer - 51820a-G202605.pdf",
+        "source_filename": "51820a-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51820a-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 67,
+        "title": "HospitalWise Flyer - Spanish",
+        "material_type": "Flyer",
+        "language": "Spanish",
+        "drive_filename": "067 - HospitalWise Flyer - Spanish - 51820aSP-G202506.pdf",
+        "source_filename": "51820aSP-G202506.pdf",
+        "publication_code": "G202506",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51820aSP-G202506.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 110,
+        "title": "Sample Policy - HospitalWise",
+        "material_type": "Sample Policy",
+        "language": "English",
+        "drive_filename": "110 - Sample Policy - HospitalWise - 51724-G202605.pdf",
+        "source_filename": "51724-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51724-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 111,
+        "title": "Sample Policy - HospitalWise Spanish",
+        "material_type": "Sample Policy",
+        "language": "Spanish",
+        "drive_filename": "111 - Sample Policy - HospitalWise Spanish - 51724SP-G202412.pdf",
+        "source_filename": "51724SP-G202412.pdf",
+        "publication_code": "G202412",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51724SP-G202412.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "Mind Your Health": [
+      {
+        "catalog_index": 25,
+        "title": "Mind Your Health Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "025 - Mind Your Health Brochure - 52440-TH202509.pdf",
+        "source_filename": "52440-TH202509.pdf",
+        "publication_code": "TH202509",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52440-TH202509.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 26,
+        "title": "Mind Your Health Brochure Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "026 - Mind Your Health Brochure Spanish - 52440SP-TH202509.pdf",
+        "source_filename": "52440SP-TH202509.pdf",
+        "publication_code": "TH202509",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52440SP-TH202509.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 68,
+        "title": "Mind Your Health Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "068 - Mind Your Health Flyer - 52961-G202601.pdf",
+        "source_filename": "52961-G202601.pdf",
+        "publication_code": "G202601",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52961-G202601.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "New Benefits": [
+      {
+        "catalog_index": 27,
+        "title": "New Benefits Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "027 - New Benefits Brochure - 47338-NB202604.pdf",
+        "source_filename": "47338-NB202604.pdf",
+        "publication_code": "NB202604",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=47338-NB202604.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 28,
+        "title": "New Benefits Brochure Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "028 - New Benefits Brochure Spanish - 47338SP-NB202604.pdf",
+        "source_filename": "47338SP-NB202604.pdf",
+        "publication_code": "NB202604",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=47338SP-NB202604.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 69,
+        "title": "New Benefits Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "069 - New Benefits Flyer - 51898-G202501.pdf",
+        "source_filename": "51898-G202501.pdf",
+        "publication_code": "G202501",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51898-G202501.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "Short Term Medical": [
+      {
+        "catalog_index": 29,
+        "title": "Short Term Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "029 - Short Term Brochure - 53023E-G202605.pdf",
+        "source_filename": "53023E-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=53023E-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 30,
+        "title": "Short Term Brochure Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "030 - Short Term Brochure Spanish - 53023ESP-G202605.pdf",
+        "source_filename": "53023ESP-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=53023ESP-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 76,
+        "title": "Sample Application Questions – Short Term Medical",
+        "material_type": "Sample Application Questions",
+        "language": "English",
+        "drive_filename": "076 - Sample Application Questions - Short Term Medical - 45954-G202605.pdf",
+        "source_filename": "45954-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45954-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 77,
+        "title": "Sample Application Questions - Short Term Medical Spanish",
+        "material_type": "Sample Application Questions",
+        "language": "Spanish",
+        "drive_filename": "077 - Sample Application Questions - Short Term Medical Spanish - 45954SP-G202108.pdf",
+        "source_filename": "45954SP-G202108.pdf",
+        "publication_code": "G202108",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45954SP-G202108.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 85,
+        "title": "Sample Benefits, Exclusions, Rx Rider - Short Term Medical (FACT)",
+        "material_type": "Sample Benefits/Exclusions",
+        "language": "English",
+        "drive_filename": "085 - Sample Benefits, Exclusions, Rx Rider - Short Term Medical (FACT) - 51325f-G202605.pdf",
+        "source_filename": "51325f-G202605.pdf",
+        "publication_code": "G202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51325f-G202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 86,
+        "title": "Sample Benefits, Exclusions, Rx Rider - Short Term Medical (FACT) Spanish",
+        "material_type": "Sample Benefits/Exclusions",
+        "language": "Spanish",
+        "drive_filename": "086 - Sample Benefits, Exclusions, Rx Rider - Short Term Medical (FACT) Spanish - 51325fSP-G202409.pdf",
+        "source_filename": "51325fSP-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51325fSP-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 118,
+        "title": "Short Term Medical Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "118 - Short Term Medical Flyer - 51552-X202605.pdf",
+        "source_filename": "51552-X202605.pdf",
+        "publication_code": "X202605",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51552-X202605.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 119,
+        "title": "Short Term Medical Flyer - Spanish",
+        "material_type": "Flyer",
+        "language": "Spanish",
+        "drive_filename": "119 - Short Term Medical Flyer - Spanish - 51552SP-X202507.pdf",
+        "source_filename": "51552SP-X202507.pdf",
+        "publication_code": "X202507",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51552SP-X202507.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 120,
+        "title": "Short Term Plans Height and Weight Build Chart",
+        "material_type": "Build Chart",
+        "language": "English",
+        "drive_filename": "120 - Short Term Plans Height and Weight Build Chart - 43350-G202211.pdf",
+        "source_filename": "43350-G202211.pdf",
+        "publication_code": "G202211",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=43350-G202211.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 121,
+        "title": "Short Term Prescription Drug List",
+        "material_type": "Prescription Drug List",
+        "language": "English",
+        "drive_filename": "121 - Short Term Prescription Drug List - pdl-4t-ess-stm-0226.pdf",
+        "source_filename": "pdl-4t-ess-stm-0226.pdf",
+        "publication_code": "0226",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=pdl-4t-ess-stm-0226.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 122,
+        "title": "Short Term Prescription Drug List Spanish",
+        "material_type": "Prescription Drug List",
+        "language": "Spanish",
+        "drive_filename": "122 - Short Term Prescription Drug List Spanish - pdl-4t-ess-stm-sp-0226.pdf",
+        "source_filename": "pdl-4t-ess-stm-sp-0226.pdf",
+        "publication_code": "0226",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=pdl-4t-ess-stm-sp-0226.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "Term Life": [
+      {
+        "catalog_index": 31,
+        "title": "Term Life Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "031 - Term Life Brochure - 43938C2-G202112.pdf",
+        "source_filename": "43938C2-G202112.pdf",
+        "publication_code": "G202112",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=43938C2-G202112.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 32,
+        "title": "Term Life Brochure Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "032 - Term Life Brochure Spanish - 43938C2SP-G202112.pdf",
+        "source_filename": "43938C2SP-G202112.pdf",
+        "publication_code": "G202112",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=43938C2SP-G202112.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 78,
+        "title": "Sample Application Questions – Term Life",
+        "material_type": "Sample Application Questions",
+        "language": "English",
+        "drive_filename": "078 - Sample Application Questions - Term Life - 45981-G202108.pdf",
+        "source_filename": "45981-G202108.pdf",
+        "publication_code": "G202108",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45981-G202108.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 79,
+        "title": "Sample Application Questions - Term Life Spanish",
+        "material_type": "Sample Application Questions",
+        "language": "Spanish",
+        "drive_filename": "079 - Sample Application Questions - Term Life Spanish - 45981SP-G202108.pdf",
+        "source_filename": "45981SP-G202108.pdf",
+        "publication_code": "G202108",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45981SP-G202108.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 112,
+        "title": "Sample Policy - Term Life",
+        "material_type": "Sample Policy",
+        "language": "English",
+        "drive_filename": "112 - Sample Policy - Term Life - 51312-G202409.pdf",
+        "source_filename": "51312-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51312-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 113,
+        "title": "Sample Policy - Term Life Spanish",
+        "material_type": "Sample Policy",
+        "language": "Spanish",
+        "drive_filename": "113 - Sample Policy - Term Life Spanish - 51312SP-G202409.pdf",
+        "source_filename": "51312SP-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51312SP-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 132,
+        "title": "Authorization for Release of Information - UnitedHealthcare Life Insurance Company",
+        "material_type": "Authorization/Admin",
+        "language": "English",
+        "drive_filename": "132 - Authorization for Release of Information - UnitedHealthcare Life Insurance Company - 44534-UL201609.pdf",
+        "source_filename": "44534-UL201609.pdf",
+        "publication_code": "UL201609",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=44534-UL201609.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 142,
+        "title": "GRIC Life Insurance Plan Claim Form (Facets)",
+        "material_type": "Claim Form",
+        "language": "English",
+        "drive_filename": "142 - GRIC Life Insurance Plan Claim Form (Facets) - 50128f-G202308.pdf",
+        "source_filename": "50128f-G202308.pdf",
+        "publication_code": "G202308",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50128f-G202308.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "TriTerm Medical": [
+      {
+        "catalog_index": 33,
+        "title": "TriTerm Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "033 - TriTerm Brochure - 52404FL-G202510.pdf",
+        "source_filename": "52404FL-G202510.pdf",
+        "publication_code": "G202510",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52404FL-G202510.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 34,
+        "title": "TriTerm Brochure - Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "034 - TriTerm Brochure - Spanish - 52404FLSP-G202510.pdf",
+        "source_filename": "52404FLSP-G202510.pdf",
+        "publication_code": "G202510",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52404FLSP-G202510.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 35,
+        "title": "TriTerm Hospital & Surgical Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "035 - TriTerm Hospital & Surgical Brochure - 46017P-G202509.pdf",
+        "source_filename": "46017P-G202509.pdf",
+        "publication_code": "G202509",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=46017P-G202509.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 36,
+        "title": "TriTerm Hospital & Surgical Brochure Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "036 - TriTerm Hospital & Surgical Brochure Spanish - 46017PSP-G202509.pdf",
+        "source_filename": "46017PSP-G202509.pdf",
+        "publication_code": "G202509",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=46017PSP-G202509.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 80,
+        "title": "Sample Application Questions - TriTerm Medical",
+        "material_type": "Sample Application Questions",
+        "language": "English",
+        "drive_filename": "080 - Sample Application Questions - TriTerm Medical - 52628-G202509.pdf",
+        "source_filename": "52628-G202509.pdf",
+        "publication_code": "G202509",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52628-G202509.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 81,
+        "title": "Sample Application Questions - TriTerm Medical Spanish",
+        "material_type": "Sample Application Questions",
+        "language": "Spanish",
+        "drive_filename": "081 - Sample Application Questions - TriTerm Medical Spanish - 52628SP-G202509.pdf",
+        "source_filename": "52628SP-G202509.pdf",
+        "publication_code": "G202509",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52628SP-G202509.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 82,
+        "title": "Sample Benefits, Exclusions - TriTerm Value (FACT)",
+        "material_type": "Sample Benefits/Exclusions",
+        "language": "English",
+        "drive_filename": "082 - Sample Benefits, Exclusions - TriTerm Value (FACT) - 52645fv-G202510.pdf",
+        "source_filename": "52645fv-G202510.pdf",
+        "publication_code": "G202510",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52645fv-G202510.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 87,
+        "title": "Sample Benefits, Exclusions, Rx Rider - TriTerm Hospital & Surgical (FACT)",
+        "material_type": "Sample Benefits/Exclusions",
+        "language": "English",
+        "drive_filename": "087 - Sample Benefits, Exclusions, Rx Rider - TriTerm Hospital & Surgical (FACT) - 52644fh-G202510.pdf",
+        "source_filename": "52644fh-G202510.pdf",
+        "publication_code": "G202510",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52644fh-G202510.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 88,
+        "title": "Sample Benefits, Exclusions, Rx Rider - TriTerm Hospital & Surgical (FACT) Spanish",
+        "material_type": "Sample Benefits/Exclusions",
+        "language": "Spanish",
+        "drive_filename": "088 - Sample Benefits, Exclusions, Rx Rider - TriTerm Hospital & Surgical (FACT) Spanish - 52644fhSP-G202510.pdf",
+        "source_filename": "52644fhSP-G202510.pdf",
+        "publication_code": "G202510",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52644fhSP-G202510.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 89,
+        "title": "Sample Benefits, Exclusions, Rx Rider - TriTerm Medical (FACT)",
+        "material_type": "Sample Benefits/Exclusions",
+        "language": "English",
+        "drive_filename": "089 - Sample Benefits, Exclusions, Rx Rider - TriTerm Medical (FACT) - 52643f-G202510.pdf",
+        "source_filename": "52643f-G202510.pdf",
+        "publication_code": "G202510",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52643f-G202510.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 90,
+        "title": "Sample Benefits, Exclusions, Rx Rider - TriTerm Medical (FACT) Spanish",
+        "material_type": "Sample Benefits/Exclusions",
+        "language": "Spanish",
+        "drive_filename": "090 - Sample Benefits, Exclusions, Rx Rider - TriTerm Medical (FACT) Spanish - 52643fSP-G202510.pdf",
+        "source_filename": "52643fSP-G202510.pdf",
+        "publication_code": "G202510",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52643fSP-G202510.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 91,
+        "title": "Sample Benefits, Exclusions, Rx Rider - TriTerm Value (FACT) Spanish",
+        "material_type": "Sample Benefits/Exclusions",
+        "language": "Spanish",
+        "drive_filename": "091 - Sample Benefits, Exclusions, Rx Rider - TriTerm Value (FACT) Spanish - 52645fvSP-G202510.pdf",
+        "source_filename": "52645fvSP-G202510.pdf",
+        "publication_code": "G202510",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52645fvSP-G202510.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 124,
+        "title": "TriTerm Medical Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "124 - TriTerm Medical Flyer - 52777-G202510.pdf",
+        "source_filename": "52777-G202510.pdf",
+        "publication_code": "G202510",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=52777-G202510.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 125,
+        "title": "TriTerm Medical Plans Height and Weight Build Chart",
+        "material_type": "Build Chart",
+        "language": "English",
+        "drive_filename": "125 - TriTerm Medical Plans Height and Weight Build Chart - 45723-G202001.pdf",
+        "source_filename": "45723-G202001.pdf",
+        "publication_code": "G202001",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=45723-G202001.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 126,
+        "title": "TriTerm Prescription Drug List",
+        "material_type": "Prescription Drug List",
+        "language": "English",
+        "drive_filename": "126 - TriTerm Prescription Drug List - pdl-4t-ess-ttm-0226.pdf",
+        "source_filename": "pdl-4t-ess-ttm-0226.pdf",
+        "publication_code": "0226",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=pdl-4t-ess-ttm-0226.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 127,
+        "title": "TriTerm Prescription Drug List Spanish",
+        "material_type": "Prescription Drug List",
+        "language": "Spanish",
+        "drive_filename": "127 - TriTerm Prescription Drug List Spanish - pdl-4t-ess-ttm-sp-0226.pdf",
+        "source_filename": "pdl-4t-ess-ttm-sp-0226.pdf",
+        "publication_code": "0226",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=pdl-4t-ess-ttm-sp-0226.pdf",
+        "drive_file_url": ""
+      }
+    ],
+    "VisionWise": [
+      {
+        "catalog_index": 37,
+        "title": "VisionWise Brochure",
+        "material_type": "Brochure",
+        "language": "English",
+        "drive_filename": "037 - VisionWise Brochure - 50340-G202504.pdf",
+        "source_filename": "50340-G202504.pdf",
+        "publication_code": "G202504",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50340-G202504.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 38,
+        "title": "VisionWise Brochure - Spanish",
+        "material_type": "Brochure",
+        "language": "Spanish",
+        "drive_filename": "038 - VisionWise Brochure - Spanish - 50340SP-G202504.pdf",
+        "source_filename": "50340SP-G202504.pdf",
+        "publication_code": "G202504",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=50340SP-G202504.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 114,
+        "title": "Sample Policy - VisionWise",
+        "material_type": "Sample Policy",
+        "language": "English",
+        "drive_filename": "114 - Sample Policy - VisionWise - 51313-G202409.pdf",
+        "source_filename": "51313-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51313-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 115,
+        "title": "Sample Policy - VisionWise Spanish",
+        "material_type": "Sample Policy",
+        "language": "Spanish",
+        "drive_filename": "115 - Sample Policy - VisionWise Spanish - 51313SP-G202409.pdf",
+        "source_filename": "51313SP-G202409.pdf",
+        "publication_code": "G202409",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51313SP-G202409.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 128,
+        "title": "VisionWise Flyer",
+        "material_type": "Flyer",
+        "language": "English",
+        "drive_filename": "128 - VisionWise Flyer - 51819-G202508.pdf",
+        "source_filename": "51819-G202508.pdf",
+        "publication_code": "G202508",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51819-G202508.pdf",
+        "drive_file_url": ""
+      },
+      {
+        "catalog_index": 129,
+        "title": "VisionWise Flyer Spanish",
+        "material_type": "Flyer",
+        "language": "Spanish",
+        "drive_filename": "129 - VisionWise Flyer Spanish - 51819SP-G202508.pdf",
+        "source_filename": "51819SP-G202508.pdf",
+        "publication_code": "G202508",
+        "source_url": "https://www.uhone.com/api/supplysystem/?filename=51819SP-G202508.pdf",
+        "drive_file_url": ""
+      }
+    ]
+  }
+}
