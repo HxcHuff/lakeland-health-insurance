@@ -35,7 +35,7 @@
     "author": {"@type": "Person", "name": "David Huff", "jobTitle": "Licensed Insurance Agent", "url": "https://lakelandhealthinsurance.com/about/"},
     "publisher": {"@type": "Organization", "name": "Lakeland Health Insurance", "url": "https://lakelandhealthinsurance.com"},
     "datePublished": "2026-05-12",
-    "dateModified": "2026-05-12",
+    "dateModified": "2026-07-24",
     "mainEntityOfPage": {"@type": "WebPage", "@id": "https://lakelandhealthinsurance.com/blog/health-insurance-wesley-chapel-2026.html"},
     "image": ["https://lakelandhealthinsurance.com/david_the_dude2.jpg"]
   }
@@ -118,6 +118,25 @@
     .btn-secondary { border: 1px solid var(--line); color: var(--navy); background: #fff; }
     .small { font-size: 0.9rem; color: var(--gray); }
     footer { padding: 24px 0 40px; }
+
+    /* New site tempo refresh, scoped to this article. */
+    body { background: #EEF3F8; }
+    .top-strip { background: var(--navy); color: #fff; font-size: 0.9rem; padding: 10px 0; }
+    .top-strip a { color: #fff; font-weight: 700; }
+    header.lhi-topbar { background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 30; }
+    header.lhi-topbar nav { padding: 14px 0; }
+    header.lhi-topbar .brand { font-family: 'Instrument Serif', serif; font-size: 1.24rem; line-height: 1.1; }
+    header.lhi-topbar .license { display: block; color: var(--gold); font-family: 'DM Sans', sans-serif; font-size: 0.7rem; font-weight: 700; margin-top: 2px; }
+    body.blog-post .hero { background: linear-gradient(135deg, #1B2A4A 0%, #0F1A2E 100%) !important; color: #fff; margin-left: 0 !important; padding: 52px 20px 72px; width: auto !important; }
+    body.blog-post .hero h1 { color: #fff !important; font-family: 'Instrument Serif', serif; font-size: clamp(2.05rem, 5vw, 3.25rem); line-height: 1.08; max-width: 920px; }
+    body.blog-post .hero p { color: #CBD5E1 !important; font-size: 1.08rem; }
+    body.blog-post .hero .meta { color: #94A3B8 !important; }
+    main.container { margin-top: 0; }
+    main.container > .card { box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08); margin-left: auto; margin-right: auto; max-width: 920px; }
+    main.container > .card.safe { margin-top: -44px; position: relative; z-index: 2; }
+    .btn { border-radius: 8px; font-weight: 800; }
+    .btn-phone { background: var(--navy); border: 1px solid var(--navy); color: #fff; }
+    .lhi-floating-call { display: none !important; }
     @media (max-width: 720px) { .hero h1 { font-size: 1.7rem; } .card { padding: 16px; } }
   </style>
   <link rel="stylesheet" href="/css/blog-unified.css">
@@ -125,13 +144,16 @@
     <link rel="stylesheet" href="/css/site-template.css">
 </head>
 <body class="blog-post">
-  <header>
+  <div class="top-strip">
+    <div class="container">Lakeland Health Insurance | David Huff | FL License #W371813 | NPN 18213932 | <a href="tel:8636403102">863-640-3102</a></div>
+  </div>
+  <header class="lhi-topbar">
     <div class="container">
       <nav>
-        <a href="/">Lakeland Health Insurance</a>
+        <a class="brand" href="/">Lakeland Health Insurance <span class="license">Licensed Florida Insurance Agent</span></a>
         <a href="/blog/">Blog</a>
         <a href="/plans/">Plans</a>
-        <a href="/get-help/">Get Help</a>
+        <a class="btn btn-primary" href="/get-help/">Check Your Options</a>
       </nav>
     </div>
   </header>
@@ -143,7 +165,7 @@
       <p class="meta">Published May 12, 2026 | By David Huff, Licensed Florida Health Insurance Broker (FL License W371813, NPN 18213932)</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="/get-help/">Check Your 2026 Options</a>
-        <a class="btn btn-secondary" href="/wesley-chapel-health-insurance/">Wesley Chapel Plan Hub</a>
+        <a class="btn btn-phone" href="tel:8636403102">Call 863-640-3102</a>
       </div>
     </section>
 
@@ -195,7 +217,7 @@
       <p class="small">Related guides: <a href="/blog/florida-aca-enrollment-and-benefits-2026.html">Florida ACA Enrollment 2026</a>, <a href="/blog/aca-subsidy-cliff.html">ACA Subsidy Cliff</a>, <a href="/blog/health-insurance-self-employed-tax-deductions.html">Self-Employed Tax Deductions</a>, <a href="/blog/aca-subsidy-tax-return-clawback.html">Subsidy Clawback Risk</a>.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="/get-help/">Start Here</a>
-        <a class="btn btn-secondary" href="tel:+18636403102">Call (863) 640-3102</a>
+        <a class="btn btn-phone" href="tel:8636403102">Call 863-640-3102</a>
       </div>
     </section>
 
@@ -221,8 +243,5 @@
 
   <script src="/js/blog-cta.js" defer></script>
   <script src="/js/blog-theme.js" defer></script>
-    <script src="/js/chat-widget.js" defer></script>
-    <script src="/js/blog-floating-actions.js" defer></script>
-    <script src="/js/site-template.js" defer></script>
 </body>
 </html>

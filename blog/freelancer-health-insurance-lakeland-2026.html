@@ -41,7 +41,7 @@
       "url": "https://lakelandhealthinsurance.com"
     },
     "datePublished": "2026-02-01",
-    "dateModified": "2026-03-13",
+    "dateModified": "2026-07-24",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://lakelandhealthinsurance.com/blog/freelancer-health-insurance-lakeland-2026.html"
@@ -138,6 +138,26 @@
     .btn-secondary { border: 1px solid #E2E8F0; color: #1B2A4A; background: #fff; }
     .small { font-size: 0.9rem; color: #475569; }
     footer { padding: 24px 0 40px; }
+
+    /* New site tempo refresh, scoped to this article. */
+    * { box-sizing: border-box; }
+    body { background: #EEF3F8; margin: 0; }
+    .top-strip { background: #1B2A4A; color: #fff; font-size: 0.9rem; padding: 10px 0; }
+    .top-strip a { color: #fff; font-weight: 700; }
+    header.lhi-topbar { background: rgba(255,255,255,0.97); border-bottom: 1px solid #E2E8F0; position: sticky; top: 0; z-index: 30; }
+    header.lhi-topbar nav { align-items: center; display: flex; gap: 14px; justify-content: space-between; padding: 14px 0; }
+    header.lhi-topbar a { color: #1B2A4A; font-weight: 600; text-decoration: none; }
+    header.lhi-topbar .brand { font-family: 'Instrument Serif', serif; font-size: 1.24rem; line-height: 1.1; }
+    header.lhi-topbar .license { display: block; color: #D4A843; font-family: 'DM Sans', sans-serif; font-size: 0.7rem; font-weight: 700; margin-top: 2px; }
+    body.blog-post .hero { background: linear-gradient(135deg, #1B2A4A 0%, #0F1A2E 100%) !important; color: #fff; margin-left: 0 !important; padding: 52px 20px 72px; width: auto !important; }
+    body.blog-post .hero h1 { color: #fff !important; font-family: 'Instrument Serif', serif; font-size: clamp(2.05rem, 5vw, 3.25rem); line-height: 1.08; max-width: 920px; }
+    body.blog-post .hero p { color: #CBD5E1 !important; font-size: 1.08rem; }
+    body.blog-post .hero .meta { color: #94A3B8 !important; }
+    main.container > .card { box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08); margin-left: auto; margin-right: auto; max-width: 920px; }
+    main.container > .card.safe { margin-top: -44px; position: relative; z-index: 2; }
+    .btn { border-radius: 8px; font-weight: 800; }
+    .btn-phone { background: #1B2A4A; border: 1px solid #1B2A4A; color: #fff; }
+    .lhi-floating-call { display: none !important; }
     @media (max-width: 720px) {
       .hero h1 { font-size: 1.7rem; }
       .card { padding: 16px; }
@@ -147,13 +167,16 @@
     <link rel="stylesheet" href="/css/site-template.css">
 </head>
 <body class="blog-post">
-  <header>
+  <div class="top-strip">
+    <div class="container">Lakeland Health Insurance | David Huff | FL License #W371813 | NPN 18213932 | <a href="tel:8636403102">863-640-3102</a></div>
+  </div>
+  <header class="lhi-topbar">
     <div class="container">
       <nav>
-        <a href="/">Lakeland Health Insurance</a>
+        <a class="brand" href="/">Lakeland Health Insurance <span class="license">Licensed Florida Insurance Agent</span></a>
         <a href="/blog/">Blog</a>
         <a href="/plans/">Plans</a>
-        <a href="/get-help/">Get Help</a>
+        <a class="btn btn-primary" href="/get-help/">Check Your Options</a>
       </nav>
     </div>
   </header>
@@ -165,7 +188,7 @@
       <p class="meta">Published February 1, 2026 | Updated March 13, 2026 | By David Huff, Licensed Insurance Agent</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="/get-help/">Get a Freelancer Plan Review</a>
-        <a class="btn btn-secondary" href="/blog/self-employed-tax-deductions-ichra-guide.html">Tax and ICHRA Guide</a>
+        <a class="btn btn-phone" href="tel:8636403102">Call 863-640-3102</a>
       </div>
     </section>
 
@@ -233,7 +256,7 @@
       <p>Get a side-by-side plan comparison aligned to your income pattern, doctors, and budget.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="/get-help/">Start Here</a>
-        <a class="btn btn-secondary" href="tel:+18636403102">Call (863) 640-3102</a>
+        <a class="btn btn-phone" href="tel:8636403102">Call 863-640-3102</a>
       </div>
     </section>
   </main>
@@ -244,8 +267,5 @@
 
   <script src="/js/blog-theme.js" defer></script>
   <script src="/js/blog-cta.js" defer></script>
-    <script src="/js/chat-widget.js" defer></script>
-    <script src="/js/blog-floating-actions.js" defer></script>
-    <script src="/js/site-template.js" defer></script>
 </body>
 </html>
