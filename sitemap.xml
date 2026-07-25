@@ -226,9 +226,16 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/health-insurance-self-employed-lakeland-polk-county-2026.html</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
   </url>
 
   <url>
