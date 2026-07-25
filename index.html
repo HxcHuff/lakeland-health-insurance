@@ -362,7 +362,8 @@
       .medicare-check-card h3 { color: var(--navy); font-size: 1rem; margin-bottom: 0.8rem; }
       .medicare-check-card ul { display: grid; gap: 0.55rem; color: var(--gray-700); list-style-position: inside; }
       .medicare-local-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.2rem; }
-      .medicare-local-row span { background: var(--gold-soft); border-radius: 999px; color: var(--navy); font-size: 0.85rem; font-weight: 700; padding: 0.35rem 0.7rem; }
+      .medicare-local-row a { background: var(--gold-soft); border-radius: 999px; color: var(--navy); font-size: 0.85rem; font-weight: 700; padding: 0.35rem 0.7rem; text-decoration: none; transition: background 0.2s ease, transform 0.2s ease; }
+      .medicare-local-row a:hover, .medicare-local-row a:focus-visible { background: rgba(212,168,67,0.28); transform: translateY(-1px); }
       .start-paths { padding: 64px 0; background: var(--white); border-bottom: 1px solid var(--gray-200); }
       .start-paths h2 { text-align: center; font-family: 'Instrument Serif', serif; font-size: clamp(1.9rem,4vw,2.4rem); font-weight: 400; color: var(--navy); margin-bottom: 0.6rem; }
       .start-paths .subtitle { text-align: center; color: var(--gray-600); max-width: 720px; margin: 0 auto 2rem; font-size: 1.05rem; }
@@ -477,11 +478,11 @@
                 <h2 id="homepage-medicare-title">The best-looking Medicare plan can still be wrong if your doctors or prescriptions do not line up.</h2>
                 <p>Before you enroll or switch, we check your doctors, specialists, pharmacy, medications, plan type, and expected costs. That matters whether you live in Lakeland, Lake Alfred, Haines City, Davenport, Winter Haven, or elsewhere in Polk County.</p>
                 <div class="medicare-local-row" aria-label="Local Medicare service areas">
-                    <span>Lakeland</span>
-                    <span>Lake Alfred</span>
-                    <span>Haines City</span>
-                    <span>Winter Haven</span>
-                    <span>Davenport</span>
+                    <a href="/medicare/">Lakeland</a>
+                    <a href="/lake-alfred-health-insurance/">Lake Alfred</a>
+                    <a href="/haines-city-health-insurance/">Haines City</a>
+                    <a href="/winter-haven-health-insurance/">Winter Haven</a>
+                    <a href="/davenport-health-insurance/">Davenport</a>
                 </div>
                 <div class="hero-cta-group" style="justify-content:flex-start; margin-top:1.5rem;">
                     <a href="/lp/medicare/" class="cta-button">Start Medicare Review</a>
@@ -515,8 +516,8 @@
                 <a class="path-card" href="/blog/short-term-vs-triterm-medical.html">
                     <span class="path-label">Short-term</span>
                     <h3>STM and TriTerm Medical</h3>
-                    <p>Use this when you need a non-ACA bridge, want to understand underwriting, or need to compare full-price ACA against short-term options.</p>
-                    <strong>Compare STM and TriTerm &rarr;</strong>
+                    <p>Use this when you do not qualify for a meaningful ACA subsidy and need a non-ACA medical option, including TriTerm coverage that can run up to 36 months where available.</p>
+                    <strong>Review STM and TriTerm &rarr;</strong>
                 </a>
                 <a class="path-card" href="/health-protector-guard/">
                     <span class="path-label">Fixed-benefit</span>
@@ -533,8 +534,7 @@
             </div>
             <div class="help-proof">
                 <div><strong>No broker fee</strong> You pay the same premium whether you enroll direct or through a licensed broker.</div>
-                <div><strong>Local plan context</strong> Built around Lakeland, Polk County, and Florida carrier/network realities.</div>
-                <div><strong>Cleaner follow-up</strong> Medicare reviews start with doctors, prescriptions, pharmacies, and plan timing.</div>
+                <div><strong>Plan-specific review</strong> We check doctors, prescriptions, pharmacies, and timing before you enroll.</div>
             </div>
         </div>
     </section>
