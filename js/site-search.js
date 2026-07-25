@@ -461,6 +461,12 @@ const siteSearchIndex = [
     tags: ["Products", "Coverage", "Fixed Indemnity"]
   },
   {
+    title: "Short-Term Medical and TriTerm Medical",
+    url: "/short-term-medical/",
+    excerpt: "Review whether Short-Term Medical or TriTerm Medical fits your coverage gap, including underwriting, pre-existing condition limits, networks, deductibles, and supplemental pairings.",
+    tags: ["Products", "Coverage", "Short-Term", "TriTerm"]
+  },
+  {
     title: "About Lakeland Health Insurance",
     url: "/about/",
     excerpt: "Learn about Lakeland Health Insurance and local Florida health coverage guidance.",
