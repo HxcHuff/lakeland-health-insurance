@@ -268,7 +268,18 @@
     sendSupabase(payload);
 
     // 3. Google Ads conversion + Enhanced Conversions (Lead events only)
-    if (name === 'Lead') fireGoogleAdsLead(eventID);
+    if (name === 'Lead') {
+      try {
+        sessionStorage.setItem('lhi_lead_submitted', JSON.stringify({
+          event_id: eventID,
+          content_name: props.content_name || null,
+          page_type: pt,
+          page_path: w.location.pathname,
+          fired_at: Date.now()
+        }));
+      } catch (e) {}
+      fireGoogleAdsLead(eventID);
+    }
   }
 
   function pageView() {

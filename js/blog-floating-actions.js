@@ -9,10 +9,17 @@
   }
 
   function trackCall() {
-    if (typeof window.trackPhoneCall === 'function') {
-      try { window.trackPhoneCall(); } catch (e) {}
-    }
-    if (typeof window.gtag === 'function') {
+    if (typeof window.lhiTrackPhoneClick === 'function') {
+      try { window.lhiTrackPhoneClick('call_david_now', 'phone_call'); } catch (e) {}
+    } else if (typeof window.trackPhoneCall === 'function') {
+      try { window.trackPhoneCall('call_david_now'); } catch (e) {}
+    } else if (typeof window.gtag === 'function') {
+      try {
+        window.gtag('event', 'phone_call_click', {
+          event_category: 'blog_floating_cta',
+          event_label: 'call_david_now'
+        });
+      } catch (e) {}
       try {
         window.gtag('event', 'phone_call', {
           event_category: 'blog_floating_cta',

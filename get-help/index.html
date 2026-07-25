@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Get Free Health Insurance Help in Lakeland, FL | Lakeland Health Insurance</title>
-  <meta name="description" content="Answer a few quick questions and get personalized health insurance guidance from a licensed Florida broker. ACA, Medicare, short-term, and family coverage — free, no obligation.">
+  <title>Get Health Insurance Help in Lakeland, FL | Lakeland Health Insurance</title>
+  <meta name="description" content="Answer a few quick questions and get personalized health insurance guidance from a licensed Florida broker. ACA, Medicare, short-term, supplemental, dental, vision, and family coverage with no client broker fee.">
   <link rel="canonical" href="https://lakelandhealthinsurance.com/get-help/">
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Get Free Health Insurance Help in Lakeland, FL">
-  <meta property="og:description" content="Answer a few quick questions and get personalized health insurance guidance from a licensed Florida broker — free, no obligation.">
+  <meta property="og:title" content="Get Health Insurance Help in Lakeland, FL">
+  <meta property="og:description" content="Answer a few quick questions and get personalized health insurance guidance from a licensed Florida broker with no client broker fee.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://lakelandhealthinsurance.com/get-help/">
   <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Get Free Health Insurance Help in Lakeland, FL">
-  <meta name="twitter:description" content="Answer a few quick questions and get personalized guidance from a licensed Florida broker — free, no obligation.">
+  <meta name="twitter:title" content="Get Health Insurance Help in Lakeland, FL">
+  <meta name="twitter:description" content="Answer a few quick questions and get personalized guidance from a licensed Florida broker with no client broker fee.">
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
@@ -22,7 +22,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Get Free Health Insurance Help",
+    "name": "Get Health Insurance Help",
     "description": "Conversational intake form for personalized health insurance guidance from a licensed Florida broker.",
     "url": "https://lakelandhealthinsurance.com/get-help/",
     "isPartOf": {
@@ -32,7 +32,7 @@
     },
     "mainEntity": {
       "@type": "Service",
-      "name": "Free Health Insurance Consultation",
+      "name": "Health Insurance Plan Review",
       "provider": {
         "@type": "InsuranceAgency",
         "name": "Lakeland Health Insurance",
@@ -47,7 +47,7 @@
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD",
-        "description": "Free health insurance consultation — brokers are paid by carriers, not clients"
+        "description": "Health insurance plan review with no client broker fee. Brokers are paid by carriers, not clients."
       }
     },
     "breadcrumb": {
@@ -61,135 +61,254 @@
   </script>
 
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/site-template.css">
 <style>
     :root {
-      --bg: #111118;
-      --card: #1a1a28;
-      --panel: #222233;
-      --line: #2a2a3a;
-      --ink: #e8e8ec;
-      --muted: #888;
-      --muted-2: #666;
-      --gold: #c8a45e;
-      --gold-soft: rgba(200, 164, 94, 0.15);
+      --msg-blue: #007aff;
+      --msg-gray: #e9e9eb;
+      --msg-ink: #111827;
+      --msg-muted: #6b7280;
+      --msg-border: #d7d7dc;
+      --msg-screen: #f7f7f8;
+      --msg-panel: #ffffff;
+      --gold: #d4a843;
     }
 
     * { box-sizing: border-box; }
 
-    body {
+    body.get-help-page {
       margin: 0;
       min-height: 100vh;
-      background: var(--bg);
-      font-family: 'Libre Franklin', sans-serif;
-      padding: 24px;
-      color: var(--ink);
+      background: #f5f5f7;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--msg-ink);
+    }
+
+    .get-help-page .chat-widget-button,
+    .get-help-page .messenger-button,
+    .get-help-page .click-to-call {
+      display: none !important;
     }
 
     .wrap {
-      min-height: calc(100vh - 48px);
-      display: flex;
       align-items: center;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.92), rgba(245,245,247,0.96)),
+        radial-gradient(circle at 16% 20%, rgba(0,122,255,0.12), transparent 28%),
+        radial-gradient(circle at 82% 14%, rgba(212,168,67,0.18), transparent 24%);
+      display: grid;
+      gap: clamp(1.25rem, 3vw, 3rem);
+      grid-template-columns: minmax(280px, 0.92fr) minmax(340px, 430px);
       justify-content: center;
+      min-height: 100vh;
+      padding: 124px 24px 48px;
+    }
+
+    .page-copy {
+      max-width: 560px;
+    }
+
+    .page-copy .eyebrow {
+      color: #2563eb;
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      margin: 0 0 0.7rem;
+      text-transform: uppercase;
+    }
+
+    .page-copy h1 {
+      color: var(--navy);
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.45rem, 5vw, 4.5rem);
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: 0.98;
+      margin: 0 0 1rem;
+    }
+
+    .page-copy p {
+      color: var(--gray-600);
+      font-size: 1.08rem;
+      line-height: 1.68;
+      margin: 0 0 1rem;
+    }
+
+    .review-points {
+      display: grid;
+      gap: 0.7rem;
+      margin-top: 1.35rem;
+    }
+
+    .review-point {
+      align-items: flex-start;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(215,215,220,0.9);
+      border-radius: 18px;
+      box-shadow: 0 12px 32px rgba(15,26,46,0.06);
+      display: grid;
+      gap: 0.25rem;
+      grid-template-columns: 34px 1fr;
+      padding: 0.85rem 1rem;
+    }
+
+    .review-point .dot {
+      align-items: center;
+      background: #007aff;
+      border-radius: 50%;
+      color: #fff;
+      display: inline-flex;
+      font-size: 0.85rem;
+      font-weight: 900;
+      height: 30px;
+      justify-content: center;
+      width: 30px;
+    }
+
+    .review-point strong {
+      color: var(--navy);
+      display: block;
+      font-size: 0.96rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .review-point span:last-child {
+      color: var(--gray-600);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .phone-shell {
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 52px;
+      box-shadow: 0 30px 80px rgba(15,26,46,0.28);
+      padding: 11px;
+      width: min(100%, 430px);
+    }
+
+    .phone-screen {
+      background: var(--msg-screen);
+      border-radius: 42px;
+      min-height: 690px;
+      overflow: hidden;
+      position: relative;
     }
 
     .card {
-      background: var(--card);
-      border-radius: 24px;
-      max-width: 520px;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      max-width: none;
+      min-height: 690px;
       width: 100%;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
       overflow: hidden;
     }
 
     .head {
-      padding: 28px 28px 20px;
-      border-bottom: 1px solid var(--line);
+      background: rgba(247,247,248,0.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--msg-border);
+      gap: 10px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      padding: 18px 18px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .head:before {
+      color: #007aff;
+      content: "<";
+      font-size: 1.35rem;
+      font-weight: 500;
+      line-height: 1;
+      margin-right: 2px;
     }
 
     .avatar {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      background: var(--gold);
-      color: #1a1a1a;
+      background: linear-gradient(135deg, var(--gold), #f1c766);
+      color: var(--navy-deep);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 18px;
+      font-size: 17px;
     }
 
-    .name { font-size: 15px; font-weight: 600; }
-    .brand { color: var(--muted-2); font-size: 12px; }
+    .name { color: var(--msg-ink); font-size: 15px; font-weight: 800; }
+    .brand { color: var(--msg-muted); font-size: 12px; }
 
     .chat {
-      padding: 24px 28px;
-      max-height: 460px;
-      min-height: 300px;
+      padding: 18px 14px 22px;
+      max-height: 552px;
+      min-height: 528px;
       overflow-y: auto;
     }
 
-    .q-wrap { display: flex; justify-content: flex-start; margin-bottom: 12px; }
+    .q-wrap { display: flex; justify-content: flex-start; margin-bottom: 8px; }
 
     .q {
-      background: #2a2a3a;
-      color: var(--ink);
-      padding: 14px 20px;
-      border-radius: 18px 18px 18px 4px;
-      font-size: 16px;
-      font-weight: 500;
-      max-width: 380px;
-      line-height: 1.5;
-    }
-
-    .q-sub { font-size: 12px; color: #777; margin-top: 4px; margin-left: 8px; }
-
-    .a-wrap { display: flex; justify-content: flex-end; margin-bottom: 8px; }
-
-    .a {
-      background: var(--gold);
-      color: #1a1a1a;
-      padding: 10px 18px;
-      border-radius: 18px 18px 4px 18px;
+      background: var(--msg-gray);
+      color: var(--msg-ink);
+      padding: 10px 14px;
+      border-radius: 19px 19px 19px 5px;
       font-size: 15px;
       font-weight: 500;
-      max-width: 80%;
-      line-height: 1.35;
+      max-width: 310px;
+      line-height: 1.42;
+    }
+
+    .q-sub { font-size: 12px; color: var(--msg-muted); margin-top: 4px; margin-left: 8px; }
+
+    .a-wrap { display: flex; justify-content: flex-end; margin-bottom: 7px; }
+
+    .a {
+      background: var(--msg-blue);
+      color: #fff;
+      padding: 9px 14px;
+      border-radius: 19px 19px 5px 19px;
+      font-size: 15px;
+      font-weight: 600;
+      max-width: 82%;
+      line-height: 1.38;
       word-break: break-word;
     }
 
-    .opts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin-bottom: 8px; }
+    .opts { display: flex; flex-wrap: wrap; gap: 7px; justify-content: flex-end; margin: 8px 0 10px; }
 
     .opt {
-      padding: 10px 18px;
+      padding: 9px 13px;
       border-radius: 20px;
-      border: 1.5px solid #3a3a4a;
-      background: transparent;
-      color: #ccc;
-      font-size: 14px;
+      border: 1px solid rgba(0,122,255,0.28);
+      background: #fff;
+      color: #007aff;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
       transition: all .15s ease;
-      font-family: 'Libre Franklin', sans-serif;
+      font-family: 'DM Sans', sans-serif;
     }
 
-    .opt:hover { border-color: var(--gold); color: var(--gold); }
-    .opt.active { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
+    .opt:hover { background: rgba(0,122,255,0.08); }
+    .opt.active { background: #007aff; border-color: #007aff; color: #fff; }
 
     .mini-btn {
-      padding: 8px 20px;
+      padding: 9px 18px;
       border-radius: 20px;
       border: none;
-      background: var(--gold);
-      color: #1a1a1a;
+      background: var(--msg-blue);
+      color: #fff;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 800;
       cursor: pointer;
-      font-family: 'Libre Franklin', sans-serif;
+      font-family: 'DM Sans', sans-serif;
     }
 
     .text-row { display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 8px; }
@@ -197,31 +316,32 @@
     .text-input {
       padding: 10px 16px;
       border-radius: 20px;
-      border: 1.5px solid #3a3a4a;
-      background: transparent;
-      color: var(--ink);
+      border: 1px solid var(--msg-border);
+      background: #fff;
+      color: var(--msg-ink);
       font-size: 14px;
       width: 120px;
       outline: none;
-      font-family: 'Libre Franklin', sans-serif;
+      font-family: 'DM Sans', sans-serif;
     }
 
     .send {
       padding: 10px 16px;
       border-radius: 20px;
       border: none;
-      background: var(--gold);
-      color: #1a1a1a;
+      background: var(--msg-blue);
+      color: #fff;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      font-family: 'Libre Franklin', sans-serif;
+      font-family: 'DM Sans', sans-serif;
     }
 
     .contact {
-      background: var(--panel);
+      background: #fff;
+      border: 1px solid var(--msg-border);
       border-radius: 16px;
-      padding: 24px;
+      padding: 16px;
       margin-top: 8px;
     }
 
@@ -230,7 +350,7 @@
     .field label {
       display: block;
       font-size: 12px;
-      color: var(--muted);
+      color: var(--msg-muted);
       margin-bottom: 4px;
     }
 
@@ -238,17 +358,17 @@
       width: 100%;
       padding: 12px 14px;
       border-radius: 10px;
-      border: 1.5px solid #3a3a4a;
-      background: #1a1a2a;
-      color: var(--ink);
+      border: 1px solid var(--msg-border);
+      background: #fff;
+      color: var(--msg-ink);
       font-size: 14px;
-      font-family: 'Libre Franklin', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       outline: none;
     }
 
     .consent { display: flex; align-items: flex-start; gap: 10px; margin-top: 8px; }
-    .consent input { margin-top: 2px; accent-color: var(--gold); }
-    .consent span { font-size: 12px; color: #777; line-height: 1.5; }
+    .consent input { margin-top: 2px; accent-color: var(--msg-blue); }
+    .consent span { font-size: 11px; color: var(--msg-muted); line-height: 1.45; }
 
     .submit {
       width: 100%;
@@ -258,22 +378,23 @@
       border: none;
       font-size: 15px;
       font-weight: 600;
-      font-family: 'Libre Franklin', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       transition: all .15s ease;
     }
 
-    .submit.enabled { background: var(--gold); color: #1a1a1a; cursor: pointer; }
-    .submit.disabled { background: #3a3a4a; color: #666; cursor: not-allowed; }
+    .submit.enabled { background: var(--msg-blue); color: #fff; cursor: pointer; }
+    .submit.disabled { background: #d1d5db; color: #777; cursor: not-allowed; }
 
     .foot {
-      padding: 12px 28px 16px;
-      border-top: 1px solid var(--line);
+      background: rgba(247,247,248,0.94);
+      border-top: 1px solid var(--msg-border);
+      padding: 11px 18px 16px;
       text-align: center;
       font-size: 12px;
-      color: #555;
+      color: var(--msg-muted);
     }
 
-    .foot a { color: var(--gold); text-decoration: none; }
+    .foot a { color: var(--msg-blue); text-decoration: none; font-weight: 800; }
 
     .done {
       text-align: center;
@@ -281,15 +402,15 @@
     }
 
     .done h2 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 32px;
-      color: var(--ink);
+      color: var(--navy);
       margin: 0 0 12px;
       font-weight: 700;
     }
 
     .done p {
-      color: var(--muted);
+      color: var(--msg-muted);
       font-size: 16px;
       line-height: 1.6;
       margin: 0;
@@ -298,85 +419,155 @@
     .done-call {
       margin-top: 32px;
       padding: 14px 24px;
-      background: #2a2a3a;
+      background: #fff;
+      border: 1px solid var(--msg-border);
       border-radius: 12px;
       display: inline-block;
       font-size: 14px;
-      color: var(--muted);
+      color: var(--msg-muted);
     }
 
-    .done-call a { color: var(--gold); text-decoration: none; font-weight: 600; }
+    .done-call a { color: var(--msg-blue); text-decoration: none; font-weight: 800; }
+
+    .typing {
+      align-items: center;
+      background: var(--msg-gray);
+      border-radius: 18px 18px 18px 5px;
+      display: inline-flex;
+      gap: 4px;
+      margin: 2px 0 10px;
+      padding: 10px 14px;
+    }
+
+    .typing span {
+      animation: pulse 1.1s infinite ease-in-out;
+      background: #9ca3af;
+      border-radius: 50%;
+      display: block;
+      height: 6px;
+      width: 6px;
+    }
+
+    .typing span:nth-child(2) { animation-delay: 0.16s; }
+    .typing span:nth-child(3) { animation-delay: 0.32s; }
+
+    @keyframes pulse {
+      0%, 80%, 100% { opacity: 0.35; transform: translateY(0); }
+      40% { opacity: 1; transform: translateY(-2px); }
+    }
 
     @media (max-width: 640px) {
-      body { padding: 12px; }
-      .wrap { min-height: auto; }
-      .head { padding: 18px 18px 16px; }
-      .chat { padding: 18px; max-height: 60vh; }
+      .wrap {
+        display: block;
+        min-height: 100vh;
+        padding: 94px 12px 28px;
+      }
+
+      .page-copy {
+        margin: 0 auto 1rem;
+        max-width: 430px;
+      }
+
+      .page-copy h1 {
+        font-size: 2.35rem;
+      }
+
+      .review-points {
+        display: none;
+      }
+
+      .phone-shell {
+        margin: 0 auto;
+        max-width: 430px;
+      }
+
+      .phone-screen,
+      .card {
+        min-height: 620px;
+      }
+
+      .head { padding: 16px 16px 13px; }
+      .chat { padding: 16px 12px; max-height: 492px; min-height: 468px; }
       .foot { padding: 12px 18px 16px; }
       .q { max-width: 88vw; }
     }
   </style>
     <script defer src="/js/analytics.js?v=20260721-meta-removal"></script>
-    <link rel="stylesheet" href="/css/site-template.css">
 </head>
-<body>
+<body class="get-help-page">
   <main class="wrap">
-    <section class="card">
-      <div id="activeState">
-        <div class="head">
-          <div class="avatar">D</div>
-          <div>
-            <div class="name" style="margin:0;font-size:inherit;font-weight:inherit;line-height:inherit;">David Huff</div>
-            <div class="brand">Lakeland Health Insurance</div>
-          </div>
-        </div>
-
-        <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm" data-funnel-track data-funnel-event="Lead" data-funnel-name="get_help_conversational">
-          <input type="hidden" name="form-name" value="get-help">
-          <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
-          <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;">
-            <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
-            <label>Company <input name="company" tabindex="-1" autocomplete="off"></label>
-          </div>
-
-          <input type="hidden" name="coverage_type" id="coverageInput">
-          <input type="hidden" name="household_size" id="householdInput">
-          <input type="hidden" name="current_coverage_status" id="statusInput">
-          <input type="hidden" name="renewal_timing" id="timingInput">
-          <input type="hidden" name="main_concern" id="concernsInput">
-          <input type="hidden" name="zip_code" id="zipInput">
-          <input type="hidden" name="full_name" id="fullNameInput">
-          <input type="hidden" name="phone" id="phoneInput">
-          <input type="hidden" name="email" id="emailInput">
-          <input type="hidden" name="consent" id="consentInput">
-          <input type="hidden" name="lead_source" id="leadSourceInput">
-          <input type="hidden" name="product_interest" id="productInterestInput">
-          <input type="hidden" name="plan_interest" id="planInterestInput">
-          <input type="hidden" name="_subject" value="New Lead: Plan-Specific Help Request">
-          <input type="hidden" name="source_page" id="sourcePageInput" value="/get-help/">
-          <input type="hidden" name="referral_page" id="referralPageInput">
-          <input type="hidden" name="started_at" id="startedAtInput">
-          <input type="hidden" name="human_check" id="humanCheckInput">
-
-          <div class="chat" id="chat"></div>
-        </form>
-
-        <div class="foot">
-          Or call directly:
-          <a href="tel:8636403102">(863) 640-3102</a>
-        </div>
-      </div>
-
-      <div id="doneState" class="done" style="display:none;">
-        <div style="font-size:44px; margin-bottom:20px;">🤝</div>
-        <h2>Got it. David's on it.</h2>
-        <p>Expect a call or text within one business day.</p>
-        <div class="done-call">
-          Can't wait?
-          <a href="tel:8636403102">(863) 640-3102</a>
-        </div>
+    <section class="page-copy" aria-labelledby="get-help-title">
+      <p class="eyebrow">Text-style plan review</p>
+      <h1 id="get-help-title">Start with the details that actually decide the right plan.</h1>
+      <p>Answer a few quick questions, then David can review your coverage around doctors, prescriptions, timing, ZIP code, and budget.</p>
+      <p>No call-center handoff. You can start here and still call directly if that is easier.</p>
+      <div class="review-points" aria-label="What David checks">
+        <div class="review-point"><span class="dot">1</span><span><strong>Your coverage lane</strong><span>ACA, Medicare, short-term, dental, vision, or supplemental coverage.</span></span></div>
+        <div class="review-point"><span class="dot">2</span><span><strong>Your real-world fit</strong><span>Doctors, prescriptions, pharmacies, renewal timing, and local network issues.</span></span></div>
+        <div class="review-point"><span class="dot">3</span><span><strong>Your next step</strong><span>A plan review, quick call, or a cleaner route if staying put makes more sense.</span></span></div>
       </div>
     </section>
+
+    <div class="phone-shell" aria-label="Message-style insurance intake">
+      <div class="phone-screen">
+        <section class="card">
+          <div id="activeState">
+            <div class="head">
+              <div class="avatar">D</div>
+              <div>
+                <div class="name" style="margin:0;font-size:inherit;font-weight:inherit;line-height:inherit;">David Huff</div>
+                <div class="brand">Usually replies personally</div>
+              </div>
+            </div>
+
+            <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm" data-funnel-track data-funnel-event="Lead" data-funnel-name="get_help_conversational">
+              <input type="hidden" name="form-name" value="get-help">
+              <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+              <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;">
+                <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
+                <label>Company <input name="company" tabindex="-1" autocomplete="off"></label>
+              </div>
+
+              <input type="hidden" name="coverage_type" id="coverageInput">
+              <input type="hidden" name="household_size" id="householdInput">
+              <input type="hidden" name="current_coverage_status" id="statusInput">
+              <input type="hidden" name="renewal_timing" id="timingInput">
+              <input type="hidden" name="main_concern" id="concernsInput">
+              <input type="hidden" name="zip_code" id="zipInput">
+              <input type="hidden" name="full_name" id="fullNameInput">
+              <input type="hidden" name="phone" id="phoneInput">
+              <input type="hidden" name="email" id="emailInput">
+              <input type="hidden" name="consent" id="consentInput">
+              <input type="hidden" name="lead_source" id="leadSourceInput">
+              <input type="hidden" name="product_interest" id="productInterestInput">
+              <input type="hidden" name="plan_interest" id="planInterestInput">
+              <input type="hidden" name="_subject" value="New Lead: Plan-Specific Help Request">
+              <input type="hidden" name="source_page" id="sourcePageInput" value="/get-help/">
+              <input type="hidden" name="referral_page" id="referralPageInput">
+              <input type="hidden" name="started_at" id="startedAtInput">
+              <input type="hidden" name="human_check" id="humanCheckInput">
+
+              <div class="chat" id="chat"></div>
+            </form>
+
+            <div class="foot">
+              Or call directly:
+              <a href="tel:8636403102">(863) 640-3102</a>
+            </div>
+          </div>
+
+          <div id="doneState" class="done" style="display:none;">
+            <div style="font-size:44px; margin-bottom:20px;">OK</div>
+            <h2>Got it. David's on it.</h2>
+            <p>Expect a call or text within one business day.</p>
+            <div class="done-call">
+              Can't wait?
+              <a href="tel:8636403102">(863) 640-3102</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
   </main>
 
   <script>
@@ -384,7 +575,7 @@
       var QUESTIONS = [
         {
           id: 'coverageType',
-          question: 'What kind of coverage are you looking for?',
+          question: 'What kind of coverage are we looking at?',
           type: 'single',
           options: [
             'ACA / Marketplace',
@@ -397,13 +588,13 @@
         },
         {
           id: 'householdSize',
-          question: 'Who needs coverage?',
+          question: 'Who needs the plan?',
           type: 'single',
           options: ['Just me', 'Me + spouse', 'Me + child(ren)', 'Family (3+)']
         },
         {
           id: 'status',
-          question: "What's your current situation?",
+          question: "What's going on right now?",
           type: 'single',
           options: [
             'Currently uninsured',
@@ -415,20 +606,20 @@
         },
         {
           id: 'timing',
-          question: 'How soon do you need coverage?',
+          question: 'When do you need this handled?',
           type: 'single',
           options: ['ASAP', 'Within 30 days', 'Next open enrollment', 'Just exploring']
         },
         {
           id: 'concerns',
-          question: 'What matters most to you?',
+          question: 'What should I pay closest attention to?',
           subtitle: 'Pick all that apply',
           type: 'multi',
           options: ['Lower premiums', 'Keep my doctors', 'Rx coverage', 'Low deductibles', 'Understanding my options']
         },
         {
           id: 'zip',
-          question: "What's your ZIP code?",
+          question: "What's your ZIP code? Plan options can change by area.",
           type: 'text',
           placeholder: '33801'
         },
@@ -647,7 +838,7 @@
         var block = document.createElement('div');
 
         block.appendChild(aBubble(answers.leadSource || ''));
-        block.appendChild(qBubble('Perfect. Last step - how should I reach you?'));
+        block.appendChild(qBubble('Perfect. Send your contact info and I can follow up with the right next step.'));
 
         var c = document.createElement('div');
         c.className = 'contact';
@@ -781,7 +972,8 @@
         syncHiddenFields();
         chat.innerHTML = '';
 
-        chat.appendChild(qBubble("Hey - let's find you the right plan. I've got a few quick questions."));
+        chat.appendChild(qBubble("Hey, this is David. Send me the basics and I'll help narrow the plan choices."));
+        chat.appendChild(qBubble("I'll look at doctors, prescriptions, timing, and whether changing plans actually makes sense."));
 
         for (var i = 0; i <= currentQ && i < QUESTIONS.length; i += 1) {
           var q = QUESTIONS[i];
@@ -813,7 +1005,6 @@
       render();
     })();
   </script>
-  <script src="/js/chat-widget.js" defer></script>
-    <script src="/js/site-template.js" defer></script>
+  <script src="/js/site-template.js" defer></script>
 </body>
 </html>

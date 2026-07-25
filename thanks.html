@@ -2,24 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- GA4 + GTM loaded by /js/analytics.js (prod-gated). Conversion events below still fire via dataLayer. --><script>
+    <!-- GA4 + GTM loaded by /js/analytics.js (prod-gated). Conversion events below fire only after a tracked form submit. --><script>
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function(){dataLayer.push(arguments);};
 
-      // Track form conversion
-      gtag('event', 'conversion', {
-        'event_category': 'Lead Generation',
-        'event_label': 'Health Insurance Quote Request Completed',
-        'value': 1
-      });
-      
-      // Track goal completion
-      gtag('event', 'generate_lead', {
-        'event_category': 'engagement',
-        'event_label': 'quote_request_form'
-      });
-      
-      console.log('✅ Form conversion tracked successfully');
+      (function () {
+        var marker = null;
+        try {
+          var raw = sessionStorage.getItem('lhi_lead_submitted');
+          if (raw) {
+            sessionStorage.removeItem('lhi_lead_submitted');
+            marker = JSON.parse(raw);
+          }
+        } catch (e) {}
+
+        if (!marker || !marker.fired_at || Date.now() - marker.fired_at > 30 * 60 * 1000) {
+          window.__LHI_THANKS_LEAD_MARKER = null;
+          return;
+        }
+
+        window.__LHI_THANKS_LEAD_MARKER = marker;
+        var params = {
+          event_category: 'engagement',
+          event_label: marker.content_name || 'quote_request_form',
+          event_id: marker.event_id,
+          page_type: marker.page_type,
+          source_page: marker.page_path
+        };
+
+        gtag('event', 'conversion', Object.assign({}, params, {
+          event_category: 'Lead Generation',
+          event_label: 'Health Insurance Quote Request Completed',
+          value: 1
+        }));
+
+        gtag('event', 'generate_lead', params);
+      })();
     </script><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thank You - Lakeland Health Insurance | We'll Contact You Soon</title>
     <meta name="description" content="Thank you for requesting a health insurance quote. David will personally contact you within 24 hours with your custom health insurance options.">
@@ -463,9 +481,10 @@ header .cta-button {
     </script>
     <script src="/js/chat-widget.js" defer></script>
     <script>
-      // Fire CompleteRegistration on conversion page — delayed so pixel + funnel are ready.
+      // Fire CompleteRegistration only after a same-session tracked lead submit.
       (function(){
         function fire(){
+          if (!window.__LHI_THANKS_LEAD_MARKER) return;
           if (window.LHI && typeof window.LHI.track === 'function') window.LHI.track('CompleteRegistration', { content_name: 'thanks_page' });
         }
         if (document.readyState === 'complete') setTimeout(fire, 4000);

@@ -3,6 +3,7 @@
    deploys, and localhost are explicitly excluded to keep reporting clean. */
 (function(){
   var loaded=false;
+  var lastPhoneCanonicalAt = 0;
 
   /* ---- Production-host gate -------------------------------------------- */
   var host = (typeof location !== 'undefined' && location.hostname || '').toLowerCase();
@@ -23,6 +24,44 @@
 
   /* Expose for other scripts (funnel.js) */
   window.__LHI_IS_PROD = IS_PROD;
+
+  function pushDataLayerEvent(name, params) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: name }, params || {}));
+  }
+
+  function trackPhoneClick(label, legacyName) {
+    var params = {
+      event_category: 'engagement',
+      event_label: label || 'phone_link',
+      transport_type: 'beacon'
+    };
+    var now = Date.now();
+
+    if (now - lastPhoneCanonicalAt > 500) {
+      pushDataLayerEvent('phone_call_click', params);
+      lastPhoneCanonicalAt = now;
+    }
+
+    if (legacyName) {
+      pushDataLayerEvent(legacyName, params);
+    }
+  }
+
+  window.lhiTrackPhoneClick = trackPhoneClick;
+  window.trackPhoneCall = window.trackPhoneCall || function (label) {
+    trackPhoneClick(label || 'click_to_call_button', 'phone_call');
+  };
+
+  document.addEventListener('click', function (event) {
+    var link = event.target && event.target.closest ? event.target.closest('a[href^="tel:"]') : null;
+    if (!link) return;
+    var label = link.getAttribute('data-analytics-label') ||
+      link.getAttribute('aria-label') ||
+      (link.textContent || '').trim() ||
+      'phone_link';
+    trackPhoneClick(label);
+  }, { capture: true });
 
   function init(){
     if(loaded)return;loaded=true;

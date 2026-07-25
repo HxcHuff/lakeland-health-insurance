@@ -25,7 +25,10 @@
   }
   callBtn.innerHTML = '<span class="call-widget-icon" aria-hidden="true">&#9742;</span><span>Call: (863) 640-3102</span>';
   callBtn.addEventListener('click', function () {
-    if (typeof gtag === 'function') {
+    if (typeof window.lhiTrackPhoneClick === 'function') {
+      try { window.lhiTrackPhoneClick('floating_call_button', 'phone_click'); } catch (e) {}
+    } else if (typeof gtag === 'function') {
+      try { gtag('event', 'phone_call_click', { event_category: 'engagement', event_label: 'floating_call_button' }); } catch (e) {}
       try { gtag('event', 'phone_click', { event_category: 'engagement', event_label: 'floating_call_button' }); } catch (e) {}
     }
   });

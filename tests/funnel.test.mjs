@@ -23,12 +23,26 @@ import vm from 'node:vm';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FUNNEL_SRC = readFileSync(resolve(__dirname, '../js/funnel.js'), 'utf8');
+const ANALYTICS_SRC = readFileSync(resolve(__dirname, '../js/analytics.js'), 'utf8');
+const THANKS_SRC = readFileSync(resolve(__dirname, '../thanks.html'), 'utf8');
+
+function makeSessionStorage(initial = {}) {
+  const store = new Map(Object.entries(initial));
+  return {
+    getItem: (key) => store.has(key) ? store.get(key) : null,
+    setItem: (key, value) => { store.set(key, String(value)); },
+    removeItem: (key) => { store.delete(key); },
+    clear: () => { store.clear(); },
+    _dump: () => Object.fromEntries(store)
+  };
+}
 
 /* Build a sandbox that mimics the browser globals funnel.js touches.
    __LHI_IS_PROD=false silences gtag/Supabase fire paths so loading
    the script has no side-effects beyond attaching window.LHI. */
 function loadFunnel({ pathname = '/' } = {}) {
   const dataLayer = [];
+  const sessionStorage = makeSessionStorage();
   const sandbox = {
     __LHI_TEST: true,
     __LHI_IS_PROD: false,
@@ -56,7 +70,8 @@ function loadFunnel({ pathname = '/' } = {}) {
     Blob: globalThis.Blob,
     fetch: () => Promise.resolve({ ok: true }),
     setTimeout: () => 0,
-    dataLayer
+    dataLayer,
+    sessionStorage
   };
   /* funnel.js IIFE call: (function(w,d){...})(window||this, document).
      We pass the sandbox itself as `window`, and sandbox.document as `document`. */
@@ -65,6 +80,76 @@ function loadFunnel({ pathname = '/' } = {}) {
   vm.createContext(sandbox);
   vm.runInContext(FUNNEL_SRC, sandbox, { filename: 'funnel.js' });
   return sandbox;
+}
+
+function loadAnalytics({ pathname = '/', telLabel = 'Call David' } = {}) {
+  const listeners = {};
+  const dataLayer = [];
+  const telLink = {
+    getAttribute(name) {
+      if (name === 'data-analytics-label') return null;
+      if (name === 'aria-label') return telLabel;
+      return null;
+    },
+    textContent: telLabel
+  };
+  const sandbox = {
+    console: { info: () => {} },
+    localStorage: makeSessionStorage(),
+    dataLayer,
+    location: {
+      hostname: 'localhost',
+      pathname,
+      search: '',
+      href: 'http://localhost' + pathname
+    },
+    document: {
+      addEventListener(type, cb) { listeners[type] = cb; },
+      createElement: () => ({ async: false, src: '' }),
+      head: { appendChild: () => {} },
+      readyState: 'loading'
+    },
+    window: null,
+    Date,
+    Object,
+    setTimeout: () => 0,
+    addEventListener: () => {},
+    removeEventListener: () => {}
+  };
+  sandbox.window = sandbox;
+  vm.createContext(sandbox);
+  vm.runInContext(ANALYTICS_SRC, sandbox, { filename: 'analytics.js' });
+  return {
+    sandbox,
+    dataLayer,
+    clickTel() {
+      listeners.click({
+        target: {
+          closest(selector) {
+            return selector === 'a[href^="tel:"]' ? telLink : null;
+          }
+        }
+      });
+    }
+  };
+}
+
+function runThanksHeadScript(sessionStorage) {
+  const match = THANKS_SRC.match(/<script>([\s\S]*?)<\/script>/);
+  assert.ok(match, 'thanks.html head script found');
+  const dataLayer = [];
+  const sandbox = {
+    dataLayer,
+    sessionStorage,
+    window: null,
+    Date,
+    JSON,
+    Object
+  };
+  sandbox.window = sandbox;
+  vm.createContext(sandbox);
+  vm.runInContext(match[1], sandbox, { filename: 'thanks-head-script.js' });
+  return { sandbox, dataLayer };
 }
 
 test('exposes test surface only when __LHI_TEST=true', () => {
@@ -204,4 +289,67 @@ test('LEAD_CONVERSION_SEND_TO — has the expected Google Ads format', () => {
   const { LEAD_CONVERSION_SEND_TO } = loadFunnel().LHI._t;
   /* AW-<account>/<label>. Catches accidental edits that break gtag dispatch. */
   assert.match(LEAD_CONVERSION_SEND_TO, /^AW-\d+\/[A-Za-z0-9_-]+$/);
+});
+
+test('phone clicks fire canonical phone_call_click', () => {
+  const { dataLayer, clickTel } = loadAnalytics({ telLabel: 'Call 863-640-3102' });
+
+  clickTel();
+
+  assert.ok(dataLayer.some((entry) => entry.event === 'phone_call_click'), 'canonical phone_call_click event fired');
+});
+
+test('legacy phone_call remains supported through shared helper', () => {
+  const { sandbox, dataLayer } = loadAnalytics();
+
+  sandbox.trackPhoneCall('legacy_call_button');
+
+  assert.ok(dataLayer.some((entry) => entry.event === 'phone_call_click'), 'canonical event still fires');
+  assert.ok(dataLayer.some((entry) => entry.event === 'phone_call'), 'legacy phone_call event still fires');
+});
+
+test('Lead tracking sets pending thank-you lead marker', () => {
+  const w = loadFunnel({ pathname: '/lp/aca/' });
+
+  w.LHI.track('Lead', { content_name: 'lp_aca_lead_form' });
+
+  const raw = w.sessionStorage.getItem('lhi_lead_submitted');
+  assert.ok(raw, 'pending lead marker stored');
+  const marker = JSON.parse(raw);
+  assert.match(marker.event_id, /^lhi_\d+_[a-z0-9]+$/);
+  assert.equal(marker.content_name, 'lp_aca_lead_form');
+  assert.equal(marker.page_type, 'lp_aca');
+  assert.equal(marker.page_path, '/lp/aca/');
+  assert.equal(typeof marker.fired_at, 'number');
+});
+
+test('thanks.html does not fire generate_lead without pending marker', () => {
+  const { dataLayer, sandbox } = runThanksHeadScript(makeSessionStorage());
+
+  assert.equal(sandbox.__LHI_THANKS_LEAD_MARKER, null);
+  assert.equal(dataLayer.some((entry) => entry[0] === 'event' && entry[1] === 'generate_lead'), false);
+});
+
+test('thanks.html fires generate_lead once when pending marker exists', () => {
+  const marker = {
+    event_id: 'lhi_test_123',
+    content_name: 'lp_aca_lead_form',
+    page_type: 'lp_aca',
+    page_path: '/lp/aca/',
+    fired_at: Date.now()
+  };
+  const storage = makeSessionStorage({ lhi_lead_submitted: JSON.stringify(marker) });
+
+  const { dataLayer, sandbox } = runThanksHeadScript(storage);
+
+  assert.deepEqual(sandbox.__LHI_THANKS_LEAD_MARKER, marker);
+  assert.equal(storage.getItem('lhi_lead_submitted'), null, 'marker consumed after use');
+
+  const generateLeadEvents = dataLayer.filter((entry) => entry[0] === 'event' && entry[1] === 'generate_lead');
+  assert.equal(generateLeadEvents.length, 1);
+  assert.equal(generateLeadEvents[0][2].event_id, 'lhi_test_123');
+  assert.equal(generateLeadEvents[0][2].event_label, 'lp_aca_lead_form');
+
+  const secondRun = runThanksHeadScript(storage);
+  assert.equal(secondRun.dataLayer.some((entry) => entry[0] === 'event' && entry[1] === 'generate_lead'), false);
 });
