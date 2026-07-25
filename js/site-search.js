@@ -130,7 +130,7 @@ const siteSearchIndex = [
   },
   {
     title: "Orlando Health and Watson Clinic: What It Means for Your Insurance",
-    url: "/blog/lakeland-regional-watson-clinic-insurance-2026.html",
+    url: "/blog/orlando-health-watson-clinic-insurance-2026.html",
     excerpt: "A current guide to the Orlando Health and Watson Clinic affiliation, the July 2026 hospital opening, and the network checks ACA and Medicare shoppers still need.",
     tags: ["Lakeland", "Local", "Networks", "Orlando Health", "Watson Clinic"]
   },

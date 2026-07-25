@@ -29,7 +29,7 @@ Implemented crawl/indexing and metadata fixes to remove conflicting signals, res
     - `https://lakelandhealthinsurance.com/david_the_dude2.jpg`
   - Updated `og:url` to canonical `.html` URL.
 
-- File: `blog/lakeland-regional-watson-clinic-insurance-2026.html`
+- File: `blog/orlando-health-watson-clinic-insurance-2026.html`
   - Updated `og:image` and `twitter:image` to existing asset:
     - `https://lakelandhealthinsurance.com/assets/lakeland-regional-health-facility.jpg`
   - Updated `og:url` to canonical `.html` URL.
