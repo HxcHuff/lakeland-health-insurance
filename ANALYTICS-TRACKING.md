@@ -27,6 +27,10 @@
 - Google Tag (`gtag.js`) fires `page_view` directly — **Enhanced Measurement page view toggle is intentionally disabled** to prevent double-counting
 - All other Enhanced Measurement events are active: Scrolls, Outbound Clicks, Site Search, Form Interactions, Video Engagement, File Downloads
 - Tag sends to two destinations: GA4 (Main Website) + Google Ads (David)
+- Website funnel events are documented in `FUNNEL-EVENT-DICTIONARY.md`
+- `js/funnel.js` owns `Lead`, `Subscriber`, `Schedule`, `PhoneClick`, `MessengerClick`, and `SelfServiceQuoteClick` dataLayer events
+- Newsletter and guide opt-in forms must use `Subscriber`; they are not sales leads
+- `thanks.html` may fire the legacy `generate_lead` event only after a same-session `Lead` marker exists
 
 ### GTM / Tag Notes
 - One blog page confirmed **untagged**: `/blog/lost-job-health...` (partial URL from tag coverage scan)

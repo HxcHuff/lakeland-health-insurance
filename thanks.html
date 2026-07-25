@@ -40,18 +40,18 @@
       })();
     </script><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thank You - Lakeland Health Insurance | We'll Contact You Soon</title>
-    <meta name="description" content="Thank you for requesting a health insurance quote. David will personally contact you within 24 hours with your custom health insurance options.">
+    <meta name="description" content="Thank you for contacting Lakeland Health Insurance. Review next steps, call David, or schedule a time.">
     <link rel="canonical" href="https://lakelandhealthinsurance.com/thanks.html">
     <meta name="robots" content="noindex, nofollow">
     <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
     <meta property="og:title" content="Thank You - Lakeland Health Insurance | We'll Contact You Soon">
-    <meta property="og:description" content="Thank you for requesting a health insurance quote. David will personally contact you within 24 hours with your custom health insurance options.">
+    <meta property="og:description" content="Thank you for contacting Lakeland Health Insurance. Review next steps, call David, or schedule a time.">
     <meta property="og:url" content="https://lakelandhealthinsurance.com/thanks.html">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lakeland Health Insurance">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Thank You - Lakeland Health Insurance | We'll Contact You Soon">
-    <meta name="twitter:description" content="Thank you for requesting a health insurance quote. David will personally contact you within 24 hours with your custom health insurance options.">
+    <meta name="twitter:description" content="Thank you for contacting Lakeland Health Insurance. Review next steps, call David, or schedule a time.">
     <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1B2A4A">
@@ -386,75 +386,143 @@ header .cta-button {
                 ✓
             </div>
             
-            <h1>Thank You - You're In</h1>
-            <p class="subtitle">Your request was submitted successfully. Here is exactly what to expect next.</p>
+            <h1 id="thanks-title">Request Received</h1>
+            <p class="subtitle" id="thanks-subtitle">Your request was submitted successfully. Here is what to expect next.</p>
             
             <div class="next-steps">
-                <h3>What to Expect Next</h3>
+                <h3 id="thanks-next-heading">What to Expect Next</h3>
                 
                 <div class="step">
                     <div class="step-number">1</div>
                     <div>
-                        <strong>Initial Review (Same Day)</strong><br>
-                        We review your ZIP, coverage type, and timeline to prepare the right plan path before outreach.
+                        <strong id="thanks-step-1-title">Initial Review</strong><br>
+                        <span id="thanks-step-1-copy">David reviews the safe context provided with your request, such as coverage type, timing, and ZIP code when available.</span>
                     </div>
                 </div>
                 
                 <div class="step">
                     <div class="step-number">2</div>
                     <div>
-                        <strong>Direct Contact (Usually Within 5-60 Minutes During Business Hours)</strong><br>
-                        David will call or text you directly. If submitted after hours, outreach starts the next business morning.
+                        <strong id="thanks-step-2-title">Direct Contact</strong><br>
+                        <span id="thanks-step-2-copy">During business hours, David reviews requests as availability allows. If timing is urgent, calling or scheduling is the fastest path.</span>
                     </div>
                 </div>
                 
                 <div class="step">
                     <div class="step-number">3</div>
                     <div>
-                        <strong>Structured Recommendation + Enrollment Steps</strong><br>
-                        You get a clear plan comparison, exact next actions, and guided enrollment support.
+                        <strong id="thanks-step-3-title">Next-Step Review</strong><br>
+                        <span id="thanks-step-3-copy">David will help identify what should be verified before you rely on a coverage path, plan, or enrollment decision.</span>
                     </div>
                 </div>
             </div>
 
             <div class="next-steps" style="margin-top:1rem;">
-                <h3>What to Have Ready</h3>
+                <h3 id="thanks-ready-heading">What to Have Ready</h3>
                 <div class="step">
                     <div class="step-number">1</div>
-                    <div><strong>Household info:</strong> names, ZIP, and household size.</div>
+                    <div id="thanks-ready-1"><strong>Basic coverage context:</strong> ZIP code, household size, and who needs coverage if relevant.</div>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
-                    <div><strong>Income estimate:</strong> projected annual household income.</div>
+                    <div id="thanks-ready-2"><strong>Timing details:</strong> renewal date, coverage end date, or Medicare timing question if relevant.</div>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
-                    <div><strong>Current coverage status:</strong> active coverage, end date, or qualifying event details.</div>
+                    <div id="thanks-ready-3"><strong>Review priorities:</strong> doctors, prescriptions, pharmacy, budget, or documents you want checked.</div>
                 </div>
             </div>
             
             <div class="contact-info">
                 <h4>Need to Talk Sooner?</h4>
-                <div class="phone-number">📞 (863) 640-3102</div>
+                <div class="phone-number">(863) 640-3102</div>
                 <p>Mon-Fri 8AM-8PM EST • Sat 9AM-5PM EST</p>
                 <p>dhuff@healthmarkets.com</p>
             </div>
             
             <div class="cta-buttons">
                 <a href="tel:+18636403102" class="btn btn-primary">
-                    📞 Call Now
+                    Call Now
+                </a>
+                <a href="/calendly-book.html" class="btn btn-secondary" id="thanks-schedule-link">
+                    Schedule a Time
                 </a>
                 <a href="/" class="btn btn-secondary">
                     &larr; Back to Website
                 </a>
             </div>
-            
-            <div class="social-proof">
-                <p>"David helped us save over $300/month on our family health insurance while getting better coverage. Highly recommend!" - Sarah M., Lakeland</p>
-            </div>
             <p style="margin-top:1.5rem;font-size:0.85rem;"><a href="/privacy-policy.html" style="color:#2563EB;">Privacy Policy</a></p>
         </div>
     </div>
+
+    <script>
+      (function(){
+        var marker = window.__LHI_THANKS_LEAD_MARKER || {};
+        var params = new URLSearchParams(window.location.search);
+        var intent = marker.intent || params.get('intent') || 'general';
+        var variants = {
+          newsletter: {
+            title: 'Subscription Confirmed',
+            subtitle: 'Your newsletter request was received. This is not counted as a sales lead.',
+            ready: ['Your selected topic preference if you shared one.', 'Future emails include an unsubscribe option.', 'Use the site resources while you wait for the next issue.']
+          },
+          coverage_change: {
+            title: 'Coverage Change Checkup Received',
+            subtitle: 'David will review the timing and documents that may affect your next coverage path.',
+            ready: ['COBRA notice, termination notice, move date, or Medicaid/CHIP notice if available.', 'Coverage end date and ZIP code.', 'Doctors, prescriptions, or budget concerns you want compared.']
+          },
+          turning_65: {
+            title: 'Medicare Countdown Request Received',
+            subtitle: 'David will review the timing questions around your Medicare transition.',
+            ready: ['Birth month and year, not a full date of birth.', 'Current employer, spouse, Marketplace, or retiree coverage context.', 'Doctors, prescriptions, pharmacy, and travel priorities.']
+          },
+          provider_network: {
+            title: 'Provider and Prescription Check Received',
+            subtitle: 'David will review what needs exact-plan verification before you rely on a network or formulary answer.',
+            ready: ['Preferred doctors, facility, or pharmacy names.', 'Plan name or coverage type if known.', 'Benefit year and ZIP code.']
+          },
+          aging_off_26: {
+            title: 'Age-26 Timeline Request Received',
+            subtitle: 'David will review the timing and coverage paths that may apply as parent coverage changes.',
+            ready: ['When parent coverage may end.', 'Employer, student, relocation, or Marketplace context.', 'ZIP code and any must-check doctors or prescriptions.']
+          },
+          self_employed: {
+            title: 'Income Checkup Request Received',
+            subtitle: 'David will review the insurance side of your income estimate. This is not tax advice.',
+            ready: ['Projected household income range.', 'Any expected business-income changes.', 'ZIP code, doctors, prescriptions, and coverage timing.']
+          },
+          employer_offboarding: {
+            title: 'Employee Transition Guide Request Received',
+            subtitle: 'David will follow up about a neutral coverage-transition resource for employees.',
+            ready: ['Timing of the employee transition.', 'Whether COBRA, Marketplace, or Medicare questions are common.', 'Best contact for the HR or payroll follow-up.']
+          },
+          client_review: {
+            title: 'Annual Review Request Received',
+            subtitle: 'This is tracked as a client service request, not a new-sales lead.',
+            ready: ['High-level household or renewal changes.', 'Provider or prescription concerns without sensitive medical details.', 'Questions about dental, vision, supplemental, accident, critical illness, or life coverage.']
+          },
+          post_enrollment: {
+            title: '30-Day Checkup Request Received',
+            subtitle: 'This is tracked as a client service request for post-enrollment setup.',
+            ready: ['Portal, card, premium, or document question.', 'Provider or prescription setup concern.', 'Whether the question is about medical coverage or a supplemental product.']
+          }
+        };
+        var v = variants[intent] || {};
+        function text(id, value) {
+          var el = document.getElementById(id);
+          if (el && value) el.textContent = value;
+        }
+        text('thanks-title', v.title);
+        text('thanks-subtitle', v.subtitle);
+        if (v.ready) {
+          text('thanks-ready-1', v.ready[0]);
+          text('thanks-ready-2', v.ready[1]);
+          text('thanks-ready-3', v.ready[2]);
+        }
+        var schedule = document.getElementById('thanks-schedule-link');
+        if (schedule) schedule.href = '/calendly-book.html?intent=' + encodeURIComponent(intent);
+      })();
+    </script>
 
     <!-- Enhanced tracking for return visits -->
     <script>

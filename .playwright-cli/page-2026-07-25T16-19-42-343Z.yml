@@ -1,0 +1,168 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e2]:
+    - strong [ref=f1e3]: Insurance questions?
+    - text: Call
+    - link "(863) 640-3102" [ref=f1e4] [cursor=pointer]:
+      - /url: tel:+18636403102
+    - text: or
+    - link "start a free plan review" [ref=f1e5] [cursor=pointer]:
+      - /url: /get-help/
+    - text: ". FL Broker License #W371813"
+  - banner [ref=f1e6]:
+    - navigation [ref=f1e7]:
+      - generic [ref=f1e8]:
+        - 'link "Lakeland Health Insurance Licensed FL Broker #W371813" [ref=f1e9] [cursor=pointer]':
+          - /url: /
+          - text: Lakeland Health Insurance
+          - generic [ref=f1e10]: "Licensed FL Broker #W371813"
+        - button "Toggle navigation menu" [ref=f1e11] [cursor=pointer]
+      - list [ref=f1e16]:
+        - listitem [ref=f1e17]:
+          - link "Home" [ref=f1e18] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=f1e19]:
+          - link "Health Plans" [ref=f1e20] [cursor=pointer]:
+            - /url: /plans/
+        - listitem [ref=f1e21]:
+          - link "Carriers" [ref=f1e22] [cursor=pointer]:
+            - /url: /carriers/
+        - listitem [ref=f1e23]:
+          - link "Medicare" [ref=f1e24] [cursor=pointer]:
+            - /url: /medicare/
+        - listitem [ref=f1e25]:
+          - link "Blog" [ref=f1e26] [cursor=pointer]:
+            - /url: /blog/
+        - listitem [ref=f1e27]:
+          - link "About" [ref=f1e28] [cursor=pointer]:
+            - /url: /about/
+        - listitem [ref=f1e29]:
+          - link "Learn" [ref=f1e30] [cursor=pointer]:
+            - /url: /learning/
+        - listitem [ref=f1e31]:
+          - link "Get Help" [ref=f1e32] [cursor=pointer]:
+            - /url: /get-help/
+      - link "Talk to David" [ref=f1e34] [cursor=pointer]:
+        - /url: /get-help/
+  - main [ref=f1e35]:
+    - region [ref=f1e36]:
+      - paragraph [ref=f1e37]: Text-style plan review
+      - heading "Start with the details that actually decide the right plan." [level=1] [ref=f1e38]
+      - paragraph [ref=f1e39]: Answer a few quick questions, then David can review your coverage around doctors, prescriptions, timing, ZIP code, and budget.
+      - paragraph [ref=f1e40]: No call-center handoff. You can start here and still call directly if that is easier.
+      - generic "What David checks" [ref=f1e41]:
+        - generic [ref=f1e42]:
+          - generic [ref=f1e43]: "1"
+          - generic [ref=f1e44]:
+            - strong [ref=f1e45]: Your coverage lane
+            - text: ACA, Medicare, short-term, dental, vision, or supplemental coverage.
+        - generic [ref=f1e46]:
+          - generic [ref=f1e47]: "2"
+          - generic [ref=f1e48]:
+            - strong [ref=f1e49]: Your real-world fit
+            - text: Doctors, prescriptions, pharmacies, renewal timing, and local network issues.
+        - generic [ref=f1e50]:
+          - generic [ref=f1e51]: "3"
+          - generic [ref=f1e52]:
+            - strong [ref=f1e53]: Your next step
+            - text: A plan review, quick call, or a cleaner route if staying put makes more sense.
+    - generic "Message-style insurance intake" [ref=f1e54]:
+      - generic [ref=f1e57]:
+        - generic [ref=f1e58]:
+          - text: <
+          - generic [ref=f1e59]: D
+          - generic [ref=f1e60]:
+            - generic [ref=f1e61]: David Huff
+            - generic [ref=f1e62]: Usually replies personally
+        - generic [ref=f1e63]:
+          - generic [ref=f1e64]:
+            - generic [ref=f1e65]:
+              - text: Website
+              - textbox [ref=f1e66]
+            - generic [ref=f1e67]:
+              - text: Company
+              - textbox [ref=f1e68]
+          - generic [ref=f1e69]:
+            - generic [ref=f1e70]: Hey, this is David. Send me the basics and I'll help narrow the plan choices.
+            - generic [ref=f1e73]: I'll look at doctors, prescriptions, timing, and whether changing plans actually makes sense.
+            - generic [ref=f1e76]:
+              - button "ACA / Marketplace" [ref=f1e77] [cursor=pointer]
+              - button "Medicare" [ref=f1e78] [cursor=pointer]
+              - button "Short-Term / Gap" [ref=f1e79] [cursor=pointer]
+              - button "Supplemental / fixed indemnity" [ref=f1e80] [cursor=pointer]
+              - button "Dental & Vision" [ref=f1e81] [cursor=pointer]
+              - button "Not sure - help me figure it out" [ref=f1e82] [cursor=pointer]
+        - generic [ref=f1e83]:
+          - text: "Or call directly:"
+          - link "(863) 640-3102" [ref=f1e84] [cursor=pointer]:
+            - /url: tel:8636403102
+  - contentinfo [ref=f1e85]:
+    - generic [ref=f1e86]:
+      - generic [ref=f1e87]:
+        - generic [ref=f1e88]:
+          - heading "Contact David" [level=3] [ref=f1e89]
+          - list [ref=f1e90]:
+            - listitem [ref=f1e91]:
+              - link "(863) 640-3102" [ref=f1e92] [cursor=pointer]:
+                - /url: tel:+18636403102
+                - text: 📞 (863) 640-3102
+            - listitem [ref=f1e93]:
+              - link "dhuff@healthmarkets.com" [ref=f1e94] [cursor=pointer]:
+                - /url: mailto:dhuff@healthmarkets.com
+                - text: 📧 dhuff@healthmarkets.com
+            - listitem [ref=f1e95]:
+              - link "David the Insurance Dude" [ref=f1e96] [cursor=pointer]:
+                - /url: https://m.me/2330958066941437
+                - text: 💬 David the Insurance Dude
+            - listitem [ref=f1e97]: 📍 Central Florida Headquarters
+            - listitem [ref=f1e98]: ⏰ Mon-Fri 8AM-8PM EST
+            - listitem [ref=f1e99]: ⏰ Sat 9AM-5PM EST
+        - generic [ref=f1e100]:
+          - heading "Service Areas" [level=3] [ref=f1e101]
+          - list [ref=f1e102]:
+            - listitem [ref=f1e103]: Florida Residents
+            - listitem [ref=f1e104]: Coverage Across the Nation
+            - listitem [ref=f1e105]: Small Business Groups
+            - listitem [ref=f1e106]: Individual & Family Plans
+            - listitem [ref=f1e107]: Medicare Specialists
+        - generic [ref=f1e108]:
+          - heading "Quick Links" [level=3] [ref=f1e109]
+          - list [ref=f1e110]:
+            - listitem [ref=f1e111]:
+              - link "Home" [ref=f1e112] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f1e113]:
+              - link "Insurance Plans" [ref=f1e114] [cursor=pointer]:
+                - /url: /plans/
+            - listitem [ref=f1e115]:
+              - link "Health Protector Guard" [ref=f1e116] [cursor=pointer]:
+                - /url: /health-protector-guard/
+            - listitem [ref=f1e117]:
+              - link "Self-Service ACA Quote" [ref=f1e118] [cursor=pointer]:
+                - /url: https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q
+            - listitem [ref=f1e119]:
+              - link "Blog" [ref=f1e120] [cursor=pointer]:
+                - /url: /blog/
+            - listitem [ref=f1e121]:
+              - link "Our Approach" [ref=f1e122] [cursor=pointer]:
+                - /url: /our-approach.html
+            - listitem [ref=f1e123]:
+              - link "Florida Health Insurance Guide" [ref=f1e124] [cursor=pointer]:
+                - /url: /blog/florida-insurance-guide.html
+            - listitem [ref=f1e125]:
+              - link "Start Free Plan Review" [ref=f1e126] [cursor=pointer]:
+                - /url: /get-help/
+            - listitem [ref=f1e127]:
+              - link "Privacy Policy" [ref=f1e128] [cursor=pointer]:
+                - /url: /privacy-policy.html
+      - generic [ref=f1e129]:
+        - paragraph [ref=f1e130]: © 2026 Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.
+        - paragraph [ref=f1e131]: "FL License #W371813 | NPN 18213932 | Serving most of the United States with honest insurance advice"
+        - paragraph [ref=f1e132]:
+          - link "Powered by David the Insurance Dude" [ref=f1e133] [cursor=pointer]:
+            - /url: https://www.facebook.com/HealthMarkets.David.Huff
+  - link "Message David on Messenger" [ref=f1e134] [cursor=pointer]:
+    - /url: https://m.me/2330958066941437
+    - generic [ref=f1e135]: 💬
+    - generic [ref=f1e136]:
+      - generic [ref=f1e137]: Message David
+      - generic [ref=f1e138]: Usually replies fast

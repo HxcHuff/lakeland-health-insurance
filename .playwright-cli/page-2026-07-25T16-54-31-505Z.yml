@@ -1,0 +1,282 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - strong [ref=e3]: Insurance questions?
+    - text: Call
+    - link "(863) 640-3102" [ref=e4] [cursor=pointer]:
+      - /url: tel:+18636403102
+    - text: or
+    - link "start a free plan review" [ref=e5] [cursor=pointer]:
+      - /url: /get-help/
+    - text: ". FL Broker License #W371813"
+  - generic [ref=e6]:
+    - text: Need plan-specific help now? Call
+    - link "(863) 640-3102" [ref=e7] [cursor=pointer]:
+      - /url: tel:+18636403102
+  - banner [ref=e8]:
+    - navigation [ref=e9]:
+      - generic [ref=e10]:
+        - 'link "Lakeland Health Insurance Licensed FL Broker #W371813" [ref=e11] [cursor=pointer]':
+          - /url: /
+          - text: Lakeland Health Insurance
+          - generic [ref=e12]: "Licensed FL Broker #W371813"
+        - button "Toggle navigation menu" [ref=e13] [cursor=pointer]
+      - list [ref=e18]:
+        - listitem [ref=e19]:
+          - link "Home" [ref=e20] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=e21]:
+          - link "Health Plans" [ref=e22] [cursor=pointer]:
+            - /url: /plans/
+        - listitem [ref=e23]:
+          - link "Carriers" [ref=e24] [cursor=pointer]:
+            - /url: /carriers/
+        - listitem [ref=e25]:
+          - link "Medicare" [ref=e26] [cursor=pointer]:
+            - /url: /medicare/
+        - listitem [ref=e27]:
+          - link "Blog" [ref=e28] [cursor=pointer]:
+            - /url: /blog/
+        - listitem [ref=e29]:
+          - link "About" [ref=e30] [cursor=pointer]:
+            - /url: /about/
+        - listitem [ref=e31]:
+          - link "Learn" [ref=e32] [cursor=pointer]:
+            - /url: /learning/
+        - listitem [ref=e33]:
+          - link "Get Help" [ref=e34] [cursor=pointer]:
+            - /url: /get-help/
+      - link "Talk to David" [ref=e36] [cursor=pointer]:
+        - /url: /get-help/
+  - main [ref=e37]:
+    - generic [ref=e39]:
+      - heading [level=1] [ref=e40]:
+        - text: "Orlando Health and Watson Clinic:"
+        - emphasis [ref=e41]: what it means for your insurance
+      - paragraph [ref=e42]: The new Orlando Health Watson Clinic Lakeland Highlands Hospital changes local care access in Lakeland. It does not automatically make every doctor, hospital service, lab, imaging center, or Medicare Advantage and ACA plan line up cleanly.
+      - paragraph [ref=e43]: "Published February 4, 2026 | Fully rewritten July 25, 2026 | By David Huff, Licensed Florida Insurance Broker #W371813"
+      - generic [ref=e44]:
+        - link "Request a Network Check" [ref=e45] [cursor=pointer]:
+          - /url: /get-help/
+        - link "Read the Expansion Guide" [ref=e46] [cursor=pointer]:
+          - /url: /blog/orlando-health-polk-county-expansion-2026.html
+    - generic [ref=e47]:
+      - article [ref=e48]:
+        - generic [ref=e49]:
+          - heading "Current Status" [level=2] [ref=e50]
+          - list [ref=e51]:
+            - listitem [ref=e52]:
+              - strong [ref=e53]: The relationship is an affiliation/collaboration.
+              - text: Orlando Health explicitly says this is not a merger or acquisition.
+            - listitem [ref=e54]:
+              - strong [ref=e55]: The hospital is open.
+              - text: Watson Clinic announced that Orlando Health Watson Clinic Lakeland Highlands Hospital began receiving patients on July 8, 2026.
+            - listitem [ref=e56]:
+              - strong [ref=e57]: The state license is active.
+              - text: Florida Health Finder lists the hospital as licensed, with license number 4579 and a current license effective date of July 7, 2026.
+            - listitem [ref=e58]:
+              - strong [ref=e59]: Insurance still works plan by plan.
+              - text: A hospital brand and physician group relationship does not guarantee every plan covers every doctor, facility, lab, imaging site, or referral path.
+        - generic [ref=e60]:
+          - heading "What Actually Changed" [level=2] [ref=e61]
+          - paragraph [ref=e62]: "Orlando Health and Watson Clinic are working together around a new South Lakeland hospital: Orlando Health Watson Clinic Lakeland Highlands Hospital at 4000 Lakeland Highlands Road. Orlando Health describes the hospital as the practical result of its collaboration with Watson Clinic to expand access in Polk County."
+          - paragraph [ref=e63]: The public materials describe a large acute-care hospital, not a small outpatient office. Orlando Health lists more than 300 inpatient beds, emergency and observation capacity, operating rooms, cardiac and interventional suites, labor and delivery, stroke and spine services, and additional specialty programs. Watson Clinic's July 8 announcement described the hospital as open and receiving patients.
+          - paragraph [ref=e64]: "For patients, the main change is access: another major hospital option in Lakeland, tied publicly to a long-standing local physician practice. For insurance, the change is more complicated. Your plan still decides which providers and locations are in network, what referrals are required, and what happens when care moves from an office to a hospital, imaging center, lab, or surgical setting."
+          - generic "Key facts" [ref=e65]:
+            - generic [ref=e66]:
+              - strong [ref=e67]: Hospital name
+              - text: Orlando Health Watson Clinic Lakeland Highlands Hospital
+            - generic [ref=e68]:
+              - strong [ref=e69]: Address
+              - text: 4000 Lakeland Highlands Road, Lakeland, FL 33813
+            - generic [ref=e70]:
+              - strong [ref=e71]: Opening date
+              - text: Receiving patients as of July 8, 2026
+            - generic [ref=e72]:
+              - strong [ref=e73]: Insurance rule
+              - text: Verify by exact plan ID, provider, facility, and benefit year
+        - generic [ref=e74]:
+          - heading "What Did Not Change Automatically" [level=2] [ref=e75]
+          - paragraph [ref=e76]: "The important insurance point is simple: affiliation does not equal universal network access."
+          - list [ref=e77]:
+            - listitem [ref=e78]: Watson Clinic may be familiar to you, but your plan can still distinguish between primary care, specialists, locations, and procedures.
+            - listitem [ref=e79]: Orlando Health hospital access does not automatically confirm outpatient imaging, labs, anesthesia, surgery centers, or every specialist involved in your care.
+            - listitem [ref=e80]: A Medicare Advantage HMO can require a primary care assignment and referral sequence before specialty care is treated correctly.
+            - listitem [ref=e81]: A PPO may create flexibility, but the out-of-network cost-sharing can still be serious.
+            - listitem [ref=e82]: An ACA Marketplace plan may have a narrower provider network than a Medicare or employer plan using a similar carrier name.
+        - generic [ref=e83]:
+          - heading "Where Network Problems Usually Happen" [level=2] [ref=e84]
+          - paragraph [ref=e85]: Most people do not get surprised by the hospital name. They get surprised by the details around the hospital visit.
+          - list [ref=e86]:
+            - listitem [ref=e87]:
+              - strong [ref=e88]: "Exact plan ID:"
+              - text: Two plans from the same carrier can have different provider networks.
+            - listitem [ref=e89]:
+              - strong [ref=e90]: "Site of service:"
+              - text: The doctor may be in network, while the facility or imaging location is handled differently.
+            - listitem [ref=e91]:
+              - strong [ref=e92]: "Referral path:"
+              - text: HMO and some EPO designs can require referral steps before specialist visits.
+            - listitem [ref=e93]:
+              - strong [ref=e94]: "Prior authorization:"
+              - text: Procedures, imaging, inpatient care, and some drugs may need approval before treatment.
+            - listitem [ref=e95]:
+              - strong [ref=e96]: "Directory lag:"
+              - text: Carrier and provider directories do not always update at the same speed after a new facility opens.
+            - listitem [ref=e97]:
+              - strong [ref=e98]: "Benefit year changes:"
+              - text: A network answer for 2026 may not remain true in 2027.
+        - generic [ref=e99]:
+          - 'heading "Medicare Advantage: What to Check" [level=2] [ref=e100]'
+          - paragraph [ref=e101]: If you are comparing Medicare Advantage plans, do not stop at "Does it include Watson Clinic?" or "Does it include Orlando Health?" Those are starting questions, not final answers.
+          - list [ref=e102]:
+            - listitem [ref=e103]: Confirm your primary care provider by name and location.
+            - listitem [ref=e104]: Confirm each specialist by name, not only by group name.
+            - listitem [ref=e105]: Confirm the hospital facility and any outpatient locations you use.
+            - listitem [ref=e106]: Check whether referrals are required.
+            - listitem [ref=e107]: Check prior authorization rules for imaging, procedures, hospital stays, and therapy.
+            - listitem [ref=e108]: Run your prescriptions through the plan's formulary and pharmacy network.
+            - listitem [ref=e109]: Compare the maximum out-of-pocket limit, not just the premium.
+          - paragraph [ref=e110]: A $0 premium plan can still be a poor fit if the access path does not match your doctors, medications, and expected care.
+        - generic [ref=e111]:
+          - 'heading "ACA Marketplace: What to Check" [level=2] [ref=e112]'
+          - paragraph [ref=e113]: ACA Marketplace networks in Florida can be narrow. The carrier name alone is not enough. You need the exact Marketplace plan and network for the year you are enrolling.
+          - paragraph [ref=e114]: For ACA shoppers, the biggest risks are choosing a plan before checking doctors, assuming emergency access means routine in-network access, and missing the difference between office visits, imaging, labs, outpatient surgery, and hospital-based services.
+          - paragraph [ref=e115]: If your household qualifies for a subsidy, the cheapest premium still needs to be tested against your provider list and prescriptions. If you do not qualify for a subsidy, network fit matters even more because the monthly cost may already be high.
+        - generic [ref=e116]:
+          - heading "How I Would Verify It" [level=2] [ref=e117]
+          - list [ref=e118]:
+            - listitem [ref=e119]: "Start with the care you actually use: doctors, specialists, prescriptions, pharmacy, labs, imaging, and expected procedures."
+            - listitem [ref=e120]: Match that list to the exact plan ID and benefit year, not a general carrier brand.
+            - listitem [ref=e121]: Check the carrier directory, then verify directly with the provider office when the decision is important.
+            - listitem [ref=e122]: Ask about referrals, prior authorization, and site-of-service rules.
+            - listitem [ref=e123]: Keep dated notes for any confirmation involving a planned procedure or specialist.
+          - paragraph [ref=e124]: This is slower than picking the lowest premium, but it is the part that prevents avoidable access problems later.
+        - generic [ref=e125]:
+          - heading "Bottom Line" [level=2] [ref=e126]
+          - paragraph [ref=e127]: The Orlando Health and Watson Clinic relationship is a major local healthcare development. It gives Lakeland another serious hospital option and creates a more visible connection between a large hospital system and one of the area's best-known physician practices.
+          - paragraph [ref=e128]: "For insurance shoppers, the right conclusion is not \"everything is covered now.\" The right conclusion is: the local care map changed, so your network check needs to be more specific. Verify the exact doctors, facility, plan ID, referral rules, prescriptions, and benefit year before you enroll, switch, or renew."
+        - generic [ref=e129]:
+          - heading "FAQ" [level=2] [ref=e130]
+          - heading "Did Orlando Health buy Watson Clinic?" [level=3] [ref=e131]
+          - paragraph [ref=e132]: No. Orlando Health's own FAQ says the relationship is not a merger or acquisition. It is described as an affiliation agreement and collaboration.
+          - heading "Does the hospital opening mean Watson Clinic doctors only use Orlando Health?" [level=3] [ref=e133]
+          - paragraph [ref=e134]: No. Orlando Health's Watson Clinic page says Watson Clinic physicians continue to provide care where their patients need care and continue to have privileges at other area hospitals.
+          - heading "Should I rely on a provider directory?" [level=3] [ref=e135]
+          - paragraph [ref=e136]: Use the directory as a starting point. For a high-stakes decision, verify the exact plan with the carrier and the provider office because directories can lag after network or facility changes.
+        - generic [ref=e137]:
+          - heading "Sources Reviewed" [level=2] [ref=e138]
+          - list [ref=e139]:
+            - listitem [ref=e140]:
+              - link "Orlando Health and Watson Clinic collaboration page" [ref=e141] [cursor=pointer]:
+                - /url: https://www.orlandohealth.com/watson-clinic
+            - listitem [ref=e142]:
+              - link "Orlando Health March 11, 2025 collaboration announcement" [ref=e143] [cursor=pointer]:
+                - /url: https://www.orlandohealth.com/content-hub/orlando-health-and-watson-clinic-combine-efforts-to-improve-healthcare-in-polk-county-and-beyond
+            - listitem [ref=e144]:
+              - link "Watson Clinic July 8, 2026 opening announcement" [ref=e145] [cursor=pointer]:
+                - /url: https://www.watsonclinic.com/news/general-news/orlando-health-watson-clinic-lakeland-highlands-hospital-is-now-receiving-patients.html
+            - listitem [ref=e146]:
+              - link "Florida Health Finder facility profile" [ref=e147] [cursor=pointer]:
+                - /url: https://quality.healthfinder.fl.gov/Facility-Provider/Profile/?LID=516996
+            - listitem [ref=e148]:
+              - link "Orlando Health facility page for Orlando Health Watson Clinic Lakeland Highlands Hospital" [ref=e149] [cursor=pointer]:
+                - /url: https://www.orlandohealth.com/facilities/watson-clinic-lakeland-highlands-hospital
+      - complementary [ref=e150]:
+        - heading "Network Check" [level=2] [ref=e151]
+        - paragraph [ref=e152]: "Before choosing a plan, verify:"
+        - list [ref=e153]:
+          - listitem [ref=e154]: Exact plan ID
+          - listitem [ref=e155]: Watson Clinic doctors
+          - listitem [ref=e156]: Orlando Health facility access
+          - listitem [ref=e157]: Specialists and referrals
+          - listitem [ref=e158]: Labs and imaging
+          - listitem [ref=e159]: Prescriptions
+          - listitem [ref=e160]: Pharmacy network
+        - link "Start Here" [ref=e162] [cursor=pointer]:
+          - /url: /get-help/
+  - contentinfo [ref=e163]:
+    - generic [ref=e164]:
+      - generic [ref=e165]:
+        - generic [ref=e166]:
+          - heading "Contact David" [level=3] [ref=e167]
+          - list [ref=e168]:
+            - listitem [ref=e169]:
+              - link "(863) 640-3102" [ref=e170] [cursor=pointer]:
+                - /url: tel:+18636403102
+                - text: 📞 (863) 640-3102
+            - listitem [ref=e171]:
+              - link "dhuff@healthmarkets.com" [ref=e172] [cursor=pointer]:
+                - /url: mailto:dhuff@healthmarkets.com
+                - text: 📧 dhuff@healthmarkets.com
+            - listitem [ref=e173]:
+              - link "David the Insurance Dude" [ref=e174] [cursor=pointer]:
+                - /url: https://m.me/2330958066941437
+                - text: 💬 David the Insurance Dude
+            - listitem [ref=e175]: 📍 Central Florida Headquarters
+            - listitem [ref=e176]: ⏰ Mon-Fri 8AM-8PM EST
+            - listitem [ref=e177]: ⏰ Sat 9AM-5PM EST
+        - generic [ref=e178]:
+          - heading "Service Areas" [level=3] [ref=e179]
+          - list [ref=e180]:
+            - listitem [ref=e181]: Florida Residents
+            - listitem [ref=e182]: Coverage Across the Nation
+            - listitem [ref=e183]: Small Business Groups
+            - listitem [ref=e184]: Individual & Family Plans
+            - listitem [ref=e185]: Medicare Specialists
+        - generic [ref=e186]:
+          - heading "Quick Links" [level=3] [ref=e187]
+          - list [ref=e188]:
+            - listitem [ref=e189]:
+              - link "Home" [ref=e190] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e191]:
+              - link "Insurance Plans" [ref=e192] [cursor=pointer]:
+                - /url: /plans/
+            - listitem [ref=e193]:
+              - link "Health Protector Guard" [ref=e194] [cursor=pointer]:
+                - /url: /health-protector-guard/
+            - listitem [ref=e195]:
+              - link "Self-Service ACA Quote" [ref=e196] [cursor=pointer]:
+                - /url: https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q
+            - listitem [ref=e197]:
+              - link "Blog" [ref=e198] [cursor=pointer]:
+                - /url: /blog/
+            - listitem [ref=e199]:
+              - link "Our Approach" [ref=e200] [cursor=pointer]:
+                - /url: /our-approach.html
+            - listitem [ref=e201]:
+              - link "Florida Health Insurance Guide" [ref=e202] [cursor=pointer]:
+                - /url: /blog/florida-insurance-guide.html
+            - listitem [ref=e203]:
+              - link "Start Free Plan Review" [ref=e204] [cursor=pointer]:
+                - /url: /get-help/
+            - listitem [ref=e205]:
+              - link "Privacy Policy" [ref=e206] [cursor=pointer]:
+                - /url: /privacy-policy.html
+      - generic [ref=e207]:
+        - paragraph [ref=e208]: © 2026 Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.
+        - paragraph [ref=e209]: "FL License #W371813 | NPN 18213932 | Serving most of the United States with honest insurance advice"
+        - paragraph [ref=e210]:
+          - link "Powered by David the Insurance Dude" [ref=e211] [cursor=pointer]:
+            - /url: https://www.facebook.com/HealthMarkets.David.Huff
+  - complementary "Contact David for help":
+    - generic:
+      - generic: Need help choosing a plan?
+      - generic:
+        - link "Call (863) 640-3102":
+          - /url: tel:+18636403102
+        - link "Get Free Quote":
+          - /url: /get-help/
+      - button "Dismiss": ×
+  - link "Message David on Messenger" [ref=e212] [cursor=pointer]:
+    - /url: https://m.me/2330958066941437
+    - generic [ref=e213]: 💬
+    - generic [ref=e214]:
+      - generic [ref=e215]: Message David
+      - generic [ref=e216]: Usually replies fast
+  - 'link "Call: (863) 640-3102 David answers personally" [ref=e217] [cursor=pointer]':
+    - /url: tel:+18636403102
+    - generic [ref=e218]: 📞
+    - generic [ref=e219]:
+      - generic [ref=e220]: "Call: (863) 640-3102"
+      - generic [ref=e221]: David answers personally

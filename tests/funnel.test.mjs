@@ -43,6 +43,7 @@ function makeSessionStorage(initial = {}) {
 function loadFunnel({ pathname = '/', forms = [], fetchImpl } = {}) {
   const dataLayer = [];
   const sessionStorage = makeSessionStorage();
+  const otherElements = [];
   class TestFormData {
     constructor(form) {
       this.entries = Object.entries(form._fields || {});
@@ -87,13 +88,17 @@ function loadFunnel({ pathname = '/', forms = [], fetchImpl } = {}) {
     dataLayer,
     sessionStorage
   };
-  sandbox.document.querySelectorAll = () => forms;
+  sandbox.document.querySelectorAll = (selector) => {
+    if (selector === 'form[data-funnel-track], form[data-funnel-step]') return forms;
+    return otherElements.filter((el) => el._matches && el._matches(selector));
+  };
   /* funnel.js IIFE call: (function(w,d){...})(window||this, document).
      We pass the sandbox itself as `window`, and sandbox.document as `document`. */
   sandbox.window = sandbox;
   sandbox.self = sandbox;
   vm.createContext(sandbox);
   vm.runInContext(FUNNEL_SRC, sandbox, { filename: 'funnel.js' });
+  sandbox.__addElement = (el) => otherElements.push(el);
   return sandbox;
 }
 
@@ -128,6 +133,42 @@ function makeFunnelForm({
         preventDefault() {},
         stopImmediatePropagation() {}
       }, event));
+    }
+  };
+}
+
+function makeAnchor({ href, text = 'CTA', analyticsLabel = null, ariaLabel = null } = {}) {
+  const listeners = {};
+  return {
+    href,
+    textContent: text,
+    getAttribute(name) {
+      if (name === 'href') return href;
+      if (name === 'data-funnel-cta') return null;
+      if (name === 'data-analytics-label') return analyticsLabel;
+      if (name === 'aria-label') return ariaLabel;
+      return null;
+    },
+    addEventListener(type, cb) {
+      listeners[type] = cb;
+    },
+    click() {
+      if (listeners.click) listeners.click();
+    },
+    _matches(selector) {
+      return selector.split(',').some((raw) => {
+        const s = raw.trim();
+        if (s === '[data-funnel-booking]') return false;
+        if (s === 'a[href^="tel:"]') return href.startsWith('tel:');
+        if (s === 'a[href*="calendly.com"]') return href.includes('calendly.com');
+        if (s === 'a[href*="m.me/"]') return href.includes('m.me/');
+        if (s === 'a[href*="messenger.com"]') return href.includes('messenger.com');
+        if (s === 'a[href*="healthsherpa.com"]') return href.includes('healthsherpa.com');
+        if (s === 'a[href*="healthcare.gov"]') return href.includes('healthcare.gov');
+        if (s === 'a[href*="/find-plans"]') return href.includes('/find-plans');
+        if (s === 'a[href*="/search-engine-from-zip"]') return href.includes('/search-engine-from-zip');
+        return false;
+      });
     }
   };
 }
@@ -289,7 +330,7 @@ test('pageType — known landing-page paths', () => {
   for (const [path, expected] of [
     ['/lp/aca/', 'lp_aca'],
     ['/lp/medicare/', 'lp_medicare'],
-    ['/lp/gap/', 'lp_gap'],
+    ['/lp/gap/', 'coverage_change'],
     ['/carriers/aetna/', 'carrier_lp'],
     ['/blog/aca-vs-medicare/', 'blog'],
     ['/aca-subsidy-estimator/', 'estimator'],
@@ -297,10 +338,28 @@ test('pageType — known landing-page paths', () => {
     ['/health-protector-guard/', 'guard_lp'],
     ['/aca-health-insurance-lakeland-fl/', 'local_seo_aca'],
     ['/medicare-broker-lakeland/', 'local_seo_medicare'],
+    ['/medicare-broker-lakeland/index.html', 'local_seo_medicare'],
+    ['/medicare/east-polk/', 'local_seo_medicare'],
+    ['/medicare/', 'lp_medicare'],
     ['/life-insurance-dime/', 'dime_method'],
-    ['/lost-job-health-insurance/', 'lp_job_loss'],
+    ['/lost-job-health-insurance/', 'coverage_change'],
+    ['/blog/lost-job-health-insurance-lakeland.html', 'coverage_change'],
+    ['/blog/orlando-health-watson-clinic-insurance-2026.html', 'provider_network'],
+    ['/blog/turning-65-medicare-checklist-florida.html', 'turning_65'],
+    ['/blog/college-student-health-insurance-lakeland.html', 'aging_off_26'],
+    ['/coverage-change-checkup/', 'coverage_change'],
+    ['/turning-65-medicare-countdown/', 'turning_65'],
+    ['/provider-prescription-check/', 'provider_network'],
+    ['/aging-off-26/', 'aging_off_26'],
+    ['/self-employed-income-checkup/', 'self_employed'],
+    ['/employer-offboarding/', 'employer_offboarding'],
+    ['/client-review/', 'client_review'],
+    ['/post-enrollment-checkup/', 'post_enrollment'],
     ['/download-free-guide/', 'guide_optin'],
+    ['/newsletter/', 'newsletter'],
     ['/calendly-book.html', 'booking'],
+    ['/calendly-book/', 'booking'],
+    ['/thanks', 'conversion'],
     ['/thanks.html', 'conversion'],
     ['/thanks/', 'conversion'],
     ['/', 'home'],
@@ -437,6 +496,58 @@ test('Lead form API failure falls back to native Netlify submit', async () => {
   await Promise.resolve();
 
   assert.equal(form.__submitted, true);
+});
+
+test('Subscriber form fires Subscriber without Lead marker or API submit', async () => {
+  const calls = [];
+  const form = makeFunnelForm({
+    eventName: 'Subscriber',
+    contentName: 'newsletter_optin',
+    fields: {
+      'form-name': 'newsletter-signup',
+      email: 'reader@example.com',
+      interest: 'medicare'
+    }
+  });
+  const w = loadFunnel({
+    pathname: '/newsletter/',
+    forms: [form],
+    fetchImpl: (url, init) => {
+      calls.push({ url, init });
+      return Promise.resolve({ ok: true });
+    }
+  });
+
+  form.dispatchSubmit();
+  await Promise.resolve();
+
+  assert.ok(w.dataLayer.some((entry) => entry.event === 'Subscriber'), 'Subscriber event pushed to dataLayer');
+  assert.equal(w.dataLayer.some((entry) => entry.event === 'Lead'), false, 'Lead event not fired');
+  assert.equal(w.sessionStorage.getItem('lhi_lead_submitted'), null, 'thank-you Lead marker not set');
+  assert.equal(calls.filter((call) => call.url === '/api/lead').length, 0, 'Subscriber does not post to lead API');
+});
+
+test('outbound CTA tracking fires canonical events with source context', () => {
+  const w = loadFunnel({ pathname: '/aca-health-insurance-lakeland-fl/' });
+  const phone = makeAnchor({ href: 'tel:+18636403102', text: 'Call David' });
+  const messenger = makeAnchor({ href: 'https://m.me/2330958066941437', text: 'Message David' });
+  const quote = makeAnchor({ href: 'https://www.healthsherpa.com/?_agent_id=dhuff', text: 'Start quote' });
+  const calendar = makeAnchor({ href: 'https://calendly.com/dhuff-healthmarkets', text: 'Schedule a time' });
+  [phone, messenger, quote, calendar].forEach((el) => w.__addElement(el));
+
+  w.LHI._t.wireForms();
+
+  phone.click();
+  messenger.click();
+  quote.click();
+  calendar.click();
+
+  for (const eventName of ['PhoneClick', 'MessengerClick', 'SelfServiceQuoteClick', 'Schedule']) {
+    const entry = w.dataLayer.find((item) => item.event === eventName);
+    assert.ok(entry, `${eventName} fired`);
+    assert.equal(entry.page_type, 'local_seo_aca');
+    assert.equal(entry.source_page, '/aca-health-insurance-lakeland-fl/');
+  }
 });
 
 test('thanks.html does not fire generate_lead without pending marker', () => {

@@ -525,7 +525,7 @@
         <aside class="signup-card" id="signup">
           <h2>Get the next issue</h2>
           <p>Tell me where to send it and what coverage topic matters most to you.</p>
-          <form id="newsletterForm" name="newsletter-signup" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" data-funnel-track data-funnel-event="Subscribe" data-funnel-name="newsletter_optin">
+          <form id="newsletterForm" name="newsletter-signup" method="POST" action="/thanks.html?intent=newsletter" data-netlify="true" data-netlify-honeypot="bot-field" data-funnel-track data-funnel-event="Subscriber" data-funnel-name="newsletter_optin">
             <input type="hidden" name="form-name" value="newsletter-signup">
             <p style="display:none;">
               <label>Do not fill this out: <input name="bot-field"></label>
@@ -566,12 +566,22 @@
               </select>
             </div>
 
+            <div class="field">
+              <label for="newsletter_preference">Coverage focus</label>
+              <select id="newsletter_preference" name="newsletter_preference" required>
+                <option value="">Choose one</option>
+                <option value="under_65">Under 65</option>
+                <option value="medicare">Medicare</option>
+                <option value="both">Both</option>
+              </select>
+            </div>
+
             <label class="consent">
               <input type="checkbox" name="consent" required>
               <span>I agree to receive newsletter emails from Lakeland Health Insurance. I understand I can unsubscribe at any time.</span>
             </label>
 
-            <button class="btn btn-primary" type="submit">Subscribe for Free</button>
+            <button class="btn btn-primary" type="submit">Subscribe</button>
             <p class="trust-note">David Huff, Licensed Florida Broker #W371813.</p>
           </form>
         </aside>
@@ -641,9 +651,9 @@
       <div class="final-cta">
         <div>
           <h2>Want help with your current plan?</h2>
-          <p>Newsletter is great for staying informed. If you need a personal answer, book a free review.</p>
+          <p>Newsletter is great for staying informed. If you need a personal answer, book a coverage review.</p>
         </div>
-        <a class="btn btn-secondary" href="/calendly-book.html">Book Free Review</a>
+        <a class="btn btn-secondary" href="/calendly-book.html">Book Coverage Review</a>
       </div>
     </section>
   </main>
@@ -661,32 +671,6 @@
 
       var form = document.getElementById('newsletterForm');
       if (!form) return;
-
-      form.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        if (typeof gtag === 'function') {
-          gtag('event', 'newsletter_signup', {
-            event_category: 'conversion',
-            event_label: 'coverage_insider'
-          });
-        }
-
-        if (typeof fbLead === 'function') {
-          fbLead('Newsletter Signup');
-        }
-
-        var formData = new FormData(form);
-        fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(formData).toString()
-        }).then(function () {
-          window.location.href = '/thanks.html';
-        }).catch(function () {
-          form.submit();
-        });
-      });
     })();
   </script>
     <script src="/js/site-template.js" defer></script>

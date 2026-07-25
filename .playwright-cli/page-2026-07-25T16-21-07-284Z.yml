@@ -1,0 +1,119 @@
+- generic [active] [ref=f4e1]:
+  - generic [ref=f4e2]:
+    - strong [ref=f4e3]: Insurance questions?
+    - text: Call
+    - link "(863) 640-3102" [ref=f4e4] [cursor=pointer]:
+      - /url: tel:+18636403102
+    - text: or
+    - link "start a free plan review" [ref=f4e5] [cursor=pointer]:
+      - /url: /get-help/
+    - text: ". FL Broker License #W371813"
+  - banner [ref=f4e6]:
+    - navigation [ref=f4e7]:
+      - generic [ref=f4e8]:
+        - 'link "Lakeland Health Insurance Licensed FL Broker #W371813" [ref=f4e9] [cursor=pointer]':
+          - /url: /
+          - text: Lakeland Health Insurance
+          - generic [ref=f4e10]: "Licensed FL Broker #W371813"
+        - button "Toggle navigation menu" [ref=f4e11] [cursor=pointer]
+  - main [ref=f4e16]:
+    - region [ref=f4e17]:
+      - paragraph [ref=f4e18]: Text-style plan review
+      - heading "Start with the details that actually decide the right plan." [level=1] [ref=f4e19]
+      - paragraph [ref=f4e20]: Answer a few quick questions, then David can review your coverage around doctors, prescriptions, timing, ZIP code, and budget.
+      - paragraph [ref=f4e21]: No call-center handoff. You can start here and still call directly if that is easier.
+    - generic "Message-style insurance intake" [ref=f4e22]:
+      - generic [ref=f4e25]:
+        - generic [ref=f4e26]:
+          - text: <
+          - generic [ref=f4e27]: D
+          - generic [ref=f4e28]:
+            - generic [ref=f4e29]: David Huff
+            - generic [ref=f4e30]: Usually replies personally
+        - generic [ref=f4e31]:
+          - generic [ref=f4e32]:
+            - generic [ref=f4e33]:
+              - text: Website
+              - textbox [ref=f4e34]
+            - generic [ref=f4e35]:
+              - text: Company
+              - textbox [ref=f4e36]
+          - generic [ref=f4e37]:
+            - generic [ref=f4e38]: Hey, this is David. Send me the basics and I'll help narrow the plan choices.
+            - generic [ref=f4e41]: I'll look at doctors, prescriptions, timing, and whether changing plans actually makes sense.
+            - generic [ref=f4e44]:
+              - button "ACA / Marketplace" [ref=f4e45] [cursor=pointer]
+              - button "Medicare" [ref=f4e46] [cursor=pointer]
+              - button "Short-Term / Gap" [ref=f4e47] [cursor=pointer]
+              - button "Supplemental / fixed indemnity" [ref=f4e48] [cursor=pointer]
+              - button "Dental & Vision" [ref=f4e49] [cursor=pointer]
+              - button "Not sure - help me figure it out" [ref=f4e50] [cursor=pointer]
+        - generic [ref=f4e51]:
+          - text: "Or call directly:"
+          - link "(863) 640-3102" [ref=f4e52] [cursor=pointer]:
+            - /url: tel:8636403102
+  - contentinfo [ref=f4e53]:
+    - generic [ref=f4e54]:
+      - generic [ref=f4e55]:
+        - generic [ref=f4e56]:
+          - heading "Contact David" [level=3] [ref=f4e57]
+          - list [ref=f4e58]:
+            - listitem [ref=f4e59]:
+              - link "(863) 640-3102" [ref=f4e60] [cursor=pointer]:
+                - /url: tel:+18636403102
+                - text: 📞 (863) 640-3102
+            - listitem [ref=f4e61]:
+              - link "dhuff@healthmarkets.com" [ref=f4e62] [cursor=pointer]:
+                - /url: mailto:dhuff@healthmarkets.com
+                - text: 📧 dhuff@healthmarkets.com
+            - listitem [ref=f4e63]:
+              - link "David the Insurance Dude" [ref=f4e64] [cursor=pointer]:
+                - /url: https://m.me/2330958066941437
+                - text: 💬 David the Insurance Dude
+            - listitem [ref=f4e65]: 📍 Central Florida Headquarters
+            - listitem [ref=f4e66]: ⏰ Mon-Fri 8AM-8PM EST
+            - listitem [ref=f4e67]: ⏰ Sat 9AM-5PM EST
+        - generic [ref=f4e68]:
+          - heading "Service Areas" [level=3] [ref=f4e69]
+          - list [ref=f4e70]:
+            - listitem [ref=f4e71]: Florida Residents
+            - listitem [ref=f4e72]: Coverage Across the Nation
+            - listitem [ref=f4e73]: Small Business Groups
+            - listitem [ref=f4e74]: Individual & Family Plans
+            - listitem [ref=f4e75]: Medicare Specialists
+        - generic [ref=f4e76]:
+          - heading "Quick Links" [level=3] [ref=f4e77]
+          - list [ref=f4e78]:
+            - listitem [ref=f4e79]:
+              - link "Home" [ref=f4e80] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f4e81]:
+              - link "Insurance Plans" [ref=f4e82] [cursor=pointer]:
+                - /url: /plans/
+            - listitem [ref=f4e83]:
+              - link "Health Protector Guard" [ref=f4e84] [cursor=pointer]:
+                - /url: /health-protector-guard/
+            - listitem [ref=f4e85]:
+              - link "Self-Service ACA Quote" [ref=f4e86] [cursor=pointer]:
+                - /url: https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q
+            - listitem [ref=f4e87]:
+              - link "Blog" [ref=f4e88] [cursor=pointer]:
+                - /url: /blog/
+            - listitem [ref=f4e89]:
+              - link "Our Approach" [ref=f4e90] [cursor=pointer]:
+                - /url: /our-approach.html
+            - listitem [ref=f4e91]:
+              - link "Florida Health Insurance Guide" [ref=f4e92] [cursor=pointer]:
+                - /url: /blog/florida-insurance-guide.html
+            - listitem [ref=f4e93]:
+              - link "Start Free Plan Review" [ref=f4e94] [cursor=pointer]:
+                - /url: /get-help/
+            - listitem [ref=f4e95]:
+              - link "Privacy Policy" [ref=f4e96] [cursor=pointer]:
+                - /url: /privacy-policy.html
+      - generic [ref=f4e97]:
+        - paragraph [ref=f4e98]: © 2026 Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.
+        - paragraph [ref=f4e99]: "FL License #W371813 | NPN 18213932 | Serving most of the United States with honest insurance advice"
+        - paragraph [ref=f4e100]:
+          - link "Powered by David the Insurance Dude" [ref=f4e101] [cursor=pointer]:
+            - /url: https://www.facebook.com/HealthMarkets.David.Huff

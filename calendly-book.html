@@ -703,50 +703,21 @@
       if (frame) frame.setAttribute('src', trackedUrl);
       if (fallback) fallback.setAttribute('href', trackedUrl);
 
-      function track(name, label) {
-        if (typeof gtag === 'function') {
-          gtag('event', name, {
-            event_category: 'conversion',
-            event_label: label
-          });
-        }
-      }
-
-      document.querySelectorAll('[data-booking-phone]').forEach(function (link) {
-        link.addEventListener('click', function () {
-          track('phone_call', 'booking_page_call');
-        });
-      });
-
-      if (fallback) {
-        fallback.addEventListener('click', function () {
-          track('booking_fallback_click', 'external_booking_calendar');
-        });
-      }
-
-      if (typeof gtag === 'function') {
-        gtag('event', 'booking_page_view', {
-          event_category: 'engagement',
-          event_label: 'booking_page'
-        });
-      }
-
       window.addEventListener('message', function (event) {
         if (event.origin !== 'https://calendly.com') return;
         if (!event.data || event.data.event !== 'calendly.event_scheduled') return;
+        if (window.__lhiCalendlyScheduledTracked) return;
+        window.__lhiCalendlyScheduledTracked = true;
 
         if (typeof gtag_report_conversion === 'function') gtag_report_conversion();
 
-        if (typeof gtag === 'function') {
-          gtag('event', 'calendly_booking', {
-            event_category: 'conversion',
-            event_label: 'booking_page_calendly',
-            value: 1
+        if (window.LHI && typeof window.LHI.track === 'function') {
+          window.LHI.track('Schedule', {
+            content_name: 'booking_page_calendly_scheduled',
+            cta_name: 'Calendly appointment scheduled',
+            destination_url: bookingBaseUrl,
+            schedule_state: 'scheduled'
           });
-        }
-
-        if (typeof fbLead === 'function') {
-          fbLead('Calendly Appointment');
         }
       });
     })();

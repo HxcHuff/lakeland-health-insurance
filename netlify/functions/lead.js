@@ -43,7 +43,13 @@ const FORM_MC_CONFIG = {
   'riverview-health-insurance':    { status: 'subscribed', tags: ['aca', 'local-seo', 'riverview', 'hot-lead'] },
   'st-petersburg-health-insurance': { status: 'subscribed', tags: ['aca', 'local-seo', 'st-petersburg', 'hot-lead'] },
   'wesley-chapel-health-insurance': { status: 'subscribed', tags: ['aca', 'local-seo', 'wesley-chapel', 'hot-lead'] },
-  'subsidy-estimator-lead':        { status: 'subscribed', tags: ['aca', 'subsidy-estimator', 'tool-lead'] }
+  'subsidy-estimator-lead':        { status: 'subscribed', tags: ['aca', 'subsidy-estimator', 'tool-lead'] },
+  'coverage-change-checkup':       { status: 'subscribed', tags: ['coverage-change', 'sep', 'hot-lead'] },
+  'turning-65-countdown':          { status: 'subscribed', tags: ['medicare', 'turning-65', 'hot-lead'] },
+  'provider-prescription-check':   { status: 'subscribed', tags: ['provider-network', 'rx-check', 'hot-lead'] },
+  'aging-off-26':                  { status: 'subscribed', tags: ['aca', 'aging-off-26', 'hot-lead'] },
+  'self-employed-income-checkup':  { status: 'subscribed', tags: ['aca', 'self-employed', 'income-review'] },
+  'employer-offboarding':          { status: 'subscribed', tags: ['employer-offboarding', 'coverage-change', 'hot-lead'] }
 };
 
 const sha256 = (s) =>

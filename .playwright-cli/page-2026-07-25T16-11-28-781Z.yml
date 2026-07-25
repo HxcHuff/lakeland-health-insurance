@@ -1,0 +1,237 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - strong [ref=e3]: Insurance questions?
+    - text: Call
+    - link "(863) 640-3102" [ref=e4] [cursor=pointer]:
+      - /url: tel:+18636403102
+    - text: or
+    - link "start a free plan review" [ref=e5] [cursor=pointer]:
+      - /url: /get-help/
+    - text: ". FL Broker License #W371813"
+  - banner [ref=e6]:
+    - navigation [ref=e7]:
+      - generic [ref=e8]:
+        - 'link "Lakeland Health Insurance Licensed FL Broker #W371813" [ref=e9] [cursor=pointer]':
+          - /url: /
+          - text: Lakeland Health Insurance
+          - generic [ref=e10]: "Licensed FL Broker #W371813"
+        - button "Toggle navigation menu" [ref=e11] [cursor=pointer]
+      - list [ref=e16]:
+        - listitem [ref=e17]:
+          - link "Home" [ref=e18] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=e19]:
+          - link "Health Plans" [ref=e20] [cursor=pointer]:
+            - /url: /plans/
+        - listitem [ref=e21]:
+          - link "Carriers" [ref=e22] [cursor=pointer]:
+            - /url: /carriers/
+        - listitem [ref=e23]:
+          - link "Medicare" [ref=e24] [cursor=pointer]:
+            - /url: /medicare/
+        - listitem [ref=e25]:
+          - link "Blog" [ref=e26] [cursor=pointer]:
+            - /url: /blog/
+        - listitem [ref=e27]:
+          - link "About" [ref=e28] [cursor=pointer]:
+            - /url: /about/
+        - listitem [ref=e29]:
+          - link "Learn" [ref=e30] [cursor=pointer]:
+            - /url: /learning/
+        - listitem [ref=e31]:
+          - link "Get Help" [ref=e32] [cursor=pointer]:
+            - /url: /get-help/
+      - link "Talk to David" [ref=e34] [cursor=pointer]:
+        - /url: /get-help/
+  - main [ref=e35]:
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - paragraph [ref=e39]: Davenport health insurance
+        - heading "Coverage help for Davenport and the US-27 corridor." [level=1] [ref=e40]
+        - paragraph [ref=e41]: David Huff helps Davenport residents compare ACA Marketplace, Medicare, short-term, dental, vision, and supplemental coverage around doctors, prescriptions, network access, and enrollment timing.
+        - paragraph [ref=e42]: Davenport can be tricky because people often receive care across Polk, Osceola, Orange, and nearby areas. The plan has to work where you actually go for care.
+        - generic [ref=e43]:
+          - link "Get Plan-Specific Help" [ref=e44] [cursor=pointer]:
+            - /url: /get-help/
+          - link "Medicare Help" [ref=e45] [cursor=pointer]:
+            - /url: /medicare/east-polk/
+          - link "Call 863-640-3102" [ref=e46] [cursor=pointer]:
+            - /url: tel:8636403102
+      - generic [ref=e47]:
+        - heading "Good fit for" [level=2] [ref=e48]
+        - list [ref=e49]:
+          - listitem [ref=e50]:
+            - strong [ref=e51]: Fast-growing households
+            - text: Families moving into Davenport, ChampionsGate, or Four Corners.
+          - listitem [ref=e52]:
+            - strong [ref=e53]: Cross-county care
+            - text: Doctors or specialists outside your immediate ZIP code.
+          - listitem [ref=e54]:
+            - strong [ref=e55]: Medicare reviews
+            - text: Plan checks before you switch, stay put, or enroll for the first time.
+    - generic [ref=e57]:
+      - generic [ref=e58]:
+        - generic [ref=e59]: "33837"
+        - generic [ref=e60]: 33896 / 33897
+      - generic [ref=e61]:
+        - generic [ref=e62]: ACA
+        - generic [ref=e63]: Marketplace Review
+      - generic [ref=e64]:
+        - generic [ref=e65]: Medicare
+        - generic [ref=e66]: Plan Year Checks
+      - generic [ref=e67]:
+        - generic [ref=e68]: Nationwide
+        - generic [ref=e69]: Where Available
+    - generic [ref=e71]:
+      - paragraph [ref=e72]: Start Here
+      - heading "Health Insurance Options in Davenport" [level=2] [ref=e73]
+      - paragraph [ref=e74]: "Davenport's growth has created a practical insurance problem: your address may be in Polk County, but your doctors, workplace, pharmacy, or hospital preference may pull you toward Orlando, Kissimmee, Haines City, Winter Haven, or Lakeland. Network fit matters."
+      - list [ref=e75]:
+        - listitem [ref=e76]:
+          - strong [ref=e77]: ACA Marketplace plans
+          - text: for individuals, families, contractors, and self-employed workers.
+        - listitem [ref=e78]:
+          - strong [ref=e79]: Medicare Advantage, Medicare Supplement, and Part D
+          - text: for residents turning 65, moving into the area, or reviewing Annual Enrollment changes.
+        - listitem [ref=e80]:
+          - strong [ref=e81]: Short-term medical
+          - text: for certain bridge coverage situations, subject to eligibility and underwriting.
+        - listitem [ref=e82]:
+          - strong [ref=e83]: Dental, vision, life, and supplemental coverage
+          - text: when primary coverage needs support from separate benefits.
+    - generic [ref=e85]:
+      - heading "What Makes Davenport Different" [level=2] [ref=e86]
+      - paragraph [ref=e87]: A simple list of plans can miss the real decision. Davenport residents often need to compare ZIP-code availability, county boundaries, provider systems, prescriptions, and travel habits before picking coverage.
+      - list [ref=e88]:
+        - listitem [ref=e89]: Check if the exact provider, not just the medical group name, is in network.
+        - listitem [ref=e90]: Review whether the plan works for care in Polk County and nearby metro areas.
+        - listitem [ref=e91]: Compare ACA subsidy estimates against income and household size before applying.
+        - listitem [ref=e92]: Review Medicare drug costs, pharmacies, referrals, and annual plan changes before switching.
+      - generic [ref=e93]:
+        - link "East Polk Medicare Help" [ref=e94] [cursor=pointer]:
+          - /url: /medicare/east-polk/
+        - link "ACA Marketplace Help" [ref=e95] [cursor=pointer]:
+          - /url: /aca-health-insurance-lakeland-fl/
+        - link "Haines City Health Insurance" [ref=e96] [cursor=pointer]:
+          - /url: /haines-city-health-insurance/
+        - link "Start a Review" [ref=e97] [cursor=pointer]:
+          - /url: /get-help/
+    - generic [ref=e99]:
+      - heading "Davenport FAQs" [level=2] [ref=e100]
+      - heading "Can I keep doctors outside Davenport?" [level=3] [ref=e101]
+      - paragraph [ref=e102]: Maybe. It depends on the carrier, plan, network, county, and provider contract. David checks the exact doctors and facilities you use before you enroll.
+      - heading "What if I just moved to Davenport?" [level=3] [ref=e103]
+      - paragraph [ref=e104]: A permanent move may create a Special Enrollment Period for ACA coverage or a Medicare election window, depending on your situation. Timing and documentation matter.
+      - heading "Can Davenport residents get nationwide support?" [level=3] [ref=e105]
+      - paragraph [ref=e106]: Support is available in many states when licensing, plan type, carrier availability, and enrollment rules allow. Local Florida network details still need a plan-specific check.
+    - generic [ref=e108]:
+      - generic [ref=e109]:
+        - generic [ref=e110]:
+          - paragraph [ref=e111]: Get Help
+          - heading "Request Davenport Plan Help" [level=2] [ref=e112]
+          - paragraph [ref=e113]: Send the basics and David will follow up personally.
+        - link "Call Now" [ref=e114] [cursor=pointer]:
+          - /url: tel:8636403102
+      - generic [ref=e115]:
+        - generic [ref=e116]:
+          - generic [ref=e117]:
+            - generic [ref=e118]: Full Name
+            - textbox "Full Name" [ref=e119]
+          - generic [ref=e120]:
+            - generic [ref=e121]: Phone Number
+            - textbox "Phone Number" [ref=e122]
+          - generic [ref=e123]:
+            - generic [ref=e124]: ZIP Code
+            - textbox "ZIP Code" [ref=e125]
+          - generic [ref=e126]:
+            - generic [ref=e127]: Coverage Type
+            - combobox "Coverage Type" [ref=e128]:
+              - option "Select one" [selected]
+              - option "ACA / Marketplace"
+              - option "Medicare"
+              - option "Short-Term / Gap"
+              - option "Dental & Vision"
+              - option "Not sure - help me figure it out"
+          - generic [ref=e129]:
+            - generic [ref=e130]: Primary doctor or hospital (optional)
+            - textbox "Primary doctor or hospital (optional)" [ref=e131]:
+              - /placeholder: Doctor, clinic, hospital, or pharmacy
+        - button "Request Plan Help" [ref=e132] [cursor=pointer]
+    - paragraph [ref=e135]: "Lakeland Health Insurance is an independent brokerage led by David Huff, serving Davenport, Polk County, Central Florida, and nationwide coverage needs where available. FL License #W371813. NPN 18213932."
+  - contentinfo [ref=e136]:
+    - generic [ref=e137]:
+      - generic [ref=e138]:
+        - generic [ref=e139]:
+          - heading "Contact David" [level=3] [ref=e140]
+          - list [ref=e141]:
+            - listitem [ref=e142]:
+              - link "(863) 640-3102" [ref=e143] [cursor=pointer]:
+                - /url: tel:+18636403102
+                - text: 📞 (863) 640-3102
+            - listitem [ref=e144]:
+              - link "dhuff@healthmarkets.com" [ref=e145] [cursor=pointer]:
+                - /url: mailto:dhuff@healthmarkets.com
+                - text: 📧 dhuff@healthmarkets.com
+            - listitem [ref=e146]:
+              - link "David the Insurance Dude" [ref=e147] [cursor=pointer]:
+                - /url: https://m.me/2330958066941437
+                - text: 💬 David the Insurance Dude
+            - listitem [ref=e148]: 📍 Central Florida Headquarters
+            - listitem [ref=e149]: ⏰ Mon-Fri 8AM-8PM EST
+            - listitem [ref=e150]: ⏰ Sat 9AM-5PM EST
+        - generic [ref=e151]:
+          - heading "Service Areas" [level=3] [ref=e152]
+          - list [ref=e153]:
+            - listitem [ref=e154]: Florida Residents
+            - listitem [ref=e155]: Coverage Across the Nation
+            - listitem [ref=e156]: Small Business Groups
+            - listitem [ref=e157]: Individual & Family Plans
+            - listitem [ref=e158]: Medicare Specialists
+        - generic [ref=e159]:
+          - heading "Quick Links" [level=3] [ref=e160]
+          - list [ref=e161]:
+            - listitem [ref=e162]:
+              - link "Home" [ref=e163] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e164]:
+              - link "Insurance Plans" [ref=e165] [cursor=pointer]:
+                - /url: /plans/
+            - listitem [ref=e166]:
+              - link "Health Protector Guard" [ref=e167] [cursor=pointer]:
+                - /url: /health-protector-guard/
+            - listitem [ref=e168]:
+              - link "Self-Service ACA Quote" [ref=e169] [cursor=pointer]:
+                - /url: https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q
+            - listitem [ref=e170]:
+              - link "Blog" [ref=e171] [cursor=pointer]:
+                - /url: /blog/
+            - listitem [ref=e172]:
+              - link "Our Approach" [ref=e173] [cursor=pointer]:
+                - /url: /our-approach.html
+            - listitem [ref=e174]:
+              - link "Florida Health Insurance Guide" [ref=e175] [cursor=pointer]:
+                - /url: /blog/florida-insurance-guide.html
+            - listitem [ref=e176]:
+              - link "Start Free Plan Review" [ref=e177] [cursor=pointer]:
+                - /url: /get-help/
+            - listitem [ref=e178]:
+              - link "Privacy Policy" [ref=e179] [cursor=pointer]:
+                - /url: /privacy-policy.html
+      - generic [ref=e180]:
+        - paragraph [ref=e181]: © 2026 Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.
+        - paragraph [ref=e182]: "FL License #W371813 | NPN 18213932 | Serving most of the United States with honest insurance advice"
+        - paragraph [ref=e183]:
+          - link "Powered by David the Insurance Dude" [ref=e184] [cursor=pointer]:
+            - /url: https://www.facebook.com/HealthMarkets.David.Huff
+  - link "Message David on Messenger" [ref=e185] [cursor=pointer]:
+    - /url: https://m.me/2330958066941437
+    - generic [ref=e186]: 💬
+    - generic [ref=e187]:
+      - generic [ref=e188]: Message David
+      - generic [ref=e189]: Usually replies fast
+  - 'link "Call: (863) 640-3102 David answers personally" [ref=e190] [cursor=pointer]':
+    - /url: tel:+18636403102
+    - generic [ref=e191]: 📞
+    - generic [ref=e192]:
+      - generic [ref=e193]: "Call: (863) 640-3102"
+      - generic [ref=e194]: David answers personally

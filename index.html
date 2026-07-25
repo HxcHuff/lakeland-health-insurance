@@ -451,15 +451,15 @@
                 <h2>Medicare, ACA Marketplace, short-term, supplemental, dental, vision, and life insurance guidance from a licensed Florida broker.</h2>
                 <p>David brings responsive, one-on-one guidance to help you compare coverage before you enroll, make a change, or stay with your current plan, with support available in Florida and many states nationwide.</p>
                 <div class="hero-cta-group">
-                    <a href="/get-help/" class="hero-cta">Start My Review</a>
+                    <a href="/get-help/" class="hero-cta">Start My Coverage Review</a>
                     <a href="tel:+18636403102" class="hero-cta phone-cta">Call David</a>
                 </div>
                 <div class="medicare-router" aria-label="Choose your coverage situation">
                     <p>Start with one quick question:</p>
                     <div class="router-actions">
-                        <a class="router-button" href="/lp/medicare/?stage=turning-65">I'm turning 65 soon</a>
+                        <a class="router-button" href="/turning-65-medicare-countdown/">I'm turning 65 soon</a>
                         <a class="router-button" href="/lp/medicare/?stage=already-on-medicare">I'm already on Medicare</a>
-                        <a class="router-button" href="/aca-health-insurance-lakeland-fl/">I'm under 65</a>
+                        <a class="router-button" href="/coverage-change-checkup/">My coverage is changing</a>
                     </div>
                 </div>
                 <div class="hero-trust-row" aria-label="Broker trust signals">
@@ -566,7 +566,7 @@
             </ul>
 
             <div class="plans-cta">
-                <a href="/get-help/" class="cta-button">Start My Review</a>
+                <a href="/get-help/" class="cta-button">Start My Coverage Review</a>
             </div>
         </div>
     </section>
@@ -596,10 +596,10 @@
 
             <div style="margin: 3rem auto 0; max-width: 540px; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.75rem;">
                 <p class="section-label" style="text-align:center;">Newsletter</p>
-                <h3 style="font-family:'Instrument Serif',serif; font-size:1.4rem; font-weight:400; color:var(--navy); text-align:center; margin-bottom:0.5rem;">Get plain-English insurance tips, monthly</h3>
+                <h3 style="font-family:'Instrument Serif',serif; font-size:1.4rem; font-weight:400; color:var(--navy); text-align:center; margin-bottom:0.5rem;">Get insurance tips, monthly</h3>
                 <p style="text-align:center; color:var(--gray-500); font-size:0.95rem; margin-bottom:1.25rem;">One email a month on ACA, Medicare, subsidies, and 1095s. No spam. No sales pressure.</p>
 
-                <form id="homepageNewsletterForm" name="homepage-newsletter" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" data-funnel-track data-funnel-event="Subscribe" data-funnel-name="homepage_newsletter_optin">
+                <form id="homepageNewsletterForm" name="homepage-newsletter" method="POST" action="/thanks.html?intent=newsletter" data-netlify="true" data-netlify-honeypot="bot-field" data-funnel-track data-funnel-event="Subscriber" data-funnel-name="homepage_newsletter_optin">
                     <input type="hidden" name="form-name" value="homepage-newsletter">
                     <input type="hidden" name="source_page" value="/">
                     <input type="hidden" name="_subject" value="New homepage newsletter signup">
@@ -608,7 +608,14 @@
                     <div style="display:flex; flex-direction:column; gap:0.65rem; margin-bottom:0.85rem;">
                         <label for="hp-newsletter-email" style="position:absolute; left:-9999px;">Email address</label>
                         <input id="hp-newsletter-email" type="email" name="email" required autocomplete="email" placeholder="you@example.com" style="width:100%; padding:12px 16px; border:2px solid var(--gray-200); border-radius:var(--radius); font-size:1rem; font-family:inherit; background:var(--white);">
-                        <button type="submit" class="cta-button" style="font-size:1rem; width:100%;">Subscribe — Free</button>
+                        <label for="hp-newsletter-preference" style="position:absolute; left:-9999px;">Newsletter preference</label>
+                        <select id="hp-newsletter-preference" name="newsletter_preference" required style="width:100%; padding:12px 16px; border:2px solid var(--gray-200); border-radius:var(--radius); font-size:1rem; font-family:inherit; background:var(--white);">
+                            <option value="">Choose topic focus</option>
+                            <option value="under_65">Under 65</option>
+                            <option value="medicare">Medicare</option>
+                            <option value="both">Both</option>
+                        </select>
+                        <button type="submit" class="cta-button" style="font-size:1rem; width:100%;">Subscribe</button>
                     </div>
 
                     <label style="display:flex; align-items:flex-start; gap:0.5rem; font-size:0.8rem; color:var(--gray-500); line-height:1.45;">
@@ -768,10 +775,12 @@
                 </div>
                 <div class="tc-cluster">
                     <h3>Self-Employed & SEP</h3>
-                    <a href="/blog/freelancer-health-insurance-lakeland-2026.html" class="tc-hub">Freelancer Coverage Guide →</a>
+                    <a href="/self-employed-income-checkup/" class="tc-hub">Self-Employed Income Checkup →</a>
                     <ul style="margin-top: 1rem;">
                         <li><a href="/blog/health-insurance-self-employed-tax-deductions.html">Self-Employed Tax Deductions</a></li>
-                        <li><a href="/blog/lost-job-health-insurance-lakeland.html">Lost Your Job? 60-Day Window</a></li>
+                        <li><a href="/coverage-change-checkup/">Coverage Change Checkup</a></li>
+                        <li><a href="/aging-off-26/">Aging Off at 26</a></li>
+                        <li><a href="/employer-offboarding/">Employer Offboarding Toolkit</a></li>
                         <li><a href="/blog/non-income-based-health-insurance-florida.html">Non-Income-Based Coverage</a></li>
                         <li><a href="/blog/zero-premium-health-insurance-florida-2026.html">Zero-Premium Florida Plans</a></li>
                         <li><a href="/blog/why-florida-health-insurance-premiums-increased-2026.html">Why FL Premiums Rose in 2026</a></li>
@@ -781,6 +790,7 @@
                     <h3>How Insurance Works</h3>
                     <a href="/blog/florida-insurance-guide.html" class="tc-hub">Florida Insurance Guide →</a>
                     <ul style="margin-top: 1rem;">
+                        <li><a href="/provider-prescription-check/">Doctor and Prescription Check</a></li>
                         <li><a href="/blog/hmo-vs-ppo-vs-epo-explained.html">HMO vs PPO vs EPO</a></li>
                         <li><a href="/blog/how-to-read-insurance-card.html">How to Read Your Insurance Card</a></li>
                         <li><a href="/blog/how-to-use-health-insurance-without-going-broke.html">Use Insurance Without Going Broke</a></li>
@@ -798,6 +808,8 @@
                         <li><a href="/blog/er-visit-cost-lakeland-without-insurance-2026.html">ER Cost in Lakeland Without Coverage</a></li>
                         <li><a href="/carriers/">Carriers We Work With</a></li>
                         <li><a href="/about/">About David Huff</a></li>
+                        <li><a href="/client-review/">Client Annual Review</a></li>
+                        <li><a href="/post-enrollment-checkup/">30-Day Checkup</a></li>
                     </ul>
                 </div>
             </div>

@@ -131,6 +131,32 @@
 /lp/aca /lp/aca/index.html 200
 /lp/aca/ /lp/aca/index.html 200
 
+# Intent funnel pages
+/coverage-change-checkup /coverage-change-checkup/index.html 200
+/coverage-change-checkup/ /coverage-change-checkup/index.html 200
+/coverage-change /coverage-change-checkup/ 301!
+/coverage-change/ /coverage-change-checkup/ 301!
+/cobra-checkup /coverage-change-checkup/ 301!
+/cobra-checkup/ /coverage-change-checkup/ 301!
+/turning-65-medicare-countdown /turning-65-medicare-countdown/index.html 200
+/turning-65-medicare-countdown/ /turning-65-medicare-countdown/index.html 200
+/medicare-countdown /turning-65-medicare-countdown/ 301!
+/medicare-countdown/ /turning-65-medicare-countdown/ 301!
+/provider-prescription-check /provider-prescription-check/index.html 200
+/provider-prescription-check/ /provider-prescription-check/index.html 200
+/doctor-prescription-check /provider-prescription-check/ 301!
+/doctor-prescription-check/ /provider-prescription-check/ 301!
+/aging-off-26 /aging-off-26/index.html 200
+/aging-off-26/ /aging-off-26/index.html 200
+/self-employed-income-checkup /self-employed-income-checkup/index.html 200
+/self-employed-income-checkup/ /self-employed-income-checkup/index.html 200
+/employer-offboarding /employer-offboarding/index.html 200
+/employer-offboarding/ /employer-offboarding/index.html 200
+/client-review /client-review/index.html 200
+/client-review/ /client-review/index.html 200
+/post-enrollment-checkup /post-enrollment-checkup/index.html 200
+/post-enrollment-checkup/ /post-enrollment-checkup/index.html 200
+
 # Medicare local bridge pages
 /medicare/east-polk /medicare/east-polk/index.html 200
 /medicare/east-polk/ /medicare/east-polk/index.html 200

@@ -10,18 +10,7 @@
  *   window.LHI.track('Lead', { content_name: 'lp_aca_lead_form' });
  *   window.LHI.identify({ zip: '33801', line: 'ACA' });
  *
- * Page-type inference (for GA4 / Supabase segmentation):
- *   - /lp/aca/            -> lp_aca
- *   - /lp/medicare/       -> lp_medicare
- *   - /lp/gap/            -> lp_gap
- *   - /carriers/*         -> carrier_lp
- *   - /blog/*             -> blog
- *   - /aca-subsidy-estimator/ -> estimator
- *   - /get-help/          -> get_help
- *   - /health-protector-guard/ -> guard_lp
- *   - /thanks.html        -> conversion
- *   - /calendly-book.html -> booking
- *   else                  -> site
+ * Event ownership and definitions live in /FUNNEL-EVENT-DICTIONARY.md.
  */
 (function (w, d) {
   'use strict';
@@ -36,24 +25,30 @@
      match-back via gtag.set('user_data'). */
   var LEAD_CONVERSION_SEND_TO = 'AW-300112445/hChjCJvYraUcEL20jY8B';
 
-  /* Per-page-type lead value (USD) sent with the Google Ads conversion.
-     Smart Bidding uses these as a relative-LTV signal — Medicare residuals
-     are worth multiples of an ACA enrollment, so weighting matters. Edit
-     one place to tune. Default 0 = unchanged behavior; 'default' applies
-     when pageType() returns something not in the map. Anything <= 0 still
-     fires the conversion (count signal) but with value 0. */
+  /* Business-input surface for Google Ads conversion values.
+     Values remain 0 until David supplies authoritative lead economics or
+     approved relative values. This preserves count-based conversion tracking
+     without implying value-based bidding is configured. */
   var LEAD_VALUE_BY_PAGE_TYPE = {
     lp_medicare: 0,
     local_seo_medicare: 0,
     lp_aca: 0,
     local_seo_aca: 0,
-    lp_job_loss: 0,
+    coverage_change: 0,
     estimator: 0,
     lp_gap: 0,
     guard_lp: 0,
     dime_method: 0,
     get_help: 0,
+    provider_network: 0,
+    turning_65: 0,
+    aging_off_26: 0,
+    client_review: 0,
+    post_enrollment: 0,
+    self_employed: 0,
+    employer_offboarding: 0,
     guide_optin: 0,
+    newsletter: 0,
     booking: 0,
     'default': 0
   };
@@ -92,24 +87,49 @@
     return 'lhi_' + Date.now() + '_' + Math.random().toString(36).slice(2, 12);
   }
 
-  function pageType() {
+  function routePath() {
     var p = (w.location.pathname || '/').toLowerCase();
+    p = p.replace(/\/index\.html$/, '/');
+    if (p.length > 1) p = p.replace(/\/$/, '');
+    return p || '/';
+  }
+
+  function hasAny(p, terms) {
+    for (var i = 0; i < terms.length; i++) {
+      if (p.indexOf(terms[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function pageType() {
+    var p = routePath();
+    if (p === '/' || p === '/index.html') return 'home';
+    if (p === '/thanks' || p === '/thanks.html') return 'conversion';
+    if (p === '/calendly-book' || p === '/calendly-book.html') return 'booking';
+    if (p === '/newsletter') return 'newsletter';
     if (p.indexOf('/lp/aca') === 0) return 'lp_aca';
     if (p.indexOf('/lp/medicare') === 0) return 'lp_medicare';
-    if (p.indexOf('/lp/gap') === 0) return 'lp_gap';
+    if (p.indexOf('/lp/gap') === 0) return 'coverage_change';
+    if (hasAny(p, ['coverage-change-checkup', 'lost-job-health-insurance', 'life-change-health-insurance', 'coverage-loss', 'cobra', 'job-loss'])) return 'coverage_change';
+    if (hasAny(p, ['provider-prescription-check', 'orlando-health-watson-clinic', 'watson-clinic', 'provider-network', 'network-check'])) return 'provider_network';
+    if (hasAny(p, ['turning-65', 'age-65', 'medicare-for-dummies'])) return 'turning_65';
+    if (hasAny(p, ['aging-off-26', 'turning-26', 'college-student-health-insurance'])) return 'aging_off_26';
+    if (hasAny(p, ['client-review', 'annual-review', 'plan-review'])) return 'client_review';
+    if (hasAny(p, ['post-enrollment', '30-day-checkup'])) return 'post_enrollment';
+    if (hasAny(p, ['self-employed-income-checkup', 'freelancer-health-insurance', 'self-employed'])) return 'self_employed';
+    if (hasAny(p, ['employer-offboarding', 'cobra-checkup'])) return 'employer_offboarding';
     if (p.indexOf('/carriers/') === 0) return 'carrier_lp';
-    if (p.indexOf('/blog/') === 0) return 'blog';
     if (p.indexOf('/aca-subsidy-estimator') === 0) return 'estimator';
     if (p.indexOf('/get-help') === 0) return 'get_help';
     if (p.indexOf('/health-protector-guard') === 0) return 'guard_lp';
     if (p.indexOf('/aca-health-insurance-lakeland') === 0) return 'local_seo_aca';
     if (p.indexOf('/medicare-broker-lakeland') === 0) return 'local_seo_medicare';
+    if (p.indexOf('/best-medicare-broker-lakeland') === 0) return 'local_seo_medicare';
+    if (p.indexOf('/medicare/east-polk') === 0) return 'local_seo_medicare';
+    if (p.indexOf('/medicare') === 0) return 'lp_medicare';
     if (p.indexOf('/life-insurance-dime') === 0) return 'dime_method';
-    if (p.indexOf('/lost-job-health-insurance') === 0) return 'lp_job_loss';
     if (p.indexOf('/download-free-guide') === 0) return 'guide_optin';
-    if (p.indexOf('/calendly-book') === 0) return 'booking';
-    if (p === '/thanks.html' || p === '/thanks/') return 'conversion';
-    if (p === '/' || p === '/index.html') return 'home';
+    if (p.indexOf('/blog/') === 0) return 'blog';
     return 'site';
   }
 
@@ -150,7 +170,21 @@
       stored = Object.assign({}, stored, fresh, { first_seen: stored.first_seen || new Date().toISOString() });
       cookie('lhi_attr', JSON.stringify(stored), 90);
     }
-    return stored;
+    var first = {};
+    try { first = JSON.parse(cookie('lhi_first_attr') || '{}'); } catch (e) {}
+    if (!first.first_seen) {
+      first = {
+        first_seen: new Date().toISOString(),
+        landing_page: w.location.pathname || '/',
+        referrer: d.referrer || null,
+        attribution: Object.assign({}, stored, fresh)
+      };
+      cookie('lhi_first_attr', JSON.stringify(first), 365);
+    }
+    return {
+      current_touch: stored,
+      first_touch: first
+    };
   }
 
   // Transport -------------------------------------------------------------
@@ -300,6 +334,11 @@
     props = props || {};
     var pt = pageType();
     var eventID = makeEventID();
+    props = Object.assign({
+      page_type: pt,
+      source_page: w.location.pathname,
+      source_url: w.location.href
+    }, props);
     var payload = {
       event_name: name,
       event_id: eventID,
@@ -318,7 +357,7 @@
     };
 
     // 1. GTM / GA4 dataLayer
-    fireGA(name, { page_type: pt, event_params: props });
+    fireGA(name, Object.assign({ page_type: pt, event_params: props }, props));
 
     // 2. Supabase stream
     sendSupabase(payload);
@@ -329,6 +368,8 @@
         sessionStorage.setItem('lhi_lead_submitted', JSON.stringify({
           event_id: eventID,
           content_name: props.content_name || null,
+          intent: props.intent || props.intent_type || null,
+          cta_name: props.cta_name || null,
           page_type: pt,
           page_path: w.location.pathname,
           fired_at: Date.now()
@@ -357,6 +398,8 @@
         if (name === 'Lead' && !f.hasAttribute('data-funnel-api-opt-out')) {
           if (e && typeof e.preventDefault === 'function') e.preventDefault();
           if (e && typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+          if (f.__lhiLeadTracked) return;
+          f.__lhiLeadTracked = true;
           track(name, { content_name: content, step: step });
           submitLeadViaApi(f, formPayload(f, fd, content));
           return;
@@ -371,9 +414,58 @@
       if (a.__lhiWired) return;
       a.__lhiWired = true;
       a.addEventListener('click', function () {
-        track('Schedule', { content_name: pageType() + '_calendly_click' });
+        track('Schedule', {
+          content_name: pageType() + '_calendly_click',
+          cta_name: ctaName(a),
+          destination_url: a.href || null,
+          schedule_state: 'click'
+        });
       });
     });
+
+    d.querySelectorAll('a[href^="tel:"]').forEach(function (a) {
+      if (a.__lhiPhoneWired) return;
+      a.__lhiPhoneWired = true;
+      a.addEventListener('click', function () {
+        track('PhoneClick', {
+          content_name: pageType() + '_phone_click',
+          cta_name: ctaName(a),
+          destination_url: a.href || null
+        });
+      });
+    });
+
+    d.querySelectorAll('a[href*="m.me/"], a[href*="messenger.com"]').forEach(function (a) {
+      if (a.__lhiMessengerWired) return;
+      a.__lhiMessengerWired = true;
+      a.addEventListener('click', function () {
+        track('MessengerClick', {
+          content_name: pageType() + '_messenger_click',
+          cta_name: ctaName(a),
+          destination_url: a.href || null
+        });
+      });
+    });
+
+    d.querySelectorAll('a[href*="healthsherpa.com"], a[href*="healthcare.gov"], a[href*="/find-plans"], a[href*="/search-engine-from-zip"]').forEach(function (a) {
+      if (a.__lhiQuoteWired) return;
+      a.__lhiQuoteWired = true;
+      a.addEventListener('click', function () {
+        track('SelfServiceQuoteClick', {
+          content_name: pageType() + '_self_service_quote_click',
+          cta_name: ctaName(a),
+          destination_url: a.href || null
+        });
+      });
+    });
+  }
+
+  function ctaName(el) {
+    return el.getAttribute('data-funnel-cta') ||
+      el.getAttribute('data-analytics-label') ||
+      el.getAttribute('aria-label') ||
+      (el.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 80) ||
+      'unnamed_cta';
   }
 
   // Boot ------------------------------------------------------------------
@@ -387,6 +479,9 @@
       sha256: sha256,
       normPhone: normPhone,
       pageType: pageType,
+      routePath: routePath,
+      getAttribution: getAttribution,
+      wireForms: wireForms,
       leadValueFor: leadValueFor,
       LEAD_VALUE_BY_PAGE_TYPE: LEAD_VALUE_BY_PAGE_TYPE,
       LEAD_CONVERSION_SEND_TO: LEAD_CONVERSION_SEND_TO

@@ -1,0 +1,235 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - strong [ref=e3]: Insurance questions?
+    - text: Call
+    - link "(863) 640-3102" [ref=e4] [cursor=pointer]:
+      - /url: tel:+18636403102
+    - text: or
+    - link "start a free plan review" [ref=e5] [cursor=pointer]:
+      - /url: /get-help/
+    - text: ". FL Broker License #W371813"
+  - banner [ref=e6]:
+    - navigation [ref=e7]:
+      - generic [ref=e8]:
+        - 'link "Lakeland Health Insurance Licensed FL Broker #W371813" [ref=e9] [cursor=pointer]':
+          - /url: /
+          - text: Lakeland Health Insurance
+          - generic [ref=e10]: "Licensed FL Broker #W371813"
+        - button "Toggle navigation menu" [ref=e11] [cursor=pointer]
+      - list [ref=e16]:
+        - listitem [ref=e17]:
+          - link "Home" [ref=e18] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=e19]:
+          - link "Health Plans" [ref=e20] [cursor=pointer]:
+            - /url: /plans/
+        - listitem [ref=e21]:
+          - link "Carriers" [ref=e22] [cursor=pointer]:
+            - /url: /carriers/
+        - listitem [ref=e23]:
+          - link "Medicare" [ref=e24] [cursor=pointer]:
+            - /url: /medicare/
+        - listitem [ref=e25]:
+          - link "Blog" [ref=e26] [cursor=pointer]:
+            - /url: /blog/
+        - listitem [ref=e27]:
+          - link "About" [ref=e28] [cursor=pointer]:
+            - /url: /about/
+        - listitem [ref=e29]:
+          - link "Learn" [ref=e30] [cursor=pointer]:
+            - /url: /learning/
+        - listitem [ref=e31]:
+          - link "Get Help" [ref=e32] [cursor=pointer]:
+            - /url: /get-help/
+      - link "Talk to David" [ref=e34] [cursor=pointer]:
+        - /url: /get-help/
+  - main [ref=e35]:
+    - generic [ref=e37]:
+      - heading "Health Insurance Broker Serving Tampa & Hillsborough County" [level=1] [ref=e38]
+      - paragraph [ref=e39]: "Licensed broker David Huff (FL #W371813, NPN 18213932) helps Tampa residents find the right health insurance — ACA Marketplace plans, Medicare, short-term coverage, and more."
+      - paragraph [ref=e40]: No call centers. No upsells. Just clear guidance from a licensed professional who works for you, not the carrier.
+      - paragraph [ref=e41]: Free consultation. Zero cost for my services.
+      - link "Get Plan-Specific Help" [ref=e43] [cursor=pointer]:
+        - /url: /get-help/
+    - generic [ref=e45]:
+      - heading "Health Insurance Options in Tampa" [level=2] [ref=e46]
+      - paragraph [ref=e47]: Tampa and Hillsborough County residents have access to a range of health coverage options. What's available to you depends on your age, income, employment status, and household size.
+      - list [ref=e48]:
+        - listitem [ref=e49]:
+          - strong [ref=e50]: ACA Marketplace plans
+          - text: — Income-based pricing with potential subsidies. Carriers in Hillsborough County include Ambetter, Molina, Oscar, and UnitedHealthcare.
+        - listitem [ref=e51]:
+          - strong [ref=e52]: Medicare
+          - text: — Medicare Advantage, Medigap, and Part D for residents 65+ or with qualifying disabilities.
+        - listitem [ref=e53]:
+          - strong [ref=e54]: Short-term medical
+          - text: — Gap coverage for transitions between jobs or plans.
+        - listitem [ref=e55]:
+          - strong [ref=e56]: Dental, vision, and supplemental
+          - text: — Standalone or bundled with primary coverage.
+      - paragraph [ref=e57]: I'll walk you through what fits your situation. No guesswork.
+    - generic [ref=e59]:
+      - heading "Who This Page Is For" [level=2] [ref=e60]
+      - paragraph [ref=e61]: "If you live or work in the Tampa Bay area and need health coverage, this is your starting point:"
+      - list [ref=e62]:
+        - listitem [ref=e63]: Self-employed professionals and 1099 contractors in Tampa
+        - listitem [ref=e64]: Families without employer-sponsored coverage
+        - listitem [ref=e65]: Residents who recently moved to Tampa or Hillsborough County
+        - listitem [ref=e66]: Anyone losing coverage and needing a Special Enrollment Period
+        - listitem [ref=e67]: Tampa residents turning 65 and navigating Medicare for the first time
+        - listitem [ref=e68]: Small business owners exploring individual market options
+    - generic [ref=e70]:
+      - heading "Why Tampa Residents Work With Me" [level=2] [ref=e71]
+      - paragraph [ref=e72]: "I'm based in Lakeland — about 35 minutes from downtown Tampa. Everything I do is remote-friendly: phone, video, or text. Same-day responses, not a 1-800 number."
+      - list [ref=e73]:
+        - listitem [ref=e74]:
+          - strong [ref=e75]: Licensed and regulated
+          - text: "— FL License #W371813, NPN 18213932. I'm accountable to the Florida Department of Financial Services."
+        - listitem [ref=e76]:
+          - strong [ref=e77]: Zero cost to you
+          - text: — Brokers are compensated by carriers, not clients. My guidance is free.
+        - listitem [ref=e78]:
+          - strong [ref=e79]: ACA subsidy expertise
+          - text: — I structure enrollments to maximize your Advanced Premium Tax Credit.
+        - listitem [ref=e80]:
+          - strong [ref=e81]: Post-enrollment support
+          - text: — I don't disappear after you sign up. Claims issues, renewals, mid-year changes — I handle it.
+    - generic [ref=e83]:
+      - heading "Tampa Area Communities I Serve" [level=2] [ref=e84]
+      - paragraph [ref=e85]: I work with residents across the greater Tampa Bay area, including Tampa, Brandon, Riverview, Plant City, Temple Terrace, Town 'N' Country, Carrollwood, Westchase, Seffner, Thonotosassa, Valrico, Bloomingdale, Fish Hawk, Ruskin, Apollo Beach, Dover, Mango, and surrounding Hillsborough County communities.
+      - paragraph [ref=e86]: Whether you're in South Tampa or out near the I-4 corridor toward Lakeland, enrollment works the same way — and I make it simple.
+      - paragraph [ref=e87]:
+        - text: "Latest from the blog:"
+        - link [ref=e88] [cursor=pointer]:
+          - /url: /blog/health-insurance-tampa-2026.html
+          - strong [ref=e89]: Health Insurance in Tampa, FL — What Changed in 2026
+    - generic [ref=e91]:
+      - heading "Frequently Asked Questions" [level=2] [ref=e92]
+      - generic [ref=e93]:
+        - heading "Who is the best health insurance broker in Tampa?" [level=3] [ref=e94]
+        - paragraph [ref=e95]: "David Huff is a licensed Florida health insurance broker (FL #W371813, NPN 18213932) serving Tampa and Hillsborough County. He specializes in ACA Marketplace plans and Medicare with free, no-pressure consultations."
+      - generic [ref=e96]:
+        - heading "How much does health insurance cost in Tampa?" [level=3] [ref=e97]
+        - paragraph [ref=e98]: Costs vary based on income, age, and plan type. Many Tampa residents qualify for ACA subsidies that reduce premiums significantly — some to $0/month. A free consultation can show you exactly what you qualify for.
+      - generic [ref=e99]:
+        - heading "Can I enroll in ACA coverage outside of Open Enrollment?" [level=3] [ref=e100]
+        - paragraph [ref=e101]: Yes, if you have a qualifying life event — such as losing employer coverage, moving to Tampa, marriage, or a new child. You typically have 60 days to enroll through a Special Enrollment Period.
+      - generic [ref=e102]:
+        - heading "Do I need a broker or can I enroll myself?" [level=3] [ref=e103]
+        - paragraph [ref=e104]: You can enroll yourself at Healthcare.gov, but a broker ensures your application is structured correctly, your subsidy is maximized, and your plan fits your actual needs. There's no additional cost — brokers are paid by the carriers.
+      - generic [ref=e105]:
+        - heading "What carriers are available in Hillsborough County?" [level=3] [ref=e106]
+        - paragraph [ref=e107]: ACA carriers in Hillsborough County include Ambetter, Molina, Oscar, and UnitedHealthcare. Medicare options vary by plan type. I'll show you what's available based on your ZIP code.
+    - generic [ref=e110]:
+      - heading "Get Help With Tampa Health Insurance" [level=2] [ref=e111]
+      - paragraph [ref=e112]: Tell me a little about your situation and I'll follow up personally — usually within one business day.
+      - paragraph [ref=e113]: No spam. No call centers. Just David.
+      - generic [ref=e114]:
+        - generic [ref=e115]:
+          - generic [ref=e116]:
+            - generic [ref=e117]: Full Name
+            - textbox "Full Name" [ref=e118]
+          - generic [ref=e119]:
+            - generic [ref=e120]: Phone Number
+            - textbox "Phone Number" [ref=e121]
+          - generic [ref=e122]:
+            - generic [ref=e123]: ZIP Code
+            - textbox "ZIP Code" [ref=e124]
+          - generic [ref=e125]:
+            - generic [ref=e126]: Coverage Type
+            - combobox "Coverage Type" [ref=e127]:
+              - option "Select one" [selected]
+              - option "ACA / Marketplace"
+              - option "Medicare"
+              - option "Short-Term / Gap"
+              - option "Dental & Vision"
+              - option "Not sure - help me figure it out"
+          - generic [ref=e128]:
+            - generic [ref=e129]: How did you find me?
+            - combobox "How did you find me?" [ref=e130]:
+              - option "Select one (optional)" [selected]
+              - option "ChatGPT / AI assistant"
+              - option "Google search"
+              - option "Facebook"
+              - option "Referral from someone"
+              - option "Saw an ad"
+              - option "Other"
+        - button "Request Free Consultation" [ref=e131] [cursor=pointer]
+    - paragraph [ref=e134]: "Lakeland Health Insurance is an independent brokerage founded by David Huff, serving Tampa, Hillsborough County, and the greater Tampa Bay area with ACA Marketplace guidance, Medicare planning, and individual coverage solutions. FL License #W371813. NPN 18213932."
+  - contentinfo [ref=e135]:
+    - generic [ref=e136]:
+      - generic [ref=e137]:
+        - generic [ref=e138]:
+          - heading "Contact David" [level=3] [ref=e139]
+          - list [ref=e140]:
+            - listitem [ref=e141]:
+              - link "(863) 640-3102" [ref=e142] [cursor=pointer]:
+                - /url: tel:+18636403102
+                - text: 📞 (863) 640-3102
+            - listitem [ref=e143]:
+              - link "dhuff@healthmarkets.com" [ref=e144] [cursor=pointer]:
+                - /url: mailto:dhuff@healthmarkets.com
+                - text: 📧 dhuff@healthmarkets.com
+            - listitem [ref=e145]:
+              - link "David the Insurance Dude" [ref=e146] [cursor=pointer]:
+                - /url: https://m.me/2330958066941437
+                - text: 💬 David the Insurance Dude
+            - listitem [ref=e147]: 📍 Central Florida Headquarters
+            - listitem [ref=e148]: ⏰ Mon-Fri 8AM-8PM EST
+            - listitem [ref=e149]: ⏰ Sat 9AM-5PM EST
+        - generic [ref=e150]:
+          - heading "Service Areas" [level=3] [ref=e151]
+          - list [ref=e152]:
+            - listitem [ref=e153]: Florida Residents
+            - listitem [ref=e154]: Coverage Across the Nation
+            - listitem [ref=e155]: Small Business Groups
+            - listitem [ref=e156]: Individual & Family Plans
+            - listitem [ref=e157]: Medicare Specialists
+        - generic [ref=e158]:
+          - heading "Quick Links" [level=3] [ref=e159]
+          - list [ref=e160]:
+            - listitem [ref=e161]:
+              - link "Home" [ref=e162] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e163]:
+              - link "Insurance Plans" [ref=e164] [cursor=pointer]:
+                - /url: /plans/
+            - listitem [ref=e165]:
+              - link "Health Protector Guard" [ref=e166] [cursor=pointer]:
+                - /url: /health-protector-guard/
+            - listitem [ref=e167]:
+              - link "Self-Service ACA Quote" [ref=e168] [cursor=pointer]:
+                - /url: https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q
+            - listitem [ref=e169]:
+              - link "Blog" [ref=e170] [cursor=pointer]:
+                - /url: /blog/
+            - listitem [ref=e171]:
+              - link "Our Approach" [ref=e172] [cursor=pointer]:
+                - /url: /our-approach.html
+            - listitem [ref=e173]:
+              - link "Florida Health Insurance Guide" [ref=e174] [cursor=pointer]:
+                - /url: /blog/florida-insurance-guide.html
+            - listitem [ref=e175]:
+              - link "Start Free Plan Review" [ref=e176] [cursor=pointer]:
+                - /url: /get-help/
+            - listitem [ref=e177]:
+              - link "Privacy Policy" [ref=e178] [cursor=pointer]:
+                - /url: /privacy-policy.html
+      - generic [ref=e179]:
+        - paragraph [ref=e180]: © 2026 Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.
+        - paragraph [ref=e181]: "FL License #W371813 | NPN 18213932 | Serving most of the United States with honest insurance advice"
+        - paragraph [ref=e182]:
+          - link "Powered by David the Insurance Dude" [ref=e183] [cursor=pointer]:
+            - /url: https://www.facebook.com/HealthMarkets.David.Huff
+  - link "Message David on Messenger" [ref=e184] [cursor=pointer]:
+    - /url: https://m.me/2330958066941437
+    - generic [ref=e185]: 💬
+    - generic [ref=e186]:
+      - generic [ref=e187]: Message David
+      - generic [ref=e188]: Usually replies fast
+  - 'link "Call: (863) 640-3102 David answers personally" [ref=e189] [cursor=pointer]':
+    - /url: tel:+18636403102
+    - generic [ref=e190]: 📞
+    - generic [ref=e191]:
+      - generic [ref=e192]: "Call: (863) 640-3102"
+      - generic [ref=e193]: David answers personally
