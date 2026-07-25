@@ -129,10 +129,10 @@ const siteSearchIndex = [
     tags: ["Medicare", "Lakeland", "Local"]
   },
   {
-    title: "Watson Clinic and Lakeland Regional Insurance Guide for 2026",
+    title: "Orlando Health and Watson Clinic Insurance Network Guide",
     url: "/blog/lakeland-regional-watson-clinic-insurance-2026.html",
-    excerpt: "Check which 2026 Medicare Advantage and ACA plans work at Watson Clinic and Lakeland Regional Health, including specialty-only and referral traps.",
-    tags: ["Lakeland", "Local", "Networks"]
+    excerpt: "What the Orlando Health and Watson Clinic collaboration means for ACA and Medicare networks, referrals, specialists, labs, imaging, and plan checks.",
+    tags: ["Lakeland", "Local", "Networks", "Orlando Health", "Watson Clinic"]
   },
   {
     title: "The Freelancer's Guide to Health Insurance in Lakeland & Polk County (2026)",
