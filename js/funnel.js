@@ -240,6 +240,62 @@
        Conversions when a Lead event fires. */
   }
 
+  function fdGet(fd, names) {
+    for (var i = 0; i < names.length; i++) {
+      var val = fd.get(names[i]);
+      if (val != null && String(val).trim() !== '') return val;
+    }
+    return null;
+  }
+
+  function identifyFromFormData(fd) {
+    var attrs = {};
+    var zip = fdGet(fd, ['zip', 'ZIP', 'zip_code', 'postal_code']);
+    var email = fdGet(fd, ['email']);
+    var phone = fdGet(fd, ['phone', 'phone_number']);
+    var name = fdGet(fd, ['name', 'full_name']);
+    if (zip) attrs.zip = zip;
+    if (email) attrs.email = email;
+    if (phone) attrs.phone = phone;
+    if (name) attrs.name = name;
+    if (Object.keys(attrs).length) identify(attrs);
+  }
+
+  function formPayload(f, fd, content) {
+    var payload = {
+      content_name: content,
+      source_url: w.location.href
+    };
+    fd.forEach(function (v, k) {
+      payload[k] = v;
+    });
+    return payload;
+  }
+
+  function redirectAfterLead(f) {
+    w.location.href = f.getAttribute('action') || '/thanks.html';
+  }
+
+  function submitLeadViaApi(f, payload) {
+    if (f.__lhiApiSubmitting) return;
+    f.__lhiApiSubmitting = true;
+
+    fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      if (!res.ok) throw new Error('lead api ' + res.status);
+      redirectAfterLead(f);
+    }).catch(function () {
+      try {
+        f.submit();
+      } catch (e) {
+        redirectAfterLead(f);
+      }
+    });
+  }
+
   function track(name, props) {
     props = props || {};
     var pt = pageType();
@@ -291,14 +347,21 @@
     d.querySelectorAll('form[data-funnel-track], form[data-funnel-step]').forEach(function (f) {
       if (f.__lhiWired) return;
       f.__lhiWired = true;
-      f.addEventListener('submit', function () {
+      f.addEventListener('submit', function (e) {
         var name = f.getAttribute('data-funnel-event') || 'Lead';
         var step = f.getAttribute('data-funnel-step') || 'submit';
         var content = f.getAttribute('data-funnel-name') || (pageType() + '_' + step);
         var fd = new FormData(f);
-        var zip = fd.get('zip') || fd.get('ZIP') || null;
-        var email = fd.get('email') || null;
-        if (zip || email) identify({ zip: zip, email: email });
+        identifyFromFormData(fd);
+
+        if (name === 'Lead' && !f.hasAttribute('data-funnel-api-opt-out')) {
+          if (e && typeof e.preventDefault === 'function') e.preventDefault();
+          if (e && typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+          track(name, { content_name: content, step: step });
+          submitLeadViaApi(f, formPayload(f, fd, content));
+          return;
+        }
+
         track(name, { content_name: content, step: step });
       }, { capture: true });
     });

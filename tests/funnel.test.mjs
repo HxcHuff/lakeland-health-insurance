@@ -40,9 +40,21 @@ function makeSessionStorage(initial = {}) {
 /* Build a sandbox that mimics the browser globals funnel.js touches.
    __LHI_IS_PROD=false silences gtag/Supabase fire paths so loading
    the script has no side-effects beyond attaching window.LHI. */
-function loadFunnel({ pathname = '/' } = {}) {
+function loadFunnel({ pathname = '/', forms = [], fetchImpl } = {}) {
   const dataLayer = [];
   const sessionStorage = makeSessionStorage();
+  class TestFormData {
+    constructor(form) {
+      this.entries = Object.entries(form._fields || {});
+    }
+    get(name) {
+      const found = this.entries.find(([key]) => key === name);
+      return found ? found[1] : null;
+    }
+    forEach(cb) {
+      this.entries.forEach(([key, value]) => cb(value, key));
+    }
+  }
   const sandbox = {
     __LHI_TEST: true,
     __LHI_IS_PROD: false,
@@ -68,11 +80,14 @@ function loadFunnel({ pathname = '/' } = {}) {
     Array: globalThis.Array,
     Uint8Array: globalThis.Uint8Array,
     Blob: globalThis.Blob,
-    fetch: () => Promise.resolve({ ok: true }),
+    FormData: TestFormData,
+    Error: globalThis.Error,
+    fetch: fetchImpl || (() => Promise.resolve({ ok: true })),
     setTimeout: () => 0,
     dataLayer,
     sessionStorage
   };
+  sandbox.document.querySelectorAll = () => forms;
   /* funnel.js IIFE call: (function(w,d){...})(window||this, document).
      We pass the sandbox itself as `window`, and sandbox.document as `document`. */
   sandbox.window = sandbox;
@@ -80,6 +95,41 @@ function loadFunnel({ pathname = '/' } = {}) {
   vm.createContext(sandbox);
   vm.runInContext(FUNNEL_SRC, sandbox, { filename: 'funnel.js' });
   return sandbox;
+}
+
+function makeFunnelForm({
+  eventName = 'Lead',
+  contentName = 'test_lead_form',
+  action = '/thanks.html',
+  fields = {}
+} = {}) {
+  const listeners = {};
+  return {
+    _fields: fields,
+    __submitted: false,
+    getAttribute(name) {
+      if (name === 'data-funnel-event') return eventName;
+      if (name === 'data-funnel-name') return contentName;
+      if (name === 'data-funnel-step') return null;
+      if (name === 'action') return action;
+      return null;
+    },
+    hasAttribute(name) {
+      return name === 'data-funnel-track';
+    },
+    addEventListener(type, cb) {
+      listeners[type] = cb;
+    },
+    submit() {
+      this.__submitted = true;
+    },
+    dispatchSubmit(event = {}) {
+      listeners.submit(Object.assign({
+        preventDefault() {},
+        stopImmediatePropagation() {}
+      }, event));
+    }
+  };
 }
 
 function loadAnalytics({ pathname = '/', telLabel = 'Call David' } = {}) {
@@ -321,6 +371,72 @@ test('Lead tracking sets pending thank-you lead marker', () => {
   assert.equal(marker.page_type, 'lp_aca');
   assert.equal(marker.page_path, '/lp/aca/');
   assert.equal(typeof marker.fired_at, 'number');
+});
+
+test('Lead form submit posts to /api/lead and stops legacy submit handlers', async () => {
+  const calls = [];
+  const form = makeFunnelForm({
+    contentName: 'city_lead_form',
+    fields: {
+      'form-name': 'tampa-health-insurance',
+      full_name: 'Jane Doe',
+      phone_number: '863-640-3102',
+      email: 'jane@example.com',
+      zip_code: '33801'
+    }
+  });
+  const w = loadFunnel({
+    pathname: '/tampa-health-insurance/',
+    forms: [form],
+    fetchImpl: (url, init) => {
+      calls.push({ url, init });
+      return Promise.resolve({ ok: true });
+    }
+  });
+  let prevented = false;
+  let stopped = false;
+
+  form.dispatchSubmit({
+    preventDefault() { prevented = true; },
+    stopImmediatePropagation() { stopped = true; }
+  });
+  await Promise.resolve();
+
+  assert.equal(prevented, true);
+  assert.equal(stopped, true);
+  const apiCalls = calls.filter((call) => call.url === '/api/lead');
+  assert.equal(apiCalls.length, 1);
+  assert.equal(apiCalls[0].init.method, 'POST');
+  assert.equal(apiCalls[0].init.headers['Content-Type'], 'application/json');
+
+  const payload = JSON.parse(apiCalls[0].init.body);
+  assert.equal(payload.content_name, 'city_lead_form');
+  assert.equal(payload['form-name'], 'tampa-health-insurance');
+  assert.equal(payload.phone_number, '863-640-3102');
+  assert.equal(payload.zip_code, '33801');
+
+  assert.ok(w.dataLayer.some((entry) => entry.event === 'Lead'), 'Lead event pushed to dataLayer');
+  assert.ok(w.sessionStorage.getItem('lhi_lead_submitted'), 'thank-you marker set');
+});
+
+test('Lead form API failure falls back to native Netlify submit', async () => {
+  const form = makeFunnelForm({
+    fields: {
+      'form-name': 'lp-aca-lead',
+      email: 'jane@example.com'
+    }
+  });
+  loadFunnel({
+    pathname: '/lp/aca/',
+    forms: [form],
+    fetchImpl: () => Promise.resolve({ ok: false, status: 500 })
+  });
+
+  form.dispatchSubmit();
+  await Promise.resolve();
+  await Promise.resolve();
+
+  assert.equal(form.__submitted, true);
 });
 
 test('thanks.html does not fire generate_lead without pending marker', () => {

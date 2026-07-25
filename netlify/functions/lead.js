@@ -33,6 +33,16 @@ const FORM_MC_CONFIG = {
   'aca-lakeland-lead':             { status: 'subscribed', tags: ['aca', 'local-seo', 'lakeland', 'hot-lead'] },
   'tampa-health-insurance':        { status: 'subscribed', tags: ['aca', 'local-seo', 'tampa', 'hot-lead'] },
   'winter-haven-health-insurance': { status: 'subscribed', tags: ['aca', 'local-seo', 'winter-haven', 'hot-lead'] },
+  'haines-city-health-insurance':  { status: 'subscribed', tags: ['aca', 'local-seo', 'haines-city', 'hot-lead'] },
+  'lake-alfred-health-insurance':  { status: 'subscribed', tags: ['aca', 'local-seo', 'lake-alfred', 'hot-lead'] },
+  'davenport-health-insurance':    { status: 'subscribed', tags: ['aca', 'local-seo', 'davenport', 'hot-lead'] },
+  'brandon-health-insurance':      { status: 'subscribed', tags: ['aca', 'local-seo', 'brandon', 'hot-lead'] },
+  'clearwater-health-insurance':   { status: 'subscribed', tags: ['aca', 'local-seo', 'clearwater', 'hot-lead'] },
+  'largo-health-insurance':        { status: 'subscribed', tags: ['aca', 'local-seo', 'largo', 'hot-lead'] },
+  'new-port-richey-health-insurance': { status: 'subscribed', tags: ['aca', 'local-seo', 'new-port-richey', 'hot-lead'] },
+  'riverview-health-insurance':    { status: 'subscribed', tags: ['aca', 'local-seo', 'riverview', 'hot-lead'] },
+  'st-petersburg-health-insurance': { status: 'subscribed', tags: ['aca', 'local-seo', 'st-petersburg', 'hot-lead'] },
+  'wesley-chapel-health-insurance': { status: 'subscribed', tags: ['aca', 'local-seo', 'wesley-chapel', 'hot-lead'] },
   'subsidy-estimator-lead':        { status: 'subscribed', tags: ['aca', 'subsidy-estimator', 'tool-lead'] }
 };
 
@@ -94,9 +104,12 @@ exports.handler = async (event) => {
       const userData = {};
       if (clientIp) userData.client_ip_address = clientIp;
       if (userAgent) userData.client_user_agent = userAgent;
-      if (payload.email) userData.em = [sha256(payload.email)];
-      if (payload.phone) {
-        const ph = normalizePhone(payload.phone);
+      const email = payload.email;
+      const phone = payload.phone || payload.phone_number;
+      const zip = payload.zip || payload.zip_code || payload.postal_code;
+      if (email) userData.em = [sha256(email)];
+      if (phone) {
+        const ph = normalizePhone(phone);
         if (ph) userData.ph = [sha256(ph)];
       }
       if (payload.first_name) userData.fn = [sha256(payload.first_name)];
@@ -106,7 +119,7 @@ exports.handler = async (event) => {
         if (parts[0]) userData.fn = [sha256(parts[0])];
         if (parts.length > 1) userData.ln = [sha256(parts.slice(1).join(' '))];
       }
-      if (payload.zip) userData.zp = [sha256(String(payload.zip).slice(0, 5))];
+      if (zip) userData.zp = [sha256(String(zip).slice(0, 5))];
       if (fbp) userData.fbp = fbp;
       if (fbc) userData.fbc = fbc;
 
@@ -261,7 +274,7 @@ async function syncToMailchimp(payload) {
     if (parts[0]) mergeFields.FNAME = parts[0];
     if (parts.length > 1) mergeFields.LNAME = parts.slice(1).join(' ');
   }
-  if (payload.phone) mergeFields.PHONE = payload.phone;
+  if (payload.phone || payload.phone_number) mergeFields.PHONE = payload.phone || payload.phone_number;
 
   // status (force) for high-intent forms upgrades existing pending contacts.
   // status_if_new (don't downgrade) for newsletter signups preserves existing subscribed status.
