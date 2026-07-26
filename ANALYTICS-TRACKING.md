@@ -34,17 +34,33 @@
 
 ---
 
-## Key Events (Conversions)
+## GA4 Event Policy
 
-### Active & Firing
-| Event | Purpose |
+Goal: optimize site measurement for qualified Medicare/ACA leads, not raw clicks or generic engagement.
+
+### Mark as Key Events
+| Event | Purpose | Quality Rule |
 |---|---|
-| `generate_lead` | Lead generated |
-| `lead_step_1_complete` | Funnel step 1 complete |
-| `lead_step_2_complete` | Funnel step 2 complete |
-| `messenger_click` | Messenger engagement |
-| `phone_call_click` | Phone call click |
-| `ads_conversion_Blog_Views_1` | Blog content conversion (Google Ads) |
+| `generate_lead` | Completed lead request | Count as a real lead only when it matches Netlify Forms, `/api/lead`, Google lead form, or CRM/inbox delivery. |
+| `phone_call_click` | Click-to-call intent | Contact-intent key event only; validate quality against call logs, voicemail, duration, and reachable number. |
+| `messenger_click` | Messenger contact intent | Contact-intent key event only; validate quality against actual Messenger threads/messages. |
+
+### Keep as Secondary Diagnostics
+| Event | Purpose | Key Event? |
+|---|---|---|
+| `form_start` | Form friction and source/page intent | No |
+| `lead_step_1_complete` | `/get-help/` funnel progression | No |
+| `lead_step_2_complete` | `/get-help/` funnel progression | No |
+| `lead_submit` | Legacy submit helper on older/local pages | No |
+| `phone_call`, `phone_click` | Legacy aliases | No |
+| `page_view`, `scroll`, `click`, `user_engagement` | UX/content diagnostics | No |
+| `newsletter_signup`, `Subscribe` | Audience-building, not sales lead | No |
+
+### Current Lead-Funnel Guardrails
+- `/js/funnel.js` fires explicit `form_start` once per wired form as a diagnostic event.
+- Data-funnel lead forms POST to `/api/lead`; 4xx validation/bot rejections do not fall back to native submit and do not retain a thank-you lead marker.
+- `generate_lead` fires from `/thanks.html` only when `sessionStorage.lhi_lead_submitted` exists and is fresh.
+- Primary lead quality is validated outside GA4 by matching event timestamps to Netlify Forms, `/api/lead` logs, Google lead forms, call logs, Messenger threads, and CRM outcomes.
 
 ### Defined But Not Firing
 | Event | Status | Notes |
@@ -55,8 +71,8 @@
 | `form_submit` | No stream data | Likely GTM trigger broken or name mismatch |
 | `qualify_lead` | No stream data | Likely GTM trigger broken or name mismatch |
 
-### Also Firing (Not Yet Marked as Key Events)
-- `form_start`, `click`, `first_visit`, `page_view`, `scroll`, `session_start`, `timing_complete`, `user_engagement`
+### Also Firing
+- `click`, `first_visit`, `page_view`, `scroll`, `session_start`, `timing_complete`, `user_engagement`
 
 ---
 
@@ -102,7 +118,7 @@
 
 ### Investigate
 3. **`page_view` source** — Confirm `page_view` fires via `gtag('event', 'page_view')` in the tag snippet or GTM config tag, NOT via enhanced measurement. If it ever stops appearing in real-time, re-enable the enhanced measurement toggle.
-4. **`form_start` not a key event** — Currently firing but not tracked as a conversion. Consider marking it as a key event for top-of-funnel visibility.
+4. **Legacy `lead_submit` cleanup** — Older local SEO pages may still emit `lead_submit`; keep it unmarked as a key event unless it is replaced by the canonical `generate_lead` path.
 
 ---
 
