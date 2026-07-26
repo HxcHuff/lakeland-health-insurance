@@ -189,16 +189,16 @@ const siteSearchIndex = [
     tags: ["ACA", "Subsidies", "Tax Planning"]
   },
   {
-    title: "Why Your Insurance Agent Probably Hates You (And How to Fix That)",
+    title: "How to Get Better Help From Your Insurance Agent",
     url: "/blog/no-your-agent-doesnt-hate-you.html",
-    excerpt: "Let's be honest — if your insurance agent could block your number without losing commission, they probably would. Here's how to become the client they actually want to help.",
-    tags: ["Tips", "Insurance Agents", "Humor"]
+    excerpt: "How to get better service from your insurance agent by sharing life changes, asking the right questions, and reviewing coverage before problems happen.",
+    tags: ["Tips", "Insurance Agents", "Coverage Review"]
   },
   {
-    title: "ACA Open Enrollment 2025: How to Get Ready for the Best Coverage",
+    title: "ACA Open Enrollment Checklist: How to Prepare Before You Pick a Plan",
     url: "/blog/aca-open-enrollment-deadline.html",
-    excerpt: "Get ready for ACA open enrollment with expert tips. Learn how to maximize subsidies and avoid costly mistakes during the enrollment window.",
-    tags: ["ACA", "Open Enrollment", "Subsidies"]
+    excerpt: "A practical ACA checklist for reviewing income, doctors, prescriptions, plan networks, and subsidy questions before choosing coverage.",
+    tags: ["ACA", "Open Enrollment", "Checklist"]
   },
   {
     title: "Medicare Advantage vs Medicare Supplement: The Ultimate Showdown",
@@ -225,11 +225,24 @@ const siteSearchIndex = [
     tags: ["ACA", "Short-Term", "Comparison"]
   },
   {
-    title: "Short-Term Medical Insurance: The Good, Bad, and Ugly Truth",
+    title: "Short-Term Medical Insurance: When It Fits and When It Does Not",
     url: "/blog/short-term-medical-guide.html",
-    excerpt: "When short-term medical insurance makes sense and when it doesn't. Get the real truth about short-term medical coverage from a licensed insurance professional.",
+    excerpt: "When short-term medical insurance may help, where it can leave major gaps, and what to review before using it instead of ACA coverage.",
     tags: ["Short-Term", "Coverage", "Comparison"]
   },
+  {
+    title: "Winter Haven Health Insurance",
+    url: "/winter-haven-health-insurance/",
+    excerpt: "ACA, Medicare, short-term, dental, vision, and supplemental coverage help with Polk County doctor and hospital network guidance.",
+    tags: ["Winter Haven", "Polk County", "ACA", "Medicare"]
+  },
+  {
+    title: "New Port Richey Health Insurance",
+    url: "/new-port-richey-health-insurance/",
+    excerpt: "ACA, Medicare, short-term, dental, vision, and supplemental coverage help for New Port Richey and Pasco County.",
+    tags: ["New Port Richey", "Pasco County", "ACA", "Medicare"]
+  },
+
   {
     title: "How to Actually Use Your Health Insurance (Without Going Broke)",
     url: "/blog/how-to-use-health-insurance-without-going-broke.html",
@@ -333,9 +346,9 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Clearwater", "Pinellas County"]
   },
   {
-    title: "Health Insurance in Largo FL — 2026 Premium Increases & Affordable Coverage",
+    title: "Health Insurance in Largo FL 2026: ACA and SEP Guide",
     url: "/blog/health-insurance-largo-2026.html",
-    excerpt: "Largo ACA premium changes, Pinellas County SEP eligibility, Bronze + HSA plans, and Medicare GLP-1 bridge considerations.",
+    excerpt: "Largo FL health insurance guide for 2026 ACA plan reviews, Special Enrollment Periods, HSA-eligible Bronze plans, and Pinellas County coverage checks.",
     tags: ["ACA", "Florida", "Largo", "Pinellas County"]
   },
   {
