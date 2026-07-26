@@ -1,8 +1,8 @@
 // Netlify Function: /api/lead
-// 1. Mints a server-side event_id (uuid)
+// 1. Mints a server-side event_id (uuid) and preserves any browser event id
 // 2. Fires Meta Conversions API "Lead" event server-side with that event_id
 // 3. Forwards the submission to Netlify Forms so submissions still get captured
-// 4. Returns { event_id } for downstream attribution/audit use
+// 4. Returns { event_id, client_event_id } for downstream attribution/audit use
 
 const crypto = require('crypto');
 
@@ -83,6 +83,7 @@ exports.handler = async (event) => {
 
   const headers = event.headers || {};
   const eventId = crypto.randomUUID();
+  const clientEventId = payload._lhi_client_event_id || payload.client_event_id || null;
   const eventTime = Math.floor(Date.now() / 1000);
 
   const clientIp = (headers['x-nf-client-connection-ip'] ||
@@ -216,6 +217,7 @@ exports.handler = async (event) => {
     headers: { ...corsHeaders(), 'Content-Type': 'application/json' },
     body: JSON.stringify({
       event_id: eventId,
+      client_event_id: clientEventId,
       capi: capiOk,
       forms: formsOk,
       mailchimp: mcOk,

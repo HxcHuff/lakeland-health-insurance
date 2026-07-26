@@ -913,8 +913,8 @@
         document.getElementById('emailInput').value = contact.email;
         document.getElementById('consentInput').value = 'yes';
 
-        /* Push identity first so funnel.js can hash email/phone and set them
-           as Meta Advanced Matching BEFORE the Lead event fires. */
+        /* Push identity first so funnel.js can hash email/phone for Google
+           enhanced conversions before the Lead event fires. */
         if (window.LHI && typeof window.LHI.identify === 'function') {
           window.LHI.identify({
             email: contact.email,
@@ -924,15 +924,15 @@
           });
         }
 
-        /* Fire Lead event FIRST, then submit form after pixel has time to send.
-           Previous bug: fetch() resolved in ~20ms and redirected to /thanks.html
-           before the 50ms setTimeout fired — killing the fbq beacon mid-flight.
-           Fix: fire pixel synchronously, wait 300ms for beacon to complete,
-           THEN submit form and redirect. 300ms is imperceptible to the user
-           but gives fbq + GA4 + Supabase time to send. */
+        /* Fire Lead event first, then submit form after analytics beacons have
+           time to send. The returned client event id is included in /api/lead
+           so GA4, Supabase, Netlify Forms, and server logs can be reconciled. */
+        var clientEventId = null;
         if (window.LHI && typeof window.LHI.track === 'function') {
-          window.LHI.track('Lead', {
+          clientEventId = window.LHI.track('Lead', {
             content_name: 'get_help_form_conversational',
+            step: 'submit',
+            form_name: 'get-help',
             line_of_business: answers && answers.coverageType ? answers.coverageType : null
           });
         } else {
@@ -949,6 +949,15 @@
         });
         payload.source_url = window.location.href;
         payload.content_name = 'get_help_form_conversational';
+        payload._lhi_client_event_id = clientEventId;
+        payload._lhi_page_type = window.LHI && typeof window.LHI.pageType === 'function' ? window.LHI.pageType() : 'get_help';
+        payload._lhi_page_path = window.location.pathname;
+        payload._lhi_session_id = window.LHI && typeof window.LHI.session === 'function' ? window.LHI.session() : '';
+        payload._lhi_attribution_source = (window.UTM_DATA && window.UTM_DATA.utm_source) || 'direct';
+        payload._lhi_attribution_medium = (window.UTM_DATA && window.UTM_DATA.utm_medium) || 'none';
+        payload._lhi_attribution_campaign = (window.UTM_DATA && window.UTM_DATA.utm_campaign) || '';
+        payload._lhi_attribution_content = (window.UTM_DATA && window.UTM_DATA.utm_content) || '';
+        payload._lhi_attribution_term = (window.UTM_DATA && window.UTM_DATA.utm_term) || '';
 
         setTimeout(function () {
           fetch('/api/lead', {

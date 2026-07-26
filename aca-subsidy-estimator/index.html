@@ -1696,46 +1696,66 @@
             updateConfidence();
         });
 
-        // Lead form submission: POST to /api/lead -> server fires Meta CAPI
-        // + forwards to Netlify Forms, returns event_id; browser fires fbq Lead
-        // with that ID for dedup.
+        // Lead form submission: POST to /api/lead, forward to Netlify Forms,
+        // and carry the browser event id for GA4/Supabase/server reconciliation.
         (function() {
             var leadForm = document.getElementById('leadCaptureForm');
             if (!leadForm) return;
 
             leadForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                if (typeof gtag === 'function') {
-                    gtag('event', 'lead_submit', { form_name: 'subsidy_estimator_lead' });
-                    gtag('event', 'generate_lead', {
-                        event_category: 'engagement',
-                        event_label: 'subsidy_estimator_lead'
-                    });
-                }
 
                 var contentName = 'subsidy_estimator_lead_form';
+                var clientEventId = null;
+                if (window.LHI && typeof window.LHI.identify === 'function') {
+                    var identity = {};
+                    new FormData(leadForm).forEach(function(v, k) {
+                        if (k === 'email') identity.email = v;
+                        if (k === 'phone' || k === 'phone_number') identity.phone = v;
+                        if (k === 'full_name' || k === 'name') identity.name = v;
+                        if (k === 'zip' || k === 'zip_code' || k === 'postal_code') identity.zip = v;
+                    });
+                    window.LHI.identify(identity);
+                }
+                if (window.LHI && typeof window.LHI.track === 'function') {
+                    clientEventId = window.LHI.track('Lead', {
+                        content_name: contentName,
+                        step: 'submit',
+                        form_name: 'subsidy-estimator-lead',
+                        line_of_business: 'ACA'
+                    });
+                } else if (typeof gtag === 'function') {
+                    gtag('event', 'lead_submit', { form_name: 'subsidy_estimator_lead' });
+                }
+
                 var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
                 if (isLocal) {
-                    if (typeof fbLead === 'function') fbLead(contentName);
                     window.location.href = leadForm.getAttribute('action') || '/thanks.html';
                     return;
                 }
 
-                var payload = { content_name: contentName, source_url: window.location.href };
+                var payload = {
+                    content_name: contentName,
+                    source_url: window.location.href,
+                    _lhi_client_event_id: clientEventId,
+                    _lhi_page_type: window.LHI && typeof window.LHI.pageType === 'function' ? window.LHI.pageType() : 'estimator',
+                    _lhi_page_path: window.location.pathname,
+                    _lhi_session_id: window.LHI && typeof window.LHI.session === 'function' ? window.LHI.session() : '',
+                    _lhi_attribution_source: (window.UTM_DATA && window.UTM_DATA.utm_source) || 'direct',
+                    _lhi_attribution_medium: (window.UTM_DATA && window.UTM_DATA.utm_medium) || 'none',
+                    _lhi_attribution_campaign: (window.UTM_DATA && window.UTM_DATA.utm_campaign) || '',
+                    _lhi_attribution_content: (window.UTM_DATA && window.UTM_DATA.utm_content) || '',
+                    _lhi_attribution_term: (window.UTM_DATA && window.UTM_DATA.utm_term) || ''
+                };
                 new FormData(leadForm).forEach(function(v, k) { payload[k] = v; });
 
                 fetch('/api/lead', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
-                }).then(function(r) { return r.ok ? r.json() : null; }).then(function(data) {
-                    if (typeof fbLead === 'function') {
-                        var extra = data && data.event_id ? { eventID: data.event_id } : undefined;
-                        fbLead(contentName, extra);
-                    }
+                }).then(function(r) { return r.ok ? r.json() : null; }).then(function() {
                     window.location.href = leadForm.getAttribute('action') || '/thanks.html';
                 }).catch(function() {
-                    if (typeof fbLead === 'function') fbLead(contentName);
                     leadForm.submit();
                 });
             });

@@ -361,16 +361,41 @@ test('legacy phone_call remains supported through shared helper', () => {
 test('Lead tracking sets pending thank-you lead marker', () => {
   const w = loadFunnel({ pathname: '/lp/aca/' });
 
-  w.LHI.track('Lead', { content_name: 'lp_aca_lead_form' });
+  const eventID = w.LHI.track('Lead', { content_name: 'lp_aca_lead_form', step: 'submit', form_name: 'lp-aca-lead' });
 
   const raw = w.sessionStorage.getItem('lhi_lead_submitted');
   assert.ok(raw, 'pending lead marker stored');
   const marker = JSON.parse(raw);
   assert.match(marker.event_id, /^lhi_\d+_[a-z0-9]+$/);
+  assert.equal(marker.event_id, eventID);
   assert.equal(marker.content_name, 'lp_aca_lead_form');
+  assert.equal(marker.funnel_step, 'submit');
+  assert.equal(marker.form_name, 'lp-aca-lead');
   assert.equal(marker.page_type, 'lp_aca');
   assert.equal(marker.page_path, '/lp/aca/');
   assert.equal(typeof marker.fired_at, 'number');
+});
+
+test('Lead dataLayer payload is flattened for GA4 exploration', () => {
+  const w = loadFunnel({ pathname: '/lp/aca/' });
+
+  const eventID = w.LHI.track('Lead', {
+    content_name: 'lp_aca_lead_form',
+    step: 'submit',
+    form_name: 'lp-aca-lead',
+    line_of_business: 'ACA'
+  });
+
+  const leadEvent = w.dataLayer.find((entry) => entry.event === 'Lead');
+  assert.equal(leadEvent.event_id, eventID);
+  assert.equal(leadEvent.page_type, 'lp_aca');
+  assert.equal(leadEvent.funnel_name, 'lp_aca_lead_form');
+  assert.equal(leadEvent.funnel_step, 'submit');
+  assert.equal(leadEvent.form_name, 'lp-aca-lead');
+  assert.equal(leadEvent.line_of_business, 'ACA');
+  assert.equal(leadEvent.attribution_source, 'direct');
+  assert.equal(leadEvent.attribution_medium, 'none');
+  assert.ok(leadEvent.lhi_session_id, 'session id exposed for audit');
 });
 
 test('Lead form submit posts to /api/lead and stops legacy submit handlers', async () => {
@@ -414,7 +439,14 @@ test('Lead form submit posts to /api/lead and stops legacy submit handlers', asy
   assert.equal(payload['form-name'], 'tampa-health-insurance');
   assert.equal(payload.phone_number, '863-640-3102');
   assert.equal(payload.zip_code, '33801');
+  assert.match(payload._lhi_client_event_id, /^lhi_\d+_[a-z0-9]+$/);
+  assert.equal(payload._lhi_page_type, 'site');
+  assert.equal(payload._lhi_page_path, '/tampa-health-insurance/');
+  assert.ok(payload._lhi_session_id, 'session id carried to lead API');
+  assert.equal(payload._lhi_attribution_source, 'direct');
+  assert.equal(payload._lhi_attribution_medium, 'none');
 
+  assert.ok(w.dataLayer.some((entry) => entry.event === 'form_submit'), 'form_submit event pushed to dataLayer');
   assert.ok(w.dataLayer.some((entry) => entry.event === 'Lead'), 'Lead event pushed to dataLayer');
   assert.ok(w.sessionStorage.getItem('lhi_lead_submitted'), 'thank-you marker set');
 });

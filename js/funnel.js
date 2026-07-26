@@ -261,10 +261,45 @@
     if (Object.keys(attrs).length) identify(attrs);
   }
 
-  function formPayload(f, fd, content) {
+  function currentAttribution() {
+    var attr = getAttribution() || {};
+    var source = attr.utm_source || (attr.gclid ? 'google_ads' : (attr.fbclid ? 'facebook_click' : 'direct'));
+    var medium = attr.utm_medium || (attr.gclid ? 'cpc' : (attr.fbclid ? 'paid_social' : 'none'));
+    return {
+      raw: attr,
+      source: source,
+      medium: medium,
+      campaign: attr.utm_campaign || null,
+      content: attr.utm_content || null,
+      term: attr.utm_term || null,
+      gclid: attr.gclid || null,
+      fbclid: attr.fbclid || null
+    };
+  }
+
+  function identityAudit() {
+    return {
+      has_email: !!identity.email,
+      has_phone: !!identity.phone,
+      has_name: !!identity.name,
+      zip: identity.zip ? String(identity.zip).replace(/\D/g, '').slice(0, 5) : null
+    };
+  }
+
+  function formPayload(f, fd, content, eventID) {
+    var attr = currentAttribution();
     var payload = {
       content_name: content,
-      source_url: w.location.href
+      source_url: w.location.href,
+      _lhi_client_event_id: eventID || null,
+      _lhi_page_type: pageType(),
+      _lhi_page_path: w.location.pathname,
+      _lhi_session_id: getSession(),
+      _lhi_attribution_source: attr.source,
+      _lhi_attribution_medium: attr.medium,
+      _lhi_attribution_campaign: attr.campaign || '',
+      _lhi_attribution_content: attr.content || '',
+      _lhi_attribution_term: attr.term || ''
     };
     fd.forEach(function (v, k) {
       payload[k] = v;
@@ -300,6 +335,7 @@
     props = props || {};
     var pt = pageType();
     var eventID = makeEventID();
+    var attr = currentAttribution();
     var payload = {
       event_name: name,
       event_id: eventID,
@@ -308,8 +344,8 @@
       page_url: w.location.href,
       referrer: d.referrer || null,
       session_id: getSession(),
-      attribution: getAttribution(),
-      identity: identity,
+      attribution: attr.raw,
+      identity: identityAudit(),
       props: props,
       user_agent: navigator.userAgent,
       viewport_w: w.innerWidth,
@@ -318,7 +354,22 @@
     };
 
     // 1. GTM / GA4 dataLayer
-    fireGA(name, { page_type: pt, event_params: props });
+    fireGA(name, Object.assign({
+      event_id: eventID,
+      page_type: pt,
+      page_path: w.location.pathname,
+      funnel_name: props.content_name || props.funnel_name || pt,
+      funnel_step: props.step || null,
+      form_name: props.form_name || null,
+      line_of_business: props.line_of_business || null,
+      attribution_source: attr.source,
+      attribution_medium: attr.medium,
+      attribution_campaign: attr.campaign,
+      attribution_content: attr.content,
+      attribution_term: attr.term,
+      lhi_session_id: getSession(),
+      transport_type: 'beacon'
+    }, props));
 
     // 2. Supabase stream
     sendSupabase(payload);
@@ -329,6 +380,8 @@
         sessionStorage.setItem('lhi_lead_submitted', JSON.stringify({
           event_id: eventID,
           content_name: props.content_name || null,
+          funnel_step: props.step || null,
+          form_name: props.form_name || null,
           page_type: pt,
           page_path: w.location.pathname,
           fired_at: Date.now()
@@ -336,6 +389,8 @@
       } catch (e) {}
       fireGoogleAdsLead(eventID);
     }
+
+    return eventID;
   }
 
   function pageView() {
@@ -352,17 +407,25 @@
         var step = f.getAttribute('data-funnel-step') || 'submit';
         var content = f.getAttribute('data-funnel-name') || (pageType() + '_' + step);
         var fd = new FormData(f);
+        var formName = fdGet(fd, ['form-name', 'form_name']) || f.getAttribute('name') || f.id || null;
         identifyFromFormData(fd);
+
+        track('form_submit', {
+          content_name: content,
+          step: step,
+          form_name: formName,
+          submitted_event_name: name
+        });
 
         if (name === 'Lead' && !f.hasAttribute('data-funnel-api-opt-out')) {
           if (e && typeof e.preventDefault === 'function') e.preventDefault();
           if (e && typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
-          track(name, { content_name: content, step: step });
-          submitLeadViaApi(f, formPayload(f, fd, content));
+          var leadEventID = track(name, { content_name: content, step: step, form_name: formName });
+          submitLeadViaApi(f, formPayload(f, fd, content, leadEventID));
           return;
         }
 
-        track(name, { content_name: content, step: step });
+        track(name, { content_name: content, step: step, form_name: formName });
       }, { capture: true });
     });
 
@@ -371,7 +434,7 @@
       if (a.__lhiWired) return;
       a.__lhiWired = true;
       a.addEventListener('click', function () {
-        track('Schedule', { content_name: pageType() + '_calendly_click' });
+        track('Schedule', { content_name: pageType() + '_calendly_click', step: 'booking_click' });
       });
     });
   }
@@ -387,6 +450,8 @@
       sha256: sha256,
       normPhone: normPhone,
       pageType: pageType,
+      currentAttribution: currentAttribution,
+      identityAudit: identityAudit,
       leadValueFor: leadValueFor,
       LEAD_VALUE_BY_PAGE_TYPE: LEAD_VALUE_BY_PAGE_TYPE,
       LEAD_CONVERSION_SEND_TO: LEAD_CONVERSION_SEND_TO
