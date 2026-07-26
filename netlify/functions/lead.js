@@ -211,18 +211,28 @@ exports.handler = async (event) => {
     console.error('Mailchimp sync exception', e);
   }
 
+  const responseBody = {
+    event_id: eventId,
+    capi: capiOk,
+    forms: formsOk,
+    mailchimp: mcOk,
+    ...(capiError ? { capi_error: capiError } : {}),
+    ...(formsError ? { forms_error: formsError } : {}),
+    ...(mcError ? { mc_error: mcError } : {})
+  };
+
+  if (!formsOk) {
+    return {
+      statusCode: 502,
+      headers: { ...corsHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: false, error: 'forms forward failed', ...responseBody })
+    };
+  }
+
   return {
     statusCode: 200,
     headers: { ...corsHeaders(), 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      event_id: eventId,
-      capi: capiOk,
-      forms: formsOk,
-      mailchimp: mcOk,
-      ...(capiError ? { capi_error: capiError } : {}),
-      ...(formsError ? { forms_error: formsError } : {}),
-      ...(mcError ? { mc_error: mcError } : {})
-    })
+    body: JSON.stringify({ ok: true, ...responseBody })
   };
 };
 

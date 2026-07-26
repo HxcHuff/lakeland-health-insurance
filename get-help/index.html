@@ -938,7 +938,11 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           }).then(function(response) {
-            if (!response.ok) throw new Error('Lead submission blocked');
+            if (!response.ok) {
+              var err = new Error('Lead submission failed');
+              err.status = response.status;
+              throw err;
+            }
             if (window.LHI && typeof window.LHI.track === 'function') {
               window.LHI.track('Lead', {
                 content_name: 'get_help_form_conversational',
@@ -959,7 +963,7 @@
               window.location.href = '/thanks.html';
             }, 250);
           }).catch(function(error) {
-            if (error && error.message === 'Lead submission blocked') {
+            if (error && error.status >= 400 && error.status < 500) {
               alert('Please wait a moment, then send your request again.');
               return;
             }

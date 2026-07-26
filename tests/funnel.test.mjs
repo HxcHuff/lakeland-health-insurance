@@ -457,14 +457,14 @@ test('Lead form client rejection does not submit fallback or keep thank-you mark
   assert.equal(w.dataLayer.some((entry) => entry.event === 'Lead'), false);
 });
 
-test('Lead form API failure falls back to native Netlify submit', async () => {
+test('Lead form API failure falls back to native Netlify submit without delivered lead marker', async () => {
   const form = makeFunnelForm({
     fields: {
       'form-name': 'lp-aca-lead',
       email: 'jane@example.com'
     }
   });
-  loadFunnel({
+  const w = loadFunnel({
     pathname: '/lp/aca/',
     forms: [form],
     fetchImpl: () => Promise.resolve({ ok: false, status: 500 })
@@ -475,6 +475,8 @@ test('Lead form API failure falls back to native Netlify submit', async () => {
   await Promise.resolve();
 
   assert.equal(form.__submitted, true);
+  assert.equal(w.sessionStorage.getItem('lhi_lead_submitted'), null);
+  assert.equal(w.dataLayer.some((entry) => entry.event === 'Lead'), false);
 });
 
 test('thanks.html does not fire generate_lead without pending marker', () => {

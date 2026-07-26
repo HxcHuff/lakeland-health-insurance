@@ -41,7 +41,7 @@ Goal: optimize site measurement for qualified Medicare/ACA leads, not raw clicks
 ### Mark as Key Events
 | Event | Purpose | Quality Rule |
 |---|---|
-| `generate_lead` | Completed lead request | Count as a real lead only when it matches Netlify Forms, `/api/lead`, Google lead form, or CRM/inbox delivery. |
+| `generate_lead` | Delivered lead request | Count as a real web lead only after `/api/lead` confirms Netlify Forms forwarding; reconcile against Netlify Forms, inbox delivery, Google lead form, or CRM records. |
 | `phone_call_click` | Click-to-call intent | Contact-intent key event only; validate quality against call logs, voicemail, duration, and reachable number. |
 | `messenger_click` | Messenger contact intent | Contact-intent key event only; validate quality against actual Messenger threads/messages. |
 
@@ -59,6 +59,8 @@ Goal: optimize site measurement for qualified Medicare/ACA leads, not raw clicks
 ### Current Lead-Funnel Guardrails
 - `/js/funnel.js` fires explicit `form_start` once per wired form as a diagnostic event.
 - Data-funnel lead forms POST to `/api/lead`; 4xx validation/bot rejections do not fall back to native submit and do not retain a thank-you lead marker.
+- `/api/lead` returns non-200 when Netlify Forms forwarding fails, so GA does not count failed form delivery as `generate_lead`.
+- 5xx/API failures can fall back to native Netlify submit, but that fallback does not set the GA delivered-lead marker before Netlify/inbox capture is proven.
 - `generate_lead` fires from `/thanks.html` only when `sessionStorage.lhi_lead_submitted` exists and is fresh.
 - Primary lead quality is validated outside GA4 by matching event timestamps to Netlify Forms, `/api/lead` logs, Google lead forms, call logs, Messenger threads, and CRM outcomes.
 
