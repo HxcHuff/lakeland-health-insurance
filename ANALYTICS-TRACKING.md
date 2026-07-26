@@ -52,11 +52,25 @@
 | `ads_conversion_Form_1` | No stream data | Likely GTM trigger broken or name mismatch |
 | `ads_conversion_Request_quote_1` | No stream data | Likely GTM trigger broken or name mismatch |
 | `close_convert_lead` | No stream data | Likely GTM trigger broken or name mismatch |
-| `form_submit` | No stream data | Likely GTM trigger broken or name mismatch |
 | `qualify_lead` | No stream data | Likely GTM trigger broken or name mismatch |
 
 ### Also Firing (Not Yet Marked as Key Events)
-- `form_start`, `click`, `first_visit`, `page_view`, `scroll`, `session_start`, `timing_complete`, `user_engagement`
+- `form_start`, `form_submit`, `click`, `first_visit`, `page_view`, `scroll`, `session_start`, `timing_complete`, `user_engagement`
+
+### Event Parameters Added for Funnel Transparency
+All `LHI.track()` events now push flat GA4/dataLayer parameters instead of hiding context inside a nested object:
+
+| Parameter | Purpose |
+|---|---|
+| `event_id` | Browser-generated event id used to reconcile GA4/dataLayer/Supabase and `/api/lead` submissions |
+| `page_type` / `page_path` | Segment events by funnel family and landing path |
+| `funnel_name` / `funnel_step` | Human-readable funnel and step labels |
+| `form_name` | Netlify form name or local form id/name |
+| `line_of_business` | ACA, Medicare, gap, or other business line when available |
+| `attribution_source` / `attribution_medium` / `attribution_campaign` | UTM/GCLID/Facebook-click context flattened for GA4 exploration |
+| `lhi_session_id` | First-party session id for local audit/reconciliation |
+
+Supabase `funnel_events.identity` intentionally stores only audit flags (`has_name`, `has_email`, `has_phone`, `zip`) rather than raw name/email/phone. Raw contact details belong in the lead destination, not the analytics event stream.
 
 ---
 
@@ -98,7 +112,7 @@
 
 ### Must Fix in Codebase
 1. **Untagged blog page** — `/blog/lost-job-health...` is missing the Google Tag. Check GTM trigger exclusions or CMS template. Verify fix with Tag Assistant.
-2. **5 silent key events** — `ads_conversion_Form_1`, `ads_conversion_Request_quote_1`, `close_convert_lead`, `form_submit`, `qualify_lead` are all marked as conversions in GA4 but no stream data in 28 days. GTM trigger names likely don't match GA4 event names. Audit GTM → Tags → GA4 Event tags for each.
+2. **4 silent key events** — `ads_conversion_Form_1`, `ads_conversion_Request_quote_1`, `close_convert_lead`, `qualify_lead` are all marked as conversions in GA4 but no stream data in 28 days. GTM trigger names likely don't match GA4 event names. Audit GTM → Tags → GA4 Event tags for each.
 
 ### Investigate
 3. **`page_view` source** — Confirm `page_view` fires via `gtag('event', 'page_view')` in the tag snippet or GTM config tag, NOT via enhanced measurement. If it ever stops appearing in real-time, re-enable the enhanced measurement toggle.
@@ -112,6 +126,8 @@
 Entry
   ↓
 form_start
+  ↓
+form_submit
   ↓
 Step 1 → lead_step_1_complete
   ↓
