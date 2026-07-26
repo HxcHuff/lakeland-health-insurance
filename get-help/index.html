@@ -497,12 +497,11 @@
 <body class="get-help-page">
   <main class="wrap">
     <section class="page-copy" aria-labelledby="get-help-title">
-      <p class="eyebrow">Text-style plan review</p>
       <h1 id="get-help-title">Start with the details that actually decide the right plan.</h1>
       <p>Answer a few quick questions, then David can review your coverage around doctors, prescriptions, timing, ZIP code, and budget.</p>
       <p>No call-center handoff. You can start here and still call directly if that is easier.</p>
       <div class="review-points" aria-label="What David checks">
-        <div class="review-point"><span class="dot">1</span><span><strong>Your coverage lane</strong><span>ACA, Medicare, short-term, dental, vision, or supplemental coverage.</span></span></div>
+        <div class="review-point"><span class="dot">1</span><span><strong>Your coverage lane</strong><span>ACA, Medicare, short-term, life, dental, vision, or Hospital Protector Guard coverage.</span></span></div>
         <div class="review-point"><span class="dot">2</span><span><strong>Your real-world fit</strong><span>Doctors, prescriptions, pharmacies, renewal timing, and local network issues.</span></span></div>
         <div class="review-point"><span class="dot">3</span><span><strong>Your next step</strong><span>A plan review, quick call, or a cleaner route if staying put makes more sense.</span></span></div>
       </div>
@@ -581,7 +580,8 @@
             'ACA / Marketplace',
             'Medicare',
             'Short-Term / Gap',
-            'Supplemental / fixed indemnity',
+            'Life Insurance',
+            'Hospital Protector Guard',
             'Dental & Vision',
             'Not sure - help me figure it out'
           ]
@@ -606,9 +606,9 @@
         },
         {
           id: 'timing',
-          question: 'When do you need this handled?',
+          question: 'Is there a life change or deadline tied to this?',
           type: 'single',
-          options: ['ASAP', 'Within 30 days', 'Next open enrollment', 'Just exploring']
+          options: ['Losing coverage soon', 'Moved or moving', 'Marriage, divorce, or new child', 'Turning 26 or 65', 'No life change - just reviewing']
         },
         {
           id: 'concerns',
@@ -662,7 +662,7 @@
       document.getElementById('referralPageInput').value = document.referrer || '';
 
       if (productInterest === 'hpg') {
-        answers.coverageType = 'Supplemental / fixed indemnity';
+        answers.coverageType = 'Hospital Protector Guard';
       } else if (productInterest === 'medicare' || productInterest === 'medicare-advantage') {
         answers.coverageType = 'Medicare';
       }
