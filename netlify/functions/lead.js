@@ -46,6 +46,22 @@ const FORM_MC_CONFIG = {
   'subsidy-estimator-lead':        { status: 'subscribed', tags: ['aca', 'subsidy-estimator', 'tool-lead'] }
 };
 
+const INTENT_MC_TAGS = {
+  'aca': ['intent-aca'],
+  'medicare': ['intent-medicare'],
+  'lost-coverage': ['intent-lost-coverage', 'sep-review'],
+  'turning-26': ['intent-turning-26', 'sep-review'],
+  'self-employed': ['intent-self-employed'],
+  'current-client-review': ['intent-current-client-review', 'existing-client-service'],
+  'provider-check': ['intent-provider-check', 'network-review'],
+  'prescription-check': ['intent-prescription-check', 'rx-review'],
+  'coverage-gap': ['intent-coverage-gap'],
+  'employer-referral': ['intent-employer-referral', 'professional-referral'],
+  'post-enrollment-review': ['intent-post-enrollment-review', 'existing-client-service']
+};
+
+const NEWSLETTER_FORMS = new Set(['homepage-newsletter', 'newsletter-signup']);
+
 const sha256 = (s) =>
   crypto.createHash('sha256').update(String(s).trim().toLowerCase()).digest('hex');
 
@@ -90,6 +106,8 @@ exports.handler = async (event) => {
                     '').split(',')[0].trim();
   const userAgent = headers['user-agent'] || '';
   const sourceUrl = payload.source_url || headers.referer || headers.referrer || '';
+  const formName = payload['form-name'] || payload.form_name || '';
+  const isNewsletter = NEWSLETTER_FORMS.has(formName) || payload.event_name === 'Subscriber';
   const cookieHeader = headers.cookie || '';
   const fbp = pickCookie(cookieHeader, '_fbp');
   const fbc = pickCookie(cookieHeader, '_fbc');
@@ -97,7 +115,9 @@ exports.handler = async (event) => {
   // Fire Meta Conversions API — production context only
   let capiOk = false;
   let capiError = null;
-  if (!IS_PROD_CONTEXT) {
+  if (isNewsletter) {
+    capiError = 'CAPI skipped: newsletter subscriber is not a sales lead';
+  } else if (!IS_PROD_CONTEXT) {
     capiError = `CAPI skipped: non-production Netlify context (${NETLIFY_CONTEXT})`;
   } else if (PIXEL_ID && ACCESS_TOKEN) {
     try {
@@ -134,7 +154,9 @@ exports.handler = async (event) => {
           custom_data: {
             content_name: payload.content_name || payload['form-name'] || 'lead',
             currency: 'USD',
-            value: 0
+            value: 0,
+            normalized_intent: payload.normalized_intent || null,
+            line_of_business: payload.line_of_business || null
           }
         }]
       };
@@ -164,8 +186,7 @@ exports.handler = async (event) => {
   let formsOk = false;
   let formsError = null;
   try {
-    const formName = payload['form-name'] || payload.form_name;
-    if (formName) {
+      if (formName) {
       const params = new URLSearchParams();
       params.set('form-name', formName);
       Object.keys(payload).forEach((k) => {
@@ -251,7 +272,7 @@ function checkBotSubmission(payload) {
   if (!Number.isFinite(startedAt) || humanCheck !== expectedCheck) {
     return { ok: false, error: 'human check failed' };
   }
-  if (elapsedMs < 5000) {
+  if (elapsedMs < 1200) {
     return { ok: false, error: 'submitted too quickly' };
   }
   if (elapsedMs > 2 * 60 * 60 * 1000) {
@@ -269,7 +290,7 @@ async function syncToMailchimp(payload) {
   if (!email) return { ok: false, error: 'no email in payload' };
 
   const formName = payload['form-name'] || payload.form_name || '';
-  const config = FORM_MC_CONFIG[formName] || { status: 'pending', tags: ['unmapped', formName || 'unknown-form'] };
+  const config = mailchimpConfigFor(payload, formName);
 
   // subscriber_hash is MD5 of lowercased email — used for upsert by email.
   const hash = crypto.createHash('md5').update(email.toLowerCase()).digest('hex');
@@ -329,6 +350,21 @@ async function syncToMailchimp(payload) {
   }
 
   return { ok: true };
+}
+
+function mailchimpConfigFor(payload, formName) {
+  const base = FORM_MC_CONFIG[formName] || { status: 'pending', tags: ['unmapped', formName || 'unknown-form'] };
+  const normalizedIntent = String(payload.normalized_intent || '').trim();
+  const tags = new Set(base.tags);
+  if (normalizedIntent && INTENT_MC_TAGS[normalizedIntent]) {
+    INTENT_MC_TAGS[normalizedIntent].forEach(tag => tags.add(tag));
+  }
+  if (payload.line_of_business) tags.add(String(payload.line_of_business).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
+  if (normalizedIntent === 'current-client-review' || normalizedIntent === 'post-enrollment-review') {
+    tags.delete('hot-lead');
+    tags.add('service-request');
+  }
+  return { status: base.status, tags: Array.from(tags).filter(Boolean) };
 }
 
 function corsHeaders() {

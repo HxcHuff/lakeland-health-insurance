@@ -151,6 +151,22 @@
 /medicare-plans-lakeland /medicare/ 301!
 /medicare-plans-lakeland/ /medicare/ 301!
 
+# Specialized funnel aliases
+/losing-coverage /losing-coverage/index.html 200
+/losing-coverage/ /losing-coverage/index.html 200
+/turning-26 /turning-26/index.html 200
+/turning-26/ /turning-26/index.html 200
+/self-employed-health-insurance /self-employed-health-insurance/index.html 200
+/self-employed-health-insurance/ /self-employed-health-insurance/index.html 200
+/current-client-review /current-client-review/index.html 200
+/current-client-review/ /current-client-review/index.html 200
+/provider-prescription-check /provider-prescription-check/index.html 200
+/provider-prescription-check/ /provider-prescription-check/index.html 200
+/employer-referral /employer-referral/index.html 200
+/employer-referral/ /employer-referral/index.html 200
+/post-enrollment-review /post-enrollment-review/index.html 200
+/post-enrollment-review/ /post-enrollment-review/index.html 200
+
 # Best Medicare Broker landing page aliases
 /best-medicare-broker-lakeland-fl /best-medicare-broker-lakeland-fl/index.html 200
 /best-medicare-broker-lakeland-fl/ /best-medicare-broker-lakeland-fl/index.html 200

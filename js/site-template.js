@@ -64,7 +64,7 @@
     if (bannerFocus === 'medicare') {
       banner.innerHTML = `<strong>Medicare questions?</strong> Call <a href="${phoneHref}">${phoneDisplay}</a> or <a href="/lp/medicare/">start a Medicare review</a>. FL Broker License #W371813`;
     } else {
-      banner.innerHTML = `<strong>Insurance questions?</strong> Call <a href="${phoneHref}">${phoneDisplay}</a> or <a href="/get-help/">start a free plan review</a>. FL Broker License #W371813`;
+      banner.innerHTML = `<strong>Insurance questions?</strong> Call <a href="${phoneHref}">${phoneDisplay}</a> or <a href="/get-help/">start a plan review</a>. FL Broker License #W371813`;
     }
     return banner;
   }
@@ -105,7 +105,7 @@
               <li><a href="/blog/">Blog</a></li>
               <li><a href="/our-approach.html">Our Approach</a></li>
               <li><a href="/blog/florida-insurance-guide.html">Florida Health Insurance Guide</a></li>
-              <li><a href="/get-help/">Start Free Plan Review</a></li>
+              <li><a href="/get-help/">Start Plan Review</a></li>
               <li><a href="/privacy-policy.html">Privacy Policy</a></li>
             </ul>
           </div>

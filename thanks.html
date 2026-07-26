@@ -1,496 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <!-- GA4 + GTM loaded by /js/analytics.js (prod-gated). Conversion events below fire only after a tracked form submit. --><script>
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = window.gtag || function(){dataLayer.push(arguments);};
+  <meta charset="UTF-8">
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function(){dataLayer.push(arguments);};
 
-      (function () {
-        var marker = null;
-        try {
-          var raw = sessionStorage.getItem('lhi_lead_submitted');
-          if (raw) {
-            sessionStorage.removeItem('lhi_lead_submitted');
-            marker = JSON.parse(raw);
-          }
-        } catch (e) {}
-
-        if (!marker || !marker.fired_at || Date.now() - marker.fired_at > 30 * 60 * 1000) {
-          window.__LHI_THANKS_LEAD_MARKER = null;
-          return;
+    (function () {
+      var marker = null;
+      try {
+        var raw = sessionStorage.getItem('lhi_submission_completed') || sessionStorage.getItem('lhi_lead_submitted');
+        if (raw) {
+          sessionStorage.removeItem('lhi_submission_completed');
+          sessionStorage.removeItem('lhi_lead_submitted');
+          marker = JSON.parse(raw);
         }
+      } catch (e) {}
 
-        window.__LHI_THANKS_LEAD_MARKER = marker;
+      if (!marker || !marker.fired_at || Date.now() - marker.fired_at > 30 * 60 * 1000) {
+        window.__LHI_THANKS_LEAD_MARKER = null;
+        window.__LHI_THANKS_SUBMISSION = null;
+        return;
+      }
+
+      window.__LHI_THANKS_SUBMISSION = marker;
+      window.__LHI_THANKS_LEAD_MARKER = marker.kind === 'Lead' || !marker.kind ? marker : null;
+
+      if (window.__LHI_THANKS_LEAD_MARKER) {
         var params = {
           event_category: 'engagement',
-          event_label: marker.content_name || 'quote_request_form',
+          event_label: marker.content_name || 'lead_request_form',
           event_id: marker.event_id,
           page_type: marker.page_type,
-          source_page: marker.page_path
+          source_page: marker.page_path,
+          normalized_intent: marker.normalized_intent || null,
+          line_of_business: marker.line_of_business || null
         };
 
         gtag('event', 'conversion', Object.assign({}, params, {
           event_category: 'Lead Generation',
-          event_label: 'Health Insurance Quote Request Completed',
+          event_label: 'Health Insurance Request Completed',
           value: 1
         }));
 
         gtag('event', 'generate_lead', params);
-      })();
-    </script><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank You - Lakeland Health Insurance | We'll Contact You Soon</title>
-    <meta name="description" content="Thank you for requesting a health insurance quote. David will personally contact you within 24 hours with your custom health insurance options.">
-    <link rel="canonical" href="https://lakelandhealthinsurance.com/thanks.html">
-    <meta name="robots" content="noindex, nofollow">
-    <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
-    <meta property="og:title" content="Thank You - Lakeland Health Insurance | We'll Contact You Soon">
-    <meta property="og:description" content="Thank you for requesting a health insurance quote. David will personally contact you within 24 hours with your custom health insurance options.">
-    <meta property="og:url" content="https://lakelandhealthinsurance.com/thanks.html">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Lakeland Health Insurance">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Thank You - Lakeland Health Insurance | We'll Contact You Soon">
-    <meta name="twitter:description" content="Thank you for requesting a health insurance quote. David will personally contact you within 24 hours with your custom health insurance options.">
-    <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#1B2A4A">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%);
-            min-height: 100svh;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 32px 20px;
-        }
-
-        .thank-you-container {
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            width: min(100%, 720px);
-            margin: 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .thank-you-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.05), transparent);
-            animation: shine 3s ease-in-out infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .checkmark {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #D4A843, #B8962D);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 2rem;
-            font-size: 2.5rem;
-            animation: checkmarkPop 0.6s ease-out;
-        }
-
-        @keyframes checkmarkPop {
-            0% { transform: scale(0); }
-            80% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: #1B2A4A;
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.8s ease 0.2s both;
-        }
-
-        .next-steps {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-            animation: fadeInUp 0.8s ease 0.4s both;
-        }
-
-        .next-steps h3 {
-            color: #1B2A4A;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
-        .step {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-            text-align: left;
-        }
-
-        .step-number {
-            width: 30px;
-            height: 30px;
-            background: var(--gold, #D4A843);
-            color: #0F1A2E;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            margin-top: 2px;
-            flex-shrink: 0;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .contact-info {
-            background: var(--gold, #D4A843);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-            animation: fadeInUp 0.8s ease 0.6s both;
-        }
-
-        .contact-info h4 {
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .phone-number {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-            animation: fadeInUp 0.8s ease 0.8s both;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 1rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #D4A843, #B8962D);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #1B2A4A;
-            border: 2px solid #1B2A4A;
-        }
-
-        .btn-secondary:hover {
-            background: #1B2A4A;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .social-proof {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid #e5e5e5;
-            animation: fadeInUp 0.8s ease 1s both;
-        }
-
-        .social-proof p {
-            color: #666;
-            font-size: 0.9rem;
-            font-style: italic;
-        }
-
-        .chat-widget-button {
-            bottom: max(16px, env(safe-area-inset-bottom)) !important;
-            right: 14px !important;
-            max-width: calc(100vw - 28px);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Mobile responsive */
-        @media (max-width: 768px) {
-            body {
-                padding: 16px 10px 100px;
-            }
-
-            .thank-you-container {
-                padding: 2rem;
-                border-radius: 16px;
-            }
-            
-            h1 {
-                font-size: 1.9rem;
-                line-height: 1.2;
-            }
-
-            .subtitle {
-                font-size: 1.05rem;
-            }
-
-            .next-steps {
-                padding: 1.25rem;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 250px;
-            }
-
-            .chat-widget-button {
-                font-size: 0.92rem !important;
-                padding: 12px 14px !important;
-                right: 10px !important;
-            }
-        }
-
-        @media (max-width: 420px) {
-            .thank-you-container {
-                padding: 1.25rem 1rem;
-            }
-
-            h1 {
-                font-size: 1.7rem;
-            }
-
-            .next-steps {
-                padding: 1rem;
-            }
-
-            .step-number {
-                width: 26px;
-                height: 26px;
-                font-size: 0.82rem;
-                margin-right: 0.75rem;
-            }
-
-            .phone-number {
-                font-size: 1.3rem;
-            }
-        }
-    
-/* LHI Header Standardization Override */
-header .brand-name,
-header .logo {
-  font-family: 'Instrument Serif', serif !important;
-  font-size: 1.2rem !important;
-  font-weight: 400 !important;
-  line-height: 1.2 !important;
-  color: var(--navy, #1B2A4A) !important;
-  letter-spacing: 0 !important;
-  text-decoration: none !important;
-}
-
-header .license-tag,
-header .logo::after {
-  content: 'Licensed FL Broker #W371813' !important;
-  font-family: 'DM Sans', sans-serif !important;
-  font-size: 0.7rem !important;
-  font-weight: 600 !important;
-  color: var(--gold, #D4A843) !important;
-  line-height: 1.1 !important;
-  display: block !important;
-  margin-top: 2px !important;
-}
-
-header .nav-links a {
-  font-size: 1rem !important;
-  font-weight: 500 !important;
-  line-height: 1.2 !important;
-}
-
-header .cta-button {
-  font-size: 1rem !important;
-  font-weight: 600 !important;
-  line-height: 1.2 !important;
-}
-
+      }
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Received | Lakeland Health Insurance</title>
+  <meta name="description" content="Your Lakeland Health Insurance request was received. Review the next steps for your submitted request.">
+  <link rel="canonical" href="https://lakelandhealthinsurance.com/thanks.html">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="Request Received | Lakeland Health Insurance">
+  <meta property="og:description" content="Review the next steps for your Lakeland Health Insurance request.">
+  <meta property="og:url" content="https://lakelandhealthinsurance.com/thanks.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
+  <meta name="theme-color" content="#1B2A4A">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/site-template.css">
+  <style>
+    :root { --navy: #1B2A4A; --blue: #2563EB; --gold: #D4A843; --ink: #111827; --muted: #5f6b7a; --border: #d8dde8; }
+    * { box-sizing: border-box; }
+    body {
+      background: #f6f8fb;
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      margin: 0;
+      min-height: 100svh;
+    }
+    .thanks-wrap {
+      margin: 0 auto;
+      max-width: 980px;
+      padding: 132px 20px 56px;
+    }
+    .thanks-panel {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 18px 48px rgba(27, 42, 74, 0.12);
+      padding: clamp(24px, 4vw, 44px);
+    }
+    .eyebrow {
+      color: var(--blue);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      margin: 0 0 0.75rem;
+      text-transform: uppercase;
+    }
+    h1 {
+      color: var(--navy);
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.25rem, 5vw, 4rem);
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: 1;
+      margin: 0 0 1rem;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.62;
+      margin: 0 0 1.5rem;
+      max-width: 760px;
+    }
+    .next-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      margin: 1.5rem 0;
+    }
+    .next-card {
+      background: #f9fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .next-card h2 {
+      color: var(--navy);
+      font-size: 1.08rem;
+      margin: 0 0 0.75rem;
+    }
+    .next-card ul {
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 1.5rem;
+    }
+    .btn {
+      align-items: center;
+      border-radius: 8px;
+      display: inline-flex;
+      font-weight: 800;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 16px;
+      text-decoration: none;
+    }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-secondary { background: #fff; border: 1px solid var(--border); color: var(--navy); }
+    .privacy-note {
+      border-left: 4px solid var(--gold);
+      color: var(--muted);
+      margin-top: 1.5rem;
+      padding-left: 1rem;
+    }
+    a:focus-visible { outline: 3px solid rgba(212, 168, 67, 0.75); outline-offset: 2px; }
+    @media (max-width: 720px) {
+      .thanks-wrap { padding: 112px 14px 44px; }
+      .next-grid { grid-template-columns: 1fr; }
+      .cta-row { flex-direction: column; }
+      .btn { width: 100%; }
+    }
   </style>
-    <script defer src="/js/analytics.js?v=20260721-meta-removal"></script>
-    <link rel="stylesheet" href="/css/site-template.css">
+  <script defer src="/js/analytics.js?v=20260721-meta-removal"></script>
 </head>
 <body>
-    <div class="thank-you-container">
-        <div class="content">
-            <div class="checkmark">
-                ✓
-            </div>
-            
-            <h1>Thank You - You're In</h1>
-            <p class="subtitle">Your request was submitted successfully. Here is exactly what to expect next.</p>
-            
-            <div class="next-steps">
-                <h3>What to Expect Next</h3>
-                
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div>
-                        <strong>Initial Review (Same Day)</strong><br>
-                        We review your ZIP, coverage type, and timeline to prepare the right plan path before outreach.
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div>
-                        <strong>Direct Contact (Usually Within 5-60 Minutes During Business Hours)</strong><br>
-                        David will call or text you directly. If submitted after hours, outreach starts the next business morning.
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div>
-                        <strong>Structured Recommendation + Enrollment Steps</strong><br>
-                        You get a clear plan comparison, exact next actions, and guided enrollment support.
-                    </div>
-                </div>
-            </div>
+  <main class="thanks-wrap">
+    <section class="thanks-panel" aria-labelledby="thanksTitle">
+      <p class="eyebrow" id="thanksEyebrow">Request received</p>
+      <h1 id="thanksTitle">Your request was received.</h1>
+      <p class="subtitle" id="thanksSubtitle">David personally reviews each request and will call or text during normal business hours. If you need help immediately, call (863) 640-3102 or choose an available appointment time.</p>
 
-            <div class="next-steps" style="margin-top:1rem;">
-                <h3>What to Have Ready</h3>
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div><strong>Household info:</strong> names, ZIP, and household size.</div>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div><strong>Income estimate:</strong> projected annual household income.</div>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div><strong>Current coverage status:</strong> active coverage, end date, or qualifying event details.</div>
-                </div>
-            </div>
-            
-            <div class="contact-info">
-                <h4>Need to Talk Sooner?</h4>
-                <div class="phone-number">📞 (863) 640-3102</div>
-                <p>Mon-Fri 8AM-8PM EST • Sat 9AM-5PM EST</p>
-                <p>dhuff@healthmarkets.com</p>
-            </div>
-            
-            <div class="cta-buttons">
-                <a href="tel:+18636403102" class="btn btn-primary">
-                    📞 Call Now
-                </a>
-                <a href="/" class="btn btn-secondary">
-                    &larr; Back to Website
-                </a>
-            </div>
-            
-            <div class="social-proof">
-                <p>"David helped us save over $300/month on our family health insurance while getting better coverage. Highly recommend!" - Sarah M., Lakeland</p>
-            </div>
-            <p style="margin-top:1.5rem;font-size:0.85rem;"><a href="/privacy-policy.html" style="color:#2563EB;">Privacy Policy</a></p>
+      <div class="next-grid">
+        <div class="next-card">
+          <h2 id="prepareTitle">What to have ready</h2>
+          <ul id="prepareList">
+            <li>Your ZIP code and current coverage status.</li>
+            <li>Any deadline tied to the request.</li>
+            <li>Doctors, prescriptions, or plan details if they matter to the review.</li>
+          </ul>
         </div>
-    </div>
+        <div class="next-card">
+          <h2>Useful next step</h2>
+          <ul id="actionList">
+            <li>Call if the coverage issue is time-sensitive.</li>
+            <li>Choose an appointment time if you prefer a scheduled review.</li>
+            <li>Return to educational content if you are still researching.</li>
+          </ul>
+        </div>
+      </div>
 
-    <!-- Enhanced tracking for return visits -->
-    <script>
-        // Track time on thank you page
-        let startTime = Date.now();
-        
-        window.addEventListener('beforeunload', function() {
-            let timeOnPage = Math.round((Date.now() - startTime) / 1000);
-            gtag('event', 'timing_complete', {
-                'name': 'thankyou_page_time',
-                'value': timeOnPage
-            });
-        });
-        
-        // Track button clicks
-        document.querySelectorAll('.btn').forEach(button => {
-            button.addEventListener('click', function() {
-                gtag('event', 'click', {
-                    'event_category': 'engagement',
-                    'event_label': this.textContent.trim()
-                });
-            });
-        });
-    </script>
-    <script src="/js/chat-widget.js" defer></script>
-    <script>
-      // Fire CompleteRegistration only after a same-session tracked lead submit.
-      (function(){
-        function fire(){
-          if (!window.__LHI_THANKS_LEAD_MARKER) return;
-          if (window.LHI && typeof window.LHI.track === 'function') window.LHI.track('CompleteRegistration', { content_name: 'thanks_page' });
+      <div class="cta-row" id="ctaRow">
+        <a class="btn btn-primary" href="tel:+18636403102" data-analytics-label="thanks_call_david">Call David</a>
+        <a class="btn btn-secondary" href="/calendly-book.html" data-funnel-booking>Choose a time</a>
+        <a class="btn btn-secondary" href="/learning/">Return to learning center</a>
+      </div>
+
+      <p class="privacy-note" id="privacyNote">This page uses same-session submission state only. Refreshing or directly visiting this page will not create another lead conversion.</p>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var marker = window.__LHI_THANKS_SUBMISSION;
+      var intent = marker && marker.normalized_intent ? marker.normalized_intent : 'generic';
+      var kind = marker && marker.kind ? marker.kind : 'generic';
+      var copy = {
+        generic: {
+          eyebrow: 'Next steps',
+          title: 'This confirmation page is ready when you submit a request.',
+          subtitle: 'For privacy and conversion accuracy, direct visits do not create a lead event. Use the form, call David, or choose an appointment time.',
+          prepare: ['Your ZIP code and current coverage status.', 'Any deadline tied to the request.', 'Doctors, prescriptions, or plan details if they matter to the review.'],
+          actions: ['Call if the coverage issue is time-sensitive.', 'Choose an appointment time if you prefer a scheduled review.', 'Return to educational content if you are still researching.']
+        },
+        Subscriber: {
+          eyebrow: 'Newsletter request received',
+          title: 'Check your inbox to confirm the newsletter.',
+          subtitle: 'This was recorded as a newsletter request, not a sales lead. You can still call or schedule a review if you need plan-specific help.',
+          prepare: ['Look for the confirmation email.', 'Add dhuff@healthmarkets.com to your contacts if needed.', 'Use the form again only when you want plan-specific help.'],
+          actions: ['Read the learning center while you wait.', 'Call David for plan-specific timing questions.', 'Choose a time if you want a review.']
+        },
+        aca: {
+          eyebrow: 'ACA request received',
+          title: 'Your Marketplace review request was received.',
+          prepare: ['Projected annual household income.', 'Household size and ZIP code.', 'Doctors, prescriptions, and any coverage-loss date.'],
+          actions: ['Call if a Special Enrollment Period deadline is close.', 'Use HealthSherpa only when you want to self-shop ACA plans.', 'Choose a time for a guided review.'],
+          healthsherpa: true
+        },
+        medicare: {
+          eyebrow: 'Medicare request received',
+          title: 'Your Medicare review request was received.',
+          prepare: ['Medicare card or eligibility timing if available.', 'Current plan, medications, and preferred pharmacies.', 'Doctors or facilities you want checked.'],
+          actions: ['Choose a time for a Medicare review.', 'Call if an enrollment window is close.', 'Return to the Medicare learning page.'],
+          learning: '/medicare/'
+        },
+        'lost-coverage': {
+          eyebrow: 'Coverage-loss request received',
+          title: 'David will review your coverage-loss timing.',
+          prepare: ['Coverage end date and COBRA notice if available.', 'Estimated COBRA premium if you have it.', 'Projected household income and household size.'],
+          actions: ['Call if your coverage already ended or ends soon.', 'Choose a time to review SEP options.', 'Read the losing-coverage guide.'],
+          learning: '/losing-coverage/'
+        },
+        'turning-26': {
+          eyebrow: 'Turning 26 request received',
+          title: 'David will review your age-off coverage options.',
+          prepare: ['Parent-plan coverage end date.', 'Employer coverage availability.', 'Projected income and household/tax dependency questions for review with the right professional.'],
+          actions: ['Choose a time before your coverage end date.', 'Call if the deadline is close.', 'Read the turning-26 page.'],
+          learning: '/turning-26/'
+        },
+        'self-employed': {
+          eyebrow: 'Self-employed request received',
+          title: 'David will review your self-employed coverage paths.',
+          prepare: ['Projected household income and household size.', 'Current coverage and any business-owner details.', 'Doctors, prescriptions, and budget concerns.'],
+          actions: ['Choose a time for a structured review.', 'Call if coverage is ending soon.', 'Read the self-employed page.'],
+          learning: '/self-employed-health-insurance/'
+        },
+        'current-client-review': {
+          eyebrow: 'Current-client request received',
+          title: 'Your plan review request was received.',
+          subtitle: 'This was recorded as a current-client service or review request. David will review the issue without treating it as a new-policy purchase.',
+          prepare: ['Current plan or carrier.', 'Doctor, prescription, household, income, billing, or ID-card changes.', 'Whether you prefer to keep the current plan unless a better fit is identified.'],
+          actions: ['Call for urgent billing, ID-card, or coverage-use issues.', 'Choose a time for an annual review.', 'Return to the learning center.']
+        },
+        'provider-check': {
+          eyebrow: 'Provider check received',
+          title: 'David will review the provider or facility question.',
+          prepare: ['Provider or facility name and location.', 'Current carrier, plan, coverage type, and plan year.', 'Any prescription details you asked David to review.'],
+          actions: ['Call before using care if timing is urgent.', 'Choose a time to review options.', 'Remember that directories and contracts can change and final confirmation may require carrier or provider verification.']
+        },
+        'prescription-check': {
+          eyebrow: 'Prescription check received',
+          title: 'David will review the prescription question.',
+          prepare: ['Prescription names and dosage details if you are comfortable sharing them directly with David.', 'Current carrier, plan, coverage type, and plan year.', 'Preferred pharmacy if relevant.'],
+          actions: ['Choose a time for a medication-focused review.', 'Call if the issue affects immediate access.', 'Do not rely on advertising or generic directories for final confirmation.']
+        },
+        'employer-referral': {
+          eyebrow: 'Referral request received',
+          title: 'David will review the employee coverage-transition request.',
+          prepare: ['Organization name and contact person.', 'Approximate number of affected employees.', 'Coverage termination date and handoff instructions.'],
+          actions: ['Call if employees are close to losing coverage.', 'Choose a time to coordinate the handoff.', 'Employees make their own coverage decisions; do not send employee medical information.']
+        },
+        'post-enrollment-review': {
+          eyebrow: 'Service request received',
+          title: 'David will review the post-enrollment issue.',
+          subtitle: 'This is service-first. It may involve ID cards, first premium, effective date, provider confirmation, prescription issues, Marketplace documents, or plan-use questions.',
+          prepare: ['Current plan or carrier.', 'Effective date, invoice, ID-card, or Marketplace document details.', 'Provider or prescription issue if relevant.'],
+          actions: ['Call for urgent access-to-care issues.', 'Choose a time if the issue needs a walkthrough.', 'Review your carrier documents before the call if available.']
         }
-        if (document.readyState === 'complete') setTimeout(fire, 4000);
-        else window.addEventListener('load', function(){ setTimeout(fire, 4000); });
-      })();
-    </script>
-    <script src="/js/site-template.js" defer></script>
+      };
+
+      var selected = kind === 'Subscriber' ? copy.Subscriber : (copy[intent] || copy.generic);
+      function text(id, value) { var el = document.getElementById(id); if (el && value) el.textContent = value; }
+      function list(id, items) {
+        var el = document.getElementById(id);
+        if (!el || !items) return;
+        el.innerHTML = '';
+        items.forEach(function (item) {
+          var li = document.createElement('li');
+          li.textContent = item;
+          el.appendChild(li);
+        });
+      }
+      text('thanksEyebrow', selected.eyebrow);
+      text('thanksTitle', selected.title);
+      text('thanksSubtitle', selected.subtitle || 'David personally reviews each request and will call or text during normal business hours. If you need help immediately, call (863) 640-3102 or choose an available appointment time.');
+      list('prepareList', selected.prepare);
+      list('actionList', selected.actions);
+      var ctaRow = document.getElementById('ctaRow');
+      if (ctaRow && selected.healthsherpa) {
+        var hs = document.createElement('a');
+        hs.className = 'btn btn-secondary';
+        hs.href = 'https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q';
+        hs.target = '_blank';
+        hs.rel = 'noopener noreferrer';
+        hs.textContent = 'Self-shop ACA plans';
+        ctaRow.appendChild(hs);
+      }
+      if (ctaRow && selected.learning) {
+        var learn = ctaRow.querySelector('a[href="/learning/"]');
+        if (learn) learn.href = selected.learning;
+      }
+    })();
+  </script>
+  <script src="/js/site-template.js" defer></script>
 </body>
 </html>

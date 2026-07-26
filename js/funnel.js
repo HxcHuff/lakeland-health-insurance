@@ -52,6 +52,13 @@
     lp_gap: 0,
     guard_lp: 0,
     dime_method: 0,
+    lp_losing_coverage: 0,
+    lp_turning_26: 0,
+    lp_self_employed: 0,
+    lp_current_client_review: 0,
+    lp_provider_check: 0,
+    lp_employer_referral: 0,
+    lp_post_enrollment_review: 0,
     get_help: 0,
     guide_optin: 0,
     booking: 0,
@@ -106,6 +113,13 @@
     if (p.indexOf('/medicare-broker-lakeland') === 0) return 'local_seo_medicare';
     if (p.indexOf('/life-insurance-dime') === 0) return 'dime_method';
     if (p.indexOf('/lost-job-health-insurance') === 0) return 'lp_job_loss';
+    if (p.indexOf('/losing-coverage') === 0) return 'lp_losing_coverage';
+    if (p.indexOf('/turning-26') === 0) return 'lp_turning_26';
+    if (p.indexOf('/self-employed-health-insurance') === 0) return 'lp_self_employed';
+    if (p.indexOf('/current-client-review') === 0) return 'lp_current_client_review';
+    if (p.indexOf('/provider-prescription-check') === 0) return 'lp_provider_check';
+    if (p.indexOf('/employer-referral') === 0) return 'lp_employer_referral';
+    if (p.indexOf('/post-enrollment-review') === 0) return 'lp_post_enrollment_review';
     if (p.indexOf('/download-free-guide') === 0) return 'guide_optin';
     if (p.indexOf('/calendly-book') === 0) return 'booking';
     if (p === '/thanks.html' || p === '/thanks/') return 'conversion';
@@ -151,6 +165,34 @@
       cookie('lhi_attr', JSON.stringify(stored), 90);
     }
     return stored;
+  }
+
+  function safeIdentity() {
+    return {
+      zip: identity.zip ? String(identity.zip).slice(0, 5) : null,
+      has_email: !!identity.email,
+      has_phone: !!identity.phone,
+      has_name: !!identity.name
+    };
+  }
+
+  function safeProps(props) {
+    var out = {};
+    var prohibited = {
+      full_name: true, name: true, first_name: true, last_name: true,
+      email: true, phone: true, phone_number: true,
+      provider_name: true, provider_location: true, prescription_name: true,
+      doctors_to_keep: true, prescriptions_to_review: true, additional_notes: true,
+      notes: true, message: true
+    };
+    Object.keys(props || {}).forEach(function (key) {
+      if (prohibited[key]) return;
+      var val = props[key];
+      if (val == null) return;
+      if (typeof val === 'string' && /@|(?:\d[\s().-]*){7,}/.test(val)) return;
+      out[key] = val;
+    });
+    return out;
   }
 
   // Transport -------------------------------------------------------------
@@ -234,7 +276,6 @@
 
   function identify(attrs) {
     identity = Object.assign({}, identity, attrs || {});
-    try { cookie('lhi_id', JSON.stringify(identity), 365); } catch (e) {}
 
     /* Identity is retained locally for Supabase payloads and Google Enhanced
        Conversions when a Lead event fires. */
@@ -276,6 +317,23 @@
     try { w.sessionStorage.removeItem('lhi_lead_submitted'); } catch (e) {}
   }
 
+  function markCompletedSubmission(kind, eventID, props, pt) {
+    var marker = {
+      kind: kind,
+      event_id: eventID,
+      content_name: props.content_name || null,
+      page_type: pt,
+      page_path: w.location.pathname,
+      normalized_intent: props.normalized_intent || null,
+      line_of_business: props.line_of_business || null,
+      fired_at: Date.now()
+    };
+    try { sessionStorage.setItem('lhi_submission_completed', JSON.stringify(marker)); } catch (e) {}
+    if (kind === 'Lead') {
+      try { sessionStorage.setItem('lhi_lead_submitted', JSON.stringify(marker)); } catch (e) {}
+    }
+  }
+
   function redirectAfterLead(f) {
     w.location.href = f.getAttribute('action') || '/thanks.html';
   }
@@ -313,7 +371,7 @@
   }
 
   function track(name, props) {
-    props = props || {};
+    props = safeProps(props || {});
     var pt = pageType();
     var eventID = makeEventID();
     var payload = {
@@ -325,7 +383,7 @@
       referrer: d.referrer || null,
       session_id: getSession(),
       attribution: getAttribution(),
-      identity: identity,
+      identity: safeIdentity(),
       props: props,
       user_agent: navigator.userAgent,
       viewport_w: w.innerWidth,
@@ -341,16 +399,10 @@
 
     // 3. Google Ads conversion + Enhanced Conversions (Lead events only)
     if (name === 'Lead') {
-      try {
-        sessionStorage.setItem('lhi_lead_submitted', JSON.stringify({
-          event_id: eventID,
-          content_name: props.content_name || null,
-          page_type: pt,
-          page_path: w.location.pathname,
-          fired_at: Date.now()
-        }));
-      } catch (e) {}
+      markCompletedSubmission('Lead', eventID, props, pt);
       fireGoogleAdsLead(eventID);
+    } else if (name === 'Subscriber') {
+      markCompletedSubmission('Subscriber', eventID, props, pt);
     }
   }
 
@@ -371,7 +423,7 @@
       function trackFormStart() {
         if (f.__lhiFormStarted) return;
         f.__lhiFormStarted = true;
-        track('form_start', { content_name: content, step: 'start' });
+        track('StartLead', { content_name: content, step: 'start' });
       }
 
       ['focusin', 'input', 'change'].forEach(function (type) {
@@ -383,7 +435,7 @@
         identifyFromFormData(fd);
         trackFormStart();
 
-        if (name === 'Lead' && !f.hasAttribute('data-funnel-api-opt-out')) {
+        if ((name === 'Lead' || name === 'Subscriber') && !f.hasAttribute('data-funnel-api-opt-out')) {
           if (e && typeof e.preventDefault === 'function') e.preventDefault();
           if (e && typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
           submitLeadViaApi(f, formPayload(f, fd, content), function () {
@@ -402,6 +454,30 @@
       a.__lhiWired = true;
       a.addEventListener('click', function () {
         track('Schedule', { content_name: pageType() + '_calendly_click' });
+      });
+    });
+
+    d.querySelectorAll('a[href^="tel:"]').forEach(function (a) {
+      if (a.__lhiPhoneWired) return;
+      a.__lhiPhoneWired = true;
+      a.addEventListener('click', function () {
+        track('PhoneCallClick', { content_name: pageType() + '_phone_click' });
+      });
+    });
+
+    d.querySelectorAll('a[href*="healthsherpa.com"], a[href*="/find-plans"]').forEach(function (a) {
+      if (a.__lhiExternalQuoteWired) return;
+      a.__lhiExternalQuoteWired = true;
+      a.addEventListener('click', function () {
+        track('ExternalQuoteClick', { content_name: pageType() + '_external_quote_click' });
+      });
+    });
+
+    d.querySelectorAll('a[href*="m.me/"]').forEach(function (a) {
+      if (a.__lhiMessengerWired) return;
+      a.__lhiMessengerWired = true;
+      a.addEventListener('click', function () {
+        track('messenger_click', { content_name: pageType() + '_messenger_click' });
       });
     });
   }

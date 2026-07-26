@@ -41,6 +41,7 @@
     var now = Date.now();
 
     if (now - lastPhoneCanonicalAt > 500) {
+      pushDataLayerEvent('PhoneCallClick', params);
       pushDataLayerEvent('phone_call_click', params);
       lastPhoneCanonicalAt = now;
     }

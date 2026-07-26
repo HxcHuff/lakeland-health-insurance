@@ -25,6 +25,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const FUNNEL_SRC = readFileSync(resolve(__dirname, '../js/funnel.js'), 'utf8');
 const ANALYTICS_SRC = readFileSync(resolve(__dirname, '../js/analytics.js'), 'utf8');
 const THANKS_SRC = readFileSync(resolve(__dirname, '../thanks.html'), 'utf8');
+const GET_HELP_SRC = readFileSync(resolve(__dirname, '../js/get-help-intake.js'), 'utf8');
 
 function makeSessionStorage(initial = {}) {
   const store = new Map(Object.entries(initial));
@@ -422,17 +423,77 @@ test('Lead form submit posts to /api/lead and stops legacy submit handlers', asy
   assert.ok(w.sessionStorage.getItem('lhi_lead_submitted'), 'thank-you marker set');
 });
 
-test('funnel forms fire form_start once as a diagnostic event', () => {
+test('funnel forms fire StartLead once as a diagnostic event', () => {
   const form = makeFunnelForm({ contentName: 'get_help_conversational' });
   const w = loadFunnel({ pathname: '/get-help/', forms: [form] });
 
   form.dispatchFormStart();
   form.dispatchFormStart();
 
-  const starts = w.dataLayer.filter((entry) => entry.event === 'form_start');
+  const starts = w.dataLayer.filter((entry) => entry.event === 'StartLead');
   assert.equal(starts.length, 1);
   assert.equal(starts[0].event_params.content_name, 'get_help_conversational');
   assert.equal(starts[0].event_params.step, 'start');
+});
+
+test('Subscriber form posts through /api/lead and never fires Lead', async () => {
+  const calls = [];
+  const form = makeFunnelForm({
+    eventName: 'Subscriber',
+    contentName: 'newsletter_optin',
+    fields: {
+      'form-name': 'newsletter-signup',
+      email: 'reader@example.com',
+      consent: 'yes'
+    }
+  });
+  const w = loadFunnel({
+    pathname: '/newsletter/',
+    forms: [form],
+    fetchImpl: (url, init) => {
+      calls.push({ url, init });
+      return Promise.resolve({ ok: true });
+    }
+  });
+
+  form.dispatchSubmit();
+  await Promise.resolve();
+
+  const apiCalls = calls.filter((call) => call.url === '/api/lead');
+  assert.equal(apiCalls.length, 1);
+  assert.equal(w.dataLayer.some((entry) => entry.event === 'Subscriber'), true);
+  assert.equal(w.dataLayer.some((entry) => entry.event === 'Lead'), false);
+  assert.equal(w.sessionStorage.getItem('lhi_lead_submitted'), null);
+  assert.ok(w.sessionStorage.getItem('lhi_submission_completed'), 'subscriber thank-you marker set');
+});
+
+test('Supabase analytics payload does not include raw PII identity', () => {
+  const calls = [];
+  const w = loadFunnel({
+    pathname: '/get-help/',
+    fetchImpl: (url, init) => {
+      calls.push({ url, init });
+      return Promise.resolve({ ok: true });
+    }
+  });
+
+  w.LHI.identify({
+    name: 'Jane Doe',
+    email: 'jane@example.com',
+    phone: '863-640-3102',
+    zip: '33801'
+  });
+  w.LHI.track('StartLead', { content_name: 'get_help_aca', email: 'jane@example.com', provider_name: 'Clinic Name' });
+
+  const supabaseCall = calls.find((call) => String(call.url).includes('/rest/v1/funnel_events'));
+  assert.ok(supabaseCall, 'Supabase event attempted');
+  const payload = JSON.parse(supabaseCall.init.body);
+  assert.deepEqual(payload.identity, { zip: '33801', has_email: true, has_phone: true, has_name: true });
+  assert.equal(payload.props.email, undefined);
+  assert.equal(payload.props.provider_name, undefined);
+  assert.equal(JSON.stringify(payload).includes('jane@example.com'), false);
+  assert.equal(JSON.stringify(payload).includes('863-640-3102'), false);
+  assert.equal(JSON.stringify(payload).includes('Jane Doe'), false);
 });
 
 test('Lead form client rejection does not submit fallback or keep thank-you marker', async () => {
@@ -508,4 +569,45 @@ test('thanks.html fires generate_lead once when pending marker exists', () => {
 
   const secondRun = runThanksHeadScript(storage);
   assert.equal(secondRun.dataLayer.some((entry) => entry[0] === 'event' && entry[1] === 'generate_lead'), false);
+});
+
+test('thanks.html shows Subscriber marker without generate_lead', () => {
+  const marker = {
+    kind: 'Subscriber',
+    event_id: 'lhi_subscriber_123',
+    content_name: 'newsletter_optin',
+    page_type: 'site',
+    page_path: '/newsletter/',
+    fired_at: Date.now()
+  };
+  const storage = makeSessionStorage({ lhi_submission_completed: JSON.stringify(marker) });
+
+  const { dataLayer, sandbox } = runThanksHeadScript(storage);
+
+  assert.deepEqual(sandbox.__LHI_THANKS_SUBMISSION, marker);
+  assert.equal(sandbox.__LHI_THANKS_LEAD_MARKER, null);
+  assert.equal(dataLayer.some((entry) => entry[0] === 'event' && entry[1] === 'generate_lead'), false);
+});
+
+test('get-help intent allowlist falls back safely', () => {
+  const sandbox = {
+    window: null,
+    document: {
+      addEventListener: () => {},
+      getElementById: () => null,
+      querySelectorAll: () => []
+    },
+    URLSearchParams,
+    String,
+    Object,
+    Date,
+    btoa: (value) => Buffer.from(value).toString('base64')
+  };
+  sandbox.window = sandbox;
+  vm.createContext(sandbox);
+  vm.runInContext(GET_HELP_SRC, sandbox, { filename: 'get-help-intake.js' });
+
+  assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('medicare'), 'medicare');
+  assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('provider-check'), 'provider-check');
+  assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('<script>alert(1)</script>'), 'not-sure');
 });

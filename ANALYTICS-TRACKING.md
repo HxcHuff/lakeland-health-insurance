@@ -48,20 +48,21 @@ Goal: optimize site measurement for qualified Medicare/ACA leads, not raw clicks
 ### Keep as Secondary Diagnostics
 | Event | Purpose | Key Event? |
 |---|---|---|
-| `form_start` | Form friction and source/page intent | No |
-| `lead_step_1_complete` | `/get-help/` funnel progression | No |
-| `lead_step_2_complete` | `/get-help/` funnel progression | No |
+| `StartLead` | Form friction and source/page intent | No |
+| `normalized_intent` | `/get-help/` intent segmentation property | No |
+| `line_of_business` | Lead segmentation property | No |
 | `lead_submit` | Legacy submit helper on older/local pages | No |
 | `phone_call`, `phone_click` | Legacy aliases | No |
 | `page_view`, `scroll`, `click`, `user_engagement` | UX/content diagnostics | No |
-| `newsletter_signup`, `Subscribe` | Audience-building, not sales lead | No |
+| `Subscriber` | Audience-building, not sales lead | No |
 
 ### Current Lead-Funnel Guardrails
-- `/js/funnel.js` fires explicit `form_start` once per wired form as a diagnostic event.
-- Data-funnel lead forms POST to `/api/lead`; 4xx validation/bot rejections do not fall back to native submit and do not retain a thank-you lead marker.
+- `/js/funnel.js` fires explicit `StartLead` once per wired form as a diagnostic event.
+- Data-funnel lead and newsletter forms POST to `/api/lead`; 4xx validation/bot rejections do not fall back to native submit and do not retain a thank-you lead marker.
+- Newsletter forms fire `Subscriber`, never `Lead`, Google Ads lead conversion, or Meta CAPI Lead.
 - `/api/lead` returns non-200 when Netlify Forms forwarding fails, so GA does not count failed form delivery as `generate_lead`.
 - 5xx/API failures can fall back to native Netlify submit, but that fallback does not set the GA delivered-lead marker before Netlify/inbox capture is proven.
-- `generate_lead` fires from `/thanks.html` only when `sessionStorage.lhi_lead_submitted` exists and is fresh.
+- `generate_lead` fires from `/thanks.html` only when same-session submission storage contains a fresh `Lead` marker.
 - Primary lead quality is validated outside GA4 by matching event timestamps to Netlify Forms, `/api/lead` logs, Google lead forms, call logs, Messenger threads, and CRM outcomes.
 
 ### Defined But Not Firing
@@ -129,11 +130,11 @@ Goal: optimize site measurement for qualified Medicare/ACA leads, not raw clicks
 ```
 Entry
   ↓
-form_start
+StartLead
   ↓
-Step 1 → lead_step_1_complete
+Step 1 -> normalized intent selected
   ↓
-Step 2 → lead_step_2_complete
+Step 2 -> timing selected
   ↓
 Conversion → generate_lead
 
