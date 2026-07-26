@@ -272,11 +272,15 @@
     return payload;
   }
 
+  function clearPendingLeadMarker() {
+    try { w.sessionStorage.removeItem('lhi_lead_submitted'); } catch (e) {}
+  }
+
   function redirectAfterLead(f) {
     w.location.href = f.getAttribute('action') || '/thanks.html';
   }
 
-  function submitLeadViaApi(f, payload) {
+  function submitLeadViaApi(f, payload, onDelivered) {
     if (f.__lhiApiSubmitting) return;
     f.__lhiApiSubmitting = true;
 
@@ -285,9 +289,21 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     }).then(function (res) {
-      if (!res.ok) throw new Error('lead api ' + res.status);
-      redirectAfterLead(f);
-    }).catch(function () {
+      if (res.ok) {
+        if (typeof onDelivered === 'function') onDelivered();
+        redirectAfterLead(f);
+        return;
+      }
+      var err = new Error('lead api ' + res.status);
+      err.status = res.status;
+      throw err;
+    }).catch(function (err) {
+      if (err && err.status >= 400 && err.status < 500) {
+        clearPendingLeadMarker();
+        f.__lhiApiSubmitting = false;
+        try { w.alert('Please wait a moment, then send your request again.'); } catch (e) {}
+        return;
+      }
       try {
         f.submit();
       } catch (e) {
@@ -347,18 +363,32 @@
     d.querySelectorAll('form[data-funnel-track], form[data-funnel-step]').forEach(function (f) {
       if (f.__lhiWired) return;
       f.__lhiWired = true;
+      f.__lhiFormStarted = false;
+      var name = f.getAttribute('data-funnel-event') || 'Lead';
+      var step = f.getAttribute('data-funnel-step') || 'submit';
+      var content = f.getAttribute('data-funnel-name') || (pageType() + '_' + step);
+
+      function trackFormStart() {
+        if (f.__lhiFormStarted) return;
+        f.__lhiFormStarted = true;
+        track('form_start', { content_name: content, step: 'start' });
+      }
+
+      ['focusin', 'input', 'change'].forEach(function (type) {
+        f.addEventListener(type, trackFormStart, { capture: true });
+      });
+
       f.addEventListener('submit', function (e) {
-        var name = f.getAttribute('data-funnel-event') || 'Lead';
-        var step = f.getAttribute('data-funnel-step') || 'submit';
-        var content = f.getAttribute('data-funnel-name') || (pageType() + '_' + step);
         var fd = new FormData(f);
         identifyFromFormData(fd);
+        trackFormStart();
 
         if (name === 'Lead' && !f.hasAttribute('data-funnel-api-opt-out')) {
           if (e && typeof e.preventDefault === 'function') e.preventDefault();
           if (e && typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
-          track(name, { content_name: content, step: step });
-          submitLeadViaApi(f, formPayload(f, fd, content));
+          submitLeadViaApi(f, formPayload(f, fd, content), function () {
+            track(name, { content_name: content, step: step });
+          });
           return;
         }
 

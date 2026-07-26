@@ -924,24 +924,6 @@
           });
         }
 
-        /* Fire Lead event FIRST, then submit form after pixel has time to send.
-           Previous bug: fetch() resolved in ~20ms and redirected to /thanks.html
-           before the 50ms setTimeout fired — killing the fbq beacon mid-flight.
-           Fix: fire pixel synchronously, wait 300ms for beacon to complete,
-           THEN submit form and redirect. 300ms is imperceptible to the user
-           but gives fbq + GA4 + Supabase time to send. */
-        if (window.LHI && typeof window.LHI.track === 'function') {
-          window.LHI.track('Lead', {
-            content_name: 'get_help_form_conversational',
-            line_of_business: answers && answers.coverageType ? answers.coverageType : null
-          });
-        } else {
-          /* Fallback if funnel.js failed to load — keep raw fires so we
-             never lose a lead. */
-          if (typeof gtag === 'function') gtag('event', 'lead_submit');
-        }
-
-        /* Delay form POST so pixel beacons complete before page navigates. */
         var formData = new FormData(form);
         var payload = {};
         formData.forEach(function(value, key) {
@@ -957,7 +939,25 @@
             body: JSON.stringify(payload)
           }).then(function(response) {
             if (!response.ok) throw new Error('Lead submission blocked');
-            window.location.href = '/thanks.html';
+            if (window.LHI && typeof window.LHI.track === 'function') {
+              window.LHI.track('Lead', {
+                content_name: 'get_help_form_conversational',
+                line_of_business: answers && answers.coverageType ? answers.coverageType : null
+              });
+            } else {
+              try {
+                sessionStorage.setItem('lhi_lead_submitted', JSON.stringify({
+                  event_id: 'lhi_fallback_' + Date.now(),
+                  content_name: 'get_help_form_conversational',
+                  page_type: 'get_help',
+                  page_path: window.location.pathname,
+                  fired_at: Date.now()
+                }));
+              } catch (e) {}
+            }
+            setTimeout(function () {
+              window.location.href = '/thanks.html';
+            }, 250);
           }).catch(function(error) {
             if (error && error.message === 'Lead submission blocked') {
               alert('Please wait a moment, then send your request again.');

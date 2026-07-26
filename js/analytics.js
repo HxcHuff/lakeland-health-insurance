@@ -5,6 +5,9 @@
   var loaded=false;
   var lastPhoneCanonicalAt = 0;
 
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+
   /* ---- Production-host gate -------------------------------------------- */
   var host = (typeof location !== 'undefined' && location.hostname || '').toLowerCase();
   var PROD_HOSTS = ['lakelandhealthinsurance.com', 'www.lakelandhealthinsurance.com'];
@@ -26,7 +29,6 @@
   window.__LHI_IS_PROD = IS_PROD;
 
   function pushDataLayerEvent(name, params) {
-    window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(Object.assign({ event: name }, params || {}));
   }
 

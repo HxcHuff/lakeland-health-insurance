@@ -1705,13 +1705,6 @@
 
             leadForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                if (typeof gtag === 'function') {
-                    gtag('event', 'lead_submit', { form_name: 'subsidy_estimator_lead' });
-                    gtag('event', 'generate_lead', {
-                        event_category: 'engagement',
-                        event_label: 'subsidy_estimator_lead'
-                    });
-                }
 
                 var contentName = 'subsidy_estimator_lead_form';
                 var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
@@ -1729,13 +1722,31 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 }).then(function(r) { return r.ok ? r.json() : null; }).then(function(data) {
-                    if (typeof fbLead === 'function') {
-                        var extra = data && data.event_id ? { eventID: data.event_id } : undefined;
-                        fbLead(contentName, extra);
+                    if (window.LHI && typeof window.LHI.identify === 'function') {
+                        window.LHI.identify({
+                            name: leadForm.querySelector('[name="first_name"]') && leadForm.querySelector('[name="first_name"]').value,
+                            phone: leadForm.querySelector('[name="phone"]') && leadForm.querySelector('[name="phone"]').value,
+                            email: leadForm.querySelector('[name="email"]') && leadForm.querySelector('[name="email"]').value,
+                            zip: leadForm.querySelector('[name="zip_code"]') && leadForm.querySelector('[name="zip_code"]').value
+                        });
                     }
-                    window.location.href = leadForm.getAttribute('action') || '/thanks.html';
+                    if (window.LHI && typeof window.LHI.track === 'function') {
+                        window.LHI.track('Lead', { content_name: contentName, line_of_business: 'ACA' });
+                    } else {
+                        try {
+                            sessionStorage.setItem('lhi_lead_submitted', JSON.stringify({
+                                event_id: 'lhi_fallback_' + Date.now(),
+                                content_name: contentName,
+                                page_type: 'estimator',
+                                page_path: window.location.pathname,
+                                fired_at: Date.now()
+                            }));
+                        } catch (err) {}
+                    }
+                    setTimeout(function() {
+                        window.location.href = leadForm.getAttribute('action') || '/thanks.html';
+                    }, 250);
                 }).catch(function() {
-                    if (typeof fbLead === 'function') fbLead(contentName);
                     leadForm.submit();
                 });
             });

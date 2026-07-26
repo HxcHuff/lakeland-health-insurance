@@ -416,27 +416,16 @@
       });
     })();
 
-    // Form submit via fetch (Netlify requires POST to a page with the form definition)
+    // Form submit tracking is handled by /js/funnel.js after /api/lead accepts the payload.
     document.getElementById('acaLeadForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      // Google Ads conversion event
-      if (typeof gtag === 'function') {
-        gtag('event', 'generate_lead', { event_category: 'form', event_label: 'lp_aca' });
-        gtag('event', 'lead_submit', { form_name: 'lp_aca' });
+      if (window.LHI && typeof window.LHI.identify === 'function') {
+        window.LHI.identify({
+          name: this.full_name && this.full_name.value,
+          phone: this.phone && this.phone.value,
+          email: this.email && this.email.value,
+          zip: this.zip_code && this.zip_code.value
+        });
       }
-      // Facebook Lead event
-      if (typeof fbq === 'function') {
-      }
-      var formData = new FormData(this);
-      fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      }).then(function() {
-        window.location.href = '/thanks.html';
-      }).catch(function() {
-        e.target.submit();
-      });
     });
   </script>
   <script src="/js/chat-widget.js" defer></script>
