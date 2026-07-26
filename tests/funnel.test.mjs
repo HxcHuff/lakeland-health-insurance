@@ -128,6 +128,9 @@ function makeFunnelForm({
         preventDefault() {},
         stopImmediatePropagation() {}
       }, event));
+    },
+    dispatchFormStart() {
+      if (listeners.focusin) listeners.focusin({});
     }
   };
 }
@@ -417,6 +420,41 @@ test('Lead form submit posts to /api/lead and stops legacy submit handlers', asy
 
   assert.ok(w.dataLayer.some((entry) => entry.event === 'Lead'), 'Lead event pushed to dataLayer');
   assert.ok(w.sessionStorage.getItem('lhi_lead_submitted'), 'thank-you marker set');
+});
+
+test('funnel forms fire form_start once as a diagnostic event', () => {
+  const form = makeFunnelForm({ contentName: 'get_help_conversational' });
+  const w = loadFunnel({ pathname: '/get-help/', forms: [form] });
+
+  form.dispatchFormStart();
+  form.dispatchFormStart();
+
+  const starts = w.dataLayer.filter((entry) => entry.event === 'form_start');
+  assert.equal(starts.length, 1);
+  assert.equal(starts[0].event_params.content_name, 'get_help_conversational');
+  assert.equal(starts[0].event_params.step, 'start');
+});
+
+test('Lead form client rejection does not submit fallback or keep thank-you marker', async () => {
+  const form = makeFunnelForm({
+    fields: {
+      'form-name': 'get-help',
+      email: 'bot@example.com'
+    }
+  });
+  const w = loadFunnel({
+    pathname: '/get-help/',
+    forms: [form],
+    fetchImpl: () => Promise.resolve({ ok: false, status: 422 })
+  });
+
+  form.dispatchSubmit();
+  await Promise.resolve();
+  await Promise.resolve();
+
+  assert.equal(form.__submitted, false);
+  assert.equal(w.sessionStorage.getItem('lhi_lead_submitted'), null);
+  assert.equal(w.dataLayer.some((entry) => entry.event === 'Lead'), false);
 });
 
 test('Lead form API failure falls back to native Netlify submit', async () => {
