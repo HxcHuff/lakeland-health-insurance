@@ -135,9 +135,9 @@ const siteSearchIndex = [
     tags: ["Lakeland", "Local", "Networks", "Orlando Health", "Watson Clinic"]
   },
   {
-    title: "The Freelancer's Guide to Health Insurance in Lakeland & Polk County (2026)",
+    title: "Freelancer Health Insurance in Lakeland FL for 2026",
     url: "/blog/freelancer-health-insurance-lakeland-2026.html",
-    excerpt: "Expert guide for self-employed freelancers in Lakeland, FL. Discover ACA marketplace plans, subsidy strategies, and Polk County healthcare options for 2026.",
+    excerpt: "Source-backed ACA and income-planning guide for freelancers, contractors, and self-employed workers in Lakeland and Polk County.",
     tags: ["Self-Employed", "Lakeland", "ACA"]
   },
   {
@@ -363,9 +363,9 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Tampa", "Hillsborough County"]
   },
   {
-    title: "Health Insurance in Wesley Chapel FL — 2026 Premium Changes Guide",
+    title: "Health Insurance in Wesley Chapel FL — 2026 ACA & SEP Guide",
     url: "/blog/health-insurance-wesley-chapel-2026.html",
-    excerpt: "Wesley Chapel ACA premium changes, new-mover SEPs, Bronze + HSA options, and Medicare GLP-1 bridge considerations.",
+    excerpt: "Source-backed ACA and Special Enrollment Period guide for Wesley Chapel residents comparing 2026 Marketplace plans in Pasco County.",
     tags: ["ACA", "Florida", "Wesley Chapel", "Pasco County"]
   },
   {
