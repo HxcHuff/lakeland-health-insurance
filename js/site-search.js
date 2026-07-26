@@ -315,9 +315,9 @@ const siteSearchIndex = [
     tags: ["Prescriptions", "RX", "ACA", "Medicare", "Planning"]
   },
   {
-    title: "Florida Health Insurance Premiums Are Up 31% in 2026",
+    title: "Florida ACA Premiums Up 31.5% for 2026",
     url: "/blog/florida-aca-premiums-up-31-percent-2026.html",
-    excerpt: "What higher 2026 Florida ACA premiums mean for Lakeland residents and how subsidies affect the real cost.",
+    excerpt: "Source-backed review of Florida's 2026 ACA premium increase and what Polk County residents should compare before changing coverage.",
     tags: ["ACA", "Florida", "Premiums", "Lakeland"]
   },
   {
