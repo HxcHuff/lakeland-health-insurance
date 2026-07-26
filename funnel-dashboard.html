@@ -120,7 +120,7 @@
       <div class="row-actions"><h2>Recent events (last 50)</h2></div>
       <div style="overflow:auto; max-height:400px;">
         <table id="recentTbl">
-          <thead><tr><th>Time</th><th>Event</th><th>Page type</th><th>Path</th><th>Session</th><th>Source</th></tr></thead>
+          <thead><tr><th>Time</th><th>Event</th><th>Funnel</th><th>Step</th><th>Form</th><th>Page type</th><th>Path</th><th>Session</th><th>Source</th><th>Contact fields</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -171,6 +171,26 @@
 
   function showErr(msg){ var e = document.getElementById('err'); e.textContent = msg; e.style.display = 'block'; }
   function hideErr(){ document.getElementById('err').style.display = 'none'; }
+  function esc(v){
+    return String(v == null || v === '' ? '—' : v).replace(/[&<>"']/g, function(ch){
+      return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[ch];
+    });
+  }
+  function sourceLabel(ev){
+    var attr = ev.attribution || {};
+    var src = attr.utm_source || (attr.gclid ? 'google_ads' : (attr.fbclid ? 'facebook_click' : 'direct'));
+    var med = attr.utm_medium || (attr.gclid ? 'cpc' : (attr.fbclid ? 'paid_social' : 'none'));
+    return src + ' / ' + med;
+  }
+  function contactFlags(identity){
+    identity = identity || {};
+    var flags = [];
+    if (identity.has_name) flags.push('name');
+    if (identity.has_email) flags.push('email');
+    if (identity.has_phone) flags.push('phone');
+    if (identity.zip) flags.push('zip ' + identity.zip);
+    return flags.length ? flags.join(', ') : '—';
+  }
 
   function kpi(label, value, delta){
     return '<div class="kpi"><div class="label">'+label+'</div><div class="value">'+value+'</div>'+(delta?'<div class="delta">'+delta+'</div>':'')+'</div>';
@@ -187,7 +207,7 @@
       var ptFilterStr = ptFilter ? '&page_type=eq.' + encodeURIComponent(ptFilter) : '';
 
       // Pull events since window
-      var events = await q('funnel_events?fired_at=gte.' + encodeURIComponent(since) + ptFilterStr + '&select=fired_at,event_name,page_type,page_path,session_id,attribution&order=fired_at.desc&limit=5000');
+      var events = await q('funnel_events?fired_at=gte.' + encodeURIComponent(since) + ptFilterStr + '&select=fired_at,event_name,page_type,page_path,session_id,attribution,props,identity&order=fired_at.desc&limit=5000');
 
       // Build aggregates
       var byEvent = {}, byPageType = {}, bySource = {}, byDayEvent = {};
@@ -195,7 +215,7 @@
       events.forEach(function(ev){
         byEvent[ev.event_name] = (byEvent[ev.event_name]||0) + 1;
         byPageType[ev.page_type||'unknown'] = (byPageType[ev.page_type||'unknown']||0) + 1;
-        var src = (ev.attribution && (ev.attribution.utm_source || (ev.attribution.fbclid ? 'facebook_click' : null))) || 'direct/organic';
+        var src = sourceLabel(ev);
         bySource[src] = (bySource[src]||0) + 1;
         var day = ev.fired_at.slice(0,10);
         byDayEvent[day] = byDayEvent[day] || {};
@@ -262,10 +282,10 @@
 
       // Recent table
       var recent = events.slice(0,50).map(function(ev){
-        var src = (ev.attribution && (ev.attribution.utm_source || (ev.attribution.fbclid ? 'facebook_click' : ''))) || '';
-        return '<tr><td>'+new Date(ev.fired_at).toLocaleString()+'</td><td><span class="pill '+(ev.event_name==='Lead'?'good':'')+'">'+ev.event_name+'</span></td><td>'+(ev.page_type||'—')+'</td><td>'+(ev.page_path||'—')+'</td><td style="font-family:monospace; font-size:11px; color:var(--muted);">'+((ev.session_id||'').slice(0,8))+'</td><td>'+src+'</td></tr>';
+        var props = ev.props || {};
+        return '<tr><td>'+esc(new Date(ev.fired_at).toLocaleString())+'</td><td><span class="pill '+(ev.event_name==='Lead'?'good':'')+'">'+esc(ev.event_name)+'</span></td><td>'+esc(props.content_name || props.funnel_name)+'</td><td>'+esc(props.step)+'</td><td>'+esc(props.form_name)+'</td><td>'+esc(ev.page_type)+'</td><td>'+esc(ev.page_path)+'</td><td style="font-family:monospace; font-size:11px; color:var(--muted);">'+esc((ev.session_id||'').slice(0,8))+'</td><td>'+esc(sourceLabel(ev))+'</td><td>'+esc(contactFlags(ev.identity))+'</td></tr>';
       }).join('');
-      document.querySelector('#recentTbl tbody').innerHTML = recent || '<tr><td colspan="6" style="text-align:center; color:var(--muted); padding:24px;">No events yet.</td></tr>';
+      document.querySelector('#recentTbl tbody').innerHTML = recent || '<tr><td colspan="10" style="text-align:center; color:var(--muted); padding:24px;">No events yet.</td></tr>';
 
       document.getElementById('lastRefresh').textContent = 'Updated ' + new Date().toLocaleTimeString();
     } catch (e) {
