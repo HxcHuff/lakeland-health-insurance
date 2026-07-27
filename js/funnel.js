@@ -239,6 +239,7 @@
     var params = Object.assign({}, props.event_params || {});
     if (props.page_type && !params.page_type) params.page_type = props.page_type;
     params.original_event_name = name;
+    params.transport_type = 'beacon';
 
     w.gtag = w.gtag || function () { w.dataLayer.push(arguments); };
     try { w.gtag('event', ga4Name, params); } catch (e) {}

@@ -534,6 +534,7 @@ test('secondary funnel events bridge directly to named GA4 events without duplic
   assert.equal(ga4Events.some((call) => call[1] === 'phone_call_click'), false);
   assert.equal(ga4Events[0][2].page_type, 'get_help');
   assert.equal(ga4Events[0][2].original_event_name, 'Subscriber');
+  assert.equal(ga4Events[0][2].transport_type, 'beacon');
 });
 
 test('secondary funnel events queue named GA4 events when gtag is not initialized yet', () => {
@@ -545,6 +546,7 @@ test('secondary funnel events queue named GA4 events when gtag is not initialize
   assert.ok(queuedCommand, 'schedule_appointment command should be queued for gtag.js');
   assert.equal(queuedCommand[2].page_type, 'get_help');
   assert.equal(queuedCommand[2].original_event_name, 'Schedule');
+  assert.equal(queuedCommand[2].transport_type, 'beacon');
 });
 
 test('Supabase analytics payload does not include raw PII identity', () => {
