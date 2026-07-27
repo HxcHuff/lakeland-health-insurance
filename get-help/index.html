@@ -366,6 +366,8 @@
           <input type="hidden" name="fbclid" id="fbclidInput">
           <input type="hidden" name="started_at" id="startedAtInput">
           <input type="hidden" name="human_check" id="humanCheckInput">
+          <input type="hidden" name="lead_priority">
+          <input type="hidden" name="lead_priority_reason">
 
           <div class="progress" id="progressText">Step 1 of 3</div>
           <div class="error-summary" id="errorSummary" role="alert" hidden></div>
@@ -429,6 +431,29 @@
                   <option>Text message</option>
                   <option>Email</option>
                   <option>First available</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="bestTimeToReach">Best time to reach you</label>
+                <select id="bestTimeToReach" name="best_time_to_reach" required>
+                  <option value="">Select one</option>
+                  <option>Morning</option>
+                  <option>Afternoon</option>
+                  <option>Evening</option>
+                  <option>Anytime during business hours</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="coverageStatus">What coverage do you have now?</label>
+                <select id="coverageStatus" name="coverage_status" required>
+                  <option value="">Select one</option>
+                  <option>Uninsured</option>
+                  <option>Employer plan</option>
+                  <option>Marketplace / ACA</option>
+                  <option>Medicare</option>
+                  <option>COBRA</option>
+                  <option>Short-term</option>
+                  <option>Not sure</option>
                 </select>
               </div>
             </div>

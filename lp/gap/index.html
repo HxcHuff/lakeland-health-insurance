@@ -318,6 +318,8 @@
         <input type="hidden" name="utm_medium" id="utm_medium">
         <input type="hidden" name="utm_campaign" id="utm_campaign">
         <input type="hidden" name="utm_term" id="utm_term">
+        <input type="hidden" name="lead_priority">
+        <input type="hidden" name="lead_priority_reason">
         <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
 
         <div class="form-grid">
@@ -337,6 +339,29 @@
             <label for="zip_code">ZIP Code</label>
             <input type="text" id="zip_code" name="zip_code" required placeholder="33801" pattern="[0-9]{5}" maxlength="5" inputmode="numeric">
           </div>
+          <div>
+            <label for="best_time_to_reach">Best Time to Reach You</label>
+            <select id="best_time_to_reach" name="best_time_to_reach" required>
+              <option value="" disabled selected>Select...</option>
+              <option value="morning">Morning</option>
+              <option value="afternoon">Afternoon</option>
+              <option value="evening">Evening</option>
+              <option value="business_hours">Anytime during business hours</option>
+            </select>
+          </div>
+          <div>
+            <label for="coverage_status">Current Coverage</label>
+            <select id="coverage_status" name="coverage_status" required>
+              <option value="" disabled selected>Select...</option>
+              <option value="uninsured">Uninsured</option>
+              <option value="employer_plan">Employer plan</option>
+              <option value="marketplace_aca">Marketplace / ACA</option>
+              <option value="medicare">Medicare</option>
+              <option value="cobra">COBRA</option>
+              <option value="short_term">Short-term</option>
+              <option value="not_sure">Not sure</option>
+            </select>
+          </div>
           <div class="full">
             <label for="coverage_situation">Current Situation</label>
             <select id="coverage_situation" name="coverage_situation" required>
@@ -351,11 +376,11 @@
           <div class="full">
             <div class="consent">
               <input type="checkbox" id="consent" name="consent" required>
-              <span><label for="consent" style="font-weight:400;font-size:12px;margin:0;display:inline;">I agree to be contacted by David Huff at Lakeland Health Insurance by phone, text, or email regarding health insurance options. I understand this is a free service.</label></span>
+              <span><label for="consent" style="font-weight:400;font-size:12px;margin:0;display:inline;">By checking this box, I agree to receive calls, texts, and emails from Lakeland Health Insurance about my insurance request at the contact information provided. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help.</label></span>
             </div>
           </div>
           <div class="full">
-            <button type="submit" class="submit-btn">Show Me My Options</button>
+            <button type="submit" class="submit-btn">Request Coverage Gap Review</button>
           </div>
         </div>
       </form>

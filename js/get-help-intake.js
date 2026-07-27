@@ -8,7 +8,7 @@
       subject: 'New Lead: ACA Marketplace Help',
       line: 'ACA',
       intro: 'Get ACA Marketplace guidance around timing, household size, income estimate, doctors, and next steps.',
-      optional: ['who', 'coverage_status', 'coverage_end', 'providers', 'prescriptions', 'household_size', 'income', 'referral', 'notes']
+      optional: ['who', 'coverage_end', 'providers', 'prescriptions', 'household_size', 'income', 'referral', 'notes']
     },
     'medicare': {
       label: 'Medicare',
@@ -24,7 +24,7 @@
       subject: 'New Lead: Losing Coverage or COBRA Review',
       line: 'ACA',
       intro: 'Review coverage-loss timing, COBRA status, and possible Special Enrollment Period next steps.',
-      optional: ['coverage_end', 'cobra_status', 'cobra_premium', 'coverage_status', 'household_size', 'income', 'providers', 'prescriptions', 'notes']
+      optional: ['coverage_end', 'cobra_status', 'cobra_premium', 'household_size', 'income', 'providers', 'prescriptions', 'notes']
     },
     'turning-26': {
       label: 'Turning 26',
@@ -40,7 +40,7 @@
       subject: 'New Lead: Self-Employed Coverage Review',
       line: 'ACA',
       intro: 'Compare coverage paths for business owners, contractors, freelancers, and gig workers.',
-      optional: ['business_type', 'household_size', 'income', 'coverage_status', 'providers', 'prescriptions', 'notes']
+      optional: ['business_type', 'household_size', 'income', 'providers', 'prescriptions', 'notes']
     },
     'coverage-gap': {
       label: 'Short-term or coverage gap',
@@ -48,7 +48,7 @@
       subject: 'New Lead: Coverage Gap Review',
       line: 'Coverage gap',
       intro: 'Review short-term, ACA, and supplemental paths accurately for a temporary coverage gap.',
-      optional: ['coverage_end', 'coverage_status', 'primary_concern', 'providers', 'prescriptions', 'notes']
+      optional: ['coverage_end', 'primary_concern', 'providers', 'prescriptions', 'notes']
     },
     'supplemental': {
       label: 'Supplemental coverage',
@@ -56,7 +56,7 @@
       subject: 'New Lead: Supplemental Coverage Review',
       line: 'Supplemental',
       intro: 'Review supplemental coverage questions alongside your major-medical situation.',
-      optional: ['coverage_status', 'current_plan', 'primary_concern', 'notes']
+      optional: ['current_plan', 'primary_concern', 'notes']
     },
     'dental-vision': {
       label: 'Dental and vision',
@@ -64,7 +64,7 @@
       subject: 'New Lead: Dental and Vision Review',
       line: 'Dental and vision',
       intro: 'Review dental and vision options based on timing, ZIP code, and current coverage.',
-      optional: ['coverage_status', 'primary_concern', 'notes']
+      optional: ['primary_concern', 'notes']
     },
     'current-client-review': {
       label: 'Current-client plan review',
@@ -112,7 +112,7 @@
       subject: 'New Lead: Get Help Request',
       line: 'General',
       intro: 'Start with your need and timing. David can route you to the right coverage path.',
-      optional: ['who', 'coverage_status', 'primary_concern', 'referral', 'notes']
+      optional: ['who', 'primary_concern', 'referral', 'notes']
     }
   };
 
@@ -134,7 +134,6 @@
 
   var OPTIONAL_FIELDS = {
     who: ['Who needs coverage?', 'text', 'Just me, spouse, children, family'],
-    coverage_status: ['Current coverage status', 'text', 'Uninsured, employer plan, Marketplace, Medicare, COBRA'],
     coverage_end: ['Coverage end date', 'date', ''],
     cobra_status: ['COBRA offer status', 'text', 'Offered, not offered, not sure'],
     cobra_premium: ['Estimated COBRA premium', 'text', 'Optional user-provided estimate'],

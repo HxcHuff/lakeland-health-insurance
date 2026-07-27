@@ -108,6 +108,9 @@ exports.handler = async (event) => {
   const sourceUrl = payload.source_url || headers.referer || headers.referrer || '';
   const formName = payload['form-name'] || payload.form_name || '';
   const isNewsletter = NEWSLETTER_FORMS.has(formName) || payload.event_name === 'Subscriber';
+  const leadPriority = classifyLead(payload, formName);
+  payload.lead_priority = leadPriority.level;
+  payload.lead_priority_reason = leadPriority.reason;
   const cookieHeader = headers.cookie || '';
   const fbp = pickCookie(cookieHeader, '_fbp');
   const fbc = pickCookie(cookieHeader, '_fbc');
@@ -156,7 +159,8 @@ exports.handler = async (event) => {
             currency: 'USD',
             value: 0,
             normalized_intent: payload.normalized_intent || null,
-            line_of_business: payload.line_of_business || null
+            line_of_business: payload.line_of_business || null,
+            lead_priority: payload.lead_priority || null
           }
         }]
       };
@@ -282,6 +286,57 @@ function checkBotSubmission(payload) {
   return { ok: true };
 }
 
+function cleanLeadToken(value) {
+  return String(value || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+}
+
+function hasContactPath(payload) {
+  return Boolean(String(payload.phone || payload.phone_number || '').trim() && String(payload.zip || payload.zip_code || payload.postal_code || '').trim());
+}
+
+function classifyLead(payload, formName) {
+  if (NEWSLETTER_FORMS.has(formName) || payload.event_name === 'Subscriber') {
+    return { level: 'subscriber', reason: 'newsletter_or_subscriber_form' };
+  }
+
+  const intent = cleanLeadToken(payload.normalized_intent || payload.inquiry_type || formName);
+  const timing = cleanLeadToken(payload.need_timing || payload.coverage_situation || payload.medicare_timing || payload.age_timeline);
+  const coverage = cleanLeadToken(payload.coverage_status || payload.current_plan || payload.coverage_type);
+  const hasContact = hasContactPath(payload);
+
+  if (intent === 'current_client_review' || intent === 'post_enrollment_review') {
+    return { level: 'service', reason: intent };
+  }
+
+  const urgentSignals = new Set([
+    'as_soon_as_possible',
+    'within_30_days',
+    'losing_coverage_soon',
+    'currently_uninsured',
+    'between_jobs',
+    'already_65',
+    'already_65_',
+    'within_3_months'
+  ]);
+
+  const coverageSignals = new Set(['uninsured', 'cobra']);
+  const intentSignals = new Set(['lost_coverage', 'coverage_gap', 'medicare']);
+
+  if (hasContact && (urgentSignals.has(timing) || coverageSignals.has(coverage) || intentSignals.has(intent))) {
+    return { level: 'high', reason: 'urgent_or_high_intent_with_contact_path' };
+  }
+
+  if (timing === 'just_researching' || timing === 'just_exploring') {
+    return { level: 'research', reason: 'research_or_exploring_timing' };
+  }
+
+  if (hasContact && (intent || coverage)) {
+    return { level: 'qualified', reason: 'complete_contact_with_routing_context' };
+  }
+
+  return { level: 'standard', reason: 'basic_lead_submission' };
+}
+
 async function syncToMailchimp(payload) {
   if (!MC_API_KEY || !MC_AUDIENCE_ID || !MC_SERVER) {
     return { ok: false, error: 'Mailchimp env vars not set (MAILCHIMP_API_KEY / MAILCHIMP_AUDIENCE_ID / MAILCHIMP_SERVER_PREFIX)' };
@@ -360,6 +415,7 @@ function mailchimpConfigFor(payload, formName) {
     INTENT_MC_TAGS[normalizedIntent].forEach(tag => tags.add(tag));
   }
   if (payload.line_of_business) tags.add(String(payload.line_of_business).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
+  if (payload.lead_priority) tags.add(`lead-priority-${String(payload.lead_priority).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`);
   if (normalizedIntent === 'current-client-review' || normalizedIntent === 'post-enrollment-review') {
     tags.delete('hot-lead');
     tags.add('service-request');
