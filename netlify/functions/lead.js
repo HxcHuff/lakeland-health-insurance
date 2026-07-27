@@ -484,7 +484,7 @@ async function sendEmailNotification(payload, context) {
       Authorization: `Bearer ${RESEND_API_KEY}`
     },
     body: JSON.stringify({
-      from: 'Lakeland Health Insurance <onboarding@resend.dev>',
+      from: 'LHI Bot <leads@lakelandhealthinsurance.com>',
       to: NOTIFY_EMAIL,
       subject: `New Website Lead: ${name}`,
       text: body
