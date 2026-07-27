@@ -536,6 +536,17 @@ test('secondary funnel events bridge directly to named GA4 events without duplic
   assert.equal(ga4Events[0][2].original_event_name, 'Subscriber');
 });
 
+test('secondary funnel events queue named GA4 events when gtag is not initialized yet', () => {
+  const w = loadFunnel({ pathname: '/get-help/' });
+
+  w.LHI.track('Schedule', { content_name: 'get_help_calendly_click' });
+
+  const queuedCommand = w.dataLayer.find((entry) => entry && entry[0] === 'event' && entry[1] === 'schedule_appointment');
+  assert.ok(queuedCommand, 'schedule_appointment command should be queued for gtag.js');
+  assert.equal(queuedCommand[2].page_type, 'get_help');
+  assert.equal(queuedCommand[2].original_event_name, 'Schedule');
+});
+
 test('Supabase analytics payload does not include raw PII identity', () => {
   const calls = [];
   const w = loadFunnel({
