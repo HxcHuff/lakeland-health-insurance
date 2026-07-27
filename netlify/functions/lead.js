@@ -19,8 +19,6 @@ const IS_PROD_CONTEXT = NETLIFY_CONTEXT === 'production';
 const MC_API_KEY = process.env.MAILCHIMP_API_KEY;
 const MC_AUDIENCE_ID = process.env.MAILCHIMP_AUDIENCE_ID;
 const MC_SERVER = process.env.MAILCHIMP_SERVER_PREFIX; // e.g. "us12"
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL;
 
 // form-name → Mailchimp behavior. Newsletter forms get pending (double opt-in);
 // high-intent lead forms get subscribed (already gave phone + explicit consent).
@@ -238,30 +236,6 @@ exports.handler = async (event) => {
     console.error('Mailchimp sync exception', e);
   }
 
-  // Send an explicit internal notification after Forms capture succeeds.
-  // The Forms record remains the system of record; email is the operational alert.
-  let emailOk = false;
-  let emailError = null;
-  if (formsOk) {
-    try {
-      const result = await sendEmailNotification(payload, {
-        formName,
-        sourceUrl,
-        leadPriority,
-        formsOk,
-        capiOk
-      });
-      emailOk = result.ok;
-      if (result.error) {
-        emailError = result.error;
-        console.error('Email notification error:', result.error);
-      }
-    } catch (e) {
-      emailError = String(e);
-      console.error('Email notification exception', e);
-    }
-  }
-
   const responseBody = {
     event_id: eventId,
     lead_priority: leadPriority.level,
@@ -269,11 +243,9 @@ exports.handler = async (event) => {
     capi: capiOk,
     forms: formsOk,
     mailchimp: mcOk,
-    email_notification: emailOk,
     ...(capiError ? { capi_error: capiError } : {}),
     ...(formsError ? { forms_error: formsError } : {}),
-    ...(mcError ? { mc_error: mcError } : {}),
-    ...(emailError ? { email_error: emailError } : {})
+    ...(mcError ? { mc_error: mcError } : {})
   };
 
   if (!formsOk) {
@@ -435,81 +407,6 @@ async function syncToMailchimp(payload) {
   }
 
   return { ok: true };
-}
-
-async function sendEmailNotification(payload, context) {
-  if (!RESEND_API_KEY || !NOTIFY_EMAIL) {
-    return { ok: false, error: 'Resend env vars not set (RESEND_API_KEY / NOTIFY_EMAIL)' };
-  }
-
-  const name = cleanField(payload.full_name || payload.name || 'Unknown');
-  const email = cleanField(payload.email || '');
-  const phone = cleanField(payload.phone || payload.phone_number || '');
-  const zip = cleanField(payload.zip || payload.zip_code || payload.postal_code || '');
-  const coverage = cleanField(payload.coverage_type || payload.coverage_status || payload.current_coverage_status || '');
-  const timing = cleanField(payload.need_timing || payload.renewal_timing || payload.coverage_situation || '');
-  const intent = cleanField(payload.normalized_intent || payload.inquiry_type || '');
-  const sourcePath = safePath(payload.source_page || context.sourceUrl || '');
-  const referrerPath = safePath(payload.referrer || '');
-
-  const body = [
-    `NEW WEBSITE LEAD - ${name}`,
-    ``,
-    `Source: Website form`,
-    `Form: ${context.formName || 'unknown'}`,
-    `Page: ${sourcePath || 'unknown'}`,
-    `Referrer path: ${referrerPath || 'none'}`,
-    ``,
-    `Name: ${name}`,
-    `Email: ${email || 'not provided'}`,
-    `Phone: ${phone || 'not provided'}`,
-    `ZIP: ${zip || 'not provided'}`,
-    ``,
-    `Coverage: ${coverage || 'not provided'}`,
-    `Timing: ${timing || 'not provided'}`,
-    `Intent: ${intent || 'not provided'}`,
-    `Lead priority: ${context.leadPriority.level} (${context.leadPriority.reason})`,
-    ``,
-    `Netlify Forms captured: ${context.formsOk ? 'yes' : 'no'}`,
-    `Meta CAPI sent: ${context.capiOk ? 'yes' : 'no'}`,
-    `Time: ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })}`,
-    ``,
-    `ACTION: Call, text, or email this lead during normal business hours.`
-  ].join('\n');
-
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${RESEND_API_KEY}`
-    },
-    body: JSON.stringify({
-      from: 'David Huff <david@lakelandhealthinsurance.com>',
-      to: NOTIFY_EMAIL,
-      subject: `New Website Lead: ${name}`,
-      text: body
-    })
-  });
-
-  if (!res.ok) {
-    return { ok: false, error: `Resend ${res.status}: ${(await res.text()).slice(0, 300)}` };
-  }
-
-  return { ok: true };
-}
-
-function cleanField(value) {
-  return String(value || '').replace(/[\r\n]+/g, ' ').trim().slice(0, 200);
-}
-
-function safePath(value) {
-  try {
-    const raw = String(value || '');
-    const url = raw.startsWith('http') ? new URL(raw) : new URL(raw || '/', 'https://lakelandhealthinsurance.com');
-    return url.pathname || '/';
-  } catch (_) {
-    return '';
-  }
 }
 
 function mailchimpConfigFor(payload, formName) {
