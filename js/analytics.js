@@ -86,15 +86,17 @@
     g.async=true;
     g.src='https://www.googletagmanager.com/gtm.js?id=GTM-W6MZ7XT6';
     document.head.appendChild(g);
-    /* Google Ads (gtag.js) — needed for AW-300112445 conversion events
+    /* Google Ads / GA4 (gtag.js) — needed for AW-300112445 conversion events
        (e.g. "Insurance reality check" click conversion fired from
-       calendly.event_scheduled). Coexists with GTM via shared dataLayer. */
+       calendly.event_scheduled) and direct secondary funnel events. Coexists
+       with GTM via shared dataLayer. */
     var ga=document.createElement('script');
     ga.async=true;
-    ga.src='https://www.googletagmanager.com/gtag/js?id=AW-300112445';
+    ga.src='https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0';
     document.head.appendChild(ga);
     window.gtag=window.gtag||function(){dataLayer.push(arguments);};
     gtag('js', new Date());
+    gtag('config', 'G-W45RMKHXV0', { send_page_view: false });
     /* allow_enhanced_conversions=true permits gtag to read user_data set via
        gtag('set','user_data',{...}) and pass hashed PII alongside conversion
        events (Enhanced Conversions for Leads). Lifts Smart Bidding match
@@ -103,7 +105,7 @@
     /* Funnel event bus — unifies GA + Supabase */
     var f=document.createElement('script');
     f.async=true;
-    f.src='/js/funnel.js?v=20260721-meta-removal';
+    f.src='/js/funnel.js?v=20260727-secondary-events';
     document.head.appendChild(f);
   }
   /* Defer Google tags until after LCP/FCP so third-party JS isn't

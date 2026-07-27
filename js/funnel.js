@@ -220,8 +220,27 @@
   }
 
   function fireGA(name, props) {
+    props = props || {};
     w.dataLayer = w.dataLayer || [];
-    w.dataLayer.push(Object.assign({ event: name }, props || {}));
+    w.dataLayer.push(Object.assign({ event: name }, props));
+
+    /* GTM owns Lead -> generate_lead and the phone-call tag. These direct
+       GA4 sends cover secondary events that the site already emits but GTM
+       does not currently convert into named GA4 events. */
+    var directGA4Events = {
+      Subscriber: 'newsletter_signup',
+      Schedule: 'schedule_appointment',
+      ExternalQuoteClick: 'external_quote_click',
+      messenger_click: 'messenger_click'
+    };
+    var ga4Name = directGA4Events[name];
+    if (!ga4Name || typeof w.gtag !== 'function') return;
+
+    var params = Object.assign({}, props.event_params || {});
+    if (props.page_type && !params.page_type) params.page_type = props.page_type;
+    params.original_event_name = name;
+
+    try { w.gtag('event', ga4Name, params); } catch (e) {}
   }
 
   /* Fire Google Ads conversion for Lead submissions, with Enhanced

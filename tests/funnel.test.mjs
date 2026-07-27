@@ -41,7 +41,7 @@ function makeSessionStorage(initial = {}) {
 /* Build a sandbox that mimics the browser globals funnel.js touches.
    __LHI_IS_PROD=false silences gtag/Supabase fire paths so loading
    the script has no side-effects beyond attaching window.LHI. */
-function loadFunnel({ pathname = '/', forms = [], fetchImpl } = {}) {
+function loadFunnel({ pathname = '/', forms = [], fetchImpl, gtagImpl } = {}) {
   const dataLayer = [];
   const sessionStorage = makeSessionStorage();
   class TestFormData {
@@ -84,6 +84,7 @@ function loadFunnel({ pathname = '/', forms = [], fetchImpl } = {}) {
     FormData: TestFormData,
     Error: globalThis.Error,
     fetch: fetchImpl || (() => Promise.resolve({ ok: true })),
+    gtag: gtagImpl,
     setTimeout: () => 0,
     dataLayer,
     sessionStorage
@@ -506,6 +507,33 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
   assert.equal(w.dataLayer.some((entry) => entry.event === 'Lead'), false);
   assert.equal(w.sessionStorage.getItem('lhi_lead_submitted'), null);
   assert.ok(w.sessionStorage.getItem('lhi_submission_completed'), 'subscriber thank-you marker set');
+});
+
+test('secondary funnel events bridge directly to named GA4 events without duplicating Lead', () => {
+  const gtagCalls = [];
+  const w = loadFunnel({
+    pathname: '/get-help/',
+    gtagImpl: (...args) => gtagCalls.push(args)
+  });
+
+  w.LHI.track('Subscriber', { content_name: 'homepage_newsletter_optin', step: 'submit' });
+  w.LHI.track('Schedule', { content_name: 'get_help_calendly_click' });
+  w.LHI.track('ExternalQuoteClick', { content_name: 'get_help_external_quote_click' });
+  w.LHI.track('messenger_click', { content_name: 'get_help_messenger_click' });
+  w.LHI.track('Lead', { content_name: 'get_help_lead_form' });
+  w.LHI.track('PhoneCallClick', { content_name: 'get_help_phone_click' });
+
+  const ga4Events = gtagCalls.filter((call) => call[0] === 'event');
+  assert.deepEqual(ga4Events.map((call) => call[1]), [
+    'newsletter_signup',
+    'schedule_appointment',
+    'external_quote_click',
+    'messenger_click'
+  ]);
+  assert.equal(ga4Events.some((call) => call[1] === 'generate_lead'), false);
+  assert.equal(ga4Events.some((call) => call[1] === 'phone_call_click'), false);
+  assert.equal(ga4Events[0][2].page_type, 'get_help');
+  assert.equal(ga4Events[0][2].original_event_name, 'Subscriber');
 });
 
 test('Supabase analytics payload does not include raw PII identity', () => {
