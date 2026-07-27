@@ -2,7 +2,7 @@
 // 1. Mints a server-side event_id (uuid)
 // 2. Fires Meta Conversions API "Lead" event server-side with that event_id
 // 3. Forwards the submission to Netlify Forms so submissions still get captured
-// 4. Returns { event_id } for downstream attribution/audit use
+// 4. Returns { event_id, lead_priority, lead_priority_reason } for downstream attribution/audit use
 
 const crypto = require('crypto');
 
@@ -238,6 +238,8 @@ exports.handler = async (event) => {
 
   const responseBody = {
     event_id: eventId,
+    lead_priority: leadPriority.level,
+    lead_priority_reason: leadPriority.reason,
     capi: capiOk,
     forms: formsOk,
     mailchimp: mcOk,

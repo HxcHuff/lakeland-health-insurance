@@ -289,6 +289,61 @@
     return null;
   }
 
+  function cleanAnalyticsToken(value) {
+    if (value == null) return null;
+    var cleaned = String(value).trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+    return cleaned || null;
+  }
+
+  function inferLineOfBusiness(content, formName, pt) {
+    var source = [content, formName, pt].join(' ').toLowerCase();
+    if (source.indexOf('medicare') !== -1) return 'medicare';
+    if (source.indexOf('aca') !== -1 || source.indexOf('marketplace') !== -1) return 'aca';
+    if (source.indexOf('gap') !== -1 || source.indexOf('short') !== -1) return 'coverage_gap';
+    if (source.indexOf('dental') !== -1 || source.indexOf('vision') !== -1) return 'dental_vision';
+    if (source.indexOf('supplemental') !== -1) return 'supplemental';
+    return null;
+  }
+
+  function inferIntent(content, formName, pt) {
+    var source = [content, formName, pt].join(' ').toLowerCase();
+    if (source.indexOf('medicare') !== -1) return 'medicare';
+    if (source.indexOf('coverage_gap') !== -1 || source.indexOf('lp-gap') !== -1 || source.indexOf(' gap') !== -1) return 'coverage_gap';
+    if (source.indexOf('aca') !== -1 || source.indexOf('marketplace') !== -1) return 'aca';
+    return null;
+  }
+
+  function setFormFieldValue(f, name, value) {
+    if (!f || value == null) return;
+    var field = f.elements && f.elements[name];
+    if (field) field.value = value;
+  }
+
+  function safeLeadPropsFromForm(f, fd, content, step, apiResult) {
+    var formName = fdGet(fd, ['form-name', 'form_name']);
+    var pt = pageType();
+    var props = {
+      content_name: cleanAnalyticsToken(fdGet(fd, ['content_name']) || content),
+      step: cleanAnalyticsToken(step || 'submit'),
+      coverage_status: cleanAnalyticsToken(fdGet(fd, ['coverage_status', 'current_plan', 'coverage_type'])),
+      best_time_to_reach: cleanAnalyticsToken(fdGet(fd, ['best_time_to_reach'])),
+      normalized_intent: cleanAnalyticsToken(fdGet(fd, ['normalized_intent', 'inquiry_type']) || inferIntent(content, formName, pt)),
+      line_of_business: cleanAnalyticsToken(fdGet(fd, ['line_of_business']) || inferLineOfBusiness(content, formName, pt)),
+      need_timing: cleanAnalyticsToken(fdGet(fd, ['need_timing', 'coverage_situation', 'medicare_timing', 'age_timeline']))
+    };
+
+    if (apiResult && apiResult.lead_priority) {
+      props.lead_priority = cleanAnalyticsToken(apiResult.lead_priority);
+      setFormFieldValue(f, 'lead_priority', props.lead_priority);
+    }
+    if (apiResult && apiResult.lead_priority_reason) {
+      props.lead_priority_reason = cleanAnalyticsToken(apiResult.lead_priority_reason);
+      setFormFieldValue(f, 'lead_priority_reason', props.lead_priority_reason);
+    }
+
+    return props;
+  }
+
   function identifyFromFormData(fd) {
     var attrs = {};
     var zip = fdGet(fd, ['zip', 'ZIP', 'zip_code', 'postal_code']);
@@ -348,9 +403,10 @@
       body: JSON.stringify(payload)
     }).then(function (res) {
       if (res.ok) {
-        if (typeof onDelivered === 'function') onDelivered();
-        redirectAfterLead(f);
-        return;
+        return (typeof res.json === 'function' ? res.json().catch(function () { return {}; }) : Promise.resolve({})).then(function (body) {
+          if (typeof onDelivered === 'function') onDelivered(body || {});
+          redirectAfterLead(f);
+        });
       }
       var err = new Error('lead api ' + res.status);
       err.status = res.status;
@@ -438,13 +494,21 @@
         if ((name === 'Lead' || name === 'Subscriber') && !f.hasAttribute('data-funnel-api-opt-out')) {
           if (e && typeof e.preventDefault === 'function') e.preventDefault();
           if (e && typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
-          submitLeadViaApi(f, formPayload(f, fd, content), function () {
-            track(name, { content_name: content, step: step });
+          submitLeadViaApi(f, formPayload(f, fd, content), function (apiResult) {
+            if (name === 'Lead') {
+              track(name, safeLeadPropsFromForm(f, fd, content, step, apiResult));
+            } else {
+              track(name, { content_name: content, step: step });
+            }
           });
           return;
         }
 
-        track(name, { content_name: content, step: step });
+        if (name === 'Lead') {
+          track(name, safeLeadPropsFromForm(f, fd, content, step, null));
+        } else {
+          track(name, { content_name: content, step: step });
+        }
       }, { capture: true });
     });
 
@@ -494,6 +558,7 @@
       normPhone: normPhone,
       pageType: pageType,
       leadValueFor: leadValueFor,
+      cleanAnalyticsToken: cleanAnalyticsToken,
       LEAD_VALUE_BY_PAGE_TYPE: LEAD_VALUE_BY_PAGE_TYPE,
       LEAD_CONVERSION_SEND_TO: LEAD_CONVERSION_SEND_TO
     };

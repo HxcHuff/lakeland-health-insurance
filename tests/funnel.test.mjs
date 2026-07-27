@@ -105,8 +105,10 @@ function makeFunnelForm({
   fields = {}
 } = {}) {
   const listeners = {};
+  const elements = Object.fromEntries(Object.keys(fields).map((key) => [key, { value: fields[key] }]));
   return {
     _fields: fields,
+    elements,
     __submitted: false,
     getAttribute(name) {
       if (name === 'data-funnel-event') return eventName;
@@ -134,6 +136,12 @@ function makeFunnelForm({
       if (listeners.focusin) listeners.focusin({});
     }
   };
+}
+
+async function flushPromises(count = 3) {
+  for (let i = 0; i < count; i += 1) {
+    await Promise.resolve();
+  }
 }
 
 function loadAnalytics({ pathname = '/', telLabel = 'Call David' } = {}) {
@@ -386,7 +394,14 @@ test('Lead form submit posts to /api/lead and stops legacy submit handlers', asy
       full_name: 'Jane Doe',
       phone_number: '863-640-3102',
       email: 'jane@example.com',
-      zip_code: '33801'
+      zip_code: '33801',
+      coverage_status: 'Uninsured',
+      best_time_to_reach: 'Anytime during business hours',
+      normalized_intent: 'aca',
+      line_of_business: 'ACA',
+      need_timing: 'Within 30 days',
+      lead_priority: '',
+      lead_priority_reason: ''
     }
   });
   const w = loadFunnel({
@@ -394,7 +409,15 @@ test('Lead form submit posts to /api/lead and stops legacy submit handlers', asy
     forms: [form],
     fetchImpl: (url, init) => {
       calls.push({ url, init });
-      return Promise.resolve({ ok: true });
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          ok: true,
+          event_id: 'server-event-id',
+          lead_priority: 'high',
+          lead_priority_reason: 'urgent_or_high_intent_with_contact_path'
+        })
+      });
     }
   });
   let prevented = false;
@@ -404,7 +427,7 @@ test('Lead form submit posts to /api/lead and stops legacy submit handlers', asy
     preventDefault() { prevented = true; },
     stopImmediatePropagation() { stopped = true; }
   });
-  await Promise.resolve();
+  await flushPromises();
 
   assert.equal(prevented, true);
   assert.equal(stopped, true);
@@ -419,7 +442,25 @@ test('Lead form submit posts to /api/lead and stops legacy submit handlers', asy
   assert.equal(payload.phone_number, '863-640-3102');
   assert.equal(payload.zip_code, '33801');
 
-  assert.ok(w.dataLayer.some((entry) => entry.event === 'Lead'), 'Lead event pushed to dataLayer');
+  const leadEvent = w.dataLayer.find((entry) => entry.event === 'Lead');
+  assert.ok(leadEvent, 'Lead event pushed to dataLayer');
+  const leadParams = JSON.parse(JSON.stringify(leadEvent.event_params));
+  assert.deepEqual(leadParams, {
+    content_name: 'city_lead_form',
+    step: 'submit',
+    coverage_status: 'uninsured',
+    best_time_to_reach: 'anytime_during_business_hours',
+    normalized_intent: 'aca',
+    line_of_business: 'aca',
+    need_timing: 'within_30_days',
+    lead_priority: 'high',
+    lead_priority_reason: 'urgent_or_high_intent_with_contact_path'
+  });
+  assert.equal(leadParams.full_name, undefined);
+  assert.equal(leadParams.email, undefined);
+  assert.equal(leadParams.phone_number, undefined);
+  assert.equal(form.elements.lead_priority.value, 'high');
+  assert.equal(form.elements.lead_priority_reason.value, 'urgent_or_high_intent_with_contact_path');
   assert.ok(w.sessionStorage.getItem('lhi_lead_submitted'), 'thank-you marker set');
 });
 
@@ -457,7 +498,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
   });
 
   form.dispatchSubmit();
-  await Promise.resolve();
+  await flushPromises();
 
   const apiCalls = calls.filter((call) => call.url === '/api/lead');
   assert.equal(apiCalls.length, 1);
