@@ -45,6 +45,30 @@ const siteSearchIndex = [
   },
   // Blog Posts - extracted from blog/index.html
   {
+    title: "Can I Get ACA Insurance If I Lost Job Coverage in Florida?",
+    url: "/blog/lost-job-coverage-aca-insurance-florida.html",
+    excerpt: "ACA Special Enrollment timing, COBRA comparison, subsidy estimates, and what to check after employer coverage ends.",
+    tags: ["ACA", "Florida", "Special Enrollment", "Job Loss", "COBRA"]
+  },
+  {
+    title: "What Happens If My ACA Subsidy Is Wrong?",
+    url: "/blog/aca-subsidy-wrong-income-florida.html",
+    excerpt: "How ACA premium tax credit reconciliation works when income is wrong and when to update HealthCare.gov before tax time.",
+    tags: ["ACA", "Florida", "Subsidies", "Tax Credits", "Income"]
+  },
+  {
+    title: "Can I Keep My Doctor If I Switch Medicare Plans?",
+    url: "/blog/keep-doctor-switch-medicare-plans-florida.html",
+    excerpt: "Doctor networks, plan IDs, hospitals, prescriptions, pharmacies, referrals, and timing checks before switching Medicare plans.",
+    tags: ["Medicare", "Florida", "Provider Networks", "Doctors", "Plan Review"]
+  },
+  {
+    title: "What If I Make Too Much for ACA Subsidies in Florida?",
+    url: "/blog/health-insurance-too-much-income-aca-subsidy-florida.html",
+    excerpt: "Coverage options when premium tax credits do not fit: full-price Marketplace, off-Marketplace major medical, employer coverage, and limited alternatives.",
+    tags: ["ACA", "Florida", "Subsidies", "High Income", "Short-Term"]
+  },
+  {
     title: "The Coverage Gap Nobody Talks About: High Deductibles and Hospital Bills",
     url: "/blog/high-deductible-hospital-bills-coverage-gap-florida.html",
     excerpt: "Why people with real health insurance can still panic over high deductibles, hospital bills, and cash-flow risk - and when supplemental coverage may fit.",
