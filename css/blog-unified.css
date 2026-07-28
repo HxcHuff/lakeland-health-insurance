@@ -105,6 +105,14 @@ footer {
   border-top: 1px solid var(--lhi-line);
 }
 
+footer .footer-column li {
+  color: var(--lhi-body) !important;
+}
+
+footer .footer-bottom p {
+  color: var(--lhi-muted) !important;
+}
+
 @media (max-width: 768px) {
   .lhi-topbar {
     font-size: 0.82rem;
