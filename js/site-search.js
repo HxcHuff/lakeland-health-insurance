@@ -2,7 +2,7 @@
 const siteSearchIndex = [
   // Medicare season highlights
   {
-    title: "Free Medicare Review — Lakeland, FL",
+    title: "Medicare Plan Review — Lakeland, FL",
     url: "/lp/medicare/",
     excerpt: "Get a no-pressure review of your Medicare options with licensed Florida coverage guidance.",
     tags: ["Medicare", "Lakeland", "Review", "Broker", "Appointment"]
@@ -147,15 +147,15 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Open Enrollment"]
   },
   {
-    title: "Lakeland Medicare Advantage Plans for 2026: Compare 91 Local Options",
+    title: "Lakeland Medicare Advantage Plans for 2026: Doctors, Drugs & Costs",
     url: "/blog/medicare-advantage-lakeland-2026.html",
-    excerpt: "Compare 2026 Lakeland Medicare Advantage plans by premium, MOOP, and Watson Clinic or Lakeland Regional access before you enroll.",
+    excerpt: "Compare 2026 Lakeland Medicare Advantage plans by premium, MOOP, prescriptions, and Orlando Health or Watson Clinic access before you enroll.",
     tags: ["Medicare", "Lakeland", "Local"]
   },
   {
-    title: "Orlando Health and Watson Clinic: What It Means for Your Insurance",
+    title: "Orlando Health and Watson Clinic Insurance Guide for 2026",
     url: "/blog/orlando-health-watson-clinic-insurance-2026.html",
-    excerpt: "A current guide to the Orlando Health and Watson Clinic affiliation, the July 2026 hospital opening, and the network checks ACA and Medicare shoppers still need.",
+    excerpt: "Review Orlando Health and Watson Clinic network questions for Lakeland-area ACA and Medicare plan selection before you enroll.",
     tags: ["Lakeland", "Local", "Networks", "Orlando Health", "Watson Clinic"]
   },
   {
@@ -201,9 +201,9 @@ const siteSearchIndex = [
     tags: ["Financial", "Budgeting", "Tips"]
   },
   {
-    title: "Health Protector Guard, STM & TriTerm Medical Strategy for 2026",
+    title: "Fixed Indemnity, STM & TriTerm Medical Strategy for 2026",
     url: "/blog/fixed-indemnity-analysis.html",
-    excerpt: "How Health Protector Guard can pair with Short-Term Medical, TriTerm Medical, ACA, employer coverage, or Medicare when subsidies do not solve the coverage problem.",
+    excerpt: "Review Health ProtectorGuard, short-term medical, TriTerm Medical, ACA, and Medicare together with underwriting, exclusions, and replacement risks in view.",
     tags: ["Products", "Coverage", "Gap Insurance", "Short-Term", "TriTerm"]
   },
   {
@@ -303,9 +303,9 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Subsidies", "HSA", "Premiums"]
   },
   {
-    title: "ACA 2026 Subsidy Expiration: What Florida Families Need to Know Now",
+    title: "ACA Subsidy Changes in 2026: What Florida Families Should Review Now",
     url: "/blog/aca-2026-subsidy-expiration-florida-impact.html",
-    excerpt: "How the expiration of enhanced ACA premium tax credits affects Florida families and what options to review.",
+    excerpt: "Review the returned income cliff, subsidy estimates, plan networks, prescriptions, and renewal options before changing ACA coverage.",
     tags: ["ACA", "Florida", "Subsidies", "Premiums"]
   },
   {
