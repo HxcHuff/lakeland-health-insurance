@@ -13,4 +13,10 @@ Disallow: /blog/facebook-ad-copy-ab-test.html
 Disallow: /thanks.html
 Disallow: /google79927e3ae56b9c82.html
 
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
 Sitemap: https://lakelandhealthinsurance.com/sitemap.xml
