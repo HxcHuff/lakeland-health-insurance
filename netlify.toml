@@ -32,6 +32,12 @@
   force = true
 
 [[redirects]]
+  from = "/api/openai-ads-config"
+  to = "/.netlify/functions/openai-ads-config"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/api/google-lead-webhook"
   to = "/.netlify/functions/google-lead-webhook"
   status = 200

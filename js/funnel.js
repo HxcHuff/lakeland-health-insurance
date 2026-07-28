@@ -35,6 +35,10 @@
      with allow_enhanced_conversions=true in analytics.js for hashed-PII
      match-back via gtag.set('user_data'). */
   var LEAD_CONVERSION_SEND_TO = 'AW-300112445/hChjCJvYraUcEL20jY8B';
+  var OPENAI_ADS_CONFIG_PATH = '/api/openai-ads-config';
+  var OPENAI_ADS_SDK_SRC = 'https://bzrcdn.openai.com/sdk/oaiq.min.js';
+  var openAIAdsConfigPromise = null;
+  var openAIAdsPixelReady = false;
 
   /* Per-page-type lead value (USD) sent with the Google Ads conversion.
      Smart Bidding uses these as a relative-LTV signal — Medicare residuals
@@ -195,6 +199,57 @@
     return out;
   }
 
+  function openAIAdsEnabled() {
+    return w.__LHI_IS_PROD !== false;
+  }
+
+  function loadOpenAIAdsPixel() {
+    if (!openAIAdsEnabled()) return Promise.resolve(null);
+    if (openAIAdsConfigPromise) return openAIAdsConfigPromise;
+
+    openAIAdsConfigPromise = fetch(OPENAI_ADS_CONFIG_PATH, {
+      method: 'GET',
+      credentials: 'same-origin',
+      cache: 'no-store'
+    }).then(function (res) {
+      if (!res.ok) return null;
+      return res.json();
+    }).then(function (config) {
+      var pixelId = config && config.pixel_id ? String(config.pixel_id).trim() : '';
+      if (!pixelId) return null;
+      if (typeof w.oaiq === 'function') {
+        if (!openAIAdsPixelReady) {
+          w.oaiq('init', { pixelId: pixelId });
+          openAIAdsPixelReady = true;
+        }
+        return pixelId;
+      }
+      if (!d.createElement || !d.head) return null;
+      return new Promise(function (resolve) {
+        var script = d.createElement('script');
+        script.async = true;
+        script.src = OPENAI_ADS_SDK_SRC;
+        script.onload = function () {
+          try {
+            if (typeof w.oaiq === 'function') {
+              w.oaiq('init', { pixelId: pixelId });
+              openAIAdsPixelReady = true;
+              resolve(pixelId);
+              return;
+            }
+          } catch (e) {}
+          resolve(null);
+        };
+        script.onerror = function () { resolve(null); };
+        d.head.appendChild(script);
+      });
+    }).catch(function () {
+      return null;
+    });
+
+    return openAIAdsConfigPromise;
+  }
+
   // Transport -------------------------------------------------------------
   function sendSupabase(payload) {
     try {
@@ -292,6 +347,20 @@
     }).catch(function () { /* swallow — never let analytics break the page */ });
   }
 
+  function fireOpenAIAdsLead(eventID) {
+    if (!eventID) return;
+    loadOpenAIAdsPixel().then(function (pixelId) {
+      if (!pixelId || typeof w.oaiq !== 'function') return;
+      try {
+        w.oaiq('measure', 'lead_created', {
+          type: 'customer_action'
+        }, {
+          event_id: eventID
+        });
+      } catch (e) {}
+    }).catch(function () { /* swallow — never let analytics break the page */ });
+  }
+
   // Public API ------------------------------------------------------------
   var identity = {};
 
@@ -360,6 +429,9 @@
     if (apiResult && apiResult.lead_priority_reason) {
       props.lead_priority_reason = cleanAnalyticsToken(apiResult.lead_priority_reason);
       setFormFieldValue(f, 'lead_priority_reason', props.lead_priority_reason);
+    }
+    if (apiResult && apiResult.event_id) {
+      props.event_id = String(apiResult.event_id).trim();
     }
 
     return props;
@@ -450,7 +522,8 @@
   function track(name, props) {
     props = safeProps(props || {});
     var pt = pageType();
-    var eventID = makeEventID();
+    var eventID = props.event_id ? String(props.event_id) : makeEventID();
+    if (props.event_id) delete props.event_id;
     var payload = {
       event_name: name,
       event_id: eventID,
@@ -478,6 +551,7 @@
     if (name === 'Lead') {
       markCompletedSubmission('Lead', eventID, props, pt);
       fireGoogleAdsLead(eventID);
+      fireOpenAIAdsLead(eventID);
     } else if (name === 'Subscriber') {
       markCompletedSubmission('Subscriber', eventID, props, pt);
     }
@@ -581,7 +655,9 @@
       leadValueFor: leadValueFor,
       cleanAnalyticsToken: cleanAnalyticsToken,
       LEAD_VALUE_BY_PAGE_TYPE: LEAD_VALUE_BY_PAGE_TYPE,
-      LEAD_CONVERSION_SEND_TO: LEAD_CONVERSION_SEND_TO
+      LEAD_CONVERSION_SEND_TO: LEAD_CONVERSION_SEND_TO,
+      OPENAI_ADS_CONFIG_PATH: OPENAI_ADS_CONFIG_PATH,
+      OPENAI_ADS_SDK_SRC: OPENAI_ADS_SDK_SRC
     };
   }
 

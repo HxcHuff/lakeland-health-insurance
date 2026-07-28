@@ -67,6 +67,8 @@ function loadFunnel({ pathname = '/', forms = [], fetchImpl, gtagImpl } = {}) {
       referrer: '',
       querySelectorAll: () => [],
       addEventListener: () => {},
+      createElement: () => ({ async: false, src: '', onload: null, onerror: null }),
+      head: { appendChild: () => {} },
       readyState: 'complete'
     },
     location: { pathname, search: '', href: 'http://localhost' + pathname },
@@ -463,6 +465,7 @@ test('Lead form submit posts to /api/lead and stops legacy submit handlers', asy
   assert.equal(form.elements.lead_priority.value, 'high');
   assert.equal(form.elements.lead_priority_reason.value, 'urgent_or_high_intent_with_contact_path');
   assert.ok(w.sessionStorage.getItem('lhi_lead_submitted'), 'thank-you marker set');
+  assert.equal(JSON.parse(w.sessionStorage.getItem('lhi_lead_submitted')).event_id, 'server-event-id');
 });
 
 test('funnel forms fire StartLead once as a diagnostic event', () => {

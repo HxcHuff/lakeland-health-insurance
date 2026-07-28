@@ -5,6 +5,7 @@
 // 4. Returns { event_id, lead_priority, lead_priority_reason } for downstream attribution/audit use
 
 const crypto = require('crypto');
+const { sendAdsLead } = require('./lib/ads-capi');
 
 const PIXEL_ID = process.env.META_PIXEL_ID;
 const ACCESS_TOKEN = process.env.META_CAPI_ACCESS_TOKEN;
@@ -236,14 +237,42 @@ exports.handler = async (event) => {
     console.error('Mailchimp sync exception', e);
   }
 
+  let adsCapiOk = false;
+  let adsCapiError = null;
+  if (formsOk && !isNewsletter) {
+    try {
+      const result = await sendAdsLead({
+        eventId,
+        payload,
+        headers,
+        clientIp,
+        userAgent,
+        cookieHeader,
+        sourceUrl
+      });
+      adsCapiOk = result.ok;
+      if (result.error) {
+        adsCapiError = result.error;
+        if (!result.skipped) console.error('Ads CAPI error:', result.error);
+      }
+    } catch (e) {
+      adsCapiError = String(e);
+      console.error('Ads CAPI exception', e);
+    }
+  } else if (isNewsletter) {
+    adsCapiError = 'Ads CAPI skipped: newsletter subscriber is not a sales lead';
+  }
+
   const responseBody = {
     event_id: eventId,
     lead_priority: leadPriority.level,
     lead_priority_reason: leadPriority.reason,
     capi: capiOk,
+    ads_capi: adsCapiOk,
     forms: formsOk,
     mailchimp: mcOk,
     ...(capiError ? { capi_error: capiError } : {}),
+    ...(adsCapiError ? { ads_capi_error: adsCapiError } : {}),
     ...(formsError ? { forms_error: formsError } : {}),
     ...(mcError ? { mc_error: mcError } : {})
   };

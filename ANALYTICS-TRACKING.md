@@ -18,6 +18,7 @@
 | Stream URL | https://lakelandhealthinsurance.com/ |
 | Google Tag IDs | `G-W45RMKHXV0`, `GT-K4LKHVFH`, `AW-300112445` |
 | Google Ads Account | David — `788-008-5811` |
+| OpenAI Ads | Browser Pixel + server CAPI use `OPENAI_ADS_PIXEL_ID`; server CAPI also requires `OPENAI_ADS_CAPI_KEY` |
 
 ---
 
@@ -63,7 +64,17 @@ Goal: optimize site measurement for qualified Medicare/ACA leads, not raw clicks
 - `/api/lead` returns non-200 when Netlify Forms forwarding fails, so GA does not count failed form delivery as `generate_lead`.
 - 5xx/API failures can fall back to native Netlify submit, but that fallback does not set the GA delivered-lead marker before Netlify/inbox capture is proven.
 - `generate_lead` fires from `/thanks.html` only when same-session submission storage contains a fresh `Lead` marker.
+- OpenAI Ads `lead_created` fires only for sales/service `Lead` submissions after `/api/lead` confirms Netlify Forms forwarding. Browser Pixel and server CAPI share the same server event ID for deduplication.
+- OpenAI Ads CAPI reads raw `__oppref` and `__obref` cookies when present, strips query strings/fragments from `source_url`, and sends only approved conversion context: event ID, timestamp, source URL, IP, user agent, optional ZIP, and OpenAI attribution cookies. It does not send raw names, email, phone, providers, prescriptions, or notes.
 - Primary lead quality is validated outside GA4 by matching event timestamps to Netlify Forms, `/api/lead` logs, Google lead forms, call logs, Messenger threads, and CRM outcomes.
+
+### OpenAI Ads Environment Variables
+| Variable | Surface | Required | Notes |
+|---|---|---:|---|
+| `OPENAI_ADS_PIXEL_ID` | Browser config + server CAPI | Yes | Public Pixel ID from OpenAI Ads Manager. Same value must be used by Pixel and CAPI for dedupe. |
+| `OPENAI_ADS_CAPI_KEY` | Server only | Yes | Secret key from OpenAI Ads Manager. Never expose in browser-visible env vars, source, logs, or docs. |
+| `OPENAI_ADS_VALIDATE_ONLY` | Server only | No | Set to `true` only for validation smoke tests; leave blank/false for production collection. |
+| `OPENAI_ADS_ALLOWED_ORIGINS` | Server only | No | Comma-separated trusted origins. Defaults to `https://lakelandhealthinsurance.com,https://www.lakelandhealthinsurance.com`. |
 
 ### Defined But Not Firing
 | Event | Status | Notes |
