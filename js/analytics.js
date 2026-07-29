@@ -70,11 +70,11 @@
     if(loaded)return;loaded=true;
 
     if (!IS_PROD) {
-      /* Skip Google tags entirely on non-prod hosts. Still load funnel.js
-         so internal event bus / Supabase logging can continue for QA. */
+      /* Skip Google tags entirely on non-prod hosts. Still load funnel.js so
+         the local event bus remains testable without third-party analytics. */
       var fqa=document.createElement('script');
       fqa.async=true;
-      fqa.src='/js/funnel.js?v=20260721-meta-removal';
+      fqa.src='/js/funnel.js?v=20260729-first-party-funnel';
       document.head.appendChild(fqa);
       return;
     }
@@ -102,10 +102,10 @@
        events (Enhanced Conversions for Leads). Lifts Smart Bidding match
        rate. Must also be turned on per-conversion-action in Google Ads UI. */
     gtag('config', 'AW-300112445', { allow_enhanced_conversions: true });
-    /* Funnel event bus — unifies GA + Supabase */
+    /* Funnel event bus — unifies dataLayer and conversion helpers */
     var f=document.createElement('script');
     f.async=true;
-    f.src='/js/funnel.js?v=20260727-secondary-events';
+    f.src='/js/funnel.js?v=20260729-first-party-funnel';
     document.head.appendChild(f);
   }
   /* Defer Google tags until after LCP/FCP so third-party JS isn't

@@ -3,8 +3,7 @@
  * Lakeland Health Insurance — David Huff
  *
  * Receives Google Ads Lead Form submissions, validates the shared key,
- * stores the lead in HuffHealthApp Supabase, syncs to Mailchimp,
- * and fires email + SMS notifications.
+ * syncs to Mailchimp, and fires email + SMS notifications.
  *
  * Served at: https://lakelandhealthinsurance.com/api/google-lead-webhook
  * (netlify.toml rewrite → /.netlify/functions/google-lead-webhook)
@@ -15,7 +14,6 @@
  *                              constant-time compare against payload.google_key.
  *
  * Optional env vars (each block no-ops gracefully if unset):
- *   SUPABASE_URL, SUPABASE_SERVICE_KEY, DEFAULT_USER_ID
  *   RESEND_API_KEY, NOTIFY_EMAIL
  *   TWILIO_SID, TWILIO_AUTH, TWILIO_FROM, TWILIO_TO
  *   MAILCHIMP_API_KEY, MAILCHIMP_AUDIENCE_ID, MAILCHIMP_SERVER_PREFIX
@@ -78,95 +76,6 @@ function parseLeadFields(userColumnData) {
     company: raw.COMPANY_NAME || raw.company_name || "",
     job_title: raw.JOB_TITLE || raw.job_title || "",
   };
-}
-
-async function storeInSupabase(lead) {
-  const SUPABASE_URL = getEnv("SUPABASE_URL");
-  const SUPABASE_SERVICE_KEY = getEnv("SUPABASE_SERVICE_KEY");
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
-    console.log("Supabase not configured — skipping storage");
-    return null;
-  }
-
-  const headers = {
-    "Content-Type": "application/json",
-    apikey: SUPABASE_SERVICE_KEY,
-    Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
-    Prefer: "return=representation",
-  };
-
-  const leadRow = {
-    id: crypto.randomUUID(),
-    firstName: lead.first_name || "",
-    lastName: lead.last_name || "",
-    email: lead.email || null,
-    phone: lead.phone || null,
-    source: "google_lead_form",
-    status: "NEW_LEAD",
-    stageEnteredAt: new Date().toISOString(),
-    city: lead.city || null,
-    state: lead.state || "FL",
-    zipCode: lead.zip || null,
-    leadgenId: lead.lead_id,
-    formId: lead.form_id != null ? String(lead.form_id) : null,
-    formName: lead.form_name || null,
-    adId: lead.creative_id != null ? String(lead.creative_id) : null,
-    campaignId: lead.campaign_id != null ? String(lead.campaign_id) : null,
-    campaignName: null,
-    pageId: null,
-    rawPayload: lead.raw_payload || null,
-    notifiedAt: new Date().toISOString(),
-    customFields: {
-      webhook_source: "google_lead_webhook",
-      adgroup_id: lead.adgroup_id != null ? String(lead.adgroup_id) : null,
-      gcl_id: lead.gcl_id || null,
-      api_version: lead.api_version || null,
-      received_at: new Date().toISOString(),
-    },
-    createdById: getEnv("DEFAULT_USER_ID") || "system",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/Lead`, {
-    method: "POST",
-    headers: { ...headers, Prefer: "return=representation,resolution=merge-duplicates" },
-    body: JSON.stringify(leadRow),
-  });
-
-  if (!res.ok) {
-    console.error("Supabase Lead insert failed:", await res.text());
-    return null;
-  }
-
-  const [inserted] = await res.json();
-  console.log("Lead stored in HuffHealthApp:", inserted?.id);
-
-  if (inserted?.id) {
-    await fetch(`${SUPABASE_URL}/rest/v1/Activity`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        id: crypto.randomUUID(),
-        type: "GOOGLE_ADS_SYNC",
-        description: `New lead from Google Ads lead form: ${lead.full_name || "Unknown"} (campaign ${lead.campaign_id || "?"})`,
-        metadata: {
-          lead_id: lead.lead_id,
-          campaign_id: lead.campaign_id,
-          adgroup_id: lead.adgroup_id,
-          creative_id: lead.creative_id,
-          form_id: lead.form_id,
-          gcl_id: lead.gcl_id,
-          source: "google_lead_webhook",
-        },
-        performedById: getEnv("DEFAULT_USER_ID") || "system",
-        leadId: inserted.id,
-        createdAt: new Date().toISOString(),
-      }),
-    });
-  }
-
-  return inserted;
 }
 
 // Mailchimp upsert — mirrors lead.js behavior for hot paid leads.
@@ -365,7 +274,6 @@ export default async (req) => {
   // Run downstream I/O concurrently. Errors are logged inside each helper —
   // none of them throw, so a Mailchimp/Twilio outage can't break the 200.
   await Promise.all([
-    storeInSupabase(lead),
     syncToMailchimp(lead),
     sendEmailNotification(lead),
     sendSmsNotification(lead),

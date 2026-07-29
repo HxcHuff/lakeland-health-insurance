@@ -1,16 +1,16 @@
 /*
  * Lakeland Health Insurance — Funnel Event Bus
- * Single source of truth for GA4 + Supabase event tracking.
+ * Single source of truth for first-party funnel event tracking.
  *
- * Fires simultaneously to:
+ * Fires to:
  *   - Google Tag Manager (GTM-W6MZ7XT6)
- *   - Supabase funnel_events table (via publishable key)
+ *   - Google Ads conversion helpers for delivered Lead events
  *
  * Usage:
  *   window.LHI.track('Lead', { content_name: 'lp_aca_lead_form' });
  *   window.LHI.identify({ zip: '33801', line: 'ACA' });
  *
- * Page-type inference (for GA4 / Supabase segmentation):
+ * Page-type inference (for GA4 / Ads segmentation):
  *   - /lp/aca/            -> lp_aca
  *   - /lp/medicare/       -> lp_medicare
  *   - /lp/gap/            -> lp_gap
@@ -25,10 +25,6 @@
  */
 (function (w, d) {
   'use strict';
-
-  var SUPABASE_URL = 'https://cdlrpthlmvyksfljlfik.supabase.co';
-  var SUPABASE_ANON = 'sb_publishable_4iawXiwpNvk04SziN4Bs5w_ECZ7qRPl';
-  var TABLE = 'funnel_events';
 
   /* Google Ads "Submit lead form" conversion. Fires for every Lead event
      across the site so Smart Bidding gets a cost-per-lead signal. Paired
@@ -75,7 +71,7 @@
   }
 
   /* SHA-256 helper. Returns a Promise<string> of the lowercase hex digest.
-     Used for Google Enhanced Conversions and Supabase event hygiene. */
+     Used for Google Enhanced Conversions. */
   function sha256(str) {
     if (!str) return Promise.resolve(null);
     var s = String(str).trim().toLowerCase();
@@ -171,15 +167,6 @@
     return stored;
   }
 
-  function safeIdentity() {
-    return {
-      zip: identity.zip ? String(identity.zip).slice(0, 5) : null,
-      has_email: !!identity.email,
-      has_phone: !!identity.phone,
-      has_name: !!identity.name
-    };
-  }
-
   function safeProps(props) {
     var out = {};
     var prohibited = {
@@ -248,30 +235,6 @@
     });
 
     return openAIAdsConfigPromise;
-  }
-
-  // Transport -------------------------------------------------------------
-  function sendSupabase(payload) {
-    try {
-      var url = SUPABASE_URL + '/rest/v1/' + TABLE;
-      var body = JSON.stringify(payload);
-      if (navigator.sendBeacon) {
-        var blob = new Blob([body], { type: 'application/json' });
-        // sendBeacon cannot set headers — fall back to fetch keepalive
-      }
-      fetch(url, {
-        method: 'POST',
-        mode: 'cors',
-        keepalive: true,
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_ANON,
-          'Authorization': 'Bearer ' + SUPABASE_ANON,
-          'Prefer': 'return=minimal'
-        },
-        body: body
-      }).catch(function () { /* swallow */ });
-    } catch (e) { /* swallow */ }
   }
 
   function fireGA(name, props) {
@@ -367,8 +330,8 @@
   function identify(attrs) {
     identity = Object.assign({}, identity, attrs || {});
 
-    /* Identity is retained locally for Supabase payloads and Google Enhanced
-       Conversions when a Lead event fires. */
+    /* Identity is retained locally for Google Enhanced Conversions when a
+       Lead event fires. */
   }
 
   function fdGet(fd, names) {
@@ -524,30 +487,12 @@
     var pt = pageType();
     var eventID = props.event_id ? String(props.event_id) : makeEventID();
     if (props.event_id) delete props.event_id;
-    var payload = {
-      event_name: name,
-      event_id: eventID,
-      page_type: pt,
-      page_path: w.location.pathname,
-      page_url: w.location.href,
-      referrer: d.referrer || null,
-      session_id: getSession(),
-      attribution: getAttribution(),
-      identity: safeIdentity(),
-      props: props,
-      user_agent: navigator.userAgent,
-      viewport_w: w.innerWidth,
-      viewport_h: w.innerHeight,
-      fired_at: new Date().toISOString()
-    };
 
-    // 1. GTM / GA4 dataLayer
+    getSession();
+    getAttribution();
     fireGA(name, { page_type: pt, event_params: props });
 
-    // 2. Supabase stream
-    sendSupabase(payload);
-
-    // 3. Google Ads conversion + Enhanced Conversions (Lead events only)
+    // Google Ads conversion + Enhanced Conversions (Lead events only)
     if (name === 'Lead') {
       markCompletedSubmission('Lead', eventID, props, pt);
       fireGoogleAdsLead(eventID);

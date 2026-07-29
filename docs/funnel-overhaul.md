@@ -59,14 +59,14 @@ Unknown values fall back to `not-sure`. Query-string values are never injected i
 
 | Event | Trigger | Required Properties | Prohibited Properties | Destinations | Deduplication |
 |---|---|---|---|---|---|
-| `PageView` | Funnel bus page load | `page_type` | PII, provider names, prescription names | dataLayer, Supabase | One per page script load |
-| `ViewContent` | Future content milestones | `content_name`, `page_type` | PII, sensitive answers | dataLayer, Supabase | Stable event id |
-| `StartLead` | First meaningful form engagement | `content_name`, `step` | PII, provider names, prescription names | dataLayer, Supabase | Per-form in-memory guard |
-| `Lead` | `/api/lead` success for sales/service lead forms | `content_name`, `event_id`, `normalized_intent`, `line_of_business` | Raw names, email, phone, provider names, prescription names | dataLayer, Supabase, Google Ads enhanced conversion, Meta CAPI from server | `event_id`, thank-you marker consumed once |
-| `Subscriber` | `/api/lead` success for newsletter forms | `content_name`, `event_id` | Raw names, email, phone | dataLayer, Supabase, Mailchimp only | `event_id`, same-session marker consumed once |
-| `Schedule` | Calendly link click | `content_name` | PII | dataLayer, Supabase | Click event id |
-| `PhoneCallClick` | Canonical future phone event | Link label only | Phone/email/name answers | dataLayer, Supabase | Click event id |
-| `ExternalQuoteClick` | HealthSherpa or quote engine click | `content_name`, destination class | PII | dataLayer, Supabase | Click event id |
+| `PageView` | Funnel bus page load | `page_type` | PII, provider names, prescription names | dataLayer | One per page script load |
+| `ViewContent` | Future content milestones | `content_name`, `page_type` | PII, sensitive answers | dataLayer | Stable event id |
+| `StartLead` | First meaningful form engagement | `content_name`, `step` | PII, provider names, prescription names | dataLayer | Per-form in-memory guard |
+| `Lead` | `/api/lead` success for sales/service lead forms | `content_name`, `event_id`, `normalized_intent`, `line_of_business` | Raw names, email, phone, provider names, prescription names | dataLayer, Google Ads enhanced conversion, Meta CAPI from server | `event_id`, thank-you marker consumed once |
+| `Subscriber` | `/api/lead` success for newsletter forms | `content_name`, `event_id` | Raw names, email, phone | dataLayer, Mailchimp only | `event_id`, same-session marker consumed once |
+| `Schedule` | Calendly link click | `content_name` | PII | dataLayer | Click event id |
+| `PhoneCallClick` | Canonical future phone event | Link label only | Phone/email/name answers | dataLayer | Click event id |
+| `ExternalQuoteClick` | HealthSherpa or quote engine click | `content_name`, destination class | PII | dataLayer | Click event id |
 | `QualifiedLead` | Server-side/admin outcome update | `lead_id`, `stage` | PHI, commission, private notes | Future server/offline conversion workflow | Stable lead id |
 | `AppointmentCompleted` | Server-side/admin outcome update | `lead_id`, `stage` | PHI, commission, private notes | Future server/offline conversion workflow | Stable lead id |
 | `ApplicationStarted` | Server-side/admin outcome update | `lead_id`, `stage` | PHI, commission, private notes | Future server/offline conversion workflow | Stable lead id |
@@ -165,7 +165,7 @@ API contract for future protected workflow:
 
 ## Privacy Restrictions
 
-- Do not send raw names, emails, phone numbers, provider names, prescription names, or notes to GA4, Google Ads event parameters, Meta event parameters, URLs, dataLayer, or Supabase funnel-event props.
+- Do not send raw names, emails, phone numbers, provider names, prescription names, or notes to GA4, Google Ads event parameters, Meta event parameters, URLs, or dataLayer.
 - Enhanced conversions may use raw contact data only locally in the browser long enough to hash it for Google, and server-side Meta CAPI hashes contact data before sending.
 - Employer referrals must not collect employee medical information from the employer.
 - Provider and prescription details are form payload data for David's review, not advertising payload properties.

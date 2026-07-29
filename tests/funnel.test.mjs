@@ -39,7 +39,7 @@ function makeSessionStorage(initial = {}) {
 }
 
 /* Build a sandbox that mimics the browser globals funnel.js touches.
-   __LHI_IS_PROD=false silences gtag/Supabase fire paths so loading
+   __LHI_IS_PROD=false silences production-only conversion helpers so loading
    the script has no side-effects beyond attaching window.LHI. */
 function loadFunnel({ pathname = '/', forms = [], fetchImpl, gtagImpl } = {}) {
   const dataLayer = [];
@@ -552,7 +552,7 @@ test('secondary funnel events queue named GA4 events when gtag is not initialize
   assert.equal(queuedCommand[2].transport_type, 'beacon');
 });
 
-test('Supabase analytics payload does not include raw PII identity', () => {
+test('funnel tracking does not send third-party telemetry or raw PII in event params', () => {
   const calls = [];
   const w = loadFunnel({
     pathname: '/get-help/',
@@ -570,15 +570,15 @@ test('Supabase analytics payload does not include raw PII identity', () => {
   });
   w.LHI.track('StartLead', { content_name: 'get_help_aca', email: 'jane@example.com', provider_name: 'Clinic Name' });
 
-  const supabaseCall = calls.find((call) => String(call.url).includes('/rest/v1/funnel_events'));
-  assert.ok(supabaseCall, 'Supabase event attempted');
-  const payload = JSON.parse(supabaseCall.init.body);
-  assert.deepEqual(payload.identity, { zip: '33801', has_email: true, has_phone: true, has_name: true });
-  assert.equal(payload.props.email, undefined);
-  assert.equal(payload.props.provider_name, undefined);
-  assert.equal(JSON.stringify(payload).includes('jane@example.com'), false);
-  assert.equal(JSON.stringify(payload).includes('863-640-3102'), false);
-  assert.equal(JSON.stringify(payload).includes('Jane Doe'), false);
+  assert.equal(calls.length, 0);
+
+  const startLead = w.dataLayer.find((entry) => entry && entry.event === 'StartLead');
+  assert.ok(startLead, 'StartLead should still reach dataLayer');
+  assert.equal(startLead.event_params.email, undefined);
+  assert.equal(startLead.event_params.provider_name, undefined);
+  assert.equal(JSON.stringify(startLead).includes('jane@example.com'), false);
+  assert.equal(JSON.stringify(startLead).includes('863-640-3102'), false);
+  assert.equal(JSON.stringify(startLead).includes('Jane Doe'), false);
 });
 
 test('Lead form client rejection does not submit fallback or keep thank-you marker', async () => {

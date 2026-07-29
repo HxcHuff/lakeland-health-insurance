@@ -3,7 +3,7 @@
  * Lakeland Health Insurance — David Huff
  *
  * Receives Meta leadgen webhook events, fetches full lead data,
- * stores in HuffHealthApp Supabase, and sends email notification.
+ * and sends email/SMS notifications.
  *
  * Endpoint: https://lakelandhealthinsurance.com/api/meta-lead-webhook
  *
@@ -86,92 +86,6 @@ function parseLeadFields(fieldData) {
     state: fields.state || "FL",
     zip: fields.zip_code || fields.zip || fields.post_code || "",
   };
-}
-
-// --- STORE IN HUFFHEALTHAPP SUPABASE ---
-async function storeInSupabase(lead) {
-  const SUPABASE_URL = getEnv("SUPABASE_URL");
-  const SUPABASE_SERVICE_KEY = getEnv("SUPABASE_SERVICE_KEY");
-
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
-    console.log("Supabase not configured — skipping storage");
-    return null;
-  }
-
-  const headers = {
-    "Content-Type": "application/json",
-    apikey: SUPABASE_SERVICE_KEY,
-    Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
-    Prefer: "return=representation",
-  };
-
-  const leadRow = {
-    id: crypto.randomUUID(),
-    firstName: lead.full_name?.split(" ")[0] || "",
-    lastName: lead.full_name?.split(" ").slice(1).join(" ") || "",
-    email: lead.email || null,
-    phone: lead.phone || null,
-    source: "facebook_lead_ad",
-    status: "NEW_LEAD",
-    stageEnteredAt: new Date().toISOString(),
-    city: lead.city || null,
-    state: lead.state || "FL",
-    zipCode: lead.zip || null,
-    leadgenId: lead.leadgen_id,
-    formId: lead.form_id || null,
-    formName: lead.form_name || null,
-    adId: lead.ad_id || null,
-    campaignId: lead.campaign_id || null,
-    campaignName: lead.campaign_name || null,
-    pageId: lead.page_id || null,
-    rawPayload: lead.raw_payload || null,
-    notifiedAt: new Date().toISOString(),
-    customFields: {
-      webhook_source: "meta_lead_webhook",
-      received_at: new Date().toISOString(),
-    },
-    createdById: getEnv("DEFAULT_USER_ID") || "system",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/Lead`, {
-    method: "POST",
-    headers: { ...headers, Prefer: "return=representation,resolution=merge-duplicates" },
-    body: JSON.stringify(leadRow),
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    console.error("Supabase Lead insert failed:", err);
-    return null;
-  }
-
-  const [inserted] = await res.json();
-  console.log("Lead stored in HuffHealthApp:", inserted?.id);
-
-  if (inserted?.id) {
-    await fetch(`${SUPABASE_URL}/rest/v1/Activity`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        id: crypto.randomUUID(),
-        type: "FACEBOOK_SYNC",
-        description: `New lead from Meta lead ad: ${lead.full_name} (${lead.form_name || "Unknown form"})`,
-        metadata: {
-          leadgen_id: lead.leadgen_id,
-          form_name: lead.form_name,
-          campaign_name: lead.campaign_name,
-          source: "meta_lead_webhook",
-        },
-        performedById: getEnv("DEFAULT_USER_ID") || "system",
-        leadId: inserted.id,
-        createdAt: new Date().toISOString(),
-      }),
-    });
-  }
-
-  return inserted;
 }
 
 // --- SEND EMAIL NOTIFICATION ---
@@ -309,7 +223,6 @@ export default async (req, context) => {
           };
 
           await Promise.all([
-            storeInSupabase(lead),
             sendEmailNotification(lead),
             sendSmsNotification(lead),
           ]);
