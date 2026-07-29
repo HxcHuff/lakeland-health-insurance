@@ -1,8 +1,0 @@
-[      52ms] [INFO] [LHI analytics] Google analytics gate: SKIPPED (non-prod host) @ http://127.0.0.1:8080/js/analytics.js?v=20260721-meta-removal:24
-[     418ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://cdlrpthlmvyksfljlfik.supabase.co/rest/v1/funnel_events:0
-[   71232ms] [INFO] [LHI analytics] Google analytics gate: SKIPPED (non-prod host) @ http://127.0.0.1:8080/js/analytics.js?v=20260721-meta-removal:24
-[   71425ms] [INFO] [LHI analytics] Google analytics gate: SKIPPED (non-prod host) @ http://127.0.0.1:8080/js/analytics.js?v=20260721-meta-removal:24
-[   71757ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://cdlrpthlmvyksfljlfik.supabase.co/rest/v1/funnel_events:0
-[   73803ms] [INFO] [LHI analytics] Google analytics gate: SKIPPED (non-prod host) @ http://127.0.0.1:8080/js/analytics.js?v=20260721-meta-removal:24
-[   73931ms] [INFO] [LHI analytics] Google analytics gate: SKIPPED (non-prod host) @ http://127.0.0.1:8080/js/analytics.js?v=20260721-meta-removal:24
-[   74266ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://cdlrpthlmvyksfljlfik.supabase.co/rest/v1/funnel_events:0

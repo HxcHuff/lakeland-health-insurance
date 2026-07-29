@@ -12,6 +12,10 @@ node_modules/
 # Claude worktrees
 .claude/worktrees/
 
+# Local QA/browser artifacts
+output/
+.playwright-cli/
+
 # Netlify deploy artifacts (uploaded via CLI; should not live in repo)
 deploy-*.zip
 *.zip
