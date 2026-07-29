@@ -1,0 +1,19 @@
+### Result
+"{\n  \"url\": \"http://127.0.0.1:8080/get-help/\",\n  \"title\": \"Get Health Insurance Help in Lakeland, FL | Lakeland Health Insurance\",\n  \"hasForm\": true\n}"
+### Ran Playwright code
+```js
+await (async (page) => {
+  await page.goto('http://127.0.0.1:8080/about/');
+  await Promise.all([
+    page.waitForURL('**/get-help/**', { timeout: 10000 }),
+    page.click('.about-header .hero-cta:not(.secondary)')
+  ]);
+  return JSON.stringify({ url: page.url(), title: await page.title(), hasForm: await page.locator('form').count() > 0 }, null, 2);
+})(page);
+```
+### Page
+- Page URL: http://127.0.0.1:8080/get-help/
+- Page Title: Get Health Insurance Help in Lakeland, FL | Lakeland Health Insurance
+- Console: 1 errors, 0 warnings
+### Events
+- New console entries: .playwright-cli/console-2026-07-29T16-00-46-119Z.log#L3-L5

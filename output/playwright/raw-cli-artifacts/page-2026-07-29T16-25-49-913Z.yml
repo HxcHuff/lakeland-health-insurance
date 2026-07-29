@@ -1,0 +1,275 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - 'link "Lakeland Health Insurance Licensed FL Broker #W371813" [ref=e5] [cursor=pointer]':
+        - /url: /
+        - text: Lakeland Health Insurance
+        - generic [ref=e6]: "Licensed FL Broker #W371813"
+      - list "Primary navigation" [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Home" [ref=e9] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=e10]:
+          - link "Health Plans" [ref=e11] [cursor=pointer]:
+            - /url: /plans/
+        - listitem [ref=e12]:
+          - link "Carriers" [ref=e13] [cursor=pointer]:
+            - /url: /carriers/
+        - listitem [ref=e14]:
+          - link "Medicare" [ref=e15] [cursor=pointer]:
+            - /url: /medicare/
+        - listitem [ref=e16]:
+          - link "Blog" [ref=e17] [cursor=pointer]:
+            - /url: /blog/
+        - listitem [ref=e18]:
+          - link "About" [ref=e19] [cursor=pointer]:
+            - /url: /about/
+        - listitem [ref=e20]:
+          - link "Learn" [ref=e21] [cursor=pointer]:
+            - /url: /learning/
+        - listitem [ref=e22]:
+          - link "Get Help" [ref=e23] [cursor=pointer]:
+            - /url: /get-help/
+      - link "Talk to David" [ref=e25] [cursor=pointer]:
+        - /url: /get-help/
+  - generic [ref=e26]:
+    - link "Home" [ref=e27] [cursor=pointer]:
+      - /url: /
+    - text: ›
+    - link "Plans" [ref=e28] [cursor=pointer]:
+      - /url: /plans/
+    - text: › Dental & Vision Insurance
+  - generic [ref=e30]:
+    - generic [ref=e31]:
+      - generic [ref=e32]: Dental and vision coverage
+      - heading "Dental & Vision Insurance That Fits the Work You Actually Need" [level=1] [ref=e33]
+      - paragraph [ref=e34]: Adult dental and vision are usually separate from medical coverage. Use the NCD or UnitedHealthcare quote links to price coverage, enroll online, and keep David available for customer support when questions come up.
+      - generic [ref=e35]:
+        - link "Quote NCD Dental" [ref=e36] [cursor=pointer]:
+          - /url: https://enrollment.ncd.com/935869/
+        - link "Quote UnitedHealthcare" [ref=e37] [cursor=pointer]:
+          - /url: https://shop.uhone.com/en/quote/census?brokerid=AA5045127
+        - link "Call 863-640-3102" [ref=e38] [cursor=pointer]:
+          - /url: tel:+18636403102
+      - generic [ref=e39]: Nationwide enrollment support · State and ZIP availability vary · No fee to the client
+    - generic "Self-quote options" [ref=e40]:
+      - heading "Start with the right quote path" [level=2] [ref=e41]
+      - paragraph [ref=e42]: Both links let you enroll yourself online. Pricing is the same as going direct, and David stays available for customer support after enrollment.
+      - generic [ref=e43]:
+        - generic [ref=e44]:
+          - strong [ref=e45]: NCD Dental and Vision
+          - generic [ref=e46]: Start here if dental benefits are the priority, especially for larger allowance options.
+          - generic [ref=e47]: Self-enroll through NCD
+        - generic [ref=e48]:
+          - strong [ref=e49]: UnitedHealthcare / UHOne
+          - generic [ref=e50]: Start here if you want UnitedHealthcare dental, vision, or supplemental options in one quote engine.
+          - generic [ref=e51]: Self-enroll through UHOne
+  - generic [ref=e54]:
+    - generic [ref=e55]:
+      - generic [ref=e56]: $0
+      - generic [ref=e57]: Client service fee
+    - generic [ref=e58]:
+      - generic [ref=e59]: NCD + UHC
+      - generic [ref=e60]: Self-enroll links
+    - generic [ref=e61]:
+      - generic [ref=e62]: Support
+      - generic [ref=e63]: After enrollment
+    - generic [ref=e64]:
+      - generic [ref=e65]: Anytime
+      - generic [ref=e66]: No ACA-style window
+  - region "Medicare dental and vision review" [ref=e67]:
+    - generic [ref=e68]:
+      - generic [ref=e69]:
+        - generic [ref=e70]: Medicare dental and vision
+        - heading "Checking dental benefits as part of Medicare?" [level=2] [ref=e71]
+        - paragraph [ref=e72]: Medicare Advantage dental and vision benefits can look attractive, but the medical plan still needs to fit your doctors, prescriptions, pharmacy, and overall costs. If dental is the only issue, use the standalone quote links above. If the Medicare plan itself is the question, review that first.
+      - generic [ref=e73]:
+        - link "Review Medicare First" [ref=e74] [cursor=pointer]:
+          - /url: /lp/medicare/?stage=already-on-medicare
+        - link "Turning 65 Soon" [ref=e75] [cursor=pointer]:
+          - /url: /lp/medicare/?stage=turning-65
+  - main [ref=e76]:
+    - generic [ref=e77]:
+      - heading "Why adults often need standalone dental & vision" [level=2] [ref=e78]
+      - paragraph [ref=e79]: "Adult dental and vision are usually sold separately from medical coverage. ACA Marketplace plans often handle pediatric dental differently than adult dental, and Original Medicare does not cover routine dental or vision. That leaves three common groups who usually need a standalone policy:"
+      - generic [ref=e80]:
+        - generic [ref=e81]:
+          - heading "ACA enrollees" [level=3] [ref=e82]
+          - paragraph [ref=e83]: Your kids may be covered, but you aren't. Standalone adult dental and vision fills that gap without changing your medical plan.
+        - generic [ref=e84]:
+          - heading "Original Medicare beneficiaries" [level=3] [ref=e85]
+          - paragraph [ref=e86]: Medicare Parts A and B don't cover routine cleanings, fillings, dentures, or eyeglasses. A standalone dental + vision policy or a Medicare Advantage plan with built-in benefits fixes the gap.
+        - generic [ref=e87]:
+          - heading "Self-employed and uninsured" [level=3] [ref=e88]
+          - paragraph [ref=e89]: Cash-paying for cleanings adds up fast. A $20–$60/month dental plan or a $100–$200/year dental savings membership is often cheaper than going without.
+        - generic [ref=e90]:
+          - heading "Families with planned dental work" [level=3] [ref=e91]
+          - paragraph [ref=e92]: Crowns, root canals, implants, and orthodontia are expensive. A PPO dental plan with the right network and a survivable waiting period can offset thousands in out-of-pocket cost.
+    - generic [ref=e93]:
+      - heading "PPO dental vs DHMO vs dental savings plans" [level=2] [ref=e94]
+      - paragraph [ref=e95]: "There is no single default dental option. Before you enroll, check your dentist, expected work, and tolerance for waiting periods. Here is how the three main options stack up:"
+      - table [ref=e97]:
+        - rowgroup [ref=e98]:
+          - row [ref=e99]:
+            - columnheader "Feature" [ref=e100]
+            - columnheader "PPO Dental" [ref=e101]
+            - columnheader "DHMO Dental" [ref=e102]
+            - columnheader "Dental Savings Plan" [ref=e103]
+        - rowgroup [ref=e104]:
+          - row [ref=e105]:
+            - cell "Choose any dentist" [ref=e106]
+            - cell "Yes (best in-network)" [ref=e107]
+            - cell "In-network only" [ref=e108]
+            - cell "Participating only" [ref=e109]
+          - row [ref=e110]:
+            - cell "Monthly / annual cost" [ref=e111]
+            - cell "$25–$60/mo" [ref=e112]
+            - cell "$15–$30/mo" [ref=e113]
+            - cell "$100–$200/yr" [ref=e114]
+          - row [ref=e115]:
+            - cell "Waiting period for major work" [ref=e116]
+            - cell "Often 6–12 months" [ref=e117]
+            - cell "Often 6–12 months" [ref=e118]
+            - cell "None" [ref=e119]
+          - row [ref=e120]:
+            - cell "Annual maximum benefit" [ref=e121]
+            - cell "$1,000–$2,500" [ref=e122]
+            - cell "Often \"unlimited\" with copays" [ref=e123]
+            - cell "No cap (% discount)" [ref=e124]
+          - row [ref=e125]:
+            - cell "Preventive care covered immediately" [ref=e126]
+            - cell "Yes" [ref=e127]
+            - cell "Yes" [ref=e128]
+            - cell "Discounted only" [ref=e129]
+          - row [ref=e130]:
+            - cell "Best for" [ref=e131]
+            - cell "Mixed needs, want choice" [ref=e132]
+            - cell "Lowest premium, OK with one dentist" [ref=e133]
+            - cell "Major work soon, no waiting" [ref=e134]
+    - generic [ref=e135]:
+      - heading "How vision insurance usually works" [level=2] [ref=e136]
+      - paragraph [ref=e137]: "Standalone adult vision insurance often runs $10–$20 per month and usually covers:"
+      - generic [ref=e138]:
+        - generic [ref=e139]:
+          - heading "Annual eye exam" [level=3] [ref=e140]
+          - paragraph [ref=e141]: One routine exam per year, usually with a small copay ($10–$25) at in-network providers.
+        - generic [ref=e142]:
+          - heading "Glasses or contacts allowance" [level=3] [ref=e143]
+          - paragraph [ref=e144]: An annual allowance ($100–$200 typical) toward frames, lenses, or contact lenses. Lens upgrades like progressives, anti-glare, and photochromic add cost.
+        - generic [ref=e145]:
+          - heading "Discounts on the rest" [level=3] [ref=e146]
+          - paragraph [ref=e147]: Once your allowance is used, plans usually give you 15–40% off additional eyewear, LASIK, and non-covered services.
+      - paragraph [ref=e148]: If you only need an annual exam and a single pair of glasses, paying cash sometimes wins. If your household has multiple eyeglass-wearers or contact lens users, vision insurance usually pays for itself.
+    - generic [ref=e149]:
+      - heading "How self-enrollment works" [level=2] [ref=e150]
+      - generic [ref=e151]:
+        - generic [ref=e152]:
+          - heading "Pick a quote link" [level=3] [ref=e153]
+          - paragraph [ref=e154]: Use NCD when dental benefits are the priority. Use UnitedHealthcare when you want dental, vision, and supplemental options in one quote engine.
+        - generic [ref=e155]:
+          - heading "Enter your ZIP and household details" [level=3] [ref=e156]
+          - paragraph [ref=e157]: Pricing, networks, and plan availability vary by state and ZIP code. Use the ZIP where coverage will be used.
+        - generic [ref=e158]:
+          - heading "Check the plan details" [level=3] [ref=e159]
+          - paragraph [ref=e160]: Look at monthly premium, waiting periods, annual maximums, dentist network, and whether vision is included or separate.
+        - generic [ref=e161]:
+          - heading "Enroll yourself online" [level=3] [ref=e162]
+          - paragraph [ref=e163]: After enrollment, David remains available for customer support questions about the policy, billing, cards, or next steps.
+    - generic [ref=e164]:
+      - heading "What's actually covered (and what's not)" [level=2] [ref=e165]
+      - table [ref=e167]:
+        - rowgroup [ref=e168]:
+          - row [ref=e169]:
+            - columnheader "Service" [ref=e170]
+            - columnheader "Typical PPO Dental Coverage" [ref=e171]
+        - rowgroup [ref=e172]:
+          - row [ref=e173]:
+            - cell "Cleanings, exams, X-rays (preventive)" [ref=e174]
+            - cell "Usually 100% in-network, no waiting period" [ref=e175]
+          - row [ref=e176]:
+            - cell "Fillings, simple extractions (basic)" [ref=e177]
+            - cell "~70–80% after deductible" [ref=e178]
+          - row [ref=e179]:
+            - cell "Crowns, bridges, root canals (major)" [ref=e180]
+            - cell "~50% after waiting period" [ref=e181]
+          - row [ref=e182]:
+            - cell "Implants" [ref=e183]
+            - cell "Sometimes covered as \"major\"; many plans exclude or limit" [ref=e184]
+          - row [ref=e185]:
+            - cell "Orthodontia (braces, Invisalign)" [ref=e186]
+            - cell "Often a separate rider; lifetime max ~$1,000–$2,500" [ref=e187]
+          - row [ref=e188]:
+            - cell "Cosmetic (whitening, veneers)" [ref=e189]
+            - cell "Almost always excluded" [ref=e190]
+          - row [ref=e191]:
+            - cell "Missing-tooth clause" [ref=e192]
+            - cell "Many plans don't cover replacement of teeth missing before enrollment" [ref=e193]
+      - paragraph [ref=e194]: This is a typical-case summary. Each plan's certificate of coverage controls. Review exclusions, waiting periods, annual maximums, and missing-tooth clauses before enrolling.
+    - generic [ref=e195]:
+      - heading "Nationwide enrollment support" [level=2] [ref=e196]
+      - paragraph [ref=e197]: Use this page as a nationwide dental and vision self-enrollment starting point. Plan availability, provider networks, and pricing vary by state and ZIP code, so quote tools should use the ZIP where coverage will be used.
+    - generic [ref=e198]:
+      - heading "Frequently asked questions" [level=2] [ref=e199]
+      - generic [ref=e200]:
+        - heading "Do I really need standalone dental insurance?" [level=3] [ref=e201]
+        - paragraph [ref=e202]: It depends on your dental history and budget. Adult dental is often separate from medical coverage. If you only need cleanings, paying cash or using a dental savings plan is often cheaper. If you know you have major work coming, a PPO dental plan can offset the cost.
+      - generic [ref=e203]:
+        - heading "What's the difference between PPO, DHMO, and a dental savings plan?" [level=3] [ref=e204]
+        - paragraph [ref=e205]: "PPO: any dentist, best savings in-network. DHMO: lower premium but you must use a network dentist. Dental savings plan: a discount membership ($100–$200/year), 10–60% off at participating dentists, with no waiting periods, deductibles, or annual maximums."
+      - generic [ref=e206]:
+        - heading "Are there waiting periods?" [level=3] [ref=e207]
+        - paragraph [ref=e208]: Most standalone dental plans have a 6–12 month waiting period for major work (crowns, bridges, implants). Preventive care is usually covered immediately. If you need major work soon, a savings plan or no-waiting-period rider may fit better.
+      - generic [ref=e209]:
+        - heading "Does my Medicare Advantage plan cover dental and vision?" [level=3] [ref=e210]
+        - paragraph [ref=e211]: Many Medicare Advantage plans include preventive dental and routine vision benefits, but limits vary widely. Original Medicare doesn't cover routine dental or vision. Check your plan documents first; if the dental allowance is too low, a standalone policy may still make sense.
+      - generic [ref=e212]:
+        - heading "What does it cost?" [level=3] [ref=e213]
+        - paragraph [ref=e214]: Standalone adult dental commonly runs roughly $20–$60/month for an individual, depending on state, ZIP, carrier, and plan tier. Vision is usually $10–$20/month. Dental savings plans run $100–$200/year. Family plans cost more. The right plan depends on your expected work, dentist, and budget.
+      - generic [ref=e215]:
+        - heading "Do you charge a fee?" [level=3] [ref=e216]
+        - paragraph [ref=e217]: No. David does not charge a client fee for dental and vision enrollment support. You can enroll yourself online and still contact David for customer service questions after enrollment.
+      - generic [ref=e218]:
+        - heading "Can kids get dental coverage through ACA?" [level=3] [ref=e219]
+        - paragraph [ref=e220]: Yes. Pediatric dental is one of the ten Essential Health Benefits, so it is built into many Marketplace plan designs or sold as a stand-alone pediatric dental plan. Adult dental is usually separate and must be bought separately.
+      - generic [ref=e221]:
+        - heading "Can I enroll in dental or vision any time of year?" [level=3] [ref=e222]
+        - paragraph [ref=e223]: Yes. Standalone dental and vision plans don't have an Open Enrollment window like ACA medical plans. You can enroll, change plans, or drop coverage any time, subject to the carrier's terms.
+    - generic [ref=e225]:
+      - generic [ref=e226]:
+        - heading "Enroll online, then keep support in your corner." [level=2] [ref=e227]
+        - paragraph [ref=e228]: Dental and vision plans are usually straightforward enough to self-enroll. Use the NCD or UnitedHealthcare quote link above, then contact David if you need help with cards, billing, plan questions, or next steps.
+        - generic "Related coverage links" [ref=e229]:
+          - link "Dental insurance cost tradeoffs" [ref=e230] [cursor=pointer]:
+            - /url: /blog/dental-insurance-guide.html
+          - link "Medicare dental and vision" [ref=e231] [cursor=pointer]:
+            - /url: /medicare/
+          - link "Supplemental coverage" [ref=e232] [cursor=pointer]:
+            - /url: /health-protector-guard/
+      - generic [ref=e233]:
+        - link "Call 863-640-3102" [ref=e234] [cursor=pointer]:
+          - /url: tel:+18636403102
+        - generic [ref=e235]: State and ZIP availability vary. No fee to the client.
+  - contentinfo [ref=e236]:
+    - paragraph [ref=e237]:
+      - text: "© 2026 Lakeland Health Insurance · FL License #W371813 · NPN 18213932 ·"
+      - link "Privacy" [ref=e238] [cursor=pointer]:
+        - /url: /privacy-policy.html
+      - text: ·
+      - link "About David" [ref=e239] [cursor=pointer]:
+        - /url: /about/
+    - paragraph [ref=e240]: Coverage details, premiums, waiting periods, annual maximums, and exclusions vary by carrier, state, ZIP code, and plan. This page describes typical-case standalone dental and vision insurance features and is not an offer of insurance. The certificate of coverage controls. We do not offer every plan available in your area. Currently we represent organizations that offer products in your area. Please contact your State Health Insurance Assistance Program (SHIP) or HealthCare.gov for additional options.
+    - generic [ref=e241]:
+      - link "View Lakeland Health Insurance BBB Business Profile" [ref=e242] [cursor=pointer]:
+        - /url: https://www.bbb.org/us/fl/lakeland/profile/health-insurance/lakeland-health-insurance-0733-235981531/#sealclick
+        - img "Lakeland Health Insurance BBB Business Review"
+      - generic [ref=e243]:
+        - strong [ref=e244]: BBB Accredited Business with an A- rating
+        - generic [ref=e245]: Active Florida LLC since 2021. BBB Accredited since May 26, 2026.
+  - link "Call Lakeland Health Insurance at 863-640-3102" [ref=e246] [cursor=pointer]:
+    - /url: tel:+18636403102
+    - generic [ref=e247]: ☎
+    - generic [ref=e248]: "Call: (863) 640-3102"
+  - link "Message Lakeland Health Insurance on Messenger" [ref=e249] [cursor=pointer]:
+    - /url: https://m.me/2330958066941437
+    - generic [ref=e250]: 💬
+    - generic [ref=e251]: Chat with Us

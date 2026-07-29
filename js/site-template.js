@@ -152,6 +152,20 @@
     document.querySelectorAll('.click-to-call, .lhi-floating-call, [data-floating-call], .messenger-button, .chat-widget-button').forEach((node) => node.remove());
   }
 
+  function loadBbbSeal() {
+    if (window.LHIBbbSeal) {
+      window.LHIBbbSeal.mount();
+      return;
+    }
+
+    if (document.querySelector('script[src*="/js/bbb-seal.js"]')) return;
+
+    const script = document.createElement('script');
+    script.src = '/js/bbb-seal.js?v=20260729-bbb-seal';
+    script.defer = true;
+    document.body.append(script);
+  }
+
   function wireMenu() {
     const menu = document.getElementById('dropdownMenu');
     const button = document.querySelector('.menu-button');
@@ -196,6 +210,7 @@
     });
 
     wireMenu();
+    loadBbbSeal();
   }
 
   if (document.readyState === 'loading') {

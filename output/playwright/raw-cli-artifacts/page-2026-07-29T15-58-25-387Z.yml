@@ -1,0 +1,242 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e2]:
+    - strong [ref=f1e3]: Insurance questions?
+    - text: Call
+    - link "(863) 640-3102" [ref=f1e4] [cursor=pointer]:
+      - /url: tel:+18636403102
+    - text: or
+    - link "start a plan review" [ref=f1e5] [cursor=pointer]:
+      - /url: /get-help/
+    - text: ". FL Broker License #W371813"
+  - banner [ref=f1e6]:
+    - navigation [ref=f1e7]:
+      - generic [ref=f1e8]:
+        - 'link "Lakeland Health Insurance Licensed FL Broker #W371813" [ref=f1e9] [cursor=pointer]':
+          - /url: /
+          - text: Lakeland Health Insurance
+          - generic [ref=f1e10]: "Licensed FL Broker #W371813"
+        - button "Toggle navigation menu" [ref=f1e11] [cursor=pointer]
+      - list [ref=f1e16]:
+        - listitem [ref=f1e17]:
+          - link "Home" [ref=f1e18] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=f1e19]:
+          - link "Health Plans" [ref=f1e20] [cursor=pointer]:
+            - /url: /plans/
+        - listitem [ref=f1e21]:
+          - link "Carriers" [ref=f1e22] [cursor=pointer]:
+            - /url: /carriers/
+        - listitem [ref=f1e23]:
+          - link "Medicare" [ref=f1e24] [cursor=pointer]:
+            - /url: /medicare/
+        - listitem [ref=f1e25]:
+          - link "Blog" [ref=f1e26] [cursor=pointer]:
+            - /url: /blog/
+        - listitem [ref=f1e27]:
+          - link "About" [ref=f1e28] [cursor=pointer]:
+            - /url: /about/
+        - listitem [ref=f1e29]:
+          - link "Learn" [ref=f1e30] [cursor=pointer]:
+            - /url: /learning/
+        - listitem [ref=f1e31]:
+          - link "Get Help" [ref=f1e32] [cursor=pointer]:
+            - /url: /get-help/
+      - link "Talk to David" [ref=f1e34] [cursor=pointer]:
+        - /url: /get-help/
+  - generic [ref=f1e36]:
+    - generic [ref=f1e37]:
+      - generic [ref=f1e38]: LOCAL, INDEPENDENT INSURANCE GUIDANCE
+      - heading "Meet David “The Insurance Dude” Huff" [level=1] [ref=f1e39]
+      - paragraph [ref=f1e40]: Licensed health insurance broker helping individuals, families, and Medicare beneficiaries compare coverage with clear guidance and no pressure. I review doctors, prescriptions, costs, and plan details before you choose.
+      - list "About David highlights" [ref=f1e41]:
+        - listitem [ref=f1e42]: Direct broker help from Lakeland, Florida
+        - listitem [ref=f1e43]: ACA, Medicare, life, and supplemental coverage reviews
+        - listitem [ref=f1e44]: Doctor, prescription, pharmacy, and cost checks before enrollment
+      - generic [ref=f1e45]:
+        - link "Start a Plan Review" [ref=f1e46] [cursor=pointer]:
+          - /url: /get-help/
+        - link "Schedule a Call" [ref=f1e47] [cursor=pointer]:
+          - /url: /calendly-book.html
+      - paragraph [ref=f1e48]: Independent broker • Personalized guidance • No pressure
+    - figure "David Huff portrait" [ref=f1e49]:
+      - img "David Huff, licensed health insurance broker in Lakeland Florida" [ref=f1e51]
+      - generic [ref=f1e52]:
+        - strong [ref=f1e53]: David Huff
+        - text: "FL License #W371813 • NPN 18213932"
+  - region "Broker trust signals" [ref=f1e54]:
+    - generic [ref=f1e56]:
+      - generic [ref=f1e57]:
+        - strong [ref=f1e58]: "FL #W371813"
+        - text: Licensed Florida broker
+      - generic [ref=f1e59]:
+        - strong [ref=f1e60]: NPN 18213932
+        - text: National Producer Number
+      - generic [ref=f1e61]:
+        - strong [ref=f1e62]: Direct Broker Help
+        - text: Work with David directly
+      - generic [ref=f1e63]:
+        - strong [ref=f1e64]: Carrier-Compensated
+        - text: Your premium is not increased for using David
+  - generic [ref=f1e67]:
+    - generic [ref=f1e68]:
+      - paragraph [ref=f1e69]: Why I Do This
+      - heading "Insurance should make life less confusing, not more." [level=2] [ref=f1e70]
+      - paragraph [ref=f1e71]: "I'm David Huff, a licensed health insurance broker based in Lakeland, Florida. I help people compare health coverage when the choices feel overwhelming: turning 65, losing employer coverage, shopping ACA Marketplace plans, checking doctor networks, or trying to understand whether a supplemental plan is worth it."
+      - paragraph [ref=f1e72]: "My approach is simple: I explain the tradeoffs directly, check the details that actually matter, and help you choose coverage that fits your doctors, prescriptions, budget, and timing. If a plan is not a good fit, I will tell you. If you need to slow down and compare, we slow down and compare."
+      - paragraph [ref=f1e73]: My work is built around preparation, honesty, and attention to detail. As a parent, I also know health coverage is not theoretical. It matters when someone gets hurt, a prescription changes, or a bill shows up at the wrong time.
+      - generic [ref=f1e74]: Insurance companies compensate brokers. Your premium is not increased for using David instead of enrolling directly with the carrier.
+      - generic [ref=f1e75]: David is not a carrier, call center, or lead seller. You work with a licensed Florida broker who reviews plan details directly and uses your information only to help with coverage review, enrollment support, and follow-up.
+    - complementary "Coverage review details" [ref=f1e76]:
+      - heading "What David checks before you enroll" [level=3] [ref=f1e77]
+      - list [ref=f1e78]:
+        - listitem [ref=f1e79]: Doctors, specialists, hospitals, and local network access
+        - listitem [ref=f1e80]: Prescriptions, pharmacy preferences, tiers, and prior authorizations
+        - listitem [ref=f1e81]: Premiums, deductibles, copays, and yearly exposure
+        - listitem [ref=f1e82]: Enrollment windows, subsidy eligibility, and plan change timing
+      - paragraph [ref=f1e83]: Broker compensation is paid by carriers. Your premium is not increased for using David instead of enrolling directly with the carrier.
+  - generic [ref=f1e85]:
+    - heading "What I Help With" [level=2] [ref=f1e86]
+    - generic [ref=f1e87]:
+      - generic [ref=f1e88]:
+        - generic [ref=f1e89]: 📋
+        - heading "Medicare Plan Reviews" [level=3] [ref=f1e90]
+        - paragraph [ref=f1e91]: Medicare Advantage, Medicare Supplement, and Part D comparisons with attention to doctors, prescriptions, pharmacies, networks, and total yearly cost.
+      - generic [ref=f1e92]:
+        - generic [ref=f1e93]: 🔍
+        - heading "ACA Marketplace Coverage" [level=3] [ref=f1e94]
+        - paragraph [ref=f1e95]: Help comparing Marketplace plans, estimating subsidies, checking provider networks, and understanding enrollment windows or qualifying life events.
+      - generic [ref=f1e96]:
+        - generic [ref=f1e97]: 🛡
+        - heading "Supplemental Protection" [level=3] [ref=f1e98]
+        - paragraph [ref=f1e99]: Dental, vision, life insurance, short-term medical, and fixed-indemnity options when extra coverage makes sense for your situation.
+      - generic [ref=f1e100]:
+        - generic [ref=f1e101]: 📞
+        - heading "Real Follow-Up" [level=3] [ref=f1e102]
+        - paragraph [ref=f1e103]: You work with David directly. No call-center maze, no vague handoff, and no pressure to pick a plan before you understand it.
+  - generic [ref=f1e105]:
+    - paragraph [ref=f1e106]: How I Work
+    - heading "Direct, practical, and built around your real life." [level=2] [ref=f1e107]
+    - generic [ref=f1e108]:
+      - generic [ref=f1e109]:
+        - heading "We start with your details" [level=3] [ref=f1e110]
+        - paragraph [ref=f1e111]: Your doctors, prescriptions, household income, preferred hospitals, budget, and timeline matter more than a flashy premium. I use those details to narrow the options.
+      - generic [ref=f1e112]:
+        - heading "I explain the tradeoffs" [level=3] [ref=f1e113]
+        - paragraph [ref=f1e114]: Every plan has tradeoffs. I help you understand networks, deductibles, copays, drug tiers, out-of-pocket exposure, referrals, and what those details mean day to day.
+      - generic [ref=f1e115]:
+        - heading "No pressure, no scripts" [level=3] [ref=f1e116]
+        - paragraph [ref=f1e117]: You will not get a corporate sales routine. You get a real conversation, clear next steps, and enough context to make a decision with confidence.
+      - generic [ref=f1e118]:
+        - heading "I stay practical" [level=3] [ref=f1e119]
+        - paragraph [ref=f1e120]: A lower premium or longer brochure does not automatically make coverage the better fit. The right review starts with your care, your risk, and your budget.
+      - generic [ref=f1e121]:
+        - heading "Local insight matters" [level=3] [ref=f1e122]
+        - paragraph [ref=f1e123]: Lakeland and Polk County networks can be confusing. I pay attention to local systems like Watson Clinic, Lakeland Regional Health, BayCare, Orlando Health, and nearby provider access.
+      - generic [ref=f1e124]:
+        - heading "I help beyond one page" [level=3] [ref=f1e125]
+        - paragraph [ref=f1e126]: Coverage questions do not always end after enrollment. When you need help understanding a card, comparing renewal options, or preparing for a plan change, you can reach out.
+  - generic [ref=f1e128]:
+    - paragraph [ref=f1e129]: Who I Serve
+    - heading "Health insurance help for people who want a human guide." [level=2] [ref=f1e130]
+    - paragraph [ref=f1e131]: Most clients come to me because they are tired of guessing. They want someone who can compare options, translate the fine print, and keep the conversation grounded.
+    - generic [ref=f1e132]:
+      - generic [ref=f1e133]:
+        - heading "Individuals & Families" [level=3] [ref=f1e134]
+        - paragraph [ref=f1e135]: ACA Marketplace plans, private options, short-term coverage, dental, vision, and life insurance for families trying to protect both health and budget.
+      - generic [ref=f1e136]:
+        - heading "Medicare Beneficiaries" [level=3] [ref=f1e137]
+        - paragraph [ref=f1e138]: Plan reviews for people turning 65, retiring, moving, losing employer coverage, or comparing Medicare Advantage, Medigap, and Part D options.
+      - generic [ref=f1e139]:
+        - heading "Self-Employed Workers" [level=3] [ref=f1e140]
+        - paragraph [ref=f1e141]: Coverage guidance for freelancers, contractors, business owners, and people whose income or tax situation makes subsidies and plan selection more complicated.
+      - generic [ref=f1e142]:
+        - heading "Central Florida & Beyond" [level=3] [ref=f1e143]
+        - paragraph [ref=f1e144]: Local help for Lakeland, Winter Haven, Bartow, Tampa, Plant City, and Polk County, with licensing to serve clients in many states.
+  - generic [ref=f1e146]:
+    - heading "Need a second set of eyes on your coverage?" [level=2] [ref=f1e147]
+    - paragraph [ref=f1e148]: Send the basics, and I’ll help you compare your options clearly. No pressure, no obligation, and no guessing through it alone.
+    - generic [ref=f1e149]:
+      - link "Start Plan Review" [ref=f1e150] [cursor=pointer]:
+        - /url: /get-help/
+      - link "Call (863) 640-3102" [ref=f1e151] [cursor=pointer]:
+        - /url: tel:+18636403102
+      - link "Message David" [ref=f1e152] [cursor=pointer]:
+        - /url: https://m.me/2330958066941437
+    - paragraph [ref=f1e153]: "Medicare beneficiaries: we do not offer every plan available in your area. Please contact Medicare.gov, 1-800-MEDICARE, or SHIP for information on all options."
+  - contentinfo [ref=f1e154]:
+    - generic [ref=f1e155]:
+      - generic [ref=f1e156]:
+        - generic [ref=f1e157]:
+          - heading "Contact David" [level=3] [ref=f1e158]
+          - list [ref=f1e159]:
+            - listitem [ref=f1e160]:
+              - link "(863) 640-3102" [ref=f1e161] [cursor=pointer]:
+                - /url: tel:+18636403102
+                - text: 📞 (863) 640-3102
+            - listitem [ref=f1e162]:
+              - link "dhuff@healthmarkets.com" [ref=f1e163] [cursor=pointer]:
+                - /url: mailto:dhuff@healthmarkets.com
+                - text: 📧 dhuff@healthmarkets.com
+            - listitem [ref=f1e164]:
+              - link "David the Insurance Dude" [ref=f1e165] [cursor=pointer]:
+                - /url: https://m.me/2330958066941437
+                - text: 💬 David the Insurance Dude
+            - listitem [ref=f1e166]: 📍 Central Florida Headquarters
+            - listitem [ref=f1e167]: ⏰ Mon-Fri 8AM-8PM EST
+            - listitem [ref=f1e168]: ⏰ Sat 9AM-5PM EST
+        - generic [ref=f1e169]:
+          - heading "Service Areas" [level=3] [ref=f1e170]
+          - list [ref=f1e171]:
+            - listitem [ref=f1e172]: Florida Residents
+            - listitem [ref=f1e173]: Coverage Across the Nation
+            - listitem [ref=f1e174]: Small Business Groups
+            - listitem [ref=f1e175]: Individual & Family Plans
+            - listitem [ref=f1e176]: Medicare Specialists
+        - generic [ref=f1e177]:
+          - heading "Quick Links" [level=3] [ref=f1e178]
+          - list [ref=f1e179]:
+            - listitem [ref=f1e180]:
+              - link "Home" [ref=f1e181] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f1e182]:
+              - link "Insurance Plans" [ref=f1e183] [cursor=pointer]:
+                - /url: /plans/
+            - listitem [ref=f1e184]:
+              - link "Health Protector Guard" [ref=f1e185] [cursor=pointer]:
+                - /url: /health-protector-guard/
+            - listitem [ref=f1e186]:
+              - link "Self-Service ACA Quote" [ref=f1e187] [cursor=pointer]:
+                - /url: https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q
+            - listitem [ref=f1e188]:
+              - link "Blog" [ref=f1e189] [cursor=pointer]:
+                - /url: /blog/
+            - listitem [ref=f1e190]:
+              - link "Our Approach" [ref=f1e191] [cursor=pointer]:
+                - /url: /our-approach.html
+            - listitem [ref=f1e192]:
+              - link "Florida Health Insurance Guide" [ref=f1e193] [cursor=pointer]:
+                - /url: /blog/florida-insurance-guide.html
+            - listitem [ref=f1e194]:
+              - link "Start Plan Review" [ref=f1e195] [cursor=pointer]:
+                - /url: /get-help/
+            - listitem [ref=f1e196]:
+              - link "Privacy Policy" [ref=f1e197] [cursor=pointer]:
+                - /url: /privacy-policy.html
+      - generic [ref=f1e198]:
+        - paragraph [ref=f1e199]: © 2026 Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.
+        - paragraph [ref=f1e200]: "FL License #W371813 | NPN 18213932 | Serving most of the United States with honest insurance advice"
+        - paragraph [ref=f1e201]:
+          - link "Powered by David the Insurance Dude" [ref=f1e202] [cursor=pointer]:
+            - /url: https://www.facebook.com/HealthMarkets.David.Huff
+  - link "Message David on Messenger" [ref=f1e203] [cursor=pointer]:
+    - /url: https://m.me/2330958066941437
+    - generic [ref=f1e204]: 💬
+    - generic [ref=f1e205]:
+      - generic [ref=f1e206]: Message David
+      - generic [ref=f1e207]: Usually replies fast
+  - 'link "Call: (863) 640-3102 David answers personally" [ref=f1e208] [cursor=pointer]':
+    - /url: tel:+18636403102
+    - generic [ref=f1e209]: 📞
+    - generic [ref=f1e210]:
+      - generic [ref=f1e211]: "Call: (863) 640-3102"
+      - generic [ref=f1e212]: David answers personally

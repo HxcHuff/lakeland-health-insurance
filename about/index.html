@@ -7,7 +7,7 @@
     <meta name="description" content="Meet David Huff, a licensed Florida health insurance broker helping Lakeland, Polk County, and clients compare Medicare, ACA Marketplace, dental, vision, life, and supplemental coverage.">
     <link rel="canonical" href="https://lakelandhealthinsurance.com/about/">
     <meta name="robots" content="index, follow">
-    <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
+    <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
     <meta property="og:title" content="About David Huff | Licensed Health Insurance Broker in Lakeland, FL">
     <meta property="og:description" content="David Huff helps individuals, families, and Medicare beneficiaries compare health insurance options with direct licensed broker support.">
     <meta property="og:url" content="https://lakelandhealthinsurance.com/about/">
@@ -16,7 +16,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="About David Huff | Licensed Health Insurance Broker in Lakeland, FL">
     <meta name="twitter:description" content="Meet David Huff, a licensed Florida broker helping people compare Medicare, ACA, and supplemental coverage without pressure.">
-    <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
+    <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1B2A4A">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -902,11 +902,362 @@ header .cta-button {
   line-height: 1.2 !important;
 }
 
-  </style>
+    </style>
     <script defer src="/js/analytics.js?v=20260721-meta-removal"></script>
     <link rel="stylesheet" href="/css/site-template.css">
+    <style>
+      .about-page .about-header {
+        background: var(--gray-50);
+        border-bottom: 1px solid var(--gray-200);
+        color: var(--gray-800);
+        padding: clamp(96px, 10vw, 132px) 0 clamp(40px, 7vw, 72px);
+        text-align: left;
+      }
+
+      .about-page .about-header::before {
+        display: none;
+      }
+
+      .about-hero-grid {
+        align-items: center;
+        display: grid;
+        gap: clamp(32px, 6vw, 72px);
+        grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.85fr);
+      }
+
+      .about-hero-copy {
+        max-width: 660px;
+      }
+
+      .about-page .about-header .hero-kicker {
+        background: rgba(37, 99, 235, 0.08);
+        border: 1px solid rgba(37, 99, 235, 0.14);
+        color: var(--blue);
+        justify-content: flex-start;
+      }
+
+      .about-page .about-header h1 {
+        color: var(--navy);
+        font-family: 'Instrument Serif', serif;
+        font-size: clamp(2.75rem, 6vw, 4.75rem);
+        font-weight: 400;
+        letter-spacing: 0;
+        line-height: 0.98;
+        margin: 0 0 1rem;
+      }
+
+      .about-page .about-header .about-hero-lede {
+        color: var(--gray-600);
+        font-size: clamp(1.05rem, 2vw, 1.22rem);
+        line-height: 1.65;
+        margin: 0;
+        max-width: 620px;
+        opacity: 1;
+      }
+
+      .about-hero-points {
+        display: grid;
+        gap: 0.65rem;
+        list-style: none;
+        margin: 1.35rem 0 0;
+        padding: 0;
+      }
+
+      .about-hero-points li {
+        align-items: center;
+        color: var(--gray-700);
+        display: flex;
+        font-weight: 600;
+        gap: 0.6rem;
+      }
+
+      .about-hero-points li::before {
+        background: var(--gold);
+        border-radius: 999px;
+        content: "";
+        display: inline-block;
+        flex: 0 0 8px;
+        height: 8px;
+        width: 8px;
+      }
+
+      .about-page .about-actions {
+        justify-content: flex-start;
+        margin-top: 1.75rem;
+      }
+
+      .about-page .about-header .hero-cta {
+        align-items: center;
+        display: inline-flex;
+        justify-content: center;
+        min-height: 48px;
+        min-width: 166px;
+        padding: 14px 24px;
+      }
+
+      .about-page .about-header .hero-cta.secondary {
+        background: var(--white);
+        border: 2px solid var(--navy);
+        color: var(--navy);
+      }
+
+      .about-page .about-header .hero-cta.secondary:hover {
+        background: rgba(27, 42, 74, 0.06);
+      }
+
+      .about-page .about-header a:focus-visible {
+        outline: 3px solid var(--blue);
+        outline-offset: 3px;
+      }
+
+      .about-portrait-wrap {
+        justify-self: end;
+        margin: 0;
+        max-width: 420px;
+        width: min(100%, 420px);
+      }
+
+      .about-portrait-frame {
+        aspect-ratio: 1 / 1;
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 8px;
+        box-shadow: 0 18px 40px rgba(27, 42, 74, 0.12);
+        overflow: hidden;
+        width: 100%;
+      }
+
+      .about-portrait-frame img {
+        display: block;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
+      }
+
+      .about-portrait-caption {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 8px;
+        color: var(--gray-600);
+        line-height: 1.35;
+        margin-top: 0.85rem;
+        padding: 0.9rem 1rem;
+        text-align: center;
+      }
+
+      .about-portrait-caption strong {
+        color: var(--navy);
+        display: block;
+        font-size: 1rem;
+        margin-bottom: 0.15rem;
+      }
+
+      .about-detail-panel {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 8px;
+        box-shadow: var(--shadow-md);
+        padding: clamp(1.4rem, 3vw, 2rem);
+      }
+
+      .about-detail-panel h3 {
+        color: var(--navy);
+        font-family: 'Instrument Serif', serif;
+        font-size: 1.65rem;
+        font-weight: 400;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+      }
+
+      .about-detail-panel ul {
+        display: grid;
+        gap: 0.7rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .about-detail-panel li {
+        border-bottom: 1px solid var(--gray-200);
+        color: var(--gray-700);
+        font-weight: 600;
+        padding-bottom: 0.7rem;
+      }
+
+      .about-detail-panel li:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .about-detail-panel p {
+        background: var(--sky-soft);
+        border-left: 4px solid var(--gold);
+        border-radius: 8px;
+        color: var(--gray-700);
+        font-size: 0.95rem;
+        line-height: 1.55;
+        margin: 1.25rem 0 0;
+        padding: 1rem;
+      }
+
+      .about-bbb {
+        background: var(--white);
+        padding: 48px 0 0;
+      }
+
+      .about-bbb-card {
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        border-radius: 8px;
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+        padding: clamp(1.5rem, 4vw, 2.25rem);
+      }
+
+      .about-bbb-card h2 {
+        color: var(--navy);
+        font-size: clamp(2rem, 4vw, 2.6rem);
+        line-height: 1.05;
+        margin-bottom: 1rem;
+      }
+
+      .about-bbb-card p {
+        color: var(--gray-600);
+        font-size: 1.05rem;
+        line-height: 1.65;
+      }
+
+      .about-bbb-note {
+        background: var(--white);
+        border-left: 4px solid var(--gold);
+        border-radius: 8px;
+        margin-top: 1rem;
+        padding: 1rem;
+      }
+
+      .about-bbb-facts {
+        display: grid;
+        gap: 0.85rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .about-bbb-facts li {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 8px;
+        padding: 1rem;
+      }
+
+      .about-bbb-facts strong,
+      .about-bbb-facts span {
+        display: block;
+      }
+
+      .about-bbb-facts strong {
+        color: var(--navy);
+        margin-bottom: 0.2rem;
+      }
+
+      .about-bbb-facts span,
+      .about-bbb-facts a {
+        color: var(--gray-600);
+        font-size: 0.95rem;
+      }
+
+      .about-bbb-facts a {
+        font-weight: 700;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      @media (max-width: 900px) {
+        .about-hero-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .about-portrait-wrap {
+          justify-self: start;
+          max-width: 360px;
+        }
+
+        .about-bbb-card {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .about-page .about-header {
+          padding: 96px 0 36px;
+        }
+
+        .about-page .about-header h1 {
+          font-size: clamp(2.35rem, 12vw, 3.1rem);
+        }
+
+        .about-page .about-actions {
+          align-items: stretch;
+          flex-direction: column;
+          gap: 0.75rem;
+          width: 100%;
+        }
+
+        .about-page .about-header .hero-cta {
+          width: 100%;
+        }
+
+        .about-portrait-wrap {
+          margin: 0 auto;
+          width: min(86vw, 360px);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .about-page .about-header {
+          padding-top: 86px;
+        }
+
+        .about-hero-points {
+          display: none;
+        }
+
+        .about-page .click-to-call,
+        .about-page .messenger-button {
+          border-radius: 999px;
+          height: 54px;
+          max-width: 54px;
+          min-height: 54px;
+          padding: 0;
+          width: 54px;
+        }
+
+        .about-page .click-to-call div,
+        .about-page .messenger-button div {
+          clip: rect(0 0 0 0);
+          height: 1px;
+          overflow: hidden;
+          position: absolute;
+          white-space: nowrap;
+          width: 1px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .about-page .about-header *,
+        .about-page .about-detail-panel {
+          transition: none !important;
+        }
+
+        .about-page .about-header .hero-cta:hover {
+          transform: none;
+        }
+      }
+    </style>
 </head>
-<body>
+<body class="about-page">
     <div class="compliance-banner">
       <strong>Important:</strong> Fixed indemnity products provide limited benefits and are <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA. &nbsp;|&nbsp; FL Broker License #W371813
     </div>
@@ -918,7 +1269,7 @@ header .cta-button {
                     Lakeland Health Insurance
                     <span class="license-tag">Licensed FL Broker #W371813</span>
                 </div>
-                <button class="menu-button" onclick="toggleMenu()">
+                <button class="menu-button" onclick="toggleMenu()" aria-label="Open site navigation">
                     <div class="ellipses">
                         <div class="dot"></div>
                         <div class="dot"></div>
@@ -953,19 +1304,30 @@ header .cta-button {
     <script src="/js/chat-widget.js" defer></script>
 
     <section class="about-header">
-        <div class="container">
-            <div class="hero-kicker">Licensed FL Broker #W371813</div>
-            <h1>Meet David Huff</h1>
-            <p>Licensed health insurance broker helping individuals, families, and Medicare beneficiaries compare coverage with clear guidance and no pressure. I review doctors, prescriptions, costs, and plan details before you choose.</p>
-            <div class="about-actions">
-                <a href="/get-help/" class="hero-cta">Start a Plan Review</a>
-                <a href="/our-approach.html" class="hero-cta secondary">See How I Work</a>
+        <div class="container about-hero-grid">
+            <div class="about-hero-copy">
+                <div class="hero-kicker">LOCAL, INDEPENDENT INSURANCE GUIDANCE</div>
+                <h1>Meet David &ldquo;The Insurance Dude&rdquo; Huff</h1>
+                <p class="about-hero-lede">Licensed health insurance broker helping individuals, families, and Medicare beneficiaries compare coverage with clear guidance and no pressure. I review doctors, prescriptions, costs, and plan details before you choose.</p>
+                <ul class="about-hero-points" aria-label="About David highlights">
+                    <li>Direct broker help from Lakeland, Florida</li>
+                    <li>ACA, Medicare, life, and supplemental coverage reviews</li>
+                    <li>Doctor, prescription, pharmacy, and cost checks before enrollment</li>
+                </ul>
+                <div class="about-actions">
+                    <a href="/get-help/" class="hero-cta">Start a Plan Review</a>
+                    <a href="/calendly-book.html" class="hero-cta secondary" data-funnel-booking>Schedule a Call</a>
+                </div>
             </div>
-            <div class="hero-trust-row" aria-label="About David trust signals">
-                <span>Carrier-compensated broker help</span>
-                <span>Licensed in Florida</span>
-                <span>Medicare and ACA help</span>
-            </div>
+            <figure class="about-portrait-wrap" aria-label="David Huff portrait">
+                <div class="about-portrait-frame">
+                    <img src="/assets/images/david-huff-blue-polo.jpg" srcset="/assets/images/david-huff-blue-polo-480.jpg 480w, /assets/images/david-huff-blue-polo.jpg 900w" sizes="(max-width: 768px) 86vw, 420px" width="900" height="900" alt="David Huff, licensed health insurance broker in Lakeland Florida">
+                </div>
+                <figcaption class="about-portrait-caption">
+                    <strong>David Huff</strong>
+                    FL License #W371813 &bull; NPN 18213932
+                </figcaption>
+            </figure>
         </div>
     </section>
 
@@ -974,8 +1336,28 @@ header .cta-button {
             <div class="trust-strip-grid">
                 <div><strong>FL #W371813</strong><span>Licensed Florida broker</span></div>
                 <div><strong>NPN 18213932</strong><span>National Producer Number</span></div>
+                <div><strong>BBB A- Rating</strong><span>Accredited since May 26, 2026</span></div>
                 <div><strong>Direct Broker Help</strong><span>Work with David directly</span></div>
                 <div><strong>Carrier-Compensated</strong><span>Your premium is not increased for using David</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-bbb" aria-labelledby="about-bbb-title">
+        <div class="container">
+            <div class="about-bbb-card">
+                <div>
+                    <p class="section-label">Credentials &amp; Trust</p>
+                    <h2 id="about-bbb-title">BBB Accredited Business with an A- rating.</h2>
+                    <p>Huff Health Insurance Solutions LLC has been an active Florida LLC since 2021. Lakeland Health Insurance is listed by BBB as an Accredited Business since May 26, 2026 with an A- rating.</p>
+                    <p class="about-bbb-note">BBB accreditation is a trust credential and profile listing. It is not a guarantee of plan availability, pricing, savings, or an endorsement of any insurance product.</p>
+                </div>
+                <ul class="about-bbb-facts" aria-label="Lakeland Health Insurance credential details">
+                    <li><strong>Florida License #W371813</strong><span>Licensed health insurance broker</span></li>
+                    <li><strong>NPN 18213932</strong><span>National Producer Number</span></li>
+                    <li><strong>Active Florida LLC since 2021</strong><span>Huff Health Insurance Solutions LLC</span></li>
+                    <li><strong>BBB profile</strong><a href="https://www.bbb.org/us/fl/lakeland/profile/health-insurance/lakeland-health-insurance-0733-235981531/" target="_blank" rel="nofollow noopener noreferrer">View current BBB profile</a></li>
+                </ul>
             </div>
         </div>
     </section>
@@ -1001,9 +1383,16 @@ header .cta-button {
                     </div>
                 </div>
 
-                <div class="about-image fade-in-up">
-                    <img src="david_the_dude2.jpg" alt="David Huff, licensed health insurance broker in Lakeland Florida" loading="lazy" style="width: 80%; max-width: 400px; height: 400px; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); display: block; margin: 0 auto;">
-                </div>
+                <aside class="about-detail-panel fade-in-up" aria-label="Coverage review details">
+                    <h3>What David checks before you enroll</h3>
+                    <ul>
+                        <li>Doctors, specialists, hospitals, and local network access</li>
+                        <li>Prescriptions, pharmacy preferences, tiers, and prior authorizations</li>
+                        <li>Premiums, deductibles, copays, and yearly exposure</li>
+                        <li>Enrollment windows, subsidy eligibility, and plan change timing</li>
+                    </ul>
+                    <p>Broker compensation is paid by carriers. Your premium is not increased for using David instead of enrolling directly with the carrier.</p>
+                </aside>
             </div>
         </div>
     </section>
@@ -1061,7 +1450,7 @@ header .cta-button {
 
                 <div class="reason-card fade-in-up">
                     <h3>I stay practical</h3>
-                    <p>The best plan is not always the cheapest or the one with the longest brochure. The best plan is the one that fits your care, your risk, and your budget.</p>
+                    <p>A lower premium or longer brochure does not automatically make coverage the better fit. The right review starts with your care, your risk, and your budget.</p>
                 </div>
 
                 <div class="reason-card fade-in-up">
@@ -1201,7 +1590,7 @@ header .cta-button {
         }, observerOptions);
 
         // Observe all cards for animation
-        document.querySelectorAll('.credential-card, .reason-card, .about-text, .about-image').forEach(card => {
+        document.querySelectorAll('.credential-card, .reason-card, .about-text, .about-detail-panel').forEach(card => {
             observer.observe(card);
         });
     </script>

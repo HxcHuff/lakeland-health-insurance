@@ -1,0 +1,10 @@
+### Result
+{
+  "url": "http://127.0.0.1:8080/calendly-book.html",
+  "hasCalendarSection": true,
+  "title": "Schedule an Insurance Review | Lakeland Health Insurance"
+}
+### Ran Playwright code
+```js
+await page.evaluate('() => ((() => ({ url: location.href, hasCalendarSection: !!document.querySelector(\'#book-calendar\'), title: document.title }))())');
+```

@@ -1,0 +1,17 @@
+### Result
+{
+  "url": "http://127.0.0.1:8080/aca-health-insurance-lakeland-fl/#eligibility-form",
+  "hash": "#eligibility-form",
+  "hasEligibilityForm": true,
+  "title": "Under-65 ACA Health Insurance Help in Lakeland, FL | Lakeland Health Insurance"
+}
+### Ran Playwright code
+```js
+await page.evaluate('() => ((() => ({ url: location.href, hash: location.hash, hasEligibilityForm: !!document.querySelector(\'#eligibility-form\'), title: document.title }))())');
+```
+### Page
+- Page URL: http://127.0.0.1:8080/aca-health-insurance-lakeland-fl/#eligibility-form
+- Page Title: Under-65 ACA Health Insurance Help in Lakeland, FL | Lakeland Health Insurance
+- Console: 1 errors, 0 warnings
+### Events
+- New console entries: .playwright-cli/console-2026-07-29T15-45-24-710Z.log#L2

@@ -1,0 +1,256 @@
+- generic [active] [ref=f5e1]:
+  - generic [ref=f5e2]:
+    - strong [ref=f5e3]: Insurance questions?
+    - text: Call
+    - link "(863) 640-3102" [ref=f5e4] [cursor=pointer]:
+      - /url: tel:+18636403102
+    - text: or
+    - link "start a plan review" [ref=f5e5] [cursor=pointer]:
+      - /url: /get-help/
+    - text: ". FL Broker License #W371813"
+  - banner [ref=f5e6]:
+    - navigation [ref=f5e7]:
+      - generic [ref=f5e8]:
+        - 'link "Lakeland Health Insurance Licensed FL Broker #W371813" [ref=f5e9] [cursor=pointer]':
+          - /url: /
+          - text: Lakeland Health Insurance
+          - generic [ref=f5e10]: "Licensed FL Broker #W371813"
+        - button "Toggle navigation menu" [ref=f5e11] [cursor=pointer]
+  - generic [ref=f5e16]:
+    - link "Home" [ref=f5e17] [cursor=pointer]:
+      - /url: /
+    - text: › Under 65 ACA Health Insurance
+  - main [ref=f5e18]:
+    - generic [ref=f5e20]:
+      - generic [ref=f5e21]:
+        - generic [ref=f5e22]: Under 65 health insurance
+        - heading "Need coverage before Medicare?" [level=1] [ref=f5e23]
+        - paragraph [ref=f5e24]: If you are self-employed, between jobs, recently lost employer coverage, or need family coverage under 65, start with ACA Marketplace eligibility.
+        - paragraph [ref=f5e25]: David checks subsidy fit, doctors, prescriptions, pharmacy, enrollment timing, and total yearly cost before you pick a plan.
+        - generic [ref=f5e26]:
+          - link "Start Under-65 Review" [ref=f5e27] [cursor=pointer]:
+            - /url: "#eligibility-form"
+          - link "Self-Service ACA Quote" [ref=f5e28] [cursor=pointer]:
+            - /url: https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q
+          - link "Estimate My Subsidy" [ref=f5e29] [cursor=pointer]:
+            - /url: /aca-subsidy-estimator/
+          - link "Call David" [ref=f5e30] [cursor=pointer]:
+            - /url: tel:+18636403102
+      - complementary [ref=f5e31]:
+        - heading "Have this ready:" [level=2] [ref=f5e32]
+        - list [ref=f5e33]:
+          - listitem [ref=f5e34]:
+            - strong [ref=f5e35]: Household income
+            - text: Best estimate for the year, not just this month.
+          - listitem [ref=f5e36]:
+            - strong [ref=f5e37]: Household size
+            - text: Who is on your tax return and who needs coverage.
+          - listitem [ref=f5e38]:
+            - strong [ref=f5e39]: Doctors and prescriptions
+            - text: Names, medications, pharmacy, and any must-keep providers.
+          - listitem [ref=f5e40]:
+            - strong [ref=f5e41]: Timing
+            - text: Open Enrollment, coverage loss, move, marriage, baby, or another life event.
+    - link "2026 Guide · Updated Feb 2026 Florida ACA Enrollment & Benefits Guide A step-by-step walkthrough for enrolling on HealthCare.gov, getting your plan working in the first 30 days, and avoiding common under-65 coverage mistakes. HealthCare.gov enrollment — 5-step process and document checklist First 30 days — portal setup, PCP, Rx, preventive care Plan comparison priorities — doctors, prescriptions, network, and total yearly cost Documentation reminders — what HealthCare.gov may ask for after enrollment Read the 2026 ACA Guide →" [ref=f5e44] [cursor=pointer]:
+      - /url: /blog/florida-aca-enrollment-and-benefits-2026.html
+      - generic [ref=f5e45]: 2026 Guide · Updated Feb 2026
+      - heading "Florida ACA Enrollment & Benefits Guide" [level=2] [ref=f5e46]
+      - paragraph [ref=f5e47]: A step-by-step walkthrough for enrolling on HealthCare.gov, getting your plan working in the first 30 days, and avoiding common under-65 coverage mistakes.
+      - list [ref=f5e48]:
+        - listitem [ref=f5e49]:
+          - strong [ref=f5e50]: HealthCare.gov enrollment
+          - text: — 5-step process and document checklist
+        - listitem [ref=f5e51]:
+          - strong [ref=f5e52]: First 30 days
+          - text: — portal setup, PCP, Rx, preventive care
+        - listitem [ref=f5e53]:
+          - strong [ref=f5e54]: Plan comparison priorities
+          - text: — doctors, prescriptions, network, and total yearly cost
+        - listitem [ref=f5e55]:
+          - strong [ref=f5e56]: Documentation reminders
+          - text: — what HealthCare.gov may ask for after enrollment
+      - generic [ref=f5e57]: Read the 2026 ACA Guide →
+    - generic [ref=f5e59]:
+      - 'heading "Key Takeaways: Under-65 ACA Health Insurance" [level=2] [ref=f5e60]'
+      - paragraph [ref=f5e61]: ACA Marketplace coverage is usually the main starting point for people under 65 who do not have employer coverage. Your cost depends on ZIP code, household size, estimated household income, age, and the plan you choose.
+      - paragraph [ref=f5e62]: Open Enrollment runs November 1 through January 15 each year. Outside that window, a qualifying life event such as losing job coverage, moving, marriage, birth, or aging off a parent's plan may create a 60-day Special Enrollment Period.
+      - paragraph [ref=f5e63]: "A licensed broker can help compare available options with carrier-paid broker compensation. David Huff (FL License #W371813) helps under-65 Lakeland and Polk County residents check subsidy eligibility, doctors, prescriptions, and plan timing before enrollment."
+    - generic [ref=f5e65]:
+      - heading "Who should start here" [level=2] [ref=f5e66]
+      - paragraph [ref=f5e67]: "This page is built specifically for:"
+      - list [ref=f5e68]:
+        - listitem [ref=f5e69]: Self-employed professionals
+        - listitem [ref=f5e70]: 1099 contractors
+        - listitem [ref=f5e71]: Small business owners
+        - listitem [ref=f5e72]: Families between employer plans
+        - listitem [ref=f5e73]: Individuals who recently lost job-based coverage
+        - listitem [ref=f5e74]: Polk County residents with changing income
+      - paragraph [ref=f5e75]: If you are under 65 and do not have stable employer coverage, this is the right starting point.
+    - generic [ref=f5e77]:
+      - heading "How ACA Enrollment Works in Lakeland" [level=2] [ref=f5e78]
+      - paragraph [ref=f5e79]: Most working families qualify for income-based Marketplace pricing, but enrollment must be handled correctly.
+      - paragraph [ref=f5e80]: "The process includes:"
+      - list [ref=f5e81]:
+        - listitem [ref=f5e82]: Reviewing household income
+        - listitem [ref=f5e83]: Determining Special Enrollment eligibility (if applicable)
+        - listitem [ref=f5e84]: Structuring the correct Marketplace plan
+        - listitem [ref=f5e85]: Submitting required documentation properly
+        - listitem [ref=f5e86]: Ongoing support throughout the policy year
+      - paragraph [ref=f5e87]: ACA isn't complicated when it's done right.
+    - generic [ref=f5e89]:
+      - heading "Special Enrollment Period (SEP) Guidance" [level=2] [ref=f5e90]
+      - paragraph [ref=f5e91]: "If you recently experienced:"
+      - list [ref=f5e92]:
+        - listitem [ref=f5e93]: Loss of employer coverage
+        - listitem [ref=f5e94]: Job transition
+        - listitem [ref=f5e95]: Income change
+        - listitem [ref=f5e96]: Move to Lakeland or Polk County
+      - paragraph [ref=f5e97]: You may qualify to enroll outside of Open Enrollment.
+      - paragraph [ref=f5e98]: Timing matters. Documentation matters. Structure matters.
+    - generic [ref=f5e100]:
+      - heading "Why Work With a Local Lakeland Broker" [level=2] [ref=f5e101]
+      - paragraph [ref=f5e102]:
+        - strong [ref=f5e103]: "Lakeland Health Insurance serves:"
+      - paragraph [ref=f5e104]: LakelandWinter HavenBartowLake WalesAuburndaleAnd surrounding Polk County communities
+      - paragraph [ref=f5e105]:
+        - strong [ref=f5e106]: "Working locally means:"
+      - list [ref=f5e107]:
+        - listitem [ref=f5e108]: Real-time communication
+        - listitem [ref=f5e109]: Knowledge of Florida Marketplace rules
+        - listitem [ref=f5e110]: Clear documentation process
+        - listitem [ref=f5e111]: Ongoing client support
+        - listitem [ref=f5e112]: No additional cost for professional guidance
+      - paragraph [ref=f5e113]: You're not calling a call center.
+      - paragraph [ref=f5e114]: You're working with a licensed professional based in Lakeland.
+    - generic [ref=f5e116]:
+      - heading "Frequently Asked Questions About ACA Insurance in Lakeland" [level=2] [ref=f5e117]
+      - generic [ref=f5e118]:
+        - heading "How much does ACA health insurance cost in Lakeland, FL?" [level=3] [ref=f5e119]
+        - paragraph [ref=f5e120]: ACA health insurance costs in Lakeland vary based on household income, age, county, plan selection, and current subsidy rules. Some Polk County residents qualify for premium tax credits, but exact costs should be estimated from current plan data and household income.
+      - generic [ref=f5e121]:
+        - heading "Do I qualify for ACA coverage if I'm self-employed?" [level=3] [ref=f5e122]
+        - paragraph [ref=f5e123]: Yes. Self-employed individuals, freelancers, and 1099 contractors qualify for ACA Marketplace plans and may receive premium subsidies based on projected Modified Adjusted Gross Income (MAGI). Accurate income projection is important — overestimating or underestimating can affect subsidy amounts at tax time.
+      - generic [ref=f5e124]:
+        - heading "Can I get ACA health insurance outside of open enrollment?" [level=3] [ref=f5e125]
+        - paragraph [ref=f5e126]: Yes. Outside the annual Open Enrollment Period (November 1–January 15), you can enroll through a Special Enrollment Period if you experience a qualifying life event. Common qualifying events include losing employer-sponsored coverage, getting married, having a baby, moving to a new state, or aging off a parent's plan. You have 60 days from the qualifying event to enroll.
+      - generic [ref=f5e127]:
+        - heading "What should I have ready for an ACA review?" [level=3] [ref=f5e128]
+        - paragraph [ref=f5e129]: Have your ZIP code, household size, estimated household income, doctors, prescriptions, preferred pharmacy, and any recent coverage loss or life event ready. Those details determine subsidy eligibility and which options are worth reviewing.
+      - generic [ref=f5e130]:
+        - heading "Is there a penalty for not having health insurance in Florida?" [level=3] [ref=f5e131]
+        - paragraph [ref=f5e132]: There is no federal tax penalty for not having health insurance as of 2019. Florida does not impose a state-level individual mandate penalty. However, going without coverage exposes you to full out-of-pocket costs for medical care. A single ER visit in Lakeland can cost $3,000–$15,000 without insurance.
+    - generic [ref=f5e135]:
+      - heading "Start Your Under-65 Coverage Review" [level=2] [ref=f5e136]
+      - paragraph [ref=f5e137]: Use this form when you need ACA Marketplace help before Medicare age.
+      - paragraph [ref=f5e138]: David will use these basics to review subsidy fit, plan timing, and what follow-up details are needed.
+      - generic [ref=f5e139]:
+        - generic [ref=f5e140]:
+          - generic [ref=f5e141]:
+            - generic [ref=f5e142]: Full Name
+            - textbox "Full Name" [ref=f5e143]
+          - generic [ref=f5e144]:
+            - generic [ref=f5e145]: Phone Number
+            - textbox "Phone Number" [ref=f5e146]
+          - generic [ref=f5e147]:
+            - generic [ref=f5e148]: Zip Code
+            - textbox "Zip Code" [ref=f5e149]
+          - generic [ref=f5e150]:
+            - generic [ref=f5e151]: Estimated Household Income
+            - combobox "Estimated Household Income" [ref=f5e152]:
+              - option "Select range" [selected]
+              - option "Under $30,000"
+              - option "$30,000 - $49,999"
+              - option "$50,000 - $74,999"
+              - option "$75,000 - $99,999"
+              - option "$100,000 - $149,999"
+              - option "$150,000+"
+          - generic [ref=f5e153]:
+            - generic [ref=f5e154]: Employment Status
+            - combobox "Employment Status" [ref=f5e155]:
+              - option "Select status" [selected]
+              - option "Self-Employed"
+              - option "Employed"
+              - option "Recently Lost Coverage"
+              - option "Other"
+        - button "Request Structured Enrollment Review" [ref=f5e156] [cursor=pointer]
+    - paragraph [ref=f5e159]: Lakeland Health Insurance is an independent brokerage founded by David Huff, serving Polk County residents with ACA Marketplace guidance, Medicare planning, and long-term coverage strategy.
+  - contentinfo [ref=f5e160]:
+    - generic [ref=f5e161]:
+      - generic [ref=f5e162]:
+        - generic [ref=f5e163]:
+          - heading "Contact David" [level=3] [ref=f5e164]
+          - list [ref=f5e165]:
+            - listitem [ref=f5e166]:
+              - link "(863) 640-3102" [ref=f5e167] [cursor=pointer]:
+                - /url: tel:+18636403102
+                - text: 📞 (863) 640-3102
+            - listitem [ref=f5e168]:
+              - link "dhuff@healthmarkets.com" [ref=f5e169] [cursor=pointer]:
+                - /url: mailto:dhuff@healthmarkets.com
+                - text: 📧 dhuff@healthmarkets.com
+            - listitem [ref=f5e170]:
+              - link "David the Insurance Dude" [ref=f5e171] [cursor=pointer]:
+                - /url: https://m.me/2330958066941437
+                - text: 💬 David the Insurance Dude
+            - listitem [ref=f5e172]: 📍 Central Florida Headquarters
+            - listitem [ref=f5e173]: ⏰ Mon-Fri 8AM-8PM EST
+            - listitem [ref=f5e174]: ⏰ Sat 9AM-5PM EST
+        - generic [ref=f5e175]:
+          - heading "Service Areas" [level=3] [ref=f5e176]
+          - list [ref=f5e177]:
+            - listitem [ref=f5e178]: Florida Residents
+            - listitem [ref=f5e179]: Coverage Across the Nation
+            - listitem [ref=f5e180]: Small Business Groups
+            - listitem [ref=f5e181]: Individual & Family Plans
+            - listitem [ref=f5e182]: Medicare Specialists
+        - generic [ref=f5e183]:
+          - heading "Quick Links" [level=3] [ref=f5e184]
+          - list [ref=f5e185]:
+            - listitem [ref=f5e186]:
+              - link "Home" [ref=f5e187] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f5e188]:
+              - link "Insurance Plans" [ref=f5e189] [cursor=pointer]:
+                - /url: /plans/
+            - listitem [ref=f5e190]:
+              - link "Health Protector Guard" [ref=f5e191] [cursor=pointer]:
+                - /url: /health-protector-guard/
+            - listitem [ref=f5e192]:
+              - link "Self-Service ACA Quote" [ref=f5e193] [cursor=pointer]:
+                - /url: https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q
+            - listitem [ref=f5e194]:
+              - link "Blog" [ref=f5e195] [cursor=pointer]:
+                - /url: /blog/
+            - listitem [ref=f5e196]:
+              - link "Our Approach" [ref=f5e197] [cursor=pointer]:
+                - /url: /our-approach.html
+            - listitem [ref=f5e198]:
+              - link "Florida Health Insurance Guide" [ref=f5e199] [cursor=pointer]:
+                - /url: /blog/florida-insurance-guide.html
+            - listitem [ref=f5e200]:
+              - link "Start Plan Review" [ref=f5e201] [cursor=pointer]:
+                - /url: /get-help/
+            - listitem [ref=f5e202]:
+              - link "Privacy Policy" [ref=f5e203] [cursor=pointer]:
+                - /url: /privacy-policy.html
+      - generic [ref=f5e204]:
+        - paragraph [ref=f5e205]: © 2026 Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.
+        - paragraph [ref=f5e206]: "FL License #W371813 | NPN 18213932 | Serving most of the United States with honest insurance advice"
+        - paragraph [ref=f5e207]:
+          - link "Powered by David the Insurance Dude" [ref=f5e208] [cursor=pointer]:
+            - /url: https://www.facebook.com/HealthMarkets.David.Huff
+  - generic "Quick contact options":
+    - link "Message David on Facebook Messenger" [ref=f5e209] [cursor=pointer]:
+      - /url: https://m.me/2330958066941437
+      - generic [ref=f5e210]: 💬
+    - link "Call David at 863-640-3102" [ref=f5e211] [cursor=pointer]:
+      - /url: tel:+18636403102
+      - generic [ref=f5e212]: 📞
+      - generic [ref=f5e213]: Call David
+  - link "Message David on Messenger" [ref=f5e214] [cursor=pointer]:
+    - /url: https://m.me/2330958066941437
+    - generic [ref=f5e215]: 💬
+    - generic [ref=f5e216]: Message David
+  - 'link "Call: (863) 640-3102" [ref=f5e218] [cursor=pointer]':
+    - /url: tel:+18636403102
+    - generic [ref=f5e219]: 📞

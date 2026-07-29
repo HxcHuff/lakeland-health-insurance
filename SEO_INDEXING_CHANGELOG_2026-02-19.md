@@ -26,7 +26,7 @@ Implemented crawl/indexing and metadata fixes to remove conflicting signals, res
 
 - File: `blog/how-to-read-insurance-card.html`
   - Updated `og:image` and `twitter:image` to existing asset:
-    - `https://lakelandhealthinsurance.com/david_the_dude2.jpg`
+    - `https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg`
   - Updated `og:url` to canonical `.html` URL.
 
 - File: `blog/orlando-health-watson-clinic-insurance-2026.html`

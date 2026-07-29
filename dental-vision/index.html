@@ -11,12 +11,12 @@
   <meta property="og:description" content="Self-quote standalone dental and vision coverage through NCD or UnitedHealthcare, with David available for customer support.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://lakelandhealthinsurance.com/dental-vision/">
-  <meta property="og:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
+  <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
   <meta property="og:site_name" content="Lakeland Health Insurance">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Dental &amp; Vision Insurance — Standalone Plans">
   <meta name="twitter:description" content="Self-quote NCD and UnitedHealthcare dental and vision options with support from David.">
-  <meta name="twitter:image" content="https://lakelandhealthinsurance.com/david_the_dude2.jpg">
+  <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#1B2A4A">
@@ -33,7 +33,7 @@
     "description": "Insurance brokerage supporting clients who self-enroll in standalone dental, vision, and dental savings plans. No fee to the client — broker is paid by the carrier.",
     "url": "https://lakelandhealthinsurance.com/dental-vision/",
     "telephone": "+1-863-640-3102",
-    "image": "https://lakelandhealthinsurance.com/david_the_dude2.jpg",
+    "image": "https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg",
     "priceRange": "$0 broker fee",
     "address": {
       "@type": "PostalAddress",
@@ -308,7 +308,8 @@
     .card h3 { color: var(--navy); margin-bottom: 8px; font-size: 1.08rem; }
     .card p { color: var(--muted); font-size: 0.95rem; }
 
-    .compare-table { width: 100%; border-collapse: collapse; background: var(--white); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin-top: 14px; }
+    .table-scroll { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .compare-table { width: 100%; min-width: 430px; border-collapse: collapse; background: var(--white); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin-top: 14px; }
     .compare-table th, .compare-table td { padding: 12px 14px; text-align: left; font-size: 0.95rem; border-bottom: 1px solid var(--line); vertical-align: top; }
     .compare-table tr:last-child td { border-bottom: none; }
     .compare-table th { background: var(--bg); color: var(--navy); }
@@ -487,19 +488,21 @@
     <section>
       <h2>PPO dental vs DHMO vs dental savings plans</h2>
       <p>There is no single default dental option. Before you enroll, check your dentist, expected work, and tolerance for waiting periods. Here is how the three main options stack up:</p>
-      <table class="compare-table">
-        <thead>
-          <tr><th>Feature</th><th>PPO Dental</th><th>DHMO Dental</th><th>Dental Savings Plan</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Choose any dentist</td><td class="yes">Yes (best in-network)</td><td class="no">In-network only</td><td>Participating only</td></tr>
-          <tr><td>Monthly / annual cost</td><td>$25–$60/mo</td><td>$15–$30/mo</td><td>$100–$200/yr</td></tr>
-          <tr><td>Waiting period for major work</td><td>Often 6–12 months</td><td>Often 6–12 months</td><td class="yes">None</td></tr>
-          <tr><td>Annual maximum benefit</td><td>$1,000–$2,500</td><td>Often "unlimited" with copays</td><td class="yes">No cap (% discount)</td></tr>
-          <tr><td>Preventive care covered immediately</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Discounted only</td></tr>
-          <tr><td>Best for</td><td>Mixed needs, want choice</td><td>Lowest premium, OK with one dentist</td><td>Major work soon, no waiting</td></tr>
-        </tbody>
-      </table>
+      <div class="table-scroll">
+        <table class="compare-table">
+          <thead>
+            <tr><th>Feature</th><th>PPO Dental</th><th>DHMO Dental</th><th>Dental Savings Plan</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Choose any dentist</td><td class="yes">Yes (best in-network)</td><td class="no">In-network only</td><td>Participating only</td></tr>
+            <tr><td>Monthly / annual cost</td><td>$25–$60/mo</td><td>$15–$30/mo</td><td>$100–$200/yr</td></tr>
+            <tr><td>Waiting period for major work</td><td>Often 6–12 months</td><td>Often 6–12 months</td><td class="yes">None</td></tr>
+            <tr><td>Annual maximum benefit</td><td>$1,000–$2,500</td><td>Often "unlimited" with copays</td><td class="yes">No cap (% discount)</td></tr>
+            <tr><td>Preventive care covered immediately</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Discounted only</td></tr>
+            <tr><td>Best for</td><td>Mixed needs, want choice</td><td>Lowest premium, OK with one dentist</td><td>Major work soon, no waiting</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section>
@@ -546,20 +549,22 @@
 
     <section>
       <h2>What's actually covered (and what's not)</h2>
-      <table class="compare-table">
-        <thead>
-          <tr><th>Service</th><th>Typical PPO Dental Coverage</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Cleanings, exams, X-rays (preventive)</td><td class="yes">Usually 100% in-network, no waiting period</td></tr>
-          <tr><td>Fillings, simple extractions (basic)</td><td>~70–80% after deductible</td></tr>
-          <tr><td>Crowns, bridges, root canals (major)</td><td>~50% after waiting period</td></tr>
-          <tr><td>Implants</td><td>Sometimes covered as "major"; many plans exclude or limit</td></tr>
-          <tr><td>Orthodontia (braces, Invisalign)</td><td>Often a separate rider; lifetime max ~$1,000–$2,500</td></tr>
-          <tr><td>Cosmetic (whitening, veneers)</td><td class="no">Almost always excluded</td></tr>
-          <tr><td>Missing-tooth clause</td><td class="no">Many plans don't cover replacement of teeth missing before enrollment</td></tr>
-        </tbody>
-      </table>
+      <div class="table-scroll">
+        <table class="compare-table">
+          <thead>
+            <tr><th>Service</th><th>Typical PPO Dental Coverage</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Cleanings, exams, X-rays (preventive)</td><td class="yes">Usually 100% in-network, no waiting period</td></tr>
+            <tr><td>Fillings, simple extractions (basic)</td><td>~70–80% after deductible</td></tr>
+            <tr><td>Crowns, bridges, root canals (major)</td><td>~50% after waiting period</td></tr>
+            <tr><td>Implants</td><td>Sometimes covered as "major"; many plans exclude or limit</td></tr>
+            <tr><td>Orthodontia (braces, Invisalign)</td><td>Often a separate rider; lifetime max ~$1,000–$2,500</td></tr>
+            <tr><td>Cosmetic (whitening, veneers)</td><td class="no">Almost always excluded</td></tr>
+            <tr><td>Missing-tooth clause</td><td class="no">Many plans don't cover replacement of teeth missing before enrollment</td></tr>
+          </tbody>
+        </table>
+      </div>
       <p style="margin-top:14px; color:var(--muted);">This is a typical-case summary. Each plan's certificate of coverage controls. Review exclusions, waiting periods, annual maximums, and missing-tooth clauses before enrolling.</p>
     </section>
 
@@ -630,5 +635,6 @@
   </footer>
     <script defer src="/js/analytics.js?v=20260721-meta-removal"></script>
     <script src="/js/chat-widget.js" defer></script>
+  <script src="/js/bbb-seal.js?v=20260729-bbb-seal" defer></script>
 </body>
 </html>

@@ -1,0 +1,51 @@
+### Result
+"{\n  \"url\": \"http://127.0.0.1:8080/\",\n  \"viewport\": {\n    \"width\": 1440,\n    \"height\": 900\n  },\n  \"sealHref\": \"https://www.bbb.org/us/fl/lakeland/profile/health-insurance/lakeland-health-insurance-0733-235981531/#sealclick\",\n  \"sealRel\": \"nofollow noopener noreferrer\",\n  \"sealClass\": \"ruvtbul\",\n  \"sealRect\": {\n    \"x\": 462,\n    \"y\": 564,\n    \"width\": 80,\n    \"height\": 144,\n    \"top\": 564,\n    \"bottom\": 708,\n    \"left\": 462,\n    \"right\": 542\n  },\n  \"imageSrc\": \"https://seal-centralflorida.bbb.org/logo/ruvtbul/bbb-235981531.png\",\n  \"imageAlt\": \"Lakeland Health Insurance BBB Business Review\",\n  \"imageComplete\": true,\n  \"imageNatural\": [\n    160,\n    144\n  ],\n  \"footerTrustText\": \"BBB Accredited Business with an A- rating Active Florida LLC since 2021. BBB Accredited since May 26, 2026.\",\n  \"homeCredibilityText\": \"BBB Accredited Business, A- rating\",\n  \"aboutBbbHeading\": null,\n  \"overflowX\": 0\n}"
+### Ran Playwright code
+```js
+await (async (page) => {
+      await page.waitForLoadState('networkidle').catch(() => {});
+      await page.waitForTimeout(750);
+      const footer = page.locator('footer').last();
+      await footer.scrollIntoViewIfNeeded();
+      await footer.screenshot({ path: '/Users/david_huff/lakeland-health-insurance/output/playwright/home-bbb-footer-desktop.png' });
+      if ('home' === 'about' && 'desktop' === 'desktop') {
+        const aboutTrust = page.locator('.about-bbb-card');
+        await aboutTrust.scrollIntoViewIfNeeded();
+        await aboutTrust.screenshot({ path: '/Users/david_huff/lakeland-health-insurance/output/playwright/about-bbb-section.png' });
+      }
+      const data = await page.evaluate(() => {
+        const rectFor = (el) => {
+          if (!el) return null;
+          const r = el.getBoundingClientRect();
+          return {x: Math.round(r.x), y: Math.round(r.y), width: Math.round(r.width), height: Math.round(r.height), top: Math.round(r.top), bottom: Math.round(r.bottom), left: Math.round(r.left), right: Math.round(r.right)};
+        };
+        const seal = document.querySelector('#bbblink');
+        const img = seal?.querySelector('img');
+        const homeCred = document.querySelector('.credibility-strip a[href*="bbb.org"]');
+        const aboutSection = document.querySelector('#about-bbb-title');
+        return {
+          url: location.href,
+          viewport: { width: innerWidth, height: innerHeight },
+          sealHref: seal?.getAttribute('href') || null,
+          sealRel: seal?.getAttribute('rel') || null,
+          sealClass: seal?.className || null,
+          sealRect: rectFor(seal),
+          imageSrc: img?.getAttribute('src') || null,
+          imageAlt: img?.getAttribute('alt') || null,
+          imageComplete: img?.complete || false,
+          imageNatural: img ? [img.naturalWidth, img.naturalHeight] : [0, 0],
+          footerTrustText: document.querySelector('.bbb-footer-copy')?.textContent.trim().replace(/\s+/g, ' ') || null,
+          homeCredibilityText: homeCred?.textContent.trim() || null,
+          aboutBbbHeading: aboutSection?.textContent.trim() || null,
+          overflowX: document.documentElement.scrollWidth - innerWidth
+        };
+      });
+      return JSON.stringify(data, null, 2);
+    })(page);
+```
+### Page
+- Page URL: http://127.0.0.1:8080/
+- Page Title: Lakeland Medicare & Health Insurance Broker | Lakeland Health Insurance
+- Console: 1 errors, 0 warnings
+### Events
+- New console entries: .playwright-cli/console-2026-07-29T16-23-31-763Z.log#L2

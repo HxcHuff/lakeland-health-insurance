@@ -1,0 +1,55 @@
+### Result
+"{\n  \"viewport\": {\n    \"width\": 1024,\n    \"height\": 900\n  },\n  \"h1Count\": 1,\n  \"h1Text\": [\n    \"Meet David “The Insurance Dude” Huff\"\n  ],\n  \"overflowX\": 0,\n  \"bodyClass\": \"about-page\",\n  \"header\": {\n    \"x\": 0,\n    \"y\": 0,\n    \"width\": 1024,\n    \"height\": 94,\n    \"top\": 0,\n    \"bottom\": 94,\n    \"left\": 0,\n    \"right\": 1024\n  },\n  \"hero\": {\n    \"x\": 0,\n    \"y\": 37,\n    \"width\": 1024,\n    \"height\": 730,\n    \"top\": 37,\n    \"bottom\": 767,\n    \"left\": 0,\n    \"right\": 1024\n  },\n  \"h1\": {\n    \"x\": 20,\n    \"y\": 193,\n    \"width\": 510,\n    \"height\": 120,\n    \"top\": 193,\n    \"bottom\": 313,\n    \"left\": 20,\n    \"right\": 530\n  },\n  \"primaryCta\": {\n    \"text\": \"Start a Plan Review\",\n    \"href\": \"/get-help/\",\n    \"visible\": true,\n    \"rect\": {\n      \"x\": 20,\n      \"y\": 634,\n      \"width\": 208,\n      \"height\": 61,\n      \"top\": 634,\n      \"bottom\": 695,\n      \"left\": 20,\n      \"right\": 228\n    }\n  },\n  \"secondaryCta\": {\n    \"text\": \"Schedule a Call\",\n    \"href\": \"/calendly-book.html\",\n    \"hasBookingAttr\": true,\n    \"visible\": true,\n    \"rect\": {\n      \"x\": 244,\n      \"y\": 634,\n      \"width\": 181,\n      \"height\": 61,\n      \"top\": 634,\n      \"bottom\": 695,\n      \"left\": 244,\n      \"right\": 425\n    }\n  },\n  \"portrait\": {\n    \"complete\": true,\n    \"naturalWidth\": 420,\n    \"naturalHeight\": 420,\n    \"rect\": {\n      \"x\": 592,\n      \"y\": 167,\n      \"width\": 411,\n      \"height\": 411,\n      \"top\": 167,\n      \"bottom\": 578,\n      \"left\": 592,\n      \"right\": 1003\n    },\n    \"visible\": true\n  },\n  \"heroOverlap\": false,\n  \"ctaMinTargetOk\": true,\n  \"floatingCall\": {\n    \"x\": 762,\n    \"y\": 802,\n    \"width\": 242,\n    \"height\": 78,\n    \"top\": 802,\n    \"bottom\": 880,\n    \"left\": 762,\n    \"right\": 1004\n  },\n  \"messenger\": {\n    \"x\": 20,\n    \"y\": 803,\n    \"width\": 186,\n    \"height\": 78,\n    \"top\": 803,\n    \"bottom\": 880,\n    \"left\": 20,\n    \"right\": 206\n  }\n}"
+### Ran Playwright code
+```js
+await (async (page) => {
+    await page.waitForLoadState('networkidle').catch(() => {});
+    const data = await page.evaluate(() => {
+      const rectFor = (el) => {
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        return {x: Math.round(r.x), y: Math.round(r.y), width: Math.round(r.width), height: Math.round(r.height), top: Math.round(r.top), bottom: Math.round(r.bottom), left: Math.round(r.left), right: Math.round(r.right)};
+      };
+      const visible = (el) => {
+        if (!el) return false;
+        const r = el.getBoundingClientRect();
+        const style = getComputedStyle(el);
+        return r.width > 0 && r.height > 0 && style.visibility !== 'hidden' && style.display !== 'none' && r.bottom > 0 && r.top < innerHeight;
+      };
+      const h1s = [...document.querySelectorAll('h1')];
+      const primary = document.querySelector('.about-header .hero-cta:not(.secondary)');
+      const secondary = document.querySelector('.about-header .hero-cta.secondary');
+      const img = document.querySelector('.about-portrait-frame img');
+      const header = document.querySelector('header');
+      const hero = document.querySelector('.about-header');
+      const copy = document.querySelector('.about-hero-copy');
+      const portrait = document.querySelector('.about-portrait-wrap');
+      const floatingCall = document.querySelector('.click-to-call');
+      const messenger = document.querySelector('.messenger-button');
+      const overlap = (a, b) => {
+        if (!a || !b) return false;
+        const ar = a.getBoundingClientRect();
+        const br = b.getBoundingClientRect();
+        return !(ar.right <= br.left || ar.left >= br.right || ar.bottom <= br.top || ar.top >= br.bottom);
+      };
+      return {
+        viewport: { width: innerWidth, height: innerHeight },
+        h1Count: h1s.length,
+        h1Text: h1s.map((n) => n.textContent.trim()),
+        overflowX: document.documentElement.scrollWidth - innerWidth,
+        bodyClass: document.body.className,
+        header: rectFor(header),
+        hero: rectFor(hero),
+        h1: rectFor(h1s[0]),
+        primaryCta: { text: primary?.textContent.trim(), href: primary?.getAttribute('href'), visible: visible(primary), rect: rectFor(primary) },
+        secondaryCta: { text: secondary?.textContent.trim(), href: secondary?.getAttribute('href'), hasBookingAttr: secondary?.hasAttribute('data-funnel-booking'), visible: visible(secondary), rect: rectFor(secondary) },
+        portrait: { complete: img?.complete, naturalWidth: img?.naturalWidth || 0, naturalHeight: img?.naturalHeight || 0, rect: rectFor(img), visible: visible(img) },
+        heroOverlap: overlap(copy, portrait),
+        ctaMinTargetOk: [primary, secondary].every((el) => el && el.getBoundingClientRect().height >= 44 && el.getBoundingClientRect().width >= 44),
+        floatingCall: rectFor(floatingCall),
+        messenger: rectFor(messenger)
+      };
+    });
+    return JSON.stringify(data, null, 2);
+  })(page);
+```
