@@ -89,7 +89,7 @@
             <h3>Service Areas</h3>
             <ul>
               <li>Florida Residents</li>
-              <li>Coverage Across the Nation</li>
+              <li>Lakeland and Polk County Focus</li>
               <li>Small Business Groups</li>
               <li>Individual & Family Plans</li>
               <li>Medicare Specialists</li>
@@ -111,8 +111,8 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
-          <p>FL License #W371813 | NPN 18213932 | Serving most of the United States with honest insurance advice</p>
+          <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Licensed insurance guidance for Florida residents.</p>
+          <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland and Polk County, Florida</p>
           <p style="margin-top: 1rem;"><a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer">Powered by David the Insurance Dude</a></p>
         </div>
       </div>`;

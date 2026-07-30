@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://lakelandhealthinsurance.com/</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -198,21 +198,21 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/plans/</loc>
-    <lastmod>2026-02-17</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/about/</loc>
-    <lastmod>2026-05-01</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/our-approach.html</loc>
-    <lastmod>2026-04-06</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -345,7 +345,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/medicare-advantage-vs-supplement.html</loc>
-    <lastmod>2026-02-17</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
@@ -576,14 +576,14 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/contact/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/get-help/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
@@ -919,30 +919,37 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/lost-job-coverage-aca-insurance-florida.html</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/aca-subsidy-wrong-income-florida.html</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/keep-doctor-switch-medicare-plans-florida.html</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/health-insurance-too-much-income-aca-subsidy-florida.html</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/common-medicare-health-insurance-questions-florida.html</loc>
+    <lastmod>2026-07-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.82</priority>
   </url>
 
 </urlset>

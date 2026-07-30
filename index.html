@@ -42,6 +42,7 @@
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
+      "@id": "https://lakelandhealthinsurance.com/#website",
       "name": "Lakeland Health Insurance",
       "alternateName": ["David The Insurance Dude", "Lakeland Health"],
       "url": "https://lakelandhealthinsurance.com",
@@ -54,11 +55,7 @@
         },
         "query-input": "required name=search_term_string"
       },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Lakeland Health Insurance",
-        "url": "https://lakelandhealthinsurance.com"
-      }
+      "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"}
     }
     </script>
 
@@ -66,12 +63,14 @@
     {
       "@context": "https://schema.org",
       "@type": "InsuranceAgency",
+      "@id": "https://lakelandhealthinsurance.com/#agency",
       "name": "Lakeland Health Insurance",
       "alternateName": "David The Insurance Dude",
       "url": "https://lakelandhealthinsurance.com",
       "description": "Licensed Florida health insurance broker specializing in ACA Marketplace plans, Medicare, supplemental coverage, dental, vision, and life insurance. Broker consultations with no fee to the client.",
       "founder": {
         "@type": "Person",
+        "@id": "https://lakelandhealthinsurance.com/about/#david-huff",
         "name": "David Huff",
         "alternateName": "David The Insurance Dude",
         "jobTitle": "Licensed Insurance Broker",
@@ -117,7 +116,7 @@
         "addressCountry": "US"
       },
       "telephone": "+1-863-640-3102",
-      "email": "david@lakelandhealthinsurance.com",
+      "email": "dhuff@healthmarkets.com",
       "openingHours": ["Mo-Fr 08:00-20:00", "Sa 09:00-17:00"],
       "priceRange": "No broker fee",
       "sameAs": [
@@ -207,10 +206,6 @@
         {
           "@type": "AdministrativeArea",
           "name": "Florida"
-        },
-        {
-          "@type": "Country",
-          "name": "United States"
         }
       ],
       "hasOfferCatalog": {
@@ -291,15 +286,14 @@
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
+      "@id": "https://lakelandhealthinsurance.com/#webpage",
       "name": "Health Insurance Broker in Lakeland, FL",
+      "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
       "speakable": {
         "@type": "SpeakableSpecification",
         "cssSelector": ["#key-takeaways", ".hero-content"]
       },
-      "mainEntity": {
-        "@type": "InsuranceAgency",
-        "name": "Lakeland Health Insurance"
-      },
+      "mainEntity": {"@id": "https://lakelandhealthinsurance.com/#agency"},
       "about": [
         {"@type": "Thing", "name": "Health Insurance", "description": "Individual and family health insurance plans in Florida"},
         {"@type": "Thing", "name": "ACA Marketplace", "description": "Affordable Care Act health insurance enrollment"},
@@ -1069,7 +1063,7 @@
                     <h3>Service Areas</h3>
                     <ul>
                         <li><span aria-hidden="true">🏡</span> Florida Residents</li>
-                        <li><span aria-hidden="true">🇺🇸</span> Coverage Across the Nation</li>
+                        <li><span aria-hidden="true">📍</span> Lakeland and Polk County Focus</li>
                         <li><span aria-hidden="true">💼</span> Small Business Groups</li>
                         <li><span aria-hidden="true">👨‍👩‍👧‍👦</span> Individual & Family Plans</li>
                         <li><span aria-hidden="true">🤓</span> Medicare Specialists</li>
@@ -1090,8 +1084,8 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
-                <p>FL License #W371813 | NPN 18213932 | Serving most of the United States with honest insurance advice</p>
+                <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Licensed insurance guidance for Florida residents.</p>
+                <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland and Polk County, Florida</p>
                 <p style="margin-top: 1rem;">
                     <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: var(--gold); text-decoration: none; font-weight: 500;">
                         Powered by David the Insurance Dude

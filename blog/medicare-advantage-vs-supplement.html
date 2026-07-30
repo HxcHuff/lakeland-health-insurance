@@ -36,12 +36,14 @@
     "image": "https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg",
     "author": {
       "@type": "Person",
+      "@id": "https://lakelandhealthinsurance.com/about/#david-huff",
       "name": "David Huff",
       "jobTitle": "Licensed Florida Insurance Agent",
       "url": "https://lakelandhealthinsurance.com/about/"
     },
     "publisher": {
-      "@type": "Organization",
+      "@type": "InsuranceAgency",
+      "@id": "https://lakelandhealthinsurance.com/#agency",
       "name": "Lakeland Health Insurance",
       "url": "https://lakelandhealthinsurance.com",
       "logo": {
@@ -50,10 +52,11 @@
       }
     },
     "datePublished": "2026-02-01",
-    "dateModified": "2026-07-22",
+    "dateModified": "2026-07-30",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://lakelandhealthinsurance.com/blog/medicare-advantage-vs-supplement.html"
+      "@id": "https://lakelandhealthinsurance.com/blog/medicare-advantage-vs-supplement.html",
+      "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"}
     },
     "about": [
       {"@type": "Thing", "name": "Medicare Advantage"},
@@ -140,21 +143,12 @@
     "serviceType": "Medicare Plan Comparison",
     "url": "https://lakelandhealthinsurance.com/blog/medicare-advantage-vs-supplement.html",
     "provider": {
-      "@type": "InsuranceAgency",
-      "name": "Lakeland Health Insurance",
-      "url": "https://lakelandhealthinsurance.com/",
-      "telephone": "+1-863-640-3102",
-      "areaServed": [
-        {"@type": "City", "name": "Lakeland", "containedInPlace": {"@type": "AdministrativeArea", "name": "Florida"}},
-        {"@type": "AdministrativeArea", "name": "Polk County, Florida"}
-      ]
+      "@id": "https://lakelandhealthinsurance.com/#agency"
     },
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD",
-      "description": "Broker consultation with no fee to the client"
-    }
+    "areaServed": [
+      {"@type": "City", "name": "Lakeland", "containedInPlace": {"@type": "AdministrativeArea", "name": "Florida"}},
+      {"@type": "AdministrativeArea", "name": "Polk County, Florida"}
+    ]
   }
   </script>
 
@@ -281,7 +275,7 @@
     <div class="container">
       <h1>Medicare Advantage vs Medicare Supplement</h1>
       <p>Medicare Advantage and Medicare Supplement solve different problems. The right choice depends on your doctors, prescriptions, travel habits, monthly budget, and tolerance for yearly out-of-pocket risk.</p>
-      <div class="meta">Updated July 22, 2026 | By David Huff, Licensed Florida Agent #W371813</div>
+      <div class="meta">Updated July 30, 2026 | By David Huff, Licensed Florida Agent #W371813 | NPN 18213932</div>
       <div class="cta-row">
         <a href="/get-help/?product=medicare&source=advantage-vs-supplement" class="btn btn-primary">Request a Medicare Review</a>
         <a href="tel:+18636403102" class="btn btn-secondary">Call 863-640-3102</a>
@@ -452,9 +446,12 @@
         <li>Do I travel enough that network flexibility should matter more than extras?</li>
       </ol>
 
+      <h2>When to talk to David</h2>
+      <p>Talk with David before enrolling if you need to confirm an enrollment period, compare the long-term risk of Medigap underwriting, check exact doctors or prescriptions, or understand how the two coverage paths affect your expected annual costs.</p>
+
       <div class="cta-section">
         <h2>Compare both paths before you choose</h2>
-        <p>David Huff can review Medicare Advantage, Medicare Supplement, and Part D options around your doctors, prescriptions, pharmacy, travel patterns, and budget. There is no fee to the client for the broker consultation.</p>
+        <p>David Huff can review available Medicare Advantage, Medicare Supplement, and Part D options around your doctors, prescriptions, pharmacy, travel patterns, and budget. Broker compensation is generally paid by insurance carriers. David does not represent every plan available in every area.</p>
         <div class="cta-row" style="justify-content: center;">
           <a href="/get-help/?product=medicare&source=advantage-vs-supplement-midpage" class="btn btn-primary">Request a Plan Review</a>
           <a href="tel:+18636403102" class="btn btn-phone">Call 863-640-3102</a>

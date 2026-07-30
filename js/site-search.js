@@ -45,6 +45,12 @@ const siteSearchIndex = [
   },
   // Blog Posts - extracted from blog/index.html
   {
+    title: "Common Medicare and Health Insurance Questions in Florida",
+    url: "/blog/common-medicare-health-insurance-questions-florida.html",
+    excerpt: "How to sign up for Medicare and Part D, late-enrollment risks, and coverage options after losing job-based health insurance.",
+    tags: ["Medicare", "Part D", "Enrollment", "Florida", "Job Loss", "ACA"]
+  },
+  {
     title: "Can I Get ACA Insurance If I Lost Job Coverage in Florida?",
     url: "/blog/lost-job-coverage-aca-insurance-florida.html",
     excerpt: "ACA Special Enrollment timing, COBRA comparison, subsidy estimates, and what to check after employer coverage ends.",
@@ -225,9 +231,9 @@ const siteSearchIndex = [
     tags: ["ACA", "Open Enrollment", "Subsidies"]
   },
   {
-    title: "Medicare Advantage vs Medicare Supplement: The Ultimate Showdown",
+    title: "Medicare Advantage vs Medicare Supplement in Lakeland",
     url: "/blog/medicare-advantage-vs-supplement.html",
-    excerpt: "The real differences between Medicare Advantage and Medicare Supplement plans. No BS analysis of which option won't leave you broke when you need care most.",
+    excerpt: "Compare provider access, prescriptions, premiums, yearly cost exposure, travel flexibility, and Medigap underwriting before choosing a Medicare path.",
     tags: ["Medicare", "Comparison", "Seniors"]
   },
   {
