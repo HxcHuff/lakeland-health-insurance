@@ -129,9 +129,9 @@ const siteSearchIndex = [
     tags: ["Self-Employed", "Tax Planning", "ICHRA"]
   },
   {
-    title: "My Take: Trump's 2026 State of the Union on Healthcare and HSAs",
+    title: "2026 State of the Union: Healthcare and HSA Takeaways",
     url: "/blog/trump-state-of-the-union-healthcare-hsa-2026.html",
-    excerpt: "An opinion column on what was said, what was not said about HSAs, and what Florida families should actually do with their coverage decisions.",
+    excerpt: "A source-based review of the address, the HSA rules already in effect, and the details Florida insurance shoppers should verify.",
     tags: ["Opinion", "Healthcare Policy", "HSA"]
   },
   {
@@ -177,9 +177,9 @@ const siteSearchIndex = [
     tags: ["Medical Bills", "Financial", "Tips"]
   },
   {
-    title: "HMO vs PPO vs EPO: Decoded",
+    title: "HMO vs PPO vs EPO: Health Plan Networks Explained",
     url: "/blog/hmo-vs-ppo-vs-epo-explained.html",
-    excerpt: "Confused about HMO, PPO, and EPO health plans? Here's exactly how they differ, which costs more, and which gives you the most freedom to choose doctors.",
+    excerpt: "Compare common network structures, referral rules, out-of-network benefits, and the plan documents to verify before enrolling.",
     tags: ["Plan Types", "Coverage", "Comparison"]
   },
   {
@@ -249,9 +249,9 @@ const siteSearchIndex = [
     tags: ["ACA", "Short-Term", "Comparison"]
   },
   {
-    title: "Short-Term Medical Insurance: The Good, Bad, and Ugly Truth",
+    title: "Short-Term Medical Insurance in Florida: Uses and Limits",
     url: "/blog/short-term-medical-guide.html",
-    excerpt: "When short-term medical insurance makes sense and when it doesn't. Get the real truth about short-term medical coverage from a licensed insurance professional.",
+    excerpt: "Review federal duration limits, underwriting, exclusions, and when short-term coverage may or may not fit a temporary gap.",
     tags: ["Short-Term", "Coverage", "Comparison"]
   },
   {
@@ -523,8 +523,8 @@ const siteSearchIndex = [
   {
     title: "Our Approach",
     url: "/our-approach.html",
-    excerpt: "Learn about our approach to helping families find the right health insurance.",
-    tags: ["About", "Philosophy"]
+    excerpt: "See how Lakeland Health Insurance reviews eligibility, providers, prescriptions, plan documents, and total financial exposure.",
+    tags: ["About", "Process", "Plan Review"]
   },
 
   // Carrier Pages
