@@ -14,7 +14,7 @@ const siteSearchIndex = [
     tags: ["Medicare", "Medicare Advantage", "Medicare Supplement", "Part D", "Lakeland"]
   },
   {
-    title: "East Polk Medicare Help",
+    title: "East Polk Medicare Help: Doctors, Drugs & Plan Costs",
     url: "/medicare/east-polk/",
     excerpt: "Medicare plan review for Lake Alfred, Haines City, Davenport, and Winter Haven residents.",
     tags: ["Medicare", "Lake Alfred", "Haines City", "Davenport", "Winter Haven", "East Polk"]
@@ -26,7 +26,7 @@ const siteSearchIndex = [
     tags: ["Medicare", "AEP", "Enrollment", "Switching Plans", "Florida"]
   },
   {
-    title: "Turning 65 in Florida? Medicare Checklist",
+    title: "Turning 65 in Florida: 2026 Medicare Checklist",
     url: "/blog/turning-65-medicare-checklist-florida.html",
     excerpt: "A practical checklist for Florida residents turning 65 and comparing Medicare Advantage, Supplement, and Part D.",
     tags: ["Medicare", "Turning 65", "Initial Enrollment", "Part B", "Part D"]
@@ -159,9 +159,9 @@ const siteSearchIndex = [
     tags: ["Lakeland", "Local", "Networks", "Orlando Health", "Watson Clinic"]
   },
   {
-    title: "The Freelancer's Guide to Health Insurance in Lakeland & Polk County (2026)",
+    title: "Freelancer Health Insurance in Lakeland: 2026 Guide",
     url: "/blog/freelancer-health-insurance-lakeland-2026.html",
-    excerpt: "Expert guide for self-employed freelancers in Lakeland, FL. Discover ACA marketplace plans, subsidy strategies, and Polk County healthcare options for 2026.",
+    excerpt: "Compare ACA options, subsidy planning, providers, prescriptions, and total annual exposure for self-employed Lakeland residents.",
     tags: ["Self-Employed", "Lakeland", "ACA"]
   },
   {
@@ -333,13 +333,13 @@ const siteSearchIndex = [
     tags: ["College", "Lakeland", "ACA", "Florida"]
   },
   {
-    title: "Don't Overlook Prescription Costs for 2027",
+    title: "2027 Prescription Costs: Health Plan Review Checklist",
     url: "/blog/dont-overlook-rx-costs-2027.html",
     excerpt: "Plan ahead for 2027 by checking prescriptions, pharmacies, and medication changes before choosing coverage.",
     tags: ["Prescriptions", "RX", "ACA", "Medicare", "Planning"]
   },
   {
-    title: "Florida Health Insurance Premiums Are Up 31% in 2026",
+    title: "Florida ACA Premiums Up 34.1% in 2026",
     url: "/blog/florida-aca-premiums-up-31-percent-2026.html",
     excerpt: "What higher 2026 Florida ACA premiums mean for Lakeland residents and how subsidies affect the real cost.",
     tags: ["ACA", "Florida", "Premiums", "Lakeland"]
@@ -435,7 +435,7 @@ const siteSearchIndex = [
     tags: ["Lakeland", "Networks", "Hospital Expansion", "ACA", "Medicare"]
   },
   {
-    title: "Orlando Health Expansion and Watson Clinic Doctors: The Network Issue",
+    title: "Orlando Health & Watson Clinic: 2026 Network Guide",
     url: "/blog/orlando-health-watson-clinic-doctors-network-2026.html",
     excerpt: "Why hospital expansion does not automatically solve the doctor-network question for Watson Clinic patients.",
     tags: ["Lakeland", "Networks", "Watson Clinic", "Orlando Health"]
