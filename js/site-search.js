@@ -521,6 +521,12 @@ const siteSearchIndex = [
     tags: ["ACA", "Lakeland", "Florida"]
   },
   {
+    title: "Health Insurance Learning Center",
+    url: "/learning/",
+    excerpt: "Licensed-broker guides, calculators, official government resources, and plan-review tools for ACA, Medicare, supplemental, and life coverage.",
+    tags: ["Learning", "Tools", "ACA", "Medicare", "Florida"]
+  },
+  {
     title: "Our Approach",
     url: "/our-approach.html",
     excerpt: "See how Lakeland Health Insurance reviews eligibility, providers, prescriptions, plan documents, and total financial exposure.",
