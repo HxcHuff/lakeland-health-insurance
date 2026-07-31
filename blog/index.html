@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Florida Health Insurance Blog | ACA &amp; Medicare Guidance</title>
-    <meta name="description" content="Current Florida health insurance updates and dated ACA, Medicare, network, prescription, and enrollment guidance from Lakeland Health Insurance.">
-    <meta property="og:title" content="Florida Health Insurance Blog | ACA &amp; Medicare Guidance">
-    <meta property="og:description" content="Current Florida health insurance updates and dated ACA, Medicare, network, prescription, and enrollment guidance.">
+    <title>Florida Health Insurance Answers | ACA &amp; Medicare</title>
+    <meta name="description" content="Clear Florida guidance on Medicare, ACA plans, doctors, prescriptions, costs, and enrollment from licensed insurance broker David Huff.">
+    <meta property="og:title" content="Florida Health Insurance Answers | ACA &amp; Medicare">
+    <meta property="og:description" content="Clear answers before you choose, renew, or change your health coverage in Florida.">
     <meta property="og:url" content="https://lakelandhealthinsurance.com/blog/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lakeland Health Insurance">
@@ -19,9 +19,12 @@
     <link rel="stylesheet" href="/css/site-search.css"><link rel="canonical" href="https://lakelandhealthinsurance.com/blog/">
     <meta name="robots" content="index, follow">
     <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/lakeland-downtown-professional-district.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="800">
+    <meta property="og:image:alt" content="Downtown Lakeland, Florida">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Florida Health Insurance Blog | ACA &amp; Medicare Guidance">
-    <meta name="twitter:description" content="Current Florida health insurance updates and dated ACA, Medicare, network, prescription, and enrollment guidance.">
+    <meta name="twitter:title" content="Florida Health Insurance Answers | ACA &amp; Medicare">
+    <meta name="twitter:description" content="Clear answers before you choose, renew, or change your health coverage in Florida.">
     <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/lakeland-downtown-professional-district.jpg">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
@@ -30,8 +33,8 @@
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       "@id": "https://lakelandhealthinsurance.com/blog/#webpage",
-      "name": "Florida Health Insurance Blog: ACA and Medicare Guidance",
-      "description": "Current Florida health insurance updates and dated ACA, Medicare, network, prescription, and enrollment guidance.",
+      "name": "Florida Health Insurance Answers: ACA and Medicare",
+      "description": "Clear Florida guidance on Medicare, ACA plans, doctors, prescriptions, costs, and enrollment from licensed insurance broker David Huff.",
       "url": "https://lakelandhealthinsurance.com/blog/",
       "dateModified": "2026-07-31",
       "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
@@ -287,14 +290,26 @@
             font-family: 'Instrument Serif', serif;
             font-size: 3rem;
             font-weight: 400;
-            margin-bottom: 1rem;
+            line-height: 1.08;
+            margin-bottom: 1.1rem;
         }
 
         .blog-header p {
-            font-size: 1.2rem;
-            opacity: 0.85;
-            max-width: 600px;
+            max-width: 720px;
             margin: 0 auto;
+        }
+
+        .blog-header .hero-lead {
+            font-size: clamp(1.15rem, 2.4vw, 1.35rem);
+            font-weight: 600;
+            line-height: 1.45;
+        }
+
+        .blog-header .hero-trust {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-top: 0.65rem;
+            opacity: 0.82;
         }
 
         .blog-search-wrap {
@@ -529,6 +544,140 @@
             line-height: 1.5;
         }
 
+        .article-library {
+            border-top: 1px solid var(--gray-200);
+            padding-top: 2.5rem;
+        }
+
+        .library-heading {
+            align-items: end;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+
+        .library-heading h2 {
+            color: var(--navy);
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.9rem, 4vw, 2.5rem);
+            font-weight: 400;
+            line-height: 1.12;
+            margin-bottom: 0.65rem;
+        }
+
+        .library-heading p {
+            color: var(--gray-600);
+            max-width: 650px;
+        }
+
+        .library-heading .library-review-date {
+            color: var(--gray-500);
+            font-size: 0.82rem;
+            margin-top: 0.55rem;
+        }
+
+        .library-learning-link {
+            color: var(--navy);
+            flex: 0 0 auto;
+            font-weight: 700;
+            padding-bottom: 0.2rem;
+            text-underline-offset: 3px;
+        }
+
+        .topic-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .topic-filter-button {
+            background: var(--white);
+            border: 1px solid var(--gray-300);
+            border-radius: 999px;
+            color: var(--navy);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            min-height: 44px;
+            padding: 9px 15px;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .topic-filter-button:hover,
+        .topic-filter-button:focus-visible {
+            border-color: var(--blue);
+            color: var(--blue);
+            outline: none;
+            transform: translateY(-1px);
+        }
+
+        .topic-filter-button.active {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: var(--white);
+        }
+
+        .library-status {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+
+        #blog-posts {
+            display: grid;
+            gap: 1.25rem;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        #blog-posts .article-card[hidden] {
+            display: none !important;
+        }
+
+        .library-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .show-more-button {
+            background: var(--gold);
+            border: 0;
+            border-radius: 999px;
+            color: var(--navy-deep);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 800;
+            min-height: 48px;
+            padding: 12px 24px;
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .show-more-button:hover,
+        .show-more-button:focus-visible {
+            box-shadow: 0 8px 25px rgba(212, 168, 67, 0.35);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        .show-more-button[hidden],
+        .library-empty[hidden] {
+            display: none;
+        }
+
+        .library-empty {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            color: var(--gray-600);
+            grid-column: 1 / -1;
+            padding: 2rem;
+            text-align: center;
+        }
+
         .popular-posts {
             background: var(--white);
             border: 1px solid var(--gray-200);
@@ -636,7 +785,7 @@
             border-radius: var(--radius-lg);
             border: 1px solid var(--gray-200);
             padding: 2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 0;
             transition: all 0.3s ease;
         }
 
@@ -971,6 +1120,10 @@
                 font-size: 2rem;
             }
 
+            .blog-header {
+                padding-bottom: 48px;
+            }
+
             .blog-search-wrap {
                 margin-top: 28px;
             }
@@ -1009,8 +1162,24 @@
             }
 
             .medicare-season-grid,
-            .featured-grid {
+            .featured-grid,
+            #blog-posts {
                 grid-template-columns: 1fr;
+            }
+
+            .library-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .topic-filter {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .topic-filter-button {
+                padding-left: 10px;
+                padding-right: 10px;
             }
 
             .article-card {
@@ -1089,7 +1258,7 @@ header .cta-button {
 
     <link rel="stylesheet" href="/css/blog-unified.css">
     <script defer src="/js/analytics.js?v=20260731-measurement-integrity"></script>
-    <script defer src="/js/site-search.js"></script>
+    <script defer src="/js/site-search.js?v=20260731-search-repair"></script>
     <script defer src="../js/blog-popularity.js"></script>
     <link rel="stylesheet" href="/css/site-template.css">
     <style>
@@ -1145,20 +1314,20 @@ header .cta-button {
     <section class="blog-header">
         <div class="container">
             <h1>Health Insurance Season Starts Here</h1>
-            <p>Dated Florida ACA, Medicare, network, prescription, and enrollment updates for decisions that require current source and plan-year checks.</p>
-            <p>Index reviewed July 31, 2026 by David Huff. Each time-sensitive article must be evaluated using its own source date, coverage year, state, and limitations.</p>
+            <p class="hero-lead">Clear answers before you choose, renew, or change your health coverage.</p>
+            <p class="hero-trust">Start with the question you need answered&mdash;Medicare, ACA plans, doctors, prescriptions, costs, or enrollment timing.</p>
             <div class="blog-search-wrap">
                 <div class="site-search-bar" data-site-search="bar">
                     <span class="search-bar-icon">&#128269;</span>
-                    <input type="search" placeholder="Search Medicare topics, doctors, prescriptions, Advantage, Supplement..." aria-label="Search Medicare and health insurance articles">
+                    <input type="search" placeholder="Search Medicare, ACA, doctors, prescriptions, costs..." aria-label="Search Florida health insurance articles">
                     <div class="search-results-dropdown" data-site-search="results"></div>
                 </div>
-                <div class="search-suggestions" aria-label="Suggested Medicare searches">
+                <div class="search-suggestions" aria-label="Suggested health insurance searches">
                     <button class="search-suggestion" type="button" data-search-suggestion="Medicare Advantage">Medicare Advantage</button>
-                    <button class="search-suggestion" type="button" data-search-suggestion="Medicare Supplement">Medicare Supplement</button>
-                    <button class="search-suggestion" type="button" data-search-suggestion="Part D prescriptions">Part D prescriptions</button>
                     <button class="search-suggestion" type="button" data-search-suggestion="ACA subsidy">ACA subsidy</button>
-                    <button class="search-suggestion" type="button" data-search-suggestion="switch Medicare plans">Switching plans</button>
+                    <button class="search-suggestion" type="button" data-search-suggestion="doctors and networks">Doctors &amp; networks</button>
+                    <button class="search-suggestion" type="button" data-search-suggestion="prescriptions">Prescriptions</button>
+                    <button class="search-suggestion" type="button" data-search-suggestion="lost job coverage">Lost job coverage</button>
                 </div>
             </div>
         </div>
@@ -1209,15 +1378,15 @@ header .cta-button {
                             <h3>Medicare basics before you enroll</h3>
                             <p>Review Original Medicare, Advantage, Supplement, Part D, and the questions to ask before choosing.</p>
                         </a>
-                        <a href="/blog/short-term-vs-triterm-medical.html" class="featured-card">
-                            <span>Short-term medical</span>
-                            <h3>Short-Term Medical vs TriTerm Medical</h3>
-                            <p>Compare bridge coverage, underwriting, benefit limits, and when a 36-month TriTerm option may fit.</p>
+                        <a href="/blog/keep-doctor-switch-medicare-plans-florida.html" class="featured-card">
+                            <span>Doctors and hospitals</span>
+                            <h3>Can I keep my doctor if I switch plans?</h3>
+                            <p>Check the exact plan ID, doctor, facility, service location, referrals, prescriptions, and pharmacy before changing plans.</p>
                         </a>
-                        <a href="/blog/how-to-read-insurance-card.html" class="featured-card">
-                            <span>Plan details</span>
-                            <h3>How to read your insurance card</h3>
-                            <p>Decode member IDs, plan types, pharmacy fields, copays, networks, and what to verify before care.</p>
+                        <a href="/blog/dont-overlook-rx-costs-2027.html" class="featured-card">
+                            <span>Prescriptions</span>
+                            <h3>Review prescription costs before 2027</h3>
+                            <p>Prepare your medication list, pharmacy preferences, and plan documents before the next annual review.</p>
                         </a>
                     </div>
                 </section>
@@ -1228,8 +1397,28 @@ header .cta-button {
                     </div>
                     <div class="popular-post-list" id="popular-post-list"></div>
                 </section>
-                <div id="filter-indicator"></div>
-                <div id="blog-posts">
+                <section class="article-library" aria-labelledby="article-library-heading">
+                    <div class="library-heading">
+                        <div>
+                            <div class="season-kicker">Browse the library</div>
+                            <h2 id="article-library-heading">Latest Florida health insurance guidance</h2>
+                            <p>Choose a topic or scan the newest articles. For plan-specific decisions, verify the exact coverage year, network, formulary, and enrollment rules.</p>
+                            <p class="library-review-date">Content library reviewed <time datetime="2026-07-31">July 31, 2026</time>.</p>
+                        </div>
+                        <a class="library-learning-link" href="/learning/">Visit the Learning Center</a>
+                    </div>
+                    <div class="topic-filter" role="group" aria-label="Filter articles by topic">
+                        <button class="topic-filter-button active" type="button" data-topic-filter="all" aria-pressed="true">All topics</button>
+                        <button class="topic-filter-button" type="button" data-topic-filter="medicare" aria-pressed="false">Medicare</button>
+                        <button class="topic-filter-button" type="button" data-topic-filter="aca" aria-pressed="false">ACA &amp; Marketplace</button>
+                        <button class="topic-filter-button" type="button" data-topic-filter="care" aria-pressed="false">Doctors &amp; prescriptions</button>
+                        <button class="topic-filter-button" type="button" data-topic-filter="self-employed" aria-pressed="false">Self-employed</button>
+                        <button class="topic-filter-button" type="button" data-topic-filter="costs" aria-pressed="false">Costs &amp; bills</button>
+                        <button class="topic-filter-button" type="button" data-topic-filter="local" aria-pressed="false">Lakeland &amp; Polk</button>
+                    </div>
+                    <p class="library-status" id="library-status" aria-live="polite"></p>
+                    <div id="filter-indicator"></div>
+                    <div id="blog-posts">
 
 
                 <article class="article-card" data-tags="ACA,Florida,Special Enrollment,Job Loss,COBRA">
@@ -2042,7 +2231,12 @@ header .cta-button {
                     </div>
                 </article>
 
-                </div>
+                        <p class="library-empty" id="library-empty" hidden>No articles match this topic yet.</p>
+                    </div>
+                    <div class="library-actions">
+                        <button class="show-more-button" id="show-more-articles" type="button">Show more articles</button>
+                    </div>
+                </section>
             </div>
         </div>
     </section>
@@ -2131,7 +2325,19 @@ header .cta-button {
     </a>
 
     <script>
+        const articlesPerPage = 12;
+        const topicTagMap = {
+            medicare: ["Medicare", "Part D", "Turning 65", "AEP", "Seniors"],
+            aca: ["ACA", "Marketplace", "Subsidies", "Special Enrollment", "Open Enrollment", "SEP"],
+            care: ["Doctors", "Provider Networks", "Networks", "Prescriptions", "RX", "Pharmacy", "Watson Clinic", "Orlando Health"],
+            "self-employed": ["Self-Employed", "Small Business", "ICHRA", "Tax Deductions"],
+            costs: ["Premiums", "Subsidies", "Deductibles", "Hospital Bills", "Medical Bills", "Financial", "ER Costs", "Budgeting"],
+            local: ["Lakeland", "Polk County", "Local", "Watson Clinic", "Orlando Health"]
+        };
+
+        let activeTopic = "all";
         let filteredTag = null;
+        let visibleLimit = articlesPerPage;
 
         function escapeHtml(value) {
             return value.replace(/[&<>"']/g, function(char) {
@@ -2145,56 +2351,87 @@ header .cta-button {
             });
         }
 
-        function getUniqueTags() {
-            const tagSet = new Set();
-            document.querySelectorAll(".article-card").forEach(card => {
-                const tags = card.getAttribute("data-tags");
-                if (tags) tags.split(",").forEach(tag => tagSet.add(tag.trim()));
-            });
-            return Array.from(tagSet).sort();
+        function getCardTags(card) {
+            const tags = card.getAttribute("data-tags") || "";
+            return tags.split(",").map(tag => tag.trim()).filter(Boolean);
         }
 
-        function renderTags() {
-            const tagContainer = document.getElementById("tag-filter");
-            const clearBtn = document.getElementById("clear-all-btn");
-            if (!tagContainer || !clearBtn) return;
-            const tags = getUniqueTags();
+        function cardMatchesCurrentFilter(card) {
+            const tags = getCardTags(card);
+            if (filteredTag) return tags.includes(filteredTag);
+            if (activeTopic === "all") return true;
+            return topicTagMap[activeTopic].some(tag => tags.includes(tag));
+        }
 
-            tagContainer.innerHTML = tags.map(tag => {
-                const activeClass = filteredTag === tag ? " active" : "";
-                return "<button class=\"tag" + activeClass + "\" type=\"button\" data-filter-tag=\"" + escapeHtml(tag) + "\">" + escapeHtml(tag) + "</button>";
-            }).join("");
+        function getActiveFilterLabel() {
+            if (filteredTag) return filteredTag;
+            const button = document.querySelector('[data-topic-filter="' + activeTopic + '"]');
+            return button ? button.textContent.trim() : "All topics";
+        }
 
-            tagContainer.querySelectorAll("[data-filter-tag]").forEach(button => {
-                button.addEventListener("click", function() {
-                    filterByTag(button.getAttribute("data-filter-tag"));
-                });
+        function updateTopicButtons() {
+            document.querySelectorAll("[data-topic-filter]").forEach(button => {
+                const isActive = !filteredTag && button.getAttribute("data-topic-filter") === activeTopic;
+                button.classList.toggle("active", isActive);
+                button.setAttribute("aria-pressed", String(isActive));
+            });
+        }
+
+        function updateArticleLibrary() {
+            const cards = Array.from(document.querySelectorAll("#blog-posts .article-card"));
+            const matchingCards = cards.filter(cardMatchesCurrentFilter);
+            const visibleCount = Math.min(visibleLimit, matchingCards.length);
+            const status = document.getElementById("library-status");
+            const showMoreButton = document.getElementById("show-more-articles");
+            const emptyState = document.getElementById("library-empty");
+
+            cards.forEach(card => {
+                card.hidden = true;
+            });
+            matchingCards.slice(0, visibleCount).forEach(card => {
+                card.hidden = false;
             });
 
-            clearBtn.style.display = filteredTag ? "block" : "none";
+            const filterLabel = getActiveFilterLabel();
+            status.textContent = matchingCards.length
+                ? "Showing " + visibleCount + " of " + matchingCards.length + " articles" + (filterLabel === "All topics" ? "." : " about " + filterLabel + ".")
+                : "No articles found for " + filterLabel + ".";
+
+            emptyState.hidden = matchingCards.length !== 0;
+            showMoreButton.hidden = visibleCount >= matchingCards.length;
+            if (!showMoreButton.hidden) {
+                const remaining = Math.min(articlesPerPage, matchingCards.length - visibleCount);
+                showMoreButton.textContent = "Show " + remaining + " more article" + (remaining === 1 ? "" : "s");
+            }
+
+            updateTopicButtons();
+        }
+
+        function setTopicFilter(topic) {
+            if (topic !== "all" && !topicTagMap[topic]) return;
+            activeTopic = topic;
+            filteredTag = null;
+            visibleLimit = articlesPerPage;
+            document.getElementById("filter-indicator").innerHTML = "";
+            updateArticleLibrary();
         }
 
         function filterByTag(tag) {
+            activeTopic = "all";
             filteredTag = tag;
-            renderTags();
+            visibleLimit = articlesPerPage;
             const indicator = document.getElementById("filter-indicator");
             indicator.innerHTML = "<div class=\"filter-indicator\"><span>Showing posts tagged: <strong>" + escapeHtml(tag) + "</strong></span><button onclick=\"clearFilter()\" class=\"clear-filter-btn\">Clear Filter</button></div>";
-
-            document.querySelectorAll(".article-card").forEach(card => {
-                const tags = card.getAttribute("data-tags");
-                card.style.display = (tags && tags.split(",").map(t => t.trim()).includes(tag)) ? "" : "none";
-            });
-
-            document.querySelector(".blog-content").scrollIntoView({ behavior: "smooth", block: "start" });
+            updateArticleLibrary();
+            document.querySelector(".article-library").scrollIntoView({ behavior: "smooth", block: "start" });
         }
 
         function clearFilter() {
+            activeTopic = "all";
             filteredTag = null;
-            renderTags();
+            visibleLimit = articlesPerPage;
             document.getElementById("filter-indicator").innerHTML = "";
-            document.querySelectorAll(".article-card").forEach(card => {
-                card.style.display = "";
-            });
+            updateArticleLibrary();
         }
 
         function toggleMenu() {
@@ -2212,7 +2449,29 @@ header .cta-button {
         });
 
         document.addEventListener("DOMContentLoaded", function() {
-            renderTags();
+            document.querySelectorAll("[data-topic-filter]").forEach(button => {
+                button.addEventListener("click", function() {
+                    setTopicFilter(button.getAttribute("data-topic-filter"));
+                });
+            });
+
+            document.getElementById("show-more-articles").addEventListener("click", function() {
+                visibleLimit += articlesPerPage;
+                updateArticleLibrary();
+            });
+
+            document.querySelectorAll(".tag").forEach(tag => {
+                tag.setAttribute("role", "button");
+                tag.setAttribute("tabindex", "0");
+                tag.addEventListener("keydown", function(event) {
+                    if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        tag.click();
+                    }
+                });
+            });
+
+            updateArticleLibrary();
 
             const yearSpan = document.getElementById("current-year");
             if (yearSpan) {
