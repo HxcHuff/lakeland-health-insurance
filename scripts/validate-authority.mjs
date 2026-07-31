@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { extname, resolve } from 'node:path';
+import { checkRegistry } from './check-regulated-claims.mjs';
 
 const ROOT = resolve(new URL('.', import.meta.url).pathname, '..');
 const registry = JSON.parse(readFileSync(resolve(ROOT, 'data/authority-entities.json'), 'utf8'));
@@ -27,7 +28,17 @@ const regulatedPages = [
   'self-employed-health-insurance/index.html',
   'losing-coverage/index.html',
   'provider-prescription-check/index.html',
-  'aca-subsidy-estimator/index.html'
+  'aca-subsidy-estimator/index.html',
+  'retiring-before-65-florida/index.html',
+  'losing-medicaid-florida/index.html',
+  'moving-florida-medicare/index.html'
+];
+const workPackageThreePages = [
+  'retiring-before-65-florida/index.html',
+  'losing-medicaid-florida/index.html',
+  'moving-florida-medicare/index.html',
+  'blog/aca-subsidy-wrong-income-florida.html',
+  'blog/medicare-vs-aca-central-florida-age-65.html'
 ];
 const workPackageTwoPages = [
   'aca-health-insurance-lakeland-fl/index.html',
@@ -87,7 +98,10 @@ const requiredAuthorityDocs = [
   'docs/authority/lakeland-florida-authority-baseline.md',
   'docs/authority/entity-contract.md',
   'docs/authority/core-authority-page-map.md',
-  'docs/authority/work-package-02-handoff.md'
+  'docs/authority/external-evidence-gates.md',
+  'docs/authority/regulated-guide-map.md',
+  'docs/authority/work-package-02-handoff.md',
+  'docs/authority/work-package-03-handoff.md'
 ];
 
 function flatten(value, out = []) {
@@ -308,8 +322,8 @@ for (const rel of ['index.html', 'about/index.html', 'js/bbb-seal.js', 'js/site-
 
 for (const rel of regulatedPages) {
   const html = readFileSync(resolve(ROOT, rel), 'utf8');
-  if (!/Last reviewed:\s*<time[^>]+datetime=["']2026-07-30["']/i.test(html)) {
-    issues.push(`${rel}: missing visible 2026-07-30 review date`);
+  if (!/Last reviewed:\s*<time[^>]+datetime=["']2026-07-31["']/i.test(html)) {
+    issues.push(`${rel}: missing visible 2026-07-31 review date`);
   }
   if (!/Primary sources/i.test(html)) {
     issues.push(`${rel}: missing visible primary-source section`);
@@ -371,6 +385,52 @@ for (const rel of workPackageTwoReviewedPages) {
   }
 }
 
+for (const rel of workPackageThreePages) {
+  const html = readFileSync(resolve(ROOT, rel), 'utf8');
+  const text = visibleText(html);
+  const canonical = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
+  const h1Count = (html.match(/<h1\b/gi) || []).length;
+  const mainCount = (html.match(/<main\b/gi) || []).length;
+  const graph = [];
+  for (const [index, match] of [...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)].entries()) {
+    try {
+      flatten(JSON.parse(match[1]), graph);
+    } catch (error) {
+      issues.push(`${rel}: Work Package 03 JSON-LD block ${index + 1} is invalid (${error.message})`);
+    }
+  }
+
+  if (canonical !== expectedCanonical(rel)) issues.push(`${rel}: Work Package 03 canonical is invalid`);
+  if (h1Count !== 1) issues.push(`${rel}: Work Package 03 page must have one H1; found ${h1Count}`);
+  if (mainCount !== 1) issues.push(`${rel}: Work Package 03 page must have one main landmark; found ${mainCount}`);
+  const serialized = JSON.stringify(graph);
+  for (const id of [registry.website['@id'], registry.agency['@id'], registry.person['@id']]) {
+    if (!serialized.includes(id)) issues.push(`${rel}: missing Work Package 03 canonical entity reference ${id}`);
+  }
+  if (graph.some((node) => node['@id'] === registry.agency['@id'] && node['@type'] === 'InsuranceAgency')) {
+    issues.push(`${rel}: repeats the full canonical agency graph instead of referencing it`);
+  }
+  if (graph.some((node) => node['@id'] === registry.person['@id'] && node['@type'] === 'Person')) {
+    issues.push(`${rel}: repeats the full canonical Person graph instead of referencing it`);
+  }
+  if (!/Direct answer:/i.test(text)) issues.push(`${rel}: direct answer is missing`);
+  if (!/Primary sources/i.test(text)) issues.push(`${rel}: primary-source section is missing`);
+  if (!/datetime=["']2026-07-31["']/i.test(html)) issues.push(`${rel}: current review date is missing`);
+  if (!html.includes('href="/get-help/')) issues.push(`${rel}: Get Help action is missing`);
+  if (!html.includes('href="tel:+18636403102"')) issues.push(`${rel}: phone action is missing`);
+  if (!html.includes('src="/js/analytics.js?v=20260729-first-party-funnel"')) issues.push(`${rel}: analytics loader is missing`);
+  if (!html.includes('src="/js/site-template.js"')) issues.push(`${rel}: shared site shell is missing`);
+  if (/\b(?:nationwide|across the United States|coverage across the nation)\b/i.test(text) || /\bfree (?:help|quote|consultation|service)\b/i.test(text)) {
+    issues.push(`${rel}: prohibited national or free language remains`);
+  }
+  if (excludedCarrierPattern.test(text)) issues.push(`${rel}: excluded carrier appears on a public Work Package 03 surface`);
+}
+
+const movingMedicare = visibleText(readFileSync(resolve(ROOT, 'moving-florida-medicare/index.html'), 'utf8'));
+if (!/We do not offer every plan available in your area/i.test(movingMedicare)) {
+  issues.push('moving-florida-medicare/index.html: required Medicare plan-availability limitation is missing');
+}
+
 for (const rel of ['medicare-broker-lakeland-fl/index.html', 'best-medicare-broker-lakeland-fl/index.html']) {
   const html = readFileSync(resolve(ROOT, rel), 'utf8');
   if (!html.includes('https://www.medicare.gov/health-drug-plans/open-enrollment')) {
@@ -423,31 +483,12 @@ for (const key of [
   if (lead.includes(key)) issues.push(`netlify/functions/lead.js: advertising identity field still present (${key})`);
 }
 
-if (!Array.isArray(regulatedClaims.claims) || regulatedClaims.claims.length === 0) {
-  issues.push('data/regulated-claims.json: claims registry is empty');
-} else {
-  const requiredClaimFields = [
-    'id',
-    'claim',
-    'sourceUrl',
-    'accessDate',
-    'applicableYear',
-    'state',
-    'productLine',
-    'reviewStatus'
-  ];
-  regulatedClaims.claims.forEach((claim, index) => {
-    requiredClaimFields.forEach((field) => {
-      if (!claim[field]) issues.push(`data/regulated-claims.json: claim ${index + 1} missing ${field}`);
-    });
-    if (claim.accessDate !== regulatedClaims.reviewedAt) {
-      issues.push(`data/regulated-claims.json: claim ${claim.id || index + 1} accessDate does not match reviewedAt`);
-    }
-    if (!/^https:\/\/(?:www\.)?(?:cms\.gov|medicare\.gov|healthcare\.gov|irs\.gov)\//i.test(claim.sourceUrl || '')) {
-      issues.push(`data/regulated-claims.json: claim ${claim.id || index + 1} does not use an approved primary-source host`);
-    }
-  });
-}
+const claimCheck = await checkRegistry({
+  root: ROOT,
+  registry: regulatedClaims,
+  asOf: process.env.LHI_VALIDATION_DATE || new Date().toISOString().slice(0, 10)
+});
+claimCheck.issues.forEach((issue) => issues.push(`data/regulated-claims.json: ${issue}`));
 
 if (issues.length) {
   console.error(`FAIL — ${issues.length} authority issue(s):`);
@@ -455,4 +496,4 @@ if (issues.length) {
   process.exit(1);
 }
 
-console.log(`OK — validated ${priorityPages.length} priority pages and ${workPackageTwoPages.length} Work Package 02 surfaces, links, canonical entities, sources, claims, FAQ parity, accessibility contracts, and consent/privacy controls`);
+console.log(`OK — validated ${priorityPages.length} priority pages, ${workPackageTwoPages.length} Work Package 02 surfaces, and ${workPackageThreePages.length} Work Package 03 guides, including links, canonical entities, sources, claims, FAQ parity, accessibility contracts, and consent/privacy controls`);

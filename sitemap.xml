@@ -254,7 +254,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/medicare-vs-aca-central-florida-age-65.html</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
@@ -534,7 +534,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/medicare/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -653,7 +653,7 @@
   
   <url>
     <loc>https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
@@ -688,7 +688,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/aca-subsidy-estimator/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -828,7 +828,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/losing-coverage/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.86</priority>
   </url>
@@ -842,7 +842,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/self-employed-health-insurance/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.84</priority>
   </url>
@@ -856,7 +856,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/provider-prescription-check/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.82</priority>
   </url>
@@ -933,7 +933,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/aca-subsidy-wrong-income-florida.html</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
@@ -950,6 +950,27 @@
     <lastmod>2026-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/retiring-before-65-florida/</loc>
+    <lastmod>2026-07-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/losing-medicaid-florida/</loc>
+    <lastmod>2026-07-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/moving-florida-medicare/</loc>
+    <lastmod>2026-07-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
 
 </urlset>

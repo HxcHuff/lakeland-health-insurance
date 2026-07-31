@@ -32,22 +32,16 @@
     "@graph": [
       {
         "@type": "BlogPosting",
+        "@id": "https://lakelandhealthinsurance.com/blog/aca-subsidy-wrong-income-florida.html#article",
         "headline": "What Happens If My ACA Subsidy Is Wrong in Florida?",
         "description": "A concise answer for Florida ACA Marketplace members whose premium tax credit may be based on the wrong income estimate.",
         "image": "https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg",
-        "author": {
-          "@type": "Person",
-          "name": "David Huff",
-          "jobTitle": "Licensed Florida Insurance Agent",
-          "url": "https://lakelandhealthinsurance.com/about/",
-          "identifier": [
-            {"@type": "PropertyValue", "propertyID": "FL License", "value": "W371813"},
-            {"@type": "PropertyValue", "propertyID": "NPN", "value": "18213932"}
-          ]
-        },
-        "publisher": {"@type": "InsuranceAgency", "name": "Lakeland Health Insurance", "url": "https://lakelandhealthinsurance.com", "telephone": "+1-863-640-3102"},
+        "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
+        "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
+        "reviewedBy": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
+        "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
         "datePublished": "2026-07-28",
-        "dateModified": "2026-07-28",
+        "dateModified": "2026-07-31",
         "mainEntityOfPage": {"@type": "WebPage", "@id": "https://lakelandhealthinsurance.com/blog/aca-subsidy-wrong-income-florida.html"},
         "about": [
           {"@type": "Thing", "name": "Premium Tax Credit"},
@@ -83,7 +77,7 @@
         "@type": "Service",
         "name": "ACA Subsidy and Income Estimate Review",
         "serviceType": "ACA Premium Tax Credit Review",
-        "provider": {"@type": "InsuranceAgency", "name": "Lakeland Health Insurance", "url": "https://lakelandhealthinsurance.com/"},
+        "provider": {"@id": "https://lakelandhealthinsurance.com/#agency"},
         "areaServed": {"@type": "AdministrativeArea", "name": "Florida"},
         "url": "https://lakelandhealthinsurance.com/blog/aca-subsidy-wrong-income-florida.html"
       }
@@ -101,8 +95,8 @@
     .hero h1 { font-family: 'Instrument Serif', serif; font-size: clamp(2.25rem, 5vw, 4rem); font-weight: 400; line-height: 1.05; margin: 0 0 18px; color: white; }
     .hero p { max-width: 780px; font-size: 1.15rem; color: rgba(255,255,255,.88); margin: 0 0 16px; }
     .meta { color: rgba(255,255,255,.72); font-size: .95rem; }
-    .crumb { font-size: .92rem; padding: 18px 20px; color: var(--muted); }
-    .crumb a { color: var(--blue); text-decoration: none; }
+    .crumb { font-size: .92rem; padding: 18px 20px; color: #475569; }
+    .crumb a { color: #1D4ED8; text-decoration: underline; text-underline-offset: .16em; }
     .post { background: white; border: 1px solid var(--line); border-radius: 10px; margin: 30px 0 70px; padding: clamp(24px, 4vw, 44px); }
     .post h2 { font-family: 'Instrument Serif', serif; color: var(--navy); font-size: clamp(1.7rem, 3vw, 2.3rem); font-weight: 400; margin: 34px 0 12px; }
     .post h3 { color: var(--navy); margin: 22px 0 8px; }
@@ -110,6 +104,7 @@
     .callout { border-radius: 10px; border: 1px solid var(--line); padding: 18px 20px; margin: 24px 0; background: var(--amber-bg); }
     .cta-section { background: var(--navy); color: white; border-radius: 10px; padding: 28px; margin: 34px 0; }
     .cta-section h2 { color: white; margin-top: 0; }
+    .cta-section p { color: white; }
     .btn { display: inline-block; border-radius: 999px; padding: 12px 18px; font-weight: 700; text-decoration: none; margin: 6px 8px 6px 0; }
     .btn-primary { background: var(--gold); color: var(--navy-deep); }
     .btn-secondary { border: 1px solid rgba(255,255,255,.55); color: white; }
@@ -125,7 +120,7 @@
   <div class="top-strip"><div class="container">ACA subsidy help: <a href="tel:+18636403102">(863) 640-3102</a></div></div>
   <header class="lhi-topbar"><div class="container"><nav><a href="/" class="brand">Lakeland Health Insurance<span class="license">FL License #W371813</span></a><div class="nav-links"><a href="/aca-subsidy-estimator/">Subsidy Estimator</a><a href="/plans/">Plans</a><a href="/blog/">Blog</a><a href="/about/">About</a><a href="/get-help/" class="btn btn-primary">Get Help</a></div></nav></div></header>
   <div class="container crumb"><a href="/">Home</a> &rsaquo; <a href="/blog/">Blog</a> &rsaquo; Wrong ACA subsidy</div>
-  <section class="hero"><div class="container"><h1>What happens if my ACA subsidy is wrong?</h1><p>If your Marketplace subsidy is based on the wrong income, the difference is handled when you reconcile your premium tax credit on your federal tax return.</p><div class="meta">Updated July 28, 2026 | By David Huff, Licensed Florida Agent #W371813 | NPN 18213932</div></div></section>
+  <section class="hero"><div class="container"><h1>What happens if my ACA subsidy is wrong?</h1><p>If your Marketplace subsidy is based on the wrong income, the difference is handled when you reconcile your premium tax credit on your federal tax return.</p><div class="meta">Updated July 31, 2026 | By David Huff, Licensed Florida Agent #W371813 | NPN 18213932</div></div></section>
   <main class="container"><article class="post">
     <section class="key-answer">
       <p><strong>Direct answer:</strong> If your ACA subsidy is too high, you may have to repay some of the advance premium tax credit when you file taxes. If it is too low, you may receive the difference as a tax credit. The reconciliation is done with IRS Form 8962 using your Form 1095-A.</p>
@@ -163,15 +158,16 @@
     <section><h3>What happens if my ACA subsidy is wrong?</h3><p>You reconcile the advance premium tax credit on your federal tax return. Too much credit can increase tax owed or reduce a refund; too little may create an additional credit.</p></section>
     <section><h3>Should I update my ACA income during the year?</h3><p>Yes. Update income, household size, address, and coverage eligibility changes as soon as possible so the monthly credit is closer to the final amount.</p></section>
 
-    <h2>Sources</h2>
+    <h2>Primary sources</h2>
     <div class="source-list"><ul>
+      <li><a href="https://www.healthcare.gov/reporting-changes/">HealthCare.gov: Report income and household changes</a> — accessed July 31, 2026.</li>
       <li><a href="https://www.healthcare.gov/taxes-reconciling/">HealthCare.gov: How to reconcile your premium tax credit</a></li>
       <li><a href="https://www.healthcare.gov/taxes/">HealthCare.gov: Health coverage and federal taxes</a></li>
       <li><a href="https://www.healthcare.gov/tax-forms-and-tools/">HealthCare.gov: Tax forms, instructions, and tools</a></li>
       <li><a href="https://www.healthcare.gov/income-and-household-information/income/">HealthCare.gov: What counts as income</a></li>
     </ul></div>
 
-    <p class="disclosure">Disclosure: This page is educational and is not tax, legal, or financial advice. David Huff is a licensed Florida insurance agent, not a CPA or tax attorney. Confirm tax questions with a qualified tax professional and confirm Marketplace eligibility through HealthCare.gov.</p>
+    <p class="disclosure">Written and reviewed by David Huff, licensed Florida health insurance agent and broker (FL #W371813; NPN 18213932). Last reviewed: <time datetime="2026-07-31">July 31, 2026</time>. This page is educational and is not tax, legal, or financial advice. David Huff is not a CPA or tax attorney. Confirm tax questions with a qualified tax professional and confirm Marketplace eligibility through HealthCare.gov.</p>
   </article></main>
   <footer><p>Lakeland Health Insurance | David Huff | FL License #W371813 | NPN 18213932</p><p><a href="/privacy-policy.html">Privacy Policy</a></p></footer>
   <a href="tel:+18636403102" class="click-to-call" onclick="if(typeof gtag_report_conversion==='function')gtag_report_conversion();">Call: (863) 640-3102</a>

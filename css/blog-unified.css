@@ -113,6 +113,18 @@ footer .footer-bottom p {
   color: var(--lhi-muted) !important;
 }
 
+footer .footer-column a,
+footer .footer-bottom a {
+  color: #1D4ED8 !important;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+footer .bbb-footer-copy span {
+  color: #475569 !important;
+  opacity: 1 !important;
+}
+
 @media (max-width: 768px) {
   .lhi-topbar {
     font-size: 0.82rem;

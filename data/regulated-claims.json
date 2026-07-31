@@ -1,75 +1,191 @@
 {
-  "reviewedAt": "2026-07-30",
+  "reviewedAt": "2026-07-31",
   "claims": [
     {
       "id": "marketplace-oep-federal-platform-py2027",
       "claim": "For plan year 2027, the individual-market open enrollment period on the federal platform runs November 1 through December 15.",
       "sourceUrl": "https://www.cms.gov/newsroom/fact-sheets/2025-marketplace-integrity-and-affordability-final-rule",
-      "accessDate": "2026-07-30",
+      "accessDate": "2026-07-31",
       "applicableYear": 2027,
       "state": "Florida",
       "productLine": "ACA Marketplace",
-      "reviewStatus": "approved-local-predeployment"
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "aca-health-insurance-lakeland-fl/index.html"
+      ]
     },
     {
       "id": "medicare-aep-annual",
       "claim": "Medicare Open Enrollment runs October 15 through December 7 each year.",
       "sourceUrl": "https://www.medicare.gov/health-drug-plans/open-enrollment",
-      "accessDate": "2026-07-30",
+      "accessDate": "2026-07-31",
       "applicableYear": 2027,
       "state": "Florida",
       "productLine": "Medicare",
-      "reviewStatus": "approved-local-predeployment"
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "medicare/index.html"
+      ]
     },
     {
       "id": "medicare-soa-and-call-recording-cy2027",
       "claim": "For contract year 2027, CMS removed the prior 48-hour Scope of Appointment waiting period while retaining pre-appointment documentation requirements; applicable TPMO marketing, sales, and enrollment calls must be recorded.",
       "sourceUrl": "https://www.cms.gov/files/document/cy2027-agent-broker-training-testing-guidelines-pdf.pdf",
-      "accessDate": "2026-07-30",
+      "accessDate": "2026-07-31",
       "applicableYear": 2027,
       "state": "Florida",
       "productLine": "Medicare",
-      "reviewStatus": "approved-local-predeployment"
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "medicare/index.html"
+      ]
     },
     {
       "id": "marketplace-report-household-changes",
       "claim": "Marketplace applicants should update income and household changes because those changes can affect coverage and premium tax credit amounts.",
       "sourceUrl": "https://www.healthcare.gov/reporting-changes/",
-      "accessDate": "2026-07-30",
+      "accessDate": "2026-07-31",
       "applicableYear": 2026,
       "state": "Florida",
       "productLine": "ACA Marketplace",
-      "reviewStatus": "approved-local-predeployment"
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "self-employed-health-insurance/index.html",
+        "blog/aca-subsidy-wrong-income-florida.html"
+      ]
     },
     {
       "id": "medicaid-chip-loss-marketplace-path",
       "claim": "People who lose Medicaid or CHIP may be able to enroll in Marketplace coverage through a Special Enrollment Period, subject to current eligibility and timing rules.",
       "sourceUrl": "https://www.healthcare.gov/medicaid-chip/transfer-to-marketplace/",
-      "accessDate": "2026-07-30",
+      "accessDate": "2026-07-31",
       "applicableYear": 2026,
       "state": "Florida",
       "productLine": "ACA Marketplace",
-      "reviewStatus": "approved-local-predeployment"
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "losing-coverage/index.html",
+        "losing-medicaid-florida/index.html"
+      ]
     },
     {
       "id": "medicare-plan-compare",
       "claim": "Plan-specific Medicare provider, pharmacy, and drug review should use current Medicare Plan Compare and current plan documents for the exact plan year.",
       "sourceUrl": "https://www.medicare.gov/plan-compare/",
-      "accessDate": "2026-07-30",
+      "accessDate": "2026-07-31",
       "applicableYear": 2027,
       "state": "Florida",
       "productLine": "Medicare",
-      "reviewStatus": "approved-local-predeployment"
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "provider-prescription-check/index.html",
+        "moving-florida-medicare/index.html"
+      ]
     },
     {
       "id": "aca-applicable-percentages-2026",
       "claim": "The 2026 premium tax credit applicable percentage table ranges from 2.10 percent below 133 percent FPL to 9.96 percent from 300 through 400 percent FPL.",
       "sourceUrl": "https://www.irs.gov/irb/2025-32_IRB",
-      "accessDate": "2026-07-30",
+      "accessDate": "2026-07-31",
       "applicableYear": 2026,
       "state": "Florida",
       "productLine": "ACA Marketplace",
-      "reviewStatus": "approved-local-predeployment"
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "aca-subsidy-estimator/index.html"
+      ]
+    },
+    {
+      "id": "marketplace-retiring-before-65",
+      "claim": "A person who retires before age 65 and loses job-based coverage can apply for Marketplace coverage; eligibility and savings depend on the Marketplace application.",
+      "sourceUrl": "https://www.healthcare.gov/retirees/",
+      "accessDate": "2026-07-31",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "retiring-before-65-florida/index.html"
+      ]
+    },
+    {
+      "id": "marketplace-job-loss-path",
+      "claim": "Losing job-based coverage can create a Marketplace Special Enrollment Period, subject to the current application, timing, and document requirements.",
+      "sourceUrl": "https://www.healthcare.gov/have-job-based-coverage/if-you-lose-job-based-coverage/",
+      "accessDate": "2026-07-31",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "losing-coverage/index.html",
+        "retiring-before-65-florida/index.html"
+      ]
+    },
+    {
+      "id": "marketplace-self-employment-income",
+      "claim": "Marketplace applicants report estimated net self-employment income for the coverage year and may be asked for an accurate self-employment ledger or other supporting documents.",
+      "sourceUrl": "https://www.healthcare.gov/self-employed/income/",
+      "accessDate": "2026-07-31",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "self-employed-health-insurance/index.html"
+      ]
+    },
+    {
+      "id": "marketplace-medicaid-chip-sep-confirmation",
+      "claim": "Current Marketplace instructions use the coverage-end date and eligibility notice to determine the enrollment and document deadlines after Medicaid or CHIP loss.",
+      "sourceUrl": "https://www.healthcare.gov/coverage-outside-open-enrollment/confirm-special-enrollment-period/",
+      "accessDate": "2026-07-31",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "losing-medicaid-florida/index.html"
+      ]
+    },
+    {
+      "id": "medicare-moving-special-enrollment",
+      "claim": "A move outside a Medicare plan service area, or a move that creates new plan options, may create a Special Enrollment Period with timing based on when the plan is notified and when the move occurs.",
+      "sourceUrl": "https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/joining-a-plan/special-enrollment-periods",
+      "accessDate": "2026-07-31",
+      "applicableYear": 2027,
+      "state": "Florida",
+      "productLine": "Medicare",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "moving-florida-medicare/index.html"
+      ]
+    },
+    {
+      "id": "medicare-working-past-65",
+      "claim": "People working past 65 should confirm how current employer coverage coordinates with Medicare; COBRA, retiree, Marketplace, and other non-current-employment coverage can follow different enrollment rules.",
+      "sourceUrl": "https://www.medicare.gov/basics/get-started-with-medicare/medicare-basics/working-past-65",
+      "accessDate": "2026-07-31",
+      "applicableYear": 2027,
+      "state": "Florida",
+      "productLine": "Medicare",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/medicare-vs-aca-central-florida-age-65.html"
+      ]
     }
   ]
 }
