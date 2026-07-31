@@ -29,6 +29,42 @@ const regulatedPages = [
   'provider-prescription-check/index.html',
   'aca-subsidy-estimator/index.html'
 ];
+const workPackageTwoPages = [
+  'aca-health-insurance-lakeland-fl/index.html',
+  'medicare/index.html',
+  'self-employed-health-insurance/index.html',
+  'losing-coverage/index.html',
+  'provider-prescription-check/index.html',
+  'get-help/index.html',
+  'plans/index.html',
+  'quote/index.html',
+  'contact/index.html',
+  'local-health-insurance-answers/index.html',
+  'local-health-insurance-answers/health-insurance-broker-lakeland-fl/index.html',
+  'medicare-broker-lakeland-fl/index.html',
+  'best-medicare-broker-lakeland-fl/index.html',
+  'our-approach.html',
+  'learning/index.html',
+  'blog/index.html'
+];
+const workPackageTwoReviewedPages = [
+  'local-health-insurance-answers/index.html',
+  'local-health-insurance-answers/health-insurance-broker-lakeland-fl/index.html',
+  'medicare-broker-lakeland-fl/index.html',
+  'best-medicare-broker-lakeland-fl/index.html',
+  'our-approach.html',
+  'learning/index.html',
+  'blog/index.html'
+];
+const prohibitedSchemaTypes = new Set([
+  'Offer',
+  'OfferCatalog',
+  'AggregateRating',
+  'Rating',
+  'Review',
+  'PostalAddress'
+]);
+const excludedCarrierPattern = /\b(?:Aetna|FL\s*Blue|Florida\s+Blue|Capital\s+(?:HP|Health\s+Plan)|Bright\s+Health|Medica|Wellmark|FL\s+Health)\b/i;
 const forbiddenClaims = [
   /coverage across the nation/i,
   /serving most of the united states/i,
@@ -49,7 +85,9 @@ const forbiddenAuthorityCopy = [
 const issues = [];
 const requiredAuthorityDocs = [
   'docs/authority/lakeland-florida-authority-baseline.md',
-  'docs/authority/entity-contract.md'
+  'docs/authority/entity-contract.md',
+  'docs/authority/core-authority-page-map.md',
+  'docs/authority/work-package-02-handoff.md'
 ];
 
 function flatten(value, out = []) {
@@ -278,6 +316,71 @@ for (const rel of regulatedPages) {
   }
 }
 
+for (const rel of workPackageTwoPages) {
+  const html = readFileSync(resolve(ROOT, rel), 'utf8');
+  const text = visibleText(html);
+  const canonical = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
+  const robots = html.match(/<meta\s+name=["']robots["']\s+content=["']([^"']+)["']/i)?.[1] || '';
+  const h1Count = (html.match(/<h1\b/gi) || []).length;
+  const graph = [];
+  for (const [index, match] of [...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)].entries()) {
+    try {
+      flatten(JSON.parse(match[1]), graph);
+    } catch (error) {
+      issues.push(`${rel}: Work Package 02 JSON-LD block ${index + 1} is invalid (${error.message})`);
+    }
+  }
+
+  if (canonical !== expectedCanonical(rel)) {
+    issues.push(`${rel}: Work Package 02 canonical is "${canonical || 'missing'}"; expected "${expectedCanonical(rel)}"`);
+  }
+  if (/\bnoindex\b/i.test(robots)) issues.push(`${rel}: Work Package 02 page must remain indexable`);
+  if (h1Count !== 1) issues.push(`${rel}: Work Package 02 page must have one H1; found ${h1Count}`);
+
+  const serialized = JSON.stringify(graph);
+  for (const id of [registry.website['@id'], registry.agency['@id'], registry.person['@id']]) {
+    if (!serialized.includes(id)) issues.push(`${rel}: missing Work Package 02 canonical entity reference ${id}`);
+  }
+  if (graph.some((node) => node['@id'] === registry.agency['@id'] && node['@type'] === 'InsuranceAgency')) {
+    issues.push(`${rel}: repeats the full canonical agency graph instead of referencing it`);
+  }
+  if (graph.some((node) => node['@id'] === registry.person['@id'] && node['@type'] === 'Person')) {
+    issues.push(`${rel}: repeats the full canonical Person graph instead of referencing it`);
+  }
+  for (const node of graph) {
+    const types = Array.isArray(node['@type']) ? node['@type'] : [node['@type']];
+    for (const type of types) {
+      if (prohibitedSchemaTypes.has(type)) issues.push(`${rel}: prohibited unevidenced schema type ${type}`);
+    }
+  }
+
+  if (/\b(?:nationwide|across the United States|coverage across the nation)\b/i.test(text)) {
+    issues.push(`${rel}: unsupported national-service language remains`);
+  }
+  if (/\bfree\b/i.test(text)) issues.push(`${rel}: prohibited free-language remains`);
+  if (excludedCarrierPattern.test(text)) issues.push(`${rel}: excluded carrier appears on a public Work Package 02 surface`);
+  if (/\bfixed[- ]indemnity\b/i.test(text) && !/(?:not health insurance|not a substitute for minimum essential coverage|does not replace comprehensive major-medical coverage)/i.test(text)) {
+    issues.push(`${rel}: fixed-indemnity content lacks a prominent coverage limitation`);
+  }
+}
+
+for (const rel of workPackageTwoReviewedPages) {
+  const html = readFileSync(resolve(ROOT, rel), 'utf8');
+  if (!/(?:July 31, 2026|datetime=["']2026-07-31["'])/i.test(html)) {
+    issues.push(`${rel}: missing visible or machine-readable Work Package 02 review date`);
+  }
+}
+
+for (const rel of ['medicare-broker-lakeland-fl/index.html', 'best-medicare-broker-lakeland-fl/index.html']) {
+  const html = readFileSync(resolve(ROOT, rel), 'utf8');
+  if (!html.includes('https://www.medicare.gov/health-drug-plans/open-enrollment')) {
+    issues.push(`${rel}: current official Medicare enrollment source is missing`);
+  }
+  if (!/We do not offer every plan available in your area/i.test(visibleText(html))) {
+    issues.push(`${rel}: required Medicare plan-availability limitation is missing`);
+  }
+}
+
 const getHelp = readFileSync(resolve(ROOT, 'get-help/index.html'), 'utf8');
 for (const field of [
   'consent_request',
@@ -352,4 +455,4 @@ if (issues.length) {
   process.exit(1);
 }
 
-console.log(`OK — validated ${priorityPages.length} priority pages, links, canonical entities, sources, claims, FAQ parity, and consent/privacy contracts`);
+console.log(`OK — validated ${priorityPages.length} priority pages and ${workPackageTwoPages.length} Work Package 02 surfaces, links, canonical entities, sources, claims, FAQ parity, accessibility contracts, and consent/privacy controls`);
