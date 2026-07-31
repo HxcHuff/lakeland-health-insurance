@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Health Insurance Learning Hub | Lakeland Health Insurance</title>
-    <meta name="description" content="Access our collection of interactive tools, calculators, educational content, and resources to help you make informed health insurance decisions.">
+    <title>Health Insurance Learning Center | Lakeland, Florida</title>
+    <meta name="description" content="Health insurance guides, calculators, official resources, and plan-review tools from David Huff, a licensed Florida insurance broker in Lakeland.">
     <link rel="canonical" href="https://lakelandhealthinsurance.com/learning/">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="author" content="David Huff">
     <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
-    <meta property="og:title" content="Your Health Insurance Learning Hub | Lakeland Health Insurance">
-    <meta property="og:description" content="Access our collection of interactive tools, calculators, educational content, and resources to help you make informed health insurance decisions.">
+    <meta property="og:image:alt" content="David Huff, licensed Florida insurance broker">
+    <meta property="og:title" content="Health Insurance Learning Center | Lakeland, Florida">
+    <meta property="og:description" content="Use licensed-broker guides, calculators, official resources, and plan-review tools for ACA, Medicare, supplemental, and life coverage.">
     <meta property="og:url" content="https://lakelandhealthinsurance.com/learning/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lakeland Health Insurance">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Your Health Insurance Learning Hub | Lakeland Health Insurance">
-    <meta name="twitter:description" content="Access our collection of interactive tools, calculators, educational content, and resources to help you make informed health insurance decisions.">
+    <meta name="twitter:title" content="Health Insurance Learning Center | Lakeland, Florida">
+    <meta name="twitter:description" content="Use licensed-broker guides, calculators, official resources, and plan-review tools for ACA, Medicare, supplemental, and life coverage.">
     <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
+    <meta name="twitter:image:alt" content="David Huff, licensed Florida insurance broker">
 
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1B2A4A">
@@ -31,19 +34,73 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
+      "@graph": [
         {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://lakelandhealthinsurance.com/"
+          "@type": "CollectionPage",
+          "@id": "https://lakelandhealthinsurance.com/learning/#webpage",
+          "url": "https://lakelandhealthinsurance.com/learning/",
+          "name": "Health Insurance Learning Center",
+          "description": "Health insurance guides, calculators, official resources, and plan-review tools from a licensed Florida insurance broker in Lakeland.",
+          "dateModified": "2026-07-30",
+          "inLanguage": "en-US",
+          "author": {
+            "@type": "Person",
+            "name": "David Huff",
+            "jobTitle": "Licensed Florida Insurance Broker",
+            "url": "https://lakelandhealthinsurance.com/about/"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Lakeland Health Insurance",
+            "url": "https://lakelandhealthinsurance.com/"
+          },
+          "mainEntity": {
+            "@type": "ItemList",
+            "name": "Health insurance learning resources",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "ACA Subsidy Estimator",
+                "url": "https://lakelandhealthinsurance.com/aca-subsidy-estimator/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Health Insurance Blog",
+                "url": "https://lakelandhealthinsurance.com/blog/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Insurance Carrier Guides",
+                "url": "https://lakelandhealthinsurance.com/carriers/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "Request a Plan Review",
+                "url": "https://lakelandhealthinsurance.com/get-help/"
+              }
+            ]
+          }
         },
         {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Learn",
-          "item": "https://lakelandhealthinsurance.com/learning/"
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://lakelandhealthinsurance.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Learning Center",
+              "item": "https://lakelandhealthinsurance.com/learning/"
+            }
+          ]
         }
       ]
     }
@@ -153,7 +210,7 @@
         .license-tag {
             font-family: 'DM Sans', sans-serif;
             font-size: 0.7rem;
-            color: var(--gold);
+            color: #8A6500;
             font-weight: 600;
             display: block;
             margin-top: 2px;
@@ -307,6 +364,12 @@
             margin-right: auto;
         }
 
+        .page-meta {
+            color: rgba(255,255,255,0.78);
+            font-size: 0.9rem;
+            margin-top: 1.25rem;
+        }
+
         /* Content Sections */
         .learning-section {
             padding: 80px 0;
@@ -324,6 +387,10 @@
             color: var(--navy);
         }
 
+        .section-heading {
+            text-align: center;
+        }
+
         .section-subtitle {
             text-align: center;
             color: var(--gray-600);
@@ -331,6 +398,37 @@
             max-width: 700px;
             margin: 0 auto 3rem;
             line-height: 1.7;
+        }
+
+        .topic-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .topic-link {
+            background: var(--sky-soft);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            color: var(--navy);
+            display: block;
+            font-weight: 700;
+            padding: 1rem 1.25rem;
+            text-decoration: none;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .topic-link:hover {
+            border-color: var(--blue);
+            transform: translateY(-2px);
+        }
+
+        .topic-link span {
+            color: var(--gray-600);
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 400;
+            margin-top: 0.25rem;
         }
 
         /* Card Grid */
@@ -412,7 +510,7 @@
             border-color: var(--blue-light);
         }
 
-        .resource-link h4 {
+        .resource-link h3 {
             color: var(--navy);
             font-weight: 600;
             margin-bottom: 0.5rem;
@@ -422,6 +520,30 @@
         .resource-link p {
             color: var(--gray-600);
             font-size: 0.9rem;
+        }
+
+        .disclosure {
+            background: var(--gold-soft);
+            border: 1px solid #E5D2A2;
+            border-left: 4px solid var(--gold);
+            border-radius: var(--radius);
+            color: var(--gray-700);
+            margin-top: 2rem;
+            padding: 1rem 1.25rem;
+        }
+
+        .closing-cta {
+            background: var(--navy);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .closing-cta h2 {
+            color: var(--white);
+        }
+
+        .closing-cta .section-subtitle {
+            color: rgba(255,255,255,0.85);
         }
 
         /* Footer */
@@ -563,7 +685,7 @@
             font-family: 'DM Sans', sans-serif !important;
             font-size: 0.7rem !important;
             font-weight: 600 !important;
-            color: var(--gold, #D4A843) !important;
+            color: #8A6500 !important;
             line-height: 1.1 !important;
             display: block !important;
             margin-top: 2px !important;
@@ -584,10 +706,13 @@
 
     <script defer src="/js/analytics.js?v=20260729-first-party-funnel"></script>
     <link rel="stylesheet" href="/css/site-template.css">
+    <style>
+        header .license-tag { color: #765600 !important; }
+    </style>
 </head>
 <body>
     <div class="compliance-banner">
-        <strong>Important:</strong> Fixed indemnity products provide limited benefits and are <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA. &nbsp;|&nbsp; FL Broker License #W371813
+        <strong>Coverage notice:</strong> Health Protector Guard is a fixed indemnity plan. It is NOT health insurance and does NOT satisfy ACA minimum essential coverage requirements. &nbsp;|&nbsp; FL Broker License #W371813
     </div>
 
     <header>
@@ -597,7 +722,7 @@
                     Lakeland Health Insurance
                     <span class="license-tag">Licensed FL Broker #W371813</span>
                 </div>
-                <button class="menu-button" onclick="toggleMenu()">
+                <button class="menu-button" type="button" aria-label="Toggle navigation menu" aria-controls="dropdownMenu" aria-expanded="false" onclick="toggleMenu()">
                     <div class="ellipses">
                         <div class="dot"></div>
                         <div class="dot"></div>
@@ -629,146 +754,182 @@
         </nav>
     </header>
 
+    <main>
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>Your Health Insurance Learning Hub</h1>
-                <p>Find the tools, calculators, guides, and resources you need to make confident health insurance decisions.</p>
+                <h1>Health Insurance Learning Center</h1>
+                <p>Use licensed-broker guides, calculators, and official resources to review ACA, Medicare, supplemental, and life insurance questions in Lakeland and throughout Florida.</p>
                 <div style="margin-top: 1.5rem;">
-                    <a href="/get-help/" class="cta-button" style="font-size: 1.1rem; padding: 14px 28px;">Get Help Now</a>
+                    <a href="/get-help/" class="cta-button" style="font-size: 1.1rem; padding: 14px 28px;">Request a Plan Review</a>
                 </div>
+                <p class="page-meta">Reviewed by David Huff, Licensed Florida Insurance Broker · Updated July 30, 2026</p>
             </div>
+        </div>
+    </section>
+
+    <section class="learning-section" aria-labelledby="start-heading">
+        <div class="container">
+            <h2 class="section-heading" id="start-heading">Choose a Starting Point</h2>
+            <p class="section-subtitle">Begin with the coverage question you need to resolve, then verify plan-specific details before enrolling.</p>
+            <nav class="topic-nav" aria-label="Learning center topics">
+                <a class="topic-link" href="#tools">Estimate and compare<span>Calculators and coverage-review tools</span></a>
+                <a class="topic-link" href="#guides">Understand coverage<span>ACA, Medicare, network, and supplemental guides</span></a>
+                <a class="topic-link" href="#official-resources">Check official sources<span>Federal and Florida consumer resources</span></a>
+                <a class="topic-link" href="#carrier-guides">Review carrier procedures<span>Enrollment, network, formulary, and account guidance</span></a>
+            </nav>
         </div>
     </section>
 
     <!-- Interactive Tools Section -->
-    <section class="learning-section">
+    <section class="learning-section" id="tools">
         <div class="container">
-            <h2 style="text-align: center;">Interactive Tools</h2>
-            <p class="section-subtitle">Use these tools to estimate costs, compare options, and understand your coverage.</p>
+            <h2 class="section-heading">Insurance Calculators and Review Tools</h2>
+            <p class="section-subtitle">Use these educational tools to organize a comparison. Estimates are not eligibility decisions, coverage approvals, or guarantees of benefits.</p>
             <div class="card-grid">
                 <a href="/aca-subsidy-estimator/" class="content-card">
                     <span class="card-icon">ACA</span>
                     <h3>ACA Subsidy Estimator</h3>
-                    <p>Calculate your estimated ACA subsidies and see what you might qualify for on the healthcare marketplace.</p>
+                    <p>Estimate how household size and projected annual income may affect Marketplace premium tax credits. HealthCare.gov and final tax filing determine actual eligibility and reconciliation.</p>
                 </a>
                 <a href="/life-insurance-dime-method/" class="content-card">
                     <span class="card-icon">Life</span>
                     <h3>DIME Life Insurance Calculator</h3>
-                    <p>Determine how much life insurance you need using the proven DIME method.</p>
+                    <p>Organize debt, income replacement, mortgage, and education needs as a starting point for a life insurance discussion.</p>
                 </a>
                 <a href="/plans/" class="content-card">
                     <span class="card-icon">Plans</span>
-                    <h3>Health Plans Comparison</h3>
-                    <p>Compare health insurance plans side-by-side and find the right coverage for your needs.</p>
+                    <h3>Health Coverage Options</h3>
+                    <p>Review major medical, Medicare, supplemental, dental, vision, and other coverage categories before comparing specific policies.</p>
                 </a>
                 <a href="/health-protector-guard/" class="content-card">
                     <span class="card-icon">HPG</span>
-                    <h3>Health Protector Guard Info</h3>
-                    <p>Learn about fixed-indemnity coverage and how it can work with your primary health insurance.</p>
+                    <h3>Health Protector Guard Information</h3>
+                    <p>Review scheduled benefits, limitations, exclusions, and how fixed-indemnity coverage differs from comprehensive major medical insurance.</p>
                 </a>
                 <a href="/get-help/" class="content-card">
                     <span class="card-icon">Help</span>
-                    <h3>Get Personalized Help</h3>
-                    <p>Get a free, personalized health insurance review and consultation with David.</p>
+                    <h3>Request a Plan Review</h3>
+                    <p>Compare available options using your enrollment timing, providers, prescriptions, budget, and expected healthcare use.</p>
                 </a>
             </div>
+            <div class="disclosure"><strong>Fixed-indemnity disclosure:</strong> Health Protector Guard is a fixed indemnity plan. It is NOT health insurance and does NOT satisfy ACA minimum essential coverage requirements. Policy terms, exclusions, scheduled benefits, and availability control.</div>
         </div>
     </section>
 
     <!-- Educational Content Section -->
-    <section class="learning-section">
+    <section class="learning-section" id="guides">
         <div class="container">
-            <h2 style="text-align: center;">Educational Content</h2>
-            <p class="section-subtitle">Read our in-depth guides and articles about health insurance, Medicare, and coverage strategies.</p>
+            <h2 class="section-heading">Health Insurance Guides</h2>
+            <p class="section-subtitle">Review enrollment timing, plan networks, prescriptions, cost sharing, and coverage limitations before making a plan decision.</p>
             <div class="card-grid">
                 <a href="/blog/" class="content-card">
                     <span class="card-icon">Blog</span>
-                    <h3>Blog</h3>
-                    <p>Over 40 articles on ACA plans, Medicare, subsidies, short-term coverage, and strategies to save money on health insurance.</p>
+                    <h3>Health Insurance Blog</h3>
+                    <p>Read current articles about ACA coverage, Medicare, premium tax credits, provider networks, prescriptions, and temporary coverage considerations.</p>
                 </a>
                 <a href="/blog/aca-subsidy-cliff.html" class="content-card">
                     <span class="card-icon">Guide</span>
-                    <h3>ACA Subsidy Cliff Guide</h3>
-                    <p>Understand how income changes can affect Marketplace premium tax credits and tax-time reconciliation.</p>
+                    <h3>ACA Income and Tax Credit Guide</h3>
+                    <p>Understand how projected household income can affect Marketplace premium tax credits and tax-time reconciliation.</p>
+                </a>
+                <a href="/blog/hmo-vs-ppo-vs-epo-explained.html" class="content-card">
+                    <span class="card-icon">Network</span>
+                    <h3>HMO, PPO, and EPO Networks</h3>
+                    <p>Compare common provider-network structures, referral rules, out-of-network benefits, and the documents that control coverage.</p>
+                </a>
+                <a href="/blog/what-is-supplemental-coverage.html" class="content-card">
+                    <span class="card-icon">Supplement</span>
+                    <h3>Supplemental Coverage Guide</h3>
+                    <p>Learn how accident, critical illness, hospital indemnity, and fixed-indemnity benefits may fit beside major medical coverage.</p>
                 </a>
                 <a href="/our-approach.html" class="content-card">
                     <span class="card-icon">Method</span>
                     <h3>Our Approach</h3>
-                    <p>Learn about our philosophy and how we help families find the right health insurance.</p>
+                    <p>See how eligibility, providers, prescriptions, plan documents, and total financial exposure are reviewed before enrollment.</p>
                 </a>
             </div>
         </div>
     </section>
 
     <!-- External Resources Section -->
-    <section class="learning-section">
+    <section class="learning-section" id="official-resources">
         <div class="container">
-            <h2 style="text-align: center;">Government & Healthcare Resources</h2>
-            <p class="section-subtitle">Quick links to official government resources and trusted healthcare information.</p>
+            <h2 class="section-heading">Official Government and Consumer Resources</h2>
+            <p class="section-subtitle">Use primary government sources for enrollment, Medicare, public-health, regulatory, and consumer-assistance information.</p>
             <div class="resources-list">
                 <a href="https://www.healthcare.gov" target="_blank" rel="noopener noreferrer" class="resource-link">
-                    <h4>Healthcare.gov</h4>
-                    <p>The official Health Insurance Marketplace. Enroll in ACA plans, check subsidies, and compare coverage.</p>
+                    <h3>HealthCare.gov</h3>
+                    <p>The federal Health Insurance Marketplace for eligibility, enrollment, plan comparison, and premium tax-credit determinations.</p>
                 </a>
                 <a href="https://www.cms.gov" target="_blank" rel="noopener noreferrer" class="resource-link">
-                    <h4>CMS.gov</h4>
-                    <p>Centers for Medicare & Medicaid Services — official information on Medicare, Medicaid, and ACA marketplace rules.</p>
+                    <h3>CMS.gov</h3>
+                    <p>Centers for Medicare &amp; Medicaid Services information on Medicare, Medicaid, Marketplace standards, and federal coverage rules.</p>
                 </a>
                 <a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer" class="resource-link">
-                    <h4>Medicare.gov</h4>
-                    <p>The official U.S. government site for Medicare. Compare plans, find doctors, and manage your benefits.</p>
+                    <h3>Medicare.gov</h3>
+                    <p>The official Medicare website for coverage information, enrollment timing, plan comparison, providers, and account services.</p>
                 </a>
                 <a href="https://www.floridahealth.gov" target="_blank" rel="noopener noreferrer" class="resource-link">
-                    <h4>Florida Department of Health</h4>
+                    <h3>Florida Department of Health</h3>
                     <p>Florida's state health department. Find local health resources and public health programs.</p>
                 </a>
                 <a href="https://www.myfloridacfo.com/division/consumers" target="_blank" rel="noopener noreferrer" class="resource-link">
-                    <h4>Florida Office of Insurance Regulation</h4>
-                    <p>File insurance complaints, verify agent licenses, and learn about consumer rights.</p>
+                    <h3>Florida DFS Consumer Services</h3>
+                    <p>Florida Department of Financial Services resources for insurance questions, complaints, and consumer assistance.</p>
                 </a>
                 <a href="https://www.hhs.gov" target="_blank" rel="noopener noreferrer" class="resource-link">
-                    <h4>U.S. Department of Health & Human Services</h4>
-                    <p>The principal federal agency protecting the health of all Americans.</p>
+                    <h3>U.S. Department of Health &amp; Human Services</h3>
+                    <p>Federal health-program, civil-rights, public-health, and consumer information.</p>
                 </a>
             </div>
         </div>
     </section>
 
     <!-- Carrier Pages Section -->
-    <section class="learning-section">
+    <section class="learning-section" id="carrier-guides">
         <div class="container">
-            <h2 style="text-align: center;">Insurance Carrier Guides</h2>
-            <p class="section-subtitle">Detailed enrollment and benefit guides for the carriers we work with.</p>
+            <h2 class="section-heading">Plan and Carrier Guides</h2>
+            <p class="section-subtitle">Use these guides to organize account setup, network, formulary, authorization, and renewal checks. Availability varies by location, eligibility, and plan year.</p>
             <div class="card-grid">
                 <a href="/carriers/" class="content-card">
                     <span class="card-icon">Carrier</span>
-                    <h3>All Carrier Pages</h3>
-                    <p>Browse comprehensive guides for every insurance carrier we represent.</p>
+                    <h3>Available Carrier Guides</h3>
+                    <p>Browse the current carrier and plan resources published by Lakeland Health Insurance.</p>
                 </a>
                 <a href="/carriers/unitedhealthcare-aca-2026/" class="content-card">
                     <span class="card-icon">UHC</span>
-                    <h3>UnitedHealthcare Playbook</h3>
-                    <p>HealthCare.gov enrollment flow, MyUHC setup, and practical benefit strategy.</p>
+                    <h3>UnitedHealthcare ACA Guide</h3>
+                    <p>Review enrollment, member-account setup, network, formulary, and benefit-use checkpoints.</p>
                 </a>
                 <a href="/carriers/ambetter-aca-2026/" class="content-card">
                     <span class="card-icon">AMB</span>
-                    <h3>Ambetter Playbook</h3>
-                    <p>Enrollment steps, referral checks, and preventive-first strategy for maximum value.</p>
+                    <h3>Ambetter ACA Guide</h3>
+                    <p>Review enrollment steps, referral rules, provider access, formulary details, and renewal considerations.</p>
                 </a>
                 <a href="/carriers/molina-aca-2026/" class="content-card">
                     <span class="card-icon">MOL</span>
-                    <h3>Molina Playbook</h3>
-                    <p>Portal setup, formulary checks, prior auth workflow, and renewal readiness.</p>
+                    <h3>Molina ACA Guide</h3>
+                    <p>Review member-portal setup, formulary checks, prior authorization, provider access, and renewal readiness.</p>
                 </a>
                 <a href="/carriers/oscar-aca-2026/" class="content-card">
                     <span class="card-icon">OSC</span>
-                    <h3>Oscar Playbook</h3>
-                    <p>App-first setup, network verification, and incentive-tracking workflow.</p>
+                    <h3>Oscar ACA Guide</h3>
+                    <p>Review account setup, network verification, virtual-care access, plan documents, and renewal steps.</p>
                 </a>
             </div>
+            <div class="disclosure"><strong>Plan-specific verification:</strong> Carrier names do not establish availability, network participation, drug coverage, or eligibility. Confirm the exact plan ID, service area, provider directory, formulary, and controlling plan documents for the applicable year.</div>
         </div>
     </section>
+
+    <section class="learning-section closing-cta" aria-labelledby="review-heading">
+        <div class="container">
+            <h2 id="review-heading">Need a Plan-Specific Review?</h2>
+            <p class="section-subtitle">Bring your enrollment timing, ZIP code, providers, prescriptions, and current coverage so the available options can be compared against your priorities.</p>
+            <a href="/get-help/" class="cta-button">Request a Plan Review</a>
+        </div>
+    </section>
+    </main>
 
     <footer>
         <div class="container">
@@ -788,7 +949,9 @@
                     <h3>Service Areas</h3>
                     <ul>
                         <li>Florida Residents</li>
-                        <li>Lakeland-based, serving Florida</li>
+                        <li>Lakeland and Polk County</li>
+                        <li>Remote assistance across Florida</li>
+                        <li>Product availability requires current verification</li>
                         <li>Small Business Groups</li>
                         <li>Individual &amp; Family Plans</li>
                         <li>Medicare Specialists</li>
@@ -809,10 +972,10 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Lakeland-based, serving Florida.</p>
-                <p>FL License #W371813 | NPN 18213932 | Not an insurance carrier</p>
+                <p>David Huff | FL License #W371813 | NPN 18213932 | Not an insurance carrier</p>
                 <p style="margin-top: 1rem;">
                     <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: var(--gold); text-decoration: none; font-weight: 500;">
-                        Powered by David the Insurance Dude
+                        Connect with David Huff on Facebook
                     </a>
                 </p>
             </div>
@@ -828,7 +991,9 @@
         // Menu toggle function
         function toggleMenu() {
             const menu = document.getElementById('dropdownMenu');
-            menu.classList.toggle('show');
+            const button = document.querySelector('.menu-button');
+            const isOpen = menu.classList.toggle('show');
+            button.setAttribute('aria-expanded', String(isOpen));
         }
 
         // Close menu when clicking outside
@@ -838,6 +1003,17 @@
 
             if (!menu.contains(event.target) && !button.contains(event.target)) {
                 menu.classList.remove('show');
+                button.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const menu = document.getElementById('dropdownMenu');
+                const button = document.querySelector('.menu-button');
+                menu.classList.remove('show');
+                button.setAttribute('aria-expanded', 'false');
+                button.focus();
             }
         });
 
