@@ -1,0 +1,75 @@
+{
+  "reviewedAt": "2026-07-30",
+  "claims": [
+    {
+      "id": "marketplace-oep-federal-platform-py2027",
+      "claim": "For plan year 2027, the individual-market open enrollment period on the federal platform runs November 1 through December 15.",
+      "sourceUrl": "https://www.cms.gov/newsroom/fact-sheets/2025-marketplace-integrity-and-affordability-final-rule",
+      "accessDate": "2026-07-30",
+      "applicableYear": 2027,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved-local-predeployment"
+    },
+    {
+      "id": "medicare-aep-annual",
+      "claim": "Medicare Open Enrollment runs October 15 through December 7 each year.",
+      "sourceUrl": "https://www.medicare.gov/health-drug-plans/open-enrollment",
+      "accessDate": "2026-07-30",
+      "applicableYear": 2027,
+      "state": "Florida",
+      "productLine": "Medicare",
+      "reviewStatus": "approved-local-predeployment"
+    },
+    {
+      "id": "medicare-soa-and-call-recording-cy2027",
+      "claim": "For contract year 2027, CMS removed the prior 48-hour Scope of Appointment waiting period while retaining pre-appointment documentation requirements; applicable TPMO marketing, sales, and enrollment calls must be recorded.",
+      "sourceUrl": "https://www.cms.gov/files/document/cy2027-agent-broker-training-testing-guidelines-pdf.pdf",
+      "accessDate": "2026-07-30",
+      "applicableYear": 2027,
+      "state": "Florida",
+      "productLine": "Medicare",
+      "reviewStatus": "approved-local-predeployment"
+    },
+    {
+      "id": "marketplace-report-household-changes",
+      "claim": "Marketplace applicants should update income and household changes because those changes can affect coverage and premium tax credit amounts.",
+      "sourceUrl": "https://www.healthcare.gov/reporting-changes/",
+      "accessDate": "2026-07-30",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved-local-predeployment"
+    },
+    {
+      "id": "medicaid-chip-loss-marketplace-path",
+      "claim": "People who lose Medicaid or CHIP may be able to enroll in Marketplace coverage through a Special Enrollment Period, subject to current eligibility and timing rules.",
+      "sourceUrl": "https://www.healthcare.gov/medicaid-chip/transfer-to-marketplace/",
+      "accessDate": "2026-07-30",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved-local-predeployment"
+    },
+    {
+      "id": "medicare-plan-compare",
+      "claim": "Plan-specific Medicare provider, pharmacy, and drug review should use current Medicare Plan Compare and current plan documents for the exact plan year.",
+      "sourceUrl": "https://www.medicare.gov/plan-compare/",
+      "accessDate": "2026-07-30",
+      "applicableYear": 2027,
+      "state": "Florida",
+      "productLine": "Medicare",
+      "reviewStatus": "approved-local-predeployment"
+    },
+    {
+      "id": "aca-applicable-percentages-2026",
+      "claim": "The 2026 premium tax credit applicable percentage table ranges from 2.10 percent below 133 percent FPL to 9.96 percent from 300 through 400 percent FPL.",
+      "sourceUrl": "https://www.irs.gov/irb/2025-32_IRB",
+      "accessDate": "2026-07-30",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved-local-predeployment"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Get Health Insurance Help in Lakeland, FL | Lakeland Health Insurance</title>
+  <title>Get Health Insurance Help in Lakeland, FL | David Huff</title>
   <meta name="description" content="Answer two quick questions, then send your contact details for health insurance guidance from David Huff, a licensed Florida broker.">
   <link rel="canonical" href="https://lakelandhealthinsurance.com/get-help/">
   <meta name="robots" content="index, follow">
@@ -21,14 +21,18 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
+    "@id": "https://lakelandhealthinsurance.com/get-help/#webpage",
     "name": "Get Health Insurance Help",
     "description": "Progressive intake form for personalized health insurance guidance from a licensed Florida broker.",
     "url": "https://lakelandhealthinsurance.com/get-help/",
-    "isPartOf": {"@type": "WebSite", "name": "Lakeland Health Insurance", "url": "https://lakelandhealthinsurance.com"},
+    "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
+    "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
+    "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
+    "reviewedBy": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
     "mainEntity": {
       "@type": "Service",
       "name": "Health Insurance Plan Review",
-      "provider": {"@type": "InsuranceAgency", "name": "Lakeland Health Insurance", "url": "https://lakelandhealthinsurance.com"},
+      "provider": {"@id": "https://lakelandhealthinsurance.com/#agency"},
       "serviceType": "Health Insurance Brokerage"
     },
     "breadcrumb": {
@@ -245,6 +249,14 @@
 
     .consent input { margin-top: 4px; }
     .consent span { color: var(--lhi-muted); font-size: 0.85rem; line-height: 1.45; }
+    .consent-group {
+      border: 1px solid var(--lhi-border);
+      border-radius: 8px;
+      margin-top: 14px;
+      padding: 12px 14px 14px;
+    }
+    .consent-group legend { color: var(--lhi-navy); font-weight: 800; padding: 0 6px; }
+    .consent-help { color: var(--lhi-muted); font-size: .85rem; line-height: 1.45; margin: 0; }
 
     .optional-panel {
       background: #f9fafc;
@@ -338,7 +350,7 @@
           <a class="action-link secondary" href="/calendly-book.html" data-funnel-booking>Choose a time</a>
           <a class="action-link secondary" href="#leadForm">Continue with the form</a>
         </div>
-        <p class="review-note">David personally reviews each request and will call or text during normal business hours. If you need help immediately, call (863) 640-3102 or choose an available appointment time.</p>
+        <p class="review-note">David personally reviews each request and follows up only through a channel authorized in the form. If you prefer not to submit the form, call (863) 640-3102 or choose an available appointment time.</p>
       </section>
 
       <section class="form-shell" aria-labelledby="form-title">
@@ -366,6 +378,15 @@
           <input type="hidden" name="fbclid" id="fbclidInput">
           <input type="hidden" name="started_at" id="startedAtInput">
           <input type="hidden" name="human_check" id="humanCheckInput">
+          <input type="hidden" name="consent_text_version" value="get-help-2026-07-30-v1">
+          <input type="hidden" name="consent_recorded_at" id="consentRecordedAtInput">
+          <input type="hidden" name="consent_page" value="/get-help/">
+          <input type="hidden" name="consent_request_state" id="consentRequestStateInput">
+          <input type="hidden" name="consent_call_state" id="consentCallStateInput">
+          <input type="hidden" name="consent_sms_state" id="consentSmsStateInput">
+          <input type="hidden" name="consent_email_state" id="consentEmailStateInput">
+          <input type="hidden" name="consent_marketing_email_state" id="consentMarketingEmailStateInput">
+          <input type="hidden" name="consent_withdrawal_state" value="not_withdrawn_at_submission">
           <input type="hidden" name="lead_priority">
           <input type="hidden" name="lead_priority_reason">
 
@@ -405,19 +426,19 @@
 
           <div class="form-step" data-step="3" hidden>
             <h2>Where should David follow up?</h2>
-            <p class="step-help">These fields are required. Everything below them is optional and can be skipped.</p>
+            <p class="step-help">Name, ZIP code, preferred contact method, timing, current coverage, request consent, and at least one matching contact channel are required. Optional details can be skipped.</p>
             <div class="field-grid">
               <div class="field full">
                 <label for="fullName">Full name</label>
                 <input id="fullName" name="full_name" autocomplete="name" required>
               </div>
               <div class="field">
-                <label for="phone">Phone</label>
-                <input id="phone" name="phone" type="tel" autocomplete="tel" required>
+                <label for="phone">Phone, if authorizing calls or texts</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel">
               </div>
               <div class="field">
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" autocomplete="email" required>
+                <label for="email">Email, if authorizing email</label>
+                <input id="email" name="email" type="email" autocomplete="email">
               </div>
               <div class="field">
                 <label for="zipCode">ZIP code</label>
@@ -459,9 +480,32 @@
             </div>
 
             <label class="consent">
-              <input type="checkbox" name="consent" value="yes" required>
-              <span>By checking this box, I agree to receive calls, texts, and emails from Lakeland Health Insurance about my insurance request at the contact information provided. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See the <a href="/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/sms-policy.html" target="_blank" rel="noopener">SMS Terms</a>.</span>
+              <input type="checkbox" name="consent_request" value="yes" required>
+              <span>I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage.</span>
             </label>
+
+            <fieldset class="consent-group">
+              <legend>Choose each contact channel you authorize</legend>
+              <p class="consent-help">Select at least one. The authorized channel must match the contact method and information you provided.</p>
+              <label class="consent">
+                <input type="checkbox" name="consent_call" value="yes">
+                <span>I authorize a telephone call about this request.</span>
+              </label>
+              <label class="consent">
+                <input type="checkbox" name="consent_sms" value="yes">
+                <span>I authorize text messages about this request. Message frequency varies; message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener">SMS Terms</a>.</span>
+              </label>
+              <label class="consent">
+                <input type="checkbox" name="consent_email" value="yes">
+                <span>I authorize email about this request.</span>
+              </label>
+            </fieldset>
+
+            <label class="consent">
+              <input type="checkbox" name="consent_marketing_email" value="yes">
+              <span>Optional: send me ongoing educational and marketing emails. This is separate from responding to my request and uses confirmed opt-in. I can unsubscribe at any time.</span>
+            </label>
+            <p class="consent-help">Consent is not a condition of purchase. See the <a href="/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>. Withdrawing one channel does not withdraw another.</p>
 
             <div class="optional-panel" aria-labelledby="optionalTitle">
               <h3 id="optionalTitle">Optional details David can review before calling</h3>

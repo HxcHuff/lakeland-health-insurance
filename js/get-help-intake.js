@@ -308,23 +308,40 @@
     var status = byId('formStatus');
     var button = byId('submitButton');
     if (!form) return;
-    form.addEventListener('submit', function () {
+    form.addEventListener('submit', function (event) {
       if (!form.checkValidity()) {
         showError('Complete the required contact fields and consent before sending.');
         return;
       }
+      var preferred = String(form.preferred_contact_method && form.preferred_contact_method.value || '').toLowerCase();
+      var hasPhone = Boolean(form.phone && String(form.phone.value || '').trim());
+      var hasEmail = Boolean(form.email && String(form.email.value || '').trim());
+      var callOk = Boolean(form.consent_call && form.consent_call.checked && hasPhone);
+      var smsOk = Boolean(form.consent_sms && form.consent_sms.checked && hasPhone);
+      var emailOk = Boolean(form.consent_email && form.consent_email.checked && hasEmail);
+      var preferredOk =
+        (preferred === 'phone call' && callOk) ||
+        (preferred === 'text message' && smsOk) ||
+        (preferred === 'email' && emailOk) ||
+        (preferred === 'first available' && (callOk || smsOk || emailOk));
+
+      if (!preferredOk) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        showError('Authorize the preferred contact channel and provide the matching phone number or email address.');
+        if (status) status.textContent = '';
+        return;
+      }
+      setValue('consentRequestStateInput', form.consent_request && form.consent_request.checked ? 'granted' : 'not_granted');
+      setValue('consentCallStateInput', form.consent_call && form.consent_call.checked ? 'granted' : 'not_granted');
+      setValue('consentSmsStateInput', form.consent_sms && form.consent_sms.checked ? 'granted' : 'not_granted');
+      setValue('consentEmailStateInput', form.consent_email && form.consent_email.checked ? 'granted' : 'not_granted');
+      setValue('consentMarketingEmailStateInput', form.consent_marketing_email && form.consent_marketing_email.checked ? 'granted' : 'not_granted');
+      setValue('consentRecordedAtInput', new Date().toISOString());
       if (status) status.textContent = 'Sending your request...';
       if (button) {
         button.disabled = true;
         button.textContent = 'Sending...';
-      }
-      if (window.LHI && typeof window.LHI.identify === 'function') {
-        window.LHI.identify({
-          name: form.full_name && form.full_name.value,
-          phone: form.phone && form.phone.value,
-          email: form.email && form.email.value,
-          zip: form.zip_code && form.zip_code.value
-        });
       }
     }, { capture: true });
   }

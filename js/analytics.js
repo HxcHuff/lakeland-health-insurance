@@ -97,11 +97,10 @@
     window.gtag=window.gtag||function(){dataLayer.push(arguments);};
     gtag('js', new Date());
     gtag('config', 'G-W45RMKHXV0', { send_page_view: false });
-    /* allow_enhanced_conversions=true permits gtag to read user_data set via
-       gtag('set','user_data',{...}) and pass hashed PII alongside conversion
-       events (Enhanced Conversions for Leads). Lifts Smart Bidding match
-       rate. Must also be turned on per-conversion-action in Google Ads UI. */
-    gtag('config', 'AW-300112445', { allow_enhanced_conversions: true });
+    /* Configure Google Ads without enhanced-conversion user data. The site
+       emits only a conversion ID, value, and currency after first-party
+       delivery; names, contact details, ZIPs, and form answers stay out. */
+    gtag('config', 'AW-300112445', { send_page_view: false });
     /* Funnel event bus — unifies dataLayer and conversion helpers */
     var f=document.createElement('script');
     f.async=true;

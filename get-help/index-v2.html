@@ -694,15 +694,6 @@
         document.getElementById('consentInput').value = contact.consent ? 'yes' : 'no';
 
         /* ─── FIRE LEAD EVENT ONLY ON ACTUAL SUBMISSION ─── */
-        if (window.LHI && typeof window.LHI.identify === 'function') {
-          window.LHI.identify({
-            email: contact.email,
-            phone: contact.phone,
-            name: contact.name,
-            zip: contact.zip || null
-          });
-        }
-
         if (window.LHI && typeof window.LHI.track === 'function') {
           setTimeout(function() {
             window.LHI.track('Lead', {

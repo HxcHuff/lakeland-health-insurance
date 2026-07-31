@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://lakelandhealthinsurance.com/</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -142,7 +142,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/quote/</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -198,14 +198,14 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/plans/</loc>
-    <lastmod>2026-02-17</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/about/</loc>
-    <lastmod>2026-05-01</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -219,9 +219,16 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/privacy-policy.html</loc>
-    <lastmod>2026-07-24</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.70</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/sms-policy.html</loc>
+    <lastmod>2026-07-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.60</priority>
   </url>
 
   <url>
@@ -527,7 +534,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/medicare/</loc>
-    <lastmod>2026-04-30</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -576,14 +583,14 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/contact/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/get-help/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
@@ -646,7 +653,7 @@
   
   <url>
     <loc>https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
@@ -681,7 +688,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/aca-subsidy-estimator/</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -821,7 +828,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/losing-coverage/</loc>
-    <lastmod>2026-07-26</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.86</priority>
   </url>
@@ -835,7 +842,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/self-employed-health-insurance/</loc>
-    <lastmod>2026-07-26</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.84</priority>
   </url>
@@ -849,7 +856,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/provider-prescription-check/</loc>
-    <lastmod>2026-07-26</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.82</priority>
   </url>

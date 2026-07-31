@@ -784,16 +784,6 @@
     })();
 
     // Form submit tracking is handled by /js/funnel.js after /api/lead accepts the payload.
-    document.getElementById('medicareLeadForm').addEventListener('submit', function(e) {
-      if (window.LHI && typeof window.LHI.identify === 'function') {
-        window.LHI.identify({
-          name: this.full_name && this.full_name.value,
-          phone: this.phone && this.phone.value,
-          email: this.email && this.email.value,
-          zip: this.zip_code && this.zip_code.value
-        });
-      }
-    });
   </script>
 
     <script src="/js/site-template.js" defer></script>

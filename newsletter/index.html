@@ -659,13 +659,6 @@
       var sourceInput = document.getElementById('sourcePageInput');
       if (sourceInput) sourceInput.value = window.location.pathname + window.location.search;
 
-      var form = document.getElementById('newsletterForm');
-      if (!form) return;
-      form.addEventListener('submit', function () {
-        if (window.LHI && typeof window.LHI.identify === 'function') {
-          window.LHI.identify({ email: form.email && form.email.value });
-        }
-      }, { capture: true });
     })();
   </script>
     <script src="/js/site-template.js" defer></script>

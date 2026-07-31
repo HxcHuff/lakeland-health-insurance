@@ -21,30 +21,29 @@ const MC_API_KEY = process.env.MAILCHIMP_API_KEY;
 const MC_AUDIENCE_ID = process.env.MAILCHIMP_AUDIENCE_ID;
 const MC_SERVER = process.env.MAILCHIMP_SERVER_PREFIX; // e.g. "us12"
 
-// form-name → Mailchimp behavior. Newsletter forms get pending (double opt-in);
-// high-intent lead forms get subscribed (already gave phone + explicit consent).
-// Existing subscribers are never downgraded — pending only applies to NEW contacts.
+// Mailchimp always uses confirmed opt-in. Sales-form contact permission is
+// not marketing permission; lead sync requires consent_marketing_email=yes.
 const FORM_MC_CONFIG = {
   'homepage-newsletter':           { status: 'pending',    tags: ['homepage', 'newsletter'] },
   'newsletter-signup':             { status: 'pending',    tags: ['newsletter', 'newsletter-page'] },
-  'get-help':                      { status: 'subscribed', tags: ['lead', 'get-help', 'hot-lead'] },
-  'lp-aca-lead':                   { status: 'subscribed', tags: ['aca', 'paid-ad', 'hot-lead'] },
-  'lp-medicare-lead':              { status: 'subscribed', tags: ['medicare', 'paid-ad', 'hot-lead'] },
-  'lp-gap-lead':                   { status: 'subscribed', tags: ['gap', 'paid-ad', 'hot-lead'] },
-  'aca-lakeland-lead':             { status: 'subscribed', tags: ['aca', 'local-seo', 'lakeland', 'hot-lead'] },
-  'tampa-health-insurance':        { status: 'subscribed', tags: ['aca', 'local-seo', 'tampa', 'hot-lead'] },
-  'winter-haven-health-insurance': { status: 'subscribed', tags: ['aca', 'local-seo', 'winter-haven', 'hot-lead'] },
-  'haines-city-health-insurance':  { status: 'subscribed', tags: ['aca', 'local-seo', 'haines-city', 'hot-lead'] },
-  'lake-alfred-health-insurance':  { status: 'subscribed', tags: ['aca', 'local-seo', 'lake-alfred', 'hot-lead'] },
-  'davenport-health-insurance':    { status: 'subscribed', tags: ['aca', 'local-seo', 'davenport', 'hot-lead'] },
-  'brandon-health-insurance':      { status: 'subscribed', tags: ['aca', 'local-seo', 'brandon', 'hot-lead'] },
-  'clearwater-health-insurance':   { status: 'subscribed', tags: ['aca', 'local-seo', 'clearwater', 'hot-lead'] },
-  'largo-health-insurance':        { status: 'subscribed', tags: ['aca', 'local-seo', 'largo', 'hot-lead'] },
-  'new-port-richey-health-insurance': { status: 'subscribed', tags: ['aca', 'local-seo', 'new-port-richey', 'hot-lead'] },
-  'riverview-health-insurance':    { status: 'subscribed', tags: ['aca', 'local-seo', 'riverview', 'hot-lead'] },
-  'st-petersburg-health-insurance': { status: 'subscribed', tags: ['aca', 'local-seo', 'st-petersburg', 'hot-lead'] },
-  'wesley-chapel-health-insurance': { status: 'subscribed', tags: ['aca', 'local-seo', 'wesley-chapel', 'hot-lead'] },
-  'subsidy-estimator-lead':        { status: 'subscribed', tags: ['aca', 'subsidy-estimator', 'tool-lead'] }
+  'get-help':                      { status: 'pending', tags: ['lead', 'get-help'] },
+  'lp-aca-lead':                   { status: 'pending', tags: ['aca', 'paid-ad'] },
+  'lp-medicare-lead':              { status: 'pending', tags: ['medicare', 'paid-ad'] },
+  'lp-gap-lead':                   { status: 'pending', tags: ['gap', 'paid-ad'] },
+  'aca-lakeland-lead':             { status: 'pending', tags: ['aca', 'local-seo', 'lakeland'] },
+  'tampa-health-insurance':        { status: 'pending', tags: ['aca', 'local-seo', 'tampa'] },
+  'winter-haven-health-insurance': { status: 'pending', tags: ['aca', 'local-seo', 'winter-haven'] },
+  'haines-city-health-insurance':  { status: 'pending', tags: ['aca', 'local-seo', 'haines-city'] },
+  'lake-alfred-health-insurance':  { status: 'pending', tags: ['aca', 'local-seo', 'lake-alfred'] },
+  'davenport-health-insurance':    { status: 'pending', tags: ['aca', 'local-seo', 'davenport'] },
+  'brandon-health-insurance':      { status: 'pending', tags: ['aca', 'local-seo', 'brandon'] },
+  'clearwater-health-insurance':   { status: 'pending', tags: ['aca', 'local-seo', 'clearwater'] },
+  'largo-health-insurance':        { status: 'pending', tags: ['aca', 'local-seo', 'largo'] },
+  'new-port-richey-health-insurance': { status: 'pending', tags: ['aca', 'local-seo', 'new-port-richey'] },
+  'riverview-health-insurance':    { status: 'pending', tags: ['aca', 'local-seo', 'riverview'] },
+  'st-petersburg-health-insurance': { status: 'pending', tags: ['aca', 'local-seo', 'st-petersburg'] },
+  'wesley-chapel-health-insurance': { status: 'pending', tags: ['aca', 'local-seo', 'wesley-chapel'] },
+  'subsidy-estimator-lead':        { status: 'pending', tags: ['aca', 'subsidy-estimator'] }
 };
 
 const INTENT_MC_TAGS = {
@@ -63,15 +62,22 @@ const INTENT_MC_TAGS = {
 
 const NEWSLETTER_FORMS = new Set(['homepage-newsletter', 'newsletter-signup']);
 
-const sha256 = (s) =>
-  crypto.createHash('sha256').update(String(s).trim().toLowerCase()).digest('hex');
-
-const normalizePhone = (p) => String(p || '').replace(/\D/g, '');
-
 function pickCookie(cookieHeader, name) {
   if (!cookieHeader) return null;
   const m = cookieHeader.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]+)'));
   return m ? decodeURIComponent(m[1]) : null;
+}
+
+function sanitizeEventSourceUrl(rawUrl) {
+  try {
+    const url = new URL(String(rawUrl || ''), 'https://lakelandhealthinsurance.com');
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+      return 'https://lakelandhealthinsurance.com/';
+    }
+    return `${url.origin}${url.pathname || '/'}`;
+  } catch (_) {
+    return 'https://lakelandhealthinsurance.com/';
+  }
 }
 
 exports.handler = async (event) => {
@@ -102,11 +108,7 @@ exports.handler = async (event) => {
   const eventId = crypto.randomUUID();
   const eventTime = Math.floor(Date.now() / 1000);
 
-  const clientIp = (headers['x-nf-client-connection-ip'] ||
-                    headers['x-forwarded-for'] ||
-                    '').split(',')[0].trim();
-  const userAgent = headers['user-agent'] || '';
-  const sourceUrl = payload.source_url || headers.referer || headers.referrer || '';
+  const sourceUrl = sanitizeEventSourceUrl(payload.source_url || headers.referer || headers.referrer || '');
   const formName = payload['form-name'] || payload.form_name || '';
   const isNewsletter = NEWSLETTER_FORMS.has(formName) || payload.event_name === 'Subscriber';
   const leadPriority = classifyLead(payload, formName);
@@ -126,24 +128,6 @@ exports.handler = async (event) => {
   } else if (PIXEL_ID && ACCESS_TOKEN) {
     try {
       const userData = {};
-      if (clientIp) userData.client_ip_address = clientIp;
-      if (userAgent) userData.client_user_agent = userAgent;
-      const email = payload.email;
-      const phone = payload.phone || payload.phone_number;
-      const zip = payload.zip || payload.zip_code || payload.postal_code;
-      if (email) userData.em = [sha256(email)];
-      if (phone) {
-        const ph = normalizePhone(phone);
-        if (ph) userData.ph = [sha256(ph)];
-      }
-      if (payload.first_name) userData.fn = [sha256(payload.first_name)];
-      if (payload.last_name) userData.ln = [sha256(payload.last_name)];
-      if (payload.full_name && !payload.first_name && !payload.last_name) {
-        const parts = String(payload.full_name).trim().split(/\s+/);
-        if (parts[0]) userData.fn = [sha256(parts[0])];
-        if (parts.length > 1) userData.ln = [sha256(parts.slice(1).join(' '))];
-      }
-      if (zip) userData.zp = [sha256(String(zip).slice(0, 5))];
       if (fbp) userData.fbp = fbp;
       if (fbc) userData.fbc = fbc;
 
@@ -156,12 +140,9 @@ exports.handler = async (event) => {
           event_source_url: sourceUrl,
           user_data: userData,
           custom_data: {
-            content_name: payload.content_name || payload['form-name'] || 'lead',
+            content_name: 'first_party_lead',
             currency: 'USD',
-            value: 0,
-            normalized_intent: payload.normalized_intent || null,
-            line_of_business: payload.line_of_business || null,
-            lead_priority: payload.lead_priority || null
+            value: 0
           }
         }]
       };
@@ -228,7 +209,7 @@ exports.handler = async (event) => {
   try {
     const result = await syncToMailchimp(payload);
     mcOk = result.ok;
-    if (result.error) {
+    if (result.error && !result.skipped) {
       mcError = result.error;
       console.error('Mailchimp sync error:', result.error);
     }
@@ -243,10 +224,7 @@ exports.handler = async (event) => {
     try {
       const result = await sendAdsLead({
         eventId,
-        payload,
         headers,
-        clientIp,
-        userAgent,
         cookieHeader,
         sourceUrl
       });
@@ -369,13 +347,17 @@ function classifyLead(payload, formName) {
 }
 
 async function syncToMailchimp(payload) {
+  const formName = payload['form-name'] || payload.form_name || '';
+  const isNewsletter = NEWSLETTER_FORMS.has(formName) || payload.event_name === 'Subscriber';
+  if (!isNewsletter && payload.consent_marketing_email !== 'yes') {
+    return { ok: false, skipped: true };
+  }
   if (!MC_API_KEY || !MC_AUDIENCE_ID || !MC_SERVER) {
     return { ok: false, error: 'Mailchimp env vars not set (MAILCHIMP_API_KEY / MAILCHIMP_AUDIENCE_ID / MAILCHIMP_SERVER_PREFIX)' };
   }
   const email = payload.email && String(payload.email).trim();
   if (!email) return { ok: false, error: 'no email in payload' };
 
-  const formName = payload['form-name'] || payload.form_name || '';
   const config = mailchimpConfigFor(payload, formName);
 
   // subscriber_hash is MD5 of lowercased email — used for upsert by email.
@@ -391,16 +373,9 @@ async function syncToMailchimp(payload) {
     if (parts[0]) mergeFields.FNAME = parts[0];
     if (parts.length > 1) mergeFields.LNAME = parts.slice(1).join(' ');
   }
-  if (payload.phone || payload.phone_number) mergeFields.PHONE = payload.phone || payload.phone_number;
-
-  // status (force) for high-intent forms upgrades existing pending contacts.
-  // status_if_new (don't downgrade) for newsletter signups preserves existing subscribed status.
+  // New contacts remain pending until they confirm the marketing email opt-in.
   const upsertBody = { email_address: email, merge_fields: mergeFields };
-  if (config.status === 'subscribed') {
-    upsertBody.status = 'subscribed';
-  } else {
-    upsertBody.status_if_new = 'pending';
-  }
+  upsertBody.status_if_new = 'pending';
 
   try {
     const res = await fetch(baseUrl, {

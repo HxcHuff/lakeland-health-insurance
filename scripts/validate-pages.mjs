@@ -5,6 +5,14 @@ import { extname, join, relative, resolve } from 'node:path';
 const ROOT = resolve(new URL('.', import.meta.url).pathname, '..');
 const CANONICAL_PHONE = '863-640-3102';
 const FORBIDDEN_PHONES = ['617-1376'];
+const FORBIDDEN_SERVICE_CLAIMS = [
+  /coverage across the nation/i,
+  /serving most of the united states/i,
+  /serving (?:families|businesses)[^<]{0,80}nationwide/i,
+  /nationwide (?:support|guidance) where available/i,
+  /serving florida and nationwide/i,
+  /licensed in 26 states/i
+];
 const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 
 const SKIP_DIRS = new Set([
@@ -41,8 +49,23 @@ for (const file of seen) {
   const html = readFileSync(file, 'utf8');
   const isNoindex = /<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(html);
 
+  [...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)]
+    .forEach((match, index) => {
+      try {
+        JSON.parse(match[1]);
+      } catch (error) {
+        issues.push(`${rel}: JSON-LD block ${index + 1} is invalid (${error.message})`);
+      }
+    });
+
   for (const bad of FORBIDDEN_PHONES) {
     if (html.includes(bad)) issues.push(`${rel}: forbidden phone "${bad}"`);
+  }
+  for (const claim of FORBIDDEN_SERVICE_CLAIMS) {
+    if (claim.test(html)) issues.push(`${rel}: unsupported service-area claim matches ${claim}`);
+  }
+  if (/LHI\.identify\s*\(/.test(html)) {
+    issues.push(`${rel}: deprecated identity-to-measurement helper is still referenced`);
   }
 
   if (isNoindex) continue;

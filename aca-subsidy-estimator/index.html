@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACA Subsidy Estimator | Premium Tax Credit Calculator | Lakeland Health Insurance</title>
-    <meta name="description" content="Estimate your 2026 ACA premium tax credit based on household size and income. Includes the returned 400% FPL cliff and current IRS applicable percentages.">
-    <meta property="og:title" content="ACA Subsidy Estimator | Premium Tax Credit Calculator | Lakeland Health Insurance">
-    <meta property="og:description" content="Estimate your 2026 ACA premium tax credit with the returned 400% FPL cliff and current IRS applicable percentages.">
+    <title>2026 Lakeland ACA Subsidy Estimator | Educational Tool</title>
+    <meta name="description" content="Explore a 2026 ACA premium tax credit estimate using a clearly labeled Lakeland benchmark assumption and current IRS applicable percentages.">
+    <meta property="og:title" content="2026 Lakeland ACA Subsidy Estimator">
+    <meta property="og:description" content="An educational estimate using a Lakeland benchmark assumption; not an eligibility or plan-price determination.">
     <meta property="og:url" content="https://lakelandhealthinsurance.com/aca-subsidy-estimator/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lakeland Health Insurance">
@@ -29,16 +29,17 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
+      "@id": "https://lakelandhealthinsurance.com/aca-subsidy-estimator/#application",
       "name": "ACA Subsidy Estimator",
-      "description": "Estimate your 2026 ACA premium tax credit based on household size and income, including the returned 400% FPL cliff.",
+      "description": "Educational 2026 premium tax credit estimate using a Lakeland benchmark assumption.",
       "url": "https://lakelandhealthinsurance.com/aca-subsidy-estimator/",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Any",
-      "publisher": {
-        "@type": "Organization",
-        "name": "Lakeland Health Insurance",
-        "url": "https://lakelandhealthinsurance.com"
-      }
+      "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
+      "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
+      "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
+      "reviewedBy": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
+      "dateModified": "2026-07-30"
     }
     </script>
 
@@ -976,30 +977,6 @@
         }
     </style>
     <script defer src="/js/analytics.js?v=20260729-first-party-funnel"></script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How do I calculate my ACA health insurance subsidy?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Your ACA subsidy (premium tax credit) is calculated based on household size, projected annual income, and the cost of the benchmark Silver plan in your area. If your income falls between 100% and 400% of the Federal Poverty Level, you likely qualify. Use the estimator above to get a personalized estimate, then work with a broker to confirm your actual subsidy amount during enrollment."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What income qualifies for ACA subsidies in Florida in 2026?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "For 2026, a single person earning roughly $15,060 to $60,240 may qualify for ACA subsidies. A family of four may qualify with income between approximately $31,200 and $124,800. Enhanced subsidies expired, so the 400% FPL cliff has returned. Income is based on Modified Adjusted Gross Income (MAGI), not gross pay."
-        }
-      }
-    ]
-  }
-  </script>
     <link rel="stylesheet" href="/css/site-template.css">
 </head>
 <body>
@@ -1059,8 +1036,8 @@
     <!-- Hero -->
     <section class="hero-section">
         <div class="container">
-            <h1>ACA Subsidy Estimator</h1>
-            <p>Find out how much you could save on health insurance through the Affordable Care Act premium tax credit. Enter your household details below for a quick estimate.</p>
+            <h1>2026 Lakeland ACA Subsidy Estimator</h1>
+            <p>Explore how household income, tax-household size, age, and the 2026 IRS applicable percentages interact. This educational tool uses a fixed Lakeland benchmark assumption and does not quote a current plan.</p>
         </div>
     </section>
 
@@ -1069,7 +1046,7 @@
         <div class="container">
             <div class="calculator-card">
                 <h2>Estimate Your Subsidy</h2>
-                <p class="subtitle">Enter your details below &mdash; your estimate updates instantly as you type.</p>
+                <p class="subtitle">Inputs stay in this browser. The estimate updates as you type and is not sent through analytics or included in the Get Help link.</p>
 
                 <!-- Confidence Meter -->
                 <div class="confidence-meter">
@@ -1119,9 +1096,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="zip-code">ZIP Code</label>
-                    <input type="text" id="zip-code" placeholder="33805" maxlength="5" inputmode="numeric" value="33805">
-                    <div class="help-text">Defaults to Lakeland, FL. Change if you live elsewhere.</div>
+                    <label for="zip-code">Benchmark geography</label>
+                    <input type="text" id="zip-code" value="Lakeland 33805" readonly aria-describedby="zip-scope">
+                    <div class="help-text" id="zip-scope">Fixed to the page's Lakeland educational assumption. It is not a sourced quote for another ZIP code or Florida rating area.</div>
                 </div>
 
                 <div class="form-group">
@@ -1137,10 +1114,9 @@
                 <div class="live-results hidden" id="live-results">
                     <!-- Price Hero -->
                     <div class="live-price-hero" id="price-hero">
-                        <div class="price-label">Estimated Monthly Premium</div>
+                        <div class="price-label">Illustrative Monthly Amount</div>
                         <div class="price-value" id="price-value">$0</div>
                         <div class="price-period">per month after subsidy</div>
-                        <div class="zero-badge">YOU MAY QUALIFY FOR VERY LOW BRONZE PREMIUMS</div>
                     </div>
 
                     <!-- Status Messages (gap / cliff) -->
@@ -1183,8 +1159,9 @@
 
                     <!-- Disclaimer -->
                     <div class="disclaimer-box" id="disclaimer-box">
-                        <strong>Disclaimer:</strong> This tool provides estimates only and does not guarantee eligibility or subsidy amounts.
-                        Actual premium tax credits depend on your MAGI, household composition, age, tobacco use, geographic rating area, and available benchmark Silver plan pricing.
+                        <strong>Disclaimer:</strong> This tool provides an educational estimate only and does not determine eligibility, premium, savings, or subsidy.
+                        The $450 age-21 benchmark is an explicit Lakeland illustration maintained by this site, not a live second-lowest-cost Silver plan quote.
+                        Actual premium tax credits depend on the official Marketplace application, MAGI, tax household, age, geographic rating area, and current benchmark Silver plan pricing.
                         Uses 2025 Federal Poverty Guidelines for 2026 coverage year per IRS Rev. Proc. 2025-25.
                         Florida has not expanded Medicaid under the ACA. For official eligibility, visit HealthCare.gov.
                     </div>
@@ -1192,83 +1169,11 @@
 
                 <!-- Get Exact Quote CTA (replaces old calculate button) -->
                 <div id="cta-exact-quote" style="margin-top:28px;">
-                    <a href="/get-help/" class="calculate-btn" id="get-exact-quote-btn" style="display:block;text-align:center;text-decoration:none;color:var(--white);">
-                        Get Your Exact Quote Now
+                    <a href="/get-help/?intent=aca" class="calculate-btn" id="get-exact-quote-btn" style="display:block;text-align:center;text-decoration:none;color:var(--white);">
+                        Request a Florida ACA Review
                     </a>
                 </div>
 
-                <!-- Lead Capture Form -->
-                <div class="lead-capture" id="lead-capture" style="display:none;">
-                    <div class="lead-capture-header">
-                        <div class="lead-icon">&#128203;</div>
-                        <h3>Get Your Personalized Savings Report</h3>
-                        <p>Your estimate above is a great start. Your personalized report includes:</p>
-                    </div>
-
-                    <div class="report-preview">
-                        <div class="preview-item">
-                            <span class="preview-check">&#10003;</span>
-                            <span>Exact ACA plans available in your ZIP code</span>
-                        </div>
-                        <div class="preview-item">
-                            <span class="preview-check">&#10003;</span>
-                            <span>Real premiums after your subsidy is applied</span>
-                        </div>
-                        <div class="preview-item">
-                            <span class="preview-check">&#10003;</span>
-                            <span>Side-by-side comparison of Bronze, Silver &amp; Gold options</span>
-                        </div>
-                        <div class="preview-item">
-                            <span class="preview-check">&#10003;</span>
-                            <span>Deductible &amp; out-of-pocket maximums for each plan</span>
-                        </div>
-                        <div class="preview-item">
-                            <span class="preview-check">&#10003;</span>
-                            <span>Cost-Sharing Reduction (CSR) eligibility check</span>
-                        </div>
-                    </div>
-
-                    <form name="subsidy-estimator-lead" method="POST" action="/thanks.html"
-                          data-netlify="true" data-netlify-honeypot="bot-field" id="leadCaptureForm">
-                        <input type="hidden" name="form-name" value="subsidy-estimator-lead">
-                        <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
-
-                        <input type="hidden" name="household_size" id="lead-household-size">
-                        <input type="hidden" name="annual_income" id="lead-income">
-                        <input type="hidden" name="age" id="lead-age">
-                        <input type="hidden" name="zip_code" id="lead-zip">
-                        <input type="hidden" name="tobacco_use" id="lead-tobacco">
-                        <input type="hidden" name="fpl_percent" id="lead-fpl-percent">
-                        <input type="hidden" name="benchmark_premium" id="lead-benchmark">
-                        <input type="hidden" name="estimated_monthly_subsidy" id="lead-subsidy">
-                        <input type="hidden" name="estimated_annual_savings" id="lead-annual-savings">
-                        <input type="hidden" name="expected_contribution" id="lead-contribution">
-                        <input type="hidden" name="estimated_net_premium" id="lead-net-premium">
-                        <input type="hidden" name="_subject" value="New Lead: ACA Subsidy Estimator">
-                        <input type="hidden" name="source_page" value="/aca-subsidy-estimator/">
-
-                        <div class="lead-fields">
-                            <div class="form-group">
-                                <label for="lead-name">First Name</label>
-                                <input type="text" id="lead-name" name="first_name" placeholder="John" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="lead-phone">Phone Number</label>
-                                <input type="tel" id="lead-phone" name="phone" placeholder="(863) 555-1234" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="lead-email">Email Address</label>
-                                <input type="email" id="lead-email" name="email" placeholder="john@example.com" required>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="lead-submit-btn">Send My Estimate</button>
-
-                        <p class="lead-privacy">
-                            &#128274; Your info is safe. We'll reach out to review your personalized options &mdash; no spam, no obligation.
-                        </p>
-                    </form>
-                </div>
             </div>
         </div>
     </section>
@@ -1277,14 +1182,29 @@
     <section class="cta-section">
         <div class="container">
             <h2>Want Personalized Subsidy Help?</h2>
-            <p>These estimates are a great starting point, but every situation is different. David can walk you through the real numbers, find the best plan for your family, and make sure you get every dollar of savings you qualify for.</p>
+            <p>David can help organize the Marketplace inputs and compare available Florida coverage after the official eligibility result is available. Tax questions and final premium-tax-credit reconciliation belong with a qualified tax professional.</p>
             <div class="cta-buttons">
                 <a href="tel:+18636403102" class="cta-btn-primary">
                     <span aria-hidden="true">&#128222;</span> Call David: (863) 640-3102
                 </a>
-                <a href="/get-help/" class="cta-btn-secondary">
-                    <span aria-hidden="true">&#128172;</span> Request a Consultation
+                <a href="/get-help/?intent=aca" class="cta-btn-secondary">
+                    <span aria-hidden="true">&#128172;</span> Request an ACA Review
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="calculator-section" aria-labelledby="estimator-sources">
+        <div class="container">
+            <div class="calculator-card">
+                <h2 id="estimator-sources">Primary sources and scope</h2>
+                <p>This implementation applies the 2026 percentages in IRS Revenue Procedure 2025-25 and uses 2025 Federal Poverty Guidelines for the 2026 coverage year. The Lakeland benchmark amount is a site-maintained illustration and must be replaced with the official benchmark for an eligibility or tax-credit determination.</p>
+                <ul style="padding-left:1.25rem;">
+                    <li><a href="https://www.irs.gov/irb/2025-32_IRB" target="_blank" rel="noopener noreferrer">IRS Revenue Procedure 2025-25</a> — accessed July 30, 2026; 2026 premium tax credit applicable percentages.</li>
+                    <li><a href="https://www.irs.gov/credits-deductions/premium-tax-credit-ptc-overview" target="_blank" rel="noopener noreferrer">IRS Premium Tax Credit overview</a> — accessed July 30, 2026; 2026 eligibility and reconciliation context.</li>
+                    <li><a href="https://www.healthcare.gov/reporting-changes/" target="_blank" rel="noopener noreferrer">HealthCare.gov: Report income and household changes</a> — accessed July 30, 2026; federal Marketplace guidance for Florida.</li>
+                </ul>
+                <p style="margin-top:1rem;">Reviewed by <a href="/about/">David Huff</a>, licensed Florida health insurance agent and broker (FL #W371813; NPN 18213932). Last reviewed: <time datetime="2026-07-30">July 30, 2026</time>. Review status: approved for local pre-deployment review.</p>
             </div>
         </div>
     </section>
@@ -1297,16 +1217,13 @@
                     <ul>
                         <li><a href="tel:+18636403102"><span aria-hidden="true">&#128222;</span> (863) 640-3102</a></li>
                         <li><a href="mailto:dhuff@healthmarkets.com"><span aria-hidden="true">&#128231;</span> dhuff@healthmarkets.com</a></li>
-                        <li><span aria-hidden="true">&#128205;</span> Central Florida Headquarters</li>
-                        <li><span aria-hidden="true">&#9200;</span> Mon-Fri 8AM-8PM EST</li>
-                        <li><span aria-hidden="true">&#9200;</span> Sat 9AM-5PM EST</li>
+                        <li><span aria-hidden="true">&#128205;</span> Lakeland-based, serving Florida</li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Service Areas</h3>
                     <ul>
                         <li><span aria-hidden="true">&#127969;</span> Florida Residents</li>
-                        <li><span aria-hidden="true">&#127482;&#127480;</span> Coverage Across the Nation</li>
                         <li><span aria-hidden="true">&#128188;</span> Small Business Groups</li>
                         <li><span aria-hidden="true">&#128104;&#8205;&#128105;&#8205;&#128103;&#8205;&#128102;</span> Individual &amp; Family Plans</li>
                         <li><span aria-hidden="true">&#129299;</span> Medicare Specialists</li>
@@ -1325,8 +1242,8 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
-                <p>FL License #W371813 | Serving most of the United States with honest insurance advice</p>
+                <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Lakeland-based, serving Florida.</p>
+                <p>FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier.</p>
             </div>
         </div>
     </footer>
@@ -1454,7 +1371,6 @@
         function updateConfidence() {
             var age = document.getElementById('applicant-age').value.trim();
             var income = parseIncome(document.getElementById('annual-income').value);
-            var zip = document.getElementById('zip-code').value.trim();
             var household = document.getElementById('household-size').value;
             var tobaccoBtn = document.querySelector('#tobacco-toggle .toggle-btn.active');
 
@@ -1462,7 +1378,7 @@
                 age: age !== '' && !isNaN(parseInt(age, 10)) && parseInt(age, 10) >= 0 && parseInt(age, 10) <= 64,
                 income: income > 0,
                 household: household !== '',
-                zip: /^\d{5}$/.test(zip),
+                zip: true,
                 tobacco: tobaccoBtn !== null
             };
 
@@ -1492,6 +1408,7 @@
         // REAL-TIME CALCULATION ENGINE
         // =====================================================================
         var _calcDebounce = null;
+        var _estimatorCompleteTracked = false;
 
         function liveCalculate() {
             clearTimeout(_calcDebounce);
@@ -1505,18 +1422,15 @@
             var priceHero = document.getElementById('price-hero');
             var breakdownEl = document.getElementById('price-breakdown');
             var resultNote = document.getElementById('result-note');
-            var leadCapture = document.getElementById('lead-capture');
 
             if (!hasMinimum) {
                 liveResults.classList.add('hidden');
-                if (leadCapture) leadCapture.style.display = 'none';
                 return;
             }
 
             var age = parseInt(document.getElementById('applicant-age').value, 10);
             var income = parseIncome(document.getElementById('annual-income').value);
             var householdSize = parseInt(document.getElementById('household-size').value, 10);
-            var zip = document.getElementById('zip-code').value.trim();
             var tobaccoBtn = document.querySelector('#tobacco-toggle .toggle-btn.active');
             var tobacco = tobaccoBtn ? tobaccoBtn.getAttribute('data-value') : 'no';
 
@@ -1537,11 +1451,8 @@
                     '<div class="status-message gap">' +
                     '<strong>Coverage Gap (' + Math.round(fplPercent) + '% FPL)</strong>' +
                     'Your income is below 100% of the Federal Poverty Level. Florida has not expanded Medicaid, ' +
-                    'so you may fall into a coverage gap. <strong>You may still have options</strong> &mdash; ' +
-                    'contact David to explore alternatives like fixed indemnity or short-term plans.' +
+                    'so this illustration does not show an estimated premium tax credit. Use the official Marketplace application and Florida eligibility pathways for a determination.' +
                     '</div>';
-                populateLeadFields(householdSize, income, age, zip, tobacco, fplPercent, benchmarkMonthly, 0, 0, 0, benchmarkMonthly);
-                if (leadCapture) leadCapture.style.display = 'block';
                 return;
             }
 
@@ -1556,13 +1467,9 @@
                 statusArea.innerHTML =
                     '<div class="status-message cliff">' +
                     '<strong>Above Subsidy Threshold (' + Math.round(fplPercent) + '% FPL)</strong>' +
-                    'Your income exceeds 400% FPL. The enhanced subsidies expired Dec 31, 2025 &mdash; ' +
-                    'the subsidy cliff has returned and you would pay full premium. ' +
-                    '<strong>We can still help you find the most cost-effective plan.</strong>' +
+                    'Under the stated 2026 assumptions, this illustration shows no estimated premium tax credit above 400% FPL. The official Marketplace and tax result controls.' +
                     '</div>';
                 updateBreakdown(age, benchmarkMonthly, fplPercent, 0, 0, fullPremium);
-                populateLeadFields(householdSize, income, age, zip, tobacco, fplPercent, benchmarkMonthly, 0, 0, 0, fullPremium);
-                if (leadCapture) leadCapture.style.display = 'block';
                 return;
             }
 
@@ -1586,32 +1493,11 @@
             // Update breakdown
             updateBreakdown(age, benchmarkMonthly, fplPercent, applicablePct, subsidyMonthly, netPremium);
 
-            // Populate lead hidden fields
-            populateLeadFields(householdSize, income, age, zip, tobacco, fplPercent, benchmarkMonthly,
-                               subsidyMonthly, subsidyAnnual, expectedContribMonthly, netPremium);
-
-            // Show lead capture
-            if (leadCapture) leadCapture.style.display = 'block';
-
-            // Store for external use
-            window._subsidyResults = {
-                householdSize: householdSize, income: income, age: age, zip: zip,
-                tobacco: tobacco, fplPercent: Math.round(fplPercent),
-                benchmarkPremium: Math.round(benchmarkMonthly),
-                estimatedSubsidyMonthly: Math.round(subsidyMonthly),
-                estimatedSubsidyAnnual: Math.round(subsidyAnnual),
-                expectedContributionMonthly: Math.round(expectedContribMonthly),
-                netPremium: Math.round(netPremium),
-                ageFactor: getAgeFactor(age)
-            };
-
-            // Fire analytics once per complete calculation
-            if (typeof gtag === 'function') {
-                gtag('event', 'subsidy_calculator_complete', {
-                    fpl_percent: Math.round(fplPercent),
-                    estimated_subsidy: Math.round(subsidyMonthly),
-                    net_premium: Math.round(netPremium)
-                });
+            // Record only a generic completion event. Household, income, age,
+            // tobacco, FPL, subsidy, and premium values stay in this browser.
+            if (!_estimatorCompleteTracked && window.LHI && typeof window.LHI.track === 'function') {
+                _estimatorCompleteTracked = true;
+                window.LHI.track('EstimatorComplete', { content_name: 'lakeland_2026_estimator' });
             }
         }
 
@@ -1622,29 +1508,6 @@
             document.getElementById('bd-contribution').textContent = applPct ? applPct.toFixed(2) + '% of income' : 'N/A (above 400%)';
             document.getElementById('bd-subsidy').textContent = subsidy > 0 ? '-' + fmt(subsidy) + '/mo' : '$0';
             document.getElementById('bd-total').textContent = fmt(net) + '/mo';
-        }
-
-        function populateLeadFields(hs, inc, age, zip, tob, fpl, bench, sub, subAnnual, contrib, net) {
-            document.getElementById('lead-household-size').value = hs;
-            document.getElementById('lead-income').value = inc;
-            document.getElementById('lead-age').value = age;
-            document.getElementById('lead-zip').value = zip;
-            document.getElementById('lead-tobacco').value = tob;
-            document.getElementById('lead-fpl-percent').value = Math.round(fpl);
-            document.getElementById('lead-benchmark').value = Math.round(bench);
-            document.getElementById('lead-subsidy').value = Math.round(sub);
-            document.getElementById('lead-annual-savings').value = Math.round(subAnnual);
-            document.getElementById('lead-contribution').value = Math.round(contrib);
-            document.getElementById('lead-net-premium').value = Math.round(net);
-
-            // Update "Get Exact Quote" link with query params
-            var btn = document.getElementById('get-exact-quote-btn');
-            if (btn) {
-                var params = '?age=' + age + '&income=' + inc + '&household=' + hs +
-                             '&zip=' + zip + '&tobacco=' + tob + '&fpl=' + Math.round(fpl) +
-                             '&subsidy=' + Math.round(sub) + '&premium=' + Math.round(net);
-                btn.href = '/get-help/' + params;
-            }
         }
 
         // =====================================================================
@@ -1664,11 +1527,6 @@
 
         document.getElementById('applicant-age').addEventListener('input', liveCalculate);
         document.getElementById('household-size').addEventListener('change', liveCalculate);
-        document.getElementById('zip-code').addEventListener('input', function(e) {
-            e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 5);
-            liveCalculate();
-        });
-
         // Tobacco toggle handler
         document.getElementById('tobacco-toggle').addEventListener('click', function(e) {
             if (e.target.classList.contains('toggle-btn')) {
@@ -1690,62 +1548,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateConfidence();
         });
-
-        // Lead form submission: POST to /api/lead -> server fires Meta CAPI
-        // + forwards to Netlify Forms, returns event_id; browser fires fbq Lead
-        // with that ID for dedup.
-        (function() {
-            var leadForm = document.getElementById('leadCaptureForm');
-            if (!leadForm) return;
-
-            leadForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                var contentName = 'subsidy_estimator_lead_form';
-                var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
-                if (isLocal) {
-                    if (typeof fbLead === 'function') fbLead(contentName);
-                    window.location.href = leadForm.getAttribute('action') || '/thanks.html';
-                    return;
-                }
-
-                var payload = { content_name: contentName, source_url: window.location.href };
-                new FormData(leadForm).forEach(function(v, k) { payload[k] = v; });
-
-                fetch('/api/lead', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                }).then(function(r) { return r.ok ? r.json() : null; }).then(function(data) {
-                    if (window.LHI && typeof window.LHI.identify === 'function') {
-                        window.LHI.identify({
-                            name: leadForm.querySelector('[name="first_name"]') && leadForm.querySelector('[name="first_name"]').value,
-                            phone: leadForm.querySelector('[name="phone"]') && leadForm.querySelector('[name="phone"]').value,
-                            email: leadForm.querySelector('[name="email"]') && leadForm.querySelector('[name="email"]').value,
-                            zip: leadForm.querySelector('[name="zip_code"]') && leadForm.querySelector('[name="zip_code"]').value
-                        });
-                    }
-                    if (window.LHI && typeof window.LHI.track === 'function') {
-                        window.LHI.track('Lead', { content_name: contentName, line_of_business: 'ACA' });
-                    } else {
-                        try {
-                            sessionStorage.setItem('lhi_lead_submitted', JSON.stringify({
-                                event_id: 'lhi_fallback_' + Date.now(),
-                                content_name: contentName,
-                                page_type: 'estimator',
-                                page_path: window.location.pathname,
-                                fired_at: Date.now()
-                            }));
-                        } catch (err) {}
-                    }
-                    setTimeout(function() {
-                        window.location.href = leadForm.getAttribute('action') || '/thanks.html';
-                    }, 250);
-                }).catch(function() {
-                    leadForm.submit();
-                });
-            });
-        })();
 
         // Menu toggle function
         function toggleMenu() {

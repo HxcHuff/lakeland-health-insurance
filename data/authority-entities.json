@@ -1,0 +1,32 @@
+{
+  "reviewedDate": "2026-07-30",
+  "website": {
+    "@id": "https://lakelandhealthinsurance.com/#website",
+    "name": "Lakeland Health Insurance",
+    "url": "https://lakelandhealthinsurance.com/"
+  },
+  "agency": {
+    "@id": "https://lakelandhealthinsurance.com/#agency",
+    "name": "Lakeland Health Insurance",
+    "url": "https://lakelandhealthinsurance.com/",
+    "telephone": "+1-863-640-3102",
+    "email": "dhuff@healthmarkets.com",
+    "description": "A Lakeland-based independent health insurance brokerage providing local assistance in Polk County and remote assistance across Florida. Lakeland Health Insurance is not an insurance carrier.",
+    "areaServed": [
+      "Lakeland",
+      "Polk County",
+      "Central Florida",
+      "Florida"
+    ]
+  },
+  "person": {
+    "@id": "https://lakelandhealthinsurance.com/about/#david-huff",
+    "name": "David Huff",
+    "jobTitle": "Licensed health insurance agent and broker",
+    "url": "https://lakelandhealthinsurance.com/about/",
+    "telephone": "+1-863-640-3102",
+    "email": "dhuff@healthmarkets.com",
+    "floridaLicense": "W371813",
+    "npn": "18213932"
+  }
+}

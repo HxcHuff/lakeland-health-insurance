@@ -35,7 +35,7 @@ function sanitizeSourceUrl(rawUrl, headers) {
   return `${fallbackOrigin}/`;
 }
 
-async function sendAdsLead({ eventId, payload, headers, clientIp, userAgent, cookieHeader, sourceUrl }) {
+async function sendAdsLead({ eventId, headers, cookieHeader, sourceUrl }) {
   const netlifyContext = process.env.CONTEXT || 'production';
   if (netlifyContext !== 'production') {
     return { ok: false, skipped: true, error: `OpenAI Ads skipped: non-production Netlify context (${netlifyContext})` };
@@ -47,11 +47,6 @@ async function sendAdsLead({ eventId, payload, headers, clientIp, userAgent, coo
   const user = {};
   const obref = pickRawCookie(cookieHeader, '__obref');
   if (obref) user.obref = obref;
-  if (clientIp) user.ip_address = clientIp;
-  if (userAgent) user.user_agent = userAgent;
-
-  const zip = payload.zip || payload.zip_code || payload.postal_code;
-  if (zip) user.zip_code = String(zip).replace(/\D/g, '').slice(0, 5);
 
   const leadEvent = {
     id: eventId,

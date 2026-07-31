@@ -80,19 +80,16 @@
               <li><a href="${phoneHref}"><span aria-hidden="true">&#128222;</span> ${phoneDisplay}</a></li>
               <li><a href="mailto:dhuff@healthmarkets.com"><span aria-hidden="true">&#128231;</span> dhuff@healthmarkets.com</a></li>
               <li><a href="${messengerHref}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
-              <li><span aria-hidden="true">&#128205;</span> Central Florida Headquarters</li>
-              <li><span aria-hidden="true">&#9200;</span> Mon-Fri 8AM-8PM EST</li>
-              <li><span aria-hidden="true">&#9200;</span> Sat 9AM-5PM EST</li>
+              <li><span aria-hidden="true">&#128205;</span> Lakeland-based, serving Florida</li>
             </ul>
           </div>
           <div class="footer-column">
             <h3>Service Areas</h3>
             <ul>
-              <li>Florida Residents</li>
-              <li>Coverage Across the Nation</li>
-              <li>Small Business Groups</li>
-              <li>Individual & Family Plans</li>
-              <li>Medicare Specialists</li>
+              <li>Lakeland</li>
+              <li>Polk County</li>
+              <li>Central Florida</li>
+              <li>Remote assistance across Florida</li>
             </ul>
           </div>
           <div class="footer-column">
@@ -111,8 +108,8 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
-          <p>FL License #W371813 | NPN 18213932 | Serving most of the United States with honest insurance advice</p>
+          <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>
+          <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier.</p>
           <p style="margin-top: 1rem;"><a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer">Powered by David the Insurance Dude</a></p>
         </div>
       </div>`;

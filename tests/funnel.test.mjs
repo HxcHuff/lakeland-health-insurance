@@ -26,6 +26,8 @@ const FUNNEL_SRC = readFileSync(resolve(__dirname, '../js/funnel.js'), 'utf8');
 const ANALYTICS_SRC = readFileSync(resolve(__dirname, '../js/analytics.js'), 'utf8');
 const THANKS_SRC = readFileSync(resolve(__dirname, '../thanks.html'), 'utf8');
 const GET_HELP_SRC = readFileSync(resolve(__dirname, '../js/get-help-intake.js'), 'utf8');
+const GET_HELP_HTML = readFileSync(resolve(__dirname, '../get-help/index.html'), 'utf8');
+const ESTIMATOR_HTML = readFileSync(resolve(__dirname, '../aca-subsidy-estimator/index.html'), 'utf8');
 
 function makeSessionStorage(initial = {}) {
   const store = new Map(Object.entries(initial));
@@ -221,9 +223,8 @@ test('exposes test surface only when __LHI_TEST=true', () => {
   const w = loadFunnel();
   assert.ok(w.LHI, 'LHI public API attached');
   assert.ok(w.LHI._t, '_t test surface attached when gate is set');
-  assert.equal(typeof w.LHI._t.normPhone, 'function');
-  assert.equal(typeof w.LHI._t.sha256, 'function');
   assert.equal(typeof w.LHI._t.pageType, 'function');
+  assert.equal(w.LHI.identify, undefined);
 });
 
 test('test surface is gated — absent when __LHI_TEST is unset', () => {
@@ -247,57 +248,6 @@ test('test surface is gated — absent when __LHI_TEST is unset', () => {
   vm.createContext(sandbox);
   vm.runInContext(FUNNEL_SRC, sandbox, { filename: 'funnel.js' });
   assert.equal(sandbox.LHI._t, undefined, '_t must not leak when __LHI_TEST is unset');
-});
-
-test('normPhone — strips formatting, prepends US country code for 10-digit', () => {
-  const { normPhone } = loadFunnel().LHI._t;
-  assert.equal(normPhone('(863) 640-3102'), '18636403102');
-  assert.equal(normPhone('863-640-3102'), '18636403102');
-  assert.equal(normPhone('863.640.3102'), '18636403102');
-  assert.equal(normPhone('+1 863 640 3102'), '18636403102');
-  assert.equal(normPhone('1-863-640-3102'), '18636403102');
-  assert.equal(normPhone('18636403102'), '18636403102');
-});
-
-test('normPhone — null/empty/garbage returns null', () => {
-  const { normPhone } = loadFunnel().LHI._t;
-  assert.equal(normPhone(null), null);
-  assert.equal(normPhone(undefined), null);
-  assert.equal(normPhone(''), null);
-  assert.equal(normPhone('abc'), null);
-  assert.equal(normPhone('   '), null);
-});
-
-test('normPhone — short or international-length strings pass through digits-only', () => {
-  /* Documents current behavior: only 10-digit gets the leading 1. Other
-     lengths pass through as-is. If we ever tighten this (e.g. reject
-     non-US), update both this test and the caller in fireGoogleAdsLead. */
-  const { normPhone } = loadFunnel().LHI._t;
-  assert.equal(normPhone('5551234'), '5551234');
-  assert.equal(normPhone('+44 20 7946 0958'), '442079460958');
-});
-
-test('sha256 — known vector lower-case hex', async () => {
-  const { sha256 } = loadFunnel().LHI._t;
-  /* sha256('hello') = 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824 */
-  const out = await sha256('hello');
-  assert.equal(out, '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824');
-});
-
-test('sha256 — trims and lowercases input (Google Enhanced Conversions contract)', async () => {
-  /* Google's Enhanced Conversions specs trim+lowercase before hashing.
-     Mismatches fail silently and reduce match rate. Lock this in. */
-  const { sha256 } = loadFunnel().LHI._t;
-  const a = await sha256('  HELLO@Example.COM  ');
-  const b = await sha256('hello@example.com');
-  assert.equal(a, b);
-});
-
-test('sha256 — null/empty resolves to null (does not hash falsy)', async () => {
-  const { sha256 } = loadFunnel().LHI._t;
-  assert.equal(await sha256(null), null);
-  assert.equal(await sha256(undefined), null);
-  assert.equal(await sha256(''), null);
 });
 
 test('pageType — known landing-page paths', () => {
@@ -449,15 +399,8 @@ test('Lead form submit posts to /api/lead and stops legacy submit handlers', asy
   assert.ok(leadEvent, 'Lead event pushed to dataLayer');
   const leadParams = JSON.parse(JSON.stringify(leadEvent.event_params));
   assert.deepEqual(leadParams, {
-    content_name: 'city_lead_form',
-    step: 'submit',
-    coverage_status: 'uninsured',
-    best_time_to_reach: 'anytime_during_business_hours',
-    normalized_intent: 'aca',
-    line_of_business: 'aca',
-    need_timing: 'within_30_days',
-    lead_priority: 'high',
-    lead_priority_reason: 'urgent_or_high_intent_with_contact_path'
+    content_name: 'first_party_lead',
+    step: 'submit'
   });
   assert.equal(leadParams.full_name, undefined);
   assert.equal(leadParams.email, undefined);
@@ -562,20 +505,26 @@ test('funnel tracking does not send third-party telemetry or raw PII in event pa
     }
   });
 
-  w.LHI.identify({
+  w.LHI.track('StartLead', {
+    content_name: 'get_help_aca',
     name: 'Jane Doe',
     email: 'jane@example.com',
     phone: '863-640-3102',
-    zip: '33801'
+    zip: '33801',
+    provider_name: 'Clinic Name',
+    household_income: '65000',
+    coverage_status: 'uninsured'
   });
-  w.LHI.track('StartLead', { content_name: 'get_help_aca', email: 'jane@example.com', provider_name: 'Clinic Name' });
 
   assert.equal(calls.length, 0);
 
   const startLead = w.dataLayer.find((entry) => entry && entry.event === 'StartLead');
   assert.ok(startLead, 'StartLead should still reach dataLayer');
   assert.equal(startLead.event_params.email, undefined);
+  assert.equal(startLead.event_params.zip, undefined);
   assert.equal(startLead.event_params.provider_name, undefined);
+  assert.equal(startLead.event_params.household_income, undefined);
+  assert.equal(startLead.event_params.coverage_status, undefined);
   assert.equal(JSON.stringify(startLead).includes('jane@example.com'), false);
   assert.equal(JSON.stringify(startLead).includes('863-640-3102'), false);
   assert.equal(JSON.stringify(startLead).includes('Jane Doe'), false);
@@ -695,4 +644,35 @@ test('get-help intent allowlist falls back safely', () => {
   assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('medicare'), 'medicare');
   assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('provider-check'), 'provider-check');
   assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('<script>alert(1)</script>'), 'not-sure');
+});
+
+test('get-help consent evidence is channel-specific and versioned', () => {
+  for (const field of [
+    'consent_request',
+    'consent_call',
+    'consent_sms',
+    'consent_email',
+    'consent_marketing_email',
+    'consent_text_version',
+    'consent_recorded_at',
+    'consent_request_state',
+    'consent_call_state',
+    'consent_sms_state',
+    'consent_email_state',
+    'consent_marketing_email_state',
+    'consent_withdrawal_state'
+  ]) {
+    assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
+  }
+  assert.match(GET_HELP_SRC, /consentCallStateInput/);
+  assert.match(GET_HELP_SRC, /consentSmsStateInput/);
+  assert.match(GET_HELP_SRC, /consentEmailStateInput/);
+});
+
+test('estimator keeps sensitive estimate inputs out of lead forms, URLs, and analytics', () => {
+  assert.doesNotMatch(ESTIMATOR_HTML, /id="leadCaptureForm"/);
+  assert.doesNotMatch(ESTIMATOR_HTML, /[?&](?:age|income|household|zip|tobacco|fpl|subsidy|premium)=/);
+  assert.doesNotMatch(ESTIMATOR_HTML, /gtag\(['"]event['"],\s*['"]subsidy_calculator_complete/);
+  assert.match(ESTIMATOR_HTML, /href="\/get-help\/\?intent=aca"/);
+  assert.match(ESTIMATOR_HTML, /Inputs stay in this browser/);
 });

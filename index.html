@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>if(location.hash==='#contact'){location.replace('/get-help/');}</script>
-    <title>Lakeland Medicare &amp; Health Insurance Broker | Lakeland Health Insurance</title>
-    <meta name="description" content="Compare Medicare, ACA, short-term, supplemental, dental, vision, and life insurance options in Lakeland and Polk County with David Huff, a licensed Florida broker.">
+    <title>Lakeland Health Insurance Broker | ACA &amp; Medicare Help</title>
+    <meta name="description" content="Compare Medicare, ACA, and other Florida coverage paths in Lakeland and Polk County with David Huff, a licensed Florida broker.">
     <meta name="google-site-verification" content="Sitwkhl-IJxkcjYluwgCR5XgzQacova8H-DDb4_HiDM" />
     <meta name="facebook-domain-verification" content="etn57m5nxl4g72cymh5kq95iagemhk" />
     <meta name="geo.region" content="US-FL">
@@ -15,14 +15,14 @@
     <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
 
     <!-- OpenGraph Tags -->
-    <meta property="og:title" content="Lakeland Medicare &amp; Health Insurance Broker | Lakeland Health Insurance">
-    <meta property="og:description" content="Compare Medicare, ACA, short-term, supplemental, dental, vision, and life insurance options in Lakeland and Polk County with David Huff, a licensed Florida broker.">
+    <meta property="og:title" content="Lakeland Health Insurance Broker | ACA &amp; Medicare Help">
+    <meta property="og:description" content="Compare Medicare, ACA, and other Florida coverage paths in Lakeland and Polk County with David Huff, a licensed Florida broker.">
     <meta property="og:url" content="https://lakelandhealthinsurance.com/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lakeland Health Insurance">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Lakeland Medicare &amp; Health Insurance Broker | Lakeland Health Insurance">
-    <meta name="twitter:description" content="Compare Medicare, ACA, short-term, supplemental, dental, vision, and life insurance options in Lakeland and Polk County with David Huff, a licensed Florida broker.">
+    <meta name="twitter:title" content="Lakeland Health Insurance Broker | ACA &amp; Medicare Help">
+    <meta name="twitter:description" content="Compare Medicare, ACA, and other Florida coverage paths in Lakeland and Polk County with David Huff, a licensed Florida broker.">
     <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
 
     <!-- PWA -->
@@ -42,6 +42,7 @@
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
+      "@id": "https://lakelandhealthinsurance.com/#website",
       "name": "Lakeland Health Insurance",
       "alternateName": ["David The Insurance Dude", "Lakeland Health"],
       "url": "https://lakelandhealthinsurance.com",
@@ -55,9 +56,7 @@
         "query-input": "required name=search_term_string"
       },
       "publisher": {
-        "@type": "Organization",
-        "name": "Lakeland Health Insurance",
-        "url": "https://lakelandhealthinsurance.com"
+        "@id": "https://lakelandhealthinsurance.com/#agency"
       }
     }
     </script>
@@ -66,12 +65,14 @@
     {
       "@context": "https://schema.org",
       "@type": "InsuranceAgency",
+      "@id": "https://lakelandhealthinsurance.com/#agency",
       "name": "Lakeland Health Insurance",
       "alternateName": "David The Insurance Dude",
       "url": "https://lakelandhealthinsurance.com",
       "description": "Licensed Florida health insurance broker specializing in ACA Marketplace plans, Medicare, supplemental coverage, dental, vision, and life insurance. Broker consultations with no fee to the client.",
       "founder": {
         "@type": "Person",
+        "@id": "https://lakelandhealthinsurance.com/about/#david-huff",
         "name": "David Huff",
         "alternateName": "David The Insurance Dude",
         "jobTitle": "Licensed Insurance Broker",
@@ -109,17 +110,8 @@
           }
         ]
       },
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Lakeland",
-        "addressRegion": "FL",
-        "postalCode": "33805",
-        "addressCountry": "US"
-      },
       "telephone": "+1-863-640-3102",
-      "email": "david@lakelandhealthinsurance.com",
-      "openingHours": ["Mo-Fr 08:00-20:00", "Sa 09:00-17:00"],
-      "priceRange": "No broker fee",
+      "email": "dhuff@healthmarkets.com",
       "sameAs": [
         "https://www.facebook.com/HealthMarkets.David.Huff"
       ],
@@ -208,10 +200,7 @@
           "@type": "AdministrativeArea",
           "name": "Florida"
         },
-        {
-          "@type": "Country",
-          "name": "United States"
-        }
+        {"@type": "AdministrativeArea", "name": "Central Florida"}
       ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
@@ -248,7 +237,7 @@
           "name": "What does a health insurance broker cost in Florida?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Licensed health insurance brokers in Florida are generally compensated by insurance carriers, not by clients. You pay the same premium whether you enroll directly or through a broker, and a broker can compare plans from multiple carriers to find the best fit for your budget and doctors."
+            "text": "Insurance carriers generally compensate appointed brokers when an enrollment is completed. David does not charge a separate fee for the plan-review assistance described on this site. Compensation and availability can differ by carrier and product."
           }
         },
         {
@@ -256,7 +245,7 @@
           "name": "Can I get ACA health insurance if I am self-employed in Florida?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Self-employed individuals in Florida are eligible for ACA Marketplace plans and may qualify for premium subsidies based on projected household income. A broker can help estimate your subsidy and compare plans by doctors, prescriptions, premium, and annual risk."
+            "text": "Self-employed individuals may enroll in ACA Marketplace coverage if they meet the applicable eligibility requirements and may qualify for premium tax credits based on projected household income and other application information. Eligibility and savings are determined by the Marketplace."
           }
         },
         {
@@ -264,12 +253,12 @@
           "name": "When is open enrollment for health insurance in Florida?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "ACA Open Enrollment in Florida typically runs from November 1 through January 15 each year. Medicare Annual Enrollment runs October 15 through December 7. Outside these windows, you may still qualify for a Special Enrollment Period if you experience a qualifying life event such as losing job-based coverage, getting married, having a baby, or moving."
+            "text": "For plan year 2027, Florida uses HealthCare.gov and its Open Enrollment Period runs November 1 through December 15, 2026. Medicare Annual Enrollment runs October 15 through December 7. A Special Enrollment Period may apply outside those windows, but eligibility and documentation must be confirmed."
           }
         },
         {
           "@type": "Question",
-          "name": "What is the difference between Medicare Advantage and Medicare Supplement in Lakeland?",
+          "name": "What is the difference between Medicare Advantage and Medicare Supplement?",
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Medicare Advantage (Part C) is an alternative way to receive Medicare benefits through a private plan that often includes prescription drugs, dental, and vision, with network restrictions. Medicare Supplement (Medigap) works alongside Original Medicare to cover out-of-pocket costs like copays and deductibles, with higher premiums but broader provider flexibility. A Lakeland broker can compare both based on your doctors, prescriptions, and budget."
@@ -277,10 +266,10 @@
         },
         {
           "@type": "Question",
-          "name": "What health insurance plans are available in Polk County, Florida?",
+          "name": "What health insurance plans are available in Polk County?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Polk County residents have access to ACA Marketplace plans from carriers including Ambetter, Molina, Oscar, UnitedHealthcare, and Wellpoint. Medicare beneficiaries can choose from Medicare Advantage, Medicare Supplement, and Part D plans from carriers like UnitedHealthcare and Humana. Supplemental options include dental, vision, life insurance, and fixed-indemnity Guard plans."
+            "text": "Available options depend on ZIP code, county, age, eligibility, plan year, carrier service area, and, for some products, health underwriting. Confirm current options before relying on any carrier, provider, prescription, premium, or benefit description."
           }
         }
       ]
@@ -291,15 +280,19 @@
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
+      "@id": "https://lakelandhealthinsurance.com/#webpage",
+      "url": "https://lakelandhealthinsurance.com/",
       "name": "Health Insurance Broker in Lakeland, FL",
       "speakable": {
         "@type": "SpeakableSpecification",
         "cssSelector": ["#key-takeaways", ".hero-content"]
       },
       "mainEntity": {
-        "@type": "InsuranceAgency",
-        "name": "Lakeland Health Insurance"
+        "@id": "https://lakelandhealthinsurance.com/#agency"
       },
+      "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
+      "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
+      "reviewedBy": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
       "about": [
         {"@type": "Thing", "name": "Health Insurance", "description": "Individual and family health insurance plans in Florida"},
         {"@type": "Thing", "name": "ACA Marketplace", "description": "Affordable Care Act health insurance enrollment"},
@@ -411,7 +404,7 @@
       .home-hero .hero-kicker {
         background: rgba(37, 99, 235, 0.08);
         border: 1px solid rgba(37, 99, 235, 0.14);
-        color: var(--blue);
+        color: #1d4ed8;
         justify-content: flex-start;
       }
 
@@ -489,11 +482,12 @@
         outline-offset: 3px;
       }
 
-      .hero-trust-text {
-        color: var(--gray-500);
+      .home-hero .hero-trust-text {
+        color: #526174;
         font-size: 0.92rem;
         font-weight: 600;
         margin-top: 0.95rem;
+        opacity: 1;
       }
 
       .hero-portrait-wrap {
@@ -679,7 +673,7 @@
     <section class="hero home-hero" id="home">
         <div class="container home-hero-grid">
             <div class="hero-content">
-                <div class="hero-kicker">LOCAL, INDEPENDENT INSURANCE GUIDANCE</div>
+                <div class="hero-kicker">LAKELAND-BASED, SERVING FLORIDA</div>
                 <h1>Health Insurance Doesn&rsquo;t Have to Be Complicated.</h1>
                 <p class="hero-lede">Helping individuals, families, and Medicare beneficiaries compare coverage with straightforward guidance and no pressure.</p>
                 <ul class="hero-benefits" aria-label="Plan review benefits">
@@ -688,10 +682,10 @@
                     <li>See whether you may qualify for savings</li>
                 </ul>
                 <div class="hero-cta-group">
-                    <a href="/aca-health-insurance-lakeland-fl/#eligibility-form" class="hero-cta">Check My Options</a>
+                    <a href="/get-help/" class="hero-cta">Start My Review</a>
                     <a href="/calendly-book.html" class="hero-cta secondary" data-funnel-booking>Schedule a Call</a>
                 </div>
-                <p class="hero-trust-text">Independent broker &bull; Personalized guidance &bull; No-cost consultation</p>
+                <p class="hero-trust-text">Independent broker &bull; Personalized guidance &bull; No separate broker fee</p>
             </div>
             <figure class="hero-portrait-wrap">
                 <div class="hero-portrait-frame">
@@ -714,7 +708,7 @@
     </section>
 
     <section class="credibility-strip" aria-label="Coverage areas">
-        <div class="container">Licensed in 26 States &bull; <a href="https://www.bbb.org/us/fl/lakeland/profile/health-insurance/lakeland-health-insurance-0733-235981531/" target="_blank" rel="nofollow noopener noreferrer">BBB Accredited Business, A- rating</a> &bull; ACA &bull; Medicare &bull; Life Insurance &bull; Supplemental Coverage</div>
+        <div class="container">Lakeland &bull; Polk County &bull; Florida &bull; <a href="https://www.bbb.org/us/fl/lakeland/profile/health-insurance/lakeland-health-insurance-0733-235981531/" target="_blank" rel="nofollow noopener noreferrer">View the BBB business profile</a> &bull; FL License #W371813</div>
     </section>
 
     <section class="medicare-season-home" aria-labelledby="homepage-medicare-title">
@@ -779,7 +773,7 @@
                 </a>
             </div>
             <div class="help-proof">
-                <div><strong>No broker fee</strong> You pay the same premium whether you enroll direct or through a licensed broker.</div>
+                <div><strong>Carrier-compensated help</strong> David does not charge a separate fee for the plan-review assistance described here.</div>
                 <div><strong>Plan-specific review</strong> We check doctors, prescriptions, pharmacies, and timing before you enroll.</div>
             </div>
         </div>
@@ -790,7 +784,7 @@
             <h2 style="font-family:'Instrument Serif',serif; font-size: 1.6rem; font-weight: 400; color: var(--navy); margin-bottom: 16px; text-align: center;">What Lakeland Health Insurance Helps With</h2>
             <p style="color: var(--gray-600); font-size: 1rem; line-height: 1.7; margin-bottom: 12px;">Lakeland Health Insurance is led by David Huff, a licensed Florida broker (FL #W371813) helping individuals, families, self-employed workers, and Medicare beneficiaries compare coverage from multiple carriers. The goal is not to sell every plan type. It is to narrow the choices to the ones that fit your doctors, prescriptions, budget, and enrollment window.</p>
             <p style="color: var(--gray-600); font-size: 1rem; line-height: 1.7; margin-bottom: 12px;">For ACA shoppers, that means checking Marketplace subsidy eligibility and real network fit. For Medicare shoppers, it means comparing Medicare Advantage, Medicare Supplement, and Part D around the doctors and medications you actually use. For supplemental coverage, it means explaining benefits, limits, and underwriting before you apply.</p>
-            <p style="color: var(--gray-600); font-size: 0.9rem; line-height: 1.6; margin-bottom: 0;"><strong>Service areas:</strong> Lakeland, Tampa, Winter Haven, Bartow, Haines City, Plant City, Polk County, Hillsborough County, and greater Central Florida. Licensed to serve clients in most U.S. states.</p>
+            <p style="color: var(--gray-600); font-size: 0.9rem; line-height: 1.6; margin-bottom: 0;"><strong>Service area:</strong> Local assistance in Lakeland and Polk County, with remote assistance available across Florida. Product and plan availability varies by ZIP code, county, eligibility, and plan year.</p>
         </div>
     </section>
 
@@ -873,7 +867,7 @@
             <p class="section-subtitle">Real reviews from real clients on Google</p>
             <div class="rating-badge">
                 <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <div class="rating-text">4.8 out of 5 &mdash; 40 Google Reviews</div>
+                <div class="rating-text">Independent client feedback on Google</div>
             </div>
             <div class="testimonial-grid">
                 <div class="testimonial-card">
@@ -914,7 +908,7 @@
                 </div>
             </div>
             <div class="google-link">
-                <a href="https://www.google.com/search?q=David+Huff+HealthMarkets+Lakeland+Florida+reviews" target="_blank" rel="noopener noreferrer">Read all 40 reviews on Google &rarr;</a>
+                <a href="https://www.google.com/search?q=David+Huff+HealthMarkets+Lakeland+Florida+reviews" target="_blank" rel="noopener noreferrer">Read current reviews on Google &rarr;</a>
             </div>
         </div>
     </section>
@@ -931,12 +925,17 @@
 
             <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--gray-200);">
                 <h3 style="color: var(--navy); font-size: 1.1rem; margin-bottom: 0.5rem;">What does a health insurance broker cost in Florida?</h3>
-                <p style="color: var(--gray-600); line-height: 1.7;">Licensed health insurance brokers in Florida are generally compensated by insurance carriers, not by clients. You pay the same premium whether you enroll directly or through a broker, and a broker can compare plans from multiple carriers to find the best fit for your budget and doctors.</p>
+                <p style="color: var(--gray-600); line-height: 1.7;">Insurance carriers generally compensate appointed brokers when an enrollment is completed. David does not charge a separate fee for the plan-review assistance described on this site. Compensation and availability can differ by carrier and product.</p>
+            </div>
+
+            <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--gray-200);">
+                <h3 style="color: var(--navy); font-size: 1.1rem; margin-bottom: 0.5rem;">Can I get ACA health insurance if I am self-employed in Florida?</h3>
+                <p style="color: var(--gray-600); line-height: 1.7;">Self-employed individuals may enroll in ACA Marketplace coverage if they meet the applicable eligibility requirements and may qualify for premium tax credits based on projected household income and other application information. Eligibility and savings are determined by the Marketplace.</p>
             </div>
 
             <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--gray-200);">
                 <h3 style="color: var(--navy); font-size: 1.1rem; margin-bottom: 0.5rem;">When is open enrollment for health insurance in Florida?</h3>
-                <p style="color: var(--gray-600); line-height: 1.7;">ACA Open Enrollment in Florida typically runs from November 1 through January 15 each year. Medicare Annual Enrollment runs October 15 through December 7. Outside these windows, you may still qualify for a Special Enrollment Period if you experience a qualifying life event such as losing job-based coverage, getting married, having a baby, or moving.</p>
+                <p style="color: var(--gray-600); line-height: 1.7;">For plan year 2027, Florida uses HealthCare.gov and its Open Enrollment Period runs November 1 through December 15, 2026. Medicare Annual Enrollment runs October 15 through December 7. A Special Enrollment Period may apply outside those windows, but eligibility and documentation must be confirmed.</p>
             </div>
 
             <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--gray-200);">
@@ -946,7 +945,7 @@
 
             <div style="margin-bottom: 0;">
                 <h3 style="color: var(--navy); font-size: 1.1rem; margin-bottom: 0.5rem;">What health insurance plans are available in Polk County?</h3>
-                <p style="color: var(--gray-600); line-height: 1.7;">Polk County residents have access to ACA Marketplace plans from carriers including Ambetter, Molina, Oscar, UnitedHealthcare, and Wellpoint. Medicare beneficiaries can choose from Medicare Advantage, Medicare Supplement, and Part D plans. Supplemental options include dental, vision, life insurance, and fixed-indemnity Guard plans.</p>
+                <p style="color: var(--gray-600); line-height: 1.7;">Available options depend on ZIP code, county, age, eligibility, plan year, carrier service area, and—in some products—health underwriting. Confirm current options before relying on any carrier, provider, prescription, premium, or benefit description.</p>
             </div>
         </div>
     </section>
@@ -1060,19 +1059,16 @@
                         <li><a href="tel:+18636403102"><span aria-hidden="true">&#128222;</span> (863) 640-3102</a></li>
                         <li><a href="mailto:dhuff@healthmarkets.com"><span aria-hidden="true">📧</span> dhuff@healthmarkets.com</a></li>
                         <li><a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
-                        <li><span aria-hidden="true">📍</span> Central Florida Headquarters</li>
-                        <li><span aria-hidden="true">⏰</span> Mon-Fri 8AM-8PM EST</li>
-                        <li><span aria-hidden="true">⏰</span> Sat 9AM-5PM EST</li>
+                        <li><span aria-hidden="true">📍</span> Lakeland-based, serving Florida</li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Service Areas</h3>
                     <ul>
-                        <li><span aria-hidden="true">🏡</span> Florida Residents</li>
-                        <li><span aria-hidden="true">🇺🇸</span> Coverage Across the Nation</li>
-                        <li><span aria-hidden="true">💼</span> Small Business Groups</li>
-                        <li><span aria-hidden="true">👨‍👩‍👧‍👦</span> Individual & Family Plans</li>
-                        <li><span aria-hidden="true">🤓</span> Medicare Specialists</li>
+                        <li>Lakeland</li>
+                        <li>Polk County</li>
+                        <li>Central Florida</li>
+                        <li>Remote assistance across Florida</li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -1090,8 +1086,8 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Licensed insurance agency serving families and businesses across the nation.</p>
-                <p>FL License #W371813 | NPN 18213932 | Serving most of the United States with honest insurance advice</p>
+                <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>
+                <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier.</p>
                 <p style="margin-top: 1rem;">
                     <a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer" style="color: var(--gold); text-decoration: none; font-weight: 500;">
                         Powered by David the Insurance Dude

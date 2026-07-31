@@ -4,11 +4,10 @@
  *
  * Fires to:
  *   - Google Tag Manager (GTM-W6MZ7XT6)
- *   - Google Ads conversion helpers for delivered Lead events
+ *   - Google Ads conversion events for delivered Lead events
  *
  * Usage:
- *   window.LHI.track('Lead', { content_name: 'lp_aca_lead_form' });
- *   window.LHI.identify({ zip: '33801', line: 'ACA' });
+ *   window.LHI.track('Lead', { content_name: 'lead_form' });
  *
  * Page-type inference (for GA4 / Ads segmentation):
  *   - /lp/aca/            -> lp_aca
@@ -26,10 +25,8 @@
 (function (w, d) {
   'use strict';
 
-  /* Google Ads "Submit lead form" conversion. Fires for every Lead event
-     across the site so Smart Bidding gets a cost-per-lead signal. Paired
-     with allow_enhanced_conversions=true in analytics.js for hashed-PII
-     match-back via gtag.set('user_data'). */
+  /* Google Ads "Submit lead form" conversion. Fires a non-identifying
+     conversion event after first-party form delivery. */
   var LEAD_CONVERSION_SEND_TO = 'AW-300112445/hChjCJvYraUcEL20jY8B';
   var OPENAI_ADS_CONFIG_PATH = '/api/openai-ads-config';
   var OPENAI_ADS_SDK_SRC = 'https://bzrcdn.openai.com/sdk/oaiq.min.js';
@@ -68,30 +65,6 @@
   function leadValueFor(pt) {
     if (LEAD_VALUE_BY_PAGE_TYPE.hasOwnProperty(pt)) return LEAD_VALUE_BY_PAGE_TYPE[pt];
     return LEAD_VALUE_BY_PAGE_TYPE['default'] || 0;
-  }
-
-  /* SHA-256 helper. Returns a Promise<string> of the lowercase hex digest.
-     Used for Google Enhanced Conversions. */
-  function sha256(str) {
-    if (!str) return Promise.resolve(null);
-    var s = String(str).trim().toLowerCase();
-    var buf = new TextEncoder().encode(s);
-    return crypto.subtle.digest('SHA-256', buf).then(function (hashBuf) {
-      var bytes = new Uint8Array(hashBuf);
-      var hex = '';
-      for (var i = 0; i < bytes.length; i++) {
-        hex += bytes[i].toString(16).padStart(2, '0');
-      }
-      return hex;
-    });
-  }
-
-  /* Normalize phone: digits only, prepend US country code if missing. */
-  function normPhone(p) {
-    if (!p) return null;
-    var d = String(p).replace(/\D/g, '');
-    if (d.length === 10) d = '1' + d;
-    return d || null;
   }
 
   /* eventID generator — used for conversion transaction IDs and event audit trails. */
@@ -172,8 +145,14 @@
     var prohibited = {
       full_name: true, name: true, first_name: true, last_name: true,
       email: true, phone: true, phone_number: true,
+      zip: true, zip_code: true, postal_code: true, county: true,
       provider_name: true, provider_location: true, prescription_name: true,
       doctors_to_keep: true, prescriptions_to_review: true, additional_notes: true,
+      income: true, household_income: true, subsidy: true, health_status: true,
+      coverage_status: true, current_plan: true, best_time_to_reach: true,
+      need_timing: true, coverage_situation: true, medicare_timing: true,
+      normalized_intent: true, line_of_business: true,
+      lead_priority: true, lead_priority_reason: true,
       notes: true, message: true
     };
     Object.keys(props || {}).forEach(function (key) {
@@ -263,51 +242,21 @@
     try { w.gtag('event', ga4Name, params); } catch (e) {}
   }
 
-  /* Fire Google Ads conversion for Lead submissions, with Enhanced
-     Conversions for Leads (hashed PII passed via gtag.set('user_data')
-     so Google can match offline-closed leads back to the original click).
-     Skipped on non-prod, when gtag isn't loaded, or when the conversion
-     label is still the placeholder. transaction_id=eventID prevents
-     double-counting if the same Lead event fires twice. */
+  /* Fire Google Ads conversion without identity, contact, ZIP, provider,
+     prescription, policy, income, or free-text data. */
   function fireGoogleAdsLead(eventID) {
     if (w.__LHI_IS_PROD === false) return;
     if (typeof w.gtag !== 'function') return;
     if (LEAD_CONVERSION_SEND_TO.indexOf('PLACEHOLDER') !== -1) return;
 
-    var emailRaw = identity.email || null;
-    var phoneRaw = normPhone(identity.phone);
-    var first = null, last = null;
-    if (identity.name) {
-      var parts = String(identity.name).trim().split(/\s+/);
-      first = parts[0] || null;
-      if (parts.length > 1) last = parts.slice(1).join(' ');
-    }
-
-    Promise.all([
-      sha256(emailRaw),
-      phoneRaw ? sha256(phoneRaw) : Promise.resolve(null),
-      sha256(first),
-      sha256(last)
-    ]).then(function (vals) {
-      var userData = {};
-      if (vals[0]) userData.sha256_email_address = vals[0];
-      if (vals[1]) userData.sha256_phone_number = vals[1];
-      if (vals[2] || vals[3] || identity.zip) {
-        userData.address = {};
-        if (vals[2]) userData.address.sha256_first_name = vals[2];
-        if (vals[3]) userData.address.sha256_last_name = vals[3];
-        if (identity.zip) userData.address.postal_code = String(identity.zip).slice(0, 5);
-      }
-      try { w.gtag('set', 'user_data', userData); } catch (e) {}
-      try {
-        w.gtag('event', 'conversion', {
-          send_to: LEAD_CONVERSION_SEND_TO,
-          transaction_id: eventID,
-          value: leadValueFor(pageType()),
-          currency: 'USD'
-        });
-      } catch (e) {}
-    }).catch(function () { /* swallow — never let analytics break the page */ });
+    try {
+      w.gtag('event', 'conversion', {
+        send_to: LEAD_CONVERSION_SEND_TO,
+        transaction_id: eventID,
+        value: leadValueFor(pageType()),
+        currency: 'USD'
+      });
+    } catch (e) {}
   }
 
   function fireOpenAIAdsLead(eventID) {
@@ -325,15 +274,6 @@
   }
 
   // Public API ------------------------------------------------------------
-  var identity = {};
-
-  function identify(attrs) {
-    identity = Object.assign({}, identity, attrs || {});
-
-    /* Identity is retained locally for Google Enhanced Conversions when a
-       Lead event fires. */
-  }
-
   function fdGet(fd, names) {
     for (var i = 0; i < names.length; i++) {
       var val = fd.get(names[i]);
@@ -348,24 +288,6 @@
     return cleaned || null;
   }
 
-  function inferLineOfBusiness(content, formName, pt) {
-    var source = [content, formName, pt].join(' ').toLowerCase();
-    if (source.indexOf('medicare') !== -1) return 'medicare';
-    if (source.indexOf('aca') !== -1 || source.indexOf('marketplace') !== -1) return 'aca';
-    if (source.indexOf('gap') !== -1 || source.indexOf('short') !== -1) return 'coverage_gap';
-    if (source.indexOf('dental') !== -1 || source.indexOf('vision') !== -1) return 'dental_vision';
-    if (source.indexOf('supplemental') !== -1) return 'supplemental';
-    return null;
-  }
-
-  function inferIntent(content, formName, pt) {
-    var source = [content, formName, pt].join(' ').toLowerCase();
-    if (source.indexOf('medicare') !== -1) return 'medicare';
-    if (source.indexOf('coverage_gap') !== -1 || source.indexOf('lp-gap') !== -1 || source.indexOf(' gap') !== -1) return 'coverage_gap';
-    if (source.indexOf('aca') !== -1 || source.indexOf('marketplace') !== -1) return 'aca';
-    return null;
-  }
-
   function setFormFieldValue(f, name, value) {
     if (!f || value == null) return;
     var field = f.elements && f.elements[name];
@@ -373,44 +295,22 @@
   }
 
   function safeLeadPropsFromForm(f, fd, content, step, apiResult) {
-    var formName = fdGet(fd, ['form-name', 'form_name']);
-    var pt = pageType();
     var props = {
-      content_name: cleanAnalyticsToken(fdGet(fd, ['content_name']) || content),
-      step: cleanAnalyticsToken(step || 'submit'),
-      coverage_status: cleanAnalyticsToken(fdGet(fd, ['coverage_status', 'current_plan', 'coverage_type'])),
-      best_time_to_reach: cleanAnalyticsToken(fdGet(fd, ['best_time_to_reach'])),
-      normalized_intent: cleanAnalyticsToken(fdGet(fd, ['normalized_intent', 'inquiry_type']) || inferIntent(content, formName, pt)),
-      line_of_business: cleanAnalyticsToken(fdGet(fd, ['line_of_business']) || inferLineOfBusiness(content, formName, pt)),
-      need_timing: cleanAnalyticsToken(fdGet(fd, ['need_timing', 'coverage_situation', 'medicare_timing', 'age_timeline']))
+      content_name: 'first_party_lead',
+      step: cleanAnalyticsToken(step || 'submit')
     };
 
     if (apiResult && apiResult.lead_priority) {
-      props.lead_priority = cleanAnalyticsToken(apiResult.lead_priority);
-      setFormFieldValue(f, 'lead_priority', props.lead_priority);
+      setFormFieldValue(f, 'lead_priority', cleanAnalyticsToken(apiResult.lead_priority));
     }
     if (apiResult && apiResult.lead_priority_reason) {
-      props.lead_priority_reason = cleanAnalyticsToken(apiResult.lead_priority_reason);
-      setFormFieldValue(f, 'lead_priority_reason', props.lead_priority_reason);
+      setFormFieldValue(f, 'lead_priority_reason', cleanAnalyticsToken(apiResult.lead_priority_reason));
     }
     if (apiResult && apiResult.event_id) {
       props.event_id = String(apiResult.event_id).trim();
     }
 
     return props;
-  }
-
-  function identifyFromFormData(fd) {
-    var attrs = {};
-    var zip = fdGet(fd, ['zip', 'ZIP', 'zip_code', 'postal_code']);
-    var email = fdGet(fd, ['email']);
-    var phone = fdGet(fd, ['phone', 'phone_number']);
-    var name = fdGet(fd, ['name', 'full_name']);
-    if (zip) attrs.zip = zip;
-    if (email) attrs.email = email;
-    if (phone) attrs.phone = phone;
-    if (name) attrs.name = name;
-    if (Object.keys(attrs).length) identify(attrs);
   }
 
   function formPayload(f, fd, content) {
@@ -492,7 +392,7 @@
     getAttribution();
     fireGA(name, { page_type: pt, event_params: props });
 
-    // Google Ads conversion + Enhanced Conversions (Lead events only)
+    // Non-identifying conversion events (Lead events only)
     if (name === 'Lead') {
       markCompletedSubmission('Lead', eventID, props, pt);
       fireGoogleAdsLead(eventID);
@@ -528,7 +428,6 @@
 
       f.addEventListener('submit', function (e) {
         var fd = new FormData(f);
-        identifyFromFormData(fd);
         trackFormStart();
 
         if ((name === 'Lead' || name === 'Subscriber') && !f.hasAttribute('data-funnel-api-opt-out')) {
@@ -587,15 +486,13 @@
   }
 
   // Boot ------------------------------------------------------------------
-  w.LHI = { track: track, identify: identify, pageType: pageType, session: getSession };
+  w.LHI = { track: track, pageType: pageType, session: getSession };
 
   /* Test-only surface. Tree-shaken for prod by the gate: only attaches when
      w.__LHI_TEST is set to true before this script evaluates (Node test
      harness), so production bundles never expose helpers. */
   if (w.__LHI_TEST === true) {
     w.LHI._t = {
-      sha256: sha256,
-      normPhone: normPhone,
       pageType: pageType,
       leadValueFor: leadValueFor,
       cleanAnalyticsToken: cleanAnalyticsToken,
