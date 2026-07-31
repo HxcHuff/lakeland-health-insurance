@@ -114,44 +114,72 @@
     }
 
     .coverage-loss-hero {
-      padding: 150px 0 82px;
-      text-align: center;
+      padding: 150px 0 78px;
     }
 
     .coverage-loss-hero h1 {
       color: var(--white) !important;
       font-family: 'Instrument Serif', serif;
-      font-size: clamp(2.65rem, 6vw, 4.2rem);
+      font-size: clamp(2.25rem, 5vw, 3.6rem);
       font-weight: 400;
-      line-height: 1.05;
-      margin: 0 auto 1.2rem;
+      line-height: 1.08;
+      margin: 0 0 1rem;
       max-width: 940px;
     }
 
     .coverage-loss-hero > .container > p {
       color: rgba(255,255,255,0.88);
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
-      margin: 0 auto;
-      max-width: 800px;
+      font-size: clamp(1.02rem, 2vw, 1.15rem);
+      margin: 0 0 0.85rem;
+      max-width: 820px;
     }
 
-    .coverage-loss-hero .hero-cta.secondary {
-      border-color: rgba(255,255,255,0.55);
+    .article-meta {
+      color: rgba(255,255,255,0.72);
+      font-size: 0.92rem;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.2rem;
+    }
+
+    .btn {
+      border-radius: 8px;
+      display: inline-block;
+      font-weight: 800;
+      line-height: 1.15;
+      padding: 0.8rem 1.05rem;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--navy-deep);
+    }
+
+    .btn-phone {
+      background: #0F766E;
       color: var(--white);
     }
 
-    .article-content {
-      padding: 64px 0 82px;
+    .article-shell {
+      margin-top: -44px;
+      padding-bottom: 72px;
+      position: relative;
+      z-index: 2;
     }
 
     .post {
       background: var(--white);
       border: 1px solid var(--gray-200);
-      border-radius: var(--radius-lg);
+      border-radius: 14px;
       box-shadow: var(--shadow-md);
       margin: 0 auto;
       max-width: 1000px;
-      padding: clamp(1.5rem, 4vw, 2.75rem);
+      padding: clamp(1.5rem, 4vw, 2.5rem);
     }
 
     .post h2 {
@@ -197,27 +225,6 @@
       margin-bottom: 0;
     }
 
-    .decision-grid {
-      display: grid;
-      gap: 1rem;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      margin: 1.4rem 0 1.8rem;
-    }
-
-    .decision-card {
-      background: var(--gray-50);
-      border: 1px solid var(--gray-200);
-      border-top: 4px solid var(--gold);
-      border-radius: var(--radius);
-      padding: 1.2rem;
-    }
-
-    .decision-card strong {
-      color: var(--navy);
-      display: block;
-      margin-bottom: 0.45rem;
-    }
-
     .callout {
       background: #FFFBEB;
       border: 1px solid #FDE68A;
@@ -248,32 +255,25 @@
       margin-bottom: 1rem;
     }
 
-    .cta-panel .hero-cta {
-      font-size: 1rem;
+    .cta-panel .btn {
       margin: 0.35rem 0.55rem 0.35rem 0;
-      padding: 0.85rem 1.25rem;
-    }
-
-    .cta-panel .hero-cta.secondary {
-      border-color: rgba(255,255,255,0.55);
-      color: var(--white);
     }
 
     .faq-list {
-      display: grid;
-      gap: 1rem;
       margin-top: 1rem;
     }
 
     .faq-item {
-      background: var(--gray-50);
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius);
-      padding: 1.15rem 1.25rem;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0.3rem 0 1rem;
     }
 
-    .faq-item p:last-child {
-      margin-bottom: 0;
+    .faq-item + .faq-item {
+      padding-top: 1rem;
+    }
+
+    .faq-item:last-child {
+      border-bottom: 0;
     }
 
     .source-list,
@@ -291,12 +291,11 @@
     }
 
     @media (max-width: 720px) {
-      .coverage-loss-hero { padding: 132px 0 64px; }
-      .article-content { padding: 32px 0 56px; }
-      .post { border-radius: var(--radius); padding: 1.35rem; }
-      .decision-grid { grid-template-columns: 1fr; }
-      .coverage-loss-hero .hero-cta,
-      .cta-panel .hero-cta { width: 100%; }
+      .coverage-loss-hero { padding: 132px 0 68px; }
+      .article-shell { margin-top: -34px; padding-bottom: 52px; }
+      .post { padding: 1.35rem; }
+      .cta-row .btn,
+      .cta-panel .btn { text-align: center; width: 100%; }
     }
   </style>
   <script defer src="/js/analytics.js?v=20260731-measurement-integrity"></script>
@@ -307,25 +306,19 @@
   <main>
     <section class="coverage-loss-hero hero">
       <div class="container hero-content">
-        <div class="hero-kicker">ACA Special Enrollment in Florida</div>
+        <div class="article-meta">ACA Special Enrollment in Florida | Updated July 28, 2026</div>
         <h1>Can I get ACA insurance if I lost job coverage in Florida?</h1>
         <p>Yes. Losing employer health coverage usually opens a limited ACA Marketplace enrollment window. The key is timing, documentation, and comparing Marketplace options against COBRA before the clock runs out.</p>
-        <div class="hero-cta-group">
-          <a class="hero-cta" href="/get-help/?topic=lost-coverage&amp;source=lost-job-coverage-aca">Request Plan Guidance</a>
-          <a class="hero-cta secondary" href="tel:+18636403102">Call (863) 640-3102</a>
-        </div>
-        <div class="hero-trust-row" aria-label="Article trust signals">
-          <span>Updated July 28, 2026</span>
-          <span>60-day enrollment timing</span>
-          <span>ACA and COBRA comparison</span>
-          <span>FL Broker #W371813</span>
+        <div class="article-meta">By David Huff | Licensed Florida Broker #W371813 | NPN 18213932</div>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/get-help/?topic=lost-coverage&amp;source=lost-job-coverage-aca">Request Plan Guidance</a>
+          <a class="btn btn-phone" href="tel:+18636403102">Call (863) 640-3102</a>
         </div>
       </div>
     </section>
 
-    <section class="article-content">
-      <div class="container">
-        <article class="post">
+    <div class="container article-shell">
+      <article class="post">
       <section class="key-answer">
         <p><strong>Direct answer:</strong> If you lost job-based health coverage in Florida, you can usually apply for ACA Marketplace coverage through a Special Enrollment Period. In most cases, you need to select a plan within 60 days of losing coverage.</p>
         <p>Your Marketplace coverage can generally start the first day of the month after the coverage loss, but timing depends on when you apply and whether documentation is requested.</p>
@@ -343,11 +336,6 @@
       <h2>ACA vs COBRA after job loss</h2>
       <p>COBRA may keep your same employer plan and provider access, but the premium can be much higher once employer contributions stop. ACA Marketplace coverage may offer premium tax credits based on your expected household income, but networks, deductibles, and prescription coverage can differ from your employer plan.</p>
 
-      <div class="decision-grid" aria-label="ACA and COBRA comparison priorities">
-        <div class="decision-card"><strong>ACA Marketplace</strong>Compare the net premium after any tax credit, provider network, prescriptions, deductible, and coverage effective date.</div>
-        <div class="decision-card"><strong>COBRA</strong>Compare the full employer-plan premium, current provider access, prescription coverage, deductible progress, and election deadline.</div>
-      </div>
-
       <section class="callout">
         <h3>Do not wait for the 60th day</h3>
         <p>Coverage-loss Special Enrollment rules are timing-sensitive. If you are still waiting on COBRA paperwork, you can still start comparing Marketplace options so you know the cost difference before the enrollment window closes.</p>
@@ -359,8 +347,8 @@
       <div class="cta-panel">
         <h2>Compare your post-job coverage options</h2>
         <p>David can review Marketplace, COBRA, Medicaid/CHIP considerations, doctors, prescriptions, and timing before you choose a plan.</p>
-        <a href="/get-help/?topic=lost-coverage&amp;source=lost-job-coverage-aca" class="hero-cta">Request Plan Guidance</a>
-        <a href="tel:+18636403102" class="hero-cta secondary">Call (863) 640-3102</a>
+        <a href="/get-help/?topic=lost-coverage&amp;source=lost-job-coverage-aca" class="btn btn-primary">Request Plan Guidance</a>
+        <a href="tel:+18636403102" class="btn btn-phone">Call (863) 640-3102</a>
       </div>
 
       <h2>FAQ</h2>
@@ -385,9 +373,8 @@
       </div>
 
       <p class="disclosure">Disclosure: This page is educational and does not guarantee eligibility, subsidy amounts, carrier availability, provider participation, or plan approval. Marketplace rules, plan networks, and premium tax credit calculations can change. Verify details with HealthCare.gov, the carrier, and your providers before enrolling.</p>
-        </article>
-      </div>
-    </section>
+      </article>
+    </div>
   </main>
 
   <footer></footer>
