@@ -8,6 +8,8 @@ Branch: `codex/regulated-content-and-source-freshness`
 
 Work Package 03 closes the highest-confidence regulated-guide gaps without creating duplicate city templates or redirecting existing authority URLs. It adds canonical Florida guides for retiring before 65, Medicaid/CHIP loss, and Medicare moves; refreshes the existing income-correction and working-at-65 articles in place; and installs a claim-to-source-to-page freshness gate used by the normal authority validator.
 
+Preview packaging review also found that repository documentation and operational files could be served because the repository root is the static publish directory. `.netlifyignore` now excludes documentation, source registries, tests, validation scripts, function source, local tooling, spreadsheets, and Word files from deployment; `_redirects` adds forced-404 defense-in-depth boundaries for internal directories. The authority validator enforces the critical exclusions.
+
 ## Created public pages
 
 - `/retiring-before-65-florida/`
@@ -69,6 +71,8 @@ git diff --check
 ```
 
 Expected release result: 13 current/cited claims; all 13 live source probes pass; 14 priority pages, 16 Package 2 surfaces, and 5 Package 3 guide surfaces pass authority validation; 156 HTML files pass; 26 tests pass; syntax and whitespace checks pass.
+
+Preview release additionally requires 404 responses for `/docs/`, `/data/`, `/scripts/`, `/tests/`, `/netlify/`, `/run/`, root Markdown, Word, and spreadsheet artifacts.
 
 ## Explicit evidence gates
 

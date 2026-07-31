@@ -199,3 +199,16 @@
 # 301 the deleted orphan root page to the blog version
 /lost-job-health-insurance-lakeland.html /blog/lost-job-health-insurance-lakeland.html 301!
 /lost-job-health-insurance-lakeland /blog/lost-job-health-insurance-lakeland.html 301!
+# Repository-internal files are never public site content.
+/docs/* /404.html 404!
+/data/* /404.html 404!
+/scripts/* /404.html 404!
+/tests/* /404.html 404!
+/netlify/* /404.html 404!
+/run/* /404.html 404!
+/*.md /404.html 404!
+/*.mjs /404.html 404!
+/*.sh /404.html 404!
+/*.toml /404.html 404!
+/*.docx /404.html 404!
+/*.xlsx /404.html 404!

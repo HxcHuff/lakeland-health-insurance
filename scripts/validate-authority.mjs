@@ -103,6 +103,19 @@ const requiredAuthorityDocs = [
   'docs/authority/work-package-02-handoff.md',
   'docs/authority/work-package-03-handoff.md'
 ];
+const requiredDeployExclusions = [
+  'data/',
+  'docs/',
+  'netlify/',
+  'run/',
+  'scripts/',
+  'tests/',
+  'AGENTS.md',
+  '*.md',
+  '*.mjs',
+  '*.docx',
+  '*.xlsx'
+];
 
 function flatten(value, out = []) {
   if (Array.isArray(value)) {
@@ -233,6 +246,19 @@ for (const rel of priorityPages) {
 
 for (const rel of requiredAuthorityDocs) {
   if (!existsSync(resolve(ROOT, rel))) issues.push(`${rel}: required authority document is missing`);
+}
+
+const netlifyIgnore = readFileSync(resolve(ROOT, '.netlifyignore'), 'utf8');
+for (const exclusion of requiredDeployExclusions) {
+  if (!netlifyIgnore.split(/\r?\n/).includes(exclusion)) {
+    issues.push(`.netlifyignore: missing repository-internal deploy exclusion ${exclusion}`);
+  }
+}
+const redirects = readFileSync(resolve(ROOT, '_redirects'), 'utf8');
+for (const internalPath of ['/docs/*', '/data/*', '/scripts/*', '/tests/*', '/netlify/*', '/run/*']) {
+  if (!redirects.includes(`${internalPath} /404.html 404!`)) {
+    issues.push(`_redirects: missing forced 404 boundary for ${internalPath}`);
+  }
 }
 
 if (registry.reviewedDate !== '2026-07-31') {
