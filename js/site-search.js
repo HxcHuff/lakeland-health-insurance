@@ -613,20 +613,17 @@ class SiteSearch {
   handleSearch(event, dropdown) {
     const query = event.target.value.trim().toLowerCase();
     this.currentFocusIndex = -1;
+    dropdown.dataset.searchQuery = query;
 
     if (query.length < 2) {
       dropdown.style.display = 'none';
+      dropdown.innerHTML = '';
       return;
     }
 
     const results = this.search(query);
     this.renderResults(results, dropdown);
-
-    if (results.length > 0) {
-      dropdown.style.display = 'block';
-    } else {
-      dropdown.style.display = 'none';
-    }
+    dropdown.style.display = 'block';
   }
 
   handleFocus(event, dropdown) {
@@ -637,6 +634,18 @@ class SiteSearch {
   }
 
   handleKeyboard(event, dropdown, input) {
+    const query = input.value.trim().toLowerCase();
+
+    // Keep the keyboard action tied to the text currently in the input. This
+    // prevents a previously highlighted result from opening after the query
+    // changes, including when a browser restores an input value.
+    if (query.length >= 2 && dropdown.dataset.searchQuery !== query) {
+      this.currentFocusIndex = -1;
+      dropdown.dataset.searchQuery = query;
+      this.renderResults(this.search(query), dropdown);
+      dropdown.style.display = 'block';
+    }
+
     const resultItems = dropdown.querySelectorAll('[data-search-result]');
 
     switch(event.key) {
@@ -651,9 +660,10 @@ class SiteSearch {
         this.updateFocus(resultItems);
         break;
       case 'Enter':
-        event.preventDefault();
-        if (this.currentFocusIndex >= 0 && resultItems[this.currentFocusIndex]) {
-          const url = resultItems[this.currentFocusIndex].getAttribute('data-search-result');
+        if (resultItems.length > 0) {
+          event.preventDefault();
+          const targetIndex = this.currentFocusIndex >= 0 ? this.currentFocusIndex : 0;
+          const url = resultItems[targetIndex].getAttribute('data-search-result');
           window.location.href = url;
         }
         break;
@@ -690,7 +700,7 @@ class SiteSearch {
       </a>
     `).join('');
 
-    dropdown.innerHTML = html || '<div class="search-no-results">No results found</div>';
+    dropdown.innerHTML = html || '<div class="search-no-results" role="status">No matching articles found. Try a broader search.</div>';
   }
 
   highlightQuery(text) {
