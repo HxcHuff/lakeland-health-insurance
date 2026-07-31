@@ -35,7 +35,22 @@ const forbiddenClaims = [
   /serving families and businesses across the nation/i,
   /largest annual allowances/i
 ];
+const forbiddenAuthorityCopy = [
+  /TriTerm/i,
+  /36 months/i,
+  /Health ProtectorGuard/i,
+  /Health Protector Guard/i,
+  /Usually replies fast/i,
+  /David answers personally/i,
+  /BBB Accredited Business/i,
+  /Active Florida LLC/i,
+  /BBB Accredited since/i
+];
 const issues = [];
+const requiredAuthorityDocs = [
+  'docs/authority/lakeland-florida-authority-baseline.md',
+  'docs/authority/entity-contract.md'
+];
 
 function flatten(value, out = []) {
   if (Array.isArray(value)) {
@@ -161,6 +176,95 @@ for (const rel of priorityPages) {
   }
   if (rel === 'about/index.html' && !ids.has(registry.person['@id'])) {
     issues.push(`${rel}: About page must define the canonical Person node`);
+  }
+}
+
+for (const rel of requiredAuthorityDocs) {
+  if (!existsSync(resolve(ROOT, rel))) issues.push(`${rel}: required authority document is missing`);
+}
+
+if (registry.reviewedDate !== '2026-07-31') {
+  issues.push('data/authority-entities.json: reviewedDate must match the current entity review');
+}
+if (registry.agency.relationshipToDavid !== 'Public-facing DBA led by David Huff') {
+  issues.push('data/authority-entities.json: agency relationship to David is missing or inconsistent');
+}
+if (registry.agency.notInsuranceCarrier !== true) {
+  issues.push('data/authority-entities.json: non-carrier boundary is missing');
+}
+
+const home = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
+const homeGraph = [];
+for (const match of home.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
+  flatten(JSON.parse(match[1]), homeGraph);
+}
+const homeAgency = homeGraph.find((node) => node['@id'] === registry.agency['@id'] && node['@type'] === 'InsuranceAgency');
+const homeAreaNames = (homeAgency?.areaServed || []).map((place) => place.name).sort();
+const requiredAreaNames = ['Florida', 'Lakeland', 'Polk County'];
+if (JSON.stringify(homeAreaNames) !== JSON.stringify(requiredAreaNames)) {
+  issues.push(`index.html: canonical agency areaServed must be ${requiredAreaNames.join(', ')}`);
+}
+if (homeGraph.some((node) => ['Offer', 'OfferCatalog'].includes(node['@type']))) {
+  issues.push('index.html: unverified Offer or OfferCatalog schema is prohibited on the canonical agency graph');
+}
+if (!home.includes('Last reviewed <time datetime="2026-07-31">July 31, 2026</time>')) {
+  issues.push('index.html: homepage regulated FAQ needs a visible current review date');
+}
+if (/David is my healthcare savior|David did all the legwork for me/i.test(visibleText(home))) {
+  issues.push('index.html: copied review excerpts remain without direct current-source evidence');
+}
+for (const required of [
+  'href="tel:+18636403102"',
+  'href="mailto:dhuff@healthmarkets.com"',
+  'href="/get-help/"',
+  'src="/js/analytics.js?v=20260729-first-party-funnel"',
+  'src="/js/site-template.js"'
+]) {
+  if (!home.includes(required)) issues.push(`index.html: required contact, CTA, or tracking integration is missing (${required})`);
+}
+if (!home.includes('Fixed-indemnity coverage is not comprehensive health insurance or ACA minimum essential coverage.')) {
+  issues.push('index.html: visible fixed-indemnity limitation is missing');
+}
+
+const about = readFileSync(resolve(ROOT, 'about/index.html'), 'utf8');
+const aboutGraph = [];
+for (const match of about.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
+  flatten(JSON.parse(match[1]), aboutGraph);
+}
+const aboutPerson = aboutGraph.find((node) => node['@id'] === registry.person['@id'] && node['@type'] === 'Person');
+const aboutProfile = aboutGraph.find((node) => node['@id'] === 'https://lakelandhealthinsurance.com/about/#profile');
+if (aboutPerson?.worksFor?.['@id'] !== registry.agency['@id']) {
+  issues.push('about/index.html: Person must reference the canonical agency with worksFor');
+}
+if (aboutProfile?.mainEntity?.['@id'] !== registry.person['@id']) {
+  issues.push('about/index.html: ProfilePage mainEntity must reference canonical David Huff');
+}
+if (aboutProfile?.publisher?.['@id'] !== registry.agency['@id']) {
+  issues.push('about/index.html: ProfilePage publisher must reference the canonical agency');
+}
+if (aboutGraph.some((node) => node['@type'] === 'InsuranceAgency' && node['@id'] === registry.agency['@id'])) {
+  issues.push('about/index.html: About must reference, not repeat, the full canonical agency graph');
+}
+if (!about.includes('https://nipr.com/licensing-center/look-up-a-national-producer-number')) {
+  issues.push('about/index.html: current official NIPR verification URL is missing');
+}
+if (!about.includes('datetime="2026-07-31">July 31, 2026</time>')) {
+  issues.push('about/index.html: visible current profile review date is missing');
+}
+for (const required of [
+  'href="tel:+18636403102"',
+  'href="mailto:dhuff@healthmarkets.com"',
+  'href="/get-help/"',
+  'src="/js/analytics.js?v=20260729-first-party-funnel"',
+  'src="/js/site-template.js"'
+]) {
+  if (!about.includes(required)) issues.push(`about/index.html: required contact, CTA, or tracking integration is missing (${required})`);
+}
+
+for (const rel of ['index.html', 'about/index.html', 'js/bbb-seal.js', 'js/site-template.js']) {
+  const source = readFileSync(resolve(ROOT, rel), 'utf8');
+  for (const pattern of forbiddenAuthorityCopy) {
+    if (pattern.test(source)) issues.push(`${rel}: unsupported or volatile authority copy matches ${pattern}`);
   }
 }
 

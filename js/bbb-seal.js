@@ -106,8 +106,8 @@
     const copy = document.createElement('div');
     copy.className = 'bbb-footer-copy';
     copy.innerHTML = `
-      <strong>BBB Accredited Business with an A- rating</strong>
-      <span>Active Florida LLC since 2021. BBB Accredited since May 26, 2026.</span>
+      <strong>Review the current BBB business profile</strong>
+      <span>Accreditation, rating, and profile details can change outside this site.</span>
     `;
 
     wrapper.append(link, copy);

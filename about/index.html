@@ -28,69 +28,50 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "InsuranceAgency",
-      "@id": "https://lakelandhealthinsurance.com/#agency",
-      "name": "Lakeland Health Insurance",
-      "url": "https://lakelandhealthinsurance.com",
-      "telephone": "+1-863-640-3102",
-      "email": "dhuff@healthmarkets.com",
-      "founder": {
-        "@type": "Person",
-        "@id": "https://lakelandhealthinsurance.com/about/#david-huff",
-        "name": "David Huff",
-        "jobTitle": "Licensed Insurance Agent & Founder",
-        "description": "Licensed Florida insurance broker serving individuals, families, and Medicare beneficiaries with direct health insurance guidance.",
-        "knowsAbout": ["Health Insurance", "ACA Marketplace Plans", "Medicare Advantage", "Medicare Supplement", "Short-Term Medical Insurance", "Life Insurance", "Dental Insurance", "Vision Insurance", "Fixed-Benefit Insurance", "Special Enrollment Periods", "Provider Network Reviews"],
-        "hasCredential": {
-          "@type": "EducationalOccupationalCredential",
-          "credentialCategory": "Insurance License",
-          "name": "FL Broker License #W371813"
-        },
-        "identifier": [
-          {
-            "@type": "PropertyValue",
-            "propertyID": "NPN",
-            "name": "National Producer Number",
-            "value": "18213932"
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://lakelandhealthinsurance.com/about/#david-huff",
+          "name": "David Huff",
+          "alternateName": "David The Insurance Dude",
+          "jobTitle": "Licensed health insurance agent and broker",
+          "description": "David Huff is a licensed Florida health insurance agent and broker based in Lakeland who provides education, comparison assistance, quoting, enrollment support, and ongoing service.",
+          "url": "https://lakelandhealthinsurance.com/about/",
+          "telephone": "+1-863-640-3102",
+          "email": "dhuff@healthmarkets.com",
+          "worksFor": {"@id": "https://lakelandhealthinsurance.com/#agency"},
+          "hasCredential": {
+            "@type": "EducationalOccupationalCredential",
+            "credentialCategory": "Insurance License",
+            "name": "Florida License #W371813"
           },
-          {
-            "@type": "PropertyValue",
-            "propertyID": "FL License",
-            "name": "Florida Insurance License",
-            "value": "W371813"
-          }
-        ],
-        "url": "https://lakelandhealthinsurance.com/about/"
-      },
-      "areaServed": [
-        {"@type": "City", "name": "Lakeland", "containedInPlace": {"@type": "AdministrativeArea", "name": "Florida"}},
-        {"@type": "AdministrativeArea", "name": "Polk County, Florida"},
-        {"@type": "AdministrativeArea", "name": "Central Florida"}
-      ],
-      "serviceType": [
-        "ACA Marketplace coverage",
-        "Medicare Advantage",
-        "Medicare Supplement",
-        "Part D prescription drug plans",
-        "Dental insurance",
-        "Vision insurance",
-        "Life insurance",
-        "Supplemental insurance"
+          "identifier": [
+            {
+              "@type": "PropertyValue",
+              "propertyID": "NPN",
+              "name": "National Producer Number",
+              "value": "18213932"
+            },
+            {
+              "@type": "PropertyValue",
+              "propertyID": "FL License",
+              "name": "Florida Insurance License",
+              "value": "W371813"
+            }
+          ]
+        },
+        {
+          "@type": "ProfilePage",
+          "@id": "https://lakelandhealthinsurance.com/about/#profile",
+          "url": "https://lakelandhealthinsurance.com/about/",
+          "name": "About David Huff",
+          "dateModified": "2026-07-31",
+          "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
+          "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
+          "mainEntity": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
+          "about": {"@id": "https://lakelandhealthinsurance.com/#agency"}
+        }
       ]
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfilePage",
-      "@id": "https://lakelandhealthinsurance.com/about/#profile",
-      "url": "https://lakelandhealthinsurance.com/about/",
-      "name": "About David Huff",
-      "dateModified": "2026-07-30",
-      "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
-      "mainEntity": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
-      "about": {"@id": "https://lakelandhealthinsurance.com/#agency"}
     }
     </script>
 
@@ -694,6 +675,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .reasons-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
             .nav-links {
                 display: none;
             }
@@ -941,7 +926,7 @@ header .cta-button {
       .about-page .about-header .hero-kicker {
         background: rgba(37, 99, 235, 0.08);
         border: 1px solid rgba(37, 99, 235, 0.14);
-        color: var(--blue);
+        color: #1e40af;
         justify-content: flex-start;
       }
 
@@ -1312,6 +1297,7 @@ header .cta-button {
 
     <script src="/js/chat-widget.js" defer></script>
 
+    <main>
     <section class="about-header">
         <div class="container about-hero-grid">
             <div class="about-hero-copy">
@@ -1365,7 +1351,7 @@ header .cta-button {
                     <li><strong>Florida License #W371813</strong><span>Licensed health insurance broker</span></li>
                     <li><strong>NPN 18213932</strong><span>National Producer Number</span></li>
                     <li><strong>Florida license verification</strong><a href="https://licenseesearch.fldfs.com/" target="_blank" rel="noopener noreferrer">Search FL DFS for W371813</a></li>
-                    <li><strong>NPN verification</strong><a href="https://nipr.com/help/look-up-your-npn" target="_blank" rel="noopener noreferrer">Use NIPR for 18213932</a></li>
+                    <li><strong>NPN verification</strong><a href="https://nipr.com/licensing-center/look-up-a-national-producer-number" target="_blank" rel="noopener noreferrer">Use NIPR for 18213932</a></li>
                     <li><strong>BBB profile</strong><a href="https://www.bbb.org/us/fl/lakeland/profile/health-insurance/lakeland-health-insurance-0733-235981531/" target="_blank" rel="nofollow noopener noreferrer">View current BBB profile</a></li>
                 </ul>
             </div>
@@ -1426,7 +1412,7 @@ header .cta-button {
                 <div class="credential-card fade-in-up">
                     <div class="credential-icon">&#128737;</div>
                     <h3>Supplemental Protection</h3>
-                    <p>Dental, vision, life insurance, short-term medical, and fixed-indemnity options when extra coverage makes sense for your situation.</p>
+                    <p>Dental, vision, life insurance, short-term medical, and fixed-indemnity options when extra coverage may fit your situation. Fixed-indemnity coverage is not comprehensive health insurance and does not satisfy ACA minimum essential coverage requirements.</p>
                 </div>
 
                 <div class="credential-card fade-in-up">
@@ -1512,9 +1498,10 @@ header .cta-button {
                 <a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer" class="cta-secondary">Message David</a>
             </div>
             <p class="about-disclaimer">Medicare beneficiaries: we do not offer every plan available in your area. Please contact Medicare.gov, 1-800-MEDICARE, or SHIP for information on all options.</p>
-            <p class="about-disclaimer">Last reviewed: <time datetime="2026-07-30">July 30, 2026</time>.</p>
+            <p class="about-disclaimer">Last reviewed: <time datetime="2026-07-31">July 31, 2026</time>.</p>
         </div>
     </section>
+    </main>
 
     <footer>
         <div class="container">
@@ -1562,7 +1549,7 @@ header .cta-button {
         <span class="phone-icon">&#128222;</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <span>Call: (863) 640-3102</span>
-            <span style="font-size: 0.8rem; opacity: 0.9;">David answers personally</span>
+            <span style="font-size: 0.8rem; opacity: 0.9;">Direct broker line</span>
         </div>
     </a>
 

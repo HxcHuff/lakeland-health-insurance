@@ -97,7 +97,7 @@
             <ul>
               <li><a href="/">Home</a></li>
               <li><a href="/plans/">Insurance Plans</a></li>
-              <li><a href="/health-protector-guard/">Health Protector Guard</a></li>
+              <li><a href="/health-protector-guard/">Fixed-Indemnity Information</a></li>
               <li><a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a></li>
               <li><a href="/blog/">Blog</a></li>
               <li><a href="/our-approach.html">Our Approach</a></li>
@@ -128,7 +128,7 @@
       <span class="messenger-icon" aria-hidden="true">&#128172;</span>
       <div style="display:flex;flex-direction:column;align-items:center;">
         <span>Message David</span>
-        <span style="font-size:0.8rem;opacity:0.9;">Usually replies fast</span>
+        <span style="font-size:0.8rem;opacity:0.9;">Opens Messenger</span>
       </div>`;
 
     const call = document.createElement('a');
@@ -138,7 +138,7 @@
       <span class="phone-icon" aria-hidden="true">&#128222;</span>
       <div style="display:flex;flex-direction:column;align-items:center;">
         <span>Call: ${phoneDisplay}</span>
-        <span style="font-size:0.8rem;opacity:0.9;">David answers personally</span>
+        <span style="font-size:0.8rem;opacity:0.9;">Direct broker line</span>
       </div>`;
 
     wrapper.append(messenger, call);

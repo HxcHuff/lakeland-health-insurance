@@ -1,5 +1,5 @@
 {
-  "reviewedDate": "2026-07-30",
+  "reviewedDate": "2026-07-31",
   "website": {
     "@id": "https://lakelandhealthinsurance.com/#website",
     "name": "Lakeland Health Insurance",
@@ -11,7 +11,10 @@
     "url": "https://lakelandhealthinsurance.com/",
     "telephone": "+1-863-640-3102",
     "email": "dhuff@healthmarkets.com",
-    "description": "A Lakeland-based independent health insurance brokerage providing local assistance in Polk County and remote assistance across Florida. Lakeland Health Insurance is not an insurance carrier.",
+    "description": "The public-facing business name used by David Huff for local health-insurance assistance in Lakeland and Polk County and remote assistance across Florida. Lakeland Health Insurance is not an insurance carrier.",
+    "relationshipToDavid": "Public-facing DBA led by David Huff",
+    "notInsuranceCarrier": true,
+    "compensationDescription": "Insurance carriers generally compensate appointed brokers when an enrollment is completed. David does not charge a separate fee for the plan-review assistance described on this site. Compensation and availability can differ by carrier and product.",
     "areaServed": [
       "Lakeland",
       "Polk County",
