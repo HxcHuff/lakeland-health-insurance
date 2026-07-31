@@ -1,6 +1,6 @@
 # Work Package 02 Handoff — Core Authority Pages and Information Architecture
 
-Status: local review candidate
+Status: deploy-preview review candidate
 Review date: July 31, 2026
 Branch: `codex/core-authority-information-architecture`
 
@@ -140,4 +140,4 @@ Before deployment, rollback is simply to decline or selectively revise the uncom
 3. Source freshness and claim registry expansion for dated Medicare/ACA articles.
 4. Evidence-led Blog/Learning taxonomy and density cleanup; no broad rewriting or redirecting without item 1.
 
-Nothing in Work Package 02 has been staged, committed, pushed, merged, deployed, published, submitted, communicated, or changed in an external account.
+After local approval, the ten-file Work Package 02 candidate was staged, committed, pushed to `codex/core-authority-information-architecture`, and deployed to a non-production Netlify draft for review. It has not been merged to `main` or deployed to production. No form was submitted, no communication was sent, and no analytics, advertising, CRM, carrier, enrollment-platform, or other external-account setting was changed.
