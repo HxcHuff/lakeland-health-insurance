@@ -200,6 +200,15 @@
 /lost-job-health-insurance-lakeland.html /blog/lost-job-health-insurance-lakeland.html 301!
 /lost-job-health-insurance-lakeland /blog/lost-job-health-insurance-lakeland.html 301!
 # Repository-internal files are never public site content.
+/AGENTS.md /404.html 404!
+/ANALYTICS-TRACKING.md /404.html 404!
+/MARKETING-ANALYSIS.md /404.html 404!
+/README.md /404.html 404!
+/SEO_INDEXING_CHANGELOG_2026-02-19.md /404.html 404!
+/GA4-Audit-Correction-Plan.docx /404.html 404!
+/UTM-Parameters-Final.xlsx /404.html 404!
+/UTM-Parameters-Lead-Data.xlsx /404.html 404!
+/netlify.toml /404.html 404!
 /docs/* /404.html 404!
 /data/* /404.html 404!
 /scripts/* /404.html 404!

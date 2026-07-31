@@ -260,6 +260,21 @@ for (const internalPath of ['/docs/*', '/data/*', '/scripts/*', '/tests/*', '/ne
     issues.push(`_redirects: missing forced 404 boundary for ${internalPath}`);
   }
 }
+for (const internalFile of [
+  '/AGENTS.md',
+  '/ANALYTICS-TRACKING.md',
+  '/MARKETING-ANALYSIS.md',
+  '/README.md',
+  '/SEO_INDEXING_CHANGELOG_2026-02-19.md',
+  '/GA4-Audit-Correction-Plan.docx',
+  '/UTM-Parameters-Final.xlsx',
+  '/UTM-Parameters-Lead-Data.xlsx',
+  '/netlify.toml'
+]) {
+  if (!redirects.includes(`${internalFile} /404.html 404!`)) {
+    issues.push(`_redirects: missing forced 404 boundary for ${internalFile}`);
+  }
+}
 
 if (registry.reviewedDate !== '2026-07-31') {
   issues.push('data/authority-entities.json: reviewedDate must match the current entity review');
