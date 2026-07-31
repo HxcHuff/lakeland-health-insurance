@@ -388,7 +388,7 @@
       .trust-row { gap: 10px; }
     }
   </style>
-  <script defer src="/js/analytics.js?v=20260729-first-party-funnel"></script>
+  <script defer src="/js/analytics.js?v=20260731-measurement-integrity"></script>
     <link rel="stylesheet" href="/css/site-template.css">
 </head>
 <body>
@@ -693,25 +693,20 @@
         document.getElementById('zipInput').value = contact.zip || '';
         document.getElementById('consentInput').value = contact.consent ? 'yes' : 'no';
 
-        /* ─── FIRE LEAD EVENT ONLY ON ACTUAL SUBMISSION ─── */
-        if (window.LHI && typeof window.LHI.track === 'function') {
-          setTimeout(function() {
-            window.LHI.track('Lead', {
-              content_name: 'get_help_form_v2',
-              line_of_business: answers.coverageType || null
-            });
-          }, 50);
-        } else {
-          if (typeof gtag === 'function') gtag('event', 'generate_lead', { event_category: 'form', event_label: 'get_help_v2' });
-        }
-
         /* Submit to Netlify */
         var formData = new FormData(form);
         fetch('/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams(formData).toString()
-        }).then(function() {
+        }).then(function(response) {
+          if (!response.ok) throw new Error('Form delivery failed');
+          if (window.LHI && typeof window.LHI.track === 'function') {
+            window.LHI.track('Lead', {
+              content_name: 'get_help_form_v2',
+              line_of_business: answers.coverageType || null
+            });
+          }
           window.location.href = '/thanks.html';
         }).catch(function() {
           form.submit();

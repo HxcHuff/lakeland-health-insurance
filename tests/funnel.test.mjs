@@ -27,6 +27,7 @@ const ANALYTICS_SRC = readFileSync(resolve(__dirname, '../js/analytics.js'), 'ut
 const THANKS_SRC = readFileSync(resolve(__dirname, '../thanks.html'), 'utf8');
 const GET_HELP_SRC = readFileSync(resolve(__dirname, '../js/get-help-intake.js'), 'utf8');
 const GET_HELP_HTML = readFileSync(resolve(__dirname, '../get-help/index.html'), 'utf8');
+const GET_HELP_V2_HTML = readFileSync(resolve(__dirname, '../get-help/index-v2.html'), 'utf8');
 const ESTIMATOR_HTML = readFileSync(resolve(__dirname, '../aca-subsidy-estimator/index.html'), 'utf8');
 
 function makeSessionStorage(initial = {}) {
@@ -43,7 +44,7 @@ function makeSessionStorage(initial = {}) {
 /* Build a sandbox that mimics the browser globals funnel.js touches.
    __LHI_IS_PROD=false silences production-only conversion helpers so loading
    the script has no side-effects beyond attaching window.LHI. */
-function loadFunnel({ pathname = '/', forms = [], fetchImpl, gtagImpl } = {}) {
+function loadFunnel({ pathname = '/', forms = [], fetchImpl, gtagImpl, isProd = false } = {}) {
   const dataLayer = [];
   const sessionStorage = makeSessionStorage();
   class TestFormData {
@@ -60,7 +61,7 @@ function loadFunnel({ pathname = '/', forms = [], fetchImpl, gtagImpl } = {}) {
   }
   const sandbox = {
     __LHI_TEST: true,
-    __LHI_IS_PROD: false,
+    __LHI_IS_PROD: isProd,
     crypto: globalThis.crypto,
     TextEncoder: globalThis.TextEncoder,
     navigator: { userAgent: 'node-test', sendBeacon: undefined },
@@ -73,7 +74,7 @@ function loadFunnel({ pathname = '/', forms = [], fetchImpl, gtagImpl } = {}) {
       head: { appendChild: () => {} },
       readyState: 'complete'
     },
-    location: { pathname, search: '', href: 'http://localhost' + pathname },
+    location: { pathname, search: '', href: 'http://localhost' + pathname, protocol: 'http:' },
     URLSearchParams: globalThis.URLSearchParams,
     Promise: globalThis.Promise,
     Date: globalThis.Date,
@@ -163,6 +164,7 @@ function loadAnalytics({ pathname = '/', telLabel = 'Call David' } = {}) {
   const sandbox = {
     console: { info: () => {} },
     localStorage: makeSessionStorage(),
+    sessionStorage: makeSessionStorage(),
     dataLayer,
     location: {
       hostname: 'localhost',
@@ -336,6 +338,9 @@ test('Lead tracking sets pending thank-you lead marker', () => {
   assert.equal(marker.page_type, 'lp_aca');
   assert.equal(marker.page_path, '/lp/aca/');
   assert.equal(typeof marker.fired_at, 'number');
+  const leadEvents = w.dataLayer.filter((entry) => entry && entry.event === 'Lead');
+  assert.equal(leadEvents.length, 1, 'one GTM Lead event fires at the delivery boundary');
+  assert.equal(leadEvents[0].event_id, marker.event_id);
 });
 
 test('Lead form submit posts to /api/lead and stops legacy submit handlers', async () => {
@@ -395,12 +400,17 @@ test('Lead form submit posts to /api/lead and stops legacy submit handlers', asy
   assert.equal(payload.phone_number, '863-640-3102');
   assert.equal(payload.zip_code, '33801');
 
-  const leadEvent = w.dataLayer.find((entry) => entry.event === 'Lead');
-  assert.ok(leadEvent, 'Lead event pushed to dataLayer');
-  const leadParams = JSON.parse(JSON.stringify(leadEvent.event_params));
+  const leadEvents = w.dataLayer.filter((entry) => entry && entry.event === 'Lead');
+  assert.equal(leadEvents.length, 1, 'one GTM Lead event queued');
+  const leadParams = JSON.parse(JSON.stringify(leadEvents[0]));
   assert.deepEqual(leadParams, {
+    event: 'Lead',
     content_name: 'first_party_lead',
-    step: 'submit'
+    step: 'submit',
+    event_id: 'server-event-id',
+    page_type: 'site',
+    original_event_name: 'Lead',
+    original_event_name: 'Lead'
   });
   assert.equal(leadParams.full_name, undefined);
   assert.equal(leadParams.email, undefined);
@@ -455,7 +465,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
   assert.ok(w.sessionStorage.getItem('lhi_submission_completed'), 'subscriber thank-you marker set');
 });
 
-test('secondary funnel events bridge directly to named GA4 events without duplicating Lead', () => {
+test('funnel events bridge directly to named GA4 events while GTM owns Lead', () => {
   const gtagCalls = [];
   const w = loadFunnel({
     pathname: '/get-help/',
@@ -476,11 +486,29 @@ test('secondary funnel events bridge directly to named GA4 events without duplic
     'external_quote_click',
     'messenger_click'
   ]);
-  assert.equal(ga4Events.some((call) => call[1] === 'generate_lead'), false);
+  assert.equal(ga4Events.filter((call) => call[1] === 'generate_lead').length, 0);
+  assert.equal(w.dataLayer.filter((entry) => entry && entry.event === 'Lead').length, 1);
   assert.equal(ga4Events.some((call) => call[1] === 'phone_call_click'), false);
   assert.equal(ga4Events[0][2].page_type, 'get_help');
   assert.equal(ga4Events[0][2].original_event_name, 'Subscriber');
   assert.equal(ga4Events[0][2].transport_type, 'beacon');
+});
+
+test('production Lead queues one GTM event without direct GA4 or Ads conversion', async () => {
+  const gtagCalls = [];
+  const w = loadFunnel({
+    pathname: '/get-help/',
+    isProd: true,
+    gtagImpl: (...args) => gtagCalls.push(args),
+    fetchImpl: () => Promise.resolve({ ok: false })
+  });
+
+  w.LHI.track('Lead', { content_name: 'get_help_lead_form' });
+  await flushPromises();
+
+  assert.equal(w.dataLayer.filter((entry) => entry && entry.event === 'Lead').length, 1);
+  assert.equal(gtagCalls.some((call) => call[0] === 'event' && call[1] === 'generate_lead'), false);
+  assert.equal(gtagCalls.some((call) => call[0] === 'event' && call[1] === 'conversion'), false);
 });
 
 test('secondary funnel events queue named GA4 events when gtag is not initialized yet', () => {
@@ -581,7 +609,7 @@ test('thanks.html does not fire generate_lead without pending marker', () => {
   assert.equal(dataLayer.some((entry) => entry[0] === 'event' && entry[1] === 'generate_lead'), false);
 });
 
-test('thanks.html fires generate_lead once when pending marker exists', () => {
+test('thanks.html consumes pending Lead marker without firing a second generate_lead', () => {
   const marker = {
     event_id: 'lhi_test_123',
     content_name: 'lp_aca_lead_form',
@@ -597,9 +625,7 @@ test('thanks.html fires generate_lead once when pending marker exists', () => {
   assert.equal(storage.getItem('lhi_lead_submitted'), null, 'marker consumed after use');
 
   const generateLeadEvents = dataLayer.filter((entry) => entry[0] === 'event' && entry[1] === 'generate_lead');
-  assert.equal(generateLeadEvents.length, 1);
-  assert.equal(generateLeadEvents[0][2].event_id, 'lhi_test_123');
-  assert.equal(generateLeadEvents[0][2].event_label, 'lp_aca_lead_form');
+  assert.equal(generateLeadEvents.length, 0);
 
   const secondRun = runThanksHeadScript(storage);
   assert.equal(secondRun.dataLayer.some((entry) => entry[0] === 'event' && entry[1] === 'generate_lead'), false);
@@ -621,6 +647,26 @@ test('thanks.html shows Subscriber marker without generate_lead', () => {
   assert.deepEqual(sandbox.__LHI_THANKS_SUBMISSION, marker);
   assert.equal(sandbox.__LHI_THANKS_LEAD_MARKER, null);
   assert.equal(dataLayer.some((entry) => entry[0] === 'event' && entry[1] === 'generate_lead'), false);
+});
+
+test('analytics QA override is session-bounded and explicitly clearable', () => {
+  assert.match(ANALYTICS_SRC, /sessionStorage\.setItem\('lhi_analytics_test', '1'\)/);
+  assert.match(ANALYTICS_SRC, /sessionStorage\.removeItem\('lhi_analytics_test'\)/);
+  assert.doesNotMatch(ANALYTICS_SRC, /localStorage\.(?:getItem|setItem)\('lhi_analytics_test'/);
+  assert.match(ANALYTICS_SRC, /debug_mode: IS_ANALYTICS_DEBUG/);
+});
+
+test('attribution cookies add Secure on HTTPS', () => {
+  assert.match(FUNNEL_SRC, /location\.protocol === 'https:' \? '; Secure'/);
+  assert.match(FUNNEL_SRC, /SameSite=Lax' \+ secure/);
+});
+
+test('legacy Get Help form does not emit generate_lead before delivery', () => {
+  assert.doesNotMatch(GET_HELP_V2_HTML, /gtag\('event', 'generate_lead'/);
+  const fetchIndex = GET_HELP_V2_HTML.indexOf("fetch('/', {");
+  const deliveryIndex = GET_HELP_V2_HTML.indexOf('if (!response.ok) throw new Error');
+  const trackingIndex = GET_HELP_V2_HTML.indexOf("window.LHI.track('Lead'");
+  assert.ok(fetchIndex !== -1 && deliveryIndex > fetchIndex && trackingIndex > deliveryIndex);
 });
 
 test('get-help intent allowlist falls back safely', () => {

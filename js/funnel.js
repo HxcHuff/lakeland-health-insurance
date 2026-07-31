@@ -110,12 +110,13 @@
   function cookie(name, val, days) {
     if (arguments.length >= 2) {
       var exp = '';
+      var secure = w.location && w.location.protocol === 'https:' ? '; Secure' : '';
       if (days) {
         var dt = new Date();
         dt.setTime(dt.getTime() + days * 86400000);
         exp = '; expires=' + dt.toUTCString();
       }
-      d.cookie = name + '=' + encodeURIComponent(val) + exp + '; path=/; SameSite=Lax';
+      d.cookie = name + '=' + encodeURIComponent(val) + exp + '; path=/; SameSite=Lax' + secure;
       return val;
     }
     var match = d.cookie.match(new RegExp('(^|; )' + name + '=([^;]*)'));
@@ -240,23 +241,6 @@
 
     w.gtag = w.gtag || function () { w.dataLayer.push(arguments); };
     try { w.gtag('event', ga4Name, params); } catch (e) {}
-  }
-
-  /* Fire Google Ads conversion without identity, contact, ZIP, provider,
-     prescription, policy, income, or free-text data. */
-  function fireGoogleAdsLead(eventID) {
-    if (w.__LHI_IS_PROD === false) return;
-    if (typeof w.gtag !== 'function') return;
-    if (LEAD_CONVERSION_SEND_TO.indexOf('PLACEHOLDER') !== -1) return;
-
-    try {
-      w.gtag('event', 'conversion', {
-        send_to: LEAD_CONVERSION_SEND_TO,
-        transaction_id: eventID,
-        value: leadValueFor(pageType()),
-        currency: 'USD'
-      });
-    } catch (e) {}
   }
 
   function fireOpenAIAdsLead(eventID) {
@@ -390,15 +374,22 @@
 
     getSession();
     getAttribution();
-    fireGA(name, { page_type: pt, event_params: props });
 
-    // Non-identifying conversion events (Lead events only)
+    // GTM owns the single GA4 and Google Ads Lead conversion tags. Emit its
+    // shared custom event only after first-party delivery has succeeded.
     if (name === 'Lead') {
+      fireGA('Lead', Object.assign({}, props, {
+        event_id: eventID,
+        page_type: pt,
+        original_event_name: 'Lead'
+      }));
       markCompletedSubmission('Lead', eventID, props, pt);
-      fireGoogleAdsLead(eventID);
       fireOpenAIAdsLead(eventID);
     } else if (name === 'Subscriber') {
+      fireGA(name, { page_type: pt, event_params: props });
       markCompletedSubmission('Subscriber', eventID, props, pt);
+    } else {
+      fireGA(name, { page_type: pt, event_params: props });
     }
   }
 

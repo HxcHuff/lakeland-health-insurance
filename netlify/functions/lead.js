@@ -255,6 +255,23 @@ exports.handler = async (event) => {
     ...(mcError ? { mc_error: mcError } : {})
   };
 
+  // PHI-free operational evidence. Netlify supplies the precise log time;
+  // this record intentionally contains no payload, identity, IP, user agent,
+  // location, contact, health, policy, provider, prescription, or free text.
+  console.info(JSON.stringify({
+    type: 'lead_delivery_outcome_v1',
+    day: new Date().toISOString().slice(0, 10),
+    context: NETLIFY_CONTEXT,
+    form: cleanLeadToken(formName) || 'unknown',
+    outcome: formsOk ? 'accepted' : 'failed',
+    components: {
+      forms: formsOk,
+      meta_capi: capiOk,
+      ads_capi: adsCapiOk,
+      mailchimp: mcOk
+    }
+  }));
+
   if (!formsOk) {
     return {
       statusCode: 502,
@@ -384,8 +401,7 @@ async function syncToMailchimp(payload) {
       body: JSON.stringify(upsertBody)
     });
     if (!res.ok) {
-      const errText = await res.text();
-      return { ok: false, error: `MC upsert ${res.status}: ${errText.slice(0, 300)}` };
+      return { ok: false, error: `MC upsert ${res.status}` };
     }
   } catch (e) {
     return { ok: false, error: `MC upsert exception: ${String(e)}` };
@@ -402,8 +418,7 @@ async function syncToMailchimp(payload) {
         body: JSON.stringify(tagBody)
       });
       if (!tagRes.ok) {
-        const errText = await tagRes.text();
-        return { ok: true, error: `MC tags ${tagRes.status}: ${errText.slice(0, 300)}` };
+        return { ok: true, error: `MC tags ${tagRes.status}` };
       }
     } catch (e) {
       return { ok: true, error: `MC tags exception: ${String(e)}` };

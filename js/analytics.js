@@ -13,12 +13,17 @@
   var PROD_HOSTS = ['lakelandhealthinsurance.com', 'www.lakelandhealthinsurance.com'];
   var IS_PROD = PROD_HOSTS.indexOf(host) !== -1;
 
-  /* QA override: ?analytics_test=1 on URL, or localStorage.lhi_analytics_test=1
-     once set, forces Google tags to fire on previews/localhost for validation. */
+  /* Session-bounded QA override. ?analytics_test=1 enables Google tags for the
+     current tab only; ?analytics_test=0 clears the override. Never persist the
+     override across browser sessions, because that contaminates reporting. */
+  var IS_ANALYTICS_DEBUG = false;
   try {
     var qsForce = /[?&]analytics_test=1\b/.test(location.search);
-    if (qsForce) localStorage.setItem('lhi_analytics_test', '1');
-    if (qsForce || localStorage.getItem('lhi_analytics_test') === '1') IS_PROD = true;
+    var qsClear = /[?&]analytics_test=0\b/.test(location.search);
+    if (qsClear) sessionStorage.removeItem('lhi_analytics_test');
+    if (qsForce) sessionStorage.setItem('lhi_analytics_test', '1');
+    IS_ANALYTICS_DEBUG = !qsClear && (qsForce || sessionStorage.getItem('lhi_analytics_test') === '1');
+    if (IS_ANALYTICS_DEBUG) IS_PROD = true;
   } catch (e) {}
 
   if (window.console && console.info) {
@@ -27,6 +32,7 @@
 
   /* Expose for other scripts (funnel.js) */
   window.__LHI_IS_PROD = IS_PROD;
+  window.__LHI_ANALYTICS_DEBUG = IS_ANALYTICS_DEBUG;
 
   function pushDataLayerEvent(name, params) {
     window.dataLayer.push(Object.assign({ event: name }, params || {}));
@@ -74,7 +80,7 @@
          the local event bus remains testable without third-party analytics. */
       var fqa=document.createElement('script');
       fqa.async=true;
-      fqa.src='/js/funnel.js?v=20260729-first-party-funnel';
+      fqa.src='/js/funnel.js?v=20260731-measurement-integrity';
       document.head.appendChild(fqa);
       return;
     }
@@ -96,7 +102,10 @@
     document.head.appendChild(ga);
     window.gtag=window.gtag||function(){dataLayer.push(arguments);};
     gtag('js', new Date());
-    gtag('config', 'G-W45RMKHXV0', { send_page_view: false });
+    gtag('config', 'G-W45RMKHXV0', {
+      send_page_view: false,
+      debug_mode: IS_ANALYTICS_DEBUG
+    });
     /* Configure Google Ads without enhanced-conversion user data. The site
        emits only a conversion ID, value, and currency after first-party
        delivery; names, contact details, ZIPs, and form answers stay out. */
@@ -104,7 +113,7 @@
     /* Funnel event bus — unifies dataLayer and conversion helpers */
     var f=document.createElement('script');
     f.async=true;
-    f.src='/js/funnel.js?v=20260729-first-party-funnel';
+    f.src='/js/funnel.js?v=20260731-measurement-integrity';
     document.head.appendChild(f);
   }
   /* Defer Google tags until after LCP/FCP so third-party JS isn't

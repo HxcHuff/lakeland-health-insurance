@@ -26,25 +26,8 @@
       window.__LHI_THANKS_SUBMISSION = marker;
       window.__LHI_THANKS_LEAD_MARKER = marker.kind === 'Lead' || !marker.kind ? marker : null;
 
-      if (window.__LHI_THANKS_LEAD_MARKER) {
-        var params = {
-          event_category: 'engagement',
-          event_label: marker.content_name || 'lead_request_form',
-          event_id: marker.event_id,
-          page_type: marker.page_type,
-          source_page: marker.page_path,
-          normalized_intent: marker.normalized_intent || null,
-          line_of_business: marker.line_of_business || null
-        };
-
-        gtag('event', 'conversion', Object.assign({}, params, {
-          event_category: 'Lead Generation',
-          event_label: 'Health Insurance Request Completed',
-          value: 1
-        }));
-
-        gtag('event', 'generate_lead', params);
-      }
+      /* Display-only receipt state. Canonical GA4 and Ads events fire at the
+         successful /api/lead delivery boundary before this navigation. */
     })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -162,7 +145,7 @@
       .btn { width: 100%; }
     }
   </style>
-  <script defer src="/js/analytics.js?v=20260729-first-party-funnel"></script>
+  <script defer src="/js/analytics.js?v=20260731-measurement-integrity"></script>
 </head>
 <body>
   <main class="thanks-wrap">

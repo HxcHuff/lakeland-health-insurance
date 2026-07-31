@@ -310,7 +310,7 @@ for (const required of [
   'href="tel:+18636403102"',
   'href="mailto:dhuff@healthmarkets.com"',
   'href="/get-help/"',
-  'src="/js/analytics.js?v=20260729-first-party-funnel"',
+  'src="/js/analytics.js?v=20260731-measurement-integrity"',
   'src="/js/site-template.js"'
 ]) {
   if (!home.includes(required)) issues.push(`index.html: required contact, CTA, or tracking integration is missing (${required})`);
@@ -348,7 +348,7 @@ for (const required of [
   'href="tel:+18636403102"',
   'href="mailto:dhuff@healthmarkets.com"',
   'href="/get-help/"',
-  'src="/js/analytics.js?v=20260729-first-party-funnel"',
+  'src="/js/analytics.js?v=20260731-measurement-integrity"',
   'src="/js/site-template.js"'
 ]) {
   if (!about.includes(required)) issues.push(`about/index.html: required contact, CTA, or tracking integration is missing (${required})`);
@@ -459,7 +459,7 @@ for (const rel of workPackageThreePages) {
   if (!/datetime=["']2026-07-31["']/i.test(html)) issues.push(`${rel}: current review date is missing`);
   if (!html.includes('href="/get-help/')) issues.push(`${rel}: Get Help action is missing`);
   if (!html.includes('href="tel:+18636403102"')) issues.push(`${rel}: phone action is missing`);
-  if (!html.includes('src="/js/analytics.js?v=20260729-first-party-funnel"')) issues.push(`${rel}: analytics loader is missing`);
+  if (!html.includes('src="/js/analytics.js?v=20260731-measurement-integrity"')) issues.push(`${rel}: analytics loader is missing`);
   if (!html.includes('src="/js/site-template.js"')) issues.push(`${rel}: shared site shell is missing`);
   if (/\b(?:nationwide|across the United States|coverage across the nation)\b/i.test(text) || /\bfree (?:help|quote|consultation|service)\b/i.test(text)) {
     issues.push(`${rel}: prohibited national or free language remains`);
