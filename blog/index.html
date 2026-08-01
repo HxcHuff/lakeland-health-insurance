@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Florida Health Insurance Answers | ACA &amp; Medicare</title>
-    <meta name="description" content="Clear Florida guidance on Medicare, ACA plans, doctors, prescriptions, costs, and enrollment from licensed insurance broker David Huff.">
-    <meta property="og:title" content="Florida Health Insurance Answers | ACA &amp; Medicare">
-    <meta property="og:description" content="Clear answers before you choose, renew, or change your health coverage in Florida.">
+    <title>Individual and Family Health Insurance Answers | Florida</title>
+    <meta name="description" content="Florida guidance for ACA Marketplace coverage, job loss, self-employment, early retirement, doctors, prescriptions, costs, timing, and Medicare.">
+    <meta property="og:title" content="Individual and Family Health Insurance Answers | Florida">
+    <meta property="og:description" content="Practical Florida guidance for individual and family coverage decisions, with a dedicated Medicare library.">
     <meta property="og:url" content="https://lakelandhealthinsurance.com/blog/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lakeland Health Insurance">
@@ -23,8 +23,8 @@
     <meta property="og:image:height" content="800">
     <meta property="og:image:alt" content="Downtown Lakeland, Florida">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Florida Health Insurance Answers | ACA &amp; Medicare">
-    <meta name="twitter:description" content="Clear answers before you choose, renew, or change your health coverage in Florida.">
+    <meta name="twitter:title" content="Individual and Family Health Insurance Answers | Florida">
+    <meta name="twitter:description" content="Practical Florida guidance for individual and family coverage decisions, with a dedicated Medicare library.">
     <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/lakeland-downtown-professional-district.jpg">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
@@ -33,10 +33,10 @@
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       "@id": "https://lakelandhealthinsurance.com/blog/#webpage",
-      "name": "Florida Health Insurance Answers: ACA and Medicare",
-      "description": "Clear Florida guidance on Medicare, ACA plans, doctors, prescriptions, costs, and enrollment from licensed insurance broker David Huff.",
+      "name": "Individual and Family Health Insurance Answers: Florida Coverage Blog",
+      "description": "Florida guidance for ACA Marketplace coverage, job loss, self-employment, early retirement, doctors, prescriptions, costs, timing, and Medicare.",
       "url": "https://lakelandhealthinsurance.com/blog/",
-      "dateModified": "2026-07-31",
+      "dateModified": "2026-08-01",
       "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
       "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
       "reviewedBy": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"}
@@ -411,13 +411,13 @@
             outline: none;
         }
 
-        .medicare-season {
+        .audience-season {
             background: var(--white);
             border-bottom: 1px solid var(--gray-200);
             padding: 2.5rem 0;
         }
 
-        .medicare-season-grid {
+        .audience-season-grid {
             display: grid;
             grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
             gap: 2rem;
@@ -433,8 +433,8 @@
             text-transform: uppercase;
         }
 
-        .medicare-season h2,
-        .featured-medicare h2 {
+        .audience-season h2,
+        .featured-under65 h2 {
             color: var(--navy);
             font-family: 'Instrument Serif', serif;
             font-size: clamp(1.8rem, 4vw, 2.4rem);
@@ -443,8 +443,8 @@
             margin-bottom: 0.85rem;
         }
 
-        .medicare-season p,
-        .featured-medicare p {
+        .audience-season p,
+        .featured-under65 p {
             color: var(--gray-600);
         }
 
@@ -491,8 +491,55 @@
             list-style-position: inside;
         }
 
-        .featured-medicare {
+        .featured-under65 {
             padding: 0 0 2.5rem;
+        }
+
+        .medicare-secondary {
+            align-items: center;
+            background: var(--navy);
+            border-radius: var(--radius);
+            color: var(--white);
+            display: flex;
+            gap: 1.5rem;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+        }
+
+        .medicare-secondary .season-kicker,
+        .medicare-secondary h2,
+        .medicare-secondary p {
+            color: var(--white);
+        }
+
+        .medicare-secondary h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.55rem, 3vw, 2rem);
+            font-weight: 400;
+            line-height: 1.15;
+            margin-bottom: 0.45rem;
+        }
+
+        .medicare-secondary p {
+            color: rgba(255,255,255,0.82);
+            max-width: 650px;
+        }
+
+        .medicare-secondary .season-actions {
+            flex: 0 0 auto;
+            margin-top: 0;
+        }
+
+        .medicare-secondary .secondary-link {
+            border-color: rgba(255,255,255,0.55);
+            color: var(--white);
+        }
+
+        .medicare-secondary .secondary-link:hover,
+        .medicare-secondary .secondary-link:focus-visible {
+            border-color: var(--gold);
+            color: var(--gold);
         }
 
         .featured-heading {
@@ -1161,10 +1208,15 @@
                 text-align: left;
             }
 
-            .medicare-season-grid,
+            .audience-season-grid,
             .featured-grid,
             #blog-posts {
                 grid-template-columns: 1fr;
+            }
+
+            .medicare-secondary {
+                align-items: flex-start;
+                flex-direction: column;
             }
 
             .library-heading {
@@ -1288,23 +1340,26 @@ header .cta-button {
 
                 <div class="dropdown-menu" id="dropdownMenu">
                     <div class="menu-item"><a href="/">Home</a></div>
-                    <div class="menu-item"><a href="/plans/">Health Plans</a></div>
-                    <div class="menu-item"><a href="/quote/">Get a Quote</a></div>
+                    <div class="menu-item"><a href="/aca-health-insurance-lakeland-fl/">Individual and Family Coverage</a></div>
+                    <div class="menu-item"><a href="/medicare/">Medicare</a></div>
+                    <div class="menu-item"><a href="/plans/">Plan Types</a></div>
+                    <div class="menu-item"><a href="/carriers/">Carriers</a></div>
                     <div class="menu-item"><a href="/blog/">Blog</a></div>
-                    <div class="menu-item"><a href="/about/">About</a></div>
                     <div class="menu-item"><a href="/learning/">Learn</a></div>
-                    <div class="menu-item"><a href="/contact/">Contact</a></div>
+                    <div class="menu-item"><a href="/about/">About</a></div>
+                    <div class="menu-item"><a href="/get-help/">Get Help</a></div>
+                    <div class="menu-item"><a href="/calendly-book.html">Book a Call</a></div>
                     <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
                 </div>
             </div>
             <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/plans/">Health Plans</a></li>
-                <li><a href="/quote/">Quote</a></li>
+                <li><a href="/aca-health-insurance-lakeland-fl/">Individual and Family Coverage</a></li>
+                <li><a href="/medicare/">Medicare</a></li>
+                <li><a href="/plans/">Plan Types</a></li>
+                <li><a href="/carriers/">Carriers</a></li>
                 <li><a href="/blog/">Blog</a></li>
-                <li><a href="/about/">About</a></li>
                 <li><a href="/learning/">Learn</a></li>
-                <li><a href="/contact/">Contact</a></li>
+                <li><a href="/about/">About</a></li>
             </ul>
             <a href="/get-help/" class="cta-button">Talk to David</a>
         </nav>
@@ -1313,45 +1368,46 @@ header .cta-button {
     <main>
     <section class="blog-header">
         <div class="container">
-            <h1>Health Insurance Season Starts Here</h1>
-            <p class="hero-lead">Clear answers before you choose, renew, or change your health coverage.</p>
-            <p class="hero-trust">Start with the question you need answered&mdash;Medicare, ACA plans, doctors, prescriptions, costs, or enrollment timing.</p>
+            <h1>Florida health insurance answers for individuals and families.</h1>
+            <p class="hero-lead">Clear guidance for individual and family coverage before you choose, renew, or change a plan.</p>
+            <p class="hero-trust">Start with ACA Marketplace coverage, job loss, self-employment, early retirement, doctors, prescriptions, costs, or timing. Medicare guidance remains available.</p>
             <div class="blog-search-wrap">
                 <div class="site-search-bar" data-site-search="bar">
                     <span class="search-bar-icon">&#128269;</span>
-                    <input type="search" placeholder="Search Medicare, ACA, doctors, prescriptions, costs..." aria-label="Search Florida health insurance articles">
+                    <input type="search" placeholder="Search ACA, job loss, self-employed, doctors, prescriptions..." aria-label="Search Florida health insurance articles">
                     <div class="search-results-dropdown" data-site-search="results"></div>
                 </div>
                 <div class="search-suggestions" aria-label="Suggested health insurance searches">
-                    <button class="search-suggestion" type="button" data-search-suggestion="Medicare Advantage">Medicare Advantage</button>
-                    <button class="search-suggestion" type="button" data-search-suggestion="ACA subsidy">ACA subsidy</button>
+                    <button class="search-suggestion" type="button" data-search-suggestion="individual family coverage">Individual and Family Coverage</button>
+                    <button class="search-suggestion" type="button" data-search-suggestion="lost job coverage">Lost job coverage</button>
+                    <button class="search-suggestion" type="button" data-search-suggestion="self-employed">Self-employed</button>
                     <button class="search-suggestion" type="button" data-search-suggestion="doctors and networks">Doctors &amp; networks</button>
                     <button class="search-suggestion" type="button" data-search-suggestion="prescriptions">Prescriptions</button>
-                    <button class="search-suggestion" type="button" data-search-suggestion="lost job coverage">Lost job coverage</button>
+                    <button class="search-suggestion" type="button" data-search-suggestion="Medicare">Medicare</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="medicare-season">
+    <section class="audience-season">
         <div class="container">
-            <div class="medicare-season-grid">
+            <div class="audience-season-grid">
                 <div>
-                    <div class="season-kicker">Now focusing on Medicare</div>
-                    <h2>Review your plan before the busy season hits.</h2>
-                    <p>Medicare decisions are easier when you focus on the details that affect your care: doctors, prescriptions, total yearly cost, plan changes, and whether Advantage, Supplement, or Part D fits your situation.</p>
+                    <div class="season-kicker">Individual and Family Coverage</div>
+                    <h2>Start with the reason you need coverage.</h2>
+                    <p>Whether you are self-employed, losing job-based coverage, retiring before Medicare, turning 26, or navigating a household or income change, the right path depends on the facts of your situation and the current enrollment rules.</p>
                     <div class="season-actions">
-                        <a href="/lp/medicare/" class="cta-button">Request a Medicare Review</a>
-                        <a href="/medicare/" class="secondary-link">Compare Medicare Options</a>
+                        <a href="/get-help/?intent=individual-family" class="cta-button">Start a Coverage Review</a>
+                        <a href="/aca-health-insurance-lakeland-fl/" class="secondary-link">Explore Individual and Family Coverage</a>
                     </div>
                 </div>
-                <div class="season-panel" aria-label="Medicare review checklist">
-                    <h3>Bring this to your review</h3>
+                <div class="season-panel" aria-label="Individual and family coverage review checklist">
+                    <h3>Prepare these details</h3>
                     <ul>
-                        <li>Your doctors and preferred hospitals</li>
+                        <li>Your current coverage and when it ends</li>
+                        <li>Your doctors and preferred facilities</li>
                         <li>Your prescriptions and pharmacy</li>
-                        <li>Your current plan card or ANOC letter</li>
-                        <li>Any dental, vision, hearing, or travel needs</li>
+                        <li>Your household, projected income, and timing</li>
                     </ul>
                 </div>
             </div>
@@ -1361,33 +1417,49 @@ header .cta-button {
     <section class="blog-content">
         <div class="container">
             <div class="blog-container">
-                <section class="featured-medicare" aria-labelledby="featured-medicare-heading">
+                <section class="featured-under65" aria-labelledby="featured-under65-heading">
                     <div class="featured-heading">
                         <div class="season-kicker">Start with these</div>
-                        <h2 id="featured-medicare-heading">Medicare guides for this season</h2>
-                        <p>Start with practical guides for enrollment timing, plan types, prescriptions, and coverage tradeoffs.</p>
+                        <h2 id="featured-under65-heading">Individual and family coverage paths</h2>
+                        <p>Use the established guide that matches your situation, then verify current eligibility, networks, prescriptions, costs, and timing before acting.</p>
                     </div>
                     <div class="featured-grid">
-                        <a href="/blog/when-can-i-switch-medicare-plans-florida.html" class="featured-card">
-                            <span>Enrollment timing</span>
-                            <h3>When can I switch Medicare plans?</h3>
-                            <p>AEP, MA-OEP, Initial Enrollment, and Special Enrollment Periods explained with practical timing notes.</p>
+                        <a href="/aca-health-insurance-lakeland-fl/" class="featured-card">
+                            <span>Individual and family</span>
+                            <h3>ACA Marketplace coverage</h3>
+                            <p>Review household details, projected income, doctors, prescriptions, plan costs, and enrollment timing.</p>
                         </a>
-                        <a href="/blog/medicare-for-dummies.html" class="featured-card">
-                            <span>Medicare basics</span>
-                            <h3>Medicare basics before you enroll</h3>
-                            <p>Review Original Medicare, Advantage, Supplement, Part D, and the questions to ask before choosing.</p>
+                        <a href="/losing-coverage/" class="featured-card">
+                            <span>Job or coverage change</span>
+                            <h3>Losing health coverage</h3>
+                            <p>Compare the timing and tradeoffs of COBRA, Marketplace coverage, and other available paths.</p>
                         </a>
-                        <a href="/blog/keep-doctor-switch-medicare-plans-florida.html" class="featured-card">
-                            <span>Doctors and hospitals</span>
-                            <h3>Can I keep my doctor if I switch plans?</h3>
-                            <p>Check the exact plan ID, doctor, facility, service location, referrals, prescriptions, and pharmacy before changing plans.</p>
+                        <a href="/self-employed-health-insurance/" class="featured-card">
+                            <span>Business owners and 1099</span>
+                            <h3>Self-employed coverage</h3>
+                            <p>Review individual coverage around business structure, household, projected income, providers, and prescriptions.</p>
                         </a>
-                        <a href="/blog/dont-overlook-rx-costs-2027.html" class="featured-card">
-                            <span>Prescriptions</span>
-                            <h3>Review prescription costs before 2027</h3>
-                            <p>Prepare your medication list, pharmacy preferences, and plan documents before the next annual review.</p>
+                        <a href="/retiring-before-65-florida/" class="featured-card">
+                            <span>Before Medicare</span>
+                            <h3>Retiring before 65</h3>
+                            <p>Plan the transition from employer coverage around timing, household income, doctors, prescriptions, and yearly cost.</p>
                         </a>
+                        <a href="/turning-26/" class="featured-card">
+                            <span>Age-based transition</span>
+                            <h3>Turning 26</h3>
+                            <p>Review when existing coverage ends and how employer, Marketplace, household, and enrollment rules may apply.</p>
+                        </a>
+                    </div>
+                </section>
+                <section class="medicare-secondary" aria-labelledby="medicare-secondary-heading">
+                    <div>
+                        <div class="season-kicker">Medicare remains available</div>
+                        <h2 id="medicare-secondary-heading">Already on Medicare or approaching eligibility?</h2>
+                        <p>Use the dedicated Medicare library for enrollment timing, plan types, doctors, prescriptions, pharmacies, and expected costs.</p>
+                    </div>
+                    <div class="season-actions">
+                        <a href="/medicare/" class="secondary-link">Review Medicare Options</a>
+                        <a href="/get-help/?intent=medicare" class="cta-button">Start Medicare Review</a>
                     </div>
                 </section>
                 <section class="popular-posts" id="popular-posts" hidden aria-labelledby="popular-posts-heading">
@@ -1409,11 +1481,12 @@ header .cta-button {
                     </div>
                     <div class="topic-filter" role="group" aria-label="Filter articles by topic">
                         <button class="topic-filter-button active" type="button" data-topic-filter="all" aria-pressed="true">All topics</button>
-                        <button class="topic-filter-button" type="button" data-topic-filter="medicare" aria-pressed="false">Medicare</button>
-                        <button class="topic-filter-button" type="button" data-topic-filter="aca" aria-pressed="false">ACA &amp; Marketplace</button>
-                        <button class="topic-filter-button" type="button" data-topic-filter="care" aria-pressed="false">Doctors &amp; prescriptions</button>
+                        <button class="topic-filter-button" type="button" data-topic-filter="aca" aria-pressed="false">Individual and Family Coverage</button>
+                        <button class="topic-filter-button" type="button" data-topic-filter="losing" aria-pressed="false">Losing coverage</button>
                         <button class="topic-filter-button" type="button" data-topic-filter="self-employed" aria-pressed="false">Self-employed</button>
+                        <button class="topic-filter-button" type="button" data-topic-filter="care" aria-pressed="false">Doctors &amp; prescriptions</button>
                         <button class="topic-filter-button" type="button" data-topic-filter="costs" aria-pressed="false">Costs &amp; bills</button>
+                        <button class="topic-filter-button" type="button" data-topic-filter="medicare" aria-pressed="false">Medicare</button>
                         <button class="topic-filter-button" type="button" data-topic-filter="local" aria-pressed="false">Lakeland &amp; Polk</button>
                     </div>
                     <p class="library-status" id="library-status" aria-live="polite"></p>
@@ -2285,7 +2358,7 @@ header .cta-button {
                         <li><span aria-hidden="true">🏡</span> ACA Marketplace Reviews</li>
                         <li><span aria-hidden="true">📍</span> Lakeland-based Florida guidance</li>
                         <li><span aria-hidden="true">💼</span> Small Business Groups</li>
-                        <li><span aria-hidden="true">👨‍👩‍👧‍👦</span> Individual & Family Plans</li>
+                        <li><span aria-hidden="true">👨‍👩‍👧‍👦</span> Individual and Family Coverage</li>
                         <li><span aria-hidden="true">🤓</span> Medicare Specialists</li>
                     </ul>
                 </div>
@@ -2293,11 +2366,14 @@ header .cta-button {
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="/">Home</a></li>
-                        <li><a href="/#plans">Insurance Plans</a></li>
+                        <li><a href="/aca-health-insurance-lakeland-fl/">Individual and Family Coverage</a></li>
+                        <li><a href="/losing-coverage/">Losing Coverage</a></li>
+                        <li><a href="/self-employed-health-insurance/">Self-Employed Coverage</a></li>
+                        <li><a href="/medicare/">Medicare</a></li>
+                        <li><a href="/plans/">Plan Types</a></li>
+                        <li><a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a></li>
                         <li><a href="/blog/">Blog</a></li>
-                        <li><a href="/our-approach.html">Our Approach</a></li>
-                        <li><a href="/#about">About Us</a></li>
-                        <li><a href="/contact/">Get Quote</a></li>
+                        <li><a href="/get-help/">Start Plan Review</a></li>
                         <li><a href="/privacy-policy.html">Privacy Policy</a></li>
                     </ul>
                 </div>
@@ -2327,11 +2403,12 @@ header .cta-button {
     <script>
         const articlesPerPage = 12;
         const topicTagMap = {
-            medicare: ["Medicare", "Part D", "Turning 65", "AEP", "Seniors"],
-            aca: ["ACA", "Marketplace", "Subsidies", "Special Enrollment", "Open Enrollment", "SEP"],
-            care: ["Doctors", "Provider Networks", "Networks", "Prescriptions", "RX", "Pharmacy", "Watson Clinic", "Orlando Health"],
+            aca: ["ACA", "Marketplace", "Subsidies", "Special Enrollment", "Open Enrollment", "SEP", "Under 65"],
+            losing: ["Job Loss", "COBRA", "Special Enrollment", "Life Changes", "Medicaid"],
             "self-employed": ["Self-Employed", "Small Business", "ICHRA", "Tax Deductions"],
+            care: ["Doctors", "Provider Networks", "Networks", "Prescriptions", "RX", "Pharmacy", "Watson Clinic", "Orlando Health"],
             costs: ["Premiums", "Subsidies", "Deductibles", "Hospital Bills", "Medical Bills", "Financial", "ER Costs", "Budgeting"],
+            medicare: ["Medicare", "Part D", "Turning 65", "AEP", "Seniors"],
             local: ["Lakeland", "Polk County", "Local", "Watson Clinic", "Orlando Health"]
         };
 
@@ -2483,6 +2560,6 @@ header .cta-button {
     <script src="/js/blog-theme.js" defer></script>
     <script src="/js/chat-widget.js" defer></script>
     <script src="/js/blog-floating-actions.js" defer></script>
-    <script src="/js/site-template.js" defer></script>
+    <script src="/js/site-template.js?v=20260801-individual-family" defer></script>
 </body>
 </html>

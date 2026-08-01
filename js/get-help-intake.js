@@ -2,6 +2,14 @@
   'use strict';
 
   var INTENTS = {
+    'under-65': {
+      label: 'Individual and Family Coverage',
+      content: 'get_help_under_65',
+      subject: 'New Lead: Individual and Family Coverage Review',
+      line: 'Individual and Family Coverage',
+      intro: 'Review individual and family coverage around your current coverage, timing, household information, doctors, prescriptions, and available paths.',
+      optional: ['who', 'coverage_end', 'employer_coverage', 'providers', 'prescriptions', 'household_size', 'income', 'referral', 'notes']
+    },
     'aca': {
       label: 'ACA / Marketplace',
       content: 'get_help_aca',
@@ -41,6 +49,14 @@
       line: 'ACA',
       intro: 'Compare coverage paths for business owners, contractors, freelancers, and gig workers.',
       optional: ['business_type', 'household_size', 'income', 'providers', 'prescriptions', 'notes']
+    },
+    'retiring-before-65': {
+      label: 'Retiring before 65',
+      content: 'get_help_retiring_before_65',
+      subject: 'New Lead: Retiring Before 65 Coverage Review',
+      line: 'ACA',
+      intro: 'Review the transition from employer coverage before Medicare eligibility around timing, household information, doctors, prescriptions, and expected costs.',
+      optional: ['coverage_end', 'employer_coverage', 'household_size', 'income', 'providers', 'prescriptions', 'notes']
     },
     'coverage-gap': {
       label: 'Short-term or coverage gap',
@@ -117,17 +133,27 @@
   };
 
   var DEFAULT_INTENT = 'not-sure';
-  var INTENT_OPTIONS = ['aca', 'medicare', 'lost-coverage', 'self-employed', 'coverage-gap', 'supplemental', 'dental-vision', 'current-client-review', 'provider-check', 'not-sure'];
+  var INTENT_OPTIONS = ['under-65', 'aca', 'lost-coverage', 'self-employed', 'medicare', 'coverage-gap', 'supplemental', 'dental-vision', 'current-client-review', 'provider-check', 'not-sure'];
   var QUERY_ALIASES = {
+    'individual-family': 'under-65',
+    'under-65': 'under-65',
+    'under65': 'under-65',
+    'pre-medicare': 'under-65',
     'lost-coverage': 'lost-coverage',
+    'losing-coverage': 'lost-coverage',
+    'losing-medicaid': 'lost-coverage',
     'turning-26': 'turning-26',
     'self-employed': 'self-employed',
+    'retiring-before-65': 'retiring-before-65',
+    'early-retirement': 'retiring-before-65',
     'current-client-review': 'current-client-review',
     'provider-check': 'provider-check',
+    'provider-prescription-check': 'provider-check',
     'prescription-check': 'prescription-check',
     'coverage-gap': 'coverage-gap',
     'employer-referral': 'employer-referral',
     'post-enrollment-review': 'post-enrollment-review',
+    'local-answer': 'not-sure',
     'aca': 'aca',
     'medicare': 'medicare'
   };

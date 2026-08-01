@@ -76,6 +76,7 @@ const prohibitedSchemaTypes = new Set([
   'PostalAddress'
 ]);
 const excludedCarrierPattern = /\b(?:Aetna|FL\s*Blue|Florida\s+Blue|Capital\s+(?:HP|Health\s+Plan)|Bright\s+Health|Medica|Wellmark|FL\s+Health)\b/i;
+const siteTemplateLoaderPattern = /src=["']\/js\/site-template\.js(?:\?[^"']*)?["']/i;
 const forbiddenClaims = [
   /coverage across the nation/i,
   /serving most of the united states/i,
@@ -310,10 +311,12 @@ for (const required of [
   'href="tel:+18636403102"',
   'href="mailto:dhuff@healthmarkets.com"',
   'href="/get-help/"',
-  'src="/js/analytics.js?v=20260731-measurement-integrity"',
-  'src="/js/site-template.js"'
+  'src="/js/analytics.js?v=20260731-measurement-integrity"'
 ]) {
   if (!home.includes(required)) issues.push(`index.html: required contact, CTA, or tracking integration is missing (${required})`);
+}
+if (!siteTemplateLoaderPattern.test(home)) {
+  issues.push('index.html: required contact, CTA, or tracking integration is missing (site template loader)');
 }
 if (!home.includes('Fixed-indemnity coverage is not comprehensive health insurance or ACA minimum essential coverage.')) {
   issues.push('index.html: visible fixed-indemnity limitation is missing');
@@ -348,10 +351,12 @@ for (const required of [
   'href="tel:+18636403102"',
   'href="mailto:dhuff@healthmarkets.com"',
   'href="/get-help/"',
-  'src="/js/analytics.js?v=20260731-measurement-integrity"',
-  'src="/js/site-template.js"'
+  'src="/js/analytics.js?v=20260731-measurement-integrity"'
 ]) {
   if (!about.includes(required)) issues.push(`about/index.html: required contact, CTA, or tracking integration is missing (${required})`);
+}
+if (!siteTemplateLoaderPattern.test(about)) {
+  issues.push('about/index.html: required contact, CTA, or tracking integration is missing (site template loader)');
 }
 
 for (const rel of ['index.html', 'about/index.html', 'js/bbb-seal.js', 'js/site-template.js']) {
@@ -460,7 +465,7 @@ for (const rel of workPackageThreePages) {
   if (!html.includes('href="/get-help/')) issues.push(`${rel}: Get Help action is missing`);
   if (!html.includes('href="tel:+18636403102"')) issues.push(`${rel}: phone action is missing`);
   if (!html.includes('src="/js/analytics.js?v=20260731-measurement-integrity"')) issues.push(`${rel}: analytics loader is missing`);
-  if (!html.includes('src="/js/site-template.js"')) issues.push(`${rel}: shared site shell is missing`);
+  if (!siteTemplateLoaderPattern.test(html)) issues.push(`${rel}: shared site shell is missing`);
   if (/\b(?:nationwide|across the United States|coverage across the nation)\b/i.test(text) || /\bfree (?:help|quote|consultation|service)\b/i.test(text)) {
     issues.push(`${rel}: prohibited national or free language remains`);
   }

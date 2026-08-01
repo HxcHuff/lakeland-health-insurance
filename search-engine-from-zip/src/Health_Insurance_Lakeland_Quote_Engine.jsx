@@ -918,7 +918,7 @@ export default function FLPlanComparison() {
                 <li>Florida Residents</li>
                 <li>Coverage Across the Nation</li>
                 <li>Small Business Groups</li>
-                <li>Individual & Family Plans</li>
+                <li>Individual and Family Coverage</li>
                 <li>Medicare Specialists</li>
               </ul>
             </div>

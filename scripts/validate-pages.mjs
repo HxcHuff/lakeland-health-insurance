@@ -13,6 +13,9 @@ const FORBIDDEN_SERVICE_CLAIMS = [
   /serving florida and nationwide/i,
   /licensed in 26 states/i
 ];
+const FORBIDDEN_BRAND_COPY = [
+  /plain(?:[\s-]|\u2011)+english/i
+];
 const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 
 const SKIP_DIRS = new Set([
@@ -63,6 +66,9 @@ for (const file of seen) {
   }
   for (const claim of FORBIDDEN_SERVICE_CLAIMS) {
     if (claim.test(html)) issues.push(`${rel}: unsupported service-area claim matches ${claim}`);
+  }
+  for (const copyPattern of FORBIDDEN_BRAND_COPY) {
+    if (copyPattern.test(html)) issues.push(`${rel}: prohibited brand copy matches ${copyPattern}`);
   }
   if (/LHI\.identify\s*\(/.test(html)) {
     issues.push(`${rel}: deprecated identity-to-measurement helper is still referenced`);

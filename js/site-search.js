@@ -1,5 +1,55 @@
 // Site-wide search index and functionality
 const siteSearchIndex = [
+  // Primary individual and family paths
+  {
+    title: "Individual and Family Health Insurance in Florida",
+    url: "/aca-health-insurance-lakeland-fl/",
+    excerpt: "Review ACA Marketplace and other individual and family coverage paths around household details, doctors, prescriptions, yearly cost, and timing.",
+    tags: ["Under 65", "ACA", "Marketplace", "Individual", "Family", "Individual and Family", "Florida"]
+  },
+  {
+    title: "Florida Individual and Family Coverage Guidance",
+    url: "/",
+    excerpt: "Start with the right Florida coverage path for individuals and families, including job loss, self-employment, early retirement, household changes, and ACA Marketplace coverage.",
+    tags: ["Under 65", "Pre-Medicare", "ACA", "Individual", "Family", "Individual and Family", "Home", "Florida"]
+  },
+  {
+    title: "Losing Health Coverage in Florida",
+    url: "/losing-coverage/",
+    excerpt: "Review coverage-loss timing and compare COBRA, ACA Marketplace coverage, and other available paths based on your situation.",
+    tags: ["Under 65", "Job Loss", "Losing Coverage", "COBRA", "Special Enrollment"]
+  },
+  {
+    title: "Self-Employed Health Insurance in Florida",
+    url: "/self-employed-health-insurance/",
+    excerpt: "Coverage guidance for business owners, contractors, freelancers, and gig workers using household, income, provider, prescription, and timing details.",
+    tags: ["Under 65", "Self-Employed", "1099", "Small Business", "ACA"]
+  },
+  {
+    title: "Retiring Before 65 in Florida",
+    url: "/retiring-before-65-florida/",
+    excerpt: "Review the transition from employer coverage before Medicare eligibility, including timing, projected household income, doctors, prescriptions, and yearly cost.",
+    tags: ["Under 65", "Retiring Before 65", "Early Retirement", "Pre-Medicare", "ACA"]
+  },
+  {
+    title: "Turning 26 Health Insurance Options",
+    url: "/turning-26/",
+    excerpt: "Review when current coverage ends and how employer, Marketplace, household, and enrollment rules may apply.",
+    tags: ["Under 65", "Turning 26", "Coverage Loss", "ACA", "Special Enrollment"]
+  },
+  {
+    title: "Provider and Prescription Check",
+    url: "/provider-prescription-check/",
+    excerpt: "Prepare the exact plan, provider, facility, prescription, pharmacy, and plan-year details needed for a focused coverage review.",
+    tags: ["Under 65", "Doctors", "Provider Networks", "Prescriptions", "Pharmacy"]
+  },
+  {
+    title: "Health Plan Types",
+    url: "/plans/",
+    excerpt: "Compare major-medical, short-term, supplemental, dental, vision, life, and Medicare paths and the limitations to verify.",
+    tags: ["Plans", "Comparison", "Coverage", "Under 65", "Medicare"]
+  },
+
   // Medicare season highlights
   {
     title: "Medicare Plan Review — Lakeland, FL",
@@ -81,33 +131,33 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Premiums", "Short-Term", "Strategy"]
   },
   {
-    title: "$0 Premium Health Insurance in Florida: How Silver CSR Plans Give You Better Coverage Than Gold",
+    title: "ACA Silver Plans and Cost-Sharing Reductions in Florida",
     url: "/blog/zero-premium-health-insurance-florida-2026.html",
-    excerpt: "Most Florida families qualify for a $0 premium Silver plan with better coverage than Gold — thanks to Cost Sharing Reductions most people don't know exist.",
+    excerpt: "Review how premium tax credits and cost-sharing reductions may affect Marketplace premiums and Silver-plan cost sharing. The Marketplace determines eligibility.",
     tags: ["ACA", "Florida", "Subsidies", "Silver CSR"]
   },
   {
-    title: "Life Change? You Have 60 Days to Get Health Insurance in Florida",
+    title: "Health Insurance After a Life Change in Florida",
     url: "/blog/life-change-health-insurance-60-day-window-florida.html",
-    excerpt: "Divorced, lost your job, turning 26, having a baby, or just moved? You qualify for a Special Enrollment Period — but the 60-day clock is already ticking.",
+    excerpt: "Review whether divorce, job loss, turning 26, a birth, or a move may create a Special Enrollment Period and confirm the applicable timing and documentation.",
     tags: ["ACA", "Florida", "Special Enrollment", "Life Changes"]
   },
   {
-    title: "What an ER Visit Actually Costs in Lakeland Without Insurance (2026)",
+    title: "Emergency Room Costs and Uninsured Risk in Lakeland",
     url: "/blog/er-visit-cost-lakeland-without-insurance-2026.html",
-    excerpt: "A broken arm runs $2,500–$7,500. A chest pain workup hits $5,000–$15,000. An appendectomy? $25,000–$45,000. One ER visit could cost more than a year of coverage.",
+    excerpt: "Understand why emergency care can create substantial financial exposure without coverage and which plan details affect out-of-pocket risk.",
     tags: ["Florida", "Lakeland", "Uninsured", "ER Costs"]
   },
   {
-    title: "Lost Your Job in Lakeland? Here's What to Do About Health Insurance (You Have 60 Days)",
+    title: "Health Insurance After Job Loss in Lakeland",
     url: "/blog/lost-job-health-insurance-lakeland.html",
-    excerpt: "Just lost your job in Lakeland or Polk County? You have 60 days to get health insurance. Here's exactly what to do — COBRA vs. ACA Marketplace, subsidies, Medicaid, and why you probably qualify for $0 or low-cost coverage.",
+    excerpt: "Compare COBRA, ACA Marketplace coverage, Medicaid, and other available paths after job loss, then confirm eligibility, timing, and documentation.",
     tags: ["Job Loss", "ACA", "COBRA", "SEP", "Lakeland"]
   },
   {
-    title: "ACA Subsidy Clawback: What Happens When Your Agent Lied About Your Income",
+    title: "ACA Subsidy Reconciliation and Incorrect Income",
     url: "/blog/aca-subsidy-tax-return-clawback.html",
-    excerpt: "Learn what happens when an insurance agent falsifies your income for maximum ACA subsidies. Understand Form 8962 reconciliation, potential $2K-$8K+ clawbacks, and how to protect yourself.",
+    excerpt: "Understand premium-tax-credit reconciliation, Form 8962, income updates, and steps to take if application information appears incorrect.",
     tags: ["ACA", "Consumer Protection", "Tax Planning"]
   },
   {
@@ -461,22 +511,10 @@ const siteSearchIndex = [
 
   // Main Pages
   {
-    title: "Health Insurance Broker in Lakeland, FL — ACA, Medicare & More",
-    url: "/",
-    excerpt: "Licensed Lakeland health insurance guidance for Polk County families comparing 2026 ACA, Medicare, and Guard plans.",
-    tags: ["Home", "ACA", "Medicare", "Lakeland"]
-  },
-  {
     title: "ACA Subsidy Estimator",
     url: "/aca-subsidy-estimator/",
-    excerpt: "Calculate your estimated ACA subsidies and see what you might qualify for.",
+    excerpt: "Estimate how household size and projected income may affect Marketplace premium-tax-credit calculations. The Marketplace determines eligibility.",
     tags: ["Tools", "ACA", "Subsidies", "Calculator"]
-  },
-  {
-    title: "Health Plans Comparison",
-    url: "/plans/",
-    excerpt: "Compare health insurance plans and find the right coverage for your needs.",
-    tags: ["Plans", "Comparison", "Coverage"]
   },
   {
     title: "Health Protector Guard",
@@ -513,12 +551,6 @@ const siteSearchIndex = [
     url: "/life-insurance-dime-method/",
     excerpt: "Calculate your life insurance needs using the DIME method.",
     tags: ["Tools", "Life Insurance", "Calculator"]
-  },
-  {
-    title: "ACA Health Insurance for Lakeland, FL",
-    url: "/aca-health-insurance-lakeland-fl/",
-    excerpt: "ACA marketplace health insurance options for Lakeland and Polk County residents.",
-    tags: ["ACA", "Lakeland", "Florida"]
   },
   {
     title: "Health Insurance Learning Center",
@@ -593,7 +625,8 @@ class SiteSearch {
         input.addEventListener('focus', (e) => this.handleFocus(e, dropdown));
 
         bar.parentElement.querySelectorAll('[data-search-suggestion]').forEach(button => {
-          button.addEventListener('click', () => {
+          button.addEventListener('click', (event) => {
+            event.stopPropagation();
             input.value = button.getAttribute('data-search-suggestion') || '';
             input.focus();
             input.dispatchEvent(new Event('input', { bubbles: true }));
@@ -684,12 +717,23 @@ class SiteSearch {
   }
 
   search(query) {
-    return siteSearchIndex.filter(page => {
-      const titleMatch = page.title.toLowerCase().includes(query);
-      const excerptMatch = page.excerpt.toLowerCase().includes(query);
-      const tagsMatch = page.tags.some(tag => tag.toLowerCase().includes(query));
-      return titleMatch || excerptMatch || tagsMatch;
-    }).slice(0, 8);
+    return siteSearchIndex.map((page, index) => {
+      const title = page.title.toLowerCase();
+      const excerpt = page.excerpt.toLowerCase();
+      const tags = page.tags.map(tag => tag.toLowerCase());
+      const tokens = query.split(/\s+/).filter(Boolean);
+      const searchable = [title, excerpt].concat(tags).join(' ');
+      var score = 0;
+      if (title.includes(query)) score = 4;
+      else if (tags.some(tag => tag === query)) score = 3;
+      else if (tags.some(tag => tag.includes(query))) score = 2;
+      else if (excerpt.includes(query)) score = 1;
+      else if (tokens.length > 1 && tokens.every(token => searchable.includes(token))) score = 1;
+      return { page, index, score };
+    }).filter(result => result.score > 0)
+      .sort((a, b) => b.score - a.score || a.index - b.index)
+      .slice(0, 8)
+      .map(result => result.page);
   }
 
   renderResults(results, dropdown) {

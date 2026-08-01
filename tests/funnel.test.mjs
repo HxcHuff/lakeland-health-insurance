@@ -687,9 +687,21 @@ test('get-help intent allowlist falls back safely', () => {
   vm.createContext(sandbox);
   vm.runInContext(GET_HELP_SRC, sandbox, { filename: 'get-help-intake.js' });
 
+  assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('under-65'), 'under-65');
+  assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('individual-family'), 'under-65');
+  assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('under65'), 'under-65');
+  assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('pre-medicare'), 'under-65');
+  assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('retiring-before-65'), 'retiring-before-65');
+  assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('early-retirement'), 'retiring-before-65');
+  assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('losing-coverage'), 'lost-coverage');
+  assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('provider-prescription-check'), 'provider-check');
+  assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('local-answer'), 'not-sure');
   assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('medicare'), 'medicare');
   assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('provider-check'), 'provider-check');
   assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('<script>alert(1)</script>'), 'not-sure');
+  assert.ok(sandbox.LHIGetHelpIntake.intents['under-65']);
+  assert.equal(sandbox.LHIGetHelpIntake.intents['under-65'].label, 'Individual and Family Coverage');
+  assert.ok(sandbox.LHIGetHelpIntake.intents['retiring-before-65']);
 });
 
 test('get-help consent evidence is channel-specific and versioned', () => {

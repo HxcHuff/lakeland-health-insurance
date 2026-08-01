@@ -68,6 +68,10 @@ header {
   box-shadow: var(--shadow-md);
 }
 
+.newsletter-page header {
+  position: sticky;
+}
+
 header nav.container {
   display: flex;
   justify-content: space-between;
@@ -434,6 +438,13 @@ footer {
 .click-to-call .phone-icon,
 .messenger-icon {
   font-size: 1.2rem;
+}
+
+@media (max-width: 1100px) {
+  header .nav-links,
+  .cta-group {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {

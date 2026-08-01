@@ -5,24 +5,25 @@
   const messengerHref = 'https://m.me/2330958066941437';
 
   const navLinks = [
-    ['/', 'Home'],
-    ['/plans/', 'Health Plans'],
-    ['/carriers/', 'Carriers'],
+    ['/aca-health-insurance-lakeland-fl/', 'Individual and Family Coverage'],
     ['/medicare/', 'Medicare'],
+    ['/plans/', 'Plan Types'],
+    ['/carriers/', 'Carriers'],
     ['/blog/', 'Blog'],
-    ['/about/', 'About'],
     ['/learning/', 'Learn'],
-    ['/get-help/', 'Get Help']
+    ['/about/', 'About']
   ];
 
   const menuLinks = [
     ['/', 'Home'],
-    ['/plans/', 'Health Plans'],
+    ['/aca-health-insurance-lakeland-fl/', 'Individual and Family Coverage'],
+    ['/medicare/', 'Medicare'],
+    ['/plans/', 'Plan Types'],
     ['/carriers/', 'Carriers'],
-    ['/get-help/', 'Get Help'],
     ['/blog/', 'Blog'],
-    ['/about/', 'About'],
     ['/learning/', 'Learn'],
+    ['/about/', 'About'],
+    ['/get-help/', 'Get Help'],
     ['/calendly-book.html', 'Book a Call'],
     [phoneHref, 'Call Now']
   ];
@@ -96,12 +97,13 @@
             <h3>Quick Links</h3>
             <ul>
               <li><a href="/">Home</a></li>
-              <li><a href="/plans/">Insurance Plans</a></li>
-              <li><a href="/health-protector-guard/">Fixed-Indemnity Information</a></li>
+              <li><a href="/aca-health-insurance-lakeland-fl/">Individual and Family Coverage</a></li>
+              <li><a href="/losing-coverage/">Losing Coverage</a></li>
+              <li><a href="/self-employed-health-insurance/">Self-Employed Coverage</a></li>
+              <li><a href="/medicare/">Medicare</a></li>
+              <li><a href="/plans/">Plan Types</a></li>
               <li><a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a></li>
               <li><a href="/blog/">Blog</a></li>
-              <li><a href="/our-approach.html">Our Approach</a></li>
-              <li><a href="/blog/florida-insurance-guide.html">Florida Health Insurance Guide</a></li>
               <li><a href="/get-help/">Start Plan Review</a></li>
               <li><a href="/privacy-policy.html">Privacy Policy</a></li>
             </ul>
