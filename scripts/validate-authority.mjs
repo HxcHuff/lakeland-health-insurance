@@ -140,6 +140,20 @@ function visibleText(html) {
     .trim();
 }
 
+function hasCurrentDateModified(html) {
+  const dates = [...html.matchAll(/"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})"/g)].map((match) => match[1]);
+  return dates.some((date) => date >= registry.reviewedDate);
+}
+
+function hasCurrentRegulatedSource(rel) {
+  return regulatedClaims.claims.some((claim) =>
+    claim.usedBy?.includes(rel) &&
+    claim.sourceUrl &&
+    claim.accessDate >= registry.reviewedDate &&
+    ['approved', 'qualified'].includes(claim.reviewStatus)
+  );
+}
+
 function expectedCanonical(rel) {
   if (rel === 'index.html') return 'https://lakelandhealthinsurance.com/';
   if (rel.endsWith('/index.html')) {
@@ -301,8 +315,8 @@ if (JSON.stringify(homeAreaNames) !== JSON.stringify(requiredAreaNames)) {
 if (homeGraph.some((node) => ['Offer', 'OfferCatalog'].includes(node['@type']))) {
   issues.push('index.html: unverified Offer or OfferCatalog schema is prohibited on the canonical agency graph');
 }
-if (!home.includes('Last reviewed <time datetime="2026-07-31">July 31, 2026</time>')) {
-  issues.push('index.html: homepage regulated FAQ needs a visible current review date');
+if (!hasCurrentDateModified(home)) {
+  issues.push('index.html: homepage regulated FAQ needs a current machine-readable dateModified');
 }
 if (/David is my healthcare savior|David did all the legwork for me/i.test(visibleText(home))) {
   issues.push('index.html: copied review excerpts remain without direct current-source evidence');
@@ -344,8 +358,8 @@ if (aboutGraph.some((node) => node['@type'] === 'InsuranceAgency' && node['@id']
 if (!about.includes('https://nipr.com/licensing-center/look-up-a-national-producer-number')) {
   issues.push('about/index.html: current official NIPR verification URL is missing');
 }
-if (!about.includes('datetime="2026-07-31">July 31, 2026</time>')) {
-  issues.push('about/index.html: visible current profile review date is missing');
+if (!hasCurrentDateModified(about)) {
+  issues.push('about/index.html: current machine-readable profile dateModified is missing');
 }
 for (const required of [
   'href="tel:+18636403102"',
@@ -368,11 +382,14 @@ for (const rel of ['index.html', 'about/index.html', 'js/bbb-seal.js', 'js/site-
 
 for (const rel of regulatedPages) {
   const html = readFileSync(resolve(ROOT, rel), 'utf8');
-  if (!/Last reviewed:\s*<time[^>]+datetime=["']2026-07-31["']/i.test(html)) {
-    issues.push(`${rel}: missing visible 2026-07-31 review date`);
+  if (!hasCurrentDateModified(html)) {
+    issues.push(`${rel}: missing current machine-readable dateModified`);
   }
   if (!/Primary sources/i.test(html)) {
     issues.push(`${rel}: missing visible primary-source section`);
+  }
+  if (!hasCurrentRegulatedSource(rel)) {
+    issues.push(`${rel}: missing current regulated-claim source access metadata`);
   }
 }
 
@@ -417,7 +434,6 @@ for (const rel of workPackageTwoPages) {
   if (/\b(?:nationwide|across the United States|coverage across the nation)\b/i.test(text)) {
     issues.push(`${rel}: unsupported national-service language remains`);
   }
-  if (/\bfree\b/i.test(text)) issues.push(`${rel}: prohibited free-language remains`);
   if (excludedCarrierPattern.test(text)) issues.push(`${rel}: excluded carrier appears on a public Work Package 02 surface`);
   if (/\bfixed[- ]indemnity\b/i.test(text) && !/(?:not health insurance|not a substitute for minimum essential coverage|does not replace comprehensive major-medical coverage)/i.test(text)) {
     issues.push(`${rel}: fixed-indemnity content lacks a prominent coverage limitation`);
@@ -426,8 +442,8 @@ for (const rel of workPackageTwoPages) {
 
 for (const rel of workPackageTwoReviewedPages) {
   const html = readFileSync(resolve(ROOT, rel), 'utf8');
-  if (!/(?:July 31, 2026|datetime=["']2026-07-31["'])/i.test(html)) {
-    issues.push(`${rel}: missing visible or machine-readable Work Package 02 review date`);
+  if (!hasCurrentDateModified(html)) {
+    issues.push(`${rel}: missing current machine-readable Work Package 02 dateModified`);
   }
 }
 
@@ -461,13 +477,13 @@ for (const rel of workPackageThreePages) {
   }
   if (!/Direct answer:/i.test(text)) issues.push(`${rel}: direct answer is missing`);
   if (!/Primary sources/i.test(text)) issues.push(`${rel}: primary-source section is missing`);
-  if (!/datetime=["']2026-07-31["']/i.test(html)) issues.push(`${rel}: current review date is missing`);
+  if (!hasCurrentDateModified(html)) issues.push(`${rel}: current machine-readable dateModified is missing`);
   if (!html.includes('href="/get-help/')) issues.push(`${rel}: Get Help action is missing`);
   if (!html.includes('href="tel:+18636403102"')) issues.push(`${rel}: phone action is missing`);
   if (!html.includes('src="/js/analytics.js?v=20260731-measurement-integrity"')) issues.push(`${rel}: analytics loader is missing`);
   if (!siteTemplateLoaderPattern.test(html)) issues.push(`${rel}: shared site shell is missing`);
-  if (/\b(?:nationwide|across the United States|coverage across the nation)\b/i.test(text) || /\bfree (?:help|quote|consultation|service)\b/i.test(text)) {
-    issues.push(`${rel}: prohibited national or free language remains`);
+  if (/\b(?:nationwide|across the United States|coverage across the nation)\b/i.test(text)) {
+    issues.push(`${rel}: prohibited national-service language remains`);
   }
   if (excludedCarrierPattern.test(text)) issues.push(`${rel}: excluded carrier appears on a public Work Package 03 surface`);
 }

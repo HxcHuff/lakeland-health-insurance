@@ -58,18 +58,6 @@
     return header;
   }
 
-  function createComplianceBanner() {
-    const banner = document.createElement('div');
-    const bannerFocus = document.querySelector('meta[name="lhi-banner-focus"]')?.getAttribute('content');
-    banner.className = 'compliance-banner';
-    if (bannerFocus === 'medicare') {
-      banner.innerHTML = `<strong>Medicare questions?</strong> Call <a href="${phoneHref}">${phoneDisplay}</a> or <a href="/lp/medicare/">start a Medicare review</a>. FL Broker License #W371813`;
-    } else {
-      banner.innerHTML = `<strong>Insurance questions?</strong> Call <a href="${phoneHref}">${phoneDisplay}</a> or <a href="/get-help/">start a plan review</a>. FL Broker License #W371813`;
-    }
-    return banner;
-  }
-
   function createFooter() {
     const footer = document.createElement('footer');
     footer.innerHTML = `
@@ -119,7 +107,9 @@
   }
 
   function createFloatingActions() {
-    const wrapper = document.createDocumentFragment();
+    const wrapper = document.createElement('div');
+    wrapper.className = 'floating-actions';
+    wrapper.setAttribute('aria-label', 'Contact options');
     const messenger = document.createElement('a');
     messenger.href = messengerHref;
     messenger.className = 'messenger-button';
@@ -128,7 +118,7 @@
     messenger.setAttribute('aria-label', 'Message David on Messenger');
     messenger.innerHTML = `
       <span class="messenger-icon" aria-hidden="true">&#128172;</span>
-      <div style="display:flex;flex-direction:column;align-items:center;">
+      <div class="floating-action-label">
         <span>Message David</span>
         <span style="font-size:0.8rem;opacity:0.9;">Opens Messenger</span>
       </div>`;
@@ -136,9 +126,10 @@
     const call = document.createElement('a');
     call.href = phoneHref;
     call.className = 'click-to-call';
+    call.setAttribute('aria-label', `Call ${phoneDisplay}`);
     call.innerHTML = `
       <span class="phone-icon" aria-hidden="true">&#128222;</span>
-      <div style="display:flex;flex-direction:column;align-items:center;">
+      <div class="floating-action-label">
         <span>Call: ${phoneDisplay}</span>
         <span style="font-size:0.8rem;opacity:0.9;">Direct broker line</span>
       </div>`;
@@ -192,7 +183,6 @@
     } else {
       document.body.prepend(createHeader());
     }
-    document.body.prepend(createComplianceBanner());
 
     const lastFooter = document.querySelector('footer');
     if (lastFooter) {
@@ -202,7 +192,14 @@
     }
 
     removeOldFloatingActions();
-    document.body.append(createFloatingActions());
+    const floatingActions = createFloatingActions();
+    const siteFooter = document.querySelector('body > footer');
+    if (siteFooter) {
+      siteFooter.before(floatingActions);
+    } else {
+      document.body.append(floatingActions);
+    }
+    document.body.classList.add('has-floating-actions');
 
     document.querySelectorAll('#current-year, [data-current-year]').forEach((node) => {
       node.textContent = new Date().getFullYear();

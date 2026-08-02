@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { extname, join, relative, resolve } from 'node:path';
+import { extractClientCopy, extractHtmlCopy, findContentPolicyIssues } from './content-policy.mjs';
 
 const ROOT = resolve(new URL('.', import.meta.url).pathname, '..');
 const CANONICAL_PHONE = '863-640-3102';
@@ -13,10 +14,16 @@ const FORBIDDEN_SERVICE_CLAIMS = [
   /serving florida and nationwide/i,
   /licensed in 26 states/i
 ];
-const FORBIDDEN_BRAND_COPY = [
-  /plain(?:[\s-]|\u2011)+english/i
-];
+const CLIENT_COPY_FILES = ['js/site-search.js', 'js/blog-cta.js', 'js/site-template.js'];
 const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
+const RELEASE_ASSET_VERSION = '20260803-brand-release';
+const RELEASE_ASSET_PATHS = [
+  '/css/site-template.css',
+  '/css/blog-unified.css',
+  '/js/site-template.js',
+  '/js/site-search.js',
+  '/js/blog-cta.js',
+];
 
 const SKIP_DIRS = new Set([
   '.git', '.claude', 'node_modules', 'netlify', '.netlify', 'tests', 'scripts',
@@ -41,6 +48,27 @@ function walk(dir, out = []) {
   return out;
 }
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function localRedirectCandidates(target) {
+  const pathname = target.split(/[?#]/, 1)[0];
+  if (!pathname.startsWith('/') || /[:*]/.test(pathname)) return [];
+
+  let cleanPath;
+  try {
+    cleanPath = decodeURI(pathname).replace(/^\/+/, '');
+  } catch {
+    return [];
+  }
+
+  if (!cleanPath) return ['index.html'];
+  if (pathname.endsWith('/')) return [join(cleanPath, 'index.html')];
+  if (extname(cleanPath)) return [cleanPath];
+  return [cleanPath, `${cleanPath}.html`, join(cleanPath, 'index.html')];
+}
+
 const issues = [];
 const seen = walk(ROOT);
 const htmlByRel = new Map();
@@ -48,8 +76,20 @@ const htmlByRel = new Map();
 for (const file of seen) {
   const rel = relative(ROOT, file);
   htmlByRel.set(rel, file);
-  if (SKIP_FILES.has(rel)) continue;
   const html = readFileSync(file, 'utf8');
+  for (const assetPath of RELEASE_ASSET_PATHS) {
+    const expected = `${assetPath}?v=${RELEASE_ASSET_VERSION}`;
+    const pattern = new RegExp(`${escapeRegExp(assetPath)}(?:\\?[^\"'\\s<>]*)?`, 'g');
+    for (const match of html.matchAll(pattern)) {
+      if (match[0] !== expected) {
+        issues.push(`${rel}: stale shared asset reference "${match[0]}" (expected "${expected}")`);
+      }
+    }
+  }
+  for (const policyIssue of findContentPolicyIssues(extractHtmlCopy(html))) {
+    issues.push(`${rel}: content policy violation (${policyIssue})`);
+  }
+  if (SKIP_FILES.has(rel)) continue;
   const isNoindex = /<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(html);
 
   [...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)]
@@ -67,9 +107,6 @@ for (const file of seen) {
   for (const claim of FORBIDDEN_SERVICE_CLAIMS) {
     if (claim.test(html)) issues.push(`${rel}: unsupported service-area claim matches ${claim}`);
   }
-  for (const copyPattern of FORBIDDEN_BRAND_COPY) {
-    if (copyPattern.test(html)) issues.push(`${rel}: prohibited brand copy matches ${copyPattern}`);
-  }
   if (/LHI\.identify\s*\(/.test(html)) {
     issues.push(`${rel}: deprecated identity-to-measurement helper is still referenced`);
   }
@@ -82,6 +119,33 @@ for (const file of seen) {
 
   if (!/<link\s+rel=["']canonical["']\s+href=/i.test(html)) {
     issues.push(`${rel}: missing <link rel="canonical">`);
+  }
+}
+
+for (const rel of CLIENT_COPY_FILES) {
+  const source = readFileSync(resolve(ROOT, rel), 'utf8');
+  for (const policyIssue of findContentPolicyIssues(extractClientCopy(source))) {
+    issues.push(`${rel}: content policy violation (${policyIssue})`);
+  }
+}
+
+const serviceWorker = readFileSync(join(ROOT, 'sw.js'), 'utf8');
+const expectedCacheName = `const CACHE_NAME = 'lhi-${RELEASE_ASSET_VERSION}';`;
+if (!serviceWorker.includes(expectedCacheName)) {
+  issues.push(`sw.js: cache namespace must match shared asset release (${expectedCacheName})`);
+}
+
+const redirectsPath = join(ROOT, '_redirects');
+const redirects = readFileSync(redirectsPath, 'utf8');
+for (const [index, line] of redirects.split(/\r?\n/).entries()) {
+  const trimmed = line.trim();
+  if (!trimmed || trimmed.startsWith('#')) continue;
+  const [source, target, status] = trimmed.split(/\s+/);
+  if (!/^30[1278]!?$/.test(status || '') || !target?.startsWith('/')) continue;
+
+  const candidates = localRedirectCandidates(target);
+  if (candidates.length > 0 && !candidates.some((candidate) => existsSync(join(ROOT, candidate)))) {
+    issues.push(`_redirects:${index + 1}: ${source} points to missing local target ${target}`);
   }
 }
 

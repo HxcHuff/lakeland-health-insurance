@@ -43,21 +43,6 @@ body {
   padding-right: 20px;
 }
 
-.compliance-banner {
-  background: var(--navy-deep);
-  color: rgba(255,255,255,0.85);
-  font-size: 0.72rem;
-  text-align: center;
-  padding: 10px 20px;
-  line-height: 1.5;
-}
-
-.compliance-banner strong,
-.compliance-banner a {
-  color: var(--gold);
-  font-weight: 700;
-}
-
 header {
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(10px);
@@ -114,6 +99,11 @@ header .license {
   border: none;
   cursor: pointer;
   padding: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 4px;
   transition: background-color 0.2s;
 }
@@ -183,6 +173,7 @@ header .nav-links {
   gap: 2rem;
   list-style: none;
   align-items: center;
+  flex-wrap: nowrap;
 }
 
 header .nav-links a {
@@ -273,11 +264,30 @@ header .nav-links a:hover {
   z-index: 2;
 }
 
-.hero h1 {
+.hero h1,
+.page-hero h1,
+.blog-header h1,
+.article-header h1 {
   font-family: 'Instrument Serif', serif;
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   font-weight: 400;
   line-height: 1.2;
+}
+
+.legacy-article-hero {
+  padding-top: 136px;
+}
+
+body > .crumb {
+  margin-top: 76px;
+}
+
+body > .crumb a {
+  color: #1D4ED8;
+}
+
+.checklist li::before {
+  color: #7A5B00;
 }
 
 .hero-kicker {
@@ -390,6 +400,10 @@ footer {
   margin: 0.25rem 0;
 }
 
+.floating-actions {
+  display: contents;
+}
+
 .click-to-call,
 .messenger-button {
   position: fixed;
@@ -440,6 +454,70 @@ footer {
   font-size: 1.2rem;
 }
 
+.floating-action-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.click-to-call:focus-visible,
+.messenger-button:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 3px;
+}
+
+@media (min-width: 1280px) {
+  .click-to-call,
+  .messenger-button {
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .click-to-call .floating-action-label,
+  .messenger-button .floating-action-label {
+    display: none;
+  }
+
+  .click-to-call .phone-icon,
+  .messenger-icon {
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 1279px) {
+  .floating-actions {
+    align-items: stretch;
+    background: var(--white);
+    border-top: 1px solid var(--gray-200);
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 18px 20px;
+  }
+
+  body.has-floating-actions .floating-actions .click-to-call,
+  body.has-floating-actions .floating-actions .messenger-button {
+    bottom: auto;
+    left: auto;
+    max-width: none;
+    min-height: 52px;
+    position: static;
+    right: auto;
+    width: 100%;
+    justify-content: center;
+    padding: 10px 12px;
+    text-align: center;
+    transform: none;
+  }
+
+  body.has-floating-actions .floating-actions .click-to-call:hover,
+  body.has-floating-actions .floating-actions .messenger-button:hover {
+    transform: none;
+  }
+}
+
 @media (max-width: 1100px) {
   header .nav-links,
   .cta-group {
@@ -461,32 +539,52 @@ footer {
     flex-direction: column;
   }
 
-  .click-to-call {
-    bottom: 15px;
-    right: 15px;
-    width: calc(50vw - 22px);
-    max-width: 190px;
-    min-height: 54px;
+  .floating-actions {
+    align-items: stretch;
+    background: var(--white);
+    border-top: 1px solid var(--gray-200);
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 18px 20px calc(18px + env(safe-area-inset-bottom));
+  }
+
+  body.has-floating-actions .floating-actions .click-to-call,
+  body.has-floating-actions .floating-actions .messenger-button {
+    bottom: auto;
+    left: auto;
+    max-width: none;
+    min-height: 48px;
+    position: static;
+    right: auto;
+    width: 100%;
     justify-content: center;
     padding: 10px 12px;
+    text-align: center;
+    transform: none;
+  }
+
+  body.has-floating-actions .floating-actions .click-to-call {
     font-size: 0.9rem;
-    text-align: center;
   }
 
-  .messenger-button {
-    bottom: 15px;
-    left: 15px;
-    width: calc(50vw - 22px);
-    max-width: 170px;
-    min-height: 54px;
-    justify-content: center;
-    padding: 10px 12px;
+  body.has-floating-actions .floating-actions .messenger-button {
     font-size: 0.86rem;
-    text-align: center;
   }
 
-  .click-to-call div span:last-child,
-  .messenger-button div span:last-child {
+  body.has-floating-actions .floating-actions .click-to-call:hover,
+  body.has-floating-actions .floating-actions .messenger-button:hover {
+    transform: none;
+  }
+
+  body.has-floating-actions .floating-actions .click-to-call div span:last-child,
+  body.has-floating-actions .floating-actions .messenger-button div span:last-child {
     display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .floating-actions {
+    grid-template-columns: 1fr;
   }
 }

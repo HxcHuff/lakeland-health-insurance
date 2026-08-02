@@ -54,7 +54,7 @@ const siteSearchIndex = [
   {
     title: "Medicare Plan Review — Lakeland, FL",
     url: "/lp/medicare/",
-    excerpt: "Get a no-pressure review of your Medicare options with licensed Florida coverage guidance.",
+    excerpt: "Review Medicare options around enrollment timing, doctors, prescriptions, plan rules, and expected costs.",
     tags: ["Medicare", "Lakeland", "Review", "Broker", "Appointment"]
   },
   {
@@ -119,9 +119,9 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Subsidies", "High Income", "Short-Term"]
   },
   {
-    title: "The Coverage Gap Nobody Talks About: High Deductibles and Hospital Bills",
+    title: "High Deductibles, Hospital Bills, and Cash-Flow Risk",
     url: "/blog/high-deductible-hospital-bills-coverage-gap-florida.html",
-    excerpt: "Why people with real health insurance can still panic over high deductibles, hospital bills, and cash-flow risk - and when supplemental coverage may fit.",
+    excerpt: "How deductibles and hospital cost sharing can create cash-flow risk, and which coverage limitations to verify.",
     tags: ["Deductibles", "Hospital Bills", "Supplemental", "Fixed Indemnity", "Florida"]
   },
   {
@@ -215,15 +215,15 @@ const siteSearchIndex = [
     tags: ["Self-Employed", "Lakeland", "ACA"]
   },
   {
-    title: "Insurance Denied Your Claim? Fight Back.",
+    title: "Insurance Claim Denied? A Step-by-Step Review Process",
     url: "/blog/what-to-do-when-insurance-denies-claim.html",
-    excerpt: "Don't accept a denied insurance claim without a fight. Here's exactly how to appeal and overturn denials — step by step, with actual success strategies.",
+    excerpt: "Review the denial reason, plan documents, provider records, internal appeal process, and external-review options.",
     tags: ["Claims", "Appeals", "Tips"]
   },
   {
     title: "How to Negotiate Hospital Bills",
     url: "/blog/how-to-negotiate-hospital-bills.html",
-    excerpt: "Hospital bills are negotiable. Here's exactly how to negotiate medical debt, request itemized bills, spot errors, and cut your costs by 50% or more.",
+    excerpt: "Review itemized hospital bills, compare them with the EOB, correct errors, and ask about current financial-assistance or payment options.",
     tags: ["Medical Bills", "Financial", "Tips"]
   },
   {
@@ -233,21 +233,21 @@ const siteSearchIndex = [
     tags: ["Plan Types", "Coverage", "Comparison"]
   },
   {
-    title: "Out-of-Pocket Maximum: Your Financial Safety Net",
+    title: "How the Out-of-Pocket Maximum Works",
     url: "/blog/understanding-out-of-pocket-maximum.html",
-    excerpt: "The out-of-pocket maximum is the most important number in your health insurance policy. Here's exactly how it works and why it could save you from financial disaster.",
+    excerpt: "Learn which eligible in-network costs count toward the annual limit and which expenses remain outside it.",
     tags: ["Coverage", "Financial", "Basics"]
   },
   {
-    title: "Self-Employed? Deduct Your Health Insurance",
+    title: "Self-Employed Health Insurance Deduction",
     url: "/blog/health-insurance-self-employed-tax-deductions.html",
-    excerpt: "If you're self-employed, you can deduct 100% of your health insurance premiums. Here's exactly how to claim this deduction and save thousands on taxes.",
+    excerpt: "Review eligibility limits, employer-plan restrictions, Form 7206, Schedule 1 reporting, and Marketplace premium tax credit coordination.",
     tags: ["Self-Employed", "Tax Deductions", "Financial"]
   },
   {
-    title: "How to Budget for Healthcare in 2026",
+    title: "How to Budget for Health Insurance and Medical Costs in 2026",
     url: "/blog/planning-healthcare-budget-2026.html",
-    excerpt: "Learn how to accurately budget for healthcare costs including premiums, deductibles, and out-of-pocket expenses. Real strategies for planning your medical spending in 2026.",
+    excerpt: "Build a plan-specific budget using annual premiums, expected medical and prescription costs, and a reserve tied to your coverage.",
     tags: ["Financial", "Budgeting", "Tips"]
   },
   {
@@ -259,43 +259,43 @@ const siteSearchIndex = [
   {
     title: "The ACA Subsidy Cliff: Strategic MAGI Management for Tax Optimization",
     url: "/blog/aca-subsidy-cliff.html",
-    excerpt: "Expert analysis of the 400% FPL subsidy threshold, Inflation Reduction Act changes through 2025, and strategic income management to minimize tax-time repayments.",
+    excerpt: "How household income affects Marketplace premium tax credits, eligibility, and tax-time reconciliation, with current guidance to verify.",
     tags: ["ACA", "Subsidies", "Tax Planning"]
   },
   {
-    title: "Why Your Insurance Agent Probably Hates You (And How to Fix That)",
+    title: "How to Get Better Help From Your Insurance Agent",
     url: "/blog/no-your-agent-doesnt-hate-you.html",
-    excerpt: "Let's be honest — if your insurance agent could block your number without losing commission, they probably would. Here's how to become the client they actually want to help.",
+    excerpt: "Share life changes, plan documents, providers, and prescriptions early so coverage questions can be handled accurately.",
     tags: ["Tips", "Insurance Agents", "Humor"]
   },
   {
-    title: "ACA Open Enrollment 2025: How to Get Ready for the Best Coverage",
+    title: "ACA Open Enrollment Preparation Checklist",
     url: "/blog/aca-open-enrollment-deadline.html",
-    excerpt: "Get ready for ACA open enrollment with expert tips. Learn how to maximize subsidies and avoid costly mistakes during the enrollment window.",
+    excerpt: "Prepare household information, projected income, doctors, prescriptions, and plan-comparison criteria before the enrollment window.",
     tags: ["ACA", "Open Enrollment", "Subsidies"]
   },
   {
-    title: "Medicare Advantage vs Medicare Supplement: The Ultimate Showdown",
+    title: "Medicare Advantage vs Medicare Supplement: What to Compare",
     url: "/blog/medicare-advantage-vs-supplement.html",
-    excerpt: "The real differences between Medicare Advantage and Medicare Supplement plans. No BS analysis of which option won't leave you broke when you need care most.",
+    excerpt: "Compare Medicare Advantage and Medicare Supplement costs, provider access, prescription coverage, enrollment rules, and plan limitations.",
     tags: ["Medicare", "Comparison", "Seniors"]
   },
   {
-    title: "5 Critical Health Insurance Mistakes That Could Cost You Thousands",
+    title: "5 Health Insurance Mistakes to Avoid",
     url: "/blog/5-critical-health-insurance-mistakes.html",
-    excerpt: "Don't let these common health insurance blunders drain your bank account. From choosing the wrong deductible to missing enrollment deadlines, we break down the mistakes that could leave you financially vulnerable.",
+    excerpt: "Review deductible affordability, provider networks, prescriptions, enrollment timing, and uninsured exposure before choosing coverage.",
     tags: ["ACA", "Mistakes", "Financial"]
   },
   {
     title: "The Pre-Existing Condition Guide",
     url: "/blog/preexisting-condition-guide.html",
-    excerpt: "Navigate the complex world of pre-existing conditions with confidence. Learn how to find coverage, understand waiting periods, and avoid the traps that leave you unprotected.",
+    excerpt: "Compare ACA protections with underwriting, exclusions, and waiting periods that may apply to non-ACA coverage.",
     tags: ["Pre-Existing", "Coverage", "ACA"]
   },
   {
-    title: "ACA vs Short-Term Plans: Which is Actually Right for You?",
+    title: "ACA vs Short-Term Coverage: Benefits and Limitations",
     url: "/blog/aca-vs-short-term-plans.html",
-    excerpt: "The eternal debate. We'll cut through the marketing fluff and give you the real pros and cons of each option, because your health (and wallet) deserve the truth.",
+    excerpt: "Compare eligibility, underwriting, pre-existing-condition rules, duration, networks, benefits, and exclusions.",
     tags: ["ACA", "Short-Term", "Comparison"]
   },
   {
@@ -305,45 +305,45 @@ const siteSearchIndex = [
     tags: ["Short-Term", "Coverage", "Comparison"]
   },
   {
-    title: "How to Actually Use Your Health Insurance (Without Going Broke)",
+    title: "How to Use Your Health Insurance and Manage Yearly Costs",
     url: "/blog/how-to-use-health-insurance-without-going-broke.html",
-    excerpt: "Having insurance is step one. Using it without triggering financial ruin is step two. Here's your guide to deductibles, copays, and other fun surprises.",
+    excerpt: "Review networks, deductibles, copays, coinsurance, prescriptions, authorization rules, claims, and yearly costs.",
     tags: ["Tips", "Coverage", "Financial"]
   },
   {
     title: "The Real Cost of Going Without Health Insurance",
     url: "/blog/real-cost-going-without-health-insurance.html",
-    excerpt: "Think you're saving money by skipping insurance? We've crunched the numbers on what happens when life decides to throw you a curveball.",
+    excerpt: "Review the financial exposure associated with emergency, hospital, prescription, and ongoing care without comprehensive coverage.",
     tags: ["Financial", "Uninsured", "Tips"]
   },
   {
-    title: "Florida Health Insurance: Navigating the Sunshine State's Challenges",
+    title: "Florida Health Insurance: Coverage and Network Considerations",
     url: "/blog/florida-insurance-guide.html",
-    excerpt: "From hurricanes to humidity-induced existential crises, Florida has its own special insurance considerations. Here's what you need to know.",
+    excerpt: "Review Florida enrollment timing, coverage availability, provider networks, prescriptions, and plan-year changes.",
     tags: ["Florida", "State-Specific", "ACA"]
   },
   {
-    title: "Dental Insurance: Worth It or Just Another Way to Fund Your Dentist's Yacht?",
+    title: "Dental Insurance: Costs, Limits, and When It May Fit",
     url: "/blog/dental-insurance-guide.html",
-    excerpt: "The tooth about dental coverage. When it makes sense, when it doesn't, and how to avoid getting drilled on costs.",
+    excerpt: "Compare premiums, annual maximums, waiting periods, networks, exclusions, and expected dental costs.",
     tags: ["Dental", "Coverage", "Tips"]
   },
   {
-    title: "Short-Term Health Insurance: Lifesaver or Financial Trap?",
+    title: "Short-Term Health Insurance: Uses and Limitations",
     url: "/blog/short-term-health-insurance-guide.html",
-    excerpt: "When short-term plans make sense and when they're basically expensive tissue paper for your medical bills.",
+    excerpt: "Review duration, underwriting, exclusions, benefit limits, and where short-term coverage may fit a temporary gap.",
     tags: ["Short-Term", "Coverage", "Comparison"]
   },
   {
-    title: "Medicare for Dummies (No Offense)",
+    title: "Medicare Enrollment Guide",
     url: "/blog/medicare-for-dummies.html",
     excerpt: "A practical Medicare basics guide covering enrollment, plan types, coverage tradeoffs, and the questions to ask before choosing a plan.",
     tags: ["Medicare", "Seniors", "Tips"]
   },
   {
-    title: "How to Read Your Insurance Card Without Having a Panic Attack",
+    title: "How to Read Your Health Insurance Card",
     url: "/blog/how-to-read-insurance-card.html",
-    excerpt: "Decode all those mysterious numbers and acronyms so you can actually use your insurance like a pro.",
+    excerpt: "Identify member IDs, plan details, prescription fields, service numbers, and effective dates.",
     tags: ["Tips", "Coverage", "Basics"]
   },
   {

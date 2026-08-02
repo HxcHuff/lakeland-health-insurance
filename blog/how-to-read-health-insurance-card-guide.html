@@ -25,7 +25,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/fonts.css">
-  <link rel="stylesheet" href="/css/blog-unified.css">
+  <link rel="stylesheet" href="/css/blog-unified.css?v=20260803-brand-release">
 
   <script type="application/ld+json">
   {
@@ -37,7 +37,7 @@
     "author": {"@type": "Person", "name": "David Huff", "jobTitle": "Licensed Florida Health Insurance Agent (W371813)", "url": "https://lakelandhealthinsurance.com/about/"},
     "publisher": {"@type": "Organization", "name": "Lakeland Health Insurance", "url": "https://lakelandhealthinsurance.com", "logo": {"@type": "ImageObject", "url": "https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg"}},
     "datePublished": "2026-05-12",
-    "dateModified": "2026-05-12",
+    "dateModified": "2026-08-02",
     "mainEntityOfPage": {"@type": "WebPage", "@id": "https://lakelandhealthinsurance.com/blog/how-to-read-health-insurance-card-guide.html"},
     "about": [
       {"@type": "Thing", "name": "Health Insurance Card"},
@@ -94,12 +94,12 @@
       {
         "@type": "Question",
         "name": "What does it mean if my card has a dependent suffix like -01 or -02?",
-        "acceptedAnswer": {"@type": "Answer", "text": "Many carriers issue a single Member ID for the policy and use a two-digit suffix to identify each covered person — 01 for the subscriber, 02 for the spouse, 03 onward for children. Some carriers (Aetna-style) issue completely separate Member IDs per dependent. When a dependent receives care, the provider may need both the base Member ID and the correct suffix, or the unique Member ID printed on that dependent's own card, to route the claim correctly."}
+        "acceptedAnswer": {"@type": "Answer", "text": "Some carriers use one base Member ID with a suffix for each covered person, while others issue separate Member IDs. Use the exact identifier printed for the patient receiving care so the provider can route the claim correctly."}
       },
       {
         "@type": "Question",
         "name": "Why does my Medicare card look different from my Medicare Advantage card?",
-        "acceptedAnswer": {"@type": "Answer", "text": "They are two different documents from two different issuers. Your red, white, and blue Medicare card from CMS shows your 11-character Medicare Beneficiary Identifier (MBI) and the start dates for Parts A and B. Your Medicare Advantage card is issued by a private carrier (Humana, UnitedHealthcare, Aetna, WellCare, etc.) and shows the carrier's Member ID, plan name (HMO, PPO, D-SNP), and copay grid. When you have Medicare Advantage, providers bill the private carrier — not Original Medicare — so the MA card is the one you present at the appointment."}
+        "acceptedAnswer": {"@type": "Answer", "text": "The documents come from different issuers. The Medicare card from CMS shows the Medicare Beneficiary Identifier and Part A and Part B start dates. A Medicare Advantage card comes from the private plan and shows its Member ID, plan name, and routing information. Follow the plan's instructions about which card to present and keep the Medicare card secure."}
       },
       {
         "@type": "Question",
@@ -220,7 +220,7 @@
     window.gtag = window.gtag || function(){dataLayer.push(arguments);};
   </script>
   <script defer src="/js/analytics.js?v=20260731-measurement-integrity"></script>
-    <link rel="stylesheet" href="/css/site-template.css">
+    <link rel="stylesheet" href="/css/site-template.css?v=20260803-brand-release">
 </head>
 <body>
   <header class="lhi-topbar">
@@ -258,7 +258,7 @@
 
       <h2>Why decoding the card matters</h2>
       <p>An insurance card is not a piece of marketing — it is a routing slip. Every field on it tells a different stakeholder how to bill, authorize, or adjudicate a service: the front desk at your doctor's office, the pharmacy technician at Publix or Walgreens, the imaging center, the lab, and the carrier's claims adjudicator behind the scenes. Misreading or skipping a field is the most common cause of in-network visits being processed as out-of-network, prescriptions being rejected at the counter, or surprise balance bills arriving weeks later.</p>
-      <p>According to industry billing data referenced by the <a href="https://www.kff.org/" target="_blank" rel="noopener">Kaiser Family Foundation</a> and consumer-advocacy reporting in <em>Consumer Reports</em>, roughly one in seven privately insured Americans receives at least one incorrect medical bill per year, and a meaningful share of those errors trace back to card-data mismatch at point of service. A two-minute review when the card arrives is the cheapest insurance against a four-figure billing dispute later.</p>
+      <p>According to industry billing data referenced by the <a href="https://www.kff.org/" target="_blank" rel="noopener noreferrer">Kaiser Family Foundation</a> and consumer-advocacy reporting in <em>Consumer Reports</em>, roughly one in seven privately insured Americans receives at least one incorrect medical bill per year, and a meaningful share of those errors trace back to card-data mismatch at point of service. A two-minute review when the card arrives is the cheapest insurance against a four-figure billing dispute later.</p>
 
       <h2>The anatomy of a 2026 health insurance card</h2>
       <p>Carriers print roughly the same set of fields, but the layout varies. The two sides of the card carry different purposes:</p>
@@ -398,7 +398,7 @@
       <p>Issued by CMS, not a private carrier. Shows your 11-character Medicare Beneficiary Identifier (MBI), the start dates for Hospital (Part A) and Medical (Part B), and your legal name. There is no copay grid, no Group Number, and no pharmacy data — Original Medicare does not include prescription coverage. If you have a stand-alone Part D plan, you'll carry that drug card separately.</p>
 
       <h3>Medicare Advantage (Part C) card</h3>
-      <p>Issued by a private carrier (Humana, UnitedHealthcare, Aetna, WellCare, Devoted, etc.). Replaces your Original Medicare card at the provider — you present the MA card, the carrier bills accordingly, and the provider does not bill CMS directly. The card shows plan name, HMO/PPO/D-SNP designation, copay grid, and the same back-of-card routing fields as commercial plans. Keep your red/white/blue Medicare card in a safe place but do not hand it to providers while on MA.</p>
+      <p>Issued by the private Medicare Advantage plan. The card shows the plan name, network type, Member ID, and routing fields. Follow the plan's instructions about which card to present and keep the Medicare card from CMS in a secure place.</p>
 
       <h3>Medicare Supplement (Medigap) card</h3>
       <p>Issued by a private carrier in addition to your Original Medicare card. Shows the Medigap plan letter (typically Plan G or Plan N in 2026 new enrollments), the policy number, and the carrier's claims address. You present both cards at the appointment — Medicare pays first, Medigap second.</p>
@@ -522,14 +522,14 @@
 
       <div class="cta-section">
         <h2>Card arrived and something looks off?</h2>
-        <p>A quick verification call now is cheaper than a denied claim later. If your new card doesn't match what you expected — wrong plan name, missing dependent, wrong effective date — I'll review it with you and call the carrier on a three-way line. Free, local, no pressure. FL License #W371813.</p>
+        <p>A verification call can reduce the risk of a later claim issue. If your new card doesn't match what you expected — wrong plan name, missing dependent, wrong effective date — I'll review it with you and call the carrier on a three-way line. Local plan guidance from a licensed Florida broker. FL License #W371813.</p>
         <a href="tel:+18636403102" class="btn-phone">📞 Call 863-640-3102</a>
-        <a href="/get-help/" class="btn-secondary">Get Free Help (online)</a>
+        <a href="/get-help/" class="btn-secondary">Get Plan Help (online)</a>
       </div>
 
       <h2>Related coverage and benefit guides</h2>
       <div class="related-grid">
-        <a href="/blog/how-to-use-health-insurance-without-going-broke.html"><strong>How to Use Health Insurance Without Going Broke</strong><span>Deductibles, copays, coinsurance, and network rules explained.</span></a>
+        <a href="/blog/how-to-use-health-insurance-without-going-broke.html"><strong>How to Use Health Insurance and Manage Yearly Costs</strong><span>Deductibles, copays, coinsurance, and network rules explained.</span></a>
         <a href="/blog/hmo-vs-ppo-vs-epo-explained.html"><strong>HMO vs PPO vs EPO Explained</strong><span>What the plan-type abbreviation on your card actually means for where you can go.</span></a>
         <a href="/blog/understanding-out-of-pocket-maximum.html"><strong>Understanding Your Out-of-Pocket Maximum</strong><span>The single most important number that's <em>not</em> printed on the card.</span></a>
         <a href="/blog/what-to-do-when-insurance-denies-claim.html"><strong>When Your Insurance Denies a Claim</strong><span>Step-by-step appeals process — and the card fields that prevent denials in the first place.</span></a>
@@ -545,10 +545,10 @@
     <p class="disclosure">This guide is educational and general in nature. It is not specific benefit advice for your plan. Always confirm coverage with your carrier's Member Services line for the plan in effect on your date of service. We do not offer every plan available in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Assistance Program (SHIP) for information on all your Medicare options.</p>
   </footer>
 
-  <script src="/js/blog-cta.js" defer></script>
+  <script src="/js/blog-cta.js?v=20260803-brand-release" defer></script>
   <script src="/js/blog-theme.js" defer></script>
     <script src="/js/chat-widget.js" defer></script>
     <script src="/js/blog-floating-actions.js" defer></script>
-    <script src="/js/site-template.js?v=20260801-individual-family" defer></script>
+    <script src="/js/site-template.js?v=20260803-brand-release" defer></script>
 </body>
 </html>

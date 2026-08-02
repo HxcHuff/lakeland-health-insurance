@@ -47,7 +47,7 @@ header .logo::after,
 header .license-tag {
   content: 'Licensed FL Broker #W371813' !important;
   display: block !important;
-  color: var(--lhi-gold) !important;
+  color: #7A5B00 !important;
   font-size: 0.7rem !important;
   font-weight: 600 !important;
   margin-top: 2px !important;
@@ -91,37 +91,50 @@ header nav a,
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important;
 }
 
-h1, h2, h3 {
-  color: var(--lhi-navy) !important;
+:where(.article-content, .blog-article, .content-card) :where(h1, h2, h3) {
+  color: var(--lhi-navy);
+}
+
+.article-cta,
+.takeaway-box,
+.cta-section,
+.bottom-line-box,
+.stat-box {
+  background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%);
+  color: #fff;
+}
+
+:is(.article-cta, .takeaway-box, .cta-section, .bottom-line-box, .stat-box) :where(h2, h3, h4, p, li, strong) {
+  color: inherit;
+}
+
+.article-cta-button,
+.cta-phone,
+.phone-cta {
+  color: #0F1A2E;
 }
 
 p, li {
   color: var(--lhi-body);
 }
 
-footer {
-  background: #fff !important;
-  color: var(--lhi-muted) !important;
-  border-top: 1px solid var(--lhi-line);
-}
-
 footer .footer-column li {
-  color: var(--lhi-body) !important;
+  color: rgba(255,255,255,0.8) !important;
 }
 
 footer .footer-bottom p {
-  color: var(--lhi-muted) !important;
+  color: rgba(255,255,255,0.65) !important;
 }
 
 footer .footer-column a,
 footer .footer-bottom a {
-  color: #1D4ED8 !important;
+  color: var(--lhi-gold) !important;
   text-decoration: underline;
   text-underline-offset: 0.16em;
 }
 
 footer .bbb-footer-copy span {
-  color: #475569 !important;
+  color: rgba(255,255,255,0.72) !important;
   opacity: 1 !important;
 }
 

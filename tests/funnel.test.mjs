@@ -28,7 +28,10 @@ const THANKS_SRC = readFileSync(resolve(__dirname, '../thanks.html'), 'utf8');
 const GET_HELP_SRC = readFileSync(resolve(__dirname, '../js/get-help-intake.js'), 'utf8');
 const GET_HELP_HTML = readFileSync(resolve(__dirname, '../get-help/index.html'), 'utf8');
 const GET_HELP_V2_HTML = readFileSync(resolve(__dirname, '../get-help/index-v2.html'), 'utf8');
+const REDIRECTS_SRC = readFileSync(resolve(__dirname, '../_redirects'), 'utf8');
 const ESTIMATOR_HTML = readFileSync(resolve(__dirname, '../aca-subsidy-estimator/index.html'), 'utf8');
+const SERVICE_WORKER_SRC = readFileSync(resolve(__dirname, '../sw.js'), 'utf8');
+const SITE_TEMPLATE_CSS = readFileSync(resolve(__dirname, '../css/site-template.css'), 'utf8');
 
 function makeSessionStorage(initial = {}) {
   const store = new Map(Object.entries(initial));
@@ -661,12 +664,32 @@ test('attribution cookies add Secure on HTTPS', () => {
   assert.match(FUNNEL_SRC, /SameSite=Lax' \+ secure/);
 });
 
-test('legacy Get Help form does not emit generate_lead before delivery', () => {
-  assert.doesNotMatch(GET_HELP_V2_HTML, /gtag\('event', 'generate_lead'/);
-  const fetchIndex = GET_HELP_V2_HTML.indexOf("fetch('/', {");
-  const deliveryIndex = GET_HELP_V2_HTML.indexOf('if (!response.ok) throw new Error');
-  const trackingIndex = GET_HELP_V2_HTML.indexOf("window.LHI.track('Lead'");
-  assert.ok(fetchIndex !== -1 && deliveryIndex > fetchIndex && trackingIndex > deliveryIndex);
+test('retired Get Help v2 is a noindex redirect without a lead form or Offer schema', () => {
+  assert.match(GET_HELP_V2_HTML, /name="robots" content="noindex, nofollow"/);
+  assert.match(GET_HELP_V2_HTML, /rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/get-help\/"/);
+  assert.match(GET_HELP_V2_HTML, /http-equiv="refresh" content="0; url=\/get-help\/"/);
+  assert.match(GET_HELP_V2_HTML, /window\.location\.replace\('\/get-help\/'\)/);
+  assert.doesNotMatch(GET_HELP_V2_HTML, /<form\b/i);
+  assert.doesNotMatch(GET_HELP_V2_HTML, /"@type"\s*:\s*"Offer"/);
+  assert.doesNotMatch(GET_HELP_V2_HTML, /generate_lead|window\.LHI\.track\('Lead'/);
+  assert.match(REDIRECTS_SRC, /^\/get-help\/index-v2\.html\s+\/get-help\/\s+301!$/m);
+});
+
+test('retired plan finder aliases redirect to the canonical Get Help intake', () => {
+  assert.match(REDIRECTS_SRC, /^\/find-plans\s+\/get-help\/\s+301!$/m);
+  assert.match(REDIRECTS_SRC, /^\/find-plans\/\s+\/get-help\/\s+301!$/m);
+  assert.doesNotMatch(REDIRECTS_SRC, /^\/find-plans\/?\s+\/search-engine-from-zip\//m);
+});
+
+test('legacy campaign aliases land on current canonical articles', () => {
+  assert.match(REDIRECTS_SRC, /^\/blog\/florida-aca-subsidy-most-people-miss\/?\s+\/blog\/aca-2026-subsidy-expiration-florida-impact\.html\s+301!$/m);
+  assert.match(REDIRECTS_SRC, /^\/blog\/no-health-insurance-florida-er-cost\/?\s+\/blog\/er-visit-cost-lakeland-without-insurance-2026\.html\s+301!$/m);
+  assert.doesNotMatch(REDIRECTS_SRC, /\/blog\/(?:florida-aca-subsidy-most-people-miss|no-health-insurance-florida-er-cost)\.html\s+301!/);
+});
+
+test('shared release invalidates stale asset caches and keeps desktop navigation on one row', () => {
+  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20260803-brand-release';/);
+  assert.match(SITE_TEMPLATE_CSS, /header \.nav-links\s*\{[^}]*flex-wrap:\s*nowrap;/s);
 });
 
 test('get-help intent allowlist falls back safely', () => {
