@@ -1,5 +1,5 @@
 {
-  "reviewedAt": "2026-07-31",
+  "reviewedAt": "2026-08-05",
   "claims": [
     {
       "id": "marketplace-oep-federal-platform-py2027",
@@ -100,6 +100,48 @@
       "reviewCadenceDays": 90,
       "usedBy": [
         "aca-subsidy-estimator/index.html"
+      ]
+    },
+    {
+      "id": "marketplace-employer-family-affordability-2026",
+      "claim": "For employer plan years beginning in 2026, the affordability percentage is 9.96 percent; employee affordability uses self-only coverage while affordability for offered tax-family members uses the premium to cover the employee and all offered members of the tax family.",
+      "sourceUrl": "https://www.healthcare.gov/glossary/affordable-coverage/",
+      "accessDate": "2026-08-05",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/employer-coverage-family-marketplace-affordability-florida.html"
+      ]
+    },
+    {
+      "id": "marketplace-employer-family-affordability-regulation",
+      "claim": "Treasury Decision 9968 created a separate employer-coverage affordability test for related individuals based on the cost of covering the employee and offered tax-family members; the relevant provisions apply to taxable years beginning after December 31, 2022.",
+      "sourceUrl": "https://www.irs.gov/irb/2022-45_IRB",
+      "accessDate": "2026-08-05",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 180,
+      "usedBy": [
+        "blog/employer-coverage-family-marketplace-affordability-florida.html"
+      ]
+    },
+    {
+      "id": "marketplace-employer-coverage-tool-2026",
+      "claim": "The current CMS Employer Coverage Tool collects minimum-value status and separate premium amounts for employee-only coverage and coverage of the employee plus offered members of the tax household.",
+      "sourceUrl": "https://www.cms.gov/marketplace/applications-and-forms/employer-coverage-tool.pdf",
+      "accessDate": "2026-08-05",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "blog/employer-coverage-family-marketplace-affordability-florida.html"
       ]
     },
     {

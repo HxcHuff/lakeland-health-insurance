@@ -95,6 +95,12 @@ const siteSearchIndex = [
   },
   // Blog Posts - extracted from blog/index.html
   {
+    title: "Can My Family Get Marketplace Coverage Through My Job?",
+    url: "/blog/employer-coverage-family-marketplace-affordability-florida.html",
+    excerpt: "How 2026 affordability is reviewed separately for employees and offered tax-family members when employer dependent coverage is expensive.",
+    tags: ["ACA", "Marketplace", "Employer Coverage", "Family", "Dependents", "Affordability", "Polk County"]
+  },
+  {
     title: "Can I Get ACA Insurance If I Lost Job Coverage in Florida?",
     url: "/blog/lost-job-coverage-aca-insurance-florida.html",
     excerpt: "ACA Special Enrollment timing, COBRA comparison, subsidy estimates, and what to check after employer coverage ends.",
