@@ -2,6 +2,14 @@
   'use strict';
 
   var INTENTS = {
+    '45-60': {
+      label: 'Health Coverage Ages 45–60',
+      content: 'get_help_45_60',
+      subject: 'New Lead: Ages 45–60 Coverage Review',
+      line: 'Individual and Family Coverage',
+      intro: 'Review coverage for the years between 45 and 60 around job changes, self-employment, early retirement, household information, doctors, prescriptions, and total yearly cost.',
+      optional: ['who', 'coverage_end', 'employer_coverage', 'providers', 'prescriptions', 'household_size', 'income', 'referral', 'notes']
+    },
     'under-65': {
       label: 'Individual and Family Coverage',
       content: 'get_help_under_65',
@@ -127,14 +135,17 @@
       content: 'get_help_default',
       subject: 'New Lead: Get Help Request',
       line: 'General',
-      intro: 'Start with your need and timing. David can route you to the right coverage path.',
+      intro: 'Start with the coverage change, deadline, or plan question you need to address.',
       optional: ['who', 'primary_concern', 'referral', 'notes']
     }
   };
 
   var DEFAULT_INTENT = 'not-sure';
-  var INTENT_OPTIONS = ['under-65', 'aca', 'lost-coverage', 'self-employed', 'medicare', 'coverage-gap', 'supplemental', 'dental-vision', 'current-client-review', 'provider-check', 'not-sure'];
+  var INTENT_OPTIONS = ['45-60', 'under-65', 'aca', 'lost-coverage', 'self-employed', 'medicare', 'coverage-gap', 'supplemental', 'dental-vision', 'current-client-review', 'provider-check', 'not-sure'];
   var QUERY_ALIASES = {
+    '45-60': '45-60',
+    'ages-45-60': '45-60',
+    'age-45-60': '45-60',
     'individual-family': 'under-65',
     'under-65': 'under-65',
     'under65': 'under-65',
