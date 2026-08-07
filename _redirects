@@ -1,4 +1,6 @@
 # Page redirects
+/index / 301!
+/index.html / 301!
 /thanks /thanks.html 301!
 /get-help /get-help/index.html 200
 /get-help/ /get-help/index.html 200

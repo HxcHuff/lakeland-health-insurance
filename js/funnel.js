@@ -152,6 +152,7 @@
       income: true, household_income: true, subsidy: true, health_status: true,
       coverage_status: true, current_plan: true, best_time_to_reach: true,
       need_timing: true, coverage_situation: true, medicare_timing: true,
+      coverage_interest: true,
       normalized_intent: true, line_of_business: true,
       lead_priority: true, lead_priority_reason: true,
       notes: true, message: true
@@ -451,14 +452,6 @@
       });
     });
 
-    d.querySelectorAll('a[href^="tel:"]').forEach(function (a) {
-      if (a.__lhiPhoneWired) return;
-      a.__lhiPhoneWired = true;
-      a.addEventListener('click', function () {
-        track('PhoneCallClick', { content_name: pageType() + '_phone_click' });
-      });
-    });
-
     d.querySelectorAll('a[href*="healthsherpa.com"], a[href*="/find-plans"]').forEach(function (a) {
       if (a.__lhiExternalQuoteWired) return;
       a.__lhiExternalQuoteWired = true;
@@ -487,6 +480,7 @@
       pageType: pageType,
       leadValueFor: leadValueFor,
       cleanAnalyticsToken: cleanAnalyticsToken,
+      safeProps: safeProps,
       LEAD_VALUE_BY_PAGE_TYPE: LEAD_VALUE_BY_PAGE_TYPE,
       LEAD_CONVERSION_SEND_TO: LEAD_CONVERSION_SEND_TO,
       OPENAI_ADS_CONFIG_PATH: OPENAI_ADS_CONFIG_PATH,

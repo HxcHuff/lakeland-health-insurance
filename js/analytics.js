@@ -34,6 +34,20 @@
   window.__LHI_IS_PROD = IS_PROD;
   window.__LHI_ANALYTICS_DEBUG = IS_ANALYTICS_DEBUG;
 
+  /* Load the first-party event bus immediately. It safely queues events in
+     dataLayer before third-party Google libraries arrive, so a fast first
+     click is still measured without making GTM compete with page rendering. */
+  function loadFunnelBus() {
+    if (window.__LHI_FUNNEL_LOADING || window.LHI) return;
+    window.__LHI_FUNNEL_LOADING = true;
+    var funnelScript = document.createElement('script');
+    funnelScript.async = true;
+    funnelScript.src = '/js/funnel.js?v=20260807-first-party-v2';
+    document.head.appendChild(funnelScript);
+  }
+
+  loadFunnelBus();
+
   function pushDataLayerEvent(name, params) {
     window.dataLayer.push(Object.assign({ event: name }, params || {}));
   }
@@ -76,12 +90,8 @@
     if(loaded)return;loaded=true;
 
     if (!IS_PROD) {
-      /* Skip Google tags entirely on non-prod hosts. Still load funnel.js so
-         the local event bus remains testable without third-party analytics. */
-      var fqa=document.createElement('script');
-      fqa.async=true;
-      fqa.src='/js/funnel.js?v=20260731-measurement-integrity';
-      document.head.appendChild(fqa);
+      /* Skip Google tags entirely on non-prod hosts. The first-party event bus
+         is already available for preview QA without contaminating reporting. */
       return;
     }
 
@@ -110,13 +120,8 @@
        emits only a conversion ID, value, and currency after first-party
        delivery; names, contact details, ZIPs, and form answers stay out. */
     gtag('config', 'AW-300112445', { send_page_view: false });
-    /* Funnel event bus — unifies dataLayer and conversion helpers */
-    var f=document.createElement('script');
-    f.async=true;
-    f.src='/js/funnel.js?v=20260731-measurement-integrity';
-    document.head.appendChild(f);
   }
-  /* Defer Google tags until after LCP/FCP so third-party JS isn't
+  /* Defer third-party Google tags until after LCP/FCP so external JS isn't
      fighting with the hero render. We still fire fast enough to capture bounce
      traffic from paid ads:
        - first user interaction (click / scroll / keydown / touchstart)

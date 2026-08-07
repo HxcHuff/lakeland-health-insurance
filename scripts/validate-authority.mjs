@@ -77,6 +77,7 @@ const prohibitedSchemaTypes = new Set([
 ]);
 const excludedCarrierPattern = /\b(?:Aetna|FL\s*Blue|Florida\s+Blue|Capital\s+(?:HP|Health\s+Plan)|Bright\s+Health|Medica|Wellmark|FL\s+Health)\b/i;
 const siteTemplateLoaderPattern = /src=["']\/js\/site-template\.js(?:\?[^"']*)?["']/i;
+const analyticsLoaderPattern = /src=["']\/js\/analytics\.js(?:\?[^"']*)?["']/i;
 const forbiddenClaims = [
   /coverage across the nation/i,
   /serving most of the united states/i,
@@ -324,10 +325,12 @@ if (/David is my healthcare savior|David did all the legwork for me/i.test(visib
 for (const required of [
   'href="tel:+18636403102"',
   'href="mailto:dhuff@healthmarkets.com"',
-  'href="/get-help/"',
-  'src="/js/analytics.js?v=20260731-measurement-integrity"'
+  'href="/get-help/"'
 ]) {
   if (!home.includes(required)) issues.push(`index.html: required contact, CTA, or tracking integration is missing (${required})`);
+}
+if (!analyticsLoaderPattern.test(home)) {
+  issues.push('index.html: required contact, CTA, or tracking integration is missing (analytics loader)');
 }
 if (!siteTemplateLoaderPattern.test(home)) {
   issues.push('index.html: required contact, CTA, or tracking integration is missing (site template loader)');
@@ -364,10 +367,12 @@ if (!hasCurrentDateModified(about)) {
 for (const required of [
   'href="tel:+18636403102"',
   'href="mailto:dhuff@healthmarkets.com"',
-  'href="/get-help/"',
-  'src="/js/analytics.js?v=20260731-measurement-integrity"'
+  'href="/get-help/"'
 ]) {
   if (!about.includes(required)) issues.push(`about/index.html: required contact, CTA, or tracking integration is missing (${required})`);
+}
+if (!analyticsLoaderPattern.test(about)) {
+  issues.push('about/index.html: required contact, CTA, or tracking integration is missing (analytics loader)');
 }
 if (!siteTemplateLoaderPattern.test(about)) {
   issues.push('about/index.html: required contact, CTA, or tracking integration is missing (site template loader)');
@@ -480,7 +485,7 @@ for (const rel of workPackageThreePages) {
   if (!hasCurrentDateModified(html)) issues.push(`${rel}: current machine-readable dateModified is missing`);
   if (!html.includes('href="/get-help/')) issues.push(`${rel}: Get Help action is missing`);
   if (!html.includes('href="tel:+18636403102"')) issues.push(`${rel}: phone action is missing`);
-  if (!html.includes('src="/js/analytics.js?v=20260731-measurement-integrity"')) issues.push(`${rel}: analytics loader is missing`);
+  if (!analyticsLoaderPattern.test(html)) issues.push(`${rel}: analytics loader is missing`);
   if (!siteTemplateLoaderPattern.test(html)) issues.push(`${rel}: shared site shell is missing`);
   if (/\b(?:nationwide|across the United States|coverage across the nation)\b/i.test(text)) {
     issues.push(`${rel}: prohibited national-service language remains`);

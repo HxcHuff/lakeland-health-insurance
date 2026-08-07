@@ -17,6 +17,7 @@ const FORBIDDEN_SERVICE_CLAIMS = [
 const CLIENT_COPY_FILES = ['js/site-search.js', 'js/blog-cta.js', 'js/site-template.js'];
 const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const RELEASE_ASSET_VERSION = '20260803-brand-release';
+const SERVICE_WORKER_CACHE_VERSION = '20260807-conversion-review';
 const RELEASE_ASSET_PATHS = [
   '/css/site-template.css',
   '/css/blog-unified.css',
@@ -130,9 +131,9 @@ for (const rel of CLIENT_COPY_FILES) {
 }
 
 const serviceWorker = readFileSync(join(ROOT, 'sw.js'), 'utf8');
-const expectedCacheName = `const CACHE_NAME = 'lhi-${RELEASE_ASSET_VERSION}';`;
+const expectedCacheName = `const CACHE_NAME = 'lhi-${SERVICE_WORKER_CACHE_VERSION}';`;
 if (!serviceWorker.includes(expectedCacheName)) {
-  issues.push(`sw.js: cache namespace must match shared asset release (${expectedCacheName})`);
+  issues.push(`sw.js: cache namespace must match the current release (${expectedCacheName})`);
 }
 
 const redirectsPath = join(ROOT, '_redirects');

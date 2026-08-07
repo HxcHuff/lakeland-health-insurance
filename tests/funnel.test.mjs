@@ -32,6 +32,7 @@ const REDIRECTS_SRC = readFileSync(resolve(__dirname, '../_redirects'), 'utf8');
 const ESTIMATOR_HTML = readFileSync(resolve(__dirname, '../aca-subsidy-estimator/index.html'), 'utf8');
 const SERVICE_WORKER_SRC = readFileSync(resolve(__dirname, '../sw.js'), 'utf8');
 const SITE_TEMPLATE_CSS = readFileSync(resolve(__dirname, '../css/site-template.css'), 'utf8');
+const PAID_PLAN_REVIEW_HTML = readFileSync(resolve(__dirname, '../lp/aca/index.html'), 'utf8');
 
 function makeSessionStorage(initial = {}) {
   const store = new Map(Object.entries(initial));
@@ -156,6 +157,7 @@ async function flushPromises(count = 3) {
 function loadAnalytics({ pathname = '/', telLabel = 'Call David' } = {}) {
   const listeners = {};
   const dataLayer = [];
+  const appendedScripts = [];
   const telLink = {
     getAttribute(name) {
       if (name === 'data-analytics-label') return null;
@@ -178,7 +180,7 @@ function loadAnalytics({ pathname = '/', telLabel = 'Call David' } = {}) {
     document: {
       addEventListener(type, cb) { listeners[type] = cb; },
       createElement: () => ({ async: false, src: '' }),
-      head: { appendChild: () => {} },
+      head: { appendChild: (node) => { appendedScripts.push(node); } },
       readyState: 'loading'
     },
     window: null,
@@ -194,6 +196,7 @@ function loadAnalytics({ pathname = '/', telLabel = 'Call David' } = {}) {
   return {
     sandbox,
     dataLayer,
+    appendedScripts,
     clickTel() {
       listeners.click({
         target: {
@@ -223,6 +226,29 @@ function runThanksHeadScript(sessionStorage) {
   vm.runInContext(match[1], sandbox, { filename: 'thanks-head-script.js' });
   return { sandbox, dataLayer };
 }
+
+test('analytics loads the first-party event bus before deferred third-party tags', () => {
+  const { appendedScripts } = loadAnalytics();
+
+  assert.equal(appendedScripts.length, 1);
+  assert.match(appendedScripts[0].src, /^\/js\/funnel\.js\?v=/);
+});
+
+test('paid plan-review page presents general comparison before STM, TriTerm, and ACA', () => {
+  assert.match(PAID_PLAN_REVIEW_HTML, /<h1>Compare health insurance plans around the care you actually use\.<\/h1>/);
+  assert.match(PAID_PLAN_REVIEW_HTML, /name="coverage_interest"/);
+
+  const compareIndex = PAID_PLAN_REVIEW_HTML.indexOf('value="Compare available options"');
+  const shortTermIndex = PAID_PLAN_REVIEW_HTML.indexOf('value="Short-Term Medical"');
+  const triTermIndex = PAID_PLAN_REVIEW_HTML.indexOf('value="TriTerm Medical"');
+  const acaIndex = PAID_PLAN_REVIEW_HTML.indexOf('value="ACA Marketplace"');
+
+  assert.ok(compareIndex > -1, 'general comparison choice exists');
+  assert.ok(compareIndex < shortTermIndex, 'general comparison appears before Short-Term Medical');
+  assert.ok(shortTermIndex < triTermIndex, 'Short-Term Medical appears before TriTerm Medical');
+  assert.ok(triTermIndex < acaIndex, 'ACA remains a secondary choice');
+  assert.doesNotMatch(PAID_PLAN_REVIEW_HTML, /ACA Marketplace plan review|<h1>Compare ACA/i);
+});
 
 test('exposes test surface only when __LHI_TEST=true', () => {
   const w = loadFunnel();
@@ -311,12 +337,24 @@ test('LEAD_CONVERSION_SEND_TO — has the expected Google Ads format', () => {
   assert.match(LEAD_CONVERSION_SEND_TO, /^AW-\d+\/[A-Za-z0-9_-]+$/);
 });
 
+test('tracking strips health-plan interest from analytics properties', () => {
+  const { safeProps } = loadFunnel().LHI._t;
+  const props = safeProps({
+    coverage_interest: 'TriTerm Medical',
+    content_name: 'first_party_lead'
+  });
+
+  assert.equal(props.coverage_interest, undefined);
+  assert.equal(props.content_name, 'first_party_lead');
+});
+
 test('phone clicks fire canonical phone_call_click', () => {
   const { dataLayer, clickTel } = loadAnalytics({ telLabel: 'Call 863-640-3102' });
 
   clickTel();
 
-  assert.ok(dataLayer.some((entry) => entry.event === 'phone_call_click'), 'canonical phone_call_click event fired');
+  assert.equal(dataLayer.filter((entry) => entry.event === 'PhoneCallClick').length, 1, 'one GTM phone event fired');
+  assert.equal(dataLayer.filter((entry) => entry.event === 'phone_call_click').length, 1, 'one canonical GA4 phone event fired');
 });
 
 test('legacy phone_call remains supported through shared helper', () => {
@@ -688,7 +726,7 @@ test('legacy campaign aliases land on current canonical articles', () => {
 });
 
 test('shared release invalidates stale asset caches and keeps desktop navigation on one row', () => {
-  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20260803-brand-release';/);
+  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20260807-conversion-review';/);
   assert.match(SITE_TEMPLATE_CSS, /header \.nav-links\s*\{[^}]*flex-wrap:\s*nowrap;/s);
 });
 

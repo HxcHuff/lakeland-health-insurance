@@ -27,7 +27,7 @@ const FORM_MC_CONFIG = {
   'homepage-newsletter':           { status: 'pending',    tags: ['homepage', 'newsletter'] },
   'newsletter-signup':             { status: 'pending',    tags: ['newsletter', 'newsletter-page'] },
   'get-help':                      { status: 'pending', tags: ['lead', 'get-help'] },
-  'lp-aca-lead':                   { status: 'pending', tags: ['aca', 'paid-ad'] },
+  'lp-aca-lead':                   { status: 'pending', tags: ['individual-family', 'paid-ad', 'plan-review'] },
   'lp-medicare-lead':              { status: 'pending', tags: ['medicare', 'paid-ad'] },
   'lp-gap-lead':                   { status: 'pending', tags: ['gap', 'paid-ad'] },
   'aca-lakeland-lead':             { status: 'pending', tags: ['aca', 'local-seo', 'lakeland'] },
@@ -48,6 +48,7 @@ const FORM_MC_CONFIG = {
 
 const INTENT_MC_TAGS = {
   'aca': ['intent-aca'],
+  'individual-family': ['intent-individual-family'],
   'medicare': ['intent-medicare'],
   'lost-coverage': ['intent-lost-coverage', 'sep-review'],
   'turning-26': ['intent-turning-26', 'sep-review'],
@@ -60,7 +61,15 @@ const INTENT_MC_TAGS = {
   'post-enrollment-review': ['intent-post-enrollment-review', 'existing-client-service']
 };
 
+const COVERAGE_INTEREST_MC_TAGS = {
+  'compare_available_options': ['interest-compare-options'],
+  'short_term_medical': ['interest-short-term-medical'],
+  'triterm_medical': ['interest-triterm-medical'],
+  'aca_marketplace': ['interest-aca-marketplace']
+};
+
 const NEWSLETTER_FORMS = new Set(['homepage-newsletter', 'newsletter-signup']);
+const ALLOWED_FORM_NAMES = new Set(Object.keys(FORM_MC_CONFIG));
 
 function pickCookie(cookieHeader, name) {
   if (!cookieHeader) return null;
@@ -81,25 +90,40 @@ function sanitizeEventSourceUrl(rawUrl) {
 }
 
 exports.handler = async (event) => {
+  const originCheck = checkRequestOrigin(event.headers || {});
+  const responseHeaders = corsHeaders(originCheck.origin);
+  if (!originCheck.ok) {
+    return { statusCode: 403, headers: responseHeaders, body: 'Origin Not Allowed' };
+  }
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 204, headers: corsHeaders(), body: '' };
+    return { statusCode: 204, headers: responseHeaders, body: '' };
   }
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, headers: corsHeaders(), body: 'Method Not Allowed' };
+    return { statusCode: 405, headers: responseHeaders, body: 'Method Not Allowed' };
   }
 
   let payload = {};
   try {
     payload = JSON.parse(event.body || '{}');
   } catch (_) {
-    return { statusCode: 400, headers: corsHeaders(), body: 'Invalid JSON' };
+    return { statusCode: 400, headers: responseHeaders, body: 'Invalid JSON' };
+  }
+
+  const submittedFormName = payload['form-name'] || payload.form_name || '';
+  if (!ALLOWED_FORM_NAMES.has(submittedFormName)) {
+    return {
+      statusCode: 422,
+      headers: { ...responseHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: false, error: 'unrecognized form' })
+    };
   }
 
   const botCheck = checkBotSubmission(payload);
   if (!botCheck.ok) {
     return {
       statusCode: 422,
-      headers: { ...corsHeaders(), 'Content-Type': 'application/json' },
+      headers: { ...responseHeaders, 'Content-Type': 'application/json' },
       body: JSON.stringify({ ok: false, error: botCheck.error })
     };
   }
@@ -275,14 +299,14 @@ exports.handler = async (event) => {
   if (!formsOk) {
     return {
       statusCode: 502,
-      headers: { ...corsHeaders(), 'Content-Type': 'application/json' },
+      headers: { ...responseHeaders, 'Content-Type': 'application/json' },
       body: JSON.stringify({ ok: false, error: 'forms forward failed', ...responseBody })
     };
   }
 
   return {
     statusCode: 200,
-    headers: { ...corsHeaders(), 'Content-Type': 'application/json' },
+    headers: { ...responseHeaders, 'Content-Type': 'application/json' },
     body: JSON.stringify({ ok: true, ...responseBody })
   };
 };
@@ -292,7 +316,7 @@ function checkBotSubmission(payload) {
   const trapFilled = ['bot-field', 'website', 'company'].some((key) => String(payload[key] || '').trim());
   if (trapFilled) return { ok: false, error: 'bot trap field filled' };
 
-  if (formName !== 'get-help') return { ok: true };
+  if (formName !== 'get-help' && formName !== 'lp-aca-lead') return { ok: true };
 
   const startedAt = Number(payload.started_at);
   const humanCheck = String(payload.human_check || '');
@@ -317,7 +341,9 @@ function cleanLeadToken(value) {
 }
 
 function hasContactPath(payload) {
-  return Boolean(String(payload.phone || payload.phone_number || '').trim() && String(payload.zip || payload.zip_code || payload.postal_code || '').trim());
+  const contact = String(payload.phone || payload.phone_number || payload.email || '').trim();
+  const postalCode = String(payload.zip || payload.zip_code || payload.postal_code || '').trim();
+  return Boolean(contact && postalCode);
 }
 
 function classifyLead(payload, formName) {
@@ -337,6 +363,8 @@ function classifyLead(payload, formName) {
   const urgentSignals = new Set([
     'as_soon_as_possible',
     'within_30_days',
+    'coverage_ended_or_ends_within_60_days',
+    'need_coverage_as_soon_as_eligible',
     'losing_coverage_soon',
     'currently_uninsured',
     'between_jobs',
@@ -352,7 +380,7 @@ function classifyLead(payload, formName) {
     return { level: 'high', reason: 'urgent_or_high_intent_with_contact_path' };
   }
 
-  if (timing === 'just_researching' || timing === 'just_exploring') {
+  if (timing === 'just_researching' || timing === 'just_exploring' || timing === 'researching_available_options') {
     return { level: 'research', reason: 'research_or_exploring_timing' };
   }
 
@@ -431,11 +459,15 @@ async function syncToMailchimp(payload) {
 function mailchimpConfigFor(payload, formName) {
   const base = FORM_MC_CONFIG[formName] || { status: 'pending', tags: ['unmapped', formName || 'unknown-form'] };
   const normalizedIntent = String(payload.normalized_intent || '').trim();
+  const coverageInterest = cleanLeadToken(payload.coverage_interest);
   const tags = new Set(base.tags);
   if (normalizedIntent && INTENT_MC_TAGS[normalizedIntent]) {
     INTENT_MC_TAGS[normalizedIntent].forEach(tag => tags.add(tag));
   }
   if (payload.line_of_business) tags.add(String(payload.line_of_business).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
+  if (coverageInterest && COVERAGE_INTEREST_MC_TAGS[coverageInterest]) {
+    COVERAGE_INTEREST_MC_TAGS[coverageInterest].forEach(tag => tags.add(tag));
+  }
   if (payload.lead_priority) tags.add(`lead-priority-${String(payload.lead_priority).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`);
   if (normalizedIntent === 'current-client-review' || normalizedIntent === 'post-enrollment-review') {
     tags.delete('hot-lead');
@@ -444,10 +476,39 @@ function mailchimpConfigFor(payload, formName) {
   return { status: base.status, tags: Array.from(tags).filter(Boolean) };
 }
 
-function corsHeaders() {
+function checkRequestOrigin(headers) {
+  const origin = String(headers.origin || headers.Origin || '').trim().replace(/\/+$/, '');
+  if (!origin) return { ok: true, origin: '' };
+
+  const productionOrigins = new Set([
+    'https://lakelandhealthinsurance.com',
+    'https://www.lakelandhealthinsurance.com'
+  ]);
+  if (productionOrigins.has(origin)) return { ok: true, origin };
+  if (/^https:\/\/[a-z0-9-]+--lhi\.netlify\.app$/i.test(origin)) return { ok: true, origin };
+  if (/^http:\/\/localhost(?::\d+)?$/i.test(origin)) return { ok: true, origin };
+
+  const host = String(headers.host || '').trim().toLowerCase();
+  const proto = String(headers['x-forwarded-proto'] || 'https').split(',')[0].trim();
+  if (host && origin.toLowerCase() === `${proto}://${host}`.toLowerCase()) {
+    return { ok: true, origin };
+  }
+
+  return { ok: false, origin: '' };
+}
+
+function corsHeaders(origin) {
   return {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': origin || 'https://lakelandhealthinsurance.com',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type'
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Vary': 'Origin'
   };
 }
+
+exports._test = {
+  checkBotSubmission,
+  classifyLead,
+  checkRequestOrigin,
+  mailchimpConfigFor
+};

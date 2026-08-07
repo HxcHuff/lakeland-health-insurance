@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lhi-20260803-brand-release';
+const CACHE_NAME = 'lhi-20260807-conversion-review';
 const OFFLINE_URL = '/offline.html';
 
 // Core pages to pre-cache for offline access
