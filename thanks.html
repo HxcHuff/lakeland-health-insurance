@@ -154,7 +154,7 @@
       <h1 id="thanksTitle">Your request was received.</h1>
       <p class="subtitle" id="thanksSubtitle">David personally reviews each request and will call or text during normal business hours. If you need help immediately, call (863) 640-3102 or choose an available appointment time.</p>
 
-      <div class="next-grid">
+      <div class="next-grid" id="nextGrid">
         <div class="next-card">
           <h2 id="prepareTitle">What to have ready</h2>
           <ul id="prepareList">
@@ -188,6 +188,17 @@
       var marker = window.__LHI_THANKS_SUBMISSION;
       var intent = marker && marker.normalized_intent ? marker.normalized_intent : 'generic';
       var kind = marker && marker.kind ? marker.kind : 'generic';
+      var isLeadConfirmation = Boolean(marker && (kind === 'Lead' || !marker.kind));
+
+      function text(id, value) { var el = document.getElementById(id); if (el && value) el.textContent = value; }
+      function hide(id) { var el = document.getElementById(id); if (el) el.hidden = true; }
+
+      if (isLeadConfirmation) {
+        text('thanksTitle', 'David will reach out shortly.');
+        ['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'].forEach(hide);
+        return;
+      }
+
       var copy = {
         generic: {
           eyebrow: 'Next steps',
@@ -273,7 +284,6 @@
       };
 
       var selected = kind === 'Subscriber' ? copy.Subscriber : (copy[intent] || copy.generic);
-      function text(id, value) { var el = document.getElementById(id); if (el && value) el.textContent = value; }
       function list(id, items) {
         var el = document.getElementById(id);
         if (!el || !items) return;

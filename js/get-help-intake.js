@@ -4,6 +4,7 @@
   var INTENTS = {
     'under-65': {
       label: 'Individual and Family Coverage',
+      optionLabel: 'Health coverage for me or my family',
       content: 'get_help_under_65',
       subject: 'New Lead: Individual and Family Coverage Review',
       line: 'Individual and Family Coverage',
@@ -20,6 +21,7 @@
     },
     'medicare': {
       label: 'Medicare',
+      optionLabel: 'I need Medicare help',
       content: 'get_help_medicare',
       subject: 'New Lead: Medicare Review',
       line: 'Medicare',
@@ -28,6 +30,7 @@
     },
     'lost-coverage': {
       label: 'Losing coverage / COBRA',
+      optionLabel: 'I am losing or changing coverage',
       content: 'get_help_lost_coverage',
       subject: 'New Lead: Losing Coverage or COBRA Review',
       line: 'ACA',
@@ -76,6 +79,7 @@
     },
     'dental-vision': {
       label: 'Dental and vision',
+      optionLabel: 'I need dental or vision coverage',
       content: 'get_help_dental_vision',
       subject: 'New Lead: Dental and Vision Review',
       line: 'Dental and vision',
@@ -84,6 +88,7 @@
     },
     'current-client-review': {
       label: 'Current-client plan review',
+      optionLabel: 'I already have coverage and need help',
       content: 'get_help_current_client_review',
       subject: 'Current Client Request: Annual Plan Review',
       line: 'Existing client',
@@ -124,16 +129,17 @@
     },
     'not-sure': {
       label: 'Not sure',
+      optionLabel: 'I am not sure yet',
       content: 'get_help_default',
       subject: 'New Lead: Get Help Request',
       line: 'General',
-      intro: 'Start with your need and timing. David can route you to the right coverage path.',
+      intro: 'Start with the coverage change, deadline, or plan question you need to address.',
       optional: ['who', 'primary_concern', 'referral', 'notes']
     }
   };
 
   var DEFAULT_INTENT = 'not-sure';
-  var INTENT_OPTIONS = ['under-65', 'aca', 'lost-coverage', 'self-employed', 'medicare', 'coverage-gap', 'supplemental', 'dental-vision', 'current-client-review', 'provider-check', 'not-sure'];
+  var INTENT_OPTIONS = ['under-65', 'lost-coverage', 'medicare', 'dental-vision', 'current-client-review', 'not-sure'];
   var QUERY_ALIASES = {
     'individual-family': 'under-65',
     'under-65': 'under-65',
@@ -232,7 +238,7 @@
       if (key === selectedIntent) input.checked = true;
       input.addEventListener('change', function () { applyIntent(key); });
       var span = document.createElement('span');
-      span.textContent = cfg.label;
+      span.textContent = cfg.optionLabel || cfg.label;
       label.append(input, span);
       holder.appendChild(label);
     });
@@ -313,6 +319,7 @@
 
   function initAttribution() {
     var qs = new URLSearchParams(window.location.search);
+    setValue('zipCode', qsValue(qs, 'zip_code'));
     setValue('sourcePageInput', window.location.pathname + window.location.search);
     setValue('referralPageInput', document.referrer || '');
     setValue('productInterestInput', qsValue(qs, 'product'));

@@ -229,7 +229,8 @@
       Subscriber: 'newsletter_signup',
       Schedule: 'schedule_appointment',
       ExternalQuoteClick: 'external_quote_click',
-      messenger_click: 'messenger_click'
+      messenger_click: 'messenger_click',
+      LeadReceiptView: 'lead_receipt_view'
     };
     var ga4Name = directGA4Events[name];
     if (!ga4Name) return;
@@ -397,6 +398,14 @@
     track('PageView', { page_type: pageType() });
   }
 
+  function trackLeadReceiptView() {
+    if (pageType() !== 'conversion' || !w.__LHI_THANKS_LEAD_MARKER) return;
+    track('LeadReceiptView', {
+      content_name: 'lead_thank_you',
+      step: 'complete'
+    });
+  }
+
   // Auto-wire form submissions -------------------------------------------
   function wireForms() {
     d.querySelectorAll('form[data-funnel-track], form[data-funnel-step]').forEach(function (f) {
@@ -498,6 +507,7 @@
   function boot() {
     getAttribution(); // persist UTMs on first hit
     wireForms();
+    trackLeadReceiptView();
     setTimeout(pageView, 300);
     // Observe DOM for late-rendered forms (React/etc.)
     if (w.MutationObserver) {

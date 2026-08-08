@@ -27,6 +27,7 @@ const ANALYTICS_SRC = readFileSync(resolve(__dirname, '../js/analytics.js'), 'ut
 const THANKS_SRC = readFileSync(resolve(__dirname, '../thanks.html'), 'utf8');
 const GET_HELP_SRC = readFileSync(resolve(__dirname, '../js/get-help-intake.js'), 'utf8');
 const GET_HELP_HTML = readFileSync(resolve(__dirname, '../get-help/index.html'), 'utf8');
+const HOME_HTML = readFileSync(resolve(__dirname, '../index.html'), 'utf8');
 const GET_HELP_V2_HTML = readFileSync(resolve(__dirname, '../get-help/index-v2.html'), 'utf8');
 const REDIRECTS_SRC = readFileSync(resolve(__dirname, '../_redirects'), 'utf8');
 const ESTIMATOR_HTML = readFileSync(resolve(__dirname, '../aca-subsidy-estimator/index.html'), 'utf8');
@@ -47,7 +48,7 @@ function makeSessionStorage(initial = {}) {
 /* Build a sandbox that mimics the browser globals funnel.js touches.
    __LHI_IS_PROD=false silences production-only conversion helpers so loading
    the script has no side-effects beyond attaching window.LHI. */
-function loadFunnel({ pathname = '/', forms = [], fetchImpl, gtagImpl, isProd = false } = {}) {
+function loadFunnel({ pathname = '/', forms = [], fetchImpl, gtagImpl, isProd = false, receiptMarker = null } = {}) {
   const dataLayer = [];
   const sessionStorage = makeSessionStorage();
   class TestFormData {
@@ -95,7 +96,8 @@ function loadFunnel({ pathname = '/', forms = [], fetchImpl, gtagImpl, isProd = 
     gtag: gtagImpl,
     setTimeout: () => 0,
     dataLayer,
-    sessionStorage
+    sessionStorage,
+    __LHI_THANKS_LEAD_MARKER: receiptMarker
   };
   sandbox.document.querySelectorAll = () => forms;
   /* funnel.js IIFE call: (function(w,d){...})(window||this, document).
@@ -468,6 +470,11 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
   assert.ok(w.sessionStorage.getItem('lhi_submission_completed'), 'subscriber thank-you marker set');
 });
 
+test('completed lead receipt shows only the short follow-up message', () => {
+  assert.match(THANKS_SRC, /David will reach out shortly\./);
+  assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
+});
+
 test('funnel events bridge directly to named GA4 events while GTM owns Lead', () => {
   const gtagCalls = [];
   const w = loadFunnel({
@@ -634,6 +641,26 @@ test('thanks.html consumes pending Lead marker without firing a second generate_
   assert.equal(secondRun.dataLayer.some((entry) => entry[0] === 'event' && entry[1] === 'generate_lead'), false);
 });
 
+test('thank-you arrival records one diagnostic final-funnel view without another Lead conversion', () => {
+  const marker = {
+    kind: 'Lead',
+    event_id: 'lhi_test_receipt_123',
+    fired_at: Date.now()
+  };
+  const w = loadFunnel({ pathname: '/thanks.html', receiptMarker: marker });
+
+  const receiptViews = w.dataLayer.filter((entry) => entry && entry.event === 'LeadReceiptView');
+  assert.equal(receiptViews.length, 1);
+  assert.equal(receiptViews[0].event_params.content_name, 'lead_thank_you');
+  assert.equal(receiptViews[0].event_params.step, 'complete');
+  assert.equal(w.dataLayer.filter((entry) => entry && entry.event === 'Lead').length, 0);
+  assert.equal(w.dataLayer.filter((entry) => entry[0] === 'event' && entry[1] === 'generate_lead').length, 0);
+  assert.equal(w.dataLayer.filter((entry) => entry[0] === 'event' && entry[1] === 'lead_receipt_view').length, 1);
+
+  const directVisit = loadFunnel({ pathname: '/thanks.html' });
+  assert.equal(directVisit.dataLayer.filter((entry) => entry && entry.event === 'LeadReceiptView').length, 0);
+});
+
 test('thanks.html shows Subscriber marker without generate_lead', () => {
   const marker = {
     kind: 'Subscriber',
@@ -724,7 +751,16 @@ test('get-help intent allowlist falls back safely', () => {
   assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('<script>alert(1)</script>'), 'not-sure');
   assert.ok(sandbox.LHIGetHelpIntake.intents['under-65']);
   assert.equal(sandbox.LHIGetHelpIntake.intents['under-65'].label, 'Individual and Family Coverage');
+  assert.equal(sandbox.LHIGetHelpIntake.intents['under-65'].optionLabel, 'Health coverage for me or my family');
+  assert.equal(sandbox.LHIGetHelpIntake.intents['not-sure'].optionLabel, 'I am not sure yet');
   assert.ok(sandbox.LHIGetHelpIntake.intents['retiring-before-65']);
+});
+
+test('homepage ZIP entry starts the generic get-help flow and prefills the canonical ZIP field', () => {
+  assert.match(HOME_HTML, /<form class="hero-zip-form" action="\/get-help\/" method="GET"/);
+  assert.match(HOME_HTML, /name="intent" value="not-sure"/);
+  assert.match(HOME_HTML, /name="zip_code"[^>]*pattern="\[0-9\]\{5\}"[^>]*required/);
+  assert.match(GET_HELP_SRC, /setValue\('zipCode', qsValue\(qs, 'zip_code'\)\);/);
 });
 
 test('get-help consent evidence is channel-specific and versioned', () => {

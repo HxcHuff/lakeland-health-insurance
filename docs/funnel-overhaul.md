@@ -63,6 +63,7 @@ Unknown values fall back to `not-sure`. Query-string values are never injected i
 | `ViewContent` | Future content milestones | `content_name`, `page_type` | PII, sensitive answers | dataLayer | Stable event id |
 | `StartLead` | First meaningful form engagement | `content_name`, `step` | PII, provider names, prescription names | dataLayer | Per-form in-memory guard |
 | `Lead` | `/api/lead` success for sales/service lead forms | `content_name`, `event_id`, `normalized_intent`, `line_of_business` | Raw names, email, phone, provider names, prescription names | dataLayer, Google Ads enhanced conversion, Meta CAPI from server | `event_id`, thank-you marker consumed once |
+| `LeadReceiptView` | Fresh same-session lead reaches `/thanks.html` | `content_name`, `step` | PII, form answers | dataLayer, GA4 diagnostic event `lead_receipt_view` | Fresh lead marker consumed once; direct visits do not fire |
 | `Subscriber` | `/api/lead` success for newsletter forms | `content_name`, `event_id` | Raw names, email, phone | dataLayer, Mailchimp only | `event_id`, same-session marker consumed once |
 | `Schedule` | Calendly link click | `content_name` | PII | dataLayer | Click event id |
 | `PhoneCallClick` | Canonical future phone event | Link label only | Phone/email/name answers | dataLayer | Click event id |
@@ -87,7 +88,8 @@ Legacy `phone_call_click`, `phone_call`, and `generate_lead` are preserved for e
 
 - `/thanks.html` reads `sessionStorage.lhi_submission_completed` or the legacy `lhi_lead_submitted`.
 - The marker is removed immediately.
-- `generate_lead` fires only for a fresh same-session `Lead` marker.
+- The canonical `Lead` conversion fires at the successful `/api/lead` delivery boundary, not on the thank-you page.
+- A fresh same-session lead arrival records the diagnostic `lead_receipt_view` event without firing another conversion.
 - Newsletter confirmation uses `Subscriber` language and never fires `Lead`.
 - Direct visits and refreshes use the generic fallback and do not create conversions.
 
