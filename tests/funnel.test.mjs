@@ -645,6 +645,8 @@ test('thank-you arrival records one diagnostic final-funnel view without another
   const marker = {
     kind: 'Lead',
     event_id: 'lhi_test_receipt_123',
+    page_type: 'get_help',
+    page_path: '/get-help/?zip_code=33801',
     fired_at: Date.now()
   };
   const w = loadFunnel({ pathname: '/thanks.html', receiptMarker: marker });
@@ -653,6 +655,8 @@ test('thank-you arrival records one diagnostic final-funnel view without another
   assert.equal(receiptViews.length, 1);
   assert.equal(receiptViews[0].event_params.content_name, 'lead_thank_you');
   assert.equal(receiptViews[0].event_params.step, 'complete');
+  assert.equal(receiptViews[0].event_params.source_page_type, 'get_help');
+  assert.equal(receiptViews[0].event_params.source_page_path, '/get-help/');
   assert.equal(w.dataLayer.filter((entry) => entry && entry.event === 'Lead').length, 0);
   assert.equal(w.dataLayer.filter((entry) => entry[0] === 'event' && entry[1] === 'generate_lead').length, 0);
   assert.equal(w.dataLayer.filter((entry) => entry[0] === 'event' && entry[1] === 'lead_receipt_view').length, 1);

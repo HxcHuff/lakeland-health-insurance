@@ -273,6 +273,14 @@
     return cleaned || null;
   }
 
+  function cleanAnalyticsPath(value) {
+    if (value == null) return null;
+    var cleaned = String(value).trim().toLowerCase().split(/[?#]/, 1)[0];
+    if (cleaned.charAt(0) !== '/') return null;
+    cleaned = cleaned.replace(/[^a-z0-9/_\-.]/g, '').slice(0, 160);
+    return cleaned || null;
+  }
+
   function setFormFieldValue(f, name, value) {
     if (!f || value == null) return;
     var field = f.elements && f.elements[name];
@@ -399,10 +407,13 @@
   }
 
   function trackLeadReceiptView() {
-    if (pageType() !== 'conversion' || !w.__LHI_THANKS_LEAD_MARKER) return;
+    var marker = w.__LHI_THANKS_LEAD_MARKER;
+    if (pageType() !== 'conversion' || !marker) return;
     track('LeadReceiptView', {
       content_name: 'lead_thank_you',
-      step: 'complete'
+      step: 'complete',
+      source_page_type: cleanAnalyticsToken(marker.page_type),
+      source_page_path: cleanAnalyticsPath(marker.page_path)
     });
   }
 
