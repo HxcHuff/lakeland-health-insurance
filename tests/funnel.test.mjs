@@ -475,6 +475,12 @@ test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
 });
 
+test('direct thank-you visits show customer-facing help copy', () => {
+  assert.match(THANKS_SRC, /Need help choosing coverage\?/);
+  assert.match(THANKS_SRC, /Start with the short request form, call David, or choose an appointment time\./);
+  assert.doesNotMatch(THANKS_SRC, /conversion accuracy|do not create a lead event/i);
+});
+
 test('funnel events bridge directly to named GA4 events while GTM owns Lead', () => {
   const gtagCalls = [];
   const w = loadFunnel({
