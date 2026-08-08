@@ -491,9 +491,9 @@ const siteSearchIndex = [
     tags: ["Lakeland", "Networks", "Hospital Expansion", "ACA", "Medicare"]
   },
   {
-    title: "Orlando Health & Watson Clinic: 2026 Network Guide",
+    title: "Now Open: Orlando Health Watson Clinic Network Guide",
     url: "/blog/orlando-health-watson-clinic-doctors-network-2026.html",
-    excerpt: "Why hospital expansion does not automatically solve the doctor-network question for Watson Clinic patients.",
+    excerpt: "The South Lakeland hospital is open, but doctor, facility, referral, and exact plan-ID participation still require verification.",
     tags: ["Lakeland", "Networks", "Watson Clinic", "Orlando Health"]
   },
   {
