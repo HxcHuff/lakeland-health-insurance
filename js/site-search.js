@@ -95,6 +95,12 @@ const siteSearchIndex = [
   },
   // Blog Posts - extracted from blog/index.html
   {
+    title: "Can I Take COBRA Instead of Medicare?",
+    url: "/blog/cobra-instead-of-medicare-florida.html",
+    excerpt: "COBRA may help temporarily, but it generally does not extend the Medicare Part B enrollment window after active employer coverage ends.",
+    tags: ["Medicare", "COBRA", "Part B", "Part D", "Employer Coverage", "Florida"]
+  },
+  {
     title: "Florida Medicaid Renewal Check: What to Do in August 2026",
     url: "/losing-medicaid-florida/",
     excerpt: "A MyACCESS-first checklist for Florida Medicaid renewal notices, requested documents, case-specific deadlines, and coverage transitions.",
