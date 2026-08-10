@@ -257,6 +257,90 @@
         "blog/medicare-vs-aca-central-florida-age-65.html",
         "blog/cobra-instead-of-medicare-florida.html"
       ]
+    },
+    {
+      "id": "marketplace-college-student-options-2026",
+      "claim": "A college student can apply for Marketplace coverage even if a school offers a student health plan; the application path and potential savings depend on age, tax-dependency status, household income, location, and other eligibility information.",
+      "sourceUrl": "https://www.healthcare.gov/young-adults/college-students/",
+      "accessDate": "2026-08-10",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/college-student-health-insurance-lakeland.html"
+      ]
+    },
+    {
+      "id": "young-adult-parent-plan-through-26",
+      "claim": "When a parent's plan covers dependents, a young adult can generally join or remain on the plan until age 26, subject to the exact plan's coverage termination rules and service area.",
+      "sourceUrl": "https://www.healthcare.gov/young-adults/children-under-26/",
+      "accessDate": "2026-08-10",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Health Insurance",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "blog/college-student-health-insurance-lakeland.html"
+      ]
+    },
+    {
+      "id": "marketplace-catastrophic-plan-rules-2026",
+      "claim": "Catastrophic Marketplace plans are available to people under 30 and to some older applicants with a hardship or affordability exemption; they cover the ten essential health benefit categories, preventive services without cost sharing, and at least three primary care visits before the deductible, and availability varies by area.",
+      "sourceUrl": "https://www.healthcare.gov/choose-a-plan/catastrophic-health-plans/",
+      "accessDate": "2026-08-10",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/college-student-health-insurance-lakeland.html"
+      ]
+    },
+    {
+      "id": "aca-maximum-cost-sharing-2026",
+      "claim": "For 2026, the federal maximum annual limitation on cost sharing is $10,600 for self-only coverage and $21,200 for coverage other than self-only.",
+      "sourceUrl": "https://www.cms.gov/files/document/2027-papi-parameters-guidance-2026-01-29.pdf",
+      "accessDate": "2026-08-10",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 180,
+      "usedBy": [
+        "blog/college-student-health-insurance-lakeland.html"
+      ]
+    },
+    {
+      "id": "florida-dependent-coverage-through-age-30",
+      "claim": "Certain Florida-regulated group and individual health policies and HMO contracts must offer qualifying dependents coverage through the end of the calendar year in which they turn 30, subject to statutory conditions; the requirement does not apply to self-funded ERISA or out-of-state group plans.",
+      "sourceUrl": "https://myfloridacfo.com/division/consumers/understanding-insurance/health-insurance-and-hmo-overview",
+      "accessDate": "2026-08-10",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Health Insurance",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 180,
+      "usedBy": [
+        "blog/college-student-health-insurance-lakeland.html"
+      ]
+    },
+    {
+      "id": "premium-tax-credit-income-and-repayment-2026",
+      "claim": "For 2026, premium tax credit eligibility generally uses the statutory household-income range of 100 through 400 percent of the federal poverty line, subject to other eligibility rules, and the prior cap on repayment of excess advance premium tax credits does not apply after 2025.",
+      "sourceUrl": "https://www.irs.gov/affordable-care-act/individuals-and-families/questions-and-answers-on-the-premium-tax-credit",
+      "accessDate": "2026-08-10",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/college-student-health-insurance-lakeland.html"
+      ]
     }
   ]
 }
