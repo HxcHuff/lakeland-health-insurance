@@ -95,6 +95,12 @@ const siteSearchIndex = [
   },
   // Blog Posts - extracted from blog/index.html
   {
+    title: "Florida Medicaid Renewal Check: What to Do in August 2026",
+    url: "/losing-medicaid-florida/",
+    excerpt: "A MyACCESS-first checklist for Florida Medicaid renewal notices, requested documents, case-specific deadlines, and coverage transitions.",
+    tags: ["Medicaid", "Florida", "Renewal", "Redetermination", "MyACCESS", "Losing Coverage", "Polk County"]
+  },
+  {
     title: "Can My Family Get Marketplace Coverage Through My Job?",
     url: "/blog/employer-coverage-family-marketplace-affordability-florida.html",
     excerpt: "How 2026 affordability is reviewed separately for employees and offered tax-family members when employer dependent coverage is expensive.",

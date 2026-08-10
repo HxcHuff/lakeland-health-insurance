@@ -1,5 +1,5 @@
 {
-  "reviewedAt": "2026-08-05",
+  "reviewedAt": "2026-08-10",
   "claims": [
     {
       "id": "marketplace-oep-federal-platform-py2027",
@@ -70,6 +70,34 @@
       "reviewCadenceDays": 60,
       "usedBy": [
         "losing-coverage/index.html",
+        "losing-medicaid-florida/index.html"
+      ]
+    },
+    {
+      "id": "florida-medicaid-renewal-process-2026",
+      "claim": "Florida DCF may renew Medicaid automatically when available information supports eligibility; when additional information is needed, DCF sends renewal instructions about 45 days before the renewal date and says it will determine eligibility within 45 days after all required information is available.",
+      "sourceUrl": "https://www.myflfamilies.com/medicaid",
+      "accessDate": "2026-08-10",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Medicaid",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "losing-medicaid-florida/index.html"
+      ]
+    },
+    {
+      "id": "florida-medicaid-redetermination-exemption-proposal-2026",
+      "claim": "Florida AHCA is seeking federal authority for a targeted Medicaid redetermination exemption involving specified permanently disabled recipients receiving institutional care, hospice, or qualifying home- and community-based services; the request is not a general exemption for all Medicaid recipients.",
+      "sourceUrl": "https://ahca.myflorida.com/medicaid/medicaid-policy-quality-and-operations/medicaid-policy-and-quality/medicaid-policy/federal-authorities/federal-waivers/federal-authorities-mma-cms-approval-and-reports-2021-2030.html",
+      "accessDate": "2026-08-10",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Medicaid",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
         "losing-medicaid-florida/index.html"
       ]
     },
