@@ -125,6 +125,12 @@ const siteSearchIndex = [
     tags: ["Medicare", "Florida", "Provider Networks", "Doctors", "Plan Review"]
   },
   {
+    title: "How to Change a Florida Blue myBlue PCP",
+    url: "/blog/change-florida-blue-myblue-pcp-watson-clinic.html",
+    excerpt: "Verify a Watson Clinic physician, submit the PCP change in the Florida Blue app, and confirm the effective date before scheduling care.",
+    tags: ["ACA", "Florida", "Provider Networks", "Doctors", "Watson Clinic", "myBlue", "Lakeland", "PCP"]
+  },
+  {
     title: "What If I Make Too Much for ACA Subsidies in Florida?",
     url: "/blog/health-insurance-too-much-income-aca-subsidy-florida.html",
     excerpt: "Coverage options when premium tax credits do not fit: full-price Marketplace, off-Marketplace major medical, employer coverage, and limited alternatives.",
