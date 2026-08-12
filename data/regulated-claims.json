@@ -1031,7 +1031,8 @@
       "reviewStatus": "approved",
       "reviewCadenceDays": 90,
       "usedBy": [
-        "blog/planning-healthcare-budget-2026.html"
+        "blog/planning-healthcare-budget-2026.html",
+        "blog/trump-state-of-the-union-healthcare-hsa-2026.html"
       ],
       "candidateEvidence": [
         {
@@ -1041,6 +1042,12 @@
             "547fec0fe885577abba0cc261336885a4682faf21319095bece9f35f649bc2da",
             "eade6375588b88ec1ec8be863e7fd2f0a74f834e09701326d0ce98036e478261",
             "fd0e8c1ef2c818fa071ebabc78e21b90525bda8720a44b0472ec4009d3953d1e"
+          ]
+        },
+        {
+          "page": "blog/trump-state-of-the-union-healthcare-hsa-2026.html",
+          "fingerprints": [
+            "038c93b5a455d515184935fdcfdb96061229700faca1eecbeaac45c9bbccc94f"
           ]
         }
       ]
@@ -1107,6 +1114,29 @@
       "reviewCadenceDays": 90,
       "usedBy": [
         "blog/how-to-read-health-insurance-card-guide.html"
+      ]
+    },
+    {
+      "id": "hdhp-deductible-and-out-of-pocket-limits-2026",
+      "claim": "For calendar year 2026, the general high-deductible health plan minimum deductible is $1,700 for self-only coverage and $3,400 for family coverage. Annual out-of-pocket expenses other than premiums may not exceed $8,500 for self-only coverage or $17,000 for family coverage.",
+      "sourceUrl": "https://www.irs.gov/irb/2025-21_IRB",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Tax-Advantaged Health Accounts",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "blog/trump-state-of-the-union-healthcare-hsa-2026.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/trump-state-of-the-union-healthcare-hsa-2026.html",
+          "fingerprints": [
+            "36f9fdb8388abcb20cf16f3a49b3b971fc060a48764f4a12985b845abe6c9240",
+            "c9434c965d3859c5033b9ff5bb7ccb40c9c8c149af279175aa1b9e0afbafa5b1"
+          ]
+        }
       ]
     }
   ]
