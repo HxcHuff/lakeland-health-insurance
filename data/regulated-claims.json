@@ -79,7 +79,8 @@
         "losing-coverage/index.html",
         "losing-medicaid-florida/index.html",
         "blog/medicaid-work-requirements-florida-coverage-2026.html",
-        "blog/health-insurance-brandon-2026.html"
+        "blog/health-insurance-brandon-2026.html",
+        "blog/life-change-health-insurance-60-day-window-florida.html"
       ]
     },
     {
@@ -647,7 +648,8 @@
       "reviewCadenceDays": 60,
       "usedBy": [
         "losing-coverage/index.html",
-        "retiring-before-65-florida/index.html"
+        "retiring-before-65-florida/index.html",
+        "blog/life-change-health-insurance-60-day-window-florida.html"
       ]
     },
     {
@@ -694,7 +696,8 @@
         "blog/health-insurance-brandon-2026.html",
         "blog/3-things-changing-florida-health-insurance-may-2026.html",
         "blog/aca-premiums-2026-lakeland.html",
-        "blog/health-insurance-clearwater-2026.html"
+        "blog/health-insurance-clearwater-2026.html",
+        "blog/life-change-health-insurance-60-day-window-florida.html"
       ]
     },
     {
@@ -1312,6 +1315,20 @@
             "72553b248c887d87349bf63576ba08686f668e3f016a0eab16e0fa12cbbc0949"
           ]
         }
+      ]
+    },
+    {
+      "id": "cobra-maximum-premium-102-percent-2026",
+      "claim": "For COBRA continuation coverage, U.S. Department of Labor guidance states that the maximum amount charged to a qualified beneficiary generally cannot exceed 102 percent of the plan's total cost of coverage, including the permitted administrative amount.",
+      "sourceUrl": "https://www.dol.gov/sites/dolgov/files/ebsa/about-ebsa/our-activities/resource-center/faqs/cobra-continuation-health-coverage-for-employers.pdf",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Employer Continuation Coverage",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "blog/life-change-health-insurance-60-day-window-florida.html"
       ]
     },
     {
