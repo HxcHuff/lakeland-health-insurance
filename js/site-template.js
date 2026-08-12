@@ -151,7 +151,7 @@
     if (document.querySelector('script[src*="/js/bbb-seal.js"]')) return;
 
     const script = document.createElement('script');
-    script.src = '/js/bbb-seal.js?v=20260729-bbb-seal';
+    script.src = '/js/bbb-seal.js?v=20260812-compliance-release';
     script.defer = true;
     document.body.append(script);
   }

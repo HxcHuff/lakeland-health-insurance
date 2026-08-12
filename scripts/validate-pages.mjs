@@ -21,6 +21,7 @@ const RELEASE_ASSET_PATHS = [
   '/css/site-template.css',
   '/css/blog-unified.css',
   '/js/site-template.js',
+  '/js/bbb-seal.js',
   '/js/site-search.js',
   '/js/blog-cta.js',
 ];

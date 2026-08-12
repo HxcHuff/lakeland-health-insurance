@@ -33,6 +33,7 @@ const REDIRECTS_SRC = readFileSync(resolve(__dirname, '../_redirects'), 'utf8');
 const ESTIMATOR_HTML = readFileSync(resolve(__dirname, '../aca-subsidy-estimator/index.html'), 'utf8');
 const SERVICE_WORKER_SRC = readFileSync(resolve(__dirname, '../sw.js'), 'utf8');
 const SITE_TEMPLATE_CSS = readFileSync(resolve(__dirname, '../css/site-template.css'), 'utf8');
+const SITE_TEMPLATE_JS = readFileSync(resolve(__dirname, '../js/site-template.js'), 'utf8');
 
 function makeSessionStorage(initial = {}) {
   const store = new Map(Object.entries(initial));
@@ -726,6 +727,7 @@ test('legacy campaign aliases land on current canonical articles', () => {
 
 test('shared release invalidates stale asset caches and keeps desktop navigation on one row', () => {
   assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20260812-compliance-release';/);
+  assert.match(SITE_TEMPLATE_JS, /bbb-seal\.js\?v=20260812-compliance-release/);
   assert.match(SITE_TEMPLATE_CSS, /header \.nav-links\s*\{[^}]*flex-wrap:\s*nowrap;/s);
 });
 
