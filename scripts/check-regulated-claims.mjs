@@ -23,6 +23,8 @@ const APPROVED_HOSTS = new Set([
   'www.myfloridacfo.com',
   'floir.com',
   'www.floir.com',
+  'flsenate.gov',
+  'www.flsenate.gov',
   'uhone.com',
   'www.uhone.com',
   'nipr.com',

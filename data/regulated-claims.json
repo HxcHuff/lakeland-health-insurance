@@ -835,6 +835,54 @@
           ]
         }
       ]
+    },
+    {
+      "id": "stldi-federal-duration-definition-2024",
+      "claim": "For short-term, limited-duration insurance sold or issued on or after September 1, 2024, the 2024 federal final rule limits the initial contract term to no more than three months and the maximum coverage period, including renewals or extensions, to no more than four months.",
+      "sourceUrl": "https://www.cms.gov/newsroom/fact-sheets/short-term-limited-duration-insurance-and-independent-noncoordinated-excepted-benefits-coverage-cms",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Short-Term Medical",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 30,
+      "usedBy": [
+        "short-term-medical/index.html",
+        "blog/short-term-medical-guide.html",
+        "blog/short-term-vs-triterm-medical.html"
+      ]
+    },
+    {
+      "id": "stldi-federal-enforcement-posture-2025",
+      "claim": "On August 7, 2025, the Departments stated that they did not intend to prioritize enforcement of violations related to the 2024 STLDI definition while considering future rulemaking; the statement did not itself amend or repeal the final rule.",
+      "sourceUrl": "https://www.cms.gov/files/document/statement-regarding-short-term-limited-duration-insurance.pdf",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Short-Term Medical",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 30,
+      "usedBy": [
+        "short-term-medical/index.html",
+        "blog/short-term-medical-guide.html",
+        "blog/short-term-vs-triterm-medical.html"
+      ]
+    },
+    {
+      "id": "stldi-florida-definition-disclosures-2025",
+      "claim": "Florida Statute 627.6426 defines individual short-term health insurance as less than twelve months initially and no more than thirty-six months including renewals or extensions, and requires specified written purchaser disclosures. Federal requirements and enforcement posture must be evaluated separately.",
+      "sourceUrl": "https://www.flsenate.gov/Laws/Statutes/2025/0627.6426",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2025,
+      "state": "Florida",
+      "productLine": "Short-Term Medical",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 30,
+      "usedBy": [
+        "short-term-medical/index.html",
+        "blog/short-term-medical-guide.html",
+        "blog/short-term-vs-triterm-medical.html"
+      ]
     }
   ]
 }
