@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 Lakeland ACA Subsidy Estimator | Educational Tool</title>
-    <meta name="description" content="Explore a 2026 ACA premium tax credit estimate using a clearly labeled Lakeland benchmark assumption and current IRS applicable percentages.">
-    <meta property="og:title" content="2026 Lakeland ACA Subsidy Estimator">
-    <meta property="og:description" content="An educational estimate using a Lakeland benchmark assumption; not an eligibility or plan-price determination.">
+    <title>2026 ACA Expected Contribution Estimator | Lakeland</title>
+    <meta name="description" content="Estimate the 2026 household contribution percentage used in ACA premium-tax-credit calculations. No plan premium, eligibility, or tax credit is quoted.">
+    <meta property="og:title" content="2026 ACA Expected Contribution Estimator">
+    <meta property="og:description" content="A sourced educational estimate of the 2026 IRS contribution percentage; not an eligibility, premium, or tax-credit determination.">
     <meta property="og:url" content="https://lakelandhealthinsurance.com/aca-subsidy-estimator/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lakeland Health Insurance">
     <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ACA Subsidy Estimator | Premium Tax Credit Calculator">
-    <meta name="twitter:description" content="Estimate your 2026 ACA premium tax credit with the returned 400% FPL cliff and current IRS applicable percentages.">
+    <meta name="twitter:title" content="2026 ACA Expected Contribution Estimator">
+    <meta name="twitter:description" content="Estimate the 2026 IRS expected contribution percentage used in Marketplace premium-tax-credit calculations.">
     <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1B2A4A">
@@ -30,8 +30,8 @@
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "@id": "https://lakelandhealthinsurance.com/aca-subsidy-estimator/#application",
-      "name": "ACA Subsidy Estimator",
-      "description": "Educational 2026 premium tax credit estimate using a Lakeland benchmark assumption.",
+      "name": "ACA Expected Contribution Estimator",
+      "description": "Educational 2026 expected-contribution estimate using current IRS applicable percentages; no plan premium or tax credit is quoted.",
       "url": "https://lakelandhealthinsurance.com/aca-subsidy-estimator/",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Any",
@@ -39,7 +39,7 @@
       "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
       "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
       "reviewedBy": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
-      "dateModified": "2026-07-31"
+      "dateModified": "2026-08-12"
     }
     </script>
 
@@ -57,7 +57,7 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "ACA Subsidy Estimator",
+          "name": "ACA Expected Contribution Estimator",
           "item": "https://lakelandhealthinsurance.com/aca-subsidy-estimator/"
         }
       ]
@@ -1030,15 +1030,15 @@
         <div class="breadcrumb">
             <a href="/">Home</a>
             <span class="separator">&rsaquo;</span>
-            ACA Subsidy Estimator
+            ACA Expected Contribution Estimator
         </div>
     </div>
 
     <!-- Hero -->
     <section class="hero-section">
         <div class="container">
-            <h1>2026 Lakeland ACA Subsidy Estimator</h1>
-            <p>Explore how household income, tax-household size, age, and the 2026 IRS applicable percentages interact. This educational tool uses a fixed Lakeland benchmark assumption and does not quote a current plan.</p>
+            <h1>2026 ACA Expected Contribution Estimator</h1>
+            <p>Explore how projected household income, tax-household size, and the 2026 IRS applicable percentages interact. This educational tool does not quote a plan premium or calculate an actual premium tax credit.</p>
         </div>
     </section>
 
@@ -1046,31 +1046,23 @@
     <section class="calculator-section">
         <div class="container">
             <div class="calculator-card">
-                <h2>Estimate Your Subsidy</h2>
+                <h2>Estimate the IRS Contribution Amount</h2>
                 <p class="subtitle">Inputs stay in this browser. The estimate updates as you type and is not sent through analytics or included in the Get Help link.</p>
 
                 <!-- Confidence Meter -->
                 <div class="confidence-meter">
                     <div class="confidence-label">
-                        <span>Estimate Confidence</span>
+                        <span>Input completeness</span>
                         <span class="confidence-pct" id="confidence-pct">0%</span>
                     </div>
                     <div class="confidence-track">
                         <div class="confidence-fill" id="confidence-fill"></div>
                     </div>
                     <div class="confidence-steps">
-                        <span class="confidence-chip" id="chip-age">Age</span>
                         <span class="confidence-chip" id="chip-income">Income</span>
                         <span class="confidence-chip" id="chip-household">Household</span>
-                        <span class="confidence-chip" id="chip-zip">ZIP</span>
-                        <span class="confidence-chip" id="chip-tobacco">Tobacco</span>
+                        <span class="confidence-chip" id="chip-year">2026 rules</span>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="applicant-age">Exact Age</label>
-                    <input type="number" id="applicant-age" placeholder="35" min="0" max="64" inputmode="numeric">
-                    <div class="help-text">Age of the primary applicant (0&ndash;64). Those 65+ should explore Medicare.</div>
                 </div>
 
                 <div class="form-group">
@@ -1097,27 +1089,18 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="zip-code">Benchmark geography</label>
-                    <input type="text" id="zip-code" value="Lakeland 33805" readonly aria-describedby="zip-scope">
-                    <div class="help-text" id="zip-scope">Fixed to the page's Lakeland educational assumption. It is not a sourced quote for another ZIP code or Florida rating area.</div>
-                </div>
-
-                <div class="form-group">
-                    <label>Tobacco Use</label>
-                    <div class="toggle-group" id="tobacco-toggle">
-                        <button type="button" class="toggle-btn active" data-value="no">No</button>
-                        <button type="button" class="toggle-btn" data-value="yes">Yes</button>
-                    </div>
-                    <div class="help-text">Tobacco use can affect your premium but not your subsidy amount.</div>
+                    <label for="zip-code">Marketplace jurisdiction</label>
+                    <input type="text" id="zip-code" value="Florida / HealthCare.gov" readonly aria-describedby="zip-scope">
+                    <div class="help-text" id="zip-scope">This establishes the federal Marketplace context only. It does not supply a benchmark premium.</div>
                 </div>
 
                 <!-- Live Results (replaces old button + results-panel) -->
                 <div class="live-results hidden" id="live-results">
                     <!-- Price Hero -->
                     <div class="live-price-hero" id="price-hero">
-                        <div class="price-label">Illustrative Monthly Amount</div>
-                        <div class="price-value" id="price-value">$0</div>
-                        <div class="price-period">per month after subsidy</div>
+                        <div class="price-label">Estimated required contribution</div>
+                        <div class="price-value" id="price-value">&mdash;</div>
+                        <div class="price-period">per month before comparison with the official benchmark premium</div>
                     </div>
 
                     <!-- Status Messages (gap / cliff) -->
@@ -1126,28 +1109,20 @@
                     <!-- Why This Price Breakdown -->
                     <div class="price-breakdown" id="price-breakdown">
                         <button type="button" class="breakdown-toggle" id="breakdown-toggle">
-                            <span>Why this price?</span>
+                                <span>How is this calculated?</span>
                             <span class="arrow">&#9660;</span>
                         </button>
                         <div class="breakdown-body" id="breakdown-body">
-                            <div class="breakdown-row">
-                                <span class="row-label"><span class="row-icon">&#127981;</span> Base Premium, age <span id="bd-age">--</span></span>
-                                <span class="row-value" id="bd-base">--</span>
-                            </div>
                             <div class="breakdown-row">
                                 <span class="row-label"><span class="row-icon">&#128200;</span> Your FPL Level</span>
                                 <span class="row-value" id="bd-fpl">--</span>
                             </div>
                             <div class="breakdown-row">
-                                <span class="row-label"><span class="row-icon">&#128176;</span> IRS Expected Contribution</span>
+                                <span class="row-label"><span class="row-icon">&#128176;</span> IRS applicable percentage</span>
                                 <span class="row-value" id="bd-contribution">--</span>
                             </div>
-                            <div class="breakdown-row subsidy-row">
-                                <span class="row-label"><span class="row-icon">&#127775;</span> Your Tax Credit (APTC)</span>
-                                <span class="row-value" id="bd-subsidy">--</span>
-                            </div>
                             <div class="breakdown-row total-row">
-                                <span class="row-label">Your Estimated Cost</span>
+                                <span class="row-label">Estimated monthly contribution</span>
                                 <span class="row-value" id="bd-total">--</span>
                             </div>
                         </div>
@@ -1155,16 +1130,16 @@
 
                     <!-- Result Notes -->
                     <div class="result-note" id="result-note" style="margin-top:16px;">
-                        <strong>2026 Subsidy Change:</strong> Enhanced subsidies from the Inflation Reduction Act expired Dec 31, 2025. The 400% FPL subsidy cliff has returned. Uses IRS Rev. Proc. 2025-25 applicable percentages.
+                        <strong>2026 calculation basis:</strong> Enhanced subsidies from the Inflation Reduction Act expired Dec 31, 2025. The 400% FPL subsidy cliff has returned. Uses IRS Rev. Proc. 2025-25 applicable percentages.
                     </div>
 
                     <!-- Disclaimer -->
                     <div class="disclaimer-box" id="disclaimer-box">
-                        <strong>Disclaimer:</strong> This tool provides an educational estimate only and does not determine eligibility, premium, savings, or subsidy.
-                        The $450 age-21 benchmark is an explicit Lakeland illustration maintained by this site, not a live second-lowest-cost Silver plan quote.
+                        <strong>Disclaimer:</strong> This tool provides an educational expected-contribution estimate only and does not determine eligibility, premium, savings, or subsidy.
+                        It intentionally does not contain a benchmark Silver premium or calculate a tax-credit amount.
                         Actual premium tax credits depend on the official Marketplace application, MAGI, tax household, age, geographic rating area, and current benchmark Silver plan pricing.
                         Uses 2025 Federal Poverty Guidelines for 2026 coverage year per IRS Rev. Proc. 2025-25.
-                        Florida has not expanded Medicaid under the ACA. For official eligibility, visit HealthCare.gov.
+                        For official eligibility and coverage-path results, visit HealthCare.gov.
                     </div>
                 </div>
 
@@ -1199,13 +1174,13 @@
         <div class="container">
             <div class="calculator-card">
                 <h2 id="estimator-sources">Primary sources and scope</h2>
-                <p>This implementation applies the 2026 percentages in IRS Revenue Procedure 2025-25 and uses 2025 Federal Poverty Guidelines for the 2026 coverage year. The Lakeland benchmark amount is a site-maintained illustration and must be replaced with the official benchmark for an eligibility or tax-credit determination.</p>
+                <p>This implementation applies the 2026 percentages in IRS Revenue Procedure 2025-25 and uses 2025 Federal Poverty Guidelines for the 2026 coverage year. It calculates an expected contribution only. The official benchmark Silver premium is required to calculate a premium tax credit.</p>
                 <ul style="padding-left:1.25rem;">
                     <li><a href="https://www.irs.gov/irb/2025-32_IRB" target="_blank" rel="noopener noreferrer">IRS Revenue Procedure 2025-25</a> — accessed July 31, 2026; 2026 premium tax credit applicable percentages.</li>
                     <li><a href="https://www.irs.gov/credits-deductions/premium-tax-credit-ptc-overview" target="_blank" rel="noopener noreferrer">IRS Premium Tax Credit overview</a> — accessed July 31, 2026; 2026 eligibility and reconciliation context.</li>
                     <li><a href="https://www.healthcare.gov/reporting-changes/" target="_blank" rel="noopener noreferrer">HealthCare.gov: Report income and household changes</a> — accessed July 31, 2026; federal Marketplace guidance for Florida.</li>
                 </ul>
-                <p style="margin-top:1rem;">This calculator provides an educational estimate. Actual eligibility and premium tax credits are determined by the Marketplace and reconciled on the federal tax return.</p>
+                <p style="margin-top:1rem;">This calculator provides an educational expected-contribution estimate. Actual eligibility and premium tax credits are determined by the Marketplace and reconciled on the federal tax return.</p>
             </div>
         </div>
     </section>
@@ -1258,78 +1233,13 @@
 
     <script>
         // =====================================================================
-        // ACA PRECISION CALCULATOR ENGINE v2.0
-        // Real CMS 3:1 age-curve | FPL-based APTC | Real-time updates
+        // ACA EXPECTED-CONTRIBUTION ENGINE
+        // FPL-based IRS percentage calculation; no premium or APTC estimate
         // =====================================================================
 
         // -- 2026 Federal Poverty Level guidelines (48 contiguous states + DC) --
         var FPL_2026 = { 1:15650, 2:21150, 3:26650, 4:32150, 5:37650, 6:43150, 7:48650, 8:54150 };
         var FPL_ADDITIONAL = 5500;
-
-        // -- CMS Age-Rating Curve (Federal Default, 45 discrete factors) --
-        // Source: 45 CFR 147.102 — standard 3:1 age curve used by all FFM states
-        // Index 0 = age 0-20 (all 0.765), then age 21 = index 1, age 22 = index 2, etc.
-        var CMS_AGE_FACTORS = [
-            0.765,  // 0-20
-            1.000,  // 21
-            1.000,  // 22
-            1.000,  // 23
-            1.000,  // 24
-            1.004,  // 25
-            1.024,  // 26
-            1.048,  // 27
-            1.087,  // 28
-            1.119,  // 29
-            1.135,  // 30
-            1.159,  // 31
-            1.183,  // 32
-            1.198,  // 33
-            1.214,  // 34
-            1.222,  // 35
-            1.230,  // 36
-            1.238,  // 37
-            1.246,  // 38
-            1.262,  // 39
-            1.278,  // 40
-            1.302,  // 41
-            1.325,  // 42
-            1.357,  // 43
-            1.397,  // 44
-            1.444,  // 45
-            1.500,  // 46
-            1.563,  // 47
-            1.635,  // 48
-            1.706,  // 49
-            1.786,  // 50
-            1.865,  // 51
-            1.952,  // 52
-            2.040,  // 53
-            2.135,  // 54
-            2.230,  // 55
-            2.333,  // 56
-            2.437,  // 57
-            2.548,  // 58
-            2.603,  // 59
-            2.714,  // 60
-            2.810,  // 61
-            2.873,  // 62
-            2.952,  // 63
-            3.000   // 64
-        ];
-
-        // -- Benchmark Silver plan base rate for a 21-year-old in ZIP 33805 --
-        var BASE_RATE_21 = 450;
-
-        function getAgeFactor(age) {
-            if (age < 0) return CMS_AGE_FACTORS[0];
-            if (age <= 20) return CMS_AGE_FACTORS[0]; // 0.765
-            if (age >= 64) return CMS_AGE_FACTORS[44]; // 3.000
-            return CMS_AGE_FACTORS[age - 20]; // index 1 = age 21
-        }
-
-        function getBenchmarkPremium(age) {
-            return BASE_RATE_21 * getAgeFactor(age);
-        }
 
         function getFPL(householdSize) {
             if (householdSize <= 8) return FPL_2026[householdSize];
@@ -1371,22 +1281,18 @@
         // CONFIDENCE METER
         // =====================================================================
         function updateConfidence() {
-            var age = document.getElementById('applicant-age').value.trim();
             var income = parseIncome(document.getElementById('annual-income').value);
             var household = document.getElementById('household-size').value;
-            var tobaccoBtn = document.querySelector('#tobacco-toggle .toggle-btn.active');
 
             var checks = {
-                age: age !== '' && !isNaN(parseInt(age, 10)) && parseInt(age, 10) >= 0 && parseInt(age, 10) <= 64,
                 income: income > 0,
                 household: household !== '',
-                zip: true,
-                tobacco: tobaccoBtn !== null
+                year: true
             };
 
             var filled = 0;
-            var total = 5;
-            var keys = ['age', 'income', 'household', 'zip', 'tobacco'];
+            var total = 3;
+            var keys = ['income', 'household', 'year'];
             keys.forEach(function(k) {
                 var chip = document.getElementById('chip-' + k);
                 if (checks[k]) {
@@ -1403,7 +1309,7 @@
             fill.classList.toggle('full', pct === 100);
             document.getElementById('confidence-pct').textContent = pct + '%';
 
-            return checks.age && checks.income;
+            return checks.income && checks.household;
         }
 
         // =====================================================================
@@ -1430,16 +1336,11 @@
                 return;
             }
 
-            var age = parseInt(document.getElementById('applicant-age').value, 10);
             var income = parseIncome(document.getElementById('annual-income').value);
             var householdSize = parseInt(document.getElementById('household-size').value, 10);
-            var tobaccoBtn = document.querySelector('#tobacco-toggle .toggle-btn.active');
-            var tobacco = tobaccoBtn ? tobaccoBtn.getAttribute('data-value') : 'no';
 
             var fpl = getFPL(householdSize);
             var fplPercent = (income / fpl) * 100;
-            var benchmarkMonthly = getBenchmarkPremium(age);
-            var tobaccoSurcharge = (tobacco === 'yes') ? benchmarkMonthly * 0.5 : 0;
 
             liveResults.classList.remove('hidden');
             statusArea.innerHTML = '';
@@ -1452,64 +1353,50 @@
                 statusArea.innerHTML =
                     '<div class="status-message gap">' +
                     '<strong>Coverage Gap (' + Math.round(fplPercent) + '% FPL)</strong>' +
-                    'Your income is below 100% of the Federal Poverty Level. Florida has not expanded Medicaid, ' +
-                    'so this illustration does not show an estimated premium tax credit. Use the official Marketplace application and Florida eligibility pathways for a determination.' +
+                    'This tool does not calculate an expected contribution below 100% of the Federal Poverty Level. Use the official Marketplace application and Florida eligibility pathways for a determination.' +
                     '</div>';
                 return;
             }
 
             // -- SUBSIDY CLIFF (above 400% FPL) --
             if (fplPercent > 400) {
-                var fullPremium = benchmarkMonthly + tobaccoSurcharge;
-                priceHero.style.display = '';
-                priceHero.classList.remove('zero-premium');
-                breakdownEl.style.display = '';
-                resultNote.style.display = '';
-                document.getElementById('price-value').textContent = fmt(fullPremium);
+                priceHero.style.display = 'none';
+                breakdownEl.style.display = 'none';
+                resultNote.style.display = 'none';
                 statusArea.innerHTML =
                     '<div class="status-message cliff">' +
                     '<strong>Above Subsidy Threshold (' + Math.round(fplPercent) + '% FPL)</strong>' +
-                    'Under the stated 2026 assumptions, this illustration shows no estimated premium tax credit above 400% FPL. The official Marketplace and tax result controls.' +
+                    'This tool does not calculate an expected contribution above the stated 2026 premium-tax-credit income range. The official Marketplace and tax result controls.' +
                     '</div>';
-                updateBreakdown(age, benchmarkMonthly, fplPercent, 0, 0, fullPremium);
                 return;
             }
 
-            // -- SUBSIDY ELIGIBLE (100-400% FPL) --
+            // -- EXPECTED CONTRIBUTION RANGE (100-400% FPL) --
             var applicablePct = getApplicablePercentage(fplPercent);
             var expectedContribAnnual = income * (applicablePct / 100);
             var expectedContribMonthly = expectedContribAnnual / 12;
-            var subsidyMonthly = Math.max(0, benchmarkMonthly - expectedContribMonthly);
-            var subsidyAnnual = subsidyMonthly * 12;
-            var netPremium = Math.max(0, benchmarkMonthly + tobaccoSurcharge - subsidyMonthly);
 
             priceHero.style.display = '';
             breakdownEl.style.display = '';
             resultNote.style.display = '';
-
-            // Update price hero — flag "near-zero" when a Bronze plan would likely be $0
-            document.getElementById('price-value').textContent = fmt(netPremium);
-            var isNearZero = netPremium < 50;
-            priceHero.classList.toggle('zero-premium', isNearZero);
+            priceHero.classList.remove('zero-premium');
+            document.getElementById('price-value').textContent = fmt(expectedContribMonthly);
 
             // Update breakdown
-            updateBreakdown(age, benchmarkMonthly, fplPercent, applicablePct, subsidyMonthly, netPremium);
+            updateBreakdown(fplPercent, applicablePct, expectedContribMonthly);
 
-            // Record only a generic completion event. Household, income, age,
-            // tobacco, FPL, subsidy, and premium values stay in this browser.
+            // Record only a generic completion event. Household, income, FPL,
+            // percentage, and contribution values stay in this browser.
             if (!_estimatorCompleteTracked && window.LHI && typeof window.LHI.track === 'function') {
                 _estimatorCompleteTracked = true;
                 window.LHI.track('EstimatorComplete', { content_name: 'lakeland_2026_estimator' });
             }
         }
 
-        function updateBreakdown(age, benchmark, fplPct, applPct, subsidy, net) {
-            document.getElementById('bd-age').textContent = age;
-            document.getElementById('bd-base').textContent = fmt(benchmark) + '/mo';
+        function updateBreakdown(fplPct, applPct, expectedContribution) {
             document.getElementById('bd-fpl').textContent = Math.round(fplPct) + '% FPL';
             document.getElementById('bd-contribution').textContent = applPct ? applPct.toFixed(2) + '% of income' : 'N/A (above 400%)';
-            document.getElementById('bd-subsidy').textContent = subsidy > 0 ? '-' + fmt(subsidy) + '/mo' : '$0';
-            document.getElementById('bd-total').textContent = fmt(net) + '/mo';
+            document.getElementById('bd-total').textContent = fmt(expectedContribution) + '/mo';
         }
 
         // =====================================================================
@@ -1527,26 +1414,15 @@
             liveCalculate();
         });
 
-        document.getElementById('applicant-age').addEventListener('input', liveCalculate);
         document.getElementById('household-size').addEventListener('change', liveCalculate);
-        // Tobacco toggle handler
-        document.getElementById('tobacco-toggle').addEventListener('click', function(e) {
-            if (e.target.classList.contains('toggle-btn')) {
-                this.querySelectorAll('.toggle-btn').forEach(function(btn) {
-                    btn.classList.remove('active');
-                });
-                e.target.classList.add('active');
-                liveCalculate();
-            }
-        });
 
-        // "Why this price?" toggle
+        // Calculation-breakdown toggle
         document.getElementById('breakdown-toggle').addEventListener('click', function() {
             this.classList.toggle('open');
             document.getElementById('breakdown-body').classList.toggle('open');
         });
 
-        // Initialize confidence meter on load (household + tobacco default = some chips lit)
+        // Initialize input-completeness meter on load.
         document.addEventListener('DOMContentLoaded', function() {
             updateConfidence();
         });

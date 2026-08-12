@@ -529,9 +529,9 @@ const siteSearchIndex = [
 
   // Main Pages
   {
-    title: "ACA Subsidy Estimator",
+    title: "ACA Expected Contribution Estimator",
     url: "/aca-subsidy-estimator/",
-    excerpt: "Estimate how household size and projected income may affect Marketplace premium-tax-credit calculations. The Marketplace determines eligibility.",
+    excerpt: "Estimate the 2026 IRS expected contribution percentage from household size and projected income. The Marketplace determines eligibility and the actual credit.",
     tags: ["Tools", "ACA", "Subsidies", "Calculator"]
   },
   {
