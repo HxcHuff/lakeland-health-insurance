@@ -1161,6 +1161,34 @@
           ]
         }
       ]
+    },
+    {
+      "id": "young-adult-parent-plan-through-age-26-2026",
+      "claim": "If a parent's health plan covers dependents, a young adult usually can be added and remain covered until age 26; Marketplace and job-based enrollment timing and plan rules differ.",
+      "sourceUrl": "https://www.healthcare.gov/young-adults/children-under-26/",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Major Medical",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "blog/college-student-health-insurance-lakeland.html"
+      ]
+    },
+    {
+      "id": "marketplace-catastrophic-plan-rules-2026",
+      "claim": "Catastrophic Marketplace plans may be available to people under age 30 and to certain older applicants meeting current exemption rules; they cover essential health benefits and at least three primary-care visits before the deductible, and premium tax credits cannot be applied to them.",
+      "sourceUrl": "https://www.healthcare.gov/choose-a-plan/catastrophic-health-plans/",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "blog/college-student-health-insurance-lakeland.html"
+      ]
     }
   ]
 }
