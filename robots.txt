@@ -5,10 +5,6 @@ Disallow: /health-protector-guard/nav-snippet.html
 Disallow: /lp/campaign-funnel-map.html
 Disallow: /lp/campaign-strategy.html
 Disallow: /lp/facebook-ad-copy.html
-Disallow: /search-engine-from-zip/
-Disallow: /blog/ads-manager-setup-checklist.html
-Disallow: /blog/campaign-funnel-ab-test.html
-Disallow: /blog/facebook-ad-copy-ab-test.html
 Disallow: /thanks.html
 Disallow: /google79927e3ae56b9c82.html
 

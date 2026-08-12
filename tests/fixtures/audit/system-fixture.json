@@ -1,0 +1,37 @@
+{
+  "repository": {
+    "repository": {"head": "fixture", "branch": "fixture", "dirty": false, "status": []},
+    "inventory": [],
+    "pages": [
+      {
+        "file": "index.html",
+        "url": "https://lakelandhealthinsurance.com/",
+        "inSitemap": true,
+        "sitemapLastmod": "2026-07-01",
+        "schemaDates": ["2026-06-30"],
+        "inboundInternalLinks": 2,
+        "title": "Fixture",
+        "description": "Fixture description",
+        "canonical": "https://lakelandhealthinsurance.com/",
+        "h1Count": 1,
+        "schema": [{"valid": true}],
+        "claimCandidates": [{"line": 10, "fingerprint": "fixture"}],
+        "registeredClaimIds": [],
+        "lastCommit": {"commit": "fixture", "committedAt": "2026-06-30T12:00:00Z", "subject": "fixture"}
+      }
+    ],
+    "sitemap": [{"url": "https://lakelandhealthinsurance.com/", "lastmod": "2026-07-01"}],
+    "redirects": [{"from": "/old/", "to": "/", "status": 301, "fromUrl": "https://lakelandhealthinsurance.com/old/", "toUrl": "https://lakelandhealthinsurance.com/"}],
+    "validators": [{"command": "node scripts/validate-pages.mjs", "status": 0, "stdout": "OK", "stderr": ""}]
+  },
+  "crawl": {
+    "observations": [
+      {"requestedUrl": "https://lakelandhealthinsurance.com/", "kind": "page", "status": 200, "finalUrl": "https://lakelandhealthinsurance.com/", "redirectHops": [{"url": "https://lakelandhealthinsurance.com/", "status": 200, "location": null}], "visibleTextLength": 500, "blank200": false, "soft404": false, "canonical": "https://lakelandhealthinsurance.com/"}
+    ],
+    "externalReferences": []
+  },
+  "gscPrevious": [{"page": "https://lakelandhealthinsurance.com/", "clicks": 20, "impressions": 500, "ctr": 0.04, "position": 7}],
+  "gscCurrent": [{"page": "https://lakelandhealthinsurance.com/", "clicks": 10, "impressions": 300, "ctr": 0.0333, "position": 9}],
+  "gscQueries": [{"query": "lakeland health coverage", "clicks": 2, "impressions": 300, "ctr": 0.0067, "position": 8}],
+  "ga4Landing": [{"landingPagePlusQueryString": "/", "normalizedUrl": "https://lakelandhealthinsurance.com/", "sessions": 100, "engagedSessions": 70, "keyEvents": 0}]
+}

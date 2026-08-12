@@ -16,6 +16,10 @@ node_modules/
 output/
 .playwright-cli/
 
+# Read-only audit runtime data (raw imports are immutable and may contain
+# non-public Search Console / Analytics observations).
+.audit-data/
+
 # Netlify deploy artifacts (uploaded via CLI; should not live in repo)
 deploy-*.zip
 *.zip

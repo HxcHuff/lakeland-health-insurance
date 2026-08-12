@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "site": {
+    "origin": "https://lakelandhealthinsurance.com",
+    "canonicalHost": "lakelandhealthinsurance.com",
+    "sitemapUrl": "https://lakelandhealthinsurance.com/sitemap.xml"
+  },
+  "storage": {
+    "root": ".audit-data"
+  },
+  "crawler": {
+    "concurrency": 2,
+    "maxPages": 200,
+    "timeoutMs": 15000,
+    "retries": 2,
+    "retryBaseMs": 300,
+    "userAgent": "LakelandHealthInsurance-ReadOnlyAudit/1.0",
+    "seedFromSitemap": true,
+    "securityProbePaths": [
+      "/AGENTS.md",
+      "/README.md",
+      "/ANALYTICS-TRACKING.md",
+      "/docs/",
+      "/data/authority-entities.json",
+      "/scripts/validate-pages.mjs",
+      "/tests/audit-system.test.mjs",
+      "/netlify/functions/lead.js",
+      "/run/setup.sh",
+      "/blog/ads-manager-setup-checklist.html",
+      "/blog/campaign-funnel-ab-test.html",
+      "/blog/facebook-ad-copy-ab-test.html",
+      "/lp/campaign-strategy.html"
+    ]
+  },
+  "privacy": {
+    "queryParameterMode": "strip",
+    "hashParameters": ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "fbclid"],
+    "rejectParameterNamePattern": "lead|applicant|consent|email|phone|name|address|policy|member|token|session|code"
+  },
+  "searchConsole": {
+    "siteUrl": "sc-domain:lakelandhealthinsurance.com",
+    "searchType": "web",
+    "dataState": "final",
+    "rowLimit": 25000,
+    "maxRows": 250000,
+    "minimumExpectedRows": 0
+  },
+  "urlInspection": {
+    "languageCode": "en-US",
+    "maxUrls": 50,
+    "delayMs": 250,
+    "priorityUrls": [
+      "https://lakelandhealthinsurance.com/",
+      "https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/",
+      "https://lakelandhealthinsurance.com/medicare/",
+      "https://lakelandhealthinsurance.com/get-help/"
+    ]
+  },
+  "ga4": {
+    "propertyId": "492431963",
+    "pageDimensions": ["pagePath", "pageLocation"],
+    "pageMetrics": ["screenPageViews", "sessions", "engagedSessions", "userEngagementDuration"],
+    "landingDimension": "landingPagePlusQueryString",
+    "landingMetrics": ["sessions", "engagedSessions", "keyEvents"],
+    "approvedKeyEvents": ["generate_lead", "phone_call_click", "messenger_click"],
+    "limit": 100000
+  },
+  "browser": {
+    "maxPages": 25,
+    "timeoutMs": 20000,
+    "settleMs": 750,
+    "profiles": [
+      {"name": "desktop", "width": 1440, "height": 1000, "deviceScaleFactor": 1},
+      {"name": "mobile", "width": 390, "height": 844, "deviceScaleFactor": 1}
+    ]
+  },
+  "automation": {
+    "scheduleEnabled": false,
+    "timezone": "America/New_York",
+    "weeklyCron": "0 6 * * 3",
+    "retentionDays": 90,
+    "externalStorageEnabled": false,
+    "externalAlertsEnabled": false
+  },
+  "dashboard": {
+    "host": "127.0.0.1",
+    "port": 4178
+  },
+  "thresholds": {
+    "blankVisibleTextCharacters": 80,
+    "highImpressions": 100,
+    "poorCtr": 0.02,
+    "actionablePositionMin": 4,
+    "actionablePositionMax": 20,
+    "trafficLandingSessions": 10,
+    "declineFraction": 0.2
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lakelandhealthinsurance.com/audit/schemas/normalized-observation.schema.json",
+  "title": "Normalized audit run",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "runId", "generatedAt", "canonicalOrigin", "sourceChecksums", "urlEntities", "searchQueries"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "runId": {"type": "string"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "canonicalOrigin": {"type": "string", "format": "uri"},
+    "sourceChecksums": {"type": "object"},
+    "urlEntities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["url", "historicalAliases", "repository", "live", "searchConsolePage", "urlInspection", "ga4Page", "ga4Landing", "render"],
+        "properties": {
+          "url": {"type": "string", "format": "uri"},
+          "historicalAliases": {"type": "array", "items": {"type": "string", "format": "uri"}},
+          "repository": {"type": ["object", "null"]},
+          "live": {"type": ["object", "null"]},
+          "searchConsolePage": {"type": ["object", "null"]},
+          "urlInspection": {"type": ["object", "null"]},
+          "ga4Page": {"type": ["object", "null"]},
+          "ga4Landing": {"type": ["object", "null"]},
+          "render": {"type": "array", "items": {"type": "object"}}
+        }
+      }
+    },
+    "searchQueries": {
+      "type": "array",
+      "description": "Separate query-level Search Console dataset; never treated as page rows.",
+      "items": {"type": "object"}
+    }
+  }
+}

@@ -6,6 +6,8 @@
 node_modules/
 output/
 .playwright-cli/
+.audit-data/
+audit/
 search-engine-from-zip/
 data/
 docs/

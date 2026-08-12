@@ -25,15 +25,22 @@ const RELEASE_ASSET_PATHS = [
   '/js/blog-cta.js',
 ];
 
+const FORBIDDEN_PUBLIC_FILES = [
+  'blog/ads-manager-setup-checklist.html',
+  'blog/campaign-funnel-ab-test.html',
+  'blog/facebook-ad-copy-ab-test.html',
+  'newsletter/email-newsletter.html',
+];
+
+const FORBIDDEN_PUBLIC_DIRS = new Set(['search-engine-from-zip']);
+
 const SKIP_DIRS = new Set([
-  '.git', '.claude', 'node_modules', 'netlify', '.netlify', 'tests', 'scripts',
-  'search-engine-from-zip',
+  '.git', '.claude', '.audit-data', 'audit', 'node_modules', 'netlify', '.netlify', 'output', 'tests', 'scripts',
 ]);
 
 const SKIP_FILES = new Set([
   'google79927e3ae56b9c82.html',
   'health-protector-guard/nav-snippet.html',
-  'newsletter/email-newsletter.html',
   'offline.html',
 ]);
 
@@ -44,6 +51,18 @@ function walk(dir, out = []) {
     const st = statSync(full);
     if (st.isDirectory()) walk(full, out);
     else if (name.endsWith('.html')) out.push(full);
+  }
+  return out;
+}
+
+function findDeployableFiles(dir, out = []) {
+  if (!existsSync(dir)) return out;
+  for (const name of readdirSync(dir)) {
+    if (name === 'node_modules') continue;
+    const full = join(dir, name);
+    const st = statSync(full);
+    if (st.isDirectory()) findDeployableFiles(full, out);
+    else out.push(full);
   }
   return out;
 }
@@ -70,6 +89,18 @@ function localRedirectCandidates(target) {
 }
 
 const issues = [];
+
+for (const rel of FORBIDDEN_PUBLIC_FILES) {
+  if (existsSync(join(ROOT, rel))) issues.push(`${rel}: retired file must not exist in the public tree`);
+}
+
+for (const rel of FORBIDDEN_PUBLIC_DIRS) {
+  const deployableFiles = findDeployableFiles(join(ROOT, rel));
+  for (const file of deployableFiles) {
+    issues.push(`${relative(ROOT, file)}: retired directory must not contain deployable files`);
+  }
+}
+
 const seen = walk(ROOT);
 const htmlByRel = new Map();
 

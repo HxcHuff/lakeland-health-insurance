@@ -3,6 +3,21 @@
 /get-help /get-help/index.html 200
 /get-help/ /get-help/index.html 200
 /get-help/index-v2.html /get-help/ 301!
+
+# Permanently remove public campaign-operation documents.
+/blog/ads-manager-setup-checklist.html /404.html 410
+/blog/campaign-funnel-ab-test.html /404.html 410
+/blog/facebook-ad-copy-ab-test.html /404.html 410
+
+# Retire the broken quote engine in favor of the canonical intake.
+/search-engine-from-zip /get-help/ 301!
+/search-engine-from-zip/ /get-help/ 301!
+/search-engine-from-zip/dist /get-help/ 301!
+/search-engine-from-zip/dist/ /get-help/ 301!
+/search-engine-from-zip/* /404.html 404!
+
+# Consolidate the retired email artifact into the public newsletter route.
+/newsletter/email-newsletter.html /newsletter/ 301!
 /our%20approach/ /our-approach.html 301
 /our-approach /our-approach.html 301!
 /our-approach/ /our-approach.html 301!
@@ -210,6 +225,8 @@
 /UTM-Parameters-Final.xlsx /404.html 404!
 /UTM-Parameters-Lead-Data.xlsx /404.html 404!
 /netlify.toml /404.html 404!
+/audit/* /404.html 404!
+/.audit-data/* /404.html 404!
 /docs/* /404.html 404!
 /data/* /404.html 404!
 /scripts/* /404.html 404!

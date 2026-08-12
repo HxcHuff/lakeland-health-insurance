@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lakeland Audit Findings</title>
+  <style>
+    :root { color-scheme: light; --navy:#0b1f3a; --blue:#1557a6; --gold:#c99b2e; --ink:#172033; --muted:#64748b; --line:#dbe2ea; --paper:#f5f7fa; --white:#fff; }
+    * { box-sizing:border-box; }
+    body { margin:0; font:14px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--ink); background:var(--paper); }
+    header { background:linear-gradient(120deg,var(--navy),#123c6c); color:var(--white); padding:28px clamp(20px,4vw,56px); border-bottom:4px solid var(--gold); }
+    header h1 { margin:0 0 5px; font:700 clamp(25px,3vw,38px)/1.1 Georgia,serif; }
+    header p { margin:0; color:#dbeafe; }
+    main { max-width:1500px; margin:0 auto; padding:24px; }
+    .controls,.editor,.finding { background:var(--white); border:1px solid var(--line); border-radius:12px; box-shadow:0 5px 18px rgba(11,31,58,.06); }
+    .controls { display:grid; grid-template-columns:2fr repeat(4,minmax(130px,1fr)); gap:12px; padding:16px; margin-bottom:18px; }
+    input,select,textarea,button { width:100%; font:inherit; border:1px solid #bdc8d7; border-radius:8px; padding:9px 10px; background:white; }
+    button { border-color:var(--blue); color:white; background:var(--blue); font-weight:700; cursor:pointer; }
+    button:hover { background:#0f4484; }
+    .summary { display:flex; gap:14px; color:var(--muted); margin:0 0 14px; }
+    .layout { display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:18px; align-items:start; }
+    #findings { display:grid; gap:12px; }
+    .finding { padding:16px; border-left:6px solid #94a3b8; }
+    .finding[data-severity="critical"] { border-left-color:#991b1b; }
+    .finding[data-severity="high"] { border-left-color:#c2410c; }
+    .finding[data-severity="medium"] { border-left-color:var(--gold); }
+    .finding h2 { font-size:17px; margin:6px 0; }
+    .meta,.tags { display:flex; gap:7px; flex-wrap:wrap; color:var(--muted); font-size:12px; }
+    .tag { display:inline-block; padding:3px 8px; border-radius:999px; background:#edf2f7; color:#334155; }
+    .finding a { color:var(--blue); overflow-wrap:anywhere; }
+    details { margin-top:10px; border-top:1px solid var(--line); padding-top:9px; }
+    summary { cursor:pointer; font-weight:700; color:var(--blue); }
+    pre { white-space:pre-wrap; overflow-wrap:anywhere; background:#0f172a; color:#e2e8f0; padding:12px; border-radius:8px; max-height:300px; overflow:auto; font-size:12px; }
+    .editor { position:sticky; top:16px; padding:17px; }
+    .editor h2 { margin-top:0; color:var(--navy); }
+    .editor label { display:block; font-weight:700; margin:11px 0 4px; }
+    .editor small { color:var(--muted); display:block; margin:8px 0; }
+    #message { min-height:20px; margin-top:10px; color:#166534; }
+    .selected { outline:3px solid rgba(21,87,166,.24); }
+    @media (max-width:900px) { .controls { grid-template-columns:1fr 1fr; } .layout { grid-template-columns:1fr; } .editor { position:static; } }
+    @media (max-width:560px) { .controls { grid-template-columns:1fr; } main { padding:14px; } }
+  </style>
+</head>
+<body>
+  <header><h1>Website Audit Findings</h1><p>Local evidence review and governance. No website, indexing, analytics, or production action is performed here.</p></header>
+  <main>
+    <section class="controls" aria-label="Finding filters">
+      <input id="search" type="search" placeholder="Search findings, rules, or URLs">
+      <select id="severity"><option value="">All severities</option></select>
+      <select id="category"><option value="">All categories</option></select>
+      <select id="status"><option value="">All statuses</option></select>
+      <select id="owner"><option value="">All owners</option></select>
+    </section>
+    <p class="summary"><span id="run"></span><span id="count"></span></p>
+    <div class="layout">
+      <section id="findings" aria-live="polite"></section>
+      <aside class="editor">
+        <h2>Governance record</h2>
+        <small id="selected">Select a finding.</small>
+        <label for="action">Action</label>
+        <select id="action"><option value="assign">Assign owner</option><option value="status">Change status</option><option value="accept-risk">Accept risk</option><option value="suppress">Suppress</option><option value="resolve">Resolve</option><option value="reopen">Reopen</option><option value="comment">Add note</option></select>
+        <label for="edit-owner">Owner</label><input id="edit-owner" maxlength="80" autocomplete="off">
+        <label for="edit-status">Status</label><select id="edit-status"><option>open</option><option>in-review</option><option>blocked</option><option>resolved</option></select>
+        <label for="reason">Reason / resolution evidence</label><textarea id="reason" rows="5" maxlength="1000"></textarea>
+        <label for="expires">Expiry for accepted risk or suppression</label><input id="expires" type="date">
+        <button id="save" type="button">Append record</button>
+        <div id="message" role="status"></div>
+      </aside>
+    </div>
+  </main>
+  <script>
+    'use strict';
+    const elements = Object.fromEntries(['search','severity','category','status','owner','findings','run','count','selected','action','edit-owner','edit-status','reason','expires','save','message'].map(id => [id, document.getElementById(id)]));
+    let state = { findings: [] }; let selectedId = null;
+    const text = (tag, value, className) => { const node=document.createElement(tag); node.textContent=value; if(className) node.className=className; return node; };
+    function optionValues(id, values) { const select=elements[id]; const prior=select.value; [...new Set(values.filter(Boolean))].sort().forEach(value => { const o=document.createElement('option'); o.value=value; o.textContent=value; select.append(o); }); select.value=prior; }
+    function filters() { return { q:elements.search.value.toLowerCase(), severity:elements.severity.value, category:elements.category.value, status:elements.status.value, owner:elements.owner.value }; }
+    function render() {
+      const f=filters(); elements.findings.replaceChildren();
+      const rows=state.findings.filter(item => (!f.q || `${item.summary} ${item.ruleId} ${item.url||''}`.toLowerCase().includes(f.q)) && (!f.severity||item.severity===f.severity) && (!f.category||item.category===f.category) && (!f.status||item.governance.status===f.status) && (!f.owner||item.governance.owner===f.owner));
+      elements.count.textContent=`${rows.length} of ${state.findings.length} findings`;
+      rows.forEach(item => {
+        const card=document.createElement('article'); card.className=`finding${selectedId===item.id?' selected':''}`; card.dataset.severity=item.severity; card.tabIndex=0;
+        const tags=text('div','', 'tags'); [item.severity,`${item.score}/100`,item.category,item.governance.status,item.governance.owner||'unassigned'].forEach(v=>tags.append(text('span',v,'tag'))); card.append(tags,text('h2',item.summary));
+        const meta=text('div','', 'meta'); meta.append(text('span',item.ruleId)); if(item.url){const a=document.createElement('a');a.href=item.url;a.target='_blank';a.rel='noreferrer';a.textContent=item.url;meta.append(a);} card.append(meta,text('p',item.recommendedAction));
+        const details=document.createElement('details'); details.append(text('summary','Evidence')); const pre=document.createElement('pre'); pre.textContent=JSON.stringify(item.evidence,null,2); details.append(pre); card.append(details);
+        const history=document.createElement('details'); history.append(text('summary',`Resolution history (${item.governance.history.length})`)); const hp=document.createElement('pre'); hp.textContent=JSON.stringify(item.governance.history,null,2); history.append(hp); card.append(history);
+        const choose=()=>{selectedId=item.id;elements.selected.textContent=item.id;elements['edit-owner'].value=item.governance.owner||'';render();}; card.addEventListener('click',e=>{if(!['A','SUMMARY'].includes(e.target.tagName))choose();}); card.addEventListener('keydown',e=>{if(e.key==='Enter')choose();}); elements.findings.append(card);
+      });
+    }
+    async function load() { const response=await fetch('/api/state',{cache:'no-store'}); state=await response.json(); elements.run.textContent=state.runId?`Run ${state.runId}`:'No findings run available'; optionValues('severity',state.findings.map(x=>x.severity)); optionValues('category',state.findings.map(x=>x.category)); optionValues('status',state.findings.map(x=>x.governance.status)); optionValues('owner',state.findings.map(x=>x.governance.owner)); render(); }
+    ['search','severity','category','status','owner'].forEach(id=>elements[id].addEventListener('input',render));
+    elements.save.addEventListener('click',async()=>{ if(!selectedId){elements.message.textContent='Select a finding first.';return;} elements.message.textContent='Saving…'; const payload={findingId:selectedId,action:elements.action.value,owner:elements['edit-owner'].value,status:elements['edit-status'].value,reason:elements.reason.value,expiresAt:elements.expires.value?`${elements.expires.value}T23:59:59.000Z`:null}; const response=await fetch('/api/decisions',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)}); const result=await response.json(); elements.message.textContent=result.ok?'Record appended.':result.error; if(result.ok){elements.reason.value='';await load();} });
+    load().catch(error=>{elements.message.textContent=`Dashboard load failed: ${error.message}`;});
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lakelandhealthinsurance.com/audit/schemas/import-sidecar.schema.json",
+  "title": "Offline import metadata sidecar",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "source", "dataset", "sourceProperty", "reportingWindow", "filters", "dimensions", "dataState", "exportedAt", "rowCount", "complete", "fileSha256"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "source": {"enum": ["gsc-page", "gsc-query", "gsc-bigquery-page", "gsc-bigquery-query", "ga4-page", "ga4-landing", "url-inspection", "render-observation"]},
+    "dataset": {"type": "string", "minLength": 1},
+    "sourceProperty": {"type": "string", "minLength": 1},
+    "reportingWindow": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "object", "required": ["startDate", "endDate"], "properties": {"startDate": {"type": "string"}, "endDate": {"type": "string"}}}
+      ]
+    },
+    "filters": {"type": "object"},
+    "dimensions": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "dataState": {"enum": ["final", "fresh", "reported", "bulk-export", "google-index-version", "browser-render"]},
+    "exportedAt": {"type": "string", "format": "date-time"},
+    "rowCount": {"type": "integer", "minimum": 0},
+    "complete": {"type": "boolean"},
+    "fileSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  }
+}

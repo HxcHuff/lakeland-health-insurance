@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lakelandhealthinsurance.com/audit/schemas/raw-envelope.schema.json",
+  "title": "Immutable audit raw import envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "source", "retrievedAt", "dataset", "request", "integrity", "payload"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "source": {"enum": ["repository", "live-crawl", "gsc-page", "gsc-query", "gsc-bigquery-page", "gsc-bigquery-query", "url-inspection", "ga4-page", "ga4-landing", "render-observation", "connector-validation"]},
+    "retrievedAt": {"type": "string", "format": "date-time"},
+    "dataset": {"type": "string", "minLength": 1},
+    "request": {
+      "type": "object",
+      "required": ["property", "reportingWindow", "dimensions", "filters", "dataState"],
+      "properties": {
+        "property": {"type": ["string", "null"]},
+        "reportingWindow": {"type": ["object", "null"]},
+        "dimensions": {"type": "array", "items": {"type": "string"}},
+        "filters": {"type": "object"},
+        "dataState": {"type": "string"},
+        "requestedRows": {"type": ["integer", "null"], "minimum": 0},
+        "retrievedRows": {"type": "integer", "minimum": 0},
+        "complete": {"type": "boolean"},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "required": ["algorithm", "payloadSha256"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "payloadSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "payload": {}
+  }
+}

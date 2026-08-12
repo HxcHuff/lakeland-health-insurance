@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lakelandhealthinsurance.com/audit/schemas/governance-record.schema.json",
+  "title": "Append-only finding governance record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "recordedAt", "actor", "previousHash", "findingId", "action", "owner", "status", "reason", "expiresAt", "recordHash"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "recordedAt": {"type": "string", "format": "date-time"},
+    "actor": {"type": "string", "minLength": 1},
+    "previousHash": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "findingId": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"},
+    "action": {"enum": ["assign", "status", "accept-risk", "suppress", "resolve", "reopen", "comment"]},
+    "owner": {"type": ["string", "null"]},
+    "status": {"type": ["string", "null"], "enum": ["open", "in-review", "blocked", "resolved", "accepted-risk", "suppressed", null]},
+    "reason": {"type": ["string", "null"]},
+    "expiresAt": {"type": ["string", "null"], "format": "date-time"},
+    "recordHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

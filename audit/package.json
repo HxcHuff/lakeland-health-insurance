@@ -1,0 +1,11 @@
+{
+  "name": "lakeland-read-only-audit-browser",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "render": "node browser/collect-render.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.55.0"
+  }
+}

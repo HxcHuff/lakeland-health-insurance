@@ -1,0 +1,5 @@
+{
+  "schemaVersion": 1,
+  "aliases": [],
+  "notes": "Add only evidence-backed historical aliases not represented in _redirects. Each entry requires from, to, status, evidence, reviewedAt, and disposition."
+}

@@ -105,6 +105,8 @@ const requiredAuthorityDocs = [
   'docs/authority/work-package-03-handoff.md'
 ];
 const requiredDeployExclusions = [
+  '.audit-data/',
+  'audit/',
   'data/',
   'docs/',
   'netlify/',
@@ -270,7 +272,7 @@ for (const exclusion of requiredDeployExclusions) {
   }
 }
 const redirects = readFileSync(resolve(ROOT, '_redirects'), 'utf8');
-for (const internalPath of ['/docs/*', '/data/*', '/scripts/*', '/tests/*', '/netlify/*', '/run/*']) {
+for (const internalPath of ['/audit/*', '/.audit-data/*', '/docs/*', '/data/*', '/scripts/*', '/tests/*', '/netlify/*', '/run/*']) {
   if (!redirects.includes(`${internalPath} /404.html 404!`)) {
     issues.push(`_redirects: missing forced 404 boundary for ${internalPath}`);
   }

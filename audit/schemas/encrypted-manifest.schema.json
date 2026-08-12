@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lakelandhealthinsurance.com/audit/schemas/encrypted-manifest.schema.json",
+  "title": "Encrypted audit evidence manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "runId", "createdAt", "expiresAt", "algorithm", "keyStored", "files", "manifestHmac"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "runId": {"type": "string"},
+    "createdAt": {"type": "string", "format": "date-time"},
+    "expiresAt": {"type": "string", "format": "date-time"},
+    "algorithm": {"const": "AES-256-GCM"},
+    "keyStored": {"const": false},
+    "files": {"type": "array", "items": {"type": "object"}},
+    "manifestHmac": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}
