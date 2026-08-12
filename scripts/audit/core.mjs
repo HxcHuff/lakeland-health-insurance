@@ -277,11 +277,11 @@ export function scoreFinding({ category, risk, visibility, confidence, recency }
   return Math.min(84, raw);
 }
 
-export function createFinding({ ruleId, category, url = null, summary, evidence, recommendedAction, verificationRequired = false, risk = 3, visibility = 2, confidence = 0.9, recency = 1 }) {
+export function createFinding({ ruleId, category, url = null, scope = null, summary, evidence, recommendedAction, verificationRequired = false, risk = 3, visibility = 2, confidence = 0.9, recency = 1 }) {
   const score = scoreFinding({ category, risk, visibility, confidence, recency });
   const severity = score >= 90 ? 'critical' : score >= 70 ? 'high' : score >= 45 ? 'medium' : score >= 20 ? 'low' : 'info';
   return {
-    id: `${ruleId}:${sha256(`${url || 'site'}:${summary}`).slice(0, 16)}`,
+    id: `${ruleId}:${sha256(`${url || 'site'}:${scope || summary}:${summary}`).slice(0, 16)}`,
     ruleId,
     category,
     severity,

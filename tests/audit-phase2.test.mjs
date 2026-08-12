@@ -12,6 +12,7 @@ import { appendDecision, governanceByFinding, latestFindings, readDecisionLedger
 import { decryptBuffer, encryptRunEvidence, parseEncryptionKey, pruneExpiredEvidence, verifyEncryptedManifest } from '../scripts/audit/encryption.mjs';
 import { previousCompleteWeek } from '../scripts/audit/run-weekly.mjs';
 import { collectRenderObservations } from '../audit/browser/collect-render.mjs';
+import { generateFindings } from '../scripts/audit/build-report.mjs';
 
 function tempConfig(prefix) {
   const root = mkdtempSync(join(tmpdir(), prefix));
@@ -102,7 +103,7 @@ test('browser render detects failed assets and blocks automatic form submission'
       return;
     }
     response.writeHead(200, { 'content-type': 'text/html' });
-    response.end('<!doctype html><main><h1>Render fixture</h1><p>This fixture has enough visible text to avoid blank detection while exercising browser controls.</p><form method="post" action="/submit"></form><script src="/missing.js"></script><script>document.forms[0].requestSubmit()</script></main>');
+    response.end('<!doctype html><main><h1>Render fixture</h1><p>This fixture has enough visible text to avoid blank detection while exercising browser controls.</p><form method="post" action="/submit"></form><script src="/missing.js"></script><script>document.forms[0].requestSubmit(); fetch("/collect", { method: "POST" }).catch(() => {})</script></main>');
   });
   await new Promise((resolve, reject) => server.listen(0, '127.0.0.1', (error) => error ? reject(error) : resolve()));
   const { root, config } = tempConfig('lhi-render-');
@@ -117,9 +118,82 @@ test('browser render detects failed assets and blocks automatic form submission'
     assert.equal(row.submissionAttemptsBlocked, 1);
     assert.equal(row.formSubmissionPerformed, false);
     assert.ok(row.failedRequests.some((item) => item.url?.endsWith('/missing.js') && item.status === 404));
+    assert.ok(row.blockedWriteRequests.some((item) => item.url?.endsWith('/collect') && item.method === 'POST'));
+    assert.equal(row.consoleErrors.some((item) => item.locationUrl?.endsWith('/collect')), false);
     assert.ok(row.screenshotSha256);
   } finally {
     server.close();
     rmSync(root, { recursive: true, force: true });
   }
+});
+
+test('render findings consolidate desktop and mobile evidence under one stable id', () => {
+  const { config } = tempConfig('lhi-findings-');
+  const envelope = {
+    retrievedAt: '2026-08-12T12:00:00.000Z',
+    integrity: { payloadSha256: 'a'.repeat(64) },
+    payload: {
+      rows: ['desktop', 'mobile'].map((profile) => ({
+        url: `${config.site.origin}/plans/`,
+        profile,
+        httpStatus: 200,
+        visibleTextLength: 500,
+        mainTextLength: 400,
+        failedRequests: [{ kind: 'http', status: 404, url: `${config.site.origin}/missing.js` }],
+        consoleErrors: [],
+        formCount: 0,
+        formSubmissionPerformed: false,
+        screenshotSha256: profile.repeat(16).slice(0, 64)
+      }))
+    }
+  };
+  const findings = generateFindings({ render: envelope }, config).filter((item) => item.ruleId === 'rendered-js-or-asset-failure');
+  assert.equal(findings.length, 1);
+  assert.equal(findings[0].evidence.length, 2);
+});
+
+test('the custom error document is not treated as a public soft-404 page', () => {
+  const { config } = tempConfig('lhi-soft404-');
+  const crawl = {
+    retrievedAt: '2026-08-12T12:00:00.000Z',
+    integrity: { payloadSha256: 'b'.repeat(64) },
+    payload: {
+      observations: [{
+        requestedUrl: `${config.site.origin}/404.html`,
+        finalUrl: `${config.site.origin}/404.html`,
+        kind: 'page',
+        status: 200,
+        visibleTextLength: 500,
+        soft404: true,
+        blank200: false,
+        bodySha256: 'c'.repeat(64)
+      }]
+    }
+  };
+  assert.equal(generateFindings({ crawl }, config).some((item) => item.ruleId === 'soft-404'), false);
+});
+
+test('distinct Search Console queries retain distinct opaque finding ids', () => {
+  const { config } = tempConfig('lhi-query-findings-');
+  const gscQuery = {
+    retrievedAt: '2026-08-12T12:00:00.000Z',
+    integrity: { payloadSha256: 'd'.repeat(64) },
+    request: {
+      reportingWindow: { startDate: '2026-08-03', endDate: '2026-08-09' },
+      populationComplete: true
+    },
+    payload: {
+      rows: ['first eligible query', 'second eligible query'].map((query) => ({
+        query,
+        clicks: 1,
+        impressions: 20,
+        ctr: 0.05,
+        position: 8
+      }))
+    }
+  };
+  const findings = generateFindings({ gscQueries: [gscQuery] }, config).filter((item) => item.ruleId === 'gsc-actionable-position-query');
+  assert.equal(findings.length, 2);
+  assert.equal(new Set(findings.map((item) => item.id)).size, 2);
+  assert.equal(findings.every((item) => !item.id.includes('eligible query')), true);
 });

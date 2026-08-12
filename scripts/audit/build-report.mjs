@@ -52,6 +52,26 @@ function evidence(source, envelope, detail) {
   return { source, retrievedAt: envelope.retrievedAt, checksum: envelope.integrity.payloadSha256, ...detail };
 }
 
+function consolidateFindings(findings) {
+  const consolidated = new Map();
+  for (const finding of findings) {
+    const existing = consolidated.get(finding.id);
+    if (!existing) {
+      consolidated.set(finding.id, structuredClone(finding));
+      continue;
+    }
+    const evidence = [...existing.evidence, ...finding.evidence];
+    existing.evidence = [...new Map(evidence.map((item) => [JSON.stringify(item), item])).values()];
+    existing.verificationRequired ||= finding.verificationRequired;
+    if (finding.score > existing.score) {
+      existing.score = finding.score;
+      existing.severity = finding.severity;
+      existing.dimensions = finding.dimensions;
+    }
+  }
+  return [...consolidated.values()];
+}
+
 export function generateFindings(inputs, config) {
   const findings = [];
   const repo = inputs.repository;
@@ -175,7 +195,8 @@ export function generateFindings(inputs, config) {
           verificationRequired: true, risk: 3, visibility: 2, confidence: 1, recency: 1.2
         }));
       }
-      if (row.blank200 || row.soft404) {
+      const isCustomErrorDocument = new URL(identity.url).pathname === '/404.html' && !sitemap.has(identity.url);
+      if ((row.blank200 || row.soft404) && !isCustomErrorDocument) {
         findings.push(createFinding({
           ruleId: row.blank200 ? 'blank-http-200' : 'soft-404', category: 'technical', url: identity.url,
           summary: row.blank200 ? 'HTTP 200 page has negligible visible HTML content.' : 'HTTP 200 page presents not-found signals.',
@@ -322,6 +343,7 @@ export function generateFindings(inputs, config) {
       if (row.impressions >= config.thresholds.highImpressions && row.ctr < config.thresholds.poorCtr) {
         findings.push(createFinding({
           ruleId: 'gsc-high-impression-low-ctr-query', category: 'search-performance',
+          scope: row.query,
           summary: 'A visible Search Console query has high impressions and CTR below the configured threshold.',
           evidence: [evidence('gsc-query', current, { query: row.query, window: current.request.reportingWindow, clicks: row.clicks, impressions: row.impressions, ctr: row.ctr, position: row.position })],
           recommendedAction: 'Map the query to its page-level dataset and inspect title/snippet intent before proposing copy changes.',
@@ -331,6 +353,7 @@ export function generateFindings(inputs, config) {
       if (row.position >= config.thresholds.actionablePositionMin && row.position <= config.thresholds.actionablePositionMax) {
         findings.push(createFinding({
           ruleId: 'gsc-actionable-position-query', category: 'search-performance',
+          scope: row.query,
           summary: 'A visible Search Console query is in the configured actionable position band.',
           evidence: [evidence('gsc-query', current, { query: row.query, window: current.request.reportingWindow, clicks: row.clicks, impressions: row.impressions, ctr: row.ctr, position: row.position })],
           recommendedAction: 'Join to page-level data, verify relevance and compliance evidence, then evaluate a scoped content improvement.',
@@ -376,7 +399,7 @@ export function generateFindings(inputs, config) {
     }
   }
 
-  return findings.sort((a, b) => b.score - a.score || a.ruleId.localeCompare(b.ruleId));
+  return consolidateFindings(findings).sort((a, b) => b.score - a.score || a.ruleId.localeCompare(b.ruleId));
 }
 
 function sourceChecksums(inputs) {

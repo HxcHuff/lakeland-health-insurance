@@ -147,6 +147,8 @@ export async function observePage(context, url, profile, config, origin, screens
   const originalUrl = new URL(url);
   const canonicalSourceUrl = new URL(`${originalUrl.pathname}${originalUrl.search}`, config.site.origin).href;
   const finalUrl = sanitizedFailureUrl(finalUrlRaw, config, origin);
+  const blockedWriteUrls = new Set(blockedWriteRequests.map((row) => row.url).filter(Boolean));
+  const actionableConsoleErrors = consoleErrors.filter((row) => !row.locationUrl || !blockedWriteUrls.has(row.locationUrl));
   await page.close();
   return {
     url: sanitizeUrl(canonicalSourceUrl, config),
@@ -156,7 +158,7 @@ export async function observePage(context, url, profile, config, origin, screens
     finalUrl,
     httpStatus: mainResponse?.status() || null,
     ...rendered,
-    consoleErrors: deduplicate(consoleErrors),
+    consoleErrors: deduplicate(actionableConsoleErrors),
     failedRequests: deduplicate(failedRequests),
     blockedWriteRequests: deduplicate(blockedWriteRequests),
     formSubmissionPerformed: false,
