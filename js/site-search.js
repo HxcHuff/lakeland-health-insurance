@@ -377,9 +377,9 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Subsidies", "Premiums"]
   },
   {
-    title: "ACA Premiums Are Up in 2026 — Lakeland FL Health Insurance Guide",
+    title: "Understanding 2026 ACA Premium Changes in Lakeland",
     url: "/blog/aca-premiums-2026-lakeland.html",
-    excerpt: "Why ACA premiums changed in Lakeland for 2026, who qualifies for an SEP, and how Bronze + HSA plans changed.",
+    excerpt: "Use Florida OIR rate data and current federal guidance to evaluate 2026 Marketplace coverage in Lakeland and Polk County.",
     tags: ["ACA", "Lakeland", "Premiums", "Florida"]
   },
   {

@@ -61,7 +61,8 @@
         "blog/aca-2026-subsidy-expiration-florida-impact.html",
         "blog/why-overpaying-health-insurance-central-florida.html",
         "blog/central-florida-health-insurance-competition.html",
-        "blog/3-things-changing-florida-health-insurance-may-2026.html"
+        "blog/3-things-changing-florida-health-insurance-may-2026.html",
+        "blog/aca-premiums-2026-lakeland.html"
       ]
     },
     {
@@ -185,7 +186,6 @@
       "reviewStatus": "qualified",
       "reviewCadenceDays": 30,
       "usedBy": [
-        "blog/aca-premiums-2026-lakeland.html",
         "blog/cigna-exiting-aca-marketplace-polk-county-2026.html",
         "blog/florida-aca-premiums-up-31-percent-2026.html",
         "blog/health-insurance-clearwater-2026.html",
@@ -197,13 +197,6 @@
         "blog/health-insurance-wesley-chapel-2026.html"
       ],
       "candidateEvidence": [
-        {
-          "page": "blog/aca-premiums-2026-lakeland.html",
-          "fingerprints": [
-            "b38e1691a61a0ecd1050f5db3cf3b286bfb9bcfdc61fc1c0b94bbe199a0bffe1",
-            "f2e411190cdef3cd4f272eb4ab4abb3b7cd0850068ec7bbee21f18d29b93e3a7"
-          ]
-        },
         {
           "page": "blog/cigna-exiting-aca-marketplace-polk-county-2026.html",
           "fingerprints": [
@@ -420,7 +413,8 @@
         "blog/aca-subsidy-tax-return-clawback.html",
         "blog/aca-subsidy-cliff.html",
         "blog/aca-2026-subsidy-expiration-florida-impact.html",
-        "blog/3-things-changing-florida-health-insurance-may-2026.html"
+        "blog/3-things-changing-florida-health-insurance-may-2026.html",
+        "blog/aca-premiums-2026-lakeland.html"
       ],
       "candidateEvidence": [
         {
@@ -440,6 +434,12 @@
           "fingerprints": [
             "836c3c37393b83600c5596c28f916fd299a372a5c3e00897522b6e1ea73b2b14",
             "9746186cd063c647a0ee2e8b4325ed4ebc80e898583709a7fe79c98ed19da83a"
+          ]
+        },
+        {
+          "page": "blog/aca-premiums-2026-lakeland.html",
+          "fingerprints": [
+            "96a84c043435dc34c5bc664262b0c2af168d67b9a13627ff63f7ca4b361435b7"
           ]
         }
       ]
@@ -486,7 +486,8 @@
       "usedBy": [
         "blog/aca-subsidy-tax-return-clawback.html",
         "blog/aca-subsidy-cliff.html",
-        "blog/health-insurance-brandon-2026.html"
+        "blog/health-insurance-brandon-2026.html",
+        "blog/aca-premiums-2026-lakeland.html"
       ]
     },
     {
@@ -692,7 +693,8 @@
       "reviewCadenceDays": 30,
       "usedBy": [
         "blog/health-insurance-brandon-2026.html",
-        "blog/3-things-changing-florida-health-insurance-may-2026.html"
+        "blog/3-things-changing-florida-health-insurance-may-2026.html",
+        "blog/aca-premiums-2026-lakeland.html"
       ]
     },
     {
@@ -707,7 +709,8 @@
       "reviewCadenceDays": 60,
       "usedBy": [
         "blog/health-insurance-brandon-2026.html",
-        "blog/3-things-changing-florida-health-insurance-may-2026.html"
+        "blog/3-things-changing-florida-health-insurance-may-2026.html",
+        "blog/aca-premiums-2026-lakeland.html"
       ]
     },
     {
@@ -1232,7 +1235,8 @@
         "blog/how-to-read-health-insurance-card-guide.html",
         "blog/why-overpaying-health-insurance-central-florida.html",
         "blog/health-insurance-brandon-2026.html",
-        "blog/central-florida-health-insurance-competition.html"
+        "blog/central-florida-health-insurance-competition.html",
+        "blog/aca-premiums-2026-lakeland.html"
       ]
     },
     {
@@ -1283,7 +1287,8 @@
       "reviewStatus": "approved",
       "reviewCadenceDays": 60,
       "usedBy": [
-        "blog/florida-aca-premiums-up-31-percent-2026.html"
+        "blog/florida-aca-premiums-up-31-percent-2026.html",
+        "blog/aca-premiums-2026-lakeland.html"
       ],
       "candidateEvidence": [
         {
@@ -1291,6 +1296,12 @@
           "fingerprints": [
             "ebadc8655bc9d85bb677a253c889263cb6b77525c02a4fdb424f168b0a8e3912",
             "3353465247dceb9cffc9b7679231fb034223cb264e81b8edac31342c6cd8c02a"
+          ]
+        },
+        {
+          "page": "blog/aca-premiums-2026-lakeland.html",
+          "fingerprints": [
+            "ba51bd2e59e27431f85ffff251bfb3e423d54727ed82eaa5b4260f0653aff512"
           ]
         }
       ]
