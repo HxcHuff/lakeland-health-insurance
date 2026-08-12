@@ -15,8 +15,9 @@
         "canonical": "https://lakelandhealthinsurance.com/",
         "h1Count": 1,
         "schema": [{"valid": true}],
-        "claimCandidates": [{"line": 10, "fingerprint": "fixture"}],
-        "registeredClaimIds": [],
+        "claimCandidates": [{"line": 10, "fingerprint": "fixture", "registeredClaimIds": []}],
+        "uncoveredClaimCandidates": [{"line": 10, "fingerprint": "fixture", "registeredClaimIds": []}],
+        "registeredClaimIds": ["page-level-claim"],
         "lastCommit": {"commit": "fixture", "committedAt": "2026-06-30T12:00:00Z", "subject": "fixture"}
       }
     ],

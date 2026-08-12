@@ -2,6 +2,7 @@
 import { readFileSync, statSync } from 'node:fs';
 import { extname, join } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
 import {
   ROOT,
   extractHtmlSignals,
@@ -50,7 +51,11 @@ function latestCommit(rel) {
   return { commit, committedAt, subject };
 }
 
-function claimCandidates(html) {
+function maskBlockPreservingLines(value) {
+  return value.replace(/[^\r\n]/g, ' ');
+}
+
+export function claimCandidates(html) {
   const candidates = [];
   const patterns = [
     /\$\s?\d[\d,]*(?:\.\d+)?/g,
@@ -60,9 +65,9 @@ function claimCandidates(html) {
     /\b(?:guaranteed|unlimited|covers? every|all benefits?|maximum benefit)\b/gi
   ];
   const contentOnly = html
-    .replace(/<script\b[\s\S]*?<\/script>/gi, '')
-    .replace(/<style\b[\s\S]*?<\/style>/gi, '')
-    .replace(/<!--([\s\S]*?)-->/g, '');
+    .replace(/<script\b[\s\S]*?<\/script>/gi, maskBlockPreservingLines)
+    .replace(/<style\b[\s\S]*?<\/style>/gi, maskBlockPreservingLines)
+    .replace(/<!--[\s\S]*?-->/g, maskBlockPreservingLines);
   const lines = contentOnly.split(/\r?\n/);
   lines.forEach((line, index) => {
     const stripped = line.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
@@ -121,10 +126,18 @@ async function main() {
   const regulatedClaims = JSON.parse(readFileSync(join(ROOT, 'data/regulated-claims.json'), 'utf8'));
   const authority = JSON.parse(readFileSync(join(ROOT, 'data/authority-entities.json'), 'utf8'));
   const claimsByPage = new Map();
+  const claimsByCandidate = new Map();
   for (const claim of regulatedClaims.claims || []) {
     for (const page of claim.usedBy || []) {
       if (!claimsByPage.has(page)) claimsByPage.set(page, []);
       claimsByPage.get(page).push(claim.id);
+    }
+    for (const mapping of claim.candidateEvidence || []) {
+      for (const fingerprint of mapping.fingerprints || []) {
+        const key = `${mapping.page}:${fingerprint}`;
+        if (!claimsByCandidate.has(key)) claimsByCandidate.set(key, []);
+        claimsByCandidate.get(key).push(claim.id);
+      }
     }
   }
 
@@ -139,6 +152,10 @@ async function main() {
       const key = new URL(ref.url).pathname;
       inbound.set(key, (inbound.get(key) || 0) + 1);
     }
+    const detectedClaimCandidates = claimCandidates(html).map((candidate) => ({
+      ...candidate,
+      registeredClaimIds: claimsByCandidate.get(`${file.rel}:${candidate.fingerprint}`) || []
+    }));
     pages.push({
       file: file.rel,
       url,
@@ -149,7 +166,8 @@ async function main() {
       inSitemap: sitemapByUrl.has(url),
       sitemapLastmod: sitemapByUrl.get(url)?.lastmod || null,
       registeredClaimIds: claimsByPage.get(file.rel) || [],
-      claimCandidates: claimCandidates(html),
+      claimCandidates: detectedClaimCandidates,
+      uncoveredClaimCandidates: detectedClaimCandidates.filter((candidate) => candidate.registeredClaimIds.length === 0),
       structuredIdentityDrift: structuredIdentityDrift(html, authority),
       ...signals
     });
@@ -203,7 +221,9 @@ async function main() {
   console.log(JSON.stringify({ ok: true, output, files: files.length, pages: pages.length, sitemapUrls: sitemap.length }, null, 2));
 }
 
-main().catch((error) => {
-  console.error(`Repository collection failed: ${error.message}`);
-  process.exit(1);
-});
+if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) {
+  main().catch((error) => {
+    console.error(`Repository collection failed: ${error.message}`);
+    process.exit(1);
+  });
+}

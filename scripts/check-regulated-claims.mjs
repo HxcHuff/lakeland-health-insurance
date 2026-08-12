@@ -2,6 +2,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { claimCandidates } from './audit/collect-repository.mjs';
 
 const DEFAULT_ROOT = resolve(new URL('.', import.meta.url).pathname, '..');
 const APPROVED_HOSTS = new Set([
@@ -22,6 +23,8 @@ const APPROVED_HOSTS = new Set([
   'www.myfloridacfo.com',
   'floir.com',
   'www.floir.com',
+  'uhone.com',
+  'www.uhone.com',
   'nipr.com',
   'www.nipr.com'
 ]);
@@ -60,13 +63,14 @@ export async function checkRegistry({
   const warnings = [];
   const probes = [];
   const asOfDate = parseIsoDate(asOf);
-  if (!asOfDate) return { issues: [`Invalid --as-of date: ${asOf}`], warnings, probes };
+  if (!asOfDate) return { issues: [`Invalid --as-of date: ${asOf}`], warnings, probes, controlledCandidateCount: 0 };
 
   if (!registry || !Array.isArray(registry.claims) || registry.claims.length === 0) {
-    return { issues: ['Claim registry is missing or empty'], warnings, probes };
+    return { issues: ['Claim registry is missing or empty'], warnings, probes, controlledCandidateCount: 0 };
   }
 
   const ids = new Set();
+  const candidateEvidenceKeys = new Map();
   for (const [index, claim] of registry.claims.entries()) {
     const label = claim?.id || `claim ${index + 1}`;
     for (const field of REQUIRED_FIELDS) {
@@ -132,6 +136,51 @@ export async function checkRegistry({
       }
     }
 
+    if (claim?.candidateEvidence !== undefined) {
+      if (!Array.isArray(claim.candidateEvidence) || claim.candidateEvidence.length === 0) {
+        issues.push(`${label}: candidateEvidence must contain at least one page mapping when present`);
+      } else {
+        for (const mapping of claim.candidateEvidence) {
+          const rel = mapping?.page;
+          if (typeof rel !== 'string' || rel.startsWith('/') || rel.includes('..')) {
+            issues.push(`${label}: invalid candidateEvidence page ${JSON.stringify(rel)}`);
+            continue;
+          }
+          if (!claim.usedBy?.includes(rel)) {
+            issues.push(`${label}: candidateEvidence page is not listed in usedBy (${rel})`);
+          }
+          if (!Array.isArray(mapping.fingerprints) || mapping.fingerprints.length === 0) {
+            issues.push(`${label}: candidateEvidence for ${rel} must contain fingerprints`);
+            continue;
+          }
+          const pagePath = resolve(root, rel);
+          if (!existsSync(pagePath)) continue;
+          const currentFingerprints = new Set(claimCandidates(readFileSync(pagePath, 'utf8')).map((item) => item.fingerprint));
+          const localFingerprints = new Set();
+          for (const fingerprint of mapping.fingerprints) {
+            if (typeof fingerprint !== 'string' || !/^[a-f0-9]{64}$/.test(fingerprint)) {
+              issues.push(`${label}: invalid candidate fingerprint for ${rel}`);
+              continue;
+            }
+            if (localFingerprints.has(fingerprint)) {
+              issues.push(`${label}: duplicate candidate fingerprint in ${rel} (${fingerprint})`);
+            }
+            localFingerprints.add(fingerprint);
+            if (!currentFingerprints.has(fingerprint)) {
+              issues.push(`${label}: candidate fingerprint no longer matches ${rel} (${fingerprint})`);
+            }
+            const evidenceKey = `${rel}:${fingerprint}`;
+            const prior = candidateEvidenceKeys.get(evidenceKey);
+            if (prior && prior !== label) {
+              issues.push(`${label}: candidate fingerprint for ${rel} is already controlled by ${prior}`);
+            } else {
+              candidateEvidenceKeys.set(evidenceKey, label);
+            }
+          }
+        }
+      }
+    }
+
     if (online && source && fetchImpl) {
       try {
         const response = await fetchImpl(source, {
@@ -159,7 +208,7 @@ export async function checkRegistry({
     issues.push('reviewedAt is missing');
   }
 
-  return { issues, warnings, probes };
+  return { issues, warnings, probes, controlledCandidateCount: candidateEvidenceKeys.size };
 }
 
 function parseArgs(args) {
@@ -189,7 +238,7 @@ async function main() {
     console.error(`FAIL — ${result.issues.length} regulated-claim issue(s):`);
     result.issues.forEach((issue) => console.error(`  - ${issue}`));
   } else {
-    console.log(`OK — ${registry.claims.length} regulated claims are current, cited, and structurally valid${args.online ? '; primary-source probes passed' : ''}`);
+    console.log(`OK — ${registry.claims.length} regulated claims are current, cited, and structurally valid; ${result.controlledCandidateCount} exact candidate statement(s) are controlled${args.online ? '; primary-source probes passed' : ''}`);
   }
   if (result.issues.length) process.exit(1);
 }

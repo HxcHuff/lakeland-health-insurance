@@ -22,7 +22,7 @@ Scope: Work Package 03 regulated guide cluster and source-freshness controls
 
 Every created or refreshed regulated guide must have one canonical URL, one H1, canonical entity references, a direct answer near the top, Florida and year applicability, David Huff as author and reviewer, current primary sources with access date, limitations, contextual links, and one primary next action.
 
-`data/regulated-claims.json` is the claim-to-source-to-page registry. `scripts/check-regulated-claims.mjs` rejects stale source reviews, duplicate IDs, unapproved source hosts, missing pages, and pages that do not cite their registered source URL. `--online` additionally verifies the current HTTP response for every source without changing an external account.
+`data/regulated-claims.json` is the claim-to-source-to-page registry. Optional `candidateEvidence` mappings bind a reviewed page statement to its SHA-256 fingerprint. Only exact fingerprint matches count as audit coverage; a general page-level `usedBy` mapping does not suppress other candidates on that page. `scripts/check-regulated-claims.mjs` rejects stale source reviews, duplicate IDs, unapproved source hosts, missing pages, missing source citations, stale fingerprints, and duplicate fingerprint ownership. `--online` additionally verifies the current HTTP response for every source without changing an external account.
 
 ## Evidence gates
 

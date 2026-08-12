@@ -16,6 +16,8 @@ import {
 } from '../scripts/audit/core.mjs';
 import { buildNormalizedDataset, generateFindings, renderWeeklyReport } from '../scripts/audit/build-report.mjs';
 import { parseCsv, validateMetadata } from '../scripts/audit/import-data.mjs';
+import { claimCandidates } from '../scripts/audit/collect-repository.mjs';
+import { checkRegistry } from '../scripts/check-regulated-claims.mjs';
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const config = loadConfig();
@@ -65,6 +67,29 @@ test('public product references use the canonical Health ProtectorGuard spelling
     assert.doesNotMatch(source, /Health Protector Guard/, file);
     assert.match(source, /Health ProtectorGuard/, file);
   }
+});
+
+test('regulated-claim candidate evidence retains original source line numbers', () => {
+  const html = [
+    '<script>',
+    'const hiddenPrice = "$999";',
+    '</script>',
+    '<style>',
+    '.price::after { content: "$888"; }',
+    '</style>',
+    '<!-- public-looking $777 must remain excluded -->',
+    '<p>Visible plan benefit: $250.</p>'
+  ].join('\n');
+  assert.deepEqual(claimCandidates(html).map((item) => item.line), [8]);
+});
+
+test('regulated-claim registry fails closed when controlled statement text changes', async () => {
+  const registry = JSON.parse(readFileSync(join(ROOT, 'data/regulated-claims.json'), 'utf8'));
+  const tampered = structuredClone(registry);
+  const controlled = tampered.claims.find((claim) => claim.candidateEvidence?.length);
+  controlled.candidateEvidence[0].fingerprints[0] = '0'.repeat(64);
+  const result = await checkRegistry({ root: ROOT, registry: tampered, asOf: '2026-08-12' });
+  assert.ok(result.issues.some((issue) => issue.includes('candidate fingerprint no longer matches')));
 });
 
 function envelope(source, dataset, payload, window = null, extra = {}) {

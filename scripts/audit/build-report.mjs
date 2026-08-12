@@ -117,11 +117,11 @@ export function generateFindings(inputs, config) {
           verificationRequired: true, risk: 2, visibility: 2, confidence: 0.7, recency: 0.9
         }));
       }
-      if (page.claimCandidates?.length && !page.registeredClaimIds?.length) {
+      if (page.uncoveredClaimCandidates?.length) {
         findings.push(createFinding({
           ruleId: 'regulated-claim-registry-gap-candidate', category: 'compliance', url,
-          summary: 'Numeric, price, benefit, plan-count, market, or product language has no page mapping in the regulated-claims registry.',
-          evidence: [evidence('repository', repo, { file: page.file, candidateCount: page.claimCandidates.length, candidateFingerprints: page.claimCandidates.slice(0, 10) })],
+          summary: 'Numeric, price, benefit, plan-count, market, or product language lacks exact statement coverage in the regulated-claims registry.',
+          evidence: [evidence('repository', repo, { file: page.file, candidateCount: page.uncoveredClaimCandidates.length, candidateFingerprints: page.uncoveredClaimCandidates.slice(0, 10) })],
           recommendedAction: 'Review each candidate and add evidence/registry coverage or document why the text is not a regulated claim. Missing coverage is not proof the claim is false.',
           verificationRequired: true, risk: 5, visibility: page.inSitemap ? 3 : 1, confidence: 0.55, recency: 1
         }));
@@ -445,6 +445,7 @@ export function buildNormalizedDataset(inputs, config, runId, generatedAt) {
       lastCommit: page.lastCommit,
       registeredClaimIds: page.registeredClaimIds,
       regulatedClaimCandidateCount: page.claimCandidates?.length || 0,
+      uncoveredRegulatedClaimCandidateCount: page.uncoveredClaimCandidates?.length || 0,
       structuredIdentityDriftCount: page.structuredIdentityDrift?.length || 0
     };
   }
