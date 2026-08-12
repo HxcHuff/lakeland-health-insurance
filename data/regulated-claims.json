@@ -55,7 +55,10 @@
       "reviewCadenceDays": 90,
       "usedBy": [
         "self-employed-health-insurance/index.html",
-        "blog/aca-subsidy-wrong-income-florida.html"
+        "blog/aca-subsidy-wrong-income-florida.html",
+        "blog/aca-subsidy-tax-return-clawback.html",
+        "blog/aca-subsidy-cliff.html",
+        "blog/aca-2026-subsidy-expiration-florida-impact.html"
       ]
     },
     {
@@ -305,7 +308,114 @@
       "reviewStatus": "approved",
       "reviewCadenceDays": 90,
       "usedBy": [
-        "aca-subsidy-estimator/index.html"
+        "aca-subsidy-estimator/index.html",
+        "blog/aca-subsidy-cliff.html",
+        "blog/aca-2026-subsidy-expiration-florida-impact.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/aca-2026-subsidy-expiration-florida-impact.html",
+          "fingerprints": [
+            "d1cc3866ff661cbdf7a74b67a011de6c01e7b0196048bbd988cb0854411361a8"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aca-ptc-income-eligibility-2026",
+      "claim": "For tax year 2026, premium tax credit eligibility is generally limited to households with income from 100 percent through 400 percent of the federal poverty line, subject to the other tax, Marketplace enrollment, and minimum essential coverage requirements.",
+      "sourceUrl": "https://www.irs.gov/affordable-care-act/individuals-and-families/questions-and-answers-on-the-premium-tax-credit",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/aca-subsidy-tax-return-clawback.html",
+        "blog/aca-subsidy-cliff.html",
+        "blog/aca-2026-subsidy-expiration-florida-impact.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/aca-subsidy-tax-return-clawback.html",
+          "fingerprints": [
+            "438a760924883e302bf2091bcfa89a0a24f4919a2d6eca1a50d4e04172a7d278"
+          ]
+        },
+        {
+          "page": "blog/aca-subsidy-cliff.html",
+          "fingerprints": [
+            "7ca59f453720253645f7f7e828485e87627ac6316b1e9e520760773a5a2cca8d"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aca-excess-aptc-repayment-2025",
+      "claim": "For 2025, the IRS Form 8962 instructions list excess advance premium tax credit repayment limits below 400 percent FPL by income band and filing status, including single-filer limits of $375, $975, and $1,625; at 400 percent FPL or above there is no 2025 limit.",
+      "sourceUrl": "https://www.irs.gov/instructions/i8962",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/aca-subsidy-tax-return-clawback.html",
+        "blog/aca-subsidy-cliff.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/aca-subsidy-tax-return-clawback.html",
+          "fingerprints": [
+            "bd1c8d38a6be25c823e9755041c4d6cbb698f6120d0791a87e247b95d8696eaf"
+          ]
+        },
+        {
+          "page": "blog/aca-subsidy-cliff.html",
+          "fingerprints": [
+            "93508cd676dc19f4a21f1482b3112ff89c727e97eb1a644891ae15724068e6a6"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aca-excess-aptc-no-repayment-cap-after-2025",
+      "claim": "For tax years after 2025, IRS guidance states that there is no repayment cap for excess advance premium tax credit; the full amount by which advance payments exceed the allowed premium tax credit is added to tax liability.",
+      "sourceUrl": "https://www.irs.gov/affordable-care-act/individuals-and-families/questions-and-answers-on-the-premium-tax-credit",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/aca-subsidy-tax-return-clawback.html",
+        "blog/aca-subsidy-cliff.html"
+      ]
+    },
+    {
+      "id": "marketplace-zero-premium-auto-reenrollment-2026",
+      "claim": "For plan year 2026 on the federal Marketplace platform, a consumer automatically re-enrolled with no premium responsibility after advance credits and without affirming or updating eligibility information is automatically re-enrolled with a $5 monthly premium; CMS states that the $5 amount is eliminated after the consumer confirms or updates the information and remains eligible for a $0 premium.",
+      "sourceUrl": "https://www.cms.gov/newsroom/fact-sheets/2025-marketplace-integrity-and-affordability-final-rule",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 30,
+      "usedBy": [
+        "blog/aca-2026-subsidy-expiration-florida-impact.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/aca-2026-subsidy-expiration-florida-impact.html",
+          "fingerprints": [
+            "f298905fe78aac2bf156252e73578e6a33432a8fc0097f75c23dcafc21841c19",
+            "42988a50ae57cd75b75f7027a2f418fc63f49bee7ce30b7b1a3a7c4aee8c2dd0"
+          ]
+        }
       ]
     },
     {
