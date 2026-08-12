@@ -243,7 +243,8 @@
       "usedBy": [
         "medicare/index.html",
         "blog/when-can-i-switch-medicare-plans-florida.html",
-        "blog/medicare-supplement-cost-lakeland.html"
+        "blog/medicare-supplement-cost-lakeland.html",
+        "blog/medicare-advantage-vs-supplement.html"
       ],
       "candidateEvidence": [
         {
@@ -270,6 +271,37 @@
             "07efe360d053bffab495ba0eb08ea7da30bde49f869837f4d207d80f24d0f8b4",
             "c4b0d65f96a6c6580ef325845db68081b063d000f69965bdb3ad9dc9eb7633fa",
             "644380bf151430338bd93581884f26988180044dcc6930ff102d5eebd083b08f"
+          ]
+        },
+        {
+          "page": "blog/medicare-advantage-vs-supplement.html",
+          "fingerprints": [
+            "fa68078f696bf51f021484f9840ebfbccb6bc4f4cf288370e0f184ce3722b12b",
+            "5c20928fc131403f7177d7eabb521f42b298d037184eeed459476c341abe0dfd",
+            "3b7cd67adc29fb164941d4d62e929af64bb32b2ce17fe2e4c79bf078a153f475",
+            "49f0c3426ccb75904267094a518367f6ee4b337d25ab25c63e535f79f8686bb5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "medicare-advantage-zero-plan-premium-2026",
+      "claim": "Medicare.gov states that some Medicare Advantage plans may have a $0 plan premium, while members generally must continue paying the Medicare Part B premium and plan-specific cost sharing still varies.",
+      "sourceUrl": "https://www.medicare.gov/basics/get-started-with-medicare/medicare-basics/how-does-medicare-work",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Medicare Advantage",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/medicare-advantage-vs-supplement.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/medicare-advantage-vs-supplement.html",
+          "fingerprints": [
+            "919984b5b1202d0317959b3eae8582f6333562f9ab0dc755d78a7625e465ed3a"
           ]
         }
       ]
