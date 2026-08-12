@@ -883,6 +883,75 @@
         "blog/short-term-medical-guide.html",
         "blog/short-term-vs-triterm-medical.html"
       ]
+    },
+    {
+      "id": "marketplace-maximum-cost-sharing-2026",
+      "claim": "For plan year 2026, the federal maximum annual limitation on cost sharing is $10,600 for self-only coverage and $21,200 for other-than-self-only coverage. A plan may use a lower limit, and the federal limit does not include premiums or every possible member expense.",
+      "sourceUrl": "https://www.cms.gov/files/document/cms-9884-f-2025-pi-rule-master-5cr-062025.pdf",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/planning-healthcare-budget-2026.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/planning-healthcare-budget-2026.html",
+          "fingerprints": [
+            "96c3312a7386a9cd9237cd91ebd5fe4b027e181314213d4118de8d2b80af9e65"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hsa-contribution-limits-2026",
+      "claim": "For calendar year 2026, the HSA annual contribution limit is $4,400 for an eligible individual with self-only high-deductible health plan coverage and $8,750 for an eligible individual with family coverage. Eligible individuals age 55 or older may make the statutory additional $1,000 catch-up contribution.",
+      "sourceUrl": "https://www.irs.gov/irb/2025-21_IRB",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Tax-Advantaged Health Accounts",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "blog/planning-healthcare-budget-2026.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/planning-healthcare-budget-2026.html",
+          "fingerprints": [
+            "2872fdf3c1785c643645ba8ffefc1873a8f8d74da4e37593ff9248f46379e9fe",
+            "547fec0fe885577abba0cc261336885a4682faf21319095bece9f35f649bc2da",
+            "eade6375588b88ec1ec8be863e7fd2f0a74f834e09701326d0ce98036e478261",
+            "fd0e8c1ef2c818fa071ebabc78e21b90525bda8720a44b0472ec4009d3953d1e"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "health-fsa-salary-reduction-and-carryover-2026",
+      "claim": "For tax years beginning in 2026, the health FSA voluntary employee salary-reduction limit is $3,400. For cafeteria plans that permit carryover, the maximum carryover is $680; an employer plan is not required to permit carryover.",
+      "sourceUrl": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Tax-Advantaged Health Accounts",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "blog/planning-healthcare-budget-2026.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/planning-healthcare-budget-2026.html",
+          "fingerprints": [
+            "10886424472d8a9a33a6025b2b7c09886121f005fd3ae145f7bcb5f44dfc6769"
+          ]
+        }
+      ]
     }
   ]
 }
