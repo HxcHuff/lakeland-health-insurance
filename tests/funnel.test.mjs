@@ -726,8 +726,8 @@ test('legacy campaign aliases land on current canonical articles', () => {
 });
 
 test('shared release invalidates stale asset caches and keeps desktop navigation on one row', () => {
-  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20260812-compliance-release';/);
-  assert.match(SITE_TEMPLATE_JS, /bbb-seal\.js\?v=20260812-compliance-release/);
+  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20260812-compliance-r2';/);
+  assert.match(SITE_TEMPLATE_JS, /bbb-seal\.js\?v=20260812-compliance-r2/);
   assert.match(SITE_TEMPLATE_CSS, /header \.nav-links\s*\{[^}]*flex-wrap:\s*nowrap;/s);
 });
 

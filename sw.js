@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lhi-20260812-compliance-release';
+const CACHE_NAME = 'lhi-20260812-compliance-r2';
 const OFFLINE_URL = '/offline.html';
 
 // Core pages to pre-cache for offline access
