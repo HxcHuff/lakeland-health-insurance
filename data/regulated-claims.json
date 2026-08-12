@@ -1066,6 +1066,48 @@
           ]
         }
       ]
+    },
+    {
+      "id": "summary-benefits-coverage-is-summary-2026",
+      "claim": "The Summary of Benefits and Coverage explains how a plan and member share costs, but it is a summary; the complete plan terms and applicable limitations and exceptions remain controlling.",
+      "sourceUrl": "https://www.cms.gov/cciio/resources/forms-reports-and-other-resources/downloads/english-sample-completed-sbc-accessible-format-012825.pdf",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Major Medical",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 180,
+      "usedBy": [
+        "blog/how-to-read-health-insurance-card-guide.html"
+      ]
+    },
+    {
+      "id": "marketplace-cost-sharing-reductions-silver-2026",
+      "claim": "Marketplace cost-sharing reductions lower deductibles, copayments, and coinsurance only when an eligible consumer enrolls in a Silver plan; the exact savings are determined after applying and shopping for Silver plans.",
+      "sourceUrl": "https://www.healthcare.gov/lower-costs/save-on-out-of-pocket-costs/",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "blog/how-to-read-health-insurance-card-guide.html"
+      ]
+    },
+    {
+      "id": "medicare-card-use-and-protection-2026",
+      "claim": "The Medicare card shows whether Part A, Part B, or both apply and when coverage begins. People with Original Medicare show the Medicare card for services, while people in Medicare Advantage use the plan card and keep the Medicare card secure.",
+      "sourceUrl": "https://www.medicare.gov/basics/get-started-with-medicare/using-medicare/your-medicare-card",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Medicare",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "blog/how-to-read-health-insurance-card-guide.html"
+      ]
     }
   ]
 }

@@ -463,7 +463,7 @@ const siteSearchIndex = [
   {
     title: "How to Read Your Health Insurance Card: 2026 Field-by-Field Guide",
     url: "/blog/how-to-read-health-insurance-card-guide.html",
-    excerpt: "A field-by-field guide to member ID, group number, BIN, PCN, RxGroup, copays, and plan contact details.",
+    excerpt: "Common card fields, plan-document checks, secure member-identifier handling, and current Medicare card guidance.",
     tags: ["Tips", "Coverage", "Insurance Card", "Basics"]
   },
   {

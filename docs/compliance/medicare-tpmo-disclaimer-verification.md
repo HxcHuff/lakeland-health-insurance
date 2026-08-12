@@ -31,6 +31,7 @@ Do not infer counts from public plan listings, carrier names, prior-year records
 - `blog/medicare-advantage-lakeland-2026.html`
 - `blog/medicare-advantage-vs-supplement.html`
 - `blog/turning-65-medicare-checklist-florida.html`
+- `blog/how-to-read-health-insurance-card-guide.html`
 - `blog/when-can-i-switch-medicare-plans-florida.html`
 - `blog/aep-2026-polk-county-checklist.html`
 - `blog/medicare-supplement-cost-lakeland.html`
