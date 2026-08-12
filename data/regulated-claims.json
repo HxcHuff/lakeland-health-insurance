@@ -75,7 +75,8 @@
       "usedBy": [
         "losing-coverage/index.html",
         "losing-medicaid-florida/index.html",
-        "blog/medicaid-work-requirements-florida-coverage-2026.html"
+        "blog/medicaid-work-requirements-florida-coverage-2026.html",
+        "blog/health-insurance-brandon-2026.html"
       ]
     },
     {
@@ -185,7 +186,6 @@
         "blog/aca-premiums-2026-lakeland.html",
         "blog/cigna-exiting-aca-marketplace-polk-county-2026.html",
         "blog/florida-aca-premiums-up-31-percent-2026.html",
-        "blog/health-insurance-brandon-2026.html",
         "blog/health-insurance-clearwater-2026.html",
         "blog/health-insurance-largo-2026.html",
         "blog/health-insurance-new-port-richey-2026.html",
@@ -211,13 +211,6 @@
         {
           "page": "blog/florida-aca-premiums-up-31-percent-2026.html",
           "fingerprints": [
-            "f2e411190cdef3cd4f272eb4ab4abb3b7cd0850068ec7bbee21f18d29b93e3a7"
-          ]
-        },
-        {
-          "page": "blog/health-insurance-brandon-2026.html",
-          "fingerprints": [
-            "b38e1691a61a0ecd1050f5db3cf3b286bfb9bcfdc61fc1c0b94bbe199a0bffe1",
             "f2e411190cdef3cd4f272eb4ab4abb3b7cd0850068ec7bbee21f18d29b93e3a7"
           ]
         },
@@ -481,7 +474,8 @@
       "reviewCadenceDays": 60,
       "usedBy": [
         "blog/aca-subsidy-tax-return-clawback.html",
-        "blog/aca-subsidy-cliff.html"
+        "blog/aca-subsidy-cliff.html",
+        "blog/health-insurance-brandon-2026.html"
       ]
     },
     {
@@ -671,7 +665,50 @@
       "reviewStatus": "qualified",
       "reviewCadenceDays": 60,
       "usedBy": [
-        "losing-medicaid-florida/index.html"
+        "losing-medicaid-florida/index.html",
+        "blog/health-insurance-brandon-2026.html"
+      ]
+    },
+    {
+      "id": "marketplace-special-enrollment-events-2026",
+      "claim": "HealthCare.gov lists loss of qualifying coverage, specified household changes, and qualifying residence changes among events that may create a Special Enrollment Period. Timing, prior-coverage conditions, plan-category limits, and documentation vary by event, and the Marketplace application determines eligibility.",
+      "sourceUrl": "https://www.healthcare.gov/coverage-outside-open-enrollment/special-enrollment-period/",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 30,
+      "usedBy": [
+        "blog/health-insurance-brandon-2026.html"
+      ]
+    },
+    {
+      "id": "marketplace-bronze-catastrophic-hsa-2026",
+      "claim": "HealthCare.gov states that all 2026 Bronze and Catastrophic individual-market plans work with Health Savings Accounts. HSA contribution eligibility remains subject to the other federal eligibility rules, and HSA compatibility does not determine whether a plan is suitable for a household.",
+      "sourceUrl": "https://www.healthcare.gov/hsa-options/",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/health-insurance-brandon-2026.html"
+      ]
+    },
+    {
+      "id": "florida-oir-aca-plan-year-data-2026",
+      "claim": "Florida OIR publishes plan-year 2026 individual-market premium tables and availability resources. Its percentage-change tables are market-level context and do not represent the change for a single policyholder or a household-specific quote.",
+      "sourceUrl": "https://floir.gov/life-health/federal-health-insurance",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Individual Market",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/health-insurance-brandon-2026.html"
       ]
     },
     {
@@ -1143,7 +1180,8 @@
       "reviewCadenceDays": 90,
       "usedBy": [
         "blog/how-to-read-health-insurance-card-guide.html",
-        "blog/why-overpaying-health-insurance-central-florida.html"
+        "blog/why-overpaying-health-insurance-central-florida.html",
+        "blog/health-insurance-brandon-2026.html"
       ]
     },
     {

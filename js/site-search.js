@@ -413,9 +413,9 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Premiums", "Lakeland"]
   },
   {
-    title: "Health Insurance in Brandon FL — 2026 Family Premium Guide",
+    title: "Health Insurance in Brandon FL — 2026 ACA and SEP Guide",
     url: "/blog/health-insurance-brandon-2026.html",
-    excerpt: "Brandon ACA premium changes, family SEP triggers, HSA-eligible Bronze plans, and Medicare GLP-1 bridge considerations.",
+    excerpt: "Review Brandon ACA costs, Special Enrollment Period rules, HSA-compatible Bronze plans, and official eligibility sources.",
     tags: ["ACA", "Florida", "Brandon", "Hillsborough County"]
   },
   {
