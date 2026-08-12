@@ -365,9 +365,9 @@ const siteSearchIndex = [
     tags: ["Tips", "Coverage", "Basics"]
   },
   {
-    title: "3 Things Changing Florida Health Insurance Right Now",
+    title: "Three 2026 ACA Changes for Florida Consumers",
     url: "/blog/3-things-changing-florida-health-insurance-may-2026.html",
-    excerpt: "Three shifts hitting Polk County health insurance in May 2026: subsidy cliff, carrier exits, and Bronze plans now HSA-eligible.",
+    excerpt: "Review 2026 premium-tax-credit rules, HSA compatibility for Bronze and Catastrophic plans, and Special Enrollment timing.",
     tags: ["ACA", "Florida", "Subsidies", "HSA", "Premiums"]
   },
   {

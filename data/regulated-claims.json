@@ -60,7 +60,8 @@
         "blog/aca-subsidy-cliff.html",
         "blog/aca-2026-subsidy-expiration-florida-impact.html",
         "blog/why-overpaying-health-insurance-central-florida.html",
-        "blog/central-florida-health-insurance-competition.html"
+        "blog/central-florida-health-insurance-competition.html",
+        "blog/3-things-changing-florida-health-insurance-may-2026.html"
       ]
     },
     {
@@ -393,7 +394,8 @@
       "usedBy": [
         "aca-subsidy-estimator/index.html",
         "blog/aca-subsidy-cliff.html",
-        "blog/aca-2026-subsidy-expiration-florida-impact.html"
+        "blog/aca-2026-subsidy-expiration-florida-impact.html",
+        "blog/3-things-changing-florida-health-insurance-may-2026.html"
       ],
       "candidateEvidence": [
         {
@@ -417,7 +419,8 @@
       "usedBy": [
         "blog/aca-subsidy-tax-return-clawback.html",
         "blog/aca-subsidy-cliff.html",
-        "blog/aca-2026-subsidy-expiration-florida-impact.html"
+        "blog/aca-2026-subsidy-expiration-florida-impact.html",
+        "blog/3-things-changing-florida-health-insurance-may-2026.html"
       ],
       "candidateEvidence": [
         {
@@ -430,6 +433,13 @@
           "page": "blog/aca-subsidy-cliff.html",
           "fingerprints": [
             "7ca59f453720253645f7f7e828485e87627ac6316b1e9e520760773a5a2cca8d"
+          ]
+        },
+        {
+          "page": "blog/3-things-changing-florida-health-insurance-may-2026.html",
+          "fingerprints": [
+            "836c3c37393b83600c5596c28f916fd299a372a5c3e00897522b6e1ea73b2b14",
+            "9746186cd063c647a0ee2e8b4325ed4ebc80e898583709a7fe79c98ed19da83a"
           ]
         }
       ]
@@ -681,7 +691,8 @@
       "reviewStatus": "qualified",
       "reviewCadenceDays": 30,
       "usedBy": [
-        "blog/health-insurance-brandon-2026.html"
+        "blog/health-insurance-brandon-2026.html",
+        "blog/3-things-changing-florida-health-insurance-may-2026.html"
       ]
     },
     {
@@ -695,7 +706,8 @@
       "reviewStatus": "qualified",
       "reviewCadenceDays": 60,
       "usedBy": [
-        "blog/health-insurance-brandon-2026.html"
+        "blog/health-insurance-brandon-2026.html",
+        "blog/3-things-changing-florida-health-insurance-may-2026.html"
       ]
     },
     {
@@ -1142,7 +1154,8 @@
       "reviewCadenceDays": 90,
       "usedBy": [
         "blog/planning-healthcare-budget-2026.html",
-        "blog/trump-state-of-the-union-healthcare-hsa-2026.html"
+        "blog/trump-state-of-the-union-healthcare-hsa-2026.html",
+        "blog/3-things-changing-florida-health-insurance-may-2026.html"
       ],
       "candidateEvidence": [
         {
@@ -1158,6 +1171,13 @@
           "page": "blog/trump-state-of-the-union-healthcare-hsa-2026.html",
           "fingerprints": [
             "038c93b5a455d515184935fdcfdb96061229700faca1eecbeaac45c9bbccc94f"
+          ]
+        },
+        {
+          "page": "blog/3-things-changing-florida-health-insurance-may-2026.html",
+          "fingerprints": [
+            "4bc444fa069bcb64273c89fdf0fbd24e9cfbdcce02a2fe87000c1f7c215dbe9d",
+            "86e607c6c36255112c7c254ba8899cf777b8310337e457aa1e197abf41d536b7"
           ]
         }
       ]
