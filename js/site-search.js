@@ -535,9 +535,9 @@ const siteSearchIndex = [
     tags: ["Tools", "ACA", "Subsidies", "Calculator"]
   },
   {
-    title: "Health Protector Guard",
+    title: "Health ProtectorGuard",
     url: "/health-protector-guard/",
-    excerpt: "Learn about Health Protector Guard fixed-indemnity coverage.",
+    excerpt: "Learn about Health ProtectorGuard fixed-indemnity coverage.",
     tags: ["Products", "Coverage", "Fixed Indemnity"]
   },
   {

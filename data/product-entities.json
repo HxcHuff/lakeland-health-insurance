@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "reviewedDate": "2026-08-12",
+  "products": [
+    {
+      "id": "health-protectorguard",
+      "canonicalName": "Health ProtectorGuard",
+      "underwriter": "Golden Rule Insurance Company",
+      "verificationScope": "Product name and underwriter only; this record does not establish current Florida availability, plan variants, benefits, pricing, networks, or eligibility.",
+      "primarySource": "https://www.uhone.com/plans/hospital-indemnity/health-protectorguard-select-value",
+      "sourceAccessedDate": "2026-08-12"
+    }
+  ]
+}

@@ -46,6 +46,28 @@ test('city-page structured email matches the canonical authority entity', () => 
   }
 });
 
+test('public product references use the canonical Health ProtectorGuard spelling', () => {
+  const productEntities = JSON.parse(readFileSync(join(ROOT, 'data/product-entities.json'), 'utf8'));
+  const product = productEntities.products.find((item) => item.id === 'health-protectorguard');
+  assert.equal(product.canonicalName, 'Health ProtectorGuard');
+  const files = [
+    'blog/fixed-indemnity-analysis.html',
+    'blog/high-deductible-hospital-bills-coverage-gap-florida.html',
+    'blog/mental-health-awareness-month-therapy-benefit-lakeland-2026.html',
+    'blog/non-income-based-health-insurance-florida.html',
+    'health-protector-guard/index.html',
+    'health-protector-guard/nav-snippet.html',
+    'learning/index.html',
+    'js/site-search.js',
+    'links/index.html'
+  ];
+  for (const file of files) {
+    const source = readFileSync(join(ROOT, file), 'utf8');
+    assert.doesNotMatch(source, /Health Protector Guard/, file);
+    assert.match(source, /Health ProtectorGuard/, file);
+  }
+});
+
 function envelope(source, dataset, payload, window = null, extra = {}) {
   return makeEnvelope({
     source,
