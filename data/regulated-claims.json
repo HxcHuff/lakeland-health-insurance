@@ -451,6 +451,51 @@
       ]
     },
     {
+      "id": "marketplace-zero-net-premium-after-aptc-2026",
+      "claim": "CMS recognizes that a Marketplace enrollee can have a $0 monthly premium after advance payments of the premium tax credit are applied; this outcome is household-, eligibility-, and plan-specific and is not a universal offer.",
+      "sourceUrl": "https://www.cms.gov/newsroom/fact-sheets/2025-marketplace-integrity-and-affordability-final-rule",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 30,
+      "usedBy": [
+        "blog/zero-premium-health-insurance-florida-2026.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/zero-premium-health-insurance-florida-2026.html",
+          "fingerprints": [
+            "3d52ae914ae11b0cbaf45cf5fdf17cfcff45ae5903c3fc5ccdf6248648ae973e",
+            "d04f7160c3ead7bd633d6fbf29b8ad03766d1d16aea6a44e8f9cefbd3ba03e0a"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "marketplace-premium-versus-other-costs-2026",
+      "claim": "HealthCare.gov defines the premium as the monthly amount paid for coverage and states that deductibles, copayments, and coinsurance are additional costs; therefore, a $0 net premium does not mean health care has no other costs.",
+      "sourceUrl": "https://www.healthcare.gov/glossary/premium/",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/zero-premium-health-insurance-florida-2026.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/zero-premium-health-insurance-florida-2026.html",
+          "fingerprints": [
+            "91e23eb434ebe2f409cbaf591c530ff63764354bb15b7793172ff5b56e6dbc10"
+          ]
+        }
+      ]
+    },
+    {
       "id": "marketplace-employer-family-affordability-2026",
       "claim": "For employer plan years beginning in 2026, the affordability percentage is 9.96 percent; employee affordability uses self-only coverage while affordability for offered tax-family members uses the premium to cover the employee and all offered members of the tax family.",
       "sourceUrl": "https://www.healthcare.gov/glossary/affordable-coverage/",
