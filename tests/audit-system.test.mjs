@@ -56,7 +56,6 @@ test('public product references use the canonical Health ProtectorGuard spelling
     'blog/mental-health-awareness-month-therapy-benefit-lakeland-2026.html',
     'blog/non-income-based-health-insurance-florida.html',
     'health-protector-guard/index.html',
-    'health-protector-guard/nav-snippet.html',
     'learning/index.html',
     'js/site-search.js',
     'links/index.html'

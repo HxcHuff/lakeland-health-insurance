@@ -29,6 +29,8 @@ const FORBIDDEN_PUBLIC_FILES = [
   'blog/ads-manager-setup-checklist.html',
   'blog/campaign-funnel-ab-test.html',
   'blog/facebook-ad-copy-ab-test.html',
+  'health-protector-guard/internal-link-anchor-suggestions.txt',
+  'health-protector-guard/nav-snippet.html',
   'newsletter/email-newsletter.html',
 ];
 
@@ -40,7 +42,6 @@ const SKIP_DIRS = new Set([
 
 const SKIP_FILES = new Set([
   'google79927e3ae56b9c82.html',
-  'health-protector-guard/nav-snippet.html',
   'offline.html',
 ]);
 

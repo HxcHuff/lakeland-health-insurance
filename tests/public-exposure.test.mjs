@@ -15,6 +15,8 @@ const RETIRED_FILES = [
   'blog/ads-manager-setup-checklist.html',
   'blog/campaign-funnel-ab-test.html',
   'blog/facebook-ad-copy-ab-test.html',
+  'health-protector-guard/internal-link-anchor-suggestions.txt',
+  'health-protector-guard/nav-snippet.html',
   'newsletter/email-newsletter.html',
 ];
 
@@ -22,6 +24,8 @@ const RETIRED_URL_PARTS = [
   'ads-manager-setup-checklist.html',
   'campaign-funnel-ab-test.html',
   'facebook-ad-copy-ab-test.html',
+  'internal-link-anchor-suggestions.txt',
+  'nav-snippet.html',
   'search-engine-from-zip',
   'email-newsletter.html',
 ];
@@ -85,6 +89,16 @@ test('quote-engine routes consolidate to Get Help while obsolete assets return 4
 test('retired newsletter artifact redirects to the public newsletter route', () => {
   assert.match(REDIRECTS, /^\/newsletter\/email-newsletter\.html\s+\/newsletter\/\s+301!$/m);
   assert.ok(existsSync(join(ROOT, 'newsletter/index.html')));
+});
+
+test('retired Health ProtectorGuard internal fragments return 404', () => {
+  for (const url of [
+    '/health-protector-guard/nav-snippet.html',
+    '/health-protector-guard/internal-link-anchor-suggestions.txt',
+  ]) {
+    assert.match(REDIRECTS, new RegExp(`^${url.replaceAll('.', '\\.') }\\s+/404\\.html\\s+404!$`, 'm'));
+    assert.ok(NETLIFY_IGNORE.split(/\r?\n/).includes(url.slice(1)), `${url} is excluded from deploy uploads`);
+  }
 });
 
 test('robots permits crawlers to observe retirement responses', () => {

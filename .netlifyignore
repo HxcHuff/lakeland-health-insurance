@@ -8,6 +8,8 @@ output/
 .playwright-cli/
 .audit-data/
 audit/
+health-protector-guard/nav-snippet.html
+health-protector-guard/internal-link-anchor-suggestions.txt
 search-engine-from-zip/
 data/
 docs/
