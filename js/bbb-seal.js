@@ -1,7 +1,5 @@
 (function () {
   const profileUrl = 'https://www.bbb.org/us/fl/lakeland/profile/health-insurance/lakeland-health-insurance-0733-235981531/#sealclick';
-  const sealImageUrl = 'https://seal-centralflorida.bbb.org/logo/ruvtbul/bbb-235981531.png';
-
   function ensureStyles() {
     if (document.getElementById('lhi-bbb-seal-styles')) return;
 
@@ -24,33 +22,28 @@
       }
 
       .bbb-footer-trust a#bbblink {
-        color: #005A78;
-        display: block;
+        background: #fff;
+        border: 2px solid #005a78;
+        border-radius: 8px;
+        color: #005a78;
+        display: inline-flex;
         flex: 0 0 auto;
+        font-size: 0.82rem;
+        font-weight: 700;
+        line-height: 1.25;
         margin: 0;
-        overflow: hidden;
-        padding: 0;
-        position: relative;
+        max-width: 150px;
+        min-height: 72px;
+        padding: 0.75rem;
         text-align: center;
         text-decoration: none;
+        align-items: center;
       }
 
-      .bbb-footer-trust a#bbblink.ruvtbul {
-        height: 144px;
-        width: 80px;
-      }
-
-      .bbb-footer-trust a#bbblink img {
-        border: 0;
-        left: 0;
-        margin-left: 0;
-        max-width: 200%;
-        position: absolute;
-        top: 0;
-      }
-
-      .bbb-footer-trust a#bbblink.ruvtbul:hover img {
-        margin-left: -80px;
+      .bbb-footer-trust a#bbblink:hover,
+      .bbb-footer-trust a#bbblink:focus-visible {
+        background: #e8f6fa;
+        text-decoration: underline;
       }
 
       .bbb-footer-copy {
@@ -90,18 +83,11 @@
     const link = document.createElement('a');
     link.href = profileUrl;
     link.id = 'bbblink';
-    link.className = 'ruvtbul';
     link.target = '_blank';
     link.rel = 'nofollow noopener noreferrer';
     link.setAttribute('aria-label', 'View Lakeland Health Insurance BBB Business Profile');
 
-    const img = document.createElement('img');
-    img.src = sealImageUrl;
-    img.alt = 'Lakeland Health Insurance BBB Business Review';
-    img.loading = 'lazy';
-    img.decoding = 'async';
-    img.style.border = '0';
-    link.append(img);
+    link.textContent = 'View current BBB business profile';
 
     const copy = document.createElement('div');
     copy.className = 'bbb-footer-copy';

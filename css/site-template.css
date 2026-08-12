@@ -406,6 +406,7 @@ footer {
 
 .click-to-call,
 .messenger-button {
+  box-sizing: border-box;
   position: fixed;
   bottom: 20px;
   color: white;

@@ -60,7 +60,7 @@ export function claimCandidates(html) {
   const patterns = [
     /\$\s?\d[\d,]*(?:\.\d+)?/g,
     /\b\d+(?:\.\d+)?\s*(?:%|percent)\b/gi,
-    /\b\d+\s+(?:plans?|products?|organizations?|carriers?)\b/gi,
+    /\b(?:[1-9]\d{0,2})\s+(?:plans?|products?|organizations?|carriers?)\b/gi,
     /\b(?:benefit|allowance|deductible|premium|copay|coinsurance)\b[^\n.!?]{0,80}(?:\$\s?\d|\d+(?:\.\d+)?\s*(?:%|percent))/gi,
     /\b(?:guaranteed|unlimited|covers? every|all benefits?|maximum benefit)\b/gi
   ];

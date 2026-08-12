@@ -117,6 +117,73 @@
       ]
     },
     {
+      "id": "medigap-open-enrollment-and-guaranteed-issue-2026",
+      "claim": "Federal Medigap Open Enrollment is a one-time six-month period beginning the first month a person has Medicare Part B and is age 65 or older; outside that period, medical underwriting may apply unless a guaranteed-issue right or another protection applies.",
+      "sourceUrl": "https://www.medicare.gov/health-drug-plans/medigap/ready-to-buy",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Medicare Supplement",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "medicare/index.html",
+        "blog/when-can-i-switch-medicare-plans-florida.html",
+        "blog/medicare-supplement-cost-lakeland.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "medicare/index.html",
+          "fingerprints": [
+            "2a09dbd6199a106330e6a00b09148a10fda26e279a40976c57f8acda8cd6ad49",
+            "9412f4d157b20dbdea45e21e481bd66c1ea217569d00a04d62ed6de498c8fd72"
+          ]
+        },
+        {
+          "page": "blog/when-can-i-switch-medicare-plans-florida.html",
+          "fingerprints": [
+            "7e77e396997bc07750e77c470ed3ad12416a395eae59f0f0bc5b654ad3336fca",
+            "96639714b0f8ef6591b78663ad525f3720791ce82e044ae92c8f74a9b9fc8b69",
+            "f15a4a86dc507d7b20b8b87bda30e07ea307e199ce8ad9dd73e429fdf99f314e",
+            "c66b8aef1b5cfe77f54eb9f1cccbabc1122d7a353132303681e6f3f4e71ab49d"
+          ]
+        },
+        {
+          "page": "blog/medicare-supplement-cost-lakeland.html",
+          "fingerprints": [
+            "c9f50235b752c7f1c70f6a3b63c61d29682b271086de1c7854f40ea317438670",
+            "cc4e344bcb05c88dd220b98321f92f4719d68a9594391523bd7edcfe0ab6caf0",
+            "07efe360d053bffab495ba0eb08ea7da30bde49f869837f4d207d80f24d0f8b4",
+            "c4b0d65f96a6c6580ef325845db68081b063d000f69965bdb3ad9dc9eb7633fa",
+            "644380bf151430338bd93581884f26988180044dcc6930ff102d5eebd083b08f"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "medigap-high-deductible-plans-f-g-2026",
+      "claim": "Medicare.gov lists the 2026 high-deductible amount for Medigap Plans F and G as $2,950.",
+      "sourceUrl": "https://www.medicare.gov/health-drug-plans/medigap/basics/compare-plan-benefits",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Medicare Supplement",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/medicare-supplement-cost-lakeland.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/medicare-supplement-cost-lakeland.html",
+          "fingerprints": [
+            "6ae26ba992ba46af6d82741c2da834e25a19fb57f6fe7eddbc7261a06be45ba6",
+            "2b24f13ec3382868a2071f0f4cccb283899c90cb9d24a25e05aac8f9a2200f56"
+          ]
+        }
+      ]
+    },
+    {
       "id": "aca-applicable-percentages-2026",
       "claim": "The 2026 premium tax credit applicable percentage table ranges from 2.10 percent below 133 percent FPL to 9.96 percent from 300 through 400 percent FPL.",
       "sourceUrl": "https://www.irs.gov/irb/2025-32_IRB",
@@ -341,8 +408,7 @@
         {
           "page": "health-protector-guard/preferred-4000/index.html",
           "fingerprints": [
-            "5637a3d545e8d2ec4f3c771ff6702b1e9479b0005a86e3b26a1d0c98363329a8",
-        "341c86c986b75c07a09ea89dd211a4f92e4b6253d800ce1a38950cdd807145d3",
+            "341c86c986b75c07a09ea89dd211a4f92e4b6253d800ce1a38950cdd807145d3",
             "1652201b7c724c05f1ae4db8d2b1f91c02901d6ef355fdc21420f2f34338efb6",
             "00f5ad024c74541fff0d5e7f0716d88e8eab1fdaaa1f80e459ff817b6b1a8b90",
             "10c6afb2cc9a29fec3b7fc8e3ff91b7d3776af10abc0cb9f4cf1b5f4972771ab",
@@ -369,7 +435,6 @@
         {
           "page": "health-protector-guard/premier-5000/index.html",
           "fingerprints": [
-            "984b00253499a8f3475cd4a60706c526d5658681581a7332c97bfed22d64fa21",
             "f4b9a01c512308455620adf947cd2ea27514dc9f53a87059c495192f72dd96bc",
             "1652201b7c724c05f1ae4db8d2b1f91c02901d6ef355fdc21420f2f34338efb6",
             "a91cef9e1a329b28f79c41fdbf073466725687b438321eb9a431c079423c3613",
@@ -462,7 +527,6 @@
         {
           "page": "health-protector-guard/guard-4000/index.html",
           "fingerprints": [
-            "b7ec0b2a7fc7f2b45a7f0fa8cba9c94fcc07fbaaafb6622e3d3d5c3b6d7a38e2",
             "0539a386e3c4585a525f68638739ae3b8787423e00bce14b440f1241084eb69f",
             "e6d025c5ad8162ac2ed0882880d3d847a3e74227989126be3265e9a1b6daabea",
             "243b6f061b9a43d15dbdcd7c7585bc519c4a3196029326d86cc540532a006b27",
@@ -489,7 +553,6 @@
         {
           "page": "health-protector-guard/guard-5000/index.html",
           "fingerprints": [
-            "84d8bb26092bff8fe3e00466372e2ca678b6c15336dc192fe5f4e64406aa973c",
             "c9fb3113436387162909dcaa45ab09e334a6d4b266dd6a503001416e39712c89",
             "d5bb19b1aa1da3f86be4d1b22e426d78f1e4ad1a669fc549c5c5dfa2c04cc74d",
             "a44085e1c6cfa22685b6ab96f8268821ac7c99a406d258edbde22fbb4656d68d",
@@ -523,7 +586,6 @@
         {
           "page": "health-protector-guard/guard-6000/index.html",
           "fingerprints": [
-            "a92e8fc9436598506d982d045da1554de5f68856c742c41df7c17b9063f128ee",
             "c2927fef4a23410db09fc21a2e45ce02da7f8a8333f16a35dfb28ff23248c6ce",
             "c950b661e80b4436f399b5c85588a8f6c1f8a5e91e0d5335f077b78ed455d4a8",
             "6cc76153ae3082ca78297151cab348db7e5d6bb6c833c4e39f5d2e0b5b385d24",

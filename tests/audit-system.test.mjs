@@ -83,6 +83,14 @@ test('regulated-claim candidate evidence retains original source line numbers', 
   assert.deepEqual(claimCandidates(html).map((item) => item.line), [8]);
 });
 
+test('regulated-claim candidate detection distinguishes counts from four-digit plan years', () => {
+  const html = [
+    '<p>Review 2027 plan documents before enrollment.</p>',
+    '<p>Currently we represent 12 organizations.</p>'
+  ].join('\n');
+  assert.deepEqual(claimCandidates(html).map((item) => item.line), [2]);
+});
+
 test('regulated-claim registry fails closed when controlled statement text changes', async () => {
   const registry = JSON.parse(readFileSync(join(ROOT, 'data/regulated-claims.json'), 'utf8'));
   const tampered = structuredClone(registry);
