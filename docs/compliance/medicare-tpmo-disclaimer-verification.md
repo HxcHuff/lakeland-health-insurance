@@ -27,6 +27,7 @@ Do not infer counts from public plan listings, carrier names, prior-year records
 - `medicare/index.html`
 - `best-medicare-broker-lakeland-fl/index.html`
 - `medicare-broker-lakeland-fl/index.html`
+- `moving-florida-medicare/index.html`
 - `blog/medicare-advantage-lakeland-2026.html`
 - `blog/medicare-advantage-vs-supplement.html`
 - `blog/when-can-i-switch-medicare-plans-florida.html`

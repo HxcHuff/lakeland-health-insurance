@@ -244,7 +244,8 @@
         "medicare/index.html",
         "blog/when-can-i-switch-medicare-plans-florida.html",
         "blog/medicare-supplement-cost-lakeland.html",
-        "blog/medicare-advantage-vs-supplement.html"
+        "blog/medicare-advantage-vs-supplement.html",
+        "moving-florida-medicare/index.html"
       ],
       "candidateEvidence": [
         {
@@ -280,6 +281,13 @@
             "5c20928fc131403f7177d7eabb521f42b298d037184eeed459476c341abe0dfd",
             "3b7cd67adc29fb164941d4d62e929af64bb32b2ce17fe2e4c79bf078a153f475",
             "49f0c3426ccb75904267094a518367f6ee4b337d25ab25c63e535f79f8686bb5"
+          ]
+        },
+        {
+          "page": "moving-florida-medicare/index.html",
+          "fingerprints": [
+            "3749ffe4d83dd3901efbfe422443525eeedb0ce7f5ec1134ddadea892a5a5fa3",
+            "1ee51e340517e6add9503ab6ae60b5aa2ecbe646351f1d35f2c1e953e69a7d96"
           ]
         }
       ]
