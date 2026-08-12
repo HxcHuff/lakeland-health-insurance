@@ -473,9 +473,9 @@ const siteSearchIndex = [
     tags: ["Lakeland", "Networks", "Local", "Growth"]
   },
   {
-    title: "Medicaid Work Requirements 2026: What Florida Residents Need to Know",
+    title: "Federal Medicaid Work Requirements: What Florida Residents Should Know",
     url: "/blog/medicaid-work-requirements-florida-coverage-2026.html",
-    excerpt: "What Medicaid work requirement news means for Florida residents comparing Medicaid, ACA, SEP, and Medicare options.",
+    excerpt: "CMS work-requirement rules, Florida Medicaid eligibility boundaries, Nebraska's early rollout, and official transition paths.",
     tags: ["Medicaid", "Florida", "ACA", "SEP"]
   },
   {

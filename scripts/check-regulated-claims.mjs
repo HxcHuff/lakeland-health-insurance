@@ -8,6 +8,8 @@ const DEFAULT_ROOT = resolve(new URL('.', import.meta.url).pathname, '..');
 const APPROVED_HOSTS = new Set([
   'cms.gov',
   'www.cms.gov',
+  'medicaid.gov',
+  'www.medicaid.gov',
   'dol.gov',
   'www.dol.gov',
   'healthcare.gov',
@@ -15,6 +17,7 @@ const APPROVED_HOSTS = new Set([
   'ahca.myflorida.com',
   'myflfamilies.com',
   'www.myflfamilies.com',
+  'dhhs.ne.gov',
   'irs.gov',
   'www.irs.gov',
   'medicare.gov',

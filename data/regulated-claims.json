@@ -74,7 +74,8 @@
       "reviewCadenceDays": 60,
       "usedBy": [
         "losing-coverage/index.html",
-        "losing-medicaid-florida/index.html"
+        "losing-medicaid-florida/index.html",
+        "blog/medicaid-work-requirements-florida-coverage-2026.html"
       ]
     },
     {
@@ -103,6 +104,56 @@
       "reviewCadenceDays": 60,
       "usedBy": [
         "losing-medicaid-florida/index.html"
+      ]
+    },
+    {
+      "id": "medicaid-community-engagement-federal-2027",
+      "claim": "CMS says defined Medicaid adult populations must demonstrate community engagement beginning January 1, 2027, unless a state implements sooner. A qualifying month can include at least 80 hours of work, community service, a work program, qualifying education, or a combination, or earnings equal to 80 hours at the applicable federal minimum wage, currently $580 per month. Exclusions and hardship rules may apply.",
+      "sourceUrl": "https://www.medicaid.gov/federal-policy-guidance/downloads/cib12082025.pdf",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2027,
+      "state": "Federal",
+      "productLine": "Medicaid",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 30,
+      "usedBy": [
+        "blog/medicaid-work-requirements-florida-coverage-2026.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/medicaid-work-requirements-florida-coverage-2026.html",
+          "fingerprints": [
+            "893c7ca693e56d1fa82a373687601d5283d569213c496b1ad67235950a42380d"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nebraska-medicaid-work-requirements-2026",
+      "claim": "Nebraska DHHS implemented Medicaid work requirements for new applicants in its Medicaid expansion category on May 1, 2026. Existing-member reviews begin with coverage periods ending on or after July 31, 2026, and Nebraska publishes exclusions and temporary-hardship rules.",
+      "sourceUrl": "https://dhhs.ne.gov/Pages/WorkRequirements.aspx",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Nebraska",
+      "productLine": "Medicaid",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 30,
+      "usedBy": [
+        "blog/medicaid-work-requirements-florida-coverage-2026.html"
+      ]
+    },
+    {
+      "id": "florida-medicaid-coverage-group-income-review-2026",
+      "claim": "Florida DCF determines family-related Medicaid income limits by coverage group and household size; a single income figure is not sufficient to determine eligibility.",
+      "sourceUrl": "https://www.myflfamilies.com/medicaid/determining-your-income-limit",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "Medicaid",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/medicaid-work-requirements-florida-coverage-2026.html"
       ]
     },
     {
@@ -141,8 +192,7 @@
         "blog/health-insurance-riverview-2026.html",
         "blog/health-insurance-st-petersburg-2026.html",
         "blog/health-insurance-tampa-2026.html",
-        "blog/health-insurance-wesley-chapel-2026.html",
-        "blog/medicaid-work-requirements-florida-coverage-2026.html"
+        "blog/health-insurance-wesley-chapel-2026.html"
       ],
       "candidateEvidence": [
         {
@@ -218,15 +268,6 @@
           "fingerprints": [
             "b38e1691a61a0ecd1050f5db3cf3b286bfb9bcfdc61fc1c0b94bbe199a0bffe1",
             "f2e411190cdef3cd4f272eb4ab4abb3b7cd0850068ec7bbee21f18d29b93e3a7"
-          ]
-        },
-        {
-          "page": "blog/medicaid-work-requirements-florida-coverage-2026.html",
-          "fingerprints": [
-            "13990fd482604e54308d0ec537094ba6ab6fc330f661ca19472507b4597359ba",
-            "b4fa8e73d0a0b9fd1d1471f12ea516991714ed18c09cf3c0e2ff14d8a3cd8744",
-            "7d63a71170251a45228a381407ebcebfe68d4b35e301a1674e669b064068a030",
-            "4ca95c156e57e77f981510e213a626575caf243213d819416a01a8a275d3d4d7"
           ]
         }
       ]
