@@ -188,7 +188,6 @@
       "usedBy": [
         "blog/cigna-exiting-aca-marketplace-polk-county-2026.html",
         "blog/florida-aca-premiums-up-31-percent-2026.html",
-        "blog/health-insurance-clearwater-2026.html",
         "blog/health-insurance-largo-2026.html",
         "blog/health-insurance-new-port-richey-2026.html",
         "blog/health-insurance-riverview-2026.html",
@@ -206,13 +205,6 @@
         {
           "page": "blog/florida-aca-premiums-up-31-percent-2026.html",
           "fingerprints": [
-            "f2e411190cdef3cd4f272eb4ab4abb3b7cd0850068ec7bbee21f18d29b93e3a7"
-          ]
-        },
-        {
-          "page": "blog/health-insurance-clearwater-2026.html",
-          "fingerprints": [
-            "b38e1691a61a0ecd1050f5db3cf3b286bfb9bcfdc61fc1c0b94bbe199a0bffe1",
             "f2e411190cdef3cd4f272eb4ab4abb3b7cd0850068ec7bbee21f18d29b93e3a7"
           ]
         },
@@ -414,7 +406,8 @@
         "blog/aca-subsidy-cliff.html",
         "blog/aca-2026-subsidy-expiration-florida-impact.html",
         "blog/3-things-changing-florida-health-insurance-may-2026.html",
-        "blog/aca-premiums-2026-lakeland.html"
+        "blog/aca-premiums-2026-lakeland.html",
+        "blog/health-insurance-clearwater-2026.html"
       ],
       "candidateEvidence": [
         {
@@ -438,6 +431,12 @@
         },
         {
           "page": "blog/aca-premiums-2026-lakeland.html",
+          "fingerprints": [
+            "96a84c043435dc34c5bc664262b0c2af168d67b9a13627ff63f7ca4b361435b7"
+          ]
+        },
+        {
+          "page": "blog/health-insurance-clearwater-2026.html",
           "fingerprints": [
             "96a84c043435dc34c5bc664262b0c2af168d67b9a13627ff63f7ca4b361435b7"
           ]
@@ -694,7 +693,8 @@
       "usedBy": [
         "blog/health-insurance-brandon-2026.html",
         "blog/3-things-changing-florida-health-insurance-may-2026.html",
-        "blog/aca-premiums-2026-lakeland.html"
+        "blog/aca-premiums-2026-lakeland.html",
+        "blog/health-insurance-clearwater-2026.html"
       ]
     },
     {
@@ -710,7 +710,8 @@
       "usedBy": [
         "blog/health-insurance-brandon-2026.html",
         "blog/3-things-changing-florida-health-insurance-may-2026.html",
-        "blog/aca-premiums-2026-lakeland.html"
+        "blog/aca-premiums-2026-lakeland.html",
+        "blog/health-insurance-clearwater-2026.html"
       ]
     },
     {
@@ -1288,7 +1289,8 @@
       "reviewCadenceDays": 60,
       "usedBy": [
         "blog/florida-aca-premiums-up-31-percent-2026.html",
-        "blog/aca-premiums-2026-lakeland.html"
+        "blog/aca-premiums-2026-lakeland.html",
+        "blog/health-insurance-clearwater-2026.html"
       ],
       "candidateEvidence": [
         {
@@ -1302,6 +1304,12 @@
           "page": "blog/aca-premiums-2026-lakeland.html",
           "fingerprints": [
             "ba51bd2e59e27431f85ffff251bfb3e423d54727ed82eaa5b4260f0653aff512"
+          ]
+        },
+        {
+          "page": "blog/health-insurance-clearwater-2026.html",
+          "fingerprints": [
+            "72553b248c887d87349bf63576ba08686f668e3f016a0eab16e0fa12cbbc0949"
           ]
         }
       ]

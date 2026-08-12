@@ -419,9 +419,9 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Brandon", "Hillsborough County"]
   },
   {
-    title: "Health Insurance in Clearwater FL — 2026 Premium Increases & SEPs",
+    title: "2026 Health Insurance Guidance for Clearwater, FL",
     url: "/blog/health-insurance-clearwater-2026.html",
-    excerpt: "Clearwater ACA premium changes, Special Enrollment Period eligibility, Bronze + HSA strategy, and Medicare GLP-1 bridge considerations.",
+    excerpt: "Review Florida rate context, premium-tax-credit rules, Special Enrollment Periods, and HSA-compatible plans for Clearwater and Pinellas County.",
     tags: ["ACA", "Florida", "Clearwater", "Pinellas County"]
   },
   {
