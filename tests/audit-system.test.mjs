@@ -91,6 +91,16 @@ test('regulated-claim candidate detection distinguishes counts from four-digit p
   assert.deepEqual(claimCandidates(html).map((item) => item.line), [2]);
 });
 
+test('regulated-claim candidate detection ignores negated guarantees but retains coverage guarantees', () => {
+  const html = [
+    '<p>Plan availability and potential savings vary; savings are not guaranteed.</p>',
+    '<p>Use scenarios without pretending one total is guaranteed.</p>',
+    '<p>ACA coverage is guaranteed issue during an eligible enrollment period.</p>',
+    '<p>The policy has an unlimited annual benefit.</p>'
+  ].join('\n');
+  assert.deepEqual(claimCandidates(html).map((item) => item.line), [3, 4]);
+});
+
 test('regulated-claim registry fails closed when controlled statement text changes', async () => {
   const registry = JSON.parse(readFileSync(join(ROOT, 'data/regulated-claims.json'), 'utf8'));
   const tampered = structuredClone(registry);

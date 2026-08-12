@@ -73,8 +73,13 @@ export function claimCandidates(html) {
     const stripped = line.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
     if (!stripped || stripped.length > 1500) return;
     for (const pattern of patterns) {
+      const candidateText = pattern === patterns.at(-1)
+        ? stripped
+            .replace(/\b(?:not|never)\s+guaranteed\b/gi, '')
+            .replace(/\bwithout\b[^.!?]{0,60}\bguaranteed\b/gi, '')
+        : stripped;
       pattern.lastIndex = 0;
-      if (pattern.test(stripped)) {
+      if (pattern.test(candidateText)) {
         candidates.push({ line: index + 1, fingerprint: sha256(stripped), pattern: pattern.source.slice(0, 80) });
         break;
       }
