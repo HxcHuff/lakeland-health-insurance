@@ -303,13 +303,20 @@
       "reviewStatus": "approved",
       "reviewCadenceDays": 60,
       "usedBy": [
-        "blog/medicare-advantage-vs-supplement.html"
+        "blog/medicare-advantage-vs-supplement.html",
+        "blog/turning-65-medicare-checklist-florida.html"
       ],
       "candidateEvidence": [
         {
           "page": "blog/medicare-advantage-vs-supplement.html",
           "fingerprints": [
             "919984b5b1202d0317959b3eae8582f6333562f9ab0dc755d78a7625e465ed3a"
+          ]
+        },
+        {
+          "page": "blog/turning-65-medicare-checklist-florida.html",
+          "fingerprints": [
+            "ae49985fc8813373379745e193bbc0c6a7ed39035bdd03dff3349e67364a6e24"
           ]
         }
       ]
@@ -515,6 +522,28 @@
       "reviewCadenceDays": 60,
       "usedBy": [
         "blog/employer-coverage-family-marketplace-affordability-florida.html"
+      ]
+    },
+    {
+      "id": "self-employed-health-insurance-deduction-s-corp-2026",
+      "claim": "IRS Form 7206 instructions include a more-than-2% S corporation shareholder among taxpayers who may use the form to determine the self-employed health-insurance deduction, subject to the form's other eligibility and limitation rules.",
+      "sourceUrl": "https://www.irs.gov/instructions/i7206",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace and tax coordination",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/health-insurance-self-employed-tax-deductions.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/health-insurance-self-employed-tax-deductions.html",
+          "fingerprints": [
+            "4d2fcc9c332aa51bb30224b06c941ebe5afce05ae52614c710478ef7962dfef3"
+          ]
+        }
       ]
     },
     {

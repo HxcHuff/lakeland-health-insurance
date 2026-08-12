@@ -565,9 +565,9 @@ const siteSearchIndex = [
     tags: ["Contact", "Support"]
   },
   {
-    title: "DIME Life Insurance Calculator",
+    title: "DIME Life Insurance Planning Method",
     url: "/life-insurance-dime-method/",
-    excerpt: "Calculate your life insurance needs using the DIME method.",
+    excerpt: "Organize debt, income replacement, mortgage, and education needs as a starting point for a life-insurance discussion.",
     tags: ["Tools", "Life Insurance", "Calculator"]
   },
   {
