@@ -59,7 +59,8 @@
         "blog/aca-subsidy-tax-return-clawback.html",
         "blog/aca-subsidy-cliff.html",
         "blog/aca-2026-subsidy-expiration-florida-impact.html",
-        "blog/why-overpaying-health-insurance-central-florida.html"
+        "blog/why-overpaying-health-insurance-central-florida.html",
+        "blog/central-florida-health-insurance-competition.html"
       ]
     },
     {
@@ -708,7 +709,36 @@
       "reviewStatus": "qualified",
       "reviewCadenceDays": 60,
       "usedBy": [
-        "blog/health-insurance-brandon-2026.html"
+        "blog/health-insurance-brandon-2026.html",
+        "blog/central-florida-health-insurance-competition.html"
+      ]
+    },
+    {
+      "id": "florida-aca-geographic-rating-areas",
+      "claim": "CMS lists Florida individual- and small-group geographic rating areas by county, including Polk County as its own rating area. Current carrier, plan, and provider availability still must be checked for the exact application address, plan year, and plan.",
+      "sourceUrl": "https://www.cms.gov/cciio/programs-and-initiatives/health-insurance-market-reforms/fl-gra",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Individual Market",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 90,
+      "usedBy": [
+        "blog/central-florida-health-insurance-competition.html"
+      ]
+    },
+    {
+      "id": "aca-ptc-second-lowest-cost-silver-benchmark-2026",
+      "claim": "The IRS states that the premium tax credit is generally the applicable second-lowest-cost Silver plan premium minus a percentage of household income, subject to eligibility rules and the enrollment-premium limit. The benchmark depends on the coverage family and residence and may differ from the enrolled plan.",
+      "sourceUrl": "https://www.irs.gov/affordable-care-act/individuals-and-families/questions-and-answers-on-the-premium-tax-credit",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "qualified",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/central-florida-health-insurance-competition.html"
       ]
     },
     {
@@ -1181,7 +1211,8 @@
       "usedBy": [
         "blog/how-to-read-health-insurance-card-guide.html",
         "blog/why-overpaying-health-insurance-central-florida.html",
-        "blog/health-insurance-brandon-2026.html"
+        "blog/health-insurance-brandon-2026.html",
+        "blog/central-florida-health-insurance-competition.html"
       ]
     },
     {
