@@ -10,6 +10,11 @@ export function sha256(value) {
   return createHash('sha256').update(value).digest('hex');
 }
 
+export function normalizePhone(value) {
+  const digits = String(value || '').replace(/\D/g, '');
+  return digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits;
+}
+
 function sortDeep(value) {
   if (Array.isArray(value)) return value.map(sortDeep);
   if (!value || typeof value !== 'object') return value;

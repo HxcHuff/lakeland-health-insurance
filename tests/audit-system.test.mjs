@@ -8,6 +8,7 @@ import {
   assertNoSensitiveText,
   loadConfig,
   makeEnvelope,
+  normalizePhone,
   persistEnvelope,
   sanitizeUrl,
   sha256,
@@ -19,6 +20,31 @@ import { parseCsv, validateMetadata } from '../scripts/audit/import-data.mjs';
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const config = loadConfig();
 const fixture = JSON.parse(readFileSync(join(ROOT, 'tests/fixtures/audit/system-fixture.json'), 'utf8'));
+
+test('North American phone normalization treats country-code and local forms as identical', () => {
+  assert.equal(normalizePhone('+1-863-640-3102'), '8636403102');
+  assert.equal(normalizePhone('tel:8636403102'), '8636403102');
+});
+
+test('city-page structured email matches the canonical authority entity', () => {
+  const authority = JSON.parse(readFileSync(join(ROOT, 'data/authority-entities.json'), 'utf8'));
+  const files = [
+    'brandon-health-insurance/index.html',
+    'clearwater-health-insurance/index.html',
+    'largo-health-insurance/index.html',
+    'new-port-richey-health-insurance/index.html',
+    'riverview-health-insurance/index.html',
+    'st-petersburg-health-insurance/index.html',
+    'tampa-health-insurance/index.html',
+    'wesley-chapel-health-insurance/index.html',
+    'winter-haven-health-insurance/index.html'
+  ];
+  for (const file of files) {
+    const html = readFileSync(join(ROOT, file), 'utf8');
+    const emails = [...html.matchAll(/"email"\s*:\s*"([^"]+)"/g)].map((match) => match[1].toLowerCase());
+    assert.deepEqual(new Set(emails), new Set([authority.person.email.toLowerCase()]), file);
+  }
+});
 
 function envelope(source, dataset, payload, window = null, extra = {}) {
   return makeEnvelope({

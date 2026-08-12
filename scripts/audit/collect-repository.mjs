@@ -7,6 +7,7 @@ import {
   extractHtmlSignals,
   loadConfig,
   makeEnvelope,
+  normalizePhone,
   parseArgs,
   parseRedirects,
   parseSitemap,
@@ -84,16 +85,16 @@ function structuredIdentityDrift(html, authority) {
     if (Array.isArray(value)) return value.forEach(walk);
     if (!value || typeof value !== 'object') return;
     if (typeof value.email === 'string') schemaEmails.add(value.email.toLowerCase());
-    if (typeof value.telephone === 'string') schemaPhones.add(value.telephone.replace(/\D/g, ''));
+    if (typeof value.telephone === 'string') schemaPhones.add(normalizePhone(value.telephone));
     Object.values(value).forEach(walk);
   };
   for (const match of html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
     try { walk(JSON.parse(match[1])); } catch { /* Invalid JSON-LD is handled by the page validator. */ }
   }
   const visibleEmails = new Set([...html.matchAll(/href=["']mailto:([^"'?]+)/gi)].map((match) => match[1].toLowerCase()));
-  const visiblePhones = new Set([...html.matchAll(/href=["']tel:([^"']+)/gi)].map((match) => match[1].replace(/\D/g, '')));
+  const visiblePhones = new Set([...html.matchAll(/href=["']tel:([^"']+)/gi)].map((match) => normalizePhone(match[1])));
   const expectedEmails = new Set([authority.agency.email, authority.person.email].filter(Boolean).map((value) => value.toLowerCase()));
-  const expectedPhones = new Set([authority.agency.telephone, authority.person.telephone].filter(Boolean).map((value) => value.replace(/\D/g, '')));
+  const expectedPhones = new Set([authority.agency.telephone, authority.person.telephone].filter(Boolean).map(normalizePhone));
   const issues = [];
   for (const value of schemaEmails) if (!expectedEmails.has(value)) issues.push({ field: 'schema.email', valueHash: sha256(value) });
   for (const value of schemaPhones) if (!expectedPhones.has(value)) issues.push({ field: 'schema.telephone', valueHash: sha256(value) });
