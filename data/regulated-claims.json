@@ -1138,6 +1138,29 @@
           ]
         }
       ]
+    },
+    {
+      "id": "florida-individual-market-weighted-rate-increase-2026",
+      "claim": "Florida's approved plan-year 2026 individual-market table reports a 34.1% membership-weighted average premium increase based on 2025 enrollment. It is a statewide market measure, not the change for every household or policy.",
+      "sourceUrl": "https://floir.com/docs-sf/life-health-libraries/federal-health-insurance/2026-plan-year/aca-2026-web-tables-individual_final.pdf",
+      "accessDate": "2026-08-12",
+      "applicableYear": 2026,
+      "state": "Florida",
+      "productLine": "ACA Individual Market",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 60,
+      "usedBy": [
+        "blog/florida-aca-premiums-up-31-percent-2026.html"
+      ],
+      "candidateEvidence": [
+        {
+          "page": "blog/florida-aca-premiums-up-31-percent-2026.html",
+          "fingerprints": [
+            "ebadc8655bc9d85bb677a253c889263cb6b77525c02a4fdb424f168b0a8e3912",
+            "3353465247dceb9cffc9b7679231fb034223cb264e81b8edac31342c6cd8c02a"
+          ]
+        }
+      ]
     }
   ]
 }
