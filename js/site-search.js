@@ -497,9 +497,9 @@ const siteSearchIndex = [
     tags: ["Lakeland", "Networks", "Orlando Health", "Watson Clinic"]
   },
   {
-    title: "Orlando Health Lakeland Hospital 2026: What It Means for Your Plan",
+    title: "Orlando Health Polk County Expansion: Current Network Guide",
     url: "/blog/orlando-health-polk-county-expansion-2026.html",
-    excerpt: "How Orlando Health's South Lakeland hospital expansion may affect ACA and Medicare provider network checks.",
+    excerpt: "The South Lakeland hospital is open; verify the facility, treating clinicians, and exact plan before relying on network access.",
     tags: ["Lakeland", "Networks", "Hospital Expansion", "ACA", "Medicare"]
   },
   {
