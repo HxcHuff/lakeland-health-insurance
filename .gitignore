@@ -20,6 +20,72 @@ output/
 # non-public Search Console / Analytics observations).
 .audit-data/
 
+# Local environment files; sanitized templates remain trackable
+.env
+.env.*
+*.env
+*.env.*
+!.env.example
+!.env.*.example
+!*.env.example
+!*.env.*.example
+
+# Private keys, certificates, keystores, and service-account credentials
+*.key
+*.pem
+*.ppk
+*.p8
+*.pk8
+*.crt
+*.cer
+*.der
+*.p12
+*.pfx
+*.jks
+*.jceks
+*.keystore
+*.truststore
+*service-account*.json
+*service_account*.json
+*serviceAccount*.json
+application_default_credentials.json
+google-application-credentials*.json
+
+# Local logs and transcripts
+*.log
+*.log.*
+/logs/
+/.logs/
+*.transcript
+*.transcript.*
+/transcripts/
+/.transcripts/
+
+# Backup and temporary files
+*.bak
+*.backup
+*.old
+*.orig
+*.tmp
+*.temp
+*.save
+*~
+
+# Non-deployable archives
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+
+# Local AI and agent state
+.ai-worker-local/
+.claude/settings.local.json
+.codex/environments/
+
+# LibreOffice lock files
+.~lock.*
+
 # Netlify deploy artifacts (uploaded via CLI; should not live in repo)
 deploy-*.zip
 *.zip
