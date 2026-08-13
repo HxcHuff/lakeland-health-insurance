@@ -15,7 +15,7 @@ import { loadConfig } from '../scripts/audit/core.mjs';
 import { appendDecision, governanceByFinding, latestFindings, operationalDashboardState, readDecisionLedger, validateDecision } from '../scripts/audit/governance.mjs';
 import { decryptBuffer, encryptRunEvidence, parseEncryptionKey, pruneExpiredEvidence, verifyEncryptedManifest } from '../scripts/audit/encryption.mjs';
 import { previousCompleteWeek } from '../scripts/audit/run-weekly.mjs';
-import { validateBrokerPayload } from '../scripts/audit/run-scheduled-macos.mjs';
+import { validateBrokerPayload, validateTokenScopeMetadata } from '../scripts/audit/run-scheduled-macos.mjs';
 import { attachVisualComparisons, collectRenderObservations, compareScreenshots } from '../audit/browser/collect-render.mjs';
 import { generateFindings } from '../scripts/audit/build-report.mjs';
 
@@ -101,6 +101,15 @@ test('scheduled credential broker accepts only short-lived bounded token payload
   assert.throws(() => validateBrokerPayload({ ...valid, expiresAt: '2026-08-12T12:05:00.000Z' }, { now }), /less than 10 minutes/);
   assert.throws(() => validateBrokerPayload({ ...valid, expiresAt: '2026-08-12T15:00:00.000Z' }, { now }), /two-hour/);
   assert.throws(() => validateBrokerPayload({ ...valid, refreshToken: 'must-not-be-accepted' }, { now }), /unsupported field/);
+});
+
+test('scheduled connector rejects Google scopes outside the two readonly APIs', () => {
+  const gsc = 'https://www.googleapis.com/auth/webmasters.readonly';
+  const ga4 = 'https://www.googleapis.com/auth/analytics.readonly';
+  assert.deepEqual(validateTokenScopeMetadata({ scope: `${gsc} ${ga4}`, expires_in: '3599' }, gsc).scopes, [ga4, gsc].sort());
+  assert.throws(() => validateTokenScopeMetadata({ scope: `${gsc} https://www.googleapis.com/auth/cloud-platform`, expires_in: '3599' }, gsc), /outside the approved readonly boundary/);
+  assert.throws(() => validateTokenScopeMetadata({ scope: ga4, expires_in: '3599' }, gsc), /missing required readonly scope/);
+  assert.throws(() => validateTokenScopeMetadata({ scope: gsc, expires_in: '300' }, gsc), /less than 10 minutes/);
 });
 
 test('dashboard selects the most recently generated findings manifest rather than filename order', () => {

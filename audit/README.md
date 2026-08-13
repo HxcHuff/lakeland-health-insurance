@@ -191,8 +191,10 @@ no diagnostics or token values to logs:
 ```
 
 Both tokens must retain at least ten minutes of validity and may not exceed a
-two-hour lifetime. The GSC token must be limited to `webmasters.readonly`; the GA4
-token must be limited to `analytics.readonly`. Test the complete chain manually
+two-hour lifetime. The GSC token must include `webmasters.readonly`; the GA4
+token must include `analytics.readonly`. The scheduler inspects Google token
+metadata and rejects every scope outside those two approved readonly scopes,
+including `cloud-platform`. Test the complete chain manually
 before enabling the checked-in disabled launchd template:
 
 ```sh
@@ -200,5 +202,6 @@ node scripts/audit/run-scheduled-macos.mjs --broker /absolute/owner-only/google-
 ```
 
 Missing, expired, overlong, malformed, repository-hosted, group-readable, or
-other-readable broker output fails before collection. A broker implementation and
+other-readable broker output, missing readonly scope, or extra Google scope fails
+before collection. A broker implementation and
 Google OAuth grant are intentionally not generated from guessed credentials.

@@ -189,8 +189,10 @@ service-account keys must not be embedded in scheduler files.
 On macOS, `run-scheduled-macos.mjs` enforces that the credential broker is an
 owner-only executable outside the repository, accepts only the documented token
 and expiry fields, rejects credentials with less than ten minutes or more than two
-hours of remaining lifetime, loads the AES key from Keychain, and passes secrets
-only in the child process environment. It never prints or persists broker output.
+hours of remaining lifetime, verifies Google token metadata, rejects every scope
+outside `webmasters.readonly` and `analytics.readonly`, loads the AES key from
+Keychain, and passes secrets only in the child process environment. It never
+prints or persists broker output.
 
 Successful runs are encrypted locally. `prune-retention.mjs` is dry-run unless
 `--execute` is supplied and deletes only boundary-validated expired encrypted
