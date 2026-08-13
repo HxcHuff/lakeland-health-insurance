@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -83,6 +83,32 @@ test('encrypted evidence round trips and retention is dry-run by default', () =>
     assert.equal(plan.execute, false);
     assert.deepEqual(plan.expired.map((item) => item.runId), [runId]);
     assert.ok(readFileSync(join(output.destination, 'manifest.json')));
+    const executed = pruneExpiredEvidence(config, { execute: true, masterKey: key, now: new Date('2027-01-01T00:00:00.000Z') });
+    assert.equal(executed.execute, true);
+    assert.deepEqual(executed.expired.map((item) => item.runId), [runId]);
+    assert.equal(existsSync(output.destination), false);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('retention execution authenticates future bundles before trusting expiry', () => {
+  const { root, config } = tempConfig('lhi-retention-auth-');
+  const runId = '2026-08-12-tamper';
+  try {
+    for (const dir of ['findings', 'normalized', 'reports']) mkdirSync(join(root, dir), { recursive: true });
+    writeFileSync(join(root, 'findings', `${runId}.json`), JSON.stringify({ runId, sourceChecksums: {}, findings: [] }));
+    writeFileSync(join(root, 'normalized', `${runId}.json`), JSON.stringify({ runId, urlEntities: [], searchQueries: [] }));
+    writeFileSync(join(root, 'reports', `${runId}.md`), '# Local report\n');
+    const key = parseEncryptionKey('22'.repeat(32));
+    const output = encryptRunEvidence(config, runId, key, { now: new Date('2026-08-01T00:00:00.000Z') });
+    const manifestPath = join(output.destination, 'manifest.json');
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+    manifest.expiresAt = '2028-01-01T00:00:00.000Z';
+    writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+    assert.throws(
+      () => pruneExpiredEvidence(config, { execute: true, masterKey: key, now: new Date('2027-01-01T00:00:00.000Z') }),
+      /manifest HMAC verification failed/
+    );
+    assert.equal(existsSync(output.destination), true);
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 

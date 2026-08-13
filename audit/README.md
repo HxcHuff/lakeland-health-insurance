@@ -141,9 +141,11 @@ query rows.
 - Weekly runner: dry-run by default; `--execute` is one local run and does not
   install a scheduler.
 - Encrypted evidence: local only; a 32-byte environment key is required.
-- Retention: preview with `node scripts/audit/prune-retention.mjs`; deletion occurs
-  only with its explicit `--execute` flag and a valid encryption key that verifies
-  each candidate bundle manifest before deletion.
+- Retention: preview with `node scripts/audit/prune-retention.mjs`; its standalone
+  deletion path still requires `--execute`. An explicitly executed weekly run
+  enforces the approved 90-day policy because `retentionExecutionEnabled` is true.
+  Every bundle manifest is authenticated before any expiry is trusted, and only
+  verified expired encrypted run directories are deletion candidates.
 - Dashboard: loopback only at `http://127.0.0.1:4178` by default.
 - External schedule, storage, and alerting remain disabled pending approval.
 

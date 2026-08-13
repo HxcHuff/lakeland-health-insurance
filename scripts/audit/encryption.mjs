@@ -144,18 +144,27 @@ export function retentionPlan(config, { now = new Date() } = {}) {
     const manifestPath = join(path, 'manifest.json');
     if (!statSync(path).isDirectory() || !existsSync(manifestPath)) throw new Error(`Encrypted evidence bundle is malformed: ${name}`);
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
-    return { runId: manifest.runId, path, expiresAt: manifest.expiresAt, expired: new Date(manifest.expiresAt) <= now };
+    const createdAt = new Date(manifest.createdAt);
+    const expiresAt = new Date(manifest.expiresAt);
+    if (manifest.runId !== name) throw new Error(`Encrypted evidence bundle runId does not match its directory: ${name}`);
+    if (!Number.isFinite(createdAt.getTime()) || !Number.isFinite(expiresAt.getTime()) || expiresAt <= createdAt) {
+      throw new Error(`Encrypted evidence bundle has invalid retention dates: ${name}`);
+    }
+    return { runId: manifest.runId, path, manifestPath, expiresAt: expiresAt.toISOString(), expired: expiresAt <= now };
   }).sort((a, b) => a.expiresAt.localeCompare(b.expiresAt));
 }
 
 export function pruneExpiredEvidence(config, { execute = false, masterKey = null, now = new Date() } = {}) {
-  const expired = retentionPlan(config, { now }).filter((item) => item.expired);
+  const candidates = retentionPlan(config, { now });
   if (execute) {
     if (!masterKey) throw new Error('Retention deletion requires LHI_AUDIT_ENCRYPTION_KEY to verify each manifest');
+    for (const item of candidates) verifyEncryptedManifest(JSON.parse(readFileSync(item.manifestPath, 'utf8')), masterKey);
+  }
+  const expired = candidates.filter((item) => item.expired);
+  if (execute) {
     const root = resolve(ROOT, config.storage.root, 'encrypted');
     for (const item of expired) {
       if (dirname(item.path) !== root || basename(item.path) !== item.runId) throw new Error('Retention target failed boundary validation');
-      verifyEncryptedManifest(JSON.parse(readFileSync(join(item.path, 'manifest.json'), 'utf8')), masterKey);
       rmSync(item.path, { recursive: true, force: false });
     }
   }

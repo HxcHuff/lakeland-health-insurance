@@ -27,6 +27,7 @@ async function main() {
     runId,
     window,
     scheduleEnabled: config.automation.scheduleEnabled,
+    retentionExecutionEnabled: config.automation.retentionExecutionEnabled === true,
     externalStorageEnabled: config.automation.externalStorageEnabled,
     externalAlertsEnabled: config.automation.externalAlertsEnabled,
     google: !args['skip-google'],
@@ -69,8 +70,10 @@ async function main() {
     stage = 'report';
     run('scripts/audit/build-report.mjs', ['--run-id', runId, ...configArgs]);
     stage = 'encryption';
-    const encrypted = encryptRunEvidence(config, runId, parseEncryptionKey(process.env.LHI_AUDIT_ENCRYPTION_KEY));
-    const retention = pruneExpiredEvidence(config, { execute: false });
+    const masterKey = parseEncryptionKey(process.env.LHI_AUDIT_ENCRYPTION_KEY);
+    const encrypted = encryptRunEvidence(config, runId, masterKey);
+    stage = 'retention';
+    const retention = pruneExpiredEvidence(config, { execute: config.automation.retentionExecutionEnabled === true, masterKey });
     console.log(JSON.stringify({ ok: true, plan, encrypted, retention, schedulerInstalled: false, externalAlertSent: false }, null, 2));
   } catch (error) {
     const local = recordLocalFailure(config, { runId, stage, error });

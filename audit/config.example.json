@@ -79,6 +79,7 @@
     "timezone": "America/New_York",
     "weeklyCron": "0 6 * * 3",
     "retentionDays": 90,
+    "retentionExecutionEnabled": true,
     "externalStorageEnabled": false,
     "externalAlertsEnabled": false
   },

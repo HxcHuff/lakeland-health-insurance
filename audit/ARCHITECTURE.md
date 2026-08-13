@@ -205,8 +205,10 @@ Keychain, and passes secrets only in the child process environment. It never
 prints or persists broker output.
 
 Successful runs are encrypted locally. `prune-retention.mjs` is dry-run unless
-`--execute` is supplied and deletes only boundary-validated expired encrypted
-bundles. Failures always create a local, redacted record. An external webhook
+`--execute` is supplied. The explicitly executed weekly runner enforces the
+configured 90-day retention policy after encryption. Retention authenticates all
+bundle manifests and deletes only boundary-validated expired encrypted bundles.
+Failures always create a local, redacted record. An external webhook
 requires all three of: configuration enabled after approval, the explicit command
 flag, and an HTTPS endpoint supplied through the environment. No remote storage
 adapter, schedule, or alert is enabled in this phase without separate approval.
