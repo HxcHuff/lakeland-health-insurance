@@ -7,7 +7,7 @@
   "required": ["schemaVersion", "source", "retrievedAt", "dataset", "request", "integrity", "payload"],
   "properties": {
     "schemaVersion": {"const": 1},
-    "source": {"enum": ["repository", "live-crawl", "gsc-page", "gsc-query", "gsc-bigquery-page", "gsc-bigquery-query", "url-inspection", "ga4-page", "ga4-landing", "render-observation", "connector-validation"]},
+    "source": {"enum": ["repository", "live-crawl", "gsc-page", "gsc-query", "gsc-query-page", "gsc-bigquery-page", "gsc-bigquery-query", "url-inspection", "ga4-page", "ga4-landing", "render-observation", "connector-validation"]},
     "retrievedAt": {"type": "string", "format": "date-time"},
     "dataset": {"type": "string", "minLength": 1},
     "request": {

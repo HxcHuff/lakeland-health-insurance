@@ -15,6 +15,7 @@ import {
 const ALLOWED_COLUMNS = {
   'gsc-page': new Set(['page', 'clicks', 'impressions', 'ctr', 'position', 'date']),
   'gsc-query': new Set(['query', 'clicks', 'impressions', 'ctr', 'position', 'date']),
+  'gsc-query-page': new Set(['query', 'page', 'clicks', 'impressions', 'ctr', 'position', 'date']),
   'gsc-bigquery-page': new Set(['page', 'clicks', 'impressions', 'ctr', 'position']),
   'gsc-bigquery-query': new Set(['query', 'is_anonymized_query', 'clicks', 'impressions', 'ctr', 'position']),
   'ga4-page': new Set(['pagePath', 'pageLocation', 'screenPageViews', 'sessions', 'engagedSessions', 'userEngagementDuration']),
@@ -66,7 +67,7 @@ export function validateMetadata(meta, text, rows, args) {
   if (meta.rowCount !== rows.length) throw new Error(`Sidecar rowCount=${meta.rowCount}, retrieved rows=${rows.length}`);
   if (!meta.complete && !args['allow-incomplete']) throw new Error('Sidecar marks export incomplete; refusing import');
   if (!meta.sourceProperty || !meta.exportedAt || !meta.dataState || !Array.isArray(meta.dimensions)) throw new Error('Sidecar is missing provenance fields');
-  if (/gsc-(?:page|query)$/.test(meta.source) && meta.dataState === 'fresh' && !meta.limitations?.length) {
+  if (/gsc-(?:page|query|query-page)$/.test(meta.source) && meta.dataState === 'fresh' && !meta.limitations?.length) {
     throw new Error('Fresh Search Console data must preserve its incompleteness limitation');
   }
 }

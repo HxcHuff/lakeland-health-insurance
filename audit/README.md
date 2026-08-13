@@ -59,6 +59,7 @@ Use explicit dates. Run page and query Search Console collection independently:
 ```sh
 LHI_GSC_ACCESS_TOKEN='short-lived-token' node scripts/audit/collect-google.mjs gsc-pages --start 2026-07-01 --end 2026-07-31
 LHI_GSC_ACCESS_TOKEN='short-lived-token' node scripts/audit/collect-google.mjs gsc-queries --start 2026-07-01 --end 2026-07-31
+LHI_GSC_ACCESS_TOKEN='short-lived-token' node scripts/audit/collect-google.mjs gsc-query-pages --start 2026-07-01 --end 2026-07-31
 LHI_GSC_ACCESS_TOKEN='short-lived-token' node scripts/audit/collect-google.mjs inspect
 LHI_GA4_ACCESS_TOKEN='short-lived-token' node scripts/audit/collect-google.mjs ga4 --start 2026-07-01 --end 2026-07-31
 ```
@@ -67,6 +68,10 @@ Search Analytics API imports retain Google's final/fresh state and top-row
 limitation. Use `--expected-rows` only when the expected minimum is known from the
 export contract. If pagination reaches the configured cap or retrieved rows are
 below the expectation, collection fails without writing the dataset.
+
+The query-by-page command creates a third drilldown dataset. It does not replace,
+join into, or supply totals for the independent page and query datasets. Missing
+query/page mappings remain unknown because Search Analytics returns top rows.
 
 ## Offline CSV/JSON import
 

@@ -143,7 +143,11 @@ export async function validateConnectors(config) {
   return { validation: payload, evidenceFile: persistEnvelope(envelope, config) };
 }
 
-async function collectGsc(dimension, args, config) {
+async function collectGsc(requestedDimensions, args, config) {
+  const dimensions = Array.isArray(requestedDimensions) ? requestedDimensions : [requestedDimensions];
+  const supported = dimensions.length === 1 && ['page', 'query'].includes(dimensions[0])
+    || dimensions.length === 2 && dimensions[0] === 'query' && dimensions[1] === 'page';
+  if (!supported) throw new Error(`Unsupported GSC dimensions: ${dimensions.join(',')}`);
   const token = required('LHI_GSC_ACCESS_TOKEN');
   const window = reportingWindow(args);
   const rowLimit = Number(args['row-limit'] || config.searchConsole.rowLimit);
@@ -160,10 +164,10 @@ async function collectGsc(dimension, args, config) {
     const body = {
       startDate: window.startDate,
       endDate: window.endDate,
-      dimensions: [dimension],
+      dimensions,
       type: config.searchConsole.searchType,
       dataState: config.searchConsole.dataState,
-      aggregationType: dimension === 'page' ? 'auto' : 'byProperty',
+      aggregationType: dimensions.length === 1 && dimensions[0] === 'query' ? 'byProperty' : 'auto',
       rowLimit,
       startRow
     };
@@ -171,12 +175,16 @@ async function collectGsc(dimension, args, config) {
     const pageRows = response.rows || [];
     responseMetadata.push({ startRow, returnedRows: pageRows.length, responseAggregationType: response.responseAggregationType || null, metadata: response.metadata || null });
     for (const row of pageRows) {
-      const key = row.keys?.[0] || '';
-      assertNoSensitiveText(key, `GSC ${dimension} row`);
-      rows.push({
-        [dimension]: dimension === 'page'
+      if ((row.keys || []).length !== dimensions.length) throw new Error('GSC response key count does not match requested dimensions');
+      const values = Object.fromEntries(dimensions.map((dimension, index) => {
+        const key = row.keys[index] || '';
+        assertNoSensitiveText(key, `GSC ${dimension} row`);
+        return [dimension, dimension === 'page'
           ? sanitizeUrl(key, config, { allowCanonicalHostProtocolVariant: true })
-          : key,
+          : key];
+      }));
+      rows.push({
+        ...values,
         clicks: row.clicks,
         impressions: row.impressions,
         ctr: row.ctr,
@@ -192,21 +200,25 @@ async function collectGsc(dimension, args, config) {
   }
   if (!terminationObserved) throw new Error('GSC collection may be truncated at maxRows; refusing partial dataset');
   if (expectedRows > rows.length) throw new Error(`GSC expected at least ${expectedRows} rows but retrieved ${rows.length}`);
-  const source = dimension === 'page' ? 'gsc-page' : 'gsc-query';
+  const source = dimensions.length === 2 ? 'gsc-query-page' : dimensions[0] === 'page' ? 'gsc-page' : 'gsc-query';
+  const datasetName = dimensions.join('-');
+  const aggregationType = dimensions.length === 1 && dimensions[0] === 'query' ? 'byProperty' : 'auto';
   const envelope = makeEnvelope({
     source,
-    dataset: `${dimension}-${window.startDate}-${window.endDate}`,
+    dataset: `${datasetName}-${window.startDate}-${window.endDate}`,
     request: {
       property: config.searchConsole.siteUrl,
       reportingWindow: window,
-      dimensions: [dimension],
-      filters: { searchType: config.searchConsole.searchType, aggregationType: dimension === 'page' ? 'auto' : 'byProperty' },
+      dimensions,
+      filters: { searchType: config.searchConsole.searchType, aggregationType },
       dataState: config.searchConsole.dataState,
       requestedRows: expectedRows || null,
       retrievedRows: rows.length,
       complete: true,
       populationComplete: false,
-      limitations: ['Search Analytics API returns top rows and does not guarantee every underlying row; do not derive site totals or missing rows from this dataset.']
+      limitations: [dimensions.length === 2
+        ? 'Query-by-page rows are a top-row drilldown only; do not sum them into independent page or query datasets or infer omitted mappings.'
+        : 'Search Analytics API returns top rows and does not guarantee every underlying row; do not derive site totals or missing rows from this dataset.']
     },
     payload: { rows, responseMetadata }
   });
@@ -344,7 +356,7 @@ async function collectGa4(args, config) {
 
 async function main() {
   const [command, ...rest] = process.argv.slice(2);
-  if (!command) throw new Error('Usage: collect-google.mjs <gsc-pages|gsc-queries|inspect|ga4> [options]');
+  if (!command) throw new Error('Usage: collect-google.mjs <gsc-pages|gsc-queries|gsc-query-pages|inspect|ga4> [options]');
   const args = parseArgs(rest);
   const config = loadConfig(args.config);
   let output;
@@ -352,6 +364,7 @@ async function main() {
   else if (command === 'validate') output = await validateConnectors(config);
   else if (command === 'gsc-pages') output = await collectGsc('page', args, config);
   else if (command === 'gsc-queries') output = await collectGsc('query', args, config);
+  else if (command === 'gsc-query-pages') output = await collectGsc(['query', 'page'], args, config);
   else if (command === 'inspect') output = await collectInspection(args, config);
   else if (command === 'ga4') output = await collectGa4(args, config);
   else throw new Error(`Unknown command: ${command}`);

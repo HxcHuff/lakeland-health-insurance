@@ -49,6 +49,8 @@ async function main() {
       run('scripts/audit/collect-google.mjs', ['gsc-pages', '--start', window.start, '--end', window.end, ...configArgs]);
       stage = 'gsc-queries';
       run('scripts/audit/collect-google.mjs', ['gsc-queries', '--start', window.start, '--end', window.end, ...configArgs]);
+      stage = 'gsc-query-pages';
+      run('scripts/audit/collect-google.mjs', ['gsc-query-pages', '--start', window.start, '--end', window.end, ...configArgs]);
       stage = 'url-inspection';
       run('scripts/audit/collect-google.mjs', ['inspect', ...configArgs]);
       stage = 'ga4';

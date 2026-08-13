@@ -371,6 +371,24 @@ export function generateFindings(inputs, config) {
   const gscQueries = byWindow(inputs.gscQueries || []);
   if (gscQueries.length) {
     const current = gscQueries.at(-1);
+    const queryPageEnvelope = byWindow(inputs.gscQueryPages || []).filter((item) =>
+      item.request.reportingWindow?.startDate === current.request.reportingWindow?.startDate
+      && item.request.reportingWindow?.endDate === current.request.reportingWindow?.endDate
+    ).at(-1);
+    const drilldowns = new Map();
+    for (const item of queryPageEnvelope?.payload.rows || []) {
+      if (!drilldowns.has(item.query)) drilldowns.set(item.query, []);
+      drilldowns.get(item.query).push(item);
+    }
+    const queryEvidence = (row) => {
+      const mapped = (drilldowns.get(row.query) || []).sort((a, b) => b.impressions - a.impressions).slice(0, 10);
+      return queryPageEnvelope && mapped.length ? [evidence('gsc-query-page', queryPageEnvelope, {
+        query: row.query,
+        window: queryPageEnvelope.request.reportingWindow,
+        mappings: mapped.map((item) => ({ page: item.page, clicks: item.clicks, impressions: item.impressions, ctr: item.ctr, position: item.position })),
+        populationComplete: queryPageEnvelope.request.populationComplete !== false
+      })] : [];
+    };
     for (const row of current.payload.rows || []) {
       if (!row.query || row.is_anonymized_query === true || row.is_anonymized_query === 'true') continue;
       if (row.impressions >= config.thresholds.highImpressions && row.ctr < config.thresholds.poorCtr) {
@@ -378,8 +396,8 @@ export function generateFindings(inputs, config) {
           ruleId: 'gsc-high-impression-low-ctr-query', category: 'search-performance',
           scope: row.query,
           summary: 'A visible Search Console query has high impressions and CTR below the configured threshold.',
-          evidence: [evidence('gsc-query', current, { query: row.query, window: current.request.reportingWindow, clicks: row.clicks, impressions: row.impressions, ctr: row.ctr, position: row.position })],
-          recommendedAction: 'Map the query to its page-level dataset and inspect title/snippet intent before proposing copy changes.',
+          evidence: [evidence('gsc-query', current, { query: row.query, window: current.request.reportingWindow, clicks: row.clicks, impressions: row.impressions, ctr: row.ctr, position: row.position }), ...queryEvidence(row)],
+          recommendedAction: queryPageEnvelope ? 'Review the collected query-by-page mappings and each mapped page title/snippet before proposing copy changes.' : 'Collect a same-window query-by-page drilldown before attributing this query or proposing copy changes.',
           verificationRequired: true, risk: 2, visibility: visibilityFrom(row.impressions), confidence: 0.9, recency: 1.2
         }));
       }
@@ -390,8 +408,8 @@ export function generateFindings(inputs, config) {
           ruleId: 'gsc-actionable-position-query', category: 'search-performance',
           scope: row.query,
           summary: 'A visible Search Console query is in the configured actionable position band.',
-          evidence: [evidence('gsc-query', current, { query: row.query, window: current.request.reportingWindow, clicks: row.clicks, impressions: row.impressions, ctr: row.ctr, position: row.position })],
-          recommendedAction: 'Join to page-level data, verify relevance and compliance evidence, then evaluate a scoped content improvement.',
+          evidence: [evidence('gsc-query', current, { query: row.query, window: current.request.reportingWindow, clicks: row.clicks, impressions: row.impressions, ctr: row.ctr, position: row.position }), ...queryEvidence(row)],
+          recommendedAction: queryPageEnvelope ? 'Use the separate query-by-page drilldown to verify relevance and compliance evidence before a scoped content improvement.' : 'Collect a same-window query-by-page drilldown, then verify relevance and compliance evidence before a scoped content improvement.',
           verificationRequired: true, risk: 1, visibility: visibilityFrom(row.impressions), confidence: 0.9, recency: 1.1
         }));
       }
@@ -435,7 +453,7 @@ export function generateFindings(inputs, config) {
 function sourceChecksums(inputs) {
   return Object.fromEntries([
     ['repository', inputs.repository], ['live-crawl', inputs.crawl], ['render-observation', inputs.render], ['connector-validation', inputs.connectorValidation], ['url-inspection', inputs.inspection],
-    ['gsc-page', byWindow(inputs.gscPages || []).at(-1)], ['gsc-query', byWindow(inputs.gscQueries || []).at(-1)],
+    ['gsc-page', byWindow(inputs.gscPages || []).at(-1)], ['gsc-query', byWindow(inputs.gscQueries || []).at(-1)], ['gsc-query-page', byWindow(inputs.gscQueryPages || []).at(-1)],
     ['ga4-page', byWindow(inputs.ga4Pages || []).at(-1)], ['ga4-landing', byWindow(inputs.ga4Landing || []).at(-1)]
   ].filter(([, value]) => value).map(([name, value]) => [name, { retrievedAt: value.retrievedAt, checksum: value.integrity.payloadSha256, dataset: value.dataset }]));
 }
@@ -548,6 +566,14 @@ export function buildNormalizedDataset(inputs, config, runId, generatedAt) {
     populationComplete: gscQuery.request.populationComplete !== false,
     ...row
   }));
+  const gscQueryPage = byWindow(inputs.gscQueryPages || []).at(-1);
+  const searchQueryPages = (gscQueryPage?.payload.rows || []).map((row) => ({
+    reportingWindow: gscQueryPage.request.reportingWindow,
+    dataState: gscQueryPage.request.dataState,
+    populationComplete: gscQueryPage.request.populationComplete !== false,
+    ...row,
+    page: followAlias(row.page, aliases, config).url
+  }));
   return {
     schemaVersion: 1,
     runId,
@@ -555,7 +581,8 @@ export function buildNormalizedDataset(inputs, config, runId, generatedAt) {
     canonicalOrigin: config.site.origin,
     sourceChecksums: sourceChecksums(inputs),
     urlEntities: [...entities.values()].sort((a, b) => a.url.localeCompare(b.url)),
-    searchQueries
+    searchQueries,
+    searchQueryPages
   };
 }
 
@@ -580,10 +607,12 @@ export function renderWeeklyReport({ runId, generatedAt, findings, inputs, confi
   const previousMap = new Map((gscPrevious?.payload.rows || []).map((row) => [canonicalUrl(row.page, config), row]));
   const winners = (gscCurrent?.payload.rows || []).map((row) => ({ ...row, prior: previousMap.get(canonicalUrl(row.page, config)) })).filter((row) => row.prior && (row.clicks > row.prior.clicks || row.impressions > row.prior.impressions)).sort((a, b) => (b.clicks - b.prior.clicks) - (a.clicks - a.prior.clicks)).slice(0, 20);
   const showing = [...(gscCurrent?.payload.rows || [])].sort((a, b) => b.impressions - a.impressions).slice(0, 30);
+  const gscQueryPageCurrent = byWindow(inputs.gscQueryPages || []).at(-1);
+  const queryPages = [...(gscQueryPageCurrent?.payload.rows || [])].sort((a, b) => b.impressions - a.impressions).slice(0, 30);
   const gaCurrent = byWindow(inputs.ga4Landing || []).at(-1);
   const landings = aggregateGa4LandingRows(gaCurrent, config, aliasMap(inputs.repository, config)).sort((a, b) => b.sessions - a.sessions).slice(0, 30);
   const status = (input) => input ? `${input.retrievedAt} / ${input.integrity.payloadSha256}` : 'NOT COLLECTED';
-  const allInputEnvelopes = [inputs.repository, inputs.connectorValidation, inputs.crawl, inputs.render, inputs.inspection, gscCurrent, byWindow(inputs.gscQueries || []).at(-1), byWindow(inputs.ga4Pages || []).at(-1), gaCurrent].filter(Boolean);
+  const allInputEnvelopes = [inputs.repository, inputs.connectorValidation, inputs.crawl, inputs.render, inputs.inspection, gscCurrent, byWindow(inputs.gscQueries || []).at(-1), gscQueryPageCurrent, byWindow(inputs.ga4Pages || []).at(-1), gaCurrent].filter(Boolean);
   allInputEnvelopes.forEach(verifyEnvelope);
 
   return `# Weekly Website Audit and Search Performance Report
@@ -602,6 +631,7 @@ Mode: read-only; no website or external service was changed.
 | Connector authentication validation | ${status(inputs.connectorValidation)} |
 | Search Console pages | ${status(gscCurrent)} |
 | Search Console queries | ${status(byWindow(inputs.gscQueries || []).at(-1))} |
+| Search Console query-by-page drilldown | ${status(gscQueryPageCurrent)} |
 | URL Inspection | ${status(inputs.inspection)} |
 | GA4 pages | ${status(byWindow(inputs.ga4Pages || []).at(-1))} |
 | GA4 landing pages | ${status(gaCurrent)} |
@@ -648,6 +678,19 @@ ${table(declines, [
 ## Pages Google is showing
 
 ${table(showing, [
+    { label: 'Page', value: (row) => row.page },
+    { label: 'Clicks', value: (row) => row.clicks },
+    { label: 'Impressions', value: (row) => row.impressions },
+    { label: 'CTR', value: (row) => Number(row.ctr || 0).toFixed(4) },
+    { label: 'Position', value: (row) => Number(row.position || 0).toFixed(2) }
+  ])}
+
+## Query-to-page drilldown
+
+This is a separate top-row mapping dataset. It is not summed into the independent page or query datasets, and absent mappings are not inferred.
+
+${table(queryPages, [
+    { label: 'Query', value: (row) => row.query },
     { label: 'Page', value: (row) => row.page },
     { label: 'Clicks', value: (row) => row.clicks },
     { label: 'Impressions', value: (row) => row.impressions },
@@ -709,6 +752,7 @@ async function main() {
     render: latestEnvelope(config, 'render-observation'),
     gscPages: readEnvelopes(config, 'gsc-page').concat(readEnvelopes(config, 'gsc-bigquery-page')),
     gscQueries: readEnvelopes(config, 'gsc-query').concat(readEnvelopes(config, 'gsc-bigquery-query')),
+    gscQueryPages: readEnvelopes(config, 'gsc-query-page'),
     ga4Pages: readEnvelopes(config, 'ga4-page'),
     ga4Landing: readEnvelopes(config, 'ga4-landing')
   };

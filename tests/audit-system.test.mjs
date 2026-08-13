@@ -142,6 +142,7 @@ function inputs() {
       envelope('gsc-page', 'current', { rows: fixture.gscCurrent }, { startDate: '2026-07-01', endDate: '2026-07-31' }, { populationComplete: false })
     ],
     gscQueries: [envelope('gsc-query', 'queries', { rows: fixture.gscQueries }, { startDate: '2026-07-01', endDate: '2026-07-31' }, { populationComplete: false })],
+    gscQueryPages: [],
     ga4Pages: [],
     ga4Landing: [envelope('ga4-landing', 'landings', { landingRows: fixture.ga4Landing, keyEventRows: [] }, { startDate: '2026-07-01', endDate: '2026-07-31' }, { dataState: 'reported' })]
   };
@@ -243,6 +244,32 @@ test('normalized output joins URL evidence while retaining query rows separately
   assert.equal(home.ga4Landing.sessions, 100);
   assert.equal(normalized.searchQueries[0].query, 'lakeland health coverage');
   assert.equal(Object.hasOwn(normalized.searchQueries[0], 'page'), false);
+  assert.deepEqual(normalized.searchQueryPages, []);
+});
+
+test('query-by-page drilldown stays separate and enriches matching query findings', () => {
+  const sourceInputs = inputs();
+  sourceInputs.gscQueryPages = [envelope('gsc-query-page', 'query-page', { rows: [{
+    query: 'lakeland health coverage',
+    page: 'https://lakelandhealthinsurance.com/',
+    clicks: 2,
+    impressions: 250,
+    ctr: 0.008,
+    position: 8
+  }] }, { startDate: '2026-07-01', endDate: '2026-07-31' }, { populationComplete: false })];
+
+  const findings = generateFindings(sourceInputs, config);
+  const actionable = findings.find((item) => item.ruleId === 'gsc-actionable-position-query');
+  assert.ok(actionable.evidence.some((item) => item.source === 'gsc-query-page' && item.mappings[0].page === 'https://lakelandhealthinsurance.com/'));
+
+  const normalized = buildNormalizedDataset(sourceInputs, config, 'fixture-run', '2026-08-12T12:00:00.000Z');
+  assert.equal(normalized.searchQueryPages.length, 1);
+  assert.equal(normalized.searchQueryPages[0].page, 'https://lakelandhealthinsurance.com/');
+  assert.equal(normalized.searchQueries[0].page, undefined);
+
+  const report = renderWeeklyReport({ runId: 'fixture-run', generatedAt: '2026-08-12T12:00:00.000Z', findings, inputs: sourceInputs, config });
+  assert.match(report, /## Query-to-page drilldown/);
+  assert.match(report, /separate top-row mapping dataset/);
 });
 
 test('GA4 landing variants aggregate by canonical URL and use only approved key-event rows', () => {

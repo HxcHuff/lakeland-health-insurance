@@ -12,6 +12,11 @@ These sources are joined only after ingestion; one source never substitutes for
 another. In particular, Search Console clicks are never labeled as views, and
 page-level Search Console rows are never mixed with query-level rows.
 
+A query-by-page Search Analytics collection is retained as a third drilldown
+dataset. It can identify pages shown for a visible query, but its rows are never
+summed into the independent page or query datasets and omitted mappings are never
+inferred.
+
 The implementation uses a local, append-only evidence lake under `.audit-data/`:
 
 1. `raw/<source>/` contains immutable source envelopes and payloads.
@@ -63,7 +68,7 @@ SHA-256 checksum of the canonical payload. Existing files are never overwritten.
 | --- | --- |
 | `collect-repository.mjs` | File inventory, Git status/log metadata, sitemap, redirects, robots, canonical/schema/claim coverage, and existing-validator results |
 | `crawl-live.mjs` | Low-concurrency HTTP crawl, redirects, links/assets/forms, blank-200 and soft-404 evidence |
-| `collect-google.mjs` | GSC page/query Search Analytics, URL Inspection, and GA4 read-only Data API calls |
+| `collect-google.mjs` | Separate GSC page, query, and query-by-page drilldown collections, URL Inspection, and GA4 read-only Data API calls |
 | `import-data.mjs` | Strict offline contract for fresh GSC/GA4 CSV/JSON exports plus metadata sidecar |
 | `build-report.mjs` | Normalization, alias attribution, rules, prioritization, machine findings, and weekly Markdown report |
 | `audit/browser/collect-render.mjs` | Passive desktop/mobile browser rendering, screenshots, console/page errors, failed assets, DOM/text measures, and enforced no-submit behavior |
@@ -160,7 +165,8 @@ can list the configured property, run a one-row Search Analytics query, and insp
 one configured URL. It separately verifies that the GA4 token can run a one-row
 Data API report against the configured property. The retained envelope contains
 only capability results and property identifiers. Page Search Analytics, query
-Search Analytics, URL Inspection, and GA4 collection remain separate datasets.
+Search Analytics, query-by-page drilldowns, URL Inspection, and GA4 collection
+remain separate datasets.
 
 ## Scheduling, storage, retention, and alerts
 

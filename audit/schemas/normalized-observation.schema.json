@@ -4,7 +4,7 @@
   "title": "Normalized audit run",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "runId", "generatedAt", "canonicalOrigin", "sourceChecksums", "urlEntities", "searchQueries"],
+  "required": ["schemaVersion", "runId", "generatedAt", "canonicalOrigin", "sourceChecksums", "urlEntities", "searchQueries", "searchQueryPages"],
   "properties": {
     "schemaVersion": {"const": 1},
     "runId": {"type": "string"},
@@ -32,6 +32,11 @@
     "searchQueries": {
       "type": "array",
       "description": "Separate query-level Search Console dataset; never treated as page rows.",
+      "items": {"type": "object"}
+    },
+    "searchQueryPages": {
+      "type": "array",
+      "description": "Separate query-by-page Search Console drilldown; never summed into page or query totals.",
       "items": {"type": "object"}
     }
   }
