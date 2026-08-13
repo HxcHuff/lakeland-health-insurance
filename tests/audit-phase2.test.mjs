@@ -12,7 +12,7 @@ const { PNG } = auditRequire('pngjs');
 
 import { connectorPreflight } from '../scripts/audit/collect-google.mjs';
 import { loadConfig } from '../scripts/audit/core.mjs';
-import { appendDecision, governanceByFinding, latestFindings, readDecisionLedger, validateDecision } from '../scripts/audit/governance.mjs';
+import { appendDecision, governanceByFinding, latestFindings, operationalDashboardState, readDecisionLedger, validateDecision } from '../scripts/audit/governance.mjs';
 import { decryptBuffer, encryptRunEvidence, parseEncryptionKey, pruneExpiredEvidence, verifyEncryptedManifest } from '../scripts/audit/encryption.mjs';
 import { previousCompleteWeek } from '../scripts/audit/run-weekly.mjs';
 import { validateBrokerPayload } from '../scripts/audit/run-scheduled-macos.mjs';
@@ -110,6 +110,24 @@ test('dashboard selects the most recently generated findings manifest rather tha
     writeFileSync(join(root, 'findings', 'z-old.json'), JSON.stringify({ runId: 'old', generatedAt: '2026-08-01T00:00:00.000Z', findings: [] }));
     writeFileSync(join(root, 'findings', 'a-new.json'), JSON.stringify({ runId: 'new', generatedAt: '2026-08-12T00:00:00.000Z', findings: [] }));
     assert.equal(latestFindings(config).runId, 'new');
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('dashboard distinguishes missing sources, unresolved failures, and encrypted run evidence', () => {
+  const { root, config } = tempConfig('lhi-dashboard-health-');
+  const runId = 'health-run';
+  try {
+    mkdirSync(join(root, 'failures'), { recursive: true });
+    mkdirSync(join(root, 'encrypted', runId), { recursive: true });
+    writeFileSync(join(root, 'encrypted', runId, 'manifest.json'), '{}\n');
+    writeFileSync(join(root, 'failures', 'one.json'), JSON.stringify({ schemaVersion: 1, runId, occurredAt: '2026-08-12T12:00:00.000Z', stage: 'encryption', errorName: 'Error', messageSha256: 'a'.repeat(64), externalAlertSent: false }));
+    writeFileSync(join(root, 'failures', 'two.json'), JSON.stringify({ schemaVersion: 1, runId: 'other', occurredAt: '2026-08-12T13:00:00.000Z', stage: 'connector-validation', errorName: 'Error', messageSha256: 'b'.repeat(64), externalAlertSent: false }));
+    const state = operationalDashboardState(config, { runId, sourceChecksums: { repository: { retrievedAt: '2026-08-12T11:00:00.000Z', checksum: 'c'.repeat(64), dataset: 'repository-inventory' } } }, new Date('2026-08-12T14:00:00.000Z'));
+    assert.equal(state.currentRunEncrypted, true);
+    assert.equal(state.sources.find((source) => source.source === 'repository').ageHours, 3);
+    assert.ok(state.missingSources.includes('gsc-query-page'));
+    assert.equal(state.recentFailures.find((failure) => failure.stage === 'encryption').resolvedByEvidence, true);
+    assert.equal(state.unresolvedFailureCount, 1);
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 

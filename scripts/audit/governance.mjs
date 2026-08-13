@@ -110,6 +110,43 @@ export function latestFindings(config) {
     .at(-1);
 }
 
+export function operationalDashboardState(config, manifest = latestFindings(config), now = new Date()) {
+  const storageRoot = resolve(ROOT, config.storage.root);
+  const expectedSources = ['repository', 'live-crawl', 'render-observation', 'connector-validation', 'gsc-page', 'gsc-query', 'gsc-query-page', 'url-inspection', 'ga4-page', 'ga4-landing'];
+  const sourceChecksums = manifest?.sourceChecksums || {};
+  const sources = expectedSources.map((source) => {
+    const evidence = sourceChecksums[source] || null;
+    return {
+      source,
+      collected: Boolean(evidence),
+      retrievedAt: evidence?.retrievedAt || null,
+      ageHours: evidence?.retrievedAt ? Math.round(((now.getTime() - new Date(evidence.retrievedAt).getTime()) / 3_600_000) * 10) / 10 : null,
+      checksum: evidence?.checksum || null,
+      dataset: evidence?.dataset || null
+    };
+  });
+
+  const failuresDir = join(storageRoot, 'failures');
+  const failures = existsSync(failuresDir)
+    ? readdirSync(failuresDir).filter((name) => name.endsWith('.json')).map((name) => JSON.parse(readFileSync(join(failuresDir, name), 'utf8')))
+      .sort((a, b) => String(a.occurredAt).localeCompare(String(b.occurredAt))).slice(-10).reverse()
+    : [];
+  const recentFailures = failures.map((failure) => ({
+    ...failure,
+    resolvedByEvidence: failure.stage === 'encryption'
+      && existsSync(join(storageRoot, 'encrypted', failure.runId, 'manifest.json'))
+  }));
+  const encryptedManifest = manifest?.runId ? join(storageRoot, 'encrypted', manifest.runId, 'manifest.json') : null;
+
+  return {
+    currentRunEncrypted: Boolean(encryptedManifest && existsSync(encryptedManifest)),
+    missingSources: sources.filter((source) => !source.collected).map((source) => source.source),
+    sources,
+    recentFailures,
+    unresolvedFailureCount: recentFailures.filter((failure) => !failure.resolvedByEvidence).length
+  };
+}
+
 export function buildDashboardState(config) {
   const manifest = latestFindings(config);
   const ledger = readDecisionLedger(config);
@@ -118,6 +155,7 @@ export function buildDashboardState(config) {
     generatedAt: new Date().toISOString(),
     runId: manifest?.runId || null,
     readOnlyAudit: true,
+    operational: operationalDashboardState(config, manifest),
     findings: (manifest?.findings || []).map((finding) => ({
       ...finding,
       governance: governance.get(finding.id) || { owner: null, status: 'open', expiresAt: null, reason: null, updatedAt: null, history: [] }
