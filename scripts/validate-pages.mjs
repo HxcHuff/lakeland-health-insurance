@@ -2,6 +2,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { extname, join, relative, resolve } from 'node:path';
 import { extractClientCopy, extractHtmlCopy, findContentPolicyIssues } from './content-policy.mjs';
+import { faqParityIssues } from './faq-schema-parity.mjs';
 
 const ROOT = resolve(new URL('.', import.meta.url).pathname, '..');
 const CANONICAL_PHONE = '863-640-3102';
@@ -133,6 +134,10 @@ for (const file of seen) {
         issues.push(`${rel}: JSON-LD block ${index + 1} is invalid (${error.message})`);
       }
     });
+
+  for (const parityIssue of faqParityIssues(html)) {
+    issues.push(`${rel}: ${parityIssue}`);
+  }
 
   for (const bad of FORBIDDEN_PHONES) {
     if (html.includes(bad)) issues.push(`${rel}: forbidden phone "${bad}"`);
