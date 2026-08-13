@@ -25,16 +25,17 @@
 
 Inspection, editing, staging, committing, pushing, opening or merging a pull request, previewing, and production deployment each require their own authorization. Validation success grants none of them. Never rewrite history, force-push, delete branches, remove worktrees, push directly to production, or change GitHub/Netlify settings without explicit approval. Production still requires live readback and browser verification; human approval is required for regulated content, lead handling, credentials, DNS, analytics, and external side effects.
 
-Authoritative offline baseline:
+Run `node scripts/validate-local.mjs` as the authoritative offline entry point. It deterministically selects and reports a comparison base, stops after the first failure, and includes committed branch changes plus staged, unstaged, and untracked JavaScript/MJS/CJS files. Use `--base <revision>` only when an explicit comparison base is required. Its ordered baseline is:
 
 1. `node scripts/validate-pages.mjs`
 2. `node --test tests/*.test.mjs`
 3. `node scripts/check-regulated-claims.mjs`
 4. `node scripts/validate-authority.mjs`
-5. `node --check` for every modified JavaScript or MJS file
-6. `xmllint --noout sitemap.xml`
-7. `git diff --check`
+5. `node scripts/check-site-integrity.mjs`
+6. `node --check` for every applicable changed JavaScript, MJS, or CJS file
+7. `xmllint --noout sitemap.xml`
+8. Working-tree, staged, and comparison-base `git diff --check` gates
 
-Run task-applicable gates; run the full baseline before a release candidate unless a gate is documented as inapplicable. Keep validators offline and do not install dependencies automatically. A required installed-Chrome override must be in memory only. A local preview may use `python3 -m http.server 8080`, but it does not reproduce Netlify Functions, redirects, headers, environment contexts, or production. Netlify previews, function invocations, live crawls, form submissions, and production probes require separate authorization.
+Individual commands remain diagnostic tools and do not replace a successful orchestrator run. Run task-applicable focused tests while developing; run the full orchestrator before a release candidate unless a gate is documented as inapplicable. Keep validators offline and do not install dependencies automatically. A required installed-Chrome override must be in memory only. A local preview may use `python3 -m http.server 8080`, but it does not reproduce Netlify Functions, redirects, headers, environment contexts, or production. Netlify previews, function invocations, live crawls, form submissions, and production probes require separate authorization.
 
 Preserve canonical URLs, metadata, structured data, analytics, conversion tracking, navigation, and working CSS/JavaScript hooks. Use a professional trusted-advisor tone without hype or unsupported savings claims. Regulated or carrier-specific claims require current evidence and explicit review. Evaluate sitemap and internal-link impacts when routes change.

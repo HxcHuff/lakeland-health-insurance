@@ -44,15 +44,20 @@ Never push directly to the production branch unless explicitly authorized for th
 
 ## Authoritative offline validation
 
-Run gates applicable to the task. The full baseline is required before a release candidate unless a gate is explicitly documented as inapplicable:
+Run `node scripts/validate-local.mjs` as the single authoritative offline entry point. The orchestrator selects and reports a deterministic comparison base, stops after the first failed gate, and checks committed branch changes plus staged, unstaged, and untracked JavaScript/MJS/CJS files. Use `--base <revision>` only when an explicit comparison base is required.
+
+The orchestrator runs this baseline in order:
 
 1. `node scripts/validate-pages.mjs`
 2. `node --test tests/*.test.mjs`
 3. `node scripts/check-regulated-claims.mjs`
 4. `node scripts/validate-authority.mjs`
-5. Run `node --check` against every modified JavaScript or MJS file.
-6. `xmllint --noout sitemap.xml`
-7. `git diff --check`
+5. `node scripts/check-site-integrity.mjs`
+6. Run `node --check` against every applicable changed JavaScript, MJS, or CJS file.
+7. `xmllint --noout sitemap.xml`
+8. Working-tree, staged, and comparison-base `git diff --check` gates
+
+Individual commands remain useful for diagnosis, but they do not replace a successful orchestrator run. Run task-applicable focused tests while developing; the full orchestrator is required before a release candidate unless a gate is explicitly documented as inapplicable.
 
 Validators must remain offline unless network access is separately approved. Do not install or download dependencies automatically. If a browser-dependent test requires the previously used installed-Chrome executable override, apply it in memory only; do not edit configuration or download a browser. Passing validation does not authorize pushing or deployment.
 
