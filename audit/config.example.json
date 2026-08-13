@@ -88,6 +88,8 @@
   },
   "thresholds": {
     "blankVisibleTextCharacters": 80,
+    "visualPixelThreshold": 0.1,
+    "visualDifferenceFraction": 0.03,
     "highImpressions": 100,
     "poorCtr": 0.02,
     "actionablePositionMin": 4,

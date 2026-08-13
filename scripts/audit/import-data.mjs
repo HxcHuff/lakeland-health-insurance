@@ -20,7 +20,7 @@ const ALLOWED_COLUMNS = {
   'gsc-bigquery-query': new Set(['query', 'is_anonymized_query', 'clicks', 'impressions', 'ctr', 'position']),
   'ga4-page': new Set(['pagePath', 'pageLocation', 'screenPageViews', 'sessions', 'engagedSessions', 'userEngagementDuration']),
   'ga4-landing': new Set(['landingPagePlusQueryString', 'eventName', 'sessions', 'engagedSessions', 'keyEvents']),
-  'render-observation': new Set(['url', 'profile', 'retrievedAt', 'finalUrl', 'httpStatus', 'visibleTextLength', 'mainTextLength', 'domNodeCount', 'formCount', 'formMethods', 'submissionAttemptsBlocked', 'consoleErrors', 'failedRequests', 'blockedWriteRequests', 'formSubmissionPerformed', 'screenshotSha256', 'screenshotPath', 'navigationError', 'blank200'])
+  'render-observation': new Set(['url', 'profile', 'retrievedAt', 'finalUrl', 'httpStatus', 'visibleTextLength', 'mainTextLength', 'domNodeCount', 'formCount', 'formMethods', 'submissionAttemptsBlocked', 'consoleErrors', 'failedRequests', 'blockedWriteRequests', 'formSubmissionPerformed', 'screenshotSha256', 'screenshotPath', 'navigationError', 'blank200', 'visualComparison'])
 };
 
 export function parseCsv(text) {

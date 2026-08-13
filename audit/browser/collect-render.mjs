@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-import { mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { chromium } from 'playwright';
+import pixelmatch from 'pixelmatch';
+import { PNG } from 'pngjs';
 import {
   ROOT,
   loadConfig,
@@ -9,9 +11,74 @@ import {
   parseArgs,
   parseSitemap,
   persistEnvelope,
+  readEnvelopes,
   sanitizeUrl,
   sha256
 } from '../../scripts/audit/core.mjs';
+
+export function compareScreenshots(currentPath, baselinePath, config) {
+  if (!currentPath || !baselinePath || !existsSync(currentPath) || !existsSync(baselinePath)) {
+    return { status: 'not-compared', differenceRatio: null, reason: 'baseline-or-current-screenshot-missing' };
+  }
+  const currentBytes = readFileSync(currentPath);
+  const baselineBytes = readFileSync(baselinePath);
+  const currentSha256 = sha256(currentBytes);
+  const baselineSha256 = sha256(baselineBytes);
+  if (currentSha256 === baselineSha256) {
+    return { status: 'unchanged', differenceRatio: 0, currentSha256, baselineSha256 };
+  }
+
+  const current = PNG.sync.read(currentBytes);
+  const baseline = PNG.sync.read(baselineBytes);
+  if (current.width !== baseline.width || current.height !== baseline.height) {
+    return {
+      status: 'changed',
+      differenceRatio: 1,
+      reason: 'screenshot-dimensions-changed',
+      currentDimensions: { width: current.width, height: current.height },
+      baselineDimensions: { width: baseline.width, height: baseline.height },
+      currentSha256,
+      baselineSha256
+    };
+  }
+
+  const pixels = current.width * current.height;
+  const differentPixels = pixelmatch(current.data, baseline.data, null, current.width, current.height, {
+    threshold: config.thresholds.visualPixelThreshold,
+    includeAA: false
+  });
+  const differenceRatio = differentPixels / pixels;
+  return {
+    status: differenceRatio > config.thresholds.visualDifferenceFraction ? 'changed' : 'within-threshold',
+    differenceRatio,
+    differentPixels,
+    totalPixels: pixels,
+    currentSha256,
+    baselineSha256
+  };
+}
+
+export function attachVisualComparisons(rows, baselineEnvelope, config) {
+  const baselineRows = new Map((baselineEnvelope?.payload?.rows || []).map((row) => [`${row.url}\n${row.profile}`, row]));
+  return rows.map((row) => {
+    const baseline = baselineRows.get(`${row.url}\n${row.profile}`);
+    if (!baseline) return { ...row, visualComparison: { status: 'not-compared', differenceRatio: null, reason: 'no-matching-prior-observation' } };
+    const currentPath = row.screenshotPath ? resolve(ROOT, row.screenshotPath) : null;
+    const baselinePath = baseline.screenshotPath ? resolve(ROOT, baseline.screenshotPath) : null;
+    const storageRoot = resolve(ROOT, config.storage.root);
+    if ((currentPath && !currentPath.startsWith(`${storageRoot}/`)) || (baselinePath && !baselinePath.startsWith(`${storageRoot}/`))) {
+      throw new Error('Visual comparison screenshot path escaped the evidence root');
+    }
+    return {
+      ...row,
+      visualComparison: {
+        ...compareScreenshots(currentPath, baselinePath, config),
+        baselineRetrievedAt: baseline.retrievedAt || baselineEnvelope.retrievedAt,
+        baselineProfile: baseline.profile
+      }
+    };
+  });
+}
 
 function allowedOrigin(raw, configuredOrigin) {
   const origin = new URL(raw || configuredOrigin).origin;
@@ -197,10 +264,15 @@ async function main() {
   const startedAt = new Date().toISOString();
   const stamp = startedAt.replace(/[:.]/g, '-');
   const screenshotDir = resolve(ROOT, config.storage.root, 'screenshots', stamp);
-  const rows = await collectRenderObservations({ config, origin, urls, screenshotDir });
+  const collectedRows = await collectRenderObservations({ config, origin, urls, screenshotDir });
+  const dataset = `browser-render-${origin === config.site.origin ? 'live' : 'localhost'}`;
+  const baseline = readEnvelopes(config, 'render-observation')
+    .filter((envelope) => envelope.dataset === dataset && envelope.retrievedAt < startedAt)
+    .at(-1) || null;
+  const rows = attachVisualComparisons(collectedRows, baseline, config);
   const envelope = makeEnvelope({
     source: 'render-observation',
-    dataset: `browser-render-${origin === config.site.origin ? 'live' : 'localhost'}`,
+    dataset,
     retrievedAt: startedAt,
     request: {
       property: origin === config.site.origin ? config.site.origin : 'loopback-local-demo',
@@ -211,7 +283,7 @@ async function main() {
       requestedRows: urls.length * config.browser.profiles.length,
       retrievedRows: rows.length,
       complete: rows.length === urls.length * config.browser.profiles.length,
-      limitations: ['Rendered text is measured but not retained. Screenshots are local-only evidence and are referenced by checksum. All non-GET/HEAD requests are blocked.']
+      limitations: ['Rendered text is measured but not retained. Screenshots are local-only evidence and are referenced by checksum. Visual comparisons use the most recent prior observation with the same dataset, URL, and profile; changes require human review. All non-GET/HEAD requests are blocked.']
     },
     payload: { rows }
   });

@@ -5,13 +5,17 @@ import { mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createServer } from 'node:http';
+import { createRequire } from 'node:module';
+
+const auditRequire = createRequire(new URL('../audit/package.json', import.meta.url));
+const { PNG } = auditRequire('pngjs');
 
 import { connectorPreflight } from '../scripts/audit/collect-google.mjs';
 import { loadConfig } from '../scripts/audit/core.mjs';
 import { appendDecision, governanceByFinding, latestFindings, readDecisionLedger, validateDecision } from '../scripts/audit/governance.mjs';
 import { decryptBuffer, encryptRunEvidence, parseEncryptionKey, pruneExpiredEvidence, verifyEncryptedManifest } from '../scripts/audit/encryption.mjs';
 import { previousCompleteWeek } from '../scripts/audit/run-weekly.mjs';
-import { collectRenderObservations } from '../audit/browser/collect-render.mjs';
+import { attachVisualComparisons, collectRenderObservations, compareScreenshots } from '../audit/browser/collect-render.mjs';
 import { generateFindings } from '../scripts/audit/build-report.mjs';
 
 function tempConfig(prefix) {
@@ -127,6 +131,41 @@ test('browser render detects failed assets and blocks automatic form submission'
   }
 });
 
+test('visual comparison detects material pixel changes and records the prior evidence identity', () => {
+  const { root, config } = tempConfig('lhi-visual-');
+  const baselinePath = join(root, 'baseline.png');
+  const currentPath = join(root, 'current.png');
+  const image = (changed = false) => {
+    const png = new PNG({ width: 4, height: 4 });
+    png.data.fill(255);
+    if (changed) png.data.set([0, 0, 0, 255], 0);
+    return PNG.sync.write(png);
+  };
+  try {
+    writeFileSync(baselinePath, image(false));
+    writeFileSync(currentPath, image(true));
+    const comparison = compareScreenshots(currentPath, baselinePath, config);
+    assert.equal(comparison.status, 'changed');
+    assert.ok(comparison.differenceRatio > config.thresholds.visualDifferenceFraction);
+
+    const screenshotRoot = join(root, 'screenshots');
+    mkdirSync(screenshotRoot, { recursive: true });
+    const storedBaseline = join(screenshotRoot, 'baseline.png');
+    const storedCurrent = join(screenshotRoot, 'current.png');
+    writeFileSync(storedBaseline, image(false));
+    writeFileSync(storedCurrent, image(true));
+    const [row] = attachVisualComparisons([{
+      url: `${config.site.origin}/`, profile: 'desktop', retrievedAt: '2026-08-12T13:00:00.000Z',
+      screenshotPath: storedCurrent
+    }], {
+      retrievedAt: '2026-08-12T12:00:00.000Z',
+      payload: { rows: [{ url: `${config.site.origin}/`, profile: 'desktop', screenshotPath: storedBaseline }] }
+    }, config);
+    assert.equal(row.visualComparison.status, 'changed');
+    assert.equal(row.visualComparison.baselineRetrievedAt, '2026-08-12T12:00:00.000Z');
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
 test('render findings consolidate desktop and mobile evidence under one stable id', () => {
   const { config } = tempConfig('lhi-findings-');
   const envelope = {
@@ -150,6 +189,24 @@ test('render findings consolidate desktop and mobile evidence under one stable i
   const findings = generateFindings({ render: envelope }, config).filter((item) => item.ruleId === 'rendered-js-or-asset-failure');
   assert.equal(findings.length, 1);
   assert.equal(findings[0].evidence.length, 2);
+});
+
+test('material visual changes create a review-only regression finding', () => {
+  const { config } = tempConfig('lhi-visual-finding-');
+  const envelope = {
+    retrievedAt: '2026-08-12T12:00:00.000Z',
+    integrity: { payloadSha256: 'f'.repeat(64) },
+    payload: { rows: [{
+      url: `${config.site.origin}/plans/`, profile: 'mobile', httpStatus: 200,
+      visibleTextLength: 500, mainTextLength: 400, failedRequests: [], consoleErrors: [],
+      formCount: 0, formSubmissionPerformed: false, screenshotSha256: 'a'.repeat(64),
+      visualComparison: { status: 'changed', differenceRatio: 0.12, baselineSha256: 'b'.repeat(64), baselineRetrievedAt: '2026-08-05T12:00:00.000Z' }
+    }] }
+  };
+  const [finding] = generateFindings({ render: envelope }, config).filter((item) => item.ruleId === 'rendered-visual-regression');
+  assert.equal(finding.verificationRequired, true);
+  assert.equal(finding.evidence[0].differenceRatio, 0.12);
+  assert.match(finding.recommendedAction, /intentional/);
 });
 
 test('the custom error document is not treated as a public soft-404 page', () => {

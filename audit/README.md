@@ -35,6 +35,11 @@ node audit/browser/collect-render.mjs --max-pages 10
 node scripts/audit/dashboard-server.mjs
 ```
 
+Each browser run compares matching URL/profile screenshots with the most recent
+prior run from the same live or localhost dataset. Exact matches, tolerated
+anti-alias differences, and material changes are recorded separately. Material
+changes create review-only findings and never update the website or a baseline.
+
 The crawl is a live read-only request stream, not a deployment or mutation. To run
 repository collection plus report generation without a network crawl:
 

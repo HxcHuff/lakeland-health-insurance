@@ -58,6 +58,9 @@ SHA-256 checksum of the canonical payload. Existing files are never overwritten.
 - Browser automation blocks every non-GET/HEAD request, overrides form submission
   APIs, performs no clicks or field entry, and stores hashes instead of console
   message text. Screenshots remain local evidence.
+- Matching screenshots are compared with the most recent prior observation at
+  the same URL and viewport. Tolerated rendering noise is retained as evidence;
+  material changes require human review and never trigger a website mutation.
 - Encrypted evidence uses a 32-byte environment key, AES-256-GCM per file, HKDF
   key separation, authenticated relative paths, and a manifest HMAC. Encryption
   keys are never written to evidence or scheduler definitions.
@@ -71,7 +74,7 @@ SHA-256 checksum of the canonical payload. Existing files are never overwritten.
 | `collect-google.mjs` | Separate GSC page, query, and query-by-page drilldown collections, URL Inspection, and GA4 read-only Data API calls |
 | `import-data.mjs` | Strict offline contract for fresh GSC/GA4 CSV/JSON exports plus metadata sidecar |
 | `build-report.mjs` | Normalization, alias attribution, rules, prioritization, machine findings, and weekly Markdown report |
-| `audit/browser/collect-render.mjs` | Passive desktop/mobile browser rendering, screenshots, console/page errors, failed assets, DOM/text measures, and enforced no-submit behavior |
+| `audit/browser/collect-render.mjs` | Passive desktop/mobile browser rendering, screenshots, prior-run pixel comparison, console/page errors, failed assets, DOM/text measures, and enforced no-submit behavior |
 | `run-weekly.mjs` | One-time weekly orchestration entry point and failure handling; it does not install a scheduler |
 | `encrypt-evidence.mjs` / `prune-retention.mjs` | Local authenticated encryption and explicit retention execution |
 | `dashboard-server.mjs` | Loopback-only findings/evidence/governance dashboard |
@@ -150,12 +153,18 @@ prototype and requires separate approval.
 
 ## Render-observation contract
 
-HTTP crawling cannot prove client-rendered content. An optional read-only browser
-worker may import JSON rows with: `url`, `retrievedAt`, `finalUrl`, `httpStatus`,
-`visibleTextLength`, `mainTextLength`, `domNodeCount`, `consoleErrors[]`,
-`failedRequests[]`, and `screenshotSha256`. Page text and screenshots are not
-stored in raw imports. A 200 response with negligible rendered text, failed critical
-assets, or fatal console errors becomes a blank-200 finding.
+HTTP crawling cannot prove client-rendered content. The read-only browser worker
+records `url`, `profile`, `retrievedAt`, `finalUrl`, `httpStatus`, DOM/text counts,
+console and request failures, `screenshotSha256`, and `visualComparison`. Page text
+and screenshot bytes are not stored in raw envelopes. Screenshot bytes remain in
+the local evidence tree and are included in encrypted run bundles.
+
+Visual comparison uses the most recent prior observation from the same dataset,
+URL, and viewport profile. Exact hashes are unchanged. Same-size PNGs use a
+pixel-level anti-alias-aware comparison; a configurable changed-pixel fraction
+separates tolerated rendering noise from a material change. Dimension changes are
+material. A material difference creates a verification-required finding for human
+review; it does not approve, reject, deploy, or overwrite any baseline.
 
 ## Connector authentication validation
 

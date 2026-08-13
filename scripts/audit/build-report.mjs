@@ -272,14 +272,31 @@ export function generateFindings(inputs, config) {
       const failed = (row.failedRequests || []).length;
       const fatal = (row.consoleErrors || []).length;
       const blank = Number(row.httpStatus) === 200 && Number(row.visibleTextLength || 0) < config.thresholds.blankVisibleTextCharacters;
-      if (!blank && !failed && !fatal) continue;
-      findings.push(createFinding({
-        ruleId: blank ? 'rendered-blank-http-200' : 'rendered-js-or-asset-failure', category: 'technical', url: canonicalUrl(row.url, config),
-        summary: blank ? 'Browser-render observation confirms a blank HTTP 200 page.' : 'Browser-render observation contains console errors or failed requests.',
-        evidence: [evidence('render-observation', render, { profile: row.profile || null, httpStatus: row.httpStatus, visibleTextLength: row.visibleTextLength, mainTextLength: row.mainTextLength, failedRequestCount: failed, consoleErrorCount: fatal, formCount: row.formCount || 0, formSubmissionPerformed: row.formSubmissionPerformed === true, screenshotSha256: row.screenshotSha256 || null })],
-        recommendedAction: 'Trace the failed JavaScript or asset dependency in repository source and verify a local rendered correction before any deployment.',
-        risk: 4, visibility: 3, confidence: 1, recency: 1.4
-      }));
+      if (blank || failed || fatal) {
+        findings.push(createFinding({
+          ruleId: blank ? 'rendered-blank-http-200' : 'rendered-js-or-asset-failure', category: 'technical', url: canonicalUrl(row.url, config),
+          summary: blank ? 'Browser-render observation confirms a blank HTTP 200 page.' : 'Browser-render observation contains console errors or failed requests.',
+          evidence: [evidence('render-observation', render, { profile: row.profile || null, httpStatus: row.httpStatus, visibleTextLength: row.visibleTextLength, mainTextLength: row.mainTextLength, failedRequestCount: failed, consoleErrorCount: fatal, formCount: row.formCount || 0, formSubmissionPerformed: row.formSubmissionPerformed === true, screenshotSha256: row.screenshotSha256 || null })],
+          recommendedAction: 'Trace the failed JavaScript or asset dependency in repository source and verify a local rendered correction before any deployment.',
+          risk: 4, visibility: 3, confidence: 1, recency: 1.4
+        }));
+      }
+      if (row.visualComparison?.status === 'changed') {
+        findings.push(createFinding({
+          ruleId: 'rendered-visual-regression', category: 'technical', url: canonicalUrl(row.url, config),
+          summary: 'Rendered screenshot differs materially from the most recent matching browser observation.',
+          evidence: [evidence('render-observation', render, {
+            profile: row.profile || null,
+            screenshotSha256: row.screenshotSha256 || null,
+            baselineScreenshotSha256: row.visualComparison.baselineSha256 || null,
+            baselineRetrievedAt: row.visualComparison.baselineRetrievedAt || null,
+            differenceRatio: row.visualComparison.differenceRatio,
+            reason: row.visualComparison.reason || null
+          })],
+          recommendedAction: 'Review current and baseline screenshots at the same viewport, confirm whether the change was intentional, and resolve or accept the finding before updating the visual baseline.',
+          verificationRequired: true, risk: 2, visibility: 3, confidence: 0.85, recency: 1.3
+        }));
+      }
     }
   }
 
@@ -522,7 +539,8 @@ export function buildNormalizedDataset(inputs, config, runId, generatedAt) {
       failedRequestCount: row.failedRequests?.length || 0,
       formCount: row.formCount || 0,
       formSubmissionPerformed: row.formSubmissionPerformed === true,
-      screenshotSha256: row.screenshotSha256 || null
+      screenshotSha256: row.screenshotSha256 || null,
+      visualComparison: row.visualComparison || null
     });
   }
   const gscPage = byWindow(inputs.gscPages || []).at(-1);
