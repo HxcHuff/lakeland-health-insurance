@@ -55,6 +55,17 @@ function visibilityFrom(value) {
   return 1;
 }
 
+export function qualifiesAsSearchPerformanceWinner(row, prior, config) {
+  if (!row || !prior) return false;
+  const minimumImpressions = Number(config.thresholds.actionableQueryMinImpressions || 0);
+  if (Math.max(Number(row.impressions || 0), Number(prior.impressions || 0)) < minimumImpressions) return false;
+  const threshold = Number(config.thresholds.declineFraction);
+  const impressionChange = prior.impressions ? (row.impressions - prior.impressions) / prior.impressions : (row.impressions > 0 ? 1 : 0);
+  const clickChange = prior.clicks ? (row.clicks - prior.clicks) / prior.clicks : (row.clicks > 0 ? 1 : 0);
+  if (impressionChange <= -threshold || clickChange <= -threshold) return false;
+  return row.clicks > prior.clicks || impressionChange >= threshold;
+}
+
 function aliasMap(repository, config) {
   const map = new Map();
   for (const row of repository?.payload.redirects || []) {
@@ -653,7 +664,7 @@ export function renderWeeklyReport({ runId, generatedAt, findings, inputs, confi
   const declines = findings.filter((item) => item.ruleId === 'gsc-page-decline').slice(0, 20);
   const { current: gscCurrent, previous: gscPrevious } = comparableSearchPerformanceWindows(inputs.gscPages || []);
   const previousMap = new Map((gscPrevious?.payload.rows || []).map((row) => [canonicalUrl(row.page, config), row]));
-  const winners = (gscCurrent?.payload.rows || []).map((row) => ({ ...row, prior: previousMap.get(canonicalUrl(row.page, config)) })).filter((row) => row.prior && (row.clicks > row.prior.clicks || row.impressions > row.prior.impressions)).sort((a, b) => (b.clicks - b.prior.clicks) - (a.clicks - a.prior.clicks)).slice(0, 20);
+  const winners = (gscCurrent?.payload.rows || []).map((row) => ({ ...row, prior: previousMap.get(canonicalUrl(row.page, config)) })).filter((row) => qualifiesAsSearchPerformanceWinner(row, row.prior, config)).sort((a, b) => (b.clicks - b.prior.clicks) - (a.clicks - a.prior.clicks) || (b.impressions - b.prior.impressions) - (a.impressions - a.prior.impressions)).slice(0, 20);
   const showing = [...(gscCurrent?.payload.rows || [])].sort((a, b) => b.impressions - a.impressions).slice(0, 30);
   const gscQueryPageCurrent = byWindow(inputs.gscQueryPages || []).at(-1);
   const queryPages = [...(gscQueryPageCurrent?.payload.rows || [])].sort((a, b) => b.impressions - a.impressions).slice(0, 30);
@@ -706,7 +717,7 @@ ${inputs.crawl && (inputs.crawlHistoryCount || 0) < 2 ? '_This is the first reta
 
 ## Search Console winners and declines
 
-Winners and declines require distinct, complete, contiguous, equal-length page-level windows and compare only URLs present in both. They are not total-site estimates.
+Winners and declines require distinct, complete, contiguous, equal-length page-level windows and compare only URLs present in both. Winners also require the configured impression floor, a click increase or material impression increase, and no material counter-decline. They are not total-site estimates.
 
 ${table(winners, [
     { label: 'Page', value: (row) => row.page },

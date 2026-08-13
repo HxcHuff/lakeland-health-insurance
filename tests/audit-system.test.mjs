@@ -14,7 +14,7 @@ import {
   sha256,
   verifyEnvelope
 } from '../scripts/audit/core.mjs';
-import { buildNormalizedDataset, comparableSearchPerformanceWindows, generateFindings, renderWeeklyReport } from '../scripts/audit/build-report.mjs';
+import { buildNormalizedDataset, comparableSearchPerformanceWindows, generateFindings, qualifiesAsSearchPerformanceWinner, renderWeeklyReport } from '../scripts/audit/build-report.mjs';
 import { parseCsv, validateMetadata } from '../scripts/audit/import-data.mjs';
 import { claimCandidates } from '../scripts/audit/collect-repository.mjs';
 import { sanitizeGa4LandingRow, sanitizeGa4PageRows } from '../scripts/audit/collect-google.mjs';
@@ -283,6 +283,24 @@ test('duplicate Search Console page windows do not produce trend findings or win
   assert.equal(findings.some((item) => item.ruleId === 'gsc-page-decline'), false);
   const report = renderWeeklyReport({ runId: 'duplicate-window', generatedAt: '2026-08-12T12:00:00.000Z', findings, inputs: sourceInputs, config });
   assert.doesNotMatch(report, / -> /);
+});
+
+test('winner classification rejects noise and mixed performance', () => {
+  assert.equal(qualifiesAsSearchPerformanceWinner(
+    { clicks: 4, impressions: 343 }, { clicks: 2, impressions: 288 }, config
+  ), true);
+  assert.equal(qualifiesAsSearchPerformanceWinner(
+    { clicks: 1, impressions: 101 }, { clicks: 0, impressions: 213 }, config
+  ), false);
+  assert.equal(qualifiesAsSearchPerformanceWinner(
+    { clicks: 0, impressions: 6 }, { clicks: 0, impressions: 1 }, config
+  ), false);
+  assert.equal(qualifiesAsSearchPerformanceWinner(
+    { clicks: 0, impressions: 125 }, { clicks: 0, impressions: 100 }, config
+  ), true);
+  assert.equal(qualifiesAsSearchPerformanceWinner(
+    { clicks: 0, impressions: 200 }, { clicks: 1, impressions: 100 }, config
+  ), false);
 });
 
 test('weekly report keeps Search Console visibility separate from GA4 usage', () => {
