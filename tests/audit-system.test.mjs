@@ -244,3 +244,34 @@ test('normalized output joins URL evidence while retaining query rows separately
   assert.equal(normalized.searchQueries[0].query, 'lakeland health coverage');
   assert.equal(Object.hasOwn(normalized.searchQueries[0], 'page'), false);
 });
+
+test('GA4 landing variants aggregate by canonical URL and use only approved key-event rows', () => {
+  const sourceInputs = inputs();
+  sourceInputs.ga4Landing = [envelope('ga4-landing', 'variant-landings', {
+    landingRows: [
+      { landingPagePlusQueryString: '/', normalizedUrl: 'https://lakelandhealthinsurance.com/', sessions: 9, engagedSessions: 5, keyEvents: 99 },
+      { landingPagePlusQueryString: '/?utm_source=test', normalizedUrl: 'https://lakelandhealthinsurance.com/', sessions: 5, engagedSessions: 3, keyEvents: 77 }
+    ],
+    keyEventRows: [
+      { landingPagePlusQueryString: '/', eventName: 'generate_lead', normalizedUrl: 'https://lakelandhealthinsurance.com/', keyEvents: 1 },
+      { landingPagePlusQueryString: '/?utm_source=test', eventName: 'phone_call_click', normalizedUrl: 'https://lakelandhealthinsurance.com/', keyEvents: 2 }
+    ]
+  }, { startDate: '2026-07-01', endDate: '2026-07-31' }, { dataState: 'reported' })];
+
+  const normalized = buildNormalizedDataset(sourceInputs, config, 'fixture-run', '2026-08-12T12:00:00.000Z');
+  const home = normalized.urlEntities.find((row) => row.url === 'https://lakelandhealthinsurance.com/');
+  assert.deepEqual(home.ga4Landing, {
+    reportingWindow: { startDate: '2026-07-01', endDate: '2026-07-31' },
+    sessions: 14,
+    engagedSessions: 8,
+    approvedKeyEvents: 3
+  });
+
+  const findings = generateFindings(sourceInputs, config);
+  assert.equal(findings.some((item) => item.ruleId === 'ga4-traffic-weak-approved-events' && item.url === home.url), false);
+  const report = renderWeeklyReport({ runId: 'fixture-run', generatedAt: '2026-08-12T12:00:00.000Z', findings, inputs: sourceInputs, config });
+  const landingSection = report.match(/## GA4 most-viewed landing pages\n\n([\s\S]*?)\n\n## Indexing/)[1];
+  assert.match(landingSection, /\| https:\/\/lakelandhealthinsurance\.com\/ \| 14 \| 8 \| 3 \|/);
+  assert.equal((landingSection.match(/https:\/\/lakelandhealthinsurance\.com\//g) || []).length, 1);
+  assert.doesNotMatch(landingSection, /\| 99 \||\| 77 \|/);
+});

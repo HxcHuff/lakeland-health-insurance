@@ -48,6 +48,39 @@ function followAlias(url, aliases, config) {
   return { url: current, historicalAlias: seen.size > 0, aliasChain: [...seen] };
 }
 
+export function aggregateGa4LandingRows(envelope, config, aliases = new Map()) {
+  if (!envelope) return [];
+  const dimension = config.ga4.landingDimension;
+  const rows = new Map();
+  const identity = (row) => {
+    const raw = row.normalizedUrl || row[dimension];
+    if (!raw || raw === '(not set)') return { key: 'unattributed:(not set)', url: null, displayUrl: '(not set)' };
+    const url = followAlias(raw, aliases, config).url;
+    return { key: `url:${url}`, url, displayUrl: url };
+  };
+  const ensure = (row) => {
+    const item = identity(row);
+    if (!rows.has(item.key)) rows.set(item.key, {
+      url: item.url,
+      displayUrl: item.displayUrl,
+      reportingWindow: envelope.request.reportingWindow,
+      sessions: 0,
+      engagedSessions: 0,
+      approvedKeyEvents: 0
+    });
+    return rows.get(item.key);
+  };
+  for (const row of envelope.payload.landingRows || []) {
+    const target = ensure(row);
+    target.sessions += Number(row.sessions || 0);
+    target.engagedSessions += Number(row.engagedSessions || 0);
+  }
+  for (const row of envelope.payload.keyEventRows || []) {
+    ensure(row).approvedKeyEvents += Number(row.keyEvents || 0);
+  }
+  return [...rows.values()];
+}
+
 function evidence(source, envelope, detail) {
   return { source, retrievedAt: envelope.retrievedAt, checksum: envelope.integrity.payloadSha256, ...detail };
 }
@@ -365,15 +398,10 @@ export function generateFindings(inputs, config) {
 
   const ga4Landing = byWindow(inputs.ga4Landing || []).at(-1);
   if (ga4Landing) {
-    const eventsByUrl = new Map();
-    for (const row of ga4Landing.payload.keyEventRows || []) {
-      const url = followAlias(row.normalizedUrl || row[config.ga4.landingDimension], aliases, config).url;
-      eventsByUrl.set(url, (eventsByUrl.get(url) || 0) + Number(row.keyEvents || 0));
-    }
-    for (const row of ga4Landing.payload.landingRows || []) {
-      if (!row.normalizedUrl || Number(row.sessions || 0) < config.thresholds.trafficLandingSessions) continue;
-      const url = followAlias(row.normalizedUrl, aliases, config).url;
-      const keyEvents = eventsByUrl.get(url) || 0;
+    for (const row of aggregateGa4LandingRows(ga4Landing, config, aliases)) {
+      if (!row.url || row.sessions < config.thresholds.trafficLandingSessions) continue;
+      const url = row.url;
+      const keyEvents = row.approvedKeyEvents;
       if (keyEvents === 0) {
         findings.push(createFinding({
           ruleId: 'ga4-traffic-weak-approved-events', category: 'analytics', url,
@@ -501,20 +529,14 @@ export function buildNormalizedDataset(inputs, config, runId, generatedAt) {
     target.ga4Page = prior;
   }
   const ga4Landing = byWindow(inputs.ga4Landing || []).at(-1);
-  const keyEvents = new Map();
-  for (const row of ga4Landing?.payload.keyEventRows || []) {
-    if (!row.normalizedUrl) continue;
-    const url = followAlias(row.normalizedUrl, aliases, config).url;
-    keyEvents.set(url, (keyEvents.get(url) || 0) + Number(row.keyEvents || 0));
-  }
-  for (const row of ga4Landing?.payload.landingRows || []) {
-    if (!row.normalizedUrl) continue;
-    const target = ensure(row.normalizedUrl);
+  for (const row of aggregateGa4LandingRows(ga4Landing, config, aliases)) {
+    if (!row.url) continue;
+    const target = ensure(row.url);
     target.ga4Landing = {
-      reportingWindow: ga4Landing.request.reportingWindow,
-      sessions: Number(row.sessions || 0),
-      engagedSessions: Number(row.engagedSessions || 0),
-      approvedKeyEvents: keyEvents.get(target.url) || 0
+      reportingWindow: row.reportingWindow,
+      sessions: row.sessions,
+      engagedSessions: row.engagedSessions,
+      approvedKeyEvents: row.approvedKeyEvents
     };
   }
   const gscQuery = byWindow(inputs.gscQueries || []).at(-1);
@@ -557,7 +579,7 @@ export function renderWeeklyReport({ runId, generatedAt, findings, inputs, confi
   const winners = (gscCurrent?.payload.rows || []).map((row) => ({ ...row, prior: previousMap.get(canonicalUrl(row.page, config)) })).filter((row) => row.prior && (row.clicks > row.prior.clicks || row.impressions > row.prior.impressions)).sort((a, b) => (b.clicks - b.prior.clicks) - (a.clicks - a.prior.clicks)).slice(0, 20);
   const showing = [...(gscCurrent?.payload.rows || [])].sort((a, b) => b.impressions - a.impressions).slice(0, 30);
   const gaCurrent = byWindow(inputs.ga4Landing || []).at(-1);
-  const landings = [...(gaCurrent?.payload.landingRows || [])].sort((a, b) => Number(b.sessions || 0) - Number(a.sessions || 0)).slice(0, 30);
+  const landings = aggregateGa4LandingRows(gaCurrent, config, aliasMap(inputs.repository, config)).sort((a, b) => b.sessions - a.sessions).slice(0, 30);
   const status = (input) => input ? `${input.retrievedAt} / ${input.integrity.payloadSha256}` : 'NOT COLLECTED';
   const allInputEnvelopes = [inputs.repository, inputs.connectorValidation, inputs.crawl, inputs.render, inputs.inspection, gscCurrent, byWindow(inputs.gscQueries || []).at(-1), byWindow(inputs.ga4Pages || []).at(-1), gaCurrent].filter(Boolean);
   allInputEnvelopes.forEach(verifyEnvelope);
@@ -634,10 +656,10 @@ ${table(showing, [
 ## GA4 most-viewed landing pages
 
 ${table(landings, [
-    { label: 'Landing page', value: (row) => row.normalizedUrl || row[config.ga4.landingDimension] },
+    { label: 'Landing page', value: (row) => row.displayUrl },
     { label: 'Sessions', value: (row) => row.sessions },
     { label: 'Engaged sessions', value: (row) => row.engagedSessions },
-    { label: 'Approved key events', value: (row) => row.keyEvents }
+    { label: 'Approved key events', value: (row) => row.approvedKeyEvents }
   ])}
 
 ## Indexing and canonical exceptions
