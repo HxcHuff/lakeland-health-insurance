@@ -16,6 +16,7 @@ import { appendDecision, governanceByFinding, latestFindings, operationalDashboa
 import { decryptBuffer, encryptRunEvidence, parseEncryptionKey, pruneExpiredEvidence, verifyEncryptedManifest } from '../scripts/audit/encryption.mjs';
 import { previousCompleteWeek } from '../scripts/audit/run-weekly.mjs';
 import { validateBrokerPayload, validateTokenScopeMetadata } from '../scripts/audit/run-scheduled-macos.mjs';
+import { buildSchedulerReadiness } from '../scripts/audit/scheduler-readiness.mjs';
 import { attachVisualComparisons, collectRenderObservations, compareScreenshots } from '../audit/browser/collect-render.mjs';
 import { generateFindings } from '../scripts/audit/build-report.mjs';
 
@@ -136,6 +137,33 @@ test('scheduled connector rejects Google scopes outside the two readonly APIs', 
   assert.throws(() => validateTokenScopeMetadata({ scope: `${gsc} https://www.googleapis.com/auth/cloud-platform`, expires_in: '3599' }, gsc), /outside the approved readonly boundary/);
   assert.throws(() => validateTokenScopeMetadata({ scope: ga4, expires_in: '3599' }, gsc), /missing required readonly scope/);
   assert.throws(() => validateTokenScopeMetadata({ scope: gsc, expires_in: '300' }, gsc), /less than 10 minutes/);
+});
+
+test('scheduler readiness fails closed and never reports secrets', () => {
+  const config = loadConfig();
+  const blocked = buildSchedulerReadiness({
+    config,
+    keychainAvailable: true,
+    broker: { path: '/approved/broker', available: false, valid: false, reason: 'not-found' },
+    launchdLoaded: false
+  });
+  assert.equal(blocked.ready, false);
+  assert.ok(blocked.blockers.includes('scheduleConfigured'));
+  assert.ok(blocked.blockers.includes('credentialBrokerAvailable'));
+  assert.ok(blocked.blockers.includes('launchdLoaded'));
+  assert.equal(blocked.secretsReturned, false);
+  assert.equal(blocked.externalMutationPerformed, false);
+
+  const enabled = structuredClone(config);
+  enabled.automation.scheduleEnabled = true;
+  const ready = buildSchedulerReadiness({
+    config: enabled,
+    keychainAvailable: true,
+    broker: { path: '/approved/broker', available: true, valid: true },
+    launchdLoaded: true
+  });
+  assert.equal(ready.ready, true);
+  assert.deepEqual(ready.blockers, []);
 });
 
 test('dashboard selects the most recently generated findings manifest rather than filename order', () => {

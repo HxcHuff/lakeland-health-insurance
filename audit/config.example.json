@@ -78,6 +78,8 @@
     "scheduleEnabled": false,
     "timezone": "America/New_York",
     "weeklyCron": "0 6 * * 3",
+    "launchdLabel": "com.lakeland.audit.weekly",
+    "credentialBrokerPath": "/Users/david_huff/.config/lhi-audit/google-token-broker",
     "retentionDays": 90,
     "retentionExecutionEnabled": true,
     "externalStorageEnabled": false,

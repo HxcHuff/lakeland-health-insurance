@@ -51,7 +51,7 @@ async function tokenMetadata(token, requiredScope) {
   return validateTokenScopeMetadata(await response.json(), requiredScope);
 }
 
-function ownerOnlyExecutable(path) {
+export function validateBrokerExecutable(path) {
   if (!isAbsolute(path)) throw new Error('Credential broker path must be absolute');
   const resolved = resolve(path);
   if (resolved === ROOT || resolved.startsWith(`${ROOT}/`)) throw new Error('Credential broker must be outside the repository');
@@ -74,7 +74,7 @@ function keychainEncryptionKey() {
 }
 
 function brokerCredentials(path) {
-  const output = execFileSync(ownerOnlyExecutable(path), [], {
+  const output = execFileSync(validateBrokerExecutable(path), [], {
     encoding: 'utf8', timeout: 30_000, maxBuffer: 16_384, stdio: ['ignore', 'pipe', 'ignore'],
     env: { PATH: process.env.PATH || '/usr/bin:/bin:/usr/sbin:/sbin' }
   });

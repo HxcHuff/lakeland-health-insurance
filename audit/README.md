@@ -172,6 +172,17 @@ The checked-in launchd file is disabled and must not be installed or enabled unt
 the scheduler host, short-lived credential broker, retention duration, encrypted
 storage destination, and alert destination are approved.
 
+Check the current machine without loading launchd, executing the broker, reading a
+token value, or changing authorization:
+
+```sh
+node scripts/audit/scheduler-readiness.mjs
+```
+
+Exit status `2` means at least one readiness gate is blocked. Scope enforcement is
+implemented by the scheduled runner; live token scopes are checked only when the
+broker is deliberately executed for a run.
+
 ### macOS scheduled credential contract
 
 `run-scheduled-macos.mjs` is the scheduler entry point. It reads the audit

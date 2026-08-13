@@ -77,6 +77,7 @@ SHA-256 checksum of the canonical payload. Existing files are never overwritten.
 | `audit/browser/collect-render.mjs` | Passive desktop/mobile browser rendering, screenshots, prior-run pixel comparison, console/page errors, failed assets, DOM/text measures, and enforced no-submit behavior |
 | `run-weekly.mjs` | One-time weekly orchestration entry point and failure handling; it does not install a scheduler |
 | `run-scheduled-macos.mjs` | macOS launchd entry point; loads the encryption key from Keychain and short-lived Google tokens from an owner-only external credential broker |
+| `scheduler-readiness.mjs` | Non-mutating machine gate for schedule configuration, Keychain, broker file boundary, retention execution, and launchd load state |
 | `encrypt-evidence.mjs` / `prune-retention.mjs` | Local authenticated encryption and explicit retention execution |
 | `dashboard-server.mjs` | Loopback-only findings/evidence/governance dashboard |
 
