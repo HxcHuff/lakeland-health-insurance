@@ -6,11 +6,15 @@
   <key>Disabled</key><true/>
   <key>ProgramArguments</key>
   <array>
-    <string>/usr/bin/env</string>
-    <string>node</string>
-    <string>/Users/david_huff/lakeland-health-insurance/scripts/audit/run-weekly.mjs</string>
-    <string>--execute</string>
+    <string>/opt/homebrew/bin/node</string>
+    <string>/Users/david_huff/lakeland-health-insurance/scripts/audit/run-scheduled-macos.mjs</string>
+    <string>--broker</string>
+    <string>/Users/david_huff/.config/lhi-audit/google-token-broker</string>
   </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
   <key>StartCalendarInterval</key>
   <dict><key>Weekday</key><integer>4</integer><key>Hour</key><integer>6</integer><key>Minute</key><integer>0</integer></dict>
   <key>WorkingDirectory</key><string>/Users/david_huff/lakeland-health-insurance</string>

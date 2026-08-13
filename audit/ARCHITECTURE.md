@@ -76,6 +76,7 @@ SHA-256 checksum of the canonical payload. Existing files are never overwritten.
 | `build-report.mjs` | Normalization, alias attribution, rules, prioritization, machine findings, and weekly Markdown report |
 | `audit/browser/collect-render.mjs` | Passive desktop/mobile browser rendering, screenshots, prior-run pixel comparison, console/page errors, failed assets, DOM/text measures, and enforced no-submit behavior |
 | `run-weekly.mjs` | One-time weekly orchestration entry point and failure handling; it does not install a scheduler |
+| `run-scheduled-macos.mjs` | macOS launchd entry point; loads the encryption key from Keychain and short-lived Google tokens from an owner-only external credential broker |
 | `encrypt-evidence.mjs` / `prune-retention.mjs` | Local authenticated encryption and explicit retention execution |
 | `dashboard-server.mjs` | Loopback-only findings/evidence/governance dashboard |
 
@@ -184,6 +185,12 @@ does not register cron, launchd, GitHub Actions, Netlify, or any other scheduler
 The disabled launchd example is design evidence only. An approved credential
 broker must inject short-lived Google tokens at execution time; refresh tokens and
 service-account keys must not be embedded in scheduler files.
+
+On macOS, `run-scheduled-macos.mjs` enforces that the credential broker is an
+owner-only executable outside the repository, accepts only the documented token
+and expiry fields, rejects credentials with less than ten minutes or more than two
+hours of remaining lifetime, loads the AES key from Keychain, and passes secrets
+only in the child process environment. It never prints or persists broker output.
 
 Successful runs are encrypted locally. `prune-retention.mjs` is dry-run unless
 `--execute` is supplied and deletes only boundary-validated expired encrypted

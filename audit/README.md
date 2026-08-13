@@ -15,6 +15,7 @@ generation, or the live GET-only crawler.
 | `LHI_GA4_ACCESS_TOKEN` | GA4 Data API | Short-lived OAuth token with `https://www.googleapis.com/auth/analytics.readonly`; never stored or logged |
 | `LHI_AUDIT_ENCRYPTION_KEY` | Local encrypted evidence | Exactly 32 random bytes encoded as 64 hex characters or base64; never stored in the repository or scheduler |
 | `LHI_AUDIT_ALERT_WEBHOOK` | Approval-gated external failure alert | Optional HTTPS endpoint; ignored while external alerts remain disabled |
+| `LHI_AUDIT_CREDENTIAL_BROKER` | macOS scheduled collection | Absolute path to an owner-only executable outside the repository that returns short-lived read-only Google tokens as the documented JSON contract |
 
 Configuration contains property identifiers, not secrets. The repository's
 current analytics record identifies GA4 property `492431963`; confirm access and
@@ -167,3 +168,37 @@ node scripts/audit/run-weekly.mjs --execute
 The checked-in launchd file is disabled and must not be installed or enabled until
 the scheduler host, short-lived credential broker, retention duration, encrypted
 storage destination, and alert destination are approved.
+
+### macOS scheduled credential contract
+
+`run-scheduled-macos.mjs` is the scheduler entry point. It reads the audit
+encryption key from the login Keychain service
+`com.lakeland.audit.encryption-key`; the key is never placed in a plist, command
+argument, report, or repository file. Provision it once without printing it:
+
+```sh
+audit_key="$(openssl rand -hex 32)"
+security add-generic-password -U -s com.lakeland.audit.encryption-key -a "$(id -un)" -w "$audit_key" >/dev/null
+unset audit_key
+```
+
+The broker must be a current-user-owned regular executable outside this
+repository with mode `0700`. It must write exactly one JSON object to stdout and
+no diagnostics or token values to logs:
+
+```json
+{"gscAccessToken":"SHORT_LIVED_TOKEN","ga4AccessToken":"SHORT_LIVED_TOKEN","expiresAt":"2026-08-13T01:00:00.000Z"}
+```
+
+Both tokens must retain at least ten minutes of validity and may not exceed a
+two-hour lifetime. The GSC token must be limited to `webmasters.readonly`; the GA4
+token must be limited to `analytics.readonly`. Test the complete chain manually
+before enabling the checked-in disabled launchd template:
+
+```sh
+node scripts/audit/run-scheduled-macos.mjs --broker /absolute/owner-only/google-token-broker
+```
+
+Missing, expired, overlong, malformed, repository-hosted, group-readable, or
+other-readable broker output fails before collection. A broker implementation and
+Google OAuth grant are intentionally not generated from guessed credentials.

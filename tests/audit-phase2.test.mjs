@@ -15,6 +15,7 @@ import { loadConfig } from '../scripts/audit/core.mjs';
 import { appendDecision, governanceByFinding, latestFindings, readDecisionLedger, validateDecision } from '../scripts/audit/governance.mjs';
 import { decryptBuffer, encryptRunEvidence, parseEncryptionKey, pruneExpiredEvidence, verifyEncryptedManifest } from '../scripts/audit/encryption.mjs';
 import { previousCompleteWeek } from '../scripts/audit/run-weekly.mjs';
+import { validateBrokerPayload } from '../scripts/audit/run-scheduled-macos.mjs';
 import { attachVisualComparisons, collectRenderObservations, compareScreenshots } from '../audit/browser/collect-render.mjs';
 import { generateFindings } from '../scripts/audit/build-report.mjs';
 
@@ -87,6 +88,19 @@ test('encrypted evidence round trips and retention is dry-run by default', () =>
 
 test('weekly reporting window is the previous complete Monday through Sunday', () => {
   assert.deepEqual(previousCompleteWeek(new Date('2026-08-12T15:00:00.000Z')), { start: '2026-08-03', end: '2026-08-09' });
+});
+
+test('scheduled credential broker accepts only short-lived bounded token payloads', () => {
+  const now = new Date('2026-08-12T12:00:00.000Z');
+  const valid = validateBrokerPayload({
+    gscAccessToken: 'gsc-fixture-token',
+    ga4AccessToken: 'ga4-fixture-token',
+    expiresAt: '2026-08-12T13:00:00.000Z'
+  }, { now });
+  assert.equal(valid.expiresAt, '2026-08-12T13:00:00.000Z');
+  assert.throws(() => validateBrokerPayload({ ...valid, expiresAt: '2026-08-12T12:05:00.000Z' }, { now }), /less than 10 minutes/);
+  assert.throws(() => validateBrokerPayload({ ...valid, expiresAt: '2026-08-12T15:00:00.000Z' }, { now }), /two-hour/);
+  assert.throws(() => validateBrokerPayload({ ...valid, refreshToken: 'must-not-be-accepted' }, { now }), /unsupported field/);
 });
 
 test('dashboard selects the most recently generated findings manifest rather than filename order', () => {
