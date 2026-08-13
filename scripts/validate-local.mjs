@@ -22,23 +22,77 @@ function verifyCommit(root, ref, gitRun = git) {
   return gitRun(root, ['rev-parse', '--verify', '--quiet', '--end-of-options', `${ref}^{commit}`]).trim();
 }
 
+function optionalGit(root, args, gitRun = git) {
+  try { return gitRun(root, args).trim() || null; }
+  catch { return null; }
+}
+
+function uniqueMergeBase(root, head, candidate, gitRun = git) {
+  const bases = gitRun(root, ['merge-base', '--all', head, candidate]).trim().split(/\r?\n/).filter(Boolean);
+  if (bases.length !== 1) throw new Error('comparison base does not have one trustworthy merge-base');
+  return bases[0];
+}
+
+function validOriginRef(ref) {
+  return /^refs\/remotes\/origin\/[A-Za-z0-9][A-Za-z0-9._/+\-]*$/.test(ref)
+    && !ref.includes('..') && !ref.endsWith('/') && ref !== 'refs/remotes/origin/HEAD';
+}
+
 export function selectComparisonBase({ root = DEFAULT_ROOT, explicitBase, gitRun = git } = {}) {
+  const head = verifyCommit(root, 'HEAD', gitRun);
   if (explicitBase !== undefined) {
     if (!REF_PATTERN.test(explicitBase) || explicitBase.startsWith('-') || explicitBase.length > 200) throw new Error('invalid --base revision');
-    return { commit: verifyCommit(root, explicitBase, gitRun), source: '--base' };
+    const candidate = verifyCommit(root, explicitBase, gitRun);
+    return {
+      commit: uniqueMergeBase(root, head, candidate, gitRun),
+      source: '--base merge-base',
+      rejectedSameFeatureUpstream: false,
+    };
   }
-  const candidates = [
-    { ref: '@{upstream}', source: 'upstream merge-base' },
-    { ref: 'origin/main', source: 'origin/main merge-base' },
-  ];
+
+  const branchRef = optionalGit(root, ['symbolic-ref', '--quiet', 'HEAD'], gitRun);
+  if (!branchRef?.startsWith('refs/heads/')) throw new Error('automatic comparison base requires a local branch');
+  const branchName = branchRef.slice('refs/heads/'.length);
+  if (!branchName || branchName.includes('..') || /[\0\r\n]/.test(branchName)) throw new Error('unsafe local branch name');
+
+  const upstreamRef = optionalGit(root, ['rev-parse', '--symbolic-full-name', '--verify', '--quiet', '@{upstream}'], gitRun);
+  const symbolicDefault = optionalGit(root, ['symbolic-ref', '--quiet', 'refs/remotes/origin/HEAD'], gitRun);
+  const candidates = [];
+  if (symbolicDefault && validOriginRef(symbolicDefault)) {
+    candidates.push({ ref: symbolicDefault, source: `origin/HEAD -> ${symbolicDefault.slice('refs/remotes/'.length)} merge-base` });
+  }
+  candidates.push(
+    { ref: 'refs/remotes/origin/main', source: 'origin/main merge-base' },
+    { ref: 'refs/heads/main', source: 'local main merge-base' },
+  );
+
+  let selected = null;
   for (const candidate of candidates) {
     try {
-      verifyCommit(root, candidate.ref, gitRun);
-      return { commit: gitRun(root, ['merge-base', 'HEAD', candidate.ref]).trim(), source: candidate.source };
-    } catch { /* deterministic fallback */ }
+      selected = { ...candidate, tip: verifyCommit(root, candidate.ref, gitRun) };
+      break;
+    } catch { /* use the next documented local metadata fallback */ }
   }
-  try { return { commit: verifyCommit(root, 'HEAD^', gitRun), source: 'first parent' }; }
-  catch { return { commit: verifyCommit(root, 'HEAD', gitRun), source: 'HEAD (initial commit)' }; }
+  if (!selected) throw new Error('no trustworthy comparison base is available');
+
+  const mergeBase = uniqueMergeBase(root, head, selected.tip, gitRun);
+  const featureCommitCountText = gitRun(root, ['rev-list', '--count', `${mergeBase}..${head}`, '--']).trim();
+  if (!/^\d+$/.test(featureCommitCountText)) throw new Error('unable to verify committed feature changes');
+  const selectedBranch = selected.ref.replace(/^refs\/(?:remotes\/origin|heads)\//, '');
+  const isDefaultBranch = branchName === selectedBranch;
+  if (!isDefaultBranch && mergeBase === head) {
+    const defaultAheadText = gitRun(root, ['rev-list', '--count', `${head}..${selected.tip}`, '--']).trim();
+    if (!/^\d+$/.test(defaultAheadText)) throw new Error('unable to verify default-branch relationship');
+    if (Number(defaultAheadText) > 0 || Number(featureCommitCountText) > 0) {
+      throw new Error('comparison base collapsed to feature HEAD');
+    }
+  }
+
+  const sameFeatureRefs = new Set([branchRef, `refs/remotes/origin/${branchName}`]);
+  const rejectedSameFeatureUpstream = Boolean(
+    upstreamRef && sameFeatureRefs.has(upstreamRef) && upstreamRef !== selected.ref,
+  );
+  return { commit: mergeBase, source: selected.source, rejectedSameFeatureUpstream };
 }
 
 function nulList(value) {
@@ -77,10 +131,10 @@ export function changedJavaScript({ root = DEFAULT_ROOT, base, gitRun = git } = 
   return [...paths].sort((a, b) => a.localeCompare(b));
 }
 
-function testFiles(root) {
-  const output = git(root, ['ls-files', '-z', '--', 'tests/*.test.mjs']);
+function testFiles(root, gitRun = git) {
+  const output = gitRun(root, ['ls-files', '-z', '--', 'tests/*.test.mjs']);
   const tracked = nulList(output);
-  const untracked = nulList(git(root, ['ls-files', '--others', '--exclude-standard', '-z', '--', 'tests/*.test.mjs']));
+  const untracked = nulList(gitRun(root, ['ls-files', '--others', '--exclude-standard', '-z', '--', 'tests/*.test.mjs']));
   return [...new Set([...tracked, ...untracked])].sort((a, b) => a.localeCompare(b));
 }
 
@@ -100,7 +154,7 @@ function installedChromePreload() {
 
 export function buildValidationPlan({ root = DEFAULT_ROOT, base, gitRun = git } = {}) {
   const syntaxFiles = changedJavaScript({ root, base, gitRun });
-  const tests = testFiles(root);
+  const tests = testFiles(root, gitRun);
   const nodeTestArgs = ['--test', ...tests];
   const preload = installedChromePreload();
   if (preload) nodeTestArgs.unshift(`--import=${preload}`);
@@ -164,12 +218,13 @@ export function runCli(argv = process.argv.slice(2)) {
   try { options = parseArgs(argv); }
   catch (error) { process.stderr.write(`FAIL validate-local: ${error.message}\n`); return 2; }
   if (options.help) {
-    process.stdout.write('Usage: node scripts/validate-local.mjs [--base <revision>]\nComparison base: explicit --base, upstream merge-base, origin/main merge-base, then first parent.\n');
+    process.stdout.write('Usage: node scripts/validate-local.mjs [--base <revision>]\nComparison base: explicit --base; otherwise origin/HEAD, origin/main, then local main; fails closed when none is trustworthy.\n');
     return 0;
   }
   try {
     const root = realpathSync(DEFAULT_ROOT);
     const base = selectComparisonBase({ root, explicitBase: options.base });
+    if (base.rejectedSameFeatureUpstream) process.stdout.write('INFO comparison-base: same-feature upstream rejected\n');
     process.stdout.write(`INFO comparison-base: ${base.source} ${base.commit.slice(0, 12)}\n`);
     const plan = buildValidationPlan({ root, base: base.commit });
     if (!plan.some((step) => step.name.startsWith('syntax:'))) process.stdout.write('SKIP syntax:no changed JavaScript files\n');
