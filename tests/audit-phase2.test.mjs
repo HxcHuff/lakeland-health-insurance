@@ -197,3 +197,24 @@ test('distinct Search Console queries retain distinct opaque finding ids', () =>
   assert.equal(new Set(findings.map((item) => item.id)).size, 2);
   assert.equal(findings.every((item) => !item.id.includes('eligible query')), true);
 });
+
+test('actionable-position query findings enforce the configured impression floor', () => {
+  const { config } = tempConfig('lhi-query-floor-');
+  const gscQuery = {
+    retrievedAt: '2026-08-12T12:00:00.000Z',
+    integrity: { payloadSha256: 'e'.repeat(64) },
+    request: {
+      reportingWindow: { startDate: '2026-08-03', endDate: '2026-08-09' },
+      populationComplete: false
+    },
+    payload: {
+      rows: [
+        { query: 'qualified weekly query', clicks: 0, impressions: config.thresholds.actionableQueryMinImpressions, ctr: 0, position: 8 },
+        { query: 'isolated weekly query', clicks: 0, impressions: config.thresholds.actionableQueryMinImpressions - 1, ctr: 0, position: 8 }
+      ]
+    }
+  };
+  const findings = generateFindings({ gscQueries: [gscQuery] }, config).filter((item) => item.ruleId === 'gsc-actionable-position-query');
+  assert.equal(findings.length, 1);
+  assert.equal(findings[0].evidence[0].query, 'qualified weekly query');
+});

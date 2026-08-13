@@ -112,6 +112,11 @@ ordering regardless of traffic while preserving a distinction between confirmed
 public exposure and registry-review candidates. Evidence, source observations,
 confidence, and required verification travel with every finding.
 
+Actionable-position query findings also require the configured weekly impression
+floor. This suppresses recommendation noise from isolated low-volume rows without
+dropping or altering the immutable query dataset. Page and query evidence remain
+separate, and query-to-page attribution is never inferred from similar wording.
+
 ## Deployment and QA gates
 
 1. **Local validation:** repository collectors, existing validators, unit tests,

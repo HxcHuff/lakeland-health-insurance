@@ -92,6 +92,7 @@
     "poorCtr": 0.02,
     "actionablePositionMin": 4,
     "actionablePositionMax": 20,
+    "actionableQueryMinImpressions": 10,
     "trafficLandingSessions": 10,
     "declineFraction": 0.2
   }

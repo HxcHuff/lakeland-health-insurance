@@ -383,7 +383,9 @@ export function generateFindings(inputs, config) {
           verificationRequired: true, risk: 2, visibility: visibilityFrom(row.impressions), confidence: 0.9, recency: 1.2
         }));
       }
-      if (row.position >= config.thresholds.actionablePositionMin && row.position <= config.thresholds.actionablePositionMax) {
+      if (row.impressions >= config.thresholds.actionableQueryMinImpressions
+        && row.position >= config.thresholds.actionablePositionMin
+        && row.position <= config.thresholds.actionablePositionMax) {
         findings.push(createFinding({
           ruleId: 'gsc-actionable-position-query', category: 'search-performance',
           scope: row.query,
