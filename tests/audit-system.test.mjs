@@ -14,7 +14,7 @@ import {
   sha256,
   verifyEnvelope
 } from '../scripts/audit/core.mjs';
-import { buildNormalizedDataset, generateFindings, renderWeeklyReport } from '../scripts/audit/build-report.mjs';
+import { buildNormalizedDataset, comparableSearchPerformanceWindows, generateFindings, renderWeeklyReport } from '../scripts/audit/build-report.mjs';
 import { parseCsv, validateMetadata } from '../scripts/audit/import-data.mjs';
 import { claimCandidates } from '../scripts/audit/collect-repository.mjs';
 import { checkRegistry } from '../scripts/check-regulated-claims.mjs';
@@ -139,7 +139,7 @@ function inputs() {
     inspection: null,
     gscPages: [
       envelope('gsc-page', 'previous', { rows: fixture.gscPrevious }, { startDate: '2026-06-01', endDate: '2026-06-30' }, { retrievedAt: '2026-07-02T12:00:00.000Z', populationComplete: false }),
-      envelope('gsc-page', 'current', { rows: fixture.gscCurrent }, { startDate: '2026-07-01', endDate: '2026-07-31' }, { populationComplete: false })
+      envelope('gsc-page', 'current', { rows: fixture.gscCurrent }, { startDate: '2026-07-01', endDate: '2026-07-30' }, { populationComplete: false })
     ],
     gscQueries: [envelope('gsc-query', 'queries', { rows: fixture.gscQueries }, { startDate: '2026-07-01', endDate: '2026-07-31' }, { populationComplete: false })],
     gscQueryPages: [],
@@ -221,6 +221,41 @@ test('findings prioritize compliance gaps and preserve incomplete GSC verificati
   assert.equal(compliance.automaticActionAllowed, false);
   assert.ok(decline);
   assert.equal(decline.verificationRequired, true);
+});
+
+test('Search Console comparisons deduplicate re-collections and require contiguous equal-length windows', () => {
+  const prior = envelope('gsc-page', 'prior', { rows: fixture.gscPrevious }, { startDate: '2026-07-27', endDate: '2026-08-02' }, { retrievedAt: '2026-08-03T12:00:00.000Z' });
+  const currentOld = envelope('gsc-page', 'current-old', { rows: fixture.gscCurrent }, { startDate: '2026-08-03', endDate: '2026-08-09' }, { retrievedAt: '2026-08-10T12:00:00.000Z' });
+  const currentNew = envelope('gsc-page', 'current-new', { rows: fixture.gscCurrent }, { startDate: '2026-08-03', endDate: '2026-08-09' }, { retrievedAt: '2026-08-12T12:00:00.000Z' });
+  const comparable = comparableSearchPerformanceWindows([currentOld, prior, currentNew]);
+  assert.equal(comparable.current.dataset, 'current-new');
+  assert.equal(comparable.previous.dataset, 'prior');
+
+  const duplicateOnly = comparableSearchPerformanceWindows([currentOld, currentNew]);
+  assert.equal(duplicateOnly.current.dataset, 'current-new');
+  assert.equal(duplicateOnly.previous, null);
+
+  const noncontiguous = envelope('gsc-page', 'noncontiguous', { rows: fixture.gscPrevious }, { startDate: '2026-07-20', endDate: '2026-07-26' });
+  assert.equal(comparableSearchPerformanceWindows([noncontiguous, currentNew]).previous, null);
+
+  const incomplete = structuredClone(prior);
+  incomplete.request.complete = false;
+  assert.equal(comparableSearchPerformanceWindows([incomplete, currentNew]).previous, null);
+
+  const invalidDate = envelope('gsc-page', 'invalid-date', { rows: fixture.gscPrevious }, { startDate: '2026-02-30', endDate: '2026-03-08' });
+  assert.equal(comparableSearchPerformanceWindows([invalidDate, currentNew]).previous, null);
+});
+
+test('duplicate Search Console page windows do not produce trend findings or winners', () => {
+  const sourceInputs = inputs();
+  sourceInputs.gscPages = [
+    envelope('gsc-page', 'same-window-old', { rows: fixture.gscPrevious }, { startDate: '2026-08-03', endDate: '2026-08-09' }, { retrievedAt: '2026-08-10T12:00:00.000Z' }),
+    envelope('gsc-page', 'same-window-new', { rows: fixture.gscCurrent }, { startDate: '2026-08-03', endDate: '2026-08-09' }, { retrievedAt: '2026-08-12T12:00:00.000Z' })
+  ];
+  const findings = generateFindings(sourceInputs, config);
+  assert.equal(findings.some((item) => item.ruleId === 'gsc-page-decline'), false);
+  const report = renderWeeklyReport({ runId: 'duplicate-window', generatedAt: '2026-08-12T12:00:00.000Z', findings, inputs: sourceInputs, config });
+  assert.doesNotMatch(report, / -> /);
 });
 
 test('weekly report keeps Search Console visibility separate from GA4 usage', () => {

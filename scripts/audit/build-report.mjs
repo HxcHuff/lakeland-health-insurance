@@ -17,6 +17,36 @@ function byWindow(envelopes) {
   return [...envelopes].sort((a, b) => String(a.request.reportingWindow?.endDate || a.retrievedAt).localeCompare(String(b.request.reportingWindow?.endDate || b.retrievedAt)));
 }
 
+function reportingWindow(envelope) {
+  if (envelope?.request?.complete !== true) return null;
+  const { startDate, endDate } = envelope.request.reportingWindow || {};
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate || '') || !/^\d{4}-\d{2}-\d{2}$/.test(endDate || '')) return null;
+  const start = Date.parse(`${startDate}T00:00:00.000Z`);
+  const end = Date.parse(`${endDate}T00:00:00.000Z`);
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end < start) return null;
+  if (new Date(start).toISOString().slice(0, 10) !== startDate || new Date(end).toISOString().slice(0, 10) !== endDate) return null;
+  return { startDate, endDate, start, end, days: Math.round((end - start) / 86400000) + 1 };
+}
+
+export function comparableSearchPerformanceWindows(envelopes) {
+  const distinct = new Map();
+  for (const envelope of envelopes || []) {
+    const window = reportingWindow(envelope);
+    if (!window) continue;
+    const key = `${window.startDate}:${window.endDate}`;
+    const existing = distinct.get(key);
+    if (!existing || String(envelope.retrievedAt).localeCompare(String(existing.envelope.retrievedAt)) > 0) {
+      distinct.set(key, { envelope, window });
+    }
+  }
+  const windows = [...distinct.values()].sort((a, b) => a.window.end - b.window.end || a.window.start - b.window.start || String(a.envelope.retrievedAt).localeCompare(String(b.envelope.retrievedAt)));
+  const current = windows.at(-1);
+  if (!current) return { current: null, previous: null };
+  const expectedPreviousEnd = current.window.start - 86400000;
+  const previous = windows.findLast((item) => item.window.end === expectedPreviousEnd && item.window.days === current.window.days);
+  return { current: current.envelope, previous: previous?.envelope || null };
+}
+
 function visibilityFrom(value) {
   if (value >= 1000) return 5;
   if (value >= 250) return 4;
@@ -338,7 +368,7 @@ export function generateFindings(inputs, config) {
   const gscPages = byWindow(inputs.gscPages || []);
   if (gscPages.length) {
     const current = gscPages.at(-1);
-    const previous = gscPages.at(-2);
+    const { previous } = comparableSearchPerformanceWindows(inputs.gscPages || []);
     if (previous) {
       const previousByUrl = new Map((previous.payload.rows || []).map((row) => [followAlias(row.page, aliases, config).url, row]));
       for (const row of current.payload.rows || []) {
@@ -621,7 +651,7 @@ export function renderWeeklyReport({ runId, generatedAt, findings, inputs, confi
   const indexing = findings.filter((item) => item.category === 'indexing').slice(0, 30);
   const declines = findings.filter((item) => item.ruleId === 'gsc-page-decline').slice(0, 20);
   const gscCurrent = byWindow(inputs.gscPages || []).at(-1);
-  const gscPrevious = byWindow(inputs.gscPages || []).at(-2);
+  const { previous: gscPrevious } = comparableSearchPerformanceWindows(inputs.gscPages || []);
   const previousMap = new Map((gscPrevious?.payload.rows || []).map((row) => [canonicalUrl(row.page, config), row]));
   const winners = (gscCurrent?.payload.rows || []).map((row) => ({ ...row, prior: previousMap.get(canonicalUrl(row.page, config)) })).filter((row) => row.prior && (row.clicks > row.prior.clicks || row.impressions > row.prior.impressions)).sort((a, b) => (b.clicks - b.prior.clicks) - (a.clicks - a.prior.clicks)).slice(0, 20);
   const showing = [...(gscCurrent?.payload.rows || [])].sort((a, b) => b.impressions - a.impressions).slice(0, 30);
@@ -676,7 +706,7 @@ ${inputs.crawl && (inputs.crawlHistoryCount || 0) < 2 ? '_This is the first reta
 
 ## Search Console winners and declines
 
-Winners compare only URLs present in both page-level windows. They are not total-site estimates.
+Winners and declines require distinct, complete, contiguous, equal-length page-level windows and compare only URLs present in both. They are not total-site estimates.
 
 ${table(winners, [
     { label: 'Page', value: (row) => row.page },
