@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import {
   assertNoSensitiveText,
+  canonicalUrl,
   fetchWithRetry,
   loadConfig,
   makeEnvelope,
@@ -312,43 +313,76 @@ async function gaReport({ token, propertyId, window, dimensions, metrics, limit,
   return rows;
 }
 
-async function collectGa4(args, config) {
-  const token = required('LHI_GA4_ACCESS_TOKEN');
-  const window = reportingWindow(args);
-  const propertyId = config.ga4.propertyId;
-  const pageRows = await gaReport({ token, propertyId, window, dimensions: config.ga4.pageDimensions, metrics: config.ga4.pageMetrics, limit: config.ga4.limit });
-  pageRows.forEach((row) => {
+export function sanitizeGa4LandingRow(row, dimension, config) {
+  const raw = row[dimension];
+  if (!raw || raw === '(not set)') return row;
+  const normalizedUrl = sanitizeUrl(raw, config);
+  row.normalizedUrl = normalizedUrl;
+  row[dimension] = new URL(normalizedUrl).pathname;
+  return row;
+}
+
+export function sanitizeGa4PageRows(rows, config) {
+  const retained = [];
+  let excludedOutsideProductionOrigin = 0;
+  for (const row of rows) {
     if (row.pageLocation === '(not set)' || !row.pageLocation) {
       row.pageLocation = null;
       row.pagePath = row.pagePath === '(not set)' ? null : row.pagePath || null;
       row.normalizationState = 'not-set';
-      return;
+      retained.push(row);
+      continue;
     }
-    row.pageLocation = sanitizeUrl(row.pageLocation, config, { allowExternal: false });
-    row.pagePath = new URL(row.pageLocation).pathname;
+    const normalized = canonicalUrl(row.pageLocation, config);
+    if (new URL(normalized).origin !== config.site.origin) {
+      excludedOutsideProductionOrigin += 1;
+      continue;
+    }
+    row.pageLocation = normalized;
+    row.pagePath = new URL(normalized).pathname;
     row.normalizationState = 'normalized';
-  });
+    retained.push(row);
+  }
+  return { rows: retained, excludedOutsideProductionOrigin };
+}
+
+async function collectGa4(args, config) {
+  const token = required('LHI_GA4_ACCESS_TOKEN');
+  const window = reportingWindow(args);
+  const propertyId = config.ga4.propertyId;
+  const productionHostFilter = { filter: { fieldName: 'hostName', stringFilter: { matchType: 'EXACT', value: config.site.canonicalHost, caseSensitive: false } } };
+  const pageResult = sanitizeGa4PageRows(await gaReport({
+    token, propertyId, window, dimensions: config.ga4.pageDimensions, metrics: config.ga4.pageMetrics, limit: config.ga4.limit, dimensionFilter: productionHostFilter
+  }), config);
+  const pageRows = pageResult.rows;
   const pages = makeEnvelope({
     source: 'ga4-page',
     dataset: `pages-${window.startDate}-${window.endDate}`,
-    request: { property: `properties/${propertyId}`, reportingWindow: window, dimensions: config.ga4.pageDimensions, filters: {}, dataState: 'reported', requestedRows: null, retrievedRows: pageRows.length, complete: true, limitations: [] },
+    request: {
+      property: `properties/${propertyId}`, reportingWindow: window, dimensions: config.ga4.pageDimensions,
+      filters: { hostName: config.site.canonicalHost, excludedOutsideProductionOrigin: pageResult.excludedOutsideProductionOrigin },
+      dataState: 'reported', requestedRows: null, retrievedRows: pageRows.length, complete: true,
+      limitations: ['Rows are restricted to the canonical production hostname; preview and other hosts are excluded.']
+    },
     payload: { rows: pageRows }
   });
   const pageFile = persistEnvelope(pages, config);
 
-  const landingRows = await gaReport({ token, propertyId, window, dimensions: [config.ga4.landingDimension], metrics: config.ga4.landingMetrics, limit: config.ga4.limit });
+  const landingRows = await gaReport({ token, propertyId, window, dimensions: [config.ga4.landingDimension], metrics: config.ga4.landingMetrics, limit: config.ga4.limit, dimensionFilter: productionHostFilter });
   const eventFilter = {
-    orGroup: { expressions: config.ga4.approvedKeyEvents.map((event) => ({ filter: { fieldName: 'eventName', stringFilter: { matchType: 'EXACT', value: event, caseSensitive: true } } })) }
+    andGroup: { expressions: [
+      productionHostFilter,
+      { orGroup: { expressions: config.ga4.approvedKeyEvents.map((event) => ({ filter: { fieldName: 'eventName', stringFilter: { matchType: 'EXACT', value: event, caseSensitive: true } } })) } }
+    ] }
   };
   const keyEventRows = await gaReport({ token, propertyId, window, dimensions: [config.ga4.landingDimension, 'eventName'], metrics: ['keyEvents'], limit: config.ga4.limit, dimensionFilter: eventFilter });
   for (const row of [...landingRows, ...keyEventRows]) {
-    const raw = row[config.ga4.landingDimension];
-    if (raw && raw !== '(not set)') row.normalizedUrl = sanitizeUrl(raw, config);
+    sanitizeGa4LandingRow(row, config.ga4.landingDimension, config);
   }
   const landing = makeEnvelope({
     source: 'ga4-landing',
     dataset: `landings-${window.startDate}-${window.endDate}`,
-    request: { property: `properties/${propertyId}`, reportingWindow: window, dimensions: [config.ga4.landingDimension, 'eventName'], filters: { approvedKeyEvents: config.ga4.approvedKeyEvents }, dataState: 'reported', requestedRows: null, retrievedRows: landingRows.length + keyEventRows.length, complete: true, limitations: ['Key-event rows include only repository-approved event names.'] },
+    request: { property: `properties/${propertyId}`, reportingWindow: window, dimensions: [config.ga4.landingDimension, 'eventName'], filters: { hostName: config.site.canonicalHost, approvedKeyEvents: config.ga4.approvedKeyEvents }, dataState: 'reported', requestedRows: null, retrievedRows: landingRows.length + keyEventRows.length, complete: true, limitations: ['Rows are restricted to the canonical production hostname; preview and other hosts are excluded.', 'Key-event rows include only repository-approved event names.'] },
     payload: { landingRows, keyEventRows }
   });
   return { pageFile, landingFile: persistEnvelope(landing, config) };

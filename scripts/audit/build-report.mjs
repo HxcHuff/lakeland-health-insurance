@@ -365,10 +365,10 @@ export function generateFindings(inputs, config) {
     }
   }
 
-  const gscPages = byWindow(inputs.gscPages || []);
-  if (gscPages.length) {
-    const current = gscPages.at(-1);
-    const { previous } = comparableSearchPerformanceWindows(inputs.gscPages || []);
+  const { current: currentGscPage, previous: previousGscPage } = comparableSearchPerformanceWindows(inputs.gscPages || []);
+  if (currentGscPage) {
+    const current = currentGscPage;
+    const previous = previousGscPage;
     if (previous) {
       const previousByUrl = new Map((previous.payload.rows || []).map((row) => [followAlias(row.page, aliases, config).url, row]));
       for (const row of current.payload.rows || []) {
@@ -498,9 +498,10 @@ export function generateFindings(inputs, config) {
 }
 
 function sourceChecksums(inputs) {
+  const gscPageWindows = comparableSearchPerformanceWindows(inputs.gscPages || []);
   return Object.fromEntries([
     ['repository', inputs.repository], ['live-crawl', inputs.crawl], ['render-observation', inputs.render], ['connector-validation', inputs.connectorValidation], ['url-inspection', inputs.inspection],
-    ['gsc-page', byWindow(inputs.gscPages || []).at(-1)], ['gsc-query', byWindow(inputs.gscQueries || []).at(-1)], ['gsc-query-page', byWindow(inputs.gscQueryPages || []).at(-1)],
+    ['gsc-page', gscPageWindows.current], ['gsc-page-previous', gscPageWindows.previous], ['gsc-query', byWindow(inputs.gscQueries || []).at(-1)], ['gsc-query-page', byWindow(inputs.gscQueryPages || []).at(-1)],
     ['ga4-page', byWindow(inputs.ga4Pages || []).at(-1)], ['ga4-landing', byWindow(inputs.ga4Landing || []).at(-1)]
   ].filter(([, value]) => value).map(([name, value]) => [name, { retrievedAt: value.retrievedAt, checksum: value.integrity.payloadSha256, dataset: value.dataset }]));
 }
@@ -650,8 +651,7 @@ export function renderWeeklyReport({ runId, generatedAt, findings, inputs, confi
   const broken = findings.filter((item) => ['technical', 'metadata', 'content-control'].includes(item.category)).slice(0, 30);
   const indexing = findings.filter((item) => item.category === 'indexing').slice(0, 30);
   const declines = findings.filter((item) => item.ruleId === 'gsc-page-decline').slice(0, 20);
-  const gscCurrent = byWindow(inputs.gscPages || []).at(-1);
-  const { previous: gscPrevious } = comparableSearchPerformanceWindows(inputs.gscPages || []);
+  const { current: gscCurrent, previous: gscPrevious } = comparableSearchPerformanceWindows(inputs.gscPages || []);
   const previousMap = new Map((gscPrevious?.payload.rows || []).map((row) => [canonicalUrl(row.page, config), row]));
   const winners = (gscCurrent?.payload.rows || []).map((row) => ({ ...row, prior: previousMap.get(canonicalUrl(row.page, config)) })).filter((row) => row.prior && (row.clicks > row.prior.clicks || row.impressions > row.prior.impressions)).sort((a, b) => (b.clicks - b.prior.clicks) - (a.clicks - a.prior.clicks)).slice(0, 20);
   const showing = [...(gscCurrent?.payload.rows || [])].sort((a, b) => b.impressions - a.impressions).slice(0, 30);

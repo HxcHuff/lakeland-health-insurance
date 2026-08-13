@@ -105,8 +105,18 @@ the run. BigQuery bulk export is the preferred full-data path; its contract chec
 `ExportLog` coverage before accepting a reporting window.
 
 GA4 reports validate `rowCount` against retrieved rows and paginate to completion.
+API requests are restricted to the canonical production hostname so Netlify
+preview and other-host traffic is not attributed to production. Page locations
+are checked again after retrieval, and GA4 landing dimensions are replaced with
+their normalized path before immutable persistence; raw query names and values are
+not retained.
 CSV imports require a sidecar with source property, exact window, filters,
 dimensions, data state, exported time, row count, and original-file SHA-256.
+
+Trend calculations require distinct, complete, contiguous, equal-length Search
+Console page windows. The findings and normalized manifests enumerate both the
+current and prior checksums so encrypted evidence bundles include every raw period
+used by the comparison.
 
 ## Finding priority
 

@@ -91,8 +91,9 @@ node scripts/audit/import-data.mjs --file /approved/path/export.csv --sidecar /a
 The sidecar must identify the exact property, reporting window, filters,
 dimensions, final/fresh state, export time, exact row count, completeness status,
 and SHA-256 checksum. Imports with unapproved columns, mismatched counts/checksums,
-incomplete status, sensitive query parameter names, credentials, emails, or phone
-numbers are rejected.
+incomplete status, credentials, emails, or phone numbers are rejected. URL query
+strings are removed during normalization; sensitive parameter names and values are
+never copied into the retained envelope.
 
 ## BigQuery Search Console export
 

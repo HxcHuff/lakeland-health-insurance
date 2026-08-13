@@ -17,6 +17,7 @@ import {
 import { buildNormalizedDataset, comparableSearchPerformanceWindows, generateFindings, renderWeeklyReport } from '../scripts/audit/build-report.mjs';
 import { parseCsv, validateMetadata } from '../scripts/audit/import-data.mjs';
 import { claimCandidates } from '../scripts/audit/collect-repository.mjs';
+import { sanitizeGa4LandingRow, sanitizeGa4PageRows } from '../scripts/audit/collect-google.mjs';
 import { checkRegistry } from '../scripts/check-regulated-claims.mjs';
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
@@ -148,7 +149,7 @@ function inputs() {
   };
 }
 
-test('URL normalization strips fragments and query values and rejects sensitive parameter names', () => {
+test('URL normalization strips fragments, query values, and sensitive parameter names', () => {
   assert.equal(
     sanitizeUrl('https://lakelandhealthinsurance.com/get-help/?utm_source=campaign#form', config),
     'https://lakelandhealthinsurance.com/get-help/'
@@ -162,7 +163,33 @@ test('URL normalization strips fragments and query values and rejects sensitive 
     () => sanitizeUrl('http://www.lakelandhealthinsurance.com/legacy/', config, { allowCanonicalHostProtocolVariant: true }),
     /URL outside approved origin/
   );
-  assert.throws(() => sanitizeUrl('https://lakelandhealthinsurance.com/?applicant_email=test', config), /Sensitive query parameter/);
+  assert.equal(sanitizeUrl('https://lakelandhealthinsurance.com/?applicant_email=test', config), 'https://lakelandhealthinsurance.com/');
+  const hashConfig = structuredClone(config);
+  hashConfig.privacy.queryParameterMode = 'hash';
+  hashConfig.privacy.hashParameters.push('applicant_email');
+  const hashed = sanitizeUrl('https://lakelandhealthinsurance.com/?applicant_email=test&utm_source=search', hashConfig);
+  assert.doesNotMatch(hashed, /applicant|test/);
+  assert.match(hashed, /utm_source=sha256%3A/);
+});
+
+test('GA4 landing normalization never persists raw query names or values', () => {
+  const dimension = config.ga4.landingDimension;
+  const row = { [dimension]: '/get-help/?applicant_email=private%40example.com&utm_campaign=summer', sessions: 1 };
+  sanitizeGa4LandingRow(row, dimension, config);
+  assert.equal(row[dimension], '/get-help/');
+  assert.equal(row.normalizedUrl, 'https://lakelandhealthinsurance.com/get-help/');
+  assert.doesNotMatch(JSON.stringify(row), /applicant|private|summer|utm_/i);
+});
+
+test('GA4 page normalization excludes preview hosts without retaining their URLs', () => {
+  const result = sanitizeGa4PageRows([
+    { pageLocation: 'https://lakelandhealthinsurance.com/medicare/?release_check=private', pagePath: '/medicare/' },
+    { pageLocation: 'https://preview-id--lhi.netlify.app/get-help/?applicant_email=private', pagePath: '/get-help/' }
+  ], config);
+  assert.equal(result.rows.length, 1);
+  assert.equal(result.excludedOutsideProductionOrigin, 1);
+  assert.equal(result.rows[0].pageLocation, 'https://lakelandhealthinsurance.com/medicare/');
+  assert.doesNotMatch(JSON.stringify(result), /preview-id|applicant|private|release_check/i);
 });
 
 test('raw evidence checksum detects mutation and immutable persistence is idempotent', () => {
@@ -278,6 +305,8 @@ test('normalized output joins URL evidence while retaining query rows separately
   assert.equal(home.searchConsolePage.clicks, 10);
   assert.equal(home.ga4Landing.sessions, 100);
   assert.equal(normalized.searchQueries[0].query, 'lakeland health coverage');
+  assert.equal(normalized.sourceChecksums['gsc-page'].dataset, 'current');
+  assert.equal(normalized.sourceChecksums['gsc-page-previous'].dataset, 'previous');
   assert.equal(Object.hasOwn(normalized.searchQueries[0], 'page'), false);
   assert.deepEqual(normalized.searchQueryPages, []);
 });

@@ -89,7 +89,7 @@ export function sanitizeUrl(raw, config, { allowExternal = false, allowCanonical
   const sanitized = new URL(url.href);
   sanitized.search = '';
   for (const [name, value] of url.searchParams) {
-    if (reject.test(name)) throw new Error(`Sensitive query parameter name rejected: ${name}`);
+    if (reject.test(name)) continue;
     if (config.privacy.queryParameterMode === 'hash' && config.privacy.hashParameters.includes(name)) {
       sanitized.searchParams.append(name, `sha256:${sha256(value)}`);
     }
