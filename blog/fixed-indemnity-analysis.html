@@ -601,6 +601,20 @@
                 display: block;
                 margin: 10px 0;
             }
+            .cta-section {
+                padding: 1.5rem 1.25rem;
+            }
+            .quote-tools-grid,
+            .quote-tool-card {
+                min-width: 0;
+            }
+            .quote-tool-card {
+                box-sizing: border-box;
+                padding: 1.25rem;
+            }
+            .quote-tool-header {
+                flex-wrap: wrap;
+            }
             table {
                 font-size: 0.9rem;
             }
@@ -649,7 +663,7 @@ header .cta-button {
 
     <link rel="stylesheet" href="/css/blog-unified.css?v=20260803-brand-release">
     <link rel="stylesheet" href="/css/quote-tools.css">
-    <script defer src="/js/analytics.js?v=20260731-measurement-integrity"></script>
+    <script defer src="/js/analytics.js?v=20260814-fixed-indemnity-cta"></script>
     <link rel="stylesheet" href="/css/site-template.css?v=20260803-brand-release">
 </head>
 <body class="blog-post">
@@ -717,6 +731,15 @@ header .cta-button {
                     <h3>The strategy people are asking about</h3>
                     <p>For healthy applicants who do not qualify for an ACA subsidy, STM or TriTerm Medical may be worth comparing against full-price ACA only after underwriting, exclusions, and benefit limits are understood. Health ProtectorGuard can add fixed cash benefits for covered events, but it does not turn a non-ACA structure into ACA-compliant major medical coverage.</p>
                     <p>For people who do qualify for a strong ACA subsidy, or who have pre-existing conditions, expensive prescriptions, maternity needs, or ongoing treatment, ACA may still be the better foundation. The point is to compare the strategy, not assume one product wins for everyone.</p>
+                </div>
+
+                <div class="cta-section" id="how-to-apply">
+                    <h3>Ready to Apply? Choose How You Enroll</h3>
+                    <p>Applying is easy to start. David can enroll you today when an option is available and the carrier approves your application. Prefer self-service? Answer a few simple questions online, review plans for your ZIP code, and continue the application yourself.</p>
+
+                    <a href="tel:+18636403102" data-analytics-label="fixed_indemnity_inline_enrollment_call">Call David to Enroll</a>
+                    <a href="https://shop.uhone.com/en/quote/census?brokerid=AA5045127" target="_blank" rel="noopener noreferrer" data-tool="uhone-fixed-indemnity-inline" data-funnel-external-quote data-analytics-label="fixed_indemnity_inline_self_service_apply">Apply Online Yourself</a>
+                    <p><small>Product availability, underwriting, carrier approval, and effective-date rules apply. Coverage is not effective until confirmed by the carrier.</small></p>
                 </div>
 
                 <h2>How HPG, STM, and TriTerm Medical Work Together</h2>
@@ -854,20 +877,20 @@ header .cta-button {
                     <p>The right question is not "Is HPG good or bad?" The right question is: "Does this benefit schedule solve the cash-flow and claim-risk problem I actually have?"</p>
                 </div>
 
-                <h2>Quote Related UHC Fixed-Benefit Options</h2>
+                <h2>Quote and Apply Online for Available UHOne Options</h2>
                 <div class="quote-tools-section-intro">
-                    The UHOne self-quote tool covers UnitedHealthcare hospital indemnity, accident, and critical illness options available in your ZIP code. <strong>Health ProtectorGuard is quoted separately.</strong> Use the quote tool for related UHC fixed-benefit options, or call David for HPG-specific guidance.
+                    The UnitedHealthOne self-service path starts with a few basic questions and shows Health ProtectorGuard and related options available for your ZIP code. You can review pricing and continue to the online application, or call David if you want help comparing or applying.
                 </div>
                 <div class="quote-tools-grid">
                     <div class="quote-tool-card">
                         <div class="quote-tool-header">
                             <div>
                                 <div class="quote-tool-carrier">UnitedHealthOne</div>
-                                <h3 class="quote-tool-title">UHC Hospital Indemnity, Accident &amp; Critical Illness Quote</h3>
+                                <h3 class="quote-tool-title">UnitedHealthOne Self-Service Quote and Application</h3>
                             </div>
-                            <span class="quote-tool-tag">Self-Quote</span>
+                            <span class="quote-tool-tag">Self-Service</span>
                         </div>
-                        <p class="quote-tool-desc">Run pricing on UHC fixed-benefit and short-term options that may layer beside an ACA, employer, STM/TTM, or Medicare strategy. Availability and benefits vary by state, ZIP code, and product.</p>
+                        <p class="quote-tool-desc">Answer a few basic questions, review products currently available for your ZIP code, and continue to the application you select. Availability, underwriting, benefits, and approval vary by product.</p>
                         <div class="quote-tool-chips">
                             <span>Hospital Indemnity</span>
                             <span>Accident</span>
@@ -878,8 +901,8 @@ header .cta-button {
                             <span>Vision</span>
                             <span>Life</span>
                         </div>
-                        <a href="https://shop.uhone.com/en/quote/census?brokerid=AA5045127" target="_blank" rel="noopener noreferrer" class="quote-tool-cta" data-tool="uhone-hospital-indemnity">Start UHOne Quote &rarr;</a>
-                        <p class="quote-tool-footnote">Opens UnitedHealthOne in a new tab. Health ProtectorGuard is quoted separately. David is your broker of record.</p>
+                        <a href="https://shop.uhone.com/en/quote/census?brokerid=AA5045127" target="_blank" rel="noopener noreferrer" class="quote-tool-cta" data-tool="uhone-hospital-indemnity" data-funnel-external-quote data-analytics-label="fixed_indemnity_lower_self_service_apply">Start Quote &amp; Application &rarr;</a>
+                        <p class="quote-tool-footnote">Opens UnitedHealthOne in a new tab. The carrier determines availability, premium, approval, and effective date. David is your broker of record.</p>
                     </div>
                 </div>
 
@@ -887,7 +910,7 @@ header .cta-button {
                     <h3>Check the Strategy Before You Buy</h3>
                     <p>Before adding Health ProtectorGuard or another fixed-benefit product, make sure the benefit schedule matches the risk you are trying to reduce. David can help you review the fit, explain the limitations, and keep support available after enrollment.</p>
 
-                    <a href="/get-help/">Request Product Guidance</a>
+                    <a href="/get-help/?product=hpg">Request Product Guidance</a>
                     <a href="tel:+18636403102">Call David</a>
                 </div>
 

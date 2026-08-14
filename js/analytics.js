@@ -80,7 +80,7 @@
          the local event bus remains testable without third-party analytics. */
       var fqa=document.createElement('script');
       fqa.async=true;
-      fqa.src='/js/funnel.js?v=20260731-measurement-integrity';
+      fqa.src='/js/funnel.js?v=20260814-fixed-indemnity-cta';
       document.head.appendChild(fqa);
       return;
     }
@@ -113,7 +113,7 @@
     /* Funnel event bus — unifies dataLayer and conversion helpers */
     var f=document.createElement('script');
     f.async=true;
-    f.src='/js/funnel.js?v=20260731-measurement-integrity';
+    f.src='/js/funnel.js?v=20260814-fixed-indemnity-cta';
     document.head.appendChild(f);
   }
   /* Defer Google tags until after LCP/FCP so third-party JS isn't

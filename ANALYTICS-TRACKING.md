@@ -54,11 +54,13 @@ Goal: optimize site measurement for qualified Medicare/ACA leads, not raw clicks
 | `line_of_business` | Lead segmentation property | No |
 | `lead_submit` | Legacy submit helper on older/local pages | No |
 | `phone_call`, `phone_click` | Legacy aliases | No |
+| `external_quote_click` | Outbound self-service quote/application intent | No |
 | `page_view`, `scroll`, `click`, `user_engagement` | UX/content diagnostics | No |
 | `Subscriber` | Audience-building, not sales lead | No |
 
 ### Current Lead-Funnel Guardrails
 - `/js/funnel.js` fires explicit `StartLead` once per wired form as a diagnostic event.
+- Explicit outbound quote/application links marked with `data-funnel-external-quote` fire `external_quote_click`; `content_name` distinguishes the CTA using a non-sensitive static label.
 - Data-funnel lead and newsletter forms POST to `/api/lead`; 4xx validation/bot rejections do not fall back to native submit and do not retain a thank-you lead marker.
 - Newsletter forms fire `Subscriber`, never `Lead`, Google Ads lead conversion, or Meta CAPI Lead.
 - `/api/lead` returns non-200 when Netlify Forms forwarding fails, so GA does not count failed form delivery as `generate_lead`.
@@ -149,7 +151,7 @@ Step 2 -> timing selected
   ↓
 Conversion → generate_lead
 
-Side channels: phone_call_click / messenger_click
+Side channels: phone_call_click / messenger_click / external_quote_click
 ```
 
 ---

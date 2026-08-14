@@ -33,6 +33,8 @@ const REDIRECTS_SRC = readFileSync(resolve(__dirname, '../_redirects'), 'utf8');
 const ESTIMATOR_HTML = readFileSync(resolve(__dirname, '../aca-subsidy-estimator/index.html'), 'utf8');
 const SERVICE_WORKER_SRC = readFileSync(resolve(__dirname, '../sw.js'), 'utf8');
 const SITE_TEMPLATE_CSS = readFileSync(resolve(__dirname, '../css/site-template.css'), 'utf8');
+const FIXED_INDEMNITY_HTML = readFileSync(resolve(__dirname, '../blog/fixed-indemnity-analysis.html'), 'utf8');
+const EXTERNAL_QUOTE_SELECTOR = 'a[data-funnel-external-quote], a[href*="healthsherpa.com"], a[href*="/find-plans"]';
 
 function makeSessionStorage(initial = {}) {
   const store = new Map(Object.entries(initial));
@@ -48,7 +50,7 @@ function makeSessionStorage(initial = {}) {
 /* Build a sandbox that mimics the browser globals funnel.js touches.
    __LHI_IS_PROD=false silences production-only conversion helpers so loading
    the script has no side-effects beyond attaching window.LHI. */
-function loadFunnel({ pathname = '/', forms = [], fetchImpl, gtagImpl, isProd = false, receiptMarker = null } = {}) {
+function loadFunnel({ pathname = '/', forms = [], selectorResults = {}, fetchImpl, gtagImpl, isProd = false, receiptMarker = null, phoneHelper } = {}) {
   const dataLayer = [];
   const sessionStorage = makeSessionStorage();
   class TestFormData {
@@ -99,7 +101,12 @@ function loadFunnel({ pathname = '/', forms = [], fetchImpl, gtagImpl, isProd = 
     sessionStorage,
     __LHI_THANKS_LEAD_MARKER: receiptMarker
   };
-  sandbox.document.querySelectorAll = () => forms;
+  if (phoneHelper) sandbox.lhiTrackPhoneClick = phoneHelper;
+  sandbox.document.querySelectorAll = (selector) => {
+    if (Object.prototype.hasOwnProperty.call(selectorResults, selector)) return selectorResults[selector];
+    if (selector === 'form[data-funnel-track], form[data-funnel-step]') return forms;
+    return [];
+  };
   /* funnel.js IIFE call: (function(w,d){...})(window||this, document).
      We pass the sandbox itself as `window`, and sandbox.document as `document`. */
   sandbox.window = sandbox;
@@ -149,18 +156,37 @@ function makeFunnelForm({
   };
 }
 
+function makeFunnelLink({ analyticsLabel = null } = {}) {
+  const listeners = {};
+  return {
+    getAttribute(name) {
+      if (name === 'data-analytics-label') return analyticsLabel;
+      return null;
+    },
+    addEventListener(type, cb) {
+      listeners[type] = cb;
+    },
+    dispatchClick() {
+      listeners.click({});
+    },
+    listenerCount(type) {
+      return listeners[type] ? 1 : 0;
+    }
+  };
+}
+
 async function flushPromises(count = 3) {
   for (let i = 0; i < count; i += 1) {
     await Promise.resolve();
   }
 }
 
-function loadAnalytics({ pathname = '/', telLabel = 'Call David' } = {}) {
+function loadAnalytics({ pathname = '/', telLabel = 'Call David', analyticsLabel = null } = {}) {
   const listeners = {};
   const dataLayer = [];
   const telLink = {
     getAttribute(name) {
-      if (name === 'data-analytics-label') return null;
+      if (name === 'data-analytics-label') return analyticsLabel;
       if (name === 'aria-label') return telLabel;
       return null;
     },
@@ -319,6 +345,77 @@ test('phone clicks fire canonical phone_call_click', () => {
   clickTel();
 
   assert.ok(dataLayer.some((entry) => entry.event === 'phone_call_click'), 'canonical phone_call_click event fired');
+});
+
+test('fixed-indemnity phone CTA preserves its distinct analytics label', () => {
+  const { dataLayer, clickTel } = loadAnalytics({
+    analyticsLabel: 'fixed_indemnity_inline_enrollment_call'
+  });
+
+  clickTel();
+
+  const canonicalEvents = dataLayer.filter((entry) => entry.event === 'PhoneCallClick');
+  const ga4Events = dataLayer.filter((entry) => entry.event === 'phone_call_click');
+  assert.equal(canonicalEvents.length, 1);
+  assert.equal(ga4Events.length, 1);
+  assert.equal(ga4Events[0].event_label, 'fixed_indemnity_inline_enrollment_call');
+});
+
+test('funnel phone fallback does not double-wire analytics-owned links', () => {
+  const link = makeFunnelLink();
+  loadFunnel({
+    phoneHelper: () => {},
+    selectorResults: { 'a[href^="tel:"]': [link] }
+  });
+
+  assert.equal(link.listenerCount('click'), 0);
+});
+
+test('funnel phone fallback remains available without analytics.js', () => {
+  const link = makeFunnelLink();
+  const w = loadFunnel({
+    pathname: '/blog/fixed-indemnity-analysis.html',
+    selectorResults: { 'a[href^="tel:"]': [link] }
+  });
+
+  link.dispatchClick();
+
+  assert.equal(w.dataLayer.filter((entry) => entry.event === 'PhoneCallClick').length, 1);
+});
+
+test('explicit self-service CTAs fire one labeled, non-sensitive external_quote_click each', () => {
+  for (const analyticsLabel of [
+    'fixed_indemnity_inline_self_service_apply',
+    'fixed_indemnity_lower_self_service_apply'
+  ]) {
+    const gtagCalls = [];
+    const link = makeFunnelLink({ analyticsLabel });
+    const w = loadFunnel({
+      pathname: '/blog/fixed-indemnity-analysis.html',
+      gtagImpl: (...args) => gtagCalls.push(args),
+      selectorResults: { [EXTERNAL_QUOTE_SELECTOR]: [link] }
+    });
+
+    link.dispatchClick();
+
+    const dataLayerEvents = w.dataLayer.filter((entry) => entry.event === 'ExternalQuoteClick');
+    const ga4Events = gtagCalls.filter((call) => call[0] === 'event' && call[1] === 'external_quote_click');
+    assert.equal(dataLayerEvents.length, 1);
+    assert.equal(ga4Events.length, 1);
+    assert.equal(dataLayerEvents[0].page_type, 'blog');
+    assert.equal(dataLayerEvents[0].event_params.content_name, analyticsLabel);
+    assert.equal(ga4Events[0][2].content_name, analyticsLabel);
+    assert.equal(ga4Events[0][2].page_type, 'blog');
+
+    const emittedParams = JSON.stringify({ dataLayerEvents, ga4Events });
+    assert.doesNotMatch(emittedParams, /https?:|brokerid|tel:|AA5045127/i);
+  }
+});
+
+test('fixed-indemnity enrollment CTAs declare scoped analytics attributes', () => {
+  assert.match(FIXED_INDEMNITY_HTML, /data-analytics-label="fixed_indemnity_inline_enrollment_call"/);
+  assert.match(FIXED_INDEMNITY_HTML, /data-funnel-external-quote data-analytics-label="fixed_indemnity_inline_self_service_apply"/);
+  assert.match(FIXED_INDEMNITY_HTML, /data-funnel-external-quote data-analytics-label="fixed_indemnity_lower_self_service_apply"/);
 });
 
 test('legacy phone_call remains supported through shared helper', () => {

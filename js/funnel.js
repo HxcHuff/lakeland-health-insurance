@@ -471,19 +471,25 @@
       });
     });
 
-    d.querySelectorAll('a[href^="tel:"]').forEach(function (a) {
-      if (a.__lhiPhoneWired) return;
-      a.__lhiPhoneWired = true;
-      a.addEventListener('click', function () {
-        track('PhoneCallClick', { content_name: pageType() + '_phone_click' });
+    /* analytics.js owns canonical phone tracking when present. Keep this
+       fallback for pages that load funnel.js directly, but never double-wire
+       the same physical click after analytics.js has initialized. */
+    if (typeof w.lhiTrackPhoneClick !== 'function') {
+      d.querySelectorAll('a[href^="tel:"]').forEach(function (a) {
+        if (a.__lhiPhoneWired) return;
+        a.__lhiPhoneWired = true;
+        a.addEventListener('click', function () {
+          track('PhoneCallClick', { content_name: pageType() + '_phone_click' });
+        });
       });
-    });
+    }
 
-    d.querySelectorAll('a[href*="healthsherpa.com"], a[href*="/find-plans"]').forEach(function (a) {
+    d.querySelectorAll('a[data-funnel-external-quote], a[href*="healthsherpa.com"], a[href*="/find-plans"]').forEach(function (a) {
       if (a.__lhiExternalQuoteWired) return;
       a.__lhiExternalQuoteWired = true;
       a.addEventListener('click', function () {
-        track('ExternalQuoteClick', { content_name: pageType() + '_external_quote_click' });
+        var contentName = cleanAnalyticsToken(a.getAttribute('data-analytics-label')) || (pageType() + '_external_quote_click');
+        track('ExternalQuoteClick', { content_name: contentName });
       });
     });
 
