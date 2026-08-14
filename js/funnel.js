@@ -32,6 +32,115 @@
   var OPENAI_ADS_SDK_SRC = 'https://bzrcdn.openai.com/sdk/oaiq.min.js';
   var openAIAdsConfigPromise = null;
   var openAIAdsPixelReady = false;
+  var MEDICARE_ATTRIBUTION_SCHEMA_VERSION = 'medicare-attribution.v1';
+  var MEDICARE_CONTENT_CLUSTER = 'lakeland_medicare_broker';
+  var MEDICARE_PAGE_REGISTRY = {
+    best_medicare_broker_lakeland_fl: {
+      path: '/best-medicare-broker-lakeland-fl/',
+      page_role: 'selection',
+      cta_keys: {
+        request_review_hero: true,
+        start_review_criteria: true,
+        request_help_final: true,
+        broker_help_nav: true,
+        see_review_process: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_broker_lakeland_fl: {
+      path: '/medicare-broker-lakeland-fl/',
+      page_role: 'transaction',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_verification: true,
+        request_review_final: true,
+        selection_guide_nav: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    }
+  };
+
+  function normalizePath(pathname) {
+    var path = String(pathname || '/').toLowerCase().split(/[?#]/, 1)[0];
+    path = path.replace(/\/index\.html$/, '/');
+    if (path.charAt(0) !== '/') path = '/' + path;
+    if (path !== '/' && path.charAt(path.length - 1) !== '/') path += '/';
+    return path;
+  }
+
+  function registeredPageForPath(pathname) {
+    var normalized = normalizePath(pathname);
+    var keys = Object.keys(MEDICARE_PAGE_REGISTRY);
+    for (var i = 0; i < keys.length; i += 1) {
+      if (MEDICARE_PAGE_REGISTRY[keys[i]].path === normalized) {
+        return { page_key: keys[i], registered: MEDICARE_PAGE_REGISTRY[keys[i]] };
+      }
+    }
+    return null;
+  }
+
+  function pageContext(pathname) {
+    var match = registeredPageForPath(pathname);
+    if (!match) return null;
+    return {
+      page_key: match.page_key,
+      page_role: match.registered.page_role,
+      content_cluster: MEDICARE_CONTENT_CLUSTER
+    };
+  }
+
+  function canonicalSourceContext(values) {
+    values = values || {};
+    var pageKey = String(values.source_page_key || '');
+    var ctaKey = String(values.source_cta_key || '');
+    var registered = MEDICARE_PAGE_REGISTRY[pageKey];
+    if (!registered || !registered.cta_keys[ctaKey]) return null;
+    return {
+      schema_version: MEDICARE_ATTRIBUTION_SCHEMA_VERSION,
+      source_page_key: pageKey,
+      source_page_role: registered.page_role,
+      source_cta_key: ctaKey,
+      content_cluster: MEDICARE_CONTENT_CLUSTER,
+      intent: 'medicare'
+    };
+  }
+
+  function sourceContextFromSearch(search) {
+    var qs = new URLSearchParams(String(search || ''));
+    if (String(qs.get('intent') || '').toLowerCase() !== 'medicare') return null;
+    return canonicalSourceContext({
+      source_page_key: qs.get('source_page_key'),
+      source_cta_key: qs.get('source_cta_key')
+    });
+  }
+
+  function currentMedicareSourceContext() {
+    var context = null;
+    try {
+      if (w.LHIMedicareAttribution && typeof w.LHIMedicareAttribution.sourceContext === 'function') {
+        context = w.LHIMedicareAttribution.sourceContext(w.location.search || '');
+      }
+    } catch (e) {}
+    return canonicalSourceContext(context || {}) || sourceContextFromSearch(w.location.search || '');
+  }
+
+  function medicareIntakeContext() {
+    if (normalizePath(w.location.pathname) !== '/get-help/') return null;
+    var qs = new URLSearchParams(String(w.location.search || ''));
+    var source = currentMedicareSourceContext();
+    if (!source && String(qs.get('intent') || '').toLowerCase() !== 'medicare') return null;
+    return Object.assign({
+      schema_version: MEDICARE_ATTRIBUTION_SCHEMA_VERSION,
+      page_key: 'get_help',
+      page_role: 'intake',
+      content_cluster: MEDICARE_CONTENT_CLUSTER,
+      intent: 'medicare'
+    }, source || {});
+  }
 
   /* Per-page-type lead value (USD) sent with the Google Ads conversion.
      Smart Bidding uses these as a relative-LTV signal — Medicare residuals
@@ -83,6 +192,7 @@
     if (p.indexOf('/get-help') === 0) return 'get_help';
     if (p.indexOf('/health-protector-guard') === 0) return 'guard_lp';
     if (p.indexOf('/aca-health-insurance-lakeland') === 0) return 'local_seo_aca';
+    if (p.indexOf('/best-medicare-broker-lakeland') === 0) return 'local_seo_medicare';
     if (p.indexOf('/medicare-broker-lakeland') === 0) return 'local_seo_medicare';
     if (p.indexOf('/life-insurance-dime') === 0) return 'dime_method';
     if (p.indexOf('/lost-job-health-insurance') === 0) return 'lp_job_loss';
@@ -127,42 +237,92 @@
     return cookie('lhi_sid') || cookie('lhi_sid', uuid(), 365);
   }
 
+  function approvedCampaignValue(value) {
+    var text = String(value || '').trim().toLowerCase();
+    if (!text || text.length > 80) return null;
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
+    return /^[a-z0-9][a-z0-9._~-]*$/.test(text) ? text : null;
+  }
+
   function getAttribution() {
     var qs = new URLSearchParams(w.location.search);
+    var rawStored = {};
+    try { rawStored = JSON.parse(cookie('lhi_attr') || '{}'); } catch (e) {}
+    var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
     var stored = {};
-    try { stored = JSON.parse(cookie('lhi_attr') || '{}'); } catch (e) {}
-    var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid'];
     var fresh = {};
-    keys.forEach(function (k) { if (qs.get(k)) fresh[k] = qs.get(k); });
+    keys.forEach(function (k) {
+      var previous = approvedCampaignValue(rawStored[k]);
+      var incoming = approvedCampaignValue(qs.get(k));
+      if (previous) stored[k] = previous;
+      if (incoming) fresh[k] = incoming;
+    });
     if (Object.keys(fresh).length) {
-      stored = Object.assign({}, stored, fresh, { first_seen: stored.first_seen || new Date().toISOString() });
-      cookie('lhi_attr', JSON.stringify(stored), 90);
+      stored = Object.assign({}, stored, fresh);
+      cookie('lhi_attr', JSON.stringify(stored), 30);
+    } else if (JSON.stringify(rawStored) !== JSON.stringify(stored)) {
+      cookie('lhi_attr', JSON.stringify(stored), 30);
     }
     return stored;
   }
 
+  function approvedAnalyticsToken(value, maxLength) {
+    var text = String(value || '').trim().toLowerCase();
+    if (!text || text.length > (maxLength || 80)) return null;
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
+    return /^[a-z0-9][a-z0-9._-]*$/.test(text) ? text : null;
+  }
+
+  function approvedEventID(value) {
+    var text = String(value || '').trim();
+    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(text)) return text;
+    if (/^lhi(?:_measurement)?_[a-z0-9_-]{8,140}$/i.test(text)) return text;
+    return null;
+  }
+
   function safeProps(props) {
     var out = {};
-    var prohibited = {
-      full_name: true, name: true, first_name: true, last_name: true,
-      email: true, phone: true, phone_number: true,
-      zip: true, zip_code: true, postal_code: true, county: true,
-      provider_name: true, provider_location: true, prescription_name: true,
-      doctors_to_keep: true, prescriptions_to_review: true, additional_notes: true,
-      income: true, household_income: true, subsidy: true, health_status: true,
-      coverage_status: true, current_plan: true, best_time_to_reach: true,
-      need_timing: true, coverage_situation: true, medicare_timing: true,
-      normalized_intent: true, line_of_business: true,
-      lead_priority: true, lead_priority_reason: true,
-      notes: true, message: true
+    var tokenKeys = {
+      content_name: 100,
+      step: 40,
+      page_type: 50,
+      source_page_type: 50
     };
-    Object.keys(props || {}).forEach(function (key) {
-      if (prohibited[key]) return;
-      var val = props[key];
-      if (val == null) return;
-      if (typeof val === 'string' && /@|(?:\d[\s().-]*){7,}/.test(val)) return;
-      out[key] = val;
+    Object.keys(tokenKeys).forEach(function (key) {
+      var approved = approvedAnalyticsToken(props && props[key], tokenKeys[key]);
+      if (approved) out[key] = approved;
     });
+
+    var eventID = approvedEventID(props && props.event_id);
+    if (eventID) out.event_id = eventID;
+
+    var sourcePath = cleanAnalyticsPath(props && props.source_page_path);
+    if (sourcePath) out.source_page_path = sourcePath;
+
+    var source = canonicalSourceContext(props || {});
+    if (source) Object.assign(out, source);
+
+    var pageKey = String(props && props.page_key || '');
+    var registeredPage = MEDICARE_PAGE_REGISTRY[pageKey];
+    if (registeredPage) {
+      out.schema_version = MEDICARE_ATTRIBUTION_SCHEMA_VERSION;
+      out.page_key = pageKey;
+      out.page_role = registeredPage.page_role;
+      out.content_cluster = MEDICARE_CONTENT_CLUSTER;
+      out.intent = 'medicare';
+      var pageCta = String(props && props.cta_key || '');
+      if (registeredPage.cta_keys[pageCta]) out.cta_key = pageCta;
+    } else if (pageKey === 'get_help' && String(props && props.page_role || '') === 'intake') {
+      out.schema_version = MEDICARE_ATTRIBUTION_SCHEMA_VERSION;
+      out.page_key = 'get_help';
+      out.page_role = 'intake';
+      out.content_cluster = MEDICARE_CONTENT_CLUSTER;
+      out.intent = 'medicare';
+    }
+
+    if (String(props && props.acceptance_status || '') === 'forms_accepted') {
+      out.acceptance_status = 'forms_accepted';
+    }
     return out;
   }
 
@@ -230,12 +390,14 @@
       Schedule: 'schedule_appointment',
       ExternalQuoteClick: 'external_quote_click',
       messenger_click: 'messenger_click',
-      LeadReceiptView: 'lead_receipt_view'
+      LeadReceiptView: 'lead_receipt_view',
+      MedicareIntakeStart: 'medicare_intake_start'
     };
     var ga4Name = directGA4Events[name];
     if (!ga4Name) return;
 
-    var params = Object.assign({}, props.event_params || {});
+    var params = Object.assign({}, props.event_params || (name === 'MedicareIntakeStart' ? props : {}));
+    delete params.event_params;
     if (props.page_type && !params.page_type) params.page_type = props.page_type;
     params.original_event_name = name;
     params.transport_type = 'beacon';
@@ -302,6 +464,22 @@
     if (apiResult && apiResult.event_id) {
       props.event_id = String(apiResult.event_id).trim();
     }
+    if (apiResult && apiResult.ok === true && apiResult.forms === true) {
+      props.acceptance_status = 'forms_accepted';
+    }
+
+    var intake = medicareIntakeContext();
+    if (intake) {
+      Object.assign(props, {
+        schema_version: MEDICARE_ATTRIBUTION_SCHEMA_VERSION,
+        page_key: 'get_help',
+        page_role: 'intake',
+        content_cluster: MEDICARE_CONTENT_CLUSTER,
+        intent: 'medicare'
+      });
+    }
+    var serverSource = canonicalSourceContext(apiResult || {});
+    if (serverSource) Object.assign(props, serverSource);
 
     return props;
   }
@@ -309,7 +487,7 @@
   function formPayload(f, fd, content) {
     var payload = {
       content_name: content,
-      source_url: w.location.href
+      source_url: cleanAnalyticsPath(w.location.pathname) || '/'
     };
     fd.forEach(function (v, k) {
       payload[k] = v;
@@ -327,9 +505,16 @@
       event_id: eventID,
       content_name: props.content_name || null,
       page_type: pt,
-      page_path: w.location.pathname,
-      normalized_intent: props.normalized_intent || null,
-      line_of_business: props.line_of_business || null,
+      page_path: cleanAnalyticsPath(w.location.pathname) || '/',
+      schema_version: props.schema_version || null,
+      page_key: props.page_key || null,
+      page_role: props.page_role || null,
+      source_page_key: props.source_page_key || null,
+      source_page_role: props.source_page_role || null,
+      source_cta_key: props.source_cta_key || null,
+      content_cluster: props.content_cluster || null,
+      intent: props.intent || null,
+      acceptance_status: props.acceptance_status || null,
       fired_at: Date.now()
     };
     try { sessionStorage.setItem('lhi_submission_completed', JSON.stringify(marker)); } catch (e) {}
@@ -352,8 +537,14 @@
       body: JSON.stringify(payload)
     }).then(function (res) {
       if (res.ok) {
-        return (typeof res.json === 'function' ? res.json().catch(function () { return {}; }) : Promise.resolve({})).then(function (body) {
-          if (typeof onDelivered === 'function') onDelivered(body || {});
+        return (typeof res.json === 'function' ? res.json().catch(function () { return null; }) : Promise.resolve(null)).then(function (body) {
+          if (!body || body.ok !== true || body.forms !== true || !approvedEventID(body.event_id)) {
+            var semanticError = new Error('lead api response was not a confirmed Forms acceptance');
+            semanticError.status = 502;
+            semanticError.noNativeFallback = true;
+            throw semanticError;
+          }
+          if (typeof onDelivered === 'function') onDelivered(body);
           redirectAfterLead(f);
         });
       }
@@ -361,7 +552,7 @@
       err.status = res.status;
       throw err;
     }).catch(function (err) {
-      if (err && err.status >= 400 && err.status < 500) {
+      if (err && ((err.status >= 400 && err.status < 500) || err.noNativeFallback)) {
         clearPendingLeadMarker();
         f.__lhiApiSubmitting = false;
         try { w.alert('Please wait a moment, then send your request again.'); } catch (e) {}
@@ -397,6 +588,8 @@
     } else if (name === 'Subscriber') {
       fireGA(name, { page_type: pt, event_params: props });
       markCompletedSubmission('Subscriber', eventID, props, pt);
+    } else if (name === 'MedicareIntakeStart') {
+      fireGA(name, Object.assign({ page_type: pt }, props));
     } else {
       fireGA(name, { page_type: pt, event_params: props });
     }
@@ -409,12 +602,16 @@
   function trackLeadReceiptView() {
     var marker = w.__LHI_THANKS_LEAD_MARKER;
     if (pageType() !== 'conversion' || !marker) return;
-    track('LeadReceiptView', {
+    var receiptProps = {
       content_name: 'lead_thank_you',
       step: 'complete',
       source_page_type: cleanAnalyticsToken(marker.page_type),
       source_page_path: cleanAnalyticsPath(marker.page_path)
+    };
+    ['schema_version', 'page_key', 'page_role', 'source_page_key', 'source_page_role', 'source_cta_key', 'content_cluster', 'intent', 'acceptance_status'].forEach(function (key) {
+      if (marker[key] != null) receiptProps[key] = marker[key];
     });
+    track('LeadReceiptView', receiptProps);
   }
 
   // Auto-wire form submissions -------------------------------------------
@@ -431,6 +628,10 @@
         if (f.__lhiFormStarted) return;
         f.__lhiFormStarted = true;
         track('StartLead', { content_name: content, step: 'start' });
+        var intakeContext = medicareIntakeContext();
+        if (intakeContext) {
+          track('MedicareIntakeStart', Object.assign({ content_name: 'get_help_medicare', step: 'start' }, intakeContext));
+        }
       }
 
       ['focusin', 'input', 'change'].forEach(function (type) {
@@ -511,8 +712,13 @@
   if (w.__LHI_TEST === true) {
     w.LHI._t = {
       pageType: pageType,
+      pageContext: pageContext,
       leadValueFor: leadValueFor,
       cleanAnalyticsToken: cleanAnalyticsToken,
+      approvedCampaignValue: approvedCampaignValue,
+      canonicalSourceContext: canonicalSourceContext,
+      medicareIntakeContext: medicareIntakeContext,
+      safeProps: safeProps,
       LEAD_VALUE_BY_PAGE_TYPE: LEAD_VALUE_BY_PAGE_TYPE,
       LEAD_CONVERSION_SEND_TO: LEAD_CONVERSION_SEND_TO,
       OPENAI_ADS_CONFIG_PATH: OPENAI_ADS_CONFIG_PATH,

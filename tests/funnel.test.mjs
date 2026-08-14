@@ -35,6 +35,8 @@ const SERVICE_WORKER_SRC = readFileSync(resolve(__dirname, '../sw.js'), 'utf8');
 const SITE_TEMPLATE_CSS = readFileSync(resolve(__dirname, '../css/site-template.css'), 'utf8');
 const FIXED_INDEMNITY_HTML = readFileSync(resolve(__dirname, '../blog/fixed-indemnity-analysis.html'), 'utf8');
 const EXTERNAL_QUOTE_SELECTOR = 'a[data-funnel-external-quote], a[href*="healthsherpa.com"], a[href*="/find-plans"]';
+const BEST_MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../best-medicare-broker-lakeland-fl/index.html'), 'utf8');
+const MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../medicare-broker-lakeland-fl/index.html'), 'utf8');
 
 function makeSessionStorage(initial = {}) {
   const store = new Map(Object.entries(initial));
@@ -50,9 +52,21 @@ function makeSessionStorage(initial = {}) {
 /* Build a sandbox that mimics the browser globals funnel.js touches.
    __LHI_IS_PROD=false silences production-only conversion helpers so loading
    the script has no side-effects beyond attaching window.LHI. */
-function loadFunnel({ pathname = '/', forms = [], selectorResults = {}, fetchImpl, gtagImpl, isProd = false, receiptMarker = null, phoneHelper } = {}) {
+function loadFunnel({
+  pathname = '/',
+  search = '',
+  forms = [],
+  selectorMap = {},
+  selectorResults = {},
+  fetchImpl,
+  gtagImpl,
+  isProd = false,
+  receiptMarker = null,
+  sessionInitial = {},
+  phoneHelper
+} = {}) {
   const dataLayer = [];
-  const sessionStorage = makeSessionStorage();
+  const sessionStorage = makeSessionStorage(sessionInitial);
   class TestFormData {
     constructor(form) {
       this.entries = Object.entries(form._fields || {});
@@ -80,7 +94,7 @@ function loadFunnel({ pathname = '/', forms = [], selectorResults = {}, fetchImp
       head: { appendChild: () => {} },
       readyState: 'complete'
     },
-    location: { pathname, search: '', href: 'http://localhost' + pathname, protocol: 'http:' },
+    location: { pathname, search, href: 'http://localhost' + pathname + search, protocol: 'http:' },
     URLSearchParams: globalThis.URLSearchParams,
     Promise: globalThis.Promise,
     Date: globalThis.Date,
@@ -103,6 +117,7 @@ function loadFunnel({ pathname = '/', forms = [], selectorResults = {}, fetchImp
   };
   if (phoneHelper) sandbox.lhiTrackPhoneClick = phoneHelper;
   sandbox.document.querySelectorAll = (selector) => {
+    if (Object.prototype.hasOwnProperty.call(selectorMap, selector)) return selectorMap[selector];
     if (Object.prototype.hasOwnProperty.call(selectorResults, selector)) return selectorResults[selector];
     if (selector === 'form[data-funnel-track], form[data-funnel-step]') return forms;
     return [];
@@ -181,7 +196,14 @@ async function flushPromises(count = 3) {
   }
 }
 
-function loadAnalytics({ pathname = '/', telLabel = 'Call David', analyticsLabel = null } = {}) {
+function loadAnalytics({
+  pathname = '/',
+  search = '',
+  hostname = 'localhost',
+  telLabel = 'Call David',
+  analyticsLabel = null,
+  link = null
+} = {}) {
   const listeners = {};
   const dataLayer = [];
   const telLink = {
@@ -192,26 +214,39 @@ function loadAnalytics({ pathname = '/', telLabel = 'Call David', analyticsLabel
     },
     textContent: telLabel
   };
+  const origin = hostname === 'localhost' ? 'http://localhost' : `https://${hostname}`;
+  const sessionStorage = makeSessionStorage();
+  const appendedScripts = [];
   const sandbox = {
     console: { info: () => {} },
     localStorage: makeSessionStorage(),
-    sessionStorage: makeSessionStorage(),
+    sessionStorage,
     dataLayer,
     location: {
-      hostname: 'localhost',
+      hostname,
       pathname,
-      search: '',
-      href: 'http://localhost' + pathname
+      search,
+      href: origin + pathname + search,
+      origin,
+      protocol: origin.startsWith('https:') ? 'https:' : 'http:'
     },
+    crypto: globalThis.crypto,
+    URL: globalThis.URL,
+    URLSearchParams: globalThis.URLSearchParams,
     document: {
-      addEventListener(type, cb) { listeners[type] = cb; },
+      addEventListener(type, cb) {
+        listeners[type] = listeners[type] || [];
+        listeners[type].push(cb);
+      },
       createElement: () => ({ async: false, src: '' }),
-      head: { appendChild: () => {} },
+      head: { appendChild: (node) => { appendedScripts.push(node); } },
       readyState: 'loading'
     },
     window: null,
     Date,
     Object,
+    String,
+    Math,
     setTimeout: () => 0,
     addEventListener: () => {},
     removeEventListener: () => {}
@@ -222,16 +257,50 @@ function loadAnalytics({ pathname = '/', telLabel = 'Call David', analyticsLabel
   return {
     sandbox,
     dataLayer,
+    sessionStorage,
+    appendedScripts,
+    dispatch(type, target = link) {
+      (listeners[type] || []).forEach((listener) => listener({ target }));
+    },
     clickTel() {
-      listeners.click({
+      (listeners.click || []).forEach((listener) => listener({
         target: {
           closest(selector) {
             return selector === 'a[href^="tel:"]' ? telLink : null;
           }
         }
-      });
+      }));
     }
   };
+}
+
+function makeAnalyticsLink({ href, medicareCta, ancestors = [] }) {
+  const attrs = new Map([
+    ['href', href],
+    ['data-medicare-cta', medicareCta]
+  ].filter(([, value]) => value != null));
+  return {
+    getAttribute(name) { return attrs.has(name) ? attrs.get(name) : null; },
+    setAttribute(name, value) { attrs.set(name, String(value)); },
+    closest(selector) {
+      if (selector === 'a') return this;
+      if (selector === 'a[href^="tel:"]') return String(attrs.get('href') || '').startsWith('tel:') ? this : null;
+      return ancestors.includes(selector) ? {} : null;
+    },
+    textContent: 'Untrusted Jane Doe jane@example.com 863-640-3102'
+  };
+}
+
+function getHelpCtas(html) {
+  return [...html.matchAll(/<a\b[^>]*href="([^"]*\/get-help\/[^"]*)"[^>]*>/gi)].map((match) => {
+    const tag = match[0];
+    const ctaMatch = tag.match(/\bdata-medicare-cta="([^"]+)"/i);
+    return {
+      tag,
+      href: match[1].replaceAll('&amp;', '&'),
+      ctaKey: ctaMatch ? ctaMatch[1] : null
+    };
+  });
 }
 
 function runThanksHeadScript(sessionStorage) {
@@ -427,6 +496,161 @@ test('legacy phone_call remains supported through shared helper', () => {
   assert.ok(dataLayer.some((entry) => entry.event === 'phone_call'), 'legacy phone_call event still fires');
 });
 
+test('Medicare page context classifies selection and transaction pages exactly', () => {
+  const selection = loadAnalytics({ pathname: '/BEST-MEDICARE-BROKER-LAKELAND-FL/index.html' }).sandbox;
+  const transaction = loadAnalytics({ pathname: '/medicare-broker-lakeland-fl/' }).sandbox;
+
+  assert.deepEqual(JSON.parse(JSON.stringify(selection.LHIMedicareAttribution.pageContext(selection.location.pathname))), {
+    schema_version: 'medicare-attribution.v1',
+    page_key: 'best_medicare_broker_lakeland_fl',
+    page_role: 'selection',
+    content_cluster: 'lakeland_medicare_broker',
+    intent: 'medicare'
+  });
+  assert.deepEqual(JSON.parse(JSON.stringify(transaction.LHIMedicareAttribution.pageContext(transaction.location.pathname))), {
+    schema_version: 'medicare-attribution.v1',
+    page_key: 'medicare_broker_lakeland_fl',
+    page_role: 'transaction',
+    content_cluster: 'lakeland_medicare_broker',
+    intent: 'medicare'
+  });
+  assert.equal(selection.LHIMedicareAttribution.pageContext('/blog/best-medicare-broker-lakeland-fl/'), null);
+});
+
+test('Medicare content view emits once with only the versioned allowlisted context', () => {
+  const { dataLayer } = loadAnalytics({ pathname: '/best-medicare-broker-lakeland-fl/' });
+  const views = dataLayer.filter((entry) => entry && entry.event === 'MedicareContentView');
+
+  assert.equal(views.length, 1);
+  assert.deepEqual(Object.keys(views[0]).sort(), [
+    'content_cluster',
+    'event',
+    'event_id',
+    'intent',
+    'page_key',
+    'page_role',
+    'schema_version'
+  ]);
+  assert.match(views[0].event_id, /^lhi_measurement_/);
+  assert.equal(views[0].page_key, 'best_medicare_broker_lakeland_fl');
+  assert.equal(views[0].page_role, 'selection');
+
+  const directGA4 = dataLayer.filter((entry) => entry && entry[0] === 'event' && entry[1] === 'medicare_content_view');
+  assert.equal(directGA4.length, 1);
+  assert.equal(directGA4[0][2].event_id, views[0].event_id);
+});
+
+test('Medicare CTA click uses a registered key, preserves safe campaign values, and ignores link text', () => {
+  const link = makeAnalyticsLink({
+    href: '/get-help/',
+    medicareCta: 'request_review_hero'
+  });
+  const { dataLayer, sessionStorage, dispatch } = loadAnalytics({
+    pathname: '/best-medicare-broker-lakeland-fl/',
+    search: '?utm_source=google&utm_campaign=medicare_review&utm_term=jane%40example.com',
+    link
+  });
+
+  dispatch('click');
+
+  const clicks = dataLayer.filter((entry) => entry && entry.event === 'MedicareCtaClick');
+  assert.equal(clicks.length, 1);
+  assert.deepEqual(Object.keys(clicks[0]).sort(), [
+    'content_cluster',
+    'cta_key',
+    'event',
+    'event_id',
+    'intent',
+    'page_key',
+    'page_role',
+    'schema_version'
+  ]);
+  assert.equal(clicks[0].cta_key, 'request_review_hero');
+  assert.equal(JSON.stringify(clicks[0]).includes('Jane Doe'), false);
+  assert.equal(JSON.stringify(clicks[0]).includes('jane@example.com'), false);
+  assert.equal(JSON.stringify(clicks[0]).includes('863-640-3102'), false);
+
+  const destination = new URL(link.getAttribute('href'), 'https://lakelandhealthinsurance.com');
+  assert.equal(destination.pathname, '/get-help/');
+  assert.equal(destination.searchParams.get('intent'), 'medicare');
+  assert.equal(destination.searchParams.get('source_page_key'), 'best_medicare_broker_lakeland_fl');
+  assert.equal(destination.searchParams.get('source_cta_key'), 'request_review_hero');
+  assert.equal(destination.searchParams.get('utm_source'), 'google');
+  assert.equal(destination.searchParams.get('utm_campaign'), 'medicare_review');
+  assert.equal(destination.searchParams.has('utm_term'), false);
+
+  const stored = JSON.parse(sessionStorage.getItem('lhi_medicare_source'));
+  assert.equal(stored.source_page_role, 'selection');
+  assert.equal(stored.source_cta_key, 'request_review_hero');
+});
+
+test('Medicare attribution rejects tampered page, CTA, and campaign values', () => {
+  const unregistered = makeAnalyticsLink({
+    href: '/get-help/',
+    medicareCta: 'jane@example.com'
+  });
+  const loaded = loadAnalytics({
+    pathname: '/best-medicare-broker-lakeland-fl/',
+    link: unregistered
+  });
+
+  loaded.dispatch('click');
+
+  assert.equal(loaded.dataLayer.some((entry) => entry && entry.event === 'MedicareCtaClick'), false);
+  assert.equal(unregistered.getAttribute('href'), '/get-help/');
+  assert.equal(loaded.sessionStorage.getItem('lhi_medicare_source'), null);
+
+  const helper = loaded.sandbox.LHIMedicareAttribution;
+  assert.equal(helper.sourceContext('?intent=medicare&source_page_key=unknown&source_cta_key=request_review_hero'), null);
+  assert.equal(helper.sourceContext('?intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_cta_key=unknown'), null);
+  assert.equal(helper.sourceContext('?intent=aca&source_page_key=best_medicare_broker_lakeland_fl&source_cta_key=request_review_hero'), null);
+  assert.equal(helper.approvedCampaignValue('jane@example.com'), null);
+  assert.equal(helper.approvedCampaignValue('863-640-3102'), null);
+
+  assert.deepEqual(JSON.parse(JSON.stringify(helper.sourceContext(
+    '?intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_page_role=transaction&source_cta_key=request_review_hero'
+  ))), {
+    schema_version: 'medicare-attribution.v1',
+    source_page_key: 'best_medicare_broker_lakeland_fl',
+    source_page_role: 'selection',
+    source_cta_key: 'request_review_hero',
+    content_cluster: 'lakeland_medicare_broker',
+    intent: 'medicare'
+  });
+});
+
+test('Medicare source pages declare exact roles and deterministic keyed Get Help CTAs', () => {
+  for (const [html, expected] of [
+    [BEST_MEDICARE_BROKER_HTML, {
+      pageKey: 'best_medicare_broker_lakeland_fl',
+      pageRole: 'selection',
+      ctaKeys: ['request_help_final', 'request_review_hero', 'start_review_criteria']
+    }],
+    [MEDICARE_BROKER_HTML, {
+      pageKey: 'medicare_broker_lakeland_fl',
+      pageRole: 'transaction',
+      ctaKeys: ['request_review_final', 'request_review_hero', 'request_review_verification']
+    }]
+  ]) {
+    assert.match(html, new RegExp(`<body[^>]*data-page-key="${expected.pageKey}"[^>]*data-page-role="${expected.pageRole}"[^>]*data-content-cluster="lakeland_medicare_broker"`));
+    const ctas = getHelpCtas(html);
+    assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
+    assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
+
+    for (const cta of ctas) {
+      const url = new URL(cta.href, 'https://lakelandhealthinsurance.com');
+      assert.equal(url.pathname, '/get-help/');
+      assert.equal(url.searchParams.get('intent'), 'medicare');
+      assert.equal(url.searchParams.get('source_page_key'), expected.pageKey);
+      assert.equal(url.searchParams.get('source_cta_key'), cta.ctaKey);
+      assert.equal(url.searchParams.has('source_page_role'), false, 'role is derived from the registry, not trusted from the URL');
+    }
+  }
+
+  assert.match(BEST_MEDICARE_BROKER_HTML, /href="\/medicare-broker-lakeland-fl\/" data-medicare-cta="see_review_process"/);
+  assert.match(MEDICARE_BROKER_HTML, /href="\/best-medicare-broker-lakeland-fl\/" data-medicare-cta="selection_guide_nav"/);
+});
+
 test('Lead tracking sets pending thank-you lead marker', () => {
   const w = loadFunnel({ pathname: '/lp/aca/' });
 
@@ -445,27 +669,32 @@ test('Lead tracking sets pending thank-you lead marker', () => {
   assert.equal(leadEvents[0].event_id, marker.event_id);
 });
 
-test('Lead form submit posts to /api/lead and stops legacy submit handlers', async () => {
+test('Medicare Lead fires once only after semantic Forms acceptance and carries canonical context', async () => {
   const calls = [];
   const form = makeFunnelForm({
-    contentName: 'city_lead_form',
+    contentName: 'get_help_medicare',
     fields: {
-      'form-name': 'tampa-health-insurance',
+      'form-name': 'get-help',
       full_name: 'Jane Doe',
       phone_number: '863-640-3102',
       email: 'jane@example.com',
       zip_code: '33801',
       coverage_status: 'Uninsured',
       best_time_to_reach: 'Anytime during business hours',
-      normalized_intent: 'aca',
-      line_of_business: 'ACA',
+      normalized_intent: 'medicare',
+      line_of_business: 'Medicare',
       need_timing: 'Within 30 days',
+      source_page_key: 'best_medicare_broker_lakeland_fl',
+      source_page_role: 'attacker-supplied-role',
+      source_cta_key: 'request_review_hero',
+      content_cluster: 'attacker-supplied-cluster',
       lead_priority: '',
       lead_priority_reason: ''
     }
   });
   const w = loadFunnel({
-    pathname: '/tampa-health-insurance/',
+    pathname: '/get-help/',
+    search: '?intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_cta_key=request_review_hero',
     forms: [form],
     fetchImpl: (url, init) => {
       calls.push({ url, init });
@@ -473,7 +702,13 @@ test('Lead form submit posts to /api/lead and stops legacy submit handlers', asy
         ok: true,
         json: () => Promise.resolve({
           ok: true,
-          event_id: 'server-event-id',
+          forms: true,
+          event_id: '123e4567-e89b-42d3-a456-426614174000',
+          accepted_at: '2026-08-14T14:00:00.000Z',
+          source_page_key: 'best_medicare_broker_lakeland_fl',
+          source_page_role: 'selection',
+          source_cta_key: 'request_review_hero',
+          content_cluster: 'lakeland_medicare_broker',
           lead_priority: 'high',
           lead_priority_reason: 'urgent_or_high_intent_with_contact_path'
         })
@@ -497,8 +732,8 @@ test('Lead form submit posts to /api/lead and stops legacy submit handlers', asy
   assert.equal(apiCalls[0].init.headers['Content-Type'], 'application/json');
 
   const payload = JSON.parse(apiCalls[0].init.body);
-  assert.equal(payload.content_name, 'city_lead_form');
-  assert.equal(payload['form-name'], 'tampa-health-insurance');
+  assert.equal(payload.content_name, 'get_help_medicare');
+  assert.equal(payload['form-name'], 'get-help');
   assert.equal(payload.phone_number, '863-640-3102');
   assert.equal(payload.zip_code, '33801');
 
@@ -509,18 +744,32 @@ test('Lead form submit posts to /api/lead and stops legacy submit handlers', asy
     event: 'Lead',
     content_name: 'first_party_lead',
     step: 'submit',
-    event_id: 'server-event-id',
-    page_type: 'site',
+    acceptance_status: 'forms_accepted',
+    schema_version: 'medicare-attribution.v1',
+    page_key: 'get_help',
+    page_role: 'intake',
+    source_page_key: 'best_medicare_broker_lakeland_fl',
+    source_page_role: 'selection',
+    source_cta_key: 'request_review_hero',
+    content_cluster: 'lakeland_medicare_broker',
+    intent: 'medicare',
+    event_id: '123e4567-e89b-42d3-a456-426614174000',
+    page_type: 'get_help',
     original_event_name: 'Lead',
-    original_event_name: 'Lead'
   });
   assert.equal(leadParams.full_name, undefined);
   assert.equal(leadParams.email, undefined);
   assert.equal(leadParams.phone_number, undefined);
+  assert.equal(JSON.stringify(leadParams).includes('attacker-supplied'), false);
   assert.equal(form.elements.lead_priority.value, 'high');
   assert.equal(form.elements.lead_priority_reason.value, 'urgent_or_high_intent_with_contact_path');
   assert.ok(w.sessionStorage.getItem('lhi_lead_submitted'), 'thank-you marker set');
-  assert.equal(JSON.parse(w.sessionStorage.getItem('lhi_lead_submitted')).event_id, 'server-event-id');
+  assert.equal(JSON.parse(w.sessionStorage.getItem('lhi_lead_submitted')).event_id, '123e4567-e89b-42d3-a456-426614174000');
+  assert.equal(w.dataLayer.filter((entry) => entry && entry[0] === 'event' && entry[1] === 'generate_lead').length, 0);
+
+  const thanks = runThanksHeadScript(w.sessionStorage);
+  assert.equal(thanks.dataLayer.some((entry) => entry && entry[0] === 'event' && entry[1] === 'generate_lead'), false);
+  assert.equal(w.sessionStorage.getItem('lhi_lead_submitted'), null, 'thank-you page consumes the marker without another conversion');
 });
 
 test('funnel forms fire StartLead once as a diagnostic event', () => {
@@ -534,6 +783,93 @@ test('funnel forms fire StartLead once as a diagnostic event', () => {
   assert.equal(starts.length, 1);
   assert.equal(starts[0].event_params.content_name, 'get_help_conversational');
   assert.equal(starts[0].event_params.step, 'start');
+});
+
+test('Medicare intake start fires once with canonical source context', () => {
+  const form = makeFunnelForm({ contentName: 'get_help_medicare' });
+  const w = loadFunnel({
+    pathname: '/get-help/',
+    search: '?intent=medicare&source_page_key=medicare_broker_lakeland_fl&source_cta_key=request_review_final',
+    forms: [form]
+  });
+
+  form.dispatchFormStart();
+  form.dispatchFormStart();
+
+  const starts = w.dataLayer.filter((entry) => entry && entry.event === 'MedicareIntakeStart');
+  assert.equal(starts.length, 1);
+  assert.deepEqual(JSON.parse(JSON.stringify(starts[0])), {
+    event: 'MedicareIntakeStart',
+    page_type: 'get_help',
+    content_name: 'get_help_medicare',
+    step: 'start',
+    schema_version: 'medicare-attribution.v1',
+    page_key: 'get_help',
+    page_role: 'intake',
+    source_page_key: 'medicare_broker_lakeland_fl',
+    source_page_role: 'transaction',
+    source_cta_key: 'request_review_final',
+    content_cluster: 'lakeland_medicare_broker',
+    intent: 'medicare'
+  });
+  const directGA4 = w.dataLayer.filter((entry) => entry && entry[0] === 'event' && entry[1] === 'medicare_intake_start');
+  assert.equal(directGA4.length, 1);
+});
+
+test('safeProps uses a positive analytics allowlist and canonicalizes Medicare context', () => {
+  const { safeProps } = loadFunnel().LHI._t;
+  const safe = JSON.parse(JSON.stringify(safeProps({
+    content_name: 'first_party_lead',
+    step: 'submit',
+    event_id: '323e4567-e89b-42d3-a456-426614174000',
+    source_page_path: '/get-help/?email=jane@example.com',
+    page_key: 'get_help',
+    page_role: 'intake',
+    source_page_key: 'best_medicare_broker_lakeland_fl',
+    source_page_role: 'tampered',
+    source_cta_key: 'request_review_hero',
+    content_cluster: 'tampered',
+    acceptance_status: 'forms_accepted',
+    full_name: 'Jane Doe',
+    email: 'jane@example.com',
+    phone: '863-640-3102',
+    zip_code: '33801',
+    date_of_birth: '1955-01-01',
+    age: 71,
+    medicare_id: '1EG4-TE5-MK72',
+    current_plan: 'Private plan name',
+    provider_name: 'Private Clinic',
+    facility_name: 'Private Hospital',
+    prescription_name: 'Private Drug',
+    household_income: '65000',
+    health_status: 'Private status',
+    coverage_status: 'Uninsured',
+    notes: 'Private note',
+    message: 'Private message',
+    free_text: 'Private text',
+    mystery: 'Jane Doe',
+    nested: { email: 'jane@example.com' }
+  })));
+
+  assert.deepEqual(safe, {
+    content_name: 'first_party_lead',
+    step: 'submit',
+    event_id: '323e4567-e89b-42d3-a456-426614174000',
+    source_page_path: '/get-help/',
+    schema_version: 'medicare-attribution.v1',
+    source_page_key: 'best_medicare_broker_lakeland_fl',
+    source_page_role: 'selection',
+    source_cta_key: 'request_review_hero',
+    content_cluster: 'lakeland_medicare_broker',
+    intent: 'medicare',
+    page_key: 'get_help',
+    page_role: 'intake',
+    acceptance_status: 'forms_accepted'
+  });
+  const serialized = JSON.stringify(safe);
+  for (const prohibited of ['Jane Doe', 'jane@example.com', '863-640-3102', '33801', 'Private']) {
+    assert.equal(serialized.includes(prohibited), false, `${prohibited} excluded from analytics`);
+  }
 });
 
 test('Subscriber form posts through /api/lead and never fires Lead', async () => {
@@ -552,7 +888,14 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
     forms: [form],
     fetchImpl: (url, init) => {
       calls.push({ url, init });
-      return Promise.resolve({ ok: true });
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          ok: true,
+          forms: true,
+          event_id: '223e4567-e89b-42d3-a456-426614174000'
+        })
+      });
     }
   });
 
@@ -715,6 +1058,141 @@ test('Lead form API failure falls back to native Netlify submit without delivere
   assert.equal(w.dataLayer.some((entry) => entry.event === 'Lead'), false);
 });
 
+test('HTTP 200 without semantic Forms acceptance never fires Lead or redirects', async () => {
+  const cases = [
+    {
+      name: 'body ok is false',
+      json: () => Promise.resolve({ ok: false, forms: true, event_id: '423e4567-e89b-42d3-a456-426614174000' })
+    },
+    {
+      name: 'forms is false',
+      json: () => Promise.resolve({ ok: true, forms: false, event_id: '523e4567-e89b-42d3-a456-426614174000' })
+    },
+    {
+      name: 'event id is missing',
+      json: () => Promise.resolve({ ok: true, forms: true })
+    },
+    {
+      name: 'event id is malformed',
+      json: () => Promise.resolve({ ok: true, forms: true, event_id: 'jane@example.com' })
+    },
+    {
+      name: 'response body is invalid JSON',
+      json: () => Promise.reject(new Error('invalid json'))
+    }
+  ];
+
+  for (const scenario of cases) {
+    const form = makeFunnelForm({
+      contentName: 'get_help_medicare',
+      fields: {
+        'form-name': 'get-help',
+        normalized_intent: 'medicare',
+        source_page_key: 'best_medicare_broker_lakeland_fl',
+        source_cta_key: 'request_review_hero'
+      }
+    });
+    const w = loadFunnel({
+      pathname: '/get-help/',
+      search: '?intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_cta_key=request_review_hero',
+      forms: [form],
+      fetchImpl: () => Promise.resolve({ ok: true, json: scenario.json })
+    });
+
+    form.dispatchSubmit();
+    await flushPromises(6);
+
+    assert.equal(w.dataLayer.some((entry) => entry && entry.event === 'Lead'), false, scenario.name);
+    assert.equal(w.sessionStorage.getItem('lhi_lead_submitted'), null, scenario.name);
+    assert.equal(form.__submitted, false, `${scenario.name} must not fall back after a semantically invalid 200`);
+    assert.equal(w.location.href, 'http://localhost/get-help/?intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_cta_key=request_review_hero', scenario.name);
+  }
+});
+
+test('ACA semantic success remains one accepted Lead without Medicare attribution', async () => {
+  const form = makeFunnelForm({
+    contentName: 'get_help_aca',
+    fields: {
+      'form-name': 'get-help',
+      normalized_intent: 'aca',
+      line_of_business: 'ACA',
+      email: 'jane@example.com'
+    }
+  });
+  const w = loadFunnel({
+    pathname: '/get-help/',
+    search: '?intent=aca',
+    forms: [form],
+    fetchImpl: () => Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({
+        ok: true,
+        forms: true,
+        event_id: '623e4567-e89b-42d3-a456-426614174000'
+      })
+    })
+  });
+
+  form.dispatchSubmit();
+  await flushPromises(6);
+
+  const leads = w.dataLayer.filter((entry) => entry && entry.event === 'Lead');
+  assert.equal(leads.length, 1);
+  assert.equal(leads[0].event_id, '623e4567-e89b-42d3-a456-426614174000');
+  assert.equal(leads[0].acceptance_status, 'forms_accepted');
+  assert.equal(leads[0].source_page_key, undefined);
+  assert.equal(leads[0].content_cluster, undefined);
+  assert.equal(w.dataLayer.some((entry) => entry && entry.event === 'MedicareIntakeStart'), false);
+  assert.equal(w.dataLayer.some((entry) => entry && entry[0] === 'event' && entry[1] === 'generate_lead'), false);
+});
+
+test('double Medicare submit produces one API call and one accepted Lead', async () => {
+  let resolveFetch;
+  let callCount = 0;
+  const form = makeFunnelForm({
+    contentName: 'get_help_medicare',
+    fields: {
+      'form-name': 'get-help',
+      normalized_intent: 'medicare',
+      source_page_key: 'medicare_broker_lakeland_fl',
+      source_cta_key: 'request_review_final'
+    }
+  });
+  const w = loadFunnel({
+    pathname: '/get-help/',
+    search: '?intent=medicare&source_page_key=medicare_broker_lakeland_fl&source_cta_key=request_review_final',
+    forms: [form],
+    fetchImpl: () => {
+      callCount += 1;
+      return new Promise((resolveFetchPromise) => { resolveFetch = resolveFetchPromise; });
+    }
+  });
+
+  form.dispatchSubmit();
+  form.dispatchSubmit();
+  assert.equal(callCount, 1);
+
+  resolveFetch({
+    ok: true,
+    json: () => Promise.resolve({
+      ok: true,
+      forms: true,
+      event_id: '723e4567-e89b-42d3-a456-426614174000',
+      source_page_key: 'medicare_broker_lakeland_fl',
+      source_page_role: 'transaction',
+      source_cta_key: 'request_review_final',
+      content_cluster: 'lakeland_medicare_broker'
+    })
+  });
+  await flushPromises(6);
+
+  const leads = w.dataLayer.filter((entry) => entry && entry.event === 'Lead');
+  assert.equal(leads.length, 1);
+  assert.equal(leads[0].event_id, '723e4567-e89b-42d3-a456-426614174000');
+  assert.equal(leads[0].acceptance_status, 'forms_accepted');
+  assert.equal(w.dataLayer.some((entry) => entry && entry[0] === 'event' && entry[1] === 'generate_lead'), false);
+});
+
 test('thanks.html does not fire generate_lead without pending marker', () => {
   const { dataLayer, sandbox } = runThanksHeadScript(makeSessionStorage());
 
@@ -829,11 +1307,18 @@ test('shared release invalidates stale asset caches and keeps desktop navigation
 test('get-help intent allowlist falls back safely', () => {
   const sandbox = {
     window: null,
+    location: {
+      pathname: '/get-help/',
+      search: '',
+      origin: 'https://lakelandhealthinsurance.com'
+    },
     document: {
+      referrer: '',
       addEventListener: () => {},
       getElementById: () => null,
       querySelectorAll: () => []
     },
+    URL,
     URLSearchParams,
     String,
     Object,
@@ -861,6 +1346,43 @@ test('get-help intent allowlist falls back safely', () => {
   assert.equal(sandbox.LHIGetHelpIntake.intents['under-65'].optionLabel, 'Health coverage for me or my family');
   assert.equal(sandbox.LHIGetHelpIntake.intents['not-sure'].optionLabel, 'I am not sure yet');
   assert.ok(sandbox.LHIGetHelpIntake.intents['retiring-before-65']);
+
+  assert.deepEqual(JSON.parse(JSON.stringify(sandbox.LHIGetHelpIntake.medicareSourceContext(new URLSearchParams(
+    'intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_page_role=transaction&source_cta_key=request_review_hero'
+  )))), {
+    source_page_key: 'best_medicare_broker_lakeland_fl',
+    source_page_role: 'selection',
+    source_cta_key: 'request_review_hero',
+    content_cluster: 'lakeland_medicare_broker'
+  });
+  assert.equal(sandbox.LHIGetHelpIntake.medicareSourceContext(new URLSearchParams(
+    'intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_cta_key=unknown'
+  )), null);
+  assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('medicare_review'), 'medicare_review');
+  assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('jane@example.com'), '');
+  assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('863-640-3102'), '');
+});
+
+test('Get Help stores only bounded Medicare attribution and approved campaign fields', () => {
+  for (const field of [
+    'source_page_key',
+    'source_page_role',
+    'source_cta_key',
+    'content_cluster',
+    'event_id',
+    'server_received_at',
+    'utm_source',
+    'utm_medium',
+    'utm_campaign',
+    'utm_content'
+  ]) {
+    assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
+  }
+  for (const removed of ['utm_term', 'gclid', 'fbclid']) {
+    assert.doesNotMatch(GET_HELP_HTML, new RegExp(`name="${removed}"`));
+  }
+  assert.match(GET_HELP_SRC, /setValue\('sourcePageInput', String\(window\.location\.pathname \|\| '\/'\)\.slice\(0, 160\)\);/);
+  assert.doesNotMatch(GET_HELP_SRC, /window\.location\.pathname \+ window\.location\.search/);
 });
 
 test('homepage ZIP entry starts the generic get-help flow and prefills the canonical ZIP field', () => {

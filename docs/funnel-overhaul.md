@@ -2,6 +2,8 @@
 
 Updated: 2026-07-26
 
+Measurement addendum: 2026-08-14. The Medicare attribution contract below supersedes earlier measurement-boundary language; the original rollout baseline remains historical.
+
 ## Baseline
 
 - Repository state before edits: `main...origin/main`, clean worktree.
@@ -15,6 +17,8 @@ Updated: 2026-07-26
 
 | Route | Purpose | Primary CTA |
 |---|---|---|
+| `/best-medicare-broker-lakeland-fl/` | Medicare broker-selection methodology | Registered links to the transaction page and `/get-help/?intent=medicare...` |
+| `/medicare-broker-lakeland-fl/` | Transactional Medicare review page | Registered links to the selection page and `/get-help/?intent=medicare...` |
 | `/get-help/` | Progressive intake for all supported intents | Submit through `/api/lead` |
 | `/losing-coverage/` | COBRA, job loss, Medicaid, spousal, or employer coverage loss | `/get-help/?intent=lost-coverage` |
 | `/turning-26/` | Age-off parent-plan review | `/get-help/?intent=turning-26` |
@@ -60,9 +64,12 @@ Unknown values fall back to `not-sure`. Query-string values are never injected i
 | Event | Trigger | Required Properties | Prohibited Properties | Destinations | Deduplication |
 |---|---|---|---|---|---|
 | `PageView` | Funnel bus page load | `page_type` | PII, provider names, prescription names | dataLayer | One per page script load |
+| `MedicareContentView` / `medicare_content_view` | Registered selection or transaction page loads | `schema_version`, `event_id`, `page_key`, `page_role`, `content_cluster`, `intent` | URL/query/referrer, PII, form answers | dataLayer and direct GA4 diagnostic event | One per analytics script load |
+| `MedicareCtaClick` / `medicare_cta_click` | Registered same-site Medicare CTA click | Content-view fields plus registered `cta_key` | Link text, arbitrary destination, PII, form answers | dataLayer and direct GA4 diagnostic event | One event per click with a fresh event ID |
 | `ViewContent` | Future content milestones | `content_name`, `page_type` | PII, sensitive answers | dataLayer | Stable event id |
 | `StartLead` | First meaningful form engagement | `content_name`, `step` | PII, provider names, prescription names | dataLayer | Per-form in-memory guard |
-| `Lead` | `/api/lead` success for sales/service lead forms | `content_name`, `event_id`, `normalized_intent`, `line_of_business` | Raw names, email, phone, provider names, prescription names | dataLayer, Google Ads enhanced conversion, Meta CAPI from server | `event_id`, thank-you marker consumed once |
+| `MedicareIntakeStart` / `medicare_intake_start` | First meaningful interaction on allowlisted Medicare Get Help intake | `schema_version`, `page_key=get_help`, `page_role=intake`, source tuple when valid, `content_cluster`, `intent`, `step` | Raw query/referrer, PII, form answers | dataLayer and direct GA4 diagnostic event | Per-form in-memory guard |
+| `Lead` | Browser verifies `/api/lead` returned `ok: true`, `forms: true`, and an approved server `event_id` | `content_name`, `event_id`, `acceptance_status=forms_accepted`; canonical Medicare context when present | Raw names, email, phone, ZIP, policy/Medicare IDs, providers, prescriptions, income, health/coverage answers, free text | dataLayer; GTM owns GA4 `generate_lead` and Google Ads; server owns CAPI | One accepted response, one server event ID, one thank-you marker |
 | `LeadReceiptView` | Fresh same-session lead reaches `/thanks.html` | `content_name`, `step` | PII, form answers | dataLayer, GA4 diagnostic event `lead_receipt_view` | Fresh lead marker consumed once; direct visits do not fire |
 | `Subscriber` | `/api/lead` success for newsletter forms | `content_name`, `event_id` | Raw names, email, phone | dataLayer, Mailchimp only | `event_id`, same-session marker consumed once |
 | `Schedule` | Calendly link click | `content_name` | PII | dataLayer | Click event id |
@@ -73,22 +80,22 @@ Unknown values fall back to `not-sure`. Query-string values are never injected i
 | `ApplicationStarted` | Server-side/admin outcome update | `lead_id`, `stage` | PHI, commission, private notes | Future server/offline conversion workflow | Stable lead id |
 | `Enrollment` | Server-side/admin outcome update | `lead_id`, `stage` | PHI, commission, private notes | Future server/offline conversion workflow | Stable lead id |
 
-Legacy `phone_call_click`, `phone_call`, and `generate_lead` are preserved for existing reporting. `Subscribe` is replaced by `Subscriber` for newsletter signup.
+Legacy `phone_call_click`, `phone_call`, and `generate_lead` are preserved for existing reporting. `Subscribe` is replaced by `Subscriber` for newsletter signup. `generate_lead` means Forms acceptance, not confirmed readable downstream delivery.
 
 ## Form To API To Mailchimp Mapping
 
 | Submission | API Behavior | Meta CAPI | Google Ads Lead | Mailchimp |
 |---|---|---|---|---|
-| Sales/service lead | POST `/api/lead`, forward to Netlify Forms, return `event_id` | Production only | Browser `Lead` only after API success | `subscribed`, form tags plus intent tags |
-| Current client review | Same as lead, tagged as service request | Production only | Browser `Lead` only after API success unless later split in ad UI | `subscribed`, `existing-client-service`, `service-request` |
-| Post-enrollment review | Same as lead, tagged as service request | Production only | Browser `Lead` only after API success unless later split in ad UI | `subscribed`, `existing-client-service`, `service-request` |
-| Newsletter | POST `/api/lead`, forward to Netlify Forms, return `event_id` | Skipped | Skipped | `pending`, newsletter tags |
+| Sales/service lead | POST `/api/lead`; server canonicalizes attribution; Netlify Forms acceptance gates the success response | Production only after Forms acceptance | Browser `Lead` only after semantic acceptance | `pending` only when separately authorized marketing consent is present |
+| Current client review | Same acceptance boundary, tagged as service request | Production only after Forms acceptance | Browser `Lead` only after semantic acceptance unless later split in ad UI | `pending` only with separate marketing consent; service tags retained |
+| Post-enrollment review | Same acceptance boundary, tagged as service request | Production only after Forms acceptance | Browser `Lead` only after semantic acceptance unless later split in ad UI | `pending` only with separate marketing consent; service tags retained |
+| Newsletter | POST `/api/lead`, forward to Netlify Forms, return accepted server event ID | Skipped | Skipped | `pending` confirmed opt-in |
 
 ## Thank-You Behavior
 
 - `/thanks.html` reads `sessionStorage.lhi_submission_completed` or the legacy `lhi_lead_submitted`.
 - The marker is removed immediately.
-- The canonical `Lead` conversion fires at the successful `/api/lead` delivery boundary, not on the thank-you page.
+- The canonical `Lead` conversion fires only after `/api/lead` reports Netlify Forms acceptance, not on the thank-you page.
 - A fresh same-session lead arrival records the diagnostic `lead_receipt_view` event without firing another conversion.
 - Newsletter confirmation uses `Subscriber` language and never fires `Lead`.
 - Direct visits and refreshes use the generic fallback and do not create conversions.
@@ -97,21 +104,38 @@ Legacy `phone_call_click`, `phone_call`, and `generate_lead` are preserved for e
 
 The Get Help flow preserves:
 
-- `source_page`
-- `referral_page`
+- normalized `source_page` path without its query string
+- `referral_page` classification (`direct`, `internal`, or `external`), not the referrer URL
+- `source_page_key`
+- registry-derived `source_page_role`
+- `source_cta_key`
+- registry-derived `content_cluster`
+- server-minted `event_id`
+- server timestamps used for the accepted submission record
 - `utm_source`
 - `utm_medium`
 - `utm_campaign`
 - `utm_content`
-- `utm_term`
-- `gclid`
-- `fbclid`
 - `product_interest`
 - `plan_interest`
 - `normalized_intent`
 - `line_of_business`
 
-PII is not placed in URLs. The funnel event bus does not send raw name, email, phone, provider names, prescription names, or notes to analytics payloads.
+Medicare source URLs contain only `intent=medicare`, an allowlisted page key, and an allowlisted CTA key. Campaign values are token-validated, and contact-like values are rejected. The Get Help attribution record does not copy `utm_term`, `gclid`, `fbclid`, a full referrer URL, or the arbitrary query string.
+
+The analytics field allowlist excludes raw name, email, phone, ZIP, DOB/age, Medicare and policy identifiers, provider/facility names, prescription names, income, health or coverage answers, notes, messages, free text, unknown fields, arrays, and objects. Exact registry values are derived rather than trusted from query or hidden fields.
+
+The API applies a separate form-storage boundary: registered form-specific field allowlists, a 64 KB body cap, scalar-only values, and an 8 KB per-field cap. Get Help requires request consent and overwrites consent evidence with server-derived timestamps, version, page, withdrawal state, and channel states. Meta CAPI, Ads/OpenAI CAPI, and Mailchimp run only after Forms acceptance.
+
+## Measurement Boundaries
+
+- `medicare_content_view`, `medicare_cta_click`, and `medicare_intake_start` are behavioral diagnostics.
+- `Lead` and GTM's `generate_lead` mean the Netlify Forms forward was accepted.
+- `lead_receipt_view` means a fresh same-session accepted marker reached the confirmation page; it is not another conversion.
+- Downstream readable delivery to the broker, inbox, or CRM is not yet measured. Neither an HTTP 200, Forms acceptance, GA4 event, nor thank-you view proves that downstream delivery.
+- Secure-intake completion, case-ready status, and completed human review remain future authenticated outcome stages.
+
+The Medicare page/CTA registry, safe event schemas, and 0/7/14/28-day scorecard are maintained in `docs/medicare-attribution-measurement.md`.
 
 ## Outcome Stages
 
@@ -217,5 +241,5 @@ Do not submit real production leads during testing.
 ## Recommended Conversion Configuration
 
 - GA4 key events: `Lead`, `Subscriber`, `Schedule`, `PhoneCallClick`, `ExternalQuoteClick`, `QualifiedLead`, `ApplicationStarted`, `Enrollment`.
-- Google Ads primary conversion: confirmed `Lead` only after `/api/lead` success. Treat `Subscriber`, phone clicks, schedule clicks, and external quote clicks separately.
+- Google Ads primary conversion: Forms-accepted `Lead` only after semantic `/api/lead` success. Treat `Subscriber`, phone clicks, schedule clicks, and external quote clicks separately.
 - Meta standard event: server-side `Lead` only for non-newsletter lead forms. Do not send `Lead` for newsletter subscribers.

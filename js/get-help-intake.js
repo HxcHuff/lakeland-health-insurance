@@ -140,6 +140,34 @@
 
   var DEFAULT_INTENT = 'not-sure';
   var INTENT_OPTIONS = ['under-65', 'lost-coverage', 'medicare', 'dental-vision', 'current-client-review', 'not-sure'];
+  var MEDICARE_CONTENT_CLUSTER = 'lakeland_medicare_broker';
+  var MEDICARE_SOURCE_REGISTRY = {
+    best_medicare_broker_lakeland_fl: {
+      page_role: 'selection',
+      cta_keys: {
+        request_review_hero: true,
+        start_review_criteria: true,
+        request_help_final: true,
+        broker_help_nav: true,
+        see_review_process: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_broker_lakeland_fl: {
+      page_role: 'transaction',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_verification: true,
+        request_review_final: true,
+        selection_guide_nav: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    }
+  };
   var QUERY_ALIASES = {
     'individual-family': 'under-65',
     'under-65': 'under-65',
@@ -212,6 +240,62 @@
   function qsValue(qs, key) {
     var val = qs.get(key);
     return val ? String(val).slice(0, 120) : '';
+  }
+
+  function approvedCampaignValue(value) {
+    var candidate = value;
+    var shared = window.LHIMedicareAttribution;
+    if (shared && typeof shared.approvedCampaignValue === 'function') {
+      try {
+        candidate = shared.approvedCampaignValue(value);
+      } catch (e) {
+        return '';
+      }
+    }
+    var text = String(candidate || '').trim().toLowerCase();
+    if (!text || text.length > 80) return '';
+    if (/@|(?:\d[\s().-]*){7,}/.test(text) || /^\d{5}(?:-\d{4})?$/.test(text)) return '';
+    return /^[a-z0-9][a-z0-9._~-]*$/.test(text) ? text : '';
+  }
+
+  function referralClass() {
+    if (!document.referrer) return 'direct';
+    try {
+      var referrer = new URL(document.referrer, window.location.origin);
+      return referrer.origin === window.location.origin ? 'internal' : 'external';
+    } catch (e) {
+      return 'direct';
+    }
+  }
+
+  function validateMedicareSourceTuple(pageKey, ctaKey) {
+    var registered = MEDICARE_SOURCE_REGISTRY[String(pageKey || '')];
+    var approvedCta = String(ctaKey || '');
+    if (!registered || !registered.cta_keys[approvedCta]) return null;
+    return {
+      source_page_key: String(pageKey),
+      source_page_role: registered.page_role,
+      source_cta_key: approvedCta,
+      content_cluster: MEDICARE_CONTENT_CLUSTER
+    };
+  }
+
+  function medicareSourceContext(qs) {
+    if (String(qs.get('intent') || '').toLowerCase() !== 'medicare') return null;
+
+    var shared = window.LHIMedicareAttribution;
+    if (shared && typeof shared.sourceContext === 'function') {
+      try {
+        var sharedContext = shared.sourceContext(window.location.search);
+        if (sharedContext) {
+          return validateMedicareSourceTuple(sharedContext.source_page_key, sharedContext.source_cta_key);
+        }
+      } catch (e) {
+        return null;
+      }
+    }
+
+    return validateMedicareSourceTuple(qs.get('source_page_key'), qs.get('source_cta_key'));
   }
 
   function setValue(id, value) {
@@ -319,18 +403,20 @@
 
   function initAttribution() {
     var qs = new URLSearchParams(window.location.search);
+    var medicareSource = medicareSourceContext(qs);
     setValue('zipCode', qsValue(qs, 'zip_code'));
-    setValue('sourcePageInput', window.location.pathname + window.location.search);
-    setValue('referralPageInput', document.referrer || '');
+    setValue('sourcePageInput', String(window.location.pathname || '/').slice(0, 160));
+    setValue('referralPageInput', referralClass());
+    setValue('sourcePageKeyInput', medicareSource && medicareSource.source_page_key);
+    setValue('sourcePageRoleInput', medicareSource && medicareSource.source_page_role);
+    setValue('sourceCtaKeyInput', medicareSource && medicareSource.source_cta_key);
+    setValue('contentClusterInput', medicareSource && medicareSource.content_cluster);
     setValue('productInterestInput', qsValue(qs, 'product'));
     setValue('planInterestInput', qsValue(qs, 'plan'));
-    setValue('utmSourceInput', qsValue(qs, 'utm_source'));
-    setValue('utmMediumInput', qsValue(qs, 'utm_medium'));
-    setValue('utmCampaignInput', qsValue(qs, 'utm_campaign'));
-    setValue('utmContentInput', qsValue(qs, 'utm_content'));
-    setValue('utmTermInput', qsValue(qs, 'utm_term'));
-    setValue('gclidInput', qsValue(qs, 'gclid'));
-    setValue('fbclidInput', qsValue(qs, 'fbclid'));
+    setValue('utmSourceInput', approvedCampaignValue(qs.get('utm_source')));
+    setValue('utmMediumInput', approvedCampaignValue(qs.get('utm_medium')));
+    setValue('utmCampaignInput', approvedCampaignValue(qs.get('utm_campaign')));
+    setValue('utmContentInput', approvedCampaignValue(qs.get('utm_content')));
     var startedAt = String(Date.now());
     setValue('startedAtInput', startedAt);
     try { setValue('humanCheckInput', btoa(startedAt + ':lakeland-human')); } catch (e) {}
@@ -408,6 +494,9 @@
   window.LHIGetHelpIntake = {
     normalizeIntent: normalizeIntent,
     intents: INTENTS,
-    optionalFields: OPTIONAL_FIELDS
+    optionalFields: OPTIONAL_FIELDS,
+    approvedCampaignValue: approvedCampaignValue,
+    referralClass: referralClass,
+    medicareSourceContext: medicareSourceContext
   };
 })();
