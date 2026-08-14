@@ -25,7 +25,7 @@
       content: 'get_help_medicare',
       subject: 'New Lead: Medicare Review',
       line: 'Medicare',
-      intro: 'Get Medicare review help without being routed into an ACA pathway.',
+      intro: 'Start a Medicare-focused review based on your timing, current plan, doctors, and prescriptions.',
       optional: ['medicare_timing', 'current_plan', 'providers', 'prescriptions', 'referral', 'notes']
     },
     'lost-coverage': {
