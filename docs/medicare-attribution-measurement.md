@@ -1,7 +1,7 @@
 # Medicare Attribution and Measurement Contract
 
-Contract version: `medicare-attribution.v1`  
-Implementation date: 2026-08-14  
+Contract version: `medicare-attribution.v1`
+Implementation date: 2026-08-14
 Scope: the Lakeland Medicare broker content cluster, Get Help intake attribution, and Forms-acceptance measurement
 
 This contract separates visitor behavior, first-party form acceptance, and downstream operational outcomes. Code or GA4 evidence from one boundary must not be reported as proof of a later boundary.

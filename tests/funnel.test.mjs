@@ -913,6 +913,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
 test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /David will reach out shortly\./);
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
+  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20260814-medicare-attribution/);
 });
 
 test('direct thank-you visits show customer-facing help copy', () => {
