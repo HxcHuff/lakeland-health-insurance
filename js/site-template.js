@@ -7,7 +7,7 @@
   const navLinks = [
     ['/aca-health-insurance-lakeland-fl/', 'Individual and Family Coverage'],
     ['/medicare/', 'Medicare'],
-    ['/plans/', 'Plan Types'],
+    ['/plans/', 'Coverage Options'],
     ['/carriers/', 'Carriers'],
     ['/blog/', 'Blog'],
     ['/learning/', 'Learn'],
@@ -18,7 +18,7 @@
     ['/', 'Home'],
     ['/aca-health-insurance-lakeland-fl/', 'Individual and Family Coverage'],
     ['/medicare/', 'Medicare'],
-    ['/plans/', 'Plan Types'],
+    ['/plans/', 'Coverage Options'],
     ['/carriers/', 'Carriers'],
     ['/blog/', 'Blog'],
     ['/learning/', 'Learn'],
@@ -89,7 +89,7 @@
               <li><a href="/losing-coverage/">Losing Coverage</a></li>
               <li><a href="/self-employed-health-insurance/">Self-Employed Coverage</a></li>
               <li><a href="/medicare/">Medicare</a></li>
-              <li><a href="/plans/">Plan Types</a></li>
+              <li><a href="/plans/">Coverage Options</a></li>
               <li><a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a></li>
               <li><a href="/blog/">Blog</a></li>
               <li><a href="/get-help/">Start Plan Review</a></li>

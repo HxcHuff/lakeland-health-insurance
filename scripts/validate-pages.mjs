@@ -16,14 +16,14 @@ const FORBIDDEN_SERVICE_CLAIMS = [
 ];
 const CLIENT_COPY_FILES = ['js/site-search.js', 'js/blog-cta.js', 'js/site-template.js'];
 const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
-const RELEASE_ASSET_VERSION = '20260803-brand-release';
-const RELEASE_ASSET_PATHS = [
-  '/css/site-template.css',
-  '/css/blog-unified.css',
-  '/js/site-template.js',
-  '/js/site-search.js',
-  '/js/blog-cta.js',
-];
+const RELEASE_ASSET_VERSIONS = new Map([
+  ['/css/site-template.css', '20260803-brand-release'],
+  ['/css/blog-unified.css', '20260803-brand-release'],
+  ['/js/site-template.js', '20260816-coverage-options'],
+  ['/js/site-search.js', '20260803-brand-release'],
+  ['/js/blog-cta.js', '20260803-brand-release'],
+]);
+const SERVICE_WORKER_CACHE_VERSION = '20260816-coverage-options';
 
 const FORBIDDEN_PUBLIC_FILES = [
   'blog/ads-manager-setup-checklist.html',
@@ -109,8 +109,8 @@ for (const file of seen) {
   const rel = relative(ROOT, file);
   htmlByRel.set(rel, file);
   const html = readFileSync(file, 'utf8');
-  for (const assetPath of RELEASE_ASSET_PATHS) {
-    const expected = `${assetPath}?v=${RELEASE_ASSET_VERSION}`;
+  for (const [assetPath, assetVersion] of RELEASE_ASSET_VERSIONS) {
+    const expected = `${assetPath}?v=${assetVersion}`;
     const pattern = new RegExp(`${escapeRegExp(assetPath)}(?:\\?[^\"'\\s<>]*)?`, 'g');
     for (const match of html.matchAll(pattern)) {
       if (match[0] !== expected) {
@@ -162,7 +162,7 @@ for (const rel of CLIENT_COPY_FILES) {
 }
 
 const serviceWorker = readFileSync(join(ROOT, 'sw.js'), 'utf8');
-const expectedCacheName = `const CACHE_NAME = 'lhi-${RELEASE_ASSET_VERSION}';`;
+const expectedCacheName = `const CACHE_NAME = 'lhi-${SERVICE_WORKER_CACHE_VERSION}';`;
 if (!serviceWorker.includes(expectedCacheName)) {
   issues.push(`sw.js: cache namespace must match shared asset release (${expectedCacheName})`);
 }

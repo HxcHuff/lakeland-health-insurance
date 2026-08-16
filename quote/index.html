@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Florida Health Insurance Quote &amp; Enrollment Router</title>
-  <meta name="description" content="Confirm Florida ZIP code and coverage type before opening an ACA quote, Medicare review, or other health insurance assistance path.">
+  <title>Florida Health Insurance Quotes | Lakeland Health Insurance</title>
+  <meta name="description" content="Compare ACA Marketplace plans online, start a Medicare review, or ask David Huff to review your Florida coverage options.">
   <link rel="canonical" href="https://lakelandhealthinsurance.com/quote/">
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Florida Health Insurance Quote and Enrollment Router">
-  <meta property="og:description" content="Confirm geography and coverage type before opening an external quote or enrollment destination.">
+  <meta property="og:title" content="Florida Health Insurance Quote Options">
+  <meta property="og:description" content="Choose a direct online ACA comparison or start a consent-controlled broker review.">
   <meta property="og:url" content="https://lakelandhealthinsurance.com/quote/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
@@ -16,12 +16,15 @@
   <link rel="stylesheet" href="/css/site-template.css?v=20260803-brand-release">
   <link rel="stylesheet" href="/css/answer-pages.css">
   <style>
-    .router-form { display: grid; gap: 16px; min-width: 0; }
-    .router-form label { color: #1b2a4a; display: grid; font-weight: 800; gap: 6px; min-width: 0; }
-    .router-form input,
-    .router-form select { border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; min-height: 48px; min-width: 0; padding: 10px 12px; width: 100%; }
-    .router-result[hidden] { display: none; }
-    .router-result { background: #f0f5ff; border: 1px solid #bfdbfe; border-radius: 8px; margin-top: 18px; padding: 18px; }
+    .quote-action-grid { display: grid; gap: 18px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .quote-action-card { display: flex; flex-direction: column; }
+    .quote-action-card .btn { align-self: flex-start; margin-top: auto; }
+    .action-label { color: #2563eb; font-size: 0.78rem; font-weight: 900; letter-spacing: 0.08em; margin-bottom: 8px; text-transform: uppercase; }
+    .action-note { color: #64748b; font-size: 0.9rem; margin-bottom: 18px; }
+    @media (max-width: 860px) {
+      .quote-action-grid { grid-template-columns: 1fr; }
+      .quote-action-card .btn { align-self: stretch; }
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -31,8 +34,8 @@
         "@type": "WebPage",
         "@id": "https://lakelandhealthinsurance.com/quote/#webpage",
         "url": "https://lakelandhealthinsurance.com/quote/",
-        "name": "Florida Health Insurance Quote and Enrollment Router",
-        "dateModified": "2026-07-30",
+        "name": "Florida Health Insurance Quote Options",
+        "dateModified": "2026-08-16",
         "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
         "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
         "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
@@ -41,7 +44,7 @@
       {
         "@type": "Service",
         "@id": "https://lakelandhealthinsurance.com/quote/#service",
-        "name": "Florida coverage-path routing",
+        "name": "Florida health insurance quote and review options",
         "provider": {"@id": "https://lakelandhealthinsurance.com/#agency"},
         "areaServed": {"@type": "AdministrativeArea", "name": "Florida"}
       }
@@ -53,55 +56,44 @@
 <body>
   <main>
     <section class="answer-hero">
-      <div class="answer-wrap answer-grid">
-        <div>
-          <p class="eyebrow">Florida routing gate</p>
-          <h1>Confirm ZIP code and coverage type before leaving this site.</h1>
-          <p class="lead">This router checks only whether a five-digit ZIP falls within Florida’s general 320–349 ZIP range and then shows the appropriate next-step links. It does not determine licensure, eligibility, plan availability, subsidy, network, formulary, or enrollment status.</p>
-          <div class="answer-snippet"><strong>Privacy:</strong> The ZIP code stays in this browser and is not submitted by this router or included in an analytics event.</div>
-        </div>
-        <aside class="side-card">
-          <h2>Routing limits</h2>
-          <ul>
-            <li>Florida scope only.</li>
-            <li>No eligibility or plan recommendation.</li>
-            <li>No provider or prescription details collected.</li>
-            <li>External sites control their own privacy and enrollment workflows.</li>
-          </ul>
-        </aside>
+      <div class="answer-wrap">
+        <p class="eyebrow">Quote and review options</p>
+        <h1>Get pricing or start a review.</h1>
+        <p class="lead">Choose one direct action. You do not need to enter information on this page.</p>
+        <div class="answer-snippet"><strong>Privacy:</strong> Broker requests open the existing consent-controlled intake. The online ACA option opens an external enrollment platform with its own privacy terms.</div>
       </div>
     </section>
 
     <section class="content-band">
-      <div class="answer-wrap">
-        <article class="answer-card">
-          <h2>Choose your next step</h2>
-          <form class="router-form" id="coverageRouter">
-            <label for="routerZip">ZIP code
-              <input id="routerZip" name="router_zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" required>
-            </label>
-            <label for="routerCoverage">Coverage type
-              <select id="routerCoverage" name="router_coverage" required>
-                <option value="">Select one</option>
-                <option value="aca">Individual and Family Coverage / ACA Marketplace</option>
-                <option value="medicare">Medicare</option>
-                <option value="other">Temporary, supplemental, dental, vision, or life</option>
-                <option value="unsure">Not sure</option>
-              </select>
-            </label>
-            <button class="btn primary" type="submit">Show verified next steps</button>
-          </form>
-          <div class="router-result" id="routerResult" role="status" aria-live="polite" tabindex="-1" hidden></div>
-        </article>
+      <div class="answer-wrap stack">
+        <div class="quote-action-grid" aria-label="Quote and review actions">
+          <article class="answer-card quote-action-card">
+            <p class="action-label">ACA Marketplace</p>
+            <h2>Compare ACA Marketplace plans online</h2>
+            <p>See available plans and prices using David Huff’s attributed HealthSherpa shopping link.</p>
+            <p class="action-note">Eligibility, financial assistance, plan availability, networks, and final costs depend on the Marketplace application and current plan data. This private enrollment platform is not HealthCare.gov and has its own privacy terms.</p>
+            <a class="btn primary" data-quote-action="aca-self-service" data-funnel-external-quote data-analytics-label="quote_aca_self_service_compare" href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Compare ACA Marketplace plans online</a>
+          </article>
+          <article class="answer-card quote-action-card">
+            <p class="action-label">Medicare</p>
+            <h2>Start a Medicare review</h2>
+            <p>Open the consent-controlled intake for help reviewing Medicare timing, current coverage, providers, and prescriptions.</p>
+            <p class="action-note">A review request is not enrollment, a plan recommendation, or proof of coverage.</p>
+            <a class="btn primary" data-quote-action="medicare-review" href="/get-help/?intent=medicare">Start a Medicare review</a>
+          </article>
+          <article class="answer-card quote-action-card">
+            <p class="action-label">Broker review</p>
+            <h2>Ask David to review my options</h2>
+            <p>Use the general consent-controlled intake when you need help deciding which coverage path fits your situation.</p>
+            <p class="action-note">No lead or request is created until you complete the intake and explicitly submit it.</p>
+            <a class="btn primary" data-quote-action="broker-review" href="/get-help/">Ask David to review my options</a>
+          </article>
+        </div>
 
-        <article class="answer-card" style="margin-top:18px;">
-          <h2>Official fallback destinations</h2>
-          <p>If the ZIP is outside Florida or this site cannot verify the requested path, use <a href="https://www.healthcare.gov/" target="_blank" rel="noopener noreferrer">HealthCare.gov</a> for Marketplace coverage or <a href="https://www.medicare.gov/" target="_blank" rel="noopener noreferrer">Medicare.gov</a> for Medicare information. Do not submit personal information to an unverified referral destination.</p>
-        </article>
+        <p class="disclosure">Displayed prices are not an eligibility determination, enrollment confirmation, coverage effective date, or provider-participation guarantee. Confirm the final application, carrier documents, and effective date before relying on coverage.</p>
       </div>
     </section>
   </main>
-  <script src="/js/quote-router.js" defer></script>
-  <script src="/js/site-template.js?v=20260803-brand-release" defer></script>
+  <script src="/js/site-template.js?v=20260816-coverage-options" defer></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
-const CACHE_NAME = 'lhi-20260803-brand-release';
+const CACHE_NAME = 'lhi-20260816-coverage-options';
 const OFFLINE_URL = '/offline.html';
+const SITE_TEMPLATE_URL = '/js/site-template.js?v=20260816-coverage-options';
 
 // Core pages to pre-cache for offline access
 const PRECACHE_URLS = [
@@ -8,9 +9,33 @@ const PRECACHE_URLS = [
   '/about/',
   '/blog/',
   '/css/blog.css',
+  SITE_TEMPLATE_URL,
   '/manifest.json',
   OFFLINE_URL
 ];
+
+async function fetchSharedTemplate(request) {
+  const cached = await caches.match(request);
+  let response;
+
+  try {
+    response = await fetch(request, { cache: 'no-cache' });
+  } catch (error) {
+    if (cached) return cached;
+    throw error;
+  }
+
+  if (!response.ok) return cached || response;
+
+  try {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.put(request, response.clone());
+  } catch (error) {
+    // The fresh response remains usable even if Cache Storage is unavailable.
+  }
+
+  return response;
+}
 
 // Install: pre-cache core pages
 self.addEventListener('install', (event) => {
@@ -36,9 +61,10 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch: network-first for HTML, cache-first for assets
+// Fetch: network-first for HTML and shared navigation; cache-first for other assets
 self.addEventListener('fetch', (event) => {
   const { request } = event;
+  const requestUrl = new URL(request.url);
 
   // Skip non-GET requests
   if (request.method !== 'GET') return;
@@ -61,6 +87,12 @@ self.addEventListener('fetch', (event) => {
           });
         })
     );
+    return;
+  }
+
+  // Shared navigation: revalidate before using the cached release asset.
+  if (requestUrl.pathname === '/js/site-template.js') {
+    event.respondWith(fetchSharedTemplate(request));
     return;
   }
 

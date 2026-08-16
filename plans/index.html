@@ -3,18 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Florida Health Insurance Paths | ACA, Medicare &amp; More</title>
-  <meta name="description" content="Choose the right Florida coverage-review path for ACA Marketplace, Medicare, temporary coverage gaps, supplemental, dental, vision, or life insurance.">
+  <title>Florida Coverage Options | Lakeland Health Insurance</title>
+  <meta name="description" content="Choose a clear starting point for individual and family coverage, Medicare, coverage loss, dental, vision, supplemental, or life insurance in Florida.">
   <link rel="canonical" href="https://lakelandhealthinsurance.com/plans/">
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Compare Health Insurance Paths in Florida">
-  <meta property="og:description" content="Start with coverage type, Florida ZIP code, timing, providers, prescriptions, and current coverage.">
+  <meta property="og:title" content="Florida Coverage Options | Lakeland Health Insurance">
+  <meta property="og:description" content="Find the coverage situation that matches you and open one focused next step.">
   <meta property="og:url" content="https://lakelandhealthinsurance.com/plans/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
   <link rel="stylesheet" href="/css/fonts.css">
   <link rel="stylesheet" href="/css/site-template.css?v=20260803-brand-release">
   <link rel="stylesheet" href="/css/answer-pages.css">
+  <style>
+    .coverage-choice-grid { display: grid; gap: 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .coverage-choice-card { display: flex; flex-direction: column; }
+    .coverage-choice-card:last-child { grid-column: 1 / -1; }
+    .coverage-choice-card .btn { align-self: flex-start; margin-top: auto; }
+    .choice-note { background: #f8fafc; border-left: 3px solid #cbd5e1; border-radius: 6px; color: #475569; font-size: 0.92rem; margin: 0 0 18px; padding: 12px 14px; }
+    .source-card { margin-top: 18px; }
+    @media (max-width: 860px) {
+      .coverage-choice-grid { grid-template-columns: 1fr; }
+      .coverage-choice-card:last-child { grid-column: auto; }
+      .coverage-choice-card .btn { align-self: stretch; }
+    }
+  </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -23,8 +36,8 @@
         "@type": "WebPage",
         "@id": "https://lakelandhealthinsurance.com/plans/#webpage",
         "url": "https://lakelandhealthinsurance.com/plans/",
-        "name": "Compare Health Insurance Paths in Florida",
-        "dateModified": "2026-08-12",
+        "name": "Florida Coverage Options",
+        "dateModified": "2026-08-16",
         "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
         "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
         "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
@@ -33,7 +46,7 @@
       {
         "@type": "Service",
         "@id": "https://lakelandhealthinsurance.com/plans/#service",
-        "name": "Florida health insurance coverage review",
+        "name": "Florida health insurance coverage options guidance",
         "provider": {"@id": "https://lakelandhealthinsurance.com/#agency"},
         "areaServed": {"@type": "AdministrativeArea", "name": "Florida"}
       }
@@ -45,67 +58,60 @@
 <body>
   <main>
     <section class="answer-hero">
-      <div class="answer-wrap answer-grid">
-        <div>
-          <p class="eyebrow">Florida coverage paths</p>
-          <h1>Choose a coverage-review path before comparing products.</h1>
-          <p class="lead">The right starting point depends on age, Medicare status, current coverage, enrollment timing, Florida ZIP code, household information, providers, prescriptions, and whether medical underwriting applies. A low headline price does not establish eligibility, coverage, or fit.</p>
-          <div class="answer-snippet"><strong>Direct answer:</strong> Start with the individual and family coverage path if you need major-medical coverage outside Medicare; start with the Medicare path when Medicare eligibility applies; use temporary or supplemental products only after their exclusions, benefit limits, underwriting, and relationship to major-medical coverage are clear.</div>
-          <div class="cta-row">
-            <a class="btn primary" href="/quote/">Use the Florida coverage router</a>
-            <a class="btn secondary" href="/get-help/">Start a plan review</a>
-          </div>
-        </div>
-        <aside class="side-card">
-          <h2>Before comparing</h2>
-          <ul>
-            <li>Confirm Florida ZIP code, county, and coverage year.</li>
-            <li>Confirm eligibility and enrollment timing.</li>
-            <li>Check exact providers and prescriptions.</li>
-            <li>Review premium, cost sharing, limits, and exclusions.</li>
-          </ul>
-        </aside>
+      <div class="answer-wrap">
+        <p class="eyebrow">Coverage options</p>
+        <h1>Find the right place to start.</h1>
+        <p class="lead">Choose the situation that best matches you.</p>
       </div>
     </section>
 
     <section class="content-band">
       <div class="answer-wrap stack">
-        <div class="two-col">
-          <article class="answer-card">
-            <h2>Individual and family major-medical coverage</h2>
-            <p><a href="/aca-health-insurance-lakeland-fl/">ACA Marketplace coverage</a> is the primary starting point for many Florida residents without suitable job-based coverage. Eligibility, premium tax credits, plans, networks, and costs depend on the Marketplace application and current plan data.</p>
+        <div class="coverage-choice-grid" aria-label="Coverage starting points">
+          <article class="answer-card coverage-choice-card">
+            <h2>Coverage for me or my family</h2>
+            <p>Start with ACA Marketplace guidance when you need individual or family major-medical coverage before Medicare.</p>
+            <p class="choice-note">Eligibility, premium tax credits, plan availability, networks, and costs depend on the Marketplace application and current plan data.</p>
+            <a class="btn primary" data-coverage-choice="individual-family" href="/aca-health-insurance-lakeland-fl/">Explore individual and family coverage</a>
           </article>
-          <article class="answer-card">
+          <article class="answer-card coverage-choice-card">
             <h2>Medicare coverage</h2>
-            <p><a href="/medicare/">Medicare Advantage, Medicare Supplement, and Part D</a> serve different roles. Confirm enrollment rights, exact providers, prescriptions, pharmacies, plan documents, and total cost before making a change.</p>
+            <p>Review the distinct roles of Medicare Advantage, Medicare Supplement, and Part D before choosing a path.</p>
+            <p class="choice-note">Confirm enrollment rights, exact providers, prescriptions, pharmacies, plan documents, and total cost before making a change.</p>
+            <a class="btn primary" data-coverage-choice="medicare" href="/medicare/">Explore Medicare coverage</a>
           </article>
-          <article class="answer-card">
-            <h2>Temporary coverage gaps</h2>
-            <p><a href="/short-term-medical/">Short-term medical coverage</a> may use medical underwriting and may exclude pre-existing conditions or categories of care. It is not a substitute for understanding ACA eligibility and enrollment timing.</p>
+          <article class="answer-card coverage-choice-card">
+            <h2>Losing coverage or between plans</h2>
+            <p>Compare coverage deadlines and effective dates after job-based, spousal, Medicaid, or other coverage ends.</p>
+            <p class="choice-note">Short-term medical coverage may use medical underwriting and exclude pre-existing conditions or categories of care. It is not a substitute for understanding ACA eligibility, COBRA, and enrollment timing.</p>
+            <a class="btn primary" data-coverage-choice="coverage-loss" href="/losing-coverage/">Review coverage-loss options</a>
           </article>
-          <article class="answer-card">
-            <h2>Supplemental and ancillary coverage</h2>
-            <p><a href="/supplemental-insurance/">Supplemental</a>, <a href="/dental-vision/">dental and vision</a>, and <a href="/life-insurance-dime-method/">life insurance</a> can address narrower risks. Availability, underwriting, benefit schedules, waiting periods, and exclusions vary.</p>
+          <article class="answer-card coverage-choice-card">
+            <h2>Dental, vision, supplemental, or life</h2>
+            <p>Start with the add-on coverage hub to identify which narrower risk you are trying to address.</p>
+            <p class="choice-note">Availability, underwriting, benefit schedules, waiting periods, and exclusions vary. <strong>This is a fixed indemnity policy, NOT health insurance.</strong> Fixed-indemnity coverage pays scheduled benefits for covered events or services and does not replace comprehensive major-medical coverage. Review the policy, exclusions, waiting periods, benefit limits, and required federal disclosure before applying.</p>
+            <a class="btn primary" data-coverage-choice="additional-coverage" href="/supplemental-insurance/">Explore additional coverage</a>
+          </article>
+          <article class="answer-card coverage-choice-card">
+            <h2>I’m not sure where to start</h2>
+            <p>Use the consent-controlled broker intake to explain the coverage change, deadline, or plan question you need to address.</p>
+            <p class="choice-note">Sending a request is not enrollment, an eligibility determination, or proof of coverage.</p>
+            <a class="btn primary" data-coverage-choice="not-sure" href="/get-help/">Ask David where to start</a>
           </article>
         </div>
 
-        <article class="answer-card">
-          <h2>Fixed-indemnity limitation</h2>
-          <p><strong>This is a fixed indemnity policy, NOT health insurance.</strong> Fixed-indemnity coverage pays scheduled benefits for covered events or services and does not replace comprehensive major-medical coverage. Review the policy, exclusions, waiting periods, benefit limits, and required federal disclosure before applying.</p>
-        </article>
-
-        <article class="answer-card">
+        <article class="answer-card source-card">
           <h2>Sources and limitations</h2>
           <ul>
             <li><a href="https://www.healthcare.gov/choose-a-plan/plan-types/" target="_blank" rel="noopener noreferrer">HealthCare.gov: Health plan and network types</a> — accessed July 30, 2026; Florida Marketplace.</li>
             <li><a href="https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage" target="_blank" rel="noopener noreferrer">Medicare.gov: Get more coverage</a> — accessed July 30, 2026; Medicare pathways.</li>
             <li><a href="https://www.cms.gov/newsroom/fact-sheets/short-term-limited-duration-insurance-and-independent-noncoordinated-excepted-benefits-coverage-cms" target="_blank" rel="noopener noreferrer">CMS: Fixed-indemnity excepted-benefits rule fact sheet</a> — accessed August 12, 2026; federal disclosure reference.</li>
           </ul>
-          <p class="disclosure">Product, carrier, plan, benefit, and provider availability is not represented by this overview.</p>
+          <p class="disclosure">Product, carrier, plan, benefit, and provider availability is not represented by this overview. Confirm current eligibility, availability, contract terms, and effective dates before applying or changing coverage.</p>
         </article>
       </div>
     </section>
   </main>
-  <script src="/js/site-template.js?v=20260803-brand-release" defer></script>
+  <script src="/js/site-template.js?v=20260816-coverage-options" defer></script>
 </body>
 </html>
