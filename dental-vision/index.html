@@ -171,6 +171,17 @@
 
   <link rel="stylesheet" href="/css/site-template.css?v=20260803-brand-release">
   <style>
+    .landing-zip-form{margin-top:1.35rem;max-width:600px}
+    .landing-zip-form label{color:inherit;display:block;font-size:.9rem;font-weight:800;margin-bottom:.45rem}
+    .landing-zip-controls{display:flex;gap:.65rem}
+    .landing-zip-controls input{background:#fff;border:1px solid rgba(15,26,46,.22);border-radius:9px;color:#1e293b;flex:1;font:inherit;font-size:1rem;min-height:50px;min-width:0;padding:.75rem .9rem}
+    .landing-zip-controls input:focus{border-color:#d4a843;box-shadow:0 0 0 3px rgba(212,168,67,.22);outline:none}
+    .landing-zip-controls button{background:#d4a843;border:0;border-radius:9px;color:#0f1a2e;cursor:pointer;font:inherit;font-weight:900;min-height:50px;padding:.75rem 1.15rem}
+    .landing-zip-controls button:hover{background:#c49a38}
+    .landing-zip-note{color:inherit;font-size:.8rem!important;line-height:1.45;margin:.45rem 0 0;opacity:.8}
+    @media(max-width:520px){.landing-zip-controls{align-items:stretch;flex-direction:column}.landing-zip-controls button{width:100%}}
+  </style>
+  <style>
     :root { --navy:#1B2A4A; --navy-deep:#0F1A2E; --gold:#D4A843; --line:#E2E8F0; --text:#1E293B; --muted:#64748B; --bg:#F8FAFC; --white:#fff; --green:#15803D; --green-soft:#DCFCE7; --blue:#2563EB; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: "DM Sans", sans-serif; color: var(--text); background: var(--bg); line-height: 1.65; }
@@ -387,7 +398,7 @@
         <li><a href="/get-help/">Get Help</a></li>
       </ul>
       <div class="cta-group">
-        <a href="/get-help/" class="cta-button">Talk to David</a>
+        <a href="/get-help/?intent=dental-vision" class="cta-button">Talk to David</a>
       </div>
     </nav>
   </header>
@@ -400,18 +411,27 @@
     <div class="container hero-grid">
       <div>
         <span class="hero-kicker">Dental and vision coverage</span>
-        <h1>Dental &amp; Vision Insurance That Fits the Work You Actually Need</h1>
+        <h1>Dental &amp; Vision Coverage for the Care You Expect</h1>
         <p>Adult dental and vision are usually separate from medical coverage. Use the NCD or UnitedHealthcare quote links to price coverage, enroll online, and keep David available for customer support when questions come up.</p>
         <div class="hero-cta-row">
           <a href="https://enrollment.ncd.com/935869/" target="_blank" rel="noopener noreferrer" class="btn-gold">Quote NCD Dental</a>
           <a href="https://shop.uhone.com/en/quote/census?brokerid=AA5045127" target="_blank" rel="noopener noreferrer" class="btn-secondary-hero">Quote UnitedHealthcare</a>
           <a href="tel:+18636403102" class="btn-phone">Call 863-640-3102</a>
         </div>
+        <form class="landing-zip-form" action="/get-help/" method="get" aria-label="Start a dental and vision review with your ZIP code">
+          <input type="hidden" name="intent" value="dental-vision">
+          <label for="dentalVisionZip">Prefer help comparing? Start with your ZIP code</label>
+          <div class="landing-zip-controls">
+            <input id="dentalVisionZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="ZIP code" aria-describedby="dentalVisionZipNote" required>
+            <button type="submit">Ask David to Compare</button>
+          </div>
+          <p class="landing-zip-note" id="dentalVisionZipNote">ZIP only starts the request. No lead is created until you review and submit the full form.</p>
+        </form>
         <div class="hero-trust">Florida enrollment support · State and ZIP availability vary · No separate broker fee</div>
       </div>
       <div class="hero-quote-panel" aria-label="Self-quote options">
-        <h2>Start with the right quote path</h2>
-        <p>Both links let you enroll yourself online. Pricing is the same as going direct, and David stays available for customer support after enrollment.</p>
+        <h2>Choose where to start your quote</h2>
+        <p>Both links let you view available options and apply online. David remains available for customer support after enrollment.</p>
         <div class="hero-quote-options">
           <div class="hero-quote-option">
             <strong>NCD Dental and Vision</strong>
@@ -420,7 +440,7 @@
           </div>
           <div class="hero-quote-option">
             <strong>UnitedHealthcare / UHOne</strong>
-            <span>Start here if you want UnitedHealthcare dental, vision, or supplemental options in one quote engine.</span>
+            <span>Start here if you want UnitedHealthcare dental, vision, or supplemental options in one online quote.</span>
             <b>Self-enroll through UHOne</b>
           </div>
         </div>
@@ -434,7 +454,7 @@
         <div class="proof-item"><div class="num">Disclosed</div><div class="label">Broker compensation</div></div>
         <div class="proof-item"><div class="num">NCD + UHC</div><div class="label">Self-enroll links</div></div>
         <div class="proof-item"><div class="num">Support</div><div class="label">After enrollment</div></div>
-        <div class="proof-item"><div class="num">Anytime</div><div class="label">No ACA-style window</div></div>
+        <div class="proof-item"><div class="num">Often year-round</div><div class="label">Carrier rules apply</div></div>
       </div>
     </div>
   </section>
@@ -515,7 +535,7 @@
           <p>Additional discounts, if offered, depend on the plan, provider, service, and current discount schedule.</p>
         </div>
       </div>
-      <p style="margin-top:14px; color:var(--muted);">Compare the annual premium with the cash price of expected exams, frames, lenses, or contacts. The lower-cost path depends on actual use and current provider pricing.</p>
+      <p style="margin-top:14px; color:var(--muted);">Compare the annual premium with the cash price of expected exams, frames, lenses, or contacts. The lower-cost choice depends on actual use and current provider pricing.</p>
     </section>
 
     <section>
@@ -523,7 +543,7 @@
       <div class="step-list">
         <div class="step">
           <h3>Pick a quote link</h3>
-          <p>Use NCD when dental benefits are the priority. Use UnitedHealthcare when you want dental, vision, and supplemental options in one quote engine.</p>
+          <p>Use NCD when dental benefits are the priority. Use UnitedHealthcare when you want dental, vision, and supplemental options in one online quote.</p>
         </div>
         <div class="step">
           <h3>Enter your ZIP and household details</h3>
@@ -558,7 +578,7 @@
           </tbody>
         </table>
       </div>
-      <p style="margin-top:14px; color:var(--muted);">This is a typical-case summary. Each plan's certificate of coverage controls. Review exclusions, waiting periods, annual maximums, and missing-tooth clauses before enrolling.</p>
+      <p style="margin-top:14px; color:var(--muted);">This is a general summary. Each plan's certificate of coverage controls. Review exclusions, waiting periods, annual maximums, and missing-tooth clauses before enrolling.</p>
     </section>
 
     <section>
@@ -605,8 +625,8 @@
     <section class="cta-section">
       <div class="final-cta-grid">
         <div>
-          <h2>Enroll online, then keep support in your corner.</h2>
-          <p>Dental and vision plans are usually straightforward enough to self-enroll. Use the NCD or UnitedHealthcare quote link above, then contact David if you need help with cards, billing, plan questions, or next steps.</p>
+          <h2>Choose self-service or ask David to compare.</h2>
+          <p>Use the NCD or UnitedHealthcare quote link above to shop online, or start with your ZIP code if you want David to help compare the details.</p>
           <div class="bottom-link-row" aria-label="Related coverage links">
             <a href="/blog/dental-insurance-guide.html">Dental insurance cost tradeoffs</a>
             <a href="/medicare/">Medicare dental and vision</a>
@@ -614,6 +634,7 @@
           </div>
         </div>
         <div class="final-cta-actions">
+          <a href="/get-help/?intent=dental-vision" class="btn-gold">Ask David to Compare</a>
           <a href="tel:+18636403102" class="btn-phone">Call 863-640-3102</a>
           <div class="final-cta-note">State and ZIP availability vary. Insurance carriers generally compensate appointed brokers when an enrollment is completed; compensation and availability vary.</div>
         </div>
@@ -624,7 +645,7 @@
 
   <footer>
     <p>&copy; 2026 Lakeland Health Insurance &middot; FL License #W371813 &middot; NPN 18213932 &middot; <a href="/privacy-policy.html">Privacy</a> &middot; <a href="/about/">About David</a></p>
-    <p class="disclosure">Coverage details, premiums, waiting periods, annual maximums, and exclusions vary by carrier, state, ZIP code, and plan. This page describes typical-case standalone dental and vision insurance features and is not an offer of insurance. The certificate of coverage controls. We do not offer every plan available in your area. Currently we represent organizations that offer products in your area. Please contact your State Health Insurance Assistance Program (SHIP) or HealthCare.gov for additional options.</p>
+    <p class="disclosure">Coverage details, premiums, waiting periods, annual maximums, and exclusions vary by carrier, state, ZIP code, and plan. This page describes general standalone dental and vision insurance features and is not an offer of insurance. The certificate of coverage controls. We do not offer every plan available in your area. Currently we represent organizations that offer products in your area. Please contact your State Health Insurance Assistance Program (SHIP) or HealthCare.gov for additional options.</p>
   </footer>
     <script defer src="/js/analytics.js?v=20260731-measurement-integrity"></script>
     <script src="/js/chat-widget.js" defer></script>

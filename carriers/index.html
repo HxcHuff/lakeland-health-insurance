@@ -451,6 +451,17 @@
 
   <script defer src="/js/analytics.js?v=20260731-measurement-integrity"></script>
     <link rel="stylesheet" href="/css/site-template.css?v=20260803-brand-release">
+  <style>
+    .landing-zip-form{margin-top:1.35rem;max-width:600px}
+    .landing-zip-form label{color:inherit;display:block;font-size:.9rem;font-weight:800;margin-bottom:.45rem}
+    .landing-zip-controls{display:flex;gap:.65rem}
+    .landing-zip-controls input{background:#fff;border:1px solid rgba(15,26,46,.22);border-radius:9px;color:#1e293b;flex:1;font:inherit;font-size:1rem;min-height:50px;min-width:0;padding:.75rem .9rem}
+    .landing-zip-controls input:focus{border-color:#d4a843;box-shadow:0 0 0 3px rgba(212,168,67,.22);outline:none}
+    .landing-zip-controls button{background:#d4a843;border:0;border-radius:9px;color:#0f1a2e;cursor:pointer;font:inherit;font-weight:900;min-height:50px;padding:.75rem 1.15rem}
+    .landing-zip-controls button:hover{background:#c49a38}
+    .landing-zip-note{color:inherit;font-size:.8rem!important;line-height:1.45;margin:.45rem 0 0;opacity:.8}
+    @media(max-width:520px){.landing-zip-controls{align-items:stretch;flex-direction:column}.landing-zip-controls button{width:100%}}
+  </style>
 </head>
 <body>
   <div class="compliance-banner">
@@ -516,9 +527,17 @@
           </div>
           <aside class="hero-card" aria-label="Carrier help">
             <strong>Do not pick by carrier name alone.</strong>
-            <p>The right carrier depends on doctors, prescriptions, underwriting, benefits, total yearly cost, and what is available in your county.</p>
+            <p>The right carrier depends on your ZIP code, doctors, prescriptions, underwriting, benefits, total yearly cost, and enrollment timing.</p>
+            <form class="landing-zip-form" action="/get-help/" method="get" aria-label="Start a carrier review with your ZIP code">
+              <input type="hidden" name="intent" value="not-sure">
+              <label for="carrierZip">Start with the ZIP code where coverage will be used</label>
+              <div class="landing-zip-controls">
+                <input id="carrierZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="ZIP code" aria-describedby="carrierZipNote" required>
+                <button type="submit">Compare With David</button>
+              </div>
+              <p class="landing-zip-note" id="carrierZipNote">ZIP only starts the request. No lead is created until you review and submit the full form.</p>
+            </form>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="/get-help/">Compare With David</a>
               <a class="btn btn-secondary" href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Service ACA</a>
             </div>
           </aside>
@@ -544,7 +563,7 @@
             <div class="section-kicker">Health carriers</div>
             <h2>Individual health coverage</h2>
           </div>
-          <p>These are individual health and ACA-related carriers in the current carrier playbook. Availability can vary by ZIP, product type, and enrollment window.</p>
+          <p>These are individual health and ACA-related carriers in the current carrier reference list. Availability can vary by ZIP, product type, and enrollment window.</p>
         </div>
         <div class="carrier-list">
           <article class="carrier-item"><h3>Allstate Health Solutions</h3><p>Individual health and short-term coverage through National General.</p><div class="tags"><span class="tag blue">Health</span><span class="tag">Short-term</span></div></article>
@@ -553,11 +572,11 @@
           <article class="carrier-item"><h3>Cigna</h3><p>Individual health, Medicare, and supplemental products depending on plan type.</p><div class="tags"><span class="tag blue">Health</span><span class="tag">Senior</span></div></article>
           <article class="carrier-item"><h3>GeoBlue</h3><p>Blue Cross Blue Shield global health coverage for eligible travel and international needs.</p><div class="tags"><span class="tag blue">Global</span><span class="tag">Health</span></div></article>
           <article class="carrier-item"><h3>Health First Health Plan</h3><p>Florida health plan options where service area and network fit matter.</p><div class="tags"><span class="tag blue">Health</span></div></article>
-          <article class="carrier-item"><h3>Molina</h3><p>Marketplace health plans with a separate Polk County enrollment playbook.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
+          <article class="carrier-item"><h3>Molina</h3><p>Marketplace health plans with a separate Polk County enrollment guide.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
           <article class="carrier-item"><h3>Oscar</h3><p>Marketplace health plans with plan, provider, and prescription comparisons.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
           <article class="carrier-item"><h3>Pivot Health</h3><p>Short-term medical and gap-style coverage options for eligible situations.</p><div class="tags"><span class="tag">Short-term</span><span class="tag green">Health</span></div></article>
           <article class="carrier-item"><h3>United Individual ACA</h3><p>ACA Marketplace health plans under UnitedHealthcare.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
-          <article class="carrier-item"><h3>UnitedHealthOne / Golden Rule</h3><p>Short-term medical, term life, and ancillary products.</p><div class="tags"><span class="tag">Short-term</span><span class="tag">Ancillary</span></div></article>
+          <article class="carrier-item"><h3>UnitedHealthOne / Golden Rule</h3><p>Short-term medical, term life, and supplemental products.</p><div class="tags"><span class="tag">Short-term</span><span class="tag">Supplemental</span></div></article>
           <article class="carrier-item"><h3>Wellpoint Individual</h3><p>Individual Marketplace coverage with local network and formulary review.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
         </div>
       </div>
@@ -570,7 +589,7 @@
             <div class="section-kicker">Senior market</div>
             <h2>Medicare and senior products</h2>
           </div>
-          <p>Senior products include Medicare Advantage, Medicare Supplement, Part D-adjacent support, dental, vision, hospital indemnity, and other products that may pair with Medicare.</p>
+          <p>Senior products include Medicare Advantage, Medicare Supplement, Part D drug coverage, dental, vision, hospital indemnity, and other products that may pair with Medicare.</p>
         </div>
         <div class="carrier-list">
           <article class="carrier-item"><h3>Allstate Health Solutions</h3><p>Senior market and supplemental options through National General.</p><div class="tags"><span class="tag">Senior</span></div></article>
@@ -607,7 +626,7 @@
           <article class="carrier-item"><h3>Mutual of Omaha Life</h3><p>Life insurance options with underwriting and product fit reviewed first.</p><div class="tags"><span class="tag">Life</span></div></article>
           <article class="carrier-item"><h3>Securian / Minnesota Life</h3><p>Life insurance and long-term care-related options.</p><div class="tags"><span class="tag">Life</span><span class="tag">LTC</span></div></article>
           <article class="carrier-item"><h3>Transamerica Life</h3><p>Life coverage options reviewed around budget and family need.</p><div class="tags"><span class="tag">Life</span></div></article>
-          <article class="carrier-item"><h3>UnitedHealthOne / Golden Rule</h3><p>Term life, short-term medical, and ancillary coverage.</p><div class="tags"><span class="tag">Life</span><span class="tag">Ancillary</span></div></article>
+          <article class="carrier-item"><h3>UnitedHealthOne / Golden Rule</h3><p>Term life, short-term medical, and supplemental coverage.</p><div class="tags"><span class="tag">Life</span><span class="tag">Supplemental</span></div></article>
         </div>
       </div>
     </section>
@@ -645,7 +664,7 @@
           <article class="carrier-item"><h3>MedMutual PROTECT</h3><p>Protection products built around gaps and supplemental needs.</p><div class="tags"><span class="tag">Supplemental</span></div></article>
           <article class="carrier-item"><h3>NCD</h3><p>Dental and vision-style supplemental coverage.</p><div class="tags"><span class="tag">Dental/Vision</span></div></article>
           <article class="carrier-item"><h3>Physicians Mutual</h3><p>Senior market and supplemental products.</p><div class="tags"><span class="tag">Supplemental</span><span class="tag">Senior</span></div></article>
-          <article class="carrier-item"><h3>UnitedHealthOne / Golden Rule</h3><p>Dental, vision, accident, critical illness, hospital indemnity, and related ancillary options.</p><div class="tags"><span class="tag">Supplemental</span><span class="tag">Ancillary</span></div></article>
+          <article class="carrier-item"><h3>UnitedHealthOne / Golden Rule</h3><p>Dental, vision, accident, critical illness, hospital indemnity, and related add-on options.</p><div class="tags"><span class="tag">Supplemental</span><span class="tag">Add-on</span></div></article>
         </div>
       </div>
     </section>
@@ -662,7 +681,7 @@
         <div class="resource-grid">
           <article class="resource-card">
             <h3>UnitedHealthOne quote link</h3>
-            <p>For short-term medical, term life, dental, vision, accident, critical illness, hospital indemnity, and ancillary products.</p>
+            <p>For short-term medical, term life, dental, vision, accident, critical illness, hospital indemnity, and supplemental products.</p>
             <a class="btn btn-primary" href="https://shop.uhone.com/en/quote/census?brokerid=AA5045127" target="_blank" rel="noopener noreferrer">Start UHOne Quote</a>
           </article>
           <article class="resource-card light">
@@ -676,9 +695,9 @@
             <a class="btn btn-secondary" href="/aca-subsidy-estimator/">Estimate Subsidy</a>
           </article>
           <article class="resource-card light">
-            <h3>Carrier playbooks</h3>
-            <p>Open the detailed ACA playbooks for Ambetter, Molina, Oscar, UnitedHealthcare, and Wellpoint.</p>
-            <a class="btn btn-secondary" href="/learning/#carrier-guides">View Playbooks</a>
+            <h3>Carrier guides</h3>
+            <p>Open the detailed ACA guides for Ambetter, Molina, Oscar, UnitedHealthcare, and Wellpoint.</p>
+            <a class="btn btn-secondary" href="/learning/#carrier-guides">View Carrier Guides</a>
           </article>
         </div>
       </div>
@@ -689,7 +708,7 @@
         <div class="cta-panel">
           <div>
             <h2>Use the carrier list as a starting point.</h2>
-            <p>The real decision is still the plan: doctors, medications, expected care, premium, deductible, copays, and whether the carrier is strong in your county.</p>
+            <p>Start with your ZIP code, then compare the plan: doctors, medications, expected care, premium, deductible, copays, and whether the carrier is available in your area.</p>
           </div>
           <a class="btn btn-primary" href="/get-help/">Ask David to Compare</a>
         </div>

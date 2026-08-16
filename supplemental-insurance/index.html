@@ -107,6 +107,17 @@
     }
   </style>
 <link rel="stylesheet" href="/css/site-template.css?v=20260803-brand-release">
+  <style>
+    .landing-zip-form{margin-top:1.35rem;max-width:600px}
+    .landing-zip-form label{color:inherit;display:block;font-size:.9rem;font-weight:800;margin-bottom:.45rem}
+    .landing-zip-controls{display:flex;gap:.65rem}
+    .landing-zip-controls input{background:#fff;border:1px solid rgba(15,26,46,.22);border-radius:9px;color:#1e293b;flex:1;font:inherit;font-size:1rem;min-height:50px;min-width:0;padding:.75rem .9rem}
+    .landing-zip-controls input:focus{border-color:#d4a843;box-shadow:0 0 0 3px rgba(212,168,67,.22);outline:none}
+    .landing-zip-controls button{background:#d4a843;border:0;border-radius:9px;color:#0f1a2e;cursor:pointer;font:inherit;font-weight:900;min-height:50px;padding:.75rem 1.15rem}
+    .landing-zip-controls button:hover{background:#c49a38}
+    .landing-zip-note{color:inherit;font-size:.8rem!important;line-height:1.45;margin:.45rem 0 0;opacity:.8}
+    @media(max-width:520px){.landing-zip-controls{align-items:stretch;flex-direction:column}.landing-zip-controls button{width:100%}}
+  </style>
 </head>
 <body>
   <header>
@@ -128,8 +139,16 @@
         <div class="kicker">Supplemental and add-on coverage</div>
         <h1>Add coverage where your main plan stops short.</h1>
         <p>Dental, vision, life, accident, critical illness, hospital indemnity, and fixed-benefit coverage solve different problems. The goal is not to buy every add-on. It is to choose the few that protect the risks your medical plan does not handle well.</p>
+        <form class="landing-zip-form" action="/get-help/" method="get" aria-label="Start a supplemental coverage review with your ZIP code">
+          <input type="hidden" name="intent" value="supplemental">
+          <label for="supplementalZip">Start with the ZIP code where coverage will be used</label>
+          <div class="landing-zip-controls">
+            <input id="supplementalZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="ZIP code" aria-describedby="supplementalZipNote" required>
+            <button type="submit">Request an Add-On Review</button>
+          </div>
+          <p class="landing-zip-note" id="supplementalZipNote">ZIP only starts the request. No lead is created until you review and submit the full form.</p>
+        </form>
         <div class="hero-actions">
-          <a class="btn" href="/get-help/">Review Add-On Options</a>
           <a class="btn phone" href="tel:+18636403102">Call David</a>
         </div>
       </div>
@@ -140,7 +159,7 @@
     <section class="section white">
       <div class="container">
         <div class="section-header">
-          <p class="section-label">Coverage paths</p>
+          <p class="section-label">Coverage options</p>
           <h2>Pick the add-on by the problem it solves.</h2>
           <p>Start with your main medical coverage, then decide whether a separate add-on makes the plan more usable or only adds premium.</p>
         </div>
@@ -171,11 +190,11 @@
           </a>
           <a class="option-card" href="/blog/short-term-vs-triterm-medical.html">
             <span>Non-ACA medical</span>
-            <h3>STM and TriTerm strategy</h3>
+            <h3>Short-term and TriTerm medical</h3>
             <p>For healthy applicants without meaningful ACA subsidies, short-term or TriTerm Medical may be worth comparing before applying.</p>
             <strong>Compare STM and TriTerm &rarr;</strong>
           </a>
-          <a class="option-card" href="/get-help/">
+          <a class="option-card" href="/get-help/?intent=supplemental">
             <span>Not sure</span>
             <h3>Check for overlap before buying</h3>
             <p>If an add-on duplicates benefits you already have or fails to address your real risk, it can become wasted premium.</p>
@@ -224,9 +243,9 @@
       <div class="container">
         <div class="cta-panel">
           <h2>Want the add-ons sorted before you enroll?</h2>
-          <p>Send the main plan, doctors, prescriptions, and budget concern. David can help identify which add-ons deserve a quote and which ones are not worth stacking.</p>
+          <p>Start with your ZIP code, current medical coverage, doctors, prescriptions, and budget concern. David can help identify which add-ons deserve a quote and which ones may duplicate coverage you already have.</p>
           <div class="hero-actions" style="justify-content:center;">
-            <a class="btn" href="/get-help/">Review My Add-Ons</a>
+            <a class="btn" href="/get-help/?intent=supplemental">Review My Add-Ons</a>
             <a class="btn phone" href="tel:+18636403102">Call 863-640-3102</a>
           </div>
         </div>

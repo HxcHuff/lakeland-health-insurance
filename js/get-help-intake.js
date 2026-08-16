@@ -8,7 +8,7 @@
       content: 'get_help_under_65',
       subject: 'New Lead: Individual and Family Coverage Review',
       line: 'Individual and Family Coverage',
-      intro: 'Review individual and family coverage around your current coverage, timing, household information, doctors, prescriptions, and available paths.',
+      intro: 'Review individual and family options based on your current coverage, timing, household information, doctors, and prescriptions.',
       optional: ['who', 'coverage_end', 'employer_coverage', 'providers', 'prescriptions', 'household_size', 'income', 'referral', 'notes']
     },
     'aca': {
@@ -50,7 +50,7 @@
       content: 'get_help_self_employed',
       subject: 'New Lead: Self-Employed Coverage Review',
       line: 'ACA',
-      intro: 'Compare coverage paths for business owners, contractors, freelancers, and gig workers.',
+      intro: 'Compare health coverage options for business owners, contractors, freelancers, and gig workers.',
       optional: ['business_type', 'household_size', 'income', 'providers', 'prescriptions', 'notes']
     },
     'retiring-before-65': {
@@ -66,7 +66,7 @@
       content: 'get_help_coverage_gap',
       subject: 'New Lead: Coverage Gap Review',
       line: 'Coverage gap',
-      intro: 'Review short-term, ACA, and supplemental paths accurately for a temporary coverage gap.',
+      intro: 'Compare short-term, ACA, and supplemental options for a temporary coverage gap.',
       optional: ['coverage_end', 'primary_concern', 'providers', 'prescriptions', 'notes']
     },
     'supplemental': {
@@ -116,7 +116,7 @@
       content: 'get_help_employer_referral',
       subject: 'Professional Referral: Employee Coverage Transition',
       line: 'Employer referral',
-      intro: 'Coordinate a privacy-conscious coverage handoff for employees losing employer-sponsored coverage.',
+      intro: 'Coordinate privacy-conscious coverage help for employees losing employer-sponsored coverage.',
       optional: ['organization', 'contact_person', 'affected_count', 'coverage_end', 'coordination_method', 'handoff_instructions', 'notes']
     },
     'post-enrollment-review': {
@@ -185,6 +185,10 @@
     'provider-prescription-check': 'provider-check',
     'prescription-check': 'prescription-check',
     'coverage-gap': 'coverage-gap',
+    'supplemental': 'supplemental',
+    'dental-vision': 'dental-vision',
+    'dental': 'dental-vision',
+    'vision': 'dental-vision',
     'employer-referral': 'employer-referral',
     'post-enrollment-review': 'post-enrollment-review',
     'local-answer': 'not-sure',
@@ -224,7 +228,7 @@
     contact_person: ['Contact person', 'text', ''],
     affected_count: ['Approximate number of affected employees', 'number', ''],
     coordination_method: ['Preferred coordination method', 'text', ''],
-    handoff_instructions: ['Optional employee resource or handoff instructions', 'textarea', ''],
+    handoff_instructions: ['Optional employee resource or coordination notes', 'textarea', ''],
     service_reason: ['Service reason', 'text', 'ID card, first premium, effective date, provider, Rx, documents'],
     effective_date: ['Effective date', 'date', ''],
     notes: ['Additional notes', 'textarea', '']

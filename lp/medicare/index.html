@@ -399,6 +399,7 @@
       color: var(--text-muted);
     }
     .form-note a { color: var(--navy); text-decoration: underline; }
+    .field-help { color: var(--text-muted); font-size: 12px; line-height: 1.4; margin-top: 5px; }
 
     /* Social proof */
     .proof {
@@ -555,7 +556,7 @@
       <div>
         <div class="section-kicker">Local Medicare context</div>
         <h2 id="local-context-title">Built around Polk County plan decisions.</h2>
-        <p class="section-intro">David helps Medicare clients across Lakeland, Lake Alfred, Haines City, Winter Haven, Davenport, and nearby communities. The review is local enough to talk through doctors, pharmacies, and referral patterns, but broad enough to compare the major Medicare paths available in your ZIP code.</p>
+        <p class="section-intro">David helps Medicare clients across Lakeland, Lake Alfred, Haines City, Winter Haven, Davenport, and nearby communities. The review is local enough to talk through doctors, pharmacies, and referral patterns while comparing the Medicare options available in your ZIP code.</p>
         <div class="local-tags" aria-label="Service areas">
           <span>Lakeland</span>
           <span>Lake Alfred</span>
@@ -580,7 +581,7 @@
   <section class="form-section" id="lead-form">
     <div class="form-wrap">
       <h2>Request Your Medicare Review</h2>
-      <p class="subtitle">Takes 30 seconds. David will review your options and reach out within one business day.</p>
+      <p class="subtitle">Share the basics, including the ZIP code where coverage will be used. David will review your request and contact you about next steps.</p>
 
       <form id="medicareLeadForm" name="lp-medicare-lead" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html" data-funnel-track data-funnel-event="Lead" data-funnel-name="lp_medicare_lead_form">
         <input type="hidden" name="form-name" value="lp-medicare-lead">
@@ -609,11 +610,12 @@
           </div>
           <div>
             <label for="zip_code">ZIP Code</label>
-            <input type="text" id="zip_code" name="zip_code" required placeholder="33801" pattern="[0-9]{5}" maxlength="5" inputmode="numeric">
+            <input type="text" id="zip_code" name="zip_code" required placeholder="33801" pattern="[0-9]{5}" maxlength="5" inputmode="numeric" autocomplete="postal-code" aria-describedby="zip_code_help">
+            <p class="field-help" id="zip_code_help">Use the ZIP code where coverage will be used.</p>
           </div>
           <div>
-            <label for="best_time_to_reach">Best Time to Reach You</label>
-            <select id="best_time_to_reach" name="best_time_to_reach" required>
+            <label for="best_time_to_reach">Best Time to Reach You (optional)</label>
+            <select id="best_time_to_reach" name="best_time_to_reach">
               <option value="" disabled selected>Select...</option>
               <option value="morning">Morning</option>
               <option value="afternoon">Afternoon</option>
@@ -658,6 +660,7 @@
       </form>
 
       <p class="form-note">Or call directly: <a href="tel:+18636403102">(863) 640-3102</a></p>
+      <p class="form-note">Submitting this form requests a plan review. It does not enroll you in a plan or require a purchase.</p>
     </div>
   </section>
 
@@ -716,7 +719,7 @@
   <!-- Footer -->
   <footer>
     <div>Lakeland Health Insurance &bull; David Huff &bull; FL License #W371813</div>
-    <div style="margin-top:6px;">This is a lead-generation page. Submitting this form does not bind you to any plan or purchase.</div>
+    <div style="margin-top:6px;">Plan availability, benefits, networks, formularies, and costs vary by ZIP code and plan year.</div>
     <div style="margin-top:6px;"><a href="/privacy-policy.html">Privacy Policy</a></div>
   </footer>
 

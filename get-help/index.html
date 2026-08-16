@@ -227,6 +227,7 @@
     }
 
     .field textarea { min-height: 96px; resize: vertical; }
+    .field-help { color: var(--lhi-muted); font-size: 0.82rem; line-height: 1.4; margin: 0; }
 
     .visually-hidden {
       clip: rect(0 0 0 0);
@@ -343,8 +344,8 @@
     <div class="help-layout">
       <section class="help-copy" aria-labelledby="get-help-title">
         <p class="eyebrow" id="intent-eyebrow">Licensed Florida broker guidance</p>
-        <h1 id="get-help-title">Start with what changed—not a generic quote.</h1>
-        <p id="intent-copy">A job change, premium increase, self-employment decision, or early-retirement timeline affects which coverage questions come first. Start with your situation, then send only the details David needs to prepare.</p>
+        <h1 id="get-help-title">Get help with the coverage decision in front of you.</h1>
+        <p id="intent-copy">Tell David what changed—job coverage, premiums, self-employment, early retirement, Medicare, or another deadline—so he can prepare for the right conversation.</p>
         <div class="quick-actions" aria-label="Ways to get help">
           <a class="action-link primary" href="tel:+18636403102" data-analytics-label="get_help_call_david">Call David</a>
           <a class="action-link secondary" href="/calendly-book.html" data-funnel-booking>Choose a time</a>
@@ -411,7 +412,7 @@
 
           <div class="form-step" data-step="2" hidden>
             <h2>When do you need this handled?</h2>
-            <p class="step-help">This helps David sort urgent coverage changes from future planning and research.</p>
+            <p class="step-help">This helps David understand your deadline and prepare for the applicable enrollment window.</p>
             <fieldset>
               <legend class="visually-hidden">Timing</legend>
               <div class="option-grid">
@@ -429,7 +430,7 @@
 
           <div class="form-step" data-step="3" hidden>
             <h2>Where should David follow up?</h2>
-            <p class="step-help">Name, ZIP code, preferred contact method, timing, current coverage, request consent, and at least one matching contact channel are required. Optional details can be skipped.</p>
+            <p class="step-help">Enter your name and ZIP code, then choose how David may contact you. Add a phone number or email address for each channel you authorize. Optional details can be skipped.</p>
             <div class="field-grid">
               <div class="field full">
                 <label for="fullName">Full name</label>
@@ -445,7 +446,8 @@
               </div>
               <div class="field">
                 <label for="zipCode">ZIP code</label>
-                <input id="zipCode" name="zip_code" inputmode="numeric" pattern="[0-9]{5}" autocomplete="postal-code" required>
+                <input id="zipCode" name="zip_code" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="33801" autocomplete="postal-code" aria-describedby="zipCodeHelp" required>
+                <p class="field-help" id="zipCodeHelp">Use the ZIP code where coverage will be used.</p>
               </div>
               <div class="field">
                 <label for="preferredContact">Preferred contact method</label>
@@ -526,7 +528,7 @@
     </div>
   </main>
 
-  <script src="/js/get-help-intake.js?v=20260814-medicare-copy" defer></script>
+  <script src="/js/get-help-intake.js?v=20260816-landing-intents" defer></script>
   <script src="/js/site-template.js?v=20260816-coverage-options" defer></script>
 </body>
 </html>

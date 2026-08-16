@@ -1313,6 +1313,17 @@ header .cta-button {
     <script defer src="/js/site-search.js?v=20260803-brand-release"></script>
     <script defer src="../js/blog-popularity.js"></script>
     <link rel="stylesheet" href="/css/site-template.css?v=20260803-brand-release">
+  <style>
+    .landing-zip-form{margin-top:1.35rem;max-width:600px}
+    .landing-zip-form label{color:inherit;display:block;font-size:.9rem;font-weight:800;margin-bottom:.45rem}
+    .landing-zip-controls{display:flex;gap:.65rem}
+    .landing-zip-controls input{background:#fff;border:1px solid rgba(15,26,46,.22);border-radius:9px;color:#1e293b;flex:1;font:inherit;font-size:1rem;min-height:50px;min-width:0;padding:.75rem .9rem}
+    .landing-zip-controls input:focus{border-color:#d4a843;box-shadow:0 0 0 3px rgba(212,168,67,.22);outline:none}
+    .landing-zip-controls button{background:#d4a843;border:0;border-radius:9px;color:#0f1a2e;cursor:pointer;font:inherit;font-weight:900;min-height:50px;padding:.75rem 1.15rem}
+    .landing-zip-controls button:hover{background:#c49a38}
+    .landing-zip-note{color:inherit;font-size:.8rem!important;line-height:1.45;margin:.45rem 0 0;opacity:.8}
+    @media(max-width:520px){.landing-zip-controls{align-items:stretch;flex-direction:column}.landing-zip-controls button{width:100%}}
+  </style>
     <style>
         footer .footer-column a, footer .footer-bottom a { color: #1B2A4A; text-decoration: underline; text-underline-offset: 2px; }
         footer .bbb-footer-copy span { color: #334155; }
@@ -1371,6 +1382,15 @@ header .cta-button {
             <h1>Florida health insurance answers for individuals and families.</h1>
             <p class="hero-lead">Clear guidance for individual and family coverage before you choose, renew, or change a plan.</p>
             <p class="hero-trust">Start with ACA Marketplace coverage, job loss, self-employment, early retirement, doctors, prescriptions, costs, or timing. Medicare guidance remains available.</p>
+            <form class="landing-zip-form" action="/get-help/" method="get" aria-label="Start a coverage review with your ZIP code">
+                <input type="hidden" name="intent" value="not-sure">
+                <label for="blogZip">Need personal help? Start with your ZIP code</label>
+                <div class="landing-zip-controls">
+                    <input id="blogZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="ZIP code" aria-describedby="blogZipNote" required>
+                    <button type="submit">Start My Review</button>
+                </div>
+                <p class="landing-zip-note" id="blogZipNote">ZIP only starts the request. No lead is created until you review and submit the full form.</p>
+            </form>
             <div class="blog-search-wrap">
                 <div class="site-search-bar" data-site-search="bar">
                     <span class="search-bar-icon">&#128269;</span>
@@ -1395,7 +1415,7 @@ header .cta-button {
                 <div>
                     <div class="season-kicker">Individual and Family Coverage</div>
                     <h2>Start with the reason you need coverage.</h2>
-                    <p>Whether you are self-employed, losing job-based coverage, retiring before Medicare, turning 26, or navigating a household or income change, the right path depends on the facts of your situation and the current enrollment rules.</p>
+                    <p>Whether you are self-employed, losing job-based coverage, retiring before Medicare, turning 26, or navigating a household or income change, the right option depends on the facts of your situation and the current enrollment rules.</p>
                     <div class="season-actions">
                         <a href="/get-help/?intent=individual-family" class="cta-button">Start a Coverage Review</a>
                         <a href="/aca-health-insurance-lakeland-fl/" class="secondary-link">Explore Individual and Family Coverage</a>
@@ -1420,7 +1440,7 @@ header .cta-button {
                 <section class="featured-under65" aria-labelledby="featured-under65-heading">
                     <div class="featured-heading">
                         <div class="season-kicker">Start with these</div>
-                        <h2 id="featured-under65-heading">Individual and family coverage paths</h2>
+                        <h2 id="featured-under65-heading">Individual and family coverage options</h2>
                         <p>Use the established guide that matches your situation, then verify current eligibility, networks, prescriptions, costs, and timing before acting.</p>
                     </div>
                     <div class="featured-grid">
@@ -1432,7 +1452,7 @@ header .cta-button {
                         <a href="/losing-coverage/" class="featured-card">
                             <span>Job or coverage change</span>
                             <h3>Losing health coverage</h3>
-                            <p>Compare the timing and tradeoffs of COBRA, Marketplace coverage, and other available paths.</p>
+                            <p>Compare the timing and tradeoffs of COBRA, Marketplace coverage, and other available options.</p>
                         </a>
                         <a href="/self-employed-health-insurance/" class="featured-card">
                             <span>Business owners and 1099</span>
@@ -1663,7 +1683,7 @@ header .cta-button {
                 <article class="article-card" data-tags="Lakeland,Local,Networks,Watson Clinic,Orlando Health,Medicare,ACA">
                     <div class="article-date">Updated August 8, 2026</div>
                     <h2 class="article-title"><a href="/blog/orlando-health-watson-clinic-doctors-network-2026.html">Now Open: Orlando Health Watson Clinic Network Guide</a></h2>
-                    <p class="article-excerpt">The South Lakeland hospital is open, but your doctor, facility, referral path, and exact plan ID still require separate network verification.</p>
+                    <p class="article-excerpt">The South Lakeland hospital is open, but your doctor, facility, referral requirements, and exact plan ID still require separate network verification.</p>
                     <div class="tag-container">
                         <span class="tag" onclick="filterByTag('Lakeland')">Lakeland</span>
                         <span class="tag" onclick="filterByTag('Networks')">Networks</span>
@@ -1809,7 +1829,7 @@ header .cta-button {
                 <article class="article-card" data-tags="ACA,Florida,Lakeland,College">
                     <div class="article-date">April 30, 2026</div>
                     <h2 class="article-title"><a href="/blog/college-student-health-insurance-lakeland.html">Health Insurance for College Students in Lakeland &amp; Polk County</a></h2>
-                    <p class="article-excerpt">Coverage paths for Florida Southern, Polk State, USF, and UCF students, with eligibility, costs, networks, and coverage dates to compare.</p>
+                    <p class="article-excerpt">Coverage options for Florida Southern, Polk State, USF, and UCF students, with eligibility, costs, networks, and coverage dates to compare.</p>
                     <div class="tag-container">
                         <span class="tag" onclick="filterByTag('ACA')">ACA</span>
                         <span class="tag" onclick="filterByTag('Lakeland')">Lakeland</span>
@@ -2040,7 +2060,7 @@ header .cta-button {
                 <article class="article-card" data-tags="ACA,Florida,Open Enrollment">
                     <div class="article-date">February 23, 2026</div>
                     <h2 class="article-title"><a href="/blog/florida-aca-enrollment-and-benefits-2026.html">Florida ACA Enrollment and Benefits Guide (2026)</a></h2>
-                    <p class="article-excerpt">The statewide master guide for HealthCare.gov enrollment, first-30-day setup, and carrier-specific benefit optimization. Includes direct links to 2026 Polk-relevant carrier playbooks.</p>
+                    <p class="article-excerpt">The statewide guide for HealthCare.gov enrollment, first-30-day setup, and carrier-specific benefit details. Includes direct links to 2026 Polk-relevant carrier guides.</p>
                     <div class="tag-container">
                         <span class="tag" onclick="filterByTag('ACA')">ACA</span>
                         <span class="tag" onclick="filterByTag('Florida')">Florida</span>
@@ -2391,7 +2411,7 @@ header .cta-button {
                         <li><span aria-hidden="true">📍</span> Lakeland-based Florida guidance</li>
                         <li><span aria-hidden="true">💼</span> Small Business Groups</li>
                         <li><span aria-hidden="true">👨‍👩‍👧‍👦</span> Individual and Family Coverage</li>
-                        <li><span aria-hidden="true">🤓</span> Medicare Specialists</li>
+                        <li><span aria-hidden="true">&#10003;</span> Medicare guidance</li>
                     </ul>
                 </div>
                 <div class="footer-column">
