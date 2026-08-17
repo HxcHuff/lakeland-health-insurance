@@ -65,6 +65,7 @@ function getHelpPayload(overrides = {}) {
     source_page_role: 'attacker-role',
     source_cta_key: 'request_review_hero',
     content_cluster: 'attacker-cluster',
+    current_plan: 'Sensitive current plan',
     providers: 'Sensitive Clinic',
     prescriptions: 'Sensitive prescription',
     coverage_end: '2026-09-30',
@@ -154,8 +155,9 @@ test('Forms acceptance mints receipt metadata, authorizes consent, and returns c
   assert.equal(form.get('source_page'), '/get-help/');
   assert.equal(form.get('source_page_role'), 'selection');
   assert.equal(form.get('content_cluster'), 'lakeland_medicare_broker');
-  assert.equal(form.get('providers'), 'Sensitive Clinic');
-  assert.equal(form.get('prescriptions'), 'Sensitive prescription');
+  assert.equal(form.get('current_plan'), null);
+  assert.equal(form.get('providers'), null);
+  assert.equal(form.get('prescriptions'), null);
   assert.equal(form.get('coverage_end'), '2026-09-30');
   assert.equal(form.get('plan_year'), '2027');
   assert.equal(form.get('consent_recorded_at'), result.server_received_at);
@@ -184,6 +186,72 @@ test('Forms acceptance mints receipt metadata, authorizes consent, and returns c
   const serializedLogs = JSON.stringify(logs);
   for (const secret of ['Jane Example', 'jane@example.com', 'Sensitive Clinic', 'Sensitive prescription', 'Sensitive note']) {
     assert.equal(serializedLogs.includes(secret), false, `logs exclude ${secret}`);
+  }
+});
+
+test('Medicare hub attribution is canonicalized as the hub role', async () => {
+  const { response } = await invoke(getHelpPayload({
+    source_page_key: 'medicare',
+    source_page_role: 'attacker-role',
+    source_cta_key: 'start_review_hero'
+  }));
+  const result = JSON.parse(response.body);
+
+  assert.equal(response.statusCode, 200);
+  assert.deepEqual({
+    source_page_key: result.source_page_key,
+    source_page_role: result.source_page_role,
+    source_cta_key: result.source_cta_key,
+    content_cluster: result.content_cluster
+  }, {
+    source_page_key: 'medicare',
+    source_page_role: 'hub',
+    source_cta_key: 'start_review_hero',
+    content_cluster: 'lakeland_medicare_broker'
+  });
+});
+
+test('Medicare education-page attribution is canonicalized as the education role', async () => {
+  const { response } = await invoke(getHelpPayload({
+    source_page_key: 'moving_florida_medicare',
+    source_page_role: 'attacker-role',
+    source_cta_key: 'request_move_review'
+  }));
+  const result = JSON.parse(response.body);
+
+  assert.equal(response.statusCode, 200);
+  assert.deepEqual({
+    source_page_key: result.source_page_key,
+    source_page_role: result.source_page_role,
+    source_cta_key: result.source_cta_key,
+    content_cluster: result.content_cluster
+  }, {
+    source_page_key: 'moving_florida_medicare',
+    source_page_role: 'education',
+    source_cta_key: 'request_move_review',
+    content_cluster: 'lakeland_medicare_broker'
+  });
+});
+
+test('Medicare attribution rejects prototype-chain registry keys without throwing', () => {
+  for (const hostileKey of ['constructor', 'toString', '__proto__']) {
+    const hostilePage = getHelpPayload({
+      source_page_key: hostileKey,
+      source_cta_key: 'start_review_hero'
+    });
+    assert.equal(_test.canonicalizeMedicareAttribution(hostilePage), null);
+    for (const field of ['source_page_key', 'source_page_role', 'source_cta_key', 'content_cluster']) {
+      assert.equal(field in hostilePage, false);
+    }
+
+    const hostileCta = getHelpPayload({
+      source_page_key: 'medicare',
+      source_cta_key: hostileKey
+    });
+    assert.equal(_test.canonicalizeMedicareAttribution(hostileCta), null);
+    for (const field of ['source_page_key', 'source_page_role', 'source_cta_key', 'content_cluster']) {
+      assert.equal(field in hostileCta, false);
+    }
   }
 });
 
@@ -236,6 +304,28 @@ test('form schemas preserve declared live fields and discard arbitrary keys', ()
   const lp = _test.filterPayloadForForm({ utm_term: 'legacy-keyword', household_size: '3' }, 'lp-aca-lead').payload;
   assert.equal(lp.utm_term, 'legacy-keyword');
   assert.equal(lp.household_size, '3');
+});
+
+test('Medicare general intake strips known plan and health-detail fields without changing other intents', () => {
+  const medicare = _test.minimizeGetHelpPayload({
+    'form-name': 'get-help',
+    normalized_intent: 'medicare',
+    current_plan: 'Sensitive plan',
+    providers: 'Sensitive provider',
+    prescriptions: 'Sensitive prescription',
+    primary_concern: 'Enrollment timing'
+  });
+  assert.equal('current_plan' in medicare, false);
+  assert.equal('providers' in medicare, false);
+  assert.equal('prescriptions' in medicare, false);
+  assert.equal(medicare.primary_concern, 'Enrollment timing');
+
+  const providerCheck = _test.minimizeGetHelpPayload({
+    'form-name': 'get-help',
+    normalized_intent: 'provider-check',
+    providers: 'Provider needed for follow-up'
+  });
+  assert.equal(providerCheck.providers, 'Provider needed for follow-up');
 });
 
 test('CORS, body shape, and body size fail closed', async () => {

@@ -181,6 +181,11 @@
       margin: 0 0 0.75rem;
     }
 
+    .form-step h2:focus-visible {
+      outline: 3px solid var(--lhi-gold);
+      outline-offset: 4px;
+    }
+
     .step-help {
       color: var(--lhi-muted);
       line-height: 1.55;
@@ -337,7 +342,7 @@
       .action-link, .ghost-button, .form-button { width: 100%; }
     }
   </style>
-  <script defer src="/js/analytics.js?v=20260814-medicare-attribution"></script>
+  <script defer src="/js/analytics.js?v=20260817-medicare-hub"></script>
 </head>
 <body class="get-help-page">
   <main class="help-hero">
@@ -398,7 +403,7 @@
           <div class="error-summary" id="errorSummary" role="alert" hidden></div>
 
           <div class="form-step" data-step="1">
-            <h2 id="form-title">What can we help you with?</h2>
+            <h2 id="form-title" tabindex="-1">What can we help you with?</h2>
             <p class="step-help">Choose the closest match. You can explain the details later.</p>
             <fieldset>
               <legend class="visually-hidden">Inquiry type</legend>
@@ -411,7 +416,7 @@
           </div>
 
           <div class="form-step" data-step="2" hidden>
-            <h2>When do you need this handled?</h2>
+            <h2 tabindex="-1">When do you need this handled?</h2>
             <p class="step-help">This helps David understand your deadline and prepare for the applicable enrollment window.</p>
             <fieldset>
               <legend class="visually-hidden">Timing</legend>
@@ -429,7 +434,7 @@
           </div>
 
           <div class="form-step" data-step="3" hidden>
-            <h2>Where should David follow up?</h2>
+            <h2 tabindex="-1">Where should David follow up?</h2>
             <p class="step-help">Enter your name and ZIP code, then choose how David may contact you. Add a phone number or email address for each channel you authorize. Optional details can be skipped.</p>
             <div class="field-grid">
               <div class="field full">
@@ -514,6 +519,7 @@
 
             <div class="optional-panel" aria-labelledby="optionalTitle">
               <h3 id="optionalTitle">Optional details David can review before calling</h3>
+              <p class="consent-help" id="optionalPrivacyNote" hidden>Do not enter medication names, medical details, policy or member numbers, Medicare numbers, Social Security numbers, or medical records in optional fields.</p>
               <div class="field-grid" id="optionalFields"></div>
             </div>
 
@@ -528,7 +534,7 @@
     </div>
   </main>
 
-  <script src="/js/get-help-intake.js?v=20260816-landing-intents" defer></script>
+  <script src="/js/get-help-intake.js?v=20260817-medicare-hub" defer></script>
   <script src="/js/site-template.js?v=20260816-coverage-options" defer></script>
 </body>
 </html>

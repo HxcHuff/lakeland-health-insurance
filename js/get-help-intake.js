@@ -25,8 +25,8 @@
       content: 'get_help_medicare',
       subject: 'New Lead: Medicare Review',
       line: 'Medicare',
-      intro: 'Start a Medicare-focused review based on your timing, current plan, doctors, and prescriptions.',
-      optional: ['medicare_timing', 'current_plan', 'providers', 'prescriptions', 'referral', 'notes']
+      intro: 'Start with your Medicare timing and general question. Do not enter medication names, medical details, policy numbers, Medicare numbers, or Social Security numbers on this form.',
+      optional: ['medicare_timing', 'primary_concern', 'referral', 'notes']
     },
     'lost-coverage': {
       label: 'Losing coverage / COBRA',
@@ -142,6 +142,86 @@
   var INTENT_OPTIONS = ['under-65', 'lost-coverage', 'medicare', 'dental-vision', 'current-client-review', 'not-sure'];
   var MEDICARE_CONTENT_CLUSTER = 'lakeland_medicare_broker';
   var MEDICARE_SOURCE_REGISTRY = {
+    medicare: {
+      page_role: 'hub',
+      cta_keys: {
+        start_review_hero: true,
+        request_review_process: true,
+        start_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    aep_2026_polk_county_checklist: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_supplement_cost_lakeland: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_vs_aca_central_florida_age_65: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_nav: true,
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    turning_65_medicare_checklist_florida: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_nav: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    when_can_i_switch_medicare_plans_florida: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_east_polk: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_nav: true,
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    moving_florida_medicare: {
+      page_role: 'education',
+      cta_keys: {
+        request_move_review: true,
+        request_related_review: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
     best_medicare_broker_lakeland_fl: {
       page_role: 'selection',
       cta_keys: {
@@ -236,9 +316,13 @@
 
   function byId(id) { return document.getElementById(id); }
 
+  function hasOwn(object, key) {
+    return Boolean(object) && Object.prototype.hasOwnProperty.call(object, key);
+  }
+
   function normalizeIntent(raw) {
     var key = String(raw || '').trim().toLowerCase();
-    return QUERY_ALIASES[key] || DEFAULT_INTENT;
+    return hasOwn(QUERY_ALIASES, key) ? QUERY_ALIASES[key] : DEFAULT_INTENT;
   }
 
   function qsValue(qs, key) {
@@ -273,11 +357,13 @@
   }
 
   function validateMedicareSourceTuple(pageKey, ctaKey) {
-    var registered = MEDICARE_SOURCE_REGISTRY[String(pageKey || '')];
+    var approvedPage = String(pageKey || '');
     var approvedCta = String(ctaKey || '');
-    if (!registered || !registered.cta_keys[approvedCta]) return null;
+    if (!hasOwn(MEDICARE_SOURCE_REGISTRY, approvedPage)) return null;
+    var registered = MEDICARE_SOURCE_REGISTRY[approvedPage];
+    if (!hasOwn(registered.cta_keys, approvedCta)) return null;
     return {
-      source_page_key: String(pageKey),
+      source_page_key: approvedPage,
       source_page_role: registered.page_role,
       source_cta_key: approvedCta,
       content_cluster: MEDICARE_CONTENT_CLUSTER
@@ -367,6 +453,8 @@
     if (copy) copy.textContent = cfg.intro;
     var eyebrow = byId('intent-eyebrow');
     if (eyebrow) eyebrow.textContent = cfg.label;
+    var privacyNote = byId('optionalPrivacyNote');
+    if (privacyNote) privacyNote.hidden = intentKey !== 'medicare';
     renderOptionalFields(intentKey);
   }
 
@@ -375,14 +463,14 @@
     return visible ? Number(visible.getAttribute('data-step')) : 1;
   }
 
-  function showStep(step) {
+  function showStep(step, focusTitle) {
     document.querySelectorAll('.form-step').forEach(function (node) {
       node.hidden = Number(node.getAttribute('data-step')) !== step;
     });
     var progress = byId('progressText');
     if (progress) progress.textContent = 'Step ' + step + ' of 3';
     var title = document.querySelector('.form-step[data-step="' + step + '"] h2');
-    if (title) title.focus && title.focus();
+    if (focusTitle && title && title.focus) title.focus();
   }
 
   function showError(message) {
@@ -476,19 +564,19 @@
     if (product === 'medicare' || product === 'medicare-advantage') selected = 'medicare';
     renderIntentOptions(selected);
     applyIntent(selected);
-    showStep(1);
+    showStep(1, false);
 
     document.querySelectorAll('[data-next]').forEach(function (button) {
       button.addEventListener('click', function () {
         var step = currentStep();
-        if (validateStep(step)) showStep(Math.min(3, step + 1));
+        if (validateStep(step)) showStep(Math.min(3, step + 1), true);
       });
     });
 
     document.querySelectorAll('[data-prev]').forEach(function (button) {
       button.addEventListener('click', function () {
         showError('');
-        showStep(Math.max(1, currentStep() - 1));
+        showStep(Math.max(1, currentStep() - 1), true);
       });
     });
 

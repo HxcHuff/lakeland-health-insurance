@@ -50,18 +50,12 @@ const siteSearchIndex = [
     tags: ["Plans", "Comparison", "Coverage", "Under 65", "Medicare"]
   },
 
-  // Medicare season highlights
+  // Medicare guidance
   {
-    title: "Medicare Plan Review — Lakeland, FL",
-    url: "/lp/medicare/",
-    excerpt: "Review Medicare options around enrollment timing, doctors, prescriptions, plan rules, and expected costs.",
-    tags: ["Medicare", "Lakeland", "Review", "Broker", "Appointment"]
-  },
-  {
-    title: "Compare 2026 Medicare Plans in Lakeland, FL",
+    title: "Medicare Help in Lakeland and Polk County",
     url: "/medicare/",
-    excerpt: "Compare 2026 Medicare Advantage, Medicare Supplement, and Part D prescription plans in Lakeland and Polk County.",
-    tags: ["Medicare", "Medicare Advantage", "Medicare Supplement", "Part D", "Lakeland"]
+    excerpt: "Start with enrollment timing, coverage paths, doctors, prescriptions, annual costs, and verified local Medicare guidance.",
+    tags: ["Medicare", "Medicare Advantage", "Original Medicare", "Medicare Supplement", "Medigap", "Part D", "Lakeland", "Polk County", "2027"]
   },
   {
     title: "East Polk Medicare Help: Doctors, Drugs & Plan Costs",

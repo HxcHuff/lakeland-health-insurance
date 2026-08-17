@@ -35,8 +35,53 @@ const SERVICE_WORKER_SRC = readFileSync(resolve(__dirname, '../sw.js'), 'utf8');
 const SITE_TEMPLATE_CSS = readFileSync(resolve(__dirname, '../css/site-template.css'), 'utf8');
 const FIXED_INDEMNITY_HTML = readFileSync(resolve(__dirname, '../blog/fixed-indemnity-analysis.html'), 'utf8');
 const EXTERNAL_QUOTE_SELECTOR = 'a[data-funnel-external-quote], a[href*="healthsherpa.com"], a[href*="/find-plans"]';
+const MEDICARE_HUB_HTML = readFileSync(resolve(__dirname, '../medicare/index.html'), 'utf8');
 const BEST_MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../best-medicare-broker-lakeland-fl/index.html'), 'utf8');
 const MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../medicare-broker-lakeland-fl/index.html'), 'utf8');
+const MEDICARE_EDUCATION_PAGES = [
+  {
+    html: readFileSync(resolve(__dirname, '../blog/aep-2026-polk-county-checklist.html'), 'utf8'),
+    pageKey: 'aep_2026_polk_county_checklist',
+    pageRole: 'education',
+    ctaKeys: ['request_review_final']
+  },
+  {
+    html: readFileSync(resolve(__dirname, '../blog/medicare-supplement-cost-lakeland.html'), 'utf8'),
+    pageKey: 'medicare_supplement_cost_lakeland',
+    pageRole: 'education',
+    ctaKeys: ['request_review_final']
+  },
+  {
+    html: readFileSync(resolve(__dirname, '../blog/medicare-vs-aca-central-florida-age-65.html'), 'utf8'),
+    pageKey: 'medicare_vs_aca_central_florida_age_65',
+    pageRole: 'education',
+    ctaKeys: ['request_review_final', 'request_review_hero', 'request_review_nav']
+  },
+  {
+    html: readFileSync(resolve(__dirname, '../blog/turning-65-medicare-checklist-florida.html'), 'utf8'),
+    pageKey: 'turning_65_medicare_checklist_florida',
+    pageRole: 'education',
+    ctaKeys: ['request_review_final', 'request_review_nav']
+  },
+  {
+    html: readFileSync(resolve(__dirname, '../blog/when-can-i-switch-medicare-plans-florida.html'), 'utf8'),
+    pageKey: 'when_can_i_switch_medicare_plans_florida',
+    pageRole: 'education',
+    ctaKeys: ['request_review_final']
+  },
+  {
+    html: readFileSync(resolve(__dirname, '../medicare/east-polk/index.html'), 'utf8'),
+    pageKey: 'medicare_east_polk',
+    pageRole: 'education',
+    ctaKeys: ['request_review_final', 'request_review_hero', 'request_review_nav']
+  },
+  {
+    html: readFileSync(resolve(__dirname, '../moving-florida-medicare/index.html'), 'utf8'),
+    pageKey: 'moving_florida_medicare',
+    pageRole: 'education',
+    ctaKeys: ['request_move_review', 'request_related_review']
+  }
+];
 
 function makeSessionStorage(initial = {}) {
   const store = new Map(Object.entries(initial));
@@ -496,10 +541,26 @@ test('legacy phone_call remains supported through shared helper', () => {
   assert.ok(dataLayer.some((entry) => entry.event === 'phone_call'), 'legacy phone_call event still fires');
 });
 
-test('Medicare page context classifies selection and transaction pages exactly', () => {
+test('Medicare page context classifies hub, education, selection, and transaction pages exactly', () => {
+  const hub = loadAnalytics({ pathname: '/MEDICARE/index.html' }).sandbox;
+  const education = loadAnalytics({ pathname: '/moving-florida-medicare/' }).sandbox;
   const selection = loadAnalytics({ pathname: '/BEST-MEDICARE-BROKER-LAKELAND-FL/index.html' }).sandbox;
   const transaction = loadAnalytics({ pathname: '/medicare-broker-lakeland-fl/' }).sandbox;
 
+  assert.deepEqual(JSON.parse(JSON.stringify(hub.LHIMedicareAttribution.pageContext(hub.location.pathname))), {
+    schema_version: 'medicare-attribution.v1',
+    page_key: 'medicare',
+    page_role: 'hub',
+    content_cluster: 'lakeland_medicare_broker',
+    intent: 'medicare'
+  });
+  assert.deepEqual(JSON.parse(JSON.stringify(education.LHIMedicareAttribution.pageContext(education.location.pathname))), {
+    schema_version: 'medicare-attribution.v1',
+    page_key: 'moving_florida_medicare',
+    page_role: 'education',
+    content_cluster: 'lakeland_medicare_broker',
+    intent: 'medicare'
+  });
   assert.deepEqual(JSON.parse(JSON.stringify(selection.LHIMedicareAttribution.pageContext(selection.location.pathname))), {
     schema_version: 'medicare-attribution.v1',
     page_key: 'best_medicare_broker_lakeland_fl',
@@ -604,6 +665,22 @@ test('Medicare attribution rejects tampered page, CTA, and campaign values', () 
   assert.equal(helper.sourceContext('?intent=medicare&source_page_key=unknown&source_cta_key=request_review_hero'), null);
   assert.equal(helper.sourceContext('?intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_cta_key=unknown'), null);
   assert.equal(helper.sourceContext('?intent=aca&source_page_key=best_medicare_broker_lakeland_fl&source_cta_key=request_review_hero'), null);
+  for (const hostileKey of ['constructor', 'toString', '__proto__']) {
+    assert.equal(helper.sourceContext(`?intent=medicare&source_page_key=${hostileKey}&source_cta_key=request_review_hero`), null);
+    assert.equal(helper.sourceContext(`?intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_cta_key=${hostileKey}`), null);
+
+    const hostileLink = makeAnalyticsLink({
+      href: '/get-help/',
+      medicareCta: hostileKey
+    });
+    const hostileLoaded = loadAnalytics({
+      pathname: '/best-medicare-broker-lakeland-fl/',
+      link: hostileLink
+    });
+    hostileLoaded.dispatch('click');
+    assert.equal(hostileLoaded.dataLayer.some((entry) => entry && entry.event === 'MedicareCtaClick'), false);
+    assert.equal(hostileLink.getAttribute('href'), '/get-help/');
+  }
   assert.equal(helper.approvedCampaignValue('jane@example.com'), null);
   assert.equal(helper.approvedCampaignValue('863-640-3102'), null);
 
@@ -621,6 +698,11 @@ test('Medicare attribution rejects tampered page, CTA, and campaign values', () 
 
 test('Medicare source pages declare exact roles and deterministic keyed Get Help CTAs', () => {
   for (const [html, expected] of [
+    [MEDICARE_HUB_HTML, {
+      pageKey: 'medicare',
+      pageRole: 'hub',
+      ctaKeys: ['request_review_process', 'start_review_final', 'start_review_hero']
+    }],
     [BEST_MEDICARE_BROKER_HTML, {
       pageKey: 'best_medicare_broker_lakeland_fl',
       pageRole: 'selection',
@@ -630,12 +712,14 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
       pageKey: 'medicare_broker_lakeland_fl',
       pageRole: 'transaction',
       ctaKeys: ['request_review_final', 'request_review_hero', 'request_review_verification']
-    }]
+    }],
+    ...MEDICARE_EDUCATION_PAGES.map((page) => [page.html, page])
   ]) {
     assert.match(html, new RegExp(`<body[^>]*data-page-key="${expected.pageKey}"[^>]*data-page-role="${expected.pageRole}"[^>]*data-content-cluster="lakeland_medicare_broker"`));
     const ctas = getHelpCtas(html);
     assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
     assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
+    assert.match(html, /\/js\/analytics\.js\?v=20260817-medicare-hub/);
 
     for (const cta of ctas) {
       const url = new URL(cta.href, 'https://lakelandhealthinsurance.com');
@@ -872,6 +956,36 @@ test('safeProps uses a positive analytics allowlist and canonicalizes Medicare c
   }
 });
 
+test('Medicare funnel helpers reject prototype-chain registry keys', () => {
+  const { canonicalSourceContext, safeProps } = loadFunnel().LHI._t;
+
+  for (const hostileKey of ['constructor', 'toString', '__proto__']) {
+    assert.equal(canonicalSourceContext({
+      source_page_key: hostileKey,
+      source_cta_key: 'start_review_hero'
+    }), null);
+    assert.equal(canonicalSourceContext({
+      source_page_key: 'medicare',
+      source_cta_key: hostileKey
+    }), null);
+    assert.deepEqual(JSON.parse(JSON.stringify(safeProps({
+      page_key: hostileKey,
+      page_role: 'hub',
+      cta_key: 'start_review_hero',
+      source_page_key: hostileKey,
+      source_cta_key: 'start_review_hero'
+    }))), {});
+
+    const validPage = JSON.parse(JSON.stringify(safeProps({
+      page_key: 'medicare',
+      page_role: 'hub',
+      cta_key: hostileKey
+    })));
+    assert.equal(validPage.page_key, 'medicare');
+    assert.equal('cta_key' in validPage, false);
+  }
+});
+
 test('Subscriber form posts through /api/lead and never fires Lead', async () => {
   const calls = [];
   const form = makeFunnelForm({
@@ -913,7 +1027,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
 test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /David will reach out shortly\./);
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
-  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20260814-medicare-attribution/);
+  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20260817-medicare-hub/);
 });
 
 test('direct thank-you visits show customer-facing help copy', () => {
@@ -1342,12 +1456,38 @@ test('get-help intent allowlist falls back safely', () => {
   assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('medicare'), 'medicare');
   assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('provider-check'), 'provider-check');
   assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent('<script>alert(1)</script>'), 'not-sure');
+  for (const hostileKey of ['constructor', 'toString', '__proto__']) {
+    assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent(hostileKey), 'not-sure');
+  }
   assert.ok(sandbox.LHIGetHelpIntake.intents['under-65']);
   assert.equal(sandbox.LHIGetHelpIntake.intents['under-65'].label, 'Individual and Family Coverage');
   assert.equal(sandbox.LHIGetHelpIntake.intents['under-65'].optionLabel, 'Health coverage for me or my family');
   assert.equal(sandbox.LHIGetHelpIntake.intents['not-sure'].optionLabel, 'I am not sure yet');
   assert.ok(sandbox.LHIGetHelpIntake.intents['retiring-before-65']);
+  assert.deepEqual(JSON.parse(JSON.stringify(sandbox.LHIGetHelpIntake.intents.medicare.optional)), [
+    'medicare_timing',
+    'primary_concern',
+    'referral',
+    'notes'
+  ]);
+  assert.match(sandbox.LHIGetHelpIntake.intents.medicare.intro, /Do not enter medication names, medical details, policy numbers, Medicare numbers, or Social Security numbers/);
 
+  assert.deepEqual(JSON.parse(JSON.stringify(sandbox.LHIGetHelpIntake.medicareSourceContext(new URLSearchParams(
+    'intent=medicare&source_page_key=medicare&source_page_role=transaction&source_cta_key=start_review_hero'
+  )))), {
+    source_page_key: 'medicare',
+    source_page_role: 'hub',
+    source_cta_key: 'start_review_hero',
+    content_cluster: 'lakeland_medicare_broker'
+  });
+  assert.deepEqual(JSON.parse(JSON.stringify(sandbox.LHIGetHelpIntake.medicareSourceContext(new URLSearchParams(
+    'intent=medicare&source_page_key=moving_florida_medicare&source_page_role=hub&source_cta_key=request_move_review'
+  )))), {
+    source_page_key: 'moving_florida_medicare',
+    source_page_role: 'education',
+    source_cta_key: 'request_move_review',
+    content_cluster: 'lakeland_medicare_broker'
+  });
   assert.deepEqual(JSON.parse(JSON.stringify(sandbox.LHIGetHelpIntake.medicareSourceContext(new URLSearchParams(
     'intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_page_role=transaction&source_cta_key=request_review_hero'
   )))), {
@@ -1359,6 +1499,14 @@ test('get-help intent allowlist falls back safely', () => {
   assert.equal(sandbox.LHIGetHelpIntake.medicareSourceContext(new URLSearchParams(
     'intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_cta_key=unknown'
   )), null);
+  for (const hostileKey of ['constructor', 'toString', '__proto__']) {
+    assert.equal(sandbox.LHIGetHelpIntake.medicareSourceContext(new URLSearchParams(
+      `intent=medicare&source_page_key=${hostileKey}&source_cta_key=request_review_hero`
+    )), null);
+    assert.equal(sandbox.LHIGetHelpIntake.medicareSourceContext(new URLSearchParams(
+      `intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_cta_key=${hostileKey}`
+    )), null);
+  }
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('medicare_review'), 'medicare_review');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('jane@example.com'), '');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('863-640-3102'), '');
@@ -1384,6 +1532,8 @@ test('Get Help stores only bounded Medicare attribution and approved campaign fi
   }
   assert.match(GET_HELP_SRC, /setValue\('sourcePageInput', String\(window\.location\.pathname \|\| '\/'\)\.slice\(0, 160\)\);/);
   assert.doesNotMatch(GET_HELP_SRC, /window\.location\.pathname \+ window\.location\.search/);
+  assert.match(GET_HELP_HTML, /id="optionalPrivacyNote" hidden>Do not enter medication names, medical details, policy or member numbers, Medicare numbers, Social Security numbers, or medical records in optional fields\./);
+  assert.match(GET_HELP_SRC, /privacyNote\.hidden = intentKey !== 'medicare';/);
 });
 
 test('homepage ZIP entry starts the generic get-help flow and prefills the canonical ZIP field', () => {
