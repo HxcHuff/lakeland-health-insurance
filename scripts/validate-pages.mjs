@@ -20,7 +20,7 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/site-template.css', '20260803-brand-release'],
   ['/css/blog-unified.css', '20260803-brand-release'],
   ['/js/site-template.js', '20260816-coverage-options'],
-  ['/js/site-search.js', '20260803-brand-release'],
+  ['/js/site-search.js', '20260817-medicare-hub'],
   ['/js/blog-cta.js', '20260803-brand-release'],
 ]);
 const SERVICE_WORKER_CACHE_VERSION = '20260816-coverage-options';

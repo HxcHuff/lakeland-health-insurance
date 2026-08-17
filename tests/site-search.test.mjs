@@ -56,12 +56,12 @@ test('under-65 life-event searches lead with their established scenario pages', 
   assert.equal(search.search('retiring before 65')[0].url, '/retiring-before-65-florida/');
 });
 
-test('Medicare search still leads to the dedicated Medicare journey', () => {
+test('Medicare search leads to the indexable Medicare hub', () => {
   const { search } = loadSearch();
   const results = search.search('medicare');
 
   assert.ok(results.length > 0);
-  assert.equal(results[0].url, '/lp/medicare/');
+  assert.equal(results[0].url, '/medicare/');
 });
 
 test('every visible blog search suggestion returns an actionable result', () => {

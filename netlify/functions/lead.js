@@ -44,6 +44,86 @@ const FORMS_FORWARD_ORIGIN = normalizeOrigin(
 
 const MEDICARE_CONTENT_CLUSTER = 'lakeland_medicare_broker';
 const MEDICARE_SOURCE_REGISTRY = Object.freeze({
+  medicare: Object.freeze({
+    page_role: 'hub',
+    cta_keys: new Set([
+      'start_review_hero',
+      'request_review_process',
+      'start_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  aep_2026_polk_county_checklist: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_supplement_cost_lakeland: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_vs_aca_central_florida_age_65: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_nav',
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  turning_65_medicare_checklist_florida: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_nav',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  when_can_i_switch_medicare_plans_florida: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_east_polk: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_nav',
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  moving_florida_medicare: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_move_review',
+      'request_related_review',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
   best_medicare_broker_lakeland_fl: Object.freeze({
     page_role: 'selection',
     cta_keys: new Set([
@@ -76,6 +156,15 @@ const MEDICARE_ATTRIBUTION_FIELDS = [
   'source_cta_key',
   'content_cluster'
 ];
+const MEDICARE_GENERAL_INTAKE_EXCLUDED_FIELDS = new Set([
+  'current_plan',
+  'providers',
+  'prescriptions',
+  'provider_name',
+  'provider_location',
+  'prescription_name',
+  'upcoming_procedures'
+]);
 
 // Mailchimp always uses confirmed opt-in. Sales-form contact permission is
 // not marketing permission; lead sync requires consent_marketing_email=yes.
@@ -351,8 +440,9 @@ function canonicalizeMedicareAttribution(payload) {
   MEDICARE_ATTRIBUTION_FIELDS.forEach((field) => delete payload[field]);
 
   if (payload['form-name'] !== 'get-help' || payload.normalized_intent !== 'medicare') return null;
+  if (!Object.prototype.hasOwnProperty.call(MEDICARE_SOURCE_REGISTRY, sourcePageKey)) return null;
   const registered = MEDICARE_SOURCE_REGISTRY[sourcePageKey];
-  if (!registered || !registered.cta_keys.has(sourceCtaKey)) return null;
+  if (!registered.cta_keys.has(sourceCtaKey)) return null;
 
   const canonical = {
     source_page_key: sourcePageKey,
@@ -362,6 +452,12 @@ function canonicalizeMedicareAttribution(payload) {
   };
   Object.assign(payload, canonical);
   return canonical;
+}
+
+function minimizeGetHelpPayload(payload) {
+  if (payload['form-name'] !== 'get-help' || payload.normalized_intent !== 'medicare') return payload;
+  MEDICARE_GENERAL_INTAKE_EXCLUDED_FIELDS.forEach((field) => delete payload[field]);
+  return payload;
 }
 
 function authorizeGetHelpConsent(payload, serverReceivedAt) {
@@ -452,7 +548,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({ ok: false, error: filteredPayload.error })
     };
   }
-  const payload = filteredPayload.payload;
+  const payload = minimizeGetHelpPayload(filteredPayload.payload);
 
   const botCheck = checkBotSubmission(payload);
   if (!botCheck.ok) {
@@ -853,6 +949,7 @@ exports._test = {
   corsPolicy,
   decodeRequestBody,
   filterPayloadForForm,
+  minimizeGetHelpPayload,
   resolveFormName,
   sanitizeSourcePath
 };

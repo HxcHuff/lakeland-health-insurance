@@ -8,6 +8,94 @@
   var MEDICARE_ATTRIBUTION_SCHEMA_VERSION = 'medicare-attribution.v1';
   var MEDICARE_CONTENT_CLUSTER = 'lakeland_medicare_broker';
   var MEDICARE_PAGE_REGISTRY = {
+    '/medicare/': {
+      page_key: 'medicare',
+      page_role: 'hub',
+      cta_keys: {
+        start_review_hero: true,
+        request_review_process: true,
+        start_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/aep-2026-polk-county-checklist.html/': {
+      page_key: 'aep_2026_polk_county_checklist',
+      page_role: 'education',
+      cta_keys: {
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/medicare-supplement-cost-lakeland.html/': {
+      page_key: 'medicare_supplement_cost_lakeland',
+      page_role: 'education',
+      cta_keys: {
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/medicare-vs-aca-central-florida-age-65.html/': {
+      page_key: 'medicare_vs_aca_central_florida_age_65',
+      page_role: 'education',
+      cta_keys: {
+        request_review_nav: true,
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/turning-65-medicare-checklist-florida.html/': {
+      page_key: 'turning_65_medicare_checklist_florida',
+      page_role: 'education',
+      cta_keys: {
+        request_review_nav: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/when-can-i-switch-medicare-plans-florida.html/': {
+      page_key: 'when_can_i_switch_medicare_plans_florida',
+      page_role: 'education',
+      cta_keys: {
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/medicare/east-polk/': {
+      page_key: 'medicare_east_polk',
+      page_role: 'education',
+      cta_keys: {
+        request_review_nav: true,
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/moving-florida-medicare/': {
+      page_key: 'moving_florida_medicare',
+      page_role: 'education',
+      cta_keys: {
+        request_move_review: true,
+        request_related_review: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
     '/best-medicare-broker-lakeland-fl/': {
       page_key: 'best_medicare_broker_lakeland_fl',
       page_role: 'selection',
@@ -78,9 +166,14 @@
     return path;
   }
 
+  function hasOwn(object, key) {
+    return Boolean(object) && Object.prototype.hasOwnProperty.call(object, key);
+  }
+
   function medicarePageContext(pathname) {
-    var registered = MEDICARE_PAGE_REGISTRY[normalizePath(pathname)];
-    if (!registered) return null;
+    var normalized = normalizePath(pathname);
+    if (!hasOwn(MEDICARE_PAGE_REGISTRY, normalized)) return null;
+    var registered = MEDICARE_PAGE_REGISTRY[normalized];
     return {
       schema_version: MEDICARE_ATTRIBUTION_SCHEMA_VERSION,
       page_key: registered.page_key,
@@ -112,7 +205,7 @@
     var pageKey = String(qs.get('source_page_key') || '');
     var ctaKey = String(qs.get('source_cta_key') || '');
     var registered = registryForPageKey(pageKey);
-    if (!registered || !registered.cta_keys[ctaKey]) return null;
+    if (!registered || !hasOwn(registered.cta_keys, ctaKey)) return null;
     return {
       schema_version: MEDICARE_ATTRIBUTION_SCHEMA_VERSION,
       source_page_key: registered.page_key,
@@ -141,7 +234,7 @@
     var targetPath = normalizePath(url.pathname);
     var explicit = String(link.getAttribute('data-medicare-cta') || '');
     if (explicit) {
-      if (!registered.cta_keys[explicit]) return null;
+      if (!hasOwn(registered.cta_keys, explicit)) return null;
       if (targetPath === '/get-help/' || targetPath === '/best-medicare-broker-lakeland-fl/' || targetPath === '/medicare-broker-lakeland-fl/') {
         return explicit;
       }
@@ -216,7 +309,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20260814-medicare-attribution';
+    funnel.src = '/js/funnel.js?v=20260817-medicare-hub';
     document.head.appendChild(funnel);
   }
 

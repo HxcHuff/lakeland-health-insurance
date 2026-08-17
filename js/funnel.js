@@ -35,6 +35,94 @@
   var MEDICARE_ATTRIBUTION_SCHEMA_VERSION = 'medicare-attribution.v1';
   var MEDICARE_CONTENT_CLUSTER = 'lakeland_medicare_broker';
   var MEDICARE_PAGE_REGISTRY = {
+    medicare: {
+      path: '/medicare/',
+      page_role: 'hub',
+      cta_keys: {
+        start_review_hero: true,
+        request_review_process: true,
+        start_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    aep_2026_polk_county_checklist: {
+      path: '/blog/aep-2026-polk-county-checklist.html/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_supplement_cost_lakeland: {
+      path: '/blog/medicare-supplement-cost-lakeland.html/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_vs_aca_central_florida_age_65: {
+      path: '/blog/medicare-vs-aca-central-florida-age-65.html/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_nav: true,
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    turning_65_medicare_checklist_florida: {
+      path: '/blog/turning-65-medicare-checklist-florida.html/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_nav: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    when_can_i_switch_medicare_plans_florida: {
+      path: '/blog/when-can-i-switch-medicare-plans-florida.html/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_east_polk: {
+      path: '/medicare/east-polk/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_nav: true,
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    moving_florida_medicare: {
+      path: '/moving-florida-medicare/',
+      page_role: 'education',
+      cta_keys: {
+        request_move_review: true,
+        request_related_review: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
     best_medicare_broker_lakeland_fl: {
       path: '/best-medicare-broker-lakeland-fl/',
       page_role: 'selection',
@@ -72,6 +160,10 @@
     return path;
   }
 
+  function hasOwn(object, key) {
+    return Boolean(object) && Object.prototype.hasOwnProperty.call(object, key);
+  }
+
   function registeredPageForPath(pathname) {
     var normalized = normalizePath(pathname);
     var keys = Object.keys(MEDICARE_PAGE_REGISTRY);
@@ -97,8 +189,9 @@
     values = values || {};
     var pageKey = String(values.source_page_key || '');
     var ctaKey = String(values.source_cta_key || '');
+    if (!hasOwn(MEDICARE_PAGE_REGISTRY, pageKey)) return null;
     var registered = MEDICARE_PAGE_REGISTRY[pageKey];
-    if (!registered || !registered.cta_keys[ctaKey]) return null;
+    if (!hasOwn(registered.cta_keys, ctaKey)) return null;
     return {
       schema_version: MEDICARE_ATTRIBUTION_SCHEMA_VERSION,
       source_page_key: pageKey,
@@ -172,7 +265,7 @@
   };
 
   function leadValueFor(pt) {
-    if (LEAD_VALUE_BY_PAGE_TYPE.hasOwnProperty(pt)) return LEAD_VALUE_BY_PAGE_TYPE[pt];
+    if (hasOwn(LEAD_VALUE_BY_PAGE_TYPE, pt)) return LEAD_VALUE_BY_PAGE_TYPE[pt];
     return LEAD_VALUE_BY_PAGE_TYPE['default'] || 0;
   }
 
@@ -303,7 +396,7 @@
     if (source) Object.assign(out, source);
 
     var pageKey = String(props && props.page_key || '');
-    var registeredPage = MEDICARE_PAGE_REGISTRY[pageKey];
+    var registeredPage = hasOwn(MEDICARE_PAGE_REGISTRY, pageKey) ? MEDICARE_PAGE_REGISTRY[pageKey] : null;
     if (registeredPage) {
       out.schema_version = MEDICARE_ATTRIBUTION_SCHEMA_VERSION;
       out.page_key = pageKey;
@@ -311,7 +404,7 @@
       out.content_cluster = MEDICARE_CONTENT_CLUSTER;
       out.intent = 'medicare';
       var pageCta = String(props && props.cta_key || '');
-      if (registeredPage.cta_keys[pageCta]) out.cta_key = pageCta;
+      if (hasOwn(registeredPage.cta_keys, pageCta)) out.cta_key = pageCta;
     } else if (pageKey === 'get_help' && String(props && props.page_role || '') === 'intake') {
       out.schema_version = MEDICARE_ATTRIBUTION_SCHEMA_VERSION;
       out.page_key = 'get_help';
