@@ -1312,7 +1312,7 @@ header .cta-button {
     <script defer src="/js/analytics.js?v=20260731-measurement-integrity"></script>
     <script defer src="/js/site-search.js?v=20260817-medicare-hub"></script>
     <script defer src="../js/blog-popularity.js"></script>
-    <link rel="stylesheet" href="/css/site-template.css?v=20260803-brand-release">
+    <link rel="stylesheet" href="/css/site-template.css?v=20260820-sitelink-leads">
   <style>
     .landing-zip-form{margin-top:1.35rem;max-width:600px}
     .landing-zip-form label{color:inherit;display:block;font-size:.9rem;font-weight:800;margin-bottom:.45rem}
@@ -1382,14 +1382,46 @@ header .cta-button {
             <h1>Florida health insurance answers for individuals and families.</h1>
             <p class="hero-lead">Clear guidance for individual and family coverage before you choose, renew, or change a plan.</p>
             <p class="hero-trust">Start with ACA Marketplace coverage, job loss, self-employment, early retirement, doctors, prescriptions, costs, or timing. Medicare guidance remains available.</p>
-            <form class="landing-zip-form" action="/get-help/" method="get" aria-label="Start a coverage review with your ZIP code">
-                <input type="hidden" name="intent" value="not-sure">
-                <label for="blogZip">Need personal help? Start with your ZIP code</label>
-                <div class="landing-zip-controls">
-                    <input id="blogZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="ZIP code" aria-describedby="blogZipNote" required>
-                    <button type="submit">Start My Review</button>
+            <form class="sitelink-lead-form" name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="blogLeadForm" data-sitelink-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="sitelink_blog_lead" aria-label="Request individual and family coverage help">
+                <input type="hidden" name="form-name" value="get-help">
+                <div hidden aria-hidden="true">
+                    <label>Do not fill this out <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+                    <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
+                    <label>Company <input name="company" tabindex="-1" autocomplete="off"></label>
                 </div>
-                <p class="landing-zip-note" id="blogZipNote">ZIP only starts the request. No lead is created until you review and submit the full form.</p>
+                <input type="hidden" name="inquiry_type" value="Individual and family coverage">
+                <input type="hidden" name="normalized_intent" value="under-65">
+                <input type="hidden" name="line_of_business" value="Individual and Family Coverage">
+                <input type="hidden" name="source_page" value="/blog/">
+                <input type="hidden" name="referral_page">
+                <input type="hidden" name="_subject" value="New Lead: Individual and Family Coverage Review">
+                <input type="hidden" name="utm_source">
+                <input type="hidden" name="utm_medium">
+                <input type="hidden" name="utm_campaign">
+                <input type="hidden" name="utm_content">
+                <input type="hidden" name="started_at">
+                <input type="hidden" name="human_check">
+                <input type="hidden" name="consent_call">
+                <input type="hidden" name="consent_sms">
+                <input type="hidden" name="consent_email">
+                <h2>Get a personal answer</h2>
+                <p>Send the minimum contact details David needs to respond. Do not enter policy numbers, health information, or payment details.</p>
+                <div class="sitelink-lead-grid">
+                    <div class="sitelink-lead-field"><label for="blogLeadName">Full name</label><input id="blogLeadName" name="full_name" autocomplete="name" required></div>
+                    <div class="sitelink-lead-field"><label for="blogLeadZip">ZIP code</label><input id="blogLeadZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="33801" required></div>
+                    <div class="sitelink-lead-field"><label for="blogLeadPhone">Phone, if choosing call or text</label><input id="blogLeadPhone" name="phone" type="tel" autocomplete="tel" minlength="7"></div>
+                    <div class="sitelink-lead-field"><label for="blogLeadEmail">Email, if choosing email</label><input id="blogLeadEmail" name="email" type="email" autocomplete="email"></div>
+                </div>
+                <fieldset class="sitelink-contact-options">
+                    <legend>Choose one way David may respond</legend>
+                    <label class="sitelink-contact-choice"><input type="radio" name="preferred_contact_method" value="Phone call" required><span>I authorize a telephone call about this request.</span></label>
+                    <label class="sitelink-contact-choice"><input type="radio" name="preferred_contact_method" value="Text message"><span>I authorize text messages about this request. Message frequency varies; message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a>.</span></label>
+                    <label class="sitelink-contact-choice"><input type="radio" name="preferred_contact_method" value="Email"><span>I authorize email about this request.</span></label>
+                </fieldset>
+                <label class="sitelink-request-consent"><input type="checkbox" name="consent_request" value="yes" required><span>I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage.</span></label>
+                <p class="sitelink-lead-privacy">Consent is not a condition of purchase. See the <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</p>
+                <button class="sitelink-lead-submit" type="submit">Send My Request</button>
+                <div class="sitelink-lead-status" data-sitelink-lead-status role="status" aria-live="polite"></div>
             </form>
             <div class="blog-search-wrap">
                 <div class="site-search-bar" data-site-search="bar">
@@ -2616,6 +2648,7 @@ header .cta-button {
     <script src="/js/blog-theme.js" defer></script>
     <script src="/js/chat-widget.js" defer></script>
     <script src="/js/blog-floating-actions.js" defer></script>
+    <script src="/js/funnel.js?v=20260820-sitelink-leads" defer></script>
     <script src="/js/site-template.js?v=20260816-coverage-options" defer></script>
 </body>
 </html>

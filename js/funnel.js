@@ -588,6 +588,93 @@
     return payload;
   }
 
+  function sitelinkField(form, name) {
+    return form && form.elements ? form.elements[name] : null;
+  }
+
+  function setSitelinkField(form, name, value) {
+    var input = sitelinkField(form, name);
+    if (input) input.value = value || '';
+  }
+
+  function sitelinkReferralClass() {
+    if (!d.referrer) return 'direct';
+    try {
+      return new URL(d.referrer).origin === w.location.origin ? 'internal' : 'external';
+    } catch (e) {
+      return 'external';
+    }
+  }
+
+  function initializeSitelinkAttribution(form) {
+    var attribution = getAttribution();
+    setSitelinkField(form, 'source_page', String(w.location.pathname || '/').slice(0, 160));
+    setSitelinkField(form, 'referral_page', sitelinkReferralClass());
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (name) {
+      setSitelinkField(form, name, approvedCampaignValue(attribution[name]));
+    });
+
+    var startedAt = String(Date.now());
+    setSitelinkField(form, 'started_at', startedAt);
+    try {
+      setSitelinkField(form, 'human_check', w.btoa(startedAt + ':lakeland-human'));
+    } catch (e) {
+      setSitelinkField(form, 'human_check', '');
+    }
+  }
+
+  function showSitelinkStatus(form, message) {
+    var status = form.querySelector('[data-sitelink-lead-status]');
+    if (status) status.textContent = message || '';
+  }
+
+  function validateSitelinkContactPath(form) {
+    var preferredField = sitelinkField(form, 'preferred_contact_method');
+    var phoneField = sitelinkField(form, 'phone');
+    var emailField = sitelinkField(form, 'email');
+    var preferred = String(preferredField && preferredField.value || '').toLowerCase();
+    var phone = String(phoneField && phoneField.value || '').trim();
+    var email = String(emailField && emailField.value || '').trim();
+    var needsPhone = preferred === 'phone call' || preferred === 'text message';
+
+    setSitelinkField(form, 'consent_call', preferred === 'phone call' ? 'yes' : '');
+    setSitelinkField(form, 'consent_sms', preferred === 'text message' ? 'yes' : '');
+    setSitelinkField(form, 'consent_email', preferred === 'email' ? 'yes' : '');
+
+    if (needsPhone && !phone) {
+      showSitelinkStatus(form, 'Enter a phone number for the contact method you selected.');
+      if (phoneField && typeof phoneField.focus === 'function') phoneField.focus();
+      return false;
+    }
+    if (preferred === 'email' && !email) {
+      showSitelinkStatus(form, 'Enter an email address for the contact method you selected.');
+      if (emailField && typeof emailField.focus === 'function') emailField.focus();
+      return false;
+    }
+    return true;
+  }
+
+  function wireSitelinkLeadForms() {
+    d.querySelectorAll('form[data-sitelink-lead-form]').forEach(function (form) {
+      if (form.__lhiSitelinkLeadWired) return;
+      form.__lhiSitelinkLeadWired = true;
+      initializeSitelinkAttribution(form);
+      form.addEventListener('submit', function (event) {
+        showSitelinkStatus(form, '');
+        if (!form.checkValidity()) return;
+        if (!validateSitelinkContactPath(form)) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          return;
+        }
+        showSitelinkStatus(form, 'Sending your request...');
+        w.setTimeout(function () {
+          if (d.contains(form)) showSitelinkStatus(form, 'If the page does not continue, review the form and try again.');
+        }, 12000);
+      }, { capture: true });
+    });
+  }
+
   function clearPendingLeadMarker() {
     try { w.sessionStorage.removeItem('lhi_lead_submitted'); } catch (e) {}
   }
@@ -822,12 +909,16 @@
   // Give GTM time to initialize (analytics.js loads on interaction/idle/timeout)
   function boot() {
     getAttribution(); // persist UTMs on first hit
+    wireSitelinkLeadForms();
     wireForms();
     trackLeadReceiptView();
     setTimeout(pageView, 300);
     // Observe DOM for late-rendered forms (React/etc.)
     if (w.MutationObserver) {
-      new MutationObserver(wireForms).observe(d.body, { childList: true, subtree: true });
+      new MutationObserver(function () {
+        wireSitelinkLeadForms();
+        wireForms();
+      }).observe(d.body, { childList: true, subtree: true });
     }
   }
 

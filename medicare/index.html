@@ -20,7 +20,7 @@
   <meta name="twitter:description" content="Build a Medicare decision around enrollment timing, doctors, prescriptions, costs, and the way you use care.">
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
   <link rel="stylesheet" href="/css/fonts.css">
-  <link rel="stylesheet" href="/css/site-template.css?v=20260803-brand-release">
+  <link rel="stylesheet" href="/css/site-template.css?v=20260820-sitelink-leads">
   <link rel="stylesheet" href="/css/answer-pages.css?v=20260817-medicare-hub">
   <script type="application/ld+json">
   {
@@ -83,6 +83,49 @@
               <span class="hub-season-label">2027 planning</span>
               <p><strong>Prepare now. Compare official 2027 plan details beginning October 1.</strong> Medicare Open Enrollment runs October 15 through December 7, 2026, and approved changes generally begin January 1, 2027.</p>
             </div>
+            <form class="sitelink-lead-form" name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="medicareLeadForm" data-sitelink-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="sitelink_medicare_lead" aria-label="Request a Medicare review">
+              <input type="hidden" name="form-name" value="get-help">
+              <div hidden aria-hidden="true">
+                <label>Do not fill this out <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+                <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
+                <label>Company <input name="company" tabindex="-1" autocomplete="off"></label>
+              </div>
+              <input type="hidden" name="inquiry_type" value="Medicare">
+              <input type="hidden" name="normalized_intent" value="medicare">
+              <input type="hidden" name="line_of_business" value="Medicare">
+              <input type="hidden" name="source_page" value="/medicare/">
+              <input type="hidden" name="source_page_key" value="medicare">
+              <input type="hidden" name="source_cta_key" value="start_review_hero">
+              <input type="hidden" name="referral_page">
+              <input type="hidden" name="_subject" value="New Lead: Medicare Review">
+              <input type="hidden" name="utm_source">
+              <input type="hidden" name="utm_medium">
+              <input type="hidden" name="utm_campaign">
+              <input type="hidden" name="utm_content">
+              <input type="hidden" name="started_at">
+              <input type="hidden" name="human_check">
+              <input type="hidden" name="consent_call">
+              <input type="hidden" name="consent_sms">
+              <input type="hidden" name="consent_email">
+              <h2>Request a Medicare review</h2>
+              <p>Send the minimum contact details David needs to respond. Do not enter a Medicare number, Social Security number, medical details, policy numbers, or payment information.</p>
+              <div class="sitelink-lead-grid">
+                <div class="sitelink-lead-field"><label for="medicareLeadName">Full name</label><input id="medicareLeadName" name="full_name" autocomplete="name" required></div>
+                <div class="sitelink-lead-field"><label for="medicareLeadZip">ZIP code</label><input id="medicareLeadZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="33801" required></div>
+                <div class="sitelink-lead-field"><label for="medicareLeadPhone">Phone, if choosing call or text</label><input id="medicareLeadPhone" name="phone" type="tel" autocomplete="tel" minlength="7"></div>
+                <div class="sitelink-lead-field"><label for="medicareLeadEmail">Email, if choosing email</label><input id="medicareLeadEmail" name="email" type="email" autocomplete="email"></div>
+              </div>
+              <fieldset class="sitelink-contact-options">
+                <legend>Choose one way David may respond</legend>
+                <label class="sitelink-contact-choice"><input type="radio" name="preferred_contact_method" value="Phone call" required><span>I authorize a telephone call about this request.</span></label>
+                <label class="sitelink-contact-choice"><input type="radio" name="preferred_contact_method" value="Text message"><span>I authorize text messages about this request. Message frequency varies; message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a>.</span></label>
+                <label class="sitelink-contact-choice"><input type="radio" name="preferred_contact_method" value="Email"><span>I authorize email about this request.</span></label>
+              </fieldset>
+              <label class="sitelink-request-consent"><input type="checkbox" name="consent_request" value="yes" required><span>I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage.</span></label>
+              <p class="sitelink-lead-privacy">Consent is not a condition of purchase. See the <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</p>
+              <button class="sitelink-lead-submit" type="submit">Send My Request</button>
+              <div class="sitelink-lead-status" data-sitelink-lead-status role="status" aria-live="polite"></div>
+            </form>
             <div class="cta-row medicare-hero-actions">
               <a class="btn primary" href="/get-help/?intent=medicare&amp;source_page_key=medicare&amp;source_cta_key=start_review_hero" data-medicare-cta="start_review_hero">Start a Medicare review</a>
               <a class="btn secondary hub-provider-link" href="/provider-prescription-check/">Check doctors &amp; prescriptions</a>
@@ -559,6 +602,7 @@
       </div>
     </section>
   </main>
+  <script src="/js/funnel.js?v=20260820-sitelink-leads" defer></script>
   <script src="/js/site-template.js?v=20260816-coverage-options" defer></script>
 </body>
 </html>

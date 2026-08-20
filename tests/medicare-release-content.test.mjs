@@ -93,16 +93,22 @@ test('primary HTML excludes superseded disclaimer variants and known unsupported
   }
 });
 
-test('Medicare hub is a current-season, privacy-minimized, keyboard-accessible router', () => {
+test('Medicare hub is a current-season, privacy-minimized, keyboard-accessible lead router', () => {
   const html = source('medicare/index.html');
   const css = source('css/answer-pages.css');
+  const forms = html.match(/<form\b[\s\S]*?<\/form>/gi) || [];
 
   assert.match(html, /<body[^>]*>\s*<a class="hub-skip-link" href="#medicare-content">/);
   assert.match(html, /<main class="medicare-hub" id="medicare-content">/);
   assert.match(html, /Compare official 2027 plan details beginning October 1/);
   assert.match(html, /class="hub-scenario-shortcut" href="#start"/);
   assert.match(html, /class="btn secondary hub-provider-link"/);
-  assert.doesNotMatch(html, /<form\b/i);
+  assert.equal(forms.length, 1, 'Medicare hub exposes one controlled lead form');
+  assert.match(forms[0], /class="sitelink-lead-form"/);
+  assert.match(forms[0], /name="normalized_intent" value="medicare"/);
+  assert.match(forms[0], /name="consent_request" value="yes" required/);
+  assert.doesNotMatch(forms[0], /<textarea|name="(?:notes|providers|prescriptions|current_plan|policy_number|medicare_number)"/i);
+  assert.match(forms[0], /Do not enter a Medicare number, Social Security number, medical details, policy numbers, or payment information/);
   assert.doesNotMatch(html, /Compare 2026 Medicare Plans/i);
   assert.match(css, /\.hub-skip-link:focus\s*{[^}]*transform:\s*translateY\(0\)/s);
   assert.match(css, /\.hub-scenario-shortcut\s*{[^}]*min-height:\s*44px/s);

@@ -460,7 +460,7 @@ function minimizeGetHelpPayload(payload) {
   return payload;
 }
 
-function authorizeGetHelpConsent(payload, serverReceivedAt) {
+function authorizeGetHelpConsent(payload, serverReceivedAt, consentPage) {
   if (payload['form-name'] !== 'get-help') return { ok: true };
   if (payload.consent_request !== 'yes') {
     return { ok: false, error: 'request consent is required' };
@@ -483,7 +483,7 @@ function authorizeGetHelpConsent(payload, serverReceivedAt) {
   Object.assign(payload, {
     consent_text_version: 'get-help-2026-07-30-v1',
     consent_recorded_at: serverReceivedAt,
-    consent_page: '/get-help/',
+    consent_page: sanitizeSourcePath(consentPage || '/get-help/'),
     consent_request_state: 'granted',
     consent_call_state: channelConsent.call ? 'granted' : 'not_granted',
     consent_sms_state: channelConsent.sms ? 'granted' : 'not_granted',
@@ -562,8 +562,11 @@ exports.handler = async (event) => {
   const eventId = crypto.randomUUID();
   const serverReceivedAt = new Date().toISOString();
   const eventTime = Math.floor(Date.parse(serverReceivedAt) / 1000);
+  const sourcePath = sanitizeSourcePath(
+    rawPayload.source_url || headerValue(headers, 'referer') || headerValue(headers, 'referrer') || ''
+  );
 
-  const consentCheck = authorizeGetHelpConsent(payload, serverReceivedAt);
+  const consentCheck = authorizeGetHelpConsent(payload, serverReceivedAt, sourcePath);
   if (!consentCheck.ok) {
     return {
       statusCode: 422,
@@ -572,9 +575,6 @@ exports.handler = async (event) => {
     };
   }
 
-  const sourcePath = sanitizeSourcePath(
-    rawPayload.source_url || headerValue(headers, 'referer') || headerValue(headers, 'referrer') || ''
-  );
   const sourceUrl = eventSourceUrl(sourcePath);
   payload.source_url = sourcePath;
   if (payload.source_page != null) payload.source_page = sanitizeSourcePath(payload.source_page);

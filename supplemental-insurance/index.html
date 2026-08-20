@@ -106,7 +106,7 @@
       .floating-call { bottom: 14px; justify-content: center; left: 16px; right: 16px; text-align: center; }
     }
   </style>
-<link rel="stylesheet" href="/css/site-template.css?v=20260803-brand-release">
+<link rel="stylesheet" href="/css/site-template.css?v=20260820-sitelink-leads">
   <style>
     .landing-zip-form{margin-top:1.35rem;max-width:600px}
     .landing-zip-form label{color:inherit;display:block;font-size:.9rem;font-weight:800;margin-bottom:.45rem}
@@ -139,14 +139,46 @@
         <div class="kicker">Supplemental and add-on coverage</div>
         <h1>Add coverage where your main plan stops short.</h1>
         <p>Dental, vision, life, accident, critical illness, hospital indemnity, and fixed-benefit coverage solve different problems. The goal is not to buy every add-on. It is to choose the few that protect the risks your medical plan does not handle well.</p>
-        <form class="landing-zip-form" action="/get-help/" method="get" aria-label="Start a supplemental coverage review with your ZIP code">
-          <input type="hidden" name="intent" value="supplemental">
-          <label for="supplementalZip">Start with the ZIP code where coverage will be used</label>
-          <div class="landing-zip-controls">
-            <input id="supplementalZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="ZIP code" aria-describedby="supplementalZipNote" required>
-            <button type="submit">Request an Add-On Review</button>
+        <form class="sitelink-lead-form" name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="supplementalLeadForm" data-sitelink-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="sitelink_supplemental_lead" aria-label="Request a supplemental coverage review">
+          <input type="hidden" name="form-name" value="get-help">
+          <div hidden aria-hidden="true">
+            <label>Do not fill this out <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+            <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
+            <label>Company <input name="company" tabindex="-1" autocomplete="off"></label>
           </div>
-          <p class="landing-zip-note" id="supplementalZipNote">ZIP only starts the request. No lead is created until you review and submit the full form.</p>
+          <input type="hidden" name="inquiry_type" value="Supplemental coverage">
+          <input type="hidden" name="normalized_intent" value="supplemental">
+          <input type="hidden" name="line_of_business" value="Supplemental">
+          <input type="hidden" name="source_page" value="/supplemental-insurance/">
+          <input type="hidden" name="referral_page">
+          <input type="hidden" name="_subject" value="New Lead: Supplemental Coverage Review">
+          <input type="hidden" name="utm_source">
+          <input type="hidden" name="utm_medium">
+          <input type="hidden" name="utm_campaign">
+          <input type="hidden" name="utm_content">
+          <input type="hidden" name="started_at">
+          <input type="hidden" name="human_check">
+          <input type="hidden" name="consent_call">
+          <input type="hidden" name="consent_sms">
+          <input type="hidden" name="consent_email">
+          <h2>Request an add-on review</h2>
+          <p>Send the minimum contact details David needs to respond. Do not enter policy numbers, health information, or payment details.</p>
+          <div class="sitelink-lead-grid">
+            <div class="sitelink-lead-field"><label for="supplementalLeadName">Full name</label><input id="supplementalLeadName" name="full_name" autocomplete="name" required></div>
+            <div class="sitelink-lead-field"><label for="supplementalLeadZip">ZIP code</label><input id="supplementalLeadZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="33801" required></div>
+            <div class="sitelink-lead-field"><label for="supplementalLeadPhone">Phone, if choosing call or text</label><input id="supplementalLeadPhone" name="phone" type="tel" autocomplete="tel" minlength="7"></div>
+            <div class="sitelink-lead-field"><label for="supplementalLeadEmail">Email, if choosing email</label><input id="supplementalLeadEmail" name="email" type="email" autocomplete="email"></div>
+          </div>
+          <fieldset class="sitelink-contact-options">
+            <legend>Choose one way David may respond</legend>
+            <label class="sitelink-contact-choice"><input type="radio" name="preferred_contact_method" value="Phone call" required><span>I authorize a telephone call about this request.</span></label>
+            <label class="sitelink-contact-choice"><input type="radio" name="preferred_contact_method" value="Text message"><span>I authorize text messages about this request. Message frequency varies; message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a>.</span></label>
+            <label class="sitelink-contact-choice"><input type="radio" name="preferred_contact_method" value="Email"><span>I authorize email about this request.</span></label>
+          </fieldset>
+          <label class="sitelink-request-consent"><input type="checkbox" name="consent_request" value="yes" required><span>I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage.</span></label>
+          <p class="sitelink-lead-privacy">Consent is not a condition of purchase. See the <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</p>
+          <button class="sitelink-lead-submit" type="submit">Send My Request</button>
+          <div class="sitelink-lead-status" data-sitelink-lead-status role="status" aria-live="polite"></div>
         </form>
         <div class="hero-actions">
           <a class="btn phone" href="tel:+18636403102">Call David</a>
@@ -268,6 +300,7 @@
     </span>
   </a>
   <script src="/js/bbb-seal.js?v=20260729-bbb-seal" defer></script>
+<script src="/js/funnel.js?v=20260820-sitelink-leads" defer></script>
 <script src="/js/site-template.js?v=20260816-coverage-options" defer></script>
 </body>
 </html>

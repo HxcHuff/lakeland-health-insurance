@@ -211,6 +211,26 @@ test('Medicare hub attribution is canonicalized as the hub role', async () => {
   });
 });
 
+test('direct sitelink forms record the page where consent was granted', async () => {
+  const { response, calls } = await invoke(getHelpPayload({
+    normalized_intent: 'not-sure',
+    inquiry_type: 'Carrier comparison',
+    line_of_business: 'General',
+    source_url: 'https://lakelandhealthinsurance.com/carriers/?utm_source=google',
+    source_page: '/carriers/',
+    source_page_key: '',
+    source_cta_key: ''
+  }));
+
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('source_url'), '/carriers/');
+  assert.equal(form.get('source_page'), '/carriers/');
+  assert.equal(form.get('consent_page'), '/carriers/');
+  assert.equal(form.get('consent_text_version'), 'get-help-2026-07-30-v1');
+  assert.equal(form.get('consent_request_state'), 'granted');
+});
+
 test('Medicare education-page attribution is canonicalized as the education role', async () => {
   const { response } = await invoke(getHelpPayload({
     source_page_key: 'moving_florida_medicare',
