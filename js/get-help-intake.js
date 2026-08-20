@@ -8,7 +8,7 @@
       content: 'get_help_under_65',
       subject: 'New Lead: Individual and Family Coverage Review',
       line: 'Individual and Family Coverage',
-      intro: 'Review individual and family options based on your current coverage, timing, household information, doctors, and prescriptions.',
+      intro: 'Review individual and family options based on your current coverage, coverage end date, household information, doctors, and prescriptions.',
       optional: ['who', 'coverage_end', 'employer_coverage', 'providers', 'prescriptions', 'household_size', 'income', 'referral', 'notes']
     },
     'aca': {
@@ -16,7 +16,7 @@
       content: 'get_help_aca',
       subject: 'New Lead: ACA Marketplace Help',
       line: 'ACA',
-      intro: 'Get ACA Marketplace guidance around timing, household size, income estimate, doctors, and next steps.',
+      intro: 'Get ACA Marketplace guidance based on your coverage status, household size, income estimate, doctors, and next steps.',
       optional: ['who', 'coverage_end', 'providers', 'prescriptions', 'household_size', 'income', 'referral', 'notes']
     },
     'medicare': {
@@ -25,7 +25,7 @@
       content: 'get_help_medicare',
       subject: 'New Lead: Medicare Review',
       line: 'Medicare',
-      intro: 'Start with your Medicare timing and general question. Do not enter medication names, medical details, policy numbers, Medicare numbers, or Social Security numbers on this form.',
+      intro: 'Start with your Medicare situation and general question. Do not enter medication names, medical details, policy numbers, Medicare numbers, or Social Security numbers on this form.',
       optional: ['medicare_timing', 'primary_concern', 'referral', 'notes']
     },
     'lost-coverage': {
@@ -34,7 +34,7 @@
       content: 'get_help_lost_coverage',
       subject: 'New Lead: Losing Coverage or COBRA Review',
       line: 'ACA',
-      intro: 'Review coverage-loss timing, COBRA status, and possible Special Enrollment Period next steps.',
+      intro: 'Review when your coverage ends, your COBRA status, and possible Special Enrollment Period next steps.',
       optional: ['coverage_end', 'cobra_status', 'cobra_premium', 'household_size', 'income', 'providers', 'prescriptions', 'notes']
     },
     'turning-26': {
@@ -42,7 +42,7 @@
       content: 'get_help_turning_26',
       subject: 'New Lead: Turning 26 Coverage Review',
       line: 'ACA',
-      intro: 'Review coverage timing, employer coverage, student status, ZIP code, income, and household questions without tax advice.',
+      intro: 'Review when your current coverage ends, employer coverage, student status, ZIP code, income, and household questions without tax advice.',
       optional: ['coverage_end', 'employer_coverage', 'student_status', 'tax_dependency', 'household_size', 'income', 'notes']
     },
     'self-employed': {
@@ -58,7 +58,7 @@
       content: 'get_help_retiring_before_65',
       subject: 'New Lead: Retiring Before 65 Coverage Review',
       line: 'ACA',
-      intro: 'Review the transition from employer coverage before Medicare eligibility around timing, household information, doctors, prescriptions, and expected costs.',
+      intro: 'Review the transition from employer coverage before Medicare eligibility based on your coverage end date, household information, doctors, prescriptions, and expected costs.',
       optional: ['coverage_end', 'employer_coverage', 'household_size', 'income', 'providers', 'prescriptions', 'notes']
     },
     'coverage-gap': {
@@ -83,7 +83,7 @@
       content: 'get_help_dental_vision',
       subject: 'New Lead: Dental and Vision Review',
       line: 'Dental and vision',
-      intro: 'Review dental and vision options based on timing, ZIP code, and current coverage.',
+      intro: 'Review dental and vision options based on when coverage is needed, ZIP code, and current coverage.',
       optional: ['primary_concern', 'notes']
     },
     'current-client-review': {
@@ -283,10 +283,10 @@
     cobra_premium: ['Estimated COBRA premium', 'text', 'Optional user-provided estimate'],
     providers: ['Doctors or facilities to keep', 'textarea', ''],
     prescriptions: ['Prescriptions to review', 'textarea', ''],
-    primary_concern: ['Primary concern', 'text', 'Premium, deductible, network, timing, coverage gap'],
+    primary_concern: ['Primary concern', 'text', 'Premium, deductible, network, coverage start, coverage gap'],
     household_size: ['Household size', 'number', ''],
     income: ['Estimated annual household income', 'text', 'For ACA-related inquiries only'],
-    medicare_timing: ['Medicare timing', 'text', 'Turning 65, retiring, already enrolled, moving'],
+    medicare_timing: ['Your Medicare situation', 'text', 'Turning 65, retiring, already enrolled, moving'],
     referral: ['Referral source', 'text', ''],
     current_plan: ['Current carrier or plan', 'text', ''],
     employer_coverage: ['Employer coverage availability', 'text', ''],
