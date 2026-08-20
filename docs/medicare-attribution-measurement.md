@@ -76,7 +76,7 @@ An accepted Medicare `Lead` adds:
 
 The measurement allowlist is positive and fail-closed. It excludes names, email, phone, ZIP, county, DOB/age, Medicare or policy identifiers, provider/facility names, prescription names, current-plan text, income, health or coverage answers, consent answers, notes, messages, free text, arbitrary query/referrer values, unknown keys, arrays, and objects.
 
-The Get Help attribution record does not capture `utm_term`, `gclid`, or `fbclid`. `source_page` is a normalized path without a query string. `referral_page` is reduced to `direct`, `internal`, or `external` rather than retaining the referrer URL.
+The Get Help attribution record captures bounded, PII-filtered `utm_term` only from Google Ads ValueTrack `{keyword}` (the matched advertiser keyword, not the user's raw Search Terms query). It does not capture `gclid` or `fbclid`. `source_page` is a normalized path without a query string. `referral_page` is reduced to `direct`, `internal`, or `external` rather than retaining the referrer URL.
 
 The lead endpoint separately enforces registered form-specific field allowlists, a 64 KB JSON-body limit, scalar-only values, and an 8 KB per-field limit. For Get Help, it requires request consent and server-authors the consent timestamp, evidence version, page, withdrawal state, and contact-channel states. Client-authored consent-state fields are overwritten. Meta CAPI, Ads/OpenAI CAPI, and Mailchimp do not run until Netlify Forms accepts the request.
 

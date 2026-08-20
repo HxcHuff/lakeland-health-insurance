@@ -38,6 +38,7 @@ const EXTERNAL_QUOTE_SELECTOR = 'a[data-funnel-external-quote], a[href*="healths
 const MEDICARE_HUB_HTML = readFileSync(resolve(__dirname, '../medicare/index.html'), 'utf8');
 const BEST_MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../best-medicare-broker-lakeland-fl/index.html'), 'utf8');
 const MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../medicare-broker-lakeland-fl/index.html'), 'utf8');
+const WEBSITE_CALL_SELECTOR = 'a[href="tel:+18636403102"], a[data-lhi-business-phone="+18636403102"]';
 const MEDICARE_EDUCATION_PAGES = [
   {
     html: readFileSync(resolve(__dirname, '../blog/aep-2026-polk-county-checklist.html'), 'utf8'),
@@ -241,13 +242,76 @@ async function flushPromises(count = 3) {
   }
 }
 
+function makeAnalyticsDomElement(tagName, text = '', attributes = {}) {
+  const attrs = new Map(Object.entries(attributes));
+  const element = {
+    nodeType: 1,
+    tagName: String(tagName || '').toUpperCase(),
+    childNodes: [],
+    className: '',
+    getAttribute(name) { return attrs.has(name) ? attrs.get(name) : null; },
+    setAttribute(name, value) { attrs.set(name, String(value)); },
+    appendChild(child) {
+      this.childNodes.push(child);
+      return child;
+    },
+    querySelector(selector) {
+      if (selector !== '[data-lhi-forwarding-number]') return null;
+      const pending = [...this.childNodes];
+      while (pending.length) {
+        const node = pending.shift();
+        if (node && node.nodeType === 1 && node.getAttribute('data-lhi-forwarding-number') !== null) return node;
+        if (node && node.childNodes) pending.push(...node.childNodes);
+      }
+      return null;
+    }
+  };
+  Object.defineProperty(element, 'textContent', {
+    get() {
+      function nodeText(node) {
+        if (!node) return '';
+        if (node.nodeType === 3) return String(node.nodeValue || '');
+        return (node.childNodes || []).map(nodeText).join('');
+      }
+      return this.childNodes.map(nodeText).join('');
+    },
+    set(value) {
+      this.childNodes = [{ nodeType: 3, nodeValue: String(value) }];
+    }
+  });
+  if (text) element.textContent = text;
+  return element;
+}
+
+function makeWebsiteCallLink({ text, ariaLabel = null, analyticsLabel = null, nested = false }) {
+  const attributes = { href: 'tel:+18636403102' };
+  if (ariaLabel) attributes['aria-label'] = ariaLabel;
+  if (analyticsLabel) attributes['data-analytics-label'] = analyticsLabel;
+  const link = makeAnalyticsDomElement('a', '', attributes);
+  if (nested) {
+    link.__testIcon = makeAnalyticsDomElement('span', '☎', { 'aria-hidden': 'true' });
+    link.appendChild(link.__testIcon);
+    link.appendChild(makeAnalyticsDomElement('span', text));
+  } else {
+    link.textContent = text;
+  }
+  link.closest = function (selector) {
+    if (selector === 'a') return this;
+    if (selector === 'a[href^="tel:"]') return String(this.getAttribute('href') || '').startsWith('tel:') ? this : null;
+    return null;
+  };
+  return link;
+}
+
 function loadAnalytics({
   pathname = '/',
   search = '',
   hostname = 'localhost',
   telLabel = 'Call David',
   analyticsLabel = null,
-  link = null
+  link = null,
+  phoneLinks = [],
+  readyState = 'loading'
 } = {}) {
   const listeners = {};
   const dataLayer = [];
@@ -262,7 +326,9 @@ function loadAnalytics({
   const origin = hostname === 'localhost' ? 'http://localhost' : `https://${hostname}`;
   const sessionStorage = makeSessionStorage();
   const appendedScripts = [];
+  const scheduledTimeouts = [];
   const sandbox = {
+    __LHI_TEST: true,
     console: { info: () => {} },
     localStorage: makeSessionStorage(),
     sessionStorage,
@@ -283,16 +349,24 @@ function loadAnalytics({
         listeners[type] = listeners[type] || [];
         listeners[type].push(cb);
       },
-      createElement: () => ({ async: false, src: '' }),
+      querySelectorAll(selector) {
+        return selector === WEBSITE_CALL_SELECTOR ? phoneLinks : [];
+      },
+      createElement(tagName) {
+        return tagName === 'span' ? makeAnalyticsDomElement('span') : { async: false, src: '' };
+      },
       head: { appendChild: (node) => { appendedScripts.push(node); } },
-      readyState: 'loading'
+      readyState
     },
     window: null,
     Date,
     Object,
     String,
     Math,
-    setTimeout: () => 0,
+    setTimeout(callback, delay) {
+      scheduledTimeouts.push({ callback, delay });
+      return scheduledTimeouts.length;
+    },
     addEventListener: () => {},
     removeEventListener: () => {}
   };
@@ -304,6 +378,9 @@ function loadAnalytics({
     dataLayer,
     sessionStorage,
     appendedScripts,
+    runTimeouts() {
+      while (scheduledTimeouts.length) scheduledTimeouts.shift().callback();
+    },
     dispatch(type, target = link) {
       (listeners[type] || []).forEach((listener) => listener({ target }));
     },
@@ -541,6 +618,230 @@ test('legacy phone_call remains supported through shared helper', () => {
   assert.ok(dataLayer.some((entry) => entry.event === 'phone_call'), 'legacy phone_call event still fires');
 });
 
+test('website-call conversion uses the verified Ads tag while click telemetry remains separate', () => {
+  assert.match(
+    ANALYTICS_SRC,
+    /gtag\('config', 'AW-300112445\/MVhNCILUi-IaEL20jY8B', \{\s*phone_conversion_number: '\(863\) 640-3102',\s*phone_conversion_callback: applyGoogleForwardingNumber\s*\}\);/s
+  );
+  assert.match(ANALYTICS_SRC, /pushDataLayerEvent\('phone_call_click', params\);/);
+  assert.match(ANALYTICS_SRC, /gtag\('config', 'AW-300112445', \{ send_page_view: false \}\);/);
+  assert.doesNotMatch(ANALYTICS_SRC, /enhanced_conversions|user_data|sha256_/i);
+});
+
+test('website-call retrieval starts before deferred init and a first tel interaction', () => {
+  const phoneLink = makeWebsiteCallLink({ text: 'Call David' });
+  const loaded = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/about/',
+    phoneLinks: [phoneLink]
+  });
+
+  assert.deepEqual(
+    loaded.appendedScripts.map((script) => script.src),
+    ['https://www.googletagmanager.com/gtag/js?id=AW-300112445'],
+    'only the website-call Google tag loads eagerly'
+  );
+  const callConfigIndex = loaded.dataLayer.findIndex((entry) =>
+    entry && entry[0] === 'config' && entry[1] === 'AW-300112445/MVhNCILUi-IaEL20jY8B'
+  );
+  assert.ok(callConfigIndex >= 0, 'website-call callback is queued before window.load');
+  assert.equal(loaded.dataLayer.some((entry) => entry && entry.event === 'gtm.js'), false, 'general GTM remains deferred');
+
+  loaded.clickTel();
+
+  const clickIndex = loaded.dataLayer.findIndex((entry) => entry && entry.event === 'phone_call_click');
+  assert.ok(clickIndex > callConfigIndex, 'call retrieval was initialized before the first tel click');
+  assert.equal(loaded.dataLayer.filter((entry) => entry && entry.event === 'phone_call_click').length, 1);
+
+  const productionPageWithoutPhone = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/no-phone-test/'
+  });
+  productionPageWithoutPhone.dispatch('DOMContentLoaded');
+  productionPageWithoutPhone.runTimeouts();
+  assert.deepEqual(productionPageWithoutPhone.appendedScripts, [], 'pages without phone links keep all Google tags deferred');
+});
+
+test('deferred init safely loads the GA4 Google tag once on a production page without phone links', () => {
+  const loaded = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/no-phone-test/',
+    readyState: 'complete'
+  });
+
+  assert.deepEqual(loaded.appendedScripts, [], 'the no-phone guard keeps gtag.js deferred');
+  loaded.sandbox.gtag = undefined;
+  assert.doesNotThrow(() => loaded.runTimeouts(), 'deferred init restores the queue before configuring GA4');
+
+  const googleTagScripts = loaded.appendedScripts
+    .map((script) => script.src)
+    .filter((src) => src.startsWith('https://www.googletagmanager.com/gtag/js?id='));
+  assert.deepEqual(googleTagScripts, ['https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0']);
+  assert.equal(typeof loaded.sandbox.gtag, 'function');
+  assert.equal(
+    loaded.dataLayer.filter((entry) => entry && entry[0] === 'config' && entry[1] === 'G-W45RMKHXV0').length,
+    1
+  );
+
+  loaded.runTimeouts();
+  assert.equal(
+    loaded.appendedScripts.filter((script) => script.src.startsWith('https://www.googletagmanager.com/gtag/js?id=')).length,
+    1,
+    'deferred initialization cannot request gtag.js twice'
+  );
+});
+
+test('deferred init reuses the eager AW Google tag request on a production phone page', () => {
+  const phoneLink = makeWebsiteCallLink({ text: 'Call David' });
+  const loaded = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/about/',
+    phoneLinks: [phoneLink],
+    readyState: 'complete'
+  });
+
+  assert.deepEqual(
+    loaded.appendedScripts
+      .map((script) => script.src)
+      .filter((src) => src.startsWith('https://www.googletagmanager.com/gtag/js?id=')),
+    ['https://www.googletagmanager.com/gtag/js?id=AW-300112445']
+  );
+  loaded.runTimeouts();
+  assert.deepEqual(
+    loaded.appendedScripts
+      .map((script) => script.src)
+      .filter((src) => src.startsWith('https://www.googletagmanager.com/gtag/js?id=')),
+    ['https://www.googletagmanager.com/gtag/js?id=AW-300112445'],
+    'GA4 configuration reuses the already requested Google tag library'
+  );
+  assert.equal(
+    loaded.dataLayer.filter((entry) => entry && entry[0] === 'config' && entry[1] === 'G-W45RMKHXV0').length,
+    1
+  );
+});
+
+test('listener-order-safe DOMContentLoaded retry initializes website-call tracking for a late template link exactly once', () => {
+  const phoneLinks = [];
+  const loaded = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/about/',
+    phoneLinks,
+    readyState: 'interactive'
+  });
+  const lateLink = makeWebsiteCallLink({ text: 'Call David', nested: true });
+
+  assert.deepEqual(loaded.appendedScripts, [], 'no Google tag loads before a canonical phone link exists');
+  loaded.sandbox.document.addEventListener('DOMContentLoaded', () => phoneLinks.push(lateLink));
+  loaded.dispatch('DOMContentLoaded');
+  assert.deepEqual(loaded.appendedScripts, [], 'analytics retry waits until every DOMContentLoaded listener has run');
+  loaded.runTimeouts();
+
+  assert.deepEqual(
+    loaded.appendedScripts.map((script) => script.src),
+    ['https://www.googletagmanager.com/gtag/js?id=AW-300112445']
+  );
+  assert.equal(
+    loaded.dataLayer.filter((entry) => entry && entry[0] === 'config' && entry[1] === 'AW-300112445/MVhNCILUi-IaEL20jY8B').length,
+    1,
+    'website-call conversion initializes exactly once'
+  );
+
+  loaded.dispatch('DOMContentLoaded');
+  loaded.runTimeouts();
+  assert.equal(loaded.appendedScripts.length, 1, 'a repeated retry cannot append the Ads tag again');
+});
+
+test('cached Google forwarding number is applied immediately to a late replacement link', () => {
+  const initialLink = makeWebsiteCallLink({ text: 'Call 863-640-3102' });
+  const phoneLinks = [initialLink];
+  const loaded = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/about/',
+    phoneLinks,
+    readyState: 'interactive'
+  });
+  const tracking = loaded.sandbox.LHIWebsiteCallTracking;
+  const lateLink = makeWebsiteCallLink({
+    text: 'Call David',
+    ariaLabel: 'Call David',
+    nested: true
+  });
+  const originalIcon = lateLink.__testIcon;
+
+  assert.equal(tracking.applyGoogleForwardingNumber('(407) 555-0112', '+14075550112'), 1);
+  loaded.sandbox.document.addEventListener('DOMContentLoaded', () => phoneLinks.splice(0, phoneLinks.length, lateLink));
+  loaded.dispatch('DOMContentLoaded');
+  loaded.runTimeouts();
+
+  assert.equal(lateLink.getAttribute('href'), 'tel:+14075550112');
+  assert.equal(lateLink.getAttribute('data-lhi-business-phone'), '+18636403102');
+  assert.equal(lateLink.getAttribute('aria-label'), 'Call David, (407) 555-0112');
+  assert.match(lateLink.textContent, /\(407\) 555-0112/);
+  assert.equal(lateLink.childNodes[0], originalIcon, 'late-link nested markup is preserved');
+  assert.equal(loaded.appendedScripts.length, 1, 'cached application does not reinitialize the Ads tag');
+
+  loaded.dispatch('click', lateLink);
+  const canonical = loaded.dataLayer.filter((entry) => entry && entry.event === 'phone_call_click');
+  assert.equal(canonical.length, 1);
+  assert.equal(canonical[0].event_label, 'Call David');
+});
+
+test('website-call callback updates every link, preserves labels and markup, and is idempotent', () => {
+  const numericLink = makeWebsiteCallLink({
+    text: 'Call 863-640-3102',
+    ariaLabel: 'Call David at 863-640-3102'
+  });
+  const labelLink = makeWebsiteCallLink({
+    text: 'Call David',
+    ariaLabel: 'Call David',
+    nested: true
+  });
+  const originalIcon = labelLink.__testIcon;
+  const loaded = loadAnalytics({ phoneLinks: [numericLink, labelLink] });
+  const tracking = loaded.sandbox.LHIWebsiteCallTracking;
+
+  assert.equal(tracking.applyGoogleForwardingNumber('(407) 555-0112', '+14075550112'), 2);
+  for (const link of [numericLink, labelLink]) {
+    assert.equal(link.getAttribute('href'), 'tel:+14075550112');
+    assert.match(link.textContent, /\(407\) 555-0112/);
+    assert.equal(link.getAttribute('data-lhi-business-phone'), '+18636403102');
+  }
+  assert.equal(labelLink.childNodes[0], originalIcon, 'existing icon markup is preserved');
+  assert.equal(labelLink.getAttribute('aria-label'), 'Call David, (407) 555-0112');
+  assert.equal(numericLink.getAttribute('aria-label'), 'Call David at (407) 555-0112');
+
+  assert.equal(tracking.applyGoogleForwardingNumber('(321) 555-0199', '+13215550199'), 2);
+  assert.equal(labelLink.getAttribute('href'), 'tel:+13215550199');
+  assert.match(labelLink.textContent, /\(321\) 555-0199/);
+  assert.doesNotMatch(labelLink.textContent, /\(407\) 555-0112/);
+  assert.equal(labelLink.querySelector('[data-lhi-forwarding-number]').textContent, ': (321) 555-0199');
+
+  loaded.dispatch('click', labelLink);
+  const canonical = loaded.dataLayer.filter((entry) => entry && entry.event === 'phone_call_click');
+  assert.equal(canonical.length, 1);
+  assert.equal(canonical[0].event_label, 'Call David', 'forwarding number does not create a dynamic analytics label');
+});
+
+test('website-call callback rejects malformed forwarding values without changing links', () => {
+  const link = makeWebsiteCallLink({ text: 'Call David' });
+  const tracking = loadAnalytics({ phoneLinks: [link] }).sandbox.LHIWebsiteCallTracking;
+
+  assert.equal(tracking.applyGoogleForwardingNumber('<script>alert(1)</script>', '+14075550112'), 0);
+  assert.equal(tracking.applyGoogleForwardingNumber('(407) 555-0112', 'javascript:alert(1)'), 0);
+  assert.equal(link.getAttribute('href'), 'tel:+18636403102');
+  assert.equal(link.textContent, 'Call David');
+});
+
+test('first-party attribution loads immediately on the homepage, Get Help, and paid landing pages', () => {
+  for (const pathname of ['/', '/get-help/', '/lp/aca/', '/lp/medicare/', '/lp/gap/']) {
+    const { appendedScripts } = loadAnalytics({ pathname });
+    assert.ok(
+      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260820-google-ads-attribution'),
+      `${pathname} requests the attribution bus during analytics initialization`
+    );
+  }
+});
+
 test('Medicare page context classifies hub, education, selection, and transaction pages exactly', () => {
   const hub = loadAnalytics({ pathname: '/MEDICARE/index.html' }).sandbox;
   const education = loadAnalytics({ pathname: '/moving-florida-medicare/' }).sandbox;
@@ -719,7 +1020,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     const ctas = getHelpCtas(html);
     assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
     assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
-    assert.match(html, /\/js\/analytics\.js\?v=20260817-medicare-hub/);
+    assert.match(html, /\/js\/analytics\.js\?v=20260820-google-ads-attribution/);
 
     for (const cta of ctas) {
       const url = new URL(cta.href, 'https://lakelandhealthinsurance.com');
@@ -1027,7 +1328,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
 test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /David will reach out shortly\./);
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
-  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20260817-medicare-hub/);
+  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20260820-google-ads-attribution/);
 });
 
 test('direct thank-you visits show customer-facing help copy', () => {
@@ -1510,6 +1811,9 @@ test('get-help intent allowlist falls back safely', () => {
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('medicare_review'), 'medicare_review');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('jane@example.com'), '');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('863-640-3102'), '');
+  assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignTerm('Health Insurance Lakeland'), 'health insurance lakeland');
+  assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignTerm('jane@example.com'), '');
+  assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignTerm('863-640-3102'), '');
 });
 
 test('Get Help stores only bounded Medicare attribution and approved campaign fields', () => {
@@ -1523,17 +1827,43 @@ test('Get Help stores only bounded Medicare attribution and approved campaign fi
     'utm_source',
     'utm_medium',
     'utm_campaign',
+    'utm_term',
     'utm_content'
   ]) {
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
   }
-  for (const removed of ['utm_term', 'gclid', 'fbclid']) {
+  for (const removed of ['gclid', 'fbclid']) {
     assert.doesNotMatch(GET_HELP_HTML, new RegExp(`name="${removed}"`));
   }
   assert.match(GET_HELP_SRC, /setValue\('sourcePageInput', String\(window\.location\.pathname \|\| '\/'\)\.slice\(0, 160\)\);/);
   assert.doesNotMatch(GET_HELP_SRC, /window\.location\.pathname \+ window\.location\.search/);
   assert.match(GET_HELP_HTML, /id="optionalPrivacyNote" hidden>Do not enter medication names, medical details, policy or member numbers, Medicare numbers, Social Security numbers, or medical records in optional fields\./);
   assert.match(GET_HELP_SRC, /privacyNote\.hidden = intentKey !== 'medicare';/);
+  assert.match(GET_HELP_SRC, /setValue\('utmTermInput', approvedCampaignTerm\(qs\.get\('utm_term'\)\)\);/);
+});
+
+test('shared attribution hydrates hero ZIP and lead forms with a bounded multi-word Google keyword', () => {
+  const elements = {};
+  const listeners = {};
+  const heroForm = {
+    elements,
+    appendChild(input) { this.elements[input.name] = input; },
+    addEventListener(type, handler) { listeners[type] = handler; }
+  };
+  const sandbox = loadFunnel({
+    pathname: '/plans/',
+    search: '?utm_source=google&utm_medium=cpc&utm_campaign=cid_24123358247&utm_term=Health+Insurance+Lakeland&utm_content=sitelink_plans',
+    selectorMap: { 'form.hero-zip-form[action="/get-help/"]': [heroForm] }
+  });
+
+  assert.equal(heroForm.elements.utm_source.value, 'google');
+  assert.equal(heroForm.elements.utm_medium.value, 'cpc');
+  assert.equal(heroForm.elements.utm_campaign.value, 'cid_24123358247');
+  assert.equal(heroForm.elements.utm_term.value, 'health insurance lakeland');
+  assert.equal(heroForm.elements.utm_content.value, 'sitelink_plans');
+  assert.equal(typeof listeners.submit, 'function');
+  assert.equal(sandbox.LHI._t.approvedCampaignTerm('jane@example.com'), null);
+  assert.equal(sandbox.LHI._t.approvedCampaignTerm('863-640-3102'), null);
 });
 
 test('homepage ZIP entry starts the generic get-help flow and prefills the canonical ZIP field', () => {

@@ -75,7 +75,7 @@ function getHelpPayload(overrides = {}) {
     utm_medium: 'cpc',
     utm_campaign: 'medicare-review',
     utm_content: 'hero',
-    utm_term: 'must-drop',
+    utm_term: 'health insurance lakeland',
     gclid: 'must-drop',
     fbclid: 'must-drop',
     mystery: 'must-drop',
@@ -169,7 +169,8 @@ test('Forms acceptance mints receipt metadata, authorizes consent, and returns c
   assert.equal(form.get('consent_email_state'), 'granted');
   assert.equal(form.get('consent_marketing_email_state'), 'granted');
   assert.equal(form.get('consent_withdrawal_state'), 'not_withdrawn_at_submission');
-  for (const key of ['mystery', 'utm_term', 'gclid', 'fbclid', 'accepted_at']) {
+  assert.equal(form.get('utm_term'), 'health insurance lakeland');
+  for (const key of ['mystery', 'gclid', 'fbclid', 'accepted_at']) {
     assert.equal(form.has(key), false, `${key} is not forwarded`);
   }
   assert.equal(form.toString().includes('attacker-role'), false);
@@ -324,6 +325,23 @@ test('form schemas preserve declared live fields and discard arbitrary keys', ()
   const lp = _test.filterPayloadForForm({ utm_term: 'legacy-keyword', household_size: '3' }, 'lp-aca-lead').payload;
   assert.equal(lp.utm_term, 'legacy-keyword');
   assert.equal(lp.household_size, '3');
+
+  const campaign = _test.sanitizeCampaignAttribution({
+    utm_source: 'Google',
+    utm_campaign: 'cid_24123358247',
+    utm_term: 'Health Insurance Lakeland',
+    utm_content: 'sitelink_aca'
+  });
+  assert.deepEqual(campaign, {
+    utm_source: 'google',
+    utm_campaign: 'cid_24123358247',
+    utm_term: 'health insurance lakeland',
+    utm_content: 'sitelink_aca'
+  });
+  assert.deepEqual(_test.sanitizeCampaignAttribution({
+    utm_term: 'jane@example.com',
+    utm_content: '863-640-3102'
+  }), {});
 });
 
 test('Medicare general intake strips known plan and health-detail fields without changing other intents', () => {

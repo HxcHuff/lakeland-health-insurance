@@ -342,8 +342,27 @@
     }
     var text = String(candidate || '').trim().toLowerCase();
     if (!text || text.length > 80) return '';
-    if (/@|(?:\d[\s().-]*){7,}/.test(text) || /^\d{5}(?:-\d{4})?$/.test(text)) return '';
+    // Google Ads suffixes prefix {campaignid} so platform IDs remain
+    // distinguishable from untrusted phone-like numeric values.
+    if (/^cid_\d{8,20}$/.test(text)) return text;
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
     return /^[a-z0-9][a-z0-9._~-]*$/.test(text) ? text : '';
+  }
+
+  function approvedCampaignTerm(value) {
+    var candidate = value;
+    var shared = window.LHIMedicareAttribution;
+    if (shared && typeof shared.approvedCampaignTerm === 'function') {
+      try {
+        candidate = shared.approvedCampaignTerm(value);
+      } catch (e) {
+        return '';
+      }
+    }
+    var text = String(candidate || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    if (!text || text.length > 80) return '';
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
+    return /^[a-z0-9][a-z0-9 ._~+\-]*$/.test(text) ? text : '';
   }
 
   function referralClass() {
@@ -508,6 +527,7 @@
     setValue('utmSourceInput', approvedCampaignValue(qs.get('utm_source')));
     setValue('utmMediumInput', approvedCampaignValue(qs.get('utm_medium')));
     setValue('utmCampaignInput', approvedCampaignValue(qs.get('utm_campaign')));
+    setValue('utmTermInput', approvedCampaignTerm(qs.get('utm_term')));
     setValue('utmContentInput', approvedCampaignValue(qs.get('utm_content')));
     var startedAt = String(Date.now());
     setValue('startedAtInput', startedAt);
@@ -588,6 +608,7 @@
     intents: INTENTS,
     optionalFields: OPTIONAL_FIELDS,
     approvedCampaignValue: approvedCampaignValue,
+    approvedCampaignTerm: approvedCampaignTerm,
     referralClass: referralClass,
     medicareSourceContext: medicareSourceContext
   };

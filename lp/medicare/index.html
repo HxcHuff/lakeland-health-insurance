@@ -466,7 +466,7 @@
       .chat-widget-button { bottom: 68px; font-size: 14px; right: 14px; }
     }
   </style>
-    <script defer src="/js/analytics.js?v=20260731-measurement-integrity"></script>
+    <script defer src="/js/analytics.js?v=20260820-google-ads-attribution"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -592,6 +592,7 @@
         <input type="hidden" name="utm_medium" id="utm_medium">
         <input type="hidden" name="utm_campaign" id="utm_campaign">
         <input type="hidden" name="utm_term" id="utm_term">
+        <input type="hidden" name="utm_content" id="utm_content">
         <input type="hidden" name="lead_priority">
         <input type="hidden" name="lead_priority_reason">
         <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
@@ -780,18 +781,6 @@
       if (copy) copy.textContent = variant.copy;
       if (label) label.textContent = variant.label;
       if (select && variant.selectValue) select.value = variant.selectValue;
-    })();
-
-    // Capture UTM parameters from URL
-    (function() {
-      var params = new URLSearchParams(window.location.search);
-      ['utm_source','utm_medium','utm_campaign','utm_term'].forEach(function(key) {
-        var val = params.get(key);
-        if (val) {
-          var el = document.getElementById(key);
-          if (el) el.value = val;
-        }
-      });
     })();
 
     // Form submit tracking is handled by /js/funnel.js after /api/lead accepts the payload.

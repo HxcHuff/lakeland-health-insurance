@@ -1,10 +1,16 @@
-/* Deferred analytics: GTM + Google Ads loaded after page interactive */
+/* Google Ads website-call replacement starts eagerly; general GTM/GA4
+   analytics remain deferred until after page interactive. */
 /* Google tags only fire on production host. Netlify deploy previews, branch
    deploys, and localhost are explicitly excluded to keep reporting clean. */
 (function(){
   var loaded=false;
   var funnelRequested=false;
+  var websiteCallTrackingInitialized=false;
+  var googleTagScriptRequested=false;
+  var cachedGoogleForwardingNumber=null;
   var lastPhoneCanonicalAt = 0;
+  var BUSINESS_PHONE_E164 = '+18636403102';
+  var BUSINESS_PHONE_HREF = 'tel:' + BUSINESS_PHONE_E164;
   var MEDICARE_ATTRIBUTION_SCHEMA_VERSION = 'medicare-attribution.v1';
   var MEDICARE_CONTENT_CLUSTER = 'lakeland_medicare_broker';
   var MEDICARE_PAGE_REGISTRY = {
@@ -195,8 +201,18 @@
   function approvedCampaignValue(value) {
     var text = String(value || '').trim().toLowerCase();
     if (!text || text.length > 80) return null;
+    // Google Ads suffixes prefix {campaignid} so platform IDs remain
+    // distinguishable from untrusted phone-like numeric values.
+    if (/^cid_\d{8,20}$/.test(text)) return text;
     if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
     return /^[a-z0-9][a-z0-9._~-]*$/.test(text) ? text : null;
+  }
+
+  function approvedCampaignTerm(value) {
+    var text = String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    if (!text || text.length > 80) return null;
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
+    return /^[a-z0-9][a-z0-9 ._~+\-]*$/.test(text) ? text : null;
   }
 
   function medicareSourceContext(search) {
@@ -276,8 +292,10 @@
     url.searchParams.set('source_page_key', context.page_key);
     url.searchParams.set('source_cta_key', ctaKey);
     var current = new URLSearchParams(window.location.search || '');
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (key) {
-      var approved = approvedCampaignValue(current.get(key));
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (key) {
+      var approved = key === 'utm_term'
+        ? approvedCampaignTerm(current.get(key))
+        : approvedCampaignValue(current.get(key));
       if (approved) url.searchParams.set(key, approved);
     });
     link.setAttribute('href', url.pathname + '?' + url.searchParams.toString());
@@ -309,14 +327,15 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20260817-medicare-hub';
+    funnel.src = '/js/funnel.js?v=20260820-google-ads-attribution';
     document.head.appendChild(funnel);
   }
 
   window.LHIMedicareAttribution = {
     pageContext: medicarePageContext,
     sourceContext: medicareSourceContext,
-    approvedCampaignValue: approvedCampaignValue
+    approvedCampaignValue: approvedCampaignValue,
+    approvedCampaignTerm: approvedCampaignTerm
   };
 
   var initialMedicareContext = medicarePageContext(window.location.pathname);
@@ -327,8 +346,186 @@
   /* Target pages and their intake need the first-party event bus immediately
      so a fast first CTA/form interaction cannot outrun attribution wiring.
      All other pages keep the existing deferred loading behavior. */
-  if (initialMedicareContext || normalizePath(window.location.pathname) === '/get-help/') {
+  var initialPath = normalizePath(window.location.pathname);
+  if (initialMedicareContext || initialPath === '/' || initialPath === '/get-help/' || initialPath.indexOf('/lp/') === 0) {
     loadFunnelBus();
+  }
+
+  function approvedFormattedForwardingNumber(value) {
+    var text = String(value || '').trim().replace(/\s+/g, ' ');
+    if (!text || text.length > 32 || !/^[+()\d .-]+$/.test(text)) return null;
+    var digits = text.replace(/\D/g, '');
+    return /^\d{10}$/.test(digits) || /^1\d{10}$/.test(digits) ? text : null;
+  }
+
+  function approvedMobileForwardingNumber(value) {
+    var compact = String(value || '').trim().replace(/[\s().-]/g, '');
+    if (/^\+1\d{10}$/.test(compact)) return compact;
+    if (/^1\d{10}$/.test(compact)) return '+' + compact;
+    if (/^\d{10}$/.test(compact)) return '+1' + compact;
+    return null;
+  }
+
+  function escapedPattern(value) {
+    return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function businessPhonePattern() {
+    return /(?:\+?1[\s.-]*)?\(?863\)?[\s.-]*640[\s.-]*3102/g;
+  }
+
+  function replacePhoneTextNodes(root, formattedNumber, previousNumber) {
+    var pattern = previousNumber
+      ? new RegExp(escapedPattern(previousNumber), 'g')
+      : businessPhonePattern();
+    var replaced = false;
+
+    function visit(node) {
+      if (!node) return;
+      if (node.nodeType === 3) {
+        var current = String(node.nodeValue || '');
+        var next = current.replace(pattern, formattedNumber);
+        if (next !== current) {
+          node.nodeValue = next;
+          replaced = true;
+        }
+        return;
+      }
+      var children = node.childNodes || [];
+      for (var i = 0; i < children.length; i += 1) visit(children[i]);
+    }
+
+    visit(root);
+    return replaced;
+  }
+
+  function updateWebsiteCallLink(link, formattedNumber, mobileNumber) {
+    if (!link || typeof link.setAttribute !== 'function') return false;
+
+    if (!hasOwn(link, '__lhiPhoneAnalyticsLabel')) {
+      link.__lhiPhoneAnalyticsLabel = link.getAttribute('data-analytics-label') ||
+        link.getAttribute('aria-label') ||
+        String(link.textContent || '').trim() ||
+        'phone_link';
+    }
+    if (!hasOwn(link, '__lhiOriginalPhoneAriaLabel')) {
+      link.__lhiOriginalPhoneAriaLabel = link.getAttribute('aria-label') || '';
+    }
+
+    if (link.__lhiForwardingFormattedNumber === formattedNumber &&
+        link.getAttribute('href') === 'tel:' + mobileNumber) {
+      return false;
+    }
+
+    var previousNumber = String(link.__lhiForwardingFormattedNumber || '');
+    var replaced = replacePhoneTextNodes(link, formattedNumber, previousNumber);
+    if (!replaced && document.createElement && typeof link.appendChild === 'function') {
+      var suffix = link.querySelector && link.querySelector('[data-lhi-forwarding-number]');
+      if (!suffix) {
+        suffix = document.createElement('span');
+        suffix.setAttribute('data-lhi-forwarding-number', '');
+        suffix.className = 'lhi-forwarding-number';
+        link.appendChild(suffix);
+      }
+      var visibleText = String(link.textContent || '').trim();
+      suffix.textContent = (!visibleText || /[:\u2013\u2014-]\s*$/.test(visibleText) ? '' : ': ') + formattedNumber;
+    }
+
+    var originalAriaLabel = String(link.__lhiOriginalPhoneAriaLabel || '');
+    if (originalAriaLabel) {
+      var updatedAriaLabel = originalAriaLabel.replace(businessPhonePattern(), formattedNumber);
+      if (updatedAriaLabel === originalAriaLabel) updatedAriaLabel += ', ' + formattedNumber;
+      link.setAttribute('aria-label', updatedAriaLabel);
+    }
+
+    link.setAttribute('data-lhi-business-phone', BUSINESS_PHONE_E164);
+    link.setAttribute('href', 'tel:' + mobileNumber);
+    link.__lhiForwardingFormattedNumber = formattedNumber;
+    return true;
+  }
+
+  function applyGoogleForwardingNumber(formattedNumber, mobileNumber) {
+    var approvedFormatted = approvedFormattedForwardingNumber(formattedNumber);
+    var approvedMobile = approvedMobileForwardingNumber(mobileNumber);
+    if (!approvedFormatted || !approvedMobile || !document.querySelectorAll) return 0;
+
+    cachedGoogleForwardingNumber = {
+      formatted: approvedFormatted,
+      mobile: approvedMobile
+    };
+
+    var updated = 0;
+    document.querySelectorAll(websiteCallLinkSelector()).forEach(function (link) {
+      if (updateWebsiteCallLink(link, approvedFormatted, approvedMobile)) updated += 1;
+    });
+    return updated;
+  }
+
+  function websiteCallLinkSelector() {
+    return 'a[href="' + BUSINESS_PHONE_HREF + '"], a[data-lhi-business-phone="' + BUSINESS_PHONE_E164 + '"]';
+  }
+
+  function ensureGoogleTagScript(destinationId) {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    if (googleTagScriptRequested) return false;
+
+    googleTagScriptRequested = true;
+    var googleTag = document.createElement('script');
+    googleTag.async = true;
+    googleTag.src = 'https://www.googletagmanager.com/gtag/js?id=' + destinationId;
+    document.head.appendChild(googleTag);
+    window.gtag('js', new Date());
+    return true;
+  }
+
+  function initializeWebsiteCallTracking(matchingLinks) {
+    if (websiteCallTrackingInitialized || !IS_PROD) return;
+    if (!matchingLinks || !matchingLinks.length) return;
+    websiteCallTrackingInitialized = true;
+
+    /* Begin forwarding-number retrieval as soon as analytics.js evaluates so
+       the first tel: interaction does not wait for window.load or deferred
+       GTM/GA4 initialization. This is the only eagerly loaded Google tag. */
+    ensureGoogleTagScript('AW-300112445');
+    window.gtag('config', 'AW-300112445', { send_page_view: false });
+    window.gtag('config', 'AW-300112445/MVhNCILUi-IaEL20jY8B', {
+      phone_conversion_number: '(863) 640-3102',
+      phone_conversion_callback: applyGoogleForwardingNumber
+    });
+  }
+
+  function refreshWebsiteCallTracking() {
+    if (!IS_PROD || !document.querySelectorAll) return false;
+    var matchingLinks = document.querySelectorAll(websiteCallLinkSelector());
+    if (!matchingLinks.length) return false;
+
+    initializeWebsiteCallTracking(matchingLinks);
+    if (cachedGoogleForwardingNumber) {
+      applyGoogleForwardingNumber(
+        cachedGoogleForwardingNumber.formatted,
+        cachedGoogleForwardingNumber.mobile
+      );
+    }
+    return true;
+  }
+
+  if (window.__LHI_TEST === true) {
+    window.LHIWebsiteCallTracking = {
+      applyGoogleForwardingNumber: applyGoogleForwardingNumber,
+      approvedFormattedForwardingNumber: approvedFormattedForwardingNumber,
+      approvedMobileForwardingNumber: approvedMobileForwardingNumber
+    };
+  }
+
+  /* Preserve the eager path for static phone links. A zero-delay retry after
+     DOMContentLoaded runs after every listener in that dispatch, including the
+     shared template listener that inserts the canonical header/footer links. */
+  refreshWebsiteCallTracking();
+  if (IS_PROD && document.readyState !== 'complete' && document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(refreshWebsiteCallTracking, 0);
+    }, { once: true });
   }
 
   function trackPhoneClick(label, legacyName) {
@@ -359,7 +556,8 @@
     handleMedicarePointer(event, true);
     var link = event.target && event.target.closest ? event.target.closest('a[href^="tel:"]') : null;
     if (!link) return;
-    var label = link.getAttribute('data-analytics-label') ||
+    var label = link.__lhiPhoneAnalyticsLabel ||
+      link.getAttribute('data-analytics-label') ||
       link.getAttribute('aria-label') ||
       (link.textContent || '').trim() ||
       'phone_link';
@@ -388,28 +586,17 @@
     g.async=true;
     g.src='https://www.googletagmanager.com/gtm.js?id=GTM-W6MZ7XT6';
     document.head.appendChild(g);
-    /* Google Ads / GA4 (gtag.js) — needed for AW-300112445 conversion events
-       (e.g. "Insurance reality check" click conversion fired from
-       calendly.event_scheduled) and direct secondary funnel events. Coexists
-       with GTM via shared dataLayer. */
-    var ga=document.createElement('script');
-    ga.async=true;
-    ga.src='https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0';
-    document.head.appendChild(ga);
-    window.gtag=window.gtag||function(){dataLayer.push(arguments);};
-    gtag('js', new Date());
-    gtag('config', 'G-W45RMKHXV0', {
+    /* No-phone pages request gtag.js here; website-call pages reuse the eager
+       AW request. In both paths the shared loader restores the queue first. */
+    ensureGoogleTagScript('G-W45RMKHXV0');
+    window.gtag('config', 'G-W45RMKHXV0', {
       send_page_view: false,
       debug_mode: IS_ANALYTICS_DEBUG
     });
-    /* Configure Google Ads without enhanced-conversion user data. The site
-       emits only a conversion ID, value, and currency after first-party
-       delivery; names, contact details, ZIPs, and form answers stay out. */
-    gtag('config', 'AW-300112445', { send_page_view: false });
   }
-  /* Defer Google tags until after LCP/FCP so third-party JS isn't
-     fighting with the hero render. We still fire fast enough to capture bounce
-     traffic from paid ads:
+  /* Defer general GTM/GA4 initialization until after LCP/FCP so it does not
+     fight with the hero render. Website-call replacement already started.
+     General analytics initializes on:
        - first user interaction (click / scroll / keydown / touchstart)
        - OR requestIdleCallback (browser idle, typically <1s after LCP)
        - OR a 2.5s hard timeout fallback for non-interactive bounces

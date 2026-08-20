@@ -34,6 +34,7 @@
   var openAIAdsPixelReady = false;
   var MEDICARE_ATTRIBUTION_SCHEMA_VERSION = 'medicare-attribution.v1';
   var MEDICARE_CONTENT_CLUSTER = 'lakeland_medicare_broker';
+  var ATTRIBUTION_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
   var MEDICARE_PAGE_REGISTRY = {
     medicare: {
       path: '/medicare/',
@@ -333,20 +334,33 @@
   function approvedCampaignValue(value) {
     var text = String(value || '').trim().toLowerCase();
     if (!text || text.length > 80) return null;
+    // Google Ads suffixes prefix {campaignid} so platform IDs remain
+    // distinguishable from untrusted phone-like numeric values.
+    if (/^cid_\d{8,20}$/.test(text)) return text;
     if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
     return /^[a-z0-9][a-z0-9._~-]*$/.test(text) ? text : null;
+  }
+
+  function approvedCampaignTerm(value) {
+    var text = String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    if (!text || text.length > 80) return null;
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
+    return /^[a-z0-9][a-z0-9 ._~+\-]*$/.test(text) ? text : null;
+  }
+
+  function approvedAttributionValue(name, value) {
+    return name === 'utm_term' ? approvedCampaignTerm(value) : approvedCampaignValue(value);
   }
 
   function getAttribution() {
     var qs = new URLSearchParams(w.location.search);
     var rawStored = {};
     try { rawStored = JSON.parse(cookie('lhi_attr') || '{}'); } catch (e) {}
-    var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
     var stored = {};
     var fresh = {};
-    keys.forEach(function (k) {
-      var previous = approvedCampaignValue(rawStored[k]);
-      var incoming = approvedCampaignValue(qs.get(k));
+    ATTRIBUTION_FIELDS.forEach(function (k) {
+      var previous = approvedAttributionValue(k, rawStored[k]);
+      var incoming = approvedAttributionValue(k, qs.get(k));
       if (previous) stored[k] = previous;
       if (incoming) fresh[k] = incoming;
     });
@@ -597,6 +611,28 @@
     if (input) input.value = value || '';
   }
 
+  function ensureAttributionField(form, name) {
+    var input = sitelinkField(form, name);
+    if (input || !form || typeof form.appendChild !== 'function') return input;
+    input = d.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    form.appendChild(input);
+    return input;
+  }
+
+  function setAttributionField(form, name, value) {
+    var input = ensureAttributionField(form, name);
+    if (input) input.value = value || '';
+  }
+
+  function initializeFormAttribution(form) {
+    var attribution = getAttribution();
+    ATTRIBUTION_FIELDS.forEach(function (name) {
+      setAttributionField(form, name, approvedAttributionValue(name, attribution[name]));
+    });
+  }
+
   function sitelinkReferralClass() {
     if (!d.referrer) return 'direct';
     try {
@@ -607,12 +643,9 @@
   }
 
   function initializeSitelinkAttribution(form) {
-    var attribution = getAttribution();
+    initializeFormAttribution(form);
     setSitelinkField(form, 'source_page', String(w.location.pathname || '/').slice(0, 160));
     setSitelinkField(form, 'referral_page', sitelinkReferralClass());
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (name) {
-      setSitelinkField(form, name, approvedCampaignValue(attribution[name]));
-    });
 
     var startedAt = String(Date.now());
     setSitelinkField(form, 'started_at', startedAt);
@@ -671,6 +704,17 @@
         w.setTimeout(function () {
           if (d.contains(form)) showSitelinkStatus(form, 'If the page does not continue, review the form and try again.');
         }, 12000);
+      }, { capture: true });
+    });
+  }
+
+  function wireHeroZipForms() {
+    d.querySelectorAll('form.hero-zip-form[action="/get-help/"]').forEach(function (form) {
+      initializeFormAttribution(form);
+      if (form.__lhiHeroAttributionWired) return;
+      form.__lhiHeroAttributionWired = true;
+      form.addEventListener('submit', function () {
+        initializeFormAttribution(form);
       }, { capture: true });
     });
   }
@@ -797,6 +841,7 @@
   // Auto-wire form submissions -------------------------------------------
   function wireForms() {
     d.querySelectorAll('form[data-funnel-track], form[data-funnel-step]').forEach(function (f) {
+      initializeFormAttribution(f);
       if (f.__lhiWired) return;
       f.__lhiWired = true;
       f.__lhiFormStarted = false;
@@ -896,6 +941,11 @@
       leadValueFor: leadValueFor,
       cleanAnalyticsToken: cleanAnalyticsToken,
       approvedCampaignValue: approvedCampaignValue,
+      approvedCampaignTerm: approvedCampaignTerm,
+      approvedAttributionValue: approvedAttributionValue,
+      getAttribution: getAttribution,
+      initializeFormAttribution: initializeFormAttribution,
+      wireHeroZipForms: wireHeroZipForms,
       canonicalSourceContext: canonicalSourceContext,
       medicareIntakeContext: medicareIntakeContext,
       safeProps: safeProps,
@@ -909,6 +959,7 @@
   // Give GTM time to initialize (analytics.js loads on interaction/idle/timeout)
   function boot() {
     getAttribution(); // persist UTMs on first hit
+    wireHeroZipForms();
     wireSitelinkLeadForms();
     wireForms();
     trackLeadReceiptView();
@@ -916,6 +967,7 @@
     // Observe DOM for late-rendered forms (React/etc.)
     if (w.MutationObserver) {
       new MutationObserver(function () {
+        wireHeroZipForms();
         wireSitelinkLeadForms();
         wireForms();
       }).observe(d.body, { childList: true, subtree: true });

@@ -208,8 +208,7 @@ const INTENT_MC_TAGS = {
 const NEWSLETTER_FORMS = new Set(['homepage-newsletter', 'newsletter-signup']);
 
 const BOT_FIELDS = ['bot-field', 'website', 'company'];
-const CAMPAIGN_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
-const LEGACY_LP_CAMPAIGN_FIELDS = CAMPAIGN_FIELDS.concat('utm_term');
+const CAMPAIGN_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
 const GET_HELP_OPTIONAL_FIELDS = [
   'who',
   'coverage_end',
@@ -301,9 +300,9 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'consent_email',
     'consent_marketing_email'
   ]),
-  'lp-aca-lead': formFields(BOT_FIELDS, LEGACY_LP_CAMPAIGN_FIELDS, LP_COMMON_FIELDS, ['household_size']),
-  'lp-medicare-lead': formFields(BOT_FIELDS, LEGACY_LP_CAMPAIGN_FIELDS, LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
-  'lp-gap-lead': formFields(BOT_FIELDS, LEGACY_LP_CAMPAIGN_FIELDS, LP_COMMON_FIELDS, ['coverage_situation']),
+  'lp-aca-lead': formFields(BOT_FIELDS, CAMPAIGN_FIELDS, LP_COMMON_FIELDS, ['household_size']),
+  'lp-medicare-lead': formFields(BOT_FIELDS, CAMPAIGN_FIELDS, LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
+  'lp-gap-lead': formFields(BOT_FIELDS, CAMPAIGN_FIELDS, LP_COMMON_FIELDS, ['coverage_situation']),
   'aca-lakeland-lead': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS, ['income_range', 'employment_status']),
   'subsidy-estimator-lead': formFields(BOT_FIELDS, [
     'first_name',
@@ -434,6 +433,29 @@ function filterPayloadForForm(rawPayload, formName) {
   return { ok: true, payload: filtered };
 }
 
+function sanitizeCampaignToken(value, allowSpaces = false) {
+  const text = String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  if (!text || text.length > 80) return '';
+  // Google Ads suffixes prefix {campaignid} so platform IDs remain
+  // distinguishable from untrusted phone-like numeric values.
+  if (!allowSpaces && /^cid_\d{8,20}$/.test(text)) return text;
+  if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
+  const pattern = allowSpaces
+    ? /^[a-z0-9][a-z0-9 ._~+\-]*$/
+    : /^[a-z0-9][a-z0-9._~-]*$/;
+  return pattern.test(text) ? text : '';
+}
+
+function sanitizeCampaignAttribution(payload) {
+  CAMPAIGN_FIELDS.forEach((field) => {
+    if (!Object.prototype.hasOwnProperty.call(payload, field)) return;
+    const sanitized = sanitizeCampaignToken(payload[field], field === 'utm_term');
+    if (sanitized) payload[field] = sanitized;
+    else delete payload[field];
+  });
+  return payload;
+}
+
 function canonicalizeMedicareAttribution(payload) {
   const sourcePageKey = String(payload.source_page_key || '').trim();
   const sourceCtaKey = String(payload.source_cta_key || '').trim();
@@ -548,7 +570,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({ ok: false, error: filteredPayload.error })
     };
   }
-  const payload = minimizeGetHelpPayload(filteredPayload.payload);
+  const payload = sanitizeCampaignAttribution(minimizeGetHelpPayload(filteredPayload.payload));
 
   const botCheck = checkBotSubmission(payload);
   if (!botCheck.ok) {
@@ -951,5 +973,7 @@ exports._test = {
   filterPayloadForForm,
   minimizeGetHelpPayload,
   resolveFormName,
+  sanitizeCampaignAttribution,
+  sanitizeCampaignToken,
   sanitizeSourcePath
 };

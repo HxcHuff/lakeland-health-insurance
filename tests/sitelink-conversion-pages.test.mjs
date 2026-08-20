@@ -1,6 +1,30 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
+
+const ROOT = fileURLToPath(new URL('../', import.meta.url));
+const EXCLUDED_DIRECTORIES = new Set([
+  '.ai-worker-local',
+  '.git',
+  '.netlify',
+  'node_modules',
+  'output',
+  'search-engine-from-zip'
+]);
+
+async function publicHtmlFiles(directory = ROOT) {
+  const files = [];
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    if (entry.isDirectory()) {
+      if (!EXCLUDED_DIRECTORIES.has(entry.name)) files.push(...await publicHtmlFiles(join(directory, entry.name)));
+    } else if (entry.isFile() && entry.name.endsWith('.html')) {
+      files.push(join(directory, entry.name));
+    }
+  }
+  return files;
+}
 
 const pages = [
   ['carriers/index.html', '/carriers/', 'not-sure'],
@@ -40,6 +64,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /name="utm_source"/);
     assert.match(form, /name="utm_medium"/);
     assert.match(form, /name="utm_campaign"/);
+    assert.match(form, /name="utm_term"/);
     assert.match(form, /name="utm_content"/);
     assert.match(form, new RegExp(`name="source_page" value="${escapeRegex(sourcePage)}"`));
     assert.match(form, new RegExp(`name="normalized_intent" value="${escapeRegex(intent)}"`));
@@ -50,7 +75,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /Reply STOP to cancel or HELP for help/);
 
     assert.match(html, /\/css\/site-template\.css\?v=20260820-sitelink-leads/);
-    assert.match(html, /\/js\/funnel\.js\?v=20260820-sitelink-leads/);
+    assert.match(html, /\/js\/funnel\.js\?v=20260820-google-ads-attribution/);
   });
 }
 
@@ -75,4 +100,22 @@ test('shared site assets contain the sitelink lead form behavior and styles', as
   assert.match(css, /\.carrier-conversion-card\s*{[\s\S]*?grid-column:\s*1 \/ -1/);
   assert.match(css, /\.carrier-conversion-card > \.sitelink-lead-form\s*{[\s\S]*?grid-column:\s*2/);
   assert.match(css, /@media \(max-width: 640px\)/);
+});
+
+test('every public click-to-call link uses the verified E.164 target and tracked analytics loader', async () => {
+  let phoneLinkCount = 0;
+  for (const file of await publicHtmlFiles()) {
+    const html = await readFile(file, 'utf8');
+    const phoneTargets = [...html.matchAll(/href="(tel:[^"]+)"/g)].map((match) => match[1]);
+    if (!phoneTargets.length) continue;
+
+    phoneLinkCount += phoneTargets.length;
+    for (const target of phoneTargets) assert.equal(target, 'tel:+18636403102', file);
+    assert.match(
+      html,
+      /\/js\/analytics\.js\?v=20260820-google-ads-attribution/,
+      `${file} loads the canonical phone telemetry and forwarding-number handler`
+    );
+  }
+  assert.ok(phoneLinkCount > 0, 'public site includes click-to-call links');
 });
