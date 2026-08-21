@@ -11,7 +11,7 @@ Measurement addendum: 2026-08-14. The Medicare attribution contract below supers
   - `node scripts/validate-pages.mjs` -> `OK - validated 136 HTML files`
   - `node --test tests/funnel.test.mjs` -> 22 passed
   - `git diff --check` -> passed
-- Root checkout has no root `package.json`; this production repo is static HTML plus Netlify Functions.
+- The production site remains static HTML plus Netlify Functions. Its root `package.json` is limited to pinned Function runtime dependencies and does not introduce a site build pipeline.
 
 ## Funnel Map
 
@@ -90,6 +90,7 @@ Legacy `phone_call_click`, `phone_call`, and `generate_lead` are preserved for e
 | Current client review | Same acceptance boundary, tagged as service request | Production only after Forms acceptance | Browser `Lead` only after semantic acceptance unless later split in ad UI | `pending` only with separate marketing consent; service tags retained |
 | Post-enrollment review | Same acceptance boundary, tagged as service request | Production only after Forms acceptance | Browser `Lead` only after semantic acceptance unless later split in ad UI | `pending` only with separate marketing consent; service tags retained |
 | Newsletter | POST `/api/lead`, forward to Netlify Forms, return accepted server event ID | Skipped | Skipped | `pending` confirmed opt-in |
+| Google-hosted Ads lead | Google webhook authenticates, validates, and atomically records one privacy-safe receipt before internal notification attempts | Not applicable | Recorded by Google Ads at the hosted form | Always skipped without exact, durably stored marketing-email consent |
 
 ## Thank-You Behavior
 
@@ -127,6 +128,8 @@ The analytics field allowlist excludes raw name, email, phone, ZIP, DOB/age, Med
 
 The API applies a separate form-storage boundary: registered form-specific field allowlists, a 64 KB body cap, scalar-only values, and an 8 KB per-field cap. Get Help requires request consent and overwrites consent evidence with server-derived timestamps, version, page, withdrawal state, and channel states. Meta CAPI, Ads/OpenAI CAPI, and Mailchimp run only after Forms acceptance.
 
+The Google-hosted lead path is separate from `/api/lead`. Its webhook has a 64 KB body cap, bounded scalar fields, shared-key authentication, and an atomic site-scoped receipt keyed by a domain-separated SHA-256 digest of Google `lead_id`. Receipt identity is independent of the rotatable authentication key. The receipt stores no contact data, click ID, form answer, or raw Ads identifier. Duplicate deliveries return 200 without another notification attempt; receipt-store failure returns 503 before downstream work. Email/SMS are at-most-once operational notifications, and Mailchimp fails closed because the hosted form does not collect separate verified marketing-email consent.
+
 ## Measurement Boundaries
 
 - `medicare_content_view`, `medicare_cta_click`, and `medicare_intake_start` are behavioral diagnostics.
@@ -154,6 +157,8 @@ Supported normalized future stages:
 ## Outcome Attribution Spec
 
 The repository currently has a public `/api/lead` function but no authenticated admin identity layer. A status-update endpoint should not be exposed until server-side authorization exists.
+
+`lead_priority` is an automatic routing aid, not a human qualification decision. It must never trigger `qualify_lead`.
 
 Recommended schema:
 
@@ -187,12 +192,15 @@ API contract for future protected workflow:
 - Request body: `{ "lead_event_id": "...", "normalized_stage": "QualifiedLead", "occurred_at": "...optional ISO timestamp..." }`
 - Do not accept raw client details, commission, medical details, prescription details, provider notes, or freeform private notes.
 - Response: `{ "ok": true, "outcome_id": "..." }`
-- Offline conversion compatibility: keep `lead_event_id`, `gclid` where already captured in the original lead, stage timestamp, and normalized stage mapping.
+- Add durable source, outcome, idempotency, and delivery-outbox records before exposing the endpoint. A webhook or notification alone is not a lifecycle ledger.
+- Website GA4 outcomes require the authentic original GA4 `client_id`; the repository does not currently capture it. Never synthesize a GA4 user or trust a client ID supplied by the outcome request.
+- Google-hosted form and ad-call outcomes belong in Google Ads offline outcome reporting using their protected Ads identifiers; they must not be converted into fabricated GA4 users.
+- Keep a future qualified-lead conversion action secondary until it reconciles one-for-one with authenticated CRM outcomes.
 
 ## Privacy Restrictions
 
 - Do not send raw names, emails, phone numbers, provider names, prescription names, or notes to GA4, Google Ads event parameters, Meta event parameters, URLs, or dataLayer.
-- Enhanced conversions may use raw contact data only locally in the browser long enough to hash it for Google, and server-side Meta CAPI hashes contact data before sending.
+- Identity-based Google Ads enhanced conversions are not implemented or authorized in this repository. Do not add raw or hashed contact data to Google tracking without separate privacy, consent, and release approval.
 - Employer referrals must not collect employee medical information from the employer.
 - Provider and prescription details are form payload data for David's review, not advertising payload properties.
 

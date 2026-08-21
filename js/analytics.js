@@ -324,10 +324,15 @@
 
   function loadFunnelBus() {
     if (funnelRequested || window.LHI) return;
+    if (typeof document.querySelector === 'function'
+        && document.querySelector('script[src^="/js/funnel.js"]')) {
+      funnelRequested = true;
+      return;
+    }
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20260820-google-ads-attribution';
+    funnel.src = '/js/funnel.js?v=20260821-lead-reconciliation';
     document.head.appendChild(funnel);
   }
 
@@ -343,11 +348,13 @@
     emitMedicareEvent('MedicareContentView', initialMedicareContext);
   }
 
-  /* Target pages and their intake need the first-party event bus immediately
-     so a fast first CTA/form interaction cannot outrun attribution wiring.
+  /* Target pages and every parsed tracked form need the first-party event bus
+     immediately so a fast first interaction cannot outrun delivery wiring.
      All other pages keep the existing deferred loading behavior. */
   var initialPath = normalizePath(window.location.pathname);
-  if (initialMedicareContext || initialPath === '/' || initialPath === '/get-help/' || initialPath.indexOf('/lp/') === 0) {
+  var hasTrackedForm = typeof document.querySelector === 'function'
+    && document.querySelector('form[data-funnel-track], form[data-funnel-step]');
+  if (hasTrackedForm || initialMedicareContext || initialPath === '/' || initialPath === '/get-help/' || initialPath.indexOf('/lp/') === 0) {
     loadFunnelBus();
   }
 

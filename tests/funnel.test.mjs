@@ -39,6 +39,23 @@ const MEDICARE_HUB_HTML = readFileSync(resolve(__dirname, '../medicare/index.htm
 const BEST_MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../best-medicare-broker-lakeland-fl/index.html'), 'utf8');
 const MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../medicare-broker-lakeland-fl/index.html'), 'utf8');
 const WEBSITE_CALL_SELECTOR = 'a[href="tel:+18636403102"], a[data-lhi-business-phone="+18636403102"]';
+const CITY_LEAD_PAGES = [
+  'brandon-health-insurance',
+  'clearwater-health-insurance',
+  'davenport-health-insurance',
+  'haines-city-health-insurance',
+  'lake-alfred-health-insurance',
+  'largo-health-insurance',
+  'new-port-richey-health-insurance',
+  'riverview-health-insurance',
+  'st-petersburg-health-insurance',
+  'tampa-health-insurance',
+  'wesley-chapel-health-insurance',
+  'winter-haven-health-insurance'
+].map((route) => ({
+  route,
+  html: readFileSync(resolve(__dirname, `../${route}/index.html`), 'utf8')
+}));
 const MEDICARE_EDUCATION_PAGES = [
   {
     html: readFileSync(resolve(__dirname, '../blog/aep-2026-polk-county-checklist.html'), 'utf8'),
@@ -181,6 +198,7 @@ function makeFunnelForm({
   eventName = 'Lead',
   contentName = 'test_lead_form',
   action = '/thanks.html',
+  apiOptOut = false,
   fields = {}
 } = {}) {
   const listeners = {};
@@ -197,7 +215,7 @@ function makeFunnelForm({
       return null;
     },
     hasAttribute(name) {
-      return name === 'data-funnel-track';
+      return name === 'data-funnel-track' || (name === 'data-funnel-api-opt-out' && apiOptOut);
     },
     addEventListener(type, cb) {
       listeners[type] = cb;
@@ -311,6 +329,8 @@ function loadAnalytics({
   analyticsLabel = null,
   link = null,
   phoneLinks = [],
+  trackedForm = false,
+  funnelScriptPresent = false,
   readyState = 'loading'
 } = {}) {
   const listeners = {};
@@ -351,6 +371,11 @@ function loadAnalytics({
       },
       querySelectorAll(selector) {
         return selector === WEBSITE_CALL_SELECTOR ? phoneLinks : [];
+      },
+      querySelector(selector) {
+        if (selector === 'form[data-funnel-track], form[data-funnel-step]') return trackedForm ? {} : null;
+        if (selector === 'script[src^="/js/funnel.js"]') return funnelScriptPresent ? {} : null;
+        return null;
       },
       createElement(tagName) {
         return tagName === 'span' ? makeAnalyticsDomElement('span') : { async: false, src: '' };
@@ -836,10 +861,35 @@ test('first-party attribution loads immediately on the homepage, Get Help, and p
   for (const pathname of ['/', '/get-help/', '/lp/aca/', '/lp/medicare/', '/lp/gap/']) {
     const { appendedScripts } = loadAnalytics({ pathname });
     assert.ok(
-      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260820-google-ads-attribution'),
+      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260821-lead-reconciliation'),
       `${pathname} requests the attribution bus during analytics initialization`
     );
   }
+});
+
+test('first-party delivery bus loads immediately on any parsed tracked form page', () => {
+  const { appendedScripts } = loadAnalytics({
+    pathname: '/brandon-health-insurance/',
+    trackedForm: true
+  });
+
+  assert.ok(
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260821-lead-reconciliation'),
+    'a tracked city-page form requests the delivery bus during analytics initialization'
+  );
+});
+
+test('tracked form pages with a direct funnel script do not request it twice', () => {
+  const { appendedScripts } = loadAnalytics({
+    pathname: '/plans/',
+    trackedForm: true,
+    funnelScriptPresent: true
+  });
+
+  assert.equal(
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260821-lead-reconciliation'),
+    false
+  );
 });
 
 test('Medicare page context classifies hub, education, selection, and transaction pages exactly', () => {
@@ -1020,7 +1070,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     const ctas = getHelpCtas(html);
     assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
     assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
-    assert.match(html, /\/js\/analytics\.js\?v=20260820-google-ads-attribution/);
+    assert.match(html, /\/js\/analytics\.js\?v=20260821-lead-reconciliation/);
 
     for (const cta of ctas) {
       const url = new URL(cta.href, 'https://lakelandhealthinsurance.com');
@@ -1038,20 +1088,88 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
 
 test('Lead tracking sets pending thank-you lead marker', () => {
   const w = loadFunnel({ pathname: '/lp/aca/' });
+  const eventID = '223e4567-e89b-42d3-a456-426614174000';
 
-  w.LHI.track('Lead', { content_name: 'lp_aca_lead_form' });
+  w.LHI.track('Lead', {
+    content_name: 'first_party_lead',
+    step: 'submit',
+    event_id: eventID,
+    acceptance_status: 'forms_accepted'
+  });
 
   const raw = w.sessionStorage.getItem('lhi_lead_submitted');
   assert.ok(raw, 'pending lead marker stored');
   const marker = JSON.parse(raw);
-  assert.match(marker.event_id, /^lhi_\d+_[a-z0-9]+$/);
-  assert.equal(marker.content_name, 'lp_aca_lead_form');
+  assert.equal(marker.event_id, eventID);
+  assert.equal(marker.content_name, 'first_party_lead');
   assert.equal(marker.page_type, 'lp_aca');
   assert.equal(marker.page_path, '/lp/aca/');
   assert.equal(typeof marker.fired_at, 'number');
   const leadEvents = w.dataLayer.filter((entry) => entry && entry.event === 'Lead');
   assert.equal(leadEvents.length, 1, 'one GTM Lead event fires at the delivery boundary');
   assert.equal(leadEvents[0].event_id, marker.event_id);
+});
+
+test('Lead tracking fails closed without a Forms-accepted server receipt', () => {
+  const w = loadFunnel({ pathname: '/get-help/' });
+
+  assert.equal(w.LHI.track('Lead', { content_name: 'get_help_lead_form' }), false);
+  assert.equal(w.LHI.track('Lead', {
+    content_name: 'first_party_lead',
+    event_id: '323e4567-e89b-42d3-a456-426614174000'
+  }), false);
+  assert.equal(w.LHI.track('Lead', {
+    content_name: 'first_party_lead',
+    event_id: 'not-approved',
+    acceptance_status: 'forms_accepted'
+  }), false);
+
+  assert.equal(w.dataLayer.some((entry) => entry && entry.event === 'Lead'), false);
+  assert.equal(w.sessionStorage.getItem('lhi_lead_submitted'), null);
+});
+
+test('Lead tracking emits one GTM event for one accepted server event ID', () => {
+  const w = loadFunnel({ pathname: '/get-help/' });
+  const receipt = {
+    content_name: 'first_party_lead',
+    step: 'submit',
+    event_id: '423e4567-e89b-42d3-a456-426614174000',
+    acceptance_status: 'forms_accepted'
+  };
+
+  assert.equal(w.LHI.track('Lead', receipt), true);
+  assert.equal(w.LHI.track('Lead', receipt), false);
+  assert.equal(w.LHI.track('Lead', Object.assign({}, receipt, {
+    event_id: '523e4567-e89b-42d3-a456-426614174000'
+  })), true);
+
+  const leadEvents = w.dataLayer.filter((entry) => entry && entry.event === 'Lead');
+  assert.equal(leadEvents.length, 2);
+  assert.equal(leadEvents[0].event_id, receipt.event_id);
+  assert.equal(leadEvents[1].event_id, '523e4567-e89b-42d3-a456-426614174000');
+});
+
+test('non-API Lead forms remain deliverable but never emit a canonical conversion', () => {
+  const form = makeFunnelForm({
+    apiOptOut: true,
+    fields: { 'form-name': 'get-help' }
+  });
+  const w = loadFunnel({ pathname: '/get-help/', forms: [form] });
+  let prevented = false;
+
+  form.dispatchSubmit({ preventDefault() { prevented = true; } });
+
+  assert.equal(prevented, false, 'native form delivery is not blocked');
+  assert.equal(w.dataLayer.some((entry) => entry && entry.event === 'Lead'), false);
+  assert.equal(w.sessionStorage.getItem('lhi_lead_submitted'), null);
+});
+
+test('city lead pages rely only on the canonical delivery bus', () => {
+  for (const page of CITY_LEAD_PAGES) {
+    assert.match(page.html, /<form\b[^>]*data-funnel-track[^>]*data-funnel-event="Lead"/i, `${page.route} has a canonical tracked form`);
+    assert.doesNotMatch(page.html, /gtag\('event',\s*'lead_submit'/, `${page.route} has no legacy lead_submit event`);
+    assert.doesNotMatch(page.html, /fetch\('\/'\s*,\s*\{[\s\S]{0,240}application\/x-www-form-urlencoded/, `${page.route} has no page-local direct Forms POST`);
+  }
 });
 
 test('Medicare Lead fires once only after semantic Forms acceptance and carries canonical context', async () => {
@@ -1328,7 +1446,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
 test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /David will reach out shortly\./);
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
-  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20260820-google-ads-attribution/);
+  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20260821-lead-reconciliation/);
 });
 
 test('direct thank-you visits show customer-facing help copy', () => {
@@ -1348,7 +1466,12 @@ test('funnel events bridge directly to named GA4 events while GTM owns Lead', ()
   w.LHI.track('Schedule', { content_name: 'get_help_calendly_click' });
   w.LHI.track('ExternalQuoteClick', { content_name: 'get_help_external_quote_click' });
   w.LHI.track('messenger_click', { content_name: 'get_help_messenger_click' });
-  w.LHI.track('Lead', { content_name: 'get_help_lead_form' });
+  w.LHI.track('Lead', {
+    content_name: 'first_party_lead',
+    step: 'submit',
+    event_id: '823e4567-e89b-42d3-a456-426614174000',
+    acceptance_status: 'forms_accepted'
+  });
   w.LHI.track('PhoneCallClick', { content_name: 'get_help_phone_click' });
 
   const ga4Events = gtagCalls.filter((call) => call[0] === 'event');
@@ -1375,7 +1498,12 @@ test('production Lead queues one GTM event without direct GA4 or Ads conversion'
     fetchImpl: () => Promise.resolve({ ok: false })
   });
 
-  w.LHI.track('Lead', { content_name: 'get_help_lead_form' });
+  w.LHI.track('Lead', {
+    content_name: 'first_party_lead',
+    step: 'submit',
+    event_id: '923e4567-e89b-42d3-a456-426614174000',
+    acceptance_status: 'forms_accepted'
+  });
   await flushPromises();
 
   assert.equal(w.dataLayer.filter((entry) => entry && entry.event === 'Lead').length, 1);

@@ -7,7 +7,9 @@
  *   - Google Ads conversion events for delivered Lead events
  *
  * Usage:
- *   window.LHI.track('Lead', { content_name: 'lead_form' });
+ *   window.LHI.track('StartLead', { content_name: 'lead_form', step: 'start' });
+ * Canonical Lead calls are internal and require a server-approved event ID plus
+ * acceptance_status=forms_accepted.
  *
  * Page-type inference (for GA4 / Ads segmentation):
  *   - /lp/aca/            -> lp_aca
@@ -723,6 +725,28 @@
     try { w.sessionStorage.removeItem('lhi_lead_submitted'); } catch (e) {}
   }
 
+  var claimedLeadEventIDs = Object.create(null);
+
+  function completedLeadMarkerHasEventID(eventID) {
+    var keys = ['lhi_submission_completed', 'lhi_lead_submitted'];
+    for (var i = 0; i < keys.length; i++) {
+      try {
+        var raw = w.sessionStorage.getItem(keys[i]);
+        if (!raw) continue;
+        var marker = JSON.parse(raw);
+        if (marker && marker.kind === 'Lead' && marker.event_id === eventID) return true;
+      } catch (e) {}
+    }
+    return false;
+  }
+
+  function claimAcceptedLeadEventID(eventID) {
+    if (!approvedEventID(eventID)) return false;
+    if (claimedLeadEventIDs[eventID] || completedLeadMarkerHasEventID(eventID)) return false;
+    claimedLeadEventIDs[eventID] = true;
+    return true;
+  }
+
   function markCompletedSubmission(kind, eventID, props, pt) {
     var marker = {
       kind: kind,
@@ -793,7 +817,8 @@
   function track(name, props) {
     props = safeProps(props || {});
     var pt = pageType();
-    var eventID = props.event_id ? String(props.event_id) : makeEventID();
+    var suppliedEventID = props.event_id ? String(props.event_id) : null;
+    var eventID = suppliedEventID || makeEventID();
     if (props.event_id) delete props.event_id;
 
     getSession();
@@ -802,6 +827,7 @@
     // GTM owns the single GA4 and Google Ads Lead conversion tags. Emit its
     // shared custom event only after first-party delivery has succeeded.
     if (name === 'Lead') {
+      if (props.acceptance_status !== 'forms_accepted' || !claimAcceptedLeadEventID(suppliedEventID)) return false;
       fireGA('Lead', Object.assign({}, props, {
         event_id: eventID,
         page_type: pt,
@@ -809,6 +835,7 @@
       }));
       markCompletedSubmission('Lead', eventID, props, pt);
       fireOpenAIAdsLead(eventID);
+      return true;
     } else if (name === 'Subscriber') {
       fireGA(name, { page_type: pt, event_params: props });
       markCompletedSubmission('Subscriber', eventID, props, pt);
@@ -817,6 +844,7 @@
     } else {
       fireGA(name, { page_type: pt, event_params: props });
     }
+    return true;
   }
 
   function pageView() {
@@ -881,7 +909,9 @@
         }
 
         if (name === 'Lead') {
-          track(name, safeLeadPropsFromForm(f, fd, content, step, null));
+          // A non-API/native submit has no verifiable Forms receipt. Preserve
+          // delivery behavior, but never emit the canonical Lead conversion.
+          return;
         } else {
           track(name, { content_name: content, step: step });
         }

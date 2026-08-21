@@ -225,8 +225,8 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   assert.match(QUOTE, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/quote\/">/);
   assert.match(PLANS, /https:\/\/lakelandhealthinsurance\.com\/plans\/#webpage/);
   assert.match(QUOTE, /https:\/\/lakelandhealthinsurance\.com\/quote\/#webpage/);
-  assert.match(PLANS, /\/js\/analytics\.js\?v=20260820-google-ads-attribution/);
-  assert.match(QUOTE, /\/js\/analytics\.js\?v=20260820-google-ads-attribution/);
+  assert.match(PLANS, /\/js\/analytics\.js\?v=20260821-lead-reconciliation/);
+  assert.match(QUOTE, /\/js\/analytics\.js\?v=20260821-lead-reconciliation/);
   assert.equal((SITE_TEMPLATE.match(/\['\/plans\/', 'Coverage Options'\]/g) || []).length, 2);
   assert.match(SITE_TEMPLATE, /<a href="\/plans\/">Coverage Options<\/a>/);
   assert.doesNotMatch(SITE_TEMPLATE, /['"]Plan Types['"]/);

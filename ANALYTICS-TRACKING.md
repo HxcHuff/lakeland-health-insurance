@@ -5,6 +5,7 @@
 - **Business:** HealthMarkets - David (Lead Generation)
 - **Platform:** Netlify (static site with deploy previews at `*.netlify.app`)
 - **GA4 Property:** `a357914498` / `p492431963`
+- **Last read-only audit:** 2026-08-21
 
 ---
 
@@ -32,6 +33,33 @@
 ### GTM / Tag Notes
 - One blog page confirmed **untagged**: `/blog/lost-job-health...` (partial URL from tag coverage scan)
 - Root cause TBD — check GTM trigger conditions or CMS template for that post type
+
+---
+
+## Read-Only Lead Audit Snapshot
+
+### Google Ads — July 22 through August 20, 2026
+
+| Conversion action | Count | Actual meaning |
+|---|---:|---|
+| Google-hosted Lead form - Submit | 10 | Google-hosted form submissions; the website and GA4 do not participate |
+| LHI Lead Form Submit | 1 | Website conversion action associated with the site lead path |
+| Calls from ads, 60 seconds or longer | 1 | Confirmed ad-call conversion |
+| Website call action | 0 | No qualifying website-call conversion in this range |
+
+### GA4 — July 24 through August 20, 2026
+
+| Event | Events | Users | Status |
+|---|---:|---:|---|
+| `generate_lead` | 107 | 42 | Key event; only two events carried the current canonical `content_name`, `step`, and `page_type` contract |
+| `form_submit` | 5 | 2 | Enhanced-measurement form interaction; not proof of Forms acceptance |
+| `ads_conversion_Form_1` | 5 | 2 | Custom-event copy of `form_submit`; unsafe as a sales-lead count |
+| `phone_call_click` | 9 | 6 | Key event; click intent, not a completed or qualified call |
+| `qualify_lead` | 0 | 0 | No event source exists; therefore the Generate leads overview correctly shows Qualified leads = 0 |
+
+The 107 `generate_lead` events are not 107 known business leads. The audited window crosses a historical implementation in which both GTM and `/thanks.html` could emit `generate_lead`; that thank-you emission was removed on July 31, 2026. Older events also used nested or different parameters. Those historical paths and a possible GTM parameter-mapping gap are consistent with the 105 events without the current canonical fields; the aggregate report cannot assign each event to one cause. Any remaining post-release events without all canonical fields must be traced to GTM/custom-event mapping before they are treated as accepted website leads.
+
+The zero under Qualified leads is not a Google Ads lead count and not evidence that Ads missed real leads. That GA4 card counts users who triggered the distinct recommended event `qualify_lead`. No authenticated human/CRM qualification transition currently emits it.
 
 ---
 
@@ -68,6 +96,8 @@ Goal: optimize site measurement for qualified Medicare/ACA leads, not raw clicks
 - Data-funnel lead and newsletter forms POST to `/api/lead`; 4xx validation/bot rejections do not fall back to native submit and do not retain a thank-you lead marker.
 - Newsletter forms fire `Subscriber`, never `Lead`, Google Ads lead conversion, or Meta CAPI Lead.
 - Browser acceptance requires all three response conditions: `ok: true`, `forms: true`, and an approved server `event_id`. A malformed or incomplete HTTP 200 does not fire `Lead`, redirect, or retain a thank-you marker.
+- The public `Lead` tracker fails closed unless both `acceptance_status=forms_accepted` and an approved server `event_id` are supplied, and it emits each accepted ID at most once per page lifecycle.
+- Every parsed `data-funnel-track` form requests the delivery bus immediately. City pages no longer retain page-local `lead_submit` or direct Forms POST handlers that could bypass `/api/lead`.
 - `/api/lead` accepts only registered form names and form-specific scalar fields, with a 64 KB request limit and an 8 KB per-field limit. Unknown keys, objects, arrays, and oversized values fail closed or are discarded before Forms forwarding.
 - Get Help request consent is required. Consent timestamps, evidence version, page, withdrawal state, and channel states are derived server-side; client-authored consent-state fields are not authoritative.
 - `/api/lead` returns non-200 when Netlify Forms forwarding fails, so GA does not count a failed Forms forward as `generate_lead`.
@@ -104,6 +134,20 @@ Measurement boundaries are intentionally separate:
 | `LEAD_FORMS_ORIGIN` | Server only | No | Fixed origin used for Netlify Forms forwarding. Defaults through `DEPLOY_URL`, `DEPLOY_PRIME_URL`, `URL`, then the production site. Never derive it from the request `Host`. |
 | `LEAD_ALLOWED_ORIGINS` | Server only | No | Additional comma-separated CORS/source origins. Production, `URL`, `DEPLOY_PRIME_URL`, and `DEPLOY_URL` are included when configured. |
 
+### Google Ads Lead-Form Webhook Controls
+
+- Google retry delivery is not exactly once. The webhook validates and bounds the payload, then atomically creates one site-scoped Netlify Blobs receipt per Google `lead_id` before attempting notifications.
+- The receipt key is a domain-separated SHA-256 digest of Google's opaque lead ID and is independent of the rotatable authentication key. The stored value is only `{ "version": 1 }`; it contains no raw lead ID, click ID, name, email, phone, form answer, or payload.
+- A duplicate receipt returns 200 without another downstream attempt. A receipt-store outage returns 503 before any downstream call so Google can retry.
+- Email and SMS are at-most-once notification attempts after durable acceptance. Provider failures are logged without response bodies or contact data and do not cause a retry that could duplicate a successful sibling channel. Google Ads remains the retained source for manual recovery; this is not a transactional exactly-once outbox.
+- Google-hosted form disclosure authorizes follow-up on the request, not ongoing marketing email. The webhook always skips Mailchimp unless a future versioned form contract supplies exact, durably stored marketing consent; any future new subscription must use pending confirmation, never automatic subscribed status.
+
+| Variable | Surface | Required | Notes |
+|---|---|---:|---|
+| `GOOGLE_LEAD_WEBHOOK_KEY` | Server only | Yes | Authenticates Google Ads lead-form payloads. Never expose, persist, or log it. |
+| `RESEND_API_KEY`, `NOTIFY_EMAIL` | Server only | No | Internal email notification. Both must be configured or the channel is skipped. |
+| `TWILIO_SID`, `TWILIO_AUTH`, `TWILIO_FROM`, `TWILIO_TO` | Server only | No | Internal SMS notification. All four must be configured or the channel is skipped. |
+
 ### OpenAI Ads Environment Variables
 | Variable | Surface | Required | Notes |
 |---|---|---:|---|
@@ -112,14 +156,14 @@ Measurement boundaries are intentionally separate:
 | `OPENAI_ADS_VALIDATE_ONLY` | Server only | No | Set to `true` only for validation smoke tests; leave blank/false for production collection. |
 | `OPENAI_ADS_ALLOWED_ORIGINS` | Server only | No | Comma-separated trusted origins. Defaults to `https://lakelandhealthinsurance.com,https://www.lakelandhealthinsurance.com`. |
 
-### Defined But Not Firing
+### Custom And Downstream Event Status
 | Event | Status | Notes |
 |---|---|---|
-| `ads_conversion_Form_1` | No stream data | Likely GTM trigger broken or name mismatch |
-| `ads_conversion_Request_quote_1` | No stream data | Likely GTM trigger broken or name mismatch |
-| `close_convert_lead` | No stream data | Likely GTM trigger broken or name mismatch |
-| `form_submit` | No stream data | Likely GTM trigger broken or name mismatch |
-| `qualify_lead` | No stream data | Likely GTM trigger broken or name mismatch |
+| `ads_conversion_Form_1` | Firing: 5 events / 2 users | Broad copy of `form_submit`; diagnostic only and not a reliable lead conversion |
+| `form_submit` | Firing: 5 events / 2 users | Browser-detected form interaction; diagnostic only |
+| `ads_conversion_Request_quote_1` | Not observed | Rule points to an obsolete thank-you path; retire only after confirming no Ads dependency |
+| `qualify_lead` | Not implemented | Reserve for an authenticated human/CRM qualification transition |
+| `close_convert_lead` | Not implemented | Reserve for a confirmed customer/enrollment outcome |
 
 ### Also Firing
 - `click`, `first_visit`, `page_view`, `scroll`, `session_start`, `timing_complete`, `user_engagement`
@@ -163,12 +207,17 @@ Measurement boundaries are intentionally separate:
 ## Known Issues & Open TODOs
 
 ### Must Fix in Codebase
-1. **Untagged blog page** — `/blog/lost-job-health...` is missing the Google Tag. Check GTM trigger exclusions or CMS template. Verify fix with Tag Assistant.
-2. **5 silent key events** — `ads_conversion_Form_1`, `ads_conversion_Request_quote_1`, `close_convert_lead`, `form_submit`, `qualify_lead` are all marked as conversions in GA4 but no stream data in 28 days. GTM trigger names likely don't match GA4 event names. Audit GTM → Tags → GA4 Event tags for each.
+1. **Untagged blog page** — `/blog/lost-job-health...` is missing the Google Tag. Check GTM trigger exclusions or CMS template for that post type. Verify the fix with Tag Assistant.
+2. **GTM readback after release** — confirm one accepted server event ID produces one outbound `generate_lead` carrying top-level `content_name=first_party_lead`, `step=submit`, `page_type`, `acceptance_status=forms_accepted`, and `event_id`.
 
 ### Investigate
-3. **`page_view` source** — Confirm `page_view` fires via `gtag('event', 'page_view')` in the tag snippet or GTM config tag, NOT via enhanced measurement. If it ever stops appearing in real-time, re-enable the enhanced measurement toggle.
-4. **Legacy `lead_submit` cleanup** — Older local SEO pages may still emit `lead_submit`; keep it unmarked as a key event unless it is replaced by the canonical `generate_lead` path.
+3. **`page_view` source** — confirm `page_view` fires from the intended Google tag path and remains singular.
+4. **Custom-event cleanup** — after confirming no bidding dependency, archive/unmark `ads_conversion_Form_1` and the obsolete `ads_conversion_Request_quote_1` rule. Do not map either to `qualify_lead`.
+5. **Outcome infrastructure** — select an authenticated CRM/admin identity and durable outcome ledger before implementing `qualify_lead` or Ads offline qualified-lead uploads.
+
+### Resolved In This Release Candidate
+6. **Google-hosted lead deduplication** — resolved locally with an atomic, privacy-safe Netlify Blobs receipt keyed from Google `lead_id`; sequential and concurrent duplicates are acknowledged without another downstream attempt.
+7. **Marketing-consent review** — resolved fail-closed. The Google-hosted form has no separate verified marketing-email consent, so this webhook cannot call Mailchimp or create a subscribed contact. Internal request follow-up notifications remain available.
 
 ---
 

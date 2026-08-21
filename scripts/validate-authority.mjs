@@ -327,7 +327,7 @@ for (const required of [
   'href="tel:+18636403102"',
   'href="mailto:dhuff@healthmarkets.com"',
   'href="/get-help/"',
-  'src="/js/analytics.js?v=20260820-google-ads-attribution"'
+  'src="/js/analytics.js?v=20260821-lead-reconciliation"'
 ]) {
   if (!home.includes(required)) issues.push(`index.html: required contact, CTA, or tracking integration is missing (${required})`);
 }
@@ -367,7 +367,7 @@ for (const required of [
   'href="tel:+18636403102"',
   'href="mailto:dhuff@healthmarkets.com"',
   'href="/get-help/"',
-  'src="/js/analytics.js?v=20260820-google-ads-attribution"'
+  'src="/js/analytics.js?v=20260821-lead-reconciliation"'
 ]) {
   if (!about.includes(required)) issues.push(`about/index.html: required contact, CTA, or tracking integration is missing (${required})`);
 }
@@ -482,7 +482,7 @@ for (const rel of workPackageThreePages) {
   if (!hasCurrentDateModified(html)) issues.push(`${rel}: current machine-readable dateModified is missing`);
   if (!html.includes('href="/get-help/')) issues.push(`${rel}: Get Help action is missing`);
   if (!html.includes('href="tel:+18636403102"')) issues.push(`${rel}: phone action is missing`);
-  const expectedAnalyticsLoader = 'src="/js/analytics.js?v=20260820-google-ads-attribution"';
+  const expectedAnalyticsLoader = 'src="/js/analytics.js?v=20260821-lead-reconciliation"';
   if (!html.includes(expectedAnalyticsLoader)) issues.push(`${rel}: analytics loader is missing`);
   if (!siteTemplateLoaderPattern.test(html)) issues.push(`${rel}: shared site shell is missing`);
   if (/\b(?:nationwide|across the United States|coverage across the nation)\b/i.test(text)) {

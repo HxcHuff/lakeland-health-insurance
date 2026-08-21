@@ -415,7 +415,7 @@
       .hero-cta-row a { width: 100%; text-align: center; }
     }
   </style>
-  <script defer src="/js/analytics.js?v=20260820-google-ads-attribution"></script>
+  <script defer src="/js/analytics.js?v=20260821-lead-reconciliation"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -646,29 +646,6 @@
       }
     });
 
-    (function () {
-      var form = document.getElementById('clearwaterForm');
-      if (!form) return;
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        if (typeof gtag === 'function') gtag('event', 'lead_submit', { form_name: 'clearwater_health_insurance' });
-
-        var isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
-        if (isLocal) { window.location.href = '/thanks.html'; return; }
-
-        var formData = new FormData(form);
-        fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(formData).toString()
-        }).then(function() {
-          window.location.href = '/thanks.html';
-        }).catch(function() {
-          form.submit();
-        });
-      });
-    })();
   </script>
     <script src="/js/site-template.js?v=20260816-coverage-options" defer></script>
 </body>

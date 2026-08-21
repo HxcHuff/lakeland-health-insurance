@@ -6,7 +6,7 @@ This file is the authoritative repository instruction document. More specific ap
 
 - The repository root is the primary website root. The primary site is hand-authored static HTML, CSS, and JavaScript hosted by Netlify.
 - Netlify Functions exist under `netlify/functions/`. They are runtime code and require task-specific authorization.
-- There is no root Next.js, Tailwind, or other framework build pipeline, and there is no root `package.json`.
+- There is no root Next.js, Tailwind, or other framework build pipeline. The root `package.json` exists only for pinned Netlify Functions runtime dependencies; it is not a site build surface.
 - `search-engine-from-zip/` is a separate React/Vite application. It is excluded from the primary root deployment. Treat it as restricted and do not modify its generated `dist/` output unless a task explicitly targets the nested application and authorizes regeneration.
 - Do not introduce a framework, build system, dependency, broad refactor, or architecture migration without explicit approval.
 
