@@ -49,6 +49,12 @@ const siteSearchIndex = [
     excerpt: "Compare major-medical, short-term, supplemental, dental, vision, life, and Medicare paths and the limitations to verify.",
     tags: ["Plans", "Comparison", "Coverage", "Under 65", "Medicare"]
   },
+  {
+    title: "Private Medical Insurance in Florida",
+    url: "/private-medical-insurance/",
+    excerpt: "Compare ACA Marketplace, plans purchased directly from insurance companies, short-term medical, and supplemental coverage in Florida.",
+    tags: ["Products", "Coverage", "Private Health Insurance", "Private Medical Insurance", "ACA", "Short-Term", "Florida"]
+  },
 
   // Medicare guidance
   {

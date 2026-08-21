@@ -12,6 +12,7 @@ const SITEMAP = readFileSync(join(ROOT, 'sitemap.xml'), 'utf8');
 const PLANS = readFileSync(join(ROOT, 'plans/index.html'), 'utf8');
 const QUOTE = readFileSync(join(ROOT, 'quote/index.html'), 'utf8');
 const ACA = readFileSync(join(ROOT, 'aca-health-insurance-lakeland-fl/index.html'), 'utf8');
+const PRIVATE_MEDICAL = readFileSync(join(ROOT, 'private-medical-insurance/index.html'), 'utf8');
 const SITE_TEMPLATE = readFileSync(join(ROOT, 'js/site-template.js'), 'utf8');
 const SERVICE_WORKER = readFileSync(join(ROOT, 'sw.js'), 'utf8');
 const HOME = readFileSync(join(ROOT, 'index.html'), 'utf8');
@@ -208,6 +209,17 @@ test('ACA pricing CTA reaches the quote actions without legacy router language',
   assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/aca-health-insurance-lakeland-fl\/<\/loc>\s*<lastmod>2026-08-16<\/lastmod>/);
 });
 
+test('private medical insurance route separates product categories and keeps intake privacy-minimized', () => {
+  assert.match(PRIVATE_MEDICAL, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/private-medical-insurance\/">/);
+  assert.match(PRIVATE_MEDICAL, /<h1>Private medical insurance options in Florida<\/h1>/);
+  assert.match(PRIVATE_MEDICAL, /A plan purchased outside the Marketplace may still meet ACA standards\./);
+  assert.match(PRIVATE_MEDICAL, /name="get-help"[^>]+data-sitelink-lead-form[^>]+data-funnel-track/);
+  assert.match(PRIVATE_MEDICAL, /name="product_interest" value="comprehensive-private-coverage" required/);
+  assert.match(PRIVATE_MEDICAL, /name="consent_request" value="yes" required/);
+  assert.doesNotMatch(PRIVATE_MEDICAL, /name="(?:health|medical|diagnosis|condition|prescription|policy_number|payment)"/i);
+  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/private-medical-insurance\/<\/loc>\s*<lastmod>2026-08-21<\/lastmod>/);
+});
+
 test('coverage pages preserve canonicals, schema identifiers, analytics, and shared navigation naming', () => {
   assert.match(PLANS, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/plans\/">/);
   assert.match(QUOTE, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/quote\/">/);
@@ -224,7 +236,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 150);
+  assert.equal(templateConsumers.length, 151);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_TEMPLATE_LOADER), true, `${relative(ROOT, file)} uses the current shared-template release`);
