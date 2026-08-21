@@ -4,7 +4,7 @@ const siteSearchIndex = [
   {
     title: "Individual and Family Health Insurance in Florida",
     url: "/aca-health-insurance-lakeland-fl/",
-    excerpt: "Review ACA Marketplace and other individual and family coverage paths around household details, doctors, prescriptions, yearly cost, and timing.",
+    excerpt: "Review ACA Marketplace and other individual and family coverage paths around household details, doctors, prescriptions, yearly cost, and applicable deadlines.",
     tags: ["Under 65", "ACA", "Marketplace", "Individual", "Family", "Individual and Family", "Florida"]
   },
   {
@@ -16,19 +16,19 @@ const siteSearchIndex = [
   {
     title: "Losing Health Coverage in Florida",
     url: "/losing-coverage/",
-    excerpt: "Review coverage-loss timing and compare COBRA, ACA Marketplace coverage, and other available paths based on your situation.",
+    excerpt: "Review when current coverage ends and compare COBRA, ACA Marketplace coverage, and other available paths based on your situation.",
     tags: ["Under 65", "Job Loss", "Losing Coverage", "COBRA", "Special Enrollment"]
   },
   {
     title: "Self-Employed Health Insurance in Florida",
     url: "/self-employed-health-insurance/",
-    excerpt: "Coverage guidance for business owners, contractors, freelancers, and gig workers using household, income, provider, prescription, and timing details.",
+    excerpt: "Coverage guidance for business owners, contractors, freelancers, and gig workers using household, income, provider, prescription, and deadline details.",
     tags: ["Under 65", "Self-Employed", "1099", "Small Business", "ACA"]
   },
   {
     title: "Retiring Before 65 in Florida",
     url: "/retiring-before-65-florida/",
-    excerpt: "Review the transition from employer coverage before Medicare eligibility, including timing, projected household income, doctors, prescriptions, and yearly cost.",
+    excerpt: "Review the transition from employer coverage before Medicare eligibility, including the date current coverage ends, projected household income, doctors, prescriptions, and yearly cost.",
     tags: ["Under 65", "Retiring Before 65", "Early Retirement", "Pre-Medicare", "ACA"]
   },
   {
@@ -54,7 +54,7 @@ const siteSearchIndex = [
   {
     title: "Medicare Help in Lakeland and Polk County",
     url: "/medicare/",
-    excerpt: "Start with enrollment timing, coverage paths, doctors, prescriptions, annual costs, and verified local Medicare guidance.",
+    excerpt: "Start with Medicare enrollment periods, coverage paths, doctors, prescriptions, annual costs, and verified local Medicare guidance.",
     tags: ["Medicare", "Medicare Advantage", "Original Medicare", "Medicare Supplement", "Medigap", "Part D", "Lakeland", "Polk County", "2027"]
   },
   {
@@ -103,7 +103,7 @@ const siteSearchIndex = [
   {
     title: "Can I Get ACA Insurance If I Lost Job Coverage in Florida?",
     url: "/blog/lost-job-coverage-aca-insurance-florida.html",
-    excerpt: "ACA Special Enrollment timing, COBRA comparison, subsidy estimates, and what to check after employer coverage ends.",
+    excerpt: "ACA Special Enrollment Period rules and deadlines, COBRA comparison, subsidy estimates, and what to check after employer coverage ends.",
     tags: ["ACA", "Florida", "Special Enrollment", "Job Loss", "COBRA"]
   },
   {
@@ -115,7 +115,7 @@ const siteSearchIndex = [
   {
     title: "Can I Keep My Doctor If I Switch Medicare Plans?",
     url: "/blog/keep-doctor-switch-medicare-plans-florida.html",
-    excerpt: "Doctor networks, plan IDs, hospitals, prescriptions, pharmacies, referrals, and timing checks before switching Medicare plans.",
+    excerpt: "Doctor networks, plan IDs, hospitals, prescriptions, pharmacies, referrals, and plan-change deadlines before switching Medicare plans.",
     tags: ["Medicare", "Florida", "Provider Networks", "Doctors", "Plan Review"]
   },
   {
@@ -151,7 +151,7 @@ const siteSearchIndex = [
   {
     title: "Health Insurance After a Life Change in Florida",
     url: "/blog/life-change-health-insurance-60-day-window-florida.html",
-    excerpt: "Review whether divorce, job loss, turning 26, a birth, or a move may create a Special Enrollment Period and confirm the applicable timing and documentation.",
+    excerpt: "Review whether divorce, job loss, turning 26, a birth, or a move may create a Special Enrollment Period and confirm the applicable deadline and documentation.",
     tags: ["ACA", "Florida", "Special Enrollment", "Life Changes"]
   },
   {
@@ -163,7 +163,7 @@ const siteSearchIndex = [
   {
     title: "Health Insurance After Job Loss in Lakeland",
     url: "/blog/lost-job-health-insurance-lakeland.html",
-    excerpt: "Compare COBRA, ACA Marketplace coverage, Medicaid, and other available paths after job loss, then confirm eligibility, timing, and documentation.",
+    excerpt: "Compare COBRA, ACA Marketplace coverage, Medicaid, and other available paths after job loss, then confirm eligibility, deadlines, and documentation.",
     tags: ["Job Loss", "ACA", "COBRA", "SEP", "Lakeland"]
   },
   {
@@ -295,7 +295,7 @@ const siteSearchIndex = [
   {
     title: "5 Health Insurance Mistakes to Avoid",
     url: "/blog/5-critical-health-insurance-mistakes.html",
-    excerpt: "Review deductible affordability, provider networks, prescriptions, enrollment timing, and uninsured exposure before choosing coverage.",
+    excerpt: "Review deductible affordability, provider networks, prescriptions, the applicable enrollment period and deadline, and uninsured exposure before choosing coverage.",
     tags: ["ACA", "Mistakes", "Financial"]
   },
   {
@@ -331,7 +331,7 @@ const siteSearchIndex = [
   {
     title: "Florida Health Insurance: Coverage and Network Considerations",
     url: "/blog/florida-insurance-guide.html",
-    excerpt: "Review Florida enrollment timing, coverage availability, provider networks, prescriptions, and plan-year changes.",
+    excerpt: "Review Florida enrollment periods and deadlines, coverage availability, provider networks, prescriptions, and plan-year changes.",
     tags: ["Florida", "State-Specific", "ACA"]
   },
   {
@@ -347,9 +347,9 @@ const siteSearchIndex = [
     tags: ["Short-Term", "Coverage", "Comparison"]
   },
   {
-    title: "Medicare Enrollment Guide",
+    title: "Medicare Basics for 2026",
     url: "/blog/medicare-for-dummies.html",
-    excerpt: "A practical Medicare basics guide covering enrollment, plan types, coverage tradeoffs, and the questions to ask before choosing a plan.",
+    excerpt: "Understand Parts A, B, C and D, current costs, Medicare enrollment periods, and the tradeoffs between Original Medicare and Medicare Advantage.",
     tags: ["Medicare", "Seniors", "Tips"]
   },
   {
@@ -475,7 +475,7 @@ const siteSearchIndex = [
   {
     title: "Medicare vs. ACA Coverage in Central Florida: What Changes at Age 65",
     url: "/blog/medicare-vs-aca-central-florida-age-65.html",
-    excerpt: "Turning 65 in Central Florida? Learn how Medicare changes ACA coverage, enrollment windows, subsidy timing, and coverage-gap risk.",
+    excerpt: "Turning 65 in Central Florida? Learn how Medicare changes ACA coverage, enrollment periods, when Marketplace subsidies end, and coverage-gap risk.",
     tags: ["Medicare", "ACA", "Turning 65", "Central Florida"]
   },
   {

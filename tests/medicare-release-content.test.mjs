@@ -139,6 +139,20 @@ test('Medigap and switching guides retain only verified current factual anchors'
   assert.match(switching, /Medigap is different — there's no single annual window/);
 });
 
+test('Medicare basics uses the proper names for Medicare enrollment periods', () => {
+  const html = source('blog/medicare-for-dummies.html');
+
+  assert.doesNotMatch(html, /\btiming\b/i);
+  assert.match(html, /<h2 id="enrollment-periods">Medicare enrollment periods<\/h2>/);
+  assert.doesNotMatch(html, /when (?:to|you can) sign up (?:for Medicare )?or change coverage/i);
+  assert.match(html, /<h3>Initial Enrollment Period<\/h3>/);
+  assert.match(html, /<h3>Annual Enrollment Period<\/h3>/);
+  assert.match(html, /<h3>Medicare Advantage Open Enrollment<\/h3>/);
+  assert.match(html, /<h3>Special Enrollment Periods<\/h3>/);
+  assert.match(html, /October 15–December 7/);
+  assert.match(html, /January 1–March 31/);
+});
+
 test('provider-check routing and rewritten Medicare sitemap dates are canonical', () => {
   const watson = source('local-health-insurance-answers/watson-clinic-insurance-network-help/index.html');
   const sitemap = source('sitemap.xml');
