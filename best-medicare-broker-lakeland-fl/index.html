@@ -36,7 +36,7 @@
     "name": "Best Medicare Broker in Lakeland, FL: How to Choose One",
     "description": "A neutral checklist for comparing Medicare broker help in Lakeland using licensing, compensation transparency, provider and prescription verification, service expectations, and enrollment timing.",
     "url": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/",
-    "dateModified": "2026-07-31",
+    "dateModified": "2026-08-21",
     "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
     "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
     "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
@@ -138,6 +138,42 @@
     .cta-section h2 { color: var(--white); }
     .cta-section p { color: #CBD5E1; max-width: 610px; margin: 0 auto 22px; }
     .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .standard-cta {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 86% 12%, rgba(212,168,67,.24), transparent 34%),
+        linear-gradient(145deg, var(--navy-deep) 0%, var(--navy) 58%, #1E3A5F 100%);
+      padding: clamp(52px, 7vw, 72px) clamp(24px, 6vw, 64px);
+      text-align: left;
+      border: 1px solid rgba(212,168,67,.55);
+      border-radius: 20px;
+      box-shadow: 0 24px 60px rgba(15,26,46,.22);
+    }
+    .standard-cta::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      pointer-events: none;
+    }
+    .standard-cta__content { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; }
+    .standard-cta h2 { font-size: clamp(2.15rem, 4vw, 3rem); line-height: 1.08; margin-bottom: 22px; }
+    .standard-cta p { color: #E2E8F0; max-width: none; margin: 0; font-size: 1.04rem; }
+    .standard-cta p + p { margin-top: 16px; }
+    .standard-cta .cta-row { justify-content: flex-start; margin-top: 30px; }
+    .standard-cta .btn-cta {
+      min-height: 56px;
+      padding: 15px 30px;
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--navy-deep);
+      box-shadow: 0 12px 30px rgba(212,168,67,.34);
+    }
+    .standard-cta .btn-cta:hover { box-shadow: 0 16px 36px rgba(212,168,67,.46); }
+    .standard-cta .btn-cta:focus-visible { outline: 3px solid var(--white); outline-offset: 4px; }
+    .standard-cta .privacy-note { color: #CBD5E1; margin-top: 16px; font-size: .82rem; line-height: 1.55; }
     .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(235px, 1fr)); gap: 16px; margin-top: 16px; }
     .related-grid a { display: block; background: var(--white); border: 1px solid var(--line); border-radius: 8px; padding: 18px; text-decoration: none; color: var(--text); }
     .related-grid a:hover { border-color: var(--gold); }
@@ -185,6 +221,8 @@
       .floating-contact { bottom: 14px; left: 14px; right: 14px; }
       .floating-contact a { min-height: 48px; min-width: 48px; padding: 12px 16px; font-size: 0.88rem; }
       .facebook-bubble span:last-child { display: none; }
+      .standard-cta { padding: 46px 24px; }
+      .standard-cta .btn-cta { display: inline-flex; align-items: center; justify-content: center; font-size: 1rem; }
     }
   </style>
     <link rel="stylesheet" href="/css/site-template.css?v=20260820-sitelink-leads">
@@ -382,12 +420,16 @@
     </section>
 
     <div class="container">
-      <section class="cta-section">
-        <h2>Want help applying the checklist?</h2>
-        <p>Use the privacy-safe Get Help form to request the next verification steps. Do not include medical, prescription, Medicare ID, or policy details in a URL or analytics-enabled field.</p>
-        <div class="cta-row">
-          <a href="/get-help/?intent=medicare&amp;source_page_key=best_medicare_broker_lakeland_fl&amp;source_cta_key=request_help_final" class="btn-cta" data-medicare-cta="request_help_final">Request Help</a>
-          <a href="tel:+18636403102" class="btn-secondary">Call 863-640-3102</a>
+      <section class="cta-section standard-cta" aria-labelledby="standard-cta-title">
+        <div class="standard-cta__content">
+          <h2 id="standard-cta-title">This Is the Standard I Follow</h2>
+          <p>These aren't just things I believe a Medicare broker should do. They're the principles I use when helping my clients.</p>
+          <p>I start with your doctors and prescriptions. I look at the actual costs and tradeoffs—not just the monthly premium. I'll tell you what I can and cannot represent, and I don't believe in pushing someone into a plan simply because it's available.</p>
+          <p>And my job doesn't end when the enrollment is submitted. If you become my client, you have a local broker you can call when you need help.</p>
+          <div class="cta-row">
+            <a href="/get-help/?intent=medicare&amp;source_page_key=best_medicare_broker_lakeland_fl&amp;source_cta_key=request_help_final" class="btn-cta" data-medicare-cta="request_help_final">Start My Medicare Review →</a>
+          </div>
+          <p class="privacy-note">Use the privacy-safe Get Help form for your initial request. Share medical, prescription, Medicare ID, or policy details only through the approved private follow-up process—not in URLs or analytics-enabled fields.</p>
         </div>
       </section>
     </div>
