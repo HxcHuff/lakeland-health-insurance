@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Short-Term Medical and TriTerm Medical in Florida | Lakeland Health Insurance</title>
-<meta name="description" content="Compare Short-Term Medical and TriTerm Medical for a temporary coverage gap. Review underwriting, pre-existing condition limits, networks, deductibles, and TriTerm's three-term structure.">
+<meta name="description" content="Compare Short-Term Medical and TriTerm Medical for a temporary coverage gap. Review underwriting, pre-existing condition limits, networks, deductibles, and coverage across three terms.">
 <link rel="canonical" href="https://lakelandhealthinsurance.com/short-term-medical/">
 <meta name="robots" content="index, follow">
 <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
@@ -63,7 +63,7 @@
       "name": "How long can TriTerm Medical last in Florida?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The Florida TriTerm Medical brochure describes three terms: the first term is 364 days, the second term is 365 days, and the third term is 365 days. The product is designed to provide coverage for one day less than three years when issued and kept in force."
+        "text": "TriTerm Medical is designed to provide nearly three years of temporary coverage across three terms when issued and kept in force. Premiums may change when a new term begins, and coverage does not renew after the final term."
       }
     },
     {
@@ -71,7 +71,7 @@
       "name": "Does TriTerm Medical cover pre-existing conditions?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "TriTerm Medical has a pre-existing condition limitation. The brochure states that no benefits are paid during the first 12 months for a health condition that existed before the coverage effective date. After 12 months on the plan, eligible expenses related to pre-existing conditions may be covered, subject to policy terms."
+        "text": "TriTerm Medical has a pre-existing condition limitation. No benefits are paid during the first 12 months for a health condition that existed before the coverage effective date. After 12 months on the plan, eligible expenses related to pre-existing conditions may be covered, subject to policy terms."
       }
     },
     {
@@ -512,6 +512,25 @@
     display: block;
     margin-top: 2px;
   }
+  .triterm-summary-grid .medical-design-head {
+    background: var(--blue);
+  }
+  .triterm-summary-grid .medical-design-head .plan-name,
+  .triterm-summary-grid .medical-design-head .plan-admission,
+  .triterm-summary-grid .medical-design-head .plan-admission span {
+    color: var(--white);
+  }
+  .triterm-summary-grid .plan-row {
+    gap: 12px;
+  }
+  .triterm-summary-grid .plan-row .value {
+    max-width: 62%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .triterm-summary-grid .plan-row .value.na {
+    color: var(--gray-600);
+  }
   .plan-body { padding: 24px 28px 28px; }
   .plan-row {
     display: flex;
@@ -863,10 +882,19 @@
   footer a { color: var(--gold); text-decoration: none; }
 
   @media (max-width: 768px) {
-    .hero { padding: 60px 20px 70px; }
+    .hero { padding: 112px 20px 70px; }
     nav { align-items: flex-start; flex-direction: column; }
     .nav-links { gap: 0.8rem; }
     section { padding: 60px 20px; }
+    .plan-body { padding: 22px 20px 24px; }
+    .plan-row { gap: 12px; }
+    .plan-row .label { min-width: 0; padding-right: 0; }
+    .plan-row .value {
+      min-width: 0;
+      max-width: 68%;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
     .savings-grid { grid-template-columns: 1fr; gap: 32px; }
     .tier-table { font-size: 0.82rem; }
     .tier-table thead th, .tier-table tbody td { padding: 10px 12px; }
@@ -948,7 +976,7 @@ header .cta-button {
   <div class="hero-content">
     <div class="hero-kicker">Short-Term Medical and TriTerm Medical</div>
     <h1>Compare short-term medical coverage before you apply.</h1>
-    <h2>TriTerm uses three terms that can total one day less than three years, but it is not ACA major medical.</h2>
+    <h2>TriTerm can provide nearly three years of temporary coverage across three terms, but it is not ACA major medical.</h2>
     <p class="hero-sub">David can help you compare underwriting, pre-existing condition limits, doctor networks, prescription benefits, deductibles, and separate supplemental coverage before you apply.</p>
     <div class="hero-cta-group">
       <a href="/get-help/?product=short-term-medical" class="hero-cta">Talk to David About My Options</a>
@@ -956,7 +984,7 @@ header .cta-button {
     <div class="hero-trust-row">
       <span>Not ACA major medical</span>
       <span>Medically underwritten</span>
-      <span>TriTerm: 364 + 365 + 365 days</span>
+      <span>TriTerm: nearly 3 years across 3 terms</span>
       <span>Pre-existing limits apply</span>
     </div>
   </div>
@@ -994,7 +1022,7 @@ header .cta-button {
   <div class="container">
     <div class="section-label">How It Works</div>
     <div class="section-title">Three things to understand before you apply.</div>
-    <p class="section-desc">TriTerm Medical is a Golden Rule Insurance Company short-term medical product. In Florida, the brochure describes three terms that can total one day less than three years if issued and kept in force.</p>
+    <p class="section-desc">TriTerm Medical is a Golden Rule Insurance Company short-term medical product. You apply once, and the plan can continue across three coverage terms when issued and kept in force.</p>
     <div class="hiw-grid">
       <div class="hiw-card animate delay-1">
         <div class="hiw-num">01</div>
@@ -1004,7 +1032,7 @@ header .cta-button {
       <div class="hiw-card animate delay-2">
         <div class="hiw-num">02</div>
         <h3>Coverage is term-based</h3>
-        <p>TriTerm is structured as three terms: 364 days, then 365 days, then 365 days. Premium is expected to change for each term.</p>
+        <p>TriTerm is structured as three consecutive coverage terms. The premium can change when each new term begins.</p>
       </div>
       <div class="hiw-card animate delay-3">
         <div class="hiw-num">03</div>
@@ -1022,18 +1050,18 @@ header .cta-button {
       <div class="section-title">A short-term option built around three terms.</div>
       <p class="section-desc">TriTerm Medical is not one generic short-term plan. It has several plan designs, deductible choices, prescription rules, and network differences. Start by comparing how each option would cover the care you expect to use.</p>
     </div>
-    <div class="plan-grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr));">
+    <div class="plan-grid triterm-summary-grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr));">
       <div class="plan-card" style="background:#fff;">
-        <div class="plan-head"><div class="plan-name">Term Structure</div><div class="plan-admission">Nearly 36 months <span>when kept in force</span></div></div>
+        <div class="plan-head"><div class="plan-name">Term Structure</div><div class="plan-admission">Nearly 3 years <span>across 3 terms</span></div></div>
         <div class="plan-body">
-          <div class="plan-row"><span class="label">Term 1</span><span class="value">364 days</span></div>
-          <div class="plan-row"><span class="label">Term 2</span><span class="value">365 days</span></div>
-          <div class="plan-row"><span class="label">Term 3</span><span class="value">365 days</span></div>
-          <div class="plan-row"><span class="label">Renewal</span><span class="value">Non-renewable after final term</span></div>
+          <div class="plan-row"><span class="label">Coverage Length</span><span class="value">Nearly 3 years</span></div>
+          <div class="plan-row"><span class="label">Structure</span><span class="value">3 coverage terms</span></div>
+          <div class="plan-row"><span class="label">Premium</span><span class="value">Can change each term</span></div>
+          <div class="plan-row"><span class="label">After Term 3</span><span class="value">Coverage does not renew</span></div>
         </div>
       </div>
       <div class="plan-card" style="background:#fff;">
-        <div class="plan-head" style="background:var(--blue);"><div class="plan-name">Medical Design</div><div class="plan-admission">$2M <span>lifetime maximum</span></div></div>
+        <div class="plan-head medical-design-head"><div class="plan-name">Medical Design</div><div class="plan-admission">$2M <span>lifetime maximum</span></div></div>
         <div class="plan-body">
           <div class="plan-row"><span class="label">Deductibles</span><span class="value">$2,500-$15,000 depending on plan</span></div>
           <div class="plan-row"><span class="label">Coinsurance</span><span class="value">0%, 20%, 30%, or 50%</span></div>
@@ -1050,7 +1078,8 @@ header .cta-button {
         </div>
       </div>
     </div>
-    <p style="text-align:center; font-size:0.78rem; color:var(--gray-600); margin-top:24px; max-width:820px; margin-left:auto; margin-right:auto; line-height:1.6;">Product details summarized from TriTerm Medical brochure 52404FL-G202510, FACT 52643f-G202510, flyer 52777-G202510, and product availability grid 42839-X202605. Availability and exact benefits must be confirmed before application.</p>
+    <!-- Product sources reviewed: 52404FL-G202510, 52643f-G202510, 52777-G202510, and 42839-X202605. -->
+    <p style="text-align:center; font-size:0.78rem; color:var(--gray-600); margin-top:24px; max-width:820px; margin-left:auto; margin-right:auto; line-height:1.6;">Product details are based on current Florida TriTerm Medical materials. Availability and exact benefits must be confirmed before applying.</p>
   </div>
 </section>
 
@@ -1153,8 +1182,8 @@ header .cta-button {
     </div>
     <div style="max-width:860px; margin:0 auto;">
       <details style="background:var(--gray-50); border:1px solid var(--gray-200); border-radius:var(--radius); padding:18px 22px; margin-bottom:12px;"><summary style="font-weight:700; color:var(--navy); cursor:pointer; font-size:1.05rem;">Is TriTerm Medical ACA-compliant major medical insurance?</summary><p style="margin-top:12px; color:var(--gray-700);"><strong>No.</strong> It is short-term medical insurance. It is not Minimum Essential Coverage, is medically underwritten, and does not have to cover everything ACA Marketplace plans must cover.</p></details>
-      <details style="background:var(--gray-50); border:1px solid var(--gray-200); border-radius:var(--radius); padding:18px 22px; margin-bottom:12px;"><summary style="font-weight:700; color:var(--navy); cursor:pointer; font-size:1.05rem;">How long can TriTerm Medical last?</summary><p style="margin-top:12px; color:var(--gray-700);">The Florida TriTerm Medical brochure describes three terms: 364 days, then 365 days, then 365 days. That can provide one day less than three years of coverage when the plan is issued and kept in force through all three terms.</p></details>
-      <details style="background:var(--gray-50); border:1px solid var(--gray-200); border-radius:var(--radius); padding:18px 22px; margin-bottom:12px;"><summary style="font-weight:700; color:var(--navy); cursor:pointer; font-size:1.05rem;">Does TriTerm Medical cover pre-existing conditions?</summary><p style="margin-top:12px; color:var(--gray-700);">The brochure states that no benefits are paid during the first 12 months for a health condition that existed before the coverage effective date. After 12 months on the plan, eligible expenses related to pre-existing conditions may be covered, subject to the policy.</p></details>
+      <details style="background:var(--gray-50); border:1px solid var(--gray-200); border-radius:var(--radius); padding:18px 22px; margin-bottom:12px;"><summary style="font-weight:700; color:var(--navy); cursor:pointer; font-size:1.05rem;">How long can TriTerm Medical last?</summary><p style="margin-top:12px; color:var(--gray-700);">TriTerm Medical is designed to provide nearly three years of temporary coverage across three terms when issued and kept in force. You apply once, but the premium can change when a new term begins, and coverage does not renew after the third term.</p></details>
+      <details style="background:var(--gray-50); border:1px solid var(--gray-200); border-radius:var(--radius); padding:18px 22px; margin-bottom:12px;"><summary style="font-weight:700; color:var(--navy); cursor:pointer; font-size:1.05rem;">Does TriTerm Medical cover pre-existing conditions?</summary><p style="margin-top:12px; color:var(--gray-700);">Under the plan's pre-existing condition limitation, no benefits are paid during the first 12 months for a health condition that existed before the coverage effective date. After 12 months on the plan, eligible expenses related to pre-existing conditions may be covered, subject to the policy.</p></details>
       <details style="background:var(--gray-50); border:1px solid var(--gray-200); border-radius:var(--radius); padding:18px 22px; margin-bottom:12px;"><summary style="font-weight:700; color:var(--navy); cursor:pointer; font-size:1.05rem;">Which plan options should I compare?</summary><p style="margin-top:12px; color:var(--gray-700);">David can help you compare Value, Copay Select Max, Plan 80 Max, and Plan 100 Max where available. The right comparison depends on doctors, prescriptions, deductible comfort, office visit needs, and whether you want a lower premium or stronger cost control after the deductible.</p></details>
       <details style="background:var(--gray-50); border:1px solid var(--gray-200); border-radius:var(--radius); padding:18px 22px; margin-bottom:12px;"><summary style="font-weight:700; color:var(--navy); cursor:pointer; font-size:1.05rem;">How is Health ProtectorGuard different from short-term medical?</summary><p style="margin-top:12px; color:var(--gray-700);">Health ProtectorGuard is fixed-indemnity coverage, not major medical. It pays scheduled benefits for certain covered services and is separate from short-term medical. It does not replace comprehensive coverage or remove a short-term plan's exclusions and limits.</p></details>
     </div>
@@ -1174,7 +1203,7 @@ header .cta-button {
 <div class="disclaimers">
   <div class="disclaimers-inner">
     <div class="disclaimer-box important"><h4>Required Disclosure -- Short-Term Medical Insurance</h4><p>Short-term medical insurance provides limited duration coverage and is <strong>not</strong> ACA-compliant major medical insurance or Minimum Essential Coverage. It is medically underwritten and may exclude or limit benefits for pre-existing conditions, certain services, and non-network care. Review the policy, certificate, and state-specific materials before applying.</p></div>
-    <div class="disclaimer-box"><h4>TriTerm Medical Product Notes</h4><p>TriTerm Medical plans are underwritten by Golden Rule Insurance Company, a UnitedHealthcare company. Product details summarized from Florida TriTerm Medical brochure 52404FL-G202510, FACT 52643f-G202510, flyer 52777-G202510, and product availability grid 42839-X202605. Benefits, rates, eligibility, and availability can change and must be confirmed for the applicant's ZIP code and application date.</p></div>
+    <div class="disclaimer-box"><h4>TriTerm Medical Product Notes</h4><p>TriTerm Medical plans are underwritten by Golden Rule Insurance Company, a UnitedHealthcare company. Product details are based on current Florida TriTerm Medical materials. Benefits, rates, eligibility, and availability can change and must be confirmed for the applicant's ZIP code and application date.</p></div>
     <div class="disclaimer-box"><h4>Pre-Existing Condition and Network Notes</h4><p>TriTerm Medical applies a pre-existing condition limitation. Network access and non-network benefits differ by plan design. Emergency treatment by a non-network provider may still leave the insured responsible for amounts above what the plan pays. Prescription coverage, preventive benefits, and provider access vary by plan option.</p></div>
     <div class="disclaimer-box"><h4>Broker Disclosure</h4><p>Lakeland Health Insurance is operated by David Huff, licensed Florida insurance broker #W371813. This page is educational and does not replace carrier documents, policy language, underwriting review, or legal/tax advice.</p></div>
   </div>
