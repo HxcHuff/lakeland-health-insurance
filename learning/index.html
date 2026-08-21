@@ -480,6 +480,53 @@
             font-size: 0.95rem;
         }
 
+        .resource-path-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.25rem;
+        }
+
+        .resource-path-group {
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem;
+        }
+
+        .resource-path-group h3 {
+            color: var(--navy);
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.45rem;
+            font-weight: 400;
+            margin: 0 0 0.75rem;
+        }
+
+        .resource-path-group ul {
+            display: grid;
+            gap: 0.55rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .resource-path-group a {
+            color: var(--blue);
+            font-weight: 650;
+            line-height: 1.4;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.18em;
+        }
+
+        .resource-path-group a:hover,
+        .resource-path-group a:focus-visible {
+            color: var(--navy);
+        }
+
+        @media (max-width: 760px) {
+            .resource-path-grid { grid-template-columns: 1fr; }
+        }
+
         /* External Resources List */
         .resources-list {
             display: grid;
@@ -767,6 +814,7 @@
             <nav class="topic-nav" aria-label="Learning center topics">
                 <a class="topic-link" href="#tools">Estimate and compare<span>Calculators and coverage-review tools</span></a>
                 <a class="topic-link" href="#guides">Understand coverage<span>ACA, Medicare, network, and supplemental guides</span></a>
+                <a class="topic-link" href="#coverage-paths">Find your situation<span>Life changes, local help, and service pathways</span></a>
                 <a class="topic-link" href="#official-resources">Check official sources<span>Federal and Florida consumer resources</span></a>
                 <a class="topic-link" href="#carrier-guides">Review carrier procedures<span>Enrollment, network, formulary, and account guidance</span></a>
             </nav>
@@ -856,6 +904,91 @@
                     <p>See how eligibility, providers, prescriptions, plan documents, and total financial exposure are reviewed before enrollment.</p>
                 </a>
             </div>
+        </div>
+    </section>
+
+    <section class="learning-section" id="coverage-paths" aria-labelledby="coverage-paths-heading">
+        <div class="container">
+            <h2 class="section-heading" id="coverage-paths-heading">Coverage Situations and Local Help</h2>
+            <p class="section-subtitle">Choose the question closest to your situation. These pages explain what to verify and when a plan-specific review may be appropriate.</p>
+            <div class="resource-path-grid">
+                <section class="resource-path-group" aria-labelledby="aca-paths-heading">
+                    <h3 id="aca-paths-heading">ACA, income, and life changes</h3>
+                    <ul>
+                        <li><a href="/blog/aca-open-enrollment-deadline.html">ACA Open Enrollment preparation checklist</a></li>
+                        <li><a href="/blog/aca-subsidy-wrong-income-florida.html">Correcting an ACA subsidy income estimate</a></li>
+                        <li><a href="/blog/employer-coverage-family-marketplace-affordability-florida.html">Employer family coverage and Marketplace affordability</a></li>
+                        <li><a href="/blog/health-insurance-too-much-income-aca-subsidy-florida.html">Coverage when income is too high for an ACA subsidy</a></li>
+                        <li><a href="/blog/lost-job-coverage-aca-insurance-florida.html">Health insurance after losing job-based coverage</a></li>
+                        <li><a href="/losing-coverage/">Losing-coverage action plan</a></li>
+                        <li><a href="/losing-medicaid-florida/">Losing Medicaid in Florida</a></li>
+                        <li><a href="/retiring-before-65-florida/">Retiring before 65 in Florida</a></li>
+                        <li><a href="/turning-26/">Turning 26 coverage review</a></li>
+                    </ul>
+                </section>
+
+                <section class="resource-path-group" aria-labelledby="self-employed-paths-heading">
+                    <h3 id="self-employed-paths-heading">Self-employed and coverage-cost decisions</h3>
+                    <ul>
+                        <li><a href="/blog/freelancer-health-insurance-lakeland-2026.html">Freelancer health insurance in Lakeland</a></li>
+                        <li><a href="/blog/health-insurance-self-employed-lakeland-polk-county-2026.html">Self-employed coverage in Polk County</a></li>
+                        <li><a href="/self-employed-health-insurance/">Self-employed coverage overview</a></li>
+                        <li><a href="/local-health-insurance-answers/self-employed-health-insurance-polk-county/">Polk County self-employed insurance answers</a></li>
+                        <li><a href="/blog/health-insurance-too-expensive-florida-2026-short-term-options.html">Options when ACA coverage feels too expensive</a></li>
+                        <li><a href="/blog/high-deductible-hospital-bills-coverage-gap-florida.html">High deductibles and hospital-bill risk</a></li>
+                        <li><a href="/blog/short-term-vs-triterm-medical.html">Comparing short-term medical coverage structures</a></li>
+                        <li><a href="/short-term-medical/">Short-term medical coverage overview</a></li>
+                        <li><a href="/supplemental-insurance/">Supplemental insurance overview</a></li>
+                    </ul>
+                </section>
+
+                <section class="resource-path-group" aria-labelledby="medicare-paths-heading">
+                    <h3 id="medicare-paths-heading">Medicare timing and plan use</h3>
+                    <ul>
+                        <li><a href="/blog/turning-65-medicare-checklist-florida.html">Florida turning-65 Medicare checklist</a></li>
+                        <li><a href="/blog/medicare-vs-aca-central-florida-age-65.html">Medicare versus ACA around age 65</a></li>
+                        <li><a href="/blog/keep-doctor-switch-medicare-plans-florida.html">Keeping doctors when switching Medicare plans</a></li>
+                        <li><a href="/medicare/east-polk/">East Polk Medicare help</a></li>
+                        <li><a href="/moving-florida-medicare/">Moving with Medicare in Florida</a></li>
+                        <li><a href="/local-health-insurance-answers/medicare-plan-help-lakeland/">Medicare plan help in Lakeland</a></li>
+                    </ul>
+                </section>
+
+                <section class="resource-path-group" aria-labelledby="provider-paths-heading">
+                    <h3 id="provider-paths-heading">Doctors, prescriptions, and local systems</h3>
+                    <ul>
+                        <li><a href="/blog/change-florida-blue-myblue-pcp-watson-clinic.html">Changing a primary-care provider on a myBlue plan</a></li>
+                        <li><a href="/blog/mental-health-awareness-month-therapy-benefit-lakeland-2026.html">Reviewing therapy and mental-health benefits</a></li>
+                        <li><a href="/blog/orlando-health-lakeland-quality-approval-2026.html">Orlando Health Lakeland quality approval explained</a></li>
+                        <li><a href="/blog/orlando-health-watson-clinic-insurance-2026.html">Orlando Health, Watson Clinic, and insurance networks</a></li>
+                        <li><a href="/provider-prescription-check/">Provider and prescription verification checklist</a></li>
+                        <li><a href="/local-health-insurance-answers/watson-clinic-insurance-network-help/">Watson Clinic network help</a></li>
+                        <li><a href="/blog/health-insurance-checkup-every-age.html">Health-insurance checkup by life stage</a></li>
+                    </ul>
+                </section>
+
+                <section class="resource-path-group" aria-labelledby="local-paths-heading">
+                    <h3 id="local-paths-heading">Local coverage help</h3>
+                    <ul>
+                        <li><a href="/local-health-insurance-answers/">Local health-insurance answers</a></li>
+                        <li><a href="/local-health-insurance-answers/health-insurance-broker-lakeland-fl/">Health-insurance broker help in Lakeland</a></li>
+                        <li><a href="/local-health-insurance-answers/employee-losing-group-coverage/">Employee losing group coverage</a></li>
+                        <li><a href="/davenport-health-insurance/">Davenport health-insurance help</a></li>
+                        <li><a href="/haines-city-health-insurance/">Haines City health-insurance help</a></li>
+                        <li><a href="/lake-alfred-health-insurance/">Lake Alfred health-insurance help</a></li>
+                    </ul>
+                </section>
+
+                <section class="resource-path-group" aria-labelledby="service-paths-heading">
+                    <h3 id="service-paths-heading">Client and referral service</h3>
+                    <ul>
+                        <li><a href="/current-client-review/">Current-client annual plan review</a></li>
+                        <li><a href="/post-enrollment-review/">Post-enrollment coverage review</a></li>
+                        <li><a href="/employer-referral/">Employer and professional referral pathway</a></li>
+                    </ul>
+                </section>
+            </div>
+            <div class="disclosure"><strong>Plan-specific verification:</strong> Educational pages do not establish eligibility, availability, provider participation, prescription coverage, benefits, or enrollment rights. Confirm the exact plan, service area, effective date, and controlling documents.</div>
         </div>
     </section>
 
