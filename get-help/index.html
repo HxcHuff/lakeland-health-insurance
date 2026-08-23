@@ -51,75 +51,159 @@
   <style>
     :root {
       --lhi-navy: #1B2A4A;
+      --lhi-navy-light: #243556;
       --lhi-blue: #2563EB;
       --lhi-gold: #D4A843;
-      --lhi-ink: #111827;
+      --lhi-gold-hover: #c49a38;
+      --lhi-ink: #1E293B;
       --lhi-muted: #5b6472;
-      --lhi-border: #d8dde8;
-      --lhi-panel: #ffffff;
-      --lhi-band: #f6f8fb;
+      --lhi-control-border: #64748B;
+      --lhi-line: #E2E8F0;
+      --lhi-panel: #FFFFFF;
+      --lhi-band: #F8FAFC;
     }
 
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body.get-help-page {
-      margin: 0;
       background: var(--lhi-band);
       color: var(--lhi-ink);
       font-family: 'DM Sans', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
     }
 
     .get-help-page .chat-widget-button,
     .get-help-page .messenger-button,
-    .get-help-page .click-to-call {
+    .get-help-page .click-to-call,
+    .get-help-page .floating-actions {
+      display: none !important;
+    }
+
+    /* Match the focused paid-page header while retaining the required shell loader. */
+    .lp-header {
+      background: var(--lhi-panel);
+      border-bottom: 1px solid var(--lhi-line);
+      box-shadow: none;
+      position: static;
+      width: auto;
+    }
+
+    .lp-header-inner {
+      align-items: center;
+      display: flex;
+      gap: 20px;
+      justify-content: flex-start;
+      margin: 0 auto;
+      max-width: 1040px;
+      padding: 12px 20px;
+    }
+
+    .lp-brand {
+      color: var(--lhi-navy);
+      font-family: 'Instrument Serif', serif;
+      font-size: 20px;
+      line-height: 1.1;
+      text-decoration: none;
+    }
+
+    .lp-brand span {
+      color: #7a5b00;
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    body.get-help-page header {
+      backdrop-filter: none;
+      box-shadow: none;
+      position: static;
+    }
+
+    body.get-help-page header nav.container {
+      justify-content: flex-start;
+      margin: 0 auto;
+      max-width: 1040px;
+      padding-bottom: 12px;
+      padding-top: 12px;
+    }
+
+    body.get-help-page header .brand-name {
+      color: var(--lhi-navy);
+      font-family: 'Instrument Serif', serif;
+      font-size: 20px;
+      line-height: 1.1;
+      text-decoration: none;
+    }
+
+    body.get-help-page header .license-tag {
+      color: #7a5b00;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    body.get-help-page header .menu-button,
+    body.get-help-page header .dropdown-menu,
+    body.get-help-page header .nav-links,
+    body.get-help-page header .cta-group {
       display: none !important;
     }
 
     .help-hero {
-      background: linear-gradient(180deg, #ffffff 0%, #f6f8fb 100%);
-      padding: 128px 20px 42px;
+      background: linear-gradient(135deg, var(--lhi-navy) 0%, var(--lhi-navy-light) 100%);
+      color: #fff;
+      padding: 46px 20px 42px;
+      text-align: center;
     }
 
-    .help-layout {
-      display: grid;
-      gap: 32px;
-      grid-template-columns: minmax(280px, 0.82fr) minmax(340px, 560px);
+    .help-copy {
       margin: 0 auto;
-      max-width: 1180px;
+      max-width: 720px;
     }
 
     .help-copy h1 {
-      color: var(--lhi-navy);
+      color: #fff;
       font-family: 'Instrument Serif', serif;
-      font-size: clamp(2.5rem, 5vw, 4.75rem);
+      font-size: clamp(32px, 5vw, 48px);
       font-weight: 400;
       letter-spacing: 0;
-      line-height: 1;
-      margin: 0 0 1rem;
+      line-height: 1.15;
+      margin: 0 0 16px;
     }
 
     .eyebrow {
-      color: var(--lhi-blue);
-      font-size: 0.78rem;
-      font-weight: 900;
-      letter-spacing: 0.12em;
-      margin: 0 0 0.75rem;
-      text-transform: uppercase;
+      background: rgba(212, 168, 67, 0.15);
+      border-radius: 999px;
+      color: var(--lhi-gold);
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin: 0 0 20px;
+      padding: 6px 16px;
+      text-transform: none;
     }
 
-    .help-copy p {
-      color: var(--lhi-muted);
-      font-size: 1.05rem;
-      line-height: 1.65;
-      margin: 0 0 1rem;
-      max-width: 620px;
+    .help-copy > p:not(.eyebrow):not(.review-note) {
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 18px;
+      line-height: 1.6;
+      margin: 0 auto 24px;
+      max-width: 600px;
     }
 
     .quick-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin: 1.5rem 0;
+      justify-content: center;
+      margin: 0 0 20px;
     }
 
     .action-link,
@@ -130,43 +214,67 @@
       font-weight: 800;
       justify-content: center;
       min-height: 46px;
-      padding: 12px 16px;
+      padding: 12px 18px;
       text-decoration: none;
     }
 
     .action-link.primary,
     .form-button {
-      background: var(--lhi-blue);
-      border: 1px solid var(--lhi-blue);
-      color: #fff;
-    }
-
-    .action-link.secondary {
-      background: #fff;
-      border: 1px solid var(--lhi-border);
+      background: var(--lhi-gold);
+      border: 1px solid var(--lhi-gold);
       color: var(--lhi-navy);
     }
 
+    .action-link.primary:hover,
+    .form-button:hover { background: var(--lhi-gold-hover); }
+
+    .action-link.secondary {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      color: #fff;
+    }
+
+    .action-link.secondary:hover { background: rgba(255, 255, 255, 0.1); }
+
     .review-note {
-      border-left: 4px solid var(--lhi-gold);
-      color: var(--lhi-muted);
-      margin-top: 1.25rem;
-      padding: 0.1rem 0 0.1rem 1rem;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.5;
+      margin: 0 auto;
+      max-width: 620px;
+    }
+
+    .form-section {
+      background: var(--lhi-panel);
+      border-top: 1px solid var(--lhi-line);
+      padding: 40px 20px 52px;
     }
 
     .form-shell {
       background: var(--lhi-panel);
-      border: 1px solid var(--lhi-border);
-      border-radius: 8px;
-      box-shadow: 0 18px 48px rgba(27, 42, 74, 0.12);
-      padding: clamp(18px, 3vw, 28px);
+      border: 1px solid var(--lhi-line);
+      border-radius: 12px;
+      box-shadow: 0 16px 40px rgba(27, 42, 74, 0.1);
+      margin: 0 auto;
+      max-width: 720px;
+      padding: clamp(20px, 4vw, 32px);
+    }
+
+    #leadForm { scroll-margin-top: 12px; }
+
+    fieldset {
+      border: 0;
+      margin: 0;
+      min-width: 0;
+      padding: 0;
     }
 
     .progress {
       color: var(--lhi-muted);
       font-size: 0.86rem;
       font-weight: 800;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
 
     .form-step[hidden] { display: none; }
@@ -174,15 +282,15 @@
     .form-step h2 {
       color: var(--lhi-navy);
       font-family: 'Instrument Serif', serif;
-      font-size: clamp(1.75rem, 3vw, 2.4rem);
+      font-size: clamp(1.9rem, 4vw, 2.5rem);
       font-weight: 400;
       letter-spacing: 0;
       line-height: 1.08;
-      margin: 0 0 0.75rem;
+      margin: 0 0 0.65rem;
     }
 
     .form-step h2:focus-visible {
-      outline: 3px solid var(--lhi-gold);
+      outline: 3px solid var(--lhi-navy);
       outline-offset: 4px;
     }
 
@@ -198,19 +306,28 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    /* Reserve the default six-choice footprint before the intake script hydrates it. */
+    #intentOptions { min-height: 212px; }
+
     .choice {
-      border: 1px solid var(--lhi-border);
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid var(--lhi-control-border);
       border-radius: 8px;
       cursor: pointer;
       display: flex;
       gap: 10px;
-      min-height: 48px;
+      min-height: 52px;
       padding: 12px;
     }
 
+    .choice:hover { background: var(--lhi-band); }
     .choice input { margin-top: 3px; }
     .choice span { font-weight: 800; line-height: 1.35; }
-    .choice:has(input:checked) { border-color: var(--lhi-blue); box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.16); }
+    .choice:has(input:checked) {
+      border-color: var(--lhi-blue);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18);
+    }
 
     .field-grid {
       display: grid;
@@ -222,7 +339,8 @@
     .field.full { grid-column: 1 / -1; }
     .field label, .group-label { color: var(--lhi-navy); font-weight: 800; }
     .field input, .field select, .field textarea {
-      border: 1px solid var(--lhi-border);
+      background: #fff;
+      border: 1px solid var(--lhi-control-border);
       border-radius: 8px;
       color: var(--lhi-ink);
       font: inherit;
@@ -248,16 +366,28 @@
 
     .consent {
       align-items: flex-start;
+      background: var(--lhi-band);
+      border: 1px solid var(--lhi-line);
+      border-radius: 10px;
+      cursor: pointer;
       display: flex;
       gap: 10px;
       margin-top: 12px;
+      padding: 12px;
     }
 
-    .consent input { margin-top: 4px; }
+    .consent input {
+      flex: 0 0 auto;
+      height: 20px;
+      margin-top: 2px;
+      min-height: 20px;
+      width: 20px;
+    }
+
     .consent span { color: var(--lhi-muted); font-size: 0.85rem; line-height: 1.45; }
     .consent-group {
-      border: 1px solid var(--lhi-border);
-      border-radius: 8px;
+      border: 1px solid var(--lhi-control-border);
+      border-radius: 10px;
       margin-top: 14px;
       padding: 12px 14px 14px;
     }
@@ -265,9 +395,9 @@
     .consent-help { color: var(--lhi-muted); font-size: .85rem; line-height: 1.45; margin: 0; }
 
     .optional-panel {
-      background: #f9fafc;
-      border: 1px solid var(--lhi-border);
-      border-radius: 8px;
+      background: var(--lhi-band);
+      border: 1px solid var(--lhi-line);
+      border-radius: 10px;
       margin-top: 18px;
       padding: 16px;
     }
@@ -287,7 +417,7 @@
 
     .ghost-button {
       background: #fff;
-      border: 1px solid var(--lhi-border);
+      border: 1px solid var(--lhi-control-border);
       border-radius: 8px;
       color: var(--lhi-navy);
       cursor: pointer;
@@ -298,19 +428,20 @@
     }
 
     .form-button {
-      border: 0;
       cursor: pointer;
       font: inherit;
     }
 
     .form-button[disabled] {
-      background: #b8c1d1;
+      background: #CBD5E1;
+      border-color: #CBD5E1;
+      color: #64748B;
       cursor: not-allowed;
     }
 
     .error-summary {
       background: #fff7ed;
-      border: 1px solid #fed7aa;
+      border: 1px solid #c2410c;
       border-radius: 8px;
       color: #7c2d12;
       font-weight: 700;
@@ -325,40 +456,101 @@
       min-height: 1.2em;
     }
 
-    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-      outline: 3px solid rgba(212, 168, 67, 0.75);
-      outline-offset: 2px;
+    .page-privacy {
+      color: var(--lhi-muted);
+      font-size: 13px;
+      margin: 18px auto 0;
+      text-align: center;
     }
 
-    @media (max-width: 860px) {
-      .help-layout { grid-template-columns: 1fr; }
-      .help-hero { padding-top: 108px; }
+    .page-privacy a,
+    .form-shell a {
+      color: var(--lhi-navy);
+      font-weight: 700;
+      text-underline-offset: 3px;
+    }
+
+    .lp-brand:focus-visible,
+    body.get-help-page header .brand-name:focus-visible,
+    .field input:focus-visible,
+    .field select:focus-visible,
+    .field textarea:focus-visible,
+    .choice:focus-within,
+    .ghost-button:focus-visible,
+    .form-button:focus-visible {
+      outline: 3px solid var(--lhi-navy);
+      outline-offset: 3px;
+    }
+
+    .consent:focus-within,
+    .consent input:focus-visible,
+    .form-shell a:focus-visible,
+    .page-privacy a:focus-visible {
+      outline: 3px solid var(--lhi-navy);
+      outline-offset: 3px;
+    }
+
+    .help-copy .action-link:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 3px;
+    }
+
+    body.get-help-page footer .footer-grid { display: none; }
+    body.get-help-page footer .footer-bottom {
+      border-top: 0;
+      padding-top: 0;
+    }
+    body.get-help-page footer .footer-bottom p:last-child { display: none; }
+    body.get-help-page footer .bbb-footer-copy span {
+      color: #CBD5E1;
+      opacity: 1;
     }
 
     @media (max-width: 620px) {
-      .help-hero { padding-left: 14px; padding-right: 14px; }
+      .lp-header-inner { padding: 10px 16px; }
+      .lp-brand { font-size: 18px; }
+      body.get-help-page header .brand-name { font-size: 18px; }
+      .help-hero { padding: 34px 16px 30px; }
+      .help-copy h1 { font-size: 28px; }
+      .help-copy > p:not(.eyebrow):not(.review-note) { font-size: 16px; }
+      .review-note { font-size: 13px; }
+      .form-section { padding: 32px 16px 42px; }
+      .form-shell { padding: 20px 16px; }
       .option-grid, .field-grid { grid-template-columns: 1fr; }
+      #intentOptions { min-height: 414px; }
       .quick-actions, .step-actions { flex-direction: column; }
       .action-link, .ghost-button, .form-button { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
     }
   </style>
   <script defer src="/js/analytics.js?v=20260821-lead-reconciliation"></script>
 </head>
 <body class="get-help-page">
-  <main class="help-hero">
-    <div class="help-layout">
-      <section class="help-copy" aria-labelledby="get-help-title">
-        <p class="eyebrow" id="intent-eyebrow">Licensed Florida broker guidance</p>
+  <header class="lp-header">
+    <div class="lp-header-inner">
+      <a class="lp-brand" href="/">Lakeland Health Insurance<span>Licensed FL Broker #W371813</span></a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="help-hero">
+      <div class="help-copy" aria-labelledby="get-help-title">
+        <p class="eyebrow" id="intent-eyebrow">Not sure</p>
         <h1 id="get-help-title">Get help with the coverage decision in front of you.</h1>
-        <p id="intent-copy">Tell David what changed—job coverage, premiums, self-employment, early retirement, Medicare, or another deadline—so he can prepare for the right conversation.</p>
+        <p id="intent-copy">Start with the coverage change, deadline, or plan question you need to address.</p>
         <div class="quick-actions" aria-label="Ways to get help">
           <a class="action-link primary" href="#leadForm">Start My Request</a>
           <a class="action-link secondary" href="/calendly-book.html" data-funnel-booking>Choose a time</a>
         </div>
         <p class="review-note">David personally reviews each request and follows up only through a channel authorized in the form. If you prefer not to submit the form, call (863) 640-3102 or choose an available appointment time.</p>
-      </section>
+      </div>
+    </section>
 
-      <section class="form-shell" aria-labelledby="form-title">
+    <section class="form-section" aria-labelledby="form-title">
+      <div class="form-shell">
         <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm" data-funnel-track data-funnel-event="Lead" data-funnel-name="get_help_default">
           <input type="hidden" name="form-name" value="get-help">
           <div hidden aria-hidden="true">
@@ -530,8 +722,9 @@
             <div class="status-message" id="formStatus" role="status" aria-live="polite"></div>
           </div>
         </form>
-      </section>
-    </div>
+      </div>
+      <p class="page-privacy">Your request is handled under our <a href="/privacy-policy.html">Privacy Policy</a>.</p>
+    </section>
   </main>
 
   <script src="/js/get-help-intake.js?v=20260820-customer-language" defer></script>

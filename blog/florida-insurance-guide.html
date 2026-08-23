@@ -149,7 +149,7 @@
             backdrop-filter: blur(10px);
             position: fixed;
             top: 0;
-            width: 100%;
+            width: 100% !important;
             z-index: 1000;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
@@ -443,6 +443,58 @@
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
         }
+        .cta-section .zip-start-form {
+            margin: 1.5rem auto 0;
+            max-width: 540px;
+            width: 100%;
+        }
+        .zip-start-form label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .zip-start-controls {
+            display: grid;
+            gap: 0.75rem;
+            grid-template-columns: minmax(150px, 0.58fr) minmax(220px, 1fr);
+        }
+        .zip-start-controls input,
+        .zip-start-controls button {
+            border: 2px solid transparent;
+            border-radius: 100px;
+            font: inherit;
+            font-weight: 700;
+            min-height: 52px;
+            padding: 13px 20px;
+            width: 100%;
+        }
+        .zip-start-controls input {
+            background: white;
+            color: #0F1A2E;
+        }
+        .zip-start-controls input:focus {
+            border-color: #0F1A2E;
+            outline: 3px solid rgba(255, 255, 255, 0.8);
+            outline-offset: 2px;
+        }
+        .zip-start-controls button {
+            background: #0F1A2E;
+            color: white;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        .zip-start-controls button:hover {
+            background: #1B2A4A;
+            transform: translateY(-2px);
+        }
+        .zip-start-controls button:focus-visible {
+            outline: 3px solid white;
+            outline-offset: 3px;
+        }
+        .zip-start-note {
+            font-size: 0.9rem !important;
+            margin: 0.65rem 0 0 !important;
+        }
         .disclaimer {
             background: #f1f5f9;
             border: 1px solid #cbd5e1;
@@ -581,6 +633,9 @@
                 display: block;
                 margin: 10px 0;
             }
+            .zip-start-controls {
+                grid-template-columns: 1fr;
+            }
         }
     
 /* LHI Header Standardization Override */
@@ -689,6 +744,21 @@ header .cta-button {
 
                 <p>The biggest mistake at Medicare age is shopping by premium first. The better order is timeline, plan structure, provider access, then annual cost.</p>
 
+                <div class="cta-section">
+                    <h3>Want Help Sorting Through Medicare Choices?</h3>
+                    <p>Talk to David about the plan structure and coverage priorities that matter most before you make a decision.</p>
+                    <form class="zip-start-form" action="/get-help/" method="GET" aria-label="Start a Medicare plan review">
+                        <input type="hidden" name="intent" value="medicare">
+                        <label for="medicareGuideZip">Start with your ZIP code</label>
+                        <div class="zip-start-controls">
+                            <input id="medicareGuideZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="ZIP code" aria-describedby="medicareGuideZipNote" required>
+                            <button type="submit">Start My Medicare Review</button>
+                        </div>
+                        <p class="zip-start-note" id="medicareGuideZipNote">ZIP only starts the form. You will choose what you need help with next.</p>
+                    </form>
+                    <a href="tel:+18636403102">Call (863) 640-3102</a>
+                </div>
+
                 <div class="challenge-section">
                     <h2>1) Know Your Medicare Enrollment Timeline</h2>
                     <p>Missing timing windows can create penalties or delayed effective dates.</p>
@@ -778,9 +848,9 @@ header .cta-button {
 
                 <div class="cta-section">
                     <h3>Need a 65+ Medicare Plan Check?</h3>
-                    <p>I can run a side-by-side Medicare comparison using your doctors, prescriptions, and expected utilization.</p>
+                    <p>I can help you compare plan structures and prepare the questions to verify before you enroll.</p>
                     
-                    <a href="/get-help/">Start Here</a>
+                    <a href="/get-help/">Talk to David</a>
                     <a href="tel:+18636403102">Call (863) 640-3102</a>
                     
                     <p style="margin-top: 1rem; font-size: 1.1rem;"><strong>Licensed FL Broker #W371813</strong></p>

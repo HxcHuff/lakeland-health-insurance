@@ -205,121 +205,113 @@
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'DM Sans', sans-serif; color: #1E293B; background: var(--bg); line-height: 1.65; }
     .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
-    .top { background: var(--navy); color: #fff; padding: 12px 0; font-size: 0.9rem; }
-    .top a { color: #fff; }
-    header { background: #fff; border-bottom: 1px solid var(--line); }
-    nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 14px 0; }
-    nav a { color: var(--navy); text-decoration: none; font-weight: 600; }
-    .hero { padding: 44px 0 22px; }
-    .hero h1 { margin: 0 0 10px; color: var(--navy); font-size: 2rem; line-height: 1.2; }
-    .accent { font-family: 'Instrument Serif', serif; color: var(--gold); font-style: italic; }
-    .hero p { margin: 0 0 12px; color: var(--gray); max-width: 860px; }
-    .meta { font-size: 0.92rem; color: var(--gray); }
-    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 16px; }
-    h2 { margin: 8px 0 10px; color: var(--navy); }
+    .article-hero { background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%); color: #fff; padding: 50px 20px 32px; }
+    .article-hero h1 { margin: 0 0 12px; color: #fff !important; font-family: 'Instrument Serif', serif; font-size: clamp(2.1rem, 5vw, 4rem); font-weight: 400; line-height: 1.06; max-width: 900px; }
+    .accent { color: var(--gold) !important; font-style: italic; }
+    .article-hero p { margin: 0 0 12px; color: rgba(255,255,255,0.9); max-width: 840px; }
+    .meta { font-size: 0.92rem; color: rgba(255,255,255,0.82); }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px; margin-bottom: 16px; }
+    h2 { margin: 8px 0 10px; color: var(--navy); font-family: 'Instrument Serif', serif; font-size: 1.85rem; font-weight: 400; line-height: 1.15; }
     h3 { margin: 14px 0 8px; color: var(--navy); }
     p { margin: 0 0 12px; }
     ul, ol { margin: 8px 0 0; padding-left: 20px; }
     li { margin-bottom: 8px; }
+    a { color: #1D4ED8; }
     .warn { background: var(--warnbg); border-left: 4px solid var(--danger); }
     .safe { background: var(--safebg); border-left: 4px solid #2563EB; }
-    .media { margin-top: 12px; }
+    .media { margin: 14px 0 4px; }
     .media img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12); }
     .media figcaption { color: var(--gray); font-size: 0.9rem; margin-top: 8px; }
     .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      min-width: 190px;
-      text-decoration: none;
-      font-weight: 700;
-      line-height: 1.2;
-      border-radius: 8px;
-      padding: 12px 22px;
-      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
-    }
-    .btn-primary { background: var(--gold); color: #0F1A2E; border: 2px solid var(--gold); }
-    .btn-primary:hover { background: #c4982e; border-color: #c4982e; transform: translateY(-1px); }
-    .btn-secondary { border: 2px solid var(--line); color: var(--navy); background: #fff; }
-    .btn-secondary:hover { border-color: var(--navy); transform: translateY(-1px); }
+    .btn { display: inline-block; text-decoration: none; font-weight: 700; border-radius: 10px; padding: 12px 16px; }
+    .btn-primary { background: var(--gold); color: #111827; }
+    .btn-secondary { border: 1px solid var(--line); color: var(--navy); background: #fff; }
     .small { font-size: 0.9rem; color: var(--gray); }
     footer { padding: 24px 0 40px; }
     @media (max-width: 720px) {
-      .hero h1 { font-size: 1.7rem; }
+      .article-hero { padding: 34px 20px 24px; }
       .card { padding: 16px; }
     }
-
-/* LHI Header Standardization Override */
-header .brand-name,
-header .logo {
-  font-family: 'Instrument Serif', serif !important;
-  font-size: 1.2rem !important;
-  font-weight: 400 !important;
-  line-height: 1.2 !important;
-  color: var(--navy, #1B2A4A) !important;
-  letter-spacing: 0 !important;
-  text-decoration: none !important;
-}
-
-header .license-tag,
-header .logo::after {
-  content: 'Licensed FL Broker #W371813' !important;
-  font-family: 'DM Sans', sans-serif !important;
-  font-size: 0.7rem !important;
-  font-weight: 600 !important;
-  color: var(--gold, #D4A843) !important;
-  line-height: 1.1 !important;
-  display: block !important;
-  margin-top: 2px !important;
-}
-
-header .nav-links a {
-  font-size: 1rem !important;
-  font-weight: 500 !important;
-  line-height: 1.2 !important;
-}
-
-header .cta-button {
-  font-size: 1rem !important;
-  font-weight: 600 !important;
-  line-height: 1.2 !important;
-}
 
   </style>
 
   <link rel="stylesheet" href="/css/blog-unified.css?v=20260803-brand-release">
   <script defer src="/js/analytics.js?v=20260821-lead-reconciliation"></script>
-    <link rel="stylesheet" href="/css/site-template.css?v=20260820-sitelink-leads">
+  <link rel="stylesheet" href="/css/site-template.css?v=20260820-sitelink-leads">
+  <style>
+    .article-hero.hero {
+      background: linear-gradient(165deg, #0F1A2E 0%, #1B2A4A 50%, #1E3A5F 100%) !important;
+    }
+
+    .article-hero.hero h1 {
+      font-family: 'Instrument Serif', serif !important;
+      font-size: clamp(2.5rem, 5vw, 3.5rem) !important;
+      font-weight: 400 !important;
+      line-height: 1.2 !important;
+    }
+  </style>
 </head>
 <body class="blog-post">
-  <div class="top">
-    <div class="container">Need a Polk County network check? Call <a href="tel:+18636403102">(863) 640-3102</a></div>
+  <div class="compliance-banner">
+    <strong>Insurance questions?</strong> Call <a href="tel:+18636403102">(863) 640-3102</a> or <a href="/get-help/">start a plan review</a>. FL Broker License #W371813
   </div>
 
   <header>
-    <div class="container">
-      <nav>
-        <a href="/">Lakeland Health Insurance</a>
-        <a href="/blog/">Blog</a>
-        <a href="/plans/">Plans</a>
-        <a href="/get-help/">Get Help</a>
-      </nav>
-    </div>
+    <nav class="container">
+      <div class="logo-container">
+        <a class="brand-name" href="/">
+          Lakeland Health Insurance
+          <span class="license-tag">Licensed FL Broker #W371813</span>
+        </a>
+        <button class="menu-button" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+          <div class="ellipses" aria-hidden="true">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </button>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <div class="menu-item"><a href="/">Home</a></div>
+          <div class="menu-item"><a href="/plans/">Health Plans</a></div>
+          <div class="menu-item"><a href="/carriers/">Carriers</a></div>
+          <div class="menu-item"><a href="/get-help/">Get Help</a></div>
+          <div class="menu-item"><a href="/blog/">Blog</a></div>
+          <div class="menu-item"><a href="/about/">About</a></div>
+          <div class="menu-item"><a href="/learning/">Learn</a></div>
+          <div class="menu-item"><a href="/calendly-book.html">Book a Call</a></div>
+          <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/plans/">Health Plans</a></li>
+        <li><a href="/carriers/">Carriers</a></li>
+        <li><a href="/medicare/">Medicare</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/learning/">Learn</a></li>
+        <li><a href="/get-help/">Get Help</a></li>
+      </ul>
+      <div class="cta-group">
+        <a href="/get-help/" class="cta-button">Talk to David</a>
+      </div>
+    </nav>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <h1>Orlando Health's Polk County Expansion: <em class="accent">What It Means for Your 2026 Plan</em></h1>
-      <p>Polk County is in the middle of the biggest hospital build-out it has ever seen. Orlando Health, Watson Clinic, BayCare, AdventHealth, Lakeland Regional, and Moffitt are all opening new facilities between now and 2029. If you're shopping ACA marketplace coverage or Medicare Advantage, that changes the math on which plan actually covers your doctors.</p>
-      <p class="meta">Published April 30, 2026 | By David Huff, Licensed Florida Insurance Broker #W371813</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="/get-help/?intent=provider-check">Request Network Check</a>
-        <a class="btn btn-secondary" href="tel:+18636403102">Call David</a>
+  <main>
+    <section class="article-hero hero">
+      <div class="container">
+        <h1>Orlando Health's Polk County Expansion: <em class="accent">What It Means for Your 2026 Plan</em></h1>
+        <p>Polk County is in the middle of the biggest hospital build-out it has ever seen. Orlando Health, Watson Clinic, BayCare, AdventHealth, Lakeland Regional, and Moffitt are all opening new facilities between now and 2029. If you're shopping ACA marketplace coverage or Medicare Advantage, that changes the math on which plan actually covers your doctors.</p>
+        <p class="meta">Published April 30, 2026 | By David Huff, Licensed Florida Insurance Broker #W371813</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/get-help/?intent=provider-check">Talk to David</a>
+          <a class="btn btn-secondary" href="tel:+18636403102">Call (863) 640-3102</a>
+        </div>
       </div>
     </section>
 
+    <div class="container">
     <section class="card safe">
       <h2>Fast Answer</h2>
       <ul>
@@ -423,12 +415,13 @@ header .cta-button {
       <h2>Want a Network Check Before Open Enrollment?</h2>
       <p>I'm a licensed Florida broker based in Polk County. I can review your current plan against your doctor list and compare 2027 plan options after current carrier documents and networks are released.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="/get-help/?intent=provider-check">Request Network Check</a>
-        <a class="btn btn-secondary" href="tel:+18636403102">Call David</a>
+        <a class="btn btn-primary" href="/get-help/?intent=provider-check">Talk to David</a>
+        <a class="btn btn-secondary" href="tel:+18636403102">Call (863) 640-3102</a>
       </div>
       <p class="small" style="font-size: 1rem; line-height: 1.6;">We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program to get information on all of your options.</p>
       <p class="small">Company inventory note: HealthMarkets/Connecture displayed 10 organizations and 73 products for the selected 2026 Lakeland/Polk County service area on August 17, 2026. Those figures are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
     </section>
+    </div>
   </main>
 
   <footer class="container">
