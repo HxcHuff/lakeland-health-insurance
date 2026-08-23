@@ -532,29 +532,6 @@ test('pageType — case-insensitive', () => {
   assert.equal(w.LHI._t.pageType(), 'lp_medicare');
 });
 
-test('leadValueFor — known type returns its mapped value', () => {
-  const { leadValueFor, LEAD_VALUE_BY_PAGE_TYPE } = loadFunnel().LHI._t;
-  /* All defaults are 0 today. When values are tuned, these assertions
-     still pass because they read from the same map. The point of this
-     test is to lock the lookup CONTRACT, not the dollar amounts. */
-  for (const key of Object.keys(LEAD_VALUE_BY_PAGE_TYPE)) {
-    assert.equal(leadValueFor(key), LEAD_VALUE_BY_PAGE_TYPE[key], `leadValueFor(${key})`);
-  }
-});
-
-test('leadValueFor — unknown type falls back to default', () => {
-  const { leadValueFor, LEAD_VALUE_BY_PAGE_TYPE } = loadFunnel().LHI._t;
-  assert.equal(leadValueFor('does_not_exist'), LEAD_VALUE_BY_PAGE_TYPE['default']);
-  assert.equal(leadValueFor(undefined), LEAD_VALUE_BY_PAGE_TYPE['default']);
-  assert.equal(leadValueFor(''), LEAD_VALUE_BY_PAGE_TYPE['default']);
-});
-
-test('LEAD_CONVERSION_SEND_TO — has the expected Google Ads format', () => {
-  const { LEAD_CONVERSION_SEND_TO } = loadFunnel().LHI._t;
-  /* AW-<account>/<label>. Catches accidental edits that break gtag dispatch. */
-  assert.match(LEAD_CONVERSION_SEND_TO, /^AW-\d+\/[A-Za-z0-9_-]+$/);
-});
-
 test('phone clicks fire canonical phone_call_click', () => {
   const { dataLayer, clickTel } = loadAnalytics({ telLabel: 'Call 863-640-3102' });
 

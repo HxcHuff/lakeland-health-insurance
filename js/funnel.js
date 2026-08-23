@@ -4,7 +4,7 @@
  *
  * Fires to:
  *   - Google Tag Manager (GTM-W6MZ7XT6)
- *   - Google Ads conversion events for delivered Lead events
+ *   - GTM's single accepted-Lead trigger, which owns downstream GA4 and Ads tags
  *
  * Usage:
  *   window.LHI.track('StartLead', { content_name: 'lead_form', step: 'start' });
@@ -27,9 +27,6 @@
 (function (w, d) {
   'use strict';
 
-  /* Google Ads "Submit lead form" conversion. Fires a non-identifying
-     conversion event after first-party form delivery. */
-  var LEAD_CONVERSION_SEND_TO = 'AW-300112445/hChjCJvYraUcEL20jY8B';
   var OPENAI_ADS_CONFIG_PATH = '/api/openai-ads-config';
   var OPENAI_ADS_SDK_SRC = 'https://bzrcdn.openai.com/sdk/oaiq.min.js';
   var openAIAdsConfigPromise = null;
@@ -236,40 +233,6 @@
       content_cluster: MEDICARE_CONTENT_CLUSTER,
       intent: 'medicare'
     }, source || {});
-  }
-
-  /* Per-page-type lead value (USD) sent with the Google Ads conversion.
-     Smart Bidding uses these as a relative-LTV signal — Medicare residuals
-     are worth multiples of an ACA enrollment, so weighting matters. Edit
-     one place to tune. Default 0 = unchanged behavior; 'default' applies
-     when pageType() returns something not in the map. Anything <= 0 still
-     fires the conversion (count signal) but with value 0. */
-  var LEAD_VALUE_BY_PAGE_TYPE = {
-    lp_medicare: 0,
-    local_seo_medicare: 0,
-    lp_aca: 0,
-    local_seo_aca: 0,
-    lp_job_loss: 0,
-    estimator: 0,
-    lp_gap: 0,
-    guard_lp: 0,
-    dime_method: 0,
-    lp_losing_coverage: 0,
-    lp_turning_26: 0,
-    lp_self_employed: 0,
-    lp_current_client_review: 0,
-    lp_provider_check: 0,
-    lp_employer_referral: 0,
-    lp_post_enrollment_review: 0,
-    get_help: 0,
-    guide_optin: 0,
-    booking: 0,
-    'default': 0
-  };
-
-  function leadValueFor(pt) {
-    if (hasOwn(LEAD_VALUE_BY_PAGE_TYPE, pt)) return LEAD_VALUE_BY_PAGE_TYPE[pt];
-    return LEAD_VALUE_BY_PAGE_TYPE['default'] || 0;
   }
 
   /* eventID generator — used for conversion transaction IDs and event audit trails. */
@@ -968,7 +931,6 @@
     w.LHI._t = {
       pageType: pageType,
       pageContext: pageContext,
-      leadValueFor: leadValueFor,
       cleanAnalyticsToken: cleanAnalyticsToken,
       approvedCampaignValue: approvedCampaignValue,
       approvedCampaignTerm: approvedCampaignTerm,
@@ -979,8 +941,6 @@
       canonicalSourceContext: canonicalSourceContext,
       medicareIntakeContext: medicareIntakeContext,
       safeProps: safeProps,
-      LEAD_VALUE_BY_PAGE_TYPE: LEAD_VALUE_BY_PAGE_TYPE,
-      LEAD_CONVERSION_SEND_TO: LEAD_CONVERSION_SEND_TO,
       OPENAI_ADS_CONFIG_PATH: OPENAI_ADS_CONFIG_PATH,
       OPENAI_ADS_SDK_SRC: OPENAI_ADS_SDK_SRC
     };
