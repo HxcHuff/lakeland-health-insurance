@@ -656,3 +656,494 @@
     return false;
   };
 })();
+
+/* LHI_META_AUDIENCE_START */
+/*
+ * Lakeland Health Insurance — Meta audience PageView loader
+ *
+ * Default: off. The loader queues one standard PageView only when the current
+ * production page is in the reviewed path allowlist and carries the exact
+ * meta-audience-eligible marker, the URL/referrer are neutral, and the visitor
+ * has saved an explicit site preference. It never reads form fields or builds
+ * custom event data.
+ */
+(function (w, d) {
+  'use strict';
+
+  var PIXEL_ID = '1480756087079484';
+  var PIXEL_SCRIPT_SRC = 'https://connect.facebook.net/en_US/fbevents.js';
+  var CONSENT_KEY = 'lhi_meta_audience_consent';
+  var LEGACY_OPT_OUT_KEY = 'lhi_meta_audience_opt_out';
+  var INITIALIZED_KEY = '__LHI_META_AUDIENCE_INITIALIZED__';
+  var CONSENT_STYLES_ID = 'lhiMetaAudienceConsentStyles';
+  var PROD_HOSTS = {
+    'lakelandhealthinsurance.com': true
+  };
+  var ELIGIBLE_PATHS = {
+    '/': true,
+    '/about/': true,
+    '/our-approach.html': true,
+    '/learning/': true,
+    '/blog/': true,
+    '/brandon-health-insurance/': true,
+    '/clearwater-health-insurance/': true,
+    '/davenport-health-insurance/': true,
+    '/haines-city-health-insurance/': true,
+    '/lake-alfred-health-insurance/': true,
+    '/largo-health-insurance/': true,
+    '/new-port-richey-health-insurance/': true,
+    '/riverview-health-insurance/': true,
+    '/st-petersburg-health-insurance/': true,
+    '/tampa-health-insurance/': true,
+    '/wesley-chapel-health-insurance/': true,
+    '/winter-haven-health-insurance/': true,
+    '/blog/3-things-changing-florida-health-insurance-may-2026.html': true,
+    '/blog/5-critical-health-insurance-mistakes.html': true,
+    '/blog/aca-premiums-2026-lakeland.html': true,
+    '/blog/central-florida-health-insurance-competition.html': true,
+    '/blog/florida-aca-premiums-up-31-percent-2026.html': true,
+    '/blog/health-insurance-brandon-2026.html': true,
+    '/blog/health-insurance-checkup-every-age.html': true,
+    '/blog/health-insurance-clearwater-2026.html': true,
+    '/blog/health-insurance-largo-2026.html': true,
+    '/blog/health-insurance-new-port-richey-2026.html': true,
+    '/blog/health-insurance-riverview-2026.html': true,
+    '/blog/health-insurance-st-petersburg-2026.html': true,
+    '/blog/health-insurance-tampa-2026.html': true,
+    '/blog/health-insurance-wesley-chapel-2026.html': true,
+    '/blog/hmo-vs-ppo-vs-epo-explained.html': true,
+    '/blog/lakeland-growth-health-insurance-impact.html': true,
+    '/blog/understanding-out-of-pocket-maximum.html': true,
+    '/blog/why-florida-health-insurance-premiums-increased-2026.html': true,
+    '/blog/zip-code-health-insurance-pricing-florida.html': true
+  };
+  var ALLOWED_CAMPAIGN_VALUES = {
+    utm_source: {
+      facebook: true,
+      instagram: true,
+      meta: true
+    },
+    utm_medium: {
+      paid_social: true,
+      social: true
+    },
+    utm_campaign: {
+      lhi_site_retargeting_fps: true,
+      florida_brand: true
+    },
+    utm_content: {
+      about_brand_v1: true,
+      home_brand_v1: true,
+      blog_education_v1: true,
+      learning_brand_v1: true,
+      tab_chaos_v1: true,
+      fine_print_i4_v1: true,
+      bigger_decision_v1: true
+    }
+  };
+  var TRUSTED_EXTERNAL_REFERRERS = {
+    'facebook.com': true,
+    'www.facebook.com': true,
+    'm.facebook.com': true,
+    'l.facebook.com': true,
+    'lm.facebook.com': true,
+    'instagram.com': true,
+    'www.instagram.com': true,
+    'l.instagram.com': true,
+    'google.com': true,
+    'www.google.com': true,
+    'bing.com': true,
+    'www.bing.com': true
+  };
+
+  function hasOwn(object, key) {
+    return Boolean(object) && Object.prototype.hasOwnProperty.call(object, key);
+  }
+
+  function setStatus(state, reason) {
+    w.__LHI_META_AUDIENCE_STATUS__ = {
+      state: state,
+      reason: reason
+    };
+  }
+
+  function normalizePath(pathname) {
+    var path = String(pathname || '/');
+    if (path.charAt(0) !== '/') return '';
+    path = path.replace(/\/index\.html$/i, '/');
+    return path;
+  }
+
+  function hasEligibilityMarker() {
+    if (!d.querySelector) return false;
+    return Boolean(d.querySelector('meta[name="meta-audience-eligible"][content="pageview"]'));
+  }
+
+  function looksSensitive(value) {
+    var text = String(value || '');
+    if (!text || /[\u0000-\u001f\u007f@]/.test(text)) return true;
+    if (/(?:\d[\s().-]*){7,}/.test(text)) return true;
+    if (/(?:^|\D)\d{5}(?:-\d{4})?(?:\D|$)/.test(text)) return true;
+    return /(?:cancer|oncolog|diabet|diagnos|condition|mental|medicaid|medicare|subsid|income|provider|prescription|pharmacy|pregnan|tobacco|eligib|enroll|application|policy|plan[_ -]?id|member)/i.test(text);
+  }
+
+  function approvedQueryValue(key, value) {
+    var text = String(value || '');
+    if (looksSensitive(text)) return false;
+    if (key === 'fbclid') {
+      return text.length >= 20 && text.length <= 256 && /^[A-Za-z0-9_-]+$/.test(text);
+    }
+    return hasOwn(ALLOWED_CAMPAIGN_VALUES, key) && hasOwn(ALLOWED_CAMPAIGN_VALUES[key], text);
+  }
+
+  function hasApprovedQuery(search) {
+    var raw = String(search || '');
+    if (!raw) return true;
+    if (raw === '?' || raw.charAt(0) !== '?' || raw.length > 512 || typeof w.URLSearchParams !== 'function') {
+      return false;
+    }
+
+    try {
+      decodeURIComponent(raw.replace(/\+/g, '%20'));
+    } catch (_) {
+      return false;
+    }
+
+    var approved = true;
+    var count = 0;
+    var seen = {};
+    var params = new w.URLSearchParams(raw);
+    params.forEach(function (value, key) {
+      count += 1;
+      if (hasOwn(seen, key) || !approvedQueryValue(key, value)) {
+        approved = false;
+      }
+      seen[key] = true;
+    });
+    return approved && count > 0;
+  }
+
+  function hasApprovedReferrer(rawReferrer) {
+    var raw = String(rawReferrer || '');
+    if (!raw) return true;
+    if (typeof w.URL !== 'function' || !w.location) return false;
+
+    try {
+      var referrer = new w.URL(raw, w.location.origin);
+      if (referrer.username || referrer.password || referrer.search || referrer.hash) return false;
+      if (referrer.origin === w.location.origin) {
+        var path = normalizePath(referrer.pathname);
+        return hasOwn(ELIGIBLE_PATHS, path);
+      }
+      return referrer.protocol === 'https:' && !referrer.port && referrer.pathname === '/' &&
+        hasOwn(TRUSTED_EXTERNAL_REFERRERS, referrer.hostname.toLowerCase());
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function readCookieState(name) {
+    var cookieText;
+    try {
+      cookieText = String(d.cookie || '');
+    } catch (_) {
+      return { state: 'unavailable' };
+    }
+
+    var prefix = name + '=';
+    var parts = cookieText.split(';');
+    var matches = [];
+    for (var i = 0; i < parts.length; i += 1) {
+      var part = parts[i].trim();
+      if (part.indexOf(prefix) !== 0) continue;
+      matches.push(part.slice(prefix.length));
+    }
+    if (!matches.length) return { state: 'absent' };
+    if (matches.length !== 1 || !matches[0] || matches[0].length > 128) return { state: 'invalid' };
+
+    try {
+      return { state: 'value', value: decodeURIComponent(matches[0]) };
+    } catch (_) {
+      return { state: 'invalid' };
+    }
+  }
+
+  function readStorageState(name) {
+    try {
+      if (!w.localStorage || typeof w.localStorage.getItem !== 'function') {
+        return { state: 'unavailable' };
+      }
+      var value = w.localStorage.getItem(name);
+      return value == null ? { state: 'absent' } : { state: 'value', value: String(value) };
+    } catch (_) {
+      return { state: 'unavailable' };
+    }
+  }
+
+  function privacySignalDecision() {
+    var nav = w.navigator;
+    if (!nav) return { allowed: false, reason: 'privacy-state-unavailable' };
+    if (nav.globalPrivacyControl === true) return { allowed: false, reason: 'global-privacy-control' };
+    if (nav.globalPrivacyControl !== undefined && nav.globalPrivacyControl !== false) {
+      return { allowed: false, reason: 'privacy-state-uncertain' };
+    }
+
+    var signals = [nav.doNotTrack, w.doNotTrack, nav.msDoNotTrack];
+    for (var i = 0; i < signals.length; i += 1) {
+      var signal = signals[i];
+      if (signal == null || signal === '' || signal === 'unspecified' || signal === '0' || signal === 0 || signal === false) {
+        continue;
+      }
+      if (signal === '1' || signal === 1 || signal === true || String(signal).toLowerCase() === 'yes') {
+        return { allowed: false, reason: 'browser-opt-out-signal' };
+      }
+      return { allowed: false, reason: 'privacy-state-uncertain' };
+    }
+    return { allowed: true, reason: 'no-browser-opt-out' };
+  }
+
+  function privacyDecision() {
+    var signalDecision = privacySignalDecision();
+    if (!signalDecision.allowed) return signalDecision;
+
+    var stored = readStorageState(CONSENT_KEY);
+    var cookie = readCookieState(CONSENT_KEY);
+    var legacyStored = readStorageState(LEGACY_OPT_OUT_KEY);
+    var legacyCookie = readCookieState(LEGACY_OPT_OUT_KEY);
+    var states = [stored, cookie, legacyStored, legacyCookie];
+    for (var i = 0; i < states.length; i += 1) {
+      if (states[i].state === 'unavailable') return { allowed: false, reason: 'privacy-storage-unavailable' };
+      if (states[i].state === 'invalid') return { allowed: false, reason: 'preference-state-uncertain' };
+    }
+
+    if (legacyStored.state === 'value' || legacyCookie.state === 'value') {
+      if ((legacyStored.state === 'value' && legacyStored.value !== '1') ||
+          (legacyCookie.state === 'value' && legacyCookie.value !== '1')) {
+        return { allowed: false, reason: 'preference-state-uncertain' };
+      }
+      return { allowed: false, reason: 'visitor-declined' };
+    }
+
+    if (stored.state === 'absent' && cookie.state === 'absent') {
+      return { allowed: false, reason: 'consent-required' };
+    }
+    if (stored.state !== 'value' || cookie.state !== 'value' || stored.value !== cookie.value) {
+      return { allowed: false, reason: 'preference-state-uncertain' };
+    }
+    if (stored.value === 'denied') return { allowed: false, reason: 'visitor-declined' };
+    if (stored.value !== 'granted') return { allowed: false, reason: 'preference-state-uncertain' };
+    return { allowed: true, reason: 'explicit-site-consent' };
+  }
+
+  function setConsentPreference(value) {
+    if (value !== 'granted' && value !== 'denied') return false;
+    try {
+      if (!w.localStorage) return false;
+      w.localStorage.setItem(CONSENT_KEY, value);
+      w.localStorage.removeItem(LEGACY_OPT_OUT_KEY);
+
+      var secure = w.location && w.location.protocol === 'https:' ? '; Secure' : '';
+      d.cookie = CONSENT_KEY + '=' + value + '; Max-Age=31536000; Path=/; SameSite=Lax' + secure;
+      d.cookie = LEGACY_OPT_OUT_KEY + '=; Max-Age=0; Path=/; SameSite=Lax' + secure;
+      var decision = privacyDecision();
+      return value === 'granted' ? decision.allowed : decision.reason === 'visitor-declined';
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function preferenceMessage(decision) {
+    if (decision.allowed) return 'Meta PageView is allowed on reviewed eligible pages in this browser.';
+    if (decision.reason === 'consent-required') return 'Meta measurement is off until you choose Allow.';
+    if (decision.reason === 'visitor-declined') return 'Meta website-audience measurement is off for this browser.';
+    if (decision.reason === 'global-privacy-control' || decision.reason === 'browser-opt-out-signal') {
+      return 'A browser privacy signal keeps Meta measurement off.';
+    }
+    return 'Meta measurement remains off because the preference state cannot be confirmed.';
+  }
+
+  function appendText(parent, text) {
+    if (d.createTextNode) parent.appendChild(d.createTextNode(text));
+  }
+
+  function ensureConsentPrompt() {
+    if (!d.getElementById || !d.createElement || !d.body || !d.head) return false;
+    if (d.getElementById('metaAudienceConsentPrompt')) return true;
+
+    if (!d.getElementById(CONSENT_STYLES_ID)) {
+      var style = d.createElement('style');
+      style.id = CONSENT_STYLES_ID;
+      style.textContent = '' +
+        '.meta-audience-consent{background:#fff;border:1px solid #dce3ec;border-radius:14px;bottom:1rem;box-shadow:0 12px 40px rgba(15,26,46,.18);color:#334155;left:50%;max-width:760px;padding:1rem;position:fixed;transform:translateX(-50%);width:calc(100% - 2rem);z-index:2147483000}' +
+        '.meta-audience-consent[hidden]{display:none!important}.meta-audience-consent p{font:400 .92rem/1.55 "DM Sans",Arial,sans-serif;margin:0}.meta-audience-consent strong{color:#1b2a4a}' +
+        '.meta-audience-consent-actions{align-items:center;display:flex;flex-wrap:wrap;gap:.65rem;margin-top:.8rem}.meta-audience-consent button{background:#1b2a4a;border:1px solid #1b2a4a;border-radius:999px;color:#fff;cursor:pointer;font:700 .88rem/1.2 "DM Sans",Arial,sans-serif;padding:.65rem .95rem}' +
+        '.meta-audience-consent button.secondary{background:#fff;color:#1b2a4a}.meta-audience-consent a{color:#1b2a4a;font:700 .88rem/1.2 "DM Sans",Arial,sans-serif;margin-left:auto;text-underline-offset:3px}' +
+        '@media(max-width:640px){.meta-audience-consent-actions{align-items:stretch;flex-direction:column}.meta-audience-consent button{width:100%}.meta-audience-consent a{margin:.15rem 0 0;text-align:center}}';
+      d.head.appendChild(style);
+    }
+
+    var prompt = d.createElement('aside');
+    prompt.className = 'meta-audience-consent';
+    prompt.id = 'metaAudienceConsentPrompt';
+    prompt.hidden = true;
+    prompt.setAttribute('aria-labelledby', 'meta-audience-consent-title');
+
+    var copy = d.createElement('p');
+    var title = d.createElement('strong');
+    title.id = 'meta-audience-consent-title';
+    title.textContent = 'Optional Meta audience measurement.';
+    copy.appendChild(title);
+    appendText(copy, ' Allow Meta measurement? This permits one standard PageView on reviewed public pages and, only if you later submit a request that Netlify accepts, one standard Lead signal. Anything entered into a form and all custom event details are excluded.');
+
+    var actions = d.createElement('div');
+    actions.className = 'meta-audience-consent-actions';
+    var allow = d.createElement('button');
+    allow.type = 'button';
+    allow.id = 'metaAudienceOptIn';
+    allow.textContent = 'Allow Meta measurement';
+    var deny = d.createElement('button');
+    deny.type = 'button';
+    deny.className = 'secondary';
+    deny.id = 'metaAudienceOptOut';
+    deny.textContent = 'Keep Meta measurement off';
+    var details = d.createElement('a');
+    details.href = '/privacy-policy.html#cookies';
+    details.textContent = 'Privacy details';
+    actions.appendChild(allow);
+    actions.appendChild(deny);
+    actions.appendChild(details);
+
+    var status = d.createElement('p');
+    status.id = 'metaAudiencePreferenceStatus';
+    status.setAttribute('role', 'status');
+    status.setAttribute('aria-live', 'polite');
+    status.textContent = 'Meta measurement is off until you choose Allow.';
+
+    prompt.appendChild(copy);
+    prompt.appendChild(actions);
+    prompt.appendChild(status);
+    d.body.appendChild(prompt);
+    return true;
+  }
+
+  function configurePrivacyControls(injectPrompt) {
+    if (!d.getElementById) return;
+    if (injectPrompt) ensureConsentPrompt();
+    var optOutButton = d.getElementById('metaAudienceOptOut');
+    var optInButton = d.getElementById('metaAudienceOptIn');
+    var status = d.getElementById('metaAudiencePreferenceStatus');
+    var prompt = d.getElementById('metaAudienceConsentPrompt');
+    if (!optOutButton && !optInButton && !status && !prompt) return;
+
+    function renderPreference(decision) {
+      if (status) status.textContent = preferenceMessage(decision);
+      if (prompt) prompt.hidden = decision.reason !== 'consent-required';
+    }
+
+    if (optOutButton && !optOutButton.__lhiMetaBound) {
+      optOutButton.__lhiMetaBound = true;
+      optOutButton.addEventListener('click', function () {
+        setConsentPreference('denied');
+        renderPreference(privacyDecision());
+      });
+    }
+    if (optInButton && !optInButton.__lhiMetaBound) {
+      optInButton.__lhiMetaBound = true;
+      optInButton.addEventListener('click', function () {
+        var saved = setConsentPreference('granted');
+        var decision = privacyDecision();
+        renderPreference(decision);
+        if (saved && decision.allowed) initialize();
+      });
+    }
+
+    renderPreference(privacyDecision());
+  }
+
+  function installFbq() {
+    var queue = function () {
+      if (queue.callMethod) queue.callMethod.apply(queue, arguments);
+      else queue.queue.push(arguments);
+    };
+    w._fbq = queue;
+    queue.push = queue;
+    queue.loaded = true;
+    queue.version = '2.0';
+    queue.queue = [];
+    w.fbq = queue;
+
+    w.fbq.disablePushState = true;
+    w.fbq('consent', 'grant');
+    w.fbq('set', 'autoConfig', false, PIXEL_ID);
+    w.fbq('init', PIXEL_ID);
+    w.fbq('trackSingle', PIXEL_ID, 'PageView');
+
+    var script = d.createElement('script');
+    script.async = true;
+    script.src = PIXEL_SCRIPT_SRC;
+    script.onload = function () { setStatus('active', 'pageview-sent'); };
+    script.onerror = function () { setStatus('blocked', 'meta-script-unavailable'); };
+    d.head.appendChild(script);
+  }
+
+  function preparePrivacyControls() {
+    configurePrivacyControls(false);
+    if (!w.location) return;
+    var path = normalizePath(w.location.pathname);
+    if (!hasOwn(ELIGIBLE_PATHS, path) || !hasEligibilityMarker()) return;
+    if (String(w.location.hash || '') || !hasApprovedReferrer(d.referrer) || !hasApprovedQuery(w.location.search)) return;
+    if (privacyDecision().reason === 'consent-required') configurePrivacyControls(true);
+  }
+
+  function initialize() {
+    if (w[INITIALIZED_KEY]) {
+      setStatus('skipped', 'already-initialized');
+      return false;
+    }
+    if (!w.location || !hasOwn(PROD_HOSTS, String(w.location.hostname || '').toLowerCase())) {
+      setStatus('skipped', 'non-production-host');
+      return false;
+    }
+    if (PIXEL_ID !== '1480756087079484') {
+      setStatus('skipped', 'invalid-configuration');
+      return false;
+    }
+
+    var path = normalizePath(w.location.pathname);
+    if (!hasOwn(ELIGIBLE_PATHS, path) || !hasEligibilityMarker()) {
+      setStatus('skipped', 'page-not-eligible');
+      return false;
+    }
+    if (String(w.location.hash || '')) {
+      setStatus('skipped', 'fragment-rejected');
+      return false;
+    }
+    if (!hasApprovedReferrer(d.referrer)) {
+      setStatus('skipped', 'referrer-rejected');
+      return false;
+    }
+    if (!hasApprovedQuery(w.location.search)) {
+      setStatus('skipped', 'query-rejected');
+      return false;
+    }
+
+    var privacy = privacyDecision();
+    if (!privacy.allowed) {
+      setStatus('skipped', privacy.reason);
+      return false;
+    }
+    if (w.fbq || w._fbq) {
+      setStatus('skipped', 'preexisting-meta-runtime');
+      return false;
+    }
+
+    w[INITIALIZED_KEY] = true;
+    setStatus('queued', 'standard-pageview-only');
+    installFbq();
+    return true;
+  }
+
+  preparePrivacyControls();
+  initialize();
+})(window, document);
+/* LHI_META_AUDIENCE_END */

@@ -550,6 +550,37 @@
             font-weight: 700;
         }
 
+        .privacy-choice {
+            margin: 1.25rem 0;
+            border: 1px solid var(--policy-line);
+            border-radius: 14px;
+            background: var(--policy-surface);
+            padding: 1.25rem;
+        }
+
+        .privacy-choice-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .privacy-choice button {
+            border: 1px solid var(--policy-navy);
+            border-radius: 8px;
+            background: var(--policy-navy);
+            color: var(--policy-white);
+            cursor: pointer;
+            padding: 0.7rem 1rem;
+            font: inherit;
+            font-weight: 700;
+        }
+
+        .privacy-choice button.secondary {
+            background: var(--policy-white);
+            color: var(--policy-navy);
+        }
+
         .references {
             font-size: 0.9rem;
         }
@@ -765,7 +796,7 @@
         }
     </style>
 
-    <script defer src="/js/analytics.js?v=20260821-lead-reconciliation"></script>
+    <script defer src="/js/analytics.js?v=20260823-meta-pageview-sitewide"></script>
 </head>
 <body id="top">
     <a class="skip-link" href="#privacy-content">Skip to privacy policy</a>
@@ -791,7 +822,7 @@
                     <p class="eyebrow">Privacy and data practices</p>
                     <h1 id="privacy-title">Privacy Policy</h1>
                     <p class="policy-intro">This policy explains what information Lakeland Health Insurance collects, why it is used, when it may be shared, how it is protected, and the choices available to you.</p>
-                    <p class="updated">Effective April 9, 2026 · Last updated <time datetime="2026-07-31">July 31, 2026</time></p>
+                    <p class="updated">Effective April 9, 2026 · Last updated <time datetime="2026-08-23">August 23, 2026</time></p>
                 </div>
             </div>
         </section>
@@ -948,9 +979,19 @@
                         <span class="section-number">Section 06</span>
                         <h2>Cookies, analytics, and advertising technology</h2>
                         <p>Production pages may use first-party storage, Google Analytics, Google advertising tags, Meta technologies, and similar tools to understand traffic, measure interactions, attribute campaigns, maintain functionality, and evaluate advertising performance. Depending on the tool and configuration, these technologies may process IP address, device and browser data, page activity, approximate location, referral data, and conversion events.</p>
-                        <p>For United States visitors, these measurement and advertising technologies may initialize without a separate cookie-consent banner where permitted by applicable law. This does not authorize analytics collection of form contact details, health information, policy details, provider or prescription information, household income, or free-text responses.</p>
+                        <p>Google and other measurement technologies may initialize without a separate cookie-consent banner where permitted by applicable law. This does not authorize analytics collection of form contact details, health information, policy details, provider or prescription information, household income, or free-text responses. Meta website-audience measurement remains off until you make an explicit site choice.</p>
+                        <p>Meta website-audience measurement is limited to one standard PageView on individually reviewed, general public pages, including the homepage, blog index, selected general educational articles, and neutral geographic brand pages. The browser code does not inspect or transmit anything entered into a form and disables automatic configuration; automatic event detection and automatic advanced matching are also disabled in Meta. Measurement remains disabled on Get Help and other intake pages, confirmation pages, estimators, enrollment or application surfaces, Medicare or Medicaid status pages, condition, provider or prescription pages, privacy and consent pages, and client-service pages.</p>
                         <p>You can limit cookies using browser controls, use available platform advertising settings, or install the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google Analytics Opt-out Browser Add-on</a>. You can also review <a href="https://www.facebook.com/adpreferences" target="_blank" rel="noopener noreferrer">Meta ad preferences</a>. Blocking cookies or scripts may affect some website functions.</p>
-                        <p>Browser privacy signals and opt-out mechanisms are handled where required by applicable law and supported by the relevant technology. Because requirements and technical standards change, contact us if you want to confirm how a specific request applies to your information.</p>
+                        <p>Global Privacy Control, supported browser opt-out signals, an absent or uncertain preference, and a saved “off” choice prevent Meta website-audience measurement. The server-side Meta Lead integration also requires the saved “allow” preference cookie after a request is accepted by Netlify Forms. Because requirements and technical standards change, contact us if you want to confirm how a specific request applies to your information.</p>
+                        <div class="privacy-choice" aria-labelledby="meta-audience-choice-title">
+                            <h3 id="meta-audience-choice-title">Meta website-audience preference</h3>
+                            <p>This choice applies to Meta measurement on this website. It does not change your phone, SMS, email, service-request, or enrollment permissions.</p>
+                            <div class="privacy-choice-actions">
+                                <button type="button" id="metaAudienceOptOut">Keep Meta measurement off</button>
+                                <button type="button" class="secondary" id="metaAudienceOptIn">Allow on reviewed eligible pages</button>
+                            </div>
+                            <p id="metaAudiencePreferenceStatus" role="status" aria-live="polite">Meta measurement is off until you choose Allow.</p>
+                        </div>
                     </section>
 
                     <section id="security">

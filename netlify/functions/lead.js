@@ -7,13 +7,16 @@
 const crypto = require('crypto');
 const { sendAdsLead } = require('./lib/ads-capi');
 
-const PIXEL_ID = process.env.META_PIXEL_ID;
+const META_DATASET_ID = '1480756087079484';
+const META_GRAPH_VERSION = 'v25.0';
+const CONFIGURED_META_DATASET_ID = String(process.env.META_PIXEL_ID || '').trim();
 const ACCESS_TOKEN = process.env.META_CAPI_ACCESS_TOKEN;
 const TEST_EVENT_CODE = process.env.META_CAPI_TEST_EVENT_CODE; // optional
 // Netlify injects CONTEXT=production|deploy-preview|branch-deploy|dev.
 // Only fire CAPI on the production context — previews/branches must stay quiet.
-const NETLIFY_CONTEXT = process.env.CONTEXT || 'production';
-const IS_PROD_CONTEXT = NETLIFY_CONTEXT === 'production';
+const NETLIFY_CONTEXT = process.env.CONTEXT || 'unknown';
+const SITE_ENV = process.env.LHI_SITE_ENV || 'unknown';
+const IS_PROD_CONTEXT = NETLIFY_CONTEXT === 'production' && SITE_ENV === 'production';
 
 // Mailchimp — single audience, tag-segmented. All three vars must be set
 // or the sync no-ops gracefully (matches the CAPI guard pattern above).
@@ -334,10 +337,53 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
   'wesley-chapel-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS)
 });
 
-function pickCookie(cookieHeader, name) {
-  if (!cookieHeader) return null;
-  const m = cookieHeader.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]+)'));
-  return m ? decodeURIComponent(m[1]) : null;
+function readCookieState(cookieHeader, name, maxValueLength = 128) {
+  if (!cookieHeader) return { state: 'absent' };
+  if (typeof cookieHeader !== 'string' || cookieHeader.length > 8192) return { state: 'invalid' };
+
+  const prefix = `${name}=`;
+  const matches = cookieHeader
+    .split(';')
+    .map((part) => part.trim())
+    .filter((part) => part.startsWith(prefix))
+    .map((part) => part.slice(prefix.length));
+
+  if (!matches.length) return { state: 'absent' };
+  if (matches.length !== 1 || !matches[0] || matches[0].length > maxValueLength) return { state: 'invalid' };
+  try {
+    const value = decodeURIComponent(matches[0]);
+    if (!value || /[\u0000-\u001f\u007f]/.test(value)) return { state: 'invalid' };
+    return { state: 'value', value };
+  } catch (_) {
+    return { state: 'invalid' };
+  }
+}
+
+function metaBrowserIdentifier(cookieHeader, name) {
+  const maxLength = name === '_fbc' ? 320 : 96;
+  const state = readCookieState(cookieHeader, name, maxLength);
+  if (state.state !== 'value') return null;
+
+  if (name === '_fbp') {
+    return /^fb\.[12]\.\d{10,16}\.\d{5,32}$/.test(state.value) ? state.value : null;
+  }
+  if (name === '_fbc') {
+    return /^fb\.[12]\.\d{10,16}\.[A-Za-z0-9_-]{20,256}$/.test(state.value) ? state.value : null;
+  }
+  return null;
+}
+
+function metaMeasurementAllowed(headers, cookieHeader) {
+  const gpc = String(headerValue(headers, 'sec-gpc') || '').trim();
+  const dnt = String(headerValue(headers, 'dnt') || '').trim().toLowerCase();
+  if (gpc && gpc !== '0') return false;
+  if (dnt && dnt !== '0' && dnt !== 'unspecified') return false;
+
+  const legacyOptOut = readCookieState(cookieHeader, 'lhi_meta_audience_opt_out');
+  if (legacyOptOut.state === 'invalid' || legacyOptOut.state === 'value') return false;
+
+  const consent = readCookieState(cookieHeader, 'lhi_meta_audience_consent');
+  return consent.state === 'value' && consent.value === 'granted';
 }
 
 function headerValue(headers, name) {
@@ -612,8 +658,8 @@ exports.handler = async (event) => {
   payload.lead_priority = leadPriority.level;
   payload.lead_priority_reason = leadPriority.reason;
   const cookieHeader = headers.cookie || '';
-  const fbp = pickCookie(cookieHeader, '_fbp');
-  const fbc = pickCookie(cookieHeader, '_fbc');
+  const fbp = metaBrowserIdentifier(cookieHeader, '_fbp');
+  const fbc = metaBrowserIdentifier(cookieHeader, '_fbc');
 
   // Netlify Forms is the acceptance boundary. No conversion or audience
   // integration runs until this forward succeeds.
@@ -658,8 +704,10 @@ exports.handler = async (event) => {
   } else if (isNewsletter) {
     capiError = 'CAPI skipped: newsletter subscriber is not a sales lead';
   } else if (!IS_PROD_CONTEXT) {
-    capiError = `CAPI skipped: non-production Netlify context (${NETLIFY_CONTEXT})`;
-  } else if (PIXEL_ID && ACCESS_TOKEN) {
+    capiError = `CAPI skipped: production context not confirmed (${NETLIFY_CONTEXT}/${SITE_ENV})`;
+  } else if (!metaMeasurementAllowed(headers, cookieHeader)) {
+    capiError = 'CAPI skipped: explicit Meta measurement consent unavailable';
+  } else if (CONFIGURED_META_DATASET_ID === META_DATASET_ID && ACCESS_TOKEN) {
     try {
       const userData = {};
       if (fbp) userData.fbp = fbp;
@@ -682,7 +730,7 @@ exports.handler = async (event) => {
       };
       if (TEST_EVENT_CODE) body.test_event_code = TEST_EVENT_CODE;
 
-      const url = `https://graph.facebook.com/v18.0/${PIXEL_ID}/events?access_token=${encodeURIComponent(ACCESS_TOKEN)}`;
+      const url = `https://graph.facebook.com/${META_GRAPH_VERSION}/${META_DATASET_ID}/events?access_token=${encodeURIComponent(ACCESS_TOKEN)}`;
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -698,7 +746,7 @@ exports.handler = async (event) => {
       console.error(capiError);
     }
   } else {
-    capiError = 'META_PIXEL_ID or META_CAPI_ACCESS_TOKEN not set';
+    capiError = 'Meta dataset configuration unavailable or mismatched';
     console.warn(capiError);
   }
 
@@ -971,6 +1019,9 @@ exports._test = {
   corsPolicy,
   decodeRequestBody,
   filterPayloadForForm,
+  metaBrowserIdentifier,
+  metaMeasurementAllowed,
+  readCookieState,
   minimizeGetHelpPayload,
   resolveFormName,
   sanitizeCampaignAttribution,

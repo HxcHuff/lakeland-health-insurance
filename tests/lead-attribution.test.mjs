@@ -4,6 +4,7 @@ import { createRequire } from 'node:module';
 
 const ENV_KEYS = [
   'CONTEXT',
+  'LHI_SITE_ENV',
   'META_PIXEL_ID',
   'META_CAPI_ACCESS_TOKEN',
   'META_CAPI_TEST_EVENT_CODE',
@@ -17,7 +18,8 @@ const ENV_KEYS = [
 ];
 const savedEnv = Object.fromEntries(ENV_KEYS.map((key) => [key, process.env[key]]));
 process.env.CONTEXT = 'production';
-process.env.META_PIXEL_ID = 'test-pixel';
+process.env.LHI_SITE_ENV = 'production';
+process.env.META_PIXEL_ID = '1480756087079484';
 process.env.META_CAPI_ACCESS_TOKEN = 'test-token';
 process.env.LEAD_FORMS_ORIGIN = 'https://lakelandhealthinsurance.com';
 process.env.LEAD_ALLOWED_ORIGINS = 'https://lakelandhealthinsurance.com';
@@ -113,6 +115,7 @@ async function invoke(payload, { formsStatus = 200, headers = {}, method = 'POST
       headers: {
         origin: 'https://lakelandhealthinsurance.com',
         referer: 'https://lakelandhealthinsurance.com/get-help/?private=query',
+        cookie: 'lhi_meta_audience_consent=granted',
         ...headers
       },
       body: body === undefined ? JSON.stringify(payload) : body
@@ -177,9 +180,24 @@ test('Forms acceptance mints receipt metadata, authorizes consent, and returns c
   assert.equal(form.toString().includes('attacker-cluster'), false);
 
   assert.equal(calls.length, 2, 'Forms precedes the single Meta request');
+  assert.equal(calls[1].url, 'https://graph.facebook.com/v25.0/1480756087079484/events?access_token=test-token');
   const meta = JSON.parse(calls[1].init.body);
   assert.equal(meta.data[0].event_id, result.event_id);
   assert.equal(meta.data[0].event_source_url, 'https://lakelandhealthinsurance.com/get-help/');
+  assert.deepEqual(meta.data[0].user_data, {});
+  assert.deepEqual(Object.keys(meta.data[0]).sort(), [
+    'action_source',
+    'custom_data',
+    'event_id',
+    'event_name',
+    'event_source_url',
+    'event_time',
+    'user_data'
+  ]);
+  const serializedMeta = JSON.stringify(meta);
+  for (const prohibited of ['Jane Example', 'jane@example.com', '863-555-1212', '33801', 'Sensitive Clinic', 'Sensitive prescription', 'Sensitive note']) {
+    assert.equal(serializedMeta.includes(prohibited), false, `Meta payload excludes ${prohibited}`);
+  }
 
   const outcome = JSON.parse(String(logs.find((entry) => entry[0] === 'info')[1]));
   assert.equal(outcome.type, 'forms_forward_outcome_v1');
@@ -230,6 +248,8 @@ test('direct sitelink forms record the page where consent was granted', async ()
   assert.equal(form.get('consent_page'), '/carriers/');
   assert.equal(form.get('consent_text_version'), 'get-help-2026-07-30-v1');
   assert.equal(form.get('consent_request_state'), 'granted');
+  const meta = JSON.parse(calls[1].init.body);
+  assert.equal(meta.data[0].event_source_url, 'https://lakelandhealthinsurance.com/carriers/');
 });
 
 test('Medicare education-page attribution is canonicalized as the education role', async () => {
@@ -289,6 +309,80 @@ test('Forms failure does not call Meta or return accepted_at/canonical attributi
   assert.equal('source_page_role' in result, false);
   assert.equal('source_cta_key' in result, false);
   assert.equal('content_cluster' in result, false);
+});
+
+test('Meta Lead preserves only strict pseudonymous browser and click identifiers', async () => {
+  const validFbp = 'fb.1.1724412345678.1098115397';
+  const validFbc = 'fb.1.1724412345678.IwZXh0bgNhZW0CMTEAAR2ExampleClickId';
+  const valid = await invoke(getHelpPayload(), {
+    headers: { cookie: `lhi_meta_audience_consent=granted; _fbp=${validFbp}; _fbc=${validFbc}` }
+  });
+  const validMeta = JSON.parse(valid.calls[1].init.body);
+  assert.deepEqual(validMeta.data[0].user_data, { fbp: validFbp, fbc: validFbc });
+
+  const invalid = await invoke(getHelpPayload(), {
+    headers: { cookie: 'lhi_meta_audience_consent=granted; _fbp=jane%40example.com; _fbc=863-555-1212' }
+  });
+  assert.equal(invalid.response.statusCode, 200);
+  const invalidMeta = JSON.parse(invalid.calls[1].init.body);
+  assert.deepEqual(invalidMeta.data[0].user_data, {});
+});
+
+test('Meta browser identifier validation rejects duplicates and non-Meta values', () => {
+  assert.equal(_test.metaBrowserIdentifier('lhi_meta_audience_consent=granted', '_fbp'), null);
+  assert.equal(_test.metaBrowserIdentifier('_fbp=jane%40example.com', '_fbp'), null);
+  assert.equal(_test.metaBrowserIdentifier('_fbc=863-555-1212', '_fbc'), null);
+  assert.equal(
+    _test.metaBrowserIdentifier('_fbp=fb.1.1724412345678.1098115397; _fbp=fb.1.1724412345678.1098115397', '_fbp'),
+    null
+  );
+  assert.equal(
+    _test.metaBrowserIdentifier('_fbp=fb.1.1724412345678.1098115397', '_fbp'),
+    'fb.1.1724412345678.1098115397'
+  );
+});
+
+test('Meta CAPI requires explicit confirmed consent and honors GPC and DNT after Forms acceptance', async () => {
+  const scenarios = [
+    { cookie: '' },
+    { cookie: 'lhi_meta_audience_opt_out=1' },
+    { cookie: 'lhi_meta_audience_consent=denied' },
+    { cookie: 'lhi_meta_audience_consent=%E0%A4%A' },
+    { cookie: 'lhi_meta_audience_consent=granted; lhi_meta_audience_consent=granted' },
+    { 'sec-gpc': '1' },
+    { dnt: '1' }
+  ];
+
+  for (const headers of scenarios) {
+    const { response, calls } = await invoke(getHelpPayload(), { headers });
+    const result = JSON.parse(response.body);
+    assert.equal(response.statusCode, 200);
+    assert.equal(result.forms, true);
+    assert.equal(result.capi, false);
+    assert.match(result.capi_error, /explicit Meta measurement consent unavailable/);
+    assert.equal(calls.length, 1, 'only the Forms forward runs');
+  }
+});
+
+test('server consent cookie parser distinguishes absence, malformed, duplicate, and approved state', () => {
+  assert.deepEqual(_test.readCookieState('', 'lhi_meta_audience_consent'), { state: 'absent' });
+  assert.deepEqual(_test.readCookieState('lhi_meta_audience_consent=%E0%A4%A', 'lhi_meta_audience_consent'), { state: 'invalid' });
+  assert.deepEqual(
+    _test.readCookieState('lhi_meta_audience_consent=granted; lhi_meta_audience_consent=granted', 'lhi_meta_audience_consent'),
+    { state: 'invalid' }
+  );
+  assert.deepEqual(
+    _test.readCookieState('lhi_meta_audience_consent=granted', 'lhi_meta_audience_consent'),
+    { state: 'value', value: 'granted' }
+  );
+});
+
+test('accepted requests receive unique server-minted opaque event IDs', async () => {
+  const first = JSON.parse((await invoke(getHelpPayload())).response.body);
+  const second = JSON.parse((await invoke(getHelpPayload())).response.body);
+  assert.match(first.event_id, /^[0-9a-f-]{36}$/i);
+  assert.match(second.event_id, /^[0-9a-f-]{36}$/i);
+  assert.notEqual(first.event_id, second.event_id);
 });
 
 test('get-help rejects missing request consent before Forms or integrations', async () => {

@@ -7,6 +7,7 @@
     <meta name="description" content="Meet David Huff, a licensed Florida health insurance broker helping people in Lakeland, Polk County, and across Florida compare coverage paths.">
     <link rel="canonical" href="https://lakelandhealthinsurance.com/about/">
     <meta name="robots" content="index, follow">
+    <meta name="meta-audience-eligible" content="pageview">
     <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
     <meta property="og:title" content="David Huff | Lakeland, FL Health Insurance Broker">
     <meta property="og:description" content="David Huff helps individuals, families, and Medicare beneficiaries compare health insurance options with direct licensed broker support.">
@@ -901,7 +902,7 @@ header .cta-button {
 }
 
     </style>
-    <script defer src="/js/analytics.js?v=20260821-lead-reconciliation"></script>
+    <script defer src="/js/analytics.js?v=20260823-meta-pageview-sitewide"></script>
     <link rel="stylesheet" href="/css/site-template.css?v=20260820-sitelink-leads">
     <style>
       .about-page .about-header {
@@ -1172,6 +1173,67 @@ header .cta-button {
         text-underline-offset: 3px;
       }
 
+      .meta-audience-consent {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 14px;
+        bottom: 1rem;
+        box-shadow: var(--shadow-xl);
+        left: 50%;
+        max-width: 760px;
+        padding: 1rem 1.1rem;
+        position: fixed;
+        transform: translateX(-50%);
+        width: calc(100% - 2rem);
+        z-index: 1200;
+      }
+
+      .meta-audience-consent[hidden] {
+        display: none;
+      }
+
+      .meta-audience-consent p {
+        color: var(--gray-700);
+        font-size: 0.92rem;
+        margin: 0;
+      }
+
+      .meta-audience-consent strong {
+        color: var(--navy);
+      }
+
+      .meta-audience-consent-actions {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-top: 0.8rem;
+      }
+
+      .meta-audience-consent button {
+        background: var(--navy);
+        border: 1px solid var(--navy);
+        border-radius: 999px;
+        color: var(--white);
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 700;
+        padding: 0.65rem 0.95rem;
+      }
+
+      .meta-audience-consent button.secondary {
+        background: var(--white);
+        color: var(--navy);
+      }
+
+      .meta-audience-consent a {
+        color: var(--navy);
+        font-size: 0.88rem;
+        font-weight: 700;
+        margin-left: auto;
+      }
+
       @media (max-width: 900px) {
         .about-hero-grid {
           grid-template-columns: 1fr;
@@ -1241,6 +1303,20 @@ header .cta-button {
           white-space: nowrap;
           width: 1px;
         }
+
+        .meta-audience-consent-actions {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .meta-audience-consent button {
+          width: 100%;
+        }
+
+        .meta-audience-consent a {
+          margin: 0.15rem 0 0;
+          text-align: center;
+        }
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -1259,6 +1335,16 @@ header .cta-button {
     <div class="compliance-banner">
       <strong>Important:</strong> Fixed indemnity products provide limited benefits and are <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA. &nbsp;|&nbsp; FL Broker License #W371813
     </div>
+
+    <aside class="meta-audience-consent" id="metaAudienceConsentPrompt" aria-labelledby="meta-audience-consent-title" hidden>
+      <p><strong id="meta-audience-consent-title">Optional Meta audience measurement.</strong> Allow Meta measurement? This permits one standard PageView on reviewed public pages and, only if you later submit a request that Netlify accepts, one standard Lead signal. Anything entered into a form and all custom event details are excluded.</p>
+      <div class="meta-audience-consent-actions">
+        <button type="button" id="metaAudienceOptIn">Allow Meta measurement</button>
+        <button type="button" class="secondary" id="metaAudienceOptOut">Keep Meta measurement off</button>
+        <a href="/privacy-policy.html#cookies">Privacy details</a>
+      </div>
+      <p id="metaAudiencePreferenceStatus" role="status" aria-live="polite">Meta measurement is off until you choose Allow.</p>
+    </aside>
 
     <header>
         <nav class="container">

@@ -327,7 +327,7 @@ for (const required of [
   'href="tel:+18636403102"',
   'href="mailto:dhuff@healthmarkets.com"',
   'href="/get-help/"',
-  'src="/js/analytics.js?v=20260821-lead-reconciliation"'
+  'src="/js/analytics.js?v=20260823-meta-pageview-sitewide"'
 ]) {
   if (!home.includes(required)) issues.push(`index.html: required contact, CTA, or tracking integration is missing (${required})`);
 }
@@ -367,7 +367,7 @@ for (const required of [
   'href="tel:+18636403102"',
   'href="mailto:dhuff@healthmarkets.com"',
   'href="/get-help/"',
-  'src="/js/analytics.js?v=20260821-lead-reconciliation"'
+  'src="/js/analytics.js?v=20260823-meta-pageview-sitewide"'
 ]) {
   if (!about.includes(required)) issues.push(`about/index.html: required contact, CTA, or tracking integration is missing (${required})`);
 }
