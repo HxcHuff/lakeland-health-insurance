@@ -25,61 +25,99 @@
   <link rel="stylesheet" href="/css/fonts.css">
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
+{
+  "@context": "https://schema.org",
+  "@type": "InsuranceAgency",
+  "name": "Lakeland Health Insurance — Dental &amp; Vision (David Huff)",
+  "alternateName": [
+    "Dental Insurance",
+    "Vision Insurance",
+    "Standalone Dental Plans",
+    "Dental and Vision Quote"
+  ],
+  "description": "Insurance brokerage supporting clients who self-enroll in standalone dental, vision, and dental savings plans. Insurance carriers generally compensate appointed brokers when an enrollment is completed; compensation and availability vary by carrier and product.",
+  "url": "https://lakelandhealthinsurance.com/dental-vision/",
+  "telephone": "+1-863-640-3102",
+  "image": "https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Lakeland",
+    "addressRegion": "FL",
+    "postalCode": "33805",
+    "addressCountry": "US"
+  },
+  "areaServed": [
+    {
+      "@type": "Country",
+      "name": "United States"
+    }
+  ],
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "description": "By appointment"
+  },
+  "founder": {
+    "@type": "Person",
+    "name": "David Huff",
+    "jobTitle": "Licensed Insurance Agent",
+    "url": "https://lakelandhealthinsurance.com/about/",
+    "identifier": [
+      {
+        "@type": "PropertyValue",
+        "propertyID": "Florida License",
+        "value": "W371813"
+      },
+      {
+        "@type": "PropertyValue",
+        "propertyID": "NPN",
+        "value": "18213932"
+      }
+    ]
+  },
+  "knowsAbout": [
+    "Dental Insurance",
+    "Vision Insurance",
+    "PPO Dental",
+    "DHMO Dental",
+    "Dental Savings Plans",
+    "Standalone Dental Coverage",
+    "Medicare Advantage Dental Benefits",
+    "ACA Pediatric Dental"
+  ]
+}
+</script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Dental and Vision Insurance",
+  "description": "Support for standalone dental and vision self-enrollment through NCD, UnitedHealthcare, and related dental or vision options.",
+  "serviceType": "Dental and Vision Insurance Brokerage",
+  "url": "https://lakelandhealthinsurance.com/dental-vision/",
+  "provider": {
     "@type": "InsuranceAgency",
-    "name": "Lakeland Health Insurance — Dental &amp; Vision (David Huff)",
-    "alternateName": ["Dental Insurance", "Vision Insurance", "Standalone Dental Plans", "Dental and Vision Quote"],
-    "description": "Insurance brokerage supporting clients who self-enroll in standalone dental, vision, and dental savings plans. Insurance carriers generally compensate appointed brokers when an enrollment is completed; compensation and availability vary by carrier and product.",
-    "url": "https://lakelandhealthinsurance.com/dental-vision/",
+    "name": "Lakeland Health Insurance",
+    "url": "https://lakelandhealthinsurance.com/",
     "telephone": "+1-863-640-3102",
-    "image": "https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Lakeland",
       "addressRegion": "FL",
-      "postalCode": "33801",
+      "postalCode": "33805",
       "addressCountry": "US"
     },
-    "geo": {"@type": "GeoCoordinates", "latitude": 28.0395, "longitude": -81.9498},
-    "areaServed": [
-      {"@type": "Country", "name": "United States"}
-    ],
-    "openingHoursSpecification": [
-      {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "08:00", "closes": "20:00"},
-      {"@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "09:00", "closes": "17:00"}
-    ],
-    "founder": {
-      "@type": "Person",
-      "name": "David Huff",
-      "jobTitle": "Licensed Insurance Agent",
-      "url": "https://lakelandhealthinsurance.com/about/",
-      "identifier": [
-        {"@type": "PropertyValue", "propertyID": "Florida License", "value": "W371813"},
-        {"@type": "PropertyValue", "propertyID": "NPN", "value": "18213932"}
-      ]
-    },
-    "knowsAbout": ["Dental Insurance", "Vision Insurance", "PPO Dental", "DHMO Dental", "Dental Savings Plans", "Standalone Dental Coverage", "Medicare Advantage Dental Benefits", "ACA Pediatric Dental"]
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "description": "By appointment"
+    }
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "United States"
   }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Dental and Vision Insurance",
-    "description": "Support for standalone dental and vision self-enrollment through NCD, UnitedHealthcare, and related dental or vision options.",
-    "serviceType": "Dental and Vision Insurance Brokerage",
-    "url": "https://lakelandhealthinsurance.com/dental-vision/",
-    "provider": {
-      "@type": "InsuranceAgency",
-      "name": "Lakeland Health Insurance",
-      "url": "https://lakelandhealthinsurance.com/",
-      "telephone": "+1-863-640-3102"
-    },
-    "areaServed": {"@type": "Country", "name": "United States"}
-  }
-  </script>
+}
+</script>
 
   <script type="application/ld+json">
   {
@@ -445,7 +483,7 @@
           <p>Send the minimum contact details David needs to respond. Do not enter policy numbers, health information, or payment details.</p>
           <div class="sitelink-lead-grid">
             <div class="sitelink-lead-field"><label for="dentalVisionLeadName">Full name</label><input id="dentalVisionLeadName" name="full_name" autocomplete="name" required></div>
-            <div class="sitelink-lead-field"><label for="dentalVisionLeadZip">ZIP code</label><input id="dentalVisionLeadZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="33801" required></div>
+            <div class="sitelink-lead-field"><label for="dentalVisionLeadZip">ZIP code</label><input id="dentalVisionLeadZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="33805" required></div>
             <div class="sitelink-lead-field"><label for="dentalVisionLeadPhone">Phone, if choosing call or text</label><input id="dentalVisionLeadPhone" name="phone" type="tel" autocomplete="tel" minlength="7"></div>
             <div class="sitelink-lead-field"><label for="dentalVisionLeadEmail">Email, if choosing email</label><input id="dentalVisionLeadEmail" name="email" type="email" autocomplete="email"></div>
           </div>

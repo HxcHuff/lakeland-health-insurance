@@ -11,61 +11,22 @@ assert.ok(loaderMatch, 'shared analytics asset contains the Meta audience loader
 const LOADER_SRC = loaderMatch[1];
 const PIXEL_ID = '1480756087079484';
 const ELIGIBLE_MARKER = '<meta name="meta-audience-eligible" content="pageview">';
-const ANALYTICS_VERSION = '/js/analytics.js?v=20260823-meta-pageview-sitewide';
+const ANALYTICS_VERSION = '/js/analytics.js?v=20260824-week-one-meta';
 const CONSENT_KEY = 'lhi_meta_audience_consent';
 const ELIGIBLE_PAGES = [
-  ['index.html', '/'],
-  ['about/index.html', '/about/'],
-  ['our-approach.html', '/our-approach.html'],
-  ['learning/index.html', '/learning/'],
-  ['blog/index.html', '/blog/'],
-  ['brandon-health-insurance/index.html', '/brandon-health-insurance/'],
-  ['clearwater-health-insurance/index.html', '/clearwater-health-insurance/'],
-  ['davenport-health-insurance/index.html', '/davenport-health-insurance/'],
-  ['haines-city-health-insurance/index.html', '/haines-city-health-insurance/'],
-  ['lake-alfred-health-insurance/index.html', '/lake-alfred-health-insurance/'],
-  ['largo-health-insurance/index.html', '/largo-health-insurance/'],
-  ['new-port-richey-health-insurance/index.html', '/new-port-richey-health-insurance/'],
-  ['riverview-health-insurance/index.html', '/riverview-health-insurance/'],
-  ['st-petersburg-health-insurance/index.html', '/st-petersburg-health-insurance/'],
-  ['tampa-health-insurance/index.html', '/tampa-health-insurance/'],
-  ['wesley-chapel-health-insurance/index.html', '/wesley-chapel-health-insurance/'],
-  ['winter-haven-health-insurance/index.html', '/winter-haven-health-insurance/'],
-  ['blog/3-things-changing-florida-health-insurance-may-2026.html', '/blog/3-things-changing-florida-health-insurance-may-2026.html'],
-  ['blog/5-critical-health-insurance-mistakes.html', '/blog/5-critical-health-insurance-mistakes.html'],
-  ['blog/aca-premiums-2026-lakeland.html', '/blog/aca-premiums-2026-lakeland.html'],
-  ['blog/central-florida-health-insurance-competition.html', '/blog/central-florida-health-insurance-competition.html'],
-  ['blog/florida-aca-premiums-up-31-percent-2026.html', '/blog/florida-aca-premiums-up-31-percent-2026.html'],
-  ['blog/health-insurance-brandon-2026.html', '/blog/health-insurance-brandon-2026.html'],
-  ['blog/health-insurance-checkup-every-age.html', '/blog/health-insurance-checkup-every-age.html'],
-  ['blog/health-insurance-clearwater-2026.html', '/blog/health-insurance-clearwater-2026.html'],
-  ['blog/health-insurance-largo-2026.html', '/blog/health-insurance-largo-2026.html'],
-  ['blog/health-insurance-new-port-richey-2026.html', '/blog/health-insurance-new-port-richey-2026.html'],
-  ['blog/health-insurance-riverview-2026.html', '/blog/health-insurance-riverview-2026.html'],
-  ['blog/health-insurance-st-petersburg-2026.html', '/blog/health-insurance-st-petersburg-2026.html'],
-  ['blog/health-insurance-tampa-2026.html', '/blog/health-insurance-tampa-2026.html'],
-  ['blog/health-insurance-wesley-chapel-2026.html', '/blog/health-insurance-wesley-chapel-2026.html'],
-  ['blog/hmo-vs-ppo-vs-epo-explained.html', '/blog/hmo-vs-ppo-vs-epo-explained.html'],
-  ['blog/lakeland-growth-health-insurance-impact.html', '/blog/lakeland-growth-health-insurance-impact.html'],
-  ['blog/understanding-out-of-pocket-maximum.html', '/blog/understanding-out-of-pocket-maximum.html'],
-  ['blog/why-florida-health-insurance-premiums-increased-2026.html', '/blog/why-florida-health-insurance-premiums-increased-2026.html'],
-  ['blog/zip-code-health-insurance-pricing-florida.html', '/blog/zip-code-health-insurance-pricing-florida.html']
+  ['get-help/index.html', '/get-help/'],
+  ['quote/index.html', '/quote/'],
+  ['medicare/index.html', '/medicare/'],
+  ['medicare-broker-lakeland-fl/index.html', '/medicare-broker-lakeland-fl/'],
+  ['aca-health-insurance-lakeland-fl/index.html', '/aca-health-insurance-lakeland-fl/'],
+  ['contact/index.html', '/contact/'],
+  ['plans/index.html', '/plans/'],
+  ['thanks.html', '/thanks.html']
 ];
 const FORM_BEARING_ELIGIBLE_FILES = new Set([
-  'index.html',
-  'blog/index.html',
-  'brandon-health-insurance/index.html',
-  'clearwater-health-insurance/index.html',
-  'davenport-health-insurance/index.html',
-  'haines-city-health-insurance/index.html',
-  'lake-alfred-health-insurance/index.html',
-  'largo-health-insurance/index.html',
-  'new-port-richey-health-insurance/index.html',
-  'riverview-health-insurance/index.html',
-  'st-petersburg-health-insurance/index.html',
-  'tampa-health-insurance/index.html',
-  'wesley-chapel-health-insurance/index.html',
-  'winter-haven-health-insurance/index.html'
+  'get-help/index.html',
+  'medicare/index.html',
+  'plans/index.html'
 ]);
 
 function makeStorage(initial = {}) {
@@ -139,7 +100,7 @@ function installCookieJar(document, initial = '') {
 
 function loadMetaAudience({
   hostname = 'lakelandhealthinsurance.com',
-  pathname = '/about/',
+  pathname = '/get-help/',
   search = '',
   hash = '',
   marker = true,
@@ -242,8 +203,8 @@ function htmlFiles(dir = ROOT, out = []) {
   return out;
 }
 
-test('all 36 reviewed routes queue one isolated standard PageView with no custom data', () => {
-  assert.equal(ELIGIBLE_PAGES.length, 36);
+test('all 8 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
+  assert.equal(ELIGIBLE_PAGES.length, 8);
   for (const [, pathname] of ELIGIBLE_PAGES) {
     const { sandbox, scripts } = loadMetaAudience({ pathname });
     assert.equal(scripts.length, 1, pathname);
@@ -266,17 +227,17 @@ test('loader initializes at most once even if evaluated twice', () => {
 
 test('ineligible, unmarked, and non-production pages never create fbq or request Meta', () => {
   const scenarios = [
-    { pathname: '/get-help/', marker: true },
-    { pathname: '/plans/', marker: true },
+    { pathname: '/', marker: true },
+    { pathname: '/about/', marker: true },
+    { pathname: '/blog/', marker: true },
     { pathname: '/privacy-policy.html', marker: true },
-    { pathname: '/medicare/', marker: true },
     { pathname: '/provider-prescription-check/', marker: true },
     { pathname: '/losing-medicaid-florida/', marker: true },
     { pathname: '/blog/mental-health-awareness-month-therapy-benefit-lakeland-2026.html', marker: true },
     { pathname: '/unreviewed/', marker: true },
-    { pathname: '/about/', marker: false },
-    { hostname: 'localhost', pathname: '/about/', marker: true },
-    { hostname: 'www.lakelandhealthinsurance.com', pathname: '/about/', marker: true }
+    { pathname: '/get-help/', marker: false },
+    { hostname: 'localhost', pathname: '/get-help/', marker: true },
+    { hostname: 'www.lakelandhealthinsurance.com', pathname: '/get-help/', marker: true }
   ];
   for (const scenario of scenarios) {
     const { sandbox, scripts } = loadMetaAudience(scenario);
@@ -292,16 +253,15 @@ test('query, fragment, and referrer gates reject uncertain or user-like data', (
     { search: '?utm_content=863-555-1212' },
     { search: '?utm_content=33801' },
     { search: '?utm_content=Jane+Smith' },
-    { search: '?utm_campaign=diabetes' },
+    { search: '?intent=jane%40example.com' },
+    { search: '?zip_code=863-555-1212' },
     { search: '?fbclid=IwAR8635551212SensitiveValue' },
     { search: '?utm_source=meta&utm_source=facebook' },
     { search: '?analytics_test=1' },
-    { search: '?gclid=OpaqueGoogleClickIdentifier123' },
-    { search: '?utm_term=health-insurance' },
     { search: '?utm_source=%E0%A4%A' },
     { hash: '#jane@example.com' },
     { referrer: 'https://lakelandhealthinsurance.com/get-help/?zip_code=33801' },
-    { referrer: 'https://lakelandhealthinsurance.com/get-help/' },
+    { referrer: 'https://lakelandhealthinsurance.com/privacy-policy.html' },
     { referrer: 'https://example.com/private/path' },
     { referrer: 'https://oncology.example/' }
   ];
@@ -312,29 +272,41 @@ test('query, fragment, and referrer gates reject uncertain or user-like data', (
   }
 
   const allowed = loadMetaAudience({
-    pathname: '/blog/5-critical-health-insurance-mistakes.html',
+    pathname: '/get-help/',
     search: '?utm_source=facebook&utm_medium=paid_social&utm_campaign=lhi_site_retargeting_fps&utm_content=blog_education_v1&fbclid=IwY2xjawNeutralOpaqueClickIdentifier123',
     referrer: 'https://www.google.com/'
   });
   assert.equal(allowed.scripts.length, 1);
+
+  const landingQuery = loadMetaAudience({
+    pathname: '/get-help/',
+    search: '?intent=medicare&zip_code=33805&gclid=OpaqueGoogleClickIdentifier123&utm_term=health-insurance&source_page_key=medicare&source_cta_key=start_review_hero&utm_campaign=florida_brand'
+  });
+  assert.equal(landingQuery.scripts.length, 1);
+
+  const campaignSlug = loadMetaAudience({
+    pathname: '/quote/',
+    search: '?utm_campaign=cid_12345678'
+  });
+  assert.equal(campaignSlug.scripts.length, 1);
 });
 
 test('only reviewed same-site referrers pass without query or fragment data', () => {
   for (const [, pathname] of ELIGIBLE_PAGES) {
     const result = loadMetaAudience({
-      pathname: '/about/',
+      pathname: '/get-help/',
       referrer: `https://lakelandhealthinsurance.com${pathname}`
     });
     assert.equal(result.scripts.length, 1, pathname);
   }
 
   for (const referrer of [
-    'https://lakelandhealthinsurance.com/get-help/',
+    'https://lakelandhealthinsurance.com/',
     'https://lakelandhealthinsurance.com/privacy-policy.html',
-    'https://lakelandhealthinsurance.com/medicare/',
+    'https://lakelandhealthinsurance.com/about/',
     'https://lakelandhealthinsurance.com/provider-prescription-check/',
-    'https://lakelandhealthinsurance.com/blog/5-critical-health-insurance-mistakes.html?email=jane@example.com',
-    'https://lakelandhealthinsurance.com/about/#private',
+    'https://lakelandhealthinsurance.com/get-help/?email=jane@example.com',
+    'https://lakelandhealthinsurance.com/get-help/#private',
     'https://example.com/private/path'
   ]) {
     const result = loadMetaAudience({ referrer });
@@ -381,7 +353,7 @@ test('explicit consent control saves a confirmed preference before initializing'
 });
 
 test('shared first-visit prompt works on form and article pages and still initializes once', () => {
-  for (const pathname of ['/', '/blog/5-critical-health-insurance-mistakes.html']) {
+  for (const pathname of ['/get-help/', '/thanks.html']) {
     const result = loadMetaAudience({
       pathname,
       storage: makeStorage(),
@@ -409,7 +381,7 @@ test('shared first-visit prompt works on form and article pages and still initia
 });
 
 test('shared prompt denial and localhost consent keep Meta requests off', () => {
-  const denied = loadMetaAudience({ pathname: '/', storage: makeStorage(), cookie: '' });
+  const denied = loadMetaAudience({ pathname: '/get-help/', storage: makeStorage(), cookie: '' });
   denied.controls.metaAudienceOptOut.click();
   assert.equal(denied.scripts.length, 0);
   assert.equal(denied.sandbox.localStorage.getItem(CONSENT_KEY), 'denied');
@@ -417,7 +389,7 @@ test('shared prompt denial and localhost consent keep Meta requests off', () => 
 
   const localhost = loadMetaAudience({
     hostname: 'localhost',
-    pathname: '/',
+    pathname: '/get-help/',
     storage: makeStorage(),
     cookie: ''
   });
@@ -462,7 +434,7 @@ test('a pre-existing Meta runtime fails closed without adding calls or scripts',
   assert.equal(sandbox.__LHI_META_AUDIENCE_STATUS__.reason, 'preexisting-meta-runtime');
 });
 
-test('static marker inventory exactly matches the reviewed 36-page ledger', () => {
+test('static marker inventory exactly matches the reviewed 8-page landing ledger', () => {
   const marked = [];
   for (const file of htmlFiles()) {
     const html = readFileSync(file, 'utf8');
@@ -485,17 +457,15 @@ test('static marker inventory exactly matches the reviewed 36-page ledger', () =
   }
 
   const explicitDenied = [
-    'get-help/index.html',
-    'plans/index.html',
+    'index.html',
+    'about/index.html',
     'carriers/index.html',
-    'thanks.html',
     'aca-subsidy-estimator/index.html',
     'privacy-policy.html',
     'sms-policy.html',
     'current-client-review/index.html',
     'post-enrollment-review/index.html',
     'provider-prescription-check/index.html',
-    'medicare/index.html',
     'losing-medicaid-florida/index.html',
     'blog/aca-subsidy-wrong-income-florida.html',
     'blog/dont-overlook-rx-costs-2027.html',
@@ -530,7 +500,7 @@ test('CSP and static source preserve the single-loader, intended-dataset contrac
   assert.doesNotMatch(lead, /user_data:\s*\{[^}]*\b(?:email|phone|zip|name|income|provider|prescription)\b/is);
   assert.doesNotMatch(privacy, /Meta website-audience measurement[^.]*disabled on forms/i);
   assert.match(privacy, /does not inspect or transmit anything entered into a form/i);
-  assert.match(privacy, /Measurement remains disabled on Get Help/i);
+  assert.match(privacy, /Measurement remains disabled on other intake pages/i);
   assert.match(privacy, /server-side Meta Lead integration also requires the saved “allow” preference cookie/i);
   assert.match(LOADER_SRC, /only if you later submit a request that Netlify accepts, one standard Lead signal/);
   for (const [, pathname] of ELIGIBLE_PAGES) assert.ok(inventory.includes(`\`${pathname}\``), pathname);

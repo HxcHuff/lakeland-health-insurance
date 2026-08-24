@@ -680,42 +680,14 @@
     'lakelandhealthinsurance.com': true
   };
   var ELIGIBLE_PATHS = {
-    '/': true,
-    '/about/': true,
-    '/our-approach.html': true,
-    '/learning/': true,
-    '/blog/': true,
-    '/brandon-health-insurance/': true,
-    '/clearwater-health-insurance/': true,
-    '/davenport-health-insurance/': true,
-    '/haines-city-health-insurance/': true,
-    '/lake-alfred-health-insurance/': true,
-    '/largo-health-insurance/': true,
-    '/new-port-richey-health-insurance/': true,
-    '/riverview-health-insurance/': true,
-    '/st-petersburg-health-insurance/': true,
-    '/tampa-health-insurance/': true,
-    '/wesley-chapel-health-insurance/': true,
-    '/winter-haven-health-insurance/': true,
-    '/blog/3-things-changing-florida-health-insurance-may-2026.html': true,
-    '/blog/5-critical-health-insurance-mistakes.html': true,
-    '/blog/aca-premiums-2026-lakeland.html': true,
-    '/blog/central-florida-health-insurance-competition.html': true,
-    '/blog/florida-aca-premiums-up-31-percent-2026.html': true,
-    '/blog/health-insurance-brandon-2026.html': true,
-    '/blog/health-insurance-checkup-every-age.html': true,
-    '/blog/health-insurance-clearwater-2026.html': true,
-    '/blog/health-insurance-largo-2026.html': true,
-    '/blog/health-insurance-new-port-richey-2026.html': true,
-    '/blog/health-insurance-riverview-2026.html': true,
-    '/blog/health-insurance-st-petersburg-2026.html': true,
-    '/blog/health-insurance-tampa-2026.html': true,
-    '/blog/health-insurance-wesley-chapel-2026.html': true,
-    '/blog/hmo-vs-ppo-vs-epo-explained.html': true,
-    '/blog/lakeland-growth-health-insurance-impact.html': true,
-    '/blog/understanding-out-of-pocket-maximum.html': true,
-    '/blog/why-florida-health-insurance-premiums-increased-2026.html': true,
-    '/blog/zip-code-health-insurance-pricing-florida.html': true
+    '/get-help/': true,
+    '/quote/': true,
+    '/medicare/': true,
+    '/medicare-broker-lakeland-fl/': true,
+    '/aca-health-insurance-lakeland-fl/': true,
+    '/contact/': true,
+    '/plans/': true,
+    '/thanks.html': true
   };
   var ALLOWED_CAMPAIGN_VALUES = {
     utm_source: {
@@ -771,6 +743,9 @@
     var path = String(pathname || '/');
     if (path.charAt(0) !== '/') return '';
     path = path.replace(/\/index\.html$/i, '/');
+    if (path !== '/' && path.charAt(path.length - 1) !== '/' && !/\.[a-z0-9]+$/i.test(path)) {
+      path += '/';
+    }
     return path;
   }
 
@@ -787,12 +762,45 @@
     return /(?:cancer|oncolog|diabet|diagnos|condition|mental|medicaid|medicare|subsid|income|provider|prescription|pharmacy|pregnan|tobacco|eligib|enroll|application|policy|plan[_ -]?id|member)/i.test(text);
   }
 
+  function approvedCampaignSlug(value) {
+    var text = String(value || '').trim().toLowerCase();
+    if (!text || text.length > 80) return null;
+    if (/^cid_\d{8,20}$/.test(text)) return text;
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
+    return /^[a-z0-9][a-z0-9._~-]*$/.test(text) ? text : null;
+  }
+
+  function approvedCampaignTermValue(value) {
+    var text = String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    if (!text || text.length > 80) return null;
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
+    return /^[a-z0-9][a-z0-9 ._~+\-]*$/.test(text) ? text : null;
+  }
+
   function approvedQueryValue(key, value) {
     var text = String(value || '');
-    if (looksSensitive(text)) return false;
     if (key === 'fbclid') {
+      if (/@|(?:\d[\s().-]*){7,}/.test(text)) return false;
       return text.length >= 20 && text.length <= 256 && /^[A-Za-z0-9_-]+$/.test(text);
     }
+    if (key === 'gclid') {
+      if (/@|(?:\d[\s().-]*){7,}/.test(text)) return false;
+      return text.length >= 10 && text.length <= 256 && /^[A-Za-z0-9_-]+$/.test(text);
+    }
+    if (key === 'zip_code') {
+      return /^\d{5}$/.test(text);
+    }
+    if (key === 'intent' || key === 'source_page_key' || key === 'source_cta_key') {
+      return Boolean(approvedCampaignSlug(text));
+    }
+    if (key === 'utm_term') {
+      return Boolean(approvedCampaignTermValue(text));
+    }
+    if (key === 'utm_campaign') {
+      if (hasOwn(ALLOWED_CAMPAIGN_VALUES.utm_campaign, text)) return true;
+      return Boolean(approvedCampaignSlug(text));
+    }
+    if (looksSensitive(text)) return false;
     return hasOwn(ALLOWED_CAMPAIGN_VALUES, key) && hasOwn(ALLOWED_CAMPAIGN_VALUES[key], text);
   }
 

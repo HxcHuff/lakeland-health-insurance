@@ -468,25 +468,40 @@
   </style>
     <script defer src="/js/analytics.js?v=20260821-lead-reconciliation"></script>
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Medicare Plan Review in Lakeland, FL",
-    "url": "https://lakelandhealthinsurance.com/lp/medicare/",
-    "description": "Request a Medicare plan review with David Huff. Compare Medicare Advantage, Supplement, and Part D around doctors, prescriptions, pharmacies, and total annual cost.",
-    "mainEntity": {
-      "@type": "Service",
-      "name": "Medicare Plan Comparison",
-      "provider": {
-        "@type": "InsuranceAgency",
-        "name": "Lakeland Health Insurance",
-        "url": "https://lakelandhealthinsurance.com"
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Medicare Plan Review in Lakeland, FL",
+  "url": "https://lakelandhealthinsurance.com/lp/medicare/",
+  "description": "Request a Medicare plan review with David Huff. Compare Medicare Advantage, Supplement, and Part D around doctors, prescriptions, pharmacies, and total annual cost.",
+  "mainEntity": {
+    "@type": "Service",
+    "name": "Medicare Plan Comparison",
+    "provider": {
+      "@type": "InsuranceAgency",
+      "name": "Lakeland Health Insurance",
+      "url": "https://lakelandhealthinsurance.com",
+      "telephone": "+1-863-640-3102",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Lakeland",
+        "addressRegion": "FL",
+        "postalCode": "33805",
+        "addressCountry": "US"
       },
-      "areaServed": {"@type": "AdministrativeArea", "name": "Polk County, Florida"},
-      "serviceType": "Medicare Advantage, Supplement, and Part D Plan Comparison"
-    }
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "description": "By appointment"
+      }
+    },
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "Polk County, Florida"
+    },
+    "serviceType": "Medicare Advantage, Supplement, and Part D Plan Comparison"
   }
-  </script>
+}
+</script>
     <link rel="stylesheet" href="/css/site-template.css?v=20260820-sitelink-leads">
 </head>
 <body>
@@ -612,7 +627,7 @@
           </div>
           <div>
             <label for="zip_code">ZIP Code</label>
-            <input type="text" id="zip_code" name="zip_code" required placeholder="33801" pattern="[0-9]{5}" maxlength="5" inputmode="numeric" autocomplete="postal-code" aria-describedby="zip_code_help">
+            <input type="text" id="zip_code" name="zip_code" required placeholder="33805" pattern="[0-9]{5}" maxlength="5" inputmode="numeric" autocomplete="postal-code" aria-describedby="zip_code_help">
             <p class="field-help" id="zip_code_help">Use the ZIP code where coverage will be used.</p>
           </div>
           <div>
