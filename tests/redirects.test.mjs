@@ -237,6 +237,17 @@ test('direct controls have no 3xx rule and approved aliases terminate within two
     assert.ok(!rule || !REDIRECT_CODES.has(rule.status), pathname);
   }
 
+  const paidHtmlRewrites = new Map([
+    ['/lp/medicare.html', '/lp/medicare/index.html'],
+    ['/lp/aca.html', '/lp/aca/index.html']
+  ]);
+  for (const [source, target] of paidHtmlRewrites) {
+    const rule = matchingRule(rules, source);
+    assert.ok(rule, `${source} has an explicit content rewrite`);
+    assert.equal(rule.status, 200, source);
+    assert.equal(normalizePath(rule.target), normalizePath(target), source);
+  }
+
   const aliases = new Map([
     ['/aca', '/aca-health-insurance-lakeland-fl/'],
     ['/help', '/get-help/'],
