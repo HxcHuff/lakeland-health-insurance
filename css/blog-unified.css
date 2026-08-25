@@ -7,11 +7,6 @@
   --lhi-muted: #475569;
 }
 
-body {
-  background: var(--lhi-bg) !important;
-  color: var(--lhi-body) !important;
-  font-family: 'DM Sans', sans-serif !important;
-}
 
 .lhi-topbar {
   background: var(--lhi-navy);
@@ -27,37 +22,6 @@ body {
   text-decoration: underline;
 }
 
-header {
-  background: #fff !important;
-  border-bottom: 1px solid var(--lhi-line) !important;
-  box-shadow: none !important;
-}
-
-header .logo,
-header .brand-name {
-  font-family: 'Instrument Serif', serif !important;
-  font-size: 1.2rem !important;
-  font-weight: 400 !important;
-  color: var(--lhi-navy) !important;
-  line-height: 1.2 !important;
-  text-decoration: none !important;
-}
-
-header .logo::after,
-header .license-tag {
-  content: 'Licensed FL Broker #W371813' !important;
-  display: block !important;
-  color: #7A5B00 !important;
-  font-size: 0.7rem !important;
-  font-weight: 600 !important;
-  margin-top: 2px !important;
-}
-
-header nav a,
-.nav-links a,
-.menu-item a {
-  color: var(--lhi-navy) !important;
-}
 
 .article-header,
 .blog-header,

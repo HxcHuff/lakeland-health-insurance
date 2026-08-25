@@ -11,15 +11,23 @@ body {
   font-family: 'DM Sans', sans-serif;
 }
 
-body .messenger-button,
-body .click-to-call {
-  display: none;
+.answer-hero {
+  background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%);
+  border-bottom: 4px solid #D4A843;
+  color: #fff;
+  padding: 132px 20px 44px;
 }
 
-.answer-hero {
-  background: #fff;
-  border-bottom: 1px solid #d8dde8;
-  padding: 132px 20px 44px;
+.answer-hero .eyebrow {
+  color: #D4A843;
+}
+
+.answer-hero h1 {
+  color: #fff;
+}
+
+.answer-hero .lead {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .answer-wrap {
@@ -163,8 +171,12 @@ h3 {
 }
 
 .btn.primary {
-  background: #2563eb;
-  color: #fff;
+  background: #D4A843;
+  color: #1B2A4A;
+}
+
+.btn.primary:hover {
+  background: #c49a38;
 }
 
 .btn.secondary {
@@ -293,12 +305,12 @@ a:focus-visible,
 }
 
 .medicare-hub .btn.primary {
-  background: var(--hub-blue);
-  color: #fff;
+  background: var(--hub-gold, #D4A843);
+  color: var(--hub-navy, #1B2A4A);
 }
 
 .medicare-hub .btn.primary:hover {
-  background: #0a4c64;
+  background: #c49a38;
 }
 
 .medicare-hub .btn.secondary {

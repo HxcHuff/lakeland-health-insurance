@@ -55,50 +55,24 @@
       line-height: 1.65;
     }
     .container { max-width: 980px; margin: 0 auto; padding: 0 20px; }
-    header { background: #fff; border-bottom: 1px solid var(--line); }
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 0;
-    }
-    .brand {
-      color: var(--navy);
-      text-decoration: none;
-      font-family: "Instrument Serif", serif;
-      font-size: 1.2rem;
-      line-height: 1.2;
-    }
-    .license {
-      display: block;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: var(--gold);
-      margin-top: 2px;
-    }
-    .nav-cta {
-      background: var(--gold);
-      color: #111827;
-      text-decoration: none;
-      font-weight: 700;
-      padding: 10px 16px;
-      border-radius: 999px;
-    }
     .hero {
-      padding: 44px 0 22px;
+      background: linear-gradient(135deg, var(--navy) 0%, #2563EB 100%);
+      color: #fff;
+      padding: 56px 20px 40px;
+      margin: 0 -20px 8px;
+      border-bottom: 4px solid var(--gold);
     }
     h1 {
       margin: 0 0 10px;
       font-family: "Instrument Serif", serif;
       font-weight: 400;
-      color: var(--navy);
+      color: #fff;
       font-size: clamp(2rem, 4.2vw, 2.8rem);
       line-height: 1.15;
     }
     .sub {
       margin: 0;
-      color: var(--muted);
+      color: rgba(255,255,255,0.9);
       max-width: 760px;
     }
     .card {
@@ -119,11 +93,6 @@
       gap: 12px;
     }
     @media (max-width: 760px) {
-      nav {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .nav-cta { width: 100%; text-align: center; }
       .dime-grid { grid-template-columns: 1fr; }
     }
     .dime-item {
@@ -167,16 +136,47 @@
 </head>
 <body>
   <header>
-    <div class="container">
-      <nav>
-        <a class="brand" href="/">
-          Lakeland Health Insurance
-          <span class="license">Licensed FL Broker #W371813</span>
-        </a>
-        <a class="nav-cta" href="/get-help/">Talk to David</a>
-      </nav>
+  <nav class="container">
+    <div class="logo-container">
+      <a class="brand-name" href="/">
+        Lakeland Health Insurance
+        <span class="license-tag">Licensed FL Broker #W371813</span>
+      </a>
+      <button class="menu-button" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+        <div class="ellipses" aria-hidden="true">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </button>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <div class="menu-item"><a href="/">Home</a></div>
+        <div class="menu-item"><a href="/aca-health-insurance-lakeland-fl/">Individual and Family Coverage</a></div>
+        <div class="menu-item"><a href="/medicare/">Medicare</a></div>
+        <div class="menu-item"><a href="/plans/">Coverage Options</a></div>
+        <div class="menu-item"><a href="/carriers/">Carriers</a></div>
+        <div class="menu-item"><a href="/blog/">Blog</a></div>
+        <div class="menu-item"><a href="/learning/">Learn</a></div>
+        <div class="menu-item"><a href="/about/">About</a></div>
+        <div class="menu-item"><a href="/get-help/">Get Help</a></div>
+        <div class="menu-item"><a href="/calendly-book.html">Book a Call</a></div>
+        <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
+      </div>
     </div>
-  </header>
+    <ul class="nav-links">
+      <li><a href="/aca-health-insurance-lakeland-fl/">Individual and Family Coverage</a></li>
+      <li><a href="/medicare/">Medicare</a></li>
+      <li><a href="/plans/">Coverage Options</a></li>
+      <li><a href="/carriers/">Carriers</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/learning/">Learn</a></li>
+      <li><a href="/about/">About</a></li>
+    </ul>
+    <div class="cta-group">
+      <a href="/get-help/" class="cta-button">Talk to David</a>
+    </div>
+  </nav>
+</header>
 
   <main class="container">
     <section class="hero">
@@ -222,5 +222,50 @@
     </section>
   </main>
     <script src="/js/site-template.js?v=20260816-coverage-options" defer></script>
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-column">
+        <h3>Contact David</h3>
+        <ul>
+          <li><a href="tel:+18636403102"><span aria-hidden="true">&#128222;</span> (863) 640-3102</a></li>
+          <li><a href="mailto:dhuff@healthmarkets.com"><span aria-hidden="true">&#128231;</span> dhuff@healthmarkets.com</a></li>
+          <li><a href="https://m.me/2330958066941437" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
+          <li><span aria-hidden="true">&#128205;</span> Lakeland Health Insurance · Lakeland, FL 33805 · By appointment</li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Service Areas</h3>
+        <ul>
+          <li>Lakeland</li>
+          <li>Polk County</li>
+          <li>Central Florida</li>
+          <li>Remote assistance across Florida</li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/aca-health-insurance-lakeland-fl/">Individual and Family Coverage</a></li>
+          <li><a href="/losing-coverage/">Losing Coverage</a></li>
+          <li><a href="/self-employed-health-insurance/">Self-Employed Coverage</a></li>
+          <li><a href="/medicare/">Medicare</a></li>
+          <li><a href="/plans/">Coverage Options</a></li>
+          <li><a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/get-help/">Start Plan Review</a></li>
+          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>
+      <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier.</p>
+      <p style="margin-top: 1rem;"><a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer">Powered by David the Insurance Dude</a></p>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>

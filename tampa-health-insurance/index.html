@@ -427,6 +427,28 @@
       .card, .form-wrap { padding: 16px; }
       .hero-cta-row a { width: 100%; text-align: center; }
     }
+  
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 42px;
+      align-items: center;
+    }
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 14px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      color: var(--gold, #D4A843);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
   </style>
     <script defer src="/js/analytics.js?v=20260823-meta-pageview-sitewide"></script>
   <script type="application/ld+json">
@@ -501,8 +523,10 @@
 
   <main>
     <section class="hero">
-      <div class="container">
-        <h1>Health Insurance Broker Serving Tampa &amp; Hillsborough County</h1>
+      <div class="container hero-grid">
+        <div>
+          <div class="hero-kicker">Tampa, FL</div>
+          <h1>Health Insurance Broker Serving Tampa &amp; Hillsborough County</h1>
         <p>Licensed broker David Huff (FL #W371813, NPN 18213932) helps Tampa residents find the right health insurance — ACA Marketplace plans, Medicare, short-term coverage, and more.</p>
         <p>Work directly with a licensed Florida broker to compare current coverage paths.</p>
         <p>Plan review based on current eligibility, providers, prescriptions, and coverage needs.</p>
@@ -510,7 +534,8 @@
           <a class="btn-primary" href="/get-help/">Get Plan-Specific Help</a>
         </div>
       </div>
-    </section>
+            </div>
+      </section>
 
     <section>
       <div class="container card">
