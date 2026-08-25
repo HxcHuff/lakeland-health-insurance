@@ -16,6 +16,7 @@
 /privacy /privacy-policy.html 301!
 /privacy/ /privacy-policy.html 301!
 /index.html / 301!
+/contact.html /contact/ 301!
 /lp/campaign-*.html /get-help/ 301!
 /lp/campaign-* /get-help/ 301!
 
