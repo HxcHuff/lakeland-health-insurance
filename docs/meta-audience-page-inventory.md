@@ -1,10 +1,10 @@
 # Meta website-audience page inventory
 
-Reviewed: 2026-08-24
+Reviewed: 2026-08-25
 Dataset/Pixel ID: `1480756087079484`
 Browser event: standard `PageView` only, after a confirmed site preference
 
-This inventory is the reviewed browser-tracking boundary. A page must appear below, carry `<meta name="meta-audience-eligible" content="pageview">`, and pass the shared URL, referrer, privacy, hostname, and configuration gates before the Meta browser library can load.
+This inventory is the reviewed browser-tracking boundary. A page must appear below, carry `<meta name="meta-audience-eligible" content="pageview">`, and pass the shared URL, referrer, privacy, hostname, and configuration gates before the Meta browser library can load. Conversion routes never inject an automatic Meta preference prompt; a visitor without a previously saved preference remains unmeasured.
 
 ## Eligible landing routes
 
@@ -17,7 +17,7 @@ This inventory is the reviewed browser-tracking boundary. A page must appear bel
 - `/plans/`
 - `/thanks.html`
 
-These routes are eligible only under the isolation boundary: the loader sends a load-time standard `PageView`, never reads or listens to form fields, and Meta automatic matching, automatic events, and automatic configuration remain disabled.
+These routes are eligible only under the isolation boundary: the loader sends a load-time standard `PageView` after a visitor has explicitly opted in through the privacy controls, never reads or listens to form fields, and Meta automatic matching, automatic events, and automatic configuration remain disabled. Fresh, denied, uncertain, GPC, and DNT states remain fail-closed without adding a fixed card to the page.
 
 ## Explicit browser-tracking denylist
 
