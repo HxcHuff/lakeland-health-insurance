@@ -675,7 +675,6 @@
   var CONSENT_KEY = 'lhi_meta_audience_consent';
   var LEGACY_OPT_OUT_KEY = 'lhi_meta_audience_opt_out';
   var INITIALIZED_KEY = '__LHI_META_AUDIENCE_INITIALIZED__';
-  var CONSENT_STYLES_ID = 'lhiMetaAudienceConsentStyles';
   var PROD_HOSTS = {
     'lakelandhealthinsurance.com': true
   };
@@ -970,73 +969,8 @@
     return 'Meta measurement remains off because the preference state cannot be confirmed.';
   }
 
-  function appendText(parent, text) {
-    if (d.createTextNode) parent.appendChild(d.createTextNode(text));
-  }
-
-  function ensureConsentPrompt() {
-    if (!d.getElementById || !d.createElement || !d.body || !d.head) return false;
-    if (d.getElementById('metaAudienceConsentPrompt')) return true;
-
-    if (!d.getElementById(CONSENT_STYLES_ID)) {
-      var style = d.createElement('style');
-      style.id = CONSENT_STYLES_ID;
-      style.textContent = '' +
-        '.meta-audience-consent{background:#fff;border:1px solid #dce3ec;border-radius:14px;bottom:1rem;box-shadow:0 12px 40px rgba(15,26,46,.18);color:#334155;left:50%;max-width:760px;padding:1rem;position:fixed;transform:translateX(-50%);width:calc(100% - 2rem);z-index:2147483000}' +
-        '.meta-audience-consent[hidden]{display:none!important}.meta-audience-consent p{font:400 .92rem/1.55 "DM Sans",Arial,sans-serif;margin:0}.meta-audience-consent strong{color:#1b2a4a}' +
-        '.meta-audience-consent-actions{align-items:center;display:flex;flex-wrap:wrap;gap:.65rem;margin-top:.8rem}.meta-audience-consent button{background:#1b2a4a;border:1px solid #1b2a4a;border-radius:999px;color:#fff;cursor:pointer;font:700 .88rem/1.2 "DM Sans",Arial,sans-serif;padding:.65rem .95rem}' +
-        '.meta-audience-consent button.secondary{background:#fff;color:#1b2a4a}.meta-audience-consent a{color:#1b2a4a;font:700 .88rem/1.2 "DM Sans",Arial,sans-serif;margin-left:auto;text-underline-offset:3px}' +
-        '@media(max-width:640px){.meta-audience-consent-actions{align-items:stretch;flex-direction:column}.meta-audience-consent button{width:100%}.meta-audience-consent a{margin:.15rem 0 0;text-align:center}}';
-      d.head.appendChild(style);
-    }
-
-    var prompt = d.createElement('aside');
-    prompt.className = 'meta-audience-consent';
-    prompt.id = 'metaAudienceConsentPrompt';
-    prompt.hidden = true;
-    prompt.setAttribute('aria-labelledby', 'meta-audience-consent-title');
-
-    var copy = d.createElement('p');
-    var title = d.createElement('strong');
-    title.id = 'meta-audience-consent-title';
-    title.textContent = 'Optional Meta audience measurement.';
-    copy.appendChild(title);
-    appendText(copy, ' Allow Meta measurement? This permits one standard PageView on reviewed public pages and, only if you later submit a request that Netlify accepts, one standard Lead signal. Anything entered into a form and all custom event details are excluded.');
-
-    var actions = d.createElement('div');
-    actions.className = 'meta-audience-consent-actions';
-    var allow = d.createElement('button');
-    allow.type = 'button';
-    allow.id = 'metaAudienceOptIn';
-    allow.textContent = 'Allow Meta measurement';
-    var deny = d.createElement('button');
-    deny.type = 'button';
-    deny.className = 'secondary';
-    deny.id = 'metaAudienceOptOut';
-    deny.textContent = 'Keep Meta measurement off';
-    var details = d.createElement('a');
-    details.href = '/privacy-policy.html#cookies';
-    details.textContent = 'Privacy details';
-    actions.appendChild(allow);
-    actions.appendChild(deny);
-    actions.appendChild(details);
-
-    var status = d.createElement('p');
-    status.id = 'metaAudiencePreferenceStatus';
-    status.setAttribute('role', 'status');
-    status.setAttribute('aria-live', 'polite');
-    status.textContent = 'Meta measurement is off until you choose Allow.';
-
-    prompt.appendChild(copy);
-    prompt.appendChild(actions);
-    prompt.appendChild(status);
-    d.body.appendChild(prompt);
-    return true;
-  }
-
-  function configurePrivacyControls(injectPrompt) {
+  function configurePrivacyControls() {
     if (!d.getElementById) return;
-    if (injectPrompt) ensureConsentPrompt();
     var optOutButton = d.getElementById('metaAudienceOptOut');
     var optInButton = d.getElementById('metaAudienceOptIn');
     var status = d.getElementById('metaAudiencePreferenceStatus');
@@ -1095,12 +1029,7 @@
   }
 
   function preparePrivacyControls() {
-    configurePrivacyControls(false);
-    if (!w.location) return;
-    var path = normalizePath(w.location.pathname);
-    if (!hasOwn(ELIGIBLE_PATHS, path) || !hasEligibilityMarker()) return;
-    if (String(w.location.hash || '') || !hasApprovedReferrer(d.referrer) || !hasApprovedQuery(w.location.search)) return;
-    if (privacyDecision().reason === 'consent-required') configurePrivacyControls(true);
+    configurePrivacyControls();
   }
 
   function initialize() {

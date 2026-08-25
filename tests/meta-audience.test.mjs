@@ -11,7 +11,7 @@ assert.ok(loaderMatch, 'shared analytics asset contains the Meta audience loader
 const LOADER_SRC = loaderMatch[1];
 const PIXEL_ID = '1480756087079484';
 const ELIGIBLE_MARKER = '<meta name="meta-audience-eligible" content="pageview">';
-const ANALYTICS_VERSION = '/js/analytics.js?v=20260824-week-one-meta';
+const ANALYTICS_VERSION = '/js/analytics.js?v=20260821-lead-reconciliation-20260825-meta-prompt-suppression';
 const CONSENT_KEY = 'lhi_meta_audience_consent';
 const ELIGIBLE_PAGES = [
   ['get-help/index.html', '/get-help/'],
@@ -28,6 +28,17 @@ const FORM_BEARING_ELIGIBLE_FILES = new Set([
   'medicare/index.html',
   'plans/index.html'
 ]);
+const PROMPT_SUPPRESSED_PATHS = [
+  ...ELIGIBLE_PAGES.map(([, pathname]) => pathname),
+  '/thanks',
+  '/lp/aca/',
+  '/lp/aca.html',
+  '/lp/medicare/',
+  '/lp/medicare.html',
+  '/lp/gap/',
+  '/lp/gap.html',
+  '/lp/campaign-regression'
+];
 
 function makeStorage(initial = {}) {
   const values = new Map(Object.entries(initial));
@@ -206,13 +217,14 @@ function htmlFiles(dir = ROOT, out = []) {
 test('all 8 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
   assert.equal(ELIGIBLE_PAGES.length, 8);
   for (const [, pathname] of ELIGIBLE_PAGES) {
-    const { sandbox, scripts } = loadMetaAudience({ pathname });
+    const { sandbox, scripts, controls } = loadMetaAudience({ pathname });
     assert.equal(scripts.length, 1, pathname);
     assert.equal(scripts[0].src, 'https://connect.facebook.net/en_US/fbevents.js', pathname);
     assert.deepEqual(queuedCalls(sandbox), EXPECTED_CALLS, pathname);
     assert.deepEqual(queuedCalls(sandbox).map((call) => call.length), [2, 4, 2, 3], pathname);
     assert.equal(sandbox.fbq.disablePushState, true, pathname);
     assert.equal(sandbox.__LHI_META_AUDIENCE_STATUS__.state, 'queued', pathname);
+    assert.equal(controls.metaAudienceConsentPrompt, undefined, pathname);
     assert.doesNotMatch(JSON.stringify(queuedCalls(sandbox)), /Lead|Contact|Schedule|trackCustom|full_name|email|phone|zip|income/i, pathname);
   }
 });
@@ -339,81 +351,77 @@ test('GPC, DNT, absent, denied, malformed, duplicate, and unavailable consent fa
   }
 });
 
-test('explicit consent control saves a confirmed preference before initializing', () => {
-  const result = loadMetaAudience({ storage: makeStorage(), cookie: '', controls: true });
-  assert.equal(result.scripts.length, 0);
-  assert.equal(result.controls.metaAudienceConsentPrompt.hidden, false);
-  assert.match(result.controls.metaAudiencePreferenceStatus.textContent, /off until you choose Allow/);
+test('conversion and paid landing routes never inject an automatic Meta prompt', () => {
+  const states = [
+    { label: 'fresh', storage: makeStorage(), cookie: '' },
+    { label: 'denied', storage: makeStorage({ [CONSENT_KEY]: 'denied' }), cookie: `${CONSENT_KEY}=denied` },
+    { label: 'uncertain', storage: makeStorage({ [CONSENT_KEY]: 'granted' }), cookie: '' },
+    { label: 'GPC', globalPrivacyControl: true },
+    { label: 'DNT', doNotTrack: '1' }
+  ];
 
-  result.controls.metaAudienceOptIn.click();
-  assert.equal(result.scripts.length, 1);
-  assert.equal(result.sandbox.localStorage.getItem(CONSENT_KEY), 'granted');
-  assert.match(result.document.cookie, /lhi_meta_audience_consent=granted/);
-  assert.equal(result.controls.metaAudienceConsentPrompt.hidden, true);
-});
-
-test('shared first-visit prompt works on form and article pages and still initializes once', () => {
-  for (const pathname of ['/get-help/', '/thanks.html']) {
-    const result = loadMetaAudience({
-      pathname,
-      storage: makeStorage(),
-      cookie: ''
-    });
-    const prompt = result.controls.metaAudienceConsentPrompt;
-    const allow = result.controls.metaAudienceOptIn;
-    const deny = result.controls.metaAudienceOptOut;
-    assert.ok(prompt, pathname);
-    assert.equal(prompt.hidden, false, pathname);
-    assert.equal(prompt.parentNode, result.document.body, pathname);
-    assert.equal(allow.type, 'button', pathname);
-    assert.equal(deny.type, 'button', pathname);
-    assert.equal(result.scripts.length, 0, pathname);
-
-    allow.click();
-    assert.equal(result.scripts.length, 1, pathname);
-    assert.deepEqual(queuedCalls(result.sandbox), EXPECTED_CALLS, pathname);
-    assert.equal(result.sandbox.localStorage.getItem(CONSENT_KEY), 'granted', pathname);
-    assert.match(result.document.cookie, /lhi_meta_audience_consent=granted/, pathname);
-    allow.click();
-    assert.equal(result.scripts.length, 1, pathname);
-    assert.deepEqual(queuedCalls(result.sandbox), EXPECTED_CALLS, pathname);
+  for (const pathname of PROMPT_SUPPRESSED_PATHS) {
+    for (const state of states) {
+      const result = loadMetaAudience({ pathname, ...state });
+      assert.equal(result.controls.metaAudienceConsentPrompt, undefined, `${pathname} ${state.label}`);
+      assert.equal(result.controls.lhiMetaAudienceConsentStyles, undefined, `${pathname} ${state.label}`);
+      assert.equal(result.controls.metaAudienceOptIn, undefined, `${pathname} ${state.label}`);
+      assert.equal(result.controls.metaAudienceOptOut, undefined, `${pathname} ${state.label}`);
+      assert.equal(result.scripts.length, 0, `${pathname} ${state.label}`);
+      assert.equal(result.sandbox.fbq, undefined, `${pathname} ${state.label}`);
+    }
   }
 });
 
-test('shared prompt denial and localhost consent keep Meta requests off', () => {
-  const denied = loadMetaAudience({ pathname: '/get-help/', storage: makeStorage(), cookie: '' });
-  denied.controls.metaAudienceOptOut.click();
-  assert.equal(denied.scripts.length, 0);
-  assert.equal(denied.sandbox.localStorage.getItem(CONSENT_KEY), 'denied');
-  assert.equal(denied.controls.metaAudienceConsentPrompt.hidden, true);
+test('previous consent remains honored only on the 8 reviewed routes, not paid landing pages', () => {
+  for (const [, pathname] of ELIGIBLE_PAGES) {
+    const result = loadMetaAudience({ pathname });
+    assert.equal(result.scripts.length, 1, pathname);
+    assert.deepEqual(queuedCalls(result.sandbox), EXPECTED_CALLS, pathname);
+    assert.equal(result.controls.metaAudienceConsentPrompt, undefined, pathname);
+  }
 
-  const localhost = loadMetaAudience({
-    hostname: 'localhost',
-    pathname: '/get-help/',
-    storage: makeStorage(),
-    cookie: ''
-  });
-  assert.ok(localhost.controls.metaAudienceConsentPrompt);
-  assert.equal(localhost.controls.metaAudienceConsentPrompt.hidden, false);
-  localhost.controls.metaAudienceOptIn.click();
-  assert.equal(localhost.scripts.length, 0);
-  assert.equal(localhost.sandbox.fbq, undefined);
-  assert.equal(localhost.sandbox.__LHI_META_AUDIENCE_STATUS__.reason, 'non-production-host');
+  for (const pathname of PROMPT_SUPPRESSED_PATHS.filter((path) => path.startsWith('/lp/'))) {
+    const result = loadMetaAudience({ pathname });
+    assert.equal(result.scripts.length, 0, pathname);
+    assert.equal(result.sandbox.fbq, undefined, pathname);
+    assert.equal(result.controls.metaAudienceConsentPrompt, undefined, pathname);
+  }
 });
 
-test('privacy-page controls save the preference but cannot initialize Meta', () => {
-  const result = loadMetaAudience({
-    pathname: '/privacy-policy.html',
-    marker: false,
-    storage: makeStorage(),
-    cookie: '',
-    controls: 'privacy'
-  });
-  result.controls.metaAudienceOptIn.click();
-  assert.equal(result.sandbox.localStorage.getItem(CONSENT_KEY), 'granted');
-  assert.match(result.document.cookie, /lhi_meta_audience_consent=granted/);
-  assert.equal(result.scripts.length, 0);
-  assert.equal(result.sandbox.fbq, undefined);
+test('explicit privacy controls save a preference and a later eligible route honors it', () => {
+  for (const pathname of ['/privacy-policy.html', '/about/']) {
+    const storage = makeStorage();
+    const controls = loadMetaAudience({
+      pathname,
+      marker: false,
+      storage,
+      cookie: '',
+      controls: pathname === '/about/' ? 'about' : 'privacy'
+    });
+    if (pathname === '/about/') {
+      assert.equal(controls.controls.metaAudienceConsentPrompt.hidden, false, pathname);
+    } else {
+      assert.equal(controls.controls.metaAudienceConsentPrompt, undefined, pathname);
+    }
+    controls.controls.metaAudienceOptIn.click();
+    assert.equal(storage.getItem(CONSENT_KEY), 'granted', pathname);
+    assert.match(controls.document.cookie, /lhi_meta_audience_consent=granted/, pathname);
+    assert.equal(controls.scripts.length, 0, pathname);
+    assert.equal(controls.sandbox.fbq, undefined, pathname);
+    if (pathname === '/about/') {
+      assert.equal(controls.controls.metaAudienceConsentPrompt.hidden, true, pathname);
+    }
+
+    const eligible = loadMetaAudience({
+      pathname: '/get-help/',
+      storage,
+      cookie: controls.document.cookie
+    });
+    assert.equal(eligible.scripts.length, 1, pathname);
+    assert.deepEqual(queuedCalls(eligible.sandbox), EXPECTED_CALLS, pathname);
+    assert.equal(eligible.controls.metaAudienceConsentPrompt, undefined, pathname);
+  }
 });
 
 test('form-bearing eligible pages never expose form state to the loader', () => {
@@ -422,7 +430,7 @@ test('form-bearing eligible pages never expose form state to the loader', () => 
     assert.match(html, /<(?:form|input|textarea|select)\b/i, file);
     const result = loadMetaAudience({ pathname, trapFormAccess: true });
     assert.equal(result.scripts.length, 1, pathname);
-    assert.equal(result.accessedSelectors.length, 2, pathname);
+    assert.equal(result.accessedSelectors.length, 1, pathname);
     assert.ok(result.accessedSelectors.every((selector) => selector === 'meta[name="meta-audience-eligible"][content="pageview"]'), pathname);
     assert.deepEqual(queuedCalls(result.sandbox), EXPECTED_CALLS, pathname);
   }
@@ -454,6 +462,16 @@ test('static marker inventory exactly matches the reviewed 8-page landing ledger
     } else {
       assert.doesNotMatch(html, /<(?:form|input|textarea|select)\b/i, file);
     }
+  }
+
+  for (const relative of [
+    ...ELIGIBLE_PAGES.map(([file]) => file),
+    'lp/aca/index.html',
+    'lp/gap/index.html',
+    'lp/medicare/index.html'
+  ]) {
+    const html = readFileSync(join(ROOT, relative), 'utf8');
+    assert.doesNotMatch(html, /metaAudienceConsentPrompt|meta-audience-consent/i, relative);
   }
 
   const explicitDenied = [
@@ -502,7 +520,9 @@ test('CSP and static source preserve the single-loader, intended-dataset contrac
   assert.match(privacy, /does not inspect or transmit anything entered into a form/i);
   assert.match(privacy, /Measurement remains disabled on other intake pages/i);
   assert.match(privacy, /server-side Meta Lead integration also requires the saved “allow” preference cookie/i);
-  assert.match(LOADER_SRC, /only if you later submit a request that Netlify accepts, one standard Lead signal/);
+  assert.doesNotMatch(LOADER_SRC, /ensureConsentPrompt|CONSENT_STYLES_ID|createElement\(['"]aside['"]\)|position:\s*fixed/i);
+  assert.equal((LOADER_SRC.match(/getElementById\(['"]metaAudienceConsentPrompt['"]\)/g) || []).length, 1);
+  assert.match(LOADER_SRC, /prompt\.hidden\s*=\s*decision\.reason\s*!==\s*['"]consent-required['"]/);
   for (const [, pathname] of ELIGIBLE_PAGES) assert.ok(inventory.includes(`\`${pathname}\``), pathname);
 
   for (const file of htmlFiles()) {
