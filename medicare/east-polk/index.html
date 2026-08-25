@@ -26,28 +26,54 @@
   <script defer src="/js/analytics.js?v=20260821-lead-reconciliation"></script>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "East Polk Medicare Plan Review",
-    "description": "Medicare Advantage, Medicare Supplement, and Part D plan review for Lake Alfred, Haines City, Davenport, and Winter Haven residents.",
-    "serviceType": "Medicare Insurance Brokerage",
-    "url": "https://lakelandhealthinsurance.com/medicare/east-polk/",
-    "provider": {
-      "@type": "InsuranceAgency",
-      "name": "Lakeland Health Insurance",
-      "telephone": "+1-863-640-3102",
-      "url": "https://lakelandhealthinsurance.com/"
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "East Polk Medicare Plan Review",
+  "description": "Medicare Advantage, Medicare Supplement, and Part D plan review for Lake Alfred, Haines City, Davenport, and Winter Haven residents.",
+  "serviceType": "Medicare Insurance Brokerage",
+  "url": "https://lakelandhealthinsurance.com/medicare/east-polk/",
+  "provider": {
+    "@type": "InsuranceAgency",
+    "name": "Lakeland Health Insurance",
+    "telephone": "+1-863-640-3102",
+    "url": "https://lakelandhealthinsurance.com/",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Lakeland",
+      "addressRegion": "FL",
+      "postalCode": "33805",
+      "addressCountry": "US"
     },
-    "areaServed": [
-      {"@type": "City", "name": "Lake Alfred"},
-      {"@type": "City", "name": "Haines City"},
-      {"@type": "City", "name": "Davenport"},
-      {"@type": "City", "name": "Winter Haven"},
-      {"@type": "AdministrativeArea", "name": "Polk County, Florida"}
-    ]
-  }
-  </script>
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "description": "By appointment"
+    }
+  },
+  "areaServed": [
+    {
+      "@type": "City",
+      "name": "Lake Alfred"
+    },
+    {
+      "@type": "City",
+      "name": "Haines City"
+    },
+    {
+      "@type": "City",
+      "name": "Davenport"
+    },
+    {
+      "@type": "City",
+      "name": "Winter Haven"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Polk County, Florida"
+    }
+  ]
+}
+</script>
 
   <script type="application/ld+json">
   {

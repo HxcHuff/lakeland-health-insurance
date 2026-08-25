@@ -132,25 +132,46 @@
   </script>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Medicare Advantage and Medicare Supplement Comparison - Lakeland, FL",
-    "description": "Licensed Florida broker review comparing Medicare Advantage, Medicare Supplement, and Part D options for Lakeland and Polk County residents.",
-    "serviceType": "Medicare Plan Comparison",
-    "url": "https://lakelandhealthinsurance.com/blog/medicare-advantage-vs-supplement.html",
-    "provider": {
-      "@type": "InsuranceAgency",
-      "name": "Lakeland Health Insurance",
-      "url": "https://lakelandhealthinsurance.com/",
-      "telephone": "+1-863-640-3102",
-      "areaServed": [
-        {"@type": "City", "name": "Lakeland", "containedInPlace": {"@type": "AdministrativeArea", "name": "Florida"}},
-        {"@type": "AdministrativeArea", "name": "Polk County, Florida"}
-      ]
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Medicare Advantage and Medicare Supplement Comparison - Lakeland, FL",
+  "description": "Licensed Florida broker review comparing Medicare Advantage, Medicare Supplement, and Part D options for Lakeland and Polk County residents.",
+  "serviceType": "Medicare Plan Comparison",
+  "url": "https://lakelandhealthinsurance.com/blog/medicare-advantage-vs-supplement.html",
+  "provider": {
+    "@type": "InsuranceAgency",
+    "name": "Lakeland Health Insurance",
+    "url": "https://lakelandhealthinsurance.com/",
+    "telephone": "+1-863-640-3102",
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "Lakeland",
+        "containedInPlace": {
+          "@type": "AdministrativeArea",
+          "name": "Florida"
+        }
+      },
+      {
+        "@type": "AdministrativeArea",
+        "name": "Polk County, Florida"
+      }
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Lakeland",
+      "addressRegion": "FL",
+      "postalCode": "33805",
+      "addressCountry": "US"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "description": "By appointment"
     }
   }
-  </script>
+}
+</script>
 
   <style>
     :root {

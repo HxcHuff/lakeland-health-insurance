@@ -429,25 +429,40 @@
   </style>
     <script defer src="/js/analytics.js?v=20260821-lead-reconciliation"></script>
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Compare 2026 ACA Marketplace Plans in Lakeland, FL",
-    "url": "https://lakelandhealthinsurance.com/lp/aca/",
-    "description": "Review 2026 ACA Marketplace plans in Lakeland, FL, including potential premium tax credits, enrollment options, possible coverage start dates, and licensed broker help.",
-    "mainEntity": {
-      "@type": "Service",
-      "name": "ACA Health Insurance Enrollment",
-      "provider": {
-        "@type": "InsuranceAgency",
-        "name": "Lakeland Health Insurance",
-        "url": "https://lakelandhealthinsurance.com"
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Compare 2026 ACA Marketplace Plans in Lakeland, FL",
+  "url": "https://lakelandhealthinsurance.com/lp/aca/",
+  "description": "Review 2026 ACA Marketplace plans in Lakeland, FL, including potential premium tax credits, enrollment options, possible coverage start dates, and licensed broker help.",
+  "mainEntity": {
+    "@type": "Service",
+    "name": "ACA Health Insurance Enrollment",
+    "provider": {
+      "@type": "InsuranceAgency",
+      "name": "Lakeland Health Insurance",
+      "url": "https://lakelandhealthinsurance.com",
+      "telephone": "+1-863-640-3102",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Lakeland",
+        "addressRegion": "FL",
+        "postalCode": "33805",
+        "addressCountry": "US"
       },
-      "areaServed": {"@type": "AdministrativeArea", "name": "Polk County, Florida"},
-      "serviceType": "ACA Marketplace Health Insurance Enrollment"
-    }
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "description": "By appointment"
+      }
+    },
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "Polk County, Florida"
+    },
+    "serviceType": "ACA Marketplace Health Insurance Enrollment"
   }
-  </script>
+}
+</script>
 </head>
 <body class="aca-lp">
 
@@ -504,7 +519,7 @@
           </div>
           <div>
             <label for="zip_code">ZIP Code</label>
-            <input type="text" id="zip_code" name="zip_code" required placeholder="33801" pattern="[0-9]{5}" maxlength="5" inputmode="numeric" autocomplete="postal-code" aria-describedby="zip_code_help">
+            <input type="text" id="zip_code" name="zip_code" required placeholder="33805" pattern="[0-9]{5}" maxlength="5" inputmode="numeric" autocomplete="postal-code" aria-describedby="zip_code_help">
             <p class="field-help" id="zip_code_help">Use the ZIP code where coverage will be used.</p>
           </div>
           <details class="optional-details full">

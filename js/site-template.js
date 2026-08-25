@@ -69,7 +69,7 @@
               <li><a href="${phoneHref}"><span aria-hidden="true">&#128222;</span> ${phoneDisplay}</a></li>
               <li><a href="mailto:dhuff@healthmarkets.com"><span aria-hidden="true">&#128231;</span> dhuff@healthmarkets.com</a></li>
               <li><a href="${messengerHref}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
-              <li><span aria-hidden="true">&#128205;</span> Lakeland-based, serving Florida</li>
+              <li><span aria-hidden="true">&#128205;</span> Lakeland Health Insurance · Lakeland, FL 33805 · By appointment</li>
             </ul>
           </div>
           <div class="footer-column">

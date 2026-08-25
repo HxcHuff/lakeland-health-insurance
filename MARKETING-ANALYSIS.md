@@ -307,14 +307,9 @@ Your current InsuranceAgency schema is basic. Enhance it:
     "postalCode": "33805",
     "addressCountry": "US"
   },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": "28.0395",
-    "longitude": "-81.9498"
-  },
   "telephone": "+1-863-640-3102",
   "email": "david@lakelandhealthinsurance.com",
-  "openingHours": ["Mo-Fr 08:00-20:00", "Sa 09:00-17:00"],
+  "openingHours": "By appointment",
   "priceRange": "Free consultations",
   "sameAs": [
     "https://www.facebook.com/HealthMarkets.David.Huff"

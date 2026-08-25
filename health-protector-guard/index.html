@@ -28,7 +28,18 @@
     "@type": "InsuranceAgency",
     "name": "Lakeland Health Insurance",
     "url": "https://lakelandhealthinsurance.com",
-    "telephone": "+1-863-640-3102"
+    "telephone": "+1-863-640-3102",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Lakeland",
+      "addressRegion": "FL",
+      "postalCode": "33805",
+      "addressCountry": "US"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "description": "By appointment"
+    }
   },
   "serviceType": "Fixed Indemnity Health Insurance",
   "brand": {
@@ -38,9 +49,15 @@
   "manufacturer": {
     "@type": "Organization",
     "name": "Golden Rule Insurance Company",
-    "parentOrganization": {"@type": "Organization", "name": "UnitedHealthcare"}
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "UnitedHealthcare"
+    }
   },
-  "areaServed": {"@type": "AdministrativeArea", "name": "Florida"},
+  "areaServed": {
+    "@type": "AdministrativeArea",
+    "name": "Florida"
+  },
   "url": "https://lakelandhealthinsurance.com/health-protector-guard/"
 }
 </script>
