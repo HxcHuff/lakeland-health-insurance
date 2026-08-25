@@ -19,40 +19,6 @@
 /lp/campaign-*.html /get-help/ 301!
 /lp/campaign-* /get-help/ 301!
 
-# Force trailing-slash 301s for directory URLs not already rewritten to index.html.
-/about /about/ 301!
-/aca-health-insurance-lakeland-fl /aca-health-insurance-lakeland-fl/ 301!
-/aca-subsidy-estimator /aca-subsidy-estimator/ 301!
-/blog /blog/ 301!
-/brandon-health-insurance /brandon-health-insurance/ 301!
-/carriers /carriers/ 301!
-/clearwater-health-insurance /clearwater-health-insurance/ 301!
-/contact /contact/ 301!
-/davenport-health-insurance /davenport-health-insurance/ 301!
-/haines-city-health-insurance /haines-city-health-insurance/ 301!
-/health-protector-guard /health-protector-guard/ 301!
-/lake-alfred-health-insurance /lake-alfred-health-insurance/ 301!
-/largo-health-insurance /largo-health-insurance/ 301!
-/learning /learning/ 301!
-/life-insurance-dime-method /life-insurance-dime-method/ 301!
-/local-health-insurance-answers /local-health-insurance-answers/ 301!
-/losing-medicaid-florida /losing-medicaid-florida/ 301!
-/medicare-broker-lakeland-fl /medicare-broker-lakeland-fl/ 301!
-/moving-florida-medicare /moving-florida-medicare/ 301!
-/new-port-richey-health-insurance /new-port-richey-health-insurance/ 301!
-/newsletter /newsletter/ 301!
-/plans /plans/ 301!
-/private-medical-insurance /private-medical-insurance/ 301!
-/quote /quote/ 301!
-/retiring-before-65-florida /retiring-before-65-florida/ 301!
-/riverview-health-insurance /riverview-health-insurance/ 301!
-/short-term-medical /short-term-medical/ 301!
-/st-petersburg-health-insurance /st-petersburg-health-insurance/ 301!
-/supplemental-insurance /supplemental-insurance/ 301!
-/tampa-health-insurance /tampa-health-insurance/ 301!
-/wesley-chapel-health-insurance /wesley-chapel-health-insurance/ 301!
-/winter-haven-health-insurance /winter-haven-health-insurance/ 301!
-
 # Permanently remove public campaign-operation documents.
 /blog/ads-manager-setup-checklist.html /404.html 410
 /blog/campaign-funnel-ab-test.html /404.html 410
