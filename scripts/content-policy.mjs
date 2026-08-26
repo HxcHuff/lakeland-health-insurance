@@ -298,6 +298,13 @@ function maskNeutralCompensation(copy) {
     .replace(/\b(?:consumers?|clients?|customers?|you)\s+(?:pay|pays)\s+no\s+fees?\b/gi, '[neutral-compensation]');
 }
 
+function maskApprovedDirectContactStatement(copy) {
+  return copy.replace(
+    /(^|[.!?]\s+)this\s+is\s+not\s+a\s+call[\s-]+center(?=[.!?]?\s*$)/gi,
+    '$1[approved-direct-contact-statement]'
+  );
+}
+
 export function findContentPolicyIssues(copy) {
   const all = typeof copy === 'string' ? [normalize(copy)] : (copy?.all || []).map(normalize);
   const promotional = typeof copy === 'string' ? all : (copy?.promotional || []).map(normalize);
@@ -321,7 +328,7 @@ export function findContentPolicyIssues(copy) {
     if (/\bfree\b/i.test(freeChecked)) issues.add('promotional free-language');
   }
   for (const surface of normalizedSurfaces([...promotional, ...claims])) {
-    const checked = maskCautionaryClaims(maskNeutralCompensation(surface));
+    const checked = maskApprovedDirectContactStatement(maskCautionaryClaims(maskNeutralCompensation(surface)));
     for (const [label, pattern] of PROMOTIONAL_CLAIM_RULES) {
       if (pattern.test(checked)) issues.add(label);
     }

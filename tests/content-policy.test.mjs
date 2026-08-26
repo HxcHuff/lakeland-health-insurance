@@ -91,6 +91,13 @@ test('content policy rejects call-center, guesswork, universal-scope, and saving
   }
 });
 
+test('content policy allows the approved direct-contact statement without weakening comparison rules', () => {
+  assert.deepEqual(issuesFor('<p>This is not a call center.</p>'), []);
+  assert.ok(issuesFor('<p>Work directly with a broker, not a call center.</p>').includes('call-center comparison'));
+  assert.ok(issuesFor('<p>This is not a call center that ignores you.</p>').includes('call-center comparison'));
+  assert.ok(issuesFor('<p>This is not a call center comparison.</p>').includes('call-center comparison'));
+});
+
 test('content policy allows qualified eligibility, scope, and savings language', () => {
   for (const html of [
     '<p>If the Marketplace determines you qualify, premium tax credits may reduce the monthly premium.</p>',

@@ -236,11 +236,15 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 151);
+  assert.equal(templateConsumers.length, 149);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_TEMPLATE_LOADER), true, `${relative(ROOT, file)} uses the current shared-template release`);
     assert.equal(source.includes('/js/site-template.js?v=20260803-brand-release'), false, `${relative(ROOT, file)} does not use the retired shared-template release`);
+  }
+  for (const rel of ['lp/aca/index.html', 'lp/medicare/index.html']) {
+    const source = readFileSync(join(ROOT, rel), 'utf8');
+    assert.equal(source.includes('/js/site-template.js'), false, `${rel} owns focused paid-page chrome`);
   }
 
   assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20260816-coverage-options';/);
