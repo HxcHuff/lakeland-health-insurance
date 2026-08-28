@@ -35,6 +35,7 @@ export const GOOGLE_ADS_ROUTING = Object.freeze({
   accountIdEnv: "GOOGLE_ADS_ACCOUNT_ID",
   formAllowlistEnv: "GOOGLE_LEAD_FORM_ID_ALLOWLIST",
   formIds: Object.freeze(["357496832026", "398917236265"]),
+  siteId: "b6ad2d8f-d771-44f4-89b5-7ab30350950e",
   webhookKeyEnvByFormId: Object.freeze({
     "357496832026": "GOOGLE_LEAD_WEBHOOK_KEY_357496832026",
     "398917236265": "GOOGLE_LEAD_WEBHOOK_KEY_398917236265",
@@ -525,7 +526,12 @@ export function validateHmacSecret(value) {
 }
 
 export function requireProductionContext(env) {
-  if (env("CONTEXT") !== "production" || env("LHI_SITE_ENV") !== "production") {
+  const buildContext = env("CONTEXT");
+  if (
+    env("LHI_SITE_ENV") !== "production"
+    || env("SITE_ID") !== GOOGLE_ADS_ROUTING.siteId
+    || (buildContext && buildContext !== "production")
+  ) {
     fail("production_context_required", 503);
   }
 }

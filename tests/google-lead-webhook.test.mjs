@@ -59,8 +59,9 @@ function makeRequest(payload = makePayload(), init = {}) {
 
 function makeEnv(overrides = {}) {
   const values = {
-    CONTEXT: "production",
+    CONTEXT: "",
     LHI_SITE_ENV: "production",
+    SITE_ID: GOOGLE_ADS_ROUTING.siteId,
     GOOGLE_ADS_ACCOUNT_ID: GOOGLE_ADS_ROUTING.accountId,
     GOOGLE_LEAD_FORM_ID_ALLOWLIST: GOOGLE_ADS_ROUTING.formIds.join(","),
     GOOGLE_LEAD_WEBHOOK_KEY_357496832026: GOOGLE_KEY,
@@ -896,11 +897,57 @@ test("the signed receiver contract accepts both documented Google lead-source en
   }
 });
 
-test("production intake rejects preview context and reused authentication secrets", async () => {
-  const preview = makeContext({ env: makeEnv({ CONTEXT: "deploy-preview", LHI_SITE_ENV: "preview" }) });
-  const previewResponse = await preview.handler(makeRequest());
-  assert.equal(previewResponse.status, 503);
-  assert.equal(preview.storeFactoryCalls.length, 0);
+test("production intake accepts a serverless runtime without build context", async () => {
+  const context = makeContext({
+    env: makeEnv({ CONTEXT: "" }),
+    fetchImpl: makeAppsScriptFetch({ outcome: "TEST_ACKNOWLEDGED" }).fetchImpl,
+  });
+  const response = await context.handler(makeRequest(makePayload({ is_test: true })));
+  assert.equal(response.status, 200);
+  assert.equal(context.storeFactoryCalls.length, 0);
+});
+
+test("production intake independently rejects every invalid runtime context", async () => {
+  const cases = [
+    ["missing production marker", { LHI_SITE_ENV: "" }],
+    ["preview marker", { LHI_SITE_ENV: "preview" }],
+    ["missing site id", { SITE_ID: "" }],
+    ["wrong site id", { SITE_ID: "00000000-0000-0000-0000-000000000000" }],
+    ["build context cannot authorize a missing marker", { CONTEXT: "production", LHI_SITE_ENV: "" }],
+    ["present preview build context vetoes exact runtime values", { CONTEXT: "deploy-preview" }],
+  ];
+
+  for (const [label, overrides] of cases) {
+    const context = makeContext({ env: makeEnv(overrides) });
+    const response = await context.handler(makeRequest());
+    assert.equal(response.status, 503, label);
+    assert.deepEqual(await response.json(), { message: "production_context_required" }, label);
+    assert.equal(context.storeFactoryCalls.length, 0, label);
+    assert.equal(context.apps.calls.length, 0, label);
+  }
+});
+
+test("scheduled retry rejects invalid runtime context before Blob access", async () => {
+  for (const [label, overrides] of [
+    ["missing production marker", { LHI_SITE_ENV: "" }],
+    ["wrong site id", { SITE_ID: "00000000-0000-0000-0000-000000000000" }],
+  ]) {
+    let storeFactoryCalls = 0;
+    const retry = createRetryHandler({
+      env: makeEnv(overrides),
+      storeFactory: async () => {
+        storeFactoryCalls += 1;
+        return makeStore();
+      },
+    });
+    const response = await retry();
+    assert.equal(response.status, 503, label);
+    assert.deepEqual(await response.json(), { ok: false, error: "production_context_required" }, label);
+    assert.equal(storeFactoryCalls, 0, label);
+  }
+});
+
+test("production intake rejects reused authentication secrets", async () => {
 
   const reused = makeContext({
     env: makeEnv({
