@@ -16,6 +16,9 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbSYNTHETIC_GOOG
 const CONTENT_SERVICE_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=synthetic";
 const GOOGLE_KEY = "synthetic-aca-google-webhook-key-0001";
 const MEDICARE_GOOGLE_KEY = "synthetic-medicare-google-webhook-key-0002";
+const OVERLONG_GOOGLE_KEY = Buffer.from(
+  Array.from({ length: 38 }, (_, index) => index + 1),
+).toString("base64url");
 const HMAC_SECRET = Buffer.from(Array.from({ length: 48 }, (_, index) => index + 1)).toString("base64url");
 const FIXED_NOW = Date.parse("2026-08-27T20:00:00.000Z");
 
@@ -778,6 +781,7 @@ test("absent is_test is treated as a production lead", async () => {
 });
 
 test("approved forms require distinct per-form keys and bind the configured Ads account", async () => {
+  assert.equal(OVERLONG_GOOGLE_KEY.length, 51);
   const medicareApps = makeAppsScriptFetch();
   const medicare = makeContext({ fetchImpl: medicareApps.fetchImpl });
   const accepted = await medicare.handler(makeRequest(makePayload({
@@ -810,6 +814,7 @@ test("approved forms require distinct per-form keys and bind the configured Ads 
     ["reordered allowlist", { GOOGLE_LEAD_FORM_ID_ALLOWLIST: "398917236265,357496832026" }],
     ["missing ACA key", { GOOGLE_LEAD_WEBHOOK_KEY_357496832026: "" }],
     ["weak ACA key", { GOOGLE_LEAD_WEBHOOK_KEY_357496832026: "a".repeat(64) }],
+    ["ACA key exceeds Google's 50-character field limit", { GOOGLE_LEAD_WEBHOOK_KEY_357496832026: OVERLONG_GOOGLE_KEY }],
     ["shared form keys", { GOOGLE_LEAD_WEBHOOK_KEY_398917236265: GOOGLE_KEY }],
   ]) {
     const invalidConfiguration = makeContext({ env: makeEnv(overrides) });
@@ -956,9 +961,8 @@ test("production intake rejects reused authentication secrets", async () => {
     }),
   });
   const reusedResponse = await reused.handler(makeRequest(makePayload({ google_key: HMAC_SECRET })));
-  assert.equal(reusedResponse.status, 200);
-  assert.equal(parsedRecord(reused.store).state, "PENDING");
-  assert.equal(parsedRecord(reused.store).last_reason, "relay_secret_must_be_independent");
+  assert.equal(reusedResponse.status, 503);
+  assert.equal(reused.store.records.size, 0);
   assert.equal(reused.apps.calls.length, 0);
 });
 
