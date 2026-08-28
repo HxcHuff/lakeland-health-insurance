@@ -5,6 +5,9 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+[functions."google-lead-crm-retry"]
+  schedule = "*/15 * * * *"
+
 # Context-scoped env vars — server-side Meta CAPI only fires in production.
 # Deploy previews and branch deploys are explicitly quiet so Events Manager
 # stays clean and attribution windows aren't polluted by preview traffic.

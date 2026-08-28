@@ -136,17 +136,20 @@ Measurement boundaries are intentionally separate:
 
 ### Google Ads Lead-Form Webhook Controls
 
-- Google retry delivery is not exactly once. The webhook validates and bounds the payload, then atomically creates one site-scoped Netlify Blobs receipt per Google `lead_id` before attempting notifications.
-- The receipt key is a domain-separated SHA-256 digest of Google's opaque lead ID and is independent of the rotatable authentication key. The stored value is only `{ "version": 1 }`; it contains no raw lead ID, click ID, name, email, phone, form answer, or payload.
-- A duplicate receipt returns 200 without another downstream attempt. A receipt-store outage returns 503 before any downstream call so Google can retry.
-- Email and SMS are at-most-once notification attempts after durable acceptance. Provider failures are logged without response bodies or contact data and do not cause a retry that could duplicate a successful sibling channel. Google Ads remains the retained source for manual recovery; this is not a transactional exactly-once outbox.
-- Google-hosted form disclosure authorizes follow-up on the request, not ongoing marketing email. The webhook always skips Mailchimp unless a future versioned form contract supplies exact, durably stored marketing consent; any future new subscription must use pending confirmation, never automatic subscribed status.
+- Google delivery is not exactly once. The webhook validates and bounds the payload, authenticates the exact approved form with its unique Google key, and atomically creates a minimized site-scoped Netlify Blobs outbox record before any CRM delivery attempt.
+- The outbox key is a domain-separated SHA-256 digest of Google's opaque `lead_id`, independent of all authentication secrets. While pending, the record contains only approved contact fields and Google attribution identifiers. Successful delivery immediately removes that payload and retains a metadata-only tombstone for replay suppression.
+- Exact replays return 200 without another CRM delivery. A changed payload under the same `lead_id` is quarantined. A write/read-confirmation outage returns 503 before downstream delivery so Google can retry.
+- The only downstream path is a versioned HMAC-signed envelope to the pinned Apps Script CRM receiver. Customer.io, Lob, email, SMS, Mailchimp, and other marketing or messaging providers are not part of this Google-hosted lead workflow.
+- A bounded 15-minute scheduled function retries pending deliveries and performs best-effort privacy maintenance. Operational logs and alerts contain controlled reason codes and counts only, never lead IDs, click IDs, contact data, Blob keys, payloads, or secrets. See `docs/google-ads-crm-relay-runbook.md` for retry, retention, and activation details.
 
 | Variable | Surface | Required | Notes |
 |---|---|---:|---|
-| `GOOGLE_LEAD_WEBHOOK_KEY` | Server only | Yes | Authenticates Google Ads lead-form payloads. Never expose, persist, or log it. |
-| `RESEND_API_KEY`, `NOTIFY_EMAIL` | Server only | No | Internal email notification. Both must be configured or the channel is skipped. |
-| `TWILIO_SID`, `TWILIO_AUTH`, `TWILIO_FROM`, `TWILIO_TO` | Server only | No | Internal SMS notification. All four must be configured or the channel is skipped. |
+| `GOOGLE_ADS_ACCOUNT_ID` | Server only | Yes | Must be exact approved routing account `7880085811`; the raw Google webhook does not supply or prove this account identity. |
+| `GOOGLE_LEAD_FORM_ID_ALLOWLIST` | Server only | Yes | Must be exactly `357496832026,398917236265` in that order. |
+| `GOOGLE_LEAD_WEBHOOK_KEY_357496832026` | Server only | Yes | Unique high-entropy Google key for the approved ACA form. Never expose, persist, or log it. |
+| `GOOGLE_LEAD_WEBHOOK_KEY_398917236265` | Server only | Yes | Different unique high-entropy Google key for the approved Medicare form. Never expose, persist, or log it. |
+| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Server only | Yes | Pinned production Apps Script `/exec` receiver URL. |
+| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Server only | Yes | Independent 48-byte random secret encoded as 64 unpadded base64url characters. |
 
 ### OpenAI Ads Environment Variables
 | Variable | Surface | Required | Notes |
@@ -216,8 +219,8 @@ Measurement boundaries are intentionally separate:
 5. **Outcome infrastructure** — select an authenticated CRM/admin identity and durable outcome ledger before implementing `qualify_lead` or Ads offline qualified-lead uploads.
 
 ### Resolved In This Release Candidate
-6. **Google-hosted lead deduplication** — resolved locally with an atomic, privacy-safe Netlify Blobs receipt keyed from Google `lead_id`; sequential and concurrent duplicates are acknowledged without another downstream attempt.
-7. **Marketing-consent review** — resolved fail-closed. The Google-hosted form has no separate verified marketing-email consent, so this webhook cannot call Mailchimp or create a subscribed contact. Internal request follow-up notifications remain available.
+6. **Google-hosted lead durability and deduplication** — resolved locally with a minimized atomic Netlify Blobs outbox keyed from Google `lead_id`, immediate first delivery, bounded scheduled retry, changed-replay quarantine, and metadata-only terminal tombstones.
+7. **Downstream scope review** — resolved fail-closed. This workflow calls only the pinned signed Apps Script CRM receiver. It does not call Customer.io, Lob, Mailchimp, email, SMS, or another customer-messaging provider.
 
 ---
 
