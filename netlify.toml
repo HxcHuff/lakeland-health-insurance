@@ -17,8 +17,8 @@
 [context.deploy-preview.environment]
   LHI_SITE_ENV = "preview"
   # Blank the CAPI token on previews as a defense-in-depth measure; the
-  # function also checks CONTEXT, but clearing the token guarantees no
-  # accidental server-side fires if the guard is ever removed.
+  # legacy function also checks a build-context signal, but clearing the token
+  # remains the build-side guarantee that previews cannot emit CAPI events.
   META_CAPI_ACCESS_TOKEN = ""
 
 [context.branch-deploy.environment]
