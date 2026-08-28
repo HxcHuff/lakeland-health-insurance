@@ -54,6 +54,7 @@ const DEPLOYMENT_ID = /^[A-Za-z0-9_-]{20,200}$/;
 const HMAC_SECRET = /^[A-Za-z0-9_-]{64}$/;
 const GOOGLE_WEBHOOK_KEY_MINIMUM_BYTES = 32;
 const GOOGLE_WEBHOOK_KEY_MAXIMUM_BYTES = 50;
+const GOOGLE_ADS_UI_TEST_SUBMIT_TIME = "1970-01-01T00:00:00.000Z";
 const PLACEHOLDER_SECRET = /(?:placeholder|changeme|replace[_-]me|example[_-]secret|your[_-]secret|test[_-]secret)/iu;
 const OPERATIONAL_SUCCESS_OUTCOMES = new Set(["STAGED", "REPLAY_NOOP"]);
 const TEST_SUCCESS_OUTCOMES = new Set(["TEST_ACKNOWLEDGED"]);
@@ -476,6 +477,13 @@ export function normalizeGoogleAdsPayload(payload, configuration) {
     fail("google_ads_routing_configuration_unavailable", 503);
   }
   if (payload.api_version !== undefined) exactBoundedText(payload.api_version, 32, true);
+  const isTest = payload.is_test === true;
+  const leadSubmitTime = isTest && payload.lead_submit_time === undefined
+    ? GOOGLE_ADS_UI_TEST_SUBMIT_TIME
+    : payload.lead_submit_time;
+  const leadSource = isTest && payload.lead_source === undefined
+    ? "LEAD_FORM"
+    : payload.lead_source;
   const contact = normalizeColumnData(payload.user_column_data);
   const formId = normalizeAdsId(payload.form_id);
   if (!configuration.formIds.includes(formId)) fail("google_ads_form_not_approved", 403);
@@ -483,16 +491,16 @@ export function normalizeGoogleAdsPayload(payload, configuration) {
     account_id: configuration.accountId,
     event_type: RELAY_PROTOCOL.eventType,
     lead_id: normalizeLeadId(payload.lead_id),
-    lead_submit_time: normalizeLeadSubmitTime(payload.lead_submit_time),
+    lead_submit_time: normalizeLeadSubmitTime(leadSubmitTime),
     gcl_id: normalizeClickId(payload.gcl_id),
     form_id: formId,
     campaign_id: normalizeCampaignId(payload.campaign_id),
     adgroup_id: normalizeAdsId(payload.adgroup_id),
     creative_id: normalizeAdsId(payload.creative_id),
     asset_group_id: normalizeAdsId(payload.asset_group_id),
-    lead_source: normalizeLeadSource(payload.lead_source),
+    lead_source: normalizeLeadSource(leadSource),
     lead_stage: normalizeOptionalSourceField(payload.lead_stage),
-    is_test: payload.is_test === true,
+    is_test: isTest,
     ...contact,
   });
   if (!exactKeys(normalized, PAYLOAD_KEYS)) fail("invalid_google_ads_payload", 400);

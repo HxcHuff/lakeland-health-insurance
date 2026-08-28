@@ -43,6 +43,7 @@ Google Ads limits the webhook key field to 50 characters; the relay rejects a co
 - A key valid for one approved form is invalid for the other form.
 - Missing, reordered, expanded, or otherwise changed account/form routing configuration fails closed.
 - `is_test=true` validates the full authenticated path and must receive `TEST_ACKNOWLEDGED`; it does not write an outbox or CRM lead.
+- Google's current Ads UI test fixture omits `lead_submit_time`, `lead_source`, `lead_stage`, and `asset_group_id`. Only for authenticated `is_test=true` requests, the relay supplies a deterministic non-persistent timestamp, `LEAD_FORM`, and empty optional values so Google's test can reach `TEST_ACKNOWLEDGED`. Production requests still require submit time and source.
 - Production records are stored durably before the first Apps Script delivery attempt.
 - Exact `lead_id` replays are acknowledged without another delivery. A changed payload using the same `lead_id` is quarantined.
 - Only the approved contact columns and Google attribution identifiers enter the minimized signed payload. The account ID, form ID, creative ID, and asset-group ID remain distinct fields.
