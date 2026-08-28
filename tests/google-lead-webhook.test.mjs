@@ -768,6 +768,37 @@ test("test data validates and reaches only the receiver TEST_ACKNOWLEDGED path",
   assert.equal(missingConfiguration.storeFactoryCalls.length, 0);
 });
 
+test("Google Ads UI test omissions are normalized only for non-writing test data", async () => {
+  const googleUiTestPayload = makePayload({ is_test: true });
+  delete googleUiTestPayload.asset_group_id;
+  delete googleUiTestPayload.lead_stage;
+  delete googleUiTestPayload.lead_submit_time;
+  delete googleUiTestPayload.lead_source;
+
+  const apps = makeAppsScriptFetch({ outcome: "TEST_ACKNOWLEDGED" });
+  const testContext = makeContext({ fetchImpl: apps.fetchImpl });
+  const testResponse = await testContext.handler(makeRequest(googleUiTestPayload));
+  assert.equal(testResponse.status, 200);
+  assert.deepEqual(await testResponse.json(), {});
+  assert.equal(testContext.storeFactoryCalls.length, 0);
+  const envelope = JSON.parse(apps.calls[0].options.body);
+  assert.equal(envelope.payload.is_test, true);
+  assert.equal(envelope.payload.asset_group_id, "");
+  assert.equal(envelope.payload.lead_stage, "");
+  assert.equal(envelope.payload.lead_submit_time, "1970-01-01T00:00:00.000Z");
+  assert.equal(envelope.payload.lead_source, "LEAD_FORM");
+
+  const productionContext = makeContext();
+  const productionResponse = await productionContext.handler(makeRequest({
+    ...googleUiTestPayload,
+    is_test: false,
+    lead_id: "production-missing-required-fields",
+  }));
+  assert.equal(productionResponse.status, 400);
+  assert.equal(productionContext.storeFactoryCalls.length, 0);
+  assert.equal(productionContext.apps.calls.length, 0);
+});
+
 test("absent is_test is treated as a production lead", async () => {
   const payload = makePayload();
   delete payload.is_test;
