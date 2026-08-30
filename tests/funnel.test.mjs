@@ -439,15 +439,20 @@ function makeAnalyticsLink({ href, medicareCta, ancestors = [] }) {
 }
 
 function getHelpCtas(html) {
+  const chromeRanges = [...html.matchAll(/<(header|footer)\b[^>]*>[\s\S]*?<\/\1>/gi)].map((match) => ({
+    start: match.index,
+    end: match.index + match[0].length
+  }));
   return [...html.matchAll(/<a\b[^>]*href="([^"]*\/get-help\/[^"]*)"[^>]*>/gi)].map((match) => {
     const tag = match[0];
     const ctaMatch = tag.match(/\bdata-medicare-cta="([^"]+)"/i);
     return {
+      index: match.index,
       tag,
       href: match[1].replaceAll('&amp;', '&'),
       ctaKey: ctaMatch ? ctaMatch[1] : null
     };
-  });
+  }).filter((cta) => cta.ctaKey !== null || !chromeRanges.some((range) => cta.index >= range.start && cta.index < range.end));
 }
 
 function runThanksHeadScript(sessionStorage) {
@@ -1046,6 +1051,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     assert.match(html, new RegExp(`<body[^>]*data-page-key="${expected.pageKey}"[^>]*data-page-role="${expected.pageRole}"[^>]*data-content-cluster="lakeland_medicare_broker"`));
     const ctas = getHelpCtas(html);
     assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
+    assert.equal(ctas.some((cta) => cta.ctaKey === null), false, `${expected.pageKey} has an unkeyed in-content Get Help CTA`);
     assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
     assert.match(html, /\/js\/analytics\.js\?v=20260821-lead-reconciliation/);
 

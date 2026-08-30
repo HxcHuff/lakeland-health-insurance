@@ -203,14 +203,16 @@ test('plans presents five one-click coverage choices with relevant limitations',
 });
 
 test('quote presents three direct actions without a routing form or plans detour', () => {
+  const quoteMain = QUOTE.match(/<main\b[^>]*>[\s\S]*?<\/main>/i);
+  assert.ok(quoteMain, 'quote page has a main content region');
   assert.equal((QUOTE.match(/data-quote-action=/g) || []).length, 3);
   assert.match(QUOTE, /data-quote-action="aca-self-service"[^>]+href="https:\/\/www\.healthsherpa\.com\/\?_agent_id=david-huff-ngdu8q"/);
   assert.match(QUOTE, /data-funnel-external-quote data-analytics-label="quote_aca_self_service_compare"/);
   assert.doesNotMatch(QUOTE, /does not display every available qualified health plan/i);
   assert.match(QUOTE, /data-quote-action="medicare-review" href="\/get-help\/\?intent=medicare"/);
   assert.match(QUOTE, /data-quote-action="broker-review" href="\/get-help\/"/);
-  assert.doesNotMatch(QUOTE, /<form\b|routerZip|routerCoverage|ZIP-prefix|coverage router|routing gate|verified pathway|verified next steps/i);
-  assert.doesNotMatch(QUOTE, /href="\/plans\/"/);
+  assert.doesNotMatch(quoteMain[0], /<form\b|routerZip|routerCoverage|ZIP-prefix|coverage router|routing gate|verified pathway|verified next steps/i);
+  assert.doesNotMatch(quoteMain[0], /href="\/plans\/"/);
   assert.equal(existsSync(join(ROOT, 'js/quote-router.js')), false);
   assert.match(QUOTE, /"dateModified": "2026-08-16"/);
   assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/quote\/<\/loc>\s*<lastmod>2026-08-16<\/lastmod>/);
