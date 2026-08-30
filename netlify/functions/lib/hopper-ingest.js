@@ -37,30 +37,43 @@ function isMedicare(payload) {
   return intent === "medicare" || intent.includes("medicare");
 }
 
+function smsConsentGranted(payload) {
+  const raw = String(payload.consent_sms || payload.consent_sms_state || "").trim().toLowerCase();
+  return raw === "yes" || raw === "granted" || raw === "true" || raw === "on";
+}
+
+function isoTimestamp(value) {
+  if (!value) return new Date().toISOString();
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? new Date().toISOString() : parsed.toISOString();
+}
+
 function buildHopperPayload(payload, headers) {
-  const { first_name, last_name } = splitName(payload.full_name);
+  const fromParts = {
+    first_name: String(payload.first_name || "").trim(),
+    last_name: String(payload.last_name || "").trim(),
+  };
+  const fromFull = splitName(payload.full_name || payload.name);
+  const first_name = fromParts.first_name || fromFull.first_name;
+  const last_name = fromParts.last_name || fromFull.last_name;
   const email = String(payload.email || "").trim();
-  const phone = String(payload.phone || "").trim();
+  const phone = String(payload.phone || payload.phone_number || "").trim();
   if (!first_name || !email || !phone) return null;
 
   const medicare = isMedicare(payload);
-  const smsGranted = payload.consent_sms === "yes" && Boolean(phone) && !medicare;
-  const timestamp =
-    payload.consent_recorded_at ||
-    payload.server_received_at ||
-    new Date().toISOString();
+  const smsGranted = smsConsentGranted(payload) && Boolean(phone) && !medicare;
 
   const body = {
     source: "website_form",
     campaign: "lhi-get-help",
     first_name,
-    last_name,
+    last_name: last_name || "Lead",
     phone,
     email,
     tcpa_consent: smsGranted,
   };
 
-  const zip = zipOrUndefined(payload.zip_code);
+  const zip = zipOrUndefined(payload.zip_code || payload.zip);
   if (zip) body.zip = zip;
 
   const household = numericOrUndefined(payload.household_size);
@@ -74,7 +87,9 @@ function buildHopperPayload(payload, headers) {
 
   if (smsGranted) {
     body.tcpa_consent_text = TCPA_SMS_TEXT;
-    body.tcpa_timestamp = timestamp;
+    body.tcpa_timestamp = isoTimestamp(
+      payload.consent_recorded_at || payload.server_received_at,
+    );
   }
 
   if (payload.utm_source) body.utm_source = String(payload.utm_source).slice(0, 80);
