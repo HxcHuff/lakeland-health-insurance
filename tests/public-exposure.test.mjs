@@ -37,6 +37,7 @@ const RETIRED_URL_PARTS = [
   'nav-snippet.html',
   'search-engine-from-zip',
   'email-newsletter.html',
+  'dudes-corner',
 ];
 
 function findDeployableFiles(dir, out = []) {
@@ -145,6 +146,19 @@ test('quote-engine routes consolidate to Get Help while obsolete assets return 4
 test('retired newsletter artifact redirects to the public newsletter route', () => {
   assert.match(REDIRECTS, /^\/newsletter\/email-newsletter\.html\s+\/newsletter\/\s+301!$/m);
   assert.ok(existsSync(join(ROOT, 'newsletter/index.html')));
+});
+
+test('retired Dude\'s Corner humor section redirects to professional pages', () => {
+  assert.match(REDIRECTS, /^\/dudes-corner\s+\/about\/\s+301!$/m);
+  assert.match(REDIRECTS, /^\/dudes-corner\/\s+\/about\/\s+301!$/m);
+  assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\.html\s+\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
+  assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\s+\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
+  assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\/\s+\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
+  assert.match(REDIRECTS, /^\/dudes-corner\/subsidy-cliff-dudes-take\.html\s+\/blog\/aca-subsidy-cliff\.html\s+301!$/m);
+  assert.ok(existsSync(join(ROOT, 'about/index.html')));
+  assert.ok(existsSync(join(ROOT, 'blog/fixed-indemnity-analysis.html')));
+  assert.ok(existsSync(join(ROOT, 'blog/aca-subsidy-cliff.html')));
+  assert.equal(existsSync(join(ROOT, 'dudes-corner')), false);
 });
 
 test('retired Health ProtectorGuard internal fragments return 404', () => {

@@ -42,8 +42,9 @@
 /links /learning/ 301!
 /links/ /learning/ 301!
 /links/index.html /learning/ 301!
-/dudes-corner /blog/ 301!
-/dudes-corner/ /blog/ 301!
+# Retired humor section. Hub goes to About (professional + David), not a joke destination.
+/dudes-corner /about/ 301!
+/dudes-corner/ /about/ 301!
 /dudes-corner/subsidy-cliff-dudes-take.html /blog/aca-subsidy-cliff.html 301!
 /dudes-corner/subsidy-cliff-dudes-take /blog/aca-subsidy-cliff.html 301!
 /dudes-corner/subsidy-cliff-dudes-take/ /blog/aca-subsidy-cliff.html 301!
