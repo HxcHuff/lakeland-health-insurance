@@ -369,24 +369,50 @@
       padding: 14px 16px;
     }
     .check-list strong { color: var(--navy); display: block; }
+    .comparison-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-top: 18px;
+    }
     .comparison-table {
       width: 100%;
+      min-width: 720px;
       border-collapse: collapse;
-      margin-top: 18px;
+      margin-top: 0;
       background: var(--white);
       border: 1px solid var(--line);
       border-radius: 8px;
-      overflow: hidden;
+    }
+    .comparison-table caption {
+      caption-side: top;
+      text-align: left;
+      font-weight: 700;
+      color: var(--navy);
+      padding: 0 0 10px;
+      font-size: 1rem;
     }
     .comparison-table th, .comparison-table td {
       padding: 13px 14px;
       text-align: left;
       border-bottom: 1px solid var(--line);
       vertical-align: top;
-      font-size: .95rem;
+      font-size: .92rem;
     }
     .comparison-table th { background: #F1F5F9; color: var(--navy); }
+    .comparison-table th:first-child,
+    .comparison-table td:first-child { font-weight: 700; color: var(--navy); }
     .comparison-table tr:last-child td { border-bottom: none; }
+    .plan-note { margin-top: 14px; color: var(--muted); font-size: 0.95rem; }
+    .inline-cta {
+      margin-top: 16px;
+      padding: 16px 18px;
+      background: #F0F5FF;
+      border: 1px solid #E2E8F0;
+      border-left: 4px solid var(--gold);
+      border-radius: 8px;
+    }
+    .inline-cta p { margin: 0; }
+    .inline-cta a { color: var(--navy); font-weight: 700; }
     .mini-cta {
       background: var(--navy);
       color: var(--white);
@@ -478,7 +504,8 @@
       .hero-actions a { width: 100%; text-align: center; }
       .deadline-list li { grid-template-columns: 1fr; gap: 3px; }
       .mini-cta { position: static; }
-      .comparison-table { display: block; overflow-x: auto; }
+      .comparison-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .comparison-table { display: table; min-width: 720px; }
       nav { align-items: flex-start; }
       .nav-links { gap: 10px; }
     }
@@ -511,7 +538,7 @@
       <div>
         <div class="eyebrow">2027 Medicare plan review</div>
         <h1>Get your Lakeland Medicare plan reviewed before AEP gets busy.</h1>
-        <p>If your doctors, prescriptions, pharmacy, or budget changed this year, your Medicare coverage may deserve a second look. David reviews Medicare Advantage, Medicare Supplement, and Part D paths for Lakeland and Polk County using current plan-year evidence and the options he is authorized to discuss.</p>
+        <p>A Lakeland Medicare review verifies your doctors, prescriptions, pharmacies, and plan networks against the current plan year before Annual Enrollment (October 15 through December 7). David Huff, a licensed Florida broker (FL #W371813), compares Medicare Advantage, Medicare Supplement (Medigap), and Part D options he is authorized to discuss for Lakeland and Polk County. This page does not quote premiums or benefit amounts; those figures come from current plan documents for your ZIP.</p>
         <p class="hero-phone">2027 contract-year guidance. Medicare Annual Enrollment runs October 15 through December 7.</p>
         <div class="hero-actions">
           <a href="/get-help/?intent=medicare&amp;source_page_key=medicare_broker_lakeland_fl&amp;source_cta_key=request_review_hero" class="btn-cta" data-medicare-cta="request_review_hero">Request Medicare Review</a>
@@ -545,34 +572,34 @@
 
   <section id="key-takeaways" style="padding: 32px 0 16px;">
     <div class="container" style="background: #F0F5FF; border: 1px solid #E2E8F0; border-left: 4px solid #2563EB; border-radius: 8px; padding: 24px;">
-      <h2 style="font-size: 1.3rem; margin-bottom: 12px;">Before You Keep or Switch Your Medicare Plan, Ask These 3 Questions</h2>
-      <p>If you can answer all three clearly, you may already be in good shape. If one answer is fuzzy, your plan deserves a closer look before AEP gets crowded.</p>
+      <h2 style="font-size: 1.3rem; margin-bottom: 12px;">Three facts to confirm before you keep or switch</h2>
+      <p>Answer these from current plan-year documents and the exact plan ID. If any item is unknown, the coverage deserves a review before AEP.</p>
       <ol style="margin: 14px 0 0 20px;">
-        <li><strong>Are your doctors still in network?</strong> Check primary care, specialists, Lakeland Regional Health, Watson Clinic, BayCare, imaging centers, and the exact plan ID.</li>
-        <li><strong>Did your prescriptions change tiers?</strong> A cheap premium can get expensive fast if one medication moves pharmacies, tiers, deductible status, or prior authorization rules.</li>
-        <li><strong>What is your real annual risk?</strong> Compare premium, copays, coinsurance, dental value, Part D costs, and maximum out-of-pocket exposure, not just the headline benefit.</li>
+        <li><strong>Doctors and facilities still participate?</strong> Verify primary care, specialists, Lakeland Regional Health, Watson Clinic, BayCare, imaging centers, and the exact plan ID for the new contract year. Carrier names do not prove network participation.</li>
+        <li><strong>Prescriptions still fit the formulary?</strong> Check each drug's tier, deductible status, quantity limits, prior authorization, and preferred pharmacy. A lower premium can still raise annual cost if one medication moves.</li>
+        <li><strong>What is the full-year cost picture?</strong> Compare premium, copays, coinsurance, Part D costs, and maximum out-of-pocket from current documents for your ZIP—not a single headline benefit.</li>
       </ol>
-      <p style="margin-top: 12px;"><strong>Not sure?</strong> Send the doctor list, medication list, and current plan name. I will help you see whether staying put, switching, or doing nothing is the smarter move.</p>
     </div>
   </section>
 
-  <section>
+  <section id="service">
     <div class="container split">
       <div>
-        <h2>What We Check Before You Switch or Stay Put</h2>
-        <p>Most Medicare mistakes happen because someone compares premiums and dental benefits, then forgets the boring stuff that actually controls cost. A good review looks at the whole year.</p>
+        <h2>What a Lakeland Medicare review checks</h2>
+        <p>The review uses current plan-year evidence for Lakeland and Polk County ZIP codes and the options David is authorized to discuss. It looks at the full year, not only the monthly premium or extra dental, vision, or hearing benefits.</p>
 
         <ul class="check-list">
-          <li><strong>Provider fit</strong> Primary care, specialists, Lakeland Regional Health, Watson Clinic, BayCare, imaging centers, and pharmacies.</li>
-          <li><strong>Prescription math</strong> Formularies, drug tiers, deductibles, preferred pharmacies, quantity limits, and prior authorization rules.</li>
-          <li><strong>Total annual cost</strong> Premiums, copays, coinsurance, deductible exposure, and maximum out-of-pocket risk.</li>
+          <li><strong>Provider fit</strong> Primary care, specialists, Lakeland Regional Health, Watson Clinic, BayCare, imaging centers, and pharmacies against the exact plan ID.</li>
+          <li><strong>Prescription rules</strong> Formularies, drug tiers, deductibles, preferred pharmacies, quantity limits, and prior authorization.</li>
+          <li><strong>Annual cost structure</strong> Premiums, copays, coinsurance, deductible exposure, and maximum out-of-pocket. Amounts are read from current documents—not estimated on this page.</li>
           <li><strong>Plan rules</strong> HMO vs PPO networks, referrals, prior authorizations, travel coverage, and out-of-network exposure.</li>
-          <li><strong>Real benefit value</strong> Dental, vision, hearing, OTC, transportation, and giveback benefits you will actually use.</li>
+          <li><strong>Benefit use</strong> Dental, vision, hearing, OTC, transportation, and giveback benefits only if you will actually use them.</li>
         </ul>
       </div>
       <aside class="mini-cta">
-        <h2>Want the quick version?</h2>
-        <p>Request the verification checklist first. Share provider or prescription details only through the approved private follow-up process, not in URLs or analytics-enabled fields.</p>
+        <h2>Why a local broker review</h2>
+        <p>Carrier websites and 1-800 enrollment lines typically confirm that company's own directory. David checks the exact doctor, location, pharmacy, and plan ID against the Medicare Advantage, Medigap, and Part D options he is appointed to discuss, then remains the local contact after enrollment.</p>
+        <p>Share provider or prescription details only through the approved private follow-up process, not in URLs or analytics-enabled fields.</p>
         <a href="/get-help/?intent=medicare&amp;source_page_key=medicare_broker_lakeland_fl&amp;source_cta_key=request_review_verification" class="btn-cta" data-medicare-cta="request_review_verification">Request Medicare Review</a>
         <a href="tel:+18636403102" class="btn-secondary">Call David</a>
       </aside>
@@ -581,57 +608,85 @@
 
   <section style="background: var(--white);">
     <div class="container">
-      <h2>Medicare Advantage, Supplement, and Part D: Which Path Fits?</h2>
-      <p>You do not need to memorize Medicare. You do need to understand the tradeoff you are choosing.</p>
+      <h2>Medicare Advantage vs Medigap vs Part D</h2>
+      <p>These are different coverage paths, not interchangeable brand names. Availability, networks, formularies, and costs vary by ZIP code, county, and plan year.</p>
+      <div class="comparison-scroll">
       <table class="comparison-table">
+        <caption>Plan features compared across Medicare Advantage, Medigap, and Part D</caption>
         <thead>
           <tr>
-            <th>Option</th>
-            <th>How it works</th>
-            <th>What to watch closely</th>
+            <th scope="col">Plan feature</th>
+            <th scope="col" id="medicare-advantage">Medicare Advantage</th>
+            <th scope="col" id="medigap">Medigap</th>
+            <th scope="col" id="part-d">Part D</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>Medicare Advantage</strong></td>
-            <td>Private Part C plan that bundles hospital, medical, and usually drug coverage. Often low or $0 premium.</td>
-            <td>Network rules, referrals, prior authorization, copays, and maximum out-of-pocket exposure.</td>
+            <td>What it is</td>
+            <td>Private Part C plan that bundles hospital and medical coverage and often includes drugs.</td>
+            <td>Standardized Medicare Supplement paired with Original Medicare Parts A and B.</td>
+            <td>Standalone prescription drug plan used with Original Medicare and most Medigap setups.</td>
           </tr>
           <tr>
-            <td><strong>Medicare Supplement</strong></td>
-            <td>Medigap plan paired with Original Medicare. Higher premium, broader provider access.</td>
-            <td>Monthly premium, rate increases, underwriting rules, and the need for a separate Part D plan.</td>
+            <td>Doctors and networks</td>
+            <td>Network rules apply. HMO vs PPO, referrals, and prior authorization vary by plan ID and location.</td>
+            <td>Broader access through Original Medicare, provided the doctor accepts Medicare assignment. Confirm each provider.</td>
+            <td>Does not set hospital or clinic networks. Pharmacy networks and preferred pharmacies still matter.</td>
           </tr>
           <tr>
-            <td><strong>Part D</strong></td>
-            <td>Standalone prescription drug plan used with Original Medicare and most Supplement setups.</td>
-            <td>Drug tiers, pharmacy pricing, deductibles, formulary changes, and late-enrollment penalties.</td>
+            <td>Prescriptions</td>
+            <td>Often includes Part D. Check formulary, tiers, pharmacy, and restrictions for the new contract year.</td>
+            <td>Does not include drug coverage. A separate Part D plan is typically required.</td>
+            <td>Formulary, tiers, deductibles, quantity limits, prior authorization, and pharmacy pricing control drug cost.</td>
+          </tr>
+          <tr>
+            <td>Cost structure</td>
+            <td>Premium plus copays, coinsurance, and a maximum out-of-pocket. Amounts vary by ZIP and plan documents.</td>
+            <td>Monthly premium plus any Original Medicare costs the Supplement does not cover.</td>
+            <td>Premium plus deductible, copays, and coinsurance that vary by drug, tier, and pharmacy.</td>
+          </tr>
+          <tr>
+            <td>When you can change</td>
+            <td>AEP October 15–December 7; Medicare Advantage Open Enrollment January 1–March 31 for one additional MA change; SEPs when eligible.</td>
+            <td>Medigap does not use the same annual Advantage window. Underwriting or guaranteed-issue rules can apply.</td>
+            <td>Most Part D changes use AEP. SEPs apply when you qualify.</td>
+          </tr>
+          <tr>
+            <td>What a review verifies</td>
+            <td>Exact doctor, location, plan ID, network, and drug list for the new plan year.</td>
+            <td>Premium, issue rights or underwriting, provider access, and the matching Part D plan.</td>
+            <td>Each medication, dosage, pharmacy, and restriction in current plan documents.</td>
           </tr>
         </tbody>
       </table>
-      <p style="margin-top: 14px;">The best choice depends on your providers, prescriptions, travel patterns, and risk tolerance. That is why I compare the path first, then the carrier.</p>
+      </div>
+      <p class="plan-note">No dollar amounts are listed here because premiums and benefits change by ZIP, plan ID, and contract year. Confirm current official sources before you enroll.</p>
+      <div class="inline-cta">
+        <p>A carrier portal typically searches one company's directory. An independent Lakeland broker can check the doctors and pharmacies you actually use across the Advantage, Medigap, and Part D options he is appointed to discuss. Call <a href="tel:+18636403102">(863) 640-3102</a>, or use the review request on this page.</p>
+      </div>
     </div>
   </section>
 
   <section>
     <div class="container">
       <div class="notice">
-        <h2>Why your 2027 Medicare coverage deserves attention now</h2>
-        <p>Annual Enrollment runs October 15 through December 7, 2026 for plan changes that generally begin January 1, 2027. By September 30, your current carrier should send an Annual Notice of Change. That document can reveal premium changes, drug tier changes, copay changes, network updates, and benefit changes for next year.</p>
+        <h2>2027 plan-year timing in Lakeland</h2>
+        <p>Annual Enrollment runs October 15 through December 7, 2026 for plan changes that generally begin January 1, 2027. By September 30, the current carrier should send an Annual Notice of Change. That document can list premium, drug-tier, copay, network, and benefit changes for the next year.</p>
       </div>
 
       <div class="card-grid">
         <div class="card">
-          <h3>If you are happy with your plan</h3>
-          <p>Great. Still review the ANOC, prescriptions, and provider network. Staying put is a decision, and it should be an informed one.</p>
+          <h3>If you plan to stay</h3>
+          <p>Staying is still a decision. Review the ANOC, prescriptions, and provider network against the new contract year before AEP closes.</p>
         </div>
         <div class="card">
-          <h3>If your doctor changed</h3>
-          <p>Do not rely on old plan assumptions. We verify the exact doctor, location, and plan ID before you enroll.</p>
+          <h3>If a doctor or facility changed</h3>
+          <p>Do not reuse last year's assumption. Verify the exact doctor, location, and plan ID in current official sources before you enroll.</p>
         </div>
         <div class="card">
-          <h3>If your prescriptions changed</h3>
-          <p>One drug moving tiers can wipe out the value of a low premium. Part D and Advantage formularies need a fresh look every fall.</p>
+          <h3>If prescriptions changed</h3>
+          <p>One drug moving tiers, pharmacies, or prior-authorization rules can outweigh a lower premium. Advantage and Part D formularies need a fresh look each fall.</p>
         </div>
       </div>
     </div>
@@ -639,17 +694,17 @@
 
   <section style="background: var(--white);">
     <div class="container">
-      <h2>How the Medicare Review Works</h2>
+      <h2>How the Medicare review works</h2>
       <ol class="steps">
-        <li><strong>You send the basics.</strong> ZIP code, current plan if you have one, doctors you want to keep, prescriptions, pharmacy, and what you care about most.</li>
-        <li><strong>I compare the fit.</strong> We look at Advantage, Supplement, and Part D options through the lens of provider access, drug costs, and annual risk.</li>
-        <li><strong>You get a recommendation based on your priorities.</strong> Switch only if a better fit exists. If your current plan still makes sense, I will tell you that too.</li>
-        <li><strong>I help with enrollment and service.</strong> If you choose a plan, I help with the application and remain your local contact for future plan questions.</li>
+        <li><strong>Share the basics privately.</strong> ZIP code, current plan if you have one, doctors you want to keep, prescriptions, pharmacy, and your priorities. Do not put medical or ID details in a URL.</li>
+        <li><strong>Compare the path first.</strong> Advantage, Medigap, and Part D are checked for provider access, drug coverage, and annual cost structure using current documents.</li>
+        <li><strong>Decide with the comparison in hand.</strong> Switch only if a better documented fit exists. If the current plan still matches, that is the recommendation.</li>
+        <li><strong>Enrollment and local service.</strong> If you choose a plan David is appointed to write, he can help with the application and remain the Lakeland contact for later plan questions.</li>
       </ol>
     </div>
   </section>
 
-  <section>
+  <section id="faq">
     <div class="container">
       <h2>Frequently Asked Questions</h2>
 
@@ -692,8 +747,8 @@
 
   <div class="container">
     <div class="cta-section">
-      <h2>Ready for a Medicare Review Before AEP?</h2>
-      <p>Use the privacy-safe Get Help form to request a review. Do not place medical, prescription, Medicare ID, or policy details in a URL or analytics-enabled field.</p>
+      <h2>Ready for a Medicare review before AEP?</h2>
+      <p>Request a Lakeland review so doctors, prescriptions, and networks are checked against the current plan year—not only one carrier's online directory. Use the privacy-safe Get Help form. Do not place medical, prescription, Medicare ID, or policy details in a URL or analytics-enabled field.</p>
       <div class="cta-row">
         <a href="/get-help/?intent=medicare&amp;source_page_key=medicare_broker_lakeland_fl&amp;source_cta_key=request_review_final" class="btn-cta" data-medicare-cta="request_review_final">Request Medicare Review</a>
         <a href="tel:+18636403102" class="btn-secondary">Call David</a>
