@@ -559,6 +559,12 @@ const siteSearchIndex = [
     tags: ["Products", "Coverage", "Accident", "Supplemental", "Florida"]
   },
   {
+    title: "CriticalGuard Critical Illness",
+    url: "/critical-guard/",
+    excerpt: "Florida review of CriticalGuard critical illness. It is not major medical, Medicare replacement, or MEC.",
+    tags: ["Products", "Coverage", "Critical Illness", "Supplemental", "Florida"]
+  },
+  {
     title: "Short-Term Medical and TriTerm Medical",
     url: "/short-term-medical/",
     excerpt: "Review whether Short-Term Medical or TriTerm Medical fits your coverage gap, including underwriting, pre-existing condition limits, networks, deductibles, and supplemental pairings.",
