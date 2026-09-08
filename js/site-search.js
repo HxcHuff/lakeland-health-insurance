@@ -553,6 +553,12 @@ const siteSearchIndex = [
     tags: ["Products", "Coverage", "Hospital Indemnity", "Supplemental", "Florida"]
   },
   {
+    title: "AccidentWise Accident Insurance",
+    url: "/accident-wise/",
+    excerpt: "Florida review of AccidentWise accident insurance. It is not major medical, Medicare replacement, or MEC.",
+    tags: ["Products", "Coverage", "Accident", "Supplemental", "Florida"]
+  },
+  {
     title: "Short-Term Medical and TriTerm Medical",
     url: "/short-term-medical/",
     excerpt: "Review whether Short-Term Medical or TriTerm Medical fits your coverage gap, including underwriting, pre-existing condition limits, networks, deductibles, and supplemental pairings.",
