@@ -571,6 +571,12 @@ const siteSearchIndex = [
     tags: ["Products", "Coverage", "Hospital Indemnity", "Supplemental", "Florida"]
   },
   {
+    title: "Hospital SafeGuard GI Fixed Indemnity",
+    url: "/hospital-safeguard-gi/",
+    excerpt: "Florida review of Hospital SafeGuard GI. It is not major medical, Medigap, or MEC. Fixed hospital cash benefits with no medical underwriting.",
+    tags: ["Products", "Coverage", "Hospital Indemnity", "Supplemental", "Florida"]
+  },
+  {
     title: "Short-Term Medical and TriTerm Medical",
     url: "/short-term-medical/",
     excerpt: "Review whether Short-Term Medical or TriTerm Medical fits your coverage gap, including underwriting, pre-existing condition limits, networks, deductibles, and supplemental pairings.",
