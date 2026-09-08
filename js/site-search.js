@@ -565,6 +565,12 @@ const siteSearchIndex = [
     tags: ["Products", "Coverage", "Critical Illness", "Supplemental", "Florida"]
   },
   {
+    title: "HospitalWise Hospital Indemnity",
+    url: "/hospital-wise/",
+    excerpt: "Florida review of HospitalWise hospital indemnity for ages 18-64. It is not major medical, Medigap, or Medicare Advantage.",
+    tags: ["Products", "Coverage", "Hospital Indemnity", "Supplemental", "Florida"]
+  },
+  {
     title: "Short-Term Medical and TriTerm Medical",
     url: "/short-term-medical/",
     excerpt: "Review whether Short-Term Medical or TriTerm Medical fits your coverage gap, including underwriting, pre-existing condition limits, networks, deductibles, and supplemental pairings.",
