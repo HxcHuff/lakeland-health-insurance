@@ -93,6 +93,12 @@ const siteSearchIndex = [
     excerpt: "Typical Medigap Plan G, Plan N, and high-deductible Plan G cost ranges in Lakeland and what drives rates.",
     tags: ["Medicare", "Medicare Supplement", "Medigap", "Plan G", "Lakeland"]
   },
+  {
+    title: "Medigap Plan G vs Plan N Comparison in Lakeland, FL",
+    url: "/blog/medigap-plan-g-vs-plan-n.html",
+    excerpt: "Compare standardized Plan G and Plan N for Lakeland and Polk County: cost sharing, Part B excess charges, Part D, and Florida underwriting.",
+    tags: ["Medicare", "Medicare Supplement", "Medigap", "Plan G", "Plan N", "Lakeland", "Polk County"]
+  },
   // Blog Posts - extracted from blog/index.html
   {
     title: "Florida Medicaid Renewal Check: What to Do in August 2026",
