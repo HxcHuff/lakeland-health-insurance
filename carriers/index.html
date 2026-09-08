@@ -344,6 +344,14 @@
       line-height: 1.25;
       margin: 0 0 8px;
     }
+    .carrier-item h3 a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .carrier-item h3 a:hover {
+      color: var(--blue, #2563EB);
+      text-decoration: underline;
+    }
     .carrier-item p {
       color: var(--muted);
       font-size: 0.92rem;
@@ -608,21 +616,21 @@
             <div class="section-kicker">Health carriers</div>
             <h2>Individual health coverage</h2>
           </div>
-          <p>These are individual health and ACA-related carriers in the current carrier reference list. Availability can vary by ZIP, product type, and enrollment window.</p>
+          <p>These are individual health and ACA-related carriers in the current carrier reference list. Availability can vary by ZIP, product type, and enrollment window. Open a 2026 ACA playbook when you need carrier-specific enrollment, network, and formulary checks: <a href="/carriers/ambetter-aca-2026/">Ambetter</a>, <a href="/carriers/molina-aca-2026/">Molina</a>, <a href="/carriers/oscar-aca-2026/">Oscar</a>, <a href="/carriers/unitedhealthcare-aca-2026/">UnitedHealthcare</a>, and <a href="/carriers/wellpoint-aca-2026/">Wellpoint</a>.</p>
         </div>
         <div class="carrier-list">
           <article class="carrier-item"><h3>Allstate Health Solutions</h3><p>Individual health and short-term coverage through National General.</p><div class="tags"><span class="tag blue">Health</span><span class="tag">Short-term</span></div></article>
-          <article class="carrier-item"><h3>Ambetter</h3><p>Marketplace health plans with carrier-specific network and prescription checks.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
-          <article class="carrier-item"><h3>Anthem / Wellpoint</h3><p>Individual health options under the Wellpoint brand in Florida.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
+          <article class="carrier-item"><h3><a href="/carriers/ambetter-aca-2026/">Ambetter</a></h3><p>Marketplace health plans with carrier-specific network and prescription checks.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
+          <article class="carrier-item"><h3><a href="/carriers/wellpoint-aca-2026/">Anthem / Wellpoint</a></h3><p>Individual health options under the Wellpoint brand in Florida.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
           <article class="carrier-item"><h3>Cigna</h3><p>Individual health, Medicare, and supplemental products depending on plan type.</p><div class="tags"><span class="tag blue">Health</span><span class="tag">Senior</span></div></article>
           <article class="carrier-item"><h3>GeoBlue</h3><p>Blue Cross Blue Shield global health coverage for eligible travel and international needs.</p><div class="tags"><span class="tag blue">Global</span><span class="tag">Health</span></div></article>
           <article class="carrier-item"><h3>Health First Health Plan</h3><p>Florida health plan options where service area and network fit matter.</p><div class="tags"><span class="tag blue">Health</span></div></article>
-          <article class="carrier-item"><h3>Molina</h3><p>Marketplace health plans with a separate Polk County enrollment guide.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
-          <article class="carrier-item"><h3>Oscar</h3><p>Marketplace health plans with plan, provider, and prescription comparisons.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
+          <article class="carrier-item"><h3><a href="/carriers/molina-aca-2026/">Molina</a></h3><p>Marketplace health plans with a separate Polk County enrollment guide.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
+          <article class="carrier-item"><h3><a href="/carriers/oscar-aca-2026/">Oscar</a></h3><p>Marketplace health plans with plan, provider, and prescription comparisons.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
           <article class="carrier-item"><h3>Pivot Health</h3><p>Short-term medical and gap-style coverage options for eligible situations.</p><div class="tags"><span class="tag">Short-term</span><span class="tag green">Health</span></div></article>
-          <article class="carrier-item"><h3>United Individual ACA</h3><p>ACA Marketplace health plans under UnitedHealthcare.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
+          <article class="carrier-item"><h3><a href="/carriers/unitedhealthcare-aca-2026/">United Individual ACA</a></h3><p>ACA Marketplace health plans under UnitedHealthcare.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
           <article class="carrier-item"><h3>UnitedHealthOne / Golden Rule</h3><p>Short-term medical, term life, and supplemental products.</p><div class="tags"><span class="tag">Short-term</span><span class="tag">Supplemental</span></div></article>
-          <article class="carrier-item"><h3>Wellpoint Individual</h3><p>Individual Marketplace coverage with local network and formulary review.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
+          <article class="carrier-item"><h3><a href="/carriers/wellpoint-aca-2026/">Wellpoint Individual</a></h3><p>Individual Marketplace coverage with local network and formulary review.</p><div class="tags"><span class="tag blue">ACA</span><span class="tag green">Health</span></div></article>
         </div>
       </div>
     </section>
@@ -741,7 +749,7 @@
           </article>
           <article class="resource-card light">
             <h3>Carrier guides</h3>
-            <p>Open the detailed ACA guides for Ambetter, Molina, Oscar, UnitedHealthcare, and Wellpoint.</p>
+            <p>Open the detailed ACA guides for <a href="/carriers/ambetter-aca-2026/">Ambetter</a>, <a href="/carriers/molina-aca-2026/">Molina</a>, <a href="/carriers/oscar-aca-2026/">Oscar</a>, <a href="/carriers/unitedhealthcare-aca-2026/">UnitedHealthcare</a>, and <a href="/carriers/wellpoint-aca-2026/">Wellpoint</a>.</p>
             <a class="btn btn-secondary" href="/learning/#carrier-guides">View Carrier Guides</a>
           </article>
         </div>
@@ -799,10 +807,21 @@
       </div>
       <div class="footer-column">
         <h3>Service Areas</h3>
-        <ul>
-          <li>Lakeland</li>
+        <ul class="service-area-list">
+          <li><a href="/aca-health-insurance-lakeland-fl/">Lakeland</a></li>
+          <li><a href="/brandon-health-insurance/">Brandon</a></li>
+          <li><a href="/clearwater-health-insurance/">Clearwater</a></li>
+          <li><a href="/davenport-health-insurance/">Davenport</a></li>
+          <li><a href="/haines-city-health-insurance/">Haines City</a></li>
+          <li><a href="/lake-alfred-health-insurance/">Lake Alfred</a></li>
+          <li><a href="/largo-health-insurance/">Largo</a></li>
+          <li><a href="/new-port-richey-health-insurance/">New Port Richey</a></li>
+          <li><a href="/riverview-health-insurance/">Riverview</a></li>
+          <li><a href="/st-petersburg-health-insurance/">St. Petersburg</a></li>
+          <li><a href="/tampa-health-insurance/">Tampa</a></li>
+          <li><a href="/wesley-chapel-health-insurance/">Wesley Chapel</a></li>
+          <li><a href="/winter-haven-health-insurance/">Winter Haven</a></li>
           <li>Polk County</li>
-          <li>Central Florida</li>
           <li>Remote assistance across Florida</li>
         </ul>
       </div>
@@ -817,6 +836,7 @@
           <li><a href="/plans/">Coverage Options</a></li>
           <li><a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a></li>
           <li><a href="/blog/">Blog</a></li>
+          <li><a href="/our-approach.html">Our Approach</a></li>
           <li><a href="/get-help/">Start Plan Review</a></li>
           <li><a href="/privacy-policy.html">Privacy Policy</a></li>
         </ul>

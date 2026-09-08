@@ -259,6 +259,18 @@
       .help-proof { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--gray-200); }
       .help-proof div { color: var(--gray-600); font-size: 0.95rem; }
       .help-proof strong { display: block; color: var(--navy); margin-bottom: 0.25rem; }
+      .service-areas-home { padding: 56px 0; background: var(--white); border-bottom: 1px solid var(--gray-200); }
+      .service-areas-home h2 { text-align: center; font-family: 'Instrument Serif', serif; font-size: clamp(1.8rem, 4vw, 2.2rem); font-weight: 400; color: var(--navy); margin-bottom: 0.5rem; }
+      .service-areas-home .subtitle { text-align: center; color: var(--gray-600); max-width: 720px; margin: 0 auto 1.75rem; }
+      .service-areas-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+      .service-areas-group { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 1.25rem 1.4rem; }
+      .service-areas-group h3 { font-family: 'Instrument Serif', serif; font-size: 1.2rem; font-weight: 400; color: var(--navy); margin-bottom: 0.7rem; }
+      .service-areas-group ul { list-style: none; padding: 0; margin: 0; }
+      .service-areas-group li { margin: 0.35rem 0; }
+      .service-areas-group a { color: var(--blue); text-decoration: none; }
+      .service-areas-group a:hover { color: var(--navy); text-decoration: underline; }
+      .footer-column .service-area-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.35rem 1.25rem; }
+      .footer-column .service-area-list li { margin-bottom: 0; }
       @media (max-width:768px){.under65-primary-grid{grid-template-columns:1fr}.under65-primary-home{padding:44px 0}.under65-scenario-row{justify-content:center}}
     </style>
 
@@ -757,7 +769,51 @@
             <p style="color: var(--gray-600); font-size: 1rem; line-height: 1.7; margin-bottom: 12px;">Lakeland Health Insurance is led by David Huff, a licensed Florida broker (FL #W371813) helping individuals, families, self-employed workers, and Medicare beneficiaries compare coverage from multiple carriers. The goal is not to sell every plan type. It is to narrow the choices to the ones that fit your doctors, prescriptions, budget, and enrollment window.</p>
             <p style="color: var(--gray-600); font-size: 1rem; line-height: 1.7; margin-bottom: 12px;">For ACA shoppers, that means checking Marketplace subsidy eligibility and real network fit. For Medicare shoppers, it means comparing Medicare Advantage, Medicare Supplement, and Part D around the doctors and medications you actually use. For supplemental coverage, it means explaining benefits, limits, and underwriting before you apply.</p>
             <p style="color: var(--gray-600); font-size: 1rem; line-height: 1.7; margin-bottom: 12px;">Specific Lakeland and Polk County questions are collected on the <a href="/local-health-insurance-answers/">local health insurance answers</a> hub. Temporary coverage limits are explained on the <a href="/short-term-medical/">short-term medical guide</a>. Dental, vision, life, and other add-ons are reviewed on the <a href="/supplemental-insurance/">supplemental insurance page</a>.</p>
-            <p style="color: var(--gray-600); font-size: 0.9rem; line-height: 1.6; margin-bottom: 0;"><strong>Service area:</strong> Local assistance in Lakeland and Polk County, with remote assistance available across Florida. Product and plan availability varies by ZIP code, county, eligibility, and plan year.</p>
+            <p style="color: var(--gray-600); font-size: 0.9rem; line-height: 1.6; margin-bottom: 0;"><strong>Service area:</strong> Local assistance in Lakeland and Polk County, with remote assistance available across Florida. City pages are listed in <a href="#service-areas">Service Areas</a>. Product and plan availability varies by ZIP code, county, eligibility, and plan year.</p>
+        </div>
+    </section>
+
+    <section class="service-areas-home" id="service-areas" aria-labelledby="service-areas-title">
+        <div class="container">
+            <p class="section-label" style="text-align:center;">Service Areas</p>
+            <h2 id="service-areas-title">Health insurance help for Lakeland and nearby Florida cities</h2>
+            <p class="subtitle">Use the city page that matches where you live or receive care. Availability still depends on ZIP code, county, eligibility, and plan year.</p>
+            <div class="service-areas-groups">
+                <div class="service-areas-group">
+                    <h3>Polk County</h3>
+                    <ul>
+                        <li><a href="/aca-health-insurance-lakeland-fl/">Lakeland</a></li>
+                        <li><a href="/winter-haven-health-insurance/">Winter Haven</a></li>
+                        <li><a href="/haines-city-health-insurance/">Haines City</a></li>
+                        <li><a href="/davenport-health-insurance/">Davenport</a></li>
+                        <li><a href="/lake-alfred-health-insurance/">Lake Alfred</a></li>
+                    </ul>
+                </div>
+                <div class="service-areas-group">
+                    <h3>Hillsborough County</h3>
+                    <ul>
+                        <li><a href="/tampa-health-insurance/">Tampa</a></li>
+                        <li><a href="/brandon-health-insurance/">Brandon</a></li>
+                        <li><a href="/riverview-health-insurance/">Riverview</a></li>
+                    </ul>
+                </div>
+                <div class="service-areas-group">
+                    <h3>Pinellas County</h3>
+                    <ul>
+                        <li><a href="/st-petersburg-health-insurance/">St. Petersburg</a></li>
+                        <li><a href="/clearwater-health-insurance/">Clearwater</a></li>
+                        <li><a href="/largo-health-insurance/">Largo</a></li>
+                    </ul>
+                </div>
+                <div class="service-areas-group">
+                    <h3>Pasco County</h3>
+                    <ul>
+                        <li><a href="/wesley-chapel-health-insurance/">Wesley Chapel</a></li>
+                        <li><a href="/new-port-richey-health-insurance/">New Port Richey</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="subtitle" style="margin: 1.5rem auto 0;">How a review works is explained on <a href="/our-approach.html">Our Approach</a>. Remote assistance is available across Florida when product and plan availability allow.</p>
         </div>
     </section>
 
@@ -976,6 +1032,7 @@
                         <li><a href="/blog/er-visit-cost-lakeland-without-insurance-2026.html">ER Cost in Lakeland Without Coverage</a></li>
                         <li><a href="/carriers/">Carriers We Work With</a></li>
                         <li><a href="/about/">About David Huff</a></li>
+                        <li><a href="/our-approach.html">Our Approach</a></li>
                     </ul>
                 </div>
             </div>
@@ -997,10 +1054,21 @@
                 </div>
                 <div class="footer-column">
                     <h3>Service Areas</h3>
-                    <ul>
-                        <li>Lakeland</li>
+                    <ul class="service-area-list">
+                        <li><a href="/aca-health-insurance-lakeland-fl/">Lakeland</a></li>
+                        <li><a href="/brandon-health-insurance/">Brandon</a></li>
+                        <li><a href="/clearwater-health-insurance/">Clearwater</a></li>
+                        <li><a href="/davenport-health-insurance/">Davenport</a></li>
+                        <li><a href="/haines-city-health-insurance/">Haines City</a></li>
+                        <li><a href="/lake-alfred-health-insurance/">Lake Alfred</a></li>
+                        <li><a href="/largo-health-insurance/">Largo</a></li>
+                        <li><a href="/new-port-richey-health-insurance/">New Port Richey</a></li>
+                        <li><a href="/riverview-health-insurance/">Riverview</a></li>
+                        <li><a href="/st-petersburg-health-insurance/">St. Petersburg</a></li>
+                        <li><a href="/tampa-health-insurance/">Tampa</a></li>
+                        <li><a href="/wesley-chapel-health-insurance/">Wesley Chapel</a></li>
+                        <li><a href="/winter-haven-health-insurance/">Winter Haven</a></li>
                         <li>Polk County</li>
-                        <li>Central Florida</li>
                         <li>Remote assistance across Florida</li>
                     </ul>
                 </div>
@@ -1015,6 +1083,7 @@
                         <li><a href="/plans/">Coverage Options</a></li>
                         <li><a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a></li>
                         <li><a href="/blog/">Blog</a></li>
+                        <li><a href="/our-approach.html">Our Approach</a></li>
                         <li><a href="/get-help/">Start Plan Review</a></li>
                         <li><a href="/privacy-policy.html">Privacy Policy</a></li>
                     </ul>
