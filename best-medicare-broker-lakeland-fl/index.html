@@ -29,28 +29,170 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#webpage",
-    "name": "Best Medicare Broker in Lakeland, FL | How to Choose",
-    "description": "How to choose a Medicare broker in Lakeland, FL: Florida license, doctor and network checks, prescriptions, Advantage vs Supplement, and AEP readiness.",
-    "url": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/",
-    "dateModified": "2026-09-08",
-    "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
-    "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
-    "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
-    "reviewedBy": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
-    "about": {"@id": "https://lakelandhealthinsurance.com/medicare/#service"}
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://lakelandhealthinsurance.com/"},
-      {"@type": "ListItem", "position": 2, "name": "Medicare", "item": "https://lakelandhealthinsurance.com/medicare/"},
-      {"@type": "ListItem", "position": 3, "name": "Best Medicare Broker Lakeland FL", "item": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/"}
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#webpage",
+        "url": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/",
+        "name": "Best Medicare Broker in Lakeland, FL | How to Choose",
+        "description": "How to choose a Medicare broker in Lakeland, FL: Florida license, doctor and network checks, prescriptions, Advantage vs Supplement, and AEP readiness.",
+        "dateModified": "2026-09-08",
+        "inLanguage": "en-US",
+        "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
+        "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
+        "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
+        "reviewedBy": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
+        "about": [
+          {"@id": "https://lakelandhealthinsurance.com/#agency"},
+          {"@id": "https://lakelandhealthinsurance.com/medicare/#service"}
+        ],
+        "mainEntity": [
+          {"@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#service"},
+          {"@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#faq"}
+        ],
+        "breadcrumb": {"@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#breadcrumb"},
+        "contentLocation": {
+          "@type": "Place",
+          "name": "Lakeland, Florida",
+          "address": {
+            "addressLocality": "Lakeland",
+            "addressRegion": "FL",
+            "postalCode": "33805",
+            "addressCountry": "US"
+          }
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#service",
+        "name": "Medicare broker comparison help in Lakeland and Polk County",
+        "description": "Licensed Medicare broker comparison and plan-review assistance for Lakeland and Polk County, covering Medicare Advantage, Medicare Supplement, and Part D using current plan-year documents.",
+        "serviceType": "Medicare broker comparison and plan-review assistance",
+        "url": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/",
+        "provider": {"@id": "https://lakelandhealthinsurance.com/#agency"},
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "description": "By appointment"
+        },
+        "identifier": [
+          {
+            "@type": "PropertyValue",
+            "propertyID": "FL License",
+            "name": "Florida Insurance License",
+            "value": "W371813"
+          },
+          {
+            "@type": "PropertyValue",
+            "propertyID": "NPN",
+            "name": "National Producer Number",
+            "value": "18213932"
+          }
+        ],
+        "areaServed": [
+          {"@type": "City", "name": "Lakeland", "containedInPlace": {"@type": "AdministrativeArea", "name": "Florida"}},
+          {"@type": "AdministrativeArea", "name": "Polk County", "containedInPlace": {"@type": "AdministrativeArea", "name": "Florida"}}
+        ],
+        "hasPart": [
+          {"@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#medicare-advantage"},
+          {"@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#medigap"},
+          {"@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#part-d"}
+        ]
+      },
+      {
+        "@type": "Service",
+        "@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#medicare-advantage",
+        "name": "Medicare Advantage plan-review assistance",
+        "description": "Medicare Advantage (Part C) comparison help that starts with doctors, networks, prescriptions, plan rules, and total annual cost rather than a single product path.",
+        "serviceType": "Medicare Advantage plan review",
+        "provider": {"@id": "https://lakelandhealthinsurance.com/#agency"},
+        "isPartOf": {"@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#service"},
+        "areaServed": [
+          {"@type": "City", "name": "Lakeland", "containedInPlace": {"@type": "AdministrativeArea", "name": "Florida"}},
+          {"@type": "AdministrativeArea", "name": "Polk County", "containedInPlace": {"@type": "AdministrativeArea", "name": "Florida"}}
+        ]
+      },
+      {
+        "@type": "Service",
+        "@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#medigap",
+        "name": "Medicare Supplement (Medigap) plan-review assistance",
+        "description": "Medicare Supplement comparison help covering Advantage vs Supplement vs Part D tradeoffs, provider flexibility, and annual cost.",
+        "serviceType": "Medicare Supplement plan review",
+        "provider": {"@id": "https://lakelandhealthinsurance.com/#agency"},
+        "isPartOf": {"@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#service"},
+        "areaServed": [
+          {"@type": "City", "name": "Lakeland", "containedInPlace": {"@type": "AdministrativeArea", "name": "Florida"}},
+          {"@type": "AdministrativeArea", "name": "Polk County", "containedInPlace": {"@type": "AdministrativeArea", "name": "Florida"}}
+        ]
+      },
+      {
+        "@type": "Service",
+        "@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#part-d",
+        "name": "Medicare Part D plan-review assistance",
+        "description": "Part D comparison help that checks prescriptions, dosages, formularies, drug tiers, pharmacy pricing, and restriction rules.",
+        "serviceType": "Medicare Part D plan review",
+        "provider": {"@id": "https://lakelandhealthinsurance.com/#agency"},
+        "isPartOf": {"@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#service"},
+        "areaServed": [
+          {"@type": "City", "name": "Lakeland", "containedInPlace": {"@type": "AdministrativeArea", "name": "Florida"}},
+          {"@type": "AdministrativeArea", "name": "Polk County", "containedInPlace": {"@type": "AdministrativeArea", "name": "Florida"}}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#faq",
+        "url": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What makes a Medicare broker a good choice in Lakeland, FL?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A good broker is licensed, transparent, local enough to understand Polk County provider issues, and thorough enough to check doctors, prescriptions, plan rules, and annual cost before recommending anything."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does a Medicare broker cost anything?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Insurance carriers generally compensate appointed brokers when an enrollment is completed. David does not charge a separate fee for the plan-review assistance described on this site. Compensation and availability can differ by carrier and product."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why choose a local broker instead of a national call center?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A local broker can pay attention to Lakeland-specific provider and pharmacy details. That matters when you use Orlando Health, Watson Clinic, Lakeland Regional Health, BayCare, or local specialists."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should I choose the broker who says they compare every plan?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Be careful with broad claims. No one broker represents every possible option. A good broker should be clear about what they can review and should point you to Medicare.gov, 1-800-MEDICARE, or SHIP for all available options."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What should I have ready for a Medicare review?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Your ZIP code, Medicare card or eligibility date, current plan card if you have one, doctor list, prescription list with dosages, preferred pharmacy, and any Annual Notice of Change from your carrier."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/#breadcrumb",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://lakelandhealthinsurance.com/"},
+          {"@type": "ListItem", "position": 2, "name": "Medicare", "item": "https://lakelandhealthinsurance.com/medicare/"},
+          {"@type": "ListItem", "position": 3, "name": "Best Medicare Broker Lakeland FL", "item": "https://lakelandhealthinsurance.com/best-medicare-broker-lakeland-fl/"}
+        ]
+      }
     ]
   }
   </script>
