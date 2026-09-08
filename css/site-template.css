@@ -374,6 +374,16 @@ footer {
   margin-bottom: 1rem;
 }
 
+.footer-column .service-area-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem 1.25rem;
+}
+
+.footer-column .service-area-list li {
+  margin-bottom: 0;
+}
+
 .footer-column a,
 .footer-bottom a {
   color: var(--gold);
