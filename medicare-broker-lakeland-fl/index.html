@@ -369,14 +369,19 @@
       padding: 14px 16px;
     }
     .check-list strong { color: var(--navy); display: block; }
+    .comparison-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-top: 18px;
+    }
     .comparison-table {
       width: 100%;
+      min-width: 720px;
       border-collapse: collapse;
-      margin-top: 18px;
+      margin-top: 0;
       background: var(--white);
       border: 1px solid var(--line);
       border-radius: 8px;
-      overflow: hidden;
     }
     .comparison-table caption {
       caption-side: top;
@@ -499,7 +504,8 @@
       .hero-actions a { width: 100%; text-align: center; }
       .deadline-list li { grid-template-columns: 1fr; gap: 3px; }
       .mini-cta { position: static; }
-      .comparison-table { display: block; overflow-x: auto; }
+      .comparison-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .comparison-table { display: table; min-width: 720px; }
       nav { align-items: flex-start; }
       .nav-links { gap: 10px; }
     }
@@ -604,6 +610,7 @@
     <div class="container">
       <h2>Medicare Advantage vs Medigap vs Part D</h2>
       <p>These are different coverage paths, not interchangeable brand names. Availability, networks, formularies, and costs vary by ZIP code, county, and plan year.</p>
+      <div class="comparison-scroll">
       <table class="comparison-table">
         <caption>Plan features compared across Medicare Advantage, Medigap, and Part D</caption>
         <thead>
@@ -653,6 +660,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
       <p class="plan-note">No dollar amounts are listed here because premiums and benefits change by ZIP, plan ID, and contract year. Confirm current official sources before you enroll.</p>
       <div class="inline-cta">
         <p>A carrier portal typically searches one company's directory. An independent Lakeland broker can check the doctors and pharmacies you actually use across the Advantage, Medigap, and Part D options he is appointed to discuss. Call <a href="tel:+18636403102">(863) 640-3102</a>, or use the review request on this page.</p>
