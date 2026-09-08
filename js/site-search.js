@@ -547,6 +547,12 @@ const siteSearchIndex = [
     tags: ["Products", "Coverage", "Fixed Indemnity"]
   },
   {
+    title: "AdvantageGuard Hospital Indemnity",
+    url: "/advantage-guard/",
+    excerpt: "Florida review of AdvantageGuard hospital indemnity. It is not Medigap, Medicare Advantage, or major medical.",
+    tags: ["Products", "Coverage", "Hospital Indemnity", "Supplemental", "Florida"]
+  },
+  {
     title: "Short-Term Medical and TriTerm Medical",
     url: "/short-term-medical/",
     excerpt: "Review whether Short-Term Medical or TriTerm Medical fits your coverage gap, including underwriting, pre-existing condition limits, networks, deductibles, and supplemental pairings.",
