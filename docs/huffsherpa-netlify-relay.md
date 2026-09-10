@@ -1,20 +1,31 @@
 # HuffSherpa Netlify lead relay
 
-Status: **implemented in live `submission-created`; configuration-blocked until
-production environment variables are provisioned; not yet activated**.
+Status: **implemented in live `submission-created` as the sole Forms-to-CRM
+path**. Allowlisted submissions, including `get-help`, are staged into HuffSherpa
+IMPORT STAGING through the signed Apps Script webhook. Hopper is not called
+from this function.
 
 ## Event boundary
 
 Netlify invokes `netlify/functions/submission-created.js` only after Forms has
-accepted and retained a submission. Two independent downstream paths run:
+accepted and retained a submission. The function minimizes allowlisted
+sales/service forms and posts a signed HMAC envelope to IMPORT STAGING.
 
-1. **Hopper** — `get-help` submissions are forwarded with
-   `forwardGetHelpToHopper` exactly as production does today. Missing Hopper
-   secrets remain a skip, not a throw. A Hopper failure does not block
-   HuffSherpa CRM staging.
-2. **HuffSherpa CRM** — allowlisted sales/service forms are minimized, written
-   to the site-scoped Blob outbox, and posted as a signed envelope to IMPORT
-   STAGING. A CRM failure does not undo Hopper.
+Delivery order:
+
+1. **Outbox + retry** — when the site-scoped Blob store can be opened, the
+   canonical minimized payload is written first, then posted. Transient
+   failures remain in the outbox for `huffsherpa-relay-retry`.
+2. **Direct signed POST** — if the outbox cannot open in a Forms event
+   (Lambda Blobs context missing), the same envelope and protocol are posted
+   immediately to `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` so the spreadsheet still
+   receives the lead. The function logs `direct_without_outbox` plus a
+   controlled non-PII `cause` (error name/code only). Direct delivery has no
+   retry record; the original Netlify Forms submission remains the source of
+   truth.
+
+Preview, branch, and `dev` `CONTEXT` values stay fail-closed and never open
+the outbox or POST the envelope.
 
 The CRM relay accepts the legacy `submission-created` event shape and forwards
 only these exact sales/service forms:
@@ -97,14 +108,18 @@ bytes, JSON, non-explicitly-cacheable, and exactly:
   mode. The outbox factory therefore calls `connectLambda(event)` immediately
   before `getStore`, then falls back to explicit `siteID` / `token` from
   Netlify-provided `SITE_ID` / `NETLIFY_SITE_ID` / `NETLIFY_BLOBS_CONTEXT`
-  (or the event `blobs` token). Failures log `outbox_unavailable` plus a
+  (or the event `blobs` token). If the store still cannot open, a Forms event
+  posts the signed envelope directly and logs `direct_without_outbox` with a
   controlled `cause` of the error name/code only — never the token, URL, or
-  payload.
-- Before network delivery, the function writes only the canonical minimized
-  payload to the site-scoped `huffsherpa-lead-relay-outbox-v1` store under a
-  one-way digest of the immutable submission ID. It never persists a stale
-  signed envelope. A scheduled function retries every 15 minutes, minting a
-  fresh issued-at time, nonce, and HMAC for every attempt.
+  payload. Scheduled retry has no submission body to fall back on, so it
+  still fails closed with `outbox_unavailable` plus the same controlled
+  `cause`.
+- When the outbox is available, the function writes only the canonical
+  minimized payload to the site-scoped `huffsherpa-lead-relay-outbox-v1` store
+  under a one-way digest of the immutable submission ID before network
+  delivery. It never persists a stale signed envelope. A scheduled function
+  retries every 15 minutes, minting a fresh issued-at time, nonce, and HMAC
+  for every attempt.
 - STAGED and REPLAY_NOOP delete the outbox item immediately. Transient failures
   retry with bounded exponential backoff and a hard 12-attempt ceiling.
   Controlled rejection enters QUARANTINED; exhausted retries enter FAILED.
@@ -116,7 +131,8 @@ bytes, JSON, non-explicitly-cacheable, and exactly:
 - An Apps Script rejection, conflict, unsafe redirect, malformed response,
   timeout, missing configuration, or network error rejects the event function
   invocation and writes only fixed metadata fields to Netlify logs:
-  event, allowlisted form name, outcome, and controlled reason.
+  event, allowlisted form name, outcome, controlled reason, and when present a
+  controlled `cause`.
 - The original submission remains retained in Netlify Forms. No name, email,
   phone, ZIP, click ID, submission ID, endpoint, signature, secret, or form
   payload is written to logs.
@@ -132,14 +148,13 @@ contexts.
 | `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Exact HTTPS Apps Script deployment URL `https://script.google.com/macros/s/<deployment-id>/exec` |
 | `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | 48 random bytes encoded as 64 unpadded base64url characters; independent of the Google Ads CRM form keys |
 
-Hopper continues to use the existing `HOPPER_INGEST_URL` and
-`HOPPER_LEAD_INGEST_SECRET` variables. Optional metadata-only terminal alerts
-reuse `RESEND_API_KEY` plus `HUFFSHERPA_RELAY_ALERT_EMAIL` or `NOTIFY_EMAIL`.
-The CRM path requires `LHI_SITE_ENV=production` before it will open the outbox
-or POST the signed envelope. `CONTEXT=production` is accepted when present.
-Netlify Forms event functions may omit `CONTEXT`; that omission is allowed
-only alongside `LHI_SITE_ENV=production`. Explicit `deploy-preview`,
-`branch-deploy`, or `dev` `CONTEXT` values are still rejected.
+Optional metadata-only terminal alerts reuse `RESEND_API_KEY` plus
+`HUFFSHERPA_RELAY_ALERT_EMAIL` or `NOTIFY_EMAIL`. The CRM path requires
+`LHI_SITE_ENV=production` before it will open the outbox or POST the signed
+envelope. `CONTEXT=production` is accepted when present. Netlify Forms event
+functions may omit `CONTEXT`; that omission is allowed only alongside
+`LHI_SITE_ENV=production`. Explicit `deploy-preview`, `branch-deploy`, or
+`dev` `CONTEXT` values are still rejected.
 
 ## Activation gate
 

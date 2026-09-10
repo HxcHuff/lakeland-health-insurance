@@ -135,7 +135,6 @@ function successFetch(calls, beforeFirstRequest = () => {}) {
 function makeHandler(overrides = {}) {
   const calls = [];
   const logs = [];
-  const hopperCalls = overrides.hopperCalls || [];
   const store = overrides.store || memoryStore();
   const environment = {
     CONTEXT: 'production',
@@ -148,7 +147,6 @@ function makeHandler(overrides = {}) {
     calls,
     logs,
     store,
-    hopperCalls,
     handler: createSubmissionCreatedHandler({
       environment,
       fetchImpl: overrides.fetchImpl || successFetch(calls),
@@ -157,11 +155,7 @@ function makeHandler(overrides = {}) {
       randomBytes: overrides.randomBytes || (() => Buffer.alloc(32, 7)),
       storeFactory: overrides.storeFactory || (async () => store),
       alertImpl: overrides.alertImpl || (async () => false),
-      timeoutMilliseconds: overrides.timeoutMilliseconds,
-      hopperForward: overrides.hopperForward || (async (entry) => {
-        hopperCalls.push(entry);
-        return { skipped: true, reason: 'test' };
-      })
+      timeoutMilliseconds: overrides.timeoutMilliseconds
     })
   };
 }
@@ -194,9 +188,6 @@ test('lead is durably stored before one minimized canonical HMAC envelope is sen
   assert.equal(result.statusCode, 200);
   assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
   assert.equal(calls.length, 2);
-  assert.equal(fixture.hopperCalls.length, 1);
-  assert.equal(fixture.hopperCalls[0].payload['form-name'], 'get-help');
-  assert.equal(fixture.hopperCalls[0].eventId, null);
   assert.equal(store.entries.size, 0);
   assert.deepEqual(store.history.map((entry) => entry.operation), ['set', 'delete']);
   assert.equal(calls[0].url, ENDPOINT);
@@ -288,8 +279,7 @@ test('newsletters skip without configuration while unknown forms fail visibly', 
     environment: {},
     fetchImpl: async () => { calls += 1; },
     logger: (entry) => logs.push(entry),
-    storeFactory: async () => { throw new Error('must not load'); },
-    hopperForward: async () => ({ skipped: true, reason: 'test' })
+    storeFactory: async () => { throw new Error('must not load'); }
   });
   for (const form_name of ['homepage-newsletter', 'newsletter-signup']) {
     const outcome = await unconfigured(submission({ form_name, data: { email: 'newsletter@example.test' } }));
@@ -369,7 +359,7 @@ test('shared Unicode/key-ordering fixture is byte-stable for the cross-system re
   assert.equal(fixture.envelope.payload.data.last_name, 'Ångström');
 });
 
-test('unsafe configuration or unavailable Blobs context blocks before forwarding', async () => {
+test('unsafe configuration blocks before forwarding', async () => {
   for (const environment of [
     {},
     {
@@ -391,8 +381,7 @@ test('unsafe configuration or unavailable Blobs context blocks before forwarding
       environment,
       fetchImpl: async () => { calls += 1; },
       logger: (entry) => logs.push(entry),
-      storeFactory: async () => memoryStore(),
-      hopperForward: async () => ({ skipped: true, reason: 'test' })
+      storeFactory: async () => memoryStore()
     });
     await assert.rejects(handler(submission()), { name: 'SubmissionRelayError' });
     assert.equal(calls, 0);
@@ -402,19 +391,6 @@ test('unsafe configuration or unavailable Blobs context blocks before forwarding
     assert.equal(JSON.stringify(logs).includes('attacker.example'), false);
     assert.equal(JSON.stringify(logs).includes(SECRET), false);
   }
-
-  let networkCalls = 0;
-  const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
-  blobsError.name = 'MissingBlobsEnvironmentError';
-  const blocked = makeHandler({
-    fetchImpl: async () => { networkCalls += 1; },
-    storeFactory: async () => { throw blobsError; }
-  });
-  await expectRelayFailure(blocked.handler(submission()), 'outbox_unavailable');
-  assert.equal(networkCalls, 0);
-  assert.equal(blocked.logs.at(-1).reason, 'outbox_unavailable');
-  assert.equal(blocked.logs.at(-1).cause, 'MissingBlobsEnvironmentError');
-  assert.equal(JSON.stringify(blocked.logs).includes('configured'), false);
 });
 
 test('eligible preview and branch events never access the production-scoped outbox or endpoint', async () => {
@@ -438,8 +414,7 @@ test('eligible preview and branch events never access the production-scoped outb
       environment,
       fetchImpl: async () => { networkCalls += 1; },
       logger: () => {},
-      storeFactory: async () => { storeCalls += 1; return memoryStore(); },
-      hopperForward: async () => ({ skipped: true, reason: 'test' })
+      storeFactory: async () => { storeCalls += 1; return memoryStore(); }
     });
     await expectRelayFailure(handler(submission()), 'production_context_required');
     assert.equal(storeCalls, 0);
@@ -486,8 +461,7 @@ test('form-event production context allows missing CONTEXT when LHI_SITE_ENV is 
       },
       fetchImpl: async () => { networkCalls += 1; },
       logger: () => {},
-      storeFactory: async () => { storeCalls += 1; return memoryStore(); },
-      hopperForward: async () => ({ skipped: true, reason: 'test' })
+      storeFactory: async () => { storeCalls += 1; return memoryStore(); }
     });
     await expectRelayFailure(handler(submission()), 'production_context_required');
     assert.equal(storeCalls, 0);
@@ -796,8 +770,70 @@ test('malformed bodies and identifiers fail before storage or forwarding', async
   assert.equal(fixture.store.entries.size, 0);
 });
 
-test('get-help still forwards to Hopper when HuffSherpa CRM staging fails', async () => {
-  const hopperCalls = [];
+test('submission-created does not call Hopper', () => {
+  const source = fs.readFileSync(
+    path.join(ROOT, 'netlify/functions/submission-created.js'),
+    'utf8'
+  );
+  assert.equal(source.includes('hopper-ingest'), false);
+  assert.equal(source.includes('forwardGetHelpToHopper'), false);
+  assert.equal(source.includes('hopperForward'), false);
+  assert.equal(source.includes('forwardHopperSafely'), false);
+});
+
+test('unavailable Blobs outbox falls back to a direct signed POST', async () => {
+  const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
+  blobsError.name = 'MissingBlobsEnvironmentError';
+  const calls = [];
+  const fixture = makeHandler({
+    fetchImpl: successFetch(calls),
+    storeFactory: async () => { throw blobsError; }
+  });
+  const result = await fixture.handler(submission());
+
+  assert.equal(result.statusCode, 200);
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
+  assert.equal(calls.length, 2);
+  assert.equal(calls[0].url, ENDPOINT);
+  assert.equal(calls[0].options.method, 'POST');
+  assert.equal(calls[1].url, REDIRECT);
+  assert.equal(fixture.store.entries.size, 0);
+  assert.equal(fixture.logs.at(-1).outcome, 'STAGED');
+  assert.equal(fixture.logs.at(-1).reason, 'direct_without_outbox');
+  assert.equal(fixture.logs.at(-1).cause, 'MissingBlobsEnvironmentError');
+  assert.equal(JSON.stringify(fixture.logs).includes('configured'), false);
+  assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
+  assert.equal(JSON.stringify(fixture.logs).includes(SECRET), false);
+
+  const envelope = JSON.parse(calls[0].options.body);
+  const { signature, ...unsigned } = envelope;
+  const expected = crypto.createHmac('sha256', Buffer.from(SECRET, 'utf8'))
+    .update(_test.canonicalJson(unsigned), 'utf8')
+    .digest('base64url');
+  assert.equal(signature, expected);
+  assert.equal(envelope.payload.form_name, 'get-help');
+  assert.equal(envelope.payload.data.phone, '8635550118');
+  assert.equal(envelope.payload.data.email, 'avery.fixture@example.test');
+});
+
+test('direct-delivery fallback still fails closed and preserves outbox cause', async () => {
+  const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
+  blobsError.name = 'MissingBlobsEnvironmentError';
+  const fixture = makeHandler({
+    fetchImpl: async () => { throw new Error('synthetic network failure'); },
+    storeFactory: async () => { throw blobsError; }
+  });
+  await expectRelayFailure(fixture.handler(submission()), 'upstream_network_error');
+  assert.equal(fixture.store.entries.size, 0);
+  assert.equal(fixture.logs.at(-1).outcome, 'FAILED');
+  assert.equal(fixture.logs.at(-1).reason, 'upstream_network_error');
+  assert.equal(fixture.logs.at(-1).cause, 'MissingBlobsEnvironmentError');
+  assert.equal(JSON.stringify(fixture.logs).includes('configured'), false);
+  assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
+});
+
+test('preview and branch events never fall back to direct Apps Script delivery', async () => {
+  let networkCalls = 0;
   const handler = createSubmissionCreatedHandler({
     environment: {
       CONTEXT: 'deploy-preview',
@@ -805,50 +841,30 @@ test('get-help still forwards to Hopper when HuffSherpa CRM staging fails', asyn
       HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
       LHI_SITE_ENV: 'preview'
     },
-    fetchImpl: async () => { throw new Error('CRM must not run'); },
+    fetchImpl: async () => { networkCalls += 1; },
     logger: () => {},
-    storeFactory: async () => { throw new Error('CRM must not open Blobs'); },
-    hopperForward: async (entry) => {
-      hopperCalls.push(entry);
-      return { skipped: false, status: 202 };
-    }
+    storeFactory: async () => { throw new Error('must not open Blobs'); }
   });
   await expectRelayFailure(handler(submission()), 'production_context_required');
-  assert.equal(hopperCalls.length, 1);
-  assert.equal(hopperCalls[0].payload['form-name'], 'get-help');
-  assert.equal(hopperCalls[0].payload.email, 'AVERY.FIXTURE@EXAMPLE.TEST');
+  assert.equal(networkCalls, 0);
 });
 
-test('Hopper failure does not block HuffSherpa CRM staging', async () => {
-  let hopperCalls = 0;
-  const fixture = makeHandler({
-    hopperForward: async () => {
-      hopperCalls += 1;
-      throw new Error('hopper unavailable');
-    }
+test('scheduled retry still fails closed when the outbox cannot open', async () => {
+  const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
+  blobsError.name = 'MissingBlobsEnvironmentError';
+  let networkCalls = 0;
+  const retry = createRetryHandler({
+    environment: {
+      CONTEXT: 'production',
+      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
+      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
+      LHI_SITE_ENV: 'production'
+    },
+    fetchImpl: async () => { networkCalls += 1; },
+    logger: () => {},
+    storeFactory: async () => { throw blobsError; },
+    alertImpl: async () => false
   });
-  const result = await fixture.handler(submission());
-  assert.equal(result.statusCode, 200);
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
-  assert.equal(hopperCalls, 1);
-  assert.equal(fixture.calls.length, 2);
-  assert.equal(fixture.store.entries.size, 0);
-});
-
-test('allowlisted non-get-help forms skip Hopper and still stage to HuffSherpa', async () => {
-  const hopperCalls = [];
-  const fixture = makeHandler({
-    hopperForward: async (entry) => {
-      hopperCalls.push(entry);
-      return { skipped: false, status: 202 };
-    }
-  });
-  const result = await fixture.handler(submission({
-    form_name: 'lp-aca-lead',
-    data: { full_name: 'Test Lead', phone: '8635550118' }
-  }));
-  assert.equal(result.statusCode, 200);
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
-  assert.equal(hopperCalls.length, 0);
-  assert.equal(fixture.calls.length, 2);
+  await expectRelayFailure(retry(), 'outbox_unavailable');
+  assert.equal(networkCalls, 0);
 });
