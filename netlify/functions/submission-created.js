@@ -110,17 +110,34 @@ const OUTPUT_DATA_FIELDS = Object.freeze([
   'first_utm_content'
 ]);
 
+const PRODUCTION_SITE_ID = 'b6ad2d8f-d771-44f4-89b5-7ab30350950e';
+const SITE_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const CAUSE_TOKEN = /^[A-Za-z0-9._-]{1,80}$/;
+
 class SubmissionRelayError extends Error {
-  constructor(code, statusCode) {
+  constructor(code, statusCode, causeCode) {
     super(code);
     this.name = 'SubmissionRelayError';
     this.code = code;
     this.statusCode = statusCode || 502;
+    if (CAUSE_TOKEN.test(String(causeCode || ''))) this.causeCode = causeCode;
   }
 }
 
-function fail(code, statusCode) {
-  throw new SubmissionRelayError(code, statusCode);
+function fail(code, statusCode, causeCode) {
+  throw new SubmissionRelayError(code, statusCode, causeCode);
+}
+
+function controlledErrorCause(error) {
+  if (error instanceof SubmissionRelayError && CAUSE_TOKEN.test(String(error.causeCode || ''))) {
+    return error.causeCode;
+  }
+  const name = String(error && error.name || '').trim();
+  const code = String(error && error.code || '').trim();
+  const parts = [];
+  if (CAUSE_TOKEN.test(name) && name !== 'Error') parts.push(name);
+  if (CAUSE_TOKEN.test(code) && code !== name) parts.push(code);
+  return parts.join(':') || 'unknown';
 }
 
 function plainObject(value) {
@@ -437,26 +454,125 @@ function parseStoredPayload(data) {
   return normalized;
 }
 
-async function productionStoreFactory() {
+function headerLookup(headers, name) {
+  if (!headers || typeof headers !== 'object') return '';
+  return String(
+    headers[name]
+    || headers[name.toLowerCase()]
+    || headers[name.toUpperCase()]
+    || ''
+  ).trim();
+}
+
+function decodeBlobsEnvelope(raw) {
+  const text = String(raw || '').trim();
+  if (!text || text.length > 16 * 1024) return null;
   try {
-    const blobs = await import('@netlify/blobs');
-    return blobs.getStore({ name: OUTBOX.storeName, consistency: 'strong' });
+    const decoded = Buffer.from(text, 'base64').toString('utf8');
+    const value = JSON.parse(decoded);
+    if (!plainObject(value)) return null;
+    const siteID = String(value.siteID || value.site_id || '').trim();
+    const token = String(value.token || '').trim();
+    if (!token || token.length < 16 || token.length > 8192) return null;
+    return Object.freeze({
+      siteID: SITE_ID_PATTERN.test(siteID) ? siteID : '',
+      token
+    });
   } catch {
-    fail('outbox_unavailable', 503);
+    return null;
   }
 }
 
-async function requireOutboxStore(storeFactory, needsList) {
+function resolveSiteId(environment, event) {
+  const candidates = [
+    environment && environment.SITE_ID,
+    environment && environment.NETLIFY_SITE_ID,
+    headerLookup(event && event.headers, 'x-nf-site-id')
+  ];
+  for (const value of candidates) {
+    const siteID = String(value || '').trim();
+    if (SITE_ID_PATTERN.test(siteID)) return siteID;
+  }
+  return '';
+}
+
+function explicitBlobsStoreOptions(environment, event) {
+  const fromEnv = decodeBlobsEnvelope(environment && environment.NETLIFY_BLOBS_CONTEXT);
+  const fromEvent = decodeBlobsEnvelope(event && event.blobs);
+  const siteID = resolveSiteId(environment, event)
+    || (fromEnv && fromEnv.siteID)
+    || (fromEvent && fromEvent.siteID)
+    || '';
+  const token = (fromEnv && fromEnv.token)
+    || (fromEvent && fromEvent.token)
+    || String(environment && environment.NETLIFY_BLOBS_TOKEN || '').trim();
+  if (!SITE_ID_PATTERN.test(siteID) || siteID.toLowerCase() !== PRODUCTION_SITE_ID) {
+    return null;
+  }
+  if (!token || token.length < 16 || token.length > 8192) return null;
+  return Object.freeze({
+    name: OUTBOX.storeName,
+    consistency: 'strong',
+    siteID,
+    token
+  });
+}
+
+function createProductionStoreFactory({
+  environment = process.env,
+  blobsImport = () => import('@netlify/blobs')
+} = {}) {
+  return async function productionStoreFactory(event) {
+    let lastCause = 'unknown';
+    let blobs;
+    try {
+      blobs = await blobsImport();
+    } catch (error) {
+      fail('outbox_unavailable', 503, controlledErrorCause(error));
+    }
+    if (!blobs || typeof blobs.getStore !== 'function') {
+      fail('outbox_unavailable', 503, 'getStore_unavailable');
+    }
+
+    try {
+      return blobs.getStore({ name: OUTBOX.storeName, consistency: 'strong' });
+    } catch (error) {
+      lastCause = controlledErrorCause(error);
+    }
+
+    if (event && typeof event.blobs === 'string' && typeof blobs.connectLambda === 'function') {
+      try {
+        blobs.connectLambda(event);
+        return blobs.getStore({ name: OUTBOX.storeName, consistency: 'strong' });
+      } catch (error) {
+        lastCause = controlledErrorCause(error);
+      }
+    }
+
+    const explicit = explicitBlobsStoreOptions(environment, event);
+    if (explicit) {
+      try {
+        return blobs.getStore(explicit);
+      } catch (error) {
+        lastCause = controlledErrorCause(error);
+      }
+    }
+
+    fail('outbox_unavailable', 503, lastCause);
+  };
+}
+
+async function requireOutboxStore(storeFactory, needsList, event) {
   let store;
   try {
-    store = await storeFactory();
+    store = await storeFactory(event);
   } catch (error) {
     if (error instanceof SubmissionRelayError) throw error;
-    fail('outbox_unavailable', 503);
+    fail('outbox_unavailable', 503, controlledErrorCause(error));
   }
   const methods = ['getWithMetadata', 'set', 'delete'].concat(needsList ? ['list'] : []);
   if (!store || methods.some((method) => typeof store[method] !== 'function')) {
-    fail('outbox_unavailable', 503);
+    fail('outbox_unavailable', 503, 'store_methods_unavailable');
   }
   return store;
 }
@@ -914,15 +1030,16 @@ function productionLogger(entry) {
   }
 }
 
-function safeLog(logger, formName, outcome, reason) {
-  const entry = Object.freeze({
+function safeLog(logger, formName, outcome, reason, cause) {
+  const entry = {
     event: 'huffsherpa_netlify_submission_relay',
     form_name: relaySchema.formNames.includes(formName) ? formName : null,
     outcome,
     reason: reason || null
-  });
+  };
+  if (CAUSE_TOKEN.test(String(cause || ''))) entry.cause = cause;
   try {
-    logger(entry);
+    logger(Object.freeze(entry));
   } catch {
     // Observability must never alter delivery or disclose submission material.
   }
@@ -968,12 +1085,16 @@ function createCrmRelayHandler({
   logger = productionLogger,
   now = () => Date.now(),
   randomBytes = crypto.randomBytes,
-  storeFactory = productionStoreFactory,
+  blobsImport,
+  storeFactory,
   alertImpl = productionAlert,
   setTimer = setTimeout,
   clearTimer = clearTimeout,
   timeoutMilliseconds = PROTOCOL.timeoutMilliseconds
 } = {}) {
+  const resolvedStoreFactory = typeof storeFactory === 'function'
+    ? storeFactory
+    : createProductionStoreFactory({ environment, blobsImport });
   return async function crmRelayHandler(event) {
     let formName = null;
     let attempt = null;
@@ -989,7 +1110,7 @@ function createCrmRelayHandler({
       requireProductionContext(environment);
       const configuration = validateConfiguration(environment);
       const nowMilliseconds = Number(now());
-      store = await requireOutboxStore(storeFactory, false);
+      store = await requireOutboxStore(resolvedStoreFactory, false, event);
       attempt = await prepareOutboxAttempt({
         store,
         payload: normalized.payload,
@@ -1077,11 +1198,11 @@ function createCrmRelayHandler({
           // The minimized canonical payload remains in the site-scoped store.
         }
       }
-      safeLog(logger, formName, 'FAILED', controlled.code);
+      safeLog(logger, formName, 'FAILED', controlled.code, controlled.causeCode);
       // Netlify ignores event-function response values. Rejecting the
       // invocation makes an eligible lead delivery failure visible in the
       // Functions UI/logs while the durable outbox retains the minimized data.
-      throw new SubmissionRelayError(controlled.code, controlled.statusCode);
+      throw new SubmissionRelayError(controlled.code, controlled.statusCode, controlled.causeCode);
     }
   };
 }
@@ -1197,21 +1318,29 @@ function createRetryHandler({
   logger = productionLogger,
   now = () => Date.now(),
   randomBytes = crypto.randomBytes,
-  storeFactory = productionStoreFactory,
+  blobsImport,
+  storeFactory,
   alertImpl = productionAlert,
   setTimer = setTimeout,
   clearTimer = clearTimeout,
   timeoutMilliseconds = PROTOCOL.timeoutMilliseconds
 } = {}) {
-  return async function huffSherpaRelayRetryHandler() {
+  const resolvedStoreFactory = typeof storeFactory === 'function'
+    ? storeFactory
+    : createProductionStoreFactory({ environment, blobsImport });
+  return async function huffSherpaRelayRetryHandler(event) {
     requireProductionContext(environment);
     const configuration = validateConfiguration(environment);
-    const store = await requireOutboxStore(storeFactory, true);
+    const store = await requireOutboxStore(resolvedStoreFactory, true, event);
     let listing;
     try {
       listing = await store.list({ prefix: OUTBOX.keyPrefix });
-    } catch {
-      throw new SubmissionRelayError('outbox_unavailable', 503);
+    } catch (error) {
+      throw new SubmissionRelayError(
+        'outbox_unavailable',
+        503,
+        error instanceof SubmissionRelayError ? error.causeCode : controlledErrorCause(error)
+      );
     }
     const blobs = listing && Array.isArray(listing.blobs) ? listing.blobs : [];
     const nowMilliseconds = Number(now());
@@ -1313,6 +1442,9 @@ exports._test = Object.freeze({
   alertIfNeeded,
   buildEnvelope,
   canonicalJson,
+  controlledErrorCause,
+  createProductionStoreFactory,
+  explicitBlobsStoreOptions,
   markOutboxFailure,
   normalizeRelayData,
   outboxKey,

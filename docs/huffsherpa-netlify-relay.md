@@ -92,6 +92,13 @@ bytes, JSON, non-explicitly-cacheable, and exactly:
   `CONTEXT` is allowed only when `LHI_SITE_ENV=production`. Explicit
   `deploy-preview`, `branch-deploy`, or `dev` `CONTEXT` values still fail
   closed and cannot write or forward records.
+- Forms event functions are Lambda-compatible and may lack the ambient Blobs
+  context that HTTP functions receive. The outbox factory tries ambient
+  `getStore`, then `connectLambda(event)` using the Lambda `blobs` payload,
+  then explicit `siteID` / `token` from Netlify-provided `SITE_ID` /
+  `NETLIFY_SITE_ID` / `NETLIFY_BLOBS_CONTEXT` (or the event `blobs` token).
+  Failures log `outbox_unavailable` plus a controlled `cause` of the error
+  name/code only — never the token, URL, or payload.
 - Before network delivery, the function writes only the canonical minimized
   payload to the site-scoped `huffsherpa-lead-relay-outbox-v1` store under a
   one-way digest of the immutable submission ID. It never persists a stale
