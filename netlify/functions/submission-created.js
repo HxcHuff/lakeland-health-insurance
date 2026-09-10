@@ -9,12 +9,11 @@
  * (IMPORT STAGING). The function never sends a Google Ads conversion and never
  * changes campaign configuration.
  *
- * Delivery prefers the site-scoped Blob outbox plus scheduled retry. If the
- * outbox cannot open in a Forms event (Lambda Blobs context missing), or if a
- * pre-POST outbox write fails after getStore succeeds (including
- * BlobsConsistencyError from set), the same signed envelope is posted
- * directly so the lead still reaches the spreadsheet. Preview, branch, and
- * non-production CONTEXT values remain fail-closed.
+ * Delivery posts the signed envelope directly to
+ * HUFFSHERPA_LEAD_WEBHOOK_URL_V1. The Forms hot path does not open or write
+ * the Blobs outbox. Scheduled `huffsherpa-relay-retry` may still drain leftover
+ * outbox keys; if Blobs is unavailable, retry fails closed. Preview, branch,
+ * and non-production CONTEXT values remain fail-closed.
  *
  * HuffSherpa activation remains blocked until both environment variables are
  * provisioned:
@@ -22,8 +21,8 @@
  *   HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1
  *
  * This file is a Lambda-compatibility handler (`exports.handler`). Netlify
- * Blobs ambient context is not auto-configured in that mode. The outbox
- * factory calls `connectLambda(event)` immediately before `getStore`.
+ * Blobs ambient context is not auto-configured in that mode. The retry outbox
+ * factory still calls `connectLambda(event)` immediately before `getStore`.
  */
 
 const crypto = require('node:crypto');
@@ -1064,22 +1063,12 @@ function createCrmRelayHandler({
   logger = productionLogger,
   now = () => Date.now(),
   randomBytes = crypto.randomBytes,
-  blobsImport,
-  storeFactory,
-  alertImpl = productionAlert,
   setTimer = setTimeout,
   clearTimer = clearTimeout,
   timeoutMilliseconds = PROTOCOL.timeoutMilliseconds
 } = {}) {
-  const resolvedStoreFactory = typeof storeFactory === 'function'
-    ? storeFactory
-    : createProductionStoreFactory({ environment, blobsImport });
   return async function crmRelayHandler(event) {
     let formName = null;
-    let attempt = null;
-    let store = null;
-    let failureRecorded = false;
-    let outboxCause = null;
     try {
       const normalized = parseNetlifyEvent(event);
       if (!normalized.eligible) {
@@ -1089,150 +1078,37 @@ function createCrmRelayHandler({
       formName = normalized.formName;
       requireProductionContext(environment);
       const configuration = validateConfiguration(environment);
-      const nowMilliseconds = Number(now());
-      try {
-        store = await requireOutboxStore(resolvedStoreFactory, false, event);
-      } catch (error) {
-        const controlled = error instanceof SubmissionRelayError
-          ? error
-          : new SubmissionRelayError('outbox_unavailable', 503, controlledErrorCause(error));
-        if (controlled.code !== 'outbox_unavailable') throw controlled;
-        outboxCause = CAUSE_TOKEN.test(String(controlled.causeCode || ''))
-          ? controlled.causeCode
-          : 'unknown';
-      }
-      if (store) {
-        try {
-          attempt = await prepareOutboxAttempt({
-            store,
-            payload: normalized.payload,
-            secret: configuration.secret,
-            nowMilliseconds,
-            randomBytes
-          });
-        } catch (error) {
-          // Only Blobs/outbox availability failures skip durable retry.
-          // Signature, config, context, payload-drift, and terminal-record
-          // errors must not fall through to a direct POST.
-          if (!(error instanceof SubmissionRelayError) || error.code !== 'outbox_unavailable') {
-            throw error;
-          }
-          outboxCause = CAUSE_TOKEN.test(String(error.causeCode || ''))
-            ? error.causeCode
-            : 'unknown';
-          store = null;
-          attempt = null;
-        }
-      }
-      if (!store) {
-        const requestBody = buildEnvelope(
-          normalized.payload,
-          configuration.secret,
-          nowMilliseconds,
-          randomBytes
-        );
-        const result = await postEnvelope({
-          body: requestBody,
-          endpoint: configuration.endpoint,
-          fetchImpl,
-          setTimer,
-          clearTimer,
-          timeoutMilliseconds
-        });
-        if (!result.ok) {
-          throw new SubmissionRelayError(result.reason, 502);
-        }
-        safeLog(logger, formName, result.outcome, 'direct_without_outbox', outboxCause);
-        return response(200, { ok: true, outcome: result.outcome });
-      }
-      let result;
-      try {
-        result = await postEnvelope({
-          body: attempt.requestBody,
-          endpoint: configuration.endpoint,
-          fetchImpl,
-          setTimer,
-          clearTimer,
-          timeoutMilliseconds
-        });
-      } catch (error) {
-        const controlled = error instanceof SubmissionRelayError
-          ? error
-          : new SubmissionRelayError('upstream_network_error', 502);
-        attempt = await markOutboxFailure({
-          store,
-          attempt,
-          reason: controlled.code,
-          permanent: false,
-          nowMilliseconds
-        });
-        failureRecorded = true;
-        attempt = await alertIfNeeded({
-          attempt,
-          alertImpl,
-          environment,
-          fetchImpl,
-          nowMilliseconds,
-          store
-        });
-        throw controlled;
-      }
-      safeLog(logger, formName, result.outcome, result.reason);
+      const requestBody = buildEnvelope(
+        normalized.payload,
+        configuration.secret,
+        Number(now()),
+        randomBytes
+      );
+      const result = await postEnvelope({
+        body: requestBody,
+        endpoint: configuration.endpoint,
+        fetchImpl,
+        setTimer,
+        clearTimer,
+        timeoutMilliseconds
+      });
       if (!result.ok) {
-        attempt = await markOutboxFailure({
-          store,
-          attempt,
-          reason: result.reason,
-          permanent: true,
-          nowMilliseconds
-        });
-        failureRecorded = true;
-        attempt = await alertIfNeeded({
-          attempt,
-          alertImpl,
-          environment,
-          fetchImpl,
-          nowMilliseconds,
-          store
-        });
         throw new SubmissionRelayError(result.reason, 502);
       }
-      await deleteOutboxRecord(store, attempt.key);
+      safeLog(logger, formName, result.outcome, 'direct_preferred', 'blobs_skipped');
       return response(200, { ok: true, outcome: result.outcome });
     } catch (error) {
       const controlled = error instanceof SubmissionRelayError
         ? error
         : new SubmissionRelayError('relay_internal_error', 500);
-      if (attempt && store && !failureRecorded) {
-        try {
-          const nowMilliseconds = Number(now());
-          attempt = await markOutboxFailure({
-            store,
-            attempt,
-            reason: controlled.code,
-            permanent: false,
-            nowMilliseconds
-          });
-          await alertIfNeeded({
-            attempt,
-            alertImpl,
-            environment,
-            fetchImpl,
-            nowMilliseconds,
-            store
-          });
-        } catch {
-          // The minimized canonical payload remains in the site-scoped store.
-        }
-      }
       const failureCause = CAUSE_TOKEN.test(String(controlled.causeCode || ''))
         ? controlled.causeCode
-        : outboxCause;
+        : undefined;
       safeLog(logger, formName, 'FAILED', controlled.code, failureCause);
       // Netlify ignores event-function response values. Rejecting the
       // invocation makes an eligible lead delivery failure visible in the
-      // Functions UI/logs. The durable outbox retains minimized data when it
-      // was available; direct-without-outbox failures have no retry record.
+      // Functions UI/logs. Direct Forms delivery has no Blobs retry record;
+      // the original Netlify Forms submission remains the source of truth.
       throw new SubmissionRelayError(controlled.code, controlled.statusCode, failureCause);
     }
   };

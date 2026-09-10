@@ -153,11 +153,40 @@ function makeHandler(overrides = {}) {
       logger: (entry) => logs.push(entry),
       now: overrides.now || (() => NOW),
       randomBytes: overrides.randomBytes || (() => Buffer.alloc(32, 7)),
-      storeFactory: overrides.storeFactory || (async () => store),
+      storeFactory: overrides.storeFactory || (async () => {
+        throw new Error('Forms hot path must not open the Blobs outbox');
+      }),
       alertImpl: overrides.alertImpl || (async () => false),
       timeoutMilliseconds: overrides.timeoutMilliseconds
     })
   };
+}
+
+async function seedOutbox(store, event = submission(), nowMilliseconds = NOW) {
+  const normalized = _test.parseNetlifyEvent(event);
+  return _test.prepareOutboxAttempt({
+    store,
+    payload: normalized.payload,
+    secret: SECRET,
+    nowMilliseconds,
+    randomBytes: () => Buffer.alloc(32, 7)
+  });
+}
+
+function productionRetry(overrides = {}) {
+  return createRetryHandler({
+    environment: {
+      CONTEXT: 'production',
+      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
+      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
+      LHI_SITE_ENV: 'production'
+    },
+    logger: () => {},
+    now: () => NOW,
+    randomBytes: () => Buffer.alloc(32, 9),
+    alertImpl: async () => false,
+    ...overrides
+  });
 }
 
 function walkHtml(directory, files = []) {
@@ -176,20 +205,29 @@ async function expectRelayFailure(promise, code) {
   ));
 }
 
-test('lead is durably stored before one minimized canonical HMAC envelope is sent', async () => {
+test('Forms path posts one minimized canonical HMAC envelope without a Blobs outbox write', async () => {
   const calls = [];
+  let storeFactoryCalls = 0;
   const store = memoryStore();
+  store.set = async () => {
+    throw new Error('store.set must not run on the Forms hot path');
+  };
   const fixture = makeHandler({
     store,
-    fetchImpl: successFetch(calls, () => assert.equal(store.entries.size, 1))
+    fetchImpl: successFetch(calls, () => assert.equal(store.entries.size, 0)),
+    storeFactory: async () => {
+      storeFactoryCalls += 1;
+      return store;
+    }
   });
   const result = await fixture.handler(submission());
 
   assert.equal(result.statusCode, 200);
   assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
   assert.equal(calls.length, 2);
+  assert.equal(storeFactoryCalls, 0);
   assert.equal(store.entries.size, 0);
-  assert.deepEqual(store.history.map((entry) => entry.operation), ['set', 'delete']);
+  assert.deepEqual(store.history.map((entry) => entry.operation), []);
   assert.equal(calls[0].url, ENDPOINT);
   assert.equal(calls[0].options.method, 'POST');
   assert.equal(calls[0].options.redirect, 'manual');
@@ -198,11 +236,9 @@ test('lead is durably stored before one minimized canonical HMAC envelope is sen
   assert.equal(calls[1].options.method, 'GET');
   assert.equal(calls[1].options.redirect, 'error');
   assert.equal(calls[1].options.body, undefined);
+  assert.equal(fixture.logs.at(-1).reason, 'direct_preferred');
+  assert.equal(fixture.logs.at(-1).cause, 'blobs_skipped');
 
-  const storedPayload = JSON.parse(store.history[0].data);
-  assert.deepEqual(Object.keys(storedPayload).sort(), [
-    'created_at', 'data', 'event_type', 'form_name', 'submission_id'
-  ]);
   const envelope = JSON.parse(calls[0].options.body);
   const { signature, ...unsigned } = envelope;
   const expected = crypto.createHmac('sha256', Buffer.from(SECRET, 'utf8'))
@@ -211,6 +247,7 @@ test('lead is durably stored before one minimized canonical HMAC envelope is sen
   assert.equal(signature, expected);
   assert.equal(envelope.issuedAt, '2026-08-27T16:00:00.000Z');
   assert.equal(envelope.nonce, Buffer.alloc(32, 7).toString('base64url'));
+  assert.equal(envelope.payload.form_name, 'get-help');
   assert.equal(envelope.payload.data.first_name, 'Avery');
   assert.equal(envelope.payload.data.last_name, 'Fixture');
   assert.equal(envelope.payload.data.phone, '8635550118');
@@ -591,13 +628,16 @@ test('one bounded opaque Google ContentService URL is allowed; unsafe targets ar
   }
 });
 
-test('network failure remains PENDING and retry after five minutes signs a fresh envelope', async () => {
+test('network failure on leftover outbox stays PENDING and retry after five minutes signs a fresh envelope', async () => {
   const store = memoryStore();
-  const initial = makeHandler({
+  const attempt = await seedOutbox(store);
+  await _test.markOutboxFailure({
     store,
-    fetchImpl: async () => { throw new Error('synthetic network failure'); }
+    attempt,
+    reason: 'upstream_network_error',
+    permanent: false,
+    nowMilliseconds: NOW
   });
-  await expectRelayFailure(initial.handler(submission()), 'upstream_network_error');
   assert.equal(store.entries.size, 1);
   const pending = [...store.entries.values()][0];
   assert.equal(pending.metadata.state, 'PENDING');
@@ -607,19 +647,10 @@ test('network failure remains PENDING and retry after five minutes signs a fresh
   const retryCalls = [];
   const retryNow = NOW + _test.OUTBOX.retryBaseMilliseconds;
   assert.ok(retryNow - NOW > 5 * 60 * 1000);
-  const retry = createRetryHandler({
-    environment: {
-      CONTEXT: 'production',
-      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
-      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
-      LHI_SITE_ENV: 'production'
-    },
+  const retry = productionRetry({
     fetchImpl: successFetch(retryCalls),
-    logger: () => {},
     now: () => retryNow,
-    randomBytes: () => Buffer.alloc(32, 9),
-    storeFactory: async () => store,
-    alertImpl: async () => false
+    storeFactory: async () => store
   });
   const result = await retry();
   assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'RECONCILED', processed: 1 });
@@ -630,7 +661,7 @@ test('network failure remains PENDING and retry after five minutes signs a fresh
   assert.equal(retried.payload.submission_id, '0123456789abcdef01234567');
 });
 
-test('controlled rejection is quarantined and alert payload remains metadata-only', async () => {
+test('Forms path controlled rejection has no outbox record; leftover retry still quarantines', async () => {
   const alerts = [];
   const fixture = makeHandler({
     alertImpl: async (entry) => { alerts.push(entry); return true; },
@@ -646,22 +677,40 @@ test('controlled rejection is quarantined and alert payload remains metadata-onl
     }
   });
   await expectRelayFailure(fixture.handler(submission()), 'attribution_source_conflict');
-  const quarantined = [...fixture.store.entries.values()][0];
+  assert.equal(fixture.store.entries.size, 0);
+  assert.equal(alerts.length, 0);
+  assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
+
+  const store = memoryStore();
+  await seedOutbox(store);
+  const retryAlerts = [];
+  const retry = productionRetry({
+    storeFactory: async () => store,
+    alertImpl: async (entry) => { retryAlerts.push(entry); return true; },
+    fetchImpl: async (url) => {
+      if (String(url) === ENDPOINT) {
+        return new Response(null, { status: 302, headers: { location: REDIRECT } });
+      }
+      return finalResponse({
+        ok: false,
+        outcome: 'REJECTED',
+        reason: 'attribution_source_conflict'
+      });
+    }
+  });
+  const result = await retry();
+  assert.equal(JSON.parse(result.body).processed, 1);
+  const quarantined = [...store.entries.values()][0];
   assert.equal(quarantined.metadata.state, 'QUARANTINED');
   assert.equal(quarantined.metadata.last_reason, 'attribution_source_conflict');
   assert.ok(quarantined.metadata.alerted_at);
-  assert.equal(alerts.length, 1);
-  assert.equal(JSON.stringify(alerts).includes('Avery'), false);
-  assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
+  assert.equal(retryAlerts.length, 1);
+  assert.equal(JSON.stringify(retryAlerts).includes('Avery'), false);
 });
 
 test('the hard retry ceiling produces one visible alerted FAILED item', async () => {
   const store = memoryStore();
-  const initial = makeHandler({
-    store,
-    fetchImpl: async () => { throw new Error('synthetic network failure'); }
-  });
-  await expectRelayFailure(initial.handler(submission()), 'upstream_network_error');
+  const attempt = await seedOutbox(store);
   const [key, record] = [...store.entries.entries()][0];
   store.entries.set(key, {
     data: record.data,
@@ -672,17 +721,9 @@ test('the hard retry ceiling produces one visible alerted FAILED item', async ()
     }
   });
   const alerts = [];
-  const retry = createRetryHandler({
-    environment: {
-      CONTEXT: 'production',
-      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
-      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
-      LHI_SITE_ENV: 'production'
-    },
+  const retry = productionRetry({
     fetchImpl: async () => { throw new Error('synthetic network failure'); },
-    logger: () => {},
     now: () => NOW + _test.OUTBOX.retryBaseMilliseconds,
-    randomBytes: () => Buffer.alloc(32, 9),
     storeFactory: async () => store,
     alertImpl: async (entry) => { alerts.push(entry); return true; }
   });
@@ -694,26 +735,15 @@ test('the hard retry ceiling produces one visible alerted FAILED item', async ()
   assert.ok(failed.metadata.alerted_at);
   assert.equal(alerts.length, 1);
   assert.equal(JSON.stringify(alerts).includes('Avery'), false);
+  assert.equal(attempt.payload.form_name, 'get-help');
 });
 
 test('retention expiry purges minimized PII but leaves a visible FAILED tombstone', async () => {
   const store = memoryStore();
-  const initial = makeHandler({
-    store,
-    fetchImpl: async () => { throw new Error('synthetic network failure'); }
-  });
-  await expectRelayFailure(initial.handler(submission()), 'upstream_network_error');
-  const retry = createRetryHandler({
-    environment: {
-      CONTEXT: 'production',
-      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
-      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
-      LHI_SITE_ENV: 'production'
-    },
+  await seedOutbox(store);
+  const retry = productionRetry({
     fetchImpl: async () => { throw new Error('must not retry expired'); },
-    logger: () => {},
     now: () => NOW + _test.OUTBOX.retentionMilliseconds + 1,
-    randomBytes: () => Buffer.alloc(32, 9),
     storeFactory: async () => store,
     alertImpl: async () => true
   });
@@ -726,7 +756,7 @@ test('retention expiry purges minimized PII but leaves a visible FAILED tombston
   assert.equal(terminal.data.includes('Avery'), false);
 });
 
-test('bounded final response rejects unsafe output and retains a retry record', async (t) => {
+test('bounded final response rejects unsafe output without writing an outbox record', async (t) => {
   const cases = [
     ['cacheable', finalResponse({ ok: true, outcome: 'STAGED', reason: null }, { 'cache-control': 'public, max-age=60' })],
     ['wrong content type', new Response('ok', { status: 200, headers: { 'content-type': 'text/plain' } })],
@@ -747,7 +777,7 @@ test('bounded final response rejects unsafe output and retains a retry record', 
       });
       await expectRelayFailure(fixture.handler(submission()), 'upstream_response_unsafe');
       assert.equal(calls, 2);
-      assert.equal([...fixture.store.entries.values()][0].metadata.state, 'PENDING');
+      assert.equal(fixture.store.entries.size, 0);
       assert.equal(fixture.logs.at(-1).reason, 'upstream_response_unsafe');
     });
   }
@@ -781,67 +811,40 @@ test('submission-created does not call Hopper', () => {
   assert.equal(source.includes('forwardHopperSafely'), false);
 });
 
-test('unavailable Blobs outbox falls back to a direct signed POST', async () => {
-  const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
-  blobsError.name = 'MissingBlobsEnvironmentError';
-  const calls = [];
-  const fixture = makeHandler({
-    fetchImpl: successFetch(calls),
-    storeFactory: async () => { throw blobsError; }
-  });
-  const result = await fixture.handler(submission());
-
-  assert.equal(result.statusCode, 200);
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
-  assert.equal(calls.length, 2);
-  assert.equal(calls[0].url, ENDPOINT);
-  assert.equal(calls[0].options.method, 'POST');
-  assert.equal(calls[1].url, REDIRECT);
-  assert.equal(fixture.store.entries.size, 0);
-  assert.equal(fixture.logs.at(-1).outcome, 'STAGED');
-  assert.equal(fixture.logs.at(-1).reason, 'direct_without_outbox');
-  assert.equal(fixture.logs.at(-1).cause, 'MissingBlobsEnvironmentError');
-  assert.equal(JSON.stringify(fixture.logs).includes('configured'), false);
-  assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
-  assert.equal(JSON.stringify(fixture.logs).includes(SECRET), false);
-
-  const envelope = JSON.parse(calls[0].options.body);
-  const { signature, ...unsigned } = envelope;
-  const expected = crypto.createHmac('sha256', Buffer.from(SECRET, 'utf8'))
-    .update(_test.canonicalJson(unsigned), 'utf8')
-    .digest('base64url');
-  assert.equal(signature, expected);
-  assert.equal(envelope.payload.form_name, 'get-help');
-  assert.equal(envelope.payload.data.phone, '8635550118');
-  assert.equal(envelope.payload.data.email, 'avery.fixture@example.test');
-});
-
-test('Blobs write failure after getStore succeeds falls back to a direct signed POST', async () => {
+test('Forms path posts directly without needing a working store.set', async () => {
   const blobsError = new Error('strong consistency could not be confirmed');
   blobsError.name = 'BlobsConsistencyError';
   blobsError.code = 'BlobsConsistencyError';
   const store = memoryStore();
+  let setCalls = 0;
   store.set = async () => {
+    setCalls += 1;
     throw blobsError;
   };
   const calls = [];
+  let factoryCalls = 0;
   const fixture = makeHandler({
     store,
     fetchImpl: successFetch(calls),
-    storeFactory: async () => store
+    storeFactory: async () => {
+      factoryCalls += 1;
+      return store;
+    }
   });
   const result = await fixture.handler(submission());
 
   assert.equal(result.statusCode, 200);
   assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
+  assert.equal(factoryCalls, 0);
+  assert.equal(setCalls, 0);
   assert.equal(calls.length, 2);
   assert.equal(calls[0].url, ENDPOINT);
   assert.equal(calls[0].options.method, 'POST');
   assert.equal(calls[1].url, REDIRECT);
   assert.equal(store.entries.size, 0);
   assert.equal(fixture.logs.at(-1).outcome, 'STAGED');
-  assert.equal(fixture.logs.at(-1).reason, 'direct_without_outbox');
-  assert.equal(fixture.logs.at(-1).cause, 'BlobsConsistencyError');
+  assert.equal(fixture.logs.at(-1).reason, 'direct_preferred');
+  assert.equal(fixture.logs.at(-1).cause, 'blobs_skipped');
   assert.equal(JSON.stringify(fixture.logs).includes('confirmed'), false);
   assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
   assert.equal(JSON.stringify(fixture.logs).includes(SECRET), false);
@@ -857,39 +860,54 @@ test('Blobs write failure after getStore succeeds falls back to a direct signed 
   assert.equal(envelope.payload.data.email, 'avery.fixture@example.test');
 });
 
-test('outbox payload drift does not fall back to a direct POST', async () => {
-  const store = memoryStore();
-  const initial = makeHandler({
-    store,
-    fetchImpl: async () => { throw new Error('synthetic network failure'); }
+test('unavailable Blobs storeFactory does not delay the Forms direct POST', async () => {
+  const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
+  blobsError.name = 'MissingBlobsEnvironmentError';
+  const calls = [];
+  const fixture = makeHandler({
+    fetchImpl: successFetch(calls),
+    storeFactory: async () => { throw blobsError; }
   });
-  await expectRelayFailure(initial.handler(submission()), 'upstream_network_error');
-  assert.equal(store.entries.size, 1);
+  const result = await fixture.handler(submission());
 
-  let networkCalls = 0;
-  const drifted = makeHandler({
-    store,
-    fetchImpl: async () => { networkCalls += 1; },
-    storeFactory: async () => store
-  });
-  await expectRelayFailure(
-    drifted.handler(submission({
-      data: {
-        full_name: 'Avery Fixture',
-        phone: '(863) 555-0118',
-        email: 'OTHER.FIXTURE@EXAMPLE.TEST',
-        zip_code: '33801',
-        line_of_business: 'ACA'
-      }
-    })),
-    'source_id_payload_drift'
-  );
-  assert.equal(networkCalls, 0);
-  assert.equal(store.entries.size, 1);
-  assert.equal(drifted.logs.at(-1).reason, 'source_id_payload_drift');
+  assert.equal(result.statusCode, 200);
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
+  assert.equal(calls.length, 2);
+  assert.equal(fixture.store.entries.size, 0);
+  assert.equal(fixture.logs.at(-1).outcome, 'STAGED');
+  assert.equal(fixture.logs.at(-1).reason, 'direct_preferred');
+  assert.equal(fixture.logs.at(-1).cause, 'blobs_skipped');
+  assert.equal(JSON.stringify(fixture.logs).includes('configured'), false);
+  assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
+  assert.equal(JSON.stringify(fixture.logs).includes(SECRET), false);
 });
 
-test('direct-delivery fallback still fails closed and preserves outbox cause', async () => {
+test('retry still rejects leftover outbox payload drift', async () => {
+  const store = memoryStore();
+  await seedOutbox(store);
+  const drifted = _test.parseNetlifyEvent(submission({
+    data: {
+      full_name: 'Avery Fixture',
+      phone: '(863) 555-0118',
+      email: 'OTHER.FIXTURE@EXAMPLE.TEST',
+      zip_code: '33801',
+      line_of_business: 'ACA'
+    }
+  }));
+  await assert.rejects(
+    _test.prepareOutboxAttempt({
+      store,
+      payload: drifted.payload,
+      secret: SECRET,
+      nowMilliseconds: NOW,
+      randomBytes: () => Buffer.alloc(32, 7)
+    }),
+    (error) => error && error.name === 'SubmissionRelayError' && error.code === 'source_id_payload_drift'
+  );
+  assert.equal(store.entries.size, 1);
+});
+
+test('direct Forms delivery fails closed without a retry record', async () => {
   const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
   blobsError.name = 'MissingBlobsEnvironmentError';
   const fixture = makeHandler({
@@ -900,7 +918,7 @@ test('direct-delivery fallback still fails closed and preserves outbox cause', a
   assert.equal(fixture.store.entries.size, 0);
   assert.equal(fixture.logs.at(-1).outcome, 'FAILED');
   assert.equal(fixture.logs.at(-1).reason, 'upstream_network_error');
-  assert.equal(fixture.logs.at(-1).cause, 'MissingBlobsEnvironmentError');
+  assert.equal(fixture.logs.at(-1).cause, undefined);
   assert.equal(JSON.stringify(fixture.logs).includes('configured'), false);
   assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
 });
@@ -926,17 +944,9 @@ test('scheduled retry still fails closed when the outbox cannot open', async () 
   const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
   blobsError.name = 'MissingBlobsEnvironmentError';
   let networkCalls = 0;
-  const retry = createRetryHandler({
-    environment: {
-      CONTEXT: 'production',
-      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
-      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
-      LHI_SITE_ENV: 'production'
-    },
+  const retry = productionRetry({
     fetchImpl: async () => { networkCalls += 1; },
-    logger: () => {},
-    storeFactory: async () => { throw blobsError; },
-    alertImpl: async () => false
+    storeFactory: async () => { throw blobsError; }
   });
   await expectRelayFailure(retry(), 'outbox_unavailable');
   assert.equal(networkCalls, 0);
