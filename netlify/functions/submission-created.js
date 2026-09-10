@@ -10,10 +10,11 @@
  * changes campaign configuration.
  *
  * Delivery prefers the site-scoped Blob outbox plus scheduled retry. If the
- * outbox cannot open in a Forms event (Lambda Blobs context missing), the
- * same signed envelope is posted directly so the lead still reaches the
- * spreadsheet. Preview, branch, and non-production CONTEXT values remain
- * fail-closed.
+ * outbox cannot open in a Forms event (Lambda Blobs context missing), or if a
+ * pre-POST outbox write fails after getStore succeeds (including
+ * BlobsConsistencyError from set), the same signed envelope is posted
+ * directly so the lead still reaches the spreadsheet. Preview, branch, and
+ * non-production CONTEXT values remain fail-closed.
  *
  * HuffSherpa activation remains blocked until both environment variables are
  * provisioned:
@@ -1100,6 +1101,29 @@ function createCrmRelayHandler({
           ? controlled.causeCode
           : 'unknown';
       }
+      if (store) {
+        try {
+          attempt = await prepareOutboxAttempt({
+            store,
+            payload: normalized.payload,
+            secret: configuration.secret,
+            nowMilliseconds,
+            randomBytes
+          });
+        } catch (error) {
+          // Only Blobs/outbox availability failures skip durable retry.
+          // Signature, config, context, payload-drift, and terminal-record
+          // errors must not fall through to a direct POST.
+          if (!(error instanceof SubmissionRelayError) || error.code !== 'outbox_unavailable') {
+            throw error;
+          }
+          outboxCause = CAUSE_TOKEN.test(String(error.causeCode || ''))
+            ? error.causeCode
+            : 'unknown';
+          store = null;
+          attempt = null;
+        }
+      }
       if (!store) {
         const requestBody = buildEnvelope(
           normalized.payload,
@@ -1121,13 +1145,6 @@ function createCrmRelayHandler({
         safeLog(logger, formName, result.outcome, 'direct_without_outbox', outboxCause);
         return response(200, { ok: true, outcome: result.outcome });
       }
-      attempt = await prepareOutboxAttempt({
-        store,
-        payload: normalized.payload,
-        secret: configuration.secret,
-        nowMilliseconds,
-        randomBytes
-      });
       let result;
       try {
         result = await postEnvelope({
