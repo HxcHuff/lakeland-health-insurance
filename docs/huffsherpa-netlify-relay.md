@@ -87,7 +87,11 @@ bytes, JSON, non-explicitly-cacheable, and exactly:
 - A campaign ID without a click ID remains informational. It cannot establish
   Google Ads match eligibility and does not block contact staging.
 - Production context is required before the site-scoped Blob store can be
-  opened. Deploy previews and branch deploys cannot write or forward records.
+  opened. `LHI_SITE_ENV=production` is the runtime gate. Netlify Forms event
+  functions (and the scheduled retry) often omit `CONTEXT`; an empty or missing
+  `CONTEXT` is allowed only when `LHI_SITE_ENV=production`. Explicit
+  `deploy-preview`, `branch-deploy`, or `dev` `CONTEXT` values still fail
+  closed and cannot write or forward records.
 - Before network delivery, the function writes only the canonical minimized
   payload to the site-scoped `huffsherpa-lead-relay-outbox-v1` store under a
   one-way digest of the immutable submission ID. It never persists a stale
@@ -123,8 +127,11 @@ contexts.
 Hopper continues to use the existing `HOPPER_INGEST_URL` and
 `HOPPER_LEAD_INGEST_SECRET` variables. Optional metadata-only terminal alerts
 reuse `RESEND_API_KEY` plus `HUFFSHERPA_RELAY_ALERT_EMAIL` or `NOTIFY_EMAIL`.
-The CRM path also requires `CONTEXT=production` and `LHI_SITE_ENV=production`
-before it will open the outbox or POST the signed envelope.
+The CRM path requires `LHI_SITE_ENV=production` before it will open the outbox
+or POST the signed envelope. `CONTEXT=production` is accepted when present.
+Netlify Forms event functions may omit `CONTEXT`; that omission is allowed
+only alongside `LHI_SITE_ENV=production`. Explicit `deploy-preview`,
+`branch-deploy`, or `dev` `CONTEXT` values are still rejected.
 
 ## Activation gate
 
