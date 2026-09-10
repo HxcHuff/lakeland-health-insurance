@@ -13,22 +13,20 @@ sales/service forms and posts a signed HMAC envelope to IMPORT STAGING.
 
 Delivery order:
 
-1. **Outbox + retry** — when the site-scoped Blob store can be opened, the
-   canonical minimized payload is written first, then posted. Transient
-   failures remain in the outbox for `huffsherpa-relay-retry`.
-2. **Direct signed POST** — if the outbox cannot open in a Forms event
-   (Lambda Blobs context missing), or if `getStore` succeeds but a pre-POST
-   outbox write fails (including `BlobsConsistencyError` from `set`), the
-   same envelope and protocol are posted immediately to
-   `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` so the spreadsheet still receives the
-   lead. The function logs `direct_without_outbox` plus a controlled non-PII
-   `cause` (error name/code only). Direct delivery has no retry record; the
-   original Netlify Forms submission remains the source of truth. Signature,
-   configuration, context, and other non-outbox errors still fail closed
-   without a direct POST.
+1. **Direct signed POST** — allowlisted Forms events, including `get-help`,
+   post the HMAC envelope immediately to `HUFFSHERPA_LEAD_WEBHOOK_URL_V1`.
+   The Forms hot path does not open or write the Blobs outbox. Success logs
+   `direct_preferred` with controlled non-PII cause `blobs_skipped`. Direct
+   delivery has no retry record; the original Netlify Forms submission
+   remains the source of truth. Signature, configuration, and context errors
+   still fail closed without a POST.
+2. **Scheduled outbox drain** — `huffsherpa-relay-retry` may still list and
+   retry leftover keys in the site-scoped Blob store. If Blobs is
+   unavailable, retry fails closed: the scheduled function has no Forms body
+   to re-send.
 
-Preview, branch, and `dev` `CONTEXT` values stay fail-closed and never open
-the outbox or POST the envelope.
+Preview, branch, and `dev` `CONTEXT` values stay fail-closed and never POST
+the envelope.
 
 The CRM relay accepts the legacy `submission-created` event shape and forwards
 only these exact sales/service forms:
@@ -100,31 +98,26 @@ bytes, JSON, non-explicitly-cacheable, and exactly:
   one click-ID type fails closed.
 - A campaign ID without a click ID remains informational. It cannot establish
   Google Ads match eligibility and does not block contact staging.
-- Production context is required before the site-scoped Blob store can be
-  opened. `LHI_SITE_ENV=production` is the runtime gate. Netlify Forms event
+- Production context is required before the signed envelope can be posted.
+  `LHI_SITE_ENV=production` is the runtime gate. Netlify Forms event
   functions (and the scheduled retry) often omit `CONTEXT`; an empty or missing
   `CONTEXT` is allowed only when `LHI_SITE_ENV=production`. Explicit
   `deploy-preview`, `branch-deploy`, or `dev` `CONTEXT` values still fail
-  closed and cannot write or forward records.
+  closed and cannot forward records.
 - Forms event functions and `huffsherpa-relay-retry` use Lambda-compatibility
-  `exports.handler`. Netlify does not auto-configure Blobs ambient env in that
-  mode. The outbox factory therefore calls `connectLambda(event)` immediately
-  before `getStore`, then falls back to explicit `siteID` / `token` from
-  Netlify-provided `SITE_ID` / `NETLIFY_SITE_ID` / `NETLIFY_BLOBS_CONTEXT`
-  (or the event `blobs` token). If the store still cannot open, or if a
-  pre-POST outbox write fails after `getStore` succeeds (for example
-  `store.set` throwing `BlobsConsistencyError`), a Forms event posts the
-  signed envelope directly and logs `direct_without_outbox` with a
-  controlled `cause` of the error name/code only — never the token, URL, or
-  payload. Scheduled retry has no submission body to fall back on, so it
-  still fails closed with `outbox_unavailable` plus the same controlled
-  `cause`.
-- When the outbox is available, the function writes only the canonical
-  minimized payload to the site-scoped `huffsherpa-lead-relay-outbox-v1` store
-  under a one-way digest of the immutable submission ID before network
-  delivery. It never persists a stale signed envelope. A scheduled function
+  `exports.handler`. The Forms hot path does not call `getStore` or `store.set`.
+  Scheduled retry still uses the outbox factory, which calls
+  `connectLambda(event)` immediately before `getStore`, then falls back to
+  explicit `siteID` / `token` from Netlify-provided `SITE_ID` /
+  `NETLIFY_SITE_ID` / `NETLIFY_BLOBS_CONTEXT` (or the event `blobs` token).
+  If the store cannot open, retry fails closed with `outbox_unavailable` plus
+  a controlled `cause` of the error name/code only — never the token, URL, or
+  payload. Forms events do not wait on that store.
+- Leftover outbox keys, when present, store only the canonical minimized
+  payload in the site-scoped `huffsherpa-lead-relay-outbox-v1` store under a
+  one-way digest of the immutable submission ID. The scheduled function
   retries every 15 minutes, minting a fresh issued-at time, nonce, and HMAC
-  for every attempt.
+  for every attempt. It never persists a stale signed envelope.
 - STAGED and REPLAY_NOOP delete the outbox item immediately. Transient failures
   retry with bounded exponential backoff and a hard 12-attempt ceiling.
   Controlled rejection enters QUARANTINED; exhausted retries enter FAILED.
@@ -155,8 +148,8 @@ contexts.
 
 Optional metadata-only terminal alerts reuse `RESEND_API_KEY` plus
 `HUFFSHERPA_RELAY_ALERT_EMAIL` or `NOTIFY_EMAIL`. The CRM path requires
-`LHI_SITE_ENV=production` before it will open the outbox or POST the signed
-envelope. `CONTEXT=production` is accepted when present. Netlify Forms event
+`LHI_SITE_ENV=production` before it will POST the signed envelope.
+`CONTEXT=production` is accepted when present. Netlify Forms event
 functions may omit `CONTEXT`; that omission is allowed only alongside
 `LHI_SITE_ENV=production`. Explicit `deploy-preview`, `branch-deploy`, or
 `dev` `CONTEXT` values are still rejected.
