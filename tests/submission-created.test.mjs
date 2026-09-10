@@ -816,6 +816,79 @@ test('unavailable Blobs outbox falls back to a direct signed POST', async () => 
   assert.equal(envelope.payload.data.email, 'avery.fixture@example.test');
 });
 
+test('Blobs write failure after getStore succeeds falls back to a direct signed POST', async () => {
+  const blobsError = new Error('strong consistency could not be confirmed');
+  blobsError.name = 'BlobsConsistencyError';
+  blobsError.code = 'BlobsConsistencyError';
+  const store = memoryStore();
+  store.set = async () => {
+    throw blobsError;
+  };
+  const calls = [];
+  const fixture = makeHandler({
+    store,
+    fetchImpl: successFetch(calls),
+    storeFactory: async () => store
+  });
+  const result = await fixture.handler(submission());
+
+  assert.equal(result.statusCode, 200);
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
+  assert.equal(calls.length, 2);
+  assert.equal(calls[0].url, ENDPOINT);
+  assert.equal(calls[0].options.method, 'POST');
+  assert.equal(calls[1].url, REDIRECT);
+  assert.equal(store.entries.size, 0);
+  assert.equal(fixture.logs.at(-1).outcome, 'STAGED');
+  assert.equal(fixture.logs.at(-1).reason, 'direct_without_outbox');
+  assert.equal(fixture.logs.at(-1).cause, 'BlobsConsistencyError');
+  assert.equal(JSON.stringify(fixture.logs).includes('confirmed'), false);
+  assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
+  assert.equal(JSON.stringify(fixture.logs).includes(SECRET), false);
+
+  const envelope = JSON.parse(calls[0].options.body);
+  const { signature, ...unsigned } = envelope;
+  const expected = crypto.createHmac('sha256', Buffer.from(SECRET, 'utf8'))
+    .update(_test.canonicalJson(unsigned), 'utf8')
+    .digest('base64url');
+  assert.equal(signature, expected);
+  assert.equal(envelope.payload.form_name, 'get-help');
+  assert.equal(envelope.payload.data.phone, '8635550118');
+  assert.equal(envelope.payload.data.email, 'avery.fixture@example.test');
+});
+
+test('outbox payload drift does not fall back to a direct POST', async () => {
+  const store = memoryStore();
+  const initial = makeHandler({
+    store,
+    fetchImpl: async () => { throw new Error('synthetic network failure'); }
+  });
+  await expectRelayFailure(initial.handler(submission()), 'upstream_network_error');
+  assert.equal(store.entries.size, 1);
+
+  let networkCalls = 0;
+  const drifted = makeHandler({
+    store,
+    fetchImpl: async () => { networkCalls += 1; },
+    storeFactory: async () => store
+  });
+  await expectRelayFailure(
+    drifted.handler(submission({
+      data: {
+        full_name: 'Avery Fixture',
+        phone: '(863) 555-0118',
+        email: 'OTHER.FIXTURE@EXAMPLE.TEST',
+        zip_code: '33801',
+        line_of_business: 'ACA'
+      }
+    })),
+    'source_id_payload_drift'
+  );
+  assert.equal(networkCalls, 0);
+  assert.equal(store.entries.size, 1);
+  assert.equal(drifted.logs.at(-1).reason, 'source_id_payload_drift');
+});
+
 test('direct-delivery fallback still fails closed and preserves outbox cause', async () => {
   const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
   blobsError.name = 'MissingBlobsEnvironmentError';

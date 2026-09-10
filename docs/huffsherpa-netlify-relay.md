@@ -17,12 +17,15 @@ Delivery order:
    canonical minimized payload is written first, then posted. Transient
    failures remain in the outbox for `huffsherpa-relay-retry`.
 2. **Direct signed POST** — if the outbox cannot open in a Forms event
-   (Lambda Blobs context missing), the same envelope and protocol are posted
-   immediately to `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` so the spreadsheet still
-   receives the lead. The function logs `direct_without_outbox` plus a
-   controlled non-PII `cause` (error name/code only). Direct delivery has no
-   retry record; the original Netlify Forms submission remains the source of
-   truth.
+   (Lambda Blobs context missing), or if `getStore` succeeds but a pre-POST
+   outbox write fails (including `BlobsConsistencyError` from `set`), the
+   same envelope and protocol are posted immediately to
+   `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` so the spreadsheet still receives the
+   lead. The function logs `direct_without_outbox` plus a controlled non-PII
+   `cause` (error name/code only). Direct delivery has no retry record; the
+   original Netlify Forms submission remains the source of truth. Signature,
+   configuration, context, and other non-outbox errors still fail closed
+   without a direct POST.
 
 Preview, branch, and `dev` `CONTEXT` values stay fail-closed and never open
 the outbox or POST the envelope.
@@ -108,8 +111,10 @@ bytes, JSON, non-explicitly-cacheable, and exactly:
   mode. The outbox factory therefore calls `connectLambda(event)` immediately
   before `getStore`, then falls back to explicit `siteID` / `token` from
   Netlify-provided `SITE_ID` / `NETLIFY_SITE_ID` / `NETLIFY_BLOBS_CONTEXT`
-  (or the event `blobs` token). If the store still cannot open, a Forms event
-  posts the signed envelope directly and logs `direct_without_outbox` with a
+  (or the event `blobs` token). If the store still cannot open, or if a
+  pre-POST outbox write fails after `getStore` succeeds (for example
+  `store.set` throwing `BlobsConsistencyError`), a Forms event posts the
+  signed envelope directly and logs `direct_without_outbox` with a
   controlled `cause` of the error name/code only — never the token, URL, or
   payload. Scheduled retry has no submission body to fall back on, so it
   still fails closed with `outbox_unavailable` plus the same controlled
