@@ -495,7 +495,7 @@ test('form-event production context allows missing CONTEXT when LHI_SITE_ENV is 
   }
 });
 
-test('store factory uses connectLambda then explicit siteID/token when ambient Blobs context is missing', async () => {
+test('store factory calls connectLambda immediately before getStore for Lambda events', async () => {
   const store = memoryStore();
   const siteID = 'b6ad2d8f-d771-44f4-89b5-7ab30350950e';
   const token = 'nfb_synthetic_blobs_token_0001';
@@ -515,11 +515,8 @@ test('store factory uses connectLambda then explicit siteID/token when ambient B
       connectLambda(event) {
         connectedCalls.push(['connectLambda', typeof event.blobs]);
       },
-      getStore(options) {
-        connectedCalls.push(['getStore', Boolean(options.siteID)]);
-        if (!options.siteID && !connectedCalls.some((entry) => entry[0] === 'connectLambda')) {
-          throw missingBlobsError();
-        }
+      getStore() {
+        connectedCalls.push(['getStore']);
         return store;
       }
     })
@@ -529,9 +526,8 @@ test('store factory uses connectLambda then explicit siteID/token when ambient B
   });
   assert.equal(connected, store);
   assert.deepEqual(connectedCalls, [
-    ['getStore', false],
     ['connectLambda', 'string'],
-    ['getStore', false]
+    ['getStore']
   ]);
 
   const explicitCalls = [];
@@ -541,6 +537,10 @@ test('store factory uses connectLambda then explicit siteID/token when ambient B
       NETLIFY_BLOBS_CONTEXT: contextEnv
     },
     blobsImport: async () => ({
+      connectLambda() {
+        explicitCalls.push('connectLambda');
+        throw missingBlobsError();
+      },
       getStore(options) {
         explicitCalls.push({
           name: options.name,
@@ -554,17 +554,39 @@ test('store factory uses connectLambda then explicit siteID/token when ambient B
     })
   })({ headers: {} });
   assert.equal(explicit, store);
+  assert.equal(explicitCalls[0], 'connectLambda');
   assert.equal(explicitCalls.length, 2);
-  assert.equal(explicitCalls[0].siteID, null);
   assert.equal(explicitCalls[1].siteID, siteID);
   assert.equal(explicitCalls[1].hasToken, true);
   assert.equal(explicitCalls[1].name, _test.OUTBOX.storeName);
   assert.equal(JSON.stringify(explicitCalls).includes(token), false);
 
+  const retryEvents = [];
+  const retry = createRetryHandler({
+    environment: {
+      CONTEXT: 'production',
+      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
+      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
+      LHI_SITE_ENV: 'production'
+    },
+    fetchImpl: async () => { throw new Error('must not deliver in this test'); },
+    logger: () => {},
+    storeFactory: async (event) => {
+      retryEvents.push(event);
+      return memoryStore();
+    },
+    alertImpl: async () => false
+  });
+  const retryEvent = { blobs: blobsPayload, headers: { 'x-nf-site-id': siteID } };
+  const retryResult = await retry(retryEvent);
+  assert.equal(JSON.parse(retryResult.body).outcome, 'RECONCILED');
+  assert.equal(retryEvents[0], retryEvent);
+
   await assert.rejects(
     _test.createProductionStoreFactory({
       environment: { SITE_ID: '00000000-0000-0000-0000-000000000000' },
       blobsImport: async () => ({
+        connectLambda() { throw missingBlobsError(); },
         getStore() { throw missingBlobsError(); }
       })
     })({ headers: {} }),

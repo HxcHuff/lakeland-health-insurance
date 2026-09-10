@@ -15,6 +15,10 @@
  * provisioned:
  *   HUFFSHERPA_LEAD_WEBHOOK_URL_V1
  *   HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1
+ *
+ * This file is a Lambda-compatibility handler (`exports.handler`). Netlify
+ * Blobs ambient context is not auto-configured in that mode. The outbox
+ * factory calls `connectLambda(event)` immediately before `getStore`.
  */
 
 const crypto = require('node:crypto');
@@ -534,15 +538,20 @@ function createProductionStoreFactory({
       fail('outbox_unavailable', 503, 'getStore_unavailable');
     }
 
-    try {
-      return blobs.getStore({ name: OUTBOX.storeName, consistency: 'strong' });
-    } catch (error) {
-      lastCause = controlledErrorCause(error);
-    }
-
-    if (event && typeof event.blobs === 'string' && typeof blobs.connectLambda === 'function') {
+    // Lambda-compatibility handlers (exports.handler) do not receive ambient
+    // NETLIFY_BLOBS_CONTEXT. Netlify requires connectLambda(event) immediately
+    // before getStore. Both submission-created and huffsherpa-relay-retry use
+    // that invoke style and pass the Lambda event through.
+    const lambdaEvent = Boolean(event && typeof event === 'object' && !Array.isArray(event));
+    if (lambdaEvent && typeof blobs.connectLambda === 'function') {
       try {
         blobs.connectLambda(event);
+        return blobs.getStore({ name: OUTBOX.storeName, consistency: 'strong' });
+      } catch (error) {
+        lastCause = controlledErrorCause(error);
+      }
+    } else {
+      try {
         return blobs.getStore({ name: OUTBOX.storeName, consistency: 'strong' });
       } catch (error) {
         lastCause = controlledErrorCause(error);
