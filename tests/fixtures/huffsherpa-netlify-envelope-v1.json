@@ -1,0 +1,52 @@
+{
+  "schema": "huffsherpa-netlify-envelope-v1",
+  "synthetic_secret": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-",
+  "verify_at_ms": 1787853600000,
+  "envelope": {
+    "issuedAt": "2026-08-27T18:00:00.000Z",
+    "nonce": "CwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCws",
+    "payload": {
+      "created_at": "2026-08-27T17:59:00.000Z",
+      "data": {
+        "email": "zoe.fixture@example.test",
+        "first_gad_campaignid": "23802433323",
+        "first_gbraid": "",
+        "first_gclid": "FirstGclid_CaseSensitive-UTF8",
+        "first_name": "Zoë",
+        "first_utm_campaign": "first_touch",
+        "first_utm_content": "sitelink",
+        "first_utm_medium": "cpc",
+        "first_utm_source": "google",
+        "first_utm_term": "health insurance",
+        "first_wbraid": "",
+        "gad_campaignid": "24123358247",
+        "gbraid": "",
+        "gclid": "CurrentGclid_CaseSensitive-UTF8",
+        "last_name": "Ångström",
+        "phone": "8635550199",
+        "product_interest": "ACA",
+        "utm_campaign": "current_touch",
+        "utm_content": "hero",
+        "utm_medium": "cpc",
+        "utm_source": "google",
+        "utm_term": "",
+        "wbraid": "",
+        "zip": "33801"
+      },
+      "event_type": "submission_accepted",
+      "form_name": "get-help",
+      "submission_id": "abcdef0123456789abcdef01"
+    },
+    "signature": "4hZyt4pQ7vV8pvUlLr68cgsptgL-hZpD5auJgx4UOL8",
+    "source": "netlify",
+    "version": 1
+  },
+  "expected": {
+    "first_name": "Zoë",
+    "last_name": "Ångström",
+    "selected_click_id_type": "GCLID",
+    "selected_click_id": "CurrentGclid_CaseSensitive-UTF8",
+    "selected_google_ads_campaign_id": "24123358247",
+    "attribution_evidence_hmac_sha256": "dba9683f0b8c324653abb6183a429533d4de74ad6f0a218f97679951536f0c5a"
+  }
+}
