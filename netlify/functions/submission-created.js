@@ -4,12 +4,16 @@
  * Legacy Netlify Forms event function.
  *
  * Netlify invokes this file after a submission has already been accepted and
- * retained. Get Help rows are forwarded to Hopper using the live ingest helper.
- * Allowlisted sales forms are then minimized and forwarded as an HMAC envelope
- * to the administrator-owned HuffSherpa Apps Script staging endpoint. Hopper
- * and HuffSherpa outcomes are independent: a Hopper failure does not block CRM
- * staging, and a CRM failure does not undo Hopper. The function never sends a
- * Google Ads conversion and never changes campaign configuration.
+ * retained. Allowlisted sales forms are minimized and forwarded as an HMAC
+ * envelope to the administrator-owned HuffSherpa Apps Script staging endpoint
+ * (IMPORT STAGING). The function never sends a Google Ads conversion and never
+ * changes campaign configuration.
+ *
+ * Delivery prefers the site-scoped Blob outbox plus scheduled retry. If the
+ * outbox cannot open in a Forms event (Lambda Blobs context missing), the
+ * same signed envelope is posted directly so the lead still reaches the
+ * spreadsheet. Preview, branch, and non-production CONTEXT values remain
+ * fail-closed.
  *
  * HuffSherpa activation remains blocked until both environment variables are
  * provisioned:
@@ -23,7 +27,6 @@
 
 const crypto = require('node:crypto');
 const { relaySchema } = require('./lead.js');
-const { forwardGetHelpToHopper } = require('./lib/hopper-ingest');
 
 const PROTOCOL = Object.freeze({
   envelopeSource: 'netlify',
@@ -589,8 +592,8 @@ async function requireOutboxStore(storeFactory, needsList, event) {
 async function readOutboxRecord(store, key) {
   try {
     return await store.getWithMetadata(key);
-  } catch {
-    fail('outbox_unavailable', 503);
+  } catch (error) {
+    fail('outbox_unavailable', 503, controlledErrorCause(error));
   }
 }
 
@@ -634,7 +637,7 @@ async function writeOutboxRecord(store, key, body, metadata) {
     if (!persisted || persisted.data !== body) fail('outbox_write_unconfirmed', 503);
   } catch (error) {
     if (error instanceof SubmissionRelayError) throw error;
-    fail('outbox_unavailable', 503);
+    fail('outbox_unavailable', 503, controlledErrorCause(error));
   }
 }
 
@@ -1054,40 +1057,6 @@ function safeLog(logger, formName, outcome, reason, cause) {
   }
 }
 
-function formPayload(event) {
-  let body = {};
-  try {
-    body = JSON.parse(event && event.body || '{}');
-  } catch (_) {
-    return null;
-  }
-  const envelope = body.payload && typeof body.payload === 'object' ? body.payload : body;
-  const data = envelope.data && typeof envelope.data === 'object' ? envelope.data : envelope;
-  const formName = String(
-    data['form-name'] || data.form_name || envelope.form_name || ''
-  ).trim();
-  return {
-    ...data,
-    'form-name': formName || data['form-name'] || data.form_name
-  };
-}
-
-async function forwardHopperSafely(event, hopperForward) {
-  try {
-    const payload = formPayload(event);
-    if (!payload || payload['form-name'] !== 'get-help') {
-      return { skipped: true, reason: 'not_get_help' };
-    }
-    return await hopperForward({
-      payload,
-      headers: (event && event.headers) || {},
-      eventId: payload.event_id || null
-    });
-  } catch (_) {
-    return { skipped: false, error: true };
-  }
-}
-
 function createCrmRelayHandler({
   environment = process.env,
   fetchImpl = globalThis.fetch,
@@ -1109,6 +1078,7 @@ function createCrmRelayHandler({
     let attempt = null;
     let store = null;
     let failureRecorded = false;
+    let outboxCause = null;
     try {
       const normalized = parseNetlifyEvent(event);
       if (!normalized.eligible) {
@@ -1119,7 +1089,38 @@ function createCrmRelayHandler({
       requireProductionContext(environment);
       const configuration = validateConfiguration(environment);
       const nowMilliseconds = Number(now());
-      store = await requireOutboxStore(resolvedStoreFactory, false, event);
+      try {
+        store = await requireOutboxStore(resolvedStoreFactory, false, event);
+      } catch (error) {
+        const controlled = error instanceof SubmissionRelayError
+          ? error
+          : new SubmissionRelayError('outbox_unavailable', 503, controlledErrorCause(error));
+        if (controlled.code !== 'outbox_unavailable') throw controlled;
+        outboxCause = CAUSE_TOKEN.test(String(controlled.causeCode || ''))
+          ? controlled.causeCode
+          : 'unknown';
+      }
+      if (!store) {
+        const requestBody = buildEnvelope(
+          normalized.payload,
+          configuration.secret,
+          nowMilliseconds,
+          randomBytes
+        );
+        const result = await postEnvelope({
+          body: requestBody,
+          endpoint: configuration.endpoint,
+          fetchImpl,
+          setTimer,
+          clearTimer,
+          timeoutMilliseconds
+        });
+        if (!result.ok) {
+          throw new SubmissionRelayError(result.reason, 502);
+        }
+        safeLog(logger, formName, result.outcome, 'direct_without_outbox', outboxCause);
+        return response(200, { ok: true, outcome: result.outcome });
+      }
       attempt = await prepareOutboxAttempt({
         store,
         payload: normalized.payload,
@@ -1207,43 +1208,21 @@ function createCrmRelayHandler({
           // The minimized canonical payload remains in the site-scoped store.
         }
       }
-      safeLog(logger, formName, 'FAILED', controlled.code, controlled.causeCode);
+      const failureCause = CAUSE_TOKEN.test(String(controlled.causeCode || ''))
+        ? controlled.causeCode
+        : outboxCause;
+      safeLog(logger, formName, 'FAILED', controlled.code, failureCause);
       // Netlify ignores event-function response values. Rejecting the
       // invocation makes an eligible lead delivery failure visible in the
-      // Functions UI/logs while the durable outbox retains the minimized data.
-      throw new SubmissionRelayError(controlled.code, controlled.statusCode, controlled.causeCode);
+      // Functions UI/logs. The durable outbox retains minimized data when it
+      // was available; direct-without-outbox failures have no retry record.
+      throw new SubmissionRelayError(controlled.code, controlled.statusCode, failureCause);
     }
   };
 }
 
 function createSubmissionCreatedHandler(deps = {}) {
-  const crmHandler = createCrmRelayHandler(deps);
-  const hopperForward = Object.prototype.hasOwnProperty.call(deps, 'hopperForward')
-    ? deps.hopperForward
-    : forwardGetHelpToHopper;
-
-  return async function submissionCreatedHandler(event) {
-    const hopperPromise = typeof hopperForward === 'function'
-      ? forwardHopperSafely(event, hopperForward)
-      : Promise.resolve(null);
-
-    let crmResult;
-    let crmError;
-    try {
-      crmResult = await crmHandler(event);
-    } catch (error) {
-      crmError = error;
-    }
-
-    try {
-      await hopperPromise;
-    } catch (_) {
-      // Hopper must never block or replace the HuffSherpa CRM outcome.
-    }
-
-    if (crmError) throw crmError;
-    return crmResult;
-  };
+  return createCrmRelayHandler(deps);
 }
 
 async function retryStoredAttempt({
