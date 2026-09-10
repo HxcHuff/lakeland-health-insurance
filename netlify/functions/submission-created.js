@@ -341,9 +341,14 @@ function validateConfiguration(environment) {
 }
 
 function requireProductionContext(environment) {
+  const siteEnv = String(environment.LHI_SITE_ENV || '').trim();
+  const buildContext = String(environment.CONTEXT || '').trim();
+  // Netlify Forms event functions and scheduled retries often omit CONTEXT.
+  // LHI_SITE_ENV=production is the runtime gate. Empty CONTEXT is allowed.
+  // Explicit non-production CONTEXT values fail closed.
   if (
-    String(environment.CONTEXT || '') !== 'production'
-    || String(environment.LHI_SITE_ENV || '') !== 'production'
+    siteEnv !== 'production'
+    || (buildContext && buildContext !== 'production')
   ) {
     fail('production_context_required', 503);
   }

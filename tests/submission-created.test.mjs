@@ -442,6 +442,54 @@ test('eligible preview and branch events never access the production-scoped outb
   }
 });
 
+test('form-event production context allows missing CONTEXT when LHI_SITE_ENV is production', async () => {
+  _test.requireProductionContext({ LHI_SITE_ENV: 'production' });
+  _test.requireProductionContext({ LHI_SITE_ENV: 'production', CONTEXT: '' });
+  _test.requireProductionContext({ LHI_SITE_ENV: 'production', CONTEXT: 'production' });
+
+  for (const environment of [
+    { LHI_SITE_ENV: 'production', CONTEXT: 'deploy-preview' },
+    { LHI_SITE_ENV: 'production', CONTEXT: 'branch-deploy' },
+    { LHI_SITE_ENV: 'production', CONTEXT: 'dev' },
+    { LHI_SITE_ENV: 'preview' },
+    { CONTEXT: 'production' },
+    {}
+  ]) {
+    assert.throws(() => _test.requireProductionContext(environment), {
+      name: 'SubmissionRelayError',
+      code: 'production_context_required'
+    });
+  }
+
+  const allowed = makeHandler({
+    environment: {
+      CONTEXT: ''
+    }
+  });
+  assert.equal((await allowed.handler(submission())).statusCode, 200);
+  assert.equal(allowed.calls.length, 2);
+
+  for (const context of ['deploy-preview', 'branch-deploy', 'dev']) {
+    let storeCalls = 0;
+    let networkCalls = 0;
+    const handler = createSubmissionCreatedHandler({
+      environment: {
+        CONTEXT: context,
+        HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
+        HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
+        LHI_SITE_ENV: 'production'
+      },
+      fetchImpl: async () => { networkCalls += 1; },
+      logger: () => {},
+      storeFactory: async () => { storeCalls += 1; return memoryStore(); },
+      hopperForward: async () => ({ skipped: true, reason: 'test' })
+    });
+    await expectRelayFailure(handler(submission()), 'production_context_required');
+    assert.equal(storeCalls, 0);
+    assert.equal(networkCalls, 0);
+  }
+});
+
 test('one bounded opaque Google ContentService URL is allowed; unsafe targets are rejected', () => {
   for (const location of [
     REDIRECT,
