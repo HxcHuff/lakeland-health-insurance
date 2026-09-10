@@ -288,7 +288,8 @@ test('newsletters skip without configuration while unknown forms fail visibly', 
     environment: {},
     fetchImpl: async () => { calls += 1; },
     logger: (entry) => logs.push(entry),
-    storeFactory: async () => { throw new Error('must not load'); }
+    storeFactory: async () => { throw new Error('must not load'); },
+    hopperForward: async () => ({ skipped: true, reason: 'test' })
   });
   for (const form_name of ['homepage-newsletter', 'newsletter-signup']) {
     const outcome = await unconfigured(submission({ form_name, data: { email: 'newsletter@example.test' } }));
@@ -390,7 +391,8 @@ test('unsafe configuration or unavailable Blobs context blocks before forwarding
       environment,
       fetchImpl: async () => { calls += 1; },
       logger: (entry) => logs.push(entry),
-      storeFactory: async () => memoryStore()
+      storeFactory: async () => memoryStore(),
+      hopperForward: async () => ({ skipped: true, reason: 'test' })
     });
     await assert.rejects(handler(submission()), { name: 'SubmissionRelayError' });
     assert.equal(calls, 0);
@@ -431,7 +433,8 @@ test('eligible preview and branch events never access the production-scoped outb
       environment,
       fetchImpl: async () => { networkCalls += 1; },
       logger: () => {},
-      storeFactory: async () => { storeCalls += 1; return memoryStore(); }
+      storeFactory: async () => { storeCalls += 1; return memoryStore(); },
+      hopperForward: async () => ({ skipped: true, reason: 'test' })
     });
     await expectRelayFailure(handler(submission()), 'production_context_required');
     assert.equal(storeCalls, 0);
