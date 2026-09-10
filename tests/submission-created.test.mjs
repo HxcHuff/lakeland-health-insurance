@@ -404,12 +404,17 @@ test('unsafe configuration or unavailable Blobs context blocks before forwarding
   }
 
   let networkCalls = 0;
+  const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
+  blobsError.name = 'MissingBlobsEnvironmentError';
   const blocked = makeHandler({
     fetchImpl: async () => { networkCalls += 1; },
-    storeFactory: async () => { throw new Error('Blobs context absent'); }
+    storeFactory: async () => { throw blobsError; }
   });
   await expectRelayFailure(blocked.handler(submission()), 'outbox_unavailable');
   assert.equal(networkCalls, 0);
+  assert.equal(blocked.logs.at(-1).reason, 'outbox_unavailable');
+  assert.equal(blocked.logs.at(-1).cause, 'MissingBlobsEnvironmentError');
+  assert.equal(JSON.stringify(blocked.logs).includes('configured'), false);
 });
 
 test('eligible preview and branch events never access the production-scoped outbox or endpoint', async () => {
@@ -488,6 +493,105 @@ test('form-event production context allows missing CONTEXT when LHI_SITE_ENV is 
     assert.equal(storeCalls, 0);
     assert.equal(networkCalls, 0);
   }
+});
+
+test('store factory calls connectLambda immediately before getStore for Lambda events', async () => {
+  const store = memoryStore();
+  const siteID = 'b6ad2d8f-d771-44f4-89b5-7ab30350950e';
+  const token = 'nfb_synthetic_blobs_token_0001';
+  const blobsPayload = Buffer.from(JSON.stringify({ token, url: 'https://blobs.netlify.com' })).toString('base64');
+  const contextEnv = Buffer.from(JSON.stringify({ siteID, token })).toString('base64');
+
+  function missingBlobsError() {
+    const error = new Error('The environment has not been configured to use Netlify Blobs');
+    error.name = 'MissingBlobsEnvironmentError';
+    return error;
+  }
+
+  const connectedCalls = [];
+  const connected = await _test.createProductionStoreFactory({
+    environment: { SITE_ID: siteID },
+    blobsImport: async () => ({
+      connectLambda(event) {
+        connectedCalls.push(['connectLambda', typeof event.blobs]);
+      },
+      getStore() {
+        connectedCalls.push(['getStore']);
+        return store;
+      }
+    })
+  })({
+    blobs: blobsPayload,
+    headers: { 'x-nf-site-id': siteID }
+  });
+  assert.equal(connected, store);
+  assert.deepEqual(connectedCalls, [
+    ['connectLambda', 'string'],
+    ['getStore']
+  ]);
+
+  const explicitCalls = [];
+  const explicit = await _test.createProductionStoreFactory({
+    environment: {
+      SITE_ID: siteID,
+      NETLIFY_BLOBS_CONTEXT: contextEnv
+    },
+    blobsImport: async () => ({
+      connectLambda() {
+        explicitCalls.push('connectLambda');
+        throw missingBlobsError();
+      },
+      getStore(options) {
+        explicitCalls.push({
+          name: options.name,
+          consistency: options.consistency,
+          siteID: options.siteID || null,
+          hasToken: Boolean(options.token)
+        });
+        if (!options.siteID) throw missingBlobsError();
+        return store;
+      }
+    })
+  })({ headers: {} });
+  assert.equal(explicit, store);
+  assert.equal(explicitCalls[0], 'connectLambda');
+  assert.equal(explicitCalls.length, 2);
+  assert.equal(explicitCalls[1].siteID, siteID);
+  assert.equal(explicitCalls[1].hasToken, true);
+  assert.equal(explicitCalls[1].name, _test.OUTBOX.storeName);
+  assert.equal(JSON.stringify(explicitCalls).includes(token), false);
+
+  const retryEvents = [];
+  const retry = createRetryHandler({
+    environment: {
+      CONTEXT: 'production',
+      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
+      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
+      LHI_SITE_ENV: 'production'
+    },
+    fetchImpl: async () => { throw new Error('must not deliver in this test'); },
+    logger: () => {},
+    storeFactory: async (event) => {
+      retryEvents.push(event);
+      return memoryStore();
+    },
+    alertImpl: async () => false
+  });
+  const retryEvent = { blobs: blobsPayload, headers: { 'x-nf-site-id': siteID } };
+  const retryResult = await retry(retryEvent);
+  assert.equal(JSON.parse(retryResult.body).outcome, 'RECONCILED');
+  assert.equal(retryEvents[0], retryEvent);
+
+  await assert.rejects(
+    _test.createProductionStoreFactory({
+      environment: { SITE_ID: '00000000-0000-0000-0000-000000000000' },
+      blobsImport: async () => ({
+        connectLambda() { throw missingBlobsError(); },
+        getStore() { throw missingBlobsError(); }
+      })
+    })({ headers: {} }),
+    (error) => error && error.code === 'outbox_unavailable' && error.causeCode === 'MissingBlobsEnvironmentError'
+  );
 });
 
 test('one bounded opaque Google ContentService URL is allowed; unsafe targets are rejected', () => {
