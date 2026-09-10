@@ -135,6 +135,7 @@ function successFetch(calls, beforeFirstRequest = () => {}) {
 function makeHandler(overrides = {}) {
   const calls = [];
   const logs = [];
+  const hopperCalls = overrides.hopperCalls || [];
   const store = overrides.store || memoryStore();
   const environment = {
     CONTEXT: 'production',
@@ -147,6 +148,7 @@ function makeHandler(overrides = {}) {
     calls,
     logs,
     store,
+    hopperCalls,
     handler: createSubmissionCreatedHandler({
       environment,
       fetchImpl: overrides.fetchImpl || successFetch(calls),
@@ -155,7 +157,11 @@ function makeHandler(overrides = {}) {
       randomBytes: overrides.randomBytes || (() => Buffer.alloc(32, 7)),
       storeFactory: overrides.storeFactory || (async () => store),
       alertImpl: overrides.alertImpl || (async () => false),
-      timeoutMilliseconds: overrides.timeoutMilliseconds
+      timeoutMilliseconds: overrides.timeoutMilliseconds,
+      hopperForward: overrides.hopperForward || (async (entry) => {
+        hopperCalls.push(entry);
+        return { skipped: true, reason: 'test' };
+      })
     })
   };
 }
@@ -188,6 +194,9 @@ test('lead is durably stored before one minimized canonical HMAC envelope is sen
   assert.equal(result.statusCode, 200);
   assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
   assert.equal(calls.length, 2);
+  assert.equal(fixture.hopperCalls.length, 1);
+  assert.equal(fixture.hopperCalls[0].payload['form-name'], 'get-help');
+  assert.equal(fixture.hopperCalls[0].eventId, null);
   assert.equal(store.entries.size, 0);
   assert.deepEqual(store.history.map((entry) => entry.operation), ['set', 'delete']);
   assert.equal(calls[0].url, ENDPOINT);
@@ -630,4 +639,61 @@ test('malformed bodies and identifiers fail before storage or forwarding', async
   }
   assert.equal(fixture.calls.length, 0);
   assert.equal(fixture.store.entries.size, 0);
+});
+
+test('get-help still forwards to Hopper when HuffSherpa CRM staging fails', async () => {
+  const hopperCalls = [];
+  const handler = createSubmissionCreatedHandler({
+    environment: {
+      CONTEXT: 'deploy-preview',
+      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
+      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
+      LHI_SITE_ENV: 'preview'
+    },
+    fetchImpl: async () => { throw new Error('CRM must not run'); },
+    logger: () => {},
+    storeFactory: async () => { throw new Error('CRM must not open Blobs'); },
+    hopperForward: async (entry) => {
+      hopperCalls.push(entry);
+      return { skipped: false, status: 202 };
+    }
+  });
+  await expectRelayFailure(handler(submission()), 'production_context_required');
+  assert.equal(hopperCalls.length, 1);
+  assert.equal(hopperCalls[0].payload['form-name'], 'get-help');
+  assert.equal(hopperCalls[0].payload.email, 'AVERY.FIXTURE@EXAMPLE.TEST');
+});
+
+test('Hopper failure does not block HuffSherpa CRM staging', async () => {
+  let hopperCalls = 0;
+  const fixture = makeHandler({
+    hopperForward: async () => {
+      hopperCalls += 1;
+      throw new Error('hopper unavailable');
+    }
+  });
+  const result = await fixture.handler(submission());
+  assert.equal(result.statusCode, 200);
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
+  assert.equal(hopperCalls, 1);
+  assert.equal(fixture.calls.length, 2);
+  assert.equal(fixture.store.entries.size, 0);
+});
+
+test('allowlisted non-get-help forms skip Hopper and still stage to HuffSherpa', async () => {
+  const hopperCalls = [];
+  const fixture = makeHandler({
+    hopperForward: async (entry) => {
+      hopperCalls.push(entry);
+      return { skipped: false, status: 202 };
+    }
+  });
+  const result = await fixture.handler(submission({
+    form_name: 'lp-aca-lead',
+    data: { full_name: 'Test Lead', phone: '8635550118' }
+  }));
+  assert.equal(result.statusCode, 200);
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
+  assert.equal(hopperCalls.length, 0);
+  assert.equal(fixture.calls.length, 2);
 });

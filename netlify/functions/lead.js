@@ -209,9 +209,33 @@ const INTENT_MC_TAGS = {
 };
 
 const NEWSLETTER_FORMS = new Set(['homepage-newsletter', 'newsletter-signup']);
+const HUFFSHERPA_RELAY_FORMS = new Set([
+  'get-help',
+  'aca-lakeland-lead',
+  'lp-aca-lead',
+  'lp-medicare-lead',
+  'lp-gap-lead',
+  'subsidy-estimator-lead',
+  'tampa-health-insurance',
+  'winter-haven-health-insurance',
+  'haines-city-health-insurance',
+  'lake-alfred-health-insurance',
+  'davenport-health-insurance',
+  'brandon-health-insurance',
+  'clearwater-health-insurance',
+  'largo-health-insurance',
+  'new-port-richey-health-insurance',
+  'riverview-health-insurance',
+  'st-petersburg-health-insurance',
+  'wesley-chapel-health-insurance'
+]);
 
 const BOT_FIELDS = ['bot-field', 'website', 'company'];
 const CAMPAIGN_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+const CLICK_ID_FIELDS = ['gclid', 'gbraid', 'wbraid', 'gad_campaignid'];
+const CURRENT_ATTRIBUTION_FIELDS = CLICK_ID_FIELDS.concat(CAMPAIGN_FIELDS);
+const FIRST_ATTRIBUTION_FIELDS = CURRENT_ATTRIBUTION_FIELDS.map((field) => `first_${field}`);
+const LEAD_ATTRIBUTION_FIELDS = CURRENT_ATTRIBUTION_FIELDS.concat(FIRST_ATTRIBUTION_FIELDS);
 const GET_HELP_OPTIONAL_FIELDS = [
   'who',
   'coverage_end',
@@ -255,6 +279,7 @@ function formFields(...groups) {
 }
 
 const LOCAL_FORM_FIELDS = [
+  ...LEAD_ATTRIBUTION_FIELDS,
   'full_name',
   'phone_number',
   'zip_code',
@@ -264,6 +289,7 @@ const LOCAL_FORM_FIELDS = [
   'source_page'
 ];
 const LP_COMMON_FIELDS = [
+  ...LEAD_ATTRIBUTION_FIELDS,
   'full_name',
   'phone',
   'email',
@@ -276,7 +302,7 @@ const LP_COMMON_FIELDS = [
 const FORM_FIELD_ALLOWLIST = Object.freeze({
   'homepage-newsletter': formFields(BOT_FIELDS, ['email', 'consent', 'source_page', '_subject']),
   'newsletter-signup': formFields(BOT_FIELDS, ['first_name', 'last_name', 'email', 'phone', 'interest', 'consent', 'source_page', '_subject']),
-  'get-help': formFields(BOT_FIELDS, CAMPAIGN_FIELDS, GET_HELP_OPTIONAL_FIELDS, [
+  'get-help': formFields(BOT_FIELDS, LEAD_ATTRIBUTION_FIELDS, GET_HELP_OPTIONAL_FIELDS, [
     'full_name',
     'phone',
     'email',
@@ -303,11 +329,11 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'consent_email',
     'consent_marketing_email'
   ]),
-  'lp-aca-lead': formFields(BOT_FIELDS, CAMPAIGN_FIELDS, LP_COMMON_FIELDS, ['household_size']),
-  'lp-medicare-lead': formFields(BOT_FIELDS, CAMPAIGN_FIELDS, LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
-  'lp-gap-lead': formFields(BOT_FIELDS, CAMPAIGN_FIELDS, LP_COMMON_FIELDS, ['coverage_situation']),
+  'lp-aca-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['household_size']),
+  'lp-medicare-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
+  'lp-gap-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['coverage_situation']),
   'aca-lakeland-lead': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS, ['income_range', 'employment_status']),
-  'subsidy-estimator-lead': formFields(BOT_FIELDS, [
+  'subsidy-estimator-lead': formFields(BOT_FIELDS, LEAD_ATTRIBUTION_FIELDS, [
     'first_name',
     'email',
     'phone',
@@ -492,14 +518,49 @@ function sanitizeCampaignToken(value, allowSpaces = false) {
   return pattern.test(text) ? text : '';
 }
 
+function sanitizeClickID(value) {
+  const text = String(value || '').trim();
+  if (!text || text.length > 512) return '';
+  return /^[a-z0-9._~-]+$/i.test(text) ? text : '';
+}
+
+function sanitizeGoogleCampaignID(value) {
+  const text = String(value || '').trim();
+  return /^\d{1,20}$/.test(text) ? text : '';
+}
+
+function sanitizeAttributionValue(field, value) {
+  const baseField = String(field || '').replace(/^first_/, '');
+  if (baseField === 'gclid' || baseField === 'gbraid' || baseField === 'wbraid') {
+    return sanitizeClickID(value);
+  }
+  if (baseField === 'gad_campaignid') return sanitizeGoogleCampaignID(value);
+  return sanitizeCampaignToken(value, baseField === 'utm_term');
+}
+
 function sanitizeCampaignAttribution(payload) {
-  CAMPAIGN_FIELDS.forEach((field) => {
+  LEAD_ATTRIBUTION_FIELDS.forEach((field) => {
     if (!Object.prototype.hasOwnProperty.call(payload, field)) return;
-    const sanitized = sanitizeCampaignToken(payload[field], field === 'utm_term');
+    const sanitized = sanitizeAttributionValue(field, payload[field]);
     if (sanitized) payload[field] = sanitized;
     else delete payload[field];
   });
+  ['', 'first_'].forEach((prefix) => {
+    const populated = ['gclid', 'gbraid', 'wbraid'].filter((field) => payload[`${prefix}${field}`]);
+    if (populated.length > 1) {
+      populated.forEach((field) => delete payload[`${prefix}${field}`]);
+    }
+  });
   return payload;
+}
+
+/** Shared production boundary for the Netlify submission-created relay. */
+function filterLeadPayloadForRelay(rawPayload, formName) {
+  if (!HUFFSHERPA_RELAY_FORMS.has(formName)) return { ok: false, error: 'Unsupported relay form' };
+  const filtered = filterPayloadForForm(rawPayload, formName);
+  if (!filtered.ok) return filtered;
+  sanitizeCampaignAttribution(filtered.payload);
+  return filtered;
 }
 
 function canonicalizeMedicareAttribution(payload) {
@@ -1026,5 +1087,14 @@ exports._test = {
   resolveFormName,
   sanitizeCampaignAttribution,
   sanitizeCampaignToken,
+  sanitizeClickID,
+  sanitizeGoogleCampaignID,
   sanitizeSourcePath
 };
+
+exports.relaySchema = Object.freeze({
+  allFormNames: Object.freeze(Object.keys(FORM_FIELD_ALLOWLIST)),
+  formNames: Object.freeze(Array.from(HUFFSHERPA_RELAY_FORMS)),
+  newsletterFormNames: Object.freeze(Array.from(NEWSLETTER_FORMS)),
+  filterLeadPayloadForRelay
+});

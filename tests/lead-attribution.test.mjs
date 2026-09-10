@@ -78,7 +78,7 @@ function getHelpPayload(overrides = {}) {
     utm_campaign: 'medicare-review',
     utm_content: 'hero',
     utm_term: 'health insurance lakeland',
-    gclid: 'must-drop',
+    gclid: 'CurrentGclid_CaseSensitive-001',
     fbclid: 'must-drop',
     mystery: 'must-drop',
     consent_recorded_at: '1999-01-01T00:00:00.000Z',
@@ -173,7 +173,8 @@ test('Forms acceptance mints receipt metadata, authorizes consent, and returns c
   assert.equal(form.get('consent_marketing_email_state'), 'granted');
   assert.equal(form.get('consent_withdrawal_state'), 'not_withdrawn_at_submission');
   assert.equal(form.get('utm_term'), 'health insurance lakeland');
-  for (const key of ['mystery', 'gclid', 'fbclid', 'accepted_at']) {
+  assert.equal(form.get('gclid'), 'CurrentGclid_CaseSensitive-001');
+  for (const key of ['mystery', 'fbclid', 'accepted_at']) {
     assert.equal(form.has(key), false, `${key} is not forwarded`);
   }
   assert.equal(form.toString().includes('attacker-role'), false);
@@ -436,6 +437,17 @@ test('form schemas preserve declared live fields and discard arbitrary keys', ()
     utm_term: 'jane@example.com',
     utm_content: '863-640-3102'
   }), {});
+
+  const clicks = _test.sanitizeCampaignAttribution({
+    gclid: 'CurrentGclid_CaseSensitive-001',
+    gad_campaignid: '24123358247',
+    first_gclid: 'FirstGclid_CaseSensitive-002',
+    gbraid: 'must-also-drop-when-ambiguous'
+  });
+  assert.equal('gclid' in clicks, false);
+  assert.equal('gbraid' in clicks, false);
+  assert.equal(clicks.gad_campaignid, '24123358247');
+  assert.equal(clicks.first_gclid, 'FirstGclid_CaseSensitive-002');
 });
 
 test('Medicare general intake strips known plan and health-detail fields without changing other intents', () => {

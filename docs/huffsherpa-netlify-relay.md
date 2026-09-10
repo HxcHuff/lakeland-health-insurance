@@ -1,13 +1,23 @@
 # HuffSherpa Netlify lead relay
 
-Status: **implemented locally; configuration-blocked; not deployed or activated**.
+Status: **implemented in live `submission-created`; configuration-blocked until
+production environment variables are provisioned; not yet activated**.
 
 ## Event boundary
 
 Netlify invokes `netlify/functions/submission-created.js` only after Forms has
-accepted and retained a submission. The relay accepts the legacy
-`submission-created` event shape and forwards only these exact sales/service
-forms:
+accepted and retained a submission. Two independent downstream paths run:
+
+1. **Hopper** — `get-help` submissions are forwarded with
+   `forwardGetHelpToHopper` exactly as production does today. Missing Hopper
+   secrets remain a skip, not a throw. A Hopper failure does not block
+   HuffSherpa CRM staging.
+2. **HuffSherpa CRM** — allowlisted sales/service forms are minimized, written
+   to the site-scoped Blob outbox, and posted as a signed envelope to IMPORT
+   STAGING. A CRM failure does not undo Hopper.
+
+The CRM relay accepts the legacy `submission-created` event shape and forwards
+only these exact sales/service forms:
 
 - `get-help`
 - `aca-lakeland-lead`
@@ -98,6 +108,23 @@ bytes, JSON, non-explicitly-cacheable, and exactly:
 - The original submission remains retained in Netlify Forms. No name, email,
   phone, ZIP, click ID, submission ID, endpoint, signature, secret, or form
   payload is written to logs.
+
+## Required production environment variables
+
+Configure these on the Netlify production (Functions) context only. Do not
+place either value in source control, tickets, logs, or preview/branch
+contexts.
+
+| Name | Exact requirement |
+| --- | --- |
+| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Exact HTTPS Apps Script deployment URL `https://script.google.com/macros/s/<deployment-id>/exec` |
+| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | 48 random bytes encoded as 64 unpadded base64url characters; independent of the Google Ads CRM form keys |
+
+Hopper continues to use the existing `HOPPER_INGEST_URL` and
+`HOPPER_LEAD_INGEST_SECRET` variables. Optional metadata-only terminal alerts
+reuse `RESEND_API_KEY` plus `HUFFSHERPA_RELAY_ALERT_EMAIL` or `NOTIFY_EMAIL`.
+The CRM path also requires `CONTEXT=production` and `LHI_SITE_ENV=production`
+before it will open the outbox or POST the signed envelope.
 
 ## Activation gate
 
