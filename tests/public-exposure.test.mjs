@@ -151,6 +151,10 @@ test('retired newsletter artifact redirects to the public newsletter route', () 
 test('retired Dude\'s Corner humor section redirects to professional pages', () => {
   assert.match(REDIRECTS, /^\/dudes-corner\s+\/about\/\s+301!$/m);
   assert.match(REDIRECTS, /^\/dudes-corner\/\s+\/about\/\s+301!$/m);
+  assert.match(REDIRECTS, /^\/dudes-corner\/index\.html\s+\/about\/\s+301!$/m);
+  assert.match(REDIRECTS, /^\/dudes-corner\/index\.html\/\s+\/about\/\s+301!$/m);
+  assert.match(REDIRECTS, /^\/dudes-corner\/index\s+\/about\/\s+301!$/m);
+  assert.match(REDIRECTS, /^\/dudes-corner\/index\/\s+\/about\/\s+301!$/m);
   assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\.html\s+\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
   assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\.html\/\s+\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
   assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\s+\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
@@ -160,6 +164,12 @@ test('retired Dude\'s Corner humor section redirects to professional pages', () 
   assert.ok(existsSync(join(ROOT, 'blog/fixed-indemnity-analysis.html')));
   assert.ok(existsSync(join(ROOT, 'blog/aca-subsidy-cliff.html')));
   assert.equal(existsSync(join(ROOT, 'dudes-corner')), false);
+
+  const retiredName = /dude['’]?s[\s’-]*corner/i;
+  for (const file of findDiscoveryFiles(ROOT)) {
+    const source = readFileSync(file, 'utf8');
+    assert.equal(retiredName.test(source), false, `${relative(ROOT, file)} names the retired humor section`);
+  }
 });
 
 test('retired Health ProtectorGuard internal fragments return 404', () => {
