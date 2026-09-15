@@ -152,6 +152,7 @@ test('retired Dude\'s Corner humor section redirects to professional pages', () 
   assert.match(REDIRECTS, /^\/dudes-corner\s+\/about\/\s+301!$/m);
   assert.match(REDIRECTS, /^\/dudes-corner\/\s+\/about\/\s+301!$/m);
   assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\.html\s+\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
+  assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\.html\/\s+\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
   assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\s+\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
   assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\/\s+\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
   assert.match(REDIRECTS, /^\/dudes-corner\/subsidy-cliff-dudes-take\.html\s+\/blog\/aca-subsidy-cliff\.html\s+301!$/m);
