@@ -589,6 +589,12 @@ const siteSearchIndex = [
     tags: ["About", "Team"]
   },
   {
+    title: "Coverage Center: Medicare and Under-65 Plan Review",
+    url: "/coverage-center/",
+    excerpt: "Choose a 2027 Medicare or individual and family plan review. AEP, turning 65, ACA Marketplace, job change, and coverage-gap starting points.",
+    tags: ["Coverage Center", "Plan Review", "2027 Enrollment", "Lakeland", "Polk County"]
+  },
+  {
     title: "Get Personalized Help",
     url: "/get-help/",
     excerpt: "Get a personalized health insurance review and consultation.",
