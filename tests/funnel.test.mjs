@@ -38,6 +38,7 @@ const EXTERNAL_QUOTE_SELECTOR = 'a[data-funnel-external-quote], a[href*="healths
 const MEDICARE_HUB_HTML = readFileSync(resolve(__dirname, '../medicare/index.html'), 'utf8');
 const BEST_MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../best-medicare-broker-lakeland-fl/index.html'), 'utf8');
 const MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../medicare-broker-lakeland-fl/index.html'), 'utf8');
+const COVERAGE_CENTER_HTML = readFileSync(resolve(__dirname, '../coverage-center/index.html'), 'utf8');
 const WEBSITE_CALL_SELECTOR = 'a[href="tel:+18636403102"], a[data-lhi-business-phone="+18636403102"]';
 const CITY_LEAD_PAGES = [
   'brandon-health-insurance',
@@ -909,6 +910,86 @@ test('Medicare page context classifies hub, education, selection, and transactio
     intent: 'medicare'
   });
   assert.equal(selection.LHIMedicareAttribution.pageContext('/blog/best-medicare-broker-lakeland-fl/'), null);
+});
+
+test('Coverage Center Medicare lane carries approved source keys without forcing generic Get Help to Medicare', () => {
+  const coverage = loadAnalytics({ pathname: '/coverage-center/' }).sandbox;
+  assert.deepEqual(JSON.parse(JSON.stringify(coverage.LHIMedicareAttribution.pageContext('/coverage-center/'))), {
+    schema_version: 'medicare-attribution.v1',
+    page_key: 'coverage_center',
+    page_role: 'hub',
+    content_cluster: 'lakeland_medicare_broker',
+    intent: 'medicare'
+  });
+  assert.deepEqual(JSON.parse(JSON.stringify(coverage.LHIMedicareAttribution.sourceContext(
+    '?intent=medicare&source_page_key=coverage_center&source_cta_key=plan_review_medicare_lane'
+  ))), {
+    schema_version: 'medicare-attribution.v1',
+    source_page_key: 'coverage_center',
+    source_page_role: 'hub',
+    source_cta_key: 'plan_review_medicare_lane',
+    content_cluster: 'lakeland_medicare_broker',
+    intent: 'medicare'
+  });
+  assert.equal(coverage.LHIMedicareAttribution.sourceContext(
+    '?intent=medicare&source_page_key=coverage_center&source_cta_key=plan_review_hero'
+  ), null);
+
+  const medicareLane = makeAnalyticsLink({
+    href: '/get-help/?intent=medicare',
+    medicareCta: 'plan_review_medicare_lane'
+  });
+  const medicareLoaded = loadAnalytics({ pathname: '/coverage-center/', link: medicareLane });
+  medicareLoaded.dispatch('click');
+  const medicareDestination = new URL(medicareLane.getAttribute('href'), 'https://lakelandhealthinsurance.com');
+  assert.equal(medicareDestination.pathname, '/get-help/');
+  assert.equal(medicareDestination.searchParams.get('intent'), 'medicare');
+  assert.equal(medicareDestination.searchParams.get('source_page_key'), 'coverage_center');
+  assert.equal(medicareDestination.searchParams.get('source_cta_key'), 'plan_review_medicare_lane');
+  assert.equal(medicareLoaded.dataLayer.some((entry) => entry && entry.event === 'MedicareCtaClick'), true);
+
+  const hero = makeAnalyticsLink({ href: '/get-help/' });
+  const heroLoaded = loadAnalytics({ pathname: '/coverage-center/', link: hero });
+  heroLoaded.dispatch('click');
+  assert.equal(hero.getAttribute('href'), '/get-help/');
+  assert.equal(heroLoaded.dataLayer.some((entry) => entry && entry.event === 'MedicareCtaClick'), false);
+
+  const header = makeAnalyticsLink({ href: '/get-help/', ancestors: ['.cta-group'] });
+  const headerLoaded = loadAnalytics({ pathname: '/coverage-center/', link: header });
+  headerLoaded.dispatch('click');
+  assert.equal(header.getAttribute('href'), '/get-help/');
+  assert.equal(headerLoaded.dataLayer.some((entry) => entry && entry.event === 'MedicareCtaClick'), false);
+
+  const under65 = makeAnalyticsLink({ href: '/get-help/?intent=under-65' });
+  const under65Loaded = loadAnalytics({ pathname: '/coverage-center/', link: under65 });
+  under65Loaded.dispatch('click');
+  assert.equal(under65.getAttribute('href'), '/get-help/?intent=under-65');
+  assert.equal(under65Loaded.dataLayer.some((entry) => entry && entry.event === 'MedicareCtaClick'), false);
+
+  assert.match(COVERAGE_CENTER_HTML, /<body[^>]*data-page-key="coverage_center"[^>]*data-page-role="hub"[^>]*data-content-cluster="lakeland_medicare_broker"/);
+  assert.match(COVERAGE_CENTER_HTML, /href="\/get-help\/"/);
+  assert.match(COVERAGE_CENTER_HTML, /href="\/get-help\/\?intent=under-65"/);
+  assert.match(COVERAGE_CENTER_HTML, /data-medicare-cta="plan_review_medicare_lane"/);
+  const medicareCta = getHelpCtas(COVERAGE_CENTER_HTML).find((cta) => cta.ctaKey === 'plan_review_medicare_lane');
+  assert.ok(medicareCta, 'Coverage Center Medicare lane is keyed');
+  const medicareUrl = new URL(medicareCta.href, 'https://lakelandhealthinsurance.com');
+  assert.equal(medicareUrl.searchParams.get('intent'), 'medicare');
+  assert.equal(medicareUrl.searchParams.get('source_page_key'), 'coverage_center');
+  assert.equal(medicareUrl.searchParams.get('source_cta_key'), 'plan_review_medicare_lane');
+  assert.equal(medicareUrl.searchParams.has('source_page_role'), false);
+
+  const funnelSource = loadFunnel().LHI._t.canonicalSourceContext({
+    source_page_key: 'coverage_center',
+    source_cta_key: 'plan_review_medicare_lane'
+  });
+  assert.deepEqual(JSON.parse(JSON.stringify(funnelSource)), {
+    schema_version: 'medicare-attribution.v1',
+    source_page_key: 'coverage_center',
+    source_page_role: 'hub',
+    source_cta_key: 'plan_review_medicare_lane',
+    content_cluster: 'lakeland_medicare_broker',
+    intent: 'medicare'
+  });
 });
 
 test('Medicare content view emits once with only the versioned allowlisted context', () => {
@@ -1908,6 +1989,20 @@ test('get-help intent allowlist falls back safely', () => {
     source_cta_key: 'request_review_hero',
     content_cluster: 'lakeland_medicare_broker'
   });
+  assert.deepEqual(JSON.parse(JSON.stringify(sandbox.LHIGetHelpIntake.medicareSourceContext(new URLSearchParams(
+    'intent=medicare&source_page_key=coverage_center&source_page_role=transaction&source_cta_key=plan_review_medicare_lane'
+  )))), {
+    source_page_key: 'coverage_center',
+    source_page_role: 'hub',
+    source_cta_key: 'plan_review_medicare_lane',
+    content_cluster: 'lakeland_medicare_broker'
+  });
+  assert.equal(sandbox.LHIGetHelpIntake.medicareSourceContext(new URLSearchParams(
+    'intent=under-65&source_page_key=coverage_center&source_cta_key=plan_review_medicare_lane'
+  )), null);
+  assert.equal(sandbox.LHIGetHelpIntake.medicareSourceContext(new URLSearchParams(
+    'intent=medicare&source_page_key=coverage_center&source_cta_key=plan_review_hero'
+  )), null);
   assert.equal(sandbox.LHIGetHelpIntake.medicareSourceContext(new URLSearchParams(
     'intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_cta_key=unknown'
   )), null);

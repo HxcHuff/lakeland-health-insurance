@@ -47,6 +47,13 @@
         footer_start_plan_review: true
       }
     },
+    coverage_center: {
+      path: '/coverage-center/',
+      page_role: 'hub',
+      cta_keys: {
+        plan_review_medicare_lane: true
+      }
+    },
     aep_2026_polk_county_checklist: {
       path: '/blog/aep-2026-polk-county-checklist.html/',
       page_role: 'education',

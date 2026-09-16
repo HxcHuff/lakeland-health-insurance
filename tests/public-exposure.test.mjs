@@ -240,8 +240,9 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
   assert.match(COVERAGE_CENTER, /Lakeland Health Insurance · Lakeland, FL 33805 · By appointment/);
   assert.match(COVERAGE_CENTER, /FL License #W371813 \/ NPN 18213932/);
   assert.match(COVERAGE_CENTER, /not medical advice/);
-  assert.match(COVERAGE_CENTER, /href="\/get-help\/\?intent=medicare">Plan review<\/a>/);
+  assert.match(COVERAGE_CENTER, /href="\/get-help\/\?intent=medicare&amp;source_page_key=coverage_center&amp;source_cta_key=plan_review_medicare_lane" data-medicare-cta="plan_review_medicare_lane">Plan review<\/a>/);
   assert.match(COVERAGE_CENTER, /href="\/get-help\/\?intent=under-65">Plan review<\/a>/);
+  assert.match(COVERAGE_CENTER, /href="\/get-help\/">Plan review<\/a>/);
   assert.match(COVERAGE_CENTER, /href="https:\/\/www\.healthsherpa\.com\/\?_agent_id=david-huff-ngdu8q"/);
   assert.match(COVERAGE_CENTER, /href="\/medicare\/"/);
   assert.match(COVERAGE_CENTER, /href="\/medicare-broker-lakeland-fl\/"/);
