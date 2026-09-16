@@ -26,7 +26,7 @@ const siteSearchIndex = [
     tags: ["Under 65", "Self-Employed", "1099", "Small Business", "ACA"]
   },
   {
-    title: "Retiring Before 65 in Lakeland FL | Coverage Until Medicare",
+    title: "Retiring Before 65 in Florida",
     url: "/retiring-before-65-florida/",
     excerpt: "Review the transition from employer coverage before Medicare eligibility, including the date current coverage ends, projected household income, doctors, prescriptions, and yearly cost.",
     tags: ["Under 65", "Retiring Before 65", "Early Retirement", "Pre-Medicare", "ACA"]
@@ -58,7 +58,7 @@ const siteSearchIndex = [
 
   // Medicare guidance
   {
-    title: "Medicare Help Lakeland & Polk County | AEP Review",
+    title: "Medicare AEP 2027 Review in Lakeland and Polk County",
     url: "/medicare/",
     excerpt: "Start with 2027 AEP timing, coverage paths, doctors, prescriptions, and a Coverage Center Medicare plan review.",
     tags: ["Medicare", "Medicare Advantage", "Original Medicare", "Medicare Supplement", "Medigap", "Part D", "Lakeland", "Polk County", "2027"]
@@ -76,7 +76,7 @@ const siteSearchIndex = [
     tags: ["Medicare", "AEP", "Enrollment", "Switching Plans", "Florida"]
   },
   {
-    title: "Turning 65 Medicare Checklist | Lakeland & Polk County FL",
+    title: "Turning 65 in Florida: 2026 Medicare Checklist",
     url: "/blog/turning-65-medicare-checklist-florida.html",
     excerpt: "A practical checklist for Florida residents turning 65 and comparing Medicare Advantage, Supplement, and Part D.",
     tags: ["Medicare", "Turning 65", "Initial Enrollment", "Part B", "Part D"]
@@ -221,7 +221,7 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Open Enrollment"]
   },
   {
-    title: "Medicare Advantage Plans Lakeland FL | 2027 Comparison Help",
+    title: "Lakeland Medicare Advantage: 2027 Plan Review",
     url: "/blog/medicare-advantage-lakeland-2026.html",
     excerpt: "Compare 2027 Lakeland Medicare Advantage plans by network, prescriptions, and out-of-pocket risk before you enroll.",
     tags: ["Medicare", "Lakeland", "Local"]
@@ -251,7 +251,7 @@ const siteSearchIndex = [
     tags: ["Medical Bills", "Financial", "Tips"]
   },
   {
-    title: "HMO vs PPO vs EPO Explained | Florida Plan Networks",
+    title: "HMO vs PPO vs EPO: Health Plan Networks Explained",
     url: "/blog/hmo-vs-ppo-vs-epo-explained.html",
     excerpt: "Compare common network structures, referral rules, out-of-network benefits, and the plan documents to verify before enrolling.",
     tags: ["Plan Types", "Coverage", "Comparison"]
@@ -275,7 +275,7 @@ const siteSearchIndex = [
     tags: ["Financial", "Budgeting", "Tips"]
   },
   {
-    title: "Fixed Indemnity Insurance Analysis | Health ProtectorGuard FL",
+    title: "Fixed Indemnity, STM & TriTerm Medical Strategy for 2026",
     url: "/blog/fixed-indemnity-analysis.html",
     excerpt: "Review Health ProtectorGuard, short-term medical, TriTerm Medical, ACA, and Medicare together with underwriting, exclusions, and replacement risks in view.",
     tags: ["Products", "Coverage", "Gap Insurance", "Short-Term", "TriTerm"]
@@ -541,7 +541,7 @@ const siteSearchIndex = [
     tags: ["Tools", "ACA", "Subsidies", "Calculator"]
   },
   {
-    title: "Health ProtectorGuard Plans & Reviews | Florida Comparison",
+    title: "Health ProtectorGuard",
     url: "/health-protector-guard/",
     excerpt: "Learn about Health ProtectorGuard fixed-indemnity coverage.",
     tags: ["Products", "Coverage", "Fixed Indemnity"]
