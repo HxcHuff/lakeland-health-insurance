@@ -10,7 +10,7 @@ const siteSearchIndex = [
   {
     title: "Florida Individual and Family Coverage Guidance",
     url: "/",
-    excerpt: "Start with the right Florida coverage path for individuals and families, including job loss, self-employment, early retirement, household changes, and ACA Marketplace coverage.",
+    excerpt: "Start with the Coverage Center for a 2027 Medicare or individual and family plan review, then compare ACA, Medicare, and other Florida coverage around doctors, prescriptions, and timing.",
     tags: ["Under 65", "Pre-Medicare", "ACA", "Individual", "Family", "Individual and Family", "Home", "Florida"]
   },
   {
@@ -46,7 +46,7 @@ const siteSearchIndex = [
   {
     title: "Health Plan Types",
     url: "/plans/",
-    excerpt: "Compare major-medical, short-term, supplemental, dental, vision, life, and Medicare paths and the limitations to verify.",
+    excerpt: "Choose a 2027 starting point for ACA Marketplace, Medicare, coverage loss, or extra coverage, then continue in the Coverage Center.",
     tags: ["Plans", "Comparison", "Coverage", "Under 65", "Medicare"]
   },
   {
@@ -58,9 +58,9 @@ const siteSearchIndex = [
 
   // Medicare guidance
   {
-    title: "Medicare Help in Lakeland and Polk County",
+    title: "Medicare AEP 2027 Review in Lakeland and Polk County",
     url: "/medicare/",
-    excerpt: "Start with Medicare enrollment periods, coverage paths, doctors, prescriptions, annual costs, and verified local Medicare guidance.",
+    excerpt: "Start with 2027 AEP timing, coverage paths, doctors, prescriptions, and a Coverage Center Medicare plan review.",
     tags: ["Medicare", "Medicare Advantage", "Original Medicare", "Medicare Supplement", "Medigap", "Part D", "Lakeland", "Polk County", "2027"]
   },
   {
@@ -82,9 +82,9 @@ const siteSearchIndex = [
     tags: ["Medicare", "Turning 65", "Initial Enrollment", "Part B", "Part D"]
   },
   {
-    title: "Medicare AEP 2026 Polk County Checklist",
+    title: "Medicare AEP 2027 Polk County Checklist",
     url: "/blog/aep-2026-polk-county-checklist.html",
-    excerpt: "A practical Annual Enrollment checklist for doctors, prescriptions, pharmacies, MOOP, and plan changes.",
+    excerpt: "A practical Annual Enrollment checklist for 2027 doctors, prescriptions, pharmacies, MOOP, and plan changes.",
     tags: ["Medicare", "AEP", "Polk County", "Checklist", "Prescriptions"]
   },
   {
@@ -221,9 +221,9 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Open Enrollment"]
   },
   {
-    title: "Lakeland Medicare Advantage Plans for 2026: Doctors, Drugs & Costs",
+    title: "Lakeland Medicare Advantage: 2027 Plan Review",
     url: "/blog/medicare-advantage-lakeland-2026.html",
-    excerpt: "Compare 2026 Lakeland Medicare Advantage plans by premium, MOOP, prescriptions, and Orlando Health or Watson Clinic access before you enroll.",
+    excerpt: "Compare 2027 Lakeland Medicare Advantage plans by network, prescriptions, and out-of-pocket risk before you enroll.",
     tags: ["Medicare", "Lakeland", "Local"]
   },
   {
@@ -293,9 +293,9 @@ const siteSearchIndex = [
     tags: ["Tips", "Insurance Agents", "Humor"]
   },
   {
-    title: "ACA Open Enrollment Preparation Checklist",
+    title: "2027 ACA Open Enrollment: Florida Dates and Checklist",
     url: "/blog/aca-open-enrollment-deadline.html",
-    excerpt: "Prepare household information, projected income, doctors, prescriptions, and plan-comparison criteria before the enrollment window.",
+    excerpt: "Prepare for 2027 ACA Open Enrollment in Florida. Confirm current HealthCare.gov dates, then review income, doctors, and prescriptions.",
     tags: ["ACA", "Open Enrollment", "Subsidies"]
   },
   {
