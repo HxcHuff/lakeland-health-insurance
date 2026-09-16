@@ -26,6 +26,13 @@
         footer_start_plan_review: true
       }
     },
+    '/coverage-center/': {
+      page_key: 'coverage_center',
+      page_role: 'hub',
+      cta_keys: {
+        plan_review_medicare_lane: true
+      }
+    },
     '/blog/aep-2026-polk-county-checklist.html/': {
       page_key: 'aep_2026_polk_county_checklist',
       page_role: 'education',
@@ -257,10 +264,12 @@
       return null;
     }
     if (targetPath !== '/get-help/') return null;
-    if (link.closest && link.closest('.cta-group')) return 'header_talk_to_david';
-    if (link.closest && link.closest('.dropdown-menu')) return 'menu_get_help';
-    if (link.closest && link.closest('footer')) return 'footer_start_plan_review';
-    return null;
+    var implicit = null;
+    if (link.closest && link.closest('.cta-group')) implicit = 'header_talk_to_david';
+    else if (link.closest && link.closest('.dropdown-menu')) implicit = 'menu_get_help';
+    else if (link.closest && link.closest('footer')) implicit = 'footer_start_plan_review';
+    if (!implicit || !hasOwn(registered.cta_keys, implicit)) return null;
+    return implicit;
   }
 
   function safeLinkUrl(link) {

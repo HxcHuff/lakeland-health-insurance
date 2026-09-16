@@ -231,6 +231,28 @@ test('Medicare hub attribution is canonicalized as the hub role', async () => {
   });
 });
 
+test('Coverage Center Medicare lane attribution is canonicalized as the hub role', async () => {
+  const { response } = await invoke(getHelpPayload({
+    source_page_key: 'coverage_center',
+    source_page_role: 'attacker-role',
+    source_cta_key: 'plan_review_medicare_lane'
+  }));
+  const result = JSON.parse(response.body);
+
+  assert.equal(response.statusCode, 200);
+  assert.deepEqual({
+    source_page_key: result.source_page_key,
+    source_page_role: result.source_page_role,
+    source_cta_key: result.source_cta_key,
+    content_cluster: result.content_cluster
+  }, {
+    source_page_key: 'coverage_center',
+    source_page_role: 'hub',
+    source_cta_key: 'plan_review_medicare_lane',
+    content_cluster: 'lakeland_medicare_broker'
+  });
+});
+
 test('direct sitelink forms record the page where consent was granted', async () => {
   const { response, calls } = await invoke(getHelpPayload({
     normalized_intent: 'not-sure',

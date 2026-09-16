@@ -58,6 +58,12 @@ const MEDICARE_SOURCE_REGISTRY = Object.freeze({
       'footer_start_plan_review'
     ])
   }),
+  coverage_center: Object.freeze({
+    page_role: 'hub',
+    cta_keys: new Set([
+      'plan_review_medicare_lane'
+    ])
+  }),
   aep_2026_polk_county_checklist: Object.freeze({
     page_role: 'education',
     cta_keys: new Set([
