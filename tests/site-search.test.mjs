@@ -64,6 +64,14 @@ test('Medicare search leads to the indexable Medicare hub', () => {
   assert.equal(results[0].url, '/medicare/');
 });
 
+test('coverage center search finds the 2027 plan-review hub', () => {
+  const { search } = loadSearch();
+  const results = search.search('coverage center');
+
+  assert.ok(results.length > 0);
+  assert.equal(results[0].url, '/coverage-center/');
+});
+
 test('every visible blog search suggestion returns an actionable result', () => {
   const { search } = loadSearch();
 

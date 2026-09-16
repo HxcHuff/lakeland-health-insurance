@@ -11,6 +11,8 @@ const ROBOTS = readFileSync(join(ROOT, 'robots.txt'), 'utf8');
 const SITEMAP = readFileSync(join(ROOT, 'sitemap.xml'), 'utf8');
 const PLANS = readFileSync(join(ROOT, 'plans/index.html'), 'utf8');
 const QUOTE = readFileSync(join(ROOT, 'quote/index.html'), 'utf8');
+const COVERAGE_CENTER = readFileSync(join(ROOT, 'coverage-center/index.html'), 'utf8');
+const SITE_SEARCH = readFileSync(join(ROOT, 'js/site-search.js'), 'utf8');
 const ACA = readFileSync(join(ROOT, 'aca-health-insurance-lakeland-fl/index.html'), 'utf8');
 const PRIVATE_MEDICAL = readFileSync(join(ROOT, 'private-medical-insurance/index.html'), 'utf8');
 const SITE_TEMPLATE = readFileSync(join(ROOT, 'js/site-template.js'), 'utf8');
@@ -229,6 +231,28 @@ test('quote presents three direct actions without a routing form or plans detour
   assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/quote\/<\/loc>\s*<lastmod>2026-08-16<\/lastmod>/);
 });
 
+test('coverage center is a two-lane 2027 plan-review hub wired into get-help', () => {
+  assert.match(COVERAGE_CENTER, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/coverage-center\/">/);
+  assert.match(COVERAGE_CENTER, /<title>Coverage Center: Medicare &amp; Under-65 Plan Review<\/title>/);
+  assert.match(COVERAGE_CENTER, /\/css\/site-template\.css\?v=20260820-sitelink-leads/);
+  assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20260816-coverage-options/);
+  assert.match(COVERAGE_CENTER, /"@type": "BreadcrumbList"/);
+  assert.match(COVERAGE_CENTER, /Lakeland Health Insurance · Lakeland, FL 33805 · By appointment/);
+  assert.match(COVERAGE_CENTER, /FL License #W371813 \/ NPN 18213932/);
+  assert.match(COVERAGE_CENTER, /not medical advice/);
+  assert.match(COVERAGE_CENTER, /href="\/get-help\/\?intent=medicare">Plan review<\/a>/);
+  assert.match(COVERAGE_CENTER, /href="\/get-help\/\?intent=under-65">Plan review<\/a>/);
+  assert.match(COVERAGE_CENTER, /href="https:\/\/www\.healthsherpa\.com\/\?_agent_id=david-huff-ngdu8q"/);
+  assert.match(COVERAGE_CENTER, /href="\/medicare\/"/);
+  assert.match(COVERAGE_CENTER, /href="\/medicare-broker-lakeland-fl\/"/);
+  assert.match(COVERAGE_CENTER, /href="\/aca-health-insurance-lakeland-fl\/"/);
+  assert.match(COVERAGE_CENTER, /href="\/calendly-book\.html"/);
+  assert.match(HOME, /href="\/coverage-center\/">Coverage Center<\/a>/);
+  assert.match(QUOTE, /href="\/coverage-center\/">Coverage Center<\/a>/);
+  assert.match(SITE_SEARCH, /url: "\/coverage-center\/"/);
+  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/coverage-center\/<\/loc>\s*<lastmod>2026-09-16<\/lastmod>/);
+});
+
 test('ACA pricing CTA reaches the quote actions without legacy router language', () => {
   assert.match(ACA, /href="\/quote\/">Get pricing or start a review<\/a>/);
   assert.doesNotMatch(ACA, /coverage router/i);
@@ -263,7 +287,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 155);
+  assert.equal(templateConsumers.length, 156);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_TEMPLATE_LOADER), true, `${relative(ROOT, file)} uses the current shared-template release`);
