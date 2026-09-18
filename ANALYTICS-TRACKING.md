@@ -26,11 +26,19 @@
 ## Tracking Architecture
 
 ### Tag Implementation
-- Google Tag (`gtag.js`) fires `page_view` directly — **Enhanced Measurement page view toggle is intentionally disabled** to prevent double-counting
-- All other Enhanced Measurement events are active: Scrolls, Outbound Clicks, Site Search, Form Interactions, Video Engagement, File Downloads
+- **On-page `/js/analytics.js` owns GA4 `page_view`.** Deferred `init()` configures `G-W45RMKHXV0` with `send_page_view: false`, then immediately sends `gtag('event', 'page_view', { send_to: 'G-W45RMKHXV0', page_location, page_title })`. That explicit event is the first GA4 hit so Landing page is not `(not set)`.
+- Do not also enable config auto `page_view`; that would double-count with the manual event.
+- Enhanced Measurement page view remains disabled. Other Enhanced Measurement events stay active: Scrolls, Outbound Clicks, Site Search, Form Interactions, Video Engagement, File Downloads.
+- On-page Google consent default (`ad_storage`, `ad_user_data`, `ad_personalization`, `analytics_storage`, functionality, personalization, and security storage `granted`, `wait_for_update: 500`) is set before any `gtag` config, including the eager Ads website-call tag.
+- `medicare_content_view` waits for that same deferred `init()` and runs after `page_view`, not at script evaluate.
+- Google Ads website-call config `AW-300112445` stays `send_page_view: false` and is unchanged.
 - Tag sends to two destinations: GA4 (Main Website) + Google Ads (David)
 
 ### GTM / Tag Notes
+- Container `GTM-W6MZ7XT6` is **not in this repository**. Do not invent GTM tags in site PRs.
+- Google Tag for `G-W45RMKHXV0` (tag_id 23) currently has `send_page_view: true`. The on-page config races it with `false` and historically wins, which is why GTM/Enhanced Measurement were not producing historical `page_view` events (Landing page = `(not set)`).
+- **Manual follow-up after this ships (GTM UI):** disable `send_page_view` on tag_id 23 / Google Tag for `G-W45RMKHXV0` so a later load-order flip cannot double-count with the on-page event.
+- `/js/funnel.js` still pushes a first-party dataLayer `{ event: 'PageView', page_type }` that GTM does not map to GA4 `page_view`. Leave it as a diagnostic; do not add a GTM tag for it.
 - One blog page confirmed **untagged**: `/blog/lost-job-health...` (partial URL from tag coverage scan)
 - Root cause TBD — check GTM trigger conditions or CMS template for that post type
 
@@ -212,21 +220,24 @@ Measurement boundaries are intentionally separate:
 ### Must Fix in Codebase
 1. **Untagged blog page** — `/blog/lost-job-health...` is missing the Google Tag. Check GTM trigger exclusions or CMS template for that post type. Verify the fix with Tag Assistant.
 2. **GTM readback after release** — confirm one accepted server event ID produces one outbound `generate_lead` carrying top-level `content_name=first_party_lead`, `step=submit`, `page_type`, `acceptance_status=forms_accepted`, and `event_id`.
+3. **GTM Google Tag `send_page_view` follow-up** — after on-page `page_view` is in production, disable `send_page_view` on GTM-W6MZ7XT6 Google Tag for `G-W45RMKHXV0` (tag_id 23). Container JSON is not in-repo.
 
 ### Investigate
-3. **`page_view` source** — confirm `page_view` fires from the intended Google tag path and remains singular.
 4. **Custom-event cleanup** — after confirming no bidding dependency, archive/unmark `ads_conversion_Form_1` and the obsolete `ads_conversion_Request_quote_1` rule. Do not map either to `qualify_lead`.
 5. **Outcome infrastructure** — select an authenticated CRM/admin identity and durable outcome ledger before implementing `qualify_lead` or Ads offline qualified-lead uploads.
 
 ### Resolved In This Release Candidate
-6. **Google-hosted lead durability and deduplication** — resolved locally with a minimized atomic Netlify Blobs outbox keyed from Google `lead_id`, immediate first delivery, bounded scheduled retry, changed-replay quarantine, and metadata-only terminal tombstones.
-7. **Downstream scope review** — resolved fail-closed. This workflow calls only the pinned signed Apps Script CRM receiver. It does not call Customer.io, Lob, Mailchimp, email, SMS, or another customer-messaging provider.
+6. **GA4 Landing page `(not set)`** — on-page `init()` now sends a real GA4 `page_view` as the first GA4 hit (`send_page_view: false` on config + immediate `gtag('event', 'page_view')`). `medicare_content_view` is deferred until after that hit. Funnel `{ event: 'PageView' }` remains dataLayer-only.
+7. **Google-hosted lead durability and deduplication** — resolved locally with a minimized atomic Netlify Blobs outbox keyed from Google `lead_id`, immediate first delivery, bounded scheduled retry, changed-replay quarantine, and metadata-only terminal tombstones.
+8. **Downstream scope review** — resolved fail-closed. This workflow calls only the pinned signed Apps Script CRM receiver. It does not call Customer.io, Lob, Mailchimp, email, SMS, or another customer-messaging provider.
 
 ---
 
 ## Funnel Event Map (As Currently Firing)
 
 ```
+GA4 page_view (on-page first hit)
+  ↓
 Registered Medicare content view
   ↓
 Registered Medicare CTA click

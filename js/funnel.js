@@ -818,6 +818,8 @@
   }
 
   function pageView() {
+    /* First-party dataLayer diagnostic only. GTM does not map this custom
+       PageView event to GA4 page_view; /js/analytics.js owns that hit. */
     track('PageView', { page_type: pageType() });
   }
 

@@ -382,7 +382,8 @@ function loadAnalytics({
         return tagName === 'span' ? makeAnalyticsDomElement('span') : { async: false, src: '' };
       },
       head: { appendChild: (node) => { appendedScripts.push(node); } },
-      readyState
+      readyState,
+      title: 'Lakeland Health Insurance'
     },
     window: null,
     Date,
@@ -420,6 +421,16 @@ function loadAnalytics({
       }));
     }
   };
+}
+
+function gtagCommands(dataLayer) {
+  return dataLayer.filter((entry) => entry && typeof entry[0] === 'string');
+}
+
+function gtagCommandIndex(dataLayer, name, id) {
+  return gtagCommands(dataLayer).findIndex((entry) => (
+    entry[0] === name && (id == null || entry[1] === id)
+  ));
 }
 
 function makeAnalyticsLink({ href, medicareCta, ancestors = [] }) {
@@ -633,6 +644,11 @@ test('website-call conversion uses the verified Ads tag while click telemetry re
   );
   assert.match(ANALYTICS_SRC, /pushDataLayerEvent\('phone_call_click', params\);/);
   assert.match(ANALYTICS_SRC, /gtag\('config', 'AW-300112445', \{ send_page_view: false \}\);/);
+  assert.match(
+    ANALYTICS_SRC,
+    /window\.gtag\('event', 'page_view', \{\s*send_to: 'G-W45RMKHXV0',\s*page_location: window\.location\.href,\s*page_title: document\.title\s*\}\);/s
+  );
+  assert.match(ANALYTICS_SRC, /send_page_view: false,\s*debug_mode: IS_ANALYTICS_DEBUG/s);
   assert.doesNotMatch(ANALYTICS_SRC, /enhanced_conversions|user_data|sha256_/i);
 });
 
@@ -725,6 +741,68 @@ test('deferred init reuses the eager AW Google tag request on a production phone
   assert.equal(
     loaded.dataLayer.filter((entry) => entry && entry[0] === 'config' && entry[1] === 'G-W45RMKHXV0').length,
     1
+  );
+});
+
+test('Google consent default is queued before any gtag config, including eager website-call', () => {
+  const phoneLink = makeWebsiteCallLink({ text: 'Call David' });
+  const phonePage = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/about/',
+    phoneLinks: [phoneLink]
+  });
+  const consentIndex = gtagCommandIndex(phonePage.dataLayer, 'consent', 'default');
+  const firstConfigIndex = gtagCommands(phonePage.dataLayer).findIndex((entry) => entry[0] === 'config');
+  assert.ok(consentIndex >= 0, 'consent default is set on the eager Ads path');
+  assert.ok(consentIndex < firstConfigIndex, 'consent default precedes the first gtag config');
+  assert.equal(phonePage.dataLayer[consentIndex][2].analytics_storage, 'granted');
+  assert.equal(phonePage.dataLayer[consentIndex][2].ad_storage, 'granted');
+  assert.equal(phonePage.dataLayer[consentIndex][2].wait_for_update, 500);
+
+  const idleHome = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/',
+    readyState: 'complete'
+  });
+  assert.equal(gtagCommandIndex(idleHome.dataLayer, 'consent', 'default'), -1, 'consent waits for deferred init on pages without phone links');
+  idleHome.runTimeouts();
+  const homeConsent = gtagCommandIndex(idleHome.dataLayer, 'consent', 'default');
+  const homeConfig = gtagCommands(idleHome.dataLayer).findIndex((entry) => entry[0] === 'config');
+  assert.ok(homeConsent >= 0);
+  assert.ok(homeConsent < homeConfig);
+});
+
+test('idle production homepage sends one GA4 page_view as the first GA4 event', () => {
+  const loaded = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/',
+    readyState: 'complete'
+  });
+
+  assert.equal(
+    gtagCommandIndex(loaded.dataLayer, 'event', 'page_view'),
+    -1,
+    'page_view waits for deferred init'
+  );
+
+  loaded.runTimeouts();
+
+  const commands = gtagCommands(loaded.dataLayer);
+  const ga4Config = commands.find((entry) => entry[0] === 'config' && entry[1] === 'G-W45RMKHXV0');
+  assert.ok(ga4Config, 'GA4 config runs during deferred init');
+  assert.equal(ga4Config[2].send_page_view, false);
+
+  const pageViews = commands.filter((entry) => entry[0] === 'event' && entry[1] === 'page_view');
+  assert.equal(pageViews.length, 1, 'exactly one manual page_view, not config auto + manual');
+  assert.equal(pageViews[0][2].send_to, 'G-W45RMKHXV0');
+  assert.equal(pageViews[0][2].page_location, 'https://lakelandhealthinsurance.com/');
+  assert.equal(pageViews[0][2].page_title, 'Lakeland Health Insurance');
+
+  const firstGa4Event = commands.find((entry) => entry[0] === 'event');
+  assert.equal(firstGa4Event[1], 'page_view', 'page_view is the first gtag event');
+  assert.equal(
+    commands.filter((entry) => entry[0] === 'event' && entry[1] === 'medicare_content_view').length,
+    0
   );
 });
 
@@ -992,9 +1070,27 @@ test('Coverage Center Medicare lane carries approved source keys without forcing
   });
 });
 
-test('Medicare content view emits once with only the versioned allowlisted context', () => {
-  const { dataLayer } = loadAnalytics({ pathname: '/best-medicare-broker-lakeland-fl/' });
-  const views = dataLayer.filter((entry) => entry && entry.event === 'MedicareContentView');
+test('Medicare content view emits once after GA4 page_view with only the versioned allowlisted context', () => {
+  const loaded = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/best-medicare-broker-lakeland-fl/',
+    readyState: 'complete'
+  });
+  assert.equal(
+    loaded.dataLayer.filter((entry) => entry && entry.event === 'MedicareContentView').length,
+    0,
+    'MedicareContentView must not fire at script evaluate'
+  );
+
+  loaded.runTimeouts();
+
+  const commands = gtagCommands(loaded.dataLayer);
+  const pageViewIndex = commands.findIndex((entry) => entry[0] === 'event' && entry[1] === 'page_view');
+  const medicareIndex = commands.findIndex((entry) => entry[0] === 'event' && entry[1] === 'medicare_content_view');
+  assert.ok(pageViewIndex >= 0, 'production Medicare pages still send page_view');
+  assert.ok(medicareIndex > pageViewIndex, 'medicare_content_view is not the first GA4 hit');
+
+  const views = loaded.dataLayer.filter((entry) => entry && entry.event === 'MedicareContentView');
 
   assert.equal(views.length, 1);
   assert.deepEqual(Object.keys(views[0]).sort(), [
@@ -1010,7 +1106,7 @@ test('Medicare content view emits once with only the versioned allowlisted conte
   assert.equal(views[0].page_key, 'best_medicare_broker_lakeland_fl');
   assert.equal(views[0].page_role, 'selection');
 
-  const directGA4 = dataLayer.filter((entry) => entry && entry[0] === 'event' && entry[1] === 'medicare_content_view');
+  const directGA4 = loaded.dataLayer.filter((entry) => entry && entry[0] === 'event' && entry[1] === 'medicare_content_view');
   assert.equal(directGA4.length, 1);
   assert.equal(directGA4[0][2].event_id, views[0].event_id);
 });
