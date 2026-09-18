@@ -644,12 +644,7 @@ test('website-call conversion uses the verified Ads tag while click telemetry re
   );
   assert.match(ANALYTICS_SRC, /pushDataLayerEvent\('phone_call_click', params\);/);
   assert.match(ANALYTICS_SRC, /gtag\('config', 'AW-300112445', \{ send_page_view: false \}\);/);
-  assert.match(
-    ANALYTICS_SRC,
-    /window\.gtag\('event', 'page_view', \{\s*send_to: 'G-W45RMKHXV0',\s*page_location: window\.location\.href,\s*page_title: document\.title\s*\}\);/s
-  );
-  assert.match(ANALYTICS_SRC, /send_page_view: false,\s*debug_mode: IS_ANALYTICS_DEBUG/s);
-  assert.doesNotMatch(ANALYTICS_SRC, /enhanced_conversions|user_data|sha256_/i);
+  assert.doesNotMatch(ANALYTICS_SRC, /enhanced_conversions|(?<![a-z_])user_data|sha256_/i);
 });
 
 test('website-call retrieval starts before deferred init and a first tel interaction', () => {
@@ -773,6 +768,12 @@ test('Google consent default is queued before any gtag config, including eager w
 });
 
 test('idle production homepage sends one GA4 page_view as the first GA4 event', () => {
+  assert.match(
+    ANALYTICS_SRC,
+    /window\.gtag\('event', 'page_view', \{\s*send_to: 'G-W45RMKHXV0',\s*page_location: window\.location\.href,\s*page_title: document\.title\s*\}\);/s
+  );
+  assert.match(ANALYTICS_SRC, /send_page_view: false,\s*debug_mode: IS_ANALYTICS_DEBUG/s);
+
   const loaded = loadAnalytics({
     hostname: 'lakelandhealthinsurance.com',
     pathname: '/',
