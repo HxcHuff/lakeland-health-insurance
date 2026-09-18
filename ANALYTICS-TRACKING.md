@@ -31,7 +31,7 @@
 - Enhanced Measurement page view remains disabled. Other Enhanced Measurement events stay active: Scrolls, Outbound Clicks, Site Search, Form Interactions, Video Engagement, File Downloads.
 - On-page Google consent default (`ad_storage`, `ad_user_data`, `ad_personalization`, `analytics_storage`, functionality, personalization, and security storage `granted`, `wait_for_update: 500`) is set before any `gtag` config, including the eager Ads website-call tag.
 - `medicare_content_view` waits for that same deferred `init()` and runs after `page_view`, not at script evaluate.
-- Google Ads website-call config `AW-300112445` stays `send_page_view: false` and is unchanged.
+- HTML loaders request `/js/analytics.js?v=20260918a` so the 7-day `/js/*` cache picks up this `page_view` fix immediately.
 - Tag sends to two destinations: GA4 (Main Website) + Google Ads (David)
 
 ### GTM / Tag Notes
