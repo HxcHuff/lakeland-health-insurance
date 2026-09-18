@@ -63,8 +63,9 @@ Unknown values fall back to `not-sure`. Query-string values are never injected i
 
 | Event | Trigger | Required Properties | Prohibited Properties | Destinations | Deduplication |
 |---|---|---|---|---|---|
-| `PageView` | Funnel bus page load | `page_type` | PII, provider names, prescription names | dataLayer | One per page script load |
-| `MedicareContentView` / `medicare_content_view` | Registered selection or transaction page loads | `schema_version`, `event_id`, `page_key`, `page_role`, `content_cluster`, `intent` | URL/query/referrer, PII, form answers | dataLayer and direct GA4 diagnostic event | One per analytics script load |
+| `PageView` | Funnel bus page load | `page_type` | PII, provider names, prescription names | dataLayer only; GTM does not map this to GA4 `page_view` | One per page script load |
+| `page_view` | Deferred `/js/analytics.js` `init()` after GA4 config | `send_to=G-W45RMKHXV0`, `page_location`, `page_title` | PII | GA4 (on-page; config `send_page_view` stays false) | One per init; must be the first GA4 hit |
+| `MedicareContentView` / `medicare_content_view` | Registered Medicare page after the on-page GA4 `page_view` | `schema_version`, `event_id`, `page_key`, `page_role`, `content_cluster`, `intent` | URL/query/referrer, PII, form answers | dataLayer and direct GA4 diagnostic event | One per deferred analytics init |
 | `MedicareCtaClick` / `medicare_cta_click` | Registered same-site Medicare CTA click | Content-view fields plus registered `cta_key` | Link text, arbitrary destination, PII, form answers | dataLayer and direct GA4 diagnostic event | One event per click with a fresh event ID |
 | `ViewContent` | Future content milestones | `content_name`, `page_type` | PII, sensitive answers | dataLayer | Stable event id |
 | `StartLead` | First meaningful form engagement | `content_name`, `step` | PII, provider names, prescription names | dataLayer | Per-form in-memory guard |

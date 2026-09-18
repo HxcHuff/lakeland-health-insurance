@@ -7,6 +7,7 @@
   var funnelRequested=false;
   var websiteCallTrackingInitialized=false;
   var googleTagScriptRequested=false;
+  var googleConsentDefaultSet=false;
   var cachedGoogleForwardingNumber=null;
   var lastPhoneCanonicalAt = 0;
   var BUSINESS_PHONE_E164 = '+18636403102';
@@ -352,10 +353,10 @@
     approvedCampaignTerm: approvedCampaignTerm
   };
 
+  /* Medicare content view waits for deferred init so it cannot become the
+     first GA4 hit ahead of page_view. Still request the funnel bus immediately
+     on registered Medicare pages so a fast CTA click cannot outrun wiring. */
   var initialMedicareContext = medicarePageContext(window.location.pathname);
-  if (initialMedicareContext) {
-    emitMedicareEvent('MedicareContentView', initialMedicareContext);
-  }
 
   /* Target pages and every parsed tracked form need the first-party event bus
      immediately so a fast first interaction cannot outrun delivery wiring.
@@ -481,9 +482,30 @@
     return 'a[href="' + BUSINESS_PHONE_HREF + '"], a[data-lhi-business-phone="' + BUSINESS_PHONE_E164 + '"]';
   }
 
+  function ensureGoogleConsentDefault() {
+    if (googleConsentDefaultSet) return;
+    googleConsentDefaultSet = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    /* Match the live GTM consent-initialization defaults so the first hit is
+       not held behind an unset consent state. Default must precede every
+       gtag config, including the eager Ads website-call tag. */
+    window.gtag('consent', 'default', {
+      ad_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted',
+      analytics_storage: 'granted',
+      functionality_storage: 'granted',
+      personalization_storage: 'granted',
+      security_storage: 'granted',
+      wait_for_update: 500
+    });
+  }
+
   function ensureGoogleTagScript(destinationId) {
     window.dataLayer = window.dataLayer || [];
     window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    ensureGoogleConsentDefault();
     if (googleTagScriptRequested) return false;
 
     googleTagScriptRequested = true;
@@ -493,6 +515,20 @@
     document.head.appendChild(googleTag);
     window.gtag('js', new Date());
     return true;
+  }
+
+  function sendGa4PageView() {
+    window.gtag('event', 'page_view', {
+      send_to: 'G-W45RMKHXV0',
+      page_location: window.location.href,
+      page_title: document.title
+    });
+  }
+
+  function emitInitialMedicareContentView() {
+    var context = medicarePageContext(window.location.pathname);
+    if (!context) return;
+    emitMedicareEvent('MedicareContentView', context);
   }
 
   function initializeWebsiteCallTracking(matchingLinks) {
@@ -589,26 +625,32 @@
 
     loadFunnelBus();
 
-    if (!IS_PROD) {
-      /* Skip Google tags entirely on non-prod hosts. The first-party funnel
-         bus remains locally testable. */
-      return;
+    if (IS_PROD) {
+      /* Consent default must precede GTM and every gtag config so the first
+         GA4 hit can be page_view rather than a later custom event. */
+      ensureGoogleConsentDefault();
+
+      /* Google Tag Manager */
+      window.dataLayer=window.dataLayer||[];
+      window.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+      var g=document.createElement('script');
+      g.async=true;
+      g.src='https://www.googletagmanager.com/gtm.js?id=GTM-W6MZ7XT6';
+      document.head.appendChild(g);
+      /* No-phone pages request gtag.js here; website-call pages reuse the eager
+         AW request. In both paths the shared loader restores the queue first. */
+      ensureGoogleTagScript('G-W45RMKHXV0');
+      window.gtag('config', 'G-W45RMKHXV0', {
+        send_page_view: false,
+        debug_mode: IS_ANALYTICS_DEBUG
+      });
+      /* On-page owns the first GA4 hit. Keep config auto page_view off so this
+         manual event is not doubled with the config command. send_to pins it
+         to GA4, not the Ads website-call tag. */
+      sendGa4PageView();
     }
 
-    /* Google Tag Manager */
-    window.dataLayer=window.dataLayer||[];
-    window.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-    var g=document.createElement('script');
-    g.async=true;
-    g.src='https://www.googletagmanager.com/gtm.js?id=GTM-W6MZ7XT6';
-    document.head.appendChild(g);
-    /* No-phone pages request gtag.js here; website-call pages reuse the eager
-       AW request. In both paths the shared loader restores the queue first. */
-    ensureGoogleTagScript('G-W45RMKHXV0');
-    window.gtag('config', 'G-W45RMKHXV0', {
-      send_page_view: false,
-      debug_mode: IS_ANALYTICS_DEBUG
-    });
+    emitInitialMedicareContentView();
   }
   /* Defer general GTM/GA4 initialization until after LCP/FCP so it does not
      fight with the hero render. Website-call replacement already started.

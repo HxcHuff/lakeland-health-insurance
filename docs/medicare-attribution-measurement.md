@@ -39,7 +39,7 @@ Primary Get Help links carry only `intent=medicare`, `source_page_key`, and `sou
 
 | Stage | dataLayer event | GA4 event | Meaning | Not proof of |
 |---|---|---|---|---|
-| Content | `MedicareContentView` | `medicare_content_view` | A registered selection or transaction page loaded | Engagement, contact, or lead acceptance |
+| Content | `MedicareContentView` | `medicare_content_view` | A registered selection or transaction page loaded after the on-page GA4 `page_view` | Engagement, contact, or lead acceptance |
 | CTA | `MedicareCtaClick` | `medicare_cta_click` | A registered same-site CTA was clicked | Intake start or completed navigation |
 | Intake | `StartLead` and `MedicareIntakeStart` | `medicare_intake_start` | First meaningful interaction with the Medicare intake | Valid submission or acceptance |
 | Forms accepted | `Lead` | GTM emits the single `generate_lead` | `/api/lead` returned `ok: true`, `forms: true`, and an approved server event ID after Netlify Forms accepted the forward | Inbox, broker, or CRM delivery; qualified lead; completed review |
