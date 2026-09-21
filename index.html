@@ -516,6 +516,10 @@
         }
       }
 
+      .home-sticky-cta {
+        display: none;
+      }
+
       @media (max-width: 768px) {
         .home-hero {
           padding: 96px 0 36px;
@@ -534,6 +538,39 @@
 
         .home-hero .hero-cta {
           width: 100%;
+        }
+
+        .home-page {
+          padding-bottom: 88px;
+        }
+
+        .home-sticky-cta {
+          align-items: center;
+          background: rgba(255, 255, 255, 0.96);
+          border-top: 1px solid var(--gray-200);
+          bottom: 0;
+          box-shadow: 0 -8px 24px rgba(15, 26, 46, 0.12);
+          display: flex;
+          gap: 0.75rem;
+          justify-content: center;
+          left: 0;
+          padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+          position: fixed;
+          right: 0;
+          z-index: 1200;
+        }
+
+        .home-sticky-cta .hero-cta {
+          flex: 1 1 auto;
+          max-width: 420px;
+          min-height: 48px;
+          width: 100%;
+        }
+
+        .home-page .click-to-call,
+        .home-page .messenger-button,
+        .home-page .floating-actions {
+          display: none !important;
         }
 
         .hero-zip-form {
@@ -592,7 +629,7 @@
 </head>
 <body class="home-page">
     <div class="compliance-banner">
-        <strong>Insurance questions?</strong> Call <a href="tel:+18636403102" style="color: var(--gold); font-weight: 700;">(863) 640-3102</a> or <a href="/get-help/" style="color: var(--gold); font-weight: 700;">start a plan review</a>. FL Broker License #W371813
+        <strong>Insurance questions?</strong> Call <a href="tel:+18636403102" style="color: var(--gold); font-weight: 700;">(863) 640-3102</a> or <a href="/get-help/" style="color: var(--gold); font-weight: 700;">Request a plan review</a>. FL Broker License #W371813
     </div>
 
     <header>
@@ -634,7 +671,7 @@
                 <li><a href="/about/">About</a></li>
             </ul>
             <div class="cta-group">
-                <a href="/get-help/" class="cta-button">Talk to David</a>
+                <a href="/get-help/" class="cta-button">Request a plan review</a>
             </div>
         </nav>
     </header>
@@ -645,23 +682,17 @@
             <div class="hero-content">
                 <div class="hero-kicker">HEALTH COVERAGE FOR LIFE&rsquo;S BIG CHANGES</div>
                 <h1>Health coverage for job changes, self-employment, and early retirement.</h1>
-                <p class="hero-lede">A job change, self-employment, family premium increase, or early-retirement plan can reshape your coverage. Compare ACA Marketplace and other appropriate options around your doctors, prescriptions, household income, total yearly cost, and enrollment timing.</p>
+                <p class="hero-lede">Compare ACA Marketplace and other options around your doctors, prescriptions, household income, and enrollment timing in Lakeland and Polk County.</p>
                 <ul class="hero-benefits" aria-label="Plan review benefits">
                     <li>Protect access to important doctors and prescriptions</li>
                     <li>Compare total yearly cost—not premium alone</li>
                     <li>Coordinate job, household, and retirement timing</li>
                 </ul>
-                <form class="hero-zip-form" action="/get-help/" method="GET" aria-label="Start a health coverage review">
-                    <input type="hidden" name="intent" value="not-sure">
-                    <label for="homeZipCode">Start with your ZIP code</label>
-                    <div class="hero-zip-controls">
-                        <input id="homeZipCode" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="ZIP code" aria-describedby="homeZipNote" required>
-                        <button class="hero-cta" type="submit">Start My Plan Review</button>
-                    </div>
-                    <p class="hero-zip-note" id="homeZipNote">ZIP only starts the form. You will choose what you need help with next.</p>
-                </form>
+                <div class="hero-cta-group" aria-label="Start a 2027 coverage review">
+                    <a class="hero-cta" href="/coverage-center/">Review my 2027 options</a>
+                    <a class="hero-cta secondary" href="tel:+18636403102">Call (863) 640-3102</a>
+                </div>
                 <p class="hero-trust-text">Licensed Florida broker #W371813 &bull; Florida-focused guidance &bull; No separate broker fee</p>
-                <p class="hero-trust-text">Preparing for 2027? Open the <a href="/coverage-center/">Coverage Center</a> for a Medicare or individual and family plan review. A review is not enrollment.</p>
             </div>
             <figure class="hero-portrait-wrap">
                 <div class="hero-portrait-frame">
@@ -693,7 +724,7 @@
             <div>
                 <p class="section-label">The years before Medicare</p>
                 <h2 id="homepage-under65-title">Between employer coverage and Medicare, the details matter.</h2>
-                <p>Coverage decisions often begin with a job, household, income, or retirement change. Review the exact doctors, facilities, prescriptions, networks, yearly cost, and enrollment window before choosing a plan.</p>
+                <p>A job, household, income, or retirement change can reshape coverage. Review doctors, prescriptions, yearly cost, and the enrollment window before choosing a plan.</p>
                 <div class="under65-scenario-row" aria-label="Common individual and family coverage scenarios">
                     <a href="/aca-health-insurance-lakeland-fl/">ACA Marketplace</a>
                     <a href="/self-employed-health-insurance/">Self-employed</a>
@@ -702,8 +733,8 @@
                     <a href="/turning-26/">Turning 26</a>
                 </div>
                 <div class="hero-cta-group" style="justify-content:flex-start; margin-top:1.5rem;">
-                    <a href="/get-help/?intent=individual-family" class="cta-button">Compare My Coverage Options</a>
-                    <a href="/aca-health-insurance-lakeland-fl/" class="cta-button secondary">Explore the ACA Guide</a>
+                    <a href="/get-help/?intent=under-65" class="cta-button">Request a plan review</a>
+                    <a href="tel:+18636403102" class="cta-button secondary">Call (863) 640-3102</a>
                 </div>
             </div>
             <div class="under65-check-card">
@@ -722,7 +753,7 @@
         <div class="container">
             <p class="section-label" style="text-align:center;">Additional Services</p>
             <h2 id="start-paths-title">Medicare and other coverage options remain available.</h2>
-            <p class="subtitle">Use the Medicare section if you are approaching eligibility or already enrolled. Short-term, supplemental, dental, vision, and life options can also be reviewed when they fit the situation.</p>
+            <p class="subtitle">Use Medicare if you are approaching eligibility or already enrolled. Short-term, supplemental, dental, vision, and life options can be reviewed when they fit.</p>
             <div class="path-grid">
                 <a class="path-card" href="/medicare/">
                     <span class="path-label">Medicare</span>
@@ -759,10 +790,9 @@
     <section id="key-takeaways" style="padding: 40px 0 20px; background: var(--gray-50); border-bottom: 1px solid var(--gray-200);">
         <div class="container" style="max-width: 800px;">
             <h2 style="font-family:'Instrument Serif',serif; font-size: 1.6rem; font-weight: 400; color: var(--navy); margin-bottom: 16px; text-align: center;">What Lakeland Health Insurance Helps With</h2>
-            <p style="color: var(--gray-600); font-size: 1rem; line-height: 1.7; margin-bottom: 12px;">Lakeland Health Insurance is led by David Huff, a licensed Florida broker (FL #W371813) helping individuals, families, self-employed workers, and Medicare beneficiaries compare coverage from multiple carriers. The goal is not to sell every plan type. It is to narrow the choices to the ones that fit your doctors, prescriptions, budget, and enrollment window.</p>
-            <p style="color: var(--gray-600); font-size: 1rem; line-height: 1.7; margin-bottom: 12px;">For ACA shoppers, that means checking Marketplace subsidy eligibility and real network fit. For Medicare shoppers, it means comparing Medicare Advantage, Medicare Supplement, and Part D around the doctors and medications you actually use. For supplemental coverage, it means explaining benefits, limits, and underwriting before you apply.</p>
-            <p style="color: var(--gray-600); font-size: 1rem; line-height: 1.7; margin-bottom: 12px;">Start with the <a href="/coverage-center/">Coverage Center</a> for 2027 Medicare and individual and family plan review. Specific Lakeland and Polk County questions are collected on the <a href="/local-health-insurance-answers/">local health insurance answers</a> hub. Compare ACA, direct, short-term, and supplemental paths on the <a href="/private-medical-insurance/">private medical insurance</a> page. Temporary coverage limits are explained on the <a href="/short-term-medical/">short-term medical guide</a>. Dental, vision, life, and other add-ons are reviewed on the <a href="/supplemental-insurance/">supplemental insurance page</a>.</p>
-            <p style="color: var(--gray-600); font-size: 0.9rem; line-height: 1.6; margin-bottom: 0;"><strong>Service area:</strong> Local assistance in Lakeland and Polk County, with remote assistance available across Florida. City pages are listed in <a href="#service-areas">Service Areas</a>. Product and plan availability varies by ZIP code, county, eligibility, and plan year.</p>
+            <p style="color: var(--gray-600); font-size: 1rem; line-height: 1.7; margin-bottom: 12px;">Lakeland Health Insurance is led by David Huff, a licensed Florida broker (FL #W371813) helping Lakeland and Polk County residents compare 2027 ACA and Medicare options around doctors, prescriptions, household income, and enrollment timing. There is no separate broker fee. A review is not enrollment.</p>
+            <p style="color: var(--gray-600); font-size: 1rem; line-height: 1.7; margin-bottom: 12px;">Start in the <a href="/coverage-center/">Coverage Center</a>. Local questions live on the <a href="/local-health-insurance-answers/">local answers hub</a>. Compare ACA, short-term, and supplemental paths on the <a href="/private-medical-insurance/">private medical</a>, <a href="/short-term-medical/">short-term</a>, and <a href="/supplemental-insurance/">supplemental</a> pages.</p>
+            <p style="color: var(--gray-600); font-size: 0.9rem; line-height: 1.6; margin-bottom: 0;"><strong>Service area:</strong> Local assistance in Lakeland and Polk County, with remote assistance across Florida. City pages are listed in <a href="#service-areas">Service Areas</a>. Product and plan availability varies by ZIP code, county, eligibility, and plan year.</p>
         </div>
     </section>
 
@@ -814,7 +844,7 @@
         <div class="container">
             <p class="section-label" style="text-align:center;">Coverage Options</p>
             <h2>Plan Types We Can Review Together</h2>
-            <p class="subtitle">Compare the main options here, then use the help form to share the details that affect the review: doctors, medications, income, household size, and timing.</p>
+            <p class="subtitle">Compare the main options, then share doctors, medications, income, household size, and timing on the help form.</p>
             <p class="subtitle" style="margin-top:8px; margin-bottom:8px;">Our services include:</p>
             <ul class="subtitle" style="max-width:900px; margin:0 auto 16px; text-align:left; list-style-position:outside; padding-left:22px;">
                 <li><a href="/aca-health-insurance-lakeland-fl/">ACA Marketplace Health Insurance Plans</a> for individuals and families</li>
@@ -828,7 +858,8 @@
             </ul>
 
             <div class="plans-cta">
-                <a href="/get-help/" class="cta-button">Start My Review</a>
+                <a href="/get-help/" class="cta-button">Request a plan review</a>
+                <a href="tel:+18636403102" class="cta-button secondary" style="margin-left:0.75rem;">Call (863) 640-3102</a>
             </div>
         </div>
     </section>
@@ -837,23 +868,7 @@
         <div class="container">
             <p class="section-label" style="text-align:center;">Resources</p>
             <h2 style="text-align:center; font-family:'Instrument Serif',serif; font-weight:400; color:var(--navy); margin-bottom:8px;">Want more in-depth articles?</h2>
-            <p style="text-align:center; color:var(--gray-500); max-width:800px; margin:0 auto 16px;">All articles and guides live on the dedicated Blog page. Visit the blog for full posts, guides, and detailed insurance advice.</p>
-            <p style="text-align:center; color:var(--gray-500); max-width:800px; margin:0 auto 16px;">
-                Featured tools:
-                <a href="/aca-health-insurance-lakeland-fl/">ACA intake page</a>
-                and
-                <a href="/life-insurance-dime-method/">DIME life insurance calculator</a>.
-            </p>
-            <p style="text-align:center; color:var(--gray-500); max-width:800px; margin:0 auto 16px;">
-                Local Medicare resources:
-                <a href="/medicare/">compare Medicare plans in Polk County</a>,
-                <a href="/medicare/east-polk/">East Polk Medicare help</a>,
-                <a href="/local-health-insurance-answers/medicare-plan-help-lakeland/">Medicare plan help in Lakeland</a>,
-                <a href="/moving-florida-medicare/">moving to or from Florida with Medicare</a>,
-                <a href="/blog/medicare-advantage-lakeland-2026.html">2026 Lakeland Medicare Advantage plans</a>
-                and
-                <a href="/blog/orlando-health-watson-clinic-insurance-2026.html">review Orlando Health and Watson Clinic insurance networks</a>.
-            </p>
+            <p style="text-align:center; color:var(--gray-500); max-width:800px; margin:0 auto 16px;">Guides and tools live on the Blog and Learning Center. Start with the <a href="/aca-health-insurance-lakeland-fl/">ACA intake page</a>, <a href="/medicare/">Polk County Medicare help</a>, or the <a href="/blog/medicare-advantage-lakeland-2026.html">Lakeland Medicare Advantage notes</a>.</p>
             <div style="text-align:center; margin-top:12px;">
                 <a href="/blog/" class="cta-button" style="display:inline-block;">Visit Our Blog</a>
             </div>
@@ -886,8 +901,24 @@
 
     <section class="testimonials" id="reviews">
         <div class="container">
-            <p class="section-label" style="text-align:center;">Independent Profiles</p>
-            <h2>Review Current Third-Party Feedback</h2>
+            <p class="section-label" style="text-align:center;">Client comments</p>
+            <h2>What local clients say</h2>
+            <p class="section-subtitle">Placeholder comments pending client approval. First name and town only. These are not published reviews.</p>
+            <div class="testimonial-grid">
+                <blockquote class="testimonial-card">
+                    <p class="review-text">[CLIENT QUOTE 1]</p>
+                    <p class="reviewer">&mdash; [CLIENT NAME 1], [TOWN 1]</p>
+                </blockquote>
+                <blockquote class="testimonial-card">
+                    <p class="review-text">[CLIENT QUOTE 2]</p>
+                    <p class="reviewer">&mdash; [CLIENT NAME 2], [TOWN 2]</p>
+                </blockquote>
+                <blockquote class="testimonial-card">
+                    <p class="review-text">[CLIENT QUOTE 3]</p>
+                    <p class="reviewer">&mdash; [CLIENT NAME 3], [TOWN 3]</p>
+                </blockquote>
+            </div>
+            <p class="section-label" style="text-align:center; margin-top:2.5rem;">Independent Profiles</p>
             <p class="section-subtitle">Ratings and review totals change outside this site. Use the source profiles for current feedback.</p>
             <div class="google-link">
                 <a href="https://www.google.com/search?q=David+Huff+HealthMarkets+Lakeland+Florida+reviews" target="_blank" rel="noopener noreferrer">View current Google results &rarr;</a>
@@ -946,10 +977,11 @@
             <div class="form-container">
                 <div id="contact-form">
                     <p class="section-label">Get Started</p>
-                    <h2>Need Plan-Specific Help?</h2>
+                    <h2>Need a plan-specific review?</h2>
                     <p class="subtitle">Use the structured help form so doctors, prescriptions, plan timing, and follow-up stay in one place.</p>
-                    <div class="wizard-nav" style="justify-content: center; margin-top: 1.5rem;">
-                        <a class="btn btn-primary" href="/get-help/">Get Help</a>
+                    <div class="wizard-nav" style="justify-content: center; margin-top: 1.5rem; gap: 0.75rem;">
+                        <a class="btn btn-primary" href="/get-help/">Request a plan review</a>
+                        <a class="btn btn-primary" href="tel:+18636403102" style="background:transparent; color:var(--navy); border:2px solid var(--navy); box-shadow:none;">Call (863) 640-3102</a>
                     </div>
                 </div>
             </div>
@@ -1091,7 +1123,7 @@
                         <li><a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a></li>
                         <li><a href="/blog/">Blog</a></li>
                         <li><a href="/our-approach.html">Our Approach</a></li>
-                        <li><a href="/get-help/">Start Plan Review</a></li>
+                        <li><a href="/get-help/">Request a plan review</a></li>
                         <li><a href="/privacy-policy.html">Privacy Policy</a></li>
                     </ul>
                 </div>
@@ -1107,6 +1139,10 @@
             </div>
         </div>
     </footer>
+
+    <div class="home-sticky-cta" aria-label="Review 2027 coverage options">
+        <a class="hero-cta" href="/coverage-center/">Review my 2027 options</a>
+    </div>
 
     <!-- Floating Action Buttons -->
     <a href="https://m.me/2330958066941437" class="messenger-button" target="_blank" rel="noopener noreferrer" onclick="trackMessengerClick()">

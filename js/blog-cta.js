@@ -13,7 +13,7 @@
         '<span class="article-cta-text">Need help comparing plan options?</span>' +
         '<div class="article-cta-buttons">' +
             '<a href="tel:+18636403102" class="article-cta-call">Call (863) 640-3102</a>' +
-            '<a href="/get-help/" class="article-cta-review">Start Plan Review</a>' +
+            '<a href="/get-help/" class="article-cta-review">Request a plan review</a>' +
         '</div>' +
     '</div>';
 
