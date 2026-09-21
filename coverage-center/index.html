@@ -63,6 +63,11 @@
     .cc-faq summary { color: #1b2a4a; cursor: pointer; font-size: 1.02rem; font-weight: 700; }
     .cc-faq p { color: #5f6b7a; margin: 10px 0 0; }
     .cc-nap { color: #475569; font-size: 0.95rem; }
+    .cc-testimonials { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 8px; }
+    .cc-testimonial { background: #fff; border: 1px solid #d8dde8; border-radius: 8px; padding: 20px; }
+    .cc-testimonial p { color: #5f6b7a; font-size: 0.95rem; font-style: italic; margin: 0 0 12px; }
+    .cc-testimonial cite { color: #1b2a4a; font-size: 0.9rem; font-style: normal; font-weight: 700; }
+    @media (max-width: 860px) { .cc-testimonials { grid-template-columns: 1fr; } }
     @media (max-width: 860px) {
       .cc-lane-grid, .cc-steps { grid-template-columns: 1fr; }
       .cc-lane-card .btn, .cc-hero-actions .btn { align-self: stretch; width: 100%; }
@@ -177,7 +182,7 @@
       <li><a href="/about/">About</a></li>
     </ul>
     <div class="cta-group">
-      <a href="/get-help/" class="cta-button">Talk to David</a>
+      <a href="/get-help/" class="cta-button">Request a plan review</a>
     </div>
   </nav>
 </header>
@@ -194,7 +199,7 @@
         <h1 id="coverage-center-title">Review 2027 Medicare and under-65 options before you enroll.</h1>
         <p class="lead">This Coverage Center is a plan-review hub, not a hard enroll wall. Choose the Medicare or under-65 lane, then ask David Huff to review the details that change the outcome: timing, doctors, prescriptions, and current coverage.</p>
         <div class="cc-hero-actions">
-          <a class="btn primary" href="/get-help/">Plan review</a>
+          <a class="btn primary" href="/get-help/">Request a plan review</a>
           <a class="btn secondary" href="tel:+18636403102">Call (863) 640-3102</a>
         </div>
         <p class="cc-hero-note">Prefer a scheduled conversation? <a href="/calendly-book.html" data-funnel-booking>Book a call</a>. A review request is not enrollment, a plan recommendation, or proof of coverage.</p>
@@ -225,7 +230,7 @@
               <li><a href="/blog/medicare-advantage-vs-supplement.html">Medicare Advantage vs Supplement</a></li>
               <li><a href="/blog/medigap-plan-g-vs-plan-n.html">Medigap Plan G vs Plan N</a></li>
             </ul>
-            <a class="btn primary" href="/get-help/?intent=medicare&amp;source_page_key=coverage_center&amp;source_cta_key=plan_review_medicare_lane" data-medicare-cta="plan_review_medicare_lane">Plan review</a>
+            <a class="btn primary" href="/get-help/?intent=medicare&amp;source_page_key=coverage_center&amp;source_cta_key=plan_review_medicare_lane" data-medicare-cta="plan_review_medicare_lane">Request a plan review</a>
           </article>
 
           <article class="answer-card cc-lane-card" id="under-65">
@@ -243,7 +248,7 @@
               <li><a href="/losing-coverage/">Losing coverage</a></li>
               <li><a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer" data-funnel-external-quote data-analytics-label="coverage_center_aca_self_service">Compare ACA Marketplace plans online</a></li>
             </ul>
-            <a class="btn primary" href="/get-help/?intent=under-65">Plan review</a>
+            <a class="btn primary" href="/get-help/?intent=under-65">Request a plan review</a>
           </article>
         </div>
       </div>
@@ -272,6 +277,30 @@
             <h3>Review before any enrollment</h3>
             <p>A review can cover doctors, prescriptions, deadlines, and current coverage. It is not an application and does not change your plan.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band" id="client-comments" aria-labelledby="comments-title" style="padding-top:0;">
+      <div class="answer-wrap stack">
+        <div>
+          <p class="eyebrow">Client comments</p>
+          <h2 id="comments-title">What local clients say</h2>
+          <p>Placeholder comments pending client approval. First name and town only. These are not published reviews.</p>
+        </div>
+        <div class="cc-testimonials">
+          <blockquote class="cc-testimonial">
+            <p>[CLIENT QUOTE 1]</p>
+            <cite>&mdash; [CLIENT NAME 1], [TOWN 1]</cite>
+          </blockquote>
+          <blockquote class="cc-testimonial">
+            <p>[CLIENT QUOTE 2]</p>
+            <cite>&mdash; [CLIENT NAME 2], [TOWN 2]</cite>
+          </blockquote>
+          <blockquote class="cc-testimonial">
+            <p>[CLIENT QUOTE 3]</p>
+            <cite>&mdash; [CLIENT NAME 3], [TOWN 3]</cite>
+          </blockquote>
         </div>
       </div>
     </section>
@@ -352,7 +381,7 @@
           <li><a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a></li>
           <li><a href="/blog/">Blog</a></li>
           <li><a href="/our-approach.html">Our Approach</a></li>
-          <li><a href="/get-help/">Start Plan Review</a></li>
+          <li><a href="/get-help/">Request a plan review</a></li>
           <li><a href="/privacy-policy.html">Privacy Policy</a></li>
         </ul>
       </div>

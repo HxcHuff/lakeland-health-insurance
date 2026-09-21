@@ -2169,10 +2169,10 @@ test('shared attribution hydrates hero ZIP and lead forms with a bounded multi-w
   assert.equal(sandbox.LHI._t.approvedCampaignTerm('863-640-3102'), null);
 });
 
-test('homepage ZIP entry starts the generic get-help flow and prefills the canonical ZIP field', () => {
-  assert.match(HOME_HTML, /<form class="hero-zip-form" action="\/get-help\/" method="GET"/);
-  assert.match(HOME_HTML, /name="intent" value="not-sure"/);
-  assert.match(HOME_HTML, /name="zip_code"[^>]*pattern="\[0-9\]\{5\}"[^>]*required/);
+test('homepage hero uses the Coverage Center primary CTA and get-help still accepts ZIP query values', () => {
+  assert.match(HOME_HTML, /href="\/coverage-center\/">Review my 2027 options<\/a>/);
+  assert.match(HOME_HTML, /href="tel:\+18636403102">Call \(863\) 640-3102<\/a>/);
+  assert.match(HOME_HTML, /class="home-sticky-cta"/);
   assert.match(GET_HELP_SRC, /setValue\('zipCode', qsValue\(qs, 'zip_code'\)\);/);
 });
 

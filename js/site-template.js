@@ -52,7 +52,7 @@
           ${navLinks.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}
         </ul>
         <div class="cta-group">
-          <a href="/get-help/" class="cta-button">Talk to David</a>
+          <a href="/get-help/" class="cta-button">Request a plan review</a>
         </div>
       </nav>`;
     return header;
@@ -104,7 +104,7 @@
               <li><a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a></li>
               <li><a href="/blog/">Blog</a></li>
               <li><a href="/our-approach.html">Our Approach</a></li>
-              <li><a href="/get-help/">Start Plan Review</a></li>
+              <li><a href="/get-help/">Request a plan review</a></li>
               <li><a href="/privacy-policy.html">Privacy Policy</a></li>
             </ul>
           </div>
