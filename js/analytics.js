@@ -110,6 +110,18 @@
         footer_start_plan_review: true
       }
     },
+    '/working-past-65-medicare-lakeland-fl/': {
+      page_key: 'working_past_65_medicare_lakeland_fl',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
     '/best-medicare-broker-lakeland-fl/': {
       page_key: 'best_medicare_broker_lakeland_fl',
       page_role: 'selection',
