@@ -122,9 +122,10 @@ The complete registry, privacy contract, acceptance semantics, and scorecard sch
 
 | Page | `page_key` | `page_role` | `content_cluster` |
 |---|---|---|---|
-| `/best-medicare-broker-lakeland-fl/` | `best_medicare_broker_lakeland_fl` | `selection` | `lakeland_medicare_broker` |
 | `/medicare-broker-lakeland-fl/` | `medicare_broker_lakeland_fl` | `transaction` | `lakeland_medicare_broker` |
 | `/get-help/?intent=medicare...` | `get_help` | `intake` | `lakeland_medicare_broker` |
+
+`/best-medicare-broker-lakeland-fl/` 301s to `/medicare-broker-lakeland-fl/`. Inbound Get Help URLs may still carry `source_page_key=best_medicare_broker_lakeland_fl`; that historical key remains accepted for attribution.
 
 The browser accepts only registry-derived page roles, cluster names, and CTA keys. It does not trust `source_page_role` or `content_cluster` from a URL or hidden field. Campaign parameters are limited to validated `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, and `utm_content`; contact-like values are rejected. Google Ads Final URL suffixes use `utm_campaign=cid_{campaignid}` so platform campaign IDs remain distinguishable from phone-like numeric values. `utm_term` is limited to the bounded Google Ads ValueTrack `{keyword}` value (the matched advertiser keyword, not the user's raw Search Terms query). Raw query strings, referrer URLs, `gclid`, and `fbclid` are not copied into the Get Help attribution record.
 

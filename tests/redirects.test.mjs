@@ -268,3 +268,27 @@ test('direct controls have no 3xx rule and approved aliases terminate within two
     assert.ok(result.hops <= 2, `${source} used ${result.hops} hops`);
   }
 });
+
+test('retired best-broker URLs 301 to the primary commercial broker page', () => {
+  const rules = parseRedirects(REDIRECTS);
+  const aliases = [
+    '/best-medicare-broker-lakeland-fl',
+    '/best-medicare-broker-lakeland-fl/',
+    '/best-medicare-broker-lakeland-fl/index.html',
+    '/local-medicare-broker-lakeland-fl/',
+    '/licensed-medicare-broker-lakeland-fl/',
+    '/medicare-broker-near-me/'
+  ];
+
+  for (const source of aliases) {
+    const result = followRedirects(rules, source);
+    assert.equal(normalizePath(result.final), '/medicare-broker-lakeland-fl', source);
+    assert.ok(result.hops <= 2, `${source} used ${result.hops} hops`);
+    const rule = matchingRule(rules, source);
+    assert.ok(rule, `${source} has an explicit redirect`);
+    assert.equal(rule.status, 301, source);
+  }
+
+  assert.doesNotMatch(REDIRECTS, /\/best-medicare-broker-lakeland-fl\/index\.html 200/);
+  assert.equal(existsSync(join(ROOT, 'best-medicare-broker-lakeland-fl/index.html')), false);
+});

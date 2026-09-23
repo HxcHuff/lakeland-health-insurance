@@ -64,6 +64,12 @@ const siteSearchIndex = [
     tags: ["Medicare", "Medicare Advantage", "Original Medicare", "Medicare Supplement", "Medigap", "Part D", "Lakeland", "Polk County", "2027"]
   },
   {
+    title: "Medicare Broker in Lakeland, FL",
+    url: "/medicare-broker-lakeland-fl/",
+    excerpt: "Licensed Florida broker (FL #W371813). Compare Advantage, Medigap, and Part D around your doctors and prescriptions. No separate broker fee.",
+    tags: ["Medicare", "Broker", "Agent", "Lakeland", "Polk County", "AEP", "Doctors", "Prescriptions"]
+  },
+  {
     title: "Working Past 65 in Lakeland: Medicare vs Employer Coverage",
     url: "/working-past-65-medicare-lakeland-fl/",
     excerpt: "When to start Medicare Parts A and B if you still have current-employer group coverage, and how COBRA, retiree, HSA, and Part D rules differ.",
