@@ -64,6 +64,12 @@ const siteSearchIndex = [
     tags: ["Medicare", "Medicare Advantage", "Original Medicare", "Medicare Supplement", "Medigap", "Part D", "Lakeland", "Polk County", "2027"]
   },
   {
+    title: "Working Past 65 in Lakeland: Medicare vs Employer Coverage",
+    url: "/working-past-65-medicare-lakeland-fl/",
+    excerpt: "When to start Medicare Parts A and B if you still have current-employer group coverage, and how COBRA, retiree, HSA, and Part D rules differ.",
+    tags: ["Medicare", "Working Past 65", "Part B", "Employer Coverage", "Special Enrollment", "Lakeland", "Polk County"]
+  },
+  {
     title: "East Polk Medicare Help: Doctors, Drugs & Plan Costs",
     url: "/medicare/east-polk/",
     excerpt: "Medicare plan review for Lake Alfred, Haines City, Davenport, and Winter Haven residents.",
