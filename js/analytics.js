@@ -122,6 +122,8 @@
         footer_start_plan_review: true
       }
     },
+    /* Historical selection URL. The public path 301s to /medicare-broker-lakeland-fl/.
+       Keep the page_key so inbound Get Help links still attribute. */
     '/best-medicare-broker-lakeland-fl/': {
       page_key: 'best_medicare_broker_lakeland_fl',
       page_role: 'selection',

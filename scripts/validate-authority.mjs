@@ -53,7 +53,6 @@ const workPackageTwoPages = [
   'local-health-insurance-answers/index.html',
   'local-health-insurance-answers/health-insurance-broker-lakeland-fl/index.html',
   'medicare-broker-lakeland-fl/index.html',
-  'best-medicare-broker-lakeland-fl/index.html',
   'our-approach.html',
   'learning/index.html',
   'blog/index.html'
@@ -62,7 +61,6 @@ const workPackageTwoReviewedPages = [
   'local-health-insurance-answers/index.html',
   'local-health-insurance-answers/health-insurance-broker-lakeland-fl/index.html',
   'medicare-broker-lakeland-fl/index.html',
-  'best-medicare-broker-lakeland-fl/index.html',
   'our-approach.html',
   'learning/index.html',
   'blog/index.html'
@@ -496,7 +494,7 @@ if (!/We do not offer every plan available in your area/i.test(movingMedicare)) 
   issues.push('moving-florida-medicare/index.html: required Medicare plan-availability limitation is missing');
 }
 
-for (const rel of ['medicare-broker-lakeland-fl/index.html', 'best-medicare-broker-lakeland-fl/index.html']) {
+for (const rel of ['medicare-broker-lakeland-fl/index.html']) {
   const html = readFileSync(resolve(ROOT, rel), 'utf8');
   if (!html.includes('https://www.medicare.gov/health-drug-plans/open-enrollment')) {
     issues.push(`${rel}: current official Medicare enrollment source is missing`);

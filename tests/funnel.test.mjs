@@ -36,7 +36,6 @@ const SITE_TEMPLATE_CSS = readFileSync(resolve(__dirname, '../css/site-template.
 const FIXED_INDEMNITY_HTML = readFileSync(resolve(__dirname, '../blog/fixed-indemnity-analysis.html'), 'utf8');
 const EXTERNAL_QUOTE_SELECTOR = 'a[data-funnel-external-quote], a[href*="healthsherpa.com"], a[href*="/find-plans"]';
 const MEDICARE_HUB_HTML = readFileSync(resolve(__dirname, '../medicare/index.html'), 'utf8');
-const BEST_MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../best-medicare-broker-lakeland-fl/index.html'), 'utf8');
 const MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../medicare-broker-lakeland-fl/index.html'), 'utf8');
 const COVERAGE_CENTER_HTML = readFileSync(resolve(__dirname, '../coverage-center/index.html'), 'utf8');
 const WEBSITE_CALL_SELECTOR = 'a[href="tel:+18636403102"], a[data-lhi-business-phone="+18636403102"]';
@@ -1214,11 +1213,6 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
       pageRole: 'hub',
       ctaKeys: ['request_review_process', 'start_review_final', 'start_review_hero']
     }],
-    [BEST_MEDICARE_BROKER_HTML, {
-      pageKey: 'best_medicare_broker_lakeland_fl',
-      pageRole: 'selection',
-      ctaKeys: ['request_help_final', 'request_review_hero', 'start_review_criteria']
-    }],
     [MEDICARE_BROKER_HTML, {
       pageKey: 'medicare_broker_lakeland_fl',
       pageRole: 'transaction',
@@ -1243,8 +1237,8 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     }
   }
 
-  assert.match(BEST_MEDICARE_BROKER_HTML, /href="\/medicare-broker-lakeland-fl\/" data-medicare-cta="see_review_process"/);
-  assert.match(MEDICARE_BROKER_HTML, /href="\/best-medicare-broker-lakeland-fl\/" data-medicare-cta="selection_guide_nav"/);
+  assert.match(MEDICARE_BROKER_HTML, /href="#how-to-choose" data-medicare-cta="selection_guide_nav"/);
+  assert.doesNotMatch(MEDICARE_BROKER_HTML, /href="\/best-medicare-broker-lakeland-fl\//);
 });
 
 test('Lead tracking sets pending thank-you lead marker', () => {

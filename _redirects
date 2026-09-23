@@ -207,9 +207,11 @@
 /post-enrollment-review /post-enrollment-review/index.html 200
 /post-enrollment-review/ /post-enrollment-review/index.html 200
 
-# Best Medicare Broker landing page aliases
-/best-medicare-broker-lakeland-fl /best-medicare-broker-lakeland-fl/index.html 200
-/best-medicare-broker-lakeland-fl/ /best-medicare-broker-lakeland-fl/index.html 200
+# Retired best-broker URL: 301 every live variant to the primary commercial page
+/best-medicare-broker-lakeland-fl /medicare-broker-lakeland-fl/ 301!
+/best-medicare-broker-lakeland-fl/ /medicare-broker-lakeland-fl/ 301!
+/best-medicare-broker-lakeland-fl/index.html /medicare-broker-lakeland-fl/ 301!
+/best-medicare-broker-lakeland-fl/index.html/ /medicare-broker-lakeland-fl/ 301!
 
 # Dental & Vision landing page aliases
 /dental-vision /dental-vision/index.html 200
@@ -220,12 +222,12 @@
 /vision/ /dental-vision/ 301!
 /dental-and-vision /dental-vision/ 301!
 /dental-and-vision/ /dental-vision/ 301!
-/local-medicare-broker-lakeland-fl /best-medicare-broker-lakeland-fl/ 301!
-/local-medicare-broker-lakeland-fl/ /best-medicare-broker-lakeland-fl/ 301!
-/licensed-medicare-broker-lakeland-fl /best-medicare-broker-lakeland-fl/ 301!
-/licensed-medicare-broker-lakeland-fl/ /best-medicare-broker-lakeland-fl/ 301!
-/medicare-broker-near-me /best-medicare-broker-lakeland-fl/ 301!
-/medicare-broker-near-me/ /best-medicare-broker-lakeland-fl/ 301!
+/local-medicare-broker-lakeland-fl /medicare-broker-lakeland-fl/ 301!
+/local-medicare-broker-lakeland-fl/ /medicare-broker-lakeland-fl/ 301!
+/licensed-medicare-broker-lakeland-fl /medicare-broker-lakeland-fl/ 301!
+/licensed-medicare-broker-lakeland-fl/ /medicare-broker-lakeland-fl/ 301!
+/medicare-broker-near-me /medicare-broker-lakeland-fl/ 301!
+/medicare-broker-near-me/ /medicare-broker-lakeland-fl/ 301!
 
 # Excluded carrier page redirect
 /carriers/florida-blue-aca-2026 /carriers/ 301!

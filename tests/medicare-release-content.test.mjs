@@ -11,7 +11,6 @@ const SUBJECT_TO_PLAN = 'Plan availability, benefits, networks, formularies, pha
 
 const MEDICARE_MARKETING_SURFACES = [
   'about/index.html',
-  'best-medicare-broker-lakeland-fl/index.html',
   'blog/aep-2026-polk-county-checklist.html',
   'blog/central-florida-health-insurance-competition.html',
   'blog/florida-insurance-guide.html',
