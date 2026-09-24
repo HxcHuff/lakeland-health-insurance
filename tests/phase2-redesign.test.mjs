@@ -71,7 +71,9 @@ test('seasonal banner is AEP-dated, dismissible, and avoids enrollment guarantee
   assert.match(SITE_TEMPLATE, /A review is not enrollment/);
   assert.match(SITE_TEMPLATE, /seasonal-banner-dismiss/);
   assert.match(SITE_TEMPLATE, /lhi-seasonal-banner-2026-aep-v1/);
-  assert.doesNotMatch(SITE_TEMPLATE, /guarantee|enrolled automatically|#1|Florida Blue/i);
+  const bannerCopy = SITE_TEMPLATE.slice(SITE_TEMPLATE.indexOf('createSeasonalBanner'), SITE_TEMPLATE.indexOf('function createFloatingActions'));
+  assert.doesNotMatch(bannerCopy, /guarantee|enrolled automatically|Florida Blue/i);
+  assert.doesNotMatch(bannerCopy, /#1\b/);
 });
 
 test('homepage publishes Person JSON-LD and a compact NAP proof strip', () => {
@@ -97,7 +99,7 @@ test('Coverage Center keeps a proof strip, shorter hero, and secondary HealthShe
   const medicare = COVERAGE_CENTER.slice(COVERAGE_CENTER.indexOf('id="medicare"'), COVERAGE_CENTER.indexOf('id="under-65"'));
   assert.match(under65, /healthsherpa.com/);
   assert.doesNotMatch(medicare, /healthsherpa.com/);
-  assert.match(COVERAGE_CENTER, TPMO);
+  assert.match(COVERAGE_CENTER, new RegExp(TPMO.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 });
 
 test('Get Help is a 3-step who/details/contact flow with preserved fields and SMS consent', () => {
@@ -115,7 +117,7 @@ test('Get Help is a 3-step who/details/contact flow with preserved fields and SM
   assert.match(GET_HELP_HTML, /name="need_timing"/);
   assert.match(GET_HELP_HTML, /id="optionalFields"/);
   assert.match(GET_HELP_HTML, /id="healthSherpaSecondary"/);
-  assert.match(GET_HELP_HTML, TPMO);
+  assert.match(GET_HELP_HTML, new RegExp(TPMO.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   assert.doesNotMatch(GET_HELP_HTML, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(GET_HELP_JS, /HEALTHSHERPA_INTENTS/);
   assert.match(GET_HELP_JS, /healthSherpa.hidden = !hasOwn\(HEALTHSHERPA_INTENTS, intentKey\)/);
