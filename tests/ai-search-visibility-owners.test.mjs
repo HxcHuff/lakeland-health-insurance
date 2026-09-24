@@ -18,20 +18,61 @@ const OWNERS = [
       /href="\/get-help\//,
       /href="\/medicare-broker-lakeland-fl\//,
       /href="\/aca-health-insurance-lakeland-fl\//,
+      /href="\/aca-health-insurance-agent-polk-county-fl\//,
       /href="\/marketplace-agent-fraud-cms-crackdown-florida\//,
       /href="\/coverage-center\//
     ]
   },
   {
     prompt: 'Best ACA health insurance agent near me in Polk County Florida',
+    rel: 'aca-health-insurance-agent-polk-county-fl/index.html',
+    url: '/aca-health-insurance-agent-polk-county-fl/',
+    mustMatch: [
+      /Direct answer:/i,
+      /authorize HealthCare\.gov/i,
+      /FL(?:orida)?(?: License)? #W371813/i,
+      /Lakeland, FL 33805/,
+      /review is not enrollment/i,
+      /no separate broker fee/i,
+      /href="\/get-help\//,
+      /href="\/marketplace-agent-fraud-cms-crackdown-florida\//,
+      /href="\/provider-prescription-check\//,
+      /href="\/aca-health-insurance-lakeland-fl\//,
+      /Polk County/
+    ]
+  },
+  {
+    prompt: 'Compare ACA health insurance in Polk County for doctors and prescriptions',
+    rel: 'aca-health-insurance-agent-polk-county-fl/index.html',
+    url: '/aca-health-insurance-agent-polk-county-fl/',
+    mustMatch: [
+      /doctors and prescriptions/i,
+      /href="\/provider-prescription-check\//,
+      /Watson Clinic/,
+      /Lakeland Regional Health/,
+      /href="\/get-help\//
+    ]
+  },
+  {
+    prompt: 'Compare ACA doctors and prescriptions in Polk County Florida',
+    rel: 'provider-prescription-check/index.html',
+    url: '/provider-prescription-check/',
+    mustMatch: [
+      /compare ACA plans in Polk County/i,
+      /href="\/aca-health-insurance-agent-polk-county-fl\//,
+      /href="\/get-help\//
+    ]
+  },
+  {
+    prompt: 'ACA Marketplace eligibility and Open Enrollment in Lakeland FL',
     rel: 'aca-health-insurance-lakeland-fl/index.html',
     url: '/aca-health-insurance-lakeland-fl/',
     mustMatch: [
       /Direct answer:/i,
-      /authorize HealthCare\.gov/i,
-      /href="\/marketplace-agent-fraud-cms-crackdown-florida\//,
+      /href="\/aca-health-insurance-agent-polk-county-fl\//,
       /href="\/provider-prescription-check\//,
-      /Polk County/
+      /href="\/get-help\/\?intent=aca"/,
+      /Open Enrollment/
     ]
   },
   {
@@ -66,7 +107,9 @@ const OWNERS = [
       /Direct answer:/i,
       /projected (?:annual )?household income/i,
       /Lakeland, FL 33805/,
-      /href="\/get-help\/\?intent=self-employed"/
+      /href="\/get-help\/\?intent=self-employed"/,
+      /href="\/aca-health-insurance-agent-polk-county-fl\//,
+      /href="\/provider-prescription-check\//
     ]
   }
 ];

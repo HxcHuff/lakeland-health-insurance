@@ -526,6 +526,7 @@ test('pageType — known landing-page paths', () => {
     ['/get-help/', 'get_help'],
     ['/health-protector-guard/', 'guard_lp'],
     ['/aca-health-insurance-lakeland-fl/', 'local_seo_aca'],
+    ['/aca-health-insurance-agent-polk-county-fl/', 'local_seo_aca'],
     ['/medicare-broker-lakeland/', 'local_seo_medicare'],
     ['/health-insurance-broker-lakeland-fl/', 'local_seo_broker'],
     ['/life-insurance-dime/', 'dime_method'],

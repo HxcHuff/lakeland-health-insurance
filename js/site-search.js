@@ -8,6 +8,12 @@ const siteSearchIndex = [
     tags: ["Broker", "Agent", "Lakeland", "Polk County", "How to Choose", "ACA", "Medicare", "Local"]
   },
   {
+    title: "Polk County ACA Health Insurance Agent",
+    url: "/aca-health-insurance-agent-polk-county-fl/",
+    excerpt: "Licensed Polk County ACA agent in Lakeland. Review eligibility, doctors, prescriptions, cost, and timing. You authorize HealthCare.gov. No separate broker fee.",
+    tags: ["ACA Agent", "Polk County ACA Agent", "Polk County", "Lakeland", "Marketplace", "Doctors", "Prescriptions"]
+  },
+  {
     title: "Individual and Family Health Insurance in Florida",
     url: "/aca-health-insurance-lakeland-fl/",
     excerpt: "Review ACA Marketplace eligibility, doctors, prescriptions, and individual and family coverage paths for Lakeland and Polk County. You authorize HealthCare.gov.",
