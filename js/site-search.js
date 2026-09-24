@@ -2,9 +2,9 @@
 const siteSearchIndex = [
   // Primary individual and family paths
   {
-    title: "ACA Marketplace in Lakeland, FL | Eligibility & Doctors",
+    title: "Individual and Family Health Insurance in Florida",
     url: "/aca-health-insurance-lakeland-fl/",
-    excerpt: "Review Florida Marketplace eligibility, doctors, prescriptions, yearly cost, and the enrollment window for Lakeland and Polk County.",
+    excerpt: "Review ACA Marketplace eligibility, doctors, prescriptions, and individual and family coverage paths for Lakeland and Polk County.",
     tags: ["Under 65", "ACA", "Marketplace", "Individual", "Family", "Individual and Family", "Florida"]
   },
   {
