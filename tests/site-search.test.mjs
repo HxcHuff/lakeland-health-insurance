@@ -32,6 +32,14 @@ test('ACA subsidy search returns the most relevant current article first', () =>
   assert.equal(results[0].url, '/blog/aca-subsidy-wrong-income-florida.html');
 });
 
+test('Polk County ACA agent searches lead with the dedicated agent page', () => {
+  const { search } = loadSearch();
+  const results = search.search('polk county aca agent');
+
+  assert.ok(results.length > 0);
+  assert.equal(results[0].url, '/aca-health-insurance-agent-polk-county-fl/');
+});
+
 test('under-65 searches lead with the established ACA authority path', () => {
   const { search } = loadSearch();
   const results = search.search('under 65');

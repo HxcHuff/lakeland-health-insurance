@@ -269,9 +269,11 @@
     if (p.indexOf('/aca-subsidy-estimator') === 0) return 'estimator';
     if (p.indexOf('/get-help') === 0) return 'get_help';
     if (p.indexOf('/health-protector-guard') === 0) return 'guard_lp';
+    if (p.indexOf('/aca-health-insurance-agent-polk') === 0) return 'local_seo_aca';
     if (p.indexOf('/aca-health-insurance-lakeland') === 0) return 'local_seo_aca';
     if (p.indexOf('/best-medicare-broker-lakeland') === 0) return 'local_seo_medicare';
     if (p.indexOf('/medicare-broker-lakeland') === 0) return 'local_seo_medicare';
+    if (p.indexOf('/health-insurance-broker-lakeland') === 0) return 'local_seo_broker';
     if (p.indexOf('/life-insurance-dime') === 0) return 'dime_method';
     if (p.indexOf('/lost-job-health-insurance') === 0) return 'lp_job_loss';
     if (p.indexOf('/losing-coverage') === 0) return 'lp_losing_coverage';

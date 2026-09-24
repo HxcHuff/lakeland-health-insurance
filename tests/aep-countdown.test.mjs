@@ -26,10 +26,10 @@ test('primary broker page ships a no-JS AEP default instead of -- days', () => {
   assert.match(BROKER_HTML, /id="countdownNumber">October 15</);
   assert.doesNotMatch(BROKER_HTML, /id="countdownNumber">-- days</);
   assert.match(BROKER_HTML, /src="\/js\/aep-countdown\.js\?v=20260923-aep-countdown"/);
-  assert.match(BROKER_HTML, /<title>Medicare Broker in Lakeland, FL \| Doctors, Rx &amp; AEP Review<\/title>/);
+  assert.match(BROKER_HTML, /<title>Review Medicare Advantage Plans in Lakeland, FL<\/title>/);
   assert.match(
     BROKER_HTML,
-    /content="Licensed Florida broker \(FL #W371813\)\. Compare Advantage, Medigap &amp; Part D around your doctors and prescriptions\. No separate broker fee\."/
+    /content="Who can help review Medicare Advantage plans in Lakeland, FL\? Licensed broker \(FL #W371813\) compares Advantage, Medigap &amp; Part D\. No separate broker fee\."/
   );
 });
 
