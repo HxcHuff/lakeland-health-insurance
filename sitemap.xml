@@ -625,7 +625,14 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/medicare-broker-lakeland-fl/</loc>
-    <lastmod>2026-09-23</lastmod>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/health-insurance-broker-lakeland-fl/</loc>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
@@ -702,7 +709,7 @@
   
   <url>
     <loc>https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/</loc>
-    <lastmod>2026-08-16</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
@@ -877,7 +884,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/losing-coverage/</loc>
-    <lastmod>2026-07-31</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.86</priority>
   </url>
@@ -891,7 +898,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/self-employed-health-insurance/</loc>
-    <lastmod>2026-07-31</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.84</priority>
   </url>
@@ -926,7 +933,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/local-health-insurance-answers/health-insurance-broker-lakeland-fl/</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.82</priority>
   </url>

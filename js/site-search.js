@@ -2,10 +2,16 @@
 const siteSearchIndex = [
   // Primary individual and family paths
   {
+    title: "Health Insurance Broker in Lakeland, FL",
+    url: "/health-insurance-broker-lakeland-fl/",
+    excerpt: "How to choose a licensed Lakeland broker. “Best” means a multi-carrier review of doctors, prescriptions, cost, and timing—not a ranking.",
+    tags: ["Broker", "Agent", "Lakeland", "Polk County", "How to Choose", "ACA", "Medicare", "Local"]
+  },
+  {
     title: "Individual and Family Health Insurance in Florida",
     url: "/aca-health-insurance-lakeland-fl/",
-    excerpt: "Review ACA Marketplace eligibility, doctors, prescriptions, and individual and family coverage paths for Lakeland and Polk County.",
-    tags: ["Under 65", "ACA", "Marketplace", "Individual", "Family", "Individual and Family", "Florida"]
+    excerpt: "Licensed Polk County ACA agent reviews Marketplace eligibility, doctors, and prescriptions. You authorize HealthCare.gov.",
+    tags: ["Under 65", "ACA", "Marketplace", "Individual", "Family", "Individual and Family", "Florida", "Polk County", "Agent"]
   },
   {
     title: "Florida Individual and Family Coverage Guidance",
@@ -16,13 +22,13 @@ const siteSearchIndex = [
   {
     title: "Losing Health Coverage in Florida",
     url: "/losing-coverage/",
-    excerpt: "Review when current coverage ends and compare COBRA, ACA Marketplace coverage, and other available paths based on your situation.",
+    excerpt: "Who can help after a job loss in Lakeland: a licensed local broker compares COBRA, Marketplace, and SEP deadlines.",
     tags: ["Under 65", "Job Loss", "Losing Coverage", "COBRA", "Special Enrollment"]
   },
   {
     title: "Self-Employed Health Insurance in Florida",
     url: "/self-employed-health-insurance/",
-    excerpt: "Coverage guidance for business owners, contractors, freelancers, and gig workers using household, income, provider, prescription, and deadline details.",
+    excerpt: "Florida self-employed options with a local Lakeland broker. Start with projected household income, then compare networks and enrollment windows.",
     tags: ["Under 65", "Self-Employed", "1099", "Small Business", "ACA"]
   },
   {
@@ -72,7 +78,7 @@ const siteSearchIndex = [
   {
     title: "Medicare Broker in Lakeland, FL",
     url: "/medicare-broker-lakeland-fl/",
-    excerpt: "Licensed Florida broker (FL #W371813). Compare Advantage, Medigap, and Part D around your doctors and prescriptions. No separate broker fee.",
+    excerpt: "Who can help review Medicare Advantage plans in Lakeland, FL? Licensed broker compares Advantage, Medigap, and Part D. No separate broker fee.",
     tags: ["Medicare", "Broker", "Agent", "Lakeland", "Polk County", "AEP", "Doctors", "Prescriptions"]
   },
   {

@@ -257,8 +257,8 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
 test('ACA pricing CTA reaches the quote actions without legacy router language', () => {
   assert.match(ACA, /href="\/quote\/">Get pricing or start a review<\/a>/);
   assert.doesNotMatch(ACA, /coverage router/i);
-  assert.match(ACA, /"dateModified": "2026-08-16"/);
-  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/aca-health-insurance-lakeland-fl\/<\/loc>\s*<lastmod>2026-08-16<\/lastmod>/);
+  assert.match(ACA, /"dateModified": "2026-09-24"/);
+  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/aca-health-insurance-lakeland-fl\/<\/loc>\s*<lastmod>2026-09-24<\/lastmod>/);
 });
 
 test('private medical insurance route separates product categories and keeps intake privacy-minimized', () => {
