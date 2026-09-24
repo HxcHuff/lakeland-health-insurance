@@ -3,6 +3,7 @@
   const phoneDisplay = '(863) 640-3102';
   const phoneHref = 'tel:+18636403102';
   const messengerHref = 'https://m.me/2330958066941437';
+  const tpmoDisclaimer = 'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
 
   const navLinks = [
     ['/aca-health-insurance-lakeland-fl/', 'Individual and Family Coverage'],
@@ -109,6 +110,9 @@
             </ul>
           </div>
         </div>
+        <div class="footer-tpmo" role="note">
+          <p class="tpmo-standard-disclaimer">${tpmoDisclaimer}</p>
+        </div>
         <div class="footer-bottom">
           <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>
           <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier.</p>
@@ -121,23 +125,12 @@
   function createFloatingActions() {
     const wrapper = document.createElement('div');
     wrapper.className = 'floating-actions';
-    wrapper.setAttribute('aria-label', 'Contact options');
-    const messenger = document.createElement('a');
-    messenger.href = messengerHref;
-    messenger.className = 'messenger-button';
-    messenger.target = '_blank';
-    messenger.rel = 'noopener noreferrer';
-    messenger.setAttribute('aria-label', 'Message David on Messenger');
-    messenger.innerHTML = `
-      <span class="messenger-icon" aria-hidden="true">&#128172;</span>
-      <div class="floating-action-label">
-        <span>Message David</span>
-        <span style="font-size:0.8rem;opacity:0.9;">Opens Messenger</span>
-      </div>`;
+    wrapper.setAttribute('aria-label', 'Call David Huff');
 
     const call = document.createElement('a');
     call.href = phoneHref;
     call.className = 'click-to-call';
+    call.setAttribute('data-floating-call', 'true');
     call.setAttribute('aria-label', `Call ${phoneDisplay}`);
     call.innerHTML = `
       <span class="phone-icon" aria-hidden="true">&#128222;</span>
@@ -146,7 +139,7 @@
         <span style="font-size:0.8rem;opacity:0.9;">Direct broker line</span>
       </div>`;
 
-    wrapper.append(messenger, call);
+    wrapper.append(call);
     return wrapper;
   }
 

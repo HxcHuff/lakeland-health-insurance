@@ -30,6 +30,35 @@ body {
   color: rgba(255, 255, 255, 0.9);
 }
 
+.answer-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call) {
+  color: #F6E7C1;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.answer-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call):hover,
+.answer-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call):focus-visible {
+  color: #fff;
+}
+
+.answer-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call):focus-visible {
+  outline: 3px solid #F6E7C1;
+  outline-offset: 3px;
+}
+
+.cta-row .tpmo-cta-disclaimer,
+.hub-final-actions .tpmo-cta-disclaimer,
+.cc-hero-actions .tpmo-cta-disclaimer,
+.cc-lane-card .tpmo-cta-disclaimer {
+  flex-basis: 100%;
+}
+
+.answer-hero .tpmo-cta-disclaimer,
+.hub-final-cta .tpmo-cta-disclaimer {
+  color: #F8FAFC;
+}
+
 .answer-wrap {
   max-width: 1120px;
   margin: 0 auto;

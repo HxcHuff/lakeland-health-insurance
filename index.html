@@ -636,6 +636,94 @@
           transform: none;
         }
       }
+
+      .review-card-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+      }
+
+      .review-card-actions .btn {
+        align-items: center;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        display: inline-flex;
+        font-weight: 800;
+        justify-content: center;
+        min-height: 48px;
+        padding: 12px 20px;
+        text-decoration: none;
+      }
+
+      .review-card-actions .btn-gold {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: var(--navy);
+      }
+
+      .review-card-actions .btn-gold:hover {
+        background: #c49a38;
+        border-color: #c49a38;
+      }
+
+      .review-card-actions .btn-navy {
+        background: var(--navy);
+        border-color: var(--navy);
+        color: #fff;
+      }
+
+      .review-card-actions .btn-navy:hover {
+        background: var(--navy-deep);
+        border-color: var(--navy-deep);
+      }
+
+      .review-card-actions .btn-outline {
+        background: transparent;
+        border-color: var(--navy);
+        color: var(--navy);
+      }
+
+      .review-card-actions .btn-outline:hover {
+        background: var(--navy);
+        color: #fff;
+      }
+
+      .review-card-actions .btn:focus-visible {
+        outline: 3px solid var(--gold);
+        outline-offset: 3px;
+      }
+
+      .review-card-actions .tpmo-cta-disclaimer,
+      .plans-cta .tpmo-cta-disclaimer {
+        color: var(--navy);
+        flex-basis: 100%;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.55;
+        margin: 0.35rem 0 0;
+        max-width: 46rem;
+        text-align: center;
+      }
+
+      .footer-tpmo {
+        margin: 0 0 1.5rem;
+        padding: 1.25rem 1rem;
+        border: 1px solid rgba(246, 231, 193, 0.45);
+        border-radius: 10px;
+        background: rgba(15, 26, 46, 0.55);
+        text-align: center;
+      }
+
+      .footer-tpmo .tpmo-standard-disclaimer {
+        color: #F8FAFC;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.6;
+        margin: 0 auto;
+        max-width: 46rem;
+      }
     </style>
 </head>
 <body class="home-page">
@@ -870,9 +958,12 @@
                 <li><a href="/health-protector-guard/">Fixed-Indemnity &amp; Supplemental Coverage</a></li>
             </ul>
 
-            <div class="plans-cta">
-                <a href="/get-help/" class="cta-button">Request a plan review</a>
-                <a href="tel:+18636403102" class="cta-button secondary" style="margin-left:0.75rem;">Call (863) 640-3102</a>
+            <div class="plans-cta review-card-actions">
+                <a href="/get-help/?intent=medicare" class="btn btn-gold">Medicare review</a>
+                <a href="/get-help/?intent=under-65" class="btn btn-navy">Under-65 review</a>
+                <a href="/get-help/?intent=losing-coverage" class="btn btn-navy">Losing coverage</a>
+                <a href="tel:+18636403102" class="btn btn-outline">Call (863) 640-3102</a>
+                <p class="tpmo-cta-disclaimer">We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
             </div>
         </div>
     </section>
@@ -963,7 +1054,7 @@
                 Sources: <a href="https://www.healthcare.gov/quick-guide/dates-and-deadlines/" target="_blank" rel="noopener noreferrer">HealthCare.gov dates and deadlines</a>, accessed September 23, 2026, and <a href="https://www.medicare.gov/health-drug-plans/open-enrollment" target="_blank" rel="noopener noreferrer">Medicare.gov Open Enrollment</a>, accessed July 31, 2026.
             </p>
             <div style="background: var(--white); border: 1px solid var(--gray-200); border-radius: 12px; margin-top: 1.5rem; padding: 1.25rem;">
-                <p style="color: var(--gray-700); font-size: 1rem; line-height: 1.6; margin: 0;">We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program to get information on all of your options.</p>
+                <p style="color: var(--gray-700); font-size: 1rem; line-height: 1.6; margin: 0;">We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
                 <p style="color: var(--gray-600); font-size: 0.875rem; line-height: 1.6; margin: 0.75rem 0 0;">Company inventory note: HealthMarkets/Connecture displayed 10 organizations and 73 products for the selected 2026 Lakeland/Polk County service area on August 17, 2026. Those figures are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
             </div>
         </div>
@@ -976,9 +1067,12 @@
                     <p class="section-label">Get Started</p>
                     <h2>Need a plan-specific review?</h2>
                     <p class="subtitle">Use the structured help form so doctors, prescriptions, plan timing, and follow-up stay in one place.</p>
-                    <div class="wizard-nav" style="justify-content: center; margin-top: 1.5rem; gap: 0.75rem;">
-                        <a class="btn btn-primary" href="/get-help/">Request a plan review</a>
-                        <a class="btn btn-primary" href="tel:+18636403102" style="background:transparent; color:var(--navy); border:2px solid var(--navy); box-shadow:none;">Call (863) 640-3102</a>
+                    <div class="review-card-actions">
+                        <a class="btn btn-gold" href="/get-help/?intent=medicare">Medicare review</a>
+                        <a class="btn btn-navy" href="/get-help/?intent=under-65">Under-65 review</a>
+                        <a class="btn btn-navy" href="/get-help/?intent=losing-coverage">Losing coverage</a>
+                        <a class="btn btn-outline" href="tel:+18636403102">Call (863) 640-3102</a>
+                        <p class="tpmo-cta-disclaimer">We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
                     </div>
                 </div>
             </div>
@@ -1028,7 +1122,7 @@
                         <li><a href="/medicare-broker-lakeland-fl/">Medicare Broker in Lakeland, FL</a></li>
                         <li><a href="/medicare-broker-lakeland-fl/#how-to-choose">How to choose a Medicare broker</a></li>
                         <li><a href="/working-past-65-medicare-lakeland-fl/">Working Past 65: Medicare vs Employer Coverage</a></li>
-                        <li><a href="/blog/medicare-advantage-lakeland-2026.html">Medicare Advantage 2026</a></li>
+                        <li><a href="/blog/medicare-advantage-lakeland-2026.html">Medicare Advantage</a></li>
                         <li><a href="/blog/medicare-advantage-vs-supplement.html">Medicare Advantage vs Supplement</a></li>
                         <li><a href="/local-health-insurance-answers/medicare-plan-help-lakeland/">Medicare Plan Help in Lakeland</a></li>
                         <li><a href="/moving-florida-medicare/">Moving with Medicare in Florida</a></li>
@@ -1056,7 +1150,7 @@
                         <li><a href="/blog/how-to-use-health-insurance-without-going-broke.html">Use Insurance and Manage Yearly Costs</a></li>
                         <li><a href="/blog/how-to-negotiate-hospital-bills.html">Negotiate Hospital Bills</a></li>
                         <li><a href="/blog/5-critical-health-insurance-mistakes.html">5 Critical Mistakes to Avoid</a></li>
-                        <li><a href="/blog/planning-healthcare-budget-2026.html">Plan Your 2026 Healthcare Budget</a></li>
+                        <li><a href="/blog/planning-healthcare-budget-2026.html">Plan Your Healthcare Budget</a></li>
                     </ul>
                 </div>
                 <div class="tc-cluster">
@@ -1128,6 +1222,9 @@
                     </ul>
                 </div>
             </div>
+            <div class="footer-tpmo" role="note">
+                <p class="tpmo-standard-disclaimer">We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
+            </div>
             <div class="footer-bottom">
                 <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>
                 <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier.</p>
@@ -1144,16 +1241,7 @@
         <a class="hero-cta" href="/coverage-center/">Review my 2027 options</a>
     </div>
 
-    <!-- Floating Action Buttons -->
-    <a href="https://m.me/2330958066941437" class="messenger-button" target="_blank" rel="noopener noreferrer" onclick="trackMessengerClick()">
-        <span class="messenger-icon" aria-hidden="true">&#128172;</span>
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <span>Message David</span>
-            <span style="font-size: 0.8rem; opacity: 0.9;">Opens Messenger</span>
-        </div>
-    </a>
-
-    <a href="tel:+18636403102" class="click-to-call" onclick="trackPhoneCall()">
+    <a href="tel:+18636403102" class="click-to-call" data-floating-call="true" onclick="trackPhoneCall()">
         <span class="phone-icon" aria-hidden="true">&#128222;</span>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <span>Call: (863) 640-3102</span>

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const CURRENT_SEASON_DISCLAIMER = 'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program to get information on all of your options.';
+const CURRENT_SEASON_DISCLAIMER = 'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
 const INVENTORY_NOTE = 'Company inventory note: HealthMarkets/Connecture displayed 10 organizations and 73 products for the selected 2026 Lakeland/Polk County service area on August 17, 2026.';
 const SUBJECT_TO_PLAN = 'Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
 
@@ -80,8 +80,26 @@ test('current-season TPMO wording is exact, contextualized, subject to plan, and
     assert.ok(mainEndsAt > disclaimerAt, `${relativePath} renders the disclaimer inside main content`);
     assert.ok(html.includes(INVENTORY_NOTE), `${relativePath} identifies the Connecture count's service-area evidence`);
     assert.ok(html.includes(SUBJECT_TO_PLAN), `${relativePath} makes availability and benefits subject to plan documents`);
-    assert.equal(html.indexOf(CURRENT_SEASON_DISCLAIMER, disclaimerAt + 1), -1, `${relativePath} contains one standardized disclaimer`);
   }
+});
+
+test('TPMO is in the sitewide footer, beside Medicare CTAs, and on the Get Help Medicare form', () => {
+  const footer = source('js/site-template.js');
+  const getHelp = source('get-help/index.html');
+  const medicare = source('medicare/index.html');
+  const coverageCenter = source('coverage-center/index.html');
+
+  assert.match(footer, /class="footer-tpmo"/);
+  assert.ok(footer.includes(CURRENT_SEASON_DISCLAIMER), 'sitewide footer uses the exact TPMO text');
+  assert.doesNotMatch(footer, /createElement\('a'\);\s*messenger/);
+  assert.match(getHelp, /class="form-tpmo tpmo-cta-disclaimer"/);
+  assert.ok(getHelp.includes(CURRENT_SEASON_DISCLAIMER), 'Get Help shows the exact TPMO text beside the form');
+  assert.match(getHelp, /Start my request/);
+  assert.match(getHelp, /Book a time/);
+  assert.match(getHelp, /863-640-3102/);
+  assert.doesNotMatch(getHelp, /href="\/coverage-center\/">Coverage Center<\/a>/);
+  assert.ok(medicare.includes('class="tpmo-cta-disclaimer"'), 'Medicare hub keeps TPMO in view of CTAs');
+  assert.ok(coverageCenter.includes('class="tpmo-cta-disclaimer"'), 'Coverage Center keeps TPMO in view of Medicare CTAs');
 });
 
 test('primary HTML excludes superseded disclaimer variants and known unsupported Medicare claims', () => {
