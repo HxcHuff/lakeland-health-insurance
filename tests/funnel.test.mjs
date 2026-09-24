@@ -2136,8 +2136,10 @@ test('Get Help stores only bounded Medicare attribution and approved campaign fi
   }
   assert.match(GET_HELP_SRC, /setValue\('sourcePageInput', String\(window\.location\.pathname \|\| '\/'\)\.slice\(0, 160\)\);/);
   assert.doesNotMatch(GET_HELP_SRC, /window\.location\.pathname \+ window\.location\.search/);
-  assert.match(GET_HELP_HTML, /id="optionalPrivacyNote" hidden>Do not enter medication names, medical details, policy or member numbers, Medicare numbers, Social Security numbers, or medical records in optional fields\./);
-  assert.match(GET_HELP_SRC, /privacyNote\.hidden = intentKey !== 'medicare';/);
+  assert.match(GET_HELP_HTML, /id="optionalPrivacyNote">Do not enter medication names, medical details, policy or member numbers, Medicare numbers, Social Security numbers, or medical records in optional fields\./);
+  assert.doesNotMatch(GET_HELP_HTML, /id="optionalPrivacyNote" hidden/);
+  assert.match(GET_HELP_SRC, /privacyNote\.hidden = false;/);
+  assert.doesNotMatch(GET_HELP_SRC, /privacyNote\.hidden = intentKey !== 'medicare';/);
   assert.match(GET_HELP_SRC, /setValue\('utmTermInput', approvedCampaignTerm\(qs\.get\('utm_term'\)\)\);/);
 });
 
