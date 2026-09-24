@@ -140,6 +140,13 @@
 
   var DEFAULT_INTENT = 'not-sure';
   var INTENT_OPTIONS = ['under-65', 'lost-coverage', 'medicare', 'dental-vision', 'current-client-review', 'not-sure'];
+  var HEALTHSHERPA_INTENTS = {
+    'under-65': true,
+    aca: true,
+    'self-employed': true,
+    'turning-26': true,
+    'retiring-before-65': true
+  };
   var MEDICARE_CONTENT_CLUSTER = 'lakeland_medicare_broker';
   var MEDICARE_SOURCE_REGISTRY = {
     medicare: {
@@ -486,6 +493,8 @@
     if (eyebrow) eyebrow.textContent = cfg.label;
     var privacyNote = byId('optionalPrivacyNote');
     if (privacyNote) privacyNote.hidden = intentKey !== 'medicare';
+    var healthSherpa = byId('healthSherpaSecondary');
+    if (healthSherpa) healthSherpa.hidden = !hasOwn(HEALTHSHERPA_INTENTS, intentKey);
     renderOptionalFields(intentKey);
   }
 
@@ -500,6 +509,13 @@
     });
     var progress = byId('progressText');
     if (progress) progress.textContent = 'Step ' + step + ' of 3';
+    document.querySelectorAll('.form-stepper [data-stepper]').forEach(function (node) {
+      if (Number(node.getAttribute('data-stepper')) === step) {
+        node.setAttribute('aria-current', 'step');
+      } else {
+        node.removeAttribute('aria-current');
+      }
+    });
     var title = document.querySelector('.form-step[data-step="' + step + '"] h2');
     if (focusTitle && title && title.focus) title.focus();
   }

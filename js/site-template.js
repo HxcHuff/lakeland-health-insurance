@@ -4,6 +4,123 @@
   const phoneHref = 'tel:+18636403102';
   const messengerHref = 'https://m.me/2330958066941437';
   const tpmoDisclaimer = 'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
+  const healthSherpaHref = 'https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q';
+  const BANNER_STORAGE_KEY = 'lhi-seasonal-banner-2026-aep-v1';
+  const BANNER_ID = 'lhi-seasonal-banner';
+
+  const MEDICARE_PATHS = [
+    '/medicare/',
+    '/medicare/east-polk/',
+    '/medicare-broker-lakeland-fl/',
+    '/moving-florida-medicare/',
+    '/working-past-65-medicare-lakeland-fl/',
+    '/local-health-insurance-answers/medicare-plan-help-lakeland/',
+    '/lp/medicare/'
+  ];
+
+  const UNDER65_PATHS = [
+    '/aca-health-insurance-lakeland-fl/',
+    '/aca-health-insurance-agent-polk-county-fl/',
+    '/aca-subsidy-estimator/',
+    '/self-employed-health-insurance/',
+    '/turning-26/',
+    '/retiring-before-65-florida/',
+    '/quote/',
+    '/brandon-health-insurance/',
+    '/clearwater-health-insurance/',
+    '/davenport-health-insurance/',
+    '/haines-city-health-insurance/',
+    '/lake-alfred-health-insurance/',
+    '/largo-health-insurance/',
+    '/new-port-richey-health-insurance/',
+    '/riverview-health-insurance/',
+    '/st-petersburg-health-insurance/',
+    '/tampa-health-insurance/',
+    '/wesley-chapel-health-insurance/',
+    '/winter-haven-health-insurance/'
+  ];
+
+  const LOSING_COVERAGE_PATHS = [
+    '/losing-coverage/',
+    '/losing-medicaid-florida/'
+  ];
+
+  function currentPathname() {
+    try {
+      return String(window.location.pathname || '/');
+    } catch (error) {
+      return '/';
+    }
+  }
+
+  function normalizePath(pathname) {
+    var path = String(pathname || '/').split(/[?#]/, 1)[0];
+    if (!path) return '/';
+    if (path.length > 1 && path.charAt(path.length - 1) !== '/') {
+      if (!/\.[a-z0-9]+$/i.test(path)) path += '/';
+    }
+    return path;
+  }
+
+  function pathMatches(pathname, prefixes) {
+    var path = normalizePath(pathname);
+    return prefixes.some(function (prefix) {
+      var needle = normalizePath(prefix);
+      return path === needle || path.indexOf(needle) === 0;
+    });
+  }
+
+  function readIntentOverride(doc) {
+    var root = doc || document;
+    var meta = root.querySelector('meta[name="lhi-chrome-intent"]');
+    if (meta && meta.getAttribute('content')) return String(meta.getAttribute('content')).trim().toLowerCase();
+    var body = root.body;
+    if (body && body.getAttribute('data-chrome-intent')) {
+      return String(body.getAttribute('data-chrome-intent')).trim().toLowerCase();
+    }
+    return '';
+  }
+
+  function resolveChromeIntent(pathname, doc) {
+    var override = readIntentOverride(doc);
+    if (override === 'medicare' || override === 'under-65' || override === 'losing-coverage') {
+      return override;
+    }
+    var path = normalizePath(pathname || currentPathname());
+    if (pathMatches(path, MEDICARE_PATHS) || /\/blog\/[^"'<>]*medicare/i.test(path)) {
+      return 'medicare';
+    }
+    if (pathMatches(path, LOSING_COVERAGE_PATHS)) return 'losing-coverage';
+    if (pathMatches(path, UNDER65_PATHS)) return 'under-65';
+    return '';
+  }
+
+  function chromeGetHelpHref(intent) {
+    if (intent === 'medicare') return '/get-help/?intent=medicare';
+    if (intent === 'under-65') return '/get-help/?intent=under-65';
+    if (intent === 'losing-coverage') return '/get-help/?intent=losing-coverage';
+    return '/get-help/';
+  }
+
+  function shouldShowHealthSherpa(pathname, intent) {
+    var path = normalizePath(pathname || currentPathname());
+    if (path.indexOf('/lp/') === 0) return false;
+    if (intent === 'medicare') return false;
+    return true;
+  }
+
+  function shouldShowSeasonalBanner(pathname) {
+    var path = normalizePath(pathname || currentPathname());
+    if (path.indexOf('/lp/') === 0) return false;
+    try {
+      if (window.localStorage && window.localStorage.getItem(BANNER_STORAGE_KEY) === 'dismissed') {
+        return false;
+      }
+    } catch (error) {
+      // localStorage can be blocked; still show the banner.
+    }
+    return true;
+  }
 
   const navLinks = [
     ['/aca-health-insurance-lakeland-fl/', 'Individual and Family Coverage'],
@@ -15,21 +132,21 @@
     ['/about/', 'About']
   ];
 
-  const menuLinks = [
-    ['/', 'Home'],
-    ['/aca-health-insurance-lakeland-fl/', 'Individual and Family Coverage'],
-    ['/medicare/', 'Medicare'],
-    ['/plans/', 'Coverage Options'],
-    ['/carriers/', 'Carriers'],
-    ['/blog/', 'Blog'],
-    ['/learning/', 'Learn'],
-    ['/about/', 'About'],
-    ['/get-help/', 'Get Help'],
-    ['/calendly-book.html', 'Book a Call'],
-    [phoneHref, 'Call Now']
-  ];
-
-  function createHeader() {
+  function createHeader(intent) {
+    var helpHref = chromeGetHelpHref(intent);
+    var menuLinks = [
+      ['/', 'Home'],
+      ['/aca-health-insurance-lakeland-fl/', 'Individual and Family Coverage'],
+      ['/medicare/', 'Medicare'],
+      ['/plans/', 'Coverage Options'],
+      ['/carriers/', 'Carriers'],
+      ['/blog/', 'Blog'],
+      ['/learning/', 'Learn'],
+      ['/about/', 'About'],
+      [helpHref, 'Get Help'],
+      ['/calendly-book.html', 'Book a Call'],
+      [phoneHref, 'Call Now']
+    ];
     const header = document.createElement('header');
     header.innerHTML = `
       <nav class="container">
@@ -53,13 +170,15 @@
           ${navLinks.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}
         </ul>
         <div class="cta-group">
-          <a href="/get-help/" class="cta-button">Request a plan review</a>
+          <a href="${helpHref}" class="cta-button">Request a plan review</a>
         </div>
       </nav>`;
     return header;
   }
 
-  function createFooter() {
+  function createFooter(intent, pathname) {
+    var helpHref = chromeGetHelpHref(intent);
+    var showHealthSherpa = shouldShowHealthSherpa(pathname, intent);
     const footer = document.createElement('footer');
     footer.innerHTML = `
       <div class="container">
@@ -102,10 +221,10 @@
               <li><a href="/self-employed-health-insurance/">Self-Employed Coverage</a></li>
               <li><a href="/medicare/">Medicare</a></li>
               <li><a href="/plans/">Coverage Options</a></li>
-              <li><a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a></li>
+              ${showHealthSherpa ? `<li><a href="${healthSherpaHref}" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a></li>` : ''}
               <li><a href="/blog/">Blog</a></li>
               <li><a href="/our-approach.html">Our Approach</a></li>
-              <li><a href="/get-help/">Request a plan review</a></li>
+              <li><a href="${helpHref}">Request a plan review</a></li>
               <li><a href="/privacy-policy.html">Privacy Policy</a></li>
             </ul>
           </div>
@@ -120,6 +239,33 @@
         </div>
       </div>`;
     return footer;
+  }
+
+  function createSeasonalBanner(intent) {
+    var banner = document.createElement('div');
+    banner.id = BANNER_ID;
+    banner.className = 'seasonal-banner';
+    banner.setAttribute('role', 'region');
+    banner.setAttribute('aria-label', 'Medicare Annual Enrollment reminder');
+    var reviewHref = intent === 'medicare' ? '/get-help/?intent=medicare' : '/medicare/';
+    var reviewLabel = intent === 'medicare' ? 'Request a Medicare review' : 'Medicare review dates';
+    banner.innerHTML = `
+      <div class="seasonal-banner-inner">
+        <p>Medicare Annual Enrollment is <strong>Oct 15–Dec 7</strong>. A review is not enrollment. <a href="${reviewHref}">${reviewLabel}</a></p>
+        <button type="button" class="seasonal-banner-dismiss" aria-label="Dismiss Medicare enrollment reminder">Dismiss</button>
+      </div>`;
+    banner.querySelector('.seasonal-banner-dismiss').addEventListener('click', function () {
+      try {
+        window.localStorage.setItem(BANNER_STORAGE_KEY, 'dismissed');
+      } catch (error) {
+        // Ignore quota / privacy-mode failures.
+      }
+      banner.remove();
+      document.body.classList.remove('has-seasonal-banner');
+      var header = document.querySelector('header');
+      if (header) header.classList.remove('has-seasonal-banner');
+    });
+    return banner;
   }
 
   function createFloatingActions() {
@@ -182,18 +328,27 @@
 
   function normalizeTemplate() {
     document.querySelectorAll('.compliance-banner').forEach((node) => node.remove());
+    var pathname = currentPathname();
+    var intent = resolveChromeIntent(pathname, document);
     const firstHeader = document.querySelector('header');
+    const nextHeader = createHeader(intent);
     if (firstHeader) {
-      firstHeader.replaceWith(createHeader());
+      firstHeader.replaceWith(nextHeader);
     } else {
-      document.body.prepend(createHeader());
+      document.body.prepend(nextHeader);
+    }
+
+    if (shouldShowSeasonalBanner(pathname)) {
+      nextHeader.prepend(createSeasonalBanner(intent));
+      nextHeader.classList.add('has-seasonal-banner');
+      document.body.classList.add('has-seasonal-banner');
     }
 
     const lastFooter = document.querySelector('footer');
     if (lastFooter) {
-      lastFooter.replaceWith(createFooter());
+      lastFooter.replaceWith(createFooter(intent, pathname));
     } else {
-      document.body.append(createFooter());
+      document.body.append(createFooter(intent, pathname));
     }
 
     removeOldFloatingActions();
@@ -213,6 +368,15 @@
     wireMenu();
     loadBbbSeal();
   }
+
+  window.LHISiteChrome = {
+    resolveIntent: resolveChromeIntent,
+    getHelpHref: chromeGetHelpHref,
+    shouldShowHealthSherpa: shouldShowHealthSherpa,
+    shouldShowSeasonalBanner: shouldShowSeasonalBanner,
+    bannerStorageKey: BANNER_STORAGE_KEY,
+    bannerId: BANNER_ID
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', normalizeTemplate);
