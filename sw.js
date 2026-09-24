@@ -1,6 +1,6 @@
-const CACHE_NAME = 'lhi-20260816-coverage-options';
+const CACHE_NAME = 'lhi-20260924-phase2-chrome';
 const OFFLINE_URL = '/offline.html';
-const SITE_TEMPLATE_URL = '/js/site-template.js?v=20260816-coverage-options';
+const SITE_TEMPLATE_URL = '/js/site-template.js?v=20260924-phase2-chrome';
 
 // Core pages to pre-cache for offline access
 const PRECACHE_URLS = [
