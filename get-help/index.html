@@ -169,6 +169,38 @@
 
     .review-note a { color: var(--lhi-gold); }
 
+    .help-phone-line {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.95rem;
+      margin: 0 0 18px;
+    }
+
+    .help-phone-line a {
+      color: #F6E7C1;
+      font-weight: 800;
+    }
+
+    .form-tpmo {
+      background: #F8FAFC;
+      border: 1px solid var(--lhi-line);
+      border-radius: 8px;
+      color: var(--lhi-navy);
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.55;
+      margin: 0 0 1.1rem;
+      padding: 12px 14px;
+    }
+
+    body.get-help-page footer .footer-tpmo {
+      display: block;
+      margin: 0 0 1.25rem;
+    }
+
+    body.get-help-page footer .footer-tpmo .tpmo-standard-disclaimer {
+      color: #F8FAFC;
+    }
+
     .form-section {
       background: var(--lhi-panel);
       border-top: 1px solid var(--lhi-line);
@@ -466,18 +498,17 @@
         <h1 id="get-help-title">Get help with the coverage decision in front of you.</h1>
         <p id="intent-copy">Start with the coverage change, deadline, or 2027 plan-review question you need to address.</p>
         <div class="quick-actions" aria-label="Ways to get help">
-          <a class="action-link primary" href="#leadForm">Start My Request</a>
-          <a class="action-link secondary" href="/coverage-center/">Coverage Center</a>
-          <a class="action-link secondary" href="/aca-health-insurance-agent-polk-county-fl/">Polk County ACA agent</a>
-          <a class="action-link secondary" href="/provider-prescription-check/">Check doctors &amp; prescriptions</a>
-          <a class="action-link secondary" href="/calendly-book.html" data-funnel-booking>Choose a time</a>
+          <a class="action-link primary" href="#leadForm">Start my request</a>
+          <a class="action-link secondary" href="/calendly-book.html" data-funnel-booking>Book a time</a>
         </div>
-        <p class="review-note">David personally reviews each request and follows up only through a channel authorized in the form. If you prefer not to submit the form, call (863) 640-3102, start in the <a href="/coverage-center/">Coverage Center</a>, review the <a href="/aca-health-insurance-agent-polk-county-fl/">Polk County ACA agent</a> page, use the <a href="/provider-prescription-check/">provider and prescription check</a>, or choose an available appointment time. A review request is not enrollment.</p>
+        <p class="help-phone-line">Or call <a href="tel:+18636403102">863-640-3102</a></p>
+        <p class="review-note">David Huff, FL License #W371813, reviews each request and follows up only through a channel authorized in the form. A review request is not enrollment.</p>
       </div>
     </section>
 
     <section class="form-section" aria-labelledby="form-title">
       <div class="form-shell">
+        <p class="form-tpmo tpmo-cta-disclaimer" id="medicareTpmoDisclaimer">We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
         <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm" data-funnel-track data-funnel-event="Lead" data-funnel-name="get_help_default">
           <input type="hidden" name="form-name" value="get-help">
           <div hidden aria-hidden="true">
@@ -704,6 +735,9 @@
           <li><a href="/privacy-policy.html">Privacy Policy</a></li>
         </ul>
       </div>
+    </div>
+    <div class="footer-tpmo" role="note">
+      <p class="tpmo-standard-disclaimer">We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
     </div>
     <div class="footer-bottom">
       <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>

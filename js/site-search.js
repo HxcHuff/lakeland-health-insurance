@@ -257,7 +257,7 @@ const siteSearchIndex = [
     tags: ["Medicare", "Lakeland", "Local"]
   },
   {
-    title: "Orlando Health and Watson Clinic Insurance Guide for 2026",
+    title: "Orlando Health and Watson Clinic Insurance Guide",
     url: "/blog/orlando-health-watson-clinic-insurance-2026.html",
     excerpt: "Review Orlando Health and Watson Clinic network questions for Lakeland-area ACA and Medicare plan selection before you enroll.",
     tags: ["Lakeland", "Local", "Networks", "Orlando Health", "Watson Clinic"]
@@ -299,7 +299,7 @@ const siteSearchIndex = [
     tags: ["Self-Employed", "Tax Deductions", "Financial"]
   },
   {
-    title: "How to Budget for Health Insurance and Medical Costs in 2026",
+    title: "How to Budget for Health Insurance and Medical Costs",
     url: "/blog/planning-healthcare-budget-2026.html",
     excerpt: "Build a plan-specific budget using annual premiums, expected medical and prescription costs, and a reserve tied to your coverage.",
     tags: ["Financial", "Budgeting", "Tips"]
@@ -389,7 +389,7 @@ const siteSearchIndex = [
     tags: ["Short-Term", "Coverage", "Comparison"]
   },
   {
-    title: "Medicare Basics for 2026",
+    title: "Medicare Basics for 2027",
     url: "/blog/medicare-for-dummies.html",
     excerpt: "Understand Parts A, B, C and D, current costs, Medicare enrollment periods, and the tradeoffs between Original Medicare and Medicare Advantage.",
     tags: ["Medicare", "Seniors", "Tips"]
