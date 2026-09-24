@@ -44,6 +44,12 @@ const siteSearchIndex = [
     tags: ["Under 65", "Doctors", "Provider Networks", "Prescriptions", "Pharmacy"]
   },
   {
+    title: "CMS Marketplace Agent Crackdown: Lakeland FL Guide (2026)",
+    url: "/marketplace-agent-fraud-cms-crackdown-florida/",
+    excerpt: "CMS canceled unauthorized Marketplace enrollments and sent agent termination notices. What Lakeland and Polk shoppers should check before Open Enrollment.",
+    tags: ["ACA", "Marketplace", "CMS", "Agent", "Authorization", "Florida", "Lakeland", "Polk County", "Consumer Protection"]
+  },
+  {
     title: "Health Plan Types",
     url: "/plans/",
     excerpt: "Choose a 2027 starting point for ACA Marketplace, Medicare, coverage loss, or extra coverage, then continue in the Coverage Center.",
