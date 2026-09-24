@@ -1050,11 +1050,11 @@
                 <h2>Estimate Your Subsidy</h2>
                 <p class="subtitle">Inputs stay in this browser. The estimate updates as you type and is not sent through analytics or included in the Get Help link.</p>
 
-                <!-- Confidence Meter -->
+                <!-- Input completion, not a confidence or eligibility score -->
                 <div class="confidence-meter">
                     <div class="confidence-label">
-                        <span>Estimate Confidence</span>
-                        <span class="confidence-pct" id="confidence-pct">0%</span>
+                        <span>Inputs completed</span>
+                        <span class="confidence-pct" id="confidence-pct">3 of 5</span>
                     </div>
                     <div class="confidence-track">
                         <div class="confidence-fill" id="confidence-fill"></div>
@@ -1063,7 +1063,7 @@
                         <span class="confidence-chip" id="chip-age">Age</span>
                         <span class="confidence-chip" id="chip-income">Income</span>
                         <span class="confidence-chip" id="chip-household">Household</span>
-                        <span class="confidence-chip" id="chip-zip">ZIP</span>
+                        <span class="confidence-chip" id="chip-zip">Fixed location</span>
                         <span class="confidence-chip" id="chip-tobacco">Tobacco</span>
                     </div>
                 </div>
@@ -1075,7 +1075,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="annual-income">Exact Annual Income</label>
+                    <label for="annual-income">Projected 2026 Annual Income</label>
                     <input type="text" id="annual-income" placeholder="$55,000" inputmode="numeric">
                     <div class="help-text">Your total expected MAGI for 2026. Be as precise as possible.</div>
                 </div>
@@ -1113,11 +1113,12 @@
                 </div>
 
                 <!-- Live Results (replaces old button + results-panel) -->
+                <p class="help-text" id="estimate-prompt" role="status">Enter an age from 0 to 64 and a positive projected annual income to see the 2026 illustration. Review the default household size and tobacco selection. This tool does not calculate 2027 coverage.</p>
                 <div class="live-results hidden" id="live-results">
                     <!-- Price Hero -->
                     <div class="live-price-hero" id="price-hero">
                         <div class="price-label">Illustrative Monthly Amount</div>
-                        <div class="price-value" id="price-value">$0</div>
+                        <div class="price-value" id="price-value">&mdash;</div>
                         <div class="price-period">per month after subsidy</div>
                     </div>
 
@@ -1380,7 +1381,7 @@
         }
 
         // =====================================================================
-        // CONFIDENCE METER
+        // INPUT COMPLETION
         // =====================================================================
         function updateConfidence() {
             var age = document.getElementById('applicant-age').value.trim();
@@ -1389,7 +1390,7 @@
             var tobaccoBtn = document.querySelector('#tobacco-toggle .toggle-btn.active');
 
             var checks = {
-                age: age !== '' && !isNaN(parseInt(age, 10)) && parseInt(age, 10) >= 0 && parseInt(age, 10) <= 64,
+                age: age !== '' && Number.isInteger(Number(age)) && Number(age) >= 0 && Number(age) <= 64,
                 income: income > 0,
                 household: household !== '',
                 zip: true,
@@ -1413,7 +1414,7 @@
             var fill = document.getElementById('confidence-fill');
             fill.style.width = pct + '%';
             fill.classList.toggle('full', pct === 100);
-            document.getElementById('confidence-pct').textContent = pct + '%';
+            document.getElementById('confidence-pct').textContent = filled + ' of ' + total;
 
             return checks.age && checks.income;
         }
@@ -1437,12 +1438,14 @@
             var breakdownEl = document.getElementById('price-breakdown');
             var resultNote = document.getElementById('result-note');
 
+            document.getElementById('estimate-prompt').hidden = hasMinimum;
             if (!hasMinimum) {
+                document.getElementById('price-value').textContent = '—';
                 liveResults.classList.add('hidden');
                 return;
             }
 
-            var age = parseInt(document.getElementById('applicant-age').value, 10);
+            var age = Number(document.getElementById('applicant-age').value);
             var income = parseIncome(document.getElementById('annual-income').value);
             var householdSize = parseInt(document.getElementById('household-size').value, 10);
             var tobaccoBtn = document.querySelector('#tobacco-toggle .toggle-btn.active');
@@ -1558,7 +1561,7 @@
             document.getElementById('breakdown-body').classList.toggle('open');
         });
 
-        // Initialize confidence meter on load (household + tobacco default = some chips lit)
+        // Initialize input completion on load (location, household and tobacco have defaults)
         document.addEventListener('DOMContentLoaded', function() {
             updateConfidence();
         });
