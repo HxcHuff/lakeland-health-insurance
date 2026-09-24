@@ -4,13 +4,13 @@ const siteSearchIndex = [
   {
     title: "Individual and Family Health Insurance in Florida",
     url: "/aca-health-insurance-lakeland-fl/",
-    excerpt: "Review ACA Marketplace and other individual and family coverage paths around household details, doctors, prescriptions, yearly cost, and applicable deadlines.",
+    excerpt: "Review ACA Marketplace eligibility, doctors, prescriptions, and individual and family coverage paths for Lakeland and Polk County.",
     tags: ["Under 65", "ACA", "Marketplace", "Individual", "Family", "Individual and Family", "Florida"]
   },
   {
     title: "Florida Individual and Family Coverage Guidance",
     url: "/",
-    excerpt: "Start with the Coverage Center for a 2027 Medicare or individual and family plan review, then compare ACA, Medicare, and other Florida coverage around doctors, prescriptions, and timing.",
+    excerpt: "Licensed Florida broker David Huff reviews Lakeland ACA and Medicare around doctors, prescriptions, and yearly cost. Start a plan review in the Coverage Center.",
     tags: ["Under 65", "Pre-Medicare", "ACA", "Individual", "Family", "Individual and Family", "Home", "Florida"]
   },
   {
