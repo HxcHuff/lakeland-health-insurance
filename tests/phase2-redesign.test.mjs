@@ -199,8 +199,8 @@ test('homepage publishes Person JSON-LD and a compact NAP proof strip', () => {
   assert.match(HOME, /"postalCode": "33805"/);
   assert.doesNotMatch(HOME, /"@type": "AggregateRating"|reviewCount|"ratingValue"/);
   assert.match(HOME, /class="lhi-proof-strip"/);
-  assert.match(HOME, /Licensed FL health agent W371813/);
-  assert.match(SITE_TEMPLATE, /Licensed FL health agent #W371813/);
+  assert.match(HOME, /Licensed Florida health agent W371813/);
+  assert.match(SITE_TEMPLATE, /Licensed Florida health agent #W371813/);
   assert.match(HOME, /Lakeland, FL 33805 · By appointment/);
   assert.doesNotMatch(HOME, /2298 Lakeland Hills|33801/);
   assert.doesNotMatch(HOME, /The official website for Lakeland Health Insurance/);
@@ -208,7 +208,7 @@ test('homepage publishes Person JSON-LD and a compact NAP proof strip', () => {
 
 test('Coverage Center keeps a proof strip, shorter hero, and secondary HealthSherpa only on the under-65 lane', () => {
   assert.match(COVERAGE_CENTER, /class="lhi-proof-strip"/);
-  assert.match(COVERAGE_CENTER, /Licensed FL health agent W371813/);
+  assert.match(COVERAGE_CENTER, /Licensed Florida health agent W371813/);
   assert.match(COVERAGE_CENTER, /class="hs-secondary"/);
   assert.match(COVERAGE_CENTER, /Secondary self-service during Marketplace Open Enrollment/);
   assert.match(COVERAGE_CENTER, new RegExp(HEALTHSHERPA.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));

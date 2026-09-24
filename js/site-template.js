@@ -252,7 +252,7 @@
         <div class="logo-container">
           <a class="brand-name" href="/">
             Lakeland Health Insurance
-            <span class="license-tag">Licensed FL health agent #W371813</span>
+            <span class="license-tag">Licensed Florida health agent #W371813</span>
           </a>
           <button class="menu-button" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
             <div class="ellipses" aria-hidden="true">
