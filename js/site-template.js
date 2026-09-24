@@ -7,6 +7,11 @@
   const healthSherpaHref = 'https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q';
   const BANNER_STORAGE_KEY = 'lhi-seasonal-banner-2026-aep-v1';
   const BANNER_ID = 'lhi-seasonal-banner';
+  const SEASONAL_BANNER_TIMEZONE = 'America/New_York';
+  const SEASONAL_BANNER_START_MONTH = 10;
+  const SEASONAL_BANNER_START_DAY = 1;
+  const SEASONAL_BANNER_END_MONTH = 12;
+  const SEASONAL_BANNER_END_DAY = 7;
 
   const MEDICARE_PATHS = [
     '/medicare/',
@@ -15,7 +20,10 @@
     '/moving-florida-medicare/',
     '/working-past-65-medicare-lakeland-fl/',
     '/local-health-insurance-answers/medicare-plan-help-lakeland/',
-    '/lp/medicare/'
+    '/lp/medicare/',
+    '/blog/aep-',
+    '/blog/medigap-',
+    '/blog/florida-insurance-guide.html'
   ];
 
   const UNDER65_PATHS = [
@@ -25,7 +33,6 @@
     '/self-employed-health-insurance/',
     '/turning-26/',
     '/retiring-before-65-florida/',
-    '/quote/',
     '/brandon-health-insurance/',
     '/clearwater-health-insurance/',
     '/davenport-health-insurance/',
@@ -53,8 +60,12 @@
     }
   }
 
+  function rawPath(pathname) {
+    return String(pathname || '/').split(/[?#]/, 1)[0] || '/';
+  }
+
   function normalizePath(pathname) {
-    var path = String(pathname || '/').split(/[?#]/, 1)[0];
+    var path = rawPath(pathname);
     if (!path) return '/';
     if (path.length > 1 && path.charAt(path.length - 1) !== '/') {
       if (!/\.[a-z0-9]+$/i.test(path)) path += '/';
@@ -64,10 +75,74 @@
 
   function pathMatches(pathname, prefixes) {
     var path = normalizePath(pathname);
+    var raw = rawPath(pathname);
     return prefixes.some(function (prefix) {
-      var needle = normalizePath(prefix);
+      var needle = String(prefix || '');
+      if (!needle) return false;
+      if (needle.charAt(needle.length - 1) === '-') {
+        return raw.indexOf(needle) === 0 || path.indexOf(needle) === 0;
+      }
+      needle = normalizePath(needle);
       return path === needle || path.indexOf(needle) === 0;
     });
+  }
+
+  function pathLooksLikeMedicare(pathname) {
+    var path = normalizePath(pathname);
+    var raw = rawPath(pathname);
+    if (pathMatches(path, MEDICARE_PATHS) || pathMatches(raw, MEDICARE_PATHS)) return true;
+    if (/\/blog\/[^"'<>]*medicare/i.test(raw) || /\/blog\/[^"'<>]*medicare/i.test(path)) return true;
+    if (/advantage/i.test(raw) && raw.indexOf('/advantage-guard') !== 0) return true;
+    return false;
+  }
+
+  function readQueryIntent(search) {
+    var raw = search;
+    if (raw == null) {
+      try {
+        raw = window.location.search || '';
+      } catch (error) {
+        raw = '';
+      }
+    }
+    var query = String(raw || '');
+    if (query.charAt(0) === '?') query = query.slice(1);
+    if (!query) return '';
+    var pairs = query.split('&');
+    for (var i = 0; i < pairs.length; i += 1) {
+      var parts = pairs[i].split('=');
+      var key = decodeURIComponent(parts[0] || '').trim().toLowerCase();
+      if (key !== 'intent') continue;
+      var value = decodeURIComponent((parts[1] || '').replace(/\+/g, ' ')).trim().toLowerCase();
+      if (value === 'medicare' || value === 'under-65' || value === 'losing-coverage') return value;
+    }
+    return '';
+  }
+
+  function easternDateParts(date) {
+    var parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: SEASONAL_BANNER_TIMEZONE,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).formatToParts(date || new Date());
+    var out = {};
+    for (var i = 0; i < parts.length; i += 1) {
+      if (parts[i].type !== 'literal') out[parts[i].type] = parts[i].value;
+    }
+    return {
+      year: Number(out.year),
+      month: Number(out.month),
+      day: Number(out.day)
+    };
+  }
+
+  function isWithinSeasonalBannerWindow(now) {
+    var parts = easternDateParts(now || new Date());
+    var start = (SEASONAL_BANNER_START_MONTH * 100) + SEASONAL_BANNER_START_DAY;
+    var end = (SEASONAL_BANNER_END_MONTH * 100) + SEASONAL_BANNER_END_DAY;
+    var key = (parts.month * 100) + parts.day;
+    return key >= start && key <= end;
   }
 
   function readIntentOverride(doc) {
@@ -81,18 +156,16 @@
     return '';
   }
 
-  function resolveChromeIntent(pathname, doc) {
+  function resolveChromeIntent(pathname, doc, search) {
     var override = readIntentOverride(doc);
     if (override === 'medicare' || override === 'under-65' || override === 'losing-coverage') {
       return override;
     }
     var path = normalizePath(pathname || currentPathname());
-    if (pathMatches(path, MEDICARE_PATHS) || /\/blog\/[^"'<>]*medicare/i.test(path)) {
-      return 'medicare';
-    }
+    if (pathLooksLikeMedicare(pathname || path)) return 'medicare';
     if (pathMatches(path, LOSING_COVERAGE_PATHS)) return 'losing-coverage';
     if (pathMatches(path, UNDER65_PATHS)) return 'under-65';
-    return '';
+    return readQueryIntent(search);
   }
 
   function chromeGetHelpHref(intent) {
@@ -109,7 +182,9 @@
     return true;
   }
 
-  function shouldShowSeasonalBanner(pathname) {
+  function shouldShowSeasonalBanner(pathname, options) {
+    var opts = options || {};
+    if (!isWithinSeasonalBannerWindow(opts.now)) return false;
     var path = normalizePath(pathname || currentPathname());
     if (path.indexOf('/lp/') === 0) return false;
     try {
@@ -117,9 +192,14 @@
         return false;
       }
     } catch (error) {
-      // localStorage can be blocked; still show the banner.
+      // localStorage can be blocked; still evaluate path/intent rules.
     }
-    return true;
+    if (path === '/' || path === '/coverage-center/') return true;
+    var intent = opts.intent;
+    if (intent == null) {
+      intent = resolveChromeIntent(pathname, opts.doc, opts.search);
+    }
+    return intent === 'medicare';
   }
 
   const navLinks = [
@@ -153,7 +233,7 @@
         <div class="logo-container">
           <a class="brand-name" href="/">
             Lakeland Health Insurance
-            <span class="license-tag">Licensed FL Broker #W371813</span>
+            <span class="license-tag">Licensed FL health agent #W371813</span>
           </a>
           <button class="menu-button" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
             <div class="ellipses" aria-hidden="true">
@@ -247,11 +327,9 @@
     banner.className = 'seasonal-banner';
     banner.setAttribute('role', 'region');
     banner.setAttribute('aria-label', 'Medicare Annual Enrollment reminder');
-    var reviewHref = intent === 'medicare' ? '/get-help/?intent=medicare' : '/medicare/';
-    var reviewLabel = intent === 'medicare' ? 'Request a Medicare review' : 'Medicare review dates';
     banner.innerHTML = `
       <div class="seasonal-banner-inner">
-        <p>Medicare Annual Enrollment is <strong>Oct 15–Dec 7</strong>. A review is not enrollment. <a href="${reviewHref}">${reviewLabel}</a></p>
+        <p>Medicare Annual Enrollment is <strong>Oct 15–Dec 7</strong>. A review is not enrollment. <a href="/medicare/">See Medicare enrollment dates</a></p>
         <button type="button" class="seasonal-banner-dismiss" aria-label="Dismiss Medicare enrollment reminder">Dismiss</button>
       </div>`;
     banner.querySelector('.seasonal-banner-dismiss').addEventListener('click', function () {
@@ -338,7 +416,7 @@
       document.body.prepend(nextHeader);
     }
 
-    if (shouldShowSeasonalBanner(pathname)) {
+    if (shouldShowSeasonalBanner(pathname, { intent: intent })) {
       nextHeader.prepend(createSeasonalBanner(intent));
       nextHeader.classList.add('has-seasonal-banner');
       document.body.classList.add('has-seasonal-banner');
@@ -374,8 +452,12 @@
     getHelpHref: chromeGetHelpHref,
     shouldShowHealthSherpa: shouldShowHealthSherpa,
     shouldShowSeasonalBanner: shouldShowSeasonalBanner,
+    isWithinSeasonalBannerWindow: isWithinSeasonalBannerWindow,
     bannerStorageKey: BANNER_STORAGE_KEY,
-    bannerId: BANNER_ID
+    bannerId: BANNER_ID,
+    bannerTimezone: SEASONAL_BANNER_TIMEZONE,
+    bannerWindowStart: { month: SEASONAL_BANNER_START_MONTH, day: SEASONAL_BANNER_START_DAY },
+    bannerWindowEnd: { month: SEASONAL_BANNER_END_MONTH, day: SEASONAL_BANNER_END_DAY }
   };
 
   if (document.readyState === 'loading') {

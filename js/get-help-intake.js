@@ -492,7 +492,7 @@
     var eyebrow = byId('intent-eyebrow');
     if (eyebrow) eyebrow.textContent = cfg.label;
     var privacyNote = byId('optionalPrivacyNote');
-    if (privacyNote) privacyNote.hidden = intentKey !== 'medicare';
+    if (privacyNote) privacyNote.hidden = false;
     var healthSherpa = byId('healthSherpaSecondary');
     if (healthSherpa) healthSherpa.hidden = !hasOwn(HEALTHSHERPA_INTENTS, intentKey);
     renderOptionalFields(intentKey);
