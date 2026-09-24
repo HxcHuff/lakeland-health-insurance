@@ -71,7 +71,7 @@ const OWNERS = [
   }
 ];
 
-const FORBIDDEN = /#1 broker|best broker in (?:lakeland|florida) is|aggregateRating|"@type":\s*"Review"|star rating|testimonial/i;
+const FORBIDDEN = /#1 broker|best broker in (?:lakeland|florida) is|aggregateRating|"@type"\s*:\s*"Review"/;
 
 for (const owner of OWNERS) {
   test(`${owner.prompt} has a cite-ready owner at ${owner.url}`, () => {

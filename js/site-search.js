@@ -10,7 +10,7 @@ const siteSearchIndex = [
   {
     title: "Individual and Family Health Insurance in Florida",
     url: "/aca-health-insurance-lakeland-fl/",
-    excerpt: "Licensed Polk County ACA agent reviews Marketplace eligibility, doctors, and prescriptions. You authorize HealthCare.gov.",
+    excerpt: "Review ACA Marketplace eligibility, doctors, prescriptions, and individual and family coverage paths for Lakeland and Polk County. You authorize HealthCare.gov.",
     tags: ["Under 65", "ACA", "Marketplace", "Individual", "Family", "Individual and Family", "Florida", "Polk County", "Agent"]
   },
   {
