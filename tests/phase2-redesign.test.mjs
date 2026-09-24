@@ -30,6 +30,7 @@ const IN_WINDOW = new Date('2026-10-15T16:00:00.000Z');
 
 function loadChrome(options = {}) {
   const sandbox = {
+    Intl: options.Intl || globalThis.Intl,
     document: {
       readyState: 'loading',
       addEventListener() {},
@@ -38,7 +39,7 @@ function loadChrome(options = {}) {
       body: { getAttribute() { return ''; } }
     },
     location: { pathname: options.pathname || '/', search: options.search || '' },
-    localStorage: {
+    localStorage: options.localStorage || {
       getItem() { return null; },
       setItem() {}
     },
@@ -139,11 +140,39 @@ test('seasonal banner is AEP-dated, dismissible, and avoids enrollment guarantee
   assert.match(SITE_TEMPLATE, /See Medicare enrollment dates/);
   assert.match(SITE_TEMPLATE, /href="\/medicare\/"/);
   assert.match(SITE_TEMPLATE, /seasonal-banner-dismiss/);
-  assert.match(SITE_TEMPLATE, /lhi-seasonal-banner-2026-aep-v1/);
+  assert.match(SITE_TEMPLATE, /lhi-seasonal-banner-aep-' \+ parts\.year \+ '-v1/);
+  assert.equal(chrome.bannerStorageKey(IN_WINDOW), 'lhi-seasonal-banner-aep-2026-v1');
   const bannerCopy = SITE_TEMPLATE.slice(SITE_TEMPLATE.indexOf('createSeasonalBanner'), SITE_TEMPLATE.indexOf('function createFloatingActions'));
   assert.doesNotMatch(bannerCopy, /guarantee|enrolled automatically|Florida Blue/i);
   assert.doesNotMatch(bannerCopy, /#1\b/);
   assert.doesNotMatch(bannerCopy, /Request a Medicare review|Medicare review dates/);
+});
+
+test('seasonal banner dismiss key is scoped to the current AEP year', () => {
+  const chrome = loadChrome();
+  assert.equal(chrome.bannerStorageKey(new Date('2026-10-15T16:00:00.000Z')), 'lhi-seasonal-banner-aep-2026-v1');
+  assert.equal(chrome.bannerStorageKey(new Date('2027-11-01T16:00:00.000Z')), 'lhi-seasonal-banner-aep-2027-v1');
+  const dismissed = {
+    getItem(key) { return key === 'lhi-seasonal-banner-aep-2026-v1' ? 'dismissed' : null; },
+    setItem() {}
+  };
+  const dismissedChrome = loadChrome({ localStorage: dismissed });
+  assert.equal(dismissedChrome.shouldShowSeasonalBanner('/', { now: new Date('2026-10-15T16:00:00.000Z') }), false);
+  assert.equal(dismissedChrome.shouldShowSeasonalBanner('/', { now: new Date('2027-10-15T16:00:00.000Z') }), true);
+});
+
+test('seasonal banner date helpers hide the banner if timezone formatting fails', () => {
+  const chrome = loadChrome({
+    Intl: {
+      DateTimeFormat() {
+        throw new Error('timezone unavailable');
+      }
+    }
+  });
+  assert.equal(chrome.isWithinSeasonalBannerWindow(IN_WINDOW), false);
+  assert.equal(chrome.shouldShowSeasonalBanner('/', { now: IN_WINDOW }), false);
+  assert.equal(chrome.shouldShowSeasonalBanner('/medicare/', { now: IN_WINDOW, intent: 'medicare' }), false);
+  assert.equal(chrome.bannerStorageKey(IN_WINDOW), '');
 });
 
 test('seasonal banner date window is Oct 1 through Dec 7 America/New_York', () => {
