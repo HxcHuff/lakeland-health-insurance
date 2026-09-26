@@ -15,7 +15,7 @@
   <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Get Health Insurance Help in Florida">
-  <meta name="twitter:description" content="Start a focused 2027 coverage review with a licensed Florida broker. A review is not enrollment.">
+  <meta name="twitter:description" content="Start a focused 2027 coverage review with a licensed Florida health agent. A review is not enrollment.">
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <script type="application/ld+json">
@@ -26,7 +26,7 @@
     "name": "Get Health Insurance Help",
     "description": "Structured intake form for 2027 health insurance plan review from a licensed Florida broker.",
     "url": "https://lakelandhealthinsurance.com/get-help/",
-    "dateModified": "2026-09-16",
+    "dateModified": "2026-09-24",
     "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
     "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
     "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
@@ -49,7 +49,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/fonts.css">
-  <link rel="stylesheet" href="/css/site-template.css?v=20260820-sitelink-leads">
+  <link rel="stylesheet" href="/css/site-template.css?v=20260924-phase2-chrome">
   <style>
     :root {
       --lhi-navy: #1B2A4A;
@@ -80,8 +80,12 @@
     .help-hero {
       background: linear-gradient(135deg, var(--lhi-navy) 0%, var(--lhi-navy-light) 100%);
       color: #fff;
-      padding: 46px 20px 42px;
+      padding: 168px 20px 42px;
       text-align: center;
+    }
+
+    body.has-seasonal-banner.get-help-page .help-hero {
+      padding-top: 208px;
     }
 
     .help-copy {
@@ -180,6 +184,37 @@
       font-weight: 800;
     }
 
+    .help-hero .hs-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(246, 231, 193, 0.28);
+      border-radius: 10px;
+      color: rgba(248, 250, 252, 0.92);
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin: 18px auto 0;
+      max-width: 620px;
+      padding: 12px 14px;
+      text-align: left;
+    }
+
+    .help-hero .hs-secondary[hidden] { display: none; }
+
+    .help-hero .hs-secondary strong {
+      color: #F6E7C1;
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+    }
+
+    .help-hero .hs-secondary a {
+      color: #F6E7C1;
+      display: inline-block;
+      font-weight: 800;
+      margin-top: 0.35rem;
+    }
+
     .form-tpmo {
       background: #F8FAFC;
       border: 1px solid var(--lhi-line);
@@ -217,7 +252,8 @@
       padding: clamp(20px, 4vw, 32px);
     }
 
-    #leadForm { scroll-margin-top: 12px; }
+    #leadForm { scroll-margin-top: 140px; }
+    body.has-seasonal-banner.get-help-page #leadForm { scroll-margin-top: 180px; }
 
     fieldset {
       border: 0;
@@ -230,7 +266,32 @@
       color: var(--lhi-muted);
       font-size: 0.86rem;
       font-weight: 800;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .form-stepper {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      list-style: none;
+      margin: 0 0 1.1rem;
+      padding: 0;
+    }
+
+    .form-stepper li {
+      background: var(--lhi-band);
+      border: 1px solid var(--lhi-line);
+      border-radius: 8px;
+      color: var(--lhi-muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 8px 10px;
+    }
+
+    .form-stepper li[aria-current="step"] {
+      background: rgba(212, 168, 67, 0.16);
+      border-color: rgba(212, 168, 67, 0.5);
+      color: var(--lhi-navy);
     }
 
     .form-step[hidden] { display: none; }
@@ -466,7 +527,8 @@
       .lp-header-inner { padding: 10px 16px; }
       .lp-brand { font-size: 18px; }
       body.get-help-page header .brand-name { font-size: 18px; }
-      .help-hero { padding: 34px 16px 30px; }
+      .help-hero { padding: 156px 16px 30px; }
+      body.has-seasonal-banner.get-help-page .help-hero { padding-top: 196px; }
       .help-copy h1 { font-size: 28px; }
       .help-copy > p:not(.eyebrow):not(.review-note) { font-size: 16px; }
       .review-note { font-size: 13px; }
@@ -487,7 +549,7 @@
 <body class="get-help-page">
   <header class="lp-header">
     <div class="lp-header-inner">
-      <a class="lp-brand" href="/">Lakeland Health Insurance<span>Licensed FL Broker #W371813</span></a>
+      <a class="lp-brand" href="/">Lakeland Health Insurance<span>Licensed Florida health agent #W371813</span></a>
     </div>
   </header>
 
@@ -503,6 +565,11 @@
         </div>
         <p class="help-phone-line">Or call <a href="tel:+18636403102">863-640-3102</a></p>
         <p class="review-note">David Huff, FL License #W371813, follows up through a channel you authorize. A review request is not enrollment.</p>
+        <aside class="hs-secondary" id="healthSherpaSecondary" hidden>
+          <strong>Optional self-service during Marketplace Open Enrollment</strong>
+          Compare ACA plans yourself on HealthSherpa. This is secondary to a licensed review and is not Medicare enrollment. HealthSherpa is a private enrollment site, not HealthCare.gov.
+          <a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer" data-funnel-external-quote data-analytics-label="get_help_aca_self_service">Open HealthSherpa</a>
+        </aside>
       </div>
     </section>
 
@@ -550,11 +617,16 @@
           <input type="hidden" name="lead_priority_reason">
 
           <div class="progress" id="progressText">Step 1 of 3</div>
+          <ol class="form-stepper" aria-label="Request steps">
+            <li data-stepper="1" aria-current="step">1. Who / what</li>
+            <li data-stepper="2">2. Details</li>
+            <li data-stepper="3">3. Contact &amp; consent</li>
+          </ol>
           <div class="error-summary" id="errorSummary" role="alert" hidden></div>
 
           <div class="form-step" data-step="1">
-            <h2 id="form-title" tabindex="-1">What can we help you with?</h2>
-            <p class="step-help">Choose the closest match. You can explain the details later.</p>
+            <h2 id="form-title" tabindex="-1">Who is this request for?</h2>
+            <p class="step-help">Choose the closest match. Details come next.</p>
             <fieldset>
               <legend class="visually-hidden">Inquiry type</legend>
               <div class="option-grid" id="intentOptions"></div>
@@ -566,8 +638,8 @@
           </div>
 
           <div class="form-step" data-step="2" hidden>
-            <h2 tabindex="-1">When do you need this handled?</h2>
-            <p class="step-help">This helps David understand your deadline and prepare for the applicable enrollment window.</p>
+            <h2 tabindex="-1">What details should David review?</h2>
+            <p class="step-help">Start with timing. Optional fields can be skipped.</p>
             <fieldset>
               <legend class="visually-hidden">When you need help</legend>
               <div class="option-grid">
@@ -577,6 +649,11 @@
                 <label class="choice"><input type="radio" name="need_timing" value="Just researching"><span>Just researching</span></label>
               </div>
             </fieldset>
+            <div class="optional-panel" aria-labelledby="optionalTitle">
+              <h3 id="optionalTitle">Optional details David can review before following up</h3>
+              <p class="consent-help" id="optionalPrivacyNote">Do not enter medication names, medical details, policy or member numbers, Medicare numbers, Social Security numbers, or medical records in optional fields.</p>
+              <div class="field-grid" id="optionalFields"></div>
+            </div>
             <div class="step-actions">
               <button class="ghost-button" type="button" data-prev>Back</button>
               <button class="form-button" type="button" data-next>Continue</button>
@@ -584,8 +661,8 @@
           </div>
 
           <div class="form-step" data-step="3" hidden>
-            <h2 tabindex="-1">Where should David follow up?</h2>
-            <p class="step-help">Enter your name and ZIP code, then choose how David may contact you. Add a phone number or email address for each channel you authorize. Optional details can be skipped.</p>
+            <h2 tabindex="-1">How should David follow up?</h2>
+            <p class="step-help">Enter your name and ZIP code, then choose how David may contact you. Add a phone number or email address for each channel you authorize.</p>
             <div class="field-grid">
               <div class="field full">
                 <label for="fullName">Full name</label>
@@ -667,12 +744,6 @@
             </label>
             <p class="consent-help">Consent is not a condition of purchase. See the <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>. Withdrawing one channel does not withdraw another.</p>
 
-            <div class="optional-panel" aria-labelledby="optionalTitle">
-              <h3 id="optionalTitle">Optional details David can review before calling</h3>
-              <p class="consent-help" id="optionalPrivacyNote" hidden>Do not enter medication names, medical details, policy or member numbers, Medicare numbers, Social Security numbers, or medical records in optional fields.</p>
-              <div class="field-grid" id="optionalFields"></div>
-            </div>
-
             <div class="step-actions">
               <button class="ghost-button" type="button" data-prev>Back</button>
               <button class="form-button" type="submit" id="submitButton">Send My Request</button>
@@ -685,8 +756,8 @@
     </section>
   </main>
 
-  <script src="/js/get-help-intake.js?v=20260916-coverage-center-source" defer></script>
-  <script src="/js/site-template.js?v=20260816-coverage-options" defer></script>
+  <script src="/js/get-help-intake.js?v=20260924-phase2-comply" defer></script>
+  <script src="/js/site-template.js?v=20260924-phase2-chrome" defer></script>
 <footer>
   <div class="container">
     <div class="footer-grid">

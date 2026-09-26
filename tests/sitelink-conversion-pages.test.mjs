@@ -74,7 +74,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /Message frequency varies; message and data rates may apply/);
     assert.match(form, /Reply STOP to cancel or HELP for help/);
 
-    assert.match(html, /\/css\/site-template\.css\?v=20260820-sitelink-leads/);
+    assert.match(html, /\/css\/site-template\.css\?v=20260924-phase2-chrome/);
     assert.match(html, /\/js\/funnel\.js\?v=20260821-lead-reconciliation/);
   });
 }
