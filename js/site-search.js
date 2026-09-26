@@ -62,9 +62,9 @@ const siteSearchIndex = [
     tags: ["ACA", "Marketplace", "CMS", "Agent", "Authorization", "Florida", "Lakeland", "Polk County", "Consumer Protection"]
   },
   {
-    title: "Health Plan Types",
+    title: "Florida Coverage Paths | ACA & Plan Review",
     url: "/plans/",
-    excerpt: "Choose a 2027 starting point for ACA Marketplace, Medicare, coverage loss, or extra coverage, then continue in the Coverage Center.",
+    excerpt: "Pick a Florida starting point—ACA Marketplace, Medicare, coverage loss, or extra coverage—then continue to a licensed Lakeland plan review.",
     tags: ["Plans", "Comparison", "Coverage", "Under 65", "Medicare"]
   },
   {
@@ -76,15 +76,15 @@ const siteSearchIndex = [
 
   // Medicare guidance
   {
-    title: "Medicare AEP 2027 Review in Lakeland and Polk County",
+    title: "Medicare Help in Lakeland, FL | Doctors, Rx & 2027 AEP",
     url: "/medicare/",
-    excerpt: "Start with 2027 AEP timing, coverage paths, doctors, prescriptions, and a Coverage Center Medicare plan review.",
+    excerpt: "Local Medicare review for Lakeland and Polk County. Compare 2027 Advantage, Medigap, and Part D around doctors, prescriptions, and timing.",
     tags: ["Medicare", "Medicare Advantage", "Original Medicare", "Medicare Supplement", "Medigap", "Part D", "Lakeland", "Polk County", "2027"]
   },
   {
-    title: "Medicare Broker in Lakeland, FL",
+    title: "Medicare Broker in Lakeland, FL | Doctors, Rx & AEP Review",
     url: "/medicare-broker-lakeland-fl/",
-    excerpt: "Who can help review Medicare Advantage plans in Lakeland, FL? Licensed broker compares Advantage, Medigap, and Part D. No separate broker fee.",
+    excerpt: "Licensed Florida broker compares Advantage, Medigap, and Part D around your doctors and prescriptions. No separate broker fee.",
     tags: ["Medicare", "Broker", "Agent", "Lakeland", "Polk County", "AEP", "Doctors", "Prescriptions"]
   },
   {
