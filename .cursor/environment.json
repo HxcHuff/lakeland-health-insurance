@@ -1,0 +1,16 @@
+{
+  "name": "Lakeland Health Insurance",
+  "install": "./.cursor/install.sh",
+  "terminals": [
+    {
+      "name": "static-site",
+      "command": "./run/setup.sh --start"
+    }
+  ],
+  "ports": [
+    {
+      "name": "static-site",
+      "port": 8080
+    }
+  ]
+}
