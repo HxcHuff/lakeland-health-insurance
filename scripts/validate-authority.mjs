@@ -73,7 +73,7 @@ const prohibitedSchemaTypes = new Set([
   'Review',
   'PostalAddress'
 ]);
-const excludedCarrierPattern = /\b(?:Aetna|FL\s*Blue|Florida\s+Blue|Capital\s+(?:HP|Health\s+Plan)|Bright\s+Health|Medica|Wellmark|FL\s+Health)\b/i;
+const excludedCarrierPattern = /\b(?:Aetna|FL\s*Blue|Florida\s+Blue|Capital\s+(?:HP|Health\s+Plan)|Bright\s+Health|Medica|Wellmark|FL\s+Health(?!\s+Agent\s+License))\b/i;
 const siteTemplateLoaderPattern = /src=["']\/js\/site-template\.js(?:\?[^"']*)?["']/i;
 const forbiddenClaims = [
   /coverage across the nation/i,
