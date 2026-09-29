@@ -333,7 +333,8 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'consent_call',
     'consent_sms',
     'consent_email',
-    'consent_marketing_email'
+    'consent_marketing_email',
+    'consent_text_version'
   ]),
   'lp-aca-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['household_size']),
   'lp-medicare-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
@@ -595,6 +596,35 @@ function minimizeGetHelpPayload(payload) {
   return payload;
 }
 
+const GET_HELP_CONSENT_TEXT_VERSION_V1 = 'get-help-2026-07-30-v1';
+const GET_HELP_CONSENT_TEXT_VERSION_V2 = 'get-help-2026-09-29-v2';
+const ALLOWED_CONSENT_TEXT_VERSIONS = Object.freeze([
+  GET_HELP_CONSENT_TEXT_VERSION_V1,
+  GET_HELP_CONSENT_TEXT_VERSION_V2
+]);
+const ALLOWED_CONSENT_TEXT_VERSION_SET = new Set(ALLOWED_CONSENT_TEXT_VERSIONS);
+
+function isGetHelpCanonicalPage(path) {
+  return path === '/get-help/' || path === '/get-help';
+}
+
+function defaultGetHelpConsentTextVersion(consentPage) {
+  return isGetHelpCanonicalPage(consentPage)
+    ? GET_HELP_CONSENT_TEXT_VERSION_V2
+    : GET_HELP_CONSENT_TEXT_VERSION_V1;
+}
+
+function resolveConsentTextVersion(submitted, consentPage) {
+  const version = typeof submitted === 'string' ? submitted.trim() : '';
+  if (ALLOWED_CONSENT_TEXT_VERSION_SET.has(version)) {
+    return { version, source: 'client' };
+  }
+  return {
+    version: defaultGetHelpConsentTextVersion(consentPage),
+    source: 'default'
+  };
+}
+
 function authorizeGetHelpConsent(payload, serverReceivedAt, consentPage) {
   if (payload['form-name'] !== 'get-help') return { ok: true };
   if (payload.consent_request !== 'yes') {
@@ -615,10 +645,13 @@ function authorizeGetHelpConsent(payload, serverReceivedAt, consentPage) {
     if (channelConsent[channel]) payload[field] = 'yes';
     else delete payload[field];
   });
+  const recordedPage = sanitizeSourcePath(consentPage || '/get-help/');
+  const resolvedConsentVersion = resolveConsentTextVersion(payload.consent_text_version, recordedPage);
   Object.assign(payload, {
-    consent_text_version: 'get-help-2026-07-30-v1',
+    consent_text_version: resolvedConsentVersion.version,
+    consent_version_source: resolvedConsentVersion.source,
     consent_recorded_at: serverReceivedAt,
-    consent_page: sanitizeSourcePath(consentPage || '/get-help/'),
+    consent_page: recordedPage,
     consent_request_state: 'granted',
     consent_call_state: channelConsent.call ? 'granted' : 'not_granted',
     consent_sms_state: channelConsent.sms ? 'granted' : 'not_granted',
@@ -1081,15 +1114,20 @@ function safeAdsError(error, skipped) {
 }
 
 exports._test = {
+  ALLOWED_CONSENT_TEXT_VERSIONS,
+  GET_HELP_CONSENT_TEXT_VERSION_V1,
+  GET_HELP_CONSENT_TEXT_VERSION_V2,
   authorizeGetHelpConsent,
   canonicalizeMedicareAttribution,
   corsPolicy,
   decodeRequestBody,
+  defaultGetHelpConsentTextVersion,
   filterPayloadForForm,
   metaBrowserIdentifier,
   metaMeasurementAllowed,
   readCookieState,
   minimizeGetHelpPayload,
+  resolveConsentTextVersion,
   resolveFormName,
   sanitizeCampaignAttribution,
   sanitizeCampaignToken,

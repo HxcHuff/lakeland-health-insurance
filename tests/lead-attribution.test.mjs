@@ -164,7 +164,8 @@ test('Forms acceptance mints receipt metadata, authorizes consent, and returns c
   assert.equal(form.get('coverage_end'), '2026-09-30');
   assert.equal(form.get('plan_year'), '2027');
   assert.equal(form.get('consent_recorded_at'), result.server_received_at);
-  assert.equal(form.get('consent_text_version'), 'get-help-2026-07-30-v1');
+  assert.equal(form.get('consent_text_version'), 'get-help-2026-09-29-v2');
+  assert.equal(form.get('consent_version_source'), 'default');
   assert.equal(form.get('consent_page'), '/get-help/');
   assert.equal(form.get('consent_request_state'), 'granted');
   assert.equal(form.get('consent_call_state'), 'granted');
@@ -270,6 +271,7 @@ test('direct sitelink forms record the page where consent was granted', async ()
   assert.equal(form.get('source_page'), '/carriers/');
   assert.equal(form.get('consent_page'), '/carriers/');
   assert.equal(form.get('consent_text_version'), 'get-help-2026-07-30-v1');
+  assert.equal(form.get('consent_version_source'), 'default');
   assert.equal(form.get('consent_request_state'), 'granted');
   const meta = JSON.parse(calls[1].init.body);
   assert.equal(meta.data[0].event_source_url, 'https://lakelandhealthinsurance.com/carriers/');
@@ -406,6 +408,110 @@ test('accepted requests receive unique server-minted opaque event IDs', async ()
   assert.match(first.event_id, /^[0-9a-f-]{36}$/i);
   assert.match(second.event_id, /^[0-9a-f-]{36}$/i);
   assert.notEqual(first.event_id, second.event_id);
+});
+
+test('allowlisted get-help v2 consent_text_version is recorded as client-sourced', async () => {
+  const { response, calls } = await invoke(getHelpPayload({
+    consent_text_version: 'get-help-2026-09-29-v2'
+  }));
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('consent_text_version'), 'get-help-2026-09-29-v2');
+  assert.equal(form.get('consent_version_source'), 'client');
+});
+
+test('allowlisted legacy get-help v1 consent_text_version is recorded as client-sourced', async () => {
+  const { response, calls } = await invoke(getHelpPayload({
+    consent_text_version: 'get-help-2026-07-30-v1'
+  }));
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('consent_text_version'), 'get-help-2026-07-30-v1');
+  assert.equal(form.get('consent_version_source'), 'client');
+});
+
+test('unknown consent_text_version is rejected and replaced with the get-help page default', async () => {
+  const { response, calls } = await invoke(getHelpPayload({
+    consent_text_version: 'attacker-version'
+  }));
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('consent_text_version'), 'get-help-2026-09-29-v2');
+  assert.equal(form.get('consent_version_source'), 'default');
+  assert.equal(form.toString().includes('attacker-version'), false);
+});
+
+test('missing consent_text_version falls back to the get-help page default', async () => {
+  const payload = getHelpPayload();
+  delete payload.consent_text_version;
+  const { response, calls } = await invoke(payload);
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('consent_text_version'), 'get-help-2026-09-29-v2');
+  assert.equal(form.get('consent_version_source'), 'default');
+});
+
+test('missing sitelink consent_text_version falls back to the v1 label that form renders', async () => {
+  const payload = getHelpPayload({
+    normalized_intent: 'not-sure',
+    inquiry_type: 'Carrier comparison',
+    line_of_business: 'General',
+    source_url: 'https://lakelandhealthinsurance.com/carriers/',
+    source_page: '/carriers/'
+  });
+  delete payload.consent_text_version;
+  const { response, calls } = await invoke(payload);
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('consent_text_version'), 'get-help-2026-07-30-v1');
+  assert.equal(form.get('consent_version_source'), 'default');
+  assert.equal(form.get('consent_page'), '/carriers/');
+});
+
+test('client-supplied consent_version_source is ignored and rewritten by the server', async () => {
+  const { response, calls } = await invoke(getHelpPayload({
+    consent_text_version: 'get-help-2026-09-29-v2',
+    consent_version_source: 'client'
+  }));
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('consent_text_version'), 'get-help-2026-09-29-v2');
+  assert.equal(form.get('consent_version_source'), 'client');
+
+  const unknown = await invoke(getHelpPayload({
+    consent_text_version: 'not-a-real-version',
+    consent_version_source: 'client'
+  }));
+  const unknownForm = new URLSearchParams(unknown.calls[0].init.body);
+  assert.equal(unknownForm.get('consent_text_version'), 'get-help-2026-09-29-v2');
+  assert.equal(unknownForm.get('consent_version_source'), 'default');
+});
+
+test('consent version resolver accepts only the explicit allowlist', () => {
+  assert.deepEqual(
+    _test.resolveConsentTextVersion('get-help-2026-09-29-v2', '/get-help/'),
+    { version: 'get-help-2026-09-29-v2', source: 'client' }
+  );
+  assert.deepEqual(
+    _test.resolveConsentTextVersion('get-help-2026-07-30-v1', '/get-help/'),
+    { version: 'get-help-2026-07-30-v1', source: 'client' }
+  );
+  assert.deepEqual(
+    _test.resolveConsentTextVersion('attacker-version', '/get-help/'),
+    { version: 'get-help-2026-09-29-v2', source: 'default' }
+  );
+  assert.deepEqual(
+    _test.resolveConsentTextVersion('', '/get-help/'),
+    { version: 'get-help-2026-09-29-v2', source: 'default' }
+  );
+  assert.deepEqual(
+    _test.resolveConsentTextVersion(undefined, '/carriers/'),
+    { version: 'get-help-2026-07-30-v1', source: 'default' }
+  );
+  assert.deepEqual(_test.ALLOWED_CONSENT_TEXT_VERSIONS, [
+    'get-help-2026-07-30-v1',
+    'get-help-2026-09-29-v2'
+  ]);
 });
 
 test('get-help rejects missing request consent before Forms or integrations', async () => {
