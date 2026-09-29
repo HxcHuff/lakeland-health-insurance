@@ -22,7 +22,7 @@ const siteSearchIndex = [
   {
     title: "Florida Individual and Family Coverage Guidance",
     url: "/",
-    excerpt: "Licensed Florida broker David Huff reviews Lakeland ACA and Medicare around doctors, prescriptions, and yearly cost. Start a plan review in the Coverage Center.",
+    excerpt: "Licensed Florida health agent David Huff reviews Lakeland ACA and Medicare around doctors, prescriptions, and yearly cost. Start a plan review in the Coverage Center.",
     tags: ["Under 65", "Pre-Medicare", "ACA", "Individual", "Family", "Individual and Family", "Home", "Florida"]
   },
   {
