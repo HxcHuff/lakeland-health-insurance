@@ -88,7 +88,7 @@ test('regulated-claim registry fails closed when controlled statement text chang
   const tampered = structuredClone(registry);
   const controlled = tampered.claims.find((claim) => claim.candidateEvidence?.length);
   controlled.candidateEvidence[0].fingerprints[0] = '0'.repeat(64);
-  const result = await checkRegistry({ root: ROOT, registry: tampered, asOf: '2026-08-12' });
+  const result = await checkRegistry({ root: ROOT, registry: tampered, asOf: '2026-09-29' });
   assert.ok(result.issues.some((issue) => issue.includes('candidate fingerprint no longer matches')));
 });
 
