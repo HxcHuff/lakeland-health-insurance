@@ -599,14 +599,17 @@ function minimizeGetHelpPayload(payload) {
 
 const GET_HELP_CONSENT_TEXT_VERSION_V1 = 'get-help-2026-07-30-v1';
 const GET_HELP_CONSENT_TEXT_VERSION_V2 = 'get-help-2026-09-29-v2';
-const LP_ACA_CONSENT_TEXT_VERSION = 'lp-aca-2026-09-29-v1';
-const LP_MEDICARE_CONSENT_TEXT_VERSION = 'lp-medicare-2026-09-29-v1';
-const LP_GAP_CONSENT_TEXT_VERSION = 'lp-gap-2026-09-29-v1';
+const LP_ACA_CONSENT_TEXT_VERSION_V1 = 'lp-aca-2026-09-29-v1';
+const LP_ACA_CONSENT_TEXT_VERSION_V2 = 'lp-aca-2026-09-29-v2';
+const LP_MEDICARE_CONSENT_TEXT_VERSION_V1 = 'lp-medicare-2026-09-29-v1';
+const LP_MEDICARE_CONSENT_TEXT_VERSION_V2 = 'lp-medicare-2026-09-29-v2';
+const LP_GAP_CONSENT_TEXT_VERSION_V1 = 'lp-gap-2026-09-29-v1';
+const LP_GAP_CONSENT_TEXT_VERSION_V2 = 'lp-gap-2026-09-29-v2';
 const CONSENT_TEXT_VERSION_NONE = 'none';
 const LP_CONSENT_TEXT_VERSIONS = Object.freeze({
-  'lp-aca-lead': LP_ACA_CONSENT_TEXT_VERSION,
-  'lp-medicare-lead': LP_MEDICARE_CONSENT_TEXT_VERSION,
-  'lp-gap-lead': LP_GAP_CONSENT_TEXT_VERSION
+  'lp-aca-lead': LP_ACA_CONSENT_TEXT_VERSION_V2,
+  'lp-medicare-lead': LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
+  'lp-gap-lead': LP_GAP_CONSENT_TEXT_VERSION_V2
 });
 const CITY_HEALTH_INSURANCE_FORMS = Object.freeze([
   'tampa-health-insurance',
@@ -626,9 +629,12 @@ const CITY_HEALTH_INSURANCE_FORM_SET = new Set(CITY_HEALTH_INSURANCE_FORMS);
 const ALLOWED_CONSENT_TEXT_VERSIONS = Object.freeze([
   GET_HELP_CONSENT_TEXT_VERSION_V1,
   GET_HELP_CONSENT_TEXT_VERSION_V2,
-  LP_ACA_CONSENT_TEXT_VERSION,
-  LP_MEDICARE_CONSENT_TEXT_VERSION,
-  LP_GAP_CONSENT_TEXT_VERSION
+  LP_ACA_CONSENT_TEXT_VERSION_V1,
+  LP_ACA_CONSENT_TEXT_VERSION_V2,
+  LP_MEDICARE_CONSENT_TEXT_VERSION_V1,
+  LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
+  LP_GAP_CONSENT_TEXT_VERSION_V1,
+  LP_GAP_CONSENT_TEXT_VERSION_V2
 ]);
 const ALLOWED_CONSENT_TEXT_VERSION_SET = new Set(ALLOWED_CONSENT_TEXT_VERSIONS);
 
@@ -685,7 +691,35 @@ function assignResolvedConsentVersion(payload, formName, consentPage) {
   return resolved;
 }
 
-function applyNonGetHelpConsentRecord(payload, formName, consentPage) {
+function isGrantedLpConsentValue(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  return normalized === 'yes' || normalized === 'on';
+}
+
+function applyLpMarketingConsentRecord(payload, formName, serverReceivedAt) {
+  const granted = isGrantedLpConsentValue(payload.consent);
+  const includeEmail = formName === 'lp-gap-lead';
+  const channelValue = granted ? 'yes' : 'no';
+  const state = granted ? 'granted' : 'not_granted';
+
+  payload.consent_sms = channelValue;
+  payload.consent_call = channelValue;
+  payload.consent_sms_state = state;
+  payload.consent_call_state = state;
+  if (includeEmail) {
+    payload.consent_email = channelValue;
+    payload.consent_email_state = state;
+  }
+  if (serverReceivedAt) payload.consent_recorded_at = serverReceivedAt;
+
+  if (!granted) {
+    payload.consent_text_version = LP_CONSENT_TEXT_VERSIONS[formName];
+    payload.consent_version_source = 'server';
+    payload.consent_version_mismatch = 'false';
+  }
+}
+
+function applyNonGetHelpConsentRecord(payload, formName, consentPage, serverReceivedAt) {
   if (formName === 'get-help') return;
   const recordedPage = sanitizeSourcePath(consentPage || payload.source_page || '/');
   const resolved = assignResolvedConsentVersion(payload, formName, recordedPage);
@@ -693,6 +727,10 @@ function applyNonGetHelpConsentRecord(payload, formName, consentPage) {
   payload.consent_page = recordedPage;
   if (CITY_HEALTH_INSURANCE_FORM_SET.has(formName)) {
     payload.consent_sms = 'no';
+    return;
+  }
+  if (Object.prototype.hasOwnProperty.call(LP_CONSENT_TEXT_VERSIONS, formName)) {
+    applyLpMarketingConsentRecord(payload, formName, serverReceivedAt);
   }
 }
 
@@ -811,7 +849,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({ ok: false, error: consentCheck.error })
     };
   }
-  applyNonGetHelpConsentRecord(payload, formName, sourcePath);
+  applyNonGetHelpConsentRecord(payload, formName, sourcePath, serverReceivedAt);
 
   const sourceUrl = eventSourceUrl(sourcePath);
   payload.source_url = sourcePath;
@@ -1189,9 +1227,12 @@ exports._test = {
   CONSENT_TEXT_VERSION_NONE,
   GET_HELP_CONSENT_TEXT_VERSION_V1,
   GET_HELP_CONSENT_TEXT_VERSION_V2,
-  LP_ACA_CONSENT_TEXT_VERSION,
-  LP_GAP_CONSENT_TEXT_VERSION,
-  LP_MEDICARE_CONSENT_TEXT_VERSION,
+  LP_ACA_CONSENT_TEXT_VERSION_V1,
+  LP_ACA_CONSENT_TEXT_VERSION_V2,
+  LP_GAP_CONSENT_TEXT_VERSION_V1,
+  LP_GAP_CONSENT_TEXT_VERSION_V2,
+  LP_MEDICARE_CONSENT_TEXT_VERSION_V1,
+  LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
   applyNonGetHelpConsentRecord,
   authorizeGetHelpConsent,
   canonicalizeMedicareAttribution,

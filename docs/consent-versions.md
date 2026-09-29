@@ -4,6 +4,8 @@ Recorded 2026-09-29. Each `html` block is copied verbatim from the live form mar
 
 `none` is not an allowlisted client version. City `*-health-insurance` forms collect no SMS consent, so the lead function stores `consent_sms=no`, `consent_text_version=none`, and `consent_version_source=none`.
 
+The `lp-*-2026-09-29-v1` strings remain on the server allowlist for older leads. Live paid landing pages now render the matching `v2` labels. Drift checks skip superseded sections.
+
 ## get-help-2026-07-30-v1
 
 - Date: 2026-07-30
@@ -81,7 +83,8 @@ Optional: send me ongoing educational and marketing emails. This is separate fro
 ## lp-aca-2026-09-29-v1
 
 - Date: 2026-09-29
-- Forms: `lp-aca-lead`
+- Status: superseded 2026-09-29 by `lp-aca-2026-09-29-v2`
+- Forms: `lp-aca-lead` (historical)
 - Pages:
   - `lp/aca/index.html`
 
@@ -94,7 +97,8 @@ By checking this box, I agree to receive calls and texts from Lakeland Health In
 ## lp-medicare-2026-09-29-v1
 
 - Date: 2026-09-29
-- Forms: `lp-medicare-lead`
+- Status: superseded 2026-09-29 by `lp-medicare-2026-09-29-v2`
+- Forms: `lp-medicare-lead` (historical)
 - Pages:
   - `lp/medicare/index.html`
 
@@ -107,7 +111,8 @@ By checking this box, I agree to receive calls and texts from Lakeland Health In
 ## lp-gap-2026-09-29-v1
 
 - Date: 2026-09-29
-- Forms: `lp-gap-lead`
+- Status: superseded 2026-09-29 by `lp-gap-2026-09-29-v2`
+- Forms: `lp-gap-lead` (historical)
 - Pages:
   - `lp/gap/index.html`
 
@@ -115,6 +120,45 @@ By checking this box, I agree to receive calls and texts from Lakeland Health In
 
 ```html
 By checking this box, I agree to receive calls, texts, and emails from Lakeland Health Insurance about my insurance request at the contact information provided. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help.
+```
+
+## lp-aca-2026-09-29-v2
+
+- Date: 2026-09-29
+- Forms: `lp-aca-lead`
+- Pages:
+  - `lp/aca/index.html`
+
+### consent
+
+```html
+By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+```
+
+## lp-medicare-2026-09-29-v2
+
+- Date: 2026-09-29
+- Forms: `lp-medicare-lead`
+- Pages:
+  - `lp/medicare/index.html`
+
+### consent
+
+```html
+By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my Medicare request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+```
+
+## lp-gap-2026-09-29-v2
+
+- Date: 2026-09-29
+- Forms: `lp-gap-lead`
+- Pages:
+  - `lp/gap/index.html`
+
+### consent
+
+```html
+By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers, and emails at the email address I provided. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
 ```
 
 ## none
