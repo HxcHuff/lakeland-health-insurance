@@ -691,7 +691,35 @@ function assignResolvedConsentVersion(payload, formName, consentPage) {
   return resolved;
 }
 
-function applyNonGetHelpConsentRecord(payload, formName, consentPage) {
+function isGrantedLpConsentValue(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  return normalized === 'yes' || normalized === 'on';
+}
+
+function applyLpMarketingConsentRecord(payload, formName, serverReceivedAt) {
+  const granted = isGrantedLpConsentValue(payload.consent);
+  const includeEmail = formName === 'lp-gap-lead';
+  const channelValue = granted ? 'yes' : 'no';
+  const state = granted ? 'granted' : 'not_granted';
+
+  payload.consent_sms = channelValue;
+  payload.consent_call = channelValue;
+  payload.consent_sms_state = state;
+  payload.consent_call_state = state;
+  if (includeEmail) {
+    payload.consent_email = channelValue;
+    payload.consent_email_state = state;
+  }
+  if (serverReceivedAt) payload.consent_recorded_at = serverReceivedAt;
+
+  if (!granted) {
+    payload.consent_text_version = LP_CONSENT_TEXT_VERSIONS[formName];
+    payload.consent_version_source = 'server';
+    payload.consent_version_mismatch = 'false';
+  }
+}
+
+function applyNonGetHelpConsentRecord(payload, formName, consentPage, serverReceivedAt) {
   if (formName === 'get-help') return;
   const recordedPage = sanitizeSourcePath(consentPage || payload.source_page || '/');
   const resolved = assignResolvedConsentVersion(payload, formName, recordedPage);
@@ -699,6 +727,10 @@ function applyNonGetHelpConsentRecord(payload, formName, consentPage) {
   payload.consent_page = recordedPage;
   if (CITY_HEALTH_INSURANCE_FORM_SET.has(formName)) {
     payload.consent_sms = 'no';
+    return;
+  }
+  if (Object.prototype.hasOwnProperty.call(LP_CONSENT_TEXT_VERSIONS, formName)) {
+    applyLpMarketingConsentRecord(payload, formName, serverReceivedAt);
   }
 }
 
@@ -817,7 +849,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({ ok: false, error: consentCheck.error })
     };
   }
-  applyNonGetHelpConsentRecord(payload, formName, sourcePath);
+  applyNonGetHelpConsentRecord(payload, formName, sourcePath, serverReceivedAt);
 
   const sourceUrl = eventSourceUrl(sourcePath);
   payload.source_url = sourcePath;

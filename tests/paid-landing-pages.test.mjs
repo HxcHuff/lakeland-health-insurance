@@ -57,14 +57,16 @@ for (const [label, html, canonical, formName] of [
     assert.match(form, /action="\/thanks\.html"/);
     assert.match(form, /data-netlify="true"/);
     assert.match(form, /data-funnel-track/);
-    for (const field of ['full_name', 'phone', 'zip_code', 'coverage_status', 'consent']) {
+    for (const field of ['full_name', 'phone', 'zip_code', 'coverage_status']) {
       assert.match(form, new RegExp(`name="${field}"[^>]*required`), `${label} requires ${field}`);
     }
     assert.doesNotMatch(form, /name="(?:email|best_time_to_reach|age_timeline|household_size)"/);
     assert.match(form, /Reply STOP to cancel or HELP for help/);
     assert.match(form, /name="consent_text_version" value="lp-(?:aca|medicare)-2026-09-29-v2"/);
-    assert.match(form, /<input type="checkbox" id="consent" name="consent" required>/);
+    assert.match(form, /<input type="checkbox" id="consent" name="consent" value="yes">/);
+    assert.doesNotMatch(form, /<input type="checkbox" id="consent"[^>]*\brequired\b/);
     assert.doesNotMatch(form, /<input type="checkbox" id="consent"[^>]*\bchecked\b/);
+    assert.doesNotMatch(form, /please agree/i);
   });
 }
 

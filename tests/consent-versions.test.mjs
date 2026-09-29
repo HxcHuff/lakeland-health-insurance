@@ -119,11 +119,13 @@ test('lp lead forms send their dedicated consent_text_version hidden fields', ()
   }
 });
 
-test('lp consent checkboxes stay unchecked by default', () => {
+test('lp consent checkboxes stay optional and unchecked by default', () => {
   for (const rel of ['lp/aca/index.html', 'lp/medicare/index.html', 'lp/gap/index.html']) {
     const html = readFileSync(resolve(ROOT, rel), 'utf8');
-    const checkbox = html.match(/<input type="checkbox" id="consent" name="consent" required>/);
-    assert.ok(checkbox, `${rel} keeps the required consent checkbox`);
+    const checkbox = html.match(/<input type="checkbox" id="consent" name="consent" value="yes">/);
+    assert.ok(checkbox, `${rel} keeps the optional consent checkbox`);
+    assert.doesNotMatch(html, /<input type="checkbox" id="consent"[^>]*\brequired\b/, `${rel} consent is not required`);
     assert.doesNotMatch(html, /<input type="checkbox" id="consent"[^>]*\bchecked\b/, `${rel} consent is unchecked`);
+    assert.doesNotMatch(html, /please agree/i, `${rel} has no please-agree gate copy`);
   }
 });

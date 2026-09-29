@@ -615,6 +615,80 @@ test('unknown lp consent_text_version falls back to the form default', async () 
   assert.equal(form.get('consent_version_mismatch'), 'false');
 });
 
+const LP_CONSENT_CASES = [
+  ['lp-aca-lead', 'lp-aca-2026-09-29-v2', '/lp/aca/', false],
+  ['lp-medicare-lead', 'lp-medicare-2026-09-29-v2', '/lp/medicare/', false],
+  ['lp-gap-lead', 'lp-gap-2026-09-29-v2', '/lp/gap/', true]
+];
+
+for (const [formName, version, page, includeEmail] of LP_CONSENT_CASES) {
+  test(`${formName} checked consent records granted SMS and call fields`, async () => {
+    const consentValue = formName === 'lp-medicare-lead' ? 'yes' : 'on';
+    const { response, calls } = await invoke(lpPayload(formName, version, { consent: consentValue }));
+    const result = JSON.parse(response.body);
+    assert.equal(response.statusCode, 200);
+    assert.equal(result.ok, true);
+    assert.equal(calls[0].url, 'https://lakelandhealthinsurance.com/');
+    const form = new URLSearchParams(calls[0].init.body);
+    assert.equal(form.get('form-name'), formName);
+    assert.equal(form.get('consent_sms'), 'yes');
+    assert.equal(form.get('consent_call'), 'yes');
+    assert.equal(form.get('consent_sms_state'), 'granted');
+    assert.equal(form.get('consent_call_state'), 'granted');
+    assert.equal(form.get('consent_recorded_at'), result.server_received_at);
+    assert.equal(form.get('consent_text_version'), version);
+    assert.equal(form.get('consent_version_source'), 'client');
+    assert.equal(form.get('consent_page'), page);
+    if (includeEmail) {
+      assert.equal(form.get('consent_email'), 'yes');
+      assert.equal(form.get('consent_email_state'), 'granted');
+    } else {
+      assert.equal(form.get('consent_email'), null);
+      assert.equal(form.get('consent_email_state'), null);
+    }
+  });
+
+  test(`${formName} unchecked consent stores the lead without granting SMS`, async () => {
+    const payload = lpPayload(formName, version);
+    delete payload.consent;
+    payload.consent_sms = 'yes';
+    const { response, calls } = await invoke(payload);
+    const result = JSON.parse(response.body);
+    assert.equal(response.statusCode, 200);
+    assert.equal(result.ok, true);
+    assert.equal(calls[0].url, 'https://lakelandhealthinsurance.com/');
+    const form = new URLSearchParams(calls[0].init.body);
+    assert.equal(form.get('form-name'), formName);
+    assert.equal(form.get('consent_sms'), 'no');
+    assert.equal(form.get('consent_call'), 'no');
+    assert.equal(form.get('consent_sms_state'), 'not_granted');
+    assert.equal(form.get('consent_call_state'), 'not_granted');
+    assert.equal(form.get('consent_recorded_at'), result.server_received_at);
+    assert.equal(form.get('consent_text_version'), version);
+    assert.equal(form.get('consent_version_source'), 'server');
+    assert.equal(form.get('consent_version_mismatch'), 'false');
+    assert.equal(form.get('consent_page'), page);
+    assert.notEqual(form.get('consent_sms'), 'yes');
+    if (includeEmail) {
+      assert.equal(form.get('consent_email'), 'no');
+      assert.equal(form.get('consent_email_state'), 'not_granted');
+    } else {
+      assert.equal(form.get('consent_email'), null);
+    }
+  });
+}
+
+test('unchecked lp lead with a v1 client version still records the live v2 text', async () => {
+  const payload = lpPayload('lp-aca-lead', 'lp-aca-2026-09-29-v1');
+  delete payload.consent;
+  const { response, calls } = await invoke(payload);
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('consent_sms'), 'no');
+  assert.equal(form.get('consent_text_version'), 'lp-aca-2026-09-29-v2');
+  assert.equal(form.get('consent_version_source'), 'server');
+});
+
 test('city health-insurance leads store no-SMS and none consent versions', async () => {
   const { response, calls } = await invoke(cityPayload());
   assert.equal(response.statusCode, 200);
