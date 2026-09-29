@@ -62,7 +62,9 @@ for (const [label, html, canonical, formName] of [
     }
     assert.doesNotMatch(form, /name="(?:email|best_time_to_reach|age_timeline|household_size)"/);
     assert.match(form, /Reply STOP to cancel or HELP for help/);
-    assert.match(form, /name="consent_text_version" value="lp-(?:aca|medicare)-2026-09-29-v1"/);
+    assert.match(form, /name="consent_text_version" value="lp-(?:aca|medicare)-2026-09-29-v2"/);
+    assert.match(form, /<input type="checkbox" id="consent" name="consent" required>/);
+    assert.doesNotMatch(form, /<input type="checkbox" id="consent"[^>]*\bchecked\b/);
   });
 }
 

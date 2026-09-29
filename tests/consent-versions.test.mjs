@@ -37,6 +37,7 @@ function parseConsentDoc(markdown) {
   for (const part of parts) {
     const lines = part.split('\n');
     const id = lines[0].trim();
+    const superseded = /^\s*- Status: superseded\b/m.test(part);
     const pages = [...part.matchAll(/^\s+- `([^`]+\.html)`$/gm)].map((match) => match[1]);
     const labels = {};
     const labelBlocks = part.split(/^### /m).slice(1);
@@ -45,7 +46,7 @@ function parseConsentDoc(markdown) {
       const html = block.match(/```html\n([\s\S]*?)\n```/);
       if (html) labels[name] = html[1];
     }
-    sections.push({ id, pages, labels });
+    sections.push({ id, pages, labels, superseded });
   }
   return sections;
 }
@@ -58,11 +59,18 @@ test('documented consent label text matches the live HTML on every listed page',
     'lp-aca-2026-09-29-v1',
     'lp-medicare-2026-09-29-v1',
     'lp-gap-2026-09-29-v1',
+    'lp-aca-2026-09-29-v2',
+    'lp-medicare-2026-09-29-v2',
+    'lp-gap-2026-09-29-v2',
     'none'
   ]);
 
   for (const section of sections) {
     assert.ok(section.pages.length > 0, `${section.id} lists pages`);
+    if (section.superseded) {
+      assert.ok(Object.keys(section.labels).length > 0, `${section.id} keeps superseded label text`);
+      continue;
+    }
     for (const rel of section.pages) {
       const html = readFileSync(resolve(ROOT, rel), 'utf8');
       for (const [name, text] of Object.entries(section.labels)) {
@@ -100,13 +108,22 @@ test('city health-insurance forms have no SMS checkbox', () => {
 
 test('lp lead forms send their dedicated consent_text_version hidden fields', () => {
   const cases = [
-    ['lp/aca/index.html', 'lp-aca-lead', 'lp-aca-2026-09-29-v1'],
-    ['lp/medicare/index.html', 'lp-medicare-lead', 'lp-medicare-2026-09-29-v1'],
-    ['lp/gap/index.html', 'lp-gap-lead', 'lp-gap-2026-09-29-v1']
+    ['lp/aca/index.html', 'lp-aca-lead', 'lp-aca-2026-09-29-v2'],
+    ['lp/medicare/index.html', 'lp-medicare-lead', 'lp-medicare-2026-09-29-v2'],
+    ['lp/gap/index.html', 'lp-gap-lead', 'lp-gap-2026-09-29-v2']
   ];
   for (const [rel, formName, version] of cases) {
     const html = readFileSync(resolve(ROOT, rel), 'utf8');
     assert.match(html, new RegExp(`name="form-name" value="${formName}"`));
     assert.match(html, new RegExp(`name="consent_text_version" value="${version}"`));
+  }
+});
+
+test('lp consent checkboxes stay unchecked by default', () => {
+  for (const rel of ['lp/aca/index.html', 'lp/medicare/index.html', 'lp/gap/index.html']) {
+    const html = readFileSync(resolve(ROOT, rel), 'utf8');
+    const checkbox = html.match(/<input type="checkbox" id="consent" name="consent" required>/);
+    assert.ok(checkbox, `${rel} keeps the required consent checkbox`);
+    assert.doesNotMatch(html, /<input type="checkbox" id="consent"[^>]*\bchecked\b/, `${rel} consent is unchecked`);
   }
 });

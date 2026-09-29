@@ -533,8 +533,12 @@ test('consent version resolver accepts only the explicit allowlist', () => {
     { version: 'get-help-2026-07-30-v1', source: 'default', mismatch: false }
   );
   assert.deepEqual(
+    _test.resolveConsentTextVersion('lp-aca-2026-09-29-v2', 'lp-aca-lead', '/lp/aca/'),
+    { version: 'lp-aca-2026-09-29-v2', source: 'client', mismatch: false }
+  );
+  assert.deepEqual(
     _test.resolveConsentTextVersion('lp-aca-2026-09-29-v1', 'lp-aca-lead', '/lp/aca/'),
-    { version: 'lp-aca-2026-09-29-v1', source: 'client', mismatch: false }
+    { version: 'lp-aca-2026-09-29-v1', source: 'client', mismatch: true }
   );
   assert.deepEqual(
     _test.resolveConsentTextVersion('get-help-2026-09-29-v2', 'tampa-health-insurance', '/tampa-health-insurance/'),
@@ -544,8 +548,11 @@ test('consent version resolver accepts only the explicit allowlist', () => {
     'get-help-2026-07-30-v1',
     'get-help-2026-09-29-v2',
     'lp-aca-2026-09-29-v1',
+    'lp-aca-2026-09-29-v2',
     'lp-medicare-2026-09-29-v1',
-    'lp-gap-2026-09-29-v1'
+    'lp-medicare-2026-09-29-v2',
+    'lp-gap-2026-09-29-v1',
+    'lp-gap-2026-09-29-v2'
   ]);
 });
 
@@ -580,21 +587,30 @@ function lpPayload(formName, version, overrides = {}) {
 }
 
 test('lp lead forms persist allowlisted consent_text_version and source', async () => {
-  const { response, calls } = await invoke(lpPayload('lp-aca-lead', 'lp-aca-2026-09-29-v1'));
+  const { response, calls } = await invoke(lpPayload('lp-aca-lead', 'lp-aca-2026-09-29-v2'));
   assert.equal(response.statusCode, 200);
   const form = new URLSearchParams(calls[0].init.body);
   assert.equal(form.get('form-name'), 'lp-aca-lead');
-  assert.equal(form.get('consent_text_version'), 'lp-aca-2026-09-29-v1');
+  assert.equal(form.get('consent_text_version'), 'lp-aca-2026-09-29-v2');
   assert.equal(form.get('consent_version_source'), 'client');
   assert.equal(form.get('consent_version_mismatch'), 'false');
   assert.equal(form.get('consent_page'), '/lp/aca/');
+});
+
+test('legacy lp v1 client values are accepted with a mismatch flag', async () => {
+  const { response, calls } = await invoke(lpPayload('lp-aca-lead', 'lp-aca-2026-09-29-v1'));
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('consent_text_version'), 'lp-aca-2026-09-29-v1');
+  assert.equal(form.get('consent_version_source'), 'client');
+  assert.equal(form.get('consent_version_mismatch'), 'true');
 });
 
 test('unknown lp consent_text_version falls back to the form default', async () => {
   const { response, calls } = await invoke(lpPayload('lp-medicare-lead', 'attacker-version'));
   assert.equal(response.statusCode, 200);
   const form = new URLSearchParams(calls[0].init.body);
-  assert.equal(form.get('consent_text_version'), 'lp-medicare-2026-09-29-v1');
+  assert.equal(form.get('consent_text_version'), 'lp-medicare-2026-09-29-v2');
   assert.equal(form.get('consent_version_source'), 'default');
   assert.equal(form.get('consent_version_mismatch'), 'false');
 });
