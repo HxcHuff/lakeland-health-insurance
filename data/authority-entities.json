@@ -10,7 +10,7 @@
     "name": "Lakeland Health Insurance",
     "url": "https://lakelandhealthinsurance.com/",
     "telephone": "+1-863-640-3102",
-    "email": "dhuff@healthmarkets.com",
+    "email": "david@lakelandhealthinsurance.com",
     "description": "The public-facing business name used by David Huff for local health-insurance assistance in Lakeland and Polk County and remote assistance across Florida. Lakeland Health Insurance is not an insurance carrier.",
     "relationshipToDavid": "Public-facing DBA led by David Huff",
     "notInsuranceCarrier": true,
@@ -25,10 +25,10 @@
   "person": {
     "@id": "https://lakelandhealthinsurance.com/about/#david-huff",
     "name": "David Huff",
-    "jobTitle": "Licensed health insurance agent and broker",
+    "jobTitle": "Licensed Florida Health Insurance Agent",
     "url": "https://lakelandhealthinsurance.com/about/",
     "telephone": "+1-863-640-3102",
-    "email": "dhuff@healthmarkets.com",
+    "email": "david@lakelandhealthinsurance.com",
     "floridaLicense": "W371813",
     "npn": "18213932"
   }

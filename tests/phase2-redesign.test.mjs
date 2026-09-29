@@ -104,7 +104,7 @@ test('shared chrome maps Medicare, under-65, and losing-coverage pages to intent
     },
     body: { getAttribute() { return ''; } }
   };
-  assert.equal(chrome.resolveIntent('/blog/how-to-read-insurance-card.html', metaDoc), 'medicare');
+  assert.equal(chrome.resolveIntent('/blog/how-to-read-health-insurance-card-guide.html', metaDoc), 'medicare');
   assert.equal(chrome.getHelpHref('medicare'), '/get-help/?intent=medicare');
   assert.equal(chrome.getHelpHref('under-65'), '/get-help/?intent=under-65');
   assert.equal(chrome.getHelpHref('losing-coverage'), '/get-help/?intent=losing-coverage');
@@ -194,7 +194,7 @@ test('seasonal banner date window is Oct 1 through Dec 7 America/New_York', () =
 test('homepage publishes Person JSON-LD and a compact NAP proof strip', () => {
   assert.match(HOME, /"@type": "Person"/);
   assert.match(HOME, /"@id": "https:\/\/lakelandhealthinsurance.com\/about\/#david-huff"/);
-  assert.match(HOME, /"jobTitle": "Licensed health insurance agent and broker"/);
+  assert.match(HOME, /"jobTitle": "Licensed Florida Health Insurance Agent"/);
   assert.match(HOME, /Florida License #W371813/);
   assert.match(HOME, /"postalCode": "33805"/);
   assert.doesNotMatch(HOME, /"@type": "AggregateRating"|reviewCount|"ratingValue"/);
@@ -227,7 +227,7 @@ test('Get Help is a 3-step who/details/contact flow with preserved fields and SM
   assert.match(GET_HELP_HTML, /What details should David review\?/);
   assert.match(GET_HELP_HTML, /How should David follow up\?/);
   assert.match(GET_HELP_HTML, /Start my request/);
-  assert.match(GET_HELP_HTML, /Book a time/);
+  assert.match(GET_HELP_HTML, /Call \(863\) 640-3102/);
   assert.match(GET_HELP_HTML, /863-640-3102/);
   assert.match(GET_HELP_HTML, /Reply STOP to cancel or HELP for help/);
   assert.match(GET_HELP_HTML, /name="consent_request"/);

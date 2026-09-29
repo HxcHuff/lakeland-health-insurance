@@ -4,6 +4,11 @@
 /get-help/ /get-help/index.html 200
 /get-help/index-v2.html /get-help/ 301!
 
+# Retired Calendly booking page
+/calendly-book.html /get-help/ 301!
+/calendly-book /get-help/ 301!
+/calendly-book.html/ /get-help/ 301!
+
 # Week-one aliases
 /aca /aca-health-insurance-lakeland-fl/ 301!
 /aca/ /aca-health-insurance-lakeland-fl/ 301!
@@ -69,6 +74,19 @@
 /blog/cigna-leaving-florida-aca-marketplace-2027 /blog/cigna-exiting-aca-marketplace-polk-county-2026.html 301!
 /blog/cigna-leaving-florida-aca-marketplace-2027/ /blog/cigna-exiting-aca-marketplace-polk-county-2026.html 301!
 
+# Blog consolidations 2026-09-29: merge competing posts into survivors
+/blog/how-to-read-insurance-card.html /blog/how-to-read-health-insurance-card-guide.html 301!
+/blog/how-to-read-health-insurance-card-guide /blog/how-to-read-health-insurance-card-guide.html 301!
+/blog/how-to-read-health-insurance-card-guide/ /blog/how-to-read-health-insurance-card-guide.html 301!
+/blog/short-term-health-insurance-guide.html /blog/short-term-medical-guide.html 301!
+/blog/aca-vs-short-term-plans.html /blog/short-term-medical-guide.html 301!
+/blog/short-term-vs-triterm-medical.html /blog/short-term-medical-guide.html 301!
+/blog/short-term-vs-triterm-medical /blog/short-term-medical-guide.html 301!
+/blog/short-term-vs-triterm-medical/ /blog/short-term-medical-guide.html 301!
+/blog/self-employed-tax-deductions-ichra-guide.html /blog/health-insurance-self-employed-tax-deductions.html 301!
+/blog/freelancer-health-insurance-lakeland-2026.html /blog/health-insurance-self-employed-lakeland-polk-county-2026.html 301!
+/blog/lost-job-health-insurance-lakeland.html /blog/lost-job-coverage-aca-insurance-florida.html 301!
+
 # Blog post redirects: non-.html → .html (canonical)
 /blog/5-critical-health-insurance-mistakes /blog/5-critical-health-insurance-mistakes.html 301!
 /blog/5-critical-health-insurance-mistakes/ /blog/5-critical-health-insurance-mistakes.html 301!
@@ -78,8 +96,8 @@
 /blog/aca-subsidy-cliff/ /blog/aca-subsidy-cliff.html 301!
 /blog/aca-subsidy-tax-return-clawback /blog/aca-subsidy-tax-return-clawback.html 301!
 /blog/aca-subsidy-tax-return-clawback/ /blog/aca-subsidy-tax-return-clawback.html 301!
-/blog/aca-vs-short-term-plans /blog/aca-vs-short-term-plans.html 301!
-/blog/aca-vs-short-term-plans/ /blog/aca-vs-short-term-plans.html 301!
+/blog/aca-vs-short-term-plans /blog/short-term-medical-guide.html 301!
+/blog/aca-vs-short-term-plans/ /blog/short-term-medical-guide.html 301!
 /blog/dental-insurance-guide /blog/dental-insurance-guide.html 301!
 /blog/dental-insurance-guide/ /blog/dental-insurance-guide.html 301!
 /blog/fixed-indemnity-analysis /blog/fixed-indemnity-analysis.html 301!
@@ -88,16 +106,16 @@
 /blog/florida-aca-enrollment-and-benefits-2026/ /blog/florida-aca-enrollment-and-benefits-2026.html 301!
 /blog/florida-insurance-guide /blog/florida-insurance-guide.html 301!
 /blog/florida-insurance-guide/ /blog/florida-insurance-guide.html 301!
-/blog/freelancer-health-insurance-lakeland-2026 /blog/freelancer-health-insurance-lakeland-2026.html 301!
-/blog/freelancer-health-insurance-lakeland-2026/ /blog/freelancer-health-insurance-lakeland-2026.html 301!
+/blog/freelancer-health-insurance-lakeland-2026 /blog/health-insurance-self-employed-lakeland-polk-county-2026.html 301!
+/blog/freelancer-health-insurance-lakeland-2026/ /blog/health-insurance-self-employed-lakeland-polk-county-2026.html 301!
 /blog/health-insurance-self-employed-tax-deductions /blog/health-insurance-self-employed-tax-deductions.html 301!
 /blog/health-insurance-self-employed-tax-deductions/ /blog/health-insurance-self-employed-tax-deductions.html 301!
 /blog/hmo-vs-ppo-vs-epo-explained /blog/hmo-vs-ppo-vs-epo-explained.html 301!
 /blog/hmo-vs-ppo-vs-epo-explained/ /blog/hmo-vs-ppo-vs-epo-explained.html 301!
 /blog/how-to-negotiate-hospital-bills /blog/how-to-negotiate-hospital-bills.html 301!
 /blog/how-to-negotiate-hospital-bills/ /blog/how-to-negotiate-hospital-bills.html 301!
-/blog/how-to-read-insurance-card /blog/how-to-read-insurance-card.html 301!
-/blog/how-to-read-insurance-card/ /blog/how-to-read-insurance-card.html 301!
+/blog/how-to-read-insurance-card /blog/how-to-read-health-insurance-card-guide.html 301!
+/blog/how-to-read-insurance-card/ /blog/how-to-read-health-insurance-card-guide.html 301!
 /blog/how-to-use-health-insurance-without-going-broke /blog/how-to-use-health-insurance-without-going-broke.html 301!
 /blog/how-to-use-health-insurance-without-going-broke/ /blog/how-to-use-health-insurance-without-going-broke.html 301!
 /blog/lakeland-regional-watson-clinic-insurance-2026 /blog/orlando-health-watson-clinic-insurance-2026.html 301!
@@ -121,10 +139,10 @@
 /blog/preexisting-condition-guide/ /blog/preexisting-condition-guide.html 301!
 /blog/real-cost-going-without-health-insurance /blog/real-cost-going-without-health-insurance.html 301!
 /blog/real-cost-going-without-health-insurance/ /blog/real-cost-going-without-health-insurance.html 301!
-/blog/self-employed-tax-deductions-ichra-guide /blog/self-employed-tax-deductions-ichra-guide.html 301!
-/blog/self-employed-tax-deductions-ichra-guide/ /blog/self-employed-tax-deductions-ichra-guide.html 301!
-/blog/short-term-health-insurance-guide /blog/short-term-health-insurance-guide.html 301!
-/blog/short-term-health-insurance-guide/ /blog/short-term-health-insurance-guide.html 301!
+/blog/self-employed-tax-deductions-ichra-guide /blog/health-insurance-self-employed-tax-deductions.html 301!
+/blog/self-employed-tax-deductions-ichra-guide/ /blog/health-insurance-self-employed-tax-deductions.html 301!
+/blog/short-term-health-insurance-guide /blog/short-term-medical-guide.html 301!
+/blog/short-term-health-insurance-guide/ /blog/short-term-medical-guide.html 301!
 /blog/short-term-medical-guide /blog/short-term-medical-guide.html 301!
 /blog/short-term-medical-guide/ /blog/short-term-medical-guide.html 301!
 /blog/trump-state-of-the-union-healthcare-hsa-2026 /blog/trump-state-of-the-union-healthcare-hsa-2026.html 301!
@@ -141,8 +159,8 @@
 /blog/er-visit-cost-lakeland-without-insurance-2026/ /blog/er-visit-cost-lakeland-without-insurance-2026.html 301!
 /blog/life-change-health-insurance-60-day-window-florida /blog/life-change-health-insurance-60-day-window-florida.html 301!
 /blog/life-change-health-insurance-60-day-window-florida/ /blog/life-change-health-insurance-60-day-window-florida.html 301!
-/blog/lost-job-health-insurance-lakeland /blog/lost-job-health-insurance-lakeland.html 301!
-/blog/lost-job-health-insurance-lakeland/ /blog/lost-job-health-insurance-lakeland.html 301!
+/blog/lost-job-health-insurance-lakeland /blog/lost-job-coverage-aca-insurance-florida.html 301!
+/blog/lost-job-health-insurance-lakeland/ /blog/lost-job-coverage-aca-insurance-florida.html 301!
 /blog/why-florida-health-insurance-premiums-increased-2026 /blog/why-florida-health-insurance-premiums-increased-2026.html 301!
 /blog/why-florida-health-insurance-premiums-increased-2026/ /blog/why-florida-health-insurance-premiums-increased-2026.html 301!
 /blog/zero-premium-health-insurance-florida-2026 /blog/zero-premium-health-insurance-florida-2026.html 301!
@@ -239,8 +257,8 @@
 /carriers/aca-florida-2026/ /carriers/ 301!
 
 # 301 the deleted orphan root page to the blog version
-/lost-job-health-insurance-lakeland.html /blog/lost-job-health-insurance-lakeland.html 301!
-/lost-job-health-insurance-lakeland /blog/lost-job-health-insurance-lakeland.html 301!
+/lost-job-health-insurance-lakeland.html /blog/lost-job-coverage-aca-insurance-florida.html 301!
+/lost-job-health-insurance-lakeland /blog/lost-job-coverage-aca-insurance-florida.html 301!
 # Repository-internal files are never public site content.
 /AGENTS.md /404.html 404!
 /ANALYTICS-TRACKING.md /404.html 404!

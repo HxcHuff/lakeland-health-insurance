@@ -243,7 +243,7 @@
       ['/learning/', 'Learn'],
       ['/about/', 'About'],
       [helpHref, 'Get Help'],
-      ['/calendly-book.html', 'Book a Call'],
+      [phoneHref, phoneDisplay],
       [phoneHref, 'Call Now']
     ];
     const header = document.createElement('header');
@@ -286,7 +286,7 @@
             <h3>Contact David</h3>
             <ul>
               <li><a href="${phoneHref}"><span aria-hidden="true">&#128222;</span> ${phoneDisplay}</a></li>
-              <li><a href="mailto:dhuff@healthmarkets.com"><span aria-hidden="true">&#128231;</span> dhuff@healthmarkets.com</a></li>
+              <li><a href="mailto:david@lakelandhealthinsurance.com"><span aria-hidden="true">&#128231;</span> david@lakelandhealthinsurance.com</a></li>
               <li><a href="${messengerHref}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
               <li><span aria-hidden="true">&#128205;</span> Lakeland Health Insurance · Lakeland, FL 33805 · By appointment</li>
             </ul>
@@ -330,11 +330,12 @@
         </div>
         <div class="footer-tpmo" role="note">
           <p class="tpmo-standard-disclaimer">${tpmoDisclaimer}</p>
+          <p class="tpmo-inventory-note">Company inventory note: The 10 organizations and 73 products referenced above reflect the plans available for the 2026 plan year in the Lakeland/Polk County service area as of August 17, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
         </div>
         <div class="footer-bottom">
           <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>
           <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier.</p>
-          <p style="margin-top: 1rem;"><a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer">Powered by David the Insurance Dude</a></p>
+          <p style="margin-top: 1rem;">Powered by David the Insurance Dude</p>
         </div>
       </div>`;
     return footer;

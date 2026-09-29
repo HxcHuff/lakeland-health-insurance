@@ -22,7 +22,7 @@ const siteSearchIndex = [
   {
     title: "Florida Individual and Family Coverage Guidance",
     url: "/",
-    excerpt: "Licensed Florida broker David Huff reviews Lakeland ACA and Medicare around doctors, prescriptions, and yearly cost. Start a plan review in the Coverage Center.",
+    excerpt: "Licensed Florida health agent David Huff reviews Lakeland ACA and Medicare around doctors, prescriptions, and yearly cost. Start a plan review in the Coverage Center.",
     tags: ["Under 65", "Pre-Medicare", "ACA", "Individual", "Family", "Individual and Family", "Home", "Florida"]
   },
   {
@@ -100,9 +100,9 @@ const siteSearchIndex = [
     tags: ["Medicare", "Lake Alfred", "Haines City", "Davenport", "Winter Haven", "East Polk"]
   },
   {
-    title: "When Can I Switch Medicare Plans in Florida? (2026 Guide)",
+    title: "When Can I Switch Medicare Plans in Florida? Every Window",
     url: "/blog/when-can-i-switch-medicare-plans-florida.html",
-    excerpt: "AEP, MA-OEP, Initial Enrollment, and Special Enrollment Periods explained for Florida and Polk County Medicare clients.",
+    excerpt: "Annual Enrollment runs Oct 15 to Dec 7 and Medicare Advantage Open Enrollment runs Jan 1 to Mar 31, plus the special periods that allow mid-year changes.",
     tags: ["Medicare", "AEP", "Enrollment", "Switching Plans", "Florida"]
   },
   {
@@ -112,9 +112,9 @@ const siteSearchIndex = [
     tags: ["Medicare", "Turning 65", "Initial Enrollment", "Part B", "Part D"]
   },
   {
-    title: "Medicare AEP 2027 Polk County Checklist",
+    title: "Medicare Open Enrollment Checklist for Polk County",
     url: "/blog/aep-2026-polk-county-checklist.html",
-    excerpt: "A practical Annual Enrollment checklist for 2027 doctors, prescriptions, pharmacies, MOOP, and plan changes.",
+    excerpt: "Annual Enrollment runs Oct 15 to Dec 7. Check your doctors, prescriptions, and total yearly costs before you switch Medicare plans in Polk County.",
     tags: ["Medicare", "AEP", "Polk County", "Checklist", "Prescriptions"]
   },
   {
@@ -137,15 +137,15 @@ const siteSearchIndex = [
     tags: ["Medicaid", "Florida", "Renewal", "Redetermination", "MyACCESS", "Losing Coverage", "Polk County"]
   },
   {
-    title: "Can My Family Get Marketplace Coverage Through My Job?",
+    title: "Family Marketplace Coverage When Your Job Offers a Plan",
     url: "/blog/employer-coverage-family-marketplace-affordability-florida.html",
-    excerpt: "How 2026 affordability is reviewed separately for employees and offered tax-family members when employer dependent coverage is expensive.",
+    excerpt: "Your family may qualify for Marketplace savings even when your own work plan counts as affordable. How the family affordability test works in Florida.",
     tags: ["ACA", "Marketplace", "Employer Coverage", "Family", "Dependents", "Affordability", "Polk County"]
   },
   {
-    title: "Can I Get ACA Insurance If I Lost Job Coverage in Florida?",
+    title: "Lost Job Health Insurance in Florida? Your 60-Day Options",
     url: "/blog/lost-job-coverage-aca-insurance-florida.html",
-    excerpt: "ACA Special Enrollment Period rules and deadlines, COBRA comparison, subsidy estimates, and what to check after employer coverage ends.",
+    excerpt: "When job-based coverage ends, you have 60 days to pick a Marketplace plan. Compare COBRA, ACA coverage, and Medicaid in Lakeland and Polk County.",
     tags: ["ACA", "Florida", "Special Enrollment", "Job Loss", "COBRA"]
   },
   {
@@ -202,12 +202,7 @@ const siteSearchIndex = [
     excerpt: "Understand why emergency care can create substantial financial exposure without coverage and which plan details affect out-of-pocket risk.",
     tags: ["Florida", "Lakeland", "Uninsured", "ER Costs"]
   },
-  {
-    title: "Health Insurance After Job Loss in Lakeland",
-    url: "/blog/lost-job-health-insurance-lakeland.html",
-    excerpt: "Compare COBRA, ACA Marketplace coverage, Medicaid, and other available paths after job loss, then confirm eligibility, deadlines, and documentation.",
-    tags: ["Job Loss", "ACA", "COBRA", "SEP", "Lakeland"]
-  },
+
   {
     title: "ACA Subsidy Reconciliation and Incorrect Income",
     url: "/blog/aca-subsidy-tax-return-clawback.html",
@@ -226,12 +221,7 @@ const siteSearchIndex = [
     excerpt: "Many Floridians are seeing higher 2026 premiums. Here are the key reasons: subsidy changes, rising healthcare costs, and Marketplace enrollment dynamics.",
     tags: ["Florida", "ACA", "Premiums"]
   },
-  {
-    title: "Self-Employment Tax Deductions and ICHRA: What Business Owners Need to Know",
-    url: "/blog/self-employed-tax-deductions-ichra-guide.html",
-    excerpt: "A practical guide to self-employed health insurance deductions and ICHRA strategy in 2027. Learn where each option fits and what to review with your CPA.",
-    tags: ["Self-Employed", "Tax Planning", "ICHRA"]
-  },
+
   {
     title: "2026 State of the Union: Healthcare and HSA Takeaways",
     url: "/blog/trump-state-of-the-union-healthcare-hsa-2026.html",
@@ -263,9 +253,9 @@ const siteSearchIndex = [
     tags: ["Lakeland", "Local", "Networks", "Orlando Health", "Watson Clinic"]
   },
   {
-    title: "Freelancer Health Insurance in Lakeland: 2026 Guide",
-    url: "/blog/freelancer-health-insurance-lakeland-2026.html",
-    excerpt: "Compare ACA options, subsidy planning, providers, prescriptions, and total annual exposure for self-employed Lakeland residents.",
+    title: "Health Insurance for Self-Employed Workers in Lakeland and Polk County",
+    url: "/blog/health-insurance-self-employed-lakeland-polk-county-2026.html",
+    excerpt: "ACA Marketplace coverage, income estimates, premium tax-credit basics, and local plan checks for contractors and small-business owners.",
     tags: ["Self-Employed", "Lakeland", "ACA"]
   },
   {
@@ -281,9 +271,9 @@ const siteSearchIndex = [
     tags: ["Medical Bills", "Financial", "Tips"]
   },
   {
-    title: "HMO vs PPO vs EPO: Health Plan Networks Explained",
+    title: "HMO vs EPO vs PPO: Referrals and Out-of-Network Rules",
     url: "/blog/hmo-vs-ppo-vs-epo-explained.html",
-    excerpt: "Compare common network structures, referral rules, out-of-network benefits, and the plan documents to verify before enrolling.",
+    excerpt: "HMO, EPO, or PPO? See which plan types need referrals, which pay for out-of-network care, and how to check your Lakeland doctors before you enroll.",
     tags: ["Plan Types", "Coverage", "Comparison"]
   },
   {
@@ -293,9 +283,9 @@ const siteSearchIndex = [
     tags: ["Coverage", "Financial", "Basics"]
   },
   {
-    title: "Self-Employed Health Insurance Deduction",
+    title: "Self-Employed Health Insurance Deduction: Form 7206 Guide",
     url: "/blog/health-insurance-self-employed-tax-deductions.html",
-    excerpt: "Review eligibility limits, employer-plan restrictions, Form 7206, Schedule 1 reporting, and Marketplace premium tax credit coordination.",
+    excerpt: "Who can deduct health insurance premiums when self-employed, how Form 7206 works, the earned-income limit, and how it interacts with Marketplace tax credits.",
     tags: ["Self-Employed", "Tax Deductions", "Financial"]
   },
   {
@@ -346,16 +336,11 @@ const siteSearchIndex = [
     excerpt: "Compare ACA protections with underwriting, exclusions, and waiting periods that may apply to non-ACA coverage.",
     tags: ["Pre-Existing", "Coverage", "ACA"]
   },
+
   {
-    title: "ACA vs Short-Term Coverage: Benefits and Limitations",
-    url: "/blog/aca-vs-short-term-plans.html",
-    excerpt: "Compare eligibility, underwriting, pre-existing-condition rules, duration, networks, benefits, and exclusions.",
-    tags: ["ACA", "Short-Term", "Comparison"]
-  },
-  {
-    title: "Short-Term Medical Insurance in Florida: Uses and Limits",
+    title: "Short-Term Health Insurance in Florida: Costs, Limits, Risks",
     url: "/blog/short-term-medical-guide.html",
-    excerpt: "Review federal duration limits, underwriting, exclusions, and when short-term coverage may or may not fit a temporary gap.",
+    excerpt: "What short-term health insurance covers in Florida, what it excludes, how health questions affect approval, and when an ACA plan or COBRA is safer.",
     tags: ["Short-Term", "Coverage", "Comparison"]
   },
   {
@@ -382,24 +367,14 @@ const siteSearchIndex = [
     excerpt: "Compare premiums, annual maximums, waiting periods, networks, exclusions, and expected dental costs.",
     tags: ["Dental", "Coverage", "Tips"]
   },
-  {
-    title: "Short-Term Health Insurance: Uses and Limitations",
-    url: "/blog/short-term-health-insurance-guide.html",
-    excerpt: "Review duration, underwriting, exclusions, benefit limits, and where short-term coverage may fit a temporary gap.",
-    tags: ["Short-Term", "Coverage", "Comparison"]
-  },
+
   {
     title: "Medicare Basics for 2027",
     url: "/blog/medicare-for-dummies.html",
     excerpt: "Understand Parts A, B, C and D, current costs, Medicare enrollment periods, and the tradeoffs between Original Medicare and Medicare Advantage.",
     tags: ["Medicare", "Seniors", "Tips"]
   },
-  {
-    title: "How to Read Your Health Insurance Card",
-    url: "/blog/how-to-read-insurance-card.html",
-    excerpt: "Identify member IDs, plan details, prescription fields, service numbers, and effective dates.",
-    tags: ["Tips", "Coverage", "Basics"]
-  },
+
   {
     title: "3 Things Changing Florida Health Insurance Right Now",
     url: "/blog/3-things-changing-florida-health-insurance-may-2026.html",
@@ -497,9 +472,9 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Wesley Chapel", "Pasco County"]
   },
   {
-    title: "How to Read Your Health Insurance Card: Field-by-Field Guide",
+    title: "How to Read Your Health Insurance Card: Every Field Explained",
     url: "/blog/how-to-read-health-insurance-card-guide.html",
-    excerpt: "A field-by-field guide to member ID, group number, BIN, PCN, RxGroup, copays, and plan contact details.",
+    excerpt: "Find your member ID, group number, contract number, and Rx BIN/PCN on any health insurance card, plus what to check the day your card arrives.",
     tags: ["Tips", "Coverage", "Insurance Card", "Basics"]
   },
   {
@@ -533,9 +508,9 @@ const siteSearchIndex = [
     tags: ["Lakeland", "Networks", "Orlando Health", "Watson Clinic"]
   },
   {
-    title: "Orlando Health Lakeland Hospital 2026: What It Means for Your Plan",
+    title: "Orlando Health Lakeland Highlands Hospital: Check Your Plan",
     url: "/blog/orlando-health-polk-county-expansion-2026.html",
-    excerpt: "How Orlando Health's South Lakeland hospital expansion may affect ACA and Medicare provider network checks.",
+    excerpt: "How to confirm your ACA or Medicare plan covers Orlando Health's South Lakeland hospital and its doctors before you need care there.",
     tags: ["Lakeland", "Networks", "Hospital Expansion", "ACA", "Medicare"]
   },
   {
@@ -544,12 +519,7 @@ const siteSearchIndex = [
     excerpt: "The South Lakeland hospital is open, but doctor, facility, referral, and exact plan-ID participation still require verification.",
     tags: ["Lakeland", "Networks", "Watson Clinic", "Orlando Health"]
   },
-  {
-    title: "Short-Term Medical vs TriTerm Medical in Florida",
-    url: "/blog/short-term-vs-triterm-medical.html",
-    excerpt: "Compare Short-Term Medical and TriTerm Medical in Florida, including when ACA may be safer and what to verify before applying.",
-    tags: ["Short-Term", "TriTerm", "ACA", "Florida"]
-  },
+
   {
     title: "Why You're Overpaying for Health Insurance in Polk County",
     url: "/blog/why-overpaying-health-insurance-central-florida.html",

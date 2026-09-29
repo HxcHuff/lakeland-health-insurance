@@ -87,7 +87,7 @@ Define one canonical contract for:
 - Florida license: W371813
 - NPN: 18213932
 - Phone: 863-640-3102
-- Email: dhuff@healthmarkets.com
+- Email: david@lakelandhealthinsurance.com
 - Primary local market: Lakeland and Polk County
 - Statewide scope: Florida, using accurate service and product limitations
 
@@ -163,7 +163,7 @@ Across files directly supporting the homepage and About page, correct only high-
 - Florida license W371813
 - NPN 18213932
 - Phone 863-640-3102
-- Email dhuff@healthmarkets.com
+- Email david@lakelandhealthinsurance.com
 - Canonical URLs
 - Canonical entity references
 - Lakeland/Polk County/Florida service-area wording
