@@ -104,7 +104,7 @@ test('shared chrome maps Medicare, under-65, and losing-coverage pages to intent
     },
     body: { getAttribute() { return ''; } }
   };
-  assert.equal(chrome.resolveIntent('/blog/how-to-read-insurance-card.html', metaDoc), 'medicare');
+  assert.equal(chrome.resolveIntent('/blog/how-to-read-health-insurance-card-guide.html', metaDoc), 'medicare');
   assert.equal(chrome.getHelpHref('medicare'), '/get-help/?intent=medicare');
   assert.equal(chrome.getHelpHref('under-65'), '/get-help/?intent=under-65');
   assert.equal(chrome.getHelpHref('losing-coverage'), '/get-help/?intent=losing-coverage');

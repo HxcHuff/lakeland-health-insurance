@@ -180,7 +180,7 @@ test('provider-check routing and rewritten Medicare sitemap dates are canonical'
 
   assert.match(watson, /href="\/get-help\/\?intent=provider-check">Start a provider check<\/a>/);
   assert.doesNotMatch(watson, /intent=provider-prescription(?:["&])/);
-  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/when-can-i-switch-medicare-plans-florida\.html<\/loc>\s*<lastmod>2026-08-17<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/when-can-i-switch-medicare-plans-florida\.html<\/loc>\s*<lastmod>2026-09-29<\/lastmod>/);
   assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/medicare-supplement-cost-lakeland\.html<\/loc>\s*<lastmod>2026-08-17<\/lastmod>/);
 });
 
