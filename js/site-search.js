@@ -497,7 +497,7 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Wesley Chapel", "Pasco County"]
   },
   {
-    title: "How to Read Your Health Insurance Card: 2027 Field-by-Field Guide",
+    title: "How to Read Your Health Insurance Card: Field-by-Field Guide",
     url: "/blog/how-to-read-health-insurance-card-guide.html",
     excerpt: "A field-by-field guide to member ID, group number, BIN, PCN, RxGroup, copays, and plan contact details.",
     tags: ["Tips", "Coverage", "Insurance Card", "Basics"]
