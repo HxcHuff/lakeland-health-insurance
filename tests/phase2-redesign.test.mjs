@@ -194,7 +194,7 @@ test('seasonal banner date window is Oct 1 through Dec 7 America/New_York', () =
 test('homepage publishes Person JSON-LD and a compact NAP proof strip', () => {
   assert.match(HOME, /"@type": "Person"/);
   assert.match(HOME, /"@id": "https:\/\/lakelandhealthinsurance.com\/about\/#david-huff"/);
-  assert.match(HOME, /"jobTitle": "Licensed health insurance agent and broker"/);
+  assert.match(HOME, /"jobTitle": "Licensed Florida Health Insurance Agent"/);
   assert.match(HOME, /Florida License #W371813/);
   assert.match(HOME, /"postalCode": "33805"/);
   assert.doesNotMatch(HOME, /"@type": "AggregateRating"|reviewCount|"ratingValue"/);
