@@ -49,7 +49,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/fonts.css">
-  <link rel="stylesheet" href="/css/site-template.css?v=20260924-phase2-chrome">
+  <link rel="stylesheet" href="/css/site-template.css?v=20260929-compliance">
   <style>
     :root {
       --lhi-navy: #1B2A4A;
@@ -233,6 +233,10 @@
     }
 
     body.get-help-page footer .footer-tpmo .tpmo-standard-disclaimer {
+      color: #F8FAFC;
+    }
+
+    body.get-help-page footer .footer-tpmo .tpmo-inventory-note {
       color: #F8FAFC;
     }
 
@@ -576,6 +580,7 @@
     <section class="form-section" aria-labelledby="form-title">
       <div class="form-shell">
         <p class="form-tpmo tpmo-cta-disclaimer" id="medicareTpmoDisclaimer">We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
+        <p class="form-tpmo">Company inventory note: The 10 organizations and 73 products referenced above reflect the plans available for the 2026 plan year in the Lakeland/Polk County service area as of August 17, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
         <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm" data-funnel-track data-funnel-event="Lead" data-funnel-name="get_help_default">
           <input type="hidden" name="form-name" value="get-help">
           <div hidden aria-hidden="true">
@@ -604,7 +609,7 @@
           <input type="hidden" name="utm_content" id="utmContentInput">
           <input type="hidden" name="started_at" id="startedAtInput">
           <input type="hidden" name="human_check" id="humanCheckInput">
-          <input type="hidden" name="consent_text_version" value="get-help-2026-07-30-v1">
+          <input type="hidden" name="consent_text_version" value="get-help-2026-09-29-v2">
           <input type="hidden" name="consent_recorded_at" id="consentRecordedAtInput">
           <input type="hidden" name="consent_page" value="/get-help/">
           <input type="hidden" name="consent_request_state" id="consentRequestStateInput">
@@ -730,7 +735,7 @@
               </label>
               <label class="consent">
                 <input type="checkbox" name="consent_sms" value="yes">
-                <span>I authorize text messages about this request. Message frequency varies; message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a>.</span>
+                <span>By checking this box, I give my prior express consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to send text messages about this request to the mobile number I entered above. Consent is not a condition of purchase. Message frequency varies; msg &amp; data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
               </label>
               <label class="consent">
                 <input type="checkbox" name="consent_email" value="yes">
@@ -757,7 +762,7 @@
   </main>
 
   <script src="/js/get-help-intake.js?v=20260924-phase2-comply" defer></script>
-  <script src="/js/site-template.js?v=20260924-phase2-chrome" defer></script>
+  <script src="/js/site-template.js?v=20260929-compliance" defer></script>
 <footer>
   <div class="container">
     <div class="footer-grid">
@@ -813,7 +818,7 @@
     <div class="footer-bottom">
       <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>
       <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier.</p>
-      <p style="margin-top: 1rem;"><a href="https://www.facebook.com/HealthMarkets.David.Huff" target="_blank" rel="noopener noreferrer">Powered by David the Insurance Dude</a></p>
+      <p style="margin-top: 1rem;">Powered by David the Insurance Dude</p>
     </div>
   </div>
 </footer>
