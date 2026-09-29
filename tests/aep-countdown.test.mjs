@@ -29,7 +29,7 @@ test('primary broker page ships a no-JS AEP default instead of -- days', () => {
   assert.match(BROKER_HTML, /<title>Review Medicare Advantage Plans in Lakeland, FL<\/title>/);
   assert.match(
     BROKER_HTML,
-    /content="Who can help review Medicare Advantage plans in Lakeland, FL\? Licensed broker \(FL #W371813\) compares Advantage, Medigap &amp; Part D\. No separate broker fee\."/
+    /content="Who can help review Medicare Advantage plans in Lakeland, FL\? Licensed agent \(FL #W371813\) compares Advantage, Medigap &amp; Part D\. No separate agent fee\."/
   );
 });
 

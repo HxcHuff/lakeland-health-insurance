@@ -87,6 +87,6 @@ test('Medicare paid page keeps compensation and required disclosures below the s
   assert.ok(disclosuresAt > contentAt, 'disclosures follow the service content');
   assert.ok(mainEndsAt > disclosuresAt, 'disclosures remain inside main');
   assert.match(MEDICARE.slice(disclosuresAt, mainEndsAt), /not connected with or endorsed by the U\.S\. government or the federal Medicare program/);
-  assert.match(MEDICARE.slice(disclosuresAt, mainEndsAt), /Insurance carriers generally compensate appointed brokers/);
+  assert.match(MEDICARE.slice(disclosuresAt, mainEndsAt), /Insurance carriers generally compensate appointed agents/);
   assert.doesNotMatch(MEDICARE, /grocery card|extra benefits|\$0 premium/i);
 });
