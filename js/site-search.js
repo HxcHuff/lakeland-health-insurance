@@ -84,7 +84,7 @@ const siteSearchIndex = [
   {
     title: "Medicare Broker in Lakeland, FL | Doctors, Rx & AEP Review",
     url: "/medicare-broker-lakeland-fl/",
-    excerpt: "Licensed Florida broker compares Advantage, Medigap, and Part D around your doctors and prescriptions. No separate broker fee.",
+    excerpt: "Licensed Florida health agent compares Advantage, Medigap, and Part D around your doctors and prescriptions. No separate broker fee.",
     tags: ["Medicare", "Broker", "Agent", "Lakeland", "Polk County", "AEP", "Doctors", "Prescriptions"]
   },
   {

@@ -20,7 +20,7 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/site-template.css', '20260924-phase2-chrome'],
   ['/css/blog-unified.css', '20260803-brand-release'],
   ['/js/site-template.js', '20260924-phase2-chrome'],
-  ['/js/site-search.js', '20260929-medicare-serp'],
+  ['/js/site-search.js', '20260929b-medicare-serp'],
   ['/js/blog-cta.js', '20260803-brand-release'],
 ]);
 const SERVICE_WORKER_CACHE_VERSION = '20260924-phase2-chrome';
