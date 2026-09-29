@@ -27,7 +27,7 @@ Scope: Lakeland Health Insurance website identity, authority, authorship, and st
 | `jobTitle` | `Licensed health insurance agent and broker` |
 | `url` | `https://lakelandhealthinsurance.com/about/` |
 | `telephone` | `+1-863-640-3102` |
-| `email` | `dhuff@healthmarkets.com` |
+| `email` | `david@lakelandhealthinsurance.com` |
 | Florida license identifier | `W371813` |
 | NPN identifier | `18213932` |
 | Relationship | `worksFor` references `https://lakelandhealthinsurance.com/#agency` on the canonical profile |
@@ -55,7 +55,7 @@ Scope: Lakeland Health Insurance website identity, authority, authorship, and st
 - Relationship: the public-facing DBA/site identity led by David Huff.
 - URL: `https://lakelandhealthinsurance.com/`.
 - Phone: `+1-863-640-3102`.
-- Email: `dhuff@healthmarkets.com`.
+- Email: `david@lakelandhealthinsurance.com`.
 - Service posture: local assistance in Lakeland and Polk County; remote assistance across Florida, subject to product and plan validation.
 - Mandatory boundary: `Lakeland Health Insurance is not an insurance carrier.`
 

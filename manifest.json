@@ -35,11 +35,6 @@
       "name": "Get Quote",
       "url": "/get-help/",
       "description": "Request a free consultation"
-    },
-    {
-      "name": "Book Appointment",
-      "url": "/calendly-book.html",
-      "description": "Schedule a meeting"
     }
   ],
   "categories": ["health", "insurance", "business"]

@@ -323,7 +323,7 @@ if (/David is my healthcare savior|David did all the legwork for me/i.test(visib
 }
 for (const required of [
   'href="tel:+18636403102"',
-  'href="mailto:dhuff@healthmarkets.com"',
+  'href="mailto:david@lakelandhealthinsurance.com"',
   'href="/get-help/"',
   'src="/js/analytics.js?v=20260918a"'
 ]) {
@@ -363,7 +363,7 @@ if (!hasCurrentDateModified(about)) {
 }
 for (const required of [
   'href="tel:+18636403102"',
-  'href="mailto:dhuff@healthmarkets.com"',
+  'href="mailto:david@lakelandhealthinsurance.com"',
   'href="/get-help/"',
   'src="/js/analytics.js?v=20260918a"'
 ]) {

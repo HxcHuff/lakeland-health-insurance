@@ -60,7 +60,7 @@
 
 ### 2.1 Add Facebook Pixel to ALL Pages (Not Just Calendly)
 
-**Problem:** Your Facebook Pixel (ID: `1480756087079484`) currently only fires on `/calendly-book.html`. This means you cannot retarget anyone who visits your homepage, reads your blog, or looks at plans.
+**Problem:** Your Facebook Pixel (ID: `1480756087079484`) currently only fires on `/get-help/`. This means you cannot retarget anyone who visits your homepage, reads your blog, or looks at plans.
 
 **Fix:** Add the pixel to every page's `<head>`, right after the GA4 tag:
 ```html
@@ -160,7 +160,7 @@ Your site has **zero PWA setup**. For a Florida-focused insurance agent, PWA is 
   "shortcuts": [
     { "name": "Call David", "url": "tel:+18636403102", "description": "Call (863) 640-3102" },
     { "name": "Get Quote", "url": "/#contact", "description": "Request a free consultation" },
-    { "name": "Book Appointment", "url": "/calendly-book.html", "description": "Schedule a meeting" }
+    { "name": "Request a Review", "url": "/get-help/", "description": "Request a plan review" }
   ],
   "categories": ["health", "insurance", "business"]
 }
@@ -418,7 +418,7 @@ Florida consumers under 45 overwhelmingly prefer text communication. This one ch
 
 - **Cover photo:** Professional branded image with phone number, tagline, and "Free Consultations" text overlay
 - **Profile photo:** Professional headshot of David (consistent with website)
-- **CTA button:** Set to "Book Now" linked to `/calendly-book.html` (with UTM params)
+- **CTA button:** Set to "Get Help" linked to `/get-help/` (with UTM params)
 - **About section:** Fully filled out with:
   - All services listed
   - Hours of operation
@@ -587,7 +587,7 @@ Ensure consistent NAP (Name, Address, Phone) across:
 - Yellow Pages
 - BBB (Better Business Bureau)
 - Florida Department of Insurance listing
-- HealthMarkets agent page
+- Insurance-agent directory listings
 - Insurance-specific directories
 - Local Lakeland Chamber of Commerce
 - Polk County business directories

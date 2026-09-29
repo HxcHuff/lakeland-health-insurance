@@ -21,7 +21,6 @@
  *   - /get-help/          -> get_help
  *   - /health-protector-guard/ -> guard_lp
  *   - /thanks.html        -> conversion
- *   - /calendly-book.html -> booking
  *   else                  -> site
  */
 (function (w, d) {
@@ -284,7 +283,6 @@
     if (p.indexOf('/employer-referral') === 0) return 'lp_employer_referral';
     if (p.indexOf('/post-enrollment-review') === 0) return 'lp_post_enrollment_review';
     if (p.indexOf('/download-free-guide') === 0) return 'guide_optin';
-    if (p.indexOf('/calendly-book') === 0) return 'booking';
     if (p === '/thanks.html' || p === '/thanks/') return 'conversion';
     if (p === '/' || p === '/index.html') return 'home';
     return 'site';
