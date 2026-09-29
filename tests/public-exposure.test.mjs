@@ -247,7 +247,8 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
   assert.match(COVERAGE_CENTER, /href="\/medicare\/"/);
   assert.match(COVERAGE_CENTER, /href="\/medicare-broker-lakeland-fl\/"/);
   assert.match(COVERAGE_CENTER, /href="\/aca-health-insurance-lakeland-fl\/"/);
-  assert.match(COVERAGE_CENTER, /href="\/calendly-book\.html"/);
+  assert.match(COVERAGE_CENTER, /Prefer to talk now\?/);
+  assert.match(COVERAGE_CENTER, /cc-hero-note[\s\S]*href="tel:\+18636403102"/);
   assert.match(HOME, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(QUOTE, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(SITE_SEARCH, /url: "\/coverage-center\/"/);

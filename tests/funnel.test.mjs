@@ -532,7 +532,6 @@ test('pageType — known landing-page paths', () => {
     ['/life-insurance-dime/', 'dime_method'],
     ['/lost-job-health-insurance/', 'lp_job_loss'],
     ['/download-free-guide/', 'guide_optin'],
-    ['/calendly-book.html', 'booking'],
     ['/thanks.html', 'conversion'],
     ['/thanks/', 'conversion'],
     ['/', 'home'],
@@ -1608,7 +1607,7 @@ test('completed lead receipt shows only the short follow-up message', () => {
 
 test('direct thank-you visits show customer-facing help copy', () => {
   assert.match(THANKS_SRC, /Need help choosing coverage\?/);
-  assert.match(THANKS_SRC, /Start with the short request form, call David, or choose an appointment time\./);
+  assert.match(THANKS_SRC, /Start with the short request form or call David\./);
   assert.doesNotMatch(THANKS_SRC, /conversion accuracy|do not create a lead event/i);
 });
 

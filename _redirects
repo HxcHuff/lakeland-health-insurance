@@ -4,6 +4,11 @@
 /get-help/ /get-help/index.html 200
 /get-help/index-v2.html /get-help/ 301!
 
+# Retired Calendly booking page
+/calendly-book.html /get-help/ 301!
+/calendly-book /get-help/ 301!
+/calendly-book.html/ /get-help/ 301!
+
 # Week-one aliases
 /aca /aca-health-insurance-lakeland-fl/ 301!
 /aca/ /aca-health-insurance-lakeland-fl/ 301!

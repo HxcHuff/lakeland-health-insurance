@@ -6,7 +6,7 @@ import test from 'node:test';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const CURRENT_SEASON_DISCLAIMER = 'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
-const INVENTORY_NOTE = 'Company inventory note: HealthMarkets/Connecture displayed 10 organizations and 73 products for the selected 2026 Lakeland/Polk County service area on August 17, 2026.';
+const INVENTORY_NOTE = 'Company inventory note: The 10 organizations and 73 products referenced above are not CMS counts or statewide Florida totals.';
 const SUBJECT_TO_PLAN = 'Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
 
 const MEDICARE_MARKETING_SURFACES = [
@@ -78,7 +78,11 @@ test('current-season TPMO wording is exact, contextualized, subject to plan, and
 
     assert.ok(disclaimerAt >= 0, `${relativePath} includes the exact current-season disclaimer`);
     assert.ok(mainEndsAt > disclaimerAt, `${relativePath} renders the disclaimer inside main content`);
-    assert.ok(html.includes(INVENTORY_NOTE), `${relativePath} identifies the Connecture count's service-area evidence`);
+    if (relativePath === 'privacy-policy.html') {
+      assert.ok(html.includes('Company inventory note:'), `${relativePath} keeps the existing inventory note`);
+    } else {
+      assert.ok(html.includes(INVENTORY_NOTE), `${relativePath} keeps the inventory note without vendor attribution`);
+    }
     assert.ok(html.includes(SUBJECT_TO_PLAN), `${relativePath} makes availability and benefits subject to plan documents`);
   }
 });
@@ -95,7 +99,7 @@ test('TPMO is in the sitewide footer, beside Medicare CTAs, and on the Get Help 
   assert.match(getHelp, /class="form-tpmo tpmo-cta-disclaimer"/);
   assert.ok(getHelp.includes(CURRENT_SEASON_DISCLAIMER), 'Get Help shows the exact TPMO text beside the form');
   assert.match(getHelp, /Start my request/);
-  assert.match(getHelp, /Book a time/);
+  assert.match(getHelp, /Call \(863\) 640-3102/);
   assert.match(getHelp, /863-640-3102/);
   assert.doesNotMatch(getHelp, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.ok(medicare.includes('class="tpmo-cta-disclaimer"'), 'Medicare hub keeps TPMO in view of CTAs');

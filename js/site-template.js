@@ -243,7 +243,7 @@
       ['/learning/', 'Learn'],
       ['/about/', 'About'],
       [helpHref, 'Get Help'],
-      ['/calendly-book.html', 'Book a Call'],
+      [phoneHref, phoneDisplay],
       [phoneHref, 'Call Now']
     ];
     const header = document.createElement('header');
@@ -286,7 +286,7 @@
             <h3>Contact David</h3>
             <ul>
               <li><a href="${phoneHref}"><span aria-hidden="true">&#128222;</span> ${phoneDisplay}</a></li>
-              <li><a href="mailto:dhuff@healthmarkets.com"><span aria-hidden="true">&#128231;</span> dhuff@healthmarkets.com</a></li>
+              <li><a href="mailto:david@lakelandhealthinsurance.com"><span aria-hidden="true">&#128231;</span> david@lakelandhealthinsurance.com</a></li>
               <li><a href="${messengerHref}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
               <li><span aria-hidden="true">&#128205;</span> Lakeland Health Insurance · Lakeland, FL 33805 · By appointment</li>
             </ul>

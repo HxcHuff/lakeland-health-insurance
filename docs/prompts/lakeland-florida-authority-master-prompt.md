@@ -100,7 +100,7 @@ David Huff:
 - NPN: 18213932
 - Primary market: Lakeland, Polk County, and Florida
 - Phone: 863-640-3102
-- Email: dhuff@healthmarkets.com
+- Email: david@lakelandhealthinsurance.com
 
 Lakeland Health Insurance:
 

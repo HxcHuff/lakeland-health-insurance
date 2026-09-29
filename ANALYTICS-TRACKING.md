@@ -2,7 +2,7 @@
 
 ## Project Context
 - **Site:** https://lakelandhealthinsurance.com
-- **Business:** HealthMarkets - David (Lead Generation)
+- **Business:** Lakeland Health Insurance - David (Lead Generation)
 - **Platform:** Netlify (static site with deploy previews at `*.netlify.app`)
 - **GA4 Property:** `a357914498` / `p492431963`
 - **Last read-only audit:** 2026-08-21

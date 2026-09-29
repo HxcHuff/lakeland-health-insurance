@@ -227,7 +227,7 @@ test('Get Help is a 3-step who/details/contact flow with preserved fields and SM
   assert.match(GET_HELP_HTML, /What details should David review\?/);
   assert.match(GET_HELP_HTML, /How should David follow up\?/);
   assert.match(GET_HELP_HTML, /Start my request/);
-  assert.match(GET_HELP_HTML, /Book a time/);
+  assert.match(GET_HELP_HTML, /Call \(863\) 640-3102/);
   assert.match(GET_HELP_HTML, /863-640-3102/);
   assert.match(GET_HELP_HTML, /Reply STOP to cancel or HELP for help/);
   assert.match(GET_HELP_HTML, /name="consent_request"/);
