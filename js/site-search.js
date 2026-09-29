@@ -215,7 +215,7 @@ const siteSearchIndex = [
     tags: ["ACA", "Consumer Protection", "Tax Planning"]
   },
   {
-    title: "Non-Income Based Health Insurance Options in Florida (2026 Guide)",
+    title: "Non-Income Based Health Insurance Options in Florida (2027 Guide)",
     url: "/blog/non-income-based-health-insurance-florida.html",
     excerpt: "Explore health insurance options in Florida that don't depend on your income. Fixed indemnity, health sharing ministries, short-term plans, DPC, and more alternatives to ACA coverage.",
     tags: ["Florida", "Coverage", "Alternatives"]
@@ -229,7 +229,7 @@ const siteSearchIndex = [
   {
     title: "Self-Employment Tax Deductions and ICHRA: What Business Owners Need to Know",
     url: "/blog/self-employed-tax-deductions-ichra-guide.html",
-    excerpt: "A practical guide to self-employed health insurance deductions and ICHRA strategy in 2026. Learn where each option fits and what to review with your CPA.",
+    excerpt: "A practical guide to self-employed health insurance deductions and ICHRA strategy in 2027. Learn where each option fits and what to review with your CPA.",
     tags: ["Self-Employed", "Tax Planning", "ICHRA"]
   },
   {
@@ -245,7 +245,7 @@ const siteSearchIndex = [
     tags: ["Supplemental", "Coverage", "Plan Types"]
   },
   {
-    title: "Florida ACA Enrollment and Benefits Guide (2026)",
+    title: "Florida ACA Enrollment and Benefits Guide (2027)",
     url: "/blog/florida-aca-enrollment-and-benefits-2026.html",
     excerpt: "The statewide master guide for HealthCare.gov enrollment, first-30-day setup, and carrier-specific benefit optimization. Includes direct links to 2026 Polk-relevant carrier playbooks.",
     tags: ["ACA", "Florida", "Open Enrollment"]
@@ -305,7 +305,7 @@ const siteSearchIndex = [
     tags: ["Financial", "Budgeting", "Tips"]
   },
   {
-    title: "Fixed Indemnity, STM & TriTerm Medical Strategy for 2026",
+    title: "Fixed Indemnity, STM & TriTerm Medical Strategy for 2027",
     url: "/blog/fixed-indemnity-analysis.html",
     excerpt: "Review Health ProtectorGuard, short-term medical, TriTerm Medical, ACA, and Medicare together with underwriting, exclusions, and replacement risks in view.",
     tags: ["Products", "Coverage", "Gap Insurance", "Short-Term", "TriTerm"]
@@ -497,7 +497,7 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Wesley Chapel", "Pasco County"]
   },
   {
-    title: "How to Read Your Health Insurance Card: 2026 Field-by-Field Guide",
+    title: "How to Read Your Health Insurance Card: Field-by-Field Guide",
     url: "/blog/how-to-read-health-insurance-card-guide.html",
     excerpt: "A field-by-field guide to member ID, group number, BIN, PCN, RxGroup, copays, and plan contact details.",
     tags: ["Tips", "Coverage", "Insurance Card", "Basics"]
