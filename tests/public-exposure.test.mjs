@@ -269,6 +269,7 @@ test('private medical insurance route separates product categories and keeps int
   assert.match(PRIVATE_MEDICAL, /name="get-help"[^>]+data-sitelink-lead-form[^>]+data-funnel-track/);
   assert.match(PRIVATE_MEDICAL, /name="product_interest" value="comprehensive-private-coverage" required/);
   assert.match(PRIVATE_MEDICAL, /name="consent_request" value="yes" required/);
+  assert.match(PRIVATE_MEDICAL, /<span>I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage.<\/span>/);
   assert.match(PRIVATE_MEDICAL, /name="consent_text_version" value="get-help-2026-07-30-v1"/);
   assert.doesNotMatch(PRIVATE_MEDICAL, /name="(?:health|medical|diagnosis|condition|prescription|policy_number|payment)"/i);
   assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/private-medical-insurance\/<\/loc>\s*<lastmod>2026-08-21<\/lastmod>/);
