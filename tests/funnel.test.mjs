@@ -2191,6 +2191,7 @@ test('get-help consent evidence is channel-specific and versioned', () => {
   ]) {
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
   }
+  assert.match(GET_HELP_HTML, /name="consent_text_version" value="get-help-2026-09-29-v2"/);
   assert.match(GET_HELP_SRC, /consentCallStateInput/);
   assert.match(GET_HELP_SRC, /consentSmsStateInput/);
   assert.match(GET_HELP_SRC, /consentEmailStateInput/);
