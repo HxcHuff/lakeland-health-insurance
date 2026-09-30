@@ -462,49 +462,49 @@ const siteSearchIndex = [
   {
     title: "Health Insurance in Brandon FL — 2026 Family Premium Guide",
     url: "/blog/health-insurance-brandon-2026.html",
-    excerpt: "Brandon ACA premium changes, family SEP triggers, HSA-eligible Bronze plans, and Medicare GLP-1 bridge considerations.",
+    excerpt: "Brandon ACA premium changes, family SEP eligibility, and HSA-eligible Bronze plans.",
     tags: ["ACA", "Florida", "Brandon", "Hillsborough County"]
   },
   {
     title: "Health Insurance in Clearwater FL — 2026 Premium Increases & SEPs",
     url: "/blog/health-insurance-clearwater-2026.html",
-    excerpt: "Clearwater ACA premium changes, Special Enrollment Period eligibility, Bronze + HSA strategy, and Medicare GLP-1 bridge considerations.",
+    excerpt: "Clearwater ACA premium changes, Special Enrollment Period eligibility, and Bronze + HSA strategy.",
     tags: ["ACA", "Florida", "Clearwater", "Pinellas County"]
   },
   {
     title: "Health Insurance in Largo FL — 2026 Premium Increases & Affordable Coverage",
     url: "/blog/health-insurance-largo-2026.html",
-    excerpt: "Largo ACA premium changes, Pinellas County SEP eligibility, Bronze + HSA plans, and Medicare GLP-1 bridge considerations.",
+    excerpt: "Largo ACA premium changes, Pinellas County SEP eligibility, and Bronze + HSA plans.",
     tags: ["ACA", "Florida", "Largo", "Pinellas County"]
   },
   {
     title: "Health Insurance in New Port Richey FL — 2026 Premium Hikes & Pasco County Options",
     url: "/blog/health-insurance-new-port-richey-2026.html",
-    excerpt: "New Port Richey ACA premium changes, Pasco County SEPs, Bronze + HSA options, and Medicare GLP-1 bridge considerations.",
+    excerpt: "New Port Richey ACA premium changes, Pasco County SEPs, and Bronze + HSA options.",
     tags: ["ACA", "Florida", "New Port Richey", "Pasco County"]
   },
   {
     title: "Health Insurance in Riverview FL — 2026 Family Premium Changes",
     url: "/blog/health-insurance-riverview-2026.html",
-    excerpt: "Riverview ACA premium changes, new-mover SEPs, Family Glitch Fix, Bronze + HSA strategy, and Medicare GLP-1 bridge considerations.",
+    excerpt: "Riverview ACA premium changes, new-mover SEPs, Family Glitch Fix, and Bronze + HSA strategy.",
     tags: ["ACA", "Florida", "Riverview", "Hillsborough County"]
   },
   {
     title: "Health Insurance in St. Petersburg FL — 2026 Premium Changes & Self-Employed Guide",
     url: "/blog/health-insurance-st-petersburg-2026.html",
-    excerpt: "St. Petersburg ACA premium changes, self-employed SEPs, HSA-eligible Bronze plans, and Medicare GLP-1 bridge considerations.",
+    excerpt: "St. Petersburg ACA premium changes, self-employed SEPs, and HSA-eligible Bronze plans.",
     tags: ["ACA", "Florida", "St Petersburg", "Pinellas County"]
   },
   {
     title: "Health Insurance in Tampa FL — 2026 Premium Changes & SEP Guide",
     url: "/blog/health-insurance-tampa-2026.html",
-    excerpt: "Tampa ACA premium changes, Special Enrollment Period eligibility, HSA-eligible Bronze plans, and Medicare GLP-1 bridge considerations.",
+    excerpt: "Tampa ACA premium changes, Special Enrollment Period eligibility, and HSA-eligible Bronze plans.",
     tags: ["ACA", "Florida", "Tampa", "Hillsborough County"]
   },
   {
     title: "Health Insurance in Wesley Chapel FL — 2026 Premium Changes Guide",
     url: "/blog/health-insurance-wesley-chapel-2026.html",
-    excerpt: "Wesley Chapel ACA premium changes, new-mover SEPs, Bronze + HSA options, and Medicare GLP-1 bridge considerations.",
+    excerpt: "Wesley Chapel ACA premium changes, new-mover SEPs, and Bronze + HSA options.",
     tags: ["ACA", "Florida", "Wesley Chapel", "Pasco County"]
   },
   {
