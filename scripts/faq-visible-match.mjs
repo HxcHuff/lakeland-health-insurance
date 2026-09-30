@@ -13,6 +13,11 @@ export const FAQ_MATCH_EXTRA_SKIP_RELS = new Set([
 
 export const FAQ_MATCH_SCOPE_RELS = null;
 
+// Non-blog pages that still need FAQPage/visible-copy parity.
+export const FAQ_MATCH_EXTRA_RELS = new Set([
+  'local-health-insurance-answers/watson-clinic-insurance-network-help/index.html',
+]);
+
 const SKIP_DIRS = new Set([
   '.git', '.claude', '.audit-data', 'audit', 'node_modules', 'netlify', '.netlify',
   'output', 'tests', 'scripts', 'search-engine-from-zip',
@@ -94,7 +99,7 @@ export function findFaqVisibleMatchIssues(rel, html, {
   extraSkipRels = FAQ_MATCH_EXTRA_SKIP_RELS,
   scopeRels = FAQ_MATCH_SCOPE_RELS,
 } = {}) {
-  if (!rel.startsWith('blog/')) return [];
+  if (!rel.startsWith('blog/') && !FAQ_MATCH_EXTRA_RELS.has(rel)) return [];
   if (skipRels.has(rel) || extraSkipRels.has(rel)) return [];
   if (scopeRels && !scopeRels.has(rel)) return [];
   const visible = visiblePageText(html);

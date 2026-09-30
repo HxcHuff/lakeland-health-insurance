@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   collectFaqVisibleMatchIssues,
+  FAQ_MATCH_EXTRA_RELS,
   FAQ_MATCH_EXTRA_SKIP_RELS,
   FAQ_MATCH_SCOPE_RELS,
   FAQ_MATCH_SKIP_RELS,
@@ -61,6 +62,7 @@ test('checks every blog page and requires visible FAQ text', () => {
   assert.equal(FAQ_MATCH_SKIP_RELS.size, 0);
   assert.equal(FAQ_MATCH_SCOPE_RELS, null);
   assert.ok(FAQ_MATCH_EXTRA_SKIP_RELS instanceof Set);
+  assert.ok(FAQ_MATCH_EXTRA_RELS.has('local-health-insurance-answers/watson-clinic-insurance-network-help/index.html'));
   const issues = collectFaqVisibleMatchIssues();
   assert.equal(issues.length, 0, issues.slice(0, 12).join('\n'));
 });
