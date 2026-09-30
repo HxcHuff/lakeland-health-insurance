@@ -15,7 +15,7 @@ test('Medicare hub owns help/decision SERP, not broker phrasing in title', () =>
   assert.match(MEDICARE, /<title>Medicare Help in Lakeland, FL \| Doctors, Rx &amp; 2027 AEP<\/title>/);
   assert.match(
     MEDICARE,
-    /content="Local Medicare review for Lakeland and Polk County\. Compare 2027 Advantage, Medigap, and Part D around your doctors, prescriptions, and timing\. A review is not enrollment\."/
+    /content="Local Medicare review for Lakeland and Polk County\. Compare 2027 Advantage, Medigap, and Part D around your doctors and drugs\. A review is not enrollment\."/
   );
   assert.doesNotMatch(MEDICARE, /<title>[^<]*Medicare Broker[^<]*<\/title>/i);
   assert.match(MEDICARE, /href="\/medicare-broker-lakeland-fl\/"/);
