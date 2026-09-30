@@ -232,6 +232,8 @@
       margin: 0 0 1.25rem;
     }
 
+    body.get-help-page footer .footer-tpmo[hidden] { display: none; }
+
     body.get-help-page footer .footer-tpmo .tpmo-standard-disclaimer {
       color: #F8FAFC;
     }
@@ -582,7 +584,7 @@
       <div class="form-shell">
         <p class="form-tpmo tpmo-cta-disclaimer" id="medicareTpmoDisclaimer">We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
         <p class="form-tpmo" id="floridaTpmoInventoryNote">Company inventory note: The 10 organizations and 73 products referenced above reflect the plans available for the 2026 plan year in the Lakeland/Polk County service area as of August 17, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
-        <p class="review-note" id="outOfStateMedicareNote" hidden>Medicare reviews are available for Florida residents only</p>
+        <p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for Florida residents only.</p>
         <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm" data-funnel-track data-funnel-event="Lead" data-funnel-name="get_help_default">
           <input type="hidden" name="form-name" value="get-help">
           <div hidden aria-hidden="true">

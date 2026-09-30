@@ -74,7 +74,8 @@ test('shipped state pages, hub, About, and get-help do not contain visible [TODO
     'js/site-search.js',
     ...ALL_STATE_HTML.map(([rel]) => rel)
   ]) {
-    assert.doesNotMatch(source(rel), /\[TODO/, `${rel} still contains [TODO`);
+    assert.doesNotMatch(source(rel), /\[TODO|before publishing/, `${rel} still contains a placeholder or internal note`);
+    assert.doesNotMatch(source(rel), /ffe_py2027_registration|individual_market_appointments|Confirmed September 30, 2026 from public NIPR/, `${rel} still contains an internal compliance comment`);
   }
 });
 
@@ -143,7 +144,7 @@ test('state pages show the verified license, pair the brand with David Huff, and
     assert.match(html, new RegExp(`I hold an? ${name} nonresident license #${license}\\.`));
     assert.match(html, /Request a plan review/);
     assert.doesNotMatch(html, /Lakeland Health Insurance · Licensed in /);
-    assert.doesNotMatch(html, /Restore a license|If this state has no individual-market|\[TODO/);
+    assert.doesNotMatch(html, /Restore a license|If this state has no individual-market|\[TODO|before publishing/);
     assert.doesNotMatch(html, /registered with HealthCare\.gov for plan year 2027|PY2027 HealthCare\.gov registration claim/);
 
     const graphDoc = jsonLdBlocks(html).find((block) => Array.isArray(block['@graph']));
@@ -223,6 +224,17 @@ test('APTC, Medicaid-gap, and NC work-requirement copy match the approved verdic
   assert.ok(georgia.includes(repay));
   assert.ok(georgia.includes(aptcGa));
   assert.ok(source('health-insurance-north-carolina/index.html').includes(ncWork));
+  const medicaidFinal = 'Your state Medicaid agency makes the final eligibility decision.';
+  for (const rel of [
+    'health-insurance-texas/index.html',
+    'health-insurance-north-carolina/index.html',
+    'health-insurance-south-carolina/index.html',
+    'health-insurance-tennessee/index.html',
+    'health-insurance-alabama/index.html'
+  ]) {
+    assert.ok(source(rel).includes(medicaidFinal), `${rel} is missing the Medicaid agency final-decision source note`);
+  }
+  assert.ok(georgia.includes('Secondary source; Georgia DCH makes the final eligibility decision.'));
   assert.match(texas, /some adults with very low income may qualify for neither/);
   assert.match(source('health-insurance-alabama/index.html'), /some adults with very low income may qualify for neither/);
   assert.match(source('health-insurance-south-carolina/index.html'), /some adults with very low income may qualify for neither/);
@@ -237,6 +249,16 @@ test('hub cites official exchange sources and omits the unverified Maryland dead
   assert.match(html, /wahealthplanfinder\.org\/us\/en\/tools-and-resources\/health-care-education\/enrollment-periods\.html/);
   assert.match(html, /See Maryland Health Connection for 2027 dates/);
   assert.doesNotMatch(html, /Maryland Health Connection\. 2027 enrollment ends January 15, 2027/);
+  assert.match(html, /licensed in the states listed below/);
+  assert.doesNotMatch(html, /appointed with|appointed to discuss|appointed in the state/);
+});
+
+test('Georgia FAQ states the Access certification requirement without claiming David is certified', () => {
+  const html = source('health-insurance-georgia/index.html');
+  const required = 'An agent needs a Georgia license and Georgia Access certification for the plan year to help with a Georgia Access application. I hold a Georgia nonresident license #3329737. Reviews happen by phone and screen share. You keep your account login, and you approve any application or plan change.';
+  assert.equal(html.split(required).length - 1, 2);
+  assert.doesNotMatch(html, /Yes, as long as the agent holds a Georgia license\./);
+  assert.doesNotMatch(html, /I am a Georgia Access-certified agent|I completed Georgia Access certification/i);
 });
 
 test('get-help allowlists coverage_state and treats non-Florida visitors as out-of-state', () => {
@@ -277,4 +299,6 @@ test('get-help allowlists coverage_state and treats non-Florida visitors as out-
   assert.match(source('get-help/index.html'), /id="outOfStateMedicareNote"/);
   assert.match(source('get-help/index.html'), /id="floridaTpmoInventoryNote"/);
   assert.match(source('get-help/index.html'), /name="consent_text_version" value="get-help-2026-09-29-v2"/);
+  assert.match(source('get-help/index.html'), /\.footer-tpmo\[hidden\] \{ display: none; \}/);
+  assert.match(source('get-help/index.html'), /<p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for Florida residents only\.<\/p>/);
 });
