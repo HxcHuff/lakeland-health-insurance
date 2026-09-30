@@ -58,8 +58,8 @@ const siteSearchIndex = [
   {
     title: "States I'm Licensed In",
     url: "/states/",
-    excerpt: "David Huff is licensed in 21 states. Choose your state for Marketplace names, 2027 open enrollment dates, and a remote ACA plan review.",
-    tags: ["States", "License", "Marketplace", "ACA", "Multi-state"]
+    excerpt: "David Huff is licensed in 22 states. Choose your state for Marketplace names, 2027 open enrollment dates, and a remote ACA plan review.",
+    tags: ["States", "License", "Marketplace", "ACA", "Multi-state", "Kansas"]
   },
   {
     title: "Texas ACA Health Insurance Agent",
