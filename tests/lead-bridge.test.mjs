@@ -198,7 +198,9 @@ test('website lead payload keeps contact, intent, consent, UTMs, and the submiss
   assert.equal(lead.page_url, 'https://lakelandhealthinsurance.com/get-help/');
   assert.equal(lead.utm_source, 'google');
   assert.equal(lead.consent.request, true);
+  assert.equal(typeof lead.consent.sms, 'boolean');
   assert.equal(lead.consent.sms, false);
+  assert.equal(JSON.parse(JSON.stringify(lead.consent)).sms, false);
   assert.equal(lead.consent.granted, true);
   assert.equal(JSON.stringify(lead).includes('Sensitive note'), false);
   assert.equal(JSON.stringify(lead).includes('must-not-forward'), false);
@@ -237,6 +239,37 @@ test('city and landing-page forms map name, phone, insurance type, and page URL'
   assert.equal(lp.form_name, 'lp-medicare-lead');
   assert.equal(lp.consent.granted, true);
   assert.equal(lp.consent.request, true);
+  assert.equal(typeof lp.consent.sms, 'boolean');
+  assert.equal(lp.consent.sms, false);
+});
+
+test('consent.sms is always a real boolean for checked and unchecked SMS', () => {
+  const grantedSms = buildWebsiteLeadPayload({
+    formName: 'get-help',
+    submissionId: SUBMISSION_ID,
+    filtered: {
+      full_name: 'SMS Granted',
+      phone: '8635550118',
+      consent_request: 'yes',
+      consent_sms: 'yes'
+    }
+  });
+  const withheldSms = buildWebsiteLeadPayload({
+    formName: 'get-help',
+    submissionId: SUBMISSION_ID,
+    filtered: {
+      full_name: 'SMS Withheld',
+      email: 'sms.withheld@example.test',
+      consent_request: 'yes',
+      consent_email: 'yes'
+    }
+  });
+  assert.equal(grantedSms.consent.sms, true);
+  assert.equal(withheldSms.consent.sms, false);
+  assert.equal(typeof grantedSms.consent.sms, 'boolean');
+  assert.equal(typeof withheldSms.consent.sms, 'boolean');
+  assert.equal(JSON.parse(JSON.stringify(grantedSms)).consent.sms, true);
+  assert.equal(JSON.parse(JSON.stringify(withheldSms)).consent.sms, false);
 });
 
 test('missing bridge env skips without a network call or outbox write', async () => {

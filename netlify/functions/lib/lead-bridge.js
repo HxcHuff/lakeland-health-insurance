@@ -112,18 +112,20 @@ function granted(value) {
 function consentFrom(data) {
   const request = granted(data.consent_request) || granted(data.consent_request_state);
   const call = granted(data.consent_call) || granted(data.consent_call_state);
-  const sms = granted(data.consent_sms) || granted(data.consent_sms_state);
+  // Always a real boolean. The Vercel bridge reads consent.sms to enroll
+  // the SMS ladder (currently shadow mode). Do not omit or stringify it.
+  const sms = Boolean(granted(data.consent_sms) || granted(data.consent_sms_state));
   const email = granted(data.consent_email) || granted(data.consent_email_state);
   const marketingEmail = granted(data.consent_marketing_email)
     || granted(data.consent_marketing_email_state);
   const formConsent = granted(data.consent);
   return Object.freeze({
-    request: request || formConsent,
-    call: call || formConsent,
+    request: Boolean(request || formConsent),
+    call: Boolean(call || formConsent),
     sms,
-    email: email || formConsent,
-    marketing_email: marketingEmail,
-    granted: request || call || sms || email || marketingEmail || formConsent
+    email: Boolean(email || formConsent),
+    marketing_email: Boolean(marketingEmail),
+    granted: Boolean(request || call || sms || email || marketingEmail || formConsent)
   });
 }
 
