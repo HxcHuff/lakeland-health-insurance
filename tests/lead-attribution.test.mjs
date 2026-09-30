@@ -696,6 +696,51 @@ test('lp-gap records marketing-email granted only when the optional box and emai
   assert.equal(form.get('consent_marketing_email_state'), 'granted');
 });
 
+test('lead.js keeps only marketing-email-2026-09-30-v1 and drops any other version', async () => {
+  const kept = await invoke(getHelpPayload({
+    consent_marketing_email_version: 'marketing-email-2026-09-30-v1'
+  }));
+  assert.equal(kept.response.statusCode, 200);
+  const keptForm = new URLSearchParams(kept.calls[0].init.body);
+  assert.equal(keptForm.get('consent_marketing_email_version'), 'marketing-email-2026-09-30-v1');
+
+  const dropped = await invoke(getHelpPayload({
+    consent_marketing_email_version: 'attacker-version'
+  }));
+  assert.equal(dropped.response.statusCode, 200);
+  const droppedForm = new URLSearchParams(dropped.calls[0].init.body);
+  assert.equal(droppedForm.get('consent_marketing_email_version'), null);
+  assert.equal(droppedForm.get('consent_text_version'), 'get-help-2026-09-29-v2');
+});
+
+test('sitelink and gap pages default the known marketing-email version when it is missing', async () => {
+  const sitelink = await invoke(getHelpPayload({
+    source_page: '/medicare/'
+  }), { headers: { referer: 'https://lakelandhealthinsurance.com/medicare/' } });
+  assert.equal(sitelink.response.statusCode, 200);
+  const sitelinkForm = new URLSearchParams(sitelink.calls[0].init.body);
+  assert.equal(sitelinkForm.get('consent_page'), '/medicare/');
+  assert.equal(sitelinkForm.get('consent_marketing_email_version'), 'marketing-email-2026-09-30-v1');
+
+  const gap = await invoke(lpPayload('lp-gap-lead', 'lp-gap-2026-09-29-v2', {
+    email: 'jane@example.com'
+  }));
+  assert.equal(gap.response.statusCode, 200);
+  const gapForm = new URLSearchParams(gap.calls[0].init.body);
+  assert.equal(gapForm.get('consent_page'), '/lp/gap/');
+  assert.equal(gapForm.get('consent_marketing_email_version'), 'marketing-email-2026-09-30-v1');
+});
+
+test('lp-gap marketing-email state uses the same yes normalization as Mailchimp', async () => {
+  const { response, calls } = await invoke(lpPayload('lp-gap-lead', 'lp-gap-2026-09-29-v2', {
+    email: 'jane@example.com',
+    consent_marketing_email: ' YES '
+  }));
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('consent_marketing_email_state'), 'granted');
+});
+
 test('unchecked lp lead with a v1 client version still records the live v2 text', async () => {
   const payload = lpPayload('lp-aca-lead', 'lp-aca-2026-09-29-v1');
   delete payload.consent;

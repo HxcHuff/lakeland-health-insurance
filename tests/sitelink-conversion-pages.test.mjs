@@ -63,6 +63,25 @@ for (const [file, sourcePage, intent] of pages) {
     assert.doesNotMatch(form, /name="consent_marketing_email"[^>]*\brequired\b/);
     assert.match(form, /name="consent_text_version" value="get-help-2026-07-30-v1"/);
     assert.match(form, /name="consent_marketing_email_version" value="marketing-email-2026-09-30-v1"/);
+    for (const field of [
+      'consent_recorded_at',
+      'consent_page',
+      'consent_request_state',
+      'consent_call_state',
+      'consent_sms_state',
+      'consent_email_state',
+      'consent_marketing_email_state',
+      'consent_withdrawal_state',
+      'consent_version_source',
+      'consent_version_mismatch',
+      'event_id',
+      'server_received_at',
+      'lead_priority',
+      'lead_priority_reason',
+      'source_url'
+    ]) {
+      assert.match(form, new RegExp(`name="${field}"`), `${file} declares ${field}`);
+    }
     assert.match(form, /name="started_at"/);
     assert.match(form, /name="human_check"/);
     assert.match(form, /name="utm_source"/);
