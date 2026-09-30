@@ -56,13 +56,24 @@
     "@type": "Organization",
     "@id": "https://lakelandhealthinsurance.com/#agency",
     "name": "Lakeland Health Insurance",
-    "url": "https://lakelandhealthinsurance.com"
+    "url": "https://lakelandhealthinsurance.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lakelandhealthinsurance.com/icons/icon-512.png",
+      "width": 512,
+      "height": 512
+    }
   },
   "datePublished": "2026-09-29",
   "dateModified": "2026-09-29",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://lakelandhealthinsurance.com/blog/deductible-vs-out-of-pocket-maximum.html"
+    "@id": "https://lakelandhealthinsurance.com/blog/deductible-vs-out-of-pocket-maximum.html",
+    "reviewedBy": {
+      "@type": "Person",
+      "@id": "https://lakelandhealthinsurance.com/about/#david-huff",
+      "name": "David Huff"
+    }
   },
   "about": [
     {
@@ -91,12 +102,9 @@
   },
   "isPartOf": {
     "@id": "https://lakelandhealthinsurance.com/#website"
-  },
-  "reviewedBy": {
-    "@id": "https://lakelandhealthinsurance.com/about/#david-huff"
   }
 }
-  </script>
+</script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -104,23 +112,47 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Do premiums count toward the out-of-pocket maximum?",
+      "name": "How do the two numbers work in sequence?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Generally no. HealthCare.gov treats the out-of-pocket maximum as a limit on eligible cost sharing for covered services, not the monthly premium."
+        "text": "For many plans, you pay eligible costs toward the deductible first, except for services the plan covers before the deductible, such as required preventive care. After the deductible, you may pay copays or coinsurance until eligible spending reaches the out-of-pocket maximum. The out-of-pocket maximum explainer on this site covers what usually counts and what does not. This page is the comparison between the two figures, with a labeled hypothetical."
       }
     },
     {
       "@type": "Question",
-      "name": "If I meet the deductible, does the plan pay all remaining eligible costs?",
+      "name": "What usually does not count?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Usually not. You may still pay copays or coinsurance until you reach the out-of-pocket maximum, and non-covered services can still generate bills."
+        "text": "Monthly premiums. Services the plan does not cover. Charges above the allowed amount where balance billing is allowed. Out-of-network costs when the plan does not credit them. Amounts that fail referral or prior-authorization rules. Always use the Summary of Benefits and Coverage for the exact plan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How should I use these numbers when choosing a metal level?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A lower-premium plan can have a higher deductible. A higher-premium plan can have a lower deductible. Neither fact tells you which household will pay less for the year. Combine the deductible, out-of-pocket maximum, expected prescriptions, and network. See Bronze vs Silver vs Gold and the plan documents for the year you are comparing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do family plans use one cap or two?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Family coverage may include an individual embedded deductible or out-of-pocket limit and a family aggregate. One person can meet an individual cap while the family cap still applies to others. The Summary of Benefits and Coverage shows how the exact plan credits each member."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do premiums and non-covered services count?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Monthly premiums generally do not count toward the deductible or the out-of-pocket maximum. Services the plan does not cover generally do not count either. Out-of-network amounts may have a separate deductible and cap, or none. The Summary of Benefits and Coverage is the document to read for the exact plan."
       }
     }
   ]
 }
-  </script>
+</script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
