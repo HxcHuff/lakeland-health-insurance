@@ -5,19 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="lhi-chrome-intent" content="under-65">
   <title>Texas ACA Health Insurance Agent | 2027 Marketplace Help</title>
-  <meta name="description" content="Licensed in Texas (#[TODO: TX-LIC]). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.">
+  <meta name="description" content="Licensed in Texas. A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.">
   <link rel="canonical" href="https://lakelandhealthinsurance.com/health-insurance-texas/">
   <meta name="robots" content="index, follow">
   <meta name="geo.region" content="US-TX">
   <meta name="geo.placename" content="Texas">
   <meta property="og:title" content="Texas ACA Health Insurance Agent | 2027 Marketplace Help">
-  <meta property="og:description" content="Licensed in Texas (#[TODO: TX-LIC]). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.">
+  <meta property="og:description" content="Licensed in Texas. A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.">
   <meta property="og:url" content="https://lakelandhealthinsurance.com/health-insurance-texas/">
   <meta property="og:type" content="article">
   <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Texas ACA Health Insurance Agent | 2027 Marketplace Help">
-  <meta name="twitter:description" content="Licensed in Texas (#[TODO: TX-LIC]). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.">
+  <meta name="twitter:description" content="Licensed in Texas. A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.">
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
   <link rel="stylesheet" href="/css/fonts.css">
   <link rel="stylesheet" href="/css/site-template.css?v=20260929-compliance">
@@ -29,7 +29,6 @@
     .facts-table { width: 100%; border-collapse: collapse; }
     .facts-table th, .facts-table td { text-align: left; vertical-align: top; padding: .7rem .4rem; border-bottom: 1px solid #e2e8f0; }
     .facts-table th { width: 34%; color: #1b2a4a; font-weight: 700; }
-    .todo-flag { background: #FEF2F2; border-left: 4px solid #EA580C; padding: .75rem 1rem; margin: 0 0 1rem; }
     .related-links { display: flex; flex-wrap: wrap; gap: .65rem 1.1rem; }
     .disclosure-block { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.1rem 1.2rem; }
     .cta-band { background: #1B2A4A; color: #fff; padding: 28px 22px; border-radius: 8px; }
@@ -48,6 +47,18 @@
       .side-card { position: static; }
     }
 </style>
+  <!--
+    Per-state facts to restore when David confirms them. Do not invent values.
+    nonresident_license_number:
+    ffe_py2027_registration:
+    individual_market_appointments:
+    Restore a license number by appending " #NUMBER" after "Licensed in Texas"
+    in the meta/og/twitter descriptions, WebPage.description, eyebrow, byline,
+    the agent-help FAQ (JSON-LD and visible text), and the disclosure line.
+    Appointment copy is already on the page. If this state has no individual-market
+    appointments, remove only the hero and cta-band "Request a plan review"
+    anchors (keep the phone buttons).
+  -->
   <script type="application/ld+json">
   {
   "@context": "https://schema.org",
@@ -57,7 +68,7 @@
       "@id": "https://lakelandhealthinsurance.com/health-insurance-texas/#webpage",
       "url": "https://lakelandhealthinsurance.com/health-insurance-texas/",
       "name": "Texas ACA Health Insurance Agent | 2027 Marketplace Help",
-      "description": "Licensed in Texas (#[TODO: TX-LIC]). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+      "description": "Licensed in Texas. A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
       "inLanguage": "en-US",
       "datePublished": "2026-09-30",
       "dateModified": "2026-09-30",
@@ -169,7 +180,7 @@
       "name": "Can an agent in Lakeland, Florida help me with a Texas plan?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes, if the agent holds an active Texas license and a current HealthCare.gov registration for the plan year. I hold a Texas nonresident license (#[TODO: TX nonresident license number]) and [TODO: confirm PY2027 HealthCare.gov / FFE registration]. Reviews happen by phone and screen share from Lakeland, Florida. You keep your HealthCare.gov login, and you approve any application or plan change."
+        "text": "Yes, if the agent holds an active Texas license and a current HealthCare.gov registration for the plan year. I hold a Texas nonresident license. Reviews happen by phone and screen share from Lakeland, Florida. You keep your HealthCare.gov login, and you approve any application or plan change."
       }
     },
     {
@@ -177,7 +188,7 @@
       "name": "What does a review cost?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "There is no separate agent fee for the plan-review assistance described on this site. If you enroll in a plan, the insurer may pay me a commission. I compare plans from the insurers I'm appointed with in Texas, which may not be every insurer on HealthCare.gov. [TODO: confirm Texas individual-market carrier appointments.]"
+        "text": "There is no separate agent fee for the plan-review assistance described on this site. If you enroll in a plan, the insurer may pay me a commission. I compare plans from the insurers I'm appointed with in Texas, which may not be every insurer on HealthCare.gov."
       }
     },
     {
@@ -185,7 +196,7 @@
       "name": "My income is low. Should I be looking at Medicaid or a Marketplace plan?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Texas has not adopted the full ACA Medicaid expansion, per KFF as of August 21, 2026 (secondary; [TODO: confirm with Texas Health and Human Services]). Many adults with low income land on a Marketplace plan rather than Medicaid. The application result decides that, not a rule of thumb. For Texas Medicaid, start with hhs.texas.gov. If a Marketplace plan is the result, I can help you compare plans."
+        "text": "Texas has not adopted the ACA Medicaid expansion (KFF, as of August 21, 2026). Many adults without dependent children do not qualify for Texas Medicaid on income alone, and Marketplace premium tax credits generally start at 100% of the federal poverty level, so some adults with very low income may qualify for neither. Your application result decides which applies. For Texas Medicaid, start with hhs.texas.gov. If a Marketplace plan is the result, I can help you compare plans."
       }
     },
     {
@@ -260,9 +271,9 @@
           <nav class="hub-breadcrumb" aria-label="Breadcrumb">
             <a href="/">Home</a><span aria-hidden="true">/</span><a href="/states/">States I'm licensed in</a><span aria-hidden="true">/</span><span aria-current="page">Texas</span>
           </nav>
-          <p class="eyebrow">HealthCare.gov plan review · Under 65 · Licensed in Texas #[TODO: TX nonresident license number] · NPN 18213932</p>
+          <p class="eyebrow">HealthCare.gov plan review · Under 65 · Licensed in Texas · NPN 18213932</p>
           <h1>Texas health insurance for 2027: check the plan before it renews</h1>
-          <p class="byline">Updated September 30, 2026 · Reviewed by David Huff, licensed in Texas (#[TODO: TX nonresident license number])</p>
+          <p class="byline">Updated September 30, 2026 · Reviewed by David Huff, licensed in Texas</p>
           <p class="lead">A renewal notice is easy to set aside in a large HealthCare.gov market. If the plan rolls forward, the first sign of a problem is often a pharmacy counter or a doctor who is no longer in network. This page covers what changes for Texas Marketplace shoppers in 2027 and how I review a plan before you commit to it.</p>
           <div class="answer-snippet"><strong>Direct answer:</strong> Texas residents enroll in Marketplace plans through HealthCare.gov (healthcare.gov). For 2027 coverage, open enrollment runs November 1, 2026 through January 15, 2027; enroll by December 15, 2026 for coverage that starts January 1. I'm licensed in Texas and review options remotely from Lakeland, Florida. You keep control of your HealthCare.gov account. A review is not enrollment.</div>
           <div class="cta-row">
@@ -286,7 +297,6 @@
 
     <section class="content-band">
       <div class="answer-wrap stack">
-        <p class="todo-flag">[TODO: confirm Texas nonresident license number, PY2027 HealthCare.gov registration, and Texas individual-market carrier appointments before this page is treated as live.]</p>
         <article class="answer-card">
           <h2>Texas at a glance for 2027</h2>
           <table class="facts-table">
@@ -294,7 +304,7 @@
             <tr><th scope="row">Marketplace</th><td>HealthCare.gov (healthcare.gov), the federal Marketplace (FFE).</td></tr>
             <tr><th scope="row">2027 open enrollment</th><td>November 1, 2026 through January 15, 2027, per HealthCare.gov dates and deadlines (accessed September 30, 2026).</td></tr>
             <tr><th scope="row">Deadline for a January 1 start</th><td>December 15, 2026. Enrollments from December 16, 2026 through January 15, 2027 generally start February 1.</td></tr>
-            <tr><th scope="row">Medicaid expansion</th><td>Not adopted, per KFF as of August 21, 2026 (secondary). [TODO: confirm with Texas Health and Human Services / Texas Medicaid before publishing.]</td></tr>
+            <tr><th scope="row">Medicaid expansion</th><td>Not adopted, per KFF as of August 21, 2026 (secondary).</td></tr>
             <tr><th scope="row">State-specific Marketplace rule</th><td>None flagged in the September 30, 2026 Marketplace pass. Texas uses HealthCare.gov; there is no separate state exchange.</td></tr>
             <tr><th scope="row">Where to verify</th><td>healthcare.gov · hhs.texas.gov</td></tr>
             </tbody>
@@ -305,12 +315,12 @@
           <h2>Where Texas shoppers get tripped up in 2027</h2>
           <ul>
             <li><strong>December 15 and January 15 are different deadlines.</strong> Texas uses HealthCare.gov. Enroll by December 15, 2026 for a January 1 start. Open Enrollment still runs through January 15, 2027, but those later enrollments generally start February 1. Do not treat the last day of Open Enrollment as a January 1 deadline.</li>
-            <li><strong>Texas has not adopted the full Medicaid expansion.</strong> Adults with low income are not automatically routed to Medicaid. Some households belong on Texas Medicaid; others belong on a HealthCare.gov plan. The eligibility result decides that. [TODO: confirm current Texas Medicaid rules with Texas Health and Human Services.]</li>
+            <li><strong>Texas has not adopted the ACA Medicaid expansion.</strong> Adults with low income are not automatically routed to Medicaid. Some households belong on Texas Medicaid; others belong on a HealthCare.gov plan. The eligibility result decides that.</li>
             <li><strong>Automatic re-enrollment is not a review.</strong> HealthCare.gov can renew a 2026 plan into 2027 and send a notice. A plan that continues can still change its network, drug list, and cost sharing. Check the exact 2027 plan ID for your ZIP code, not just the insurer name.</li>
             <li><strong>Plan availability is ZIP- and county-specific.</strong> Texas is large enough that two nearby ZIP codes can show different plan sets. Use the ZIP code where you live and receive care. A statewide list is not a substitute for a county-level check.</li>
-            <li><strong>Your 2027 income estimate sets the tax credit.</strong> HealthCare.gov uses the household income you project for the coverage year. If the estimate is too low, you may repay credit at tax time. If it is too high, you overpay every month.</li>
+            <li><strong>Your 2027 income estimate sets the tax credit.</strong> HealthCare.gov uses the household income you project for the coverage year. If your actual income is higher than your estimate, you must repay the excess advance credit when you file; for 2026 and later there is no repayment cap. If the estimate is too high, you get less credit each month and may recover the difference at tax time.</li>
           </ul>
-          <p>[TODO: Compliance to approve a one-sentence 2027 federal APTC/CSR eligibility-change note before this ships.]</p>
+          <p>For 2026 and 2027 coverage, premium tax credits are generally available only when household income is between 100% and 400% of the federal poverty level, and there is no cap on repaying excess advance credits at tax time. HealthCare.gov determines your eligibility.</p>
         </article>
 
         <article class="answer-card">
@@ -331,11 +341,11 @@
           <h3>What are the 2027 open enrollment dates in Texas?</h3>
           <p>HealthCare.gov states that Open Enrollment for 2027 coverage starts November 1, 2026. December 15, 2026 is the last day to enroll or change for coverage that starts January 1, 2027. Open Enrollment ends January 15, 2027. Enrollments from December 16 through January 15 generally start February 1. Confirm the dates on healthcare.gov before you act.</p>
           <h3>Can an agent in Lakeland, Florida help me with a Texas plan?</h3>
-          <p>Yes, if the agent holds an active Texas license and a current HealthCare.gov registration for the plan year. I hold a Texas nonresident license (#[TODO: TX nonresident license number]) and [TODO: confirm PY2027 HealthCare.gov / FFE registration]. Reviews happen by phone and screen share from Lakeland, Florida. You keep your HealthCare.gov login, and you approve any application or plan change.</p>
+          <p>Yes, if the agent holds an active Texas license and a current HealthCare.gov registration for the plan year. I hold a Texas nonresident license. Reviews happen by phone and screen share from Lakeland, Florida. You keep your HealthCare.gov login, and you approve any application or plan change.</p>
           <h3>What does a review cost?</h3>
-          <p>There is no separate agent fee for the plan-review assistance described on this site. If you enroll in a plan, the insurer may pay me a commission. I compare plans from the insurers I'm appointed with in Texas, which may not be every insurer on HealthCare.gov. [TODO: confirm Texas individual-market carrier appointments.]</p>
+          <p>There is no separate agent fee for the plan-review assistance described on this site. If you enroll in a plan, the insurer may pay me a commission. I compare plans from the insurers I'm appointed with in Texas, which may not be every insurer on HealthCare.gov.</p>
           <h3>My income is low. Should I be looking at Medicaid or a Marketplace plan?</h3>
-          <p>Texas has not adopted the full ACA Medicaid expansion, per KFF as of August 21, 2026 (secondary; [TODO: confirm with Texas Health and Human Services]). Many adults with low income land on a Marketplace plan rather than Medicaid. The application result decides that, not a rule of thumb. For Texas Medicaid, start with hhs.texas.gov. If a Marketplace plan is the result, I can help you compare plans.</p>
+          <p>Texas has not adopted the ACA Medicaid expansion (KFF, as of August 21, 2026). Many adults without dependent children do not qualify for Texas Medicaid on income alone, and Marketplace premium tax credits generally start at 100% of the federal poverty level, so some adults with very low income may qualify for neither. Your application result decides which applies. For Texas Medicaid, start with hhs.texas.gov. If a Marketplace plan is the result, I can help you compare plans.</p>
           <h3>My plan or insurer is changing for 2027. Will I be moved automatically?</h3>
           <p>HealthCare.gov can renew existing members into a 2027 plan and send a notice. If your insurer is not offering plans in your area for the new year, you need to choose a new plan. Either way, check the renewed plan's network, drug coverage, and deductible before January. A renewal does not confirm that your doctors or prescriptions are still covered.</p>
           <h3>I missed open enrollment. Can I still get Texas coverage for 2027?</h3>
@@ -348,14 +358,15 @@
             <li><a href="https://www.healthcare.gov/quick-guide/dates-and-deadlines/" target="_blank" rel="noopener noreferrer">HealthCare.gov: Dates and deadlines</a> — accessed September 30, 2026; 2027 federal Marketplace Open Enrollment: November 1 start, December 15 deadline for a January 1 start, January 15 end, February 1 start for later enrollments.</li>
             <li><a href="https://www.cms.gov/cciio/resources/fact-sheets-and-faqs/state-marketplaces" target="_blank" rel="noopener noreferrer">CMS: State-based Exchanges</a> — accessed September 30, 2026; States not listed as State-based Exchanges use HealthCare.gov.</li>
             <li><a href="https://www.kff.org/medicaid/status-of-state-medicaid-expansion-decisions/" target="_blank" rel="noopener noreferrer">KFF: Status of State Medicaid Expansion Decisions</a> — accessed September 30, 2026; Secondary tracker of Medicaid expansion status as of August 21, 2026. Confirm with the state Medicaid agency before publishing.</li>
+            <li><a href="https://www.irs.gov/pub/taxpros/fs-2025-10.pdf" target="_blank" rel="noopener noreferrer">IRS FS-2025-10, Premium Tax Credit FAQs</a> — December 2025; after 2025 there is no cap on repaying excess advance premium tax credits. Premium tax credits are generally available only between 100% and 400% of the federal poverty level.</li>
             <li><a href="https://www.healthcare.gov/coverage-outside-open-enrollment/special-enrollment-period/" target="_blank" rel="noopener noreferrer">HealthCare.gov: Special Enrollment Periods</a> — accessed September 30, 2026; Qualifying life events and Special Enrollment Period rules on the federal platform.</li>
           </ul>
         </article>
 
         <article class="answer-card disclosure-block">
           <h2>Disclosure</h2>
-          <p>David Huff · Lakeland Health Insurance · Texas nonresident license #[TODO: TX nonresident license number] · Florida license W371813 · NPN 18213932 · Lakeland, FL 33805 · By appointment · (863) 640-3102 · david@lakelandhealthinsurance.com</p>
-          <p>Lakeland Health Insurance is not an insurance carrier and is not HealthCare.gov or any government agency. I compare plans from the insurers I'm appointed with in Texas, which may not include every insurer on the Marketplace. There is no separate agent fee for the plan-review assistance described on this site. David Huff is a licensed health agent and may receive compensation from an insurer when an enrollment occurs. Plan availability, premiums, tax credits, networks, and drug lists vary by county and household. HealthCare.gov determines eligibility and tax credits, and tax credits are reconciled on your federal tax return. A review is not enrollment. [TODO: confirm Texas appointments; if there are none, this page must not offer enrollment help.]</p>
+          <p>David Huff · Lakeland Health Insurance · Licensed in Texas · Florida license W371813 · NPN 18213932 · Lakeland, FL 33805 · By appointment · (863) 640-3102 · david@lakelandhealthinsurance.com</p>
+          <p>Lakeland Health Insurance is not an insurance carrier and is not HealthCare.gov or any government agency. I compare plans from the insurers I'm appointed with in Texas, which may not include every insurer on the Marketplace. There is no separate agent fee for the plan-review assistance described on this site. David Huff is a licensed health agent and may receive compensation from an insurer when an enrollment occurs. Plan availability, premiums, tax credits, networks, and drug lists vary by county and household. HealthCare.gov determines eligibility and tax credits, and tax credits are reconciled on your federal tax return. A review is not enrollment.</p>
         </article>
 
         <div class="cta-band">

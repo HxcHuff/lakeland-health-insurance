@@ -68,12 +68,6 @@ const siteSearchIndex = [
     tags: ["Texas", "ACA", "Marketplace", "HealthCare.gov"]
   },
   {
-    title: "Georgia ACA Health Insurance Agent",
-    url: "/health-insurance-georgia/",
-    excerpt: "Licensed in Georgia. A 2027 Georgia Access plan review around doctors, prescriptions, and income. Draft page pending certification.",
-    tags: ["Georgia", "ACA", "Marketplace", "Georgia Access"]
-  },
-  {
     title: "North Carolina ACA Health Insurance Agent",
     url: "/health-insurance-north-carolina/",
     excerpt: "Licensed in North Carolina. A 2027 HealthCare.gov plan review around doctors, prescriptions, and income. No separate agent fee.",

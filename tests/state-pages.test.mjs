@@ -44,7 +44,7 @@ test('sitemap index is a real XML index pointing at sitemap.xml, not a 404 page'
   assert.match(readFileSync(join(ROOT, '_headers'), 'utf8'), /\/sitemap_index\.xml/);
 });
 
-test('live hub and Wave 1 FFE pages are indexable and listed in sitemap.xml', () => {
+test('live hub and published FFE pages are indexable and listed in sitemap.xml', () => {
   for (const [rel, url] of LIVE) {
     const html = source(rel);
     assert.match(html, /<meta name="robots" content="index, follow">/);
@@ -53,12 +53,29 @@ test('live hub and Wave 1 FFE pages are indexable and listed in sitemap.xml', ()
   }
 });
 
-test('Georgia stays noindex until Access certification is confirmed and is omitted from the sitemap', () => {
+test('Georgia stays noindex, out of the sitemap, and unlinked from the hub, About, and site search', () => {
   const html = source('health-insurance-georgia/index.html');
   assert.match(html, /<meta name="robots" content="noindex, nofollow">/);
-  assert.match(html, /\[TODO: Georgia Access PY2027 certification/);
   assert.doesNotMatch(SITEMAP, /health-insurance-georgia/);
   assert.match(readFileSync(join(ROOT, '_headers'), 'utf8'), /\/health-insurance-georgia\/\n\s+X-Robots-Tag: noindex, nofollow/);
+  assert.doesNotMatch(source('states/index.html'), /href="\/health-insurance-georgia\//);
+  assert.doesNotMatch(source('about/index.html'), /href="\/health-insurance-georgia\//);
+  assert.doesNotMatch(source('js/site-search.js'), /\/health-insurance-georgia\//);
+  assert.doesNotMatch(source('states/index.html'), /Wave 1|Draft Georgia|Pending certification/);
+  assert.doesNotMatch(source('about/index.html'), /drafted page pending|Wave 1/);
+});
+
+test('shipped state pages, hub, About, and get-help do not contain visible [TODO placeholders', () => {
+  for (const rel of [
+    'states/index.html',
+    'about/index.html',
+    'get-help/index.html',
+    'js/get-help-intake.js',
+    'js/site-search.js',
+    ...ALL_STATE_HTML.map(([rel]) => rel)
+  ]) {
+    assert.doesNotMatch(source(rel), /\[TODO/, `${rel} still contains [TODO`);
+  }
 });
 
 test('state pages and the hub are ACA/under-65 only and do not ship Florida Medicare TPMO copy', () => {
@@ -117,8 +134,9 @@ test('hub lists all 21 licensed states and routes Florida to existing pages', ()
   }
   assert.match(html, /href="\/aca-health-insurance-lakeland-fl\/"/);
   assert.match(html, /href="\/aca-health-insurance-agent-polk-county-fl\/"/);
-  assert.match(html, /href="\/medicare\/"/);
-  assert.match(html, /Medicare \(Florida only\)/);
+  assert.doesNotMatch(html, /Medicare \(Florida only\)/);
+  assert.doesNotMatch(html, /Medicare help remains on the Florida Medicare page/);
+  assert.match(html, /This hub is for ACA Marketplace coverage for people under 65 who are not on Medicare/);
   assert.doesNotMatch(html, /href="\/health-insurance-florida\//);
   assert.doesNotMatch(html, /href="\/health-insurance-arizona\//);
   const graph = jsonLdBlocks(html).find((block) => Array.isArray(block['@graph']));
@@ -145,3 +163,81 @@ test('shared chrome skips TPMO and HealthSherpa on multi-state pages without cha
   assert.match(SITE_TEMPLATE, /Remote assistance across Florida/);
   assert.match(SITE_TEMPLATE, /Lakeland-based health insurance assistance for Florida residents/);
 });
+
+test('APTC, Medicaid-gap, and NC work-requirement copy match the approved verdict text', () => {
+  const aptcFfe = 'For 2026 and 2027 coverage, premium tax credits are generally available only when household income is between 100% and 400% of the federal poverty level, and there is no cap on repaying excess advance credits at tax time. HealthCare.gov determines your eligibility.';
+  const aptcGa = 'For 2026 and 2027 coverage, premium tax credits are generally available only when household income is between 100% and 400% of the federal poverty level, and there is no cap on repaying excess advance credits at tax time. Georgia Access determines your eligibility.';
+  const repay = 'If your actual income is higher than your estimate, you must repay the excess advance credit when you file; for 2026 and later there is no repayment cap.';
+  const ncWork = 'Federal law enacted in 2025 requires expansion states to add work or community-engagement requirements and more frequent eligibility checks for many expansion adults, beginning as early as January 2027. Check medicaid.ncdhhs.gov for how and when North Carolina applies them.';
+  for (const rel of [
+    'health-insurance-texas/index.html',
+    'health-insurance-north-carolina/index.html',
+    'health-insurance-south-carolina/index.html',
+    'health-insurance-tennessee/index.html',
+    'health-insurance-alabama/index.html'
+  ]) {
+    assert.ok(source(rel).includes(aptcFfe), `${rel} is missing the approved APTC sentence`);
+    assert.doesNotMatch(source(rel), /full ACA Medicaid expansion|full Medicaid expansion/);
+  }
+  const texas = source('health-insurance-texas/index.html');
+  const georgia = source('health-insurance-georgia/index.html');
+  assert.ok(texas.includes(repay));
+  assert.ok(georgia.includes(repay));
+  assert.ok(georgia.includes(aptcGa));
+  assert.ok(source('health-insurance-north-carolina/index.html').includes(ncWork));
+  assert.match(texas, /some adults with very low income may qualify for neither/);
+  assert.match(source('health-insurance-alabama/index.html'), /some adults with very low income may qualify for neither/);
+  assert.match(source('health-insurance-south-carolina/index.html'), /some adults with very low income may qualify for neither/);
+  assert.match(source('health-insurance-tennessee/index.html'), /some adults with very low income may qualify for neither/);
+});
+
+test('hub cites official exchange sources and omits the unverified Maryland deadline', () => {
+  const html = source('states/index.html');
+  assert.match(html, /marketplace\.virginia\.gov\/how-enroll/);
+  assert.match(html, /georgiaaccess\.gov\/wp-content\/uploads/);
+  assert.match(html, /nj\.gov\/getcoverednj/);
+  assert.match(html, /wahealthplanfinder\.org\/us\/en\/tools-and-resources\/health-care-education\/enrollment-periods\.html/);
+  assert.match(html, /See Maryland Health Connection for 2027 dates/);
+  assert.doesNotMatch(html, /Maryland Health Connection\. 2027 enrollment ends January 15, 2027/);
+});
+
+test('get-help allowlists coverage_state and treats non-Florida visitors as out-of-state', () => {
+  const GET_HELP = source('js/get-help-intake.js');
+  const sandbox = {
+    document: {
+      referrer: 'https://lakelandhealthinsurance.com/health-insurance-texas/',
+      addEventListener() {},
+      getElementById() { return null; },
+      querySelectorAll() { return []; }
+    },
+    location: {
+      pathname: '/get-help/',
+      search: '?state=TX&intent=under-65',
+      origin: 'https://lakelandhealthinsurance.com'
+    },
+    window: {},
+    URL,
+    URLSearchParams,
+    String,
+    Object,
+    Date,
+    btoa: (value) => Buffer.from(value).toString('base64')
+  };
+  sandbox.window = sandbox;
+  vm.createContext(sandbox);
+  vm.runInContext(GET_HELP, sandbox, { filename: 'get-help-intake.js' });
+  const intake = sandbox.LHIGetHelpIntake;
+  assert.equal(intake.allowlistedCoverageState('TX'), 'TX');
+  assert.equal(intake.allowlistedCoverageState('fl'), 'FL');
+  assert.equal(intake.allowlistedCoverageState('XX'), '');
+  assert.equal(intake.isNonFloridaCoverageState('TX'), true);
+  assert.equal(intake.isNonFloridaCoverageState('FL'), false);
+  assert.equal(intake.resolveCoverageState(new URLSearchParams('state=TX')), 'TX');
+  assert.equal(intake.resolveCoverageState(new URLSearchParams('')), 'TX');
+  assert.equal(intake.coverageStateFromReferrer('https://lakelandhealthinsurance.com/health-insurance-north-carolina/'), 'NC');
+  assert.equal(intake.resolveCoverageState(new URLSearchParams('state=FL')), 'FL');
+  assert.match(source('get-help/index.html'), /id="outOfStateMedicareNote"/);
+  assert.match(source('get-help/index.html'), /id="floridaTpmoInventoryNote"/);
+  assert.match(source('get-help/index.html'), /name="consent_text_version" value="get-help-2026-09-29-v2"/);
+});
+

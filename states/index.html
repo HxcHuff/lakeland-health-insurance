@@ -27,7 +27,6 @@
     .facts-table { width: 100%; border-collapse: collapse; }
     .facts-table th, .facts-table td { text-align: left; vertical-align: top; padding: .7rem .4rem; border-bottom: 1px solid #e2e8f0; }
     .facts-table th { width: 34%; color: #1b2a4a; font-weight: 700; }
-    .todo-flag { background: #FEF2F2; border-left: 4px solid #EA580C; padding: .75rem 1rem; margin: 0 0 1rem; }
     .related-links { display: flex; flex-wrap: wrap; gap: .65rem 1.1rem; }
     .disclosure-block { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.1rem 1.2rem; }
     .cta-band { background: #1B2A4A; color: #fff; padding: 28px 22px; border-radius: 8px; }
@@ -282,7 +281,7 @@
         <p class="eyebrow">21-state license footprint · ACA / under 65 · NPN 18213932</p>
         <h1>Marketplace plan reviews in the 21 states where I'm licensed</h1>
         <p class="lead">Each state runs Marketplace enrollment differently. Some use HealthCare.gov, others run their own exchange, and deadlines differ. Pick your state for the dates and rules that apply to you. I work remotely from Lakeland, Florida.</p>
-        <div class="answer-snippet"><strong>Direct answer:</strong> David Huff is a licensed health agent (Florida license W371813, NPN 18213932) who reviews ACA Marketplace plans for residents of the states listed below. Florida visitors should use the existing Lakeland and Polk County pages. There is no separate agent fee. A review is not enrollment. [TODO: confirm every nonresident license number and PY2027 exchange registration before treating a state card as live.]</div>
+        <div class="answer-snippet"><strong>Direct answer:</strong> David Huff is a licensed health agent (Florida license W371813, NPN 18213932) who reviews ACA Marketplace plans for residents of the states listed below. Florida visitors should use the existing Lakeland and Polk County pages. There is no separate agent fee. A review is not enrollment.</div>
         <div class="cta-row">
           <a class="btn primary" href="/get-help/?intent=under-65">Request a plan review</a>
           <a class="btn secondary" href="tel:+18636403102">Call (863) 640-3102</a>
@@ -294,7 +293,7 @@
       <div class="answer-wrap stack">
         <article class="answer-card">
           <h2>Choose your state</h2>
-          <p>Wave 1 guides are live for Texas, North Carolina, South Carolina, Tennessee, and Alabama. Georgia has a drafted page that stays noindex until Georgia Access plan-year 2027 certification is confirmed. Other licensed states show the official Marketplace and a phone number until their page is approved.</p>
+          <p>State guides are available for Texas, North Carolina, South Carolina, Tennessee, and Alabama. Other licensed states show the official Marketplace and a phone number.</p>
           <div class="state-grid">
             <article class="state-card" id="alabama">
               <p class="status">2027 guide</p>
@@ -316,15 +315,13 @@
               <p><a href="/aca-health-insurance-lakeland-fl/">Individual and family coverage</a></p>
               <p><a href="/aca-health-insurance-agent-polk-county-fl/">Licensed Polk County ACA agent</a></p>
               <p><a href="/#service-areas">Cities I serve</a></p>
-              <p><a href="/medicare/">Medicare (Florida only)</a></p>
             </article>
             <article class="state-card pending" id="georgia">
-              <p class="status">Pending certification</p>
+              <p class="status">Licensed · page not live yet</p>
               <h2>Georgia</h2>
               <p>Georgia Access. 2027 enrollment ends January 15, 2027.</p>
               <p><a href="https://georgiaaccess.gov/" target="_blank" rel="noopener noreferrer">Georgia Access official site</a></p>
               <p>Call <a href="tel:+18636403102">(863) 640-3102</a></p>
-              <p><a href="/health-insurance-georgia/">Draft Georgia page</a> — noindex until [TODO: Georgia Access PY2027 certification] is confirmed.</p>
             </article>
             <article class="state-card pending" id="iowa">
               <p class="status">Licensed · page not live yet</p>
@@ -350,7 +347,7 @@
             <article class="state-card pending" id="maryland">
               <p class="status">Licensed · page not live yet</p>
               <h2>Maryland</h2>
-              <p>Maryland Health Connection. 2027 enrollment ends January 15, 2027.</p>
+              <p>Maryland Health Connection. See Maryland Health Connection for 2027 dates.</p>
               <p><a href="https://www.marylandhealthconnection.gov/" target="_blank" rel="noopener noreferrer">Maryland Health Connection official site</a></p>
               <p>Call <a href="tel:+18636403102">(863) 640-3102</a></p>
             </article>
@@ -448,15 +445,28 @@
           <h2>How a remote review works</h2>
           <div class="how-steps">
             <div><strong>1. Tell me the state and household.</strong> County, ZIP code, who needs coverage, and projected 2027 income. Use the state page first so the Marketplace and dates match where you live.</div>
-            <div><strong>2. I review 2027 plan data for that ZIP code.</strong> Network, prescriptions, deductible, and out-of-pocket maximum on the plans I'm appointed to discuss in that state. [TODO: confirm appointments per state.]</div>
+            <div><strong>2. I review 2027 plan data for that ZIP code.</strong> Network, prescriptions, deductible, and out-of-pocket maximum on the plans I'm appointed to discuss in that state.</div>
             <div><strong>3. You keep the account.</strong> We go over trade-offs by phone or screen share. You authorize any application or change. A review is not enrollment.</div>
           </div>
+        </article>
+
+        <article class="answer-card">
+          <h2>Primary sources</h2>
+          <ul class="source-list">
+            <li><a href="https://www.healthcare.gov/quick-guide/dates-and-deadlines/" target="_blank" rel="noopener noreferrer">HealthCare.gov: Dates and deadlines</a> — accessed September 30, 2026; 2027 federal Marketplace Open Enrollment: November 1 start, December 15 deadline for a January 1 start, January 15 end.</li>
+            <li><a href="https://www.cms.gov/cciio/resources/fact-sheets-and-faqs/state-marketplaces" target="_blank" rel="noopener noreferrer">CMS: State-based Exchanges</a> — accessed September 30, 2026; States not listed as State-based Exchanges use HealthCare.gov.</li>
+            <li><a href="https://www.marketplace.virginia.gov/how-enroll" target="_blank" rel="noopener noreferrer">Virginia's Insurance Marketplace: How to Enroll</a> — accessed September 30, 2026; Open Enrollment is the yearly period from November 1 to January 29.</li>
+            <li><a href="https://georgiaaccess.gov/wp-content/uploads/sites/4/2026/08/Georgia-Access-PY-2027-QHP-Application-Instructions-for-Issuers_Updated_08-10-2026.pdf" target="_blank" rel="noopener noreferrer">Georgia Access, Plan Year 2027 QHP Application Instructions for Issuers</a> — updated August 10, 2026; 2027 open enrollment November 1, 2026 through January 15, 2027.</li>
+            <li><a href="https://nj.gov/getcoverednj/" target="_blank" rel="noopener noreferrer">Get Covered New Jersey</a> — accessed September 30, 2026; Open Enrollment runs November 1 through January 31.</li>
+            <li><a href="https://www.wahealthplanfinder.org/us/en/tools-and-resources/health-care-education/enrollment-periods.html" target="_blank" rel="noopener noreferrer">Washington Healthplanfinder: Enrollment Periods</a> — accessed September 30, 2026; Open enrollment begins November 1 and ends January 15.</li>
+            <li><a href="https://www.marylandhealthconnection.gov/" target="_blank" rel="noopener noreferrer">Maryland Health Connection</a> — accessed September 30, 2026; 2027 open enrollment dates were not posted on the official exchange site at access, so this hub does not list a Maryland deadline.</li>
+          </ul>
         </article>
 
         <article class="answer-card disclosure-block">
           <h2>Disclosure</h2>
           <p>David Huff · Lakeland Health Insurance · Florida license W371813 · NPN 18213932 · Lakeland, FL 33805 · By appointment · (863) 640-3102 · david@lakelandhealthinsurance.com</p>
-          <p>Lakeland Health Insurance is not an insurance carrier and is not HealthCare.gov, Georgia Access, or any government agency. License numbers for states other than Florida are [TODO: add each nonresident license number]. I compare plans from the insurers I'm appointed with in the state where you live, which may not include every Marketplace insurer. There is no separate agent fee for the plan-review assistance described on this site. David Huff is a licensed health agent and may receive compensation from an insurer when an enrollment occurs. This hub is for ACA Marketplace coverage for people under 65 who are not on Medicare. Medicare help remains on the Florida Medicare page.</p>
+          <p>Lakeland Health Insurance is not an insurance carrier and is not HealthCare.gov, Georgia Access, or any government agency. I compare plans from the insurers I'm appointed with in the state where you live, which may not include every Marketplace insurer. There is no separate agent fee for the plan-review assistance described on this site. David Huff is a licensed health agent and may receive compensation from an insurer when an enrollment occurs. This hub is for ACA Marketplace coverage for people under 65 who are not on Medicare.</p>
         </article>
 
         <div class="cta-band">

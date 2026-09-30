@@ -267,6 +267,52 @@
       }
     }
   };
+  var LICENSED_COVERAGE_STATES = {
+    AL: true,
+    AZ: true,
+    FL: true,
+    GA: true,
+    IA: true,
+    IN: true,
+    LA: true,
+    MD: true,
+    MI: true,
+    MO: true,
+    MS: true,
+    NC: true,
+    NE: true,
+    NJ: true,
+    OH: true,
+    SC: true,
+    TN: true,
+    TX: true,
+    VA: true,
+    WA: true,
+    WV: true
+  };
+  var STATE_SLUG_TO_CODE = {
+    alabama: 'AL',
+    arizona: 'AZ',
+    georgia: 'GA',
+    iowa: 'IA',
+    indiana: 'IN',
+    louisiana: 'LA',
+    maryland: 'MD',
+    michigan: 'MI',
+    missouri: 'MO',
+    mississippi: 'MS',
+    'north-carolina': 'NC',
+    nebraska: 'NE',
+    'new-jersey': 'NJ',
+    ohio: 'OH',
+    'south-carolina': 'SC',
+    tennessee: 'TN',
+    texas: 'TX',
+    virginia: 'VA',
+    washington: 'WA',
+    'west-virginia': 'WV'
+  };
+
   var QUERY_ALIASES = {
     'individual-family': 'under-65',
     'under-65': 'under-65',
@@ -347,6 +393,45 @@
   function qsValue(qs, key) {
     var val = qs.get(key);
     return val ? String(val).slice(0, 120) : '';
+  }
+
+  function allowlistedCoverageState(raw) {
+    var code = String(raw || '').trim().toUpperCase();
+    return hasOwn(LICENSED_COVERAGE_STATES, code) ? code : '';
+  }
+
+  function coverageStateFromReferrer(referrerValue) {
+    var raw = referrerValue == null ? document.referrer : referrerValue;
+    if (!raw) return '';
+    try {
+      var referrer = new URL(raw, window.location.origin);
+      if (referrer.origin !== window.location.origin) return '';
+      var match = String(referrer.pathname || '').match(/^\/health-insurance-([a-z-]+)\/?$/i);
+      if (!match) return '';
+      return allowlistedCoverageState(STATE_SLUG_TO_CODE[String(match[1] || '').toLowerCase()] || '');
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function resolveCoverageState(qs, referrerValue) {
+    return allowlistedCoverageState(qs && qs.get ? qs.get('state') : '') || coverageStateFromReferrer(referrerValue);
+  }
+
+  function isNonFloridaCoverageState(code) {
+    return Boolean(code) && code !== 'FL';
+  }
+
+  function hideFloridaTpmoForOutOfState() {
+    ['medicareTpmoDisclaimer', 'floridaTpmoInventoryNote'].forEach(function (id) {
+      var el = byId(id);
+      if (el) el.hidden = true;
+    });
+    document.querySelectorAll('.footer-tpmo').forEach(function (node) {
+      node.hidden = true;
+    });
+    var note = byId('outOfStateMedicareNote');
+    if (note) note.hidden = false;
   }
 
   function approvedCampaignValue(value) {
@@ -431,13 +516,14 @@
     if (el) el.value = value || '';
   }
 
-  function renderIntentOptions(selectedIntent) {
+  function renderIntentOptions(selectedIntent, hideMedicare) {
     var holder = byId('intentOptions');
     if (!holder) return;
     holder.innerHTML = '';
     var options = INTENT_OPTIONS.slice();
     if (options.indexOf(selectedIntent) === -1 && INTENTS[selectedIntent]) options.unshift(selectedIntent);
     options.forEach(function (key) {
+      if (key === 'medicare' && hideMedicare) return;
       var cfg = INTENTS[key];
       var label = document.createElement('label');
       label.className = 'choice';
@@ -544,7 +630,7 @@
     var qs = new URLSearchParams(window.location.search);
     var medicareSource = medicareSourceContext(qs);
     setValue('zipCode', qsValue(qs, 'zip_code'));
-    setValue('coverageStateInput', qsValue(qs, 'state'));
+    setValue('coverageStateInput', resolveCoverageState(qs));
     setValue('sourcePageInput', String(window.location.pathname || '/').slice(0, 160));
     setValue('referralPageInput', referralClass());
     setValue('sourcePageKeyInput', medicareSource && medicareSource.source_page_key);
@@ -608,11 +694,19 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     initAttribution();
-    var selected = normalizeIntent(new URLSearchParams(window.location.search).get('intent'));
-    var product = new URLSearchParams(window.location.search).get('product');
-    if (product === 'medicare' || product === 'medicare-advantage') selected = 'medicare';
-    renderIntentOptions(selected);
+    var qs = new URLSearchParams(window.location.search);
+    var coverageState = resolveCoverageState(qs);
+    var hideMedicare = isNonFloridaCoverageState(coverageState);
+    var selected = normalizeIntent(qs.get('intent'));
+    var product = qs.get('product');
+    if (!hideMedicare && (product === 'medicare' || product === 'medicare-advantage')) selected = 'medicare';
+    if (hideMedicare && selected === 'medicare') selected = 'under-65';
+    renderIntentOptions(selected, hideMedicare);
     applyIntent(selected);
+    if (hideMedicare) {
+      hideFloridaTpmoForOutOfState();
+      window.addEventListener('load', hideFloridaTpmoForOutOfState);
+    }
     showStep(1, false);
 
     document.querySelectorAll('[data-next]').forEach(function (button) {
@@ -639,6 +733,10 @@
     approvedCampaignValue: approvedCampaignValue,
     approvedCampaignTerm: approvedCampaignTerm,
     referralClass: referralClass,
-    medicareSourceContext: medicareSourceContext
+    medicareSourceContext: medicareSourceContext,
+    allowlistedCoverageState: allowlistedCoverageState,
+    coverageStateFromReferrer: coverageStateFromReferrer,
+    resolveCoverageState: resolveCoverageState,
+    isNonFloridaCoverageState: isNonFloridaCoverageState
   };
 })();
