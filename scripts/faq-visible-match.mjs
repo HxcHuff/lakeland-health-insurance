@@ -22,40 +22,11 @@ export const FAQ_MATCH_SKIP_RELS = new Set([
   'blog/why-overpaying-health-insurance-central-florida.html',
 ]);
 
-export const FAQ_MATCH_SCOPE_RELS = new Set([
-  'blog/bronze-vs-silver-vs-gold-which-plan.html',
-  'blog/can-i-use-agent-for-healthcare-gov.html',
-  'blog/check-prescriptions-covered-before-you-enroll.html',
-  'blog/cobra-vs-marketplace-florida.html',
-  'blog/deductible-vs-out-of-pocket-maximum.html',
-  'blog/do-i-have-to-pay-back-premium-tax-credit.html',
-  'blog/do-i-need-part-b-with-employer-insurance.html',
-  'blog/does-medicare-cover-dental-vision-hearing.html',
-  'blog/health-insurance-outside-open-enrollment.html',
-  'blog/how-does-medicare-work-with-an-hsa.html',
-  'blog/how-much-income-qualify-subsidy-florida.html',
-  'blog/how-self-employed-get-health-insurance-florida.html',
-  'blog/how-to-get-health-insurance-retire-before-65.html',
-  'blog/how-to-keep-doctor-when-changing-health-plans.html',
-  'blog/is-fixed-indemnity-the-same-as-health-insurance.html',
-  'blog/medicare-advantage-vs-medicare-supplement.html',
-  'blog/penalty-for-signing-up-for-medicare-late.html',
-  'blog/switch-medicare-advantage-back-to-original-medicare.html',
-  'blog/what-counts-as-income-marketplace-health-insurance.html',
-  'blog/what-happens-health-insurance-if-i-quit-job.html',
-  'blog/what-happens-if-income-changes-after-enroll.html',
-  'blog/what-short-term-health-insurance-does-not-cover.html',
-  'blog/what-to-do-if-health-plan-denies-a-claim.html',
-  'blog/whats-the-difference-hmo-ppo-epo.html',
-  'blog/when-to-sign-up-for-medicare-if-still-working.html',
-  'blog/how-to-read-health-insurance-card-guide.html',
-  'blog/aep-2026-polk-county-checklist.html',
-  'blog/lost-job-coverage-aca-insurance-florida.html',
-  'blog/when-can-i-switch-medicare-plans-florida.html',
-  'blog/orlando-health-polk-county-expansion-2026.html',
-  'blog/health-insurance-self-employed-tax-deductions.html',
-  'blog/hmo-vs-ppo-vs-epo-explained.html',
+// All blog/*.html pages are in scope. Extra exclusions beyond PR #200 go here.
+export const FAQ_MATCH_EXTRA_SKIP_RELS = new Set([
 ]);
+
+export const FAQ_MATCH_SCOPE_RELS = null;
 
 const SKIP_DIRS = new Set([
   '.git', '.claude', '.audit-data', 'audit', 'node_modules', 'netlify', '.netlify',
@@ -134,9 +105,11 @@ export function faqEntries(data) {
 
 export function findFaqVisibleMatchIssues(rel, html, {
   skipRels = FAQ_MATCH_SKIP_RELS,
+  extraSkipRels = FAQ_MATCH_EXTRA_SKIP_RELS,
   scopeRels = FAQ_MATCH_SCOPE_RELS,
 } = {}) {
-  if (skipRels.has(rel)) return [];
+  if (!rel.startsWith('blog/')) return [];
+  if (skipRels.has(rel) || extraSkipRels.has(rel)) return [];
   if (scopeRels && !scopeRels.has(rel)) return [];
   const visible = visiblePageText(html);
   const issues = [];
@@ -170,12 +143,13 @@ function walkHtml(dir, out = []) {
 export function collectFaqVisibleMatchIssues({
   root = ROOT,
   skipRels = FAQ_MATCH_SKIP_RELS,
+  extraSkipRels = FAQ_MATCH_EXTRA_SKIP_RELS,
   scopeRels = FAQ_MATCH_SCOPE_RELS,
 } = {}) {
   const issues = [];
   for (const file of walkHtml(root)) {
     const rel = relative(root, file);
-    issues.push(...findFaqVisibleMatchIssues(rel, readFileSync(file, 'utf8'), { skipRels, scopeRels }));
+    issues.push(...findFaqVisibleMatchIssues(rel, readFileSync(file, 'utf8'), { skipRels, extraSkipRels, scopeRels }));
   }
   return issues;
 }

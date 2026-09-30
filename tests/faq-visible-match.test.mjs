@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   collectFaqVisibleMatchIssues,
+  FAQ_MATCH_EXTRA_SKIP_RELS,
   FAQ_MATCH_SCOPE_RELS,
   FAQ_MATCH_SKIP_RELS,
   findFaqVisibleMatchIssues,
@@ -57,7 +58,8 @@ test('skips PR 200 conflict files and requires visible FAQ text on audited pages
   );
   assert.deepEqual(skipped, []);
   assert.equal(FAQ_MATCH_SKIP_RELS.size, 15);
-  assert.ok(FAQ_MATCH_SCOPE_RELS.has('blog/cobra-vs-marketplace-florida.html'));
+  assert.equal(FAQ_MATCH_SCOPE_RELS, null);
+  assert.ok(FAQ_MATCH_EXTRA_SKIP_RELS instanceof Set);
   const issues = collectFaqVisibleMatchIssues();
   assert.equal(issues.length, 0, issues.slice(0, 12).join('\n'));
 });
