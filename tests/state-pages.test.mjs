@@ -278,4 +278,3 @@ test('get-help allowlists coverage_state and treats non-Florida visitors as out-
   assert.match(source('get-help/index.html'), /id="floridaTpmoInventoryNote"/);
   assert.match(source('get-help/index.html'), /name="consent_text_version" value="get-help-2026-09-29-v2"/);
 });
-
