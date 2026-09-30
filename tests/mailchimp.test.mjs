@@ -458,7 +458,23 @@ test('sitelink and gap forms expose an optional unchecked marketing checkbox', (
     assert.match(html, /Email me Lakeland Health Insurance tips and updates\. Unsubscribe anytime\./, rel);
     assert.match(html, /name="consent_marketing_email_version" value="marketing-email-2026-09-30-v1"/, rel);
     assert.match(html, /name="consent_text_version" value="(?:get-help-2026-07-30-v1|lp-gap-2026-09-29-v2)"/, rel);
+    assert.match(html, /name="consent_marketing_email_state"/, rel);
+    assert.match(html, /name="consent_recorded_at"/, rel);
+    assert.match(html, /name="consent_page"/, rel);
   }
+});
+
+test('privacy policy names Mailchimp for newsletter and get-help marketing email, and sitemap lastmod matches', () => {
+  const privacy = readFileSync(resolve(ROOT, 'privacy-policy.html'), 'utf8');
+  const sitemap = readFileSync(resolve(ROOT, 'sitemap.xml'), 'utf8');
+  assert.match(
+    privacy,
+    /If you sign up for our newsletter or check an optional box on our forms to receive Lakeland Health Insurance email tips, updates, or educational and marketing emails, we add/
+  );
+  assert.match(
+    sitemap,
+    /<loc>https:\/\/lakelandhealthinsurance\.com\/privacy-policy\.html<\/loc>\s*<lastmod>2026-09-30<\/lastmod>/
+  );
 });
 
 test('timeout helper stays at about three seconds', () => {
