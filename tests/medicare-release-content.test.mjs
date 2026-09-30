@@ -5,8 +5,8 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const CURRENT_SEASON_DISCLAIMER = 'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
-const INVENTORY_NOTE = 'Company inventory note: The 10 organizations and 73 products referenced above reflect the plans available for the 2026 plan year in the Lakeland/Polk County service area as of August 17, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
+const CURRENT_SEASON_DISCLAIMER = 'We do not offer every plan available in your area. Currently we represent 9 organizations which offer 102 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
+const INVENTORY_NOTE = 'Company inventory note: The counts above reflect the plans available for the 2027 plan year in the Lakeland/Polk County service area as of September 30, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
 const SUBJECT_TO_PLAN = 'Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
 
 const MEDICARE_MARKETING_SURFACES = [
