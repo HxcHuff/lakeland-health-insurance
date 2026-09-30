@@ -56,13 +56,22 @@
     "@type": "Organization",
     "@id": "https://lakelandhealthinsurance.com/#agency",
     "name": "Lakeland Health Insurance",
-    "url": "https://lakelandhealthinsurance.com"
+    "url": "https://lakelandhealthinsurance.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lakelandhealthinsurance.com/icons/icon-512.png",
+      "width": 512,
+      "height": 512
+    }
   },
   "datePublished": "2026-09-29",
   "dateModified": "2026-09-29",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://lakelandhealthinsurance.com/blog/how-to-keep-doctor-when-changing-health-plans.html"
+    "@id": "https://lakelandhealthinsurance.com/blog/how-to-keep-doctor-when-changing-health-plans.html",
+    "reviewedBy": {
+      "@id": "https://lakelandhealthinsurance.com/about/#david-huff"
+    }
   },
   "about": [
     {
@@ -91,12 +100,9 @@
   },
   "isPartOf": {
     "@id": "https://lakelandhealthinsurance.com/#website"
-  },
-  "reviewedBy": {
-    "@id": "https://lakelandhealthinsurance.com/about/#david-huff"
   }
 }
-  </script>
+</script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -104,23 +110,55 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "If my doctor takes other plans from the same company, am I covered?",
+      "name": "What do I verify for an ACA or employer plan?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Not necessarily. Participation is often plan-ID specific. Confirm the exact plan, location, and whether the office is accepting patients under it."
+        "text": "Ask the office for the exact plan name and ID they bill, not only a company name. Confirm the street location you visit. Ask whether you must be assigned as a primary-care patient. Then check referrals if the plan is an HMO or POS. See which network type to pick: HMO, PPO, or EPO and the existing explainer referrals and out-of-network rules ."
       }
     },
     {
       "@type": "Question",
-      "name": "Does Original Medicare use a clinic network like an HMO?",
+      "name": "Is the Medicare version of this question different?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Original Medicare generally allows any provider that accepts Medicare. Medicare Advantage plans commonly use networks. Coverage still depends on the service and the plan documents."
+        "text": "Yes. Original Medicare generally allows any doctor or hospital that accepts Medicare. Medicare Advantage uses plan networks that can change. Medigap does not create a network of its own; it works with Original Medicare. For the Medicare-only version of this question, use Can I keep my doctor if I switch Medicare plans?"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do prescriptions interact with keeping a doctor?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A specialist relationship is of limited use if the plan does not cover the drug that specialist prescribes. Check the formulary, quantity limits, and preferred pharmacy at the same time. See how to check prescriptions before you enroll and the provider and prescription check ."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When can I change plans in order to follow a doctor?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Marketplace plan changes follow Open Enrollment or a Special Enrollment Period. See coverage outside Open Enrollment . Medicare plan changes follow Medicare enrollment periods, not Marketplace rules. Employer plans follow the employer's open enrollment and qualifying life events."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if my doctor is in a large clinic system?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Large systems can participate with one plan ID and not another, and individual physicians can have different panels. Watson Clinic and Orlando Health relationships in Polk County are an example of why a system name is not enough. Confirm the physician, the location, and the hospital separately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if I am in the middle of treatment?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ask the current plan and the new plan about continuity-of-care or transition-of-care rules. Some contracts allow a limited period with a current provider after a network change. Those rules are specific and time-limited. Get the request process in writing if you rely on them."
       }
     }
   ]
 }
-  </script>
+</script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",

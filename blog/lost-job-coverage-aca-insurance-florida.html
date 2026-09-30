@@ -79,7 +79,14 @@
         "openingHoursSpecification": {
           "@type": "OpeningHoursSpecification",
           "description": "By appointment"
-        }
+        },
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://lakelandhealthinsurance.com/icons/icon-512.png",
+          "width": 512,
+          "height": 512
+        },
+        "@id": "https://lakelandhealthinsurance.com/#agency"
       },
       "datePublished": "2026-07-28",
       "dateModified": "2026-09-29",
@@ -114,6 +121,7 @@
       }
     },
     {
+      "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
         {
@@ -121,15 +129,15 @@
           "name": "Can I get ACA insurance if I lost job coverage in Florida?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Losing job-based health coverage can qualify you for an ACA Marketplace Special Enrollment Period. In most cases, you must choose a Marketplace plan within 60 days of losing coverage."
+            "text": "Yes. Losing job-based coverage can qualify you for a Marketplace Special Enrollment Period. Most people must choose a plan within 60 days after coverage ends."
           }
         },
         {
           "@type": "Question",
-          "name": "Should I compare COBRA before choosing an ACA plan?",
+          "name": "Should I compare COBRA before choosing ACA?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Compare COBRA's full premium, provider access, prescription costs, deductibles, and timing against Marketplace plans and any premium tax credit you may qualify for."
+            "text": "Yes. Compare monthly premium, doctors, prescriptions, deductible, out-of-pocket risk, and the dates coverage can start."
           }
         }
       ]
@@ -162,21 +170,7 @@
       "name": "ACA Special Enrollment Review for Florida Job Loss",
       "serviceType": "ACA Marketplace Enrollment Guidance",
       "provider": {
-        "@type": "InsuranceAgency",
-        "name": "Lakeland Health Insurance",
-        "url": "https://lakelandhealthinsurance.com/",
-        "telephone": "+1-863-640-3102",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Lakeland",
-          "addressRegion": "FL",
-          "postalCode": "33805",
-          "addressCountry": "US"
-        },
-        "openingHoursSpecification": {
-          "@type": "OpeningHoursSpecification",
-          "description": "By appointment"
-        }
+        "@id": "https://lakelandhealthinsurance.com/#agency"
       },
       "areaServed": {
         "@type": "AdministrativeArea",
