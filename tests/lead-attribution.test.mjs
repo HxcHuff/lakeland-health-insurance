@@ -715,7 +715,8 @@ test('lead.js keeps only marketing-email-2026-09-30-v1 and drops any other versi
 
 test('sitelink and gap pages default the known marketing-email version when it is missing', async () => {
   const sitelink = await invoke(getHelpPayload({
-    source_page: '/medicare/'
+    source_page: '/medicare/',
+    source_url: 'https://lakelandhealthinsurance.com/medicare/'
   }), { headers: { referer: 'https://lakelandhealthinsurance.com/medicare/' } });
   assert.equal(sitelink.response.statusCode, 200);
   const sitelinkForm = new URLSearchParams(sitelink.calls[0].init.body);
