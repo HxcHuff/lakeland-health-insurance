@@ -303,11 +303,15 @@ test('get-help allowlists coverage_state and treats non-Florida visitors as out-
   vm.runInContext(GET_HELP, sandbox, { filename: 'get-help-intake.js' });
   const intake = sandbox.LHIGetHelpIntake;
   assert.equal(intake.allowlistedCoverageState('TX'), 'TX');
+  assert.equal(intake.allowlistedCoverageState('KS'), 'KS');
+  assert.equal(intake.allowlistedCoverageState('ks'), 'KS');
   assert.equal(intake.allowlistedCoverageState('fl'), 'FL');
   assert.equal(intake.allowlistedCoverageState('XX'), '');
   assert.equal(intake.isNonFloridaCoverageState('TX'), true);
+  assert.equal(intake.isNonFloridaCoverageState('KS'), true);
   assert.equal(intake.isNonFloridaCoverageState('FL'), false);
   assert.equal(intake.resolveCoverageState(new URLSearchParams('state=TX')), 'TX');
+  assert.equal(intake.resolveCoverageState(new URLSearchParams('state=KS')), 'KS');
   assert.equal(intake.resolveCoverageState(new URLSearchParams('')), 'TX');
   assert.equal(intake.coverageStateFromReferrer('https://lakelandhealthinsurance.com/health-insurance-north-carolina/'), 'NC');
   assert.equal(intake.resolveCoverageState(new URLSearchParams('state=FL')), 'FL');
@@ -316,4 +320,23 @@ test('get-help allowlists coverage_state and treats non-Florida visitors as out-
   assert.match(source('get-help/index.html'), /name="consent_text_version" value="get-help-2026-09-29-v2"/);
   assert.match(source('get-help/index.html'), /\.footer-tpmo\[hidden\] \{ display: none; \}/);
   assert.match(source('get-help/index.html'), /<p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for Florida residents only\.<\/p>/);
+});
+
+test('public copy and search index say 22 licensed states and include Kansas', () => {
+  assert.match(source('about/index.html'), /Licensed in 22 states for ACA Marketplace reviews/);
+  assert.match(source('about/index.html'), /See all 22 states/);
+  assert.match(source('about/index.html'), /Iowa, Indiana, Kansas, Louisiana/);
+  assert.match(source('get-help/index.html'), /Licensed in 22 states/);
+  assert.match(source('js/site-search.js'), /licensed in 22 states/);
+  assert.match(source('index.html'), /licensed in 21 more states/);
+  for (const rel of [
+    'about/index.html',
+    'get-help/index.html',
+    'js/site-search.js',
+    'index.html',
+    'states/index.html',
+    'js/site-template.js'
+  ]) {
+    assert.doesNotMatch(source(rel), /21 states|twenty-one|twenty one/i, `${rel} still says 21 states`);
+  }
 });
