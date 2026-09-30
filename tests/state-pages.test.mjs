@@ -61,7 +61,7 @@ test('Georgia stays noindex, out of the sitemap, and unlinked from the hub, Abou
   assert.doesNotMatch(source('states/index.html'), /href="\/health-insurance-georgia\//);
   assert.doesNotMatch(source('about/index.html'), /href="\/health-insurance-georgia\//);
   assert.doesNotMatch(source('js/site-search.js'), /\/health-insurance-georgia\//);
-  assert.doesNotMatch(source('states/index.html'), /Wave 1|Draft Georgia|Pending certification/);
+  assert.doesNotMatch(source('states/index.html'), /Wave 1|Draft Georgia|Pending certification|page not live yet/i);
   assert.doesNotMatch(source('about/index.html'), /drafted page pending|Wave 1/);
 });
 
@@ -161,10 +161,10 @@ test('state pages show the verified license, pair the brand with David Huff, and
   }
 });
 
-test('hub lists all 21 licensed states and routes Florida to existing pages', () => {
+test('hub lists all 22 licensed states and routes Florida to existing pages', () => {
   const html = source('states/index.html');
   for (const name of [
-    'Alabama', 'Arizona', 'Florida', 'Georgia', 'Iowa', 'Indiana', 'Louisiana',
+    'Alabama', 'Arizona', 'Florida', 'Georgia', 'Iowa', 'Indiana', 'Kansas', 'Louisiana',
     'Maryland', 'Michigan', 'Missouri', 'Mississippi', 'North Carolina', 'Nebraska',
     'New Jersey', 'Ohio', 'South Carolina', 'Tennessee', 'Texas', 'Virginia',
     'Washington', 'West Virginia'
@@ -178,9 +178,12 @@ test('hub lists all 21 licensed states and routes Florida to existing pages', ()
   assert.match(html, /This hub is for ACA Marketplace coverage for people under 65 who are not on Medicare/);
   assert.doesNotMatch(html, /href="\/health-insurance-florida\//);
   assert.doesNotMatch(html, /href="\/health-insurance-arizona\//);
+  assert.doesNotMatch(html, /href="\/health-insurance-kansas\//);
+  assert.doesNotMatch(html, /page not live yet|not live yet|PAGE NOT LIVE/i);
   const graph = jsonLdBlocks(html).find((block) => Array.isArray(block['@graph']));
   const collection = graph['@graph'].find((node) => node['@type'] === 'CollectionPage');
-  assert.equal(collection.areaServed.length, 21);
+  assert.equal(collection.areaServed.length, 22);
+  assert.ok(collection.areaServed.some((state) => state.name === 'Kansas'));
 });
 
 test('shared chrome skips TPMO and HealthSherpa on multi-state pages without changing Florida-only license wording', () => {
@@ -235,6 +238,18 @@ test('APTC, Medicaid-gap, and NC work-requirement copy match the approved verdic
     assert.ok(source(rel).includes(medicaidFinal), `${rel} is missing the Medicaid agency final-decision source note`);
   }
   assert.ok(georgia.includes('Secondary source; Georgia DCH makes the final eligibility decision.'));
+  for (const rel of [
+    'health-insurance-texas/index.html',
+    'health-insurance-north-carolina/index.html',
+    'health-insurance-south-carolina/index.html',
+    'health-insurance-tennessee/index.html',
+    'health-insurance-alabama/index.html',
+    'health-insurance-georgia/index.html'
+  ]) {
+    assert.doesNotMatch(source(rel), /None flagged in the September 30, 2026 Marketplace pass/);
+    assert.doesNotMatch(source(rel), /as of August 21, 2026 \(secondary\)/);
+    assert.doesNotMatch(source(rel), /Confirm NC Medicaid details before relying/);
+  }
   assert.match(texas, /some adults with very low income may qualify for neither/);
   assert.match(source('health-insurance-alabama/index.html'), /some adults with very low income may qualify for neither/);
   assert.match(source('health-insurance-south-carolina/index.html'), /some adults with very low income may qualify for neither/);
