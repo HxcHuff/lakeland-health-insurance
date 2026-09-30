@@ -10,7 +10,7 @@ const ORIGIN = 'https://lakelandhealthinsurance.com';
 const SITEMAP = readFileSync(join(ROOT, 'sitemap.xml'), 'utf8');
 const SITEMAP_INDEX = readFileSync(join(ROOT, 'sitemap_index.xml'), 'utf8');
 const SITE_TEMPLATE = readFileSync(join(ROOT, 'js/site-template.js'), 'utf8');
-const TPMO = 'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area.';
+const TPMO = 'We do not offer every plan available in your area. Currently we represent 9 organizations which offer 102 products in your area.';
 
 const LIVE = [
   ['states/index.html', '/states/'],
