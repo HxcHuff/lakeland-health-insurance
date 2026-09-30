@@ -20,7 +20,7 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/site-template.css', '20260929-compliance'],
   ['/css/blog-unified.css', '20260803-brand-release'],
   ['/js/site-template.js', '20260929-compliance'],
-  ['/js/site-search.js', '20260929-card-neutral'],
+  ['/js/site-search.js', '20260930-medicare-serp'],
   ['/js/blog-cta.js', '20260803-brand-release'],
 ]);
 const SERVICE_WORKER_CACHE_VERSION = '20260929-compliance';
