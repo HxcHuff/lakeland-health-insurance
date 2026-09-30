@@ -821,12 +821,91 @@ test('form schemas preserve declared live fields and discard arbitrary keys', ()
     gclid: 'CurrentGclid_CaseSensitive-001',
     gad_campaignid: '24123358247',
     first_gclid: 'FirstGclid_CaseSensitive-002',
-    gbraid: 'must-also-drop-when-ambiguous'
+    gbraid: 'CurrentGbraid_CaseSensitive-003'
   });
-  assert.equal('gclid' in clicks, false);
-  assert.equal('gbraid' in clicks, false);
+  assert.equal(clicks.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(clicks.gbraid, 'CurrentGbraid_CaseSensitive-003');
   assert.equal(clicks.gad_campaignid, '24123358247');
   assert.equal(clicks.first_gclid, 'FirstGclid_CaseSensitive-002');
+});
+
+test('sanitizeCampaignAttribution keeps valid click IDs and drops only bad values', () => {
+  assert.deepEqual(_test.sanitizeCampaignAttribution({}), {});
+
+  const none = _test.sanitizeCampaignAttribution({
+    gad_campaignid: '24123358247',
+    utm_source: 'google'
+  });
+  assert.equal('gclid' in none, false);
+  assert.equal('gbraid' in none, false);
+  assert.equal('wbraid' in none, false);
+  assert.equal(none.gad_campaignid, '24123358247');
+  assert.equal(_test.selectPreferredClickId(none), null);
+
+  const one = _test.sanitizeCampaignAttribution({
+    gclid: 'CurrentGclid_CaseSensitive-001'
+  });
+  assert.deepEqual(one, { gclid: 'CurrentGclid_CaseSensitive-001' });
+  assert.deepEqual(_test.selectPreferredClickId(one), {
+    field: 'gclid',
+    value: 'CurrentGclid_CaseSensitive-001'
+  });
+
+  const several = _test.sanitizeCampaignAttribution({
+    gclid: 'CurrentGclid_CaseSensitive-001',
+    gbraid: 'CurrentGbraid_CaseSensitive-003',
+    wbraid: 'CurrentWbraid_CaseSensitive-004',
+    first_gbraid: 'FirstGbraid_CaseSensitive-005',
+    first_wbraid: 'FirstWbraid_CaseSensitive-006'
+  });
+  assert.equal(several.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(several.gbraid, 'CurrentGbraid_CaseSensitive-003');
+  assert.equal(several.wbraid, 'CurrentWbraid_CaseSensitive-004');
+  assert.equal(several.first_gbraid, 'FirstGbraid_CaseSensitive-005');
+  assert.equal(several.first_wbraid, 'FirstWbraid_CaseSensitive-006');
+  assert.deepEqual(_test.selectPreferredClickId(several), {
+    field: 'gclid',
+    value: 'CurrentGclid_CaseSensitive-001'
+  });
+  assert.deepEqual(_test.selectPreferredClickId({
+    gbraid: 'CurrentGbraid_CaseSensitive-003',
+    wbraid: 'CurrentWbraid_CaseSensitive-004'
+  }), {
+    field: 'gbraid',
+    value: 'CurrentGbraid_CaseSensitive-003'
+  });
+
+  const malformed = _test.sanitizeCampaignAttribution({
+    gclid: 'CurrentGclid_CaseSensitive-001',
+    gbraid: 'not a valid id!',
+    wbraid: 'jane@example.com',
+    first_gclid: '863 640 3102',
+    gad_campaignid: 'not-a-campaign'
+  });
+  assert.equal(malformed.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal('gbraid' in malformed, false);
+  assert.equal('wbraid' in malformed, false);
+  assert.equal('first_gclid' in malformed, false);
+  assert.equal('gad_campaignid' in malformed, false);
+});
+
+test('Forms forward keeps every valid click ID on a multi-ID get-help submission', async () => {
+  const { response, calls } = await invoke(getHelpPayload({
+    gclid: 'CurrentGclid_CaseSensitive-001',
+    gbraid: 'CurrentGbraid_CaseSensitive-003',
+    wbraid: 'CurrentWbraid_CaseSensitive-004',
+    gad_campaignid: '24123358247',
+    first_gclid: 'FirstGclid_CaseSensitive-002',
+    first_gbraid: 'not a valid id!'
+  }));
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('gclid'), 'CurrentGclid_CaseSensitive-001');
+  assert.equal(form.get('gbraid'), 'CurrentGbraid_CaseSensitive-003');
+  assert.equal(form.get('wbraid'), 'CurrentWbraid_CaseSensitive-004');
+  assert.equal(form.get('gad_campaignid'), '24123358247');
+  assert.equal(form.get('first_gclid'), 'FirstGclid_CaseSensitive-002');
+  assert.equal(form.get('first_gbraid'), null);
 });
 
 test('Medicare general intake strips known plan and health-detail fields without changing other intents', () => {

@@ -8,6 +8,10 @@
  */
 
 const crypto = require('node:crypto');
+const {
+  collectSanitizedClickIds,
+  hubSpotClickAttribution
+} = require('./campaign-attribution');
 
 const PRIMARY_SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const PRODUCTION_SITE_ID = 'b6ad2d8f-d771-44f4-89b5-7ab30350950e';
@@ -227,13 +231,24 @@ function buildWebsiteLeadPayload({
     if (value) lead[field] = value;
   }
 
+  const created = cleanText(createdAt || source.server_received_at, 40);
+  const createdIso = created && Number.isFinite(Date.parse(created))
+    ? new Date(created).toISOString()
+    : '';
+  if (createdIso) lead.created_at = createdIso;
+
+  const clicks = collectSanitizedClickIds(source);
+  Object.assign(lead, clicks);
+
+  const { preferred, attribution } = hubSpotClickAttribution(source, createdIso);
+  Object.assign(lead, attribution);
+  if (preferred) {
+    lead.preferred_click_id = preferred.value;
+    lead.preferred_click_id_type = preferred.field;
+  }
+
   const eventId = cleanText(source.event_id, 64).toLowerCase();
   if (EVENT_ID.test(eventId)) lead.event_id = eventId;
-
-  const created = cleanText(createdAt || source.server_received_at, 40);
-  if (created && Number.isFinite(Date.parse(created))) {
-    lead.created_at = new Date(created).toISOString();
-  }
 
   return Object.freeze(lead);
 }

@@ -205,6 +205,110 @@ test('website lead payload keeps contact, intent, consent, UTMs, and the submiss
   assert.equal(JSON.stringify(lead).includes('Sensitive note'), false);
   assert.equal(JSON.stringify(lead).includes('must-not-forward'), false);
   assert.equal(Object.hasOwn(lead, 'state'), false);
+  assert.equal(Object.hasOwn(lead, 'gclid'), false);
+  assert.equal(lead.lhi_attribution_status, 'manual_review');
+  assert.equal(Object.hasOwn(lead, 'lhi_lead_source'), false);
+  assert.equal(Object.hasOwn(lead, 'lhi_gclid'), false);
+  assert.equal(Object.hasOwn(lead, 'preferred_click_id'), false);
+});
+
+test('website lead payload keeps valid click IDs and HubSpot attribution fields', () => {
+  const none = buildWebsiteLeadPayload({
+    formName: 'get-help',
+    submissionId: SUBMISSION_ID,
+    createdAt: '2026-09-30T15:59:00.000Z',
+    filtered: {
+      full_name: 'Avery Fixture',
+      phone: '8635550118',
+      gad_campaignid: '24123358247'
+    }
+  });
+  assert.equal(none.gad_campaignid, '24123358247');
+  assert.equal(none.lhi_gad_campaign_id, '24123358247');
+  assert.equal(none.lhi_attribution_status, 'manual_review');
+  assert.equal(Object.hasOwn(none, 'lhi_lead_source'), false);
+  assert.equal(Object.hasOwn(none, 'gclid'), false);
+
+  const one = buildWebsiteLeadPayload({
+    formName: 'get-help',
+    submissionId: SUBMISSION_ID,
+    createdAt: '2026-09-30T15:59:00.000Z',
+    filtered: {
+      full_name: 'Avery Fixture',
+      phone: '8635550118',
+      gclid: 'CurrentGclid_CaseSensitive-001'
+    }
+  });
+  assert.equal(one.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(one.lhi_gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(one.lhi_lead_source, 'google_ads_site');
+  assert.equal(one.lhi_attribution_status, 'click_id_matched');
+  assert.equal(one.lhi_click_captured_at, '2026-09-30T15:59:00.000Z');
+  assert.equal(one.preferred_click_id, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(one.preferred_click_id_type, 'gclid');
+
+  const several = buildWebsiteLeadPayload({
+    formName: 'lp-aca-lead',
+    submissionId: SUBMISSION_ID,
+    createdAt: '2026-09-30T15:59:00.000Z',
+    filtered: {
+      full_name: 'Avery Fixture',
+      email: 'avery@example.test',
+      gclid: 'CurrentGclid_CaseSensitive-001',
+      gbraid: 'CurrentGbraid_CaseSensitive-003',
+      wbraid: 'CurrentWbraid_CaseSensitive-004',
+      first_gclid: 'FirstGclid_CaseSensitive-002',
+      gad_campaignid: '24123358247'
+    }
+  });
+  assert.equal(several.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(several.gbraid, 'CurrentGbraid_CaseSensitive-003');
+  assert.equal(several.wbraid, 'CurrentWbraid_CaseSensitive-004');
+  assert.equal(several.first_gclid, 'FirstGclid_CaseSensitive-002');
+  assert.equal(several.lhi_gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(several.lhi_gbraid, 'CurrentGbraid_CaseSensitive-003');
+  assert.equal(several.lhi_wbraid, 'CurrentWbraid_CaseSensitive-004');
+  assert.equal(several.lhi_gad_campaign_id, '24123358247');
+  assert.equal(several.preferred_click_id, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(several.preferred_click_id_type, 'gclid');
+  assert.equal(several.lhi_lead_source, 'google_ads_site');
+  assert.equal(several.lhi_attribution_status, 'click_id_matched');
+
+  const firstOnly = buildWebsiteLeadPayload({
+    formName: 'get-help',
+    submissionId: SUBMISSION_ID,
+    createdAt: '2026-09-30T15:59:00.000Z',
+    filtered: {
+      full_name: 'Avery Fixture',
+      phone: '8635550118',
+      first_gbraid: 'FirstGbraid_CaseSensitive-005'
+    }
+  });
+  assert.equal(firstOnly.first_gbraid, 'FirstGbraid_CaseSensitive-005');
+  assert.equal(firstOnly.lhi_gbraid, 'FirstGbraid_CaseSensitive-005');
+  assert.equal(firstOnly.preferred_click_id, 'FirstGbraid_CaseSensitive-005');
+  assert.equal(firstOnly.preferred_click_id_type, 'gbraid');
+  assert.equal(firstOnly.lhi_lead_source, 'google_ads_site');
+  assert.equal(firstOnly.lhi_attribution_status, 'click_id_matched');
+
+  const malformed = buildWebsiteLeadPayload({
+    formName: 'get-help',
+    submissionId: SUBMISSION_ID,
+    createdAt: '2026-09-30T15:59:00.000Z',
+    filtered: {
+      full_name: 'Avery Fixture',
+      phone: '8635550118',
+      gclid: 'CurrentGclid_CaseSensitive-001',
+      gbraid: 'not a valid id!',
+      wbraid: 'jane@example.com'
+    }
+  });
+  assert.equal(malformed.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(Object.hasOwn(malformed, 'gbraid'), false);
+  assert.equal(Object.hasOwn(malformed, 'wbraid'), false);
+  assert.equal(malformed.lhi_gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(Object.hasOwn(malformed, 'lhi_gbraid'), false);
+  assert.equal(malformed.lhi_attribution_status, 'click_id_matched');
 });
 
 test('city and landing-page forms map name, phone, insurance type, and page URL', () => {
@@ -434,6 +538,7 @@ test('submission-created posts get-help to the bridge without changing HuffSherp
   assert.equal(lead.form_name, 'get-help');
   assert.equal(lead.intent, 'aca');
   assert.equal(lead.page_url, 'https://lakelandhealthinsurance.com/get-help/');
+  assert.equal(lead.lhi_attribution_status, 'manual_review');
   assert.equal(JSON.stringify(lead).includes('Sensitive note'), false);
   assert.equal(JSON.stringify(lead).includes('must-not-forward'), false);
 
@@ -446,6 +551,53 @@ test('submission-created posts get-help to the bridge without changing HuffSherp
   assert.equal(logs.at(-1).reason, 'direct_preferred');
   assert.equal(JSON.stringify(logs).includes('Avery'), false);
   assert.equal(JSON.stringify(logs).includes(BRIDGE_KEY), false);
+});
+
+test('submission-created forwards several valid click IDs to the website lead bridge', async () => {
+  const calls = [];
+  const handler = createSubmissionCreatedHandler({
+    environment: productionEnv(),
+    fetchImpl: routedFetch(calls),
+    logger: () => {},
+    now: () => NOW,
+    randomBytes: () => Buffer.alloc(32, 7),
+    storeFactory: async () => {
+      throw new Error('HuffSherpa hot path must not open Blobs');
+    },
+    bridgeStoreFactory: async () => memoryStore(),
+    alertImpl: async () => {
+      throw new Error('must not email');
+    }
+  });
+  const result = await handler(submission({
+    data: {
+      full_name: 'Avery Fixture',
+      phone: '(863) 555-0118',
+      email: 'AVERY.FIXTURE@EXAMPLE.TEST',
+      zip_code: '33801',
+      normalized_intent: 'aca',
+      gclid: 'CurrentGclid_CaseSensitive-001',
+      gbraid: 'CurrentGbraid_CaseSensitive-003',
+      wbraid: 'not a valid id!',
+      gad_campaignid: '24123358247',
+      first_gclid: 'FirstGclid_CaseSensitive-002'
+    }
+  }));
+  assert.equal(result.statusCode, 200);
+  const lead = JSON.parse(calls.find((call) => call.url === BRIDGE_ENDPOINT).options.body);
+  const envelope = JSON.parse(calls.find((call) => call.url === ENDPOINT).options.body);
+  assert.equal(lead.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(lead.gbraid, 'CurrentGbraid_CaseSensitive-003');
+  assert.equal(Object.hasOwn(lead, 'wbraid'), false);
+  assert.equal(lead.first_gclid, 'FirstGclid_CaseSensitive-002');
+  assert.equal(lead.lhi_gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(lead.lhi_gbraid, 'CurrentGbraid_CaseSensitive-003');
+  assert.equal(lead.lhi_lead_source, 'google_ads_site');
+  assert.equal(lead.lhi_attribution_status, 'click_id_matched');
+  assert.equal(lead.preferred_click_id, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(envelope.payload.data.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(envelope.payload.data.gbraid, 'CurrentGbraid_CaseSensitive-003');
+  assert.equal(envelope.payload.data.wbraid, '');
 });
 
 test('other allowlisted lead forms also build a website lead for the bridge', () => {

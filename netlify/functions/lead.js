@@ -6,6 +6,15 @@
 
 const crypto = require('crypto');
 const { sendAdsLead } = require('./lib/ads-capi');
+const {
+  CLICK_ID_PRECEDENCE,
+  LEAD_ATTRIBUTION_FIELDS,
+  sanitizeCampaignAttribution,
+  sanitizeCampaignToken,
+  sanitizeClickID,
+  sanitizeGoogleCampaignID,
+  selectPreferredClickId
+} = require('./lib/campaign-attribution');
 const { syncToMailchimp } = require('./lib/mailchimp');
 
 const META_DATASET_ID = '1480756087079484';
@@ -193,11 +202,6 @@ const HUFFSHERPA_RELAY_FORMS = new Set([
 ]);
 
 const BOT_FIELDS = ['bot-field', 'website', 'company'];
-const CAMPAIGN_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
-const CLICK_ID_FIELDS = ['gclid', 'gbraid', 'wbraid', 'gad_campaignid'];
-const CURRENT_ATTRIBUTION_FIELDS = CLICK_ID_FIELDS.concat(CAMPAIGN_FIELDS);
-const FIRST_ATTRIBUTION_FIELDS = CURRENT_ATTRIBUTION_FIELDS.map((field) => `first_${field}`);
-const LEAD_ATTRIBUTION_FIELDS = CURRENT_ATTRIBUTION_FIELDS.concat(FIRST_ATTRIBUTION_FIELDS);
 const GET_HELP_OPTIONAL_FIELDS = [
   'who',
   'coverage_end',
@@ -470,55 +474,6 @@ function filterPayloadForForm(rawPayload, formName) {
     filtered[field] = value;
   }
   return { ok: true, payload: filtered };
-}
-
-function sanitizeCampaignToken(value, allowSpaces = false) {
-  const text = String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
-  if (!text || text.length > 80) return '';
-  // Google Ads suffixes prefix {campaignid} so platform IDs remain
-  // distinguishable from untrusted phone-like numeric values.
-  if (!allowSpaces && /^cid_\d{8,20}$/.test(text)) return text;
-  if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
-  const pattern = allowSpaces
-    ? /^[a-z0-9][a-z0-9 ._~+\-]*$/
-    : /^[a-z0-9][a-z0-9._~-]*$/;
-  return pattern.test(text) ? text : '';
-}
-
-function sanitizeClickID(value) {
-  const text = String(value || '').trim();
-  if (!text || text.length > 512) return '';
-  return /^[a-z0-9._~-]+$/i.test(text) ? text : '';
-}
-
-function sanitizeGoogleCampaignID(value) {
-  const text = String(value || '').trim();
-  return /^\d{1,20}$/.test(text) ? text : '';
-}
-
-function sanitizeAttributionValue(field, value) {
-  const baseField = String(field || '').replace(/^first_/, '');
-  if (baseField === 'gclid' || baseField === 'gbraid' || baseField === 'wbraid') {
-    return sanitizeClickID(value);
-  }
-  if (baseField === 'gad_campaignid') return sanitizeGoogleCampaignID(value);
-  return sanitizeCampaignToken(value, baseField === 'utm_term');
-}
-
-function sanitizeCampaignAttribution(payload) {
-  LEAD_ATTRIBUTION_FIELDS.forEach((field) => {
-    if (!Object.prototype.hasOwnProperty.call(payload, field)) return;
-    const sanitized = sanitizeAttributionValue(field, payload[field]);
-    if (sanitized) payload[field] = sanitized;
-    else delete payload[field];
-  });
-  ['', 'first_'].forEach((prefix) => {
-    const populated = ['gclid', 'gbraid', 'wbraid'].filter((field) => payload[`${prefix}${field}`]);
-    if (populated.length > 1) {
-      populated.forEach((field) => delete payload[`${prefix}${field}`]);
-    }
-  });
-  return payload;
 }
 
 /** Shared production boundary for the Netlify submission-created relay. */
@@ -1165,7 +1120,9 @@ exports._test = {
   sanitizeCampaignToken,
   sanitizeClickID,
   sanitizeGoogleCampaignID,
-  sanitizeSourcePath
+  sanitizeSourcePath,
+  selectPreferredClickId,
+  CLICK_ID_PRECEDENCE
 };
 
 exports.relaySchema = Object.freeze({

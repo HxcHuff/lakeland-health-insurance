@@ -100,13 +100,14 @@ bytes, JSON, non-explicitly-cacheable, and exactly:
 ## Attribution and failure rules
 
 - Click IDs remain case-sensitive and are never inferred from source text,
-  contact data, UTMs, form names, or campaign IDs. If one touch contains more
-  than one click-ID type, its click IDs are removed before storage while its
-  bounded campaign context remains informational.
+  contact data, UTMs, form names, or campaign IDs. Each valid click-ID type
+  (`gclid`, `gbraid`, `wbraid`) is kept in its own field. Malformed or
+  suspicious values are dropped. If a downstream consumer can store only one
+  ID, choose `gclid`, then `gbraid`, then `wbraid`.
 - Both current and `first_*` attribution are signed. Different valid
-  first/current IDs are legitimate: HuffSherpa selects the validated current
-  touch when present, otherwise first touch. A selected touch with more than
-  one click-ID type fails closed.
+  first/current IDs are legitimate: HuffSherpa should select the validated
+  current touch when present, otherwise first touch. Multiple valid types on
+  the same touch are preserved; they are not treated as ambiguous.
 - A campaign ID without a click ID remains informational. It cannot establish
   Google Ads match eligibility and does not block contact staging.
 - Production context is required before the signed envelope can be posted.

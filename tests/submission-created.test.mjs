@@ -256,6 +256,8 @@ test('Forms path posts one minimized canonical HMAC envelope without a Blobs out
   assert.equal(envelope.payload.data.first_gclid, 'FirstGclid_CaseSensitive-002');
   assert.equal(envelope.payload.data.gad_campaignid, '24123358247');
   assert.equal(envelope.payload.data.first_gad_campaignid, '23802433323');
+  assert.equal(envelope.payload.data.gbraid, '');
+  assert.equal(envelope.payload.data.wbraid, '');
 
   const serialized = JSON.stringify(envelope);
   for (const forbidden of [
@@ -355,6 +357,57 @@ test('shared schema prevents cross-form injection and accepts campaign-only cont
   assert.equal(data.gad_campaignid, '24123358247');
   assert.equal(data.first_gad_campaignid, '23802433323');
   assert.equal(JSON.stringify(data).includes('exfiltrate'), false);
+});
+
+test('HuffSherpa envelope keeps every valid click ID and drops only malformed values', async () => {
+  const several = makeHandler();
+  assert.equal((await several.handler(submission({
+    data: {
+      full_name: 'Avery Fixture',
+      phone: '(863) 555-0118',
+      gclid: 'CurrentGclid_CaseSensitive-001',
+      gbraid: 'CurrentGbraid_CaseSensitive-003',
+      wbraid: 'CurrentWbraid_CaseSensitive-004',
+      gad_campaignid: '24123358247',
+      first_gclid: 'FirstGclid_CaseSensitive-002',
+      first_gbraid: 'FirstGbraid_CaseSensitive-005'
+    }
+  }))).statusCode, 200);
+  const severalData = JSON.parse(several.calls[0].options.body).payload.data;
+  assert.equal(severalData.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(severalData.gbraid, 'CurrentGbraid_CaseSensitive-003');
+  assert.equal(severalData.wbraid, 'CurrentWbraid_CaseSensitive-004');
+  assert.equal(severalData.first_gclid, 'FirstGclid_CaseSensitive-002');
+  assert.equal(severalData.first_gbraid, 'FirstGbraid_CaseSensitive-005');
+  assert.equal(severalData.gad_campaignid, '24123358247');
+
+  const malformed = makeHandler();
+  assert.equal((await malformed.handler(submission({
+    data: {
+      full_name: 'Avery Fixture',
+      phone: '(863) 555-0118',
+      gclid: 'CurrentGclid_CaseSensitive-001',
+      gbraid: 'not a valid id!',
+      wbraid: 'jane@example.com'
+    }
+  }))).statusCode, 200);
+  const malformedData = JSON.parse(malformed.calls[0].options.body).payload.data;
+  assert.equal(malformedData.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(malformedData.gbraid, '');
+  assert.equal(malformedData.wbraid, '');
+
+  const none = makeHandler();
+  assert.equal((await none.handler(submission({
+    data: {
+      full_name: 'Avery Fixture',
+      phone: '(863) 555-0118'
+    }
+  }))).statusCode, 200);
+  const noneData = JSON.parse(none.calls[0].options.body).payload.data;
+  assert.equal(noneData.gclid, '');
+  assert.equal(noneData.gbraid, '');
+  assert.equal(noneData.wbraid, '');
+  assert.equal(noneData.gad_campaignid, '');
 });
 
 test('secret contract requires one canonical 64-character high-diversity base64url value', () => {
