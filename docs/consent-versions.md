@@ -43,6 +43,10 @@ I authorize text messages about this request. Message frequency varies; message 
 I authorize email about this request.
 ```
 
+Optional Mailchimp marketing email on these sitelink forms is a separate,
+unchecked checkbox (`consent_marketing_email`) and is not part of this
+versioned SMS/TCPA record.
+
 ## get-help-2026-09-29-v2
 
 - Date: 2026-09-29
@@ -159,6 +163,27 @@ By checking this box, I give my prior express written consent for Lakeland Healt
 
 ```html
 By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers, and emails at the email address I provided. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+```
+
+## marketing-email-2026-09-30-v1
+
+- Date: 2026-09-30
+- Forms: sitelink `get-help` marketing-email checkbox and `lp-gap-lead`
+- `marketing-email-2026-09-30-v1` — "Email me Lakeland Health Insurance tips and updates. Unsubscribe anytime." Optional, unchecked, separate from SMS/TCPA consent.
+- Pages:
+  - `blog/index.html`
+  - `carriers/index.html`
+  - `dental-vision/index.html`
+  - `medicare/index.html`
+  - `plans/index.html`
+  - `private-medical-insurance/index.html`
+  - `supplemental-insurance/index.html`
+  - `lp/gap/index.html`
+
+### marketing_email
+
+```html
+Email me Lakeland Health Insurance tips and updates. Unsubscribe anytime.
 ```
 
 ## none
