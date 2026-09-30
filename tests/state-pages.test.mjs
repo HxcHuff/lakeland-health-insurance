@@ -94,6 +94,15 @@ test('state pages and the hub are ACA/under-65 only and do not ship Florida Medi
   }
 });
 
+const STATE_LICENSES = [
+  ['health-insurance-texas/index.html', 'Texas', '2414025'],
+  ['health-insurance-north-carolina/index.html', 'North Carolina', '18213932'],
+  ['health-insurance-south-carolina/index.html', 'South Carolina', '18213932'],
+  ['health-insurance-tennessee/index.html', 'Tennessee', '2489827'],
+  ['health-insurance-alabama/index.html', 'Alabama', '3000811681'],
+  ['health-insurance-georgia/index.html', 'Georgia', '3329737']
+];
+
 test('state-page JSON-LD includes InsuranceAgency, Service areaServed, breadcrumbs, and matching FAQPage text', () => {
   for (const [rel, url] of ALL_STATE_HTML) {
     if (rel.startsWith('states/')) continue;
@@ -104,6 +113,7 @@ test('state-page JSON-LD includes InsuranceAgency, Service areaServed, breadcrum
     assert.ok(graphDoc, `${rel} has an @graph block`);
     const types = graphDoc['@graph'].flatMap((node) => [].concat(node['@type']));
     assert.ok(types.includes('InsuranceAgency'), `${rel} includes InsuranceAgency`);
+    assert.ok(types.includes('Person'), `${rel} includes Person`);
     const service = graphDoc['@graph'].find((node) => node['@type'] === 'Service');
     assert.equal(service?.areaServed?.['@type'], 'State');
     assert.ok(graphDoc['@graph'].some((node) => node['@type'] === 'BreadcrumbList'));
@@ -119,6 +129,34 @@ test('state-page JSON-LD includes InsuranceAgency, Service areaServed, breadcrum
       assert.equal(service.areaServed.sameAs, 'https://en.wikipedia.org/wiki/Georgia_(U.S._state)');
     }
     assert.match(html, new RegExp(`<link rel="canonical" href="${ORIGIN}${url}">`));
+  }
+});
+
+test('state pages show the verified license, pair the brand with David Huff, and keep review CTAs', () => {
+  for (const [rel, name, license] of STATE_LICENSES) {
+    const html = source(rel);
+    const pairing = `Lakeland Health Insurance, David Huff, licensed health agent, ${name} nonresident license #${license}.`;
+    assert.match(html, new RegExp(`Licensed in ${name} \\(#${license}\\)\\.`));
+    assert.ok(html.includes(pairing), `${rel} is missing the brand + licensed-name pairing`);
+    assert.equal(html.split(pairing).length - 1, 2, `${rel} should pair brand and licensee in the byline and disclosure`);
+    assert.match(html, new RegExp(`${name} nonresident license #${license} · NPN 18213932`));
+    assert.match(html, new RegExp(`I hold an? ${name} nonresident license #${license}\\.`));
+    assert.match(html, /Request a plan review/);
+    assert.doesNotMatch(html, /Lakeland Health Insurance · Licensed in /);
+    assert.doesNotMatch(html, /Restore a license|If this state has no individual-market|\[TODO/);
+    assert.doesNotMatch(html, /registered with HealthCare\.gov for plan year 2027|PY2027 HealthCare\.gov registration claim/);
+
+    const graphDoc = jsonLdBlocks(html).find((block) => Array.isArray(block['@graph']));
+    const person = graphDoc['@graph'].find((node) => node['@type'] === 'Person');
+    const agency = graphDoc['@graph'].find((node) => node['@type'] === 'InsuranceAgency');
+    const webpage = graphDoc['@graph'].find((node) => node['@type'] === 'WebPage');
+    assert.equal(person?.name, 'David Huff');
+    assert.equal(person?.jobTitle, 'Licensed health agent');
+    assert.equal(person?.hasCredential?.['@type'], 'EducationalOccupationalCredential');
+    assert.equal(person?.hasCredential?.name, `${name} nonresident license #${license}`);
+    assert.equal(person?.identifier?.value, license);
+    assert.match(webpage?.description || '', new RegExp(`#${license}`));
+    assert.equal(agency?.hasCredential, undefined, `${rel} must not attach the license to the brand alone`);
   }
 });
 
