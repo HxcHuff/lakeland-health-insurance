@@ -5,19 +5,6 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(new URL('.', import.meta.url).pathname, '..');
 
 export const FAQ_MATCH_SKIP_RELS = new Set([
-  'blog/3-things-changing-florida-health-insurance-may-2026.html',
-  'blog/aca-open-enrollment-deadline.html',
-  'blog/aca-subsidy-cliff.html',
-  'blog/college-student-health-insurance-lakeland.html',
-  'blog/health-insurance-brandon-2026.html',
-  'blog/health-insurance-clearwater-2026.html',
-  'blog/health-insurance-new-port-richey-2026.html',
-  'blog/health-insurance-riverview-2026.html',
-  'blog/health-insurance-st-petersburg-2026.html',
-  'blog/health-insurance-tampa-2026.html',
-  'blog/mental-health-awareness-month-therapy-benefit-lakeland-2026.html',
-  'blog/non-income-based-health-insurance-florida.html',
-  'blog/why-overpaying-health-insurance-central-florida.html',
 ]);
 
 // All blog/*.html pages are in scope. Extra exclusions beyond PR #200 go here.
@@ -52,7 +39,8 @@ export function normalizeFaqText(value) {
     .replace(/[‘’]/g, "'")
     .replace(/[“”]/g, '"')
     .replace(/\s+/g, ' ')
-    .replace(/\s+([.,;:!?])/g, '$1')
+    .replace(/\s+([.,;:!?\)])/g, '$1')
+    .replace(/\(\s+/g, '(')
     .trim();
 }
 
