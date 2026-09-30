@@ -359,8 +359,9 @@ a:focus-visible,
     radial-gradient(circle at 92% 88%, rgba(24, 123, 120, .13), transparent 31%),
     linear-gradient(135deg, #fbfaf6 0%, #eef4f4 52%, #f7f3eb 100%);
   border-bottom: 0;
+  color: var(--hub-ink);
   overflow: hidden;
-  padding: 126px 24px 72px;
+  padding: 160px 24px 72px;
   position: relative;
 }
 
@@ -432,6 +433,42 @@ a:focus-visible,
   font-size: clamp(1.08rem, 1.7vw, 1.28rem);
   line-height: 1.62;
   max-width: 760px;
+}
+
+/* Light cream hero: undo dark-hero link/disclaimer colors inherited from .answer-hero. */
+.answer-hero.medicare-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call) {
+  color: var(--hub-blue);
+}
+
+.answer-hero.medicare-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call):hover,
+.answer-hero.medicare-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call):focus-visible {
+  color: var(--navy, #1B2A4A);
+}
+
+.answer-hero.medicare-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call):focus-visible {
+  outline-color: var(--hub-blue);
+}
+
+.answer-hero.medicare-hero .tpmo-cta-disclaimer {
+  color: var(--navy, #1B2A4A);
+}
+
+.medicare-hero .hub-breadcrumb {
+  color: var(--hub-muted);
+}
+
+.medicare-hero .hub-breadcrumb a,
+.medicare-hero .hub-season-alert a {
+  color: var(--hub-blue);
+}
+
+.answer-hero.medicare-hero a.hub-phone-link:not(.btn):not(.hero-cta):not(.lp-primary-call),
+.answer-hero.medicare-hero a.hub-scenario-shortcut:not(.btn):not(.hero-cta):not(.lp-primary-call) {
+  color: var(--hub-ink);
+}
+
+body.has-seasonal-banner .medicare-hero {
+  padding-top: 204px;
 }
 
 .hub-season-alert {
