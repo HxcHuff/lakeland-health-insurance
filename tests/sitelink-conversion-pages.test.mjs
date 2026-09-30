@@ -89,6 +89,15 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /name="utm_campaign"/);
     assert.match(form, /name="utm_term"/);
     assert.match(form, /name="utm_content"/);
+    assert.match(form, /name="gclid"/);
+    assert.match(form, /name="gbraid"/);
+    assert.match(form, /name="wbraid"/);
+    assert.match(form, /name="gad_campaignid"/);
+    assert.match(form, /name="first_gclid"/);
+    assert.match(form, /name="first_gbraid"/);
+    assert.match(form, /name="first_wbraid"/);
+    assert.match(form, /name="first_gad_campaignid"/);
+    assert.doesNotMatch(form, /name="fbclid"/);
     assert.match(form, new RegExp(`name="source_page" value="${escapeRegex(sourcePage)}"`));
     assert.match(form, new RegExp(`name="normalized_intent" value="${escapeRegex(intent)}"`));
     assert.doesNotMatch(form, /<textarea/i);
@@ -98,7 +107,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /Reply STOP to cancel or HELP for help/);
 
     assert.match(html, /\/css\/site-template\.css\?v=20260929-compliance/);
-    assert.match(html, /\/js\/funnel\.js\?v=20260821-lead-reconciliation/);
+    assert.match(html, /\/js\/funnel\.js\?v=20260930-click-id/);
   });
 }
 

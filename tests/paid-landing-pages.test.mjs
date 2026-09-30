@@ -62,6 +62,10 @@ for (const [label, html, canonical, formName] of [
     }
     assert.doesNotMatch(form, /name="(?:email|best_time_to_reach|age_timeline|household_size)"/);
     assert.match(form, /Reply STOP to cancel or HELP for help/);
+    for (const field of ['utm_source', 'gclid', 'gbraid', 'wbraid', 'gad_campaignid', 'first_gclid', 'first_gbraid', 'first_wbraid', 'first_gad_campaignid']) {
+      assert.match(form, new RegExp(`name="${field}"`), `${label} declares ${field}`);
+    }
+    assert.doesNotMatch(form, /name="fbclid"/);
     assert.match(form, /name="consent_text_version" value="lp-(?:aca|medicare)-2026-09-29-v2"/);
     assert.match(form, /<input type="checkbox" id="consent" name="consent" value="yes">/);
     assert.doesNotMatch(form, /<input type="checkbox" id="consent"[^>]*\brequired\b/);

@@ -123,7 +123,7 @@ The Get Help flow preserves:
 - `normalized_intent`
 - `line_of_business`
 
-Medicare source URLs contain only `intent=medicare`, an allowlisted page key, an allowlisted CTA key, and validated campaign values. Contact-like values are rejected. The Get Help attribution record may copy bounded `utm_term` from Google Ads ValueTrack `{keyword}` (the matched advertiser keyword, not the user's raw Search Terms query); it does not copy `gclid`, `fbclid`, a full referrer URL, or the arbitrary query string.
+Medicare source URLs contain only `intent=medicare`, an allowlisted page key, an allowlisted CTA key, and validated campaign values. Contact-like values are rejected. The Get Help attribution record may copy bounded `utm_term` from Google Ads ValueTrack `{keyword}` (the matched advertiser keyword, not the user's raw Search Terms query) and validated Google click IDs (`gclid`, `gbraid`, `wbraid`) plus `gad_campaignid`. It does not copy `fbclid`, a full referrer URL, or the arbitrary query string.
 
 The analytics field allowlist excludes raw name, email, phone, ZIP, DOB/age, Medicare and policy identifiers, provider/facility names, prescription names, income, health or coverage answers, notes, messages, free text, unknown fields, arrays, and objects. Exact registry values are derived rather than trusted from query or hidden fields.
 
