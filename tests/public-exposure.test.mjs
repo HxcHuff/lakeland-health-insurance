@@ -211,8 +211,8 @@ test('plans presents five one-click coverage choices with relevant limitations',
   const cmsFactSheet = 'https://www.cms.gov/newsroom/fact-sheets/short-term-limited-duration-insurance-and-independent-noncoordinated-excepted-benefits-coverage-cms';
   assert.match(PLANS, new RegExp(cmsFactSheet));
   assert.doesNotMatch(PLANS, /fixed-indemnity-excepted-benefits-coverage-notice\.pdf/);
-  assert.match(PLANS, /"dateModified": "2026-08-16"/);
-  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/plans\/<\/loc>\s*<lastmod>2026-08-16<\/lastmod>/);
+  assert.match(PLANS, /"dateModified": "2026-09-26"/);
+  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/plans\/<\/loc>\s*<lastmod>2026-09-26<\/lastmod>/);
 });
 
 test('quote presents three direct actions without a routing form or plans detour', () => {
