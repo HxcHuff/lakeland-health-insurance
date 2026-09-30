@@ -260,6 +260,7 @@ const LP_COMMON_FIELDS = [
   'coverage_status',
   'consent',
   'consent_marketing_email',
+  'consent_marketing_email_version',
   'source_page',
   'consent_text_version'
 ];
@@ -292,6 +293,7 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'consent_sms',
     'consent_email',
     'consent_marketing_email',
+    'consent_marketing_email_version',
     'consent_text_version'
   ]),
   'lp-aca-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['household_size']),
@@ -666,6 +668,7 @@ function applyLpMarketingConsentRecord(payload, formName, serverReceivedAt) {
   if (includeEmail) {
     payload.consent_email = channelValue;
     payload.consent_email_state = state;
+    payload.consent_marketing_email_state = payload.consent_marketing_email === 'yes' && payload.email ? 'granted' : 'not_granted';
   }
   if (serverReceivedAt) payload.consent_recorded_at = serverReceivedAt;
 

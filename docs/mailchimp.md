@@ -55,11 +55,14 @@ topic and the value maps to an existing tag:
 | Normalized form value | Tag |
 | --- | --- |
 | `medicare` | `Medicare` |
-| `under 65` | `Under 65` |
+| `under 65` | `individual-and-family-coverage` |
 | `individual and family coverage`, `aca`, `aca marketplace`, `marketplace aca`, `individual marketplace`, `family marketplace` | `individual-and-family-coverage` |
 | `life` | `Life` |
 
-Unmapped values receive no coverage tag. New tags are not invented.
+Current-coverage answers such as `coverage_status` are not tagged. Unmapped
+values receive no coverage tag. New tags are not invented.
+
+The `Medicare` tag records a topic only. It is not a Scope of Appointment and not permission for a Medicare Advantage or Part D marketing appointment. Any email to this segment that mentions MA, Part D, or Medicare plan products must include the TPMO disclaimer ("We do not offer every plan available in your area. Currently we represent 9 organizations which offer 102 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.") and any resulting appointment still requires a recorded SOA at least 48 hours in advance where applicable.
 
 ## Go-live
 
@@ -69,3 +72,4 @@ Unmapped values receive no coverage tag. New tags are not invented.
 2. Confirm the welcome-series automation starts when the subscriber
    completes the Mailchimp double-opt-in confirmation, not at the pending
    upsert.
+3. Confirm the audience's required footer shows the sender name "Lakeland Health Insurance" and a valid physical postal address (street address, or a registered PO box or private mailbox), and that the one-click unsubscribe link is present.

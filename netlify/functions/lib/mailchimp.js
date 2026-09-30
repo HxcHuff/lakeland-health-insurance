@@ -7,7 +7,7 @@ const NEWSLETTER_FORM_NAMES = Object.freeze(['homepage-newsletter', 'newsletter-
 const NEWSLETTER_FORMS = new Set(NEWSLETTER_FORM_NAMES);
 
 const ALLOWED_SOURCE_TAGS = Object.freeze(['newsletter', 'newsletter-page', 'homepage', 'get-help', 'lead']);
-const ALLOWED_COVERAGE_TAGS = Object.freeze(['Medicare', 'Under 65', 'individual-and-family-coverage', 'Life']);
+const ALLOWED_COVERAGE_TAGS = Object.freeze(['Medicare', 'individual-and-family-coverage', 'Life']);
 
 const FORM_SOURCE_TAGS = Object.freeze({
   'homepage-newsletter': Object.freeze(['homepage', 'newsletter']),
@@ -20,13 +20,12 @@ const COVERAGE_FIELDS = Object.freeze([
   'coverage_type',
   'line_of_business',
   'product_interest',
-  'inquiry_type',
-  'coverage_status'
+  'inquiry_type'
 ]);
 
 const COVERAGE_TAG_BY_NORMALIZED = Object.freeze({
   medicare: 'Medicare',
-  'under 65': 'Under 65',
+  'under 65': 'individual-and-family-coverage',
   'individual and family coverage': 'individual-and-family-coverage',
   life: 'Life',
   aca: 'individual-and-family-coverage',

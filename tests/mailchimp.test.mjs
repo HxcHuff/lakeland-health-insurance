@@ -124,11 +124,13 @@ test('source and coverage tags stay on the existing allowlist', () => {
   assert.deepEqual(sourceTagsForForm('get-help'), ['get-help', 'lead']);
   assert.deepEqual(sourceTagsForForm('lp-gap-lead'), ['lead']);
   assert.equal(coverageTagFromPayload({ interest: 'medicare' }), 'Medicare');
-  assert.equal(coverageTagFromPayload({ coverage_type: 'Under 65' }), 'Under 65');
+  assert.equal(coverageTagFromPayload({ coverage_type: 'Under 65' }), 'individual-and-family-coverage');
   assert.equal(coverageTagFromPayload({ line_of_business: 'Individual and Family Coverage' }), 'individual-and-family-coverage');
   assert.equal(coverageTagFromPayload({ interest: 'Life' }), 'Life');
   assert.equal(coverageTagFromPayload({ interest: 'general' }), '');
   assert.equal(coverageTagFromPayload({ coverage_type: 'Short-Term / Gap' }), '');
+  assert.equal(coverageTagFromPayload({ coverage_status: 'Medicare' }), '');
+  assert.equal(coverageTagFromPayload({ coverage_status: 'I have Medicare' }), '');
   assert.deepEqual(tagsForPayload({ interest: 'medicare' }, 'newsletter-signup'), [
     'newsletter',
     'newsletter-page',
@@ -454,6 +456,8 @@ test('sitelink and gap forms expose an optional unchecked marketing checkbox', (
     assert.doesNotMatch(html, /name="consent_marketing_email"[^>]*\brequired\b/, rel);
     assert.doesNotMatch(html, /name="consent_marketing_email"[^>]*\bchecked\b/, rel);
     assert.match(html, /Email me Lakeland Health Insurance tips and updates\. Unsubscribe anytime\./, rel);
+    assert.match(html, /name="consent_marketing_email_version" value="marketing-email-2026-09-30-v1"/, rel);
+    assert.match(html, /name="consent_text_version" value="(?:get-help-2026-07-30-v1|lp-gap-2026-09-29-v2)"/, rel);
   }
 });
 

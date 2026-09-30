@@ -644,6 +644,7 @@ for (const [formName, version, page, includeEmail] of LP_CONSENT_CASES) {
     if (includeEmail) {
       assert.equal(form.get('consent_email'), 'yes');
       assert.equal(form.get('consent_email_state'), 'granted');
+      assert.equal(form.get('consent_marketing_email_state'), 'not_granted');
     } else {
       assert.equal(form.get('consent_email'), null);
       assert.equal(form.get('consent_email_state'), null);
@@ -674,11 +675,26 @@ for (const [formName, version, page, includeEmail] of LP_CONSENT_CASES) {
     if (includeEmail) {
       assert.equal(form.get('consent_email'), 'no');
       assert.equal(form.get('consent_email_state'), 'not_granted');
+      assert.equal(form.get('consent_marketing_email_state'), 'not_granted');
     } else {
       assert.equal(form.get('consent_email'), null);
     }
   });
 }
+
+test('lp-gap records marketing-email granted only when the optional box and email are present', async () => {
+  const { response, calls } = await invoke(lpPayload('lp-gap-lead', 'lp-gap-2026-09-29-v2', {
+    email: 'jane@example.com',
+    consent_marketing_email: 'yes',
+    consent_marketing_email_version: 'marketing-email-2026-09-30-v1'
+  }));
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('consent_text_version'), 'lp-gap-2026-09-29-v2');
+  assert.equal(form.get('consent_marketing_email'), 'yes');
+  assert.equal(form.get('consent_marketing_email_version'), 'marketing-email-2026-09-30-v1');
+  assert.equal(form.get('consent_marketing_email_state'), 'granted');
+});
 
 test('unchecked lp lead with a v1 client version still records the live v2 text', async () => {
   const payload = lpPayload('lp-aca-lead', 'lp-aca-2026-09-29-v1');
