@@ -531,9 +531,21 @@
             max-width: 650px;
         }
 
+        .medicare-secondary > :first-child {
+            flex: 1 1 16rem;
+            min-width: 0;
+        }
+
         .medicare-secondary .season-actions {
-            flex: 0 0 auto;
+            flex: 1 1 16rem;
             margin-top: 0;
+            min-width: 0;
+        }
+
+        .medicare-secondary .tpmo-cta-disclaimer {
+            flex-basis: 100%;
+            max-width: 100%;
+            min-width: 0;
         }
 
         .medicare-secondary .secondary-link {
@@ -1410,6 +1422,7 @@ header .cta-button {
                 <input type="hidden" name="consent_call">
                 <input type="hidden" name="consent_sms">
                 <input type="hidden" name="consent_email">
+                <input type="hidden" name="consent_text_version" value="get-help-2026-07-30-v1">
                 <h2>Get a personal answer</h2>
                 <p>Send the minimum contact details David needs to respond. Do not enter policy numbers, health information, or payment details.</p>
                 <div class="sitelink-lead-grid">
