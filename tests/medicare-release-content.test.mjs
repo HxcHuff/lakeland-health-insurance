@@ -19,7 +19,7 @@ const MEDICARE_MARKETING_SURFACES = [
   'blog/index.html',
   'blog/keep-doctor-switch-medicare-plans-florida.html',
   'blog/medicare-advantage-lakeland-2026.html',
-  'blog/medicare-advantage-vs-supplement.html',
+  'blog/medicare-advantage-vs-medicare-supplement.html',
   'blog/medicare-for-dummies.html',
   'blog/medicare-supplement-cost-lakeland.html',
   'blog/medicare-vs-aca-central-florida-age-65.html',
@@ -159,9 +159,12 @@ test('Medigap and switching guides retain only verified current factual anchors'
   assert.match(medigap, /2026 high deductible is <strong>\$2,950<\/strong>/);
   assert.doesNotMatch(medigap, /\$\d{2,3}\s*(?:-|–|to)\s*\$\d{2,3}/);
   assert.doesNotMatch(medigap, /A\.M\. Best|household discount|rate increase/i);
-  assert.match(switching, /Special Enrollment Periods are event-specific/);
-  assert.match(switching, /a generic 60-day deadline should not be used/);
-  assert.match(switching, /Medigap is different — there's no single annual window/);
+  assert.match(switching, /Special Enrollment Period/);
+  assert.match(switching, /Medigap Open Enrollment Period/);
+  assert.match(switching, /October 15 to December 7/);
+  assert.match(switching, /This list is not exhaustive/);
+  assert.match(switching, /Depend on the event/);
+  assert.doesNotMatch(switching, /Special Enrollment Period[^.]{0,80}60 days/i);
 });
 
 test('Medicare basics uses the proper names for Medicare enrollment periods', () => {
@@ -184,7 +187,7 @@ test('provider-check routing and rewritten Medicare sitemap dates are canonical'
 
   assert.match(watson, /href="\/get-help\/\?intent=provider-check">Start a provider check<\/a>/);
   assert.doesNotMatch(watson, /intent=provider-prescription(?:["&])/);
-  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/when-can-i-switch-medicare-plans-florida\.html<\/loc>\s*<lastmod>2026-09-29<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/when-can-i-switch-medicare-plans-florida\.html<\/loc>\s*<lastmod>2026-09-30<\/lastmod>/);
   assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/medicare-supplement-cost-lakeland\.html<\/loc>\s*<lastmod>2026-08-17<\/lastmod>/);
 });
 
