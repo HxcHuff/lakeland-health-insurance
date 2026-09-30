@@ -8,9 +8,6 @@
 [functions."google-lead-crm-retry"]
   schedule = "*/15 * * * *"
 
-[functions."huffsherpa-relay-retry"]
-  schedule = "*/15 * * * *"
-
 [functions."lead-bridge-retry"]
   schedule = "*/15 * * * *"
 

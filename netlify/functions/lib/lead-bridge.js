@@ -2,9 +2,9 @@
 
 /**
  * Forward an accepted website form lead to the Vercel lead bridge.
- * Replaces the unused Hopper ingest path. Never texts or emails a lead.
- * Missing LEAD_BRIDGE_URL / LEAD_BRIDGE_KEY skips delivery. Failures are
- * written to a Blobs outbox and retried by lead-bridge-retry.
+ * Never texts or emails a lead. Missing LEAD_BRIDGE_URL / LEAD_BRIDGE_KEY
+ * skips delivery. Failures are written to a Blobs outbox and retried by
+ * lead-bridge-retry.
  */
 
 const crypto = require('node:crypto');
