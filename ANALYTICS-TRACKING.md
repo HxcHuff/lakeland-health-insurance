@@ -149,17 +149,17 @@ Allowlisted website form submissions post to `{LEAD_BRIDGE_URL}/website/lead`. T
 
 | Variable | Surface | Required | Notes |
 |---|---|---:|---|
-| `LEAD_BRIDGE_URL` / `LEAD_BRIDGE_KEY` | Server only | Yes, for website CRM | Primary destination. Placeholder keys are rejected. |
-| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Server only | Unused for website leads | Leftover Apps Script URL. Website Forms no longer read it. Still used by the separate Google-hosted lead webhook. Do not delete in Netlify until David says so. |
-| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Server only | Unused for website leads | Leftover HMAC secret. Same as above. |
-| `HUFFSHERPA_RELAY_ALERT_EMAIL` | Server only | Unused for website leads | Leftover HuffSherpa alert address. Website Forms no longer send it. |
+| `LEAD_BRIDGE_URL` / `LEAD_BRIDGE_KEY` | Server only | Yes, for website and Google-hosted CRM | Website Forms POST `{LEAD_BRIDGE_URL}/website/lead`. Google-hosted Ads forms POST `{LEAD_BRIDGE_URL}/`. Placeholder keys are rejected. |
+| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Server only | Unused in this repo | Leftover Apps Script URL. Website Forms and the Google-hosted webhook no longer read it. Do not delete in Netlify until David says so. |
+| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Server only | Unused in this repo | Leftover HMAC secret. Same as above. |
+| `HUFFSHERPA_RELAY_ALERT_EMAIL` | Server only | Unused in this repo | Leftover HuffSherpa alert address. Neither website Forms nor the Google-hosted webhook send it. |
 
 ### Google Ads Lead-Form Webhook Controls
 
 - Google delivery is not exactly once. The webhook validates and bounds the payload, authenticates the exact approved form with its unique Google key, and atomically creates a minimized site-scoped Netlify Blobs outbox record before any CRM delivery attempt.
 - The outbox key is a domain-separated SHA-256 digest of Google's opaque `lead_id`, independent of all authentication secrets. While pending, the record contains only approved contact fields and Google attribution identifiers. Successful delivery immediately removes that payload and retains a metadata-only tombstone for replay suppression.
 - Exact replays return 200 without another CRM delivery. A changed payload under the same `lead_id` is quarantined. A write/read-confirmation outage returns 503 before downstream delivery so Google can retry.
-- The only downstream path is a versioned HMAC-signed envelope to the pinned Apps Script CRM receiver. Customer.io, Lob, email, SMS, Mailchimp, and other marketing or messaging providers are not part of this Google-hosted lead workflow.
+- The only downstream CRM path is `{LEAD_BRIDGE_URL}/` on the Vercel lead relay, which writes HubSpot portal 247504188. HuffSherpa is not called. Customer.io, Lob, email, SMS, Mailchimp, and other marketing or messaging providers are not part of this Google-hosted lead workflow.
 - A bounded 15-minute scheduled function retries pending deliveries and performs best-effort privacy maintenance. Operational logs and alerts contain controlled reason codes and counts only, never lead IDs, click IDs, contact data, Blob keys, payloads, or secrets. See `docs/google-ads-crm-relay-runbook.md` for retry, retention, and activation details.
 
 | Variable | Surface | Required | Notes |
@@ -168,8 +168,7 @@ Allowlisted website form submissions post to `{LEAD_BRIDGE_URL}/website/lead`. T
 | `GOOGLE_LEAD_FORM_ID_ALLOWLIST` | Server only | Yes | Must be exactly `357496832026,398917236265` in that order. |
 | `GOOGLE_LEAD_WEBHOOK_KEY_357496832026` | Server only | Yes | Unique high-entropy Google key for the approved ACA form. Never expose, persist, or log it. |
 | `GOOGLE_LEAD_WEBHOOK_KEY_398917236265` | Server only | Yes | Different unique high-entropy Google key for the approved Medicare form. Never expose, persist, or log it. |
-| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Server only | Yes, for Google-hosted leads | Apps Script URL for the C1 Google Ads lead-form webhook only. Website Forms no longer read it. |
-| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Server only | Yes, for Google-hosted leads | HMAC secret for that Google-hosted webhook only. |
+| `LEAD_BRIDGE_URL` / `LEAD_BRIDGE_KEY` | Server only | Yes, for Google-hosted CRM | Same vars as website CRM. This webhook POSTs `{LEAD_BRIDGE_URL}/`. |
 | `MAILCHIMP_API_KEY` | Server only | Yes, for audience sync | Runtime Mailchimp API key. If unset, Mailchimp is skipped with a one-line warning. Never log or commit it. |
 | `MAILCHIMP_AUDIENCE_ID` | Server only | Yes, for audience sync | Audience / list id. Production value `cd34641e14`. |
 | `MAILCHIMP_DC` | Server only | Yes, for audience sync | Data-center prefix. Production value `us17`. |

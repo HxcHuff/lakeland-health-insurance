@@ -1,4 +1,12 @@
 import crypto from "node:crypto";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const {
+  buildGoogleAdsLeadPayload,
+  postWebsiteLead,
+  readGoogleAdsBridgeConfig,
+} = require("./lead-bridge.js");
 
 export const RELAY_PROTOCOL = Object.freeze({
   envelopeSource: "google_ads",
@@ -145,11 +153,22 @@ const STORED_REASON_CODES = new Set([
   "google_webhook_configuration_unavailable",
   "nonce_unavailable",
   "outbox_record_invalid",
+  "bridge_configuration_missing",
   "relay_configuration_invalid",
   "relay_configuration_unavailable",
   "relay_secret_must_be_independent",
   "request_body_too_large",
   "retention_expired",
+  "upstream_error",
+  "upstream_400",
+  "upstream_401",
+  "upstream_403",
+  "upstream_404",
+  "upstream_422",
+  "upstream_500",
+  "upstream_502",
+  "upstream_503",
+  "upstream_504",
   "tombstone_expired",
   "retry_limit_exhausted",
   "upstream_network_error",
@@ -545,37 +564,16 @@ export function requireProductionContext(env) {
 }
 
 export function validateRelayConfiguration(env, googleWebhookKeys = []) {
-  const endpoint = String(env("HUFFSHERPA_LEAD_WEBHOOK_URL_V1") || "").trim();
-  const secret = validateHmacSecret(env("HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1"));
+  const config = readGoogleAdsBridgeConfig({
+    LEAD_BRIDGE_URL: env("LEAD_BRIDGE_URL"),
+    LEAD_BRIDGE_KEY: env("LEAD_BRIDGE_KEY"),
+  });
+  if (!config) fail("bridge_configuration_missing", 503);
   const intakeKeys = Array.isArray(googleWebhookKeys) ? googleWebhookKeys : [googleWebhookKeys];
-  if (intakeKeys.some((key) => key && safeEqual(secret, key))) {
+  if (intakeKeys.some((key) => key && safeEqual(config.key, key))) {
     fail("relay_secret_must_be_independent", 503);
   }
-  let parsed;
-  try {
-    parsed = new URL(endpoint);
-  } catch {
-    fail("relay_configuration_invalid", 503);
-  }
-  const segments = parsed.pathname.split("/").filter(Boolean);
-  if (
-    parsed.protocol !== "https:"
-    || parsed.hostname !== "script.google.com"
-    || parsed.port
-    || parsed.username
-    || parsed.password
-    || parsed.search
-    || parsed.hash
-    || segments.length !== 4
-    || segments[0] !== "macros"
-    || segments[1] !== "s"
-    || !DEPLOYMENT_ID.test(segments[2])
-    || segments[3] !== "exec"
-    || parsed.href !== endpoint
-  ) {
-    fail("relay_configuration_invalid", 503);
-  }
-  return Object.freeze({ endpoint, secret });
+  return config;
 }
 
 export function buildEnvelope(payload, secret, nowMilliseconds, randomBytes = crypto.randomBytes) {
@@ -1164,27 +1162,27 @@ export async function attemptOperationalDelivery({
     }, nowMilliseconds);
   }
   try {
-    const body = buildEnvelope(claimed.entry.record.payload, configuration.secret, nowMilliseconds, randomBytes);
-    const response = await postEnvelope({
-      body,
-      endpoint: configuration.endpoint,
+    const lead = buildGoogleAdsLeadPayload(claimed.entry.record.payload);
+    if (!lead) fail("invalid_google_ads_payload", 400);
+    const response = await postWebsiteLead({
+      lead,
+      config: configuration,
       fetchImpl,
-      testMode: false,
       setTimer,
       clearTimer,
       timeoutMilliseconds,
     });
     if (!response.ok) {
       return finalizeAttempt(store, key, claimed.entry, {
-        permanent: !TRANSIENT_RESPONSE_REASONS.has(response.reason),
-        reason: response.reason,
+        permanent: Boolean(response.permanent),
+        reason: STORED_REASON_CODES.has(response.reason) ? response.reason : "upstream_error",
         outcome: "",
       }, nowMilliseconds);
     }
     return finalizeAttempt(store, key, claimed.entry, {
       permanent: false,
       reason: "",
-      outcome: response.outcome,
+      outcome: "STAGED",
     }, nowMilliseconds);
   } catch (error) {
     const controlled = error instanceof GoogleAdsRelayError ? error : new GoogleAdsRelayError("upstream_network_error", 502);
@@ -1208,24 +1206,13 @@ export async function deliverTestPayload({
   timeoutMilliseconds,
 }) {
   if (payload.is_test !== true) fail("test_payload_required", 400);
-  const configuration = validateRelayConfiguration(
+  validateRelayConfiguration(
     env,
     Object.values(googleAdsConfiguration.webhookKeysByFormId),
   );
-  const body = buildEnvelope(payload, configuration.secret, nowMilliseconds, randomBytes);
-  const response = await postEnvelope({
-    body,
-    endpoint: configuration.endpoint,
-    fetchImpl,
-    testMode: true,
-    setTimer,
-    clearTimer,
-    timeoutMilliseconds,
-  });
-  if (!response.ok || response.outcome !== "TEST_ACKNOWLEDGED") {
-    fail(response.reason || "test_receiver_rejected", 502);
-  }
-  return response;
+  // Google's is_test must not write HubSpot. Require the live bridge
+  // destination, then acknowledge locally without a CRM POST.
+  return Object.freeze({ ok: true, outcome: "TEST_ACKNOWLEDGED", reason: null });
 }
 
 async function purgeExpiredRecord(store, key, entry, nowMilliseconds) {

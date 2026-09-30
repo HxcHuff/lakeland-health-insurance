@@ -162,8 +162,8 @@ delete them in Netlify until David says so:
 
 | Name | Status |
 | --- | --- |
-| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Unused for website leads. Still used by the separate Google-hosted lead webhook. |
-| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Unused for website leads. Same as above. |
+| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Unused in this repo. Website Forms and the Google-hosted webhook no longer read it. |
+| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Unused in this repo. Same as above. |
 | `HUFFSHERPA_RELAY_ALERT_EMAIL` | Unused for website leads. The website Forms path no longer emails on CRM failure. |
 
 The CRM path requires `LHI_SITE_ENV=production` before it will POST the

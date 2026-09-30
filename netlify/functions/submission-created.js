@@ -21,7 +21,8 @@
  *   LEAD_BRIDGE_URL
  *   LEAD_BRIDGE_KEY
  *
- * Unused leftover HuffSherpa env vars are not read on this path:
+ * Unused leftover HuffSherpa env vars are not read on this path or by
+ * the Google-hosted webhook:
  *   HUFFSHERPA_LEAD_WEBHOOK_URL_V1
  *   HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1
  *   HUFFSHERPA_RELAY_ALERT_EMAIL

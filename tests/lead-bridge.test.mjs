@@ -12,12 +12,15 @@ const {
 } = require('../netlify/functions/submission-created.js');
 const {
   OUTBOX,
+  buildGoogleAdsLeadPayload,
   buildWebsiteLeadPayload,
   createBridgeRetryHandler,
   deliverWebsiteLead,
   outboxKey,
   readBridgeConfig,
-  resolveBridgeEndpoint
+  readGoogleAdsBridgeConfig,
+  resolveBridgeEndpoint,
+  resolveGoogleAdsBridgeEndpoint
 } = require('../netlify/functions/lib/lead-bridge');
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -150,6 +153,47 @@ test('bridge helpers resolve the authenticated website lead route from env', () 
     LEAD_BRIDGE_KEY: 'placeholder'
   }), null);
   assert.equal(readBridgeConfig({ LEAD_BRIDGE_URL: BRIDGE_URL }), null);
+});
+
+test('bridge helpers resolve the Google Ads POST / route from the same env', () => {
+  assert.equal(resolveGoogleAdsBridgeEndpoint(BRIDGE_URL), BRIDGE_URL + '/');
+  assert.equal(resolveGoogleAdsBridgeEndpoint(BRIDGE_URL + '/'), BRIDGE_URL + '/');
+  assert.equal(resolveGoogleAdsBridgeEndpoint(BRIDGE_ENDPOINT), BRIDGE_URL + '/');
+  assert.equal(resolveGoogleAdsBridgeEndpoint('http://google-ads-lead-relay.vercel.app'), null);
+  assert.equal(resolveGoogleAdsBridgeEndpoint('https://google-ads-lead-relay.vercel.app/other'), null);
+  assert.deepEqual(readGoogleAdsBridgeConfig({
+    LEAD_BRIDGE_URL: BRIDGE_URL,
+    LEAD_BRIDGE_KEY: BRIDGE_KEY
+  }), { endpoint: BRIDGE_URL + '/', key: BRIDGE_KEY });
+  assert.equal(readGoogleAdsBridgeConfig({
+    LEAD_BRIDGE_URL: BRIDGE_URL,
+    LEAD_BRIDGE_KEY: 'placeholder'
+  }), null);
+});
+
+test('Google Ads bridge payload keeps contact, gcl_id, and HubSpot attribution', () => {
+  const lead = buildGoogleAdsLeadPayload({
+    account_id: '7880085811',
+    form_id: '357496832026',
+    lead_id: 'Exact-Google-Lead_123',
+    first_name: 'Jane',
+    last_name: 'Test',
+    email: 'Jane@Example.test',
+    phone_number: '8635550100',
+    postal_code: '33801',
+    gcl_id: 'Exact.Gclid_AbC-123~x',
+    campaign_id: '24123358247',
+    event_type: 'google_ads_lead_form_accepted',
+    is_test: false
+  });
+  assert.equal(lead.source, 'google_ads_lead_form');
+  assert.equal(lead.gcl_id, 'Exact.Gclid_AbC-123~x');
+  assert.equal(lead.gclid, 'Exact.Gclid_AbC-123~x');
+  assert.equal(lead.lhi_gclid, 'Exact.Gclid_AbC-123~x');
+  assert.equal(lead.lhi_gad_campaign_id, '24123358247');
+  assert.equal(lead.lhi_lead_source, 'google_ads_site');
+  assert.equal(lead.lhi_attribution_status, 'click_id_matched');
+  assert.equal(buildGoogleAdsLeadPayload({ is_test: true, lead_id: 'test' }), null);
 });
 
 test('website lead payload keeps contact, intent, consent, UTMs, and the submission id', () => {
