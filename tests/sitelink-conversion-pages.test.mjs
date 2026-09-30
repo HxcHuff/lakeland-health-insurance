@@ -59,6 +59,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /name="preferred_contact_method" value="Text message"/);
     assert.match(form, /name="preferred_contact_method" value="Email"/);
     assert.match(form, /name="consent_request" value="yes" required/);
+    assert.match(form, /name="consent_text_version" value="get-help-2026-07-30-v1"/);
     assert.match(form, /name="started_at"/);
     assert.match(form, /name="human_check"/);
     assert.match(form, /name="utm_source"/);
@@ -74,7 +75,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /Message frequency varies; message and data rates may apply/);
     assert.match(form, /Reply STOP to cancel or HELP for help/);
 
-    assert.match(html, /\/css\/site-template\.css\?v=20260924-phase2-chrome/);
+    assert.match(html, /\/css\/site-template\.css\?v=20260929-compliance/);
     assert.match(html, /\/js\/funnel\.js\?v=20260821-lead-reconciliation/);
   });
 }

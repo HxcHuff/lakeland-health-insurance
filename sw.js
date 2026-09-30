@@ -1,6 +1,6 @@
-const CACHE_NAME = 'lhi-20260924-phase2-chrome';
+const CACHE_NAME = 'lhi-20260929-compliance';
 const OFFLINE_URL = '/offline.html';
-const SITE_TEMPLATE_URL = '/js/site-template.js?v=20260924-phase2-chrome';
+const SITE_TEMPLATE_URL = '/js/site-template.js?v=20260929-compliance';
 
 // Core pages to pre-cache for offline access
 const PRECACHE_URLS = [

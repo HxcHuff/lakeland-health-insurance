@@ -2000,7 +2000,7 @@ test('legacy campaign aliases land on current canonical articles', () => {
 });
 
 test('shared release invalidates stale asset caches and keeps desktop navigation on one row', () => {
-  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20260924-phase2-chrome';/);
+  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20260929-compliance';/);
   assert.match(SITE_TEMPLATE_CSS, /header \.nav-links\s*\{[^}]*flex-wrap:\s*nowrap;/s);
 });
 
@@ -2191,6 +2191,7 @@ test('get-help consent evidence is channel-specific and versioned', () => {
   ]) {
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
   }
+  assert.match(GET_HELP_HTML, /name="consent_text_version" value="get-help-2026-09-29-v2"/);
   assert.match(GET_HELP_SRC, /consentCallStateInput/);
   assert.match(GET_HELP_SRC, /consentSmsStateInput/);
   assert.match(GET_HELP_SRC, /consentEmailStateInput/);

@@ -303,7 +303,8 @@ const LP_COMMON_FIELDS = [
   'best_time_to_reach',
   'coverage_status',
   'consent',
-  'source_page'
+  'source_page',
+  'consent_text_version'
 ];
 const FORM_FIELD_ALLOWLIST = Object.freeze({
   'homepage-newsletter': formFields(BOT_FIELDS, ['email', 'consent', 'source_page', '_subject']),
@@ -333,7 +334,8 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'consent_call',
     'consent_sms',
     'consent_email',
-    'consent_marketing_email'
+    'consent_marketing_email',
+    'consent_text_version'
   ]),
   'lp-aca-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['household_size']),
   'lp-medicare-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
@@ -595,6 +597,143 @@ function minimizeGetHelpPayload(payload) {
   return payload;
 }
 
+const GET_HELP_CONSENT_TEXT_VERSION_V1 = 'get-help-2026-07-30-v1';
+const GET_HELP_CONSENT_TEXT_VERSION_V2 = 'get-help-2026-09-29-v2';
+const LP_ACA_CONSENT_TEXT_VERSION_V1 = 'lp-aca-2026-09-29-v1';
+const LP_ACA_CONSENT_TEXT_VERSION_V2 = 'lp-aca-2026-09-29-v2';
+const LP_MEDICARE_CONSENT_TEXT_VERSION_V1 = 'lp-medicare-2026-09-29-v1';
+const LP_MEDICARE_CONSENT_TEXT_VERSION_V2 = 'lp-medicare-2026-09-29-v2';
+const LP_GAP_CONSENT_TEXT_VERSION_V1 = 'lp-gap-2026-09-29-v1';
+const LP_GAP_CONSENT_TEXT_VERSION_V2 = 'lp-gap-2026-09-29-v2';
+const CONSENT_TEXT_VERSION_NONE = 'none';
+const LP_CONSENT_TEXT_VERSIONS = Object.freeze({
+  'lp-aca-lead': LP_ACA_CONSENT_TEXT_VERSION_V2,
+  'lp-medicare-lead': LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
+  'lp-gap-lead': LP_GAP_CONSENT_TEXT_VERSION_V2
+});
+const CITY_HEALTH_INSURANCE_FORMS = Object.freeze([
+  'tampa-health-insurance',
+  'winter-haven-health-insurance',
+  'haines-city-health-insurance',
+  'lake-alfred-health-insurance',
+  'davenport-health-insurance',
+  'brandon-health-insurance',
+  'clearwater-health-insurance',
+  'largo-health-insurance',
+  'new-port-richey-health-insurance',
+  'riverview-health-insurance',
+  'st-petersburg-health-insurance',
+  'wesley-chapel-health-insurance'
+]);
+const CITY_HEALTH_INSURANCE_FORM_SET = new Set(CITY_HEALTH_INSURANCE_FORMS);
+const ALLOWED_CONSENT_TEXT_VERSIONS = Object.freeze([
+  GET_HELP_CONSENT_TEXT_VERSION_V1,
+  GET_HELP_CONSENT_TEXT_VERSION_V2,
+  LP_ACA_CONSENT_TEXT_VERSION_V1,
+  LP_ACA_CONSENT_TEXT_VERSION_V2,
+  LP_MEDICARE_CONSENT_TEXT_VERSION_V1,
+  LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
+  LP_GAP_CONSENT_TEXT_VERSION_V1,
+  LP_GAP_CONSENT_TEXT_VERSION_V2
+]);
+const ALLOWED_CONSENT_TEXT_VERSION_SET = new Set(ALLOWED_CONSENT_TEXT_VERSIONS);
+
+function isGetHelpCanonicalPage(path) {
+  return path === '/get-help/' || path === '/get-help';
+}
+
+function defaultGetHelpConsentTextVersion(consentPage) {
+  return isGetHelpCanonicalPage(consentPage)
+    ? GET_HELP_CONSENT_TEXT_VERSION_V2
+    : GET_HELP_CONSENT_TEXT_VERSION_V1;
+}
+
+function defaultConsentTextVersion(formName, consentPage) {
+  if (CITY_HEALTH_INSURANCE_FORM_SET.has(formName)) return CONSENT_TEXT_VERSION_NONE;
+  if (formName === 'get-help') return defaultGetHelpConsentTextVersion(consentPage);
+  if (Object.prototype.hasOwnProperty.call(LP_CONSENT_TEXT_VERSIONS, formName)) {
+    return LP_CONSENT_TEXT_VERSIONS[formName];
+  }
+  return null;
+}
+
+function resolveConsentTextVersion(submitted, formName, consentPage) {
+  if (CITY_HEALTH_INSURANCE_FORM_SET.has(formName)) {
+    return { version: CONSENT_TEXT_VERSION_NONE, source: CONSENT_TEXT_VERSION_NONE, mismatch: false };
+  }
+
+  const defaultVersion = defaultConsentTextVersion(formName, consentPage);
+  if (!defaultVersion) {
+    return { version: null, source: null, mismatch: false };
+  }
+
+  const version = typeof submitted === 'string' ? submitted.trim() : '';
+  if (ALLOWED_CONSENT_TEXT_VERSION_SET.has(version)) {
+    return {
+      version,
+      source: 'client',
+      mismatch: version !== defaultVersion
+    };
+  }
+  return {
+    version: defaultVersion,
+    source: 'default',
+    mismatch: false
+  };
+}
+
+function assignResolvedConsentVersion(payload, formName, consentPage) {
+  const resolved = resolveConsentTextVersion(payload.consent_text_version, formName, consentPage);
+  if (!resolved.version) return resolved;
+  payload.consent_text_version = resolved.version;
+  payload.consent_version_source = resolved.source;
+  payload.consent_version_mismatch = resolved.mismatch ? 'true' : 'false';
+  return resolved;
+}
+
+function isGrantedLpConsentValue(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  return normalized === 'yes' || normalized === 'on';
+}
+
+function applyLpMarketingConsentRecord(payload, formName, serverReceivedAt) {
+  const granted = isGrantedLpConsentValue(payload.consent);
+  const includeEmail = formName === 'lp-gap-lead';
+  const channelValue = granted ? 'yes' : 'no';
+  const state = granted ? 'granted' : 'not_granted';
+
+  payload.consent_sms = channelValue;
+  payload.consent_call = channelValue;
+  payload.consent_sms_state = state;
+  payload.consent_call_state = state;
+  if (includeEmail) {
+    payload.consent_email = channelValue;
+    payload.consent_email_state = state;
+  }
+  if (serverReceivedAt) payload.consent_recorded_at = serverReceivedAt;
+
+  if (!granted) {
+    payload.consent_text_version = LP_CONSENT_TEXT_VERSIONS[formName];
+    payload.consent_version_source = 'server';
+    payload.consent_version_mismatch = 'false';
+  }
+}
+
+function applyNonGetHelpConsentRecord(payload, formName, consentPage, serverReceivedAt) {
+  if (formName === 'get-help') return;
+  const recordedPage = sanitizeSourcePath(consentPage || payload.source_page || '/');
+  const resolved = assignResolvedConsentVersion(payload, formName, recordedPage);
+  if (!resolved.version) return;
+  payload.consent_page = recordedPage;
+  if (CITY_HEALTH_INSURANCE_FORM_SET.has(formName)) {
+    payload.consent_sms = 'no';
+    return;
+  }
+  if (Object.prototype.hasOwnProperty.call(LP_CONSENT_TEXT_VERSIONS, formName)) {
+    applyLpMarketingConsentRecord(payload, formName, serverReceivedAt);
+  }
+}
+
 function authorizeGetHelpConsent(payload, serverReceivedAt, consentPage) {
   if (payload['form-name'] !== 'get-help') return { ok: true };
   if (payload.consent_request !== 'yes') {
@@ -615,10 +754,11 @@ function authorizeGetHelpConsent(payload, serverReceivedAt, consentPage) {
     if (channelConsent[channel]) payload[field] = 'yes';
     else delete payload[field];
   });
+  const recordedPage = sanitizeSourcePath(consentPage || '/get-help/');
+  assignResolvedConsentVersion(payload, 'get-help', recordedPage);
   Object.assign(payload, {
-    consent_text_version: 'get-help-2026-07-30-v1',
     consent_recorded_at: serverReceivedAt,
-    consent_page: sanitizeSourcePath(consentPage || '/get-help/'),
+    consent_page: recordedPage,
     consent_request_state: 'granted',
     consent_call_state: channelConsent.call ? 'granted' : 'not_granted',
     consent_sms_state: channelConsent.sms ? 'granted' : 'not_granted',
@@ -709,6 +849,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({ ok: false, error: consentCheck.error })
     };
   }
+  applyNonGetHelpConsentRecord(payload, formName, sourcePath, serverReceivedAt);
 
   const sourceUrl = eventSourceUrl(sourcePath);
   payload.source_url = sourcePath;
@@ -1081,15 +1222,30 @@ function safeAdsError(error, skipped) {
 }
 
 exports._test = {
+  ALLOWED_CONSENT_TEXT_VERSIONS,
+  CITY_HEALTH_INSURANCE_FORMS,
+  CONSENT_TEXT_VERSION_NONE,
+  GET_HELP_CONSENT_TEXT_VERSION_V1,
+  GET_HELP_CONSENT_TEXT_VERSION_V2,
+  LP_ACA_CONSENT_TEXT_VERSION_V1,
+  LP_ACA_CONSENT_TEXT_VERSION_V2,
+  LP_GAP_CONSENT_TEXT_VERSION_V1,
+  LP_GAP_CONSENT_TEXT_VERSION_V2,
+  LP_MEDICARE_CONSENT_TEXT_VERSION_V1,
+  LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
+  applyNonGetHelpConsentRecord,
   authorizeGetHelpConsent,
   canonicalizeMedicareAttribution,
   corsPolicy,
   decodeRequestBody,
+  defaultConsentTextVersion,
+  defaultGetHelpConsentTextVersion,
   filterPayloadForForm,
   metaBrowserIdentifier,
   metaMeasurementAllowed,
   readCookieState,
   minimizeGetHelpPayload,
+  resolveConsentTextVersion,
   resolveFormName,
   sanitizeCampaignAttribution,
   sanitizeCampaignToken,
