@@ -545,8 +545,15 @@ export function requireProductionContext(env) {
 }
 
 export function validateRelayConfiguration(env, googleWebhookKeys = []) {
-  const endpoint = String(env("HUFFSHERPA_LEAD_WEBHOOK_URL_V1") || "").trim();
-  const secret = validateHmacSecret(env("HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1"));
+  const endpoint = String(
+    env("APPS_SCRIPT_LEAD_WEBHOOK_URL_V1")
+    || env("HUFFSHERPA_LEAD_WEBHOOK_URL_V1")
+    || ""
+  ).trim();
+  const secret = validateHmacSecret(
+    env("APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1")
+    || env("HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1")
+  );
   const intakeKeys = Array.isArray(googleWebhookKeys) ? googleWebhookKeys : [googleWebhookKeys];
   if (intakeKeys.some((key) => key && safeEqual(secret, key))) {
     fail("relay_secret_must_be_independent", 503);
