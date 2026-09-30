@@ -56,6 +56,48 @@ const siteSearchIndex = [
     tags: ["Under 65", "Doctors", "Provider Networks", "Prescriptions", "Pharmacy"]
   },
   {
+    title: "States I'm Licensed In",
+    url: "/states/",
+    excerpt: "David Huff is licensed in 21 states. Choose your state for Marketplace names, 2027 open enrollment dates, and a remote ACA plan review.",
+    tags: ["States", "License", "Marketplace", "ACA", "Multi-state"]
+  },
+  {
+    title: "Texas ACA Health Insurance Agent",
+    url: "/health-insurance-texas/",
+    excerpt: "Licensed in Texas. A 2027 HealthCare.gov plan review around doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Texas", "ACA", "Marketplace", "HealthCare.gov"]
+  },
+  {
+    title: "Georgia ACA Health Insurance Agent",
+    url: "/health-insurance-georgia/",
+    excerpt: "Licensed in Georgia. A 2027 Georgia Access plan review around doctors, prescriptions, and income. Draft page pending certification.",
+    tags: ["Georgia", "ACA", "Marketplace", "Georgia Access"]
+  },
+  {
+    title: "North Carolina ACA Health Insurance Agent",
+    url: "/health-insurance-north-carolina/",
+    excerpt: "Licensed in North Carolina. A 2027 HealthCare.gov plan review around doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["North Carolina", "ACA", "Marketplace", "HealthCare.gov"]
+  },
+  {
+    title: "South Carolina ACA Health Insurance Agent",
+    url: "/health-insurance-south-carolina/",
+    excerpt: "Licensed in South Carolina. A 2027 HealthCare.gov plan review around doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["South Carolina", "ACA", "Marketplace", "HealthCare.gov"]
+  },
+  {
+    title: "Tennessee ACA Health Insurance Agent",
+    url: "/health-insurance-tennessee/",
+    excerpt: "Licensed in Tennessee. A 2027 HealthCare.gov plan review around doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Tennessee", "ACA", "Marketplace", "HealthCare.gov"]
+  },
+  {
+    title: "Alabama ACA Health Insurance Agent",
+    url: "/health-insurance-alabama/",
+    excerpt: "Licensed in Alabama. A 2027 HealthCare.gov plan review around doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Alabama", "ACA", "Marketplace", "HealthCare.gov"]
+  },
+  {
     title: "CMS Marketplace Agent Crackdown: Lakeland FL Guide (2026)",
     url: "/marketplace-agent-fraud-cms-crackdown-florida/",
     excerpt: "CMS canceled unauthorized Marketplace enrollments and sent agent termination notices. What Lakeland and Polk shoppers should check before Open Enrollment.",

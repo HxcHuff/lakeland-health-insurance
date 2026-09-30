@@ -544,6 +544,7 @@
     var qs = new URLSearchParams(window.location.search);
     var medicareSource = medicareSourceContext(qs);
     setValue('zipCode', qsValue(qs, 'zip_code'));
+    setValue('coverageStateInput', qsValue(qs, 'state'));
     setValue('sourcePageInput', String(window.location.pathname || '/').slice(0, 160));
     setValue('referralPageInput', referralClass());
     setValue('sourcePageKeyInput', medicareSource && medicareSource.source_page_key);
