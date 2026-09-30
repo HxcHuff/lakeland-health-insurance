@@ -2180,6 +2180,7 @@ test('get-help consent evidence is channel-specific and versioned', () => {
     'consent_sms',
     'consent_email',
     'consent_marketing_email',
+    'consent_marketing_email_version',
     'consent_text_version',
     'consent_recorded_at',
     'consent_request_state',

@@ -558,6 +558,17 @@ function minimizeGetHelpPayload(payload) {
 
 const GET_HELP_CONSENT_TEXT_VERSION_V1 = 'get-help-2026-07-30-v1';
 const GET_HELP_CONSENT_TEXT_VERSION_V2 = 'get-help-2026-09-29-v2';
+const MARKETING_EMAIL_CONSENT_VERSION = 'marketing-email-2026-09-30-v1';
+const MARKETING_EMAIL_CONSENT_VERSION_PAGES = Object.freeze([
+  '/blog/',
+  '/carriers/',
+  '/dental-vision/',
+  '/medicare/',
+  '/plans/',
+  '/private-medical-insurance/',
+  '/supplemental-insurance/',
+  '/lp/gap/'
+]);
 const LP_ACA_CONSENT_TEXT_VERSION_V1 = 'lp-aca-2026-09-29-v1';
 const LP_ACA_CONSENT_TEXT_VERSION_V2 = 'lp-aca-2026-09-29-v2';
 const LP_MEDICARE_CONSENT_TEXT_VERSION_V1 = 'lp-medicare-2026-09-29-v1';
@@ -655,6 +666,25 @@ function isGrantedLpConsentValue(value) {
   return normalized === 'yes' || normalized === 'on';
 }
 
+function isGrantedYesValue(value) {
+  return String(value || '').trim().toLowerCase() === 'yes';
+}
+
+function applyMarketingEmailConsentVersion(payload, consentPage) {
+  const submitted = typeof payload.consent_marketing_email_version === 'string'
+    ? payload.consent_marketing_email_version.trim()
+    : '';
+  if (submitted === MARKETING_EMAIL_CONSENT_VERSION) {
+    payload.consent_marketing_email_version = MARKETING_EMAIL_CONSENT_VERSION;
+    return;
+  }
+  delete payload.consent_marketing_email_version;
+  const page = sanitizeSourcePath(consentPage || payload.consent_page || payload.source_page || '');
+  if (MARKETING_EMAIL_CONSENT_VERSION_PAGES.includes(page)) {
+    payload.consent_marketing_email_version = MARKETING_EMAIL_CONSENT_VERSION;
+  }
+}
+
 function applyLpMarketingConsentRecord(payload, formName, serverReceivedAt) {
   const granted = isGrantedLpConsentValue(payload.consent);
   const includeEmail = formName === 'lp-gap-lead';
@@ -668,7 +698,9 @@ function applyLpMarketingConsentRecord(payload, formName, serverReceivedAt) {
   if (includeEmail) {
     payload.consent_email = channelValue;
     payload.consent_email_state = state;
-    payload.consent_marketing_email_state = payload.consent_marketing_email === 'yes' && payload.email ? 'granted' : 'not_granted';
+    payload.consent_marketing_email_state = isGrantedYesValue(payload.consent_marketing_email) && String(payload.email || '').trim()
+      ? 'granted'
+      : 'not_granted';
   }
   if (serverReceivedAt) payload.consent_recorded_at = serverReceivedAt;
 
@@ -810,6 +842,7 @@ exports.handler = async (event) => {
     };
   }
   applyNonGetHelpConsentRecord(payload, formName, sourcePath, serverReceivedAt);
+  applyMarketingEmailConsentVersion(payload, payload.consent_page || sourcePath);
 
   const sourceUrl = eventSourceUrl(sourcePath);
   payload.source_url = sourcePath;
@@ -1106,6 +1139,8 @@ exports._test = {
   CONSENT_TEXT_VERSION_NONE,
   GET_HELP_CONSENT_TEXT_VERSION_V1,
   GET_HELP_CONSENT_TEXT_VERSION_V2,
+  MARKETING_EMAIL_CONSENT_VERSION,
+  applyMarketingEmailConsentVersion,
   LP_ACA_CONSENT_TEXT_VERSION_V1,
   LP_ACA_CONSENT_TEXT_VERSION_V2,
   LP_GAP_CONSENT_TEXT_VERSION_V1,
