@@ -29,8 +29,8 @@ Required production environment variables:
 | `LHI_SITE_ENV` | Exact value `production`; Functions scope; Production deploy context only |
 | `GOOGLE_LEAD_WEBHOOK_KEY_357496832026` | 32 random bytes encoded as 43 unpadded base64url characters; configured on the Free Health Insurance Quote form |
 | `GOOGLE_LEAD_WEBHOOK_KEY_398917236265` | A different 32-byte, 43-character unpadded base64url key; configured on the Medicare Plan Review form |
-| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Pinned Apps Script production deployment URL matching `https://script.google.com/macros/s/<deployment-id>/exec` |
-| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Independent 48-byte random secret encoded as 64 unpadded base64url characters |
+| `APPS_SCRIPT_LEAD_WEBHOOK_URL_V1` | Pinned Apps Script production deployment URL matching `https://script.google.com/macros/s/<deployment-id>/exec` |
+| `APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1` | Independent 48-byte random secret encoded as 64 unpadded base64url characters |
 
 Netlify serverless runtimes supply the read-only `SITE_ID`, which must exactly match `b6ad2d8f-d771-44f4-89b5-7ab30350950e`. The build-only `CONTEXT` value may be absent at runtime and cannot authorize intake. Configure `LHI_SITE_ENV=production` in Netlify's site environment with Functions scope and the Production deploy context only; the values in `netlify.toml` are build-side settings and do not establish this runtime control. All listed application variables must be production-scoped and unavailable to deploy previews and branch deploys.
 
