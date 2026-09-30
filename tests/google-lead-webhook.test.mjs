@@ -69,8 +69,8 @@ function makeEnv(overrides = {}) {
     GOOGLE_LEAD_FORM_ID_ALLOWLIST: GOOGLE_ADS_ROUTING.formIds.join(","),
     GOOGLE_LEAD_WEBHOOK_KEY_357496832026: GOOGLE_KEY,
     GOOGLE_LEAD_WEBHOOK_KEY_398917236265: MEDICARE_GOOGLE_KEY,
-    HUFFSHERPA_LEAD_WEBHOOK_URL_V1: APPS_SCRIPT_URL,
-    HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: HMAC_SECRET,
+    APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: APPS_SCRIPT_URL,
+    APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1: HMAC_SECRET,
     ...overrides,
   };
   return (key) => String(values[key] || "");
@@ -470,8 +470,8 @@ test("scheduled scanning is bounded, concurrent, and rotates across later candid
 
   const logs = [];
   const maintenanceOnlyEnv = makeEnv({
-    HUFFSHERPA_LEAD_WEBHOOK_URL_V1: "",
-    HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: "",
+    APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "",
+    APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1: "",
   });
   const retry = createRetryHandler({
     env: maintenanceOnlyEnv,
@@ -521,8 +521,8 @@ test("scheduled retention purges payloads without relay configuration and later 
     GOOGLE_LEAD_FORM_ID_ALLOWLIST: "",
     GOOGLE_LEAD_WEBHOOK_KEY_357496832026: "",
     GOOGLE_LEAD_WEBHOOK_KEY_398917236265: "",
-    HUFFSHERPA_LEAD_WEBHOOK_URL_V1: "",
-    HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: "",
+    APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "",
+    APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1: "",
   });
   const purge = createRetryHandler({
     env: maintenanceEnv,
@@ -591,7 +591,7 @@ test("scheduled maintenance caps payload purges and reports deferred work", asyn
   };
   const logs = [];
   const retry = createRetryHandler({
-    env: makeEnv({ HUFFSHERPA_LEAD_WEBHOOK_URL_V1: "" }),
+    env: makeEnv({ APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "" }),
     logger: (entry) => logs.push(entry),
     now: () => FIXED_NOW + OUTBOX.retentionMilliseconds + 1,
     storeFactory: async () => store,
@@ -621,7 +621,7 @@ test("invalid outbox data is CAS-scrubbed to a metadata-only tombstone", async (
   });
   const logs = [];
   const retry = createRetryHandler({
-    env: makeEnv({ HUFFSHERPA_LEAD_WEBHOOK_URL_V1: "" }),
+    env: makeEnv({ APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "" }),
     logger: (entry) => logs.push(entry),
     now: () => FIXED_NOW,
     storeFactory: async () => store,
@@ -718,7 +718,7 @@ test("scheduled attention fails the invocation with metadata-only diagnostics", 
   assert.equal((await context.handler(makeRequest())).status, 200);
   const logs = [];
   const retry = createRetryHandler({
-    env: makeEnv({ HUFFSHERPA_LEAD_WEBHOOK_URL_V1: "" }),
+    env: makeEnv({ APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "" }),
     failOnAttention: true,
     logger: (entry) => logs.push(entry),
     now: () => FIXED_NOW + OUTBOX.retryBaseMilliseconds + 1,
@@ -760,7 +760,7 @@ test("test data validates and reaches only the receiver TEST_ACKNOWLEDGED path",
   assert.equal(JSON.parse(apps.calls[0].options.body).payload.is_test, true);
 
   const missingConfiguration = makeContext({
-    env: makeEnv({ HUFFSHERPA_LEAD_WEBHOOK_URL_V1: "" }),
+    env: makeEnv({ APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "" }),
     fetchImpl: apps.fetchImpl,
   });
   const failed = await missingConfiguration.handler(makeRequest(makePayload({ is_test: true })));
@@ -988,7 +988,7 @@ test("production intake rejects reused authentication secrets", async () => {
   const reused = makeContext({
     env: makeEnv({
       GOOGLE_LEAD_WEBHOOK_KEY_357496832026: HMAC_SECRET,
-      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: HMAC_SECRET,
+      APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1: HMAC_SECRET,
     }),
   });
   const reusedResponse = await reused.handler(makeRequest(makePayload({ google_key: HMAC_SECRET })));

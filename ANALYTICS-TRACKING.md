@@ -157,8 +157,8 @@ Measurement boundaries are intentionally separate:
 | `GOOGLE_LEAD_FORM_ID_ALLOWLIST` | Server only | Yes | Must be exactly `357496832026,398917236265` in that order. |
 | `GOOGLE_LEAD_WEBHOOK_KEY_357496832026` | Server only | Yes | Unique high-entropy Google key for the approved ACA form. Never expose, persist, or log it. |
 | `GOOGLE_LEAD_WEBHOOK_KEY_398917236265` | Server only | Yes | Different unique high-entropy Google key for the approved Medicare form. Never expose, persist, or log it. |
-| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Server only | Yes | Pinned production Apps Script `/exec` receiver URL. |
-| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Server only | Yes | Independent 48-byte random secret encoded as 64 unpadded base64url characters. |
+| `APPS_SCRIPT_LEAD_WEBHOOK_URL_V1` | Server only | Yes | Pinned production Apps Script `/exec` receiver URL. |
+| `APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1` | Server only | Yes | Independent 48-byte random secret encoded as 64 unpadded base64url characters. |
 | `MAILCHIMP_API_KEY` | Server only | Yes, for audience sync | Runtime Mailchimp API key. If unset, Mailchimp is skipped with a one-line warning. Never log or commit it. |
 | `MAILCHIMP_AUDIENCE_ID` | Server only | Yes, for audience sync | Audience / list id. Production value `cd34641e14`. |
 | `MAILCHIMP_DC` | Server only | Yes, for audience sync | Data-center prefix. Production value `us17`. |

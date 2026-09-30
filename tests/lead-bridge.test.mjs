@@ -21,11 +21,6 @@ const {
 } = require('../netlify/functions/lib/lead-bridge');
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SECRET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-';
-const DEPLOYMENT_ID = 'AKfycbSYNTHETIC_HUFFSHERPA_DEPLOYMENT_001';
-const ENDPOINT = 'https://script.google.com/macros/s/' + DEPLOYMENT_ID + '/exec';
-const REDIRECT = 'https://script.googleusercontent.com/opaque/content-service/result-v2'
-  + '?one_time=SYNTHETIC_USER_CONTENT_KEY_001&deployment=SYNTHETIC_LIBRARY_001';
 const BRIDGE_URL = 'https://google-ads-lead-relay.vercel.app';
 const BRIDGE_ENDPOINT = BRIDGE_URL + '/website/lead';
 const BRIDGE_KEY = 'synthetic-lead-bridge-key-001';
@@ -65,8 +60,6 @@ function memoryStore() {
 function productionEnv(overrides = {}) {
   return {
     CONTEXT: 'production',
-    HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
-    HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
     LHI_SITE_ENV: 'production',
     LEAD_BRIDGE_URL: BRIDGE_URL,
     LEAD_BRIDGE_KEY: BRIDGE_KEY,
@@ -81,15 +74,6 @@ function routedFetch(calls, { bridgeStatus = 200, bridgeOk = true } = {}) {
       return new Response(JSON.stringify({ ok: bridgeOk }), {
         status: bridgeStatus,
         headers: { 'content-type': 'application/json' }
-      });
-    }
-    if (String(url) === ENDPOINT) {
-      return new Response(null, { status: 302, headers: { location: REDIRECT } });
-    }
-    if (String(url) === REDIRECT) {
-      return new Response(JSON.stringify({ ok: true, outcome: 'STAGED', reason: null }), {
-        status: 200,
-        headers: { 'content-type': 'application/json; charset=utf-8' }
       });
     }
     throw new Error(`unexpected fetch ${url}`);
@@ -402,7 +386,7 @@ test('scheduled retry delivers a queued lead and deletes the outbox record', asy
   assert.equal(store.entries.size, 0);
 });
 
-test('submission-created posts get-help to the bridge without changing HuffSherpa or notifying the lead', async () => {
+test('submission-created posts get-help only to the website lead bridge', async () => {
   const calls = [];
   const store = memoryStore();
   const logs = [];
@@ -411,23 +395,15 @@ test('submission-created posts get-help to the bridge without changing HuffSherp
     fetchImpl: routedFetch(calls),
     logger: (entry) => logs.push(entry),
     now: () => NOW,
-    randomBytes: () => Buffer.alloc(32, 7),
-    storeFactory: async () => {
-      throw new Error('HuffSherpa hot path must not open Blobs');
-    },
-    bridgeStoreFactory: async () => store,
-    alertImpl: async () => {
-      throw new Error('must not email');
-    }
+    bridgeStoreFactory: async () => store
   });
   const result = await handler(submission());
   assert.equal(result.statusCode, 200);
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'ACCEPTED' });
 
-  const bridgeCall = calls.find((call) => call.url === BRIDGE_ENDPOINT);
-  const huffsherpaCall = calls.find((call) => call.url === ENDPOINT);
-  assert.ok(bridgeCall);
-  assert.ok(huffsherpaCall);
+  assert.equal(calls.length, 1);
+  const bridgeCall = calls[0];
+  assert.equal(bridgeCall.url, BRIDGE_ENDPOINT);
   assert.equal(bridgeCall.options.headers['x-bridge-key'], BRIDGE_KEY);
   const lead = JSON.parse(bridgeCall.options.body);
   assert.equal(lead.submission_id, SUBMISSION_ID);
@@ -436,14 +412,9 @@ test('submission-created posts get-help to the bridge without changing HuffSherp
   assert.equal(lead.page_url, 'https://lakelandhealthinsurance.com/get-help/');
   assert.equal(JSON.stringify(lead).includes('Sensitive note'), false);
   assert.equal(JSON.stringify(lead).includes('must-not-forward'), false);
-
-  const envelope = JSON.parse(huffsherpaCall.options.body);
-  assert.equal(envelope.payload.form_name, 'get-help');
-  assert.equal(envelope.payload.data.phone, '8635550118');
-  assert.equal(JSON.stringify(envelope).includes('must-not-forward'), false);
   assert.equal(store.entries.size, 0);
   assert.equal(logs.some((entry) => entry.event === 'website_lead_bridge'), true);
-  assert.equal(logs.at(-1).reason, 'direct_preferred');
+  assert.equal(logs.at(-1).outcome, 'ACCEPTED');
   assert.equal(JSON.stringify(logs).includes('Avery'), false);
   assert.equal(JSON.stringify(logs).includes(BRIDGE_KEY), false);
 });
@@ -474,7 +445,7 @@ test('other allowlisted lead forms also build a website lead for the bridge', ()
   }
 });
 
-test('bridge failures do not fail HuffSherpa or email the lead', async () => {
+test('bridge failures still accept the Forms event and queue retry', async () => {
   const calls = [];
   const store = memoryStore();
   const handler = createSubmissionCreatedHandler({
@@ -482,47 +453,17 @@ test('bridge failures do not fail HuffSherpa or email the lead', async () => {
     fetchImpl: routedFetch(calls, { bridgeStatus: 500, bridgeOk: false }),
     logger: () => {},
     now: () => NOW,
-    randomBytes: () => Buffer.alloc(32, 7),
-    storeFactory: async () => {
-      throw new Error('HuffSherpa hot path must not open Blobs');
-    },
-    bridgeStoreFactory: async () => store,
-    alertImpl: async () => {
-      throw new Error('must not email');
-    }
+    bridgeStoreFactory: async () => store
   });
   const result = await handler(submission());
   assert.equal(result.statusCode, 200);
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
-  assert.equal(calls.some((call) => call.url === ENDPOINT), true);
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'ACCEPTED' });
+  assert.equal(calls.every((call) => call.url === BRIDGE_ENDPOINT), true);
   assert.equal(store.entries.size, 1);
 });
 
-test('Hopper ingest is gone and no function texts or emails a lead from the bridge', () => {
+test('website lead bridge never texts or emails a lead', () => {
   const functionsRoot = path.join(ROOT, 'netlify/functions');
-  const files = [];
-  function walk(dir) {
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      const absolute = path.join(dir, entry.name);
-      if (entry.isDirectory()) walk(absolute);
-      else if (/\.(js|mjs|cjs)$/.test(entry.name)) files.push(absolute);
-    }
-  }
-  walk(functionsRoot);
-
-  assert.equal(fs.existsSync(path.join(functionsRoot, 'lib/hopper-ingest.js')), false);
-  for (const file of files) {
-    const source = fs.readFileSync(file, 'utf8');
-    const rel = path.relative(ROOT, file);
-    if (rel === 'netlify/functions/meta-lead-webhook.mjs') continue;
-    if (rel === 'netlify/functions/google-lead-webhook.mjs') continue;
-    if (rel === 'netlify/functions/lib/google-ads-crm-relay.mjs') continue;
-    assert.equal(source.includes('HOPPER_LEAD_INGEST_SECRET'), false, rel);
-    assert.equal(source.includes('HOPPER_INGEST_URL'), false, rel);
-    assert.equal(source.includes('huff-health-app.netlify.app'), false, rel);
-    assert.equal(source.includes('forwardGetHelpToHopper'), false, rel);
-  }
-
   const bridge = fs.readFileSync(path.join(functionsRoot, 'lib/lead-bridge.js'), 'utf8');
   assert.equal(bridge.includes('twilio'), false);
   assert.equal(bridge.includes('TWILIO'), false);
