@@ -1,10 +1,11 @@
 'use strict';
 
 /**
- * Forward an accepted website form lead to the Vercel lead bridge.
- * Replaces the unused Hopper ingest path. Never texts or emails a lead.
- * Missing LEAD_BRIDGE_URL / LEAD_BRIDGE_KEY skips delivery. Failures are
- * written to a Blobs outbox and retried by lead-bridge-retry.
+ * Forward an accepted website form lead to the Vercel lead bridge, the
+ * primary CRM destination (HubSpot portal 247504188). Never texts or emails
+ * a lead. Missing LEAD_BRIDGE_URL / LEAD_BRIDGE_KEY is a visible production
+ * failure on the Forms hot path. POST failures are logged, written to a
+ * Blobs outbox, and retried by lead-bridge-retry.
  */
 
 const crypto = require('node:crypto');
@@ -443,6 +444,7 @@ function safeLog(logger, entry) {
   if (entry.status != null) line.status = entry.status;
   try {
     if (typeof logger === 'function') logger(Object.freeze(line));
+    else if (line.outcome === 'FAILED' || line.outcome === 'QUEUED') console.error(JSON.stringify(line));
     else console.info(JSON.stringify(line));
   } catch {
     // Observability must never alter delivery or disclose submission material.

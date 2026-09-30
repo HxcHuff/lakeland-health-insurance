@@ -20,6 +20,9 @@ const DEPLOYMENT_ID = 'AKfycbSYNTHETIC_HUFFSHERPA_DEPLOYMENT_001';
 const ENDPOINT = 'https://script.google.com/macros/s/' + DEPLOYMENT_ID + '/exec';
 const REDIRECT = 'https://script.googleusercontent.com/opaque/content-service/result-v2'
   + '?one_time=SYNTHETIC_USER_CONTENT_KEY_001&deployment=SYNTHETIC_LIBRARY_001';
+const BRIDGE_URL = 'https://google-ads-lead-relay.vercel.app';
+const BRIDGE_ENDPOINT = BRIDGE_URL + '/website/lead';
+const BRIDGE_KEY = 'synthetic-lead-bridge-key-001';
 const NOW = Date.parse('2026-08-27T16:00:00.000Z');
 
 const RELAY_FORMS = [
@@ -125,10 +128,13 @@ function successFetch(calls, beforeFirstRequest = () => {}) {
   return async (url, options) => {
     if (calls.length === 0) beforeFirstRequest();
     calls.push({ url: String(url), options });
-    if (calls.length % 2 === 1) {
-      return new Response(null, { status: 302, headers: { location: REDIRECT } });
+    if (String(url).includes('/website/lead')) {
+      return new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' }
+      });
     }
-    return finalResponse({ ok: true, outcome: 'STAGED', reason: null });
+    throw new Error(`unexpected fetch ${url}`);
   };
 }
 
@@ -138,9 +144,11 @@ function makeHandler(overrides = {}) {
   const store = overrides.store || memoryStore();
   const environment = {
     CONTEXT: 'production',
+    LHI_SITE_ENV: 'production',
+    LEAD_BRIDGE_URL: BRIDGE_URL,
+    LEAD_BRIDGE_KEY: BRIDGE_KEY,
     HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
     HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
-    LHI_SITE_ENV: 'production',
     ...(overrides.environment || {})
   };
   return {
@@ -154,8 +162,9 @@ function makeHandler(overrides = {}) {
       now: overrides.now || (() => NOW),
       randomBytes: overrides.randomBytes || (() => Buffer.alloc(32, 7)),
       storeFactory: overrides.storeFactory || (async () => {
-        throw new Error('Forms hot path must not open the Blobs outbox');
+        throw new Error('retired HuffSherpa path must not open Blobs');
       }),
+      bridgeStoreFactory: overrides.bridgeStoreFactory || (async () => store),
       alertImpl: overrides.alertImpl || (async () => false),
       timeoutMilliseconds: overrides.timeoutMilliseconds
     })
@@ -205,61 +214,51 @@ async function expectRelayFailure(promise, code) {
   ));
 }
 
-test('Forms path posts one minimized canonical HMAC envelope without a Blobs outbox write', async () => {
+test('Forms path posts the website lead to the Vercel bridge and does not call HuffSherpa', async () => {
   const calls = [];
-  let storeFactoryCalls = 0;
+  let huffsherpaStoreCalls = 0;
   const store = memoryStore();
-  store.set = async () => {
-    throw new Error('store.set must not run on the Forms hot path');
-  };
   const fixture = makeHandler({
     store,
     fetchImpl: successFetch(calls, () => assert.equal(store.entries.size, 0)),
     storeFactory: async () => {
-      storeFactoryCalls += 1;
+      huffsherpaStoreCalls += 1;
       return store;
     }
   });
   const result = await fixture.handler(submission());
 
   assert.equal(result.statusCode, 200);
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
-  assert.equal(calls.length, 2);
-  assert.equal(storeFactoryCalls, 0);
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'DELIVERED' });
+  assert.equal(calls.length, 1);
+  assert.equal(huffsherpaStoreCalls, 0);
   assert.equal(store.entries.size, 0);
-  assert.deepEqual(store.history.map((entry) => entry.operation), []);
-  assert.equal(calls[0].url, ENDPOINT);
+  assert.equal(calls[0].url, BRIDGE_ENDPOINT);
   assert.equal(calls[0].options.method, 'POST');
-  assert.equal(calls[0].options.redirect, 'manual');
-  assert.equal(calls[0].options.credentials, 'omit');
-  assert.equal(calls[1].url, REDIRECT);
-  assert.equal(calls[1].options.method, 'GET');
-  assert.equal(calls[1].options.redirect, 'error');
-  assert.equal(calls[1].options.body, undefined);
-  assert.equal(fixture.logs.at(-1).reason, 'direct_preferred');
-  assert.equal(fixture.logs.at(-1).cause, 'blobs_skipped');
+  assert.equal(calls[0].options.headers['x-bridge-key'], BRIDGE_KEY);
+  assert.equal(calls.some((call) => String(call.url).includes('script.google.com')), false);
+  assert.equal(fixture.logs.at(-1).event, 'website_lead_crm_relay');
+  assert.equal(fixture.logs.at(-1).outcome, 'DELIVERED');
+  assert.equal(fixture.logs.at(-1).reason, 'website_lead_bridge');
 
-  const envelope = JSON.parse(calls[0].options.body);
-  const { signature, ...unsigned } = envelope;
-  const expected = crypto.createHmac('sha256', Buffer.from(SECRET, 'utf8'))
-    .update(_test.canonicalJson(unsigned), 'utf8')
-    .digest('base64url');
-  assert.equal(signature, expected);
-  assert.equal(envelope.issuedAt, '2026-08-27T16:00:00.000Z');
-  assert.equal(envelope.nonce, Buffer.alloc(32, 7).toString('base64url'));
-  assert.equal(envelope.payload.form_name, 'get-help');
-  assert.equal(envelope.payload.data.first_name, 'Avery');
-  assert.equal(envelope.payload.data.last_name, 'Fixture');
-  assert.equal(envelope.payload.data.phone, '8635550118');
-  assert.equal(envelope.payload.data.email, 'avery.fixture@example.test');
-  assert.equal(envelope.payload.data.gclid, 'CurrentGclid_CaseSensitive-001');
-  assert.equal(envelope.payload.data.first_gclid, 'FirstGclid_CaseSensitive-002');
-  assert.equal(envelope.payload.data.gad_campaignid, '24123358247');
-  assert.equal(envelope.payload.data.first_gad_campaignid, '23802433323');
-  assert.equal(envelope.payload.data.gbraid, '');
-  assert.equal(envelope.payload.data.wbraid, '');
+  const lead = JSON.parse(calls[0].options.body);
+  assert.equal(lead.source, 'website_form');
+  assert.equal(lead.form_name, 'get-help');
+  assert.equal(lead.first_name, 'Avery');
+  assert.equal(lead.last_name, 'Fixture');
+  assert.equal(lead.phone, '8635550118');
+  assert.equal(lead.email, 'avery.fixture@example.test');
+  assert.equal(lead.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(lead.first_gclid, 'FirstGclid_CaseSensitive-002');
+  assert.equal(lead.gad_campaignid, '24123358247');
+  assert.equal(lead.first_gad_campaignid, '23802433323');
+  assert.equal(Object.hasOwn(lead, 'gbraid'), false);
+  assert.equal(Object.hasOwn(lead, 'wbraid'), false);
+  assert.equal(lead.lhi_gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(lead.lhi_lead_source, 'google_ads_site');
+  assert.equal(lead.lhi_attribution_status, 'click_id_matched');
 
-  const serialized = JSON.stringify(envelope);
+  const serialized = JSON.stringify(lead);
   for (const forbidden of [
     'must-not-forward',
     'Sensitive note',
@@ -269,7 +268,7 @@ test('Forms path posts one minimized canonical HMAC envelope without a Blobs out
     assert.equal(serialized.includes(forbidden), false);
   }
   assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
-  assert.equal(JSON.stringify(fixture.logs).includes(SECRET), false);
+  assert.equal(JSON.stringify(fixture.logs).includes(BRIDGE_KEY), false);
 });
 
 test('relay inventory equals every active non-newsletter form and static Lead blueprint', async () => {
@@ -308,7 +307,8 @@ test('relay inventory equals every active non-newsletter form and static Lead bl
     });
     assert.equal((await fixture.handler(event)).statusCode, 200);
   }
-  assert.equal(fixture.calls.length, RELAY_FORMS.length * 2);
+  assert.equal(fixture.calls.length, RELAY_FORMS.length);
+  assert.equal(fixture.calls.every((call) => call.url === BRIDGE_ENDPOINT), true);
 });
 
 test('newsletters skip without configuration while unknown forms fail visibly', async () => {
@@ -349,17 +349,17 @@ test('shared schema prevents cross-form injection and accepts campaign-only cont
     }
   });
   assert.equal((await fixture.handler(event)).statusCode, 200);
-  const data = JSON.parse(fixture.calls[0].options.body).payload.data;
-  assert.equal(data.email, '');
-  assert.equal(data.phone, '8635550118');
-  assert.equal(data.product_interest, 'ACA');
-  assert.equal(data.gclid, '');
-  assert.equal(data.gad_campaignid, '24123358247');
-  assert.equal(data.first_gad_campaignid, '23802433323');
-  assert.equal(JSON.stringify(data).includes('exfiltrate'), false);
+  const lead = JSON.parse(fixture.calls[0].options.body);
+  assert.equal(lead.email, '');
+  assert.equal(lead.phone, '8635550118');
+  assert.equal(lead.insurance_type, 'ACA');
+  assert.equal(Object.hasOwn(lead, 'gclid'), false);
+  assert.equal(lead.gad_campaignid, '24123358247');
+  assert.equal(lead.first_gad_campaignid, '23802433323');
+  assert.equal(JSON.stringify(lead).includes('exfiltrate'), false);
 });
 
-test('HuffSherpa envelope keeps every valid click ID and drops only malformed values', async () => {
+test('website lead bridge keeps every valid click ID and drops only malformed values', async () => {
   const several = makeHandler();
   assert.equal((await several.handler(submission({
     data: {
@@ -373,13 +373,14 @@ test('HuffSherpa envelope keeps every valid click ID and drops only malformed va
       first_gbraid: 'FirstGbraid_CaseSensitive-005'
     }
   }))).statusCode, 200);
-  const severalData = JSON.parse(several.calls[0].options.body).payload.data;
-  assert.equal(severalData.gclid, 'CurrentGclid_CaseSensitive-001');
-  assert.equal(severalData.gbraid, 'CurrentGbraid_CaseSensitive-003');
-  assert.equal(severalData.wbraid, 'CurrentWbraid_CaseSensitive-004');
-  assert.equal(severalData.first_gclid, 'FirstGclid_CaseSensitive-002');
-  assert.equal(severalData.first_gbraid, 'FirstGbraid_CaseSensitive-005');
-  assert.equal(severalData.gad_campaignid, '24123358247');
+  const severalLead = JSON.parse(several.calls[0].options.body);
+  assert.equal(severalLead.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(severalLead.gbraid, 'CurrentGbraid_CaseSensitive-003');
+  assert.equal(severalLead.wbraid, 'CurrentWbraid_CaseSensitive-004');
+  assert.equal(severalLead.first_gclid, 'FirstGclid_CaseSensitive-002');
+  assert.equal(severalLead.first_gbraid, 'FirstGbraid_CaseSensitive-005');
+  assert.equal(severalLead.gad_campaignid, '24123358247');
+  assert.equal(severalLead.lhi_attribution_status, 'click_id_matched');
 
   const malformed = makeHandler();
   assert.equal((await malformed.handler(submission({
@@ -391,10 +392,10 @@ test('HuffSherpa envelope keeps every valid click ID and drops only malformed va
       wbraid: 'jane@example.com'
     }
   }))).statusCode, 200);
-  const malformedData = JSON.parse(malformed.calls[0].options.body).payload.data;
-  assert.equal(malformedData.gclid, 'CurrentGclid_CaseSensitive-001');
-  assert.equal(malformedData.gbraid, '');
-  assert.equal(malformedData.wbraid, '');
+  const malformedLead = JSON.parse(malformed.calls[0].options.body);
+  assert.equal(malformedLead.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(Object.hasOwn(malformedLead, 'gbraid'), false);
+  assert.equal(Object.hasOwn(malformedLead, 'wbraid'), false);
 
   const none = makeHandler();
   assert.equal((await none.handler(submission({
@@ -403,11 +404,12 @@ test('HuffSherpa envelope keeps every valid click ID and drops only malformed va
       phone: '(863) 555-0118'
     }
   }))).statusCode, 200);
-  const noneData = JSON.parse(none.calls[0].options.body).payload.data;
-  assert.equal(noneData.gclid, '');
-  assert.equal(noneData.gbraid, '');
-  assert.equal(noneData.wbraid, '');
-  assert.equal(noneData.gad_campaignid, '');
+  const noneLead = JSON.parse(none.calls[0].options.body);
+  assert.equal(Object.hasOwn(noneLead, 'gclid'), false);
+  assert.equal(Object.hasOwn(noneLead, 'gbraid'), false);
+  assert.equal(Object.hasOwn(noneLead, 'wbraid'), false);
+  assert.equal(Object.hasOwn(noneLead, 'gad_campaignid'), false);
+  assert.equal(noneLead.lhi_attribution_status, 'manual_review');
 });
 
 test('secret contract requires one canonical 64-character high-diversity base64url value', () => {
@@ -454,15 +456,13 @@ test('unsafe configuration blocks before forwarding', async () => {
     {},
     {
       CONTEXT: 'production',
-      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: 'https://attacker.example/macros/s/replacement/exec',
-      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
       LHI_SITE_ENV: 'production'
     },
     {
       CONTEXT: 'production',
-      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
-      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: 'A'.repeat(64),
-      LHI_SITE_ENV: 'production'
+      LHI_SITE_ENV: 'production',
+      LEAD_BRIDGE_URL: BRIDGE_URL,
+      LEAD_BRIDGE_KEY: 'placeholder'
     }
   ]) {
     let calls = 0;
@@ -537,7 +537,8 @@ test('form-event production context allows missing CONTEXT when LHI_SITE_ENV is 
     }
   });
   assert.equal((await allowed.handler(submission())).statusCode, 200);
-  assert.equal(allowed.calls.length, 2);
+  assert.equal(allowed.calls.length, 1);
+  assert.equal(allowed.calls[0].url, BRIDGE_ENDPOINT);
 
   for (const context of ['deploy-preview', 'branch-deploy', 'dev']) {
     let storeCalls = 0;
@@ -643,8 +644,12 @@ test('store factory calls connectLambda immediately before getStore for Lambda e
   });
   const retryEvent = { blobs: blobsPayload, headers: { 'x-nf-site-id': siteID } };
   const retryResult = await retry(retryEvent);
-  assert.equal(JSON.parse(retryResult.body).outcome, 'RECONCILED');
-  assert.equal(retryEvents[0], retryEvent);
+  assert.deepEqual(JSON.parse(retryResult.body), {
+    ok: true,
+    outcome: 'SKIPPED',
+    reason: 'huffsherpa_retired'
+  });
+  assert.equal(retryEvents.length, 0);
 
   await assert.rejects(
     _test.createProductionStoreFactory({
@@ -706,59 +711,47 @@ test('network failure on leftover outbox stays PENDING and retry after five minu
     storeFactory: async () => store
   });
   const result = await retry();
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'RECONCILED', processed: 1 });
-  assert.equal(store.entries.size, 0);
-  const retried = JSON.parse(retryCalls[0].options.body);
-  assert.equal(retried.issuedAt, new Date(retryNow).toISOString());
-  assert.equal(retried.nonce, Buffer.alloc(32, 9).toString('base64url'));
-  assert.equal(retried.payload.submission_id, '0123456789abcdef01234567');
+  assert.deepEqual(JSON.parse(result.body), {
+    ok: true,
+    outcome: 'SKIPPED',
+    reason: 'huffsherpa_retired'
+  });
+  assert.equal(store.entries.size, 1);
+  assert.equal(retryCalls.length, 0);
 });
 
-test('Forms path controlled rejection has no outbox record; leftover retry still quarantines', async () => {
+test('bridge failure queues the lead, logs it, and fails the function visibly', async () => {
   const alerts = [];
   const fixture = makeHandler({
     alertImpl: async (entry) => { alerts.push(entry); return true; },
-    fetchImpl: async (url) => {
-      if (String(url) === ENDPOINT) {
-        return new Response(null, { status: 302, headers: { location: REDIRECT } });
-      }
-      return finalResponse({
-        ok: false,
-        outcome: 'REJECTED',
-        reason: 'attribution_source_conflict'
-      });
-    }
+    fetchImpl: async () => new Response(null, { status: 500 })
   });
-  await expectRelayFailure(fixture.handler(submission()), 'attribution_source_conflict');
-  assert.equal(fixture.store.entries.size, 0);
+  await expectRelayFailure(fixture.handler(submission()), 'upstream_500');
+  assert.equal(fixture.store.entries.size, 1);
+  const queued = [...fixture.store.entries.values()][0];
+  assert.equal(queued.metadata.state, 'PENDING');
+  assert.equal(queued.metadata.last_reason, 'upstream_500');
   assert.equal(alerts.length, 0);
+  assert.equal(fixture.logs.some((entry) => entry.event === 'website_lead_bridge' && entry.outcome === 'QUEUED'), true);
+  assert.equal(fixture.logs.at(-1).outcome, 'FAILED');
   assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
 
-  const store = memoryStore();
-  await seedOutbox(store);
+  const leftover = memoryStore();
+  await seedOutbox(leftover);
   const retryAlerts = [];
   const retry = productionRetry({
-    storeFactory: async () => store,
+    storeFactory: async () => leftover,
     alertImpl: async (entry) => { retryAlerts.push(entry); return true; },
-    fetchImpl: async (url) => {
-      if (String(url) === ENDPOINT) {
-        return new Response(null, { status: 302, headers: { location: REDIRECT } });
-      }
-      return finalResponse({
-        ok: false,
-        outcome: 'REJECTED',
-        reason: 'attribution_source_conflict'
-      });
-    }
+    fetchImpl: async () => { throw new Error('retired HuffSherpa retry must not POST'); }
   });
   const result = await retry();
-  assert.equal(JSON.parse(result.body).processed, 1);
-  const quarantined = [...store.entries.values()][0];
-  assert.equal(quarantined.metadata.state, 'QUARANTINED');
-  assert.equal(quarantined.metadata.last_reason, 'attribution_source_conflict');
-  assert.ok(quarantined.metadata.alerted_at);
-  assert.equal(retryAlerts.length, 1);
-  assert.equal(JSON.stringify(retryAlerts).includes('Avery'), false);
+  assert.deepEqual(JSON.parse(result.body), {
+    ok: true,
+    outcome: 'SKIPPED',
+    reason: 'huffsherpa_retired'
+  });
+  assert.equal(leftover.entries.size, 1);
+  assert.equal(retryAlerts.length, 0);
 });
 
 test('the hard retry ceiling produces one visible alerted FAILED item', async () => {
@@ -781,13 +774,14 @@ test('the hard retry ceiling produces one visible alerted FAILED item', async ()
     alertImpl: async (entry) => { alerts.push(entry); return true; }
   });
   const result = await retry();
-  assert.equal(JSON.parse(result.body).processed, 1);
-  const failed = [...store.entries.values()][0];
-  assert.equal(failed.metadata.state, 'FAILED');
-  assert.equal(failed.metadata.attempt_count, String(_test.OUTBOX.maximumAttempts));
-  assert.ok(failed.metadata.alerted_at);
-  assert.equal(alerts.length, 1);
-  assert.equal(JSON.stringify(alerts).includes('Avery'), false);
+  assert.deepEqual(JSON.parse(result.body), {
+    ok: true,
+    outcome: 'SKIPPED',
+    reason: 'huffsherpa_retired'
+  });
+  const leftover = [...store.entries.values()][0];
+  assert.equal(leftover.metadata.attempt_count, String(_test.OUTBOX.maximumAttempts - 1));
+  assert.equal(alerts.length, 0);
   assert.equal(attempt.payload.form_name, 'get-help');
 });
 
@@ -802,38 +796,29 @@ test('retention expiry purges minimized PII but leaves a visible FAILED tombston
   });
   await retry();
   assert.equal(store.entries.size, 1);
-  const terminal = [...store.entries.values()][0];
-  assert.deepEqual(JSON.parse(terminal.data), { version: 1 });
-  assert.equal(terminal.metadata.state, 'FAILED');
-  assert.equal(terminal.metadata.pii_purged, 'true');
-  assert.equal(terminal.data.includes('Avery'), false);
+  const leftover = [...store.entries.values()][0];
+  assert.equal(JSON.parse(leftover.data).form_name, 'get-help');
+  assert.equal(leftover.metadata.pii_purged, undefined);
 });
 
-test('bounded final response rejects unsafe output without writing an outbox record', async (t) => {
-  const cases = [
-    ['cacheable', finalResponse({ ok: true, outcome: 'STAGED', reason: null }, { 'cache-control': 'public, max-age=60' })],
-    ['wrong content type', new Response('ok', { status: 200, headers: { 'content-type': 'text/plain' } })],
-    ['extra field', finalResponse({ ok: true, outcome: 'STAGED', reason: null, detail: 'unsafe' })],
-    ['unknown outcome', finalResponse({ ok: true, outcome: 'MAYBE', reason: null })],
-    ['oversized body', finalResponse({ padding: 'x'.repeat(5000) })],
-    ['second redirect', new Response(null, { status: 302, headers: { location: 'https://attacker.example/' } })]
-  ];
-  for (const [name, unsafeResponse] of cases) {
-    await t.test(name, async () => {
-      let calls = 0;
-      const fixture = makeHandler({
-        fetchImpl: async () => {
-          calls += 1;
-          if (calls === 1) return new Response(null, { status: 302, headers: { location: REDIRECT } });
-          return unsafeResponse;
-        }
+test('website leads never POST to the retired HuffSherpa Apps Script receiver', async () => {
+  const calls = [];
+  const fixture = makeHandler({
+    fetchImpl: async (url, options) => {
+      calls.push({ url: String(url), options });
+      if (String(url).includes('script.google.com') || String(url).includes('script.googleusercontent.com')) {
+        throw new Error('retired HuffSherpa receiver must not be called');
+      }
+      return new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' }
       });
-      await expectRelayFailure(fixture.handler(submission()), 'upstream_response_unsafe');
-      assert.equal(calls, 2);
-      assert.equal(fixture.store.entries.size, 0);
-      assert.equal(fixture.logs.at(-1).reason, 'upstream_response_unsafe');
-    });
-  }
+    }
+  });
+  const result = await fixture.handler(submission());
+  assert.equal(result.statusCode, 200);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].url, BRIDGE_ENDPOINT);
 });
 
 test('malformed bodies and identifiers fail before storage or forwarding', async () => {
@@ -853,6 +838,29 @@ test('malformed bodies and identifiers fail before storage or forwarding', async
   assert.equal(fixture.store.entries.size, 0);
 });
 
+test('website CRM works without leftover HuffSherpa env vars and does not schedule HuffSherpa retry', async () => {
+  const calls = [];
+  const handler = createSubmissionCreatedHandler({
+    environment: {
+      CONTEXT: 'production',
+      LHI_SITE_ENV: 'production',
+      LEAD_BRIDGE_URL: BRIDGE_URL,
+      LEAD_BRIDGE_KEY: BRIDGE_KEY
+    },
+    fetchImpl: successFetch(calls),
+    logger: () => {},
+    now: () => NOW,
+    bridgeStoreFactory: async () => memoryStore()
+  });
+  const result = await handler(submission());
+  assert.equal(result.statusCode, 200);
+  assert.equal(calls[0].url, BRIDGE_ENDPOINT);
+
+  const toml = fs.readFileSync(path.join(ROOT, 'netlify.toml'), 'utf8');
+  assert.doesNotMatch(toml, /\[functions\."huffsherpa-relay-retry"\][\s\S]*schedule/);
+  assert.match(toml, /\[functions\."lead-bridge-retry"\]\s*\n\s*schedule/);
+});
+
 test('submission-created does not call Hopper', () => {
   const source = fs.readFileSync(
     path.join(ROOT, 'netlify/functions/submission-created.js'),
@@ -867,7 +875,7 @@ test('submission-created does not call Hopper', () => {
   assert.equal(fs.existsSync(path.join(ROOT, 'netlify/functions/lib/hopper-ingest.js')), false);
 });
 
-test('Forms path posts directly without needing a working store.set', async () => {
+test('successful bridge delivery does not need a working HuffSherpa or bridge outbox write', async () => {
   const blobsError = new Error('strong consistency could not be confirmed');
   blobsError.name = 'BlobsConsistencyError';
   blobsError.code = 'BlobsConsistencyError';
@@ -885,35 +893,31 @@ test('Forms path posts directly without needing a working store.set', async () =
     storeFactory: async () => {
       factoryCalls += 1;
       return store;
+    },
+    bridgeStoreFactory: async () => {
+      factoryCalls += 1;
+      return store;
     }
   });
   const result = await fixture.handler(submission());
 
   assert.equal(result.statusCode, 200);
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'DELIVERED' });
   assert.equal(factoryCalls, 0);
   assert.equal(setCalls, 0);
-  assert.equal(calls.length, 2);
-  assert.equal(calls[0].url, ENDPOINT);
-  assert.equal(calls[0].options.method, 'POST');
-  assert.equal(calls[1].url, REDIRECT);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].url, BRIDGE_ENDPOINT);
   assert.equal(store.entries.size, 0);
-  assert.equal(fixture.logs.at(-1).outcome, 'STAGED');
-  assert.equal(fixture.logs.at(-1).reason, 'direct_preferred');
-  assert.equal(fixture.logs.at(-1).cause, 'blobs_skipped');
+  assert.equal(fixture.logs.at(-1).outcome, 'DELIVERED');
+  assert.equal(fixture.logs.at(-1).reason, 'website_lead_bridge');
   assert.equal(JSON.stringify(fixture.logs).includes('confirmed'), false);
   assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
-  assert.equal(JSON.stringify(fixture.logs).includes(SECRET), false);
+  assert.equal(JSON.stringify(fixture.logs).includes(BRIDGE_KEY), false);
 
-  const envelope = JSON.parse(calls[0].options.body);
-  const { signature, ...unsigned } = envelope;
-  const expected = crypto.createHmac('sha256', Buffer.from(SECRET, 'utf8'))
-    .update(_test.canonicalJson(unsigned), 'utf8')
-    .digest('base64url');
-  assert.equal(signature, expected);
-  assert.equal(envelope.payload.form_name, 'get-help');
-  assert.equal(envelope.payload.data.phone, '8635550118');
-  assert.equal(envelope.payload.data.email, 'avery.fixture@example.test');
+  const lead = JSON.parse(calls[0].options.body);
+  assert.equal(lead.form_name, 'get-help');
+  assert.equal(lead.phone, '8635550118');
+  assert.equal(lead.email, 'avery.fixture@example.test');
 });
 
 test('unavailable Blobs storeFactory does not delay the Forms direct POST', async () => {
@@ -927,15 +931,15 @@ test('unavailable Blobs storeFactory does not delay the Forms direct POST', asyn
   const result = await fixture.handler(submission());
 
   assert.equal(result.statusCode, 200);
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
-  assert.equal(calls.length, 2);
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'DELIVERED' });
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].url, BRIDGE_ENDPOINT);
   assert.equal(fixture.store.entries.size, 0);
-  assert.equal(fixture.logs.at(-1).outcome, 'STAGED');
-  assert.equal(fixture.logs.at(-1).reason, 'direct_preferred');
-  assert.equal(fixture.logs.at(-1).cause, 'blobs_skipped');
+  assert.equal(fixture.logs.at(-1).outcome, 'DELIVERED');
+  assert.equal(fixture.logs.at(-1).reason, 'website_lead_bridge');
   assert.equal(JSON.stringify(fixture.logs).includes('configured'), false);
   assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
-  assert.equal(JSON.stringify(fixture.logs).includes(SECRET), false);
+  assert.equal(JSON.stringify(fixture.logs).includes(BRIDGE_KEY), false);
 });
 
 test('retry still rejects leftover outbox payload drift', async () => {
@@ -963,23 +967,24 @@ test('retry still rejects leftover outbox payload drift', async () => {
   assert.equal(store.entries.size, 1);
 });
 
-test('direct Forms delivery fails closed without a retry record', async () => {
+test('bridge network failure still fails visibly when the outbox cannot open', async () => {
   const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
   blobsError.name = 'MissingBlobsEnvironmentError';
   const fixture = makeHandler({
     fetchImpl: async () => { throw new Error('synthetic network failure'); },
-    storeFactory: async () => { throw blobsError; }
+    storeFactory: async () => { throw blobsError; },
+    bridgeStoreFactory: async () => { throw blobsError; }
   });
   await expectRelayFailure(fixture.handler(submission()), 'upstream_network_error');
   assert.equal(fixture.store.entries.size, 0);
+  assert.equal(fixture.logs.some((entry) => entry.event === 'website_lead_bridge' && entry.outcome === 'FAILED'), true);
   assert.equal(fixture.logs.at(-1).outcome, 'FAILED');
   assert.equal(fixture.logs.at(-1).reason, 'upstream_network_error');
-  assert.equal(fixture.logs.at(-1).cause, undefined);
   assert.equal(JSON.stringify(fixture.logs).includes('configured'), false);
   assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
 });
 
-test('preview and branch events never fall back to direct Apps Script delivery', async () => {
+test('preview and branch events never fall back to the Vercel bridge or HuffSherpa', async () => {
   let networkCalls = 0;
   const handler = createSubmissionCreatedHandler({
     environment: {
@@ -996,14 +1001,24 @@ test('preview and branch events never fall back to direct Apps Script delivery',
   assert.equal(networkCalls, 0);
 });
 
-test('scheduled retry still fails closed when the outbox cannot open', async () => {
+test('scheduled HuffSherpa retry is retired and does not open the outbox or POST', async () => {
   const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
   blobsError.name = 'MissingBlobsEnvironmentError';
   let networkCalls = 0;
+  let storeCalls = 0;
   const retry = productionRetry({
     fetchImpl: async () => { networkCalls += 1; },
-    storeFactory: async () => { throw blobsError; }
+    storeFactory: async () => {
+      storeCalls += 1;
+      throw blobsError;
+    }
   });
-  await expectRelayFailure(retry(), 'outbox_unavailable');
+  const result = await retry();
+  assert.deepEqual(JSON.parse(result.body), {
+    ok: true,
+    outcome: 'SKIPPED',
+    reason: 'huffsherpa_retired'
+  });
   assert.equal(networkCalls, 0);
+  assert.equal(storeCalls, 0);
 });

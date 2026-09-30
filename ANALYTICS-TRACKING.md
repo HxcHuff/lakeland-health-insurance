@@ -143,6 +143,17 @@ Measurement boundaries are intentionally separate:
 | `LEAD_FORMS_ORIGIN` | Server only | No | Fixed origin used for Netlify Forms forwarding. Defaults through `DEPLOY_URL`, `DEPLOY_PRIME_URL`, `URL`, then the production site. Never derive it from the request `Host`. |
 | `LEAD_ALLOWED_ORIGINS` | Server only | No | Additional comma-separated CORS/source origins. Production, `URL`, `DEPLOY_PRIME_URL`, and `DEPLOY_URL` are included when configured. |
 
+### Website CRM (Netlify Forms → Vercel bridge)
+
+Allowlisted website form submissions post to `{LEAD_BRIDGE_URL}/website/lead`. That bridge writes HubSpot portal 247504188. HuffSherpa is retired on this path. A failed or missing bridge call is logged and must not drop the lead silently. Mailchimp and Meta CAPI stay on `/api/lead` and do not depend on HuffSherpa.
+
+| Variable | Surface | Required | Notes |
+|---|---|---:|---|
+| `LEAD_BRIDGE_URL` / `LEAD_BRIDGE_KEY` | Server only | Yes, for website CRM | Primary destination. Placeholder keys are rejected. |
+| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Server only | Unused for website leads | Leftover Apps Script URL. Website Forms no longer read it. Still used by the separate Google-hosted lead webhook. Do not delete in Netlify until David says so. |
+| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Server only | Unused for website leads | Leftover HMAC secret. Same as above. |
+| `HUFFSHERPA_RELAY_ALERT_EMAIL` | Server only | Unused for website leads | Leftover HuffSherpa alert address. Website Forms no longer send it. |
+
 ### Google Ads Lead-Form Webhook Controls
 
 - Google delivery is not exactly once. The webhook validates and bounds the payload, authenticates the exact approved form with its unique Google key, and atomically creates a minimized site-scoped Netlify Blobs outbox record before any CRM delivery attempt.
@@ -157,8 +168,8 @@ Measurement boundaries are intentionally separate:
 | `GOOGLE_LEAD_FORM_ID_ALLOWLIST` | Server only | Yes | Must be exactly `357496832026,398917236265` in that order. |
 | `GOOGLE_LEAD_WEBHOOK_KEY_357496832026` | Server only | Yes | Unique high-entropy Google key for the approved ACA form. Never expose, persist, or log it. |
 | `GOOGLE_LEAD_WEBHOOK_KEY_398917236265` | Server only | Yes | Different unique high-entropy Google key for the approved Medicare form. Never expose, persist, or log it. |
-| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Server only | Yes | Pinned production Apps Script `/exec` receiver URL. |
-| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Server only | Yes | Independent 48-byte random secret encoded as 64 unpadded base64url characters. |
+| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Server only | Yes, for Google-hosted leads | Apps Script URL for the C1 Google Ads lead-form webhook only. Website Forms no longer read it. |
+| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Server only | Yes, for Google-hosted leads | HMAC secret for that Google-hosted webhook only. |
 | `MAILCHIMP_API_KEY` | Server only | Yes, for audience sync | Runtime Mailchimp API key. If unset, Mailchimp is skipped with a one-line warning. Never log or commit it. |
 | `MAILCHIMP_AUDIENCE_ID` | Server only | Yes, for audience sync | Audience / list id. Production value `cd34641e14`. |
 | `MAILCHIMP_DC` | Server only | Yes, for audience sync | Data-center prefix. Production value `us17`. |

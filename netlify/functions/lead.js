@@ -180,6 +180,8 @@ const MEDICARE_GENERAL_INTAKE_EXCLUDED_FIELDS = new Set([
 ]);
 
 const NEWSLETTER_FORMS = new Set(['homepage-newsletter', 'newsletter-signup']);
+// Website sales/service forms forwarded to the Vercel lead bridge.
+// Name is historical; HuffSherpa is retired for this path.
 const HUFFSHERPA_RELAY_FORMS = new Set([
   'get-help',
   'aca-lakeland-lead',

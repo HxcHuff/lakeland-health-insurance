@@ -4,37 +4,36 @@
  * Legacy Netlify Forms event function.
  *
  * Netlify invokes this file after a submission has already been accepted and
- * retained. Allowlisted sales forms are minimized and forwarded as an HMAC
- * envelope to the administrator-owned HuffSherpa Apps Script staging endpoint
- * (IMPORT STAGING). The function never sends a Google Ads conversion and never
- * changes campaign configuration.
+ * retained. Allowlisted website leads are posted to the Vercel website-lead
+ * bridge (`{LEAD_BRIDGE_URL}/website/lead`), which writes HubSpot portal
+ * 247504188. HuffSherpa is retired for website leads and is not called.
+ * Hopper is not called. The function never texts or emails a lead.
  *
- * Delivery posts the signed envelope directly to
- * HUFFSHERPA_LEAD_WEBHOOK_URL_V1. The Forms hot path does not open or write
- * the HuffSherpa Blobs outbox. Scheduled `huffsherpa-relay-retry` may still
- * drain leftover outbox keys; if Blobs is unavailable, retry fails closed.
+ * A failed or unconfigured bridge call is logged and queued to
+ * `website-lead-bridge-outbox-v1` when Blobs is available, then the
+ * invocation is rejected so the failure is visible in Functions logs.
+ * `lead-bridge-retry` drains that outbox. The original Netlify Forms
+ * submission remains the source of truth.
+ *
  * Preview, branch, and non-production CONTEXT values remain fail-closed.
  *
- * After production context is confirmed, allowlisted website leads are also
- * posted to `{LEAD_BRIDGE_URL}/website/lead` when `LEAD_BRIDGE_URL` and
- * `LEAD_BRIDGE_KEY` are set. Hopper is not called. A failed bridge POST is
- * written to a separate Blobs outbox and retried by `lead-bridge-retry`.
- * Bridge failures never change HuffSherpa delivery, Forms storage, or
- * NOTIFY_EMAIL. The bridge path never texts or emails a lead.
+ * Required production environment variables:
+ *   LEAD_BRIDGE_URL
+ *   LEAD_BRIDGE_KEY
  *
- * HuffSherpa activation remains blocked until both environment variables are
- * provisioned:
+ * Unused leftover HuffSherpa env vars are not read on this path:
  *   HUFFSHERPA_LEAD_WEBHOOK_URL_V1
  *   HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1
- *
- * This file is a Lambda-compatibility handler (`exports.handler`). Netlify
- * Blobs ambient context is not auto-configured in that mode. The retry outbox
- * factory still calls `connectLambda(event)` immediately before `getStore`.
+ *   HUFFSHERPA_RELAY_ALERT_EMAIL
  */
 
 const crypto = require('node:crypto');
 const { relaySchema } = require('./lead.js');
-const { buildWebsiteLeadPayload, deliverWebsiteLead } = require('./lib/lead-bridge');
+const {
+  buildWebsiteLeadPayload,
+  deliverWebsiteLead,
+  readBridgeConfig
+} = require('./lib/lead-bridge');
 
 const PROTOCOL = Object.freeze({
   envelopeSource: 'netlify',
@@ -1058,9 +1057,13 @@ function productionLogger(entry) {
   }
 }
 
+function requireBridgeConfiguration(environment) {
+  if (!readBridgeConfig(environment)) fail('bridge_configuration_missing', 503);
+}
+
 function safeLog(logger, formName, outcome, reason, cause) {
   const entry = {
-    event: 'huffsherpa_netlify_submission_relay',
+    event: 'website_lead_crm_relay',
     form_name: relaySchema.formNames.includes(formName) ? formName : null,
     outcome,
     reason: reason || null
@@ -1095,7 +1098,9 @@ function createCrmRelayHandler({
       }
       formName = normalized.formName;
       requireProductionContext(environment);
-      await deliverWebsiteLead({
+      requireBridgeConfiguration(environment);
+      if (!normalized.websiteLead) fail('incomplete_lead', 400);
+      const delivered = await deliverWebsiteLead({
         lead: normalized.websiteLead,
         environment,
         fetchImpl,
@@ -1108,26 +1113,14 @@ function createCrmRelayHandler({
         clearTimer,
         timeoutMilliseconds
       });
-      const configuration = validateConfiguration(environment);
-      const requestBody = buildEnvelope(
-        normalized.payload,
-        configuration.secret,
-        Number(now()),
-        randomBytes
-      );
-      const result = await postEnvelope({
-        body: requestBody,
-        endpoint: configuration.endpoint,
-        fetchImpl,
-        setTimer,
-        clearTimer,
-        timeoutMilliseconds
-      });
-      if (!result.ok) {
-        throw new SubmissionRelayError(result.reason, 502);
+      if (!delivered || delivered.ok !== true) {
+        fail(
+          (delivered && delivered.reason) || 'bridge_delivery_failed',
+          502
+        );
       }
-      safeLog(logger, formName, result.outcome, 'direct_preferred', 'blobs_skipped');
-      return response(200, { ok: true, outcome: result.outcome });
+      safeLog(logger, formName, 'DELIVERED', 'website_lead_bridge');
+      return response(200, { ok: true, outcome: 'DELIVERED' });
     } catch (error) {
       const controlled = error instanceof SubmissionRelayError
         ? error
@@ -1225,121 +1218,14 @@ async function retryStoredAttempt({
 }
 
 function createRetryHandler({
-  environment = process.env,
-  fetchImpl = globalThis.fetch,
-  logger = productionLogger,
-  now = () => Date.now(),
-  randomBytes = crypto.randomBytes,
-  blobsImport,
-  storeFactory,
-  alertImpl = productionAlert,
-  setTimer = setTimeout,
-  clearTimer = clearTimeout,
-  timeoutMilliseconds = PROTOCOL.timeoutMilliseconds
+  logger = productionLogger
 } = {}) {
-  const resolvedStoreFactory = typeof storeFactory === 'function'
-    ? storeFactory
-    : createProductionStoreFactory({ environment, blobsImport });
-  return async function huffSherpaRelayRetryHandler(event) {
-    requireProductionContext(environment);
-    const configuration = validateConfiguration(environment);
-    const store = await requireOutboxStore(resolvedStoreFactory, true, event);
-    let listing;
-    try {
-      listing = await store.list({ prefix: OUTBOX.keyPrefix });
-    } catch (error) {
-      throw new SubmissionRelayError(
-        'outbox_unavailable',
-        503,
-        error instanceof SubmissionRelayError ? error.causeCode : controlledErrorCause(error)
-      );
-    }
-    const blobs = listing && Array.isArray(listing.blobs) ? listing.blobs : [];
-    const nowMilliseconds = Number(now());
-    const due = [];
-    for (const item of blobs) {
-      if (!item || typeof item.key !== 'string' || !item.key.startsWith(OUTBOX.keyPrefix)) continue;
-      let record;
-      try {
-        record = await readOutboxRecord(store, item.key);
-        if (!record) continue;
-        const metadata = record.metadata || {};
-        const state = String(metadata.state || 'PENDING');
-        const metadataFormName = relaySchema.formNames.includes(metadata.form_name)
-          ? metadata.form_name
-          : null;
-        if (metadata.pii_purged === 'true') {
-          if (state !== 'FAILED' || !metadataFormName) fail('outbox_record_invalid', 503);
-          continue;
-        }
-        const storedPayload = parseStoredPayload(record.data);
-        const formName = relaySchema.formNames.includes(storedPayload.form_name)
-          ? storedPayload.form_name
-          : null;
-        if (!formName) fail('outbox_record_invalid', 503);
-        const expiresAt = readOutboxDate(metadata, 'expires_at', 0);
-        if (!expiresAt || expiresAt <= nowMilliseconds) {
-          await purgeExpiredOutboxPayload({
-            alertImpl,
-            environment,
-            fetchImpl,
-            formName,
-            key: item.key,
-            metadata,
-            nowMilliseconds,
-            payload: storedPayload,
-            store,
-            storedData: record.data
-          });
-          safeLog(logger, formName, 'FAILED', 'retention_expired');
-          continue;
-        }
-        if (state === 'QUARANTINED' || state === 'FAILED') {
-          await alertIfNeeded({
-            attempt: Object.freeze({
-              key: item.key,
-              metadata,
-              payload: storedPayload,
-              state,
-              storedData: record.data
-            }),
-            alertImpl,
-            environment,
-            fetchImpl,
-            nowMilliseconds,
-            store
-          });
-          continue;
-        }
-        if (state !== 'ATTEMPTING' && state !== 'PENDING') fail('outbox_record_invalid', 503);
-        const nextAttemptAt = readOutboxDate(metadata, 'next_attempt_at', 0);
-        if (state === 'ATTEMPTING' || state === 'PENDING' && nextAttemptAt <= nowMilliseconds) {
-          due.push(record);
-          if (due.length >= OUTBOX.maximumBatchSize) break;
-        }
-      } catch (error) {
-        const reason = error instanceof SubmissionRelayError ? error.code : 'relay_internal_error';
-        safeLog(logger, null, 'FAILED', reason);
-      }
-    }
-    const outcomes = await Promise.all(due.map((record) => retryStoredAttempt({
-      record,
-      configuration,
-      store,
-      environment,
-      fetchImpl,
-      logger,
-      now,
-      randomBytes,
-      alertImpl,
-      setTimer,
-      clearTimer,
-      timeoutMilliseconds
-    })));
+  return async function huffSherpaRelayRetryHandler() {
+    safeLog(logger, null, 'SKIPPED', 'huffsherpa_retired');
     return response(200, {
       ok: true,
-      outcome: 'RECONCILED',
-      processed: outcomes.length
+      outcome: 'SKIPPED',
+      reason: 'huffsherpa_retired'
     });
   };
 }
@@ -1365,6 +1251,7 @@ exports._test = Object.freeze({
   parseUpstreamResponse,
   prepareOutboxAttempt,
   retryDelay,
+  requireBridgeConfiguration,
   requireProductionContext,
   validateConfiguration,
   validateContentServiceRedirect,

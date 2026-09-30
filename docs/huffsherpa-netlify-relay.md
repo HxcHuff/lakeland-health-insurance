@@ -1,43 +1,42 @@
 # HuffSherpa Netlify lead relay
 
-Status: **implemented in live `submission-created` as the Forms-to-CRM
-path**. Allowlisted submissions, including `get-help`, are staged into HuffSherpa
-IMPORT STAGING through the signed Apps Script webhook. Hopper is not called.
-When `LEAD_BRIDGE_URL` and `LEAD_BRIDGE_KEY` are set, the same allowlisted
-website leads are also posted to `{LEAD_BRIDGE_URL}/website/lead`. A failed
-bridge call is retried from the website-lead-bridge Blobs outbox.
+Status: **retired for website leads**. HuffSherpa is no longer the CRM
+destination for Netlify Forms. Allowlisted website submissions, including
+`get-help`, post to `{LEAD_BRIDGE_URL}/website/lead`. That Vercel bridge
+writes HubSpot portal 247504188. Hopper is not called. A failed bridge call
+is logged, queued in `website-lead-bridge-outbox-v1`, retried by
+`lead-bridge-retry`, and the Forms function invocation is rejected so the
+failure is visible. The leftover HuffSherpa Apps Script contract below is
+historical. Do not schedule `huffsherpa-relay-retry`.
 
 ## Event boundary
 
 Netlify invokes `netlify/functions/submission-created.js` only after Forms has
-accepted and retained a submission. The function minimizes allowlisted
-sales/service forms and posts a signed HMAC envelope to IMPORT STAGING.
+accepted and retained a submission. Allowlisted sales/service forms are
+minimized and posted to the Vercel website-lead bridge. HuffSherpa is not
+called. Hopper is not called. Mailchimp and Meta CAPI stay on `/api/lead`
+and do not depend on this file.
 
 Delivery order:
 
-1. **Website lead bridge** — after production context is confirmed, allowlisted
-   Forms events, including `get-help` and the other sales/service forms, POST
-   `{LEAD_BRIDGE_URL}/website/lead` with `x-bridge-key: {LEAD_BRIDGE_KEY}` when
-   those env vars are present. Missing configuration skips the bridge without
-   changing HuffSherpa or Netlify Forms storage. A failed bridge POST is
-   written to `website-lead-bridge-outbox-v1` and drained by
-   `lead-bridge-retry`. This path never texts or emails a lead and never
-   calls Hopper.
-2. **Direct signed POST** — allowlisted Forms events, including `get-help`,
-   post the HMAC envelope immediately to `HUFFSHERPA_LEAD_WEBHOOK_URL_V1`.
-   The Forms hot path does not open or write the HuffSherpa Blobs outbox.
-   Success logs `direct_preferred` with controlled non-PII cause
-   `blobs_skipped`. Direct delivery has no HuffSherpa retry record; the
-   original Netlify Forms submission remains the source of truth. Signature,
-   configuration, and context errors still fail closed without a HuffSherpa
-   POST.
-3. **Scheduled HuffSherpa outbox drain** — `huffsherpa-relay-retry` may still
-   list and retry leftover keys in the HuffSherpa Blob store. If Blobs is
-   unavailable, retry fails closed: the scheduled function has no Forms body
-   to re-send.
+1. **Website lead bridge (primary CRM)** — after production context is
+   confirmed, allowlisted Forms events POST `{LEAD_BRIDGE_URL}/website/lead`
+   with `x-bridge-key: {LEAD_BRIDGE_KEY}`. Missing `LEAD_BRIDGE_URL` /
+   `LEAD_BRIDGE_KEY` on the production Forms hot path is a visible failure
+   (`bridge_configuration_missing`). A failed bridge POST is logged, written
+   to `website-lead-bridge-outbox-v1` when Blobs is available, retried by
+   `lead-bridge-retry`, and the function invocation is rejected so the
+   failure is visible. This path never texts or emails a lead.
+2. **Retired HuffSherpa path** — the Forms handler no longer reads
+   `HUFFSHERPA_*` env vars and never POSTs the Apps Script envelope.
+   `huffsherpa-relay-retry` remains deployed as a no-op
+   (`SKIPPED` / `huffsherpa_retired`) and is not scheduled.
 
 Preview, branch, and `dev` `CONTEXT` values stay fail-closed and never POST
-the envelope.
+to the bridge.
+
+The leftover HMAC envelope helpers and fixture below are historical. They
+are not used by the website-lead handlers.
 
 The CRM relay accepts the legacy `submission-created` event shape and forwards
 only these exact sales/service forms:
@@ -155,13 +154,20 @@ contexts.
 
 | Name | Exact requirement |
 | --- | --- |
-| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Exact HTTPS Apps Script deployment URL `https://script.google.com/macros/s/<deployment-id>/exec` |
-| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | 48 random bytes encoded as 64 unpadded base64url characters; independent of the Google Ads CRM form keys |
+| `LEAD_BRIDGE_URL` | HTTPS origin of the Vercel lead bridge. The function posts `{LEAD_BRIDGE_URL}/website/lead`. |
+| `LEAD_BRIDGE_KEY` | Shared bridge key sent as `x-bridge-key`. Placeholder values are rejected. |
 
-Optional metadata-only terminal alerts reuse `RESEND_API_KEY` plus
-`HUFFSHERPA_RELAY_ALERT_EMAIL` or `NOTIFY_EMAIL`. The CRM path requires
-`LHI_SITE_ENV=production` before it will POST the signed envelope.
-`CONTEXT=production` is accepted when present. Netlify Forms event
+Website Forms no longer read these leftover HuffSherpa variables. Do not
+delete them in Netlify until David says so:
+
+| Name | Status |
+| --- | --- |
+| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Unused for website leads. Still used by the separate Google-hosted lead webhook. |
+| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Unused for website leads. Same as above. |
+| `HUFFSHERPA_RELAY_ALERT_EMAIL` | Unused for website leads. The website Forms path no longer emails on CRM failure. |
+
+The CRM path requires `LHI_SITE_ENV=production` before it will POST the
+bridge. `CONTEXT=production` is accepted when present. Netlify Forms event
 functions may omit `CONTEXT`; that omission is allowed only alongside
 `LHI_SITE_ENV=production`. Explicit `deploy-preview`, `branch-deploy`, or
 `dev` `CONTEXT` values are still rejected.
@@ -170,23 +176,18 @@ functions may omit `CONTEXT`; that omission is allowed only alongside
 
 Before deployment:
 
-1. Merge the matching HuffSherpa Apps Script contract that accepts all 18 form
-   names, current attribution, the nine `first_*` fields, and informational
-   campaign-only context.
-2. Deploy the administrator-owned Apps Script web app and record the exact
-   `/macros/s/<deployment-id>/exec` endpoint without exposing it in logs.
-3. Provision the endpoint and one generated 64-character base64url shared
-   secret in the production Netlify environment without placing either value
-   in source control. Confirm the existing Resend/notification variables can
-   deliver a metadata-only terminal-state alert.
-4. Deploy the website so Netlify reprocesses the expanded static form
-   blueprints.
-5. Confirm `huffsherpa-relay-retry` appears as a scheduled production function,
-   the site-scoped Blob context is available, and a live Apps Script redirect
-   contract probe passes.
-6. With separate approval, submit one clearly synthetic controlled lead and
-   reconcile the Netlify submission, event-function outcome, Apps Script
-   response, and HuffSherpa staging row.
+1. Merge and deploy the matching Vercel bridge first:
+   `HxcHuff/google-ads-lead-relay#7`. That receiver already writes HubSpot
+   portal 247504188 and accepts the click-ID / HubSpot attribution fields.
+2. Confirm production Netlify already has `LEAD_BRIDGE_URL` and
+   `LEAD_BRIDGE_KEY`. Do not delete leftover `HUFFSHERPA_*` variables in
+   this change.
+3. Deploy this website PR so Forms events post only to the bridge and
+   `huffsherpa-relay-retry` is unscheduled.
+4. Confirm `lead-bridge-retry` remains a scheduled production function.
+5. With separate approval, submit one clearly synthetic controlled lead and
+   reconcile the Netlify submission, event-function outcome, and HubSpot
+   contact in portal 247504188.
 
 This relay stages leads only. It does not create a SOLD event, upload a Google
 Ads conversion, or change Google Ads bidding, goals, budgets, ads, or campaign

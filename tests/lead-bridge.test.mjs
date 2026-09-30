@@ -506,7 +506,7 @@ test('scheduled retry delivers a queued lead and deletes the outbox record', asy
   assert.equal(store.entries.size, 0);
 });
 
-test('submission-created posts get-help to the bridge without changing HuffSherpa or notifying the lead', async () => {
+test('submission-created posts get-help to the Vercel bridge as the only CRM destination', async () => {
   const calls = [];
   const store = memoryStore();
   const logs = [];
@@ -517,7 +517,7 @@ test('submission-created posts get-help to the bridge without changing HuffSherp
     now: () => NOW,
     randomBytes: () => Buffer.alloc(32, 7),
     storeFactory: async () => {
-      throw new Error('HuffSherpa hot path must not open Blobs');
+      throw new Error('retired HuffSherpa path must not open Blobs');
     },
     bridgeStoreFactory: async () => store,
     alertImpl: async () => {
@@ -526,12 +526,12 @@ test('submission-created posts get-help to the bridge without changing HuffSherp
   });
   const result = await handler(submission());
   assert.equal(result.statusCode, 200);
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'DELIVERED' });
 
   const bridgeCall = calls.find((call) => call.url === BRIDGE_ENDPOINT);
   const huffsherpaCall = calls.find((call) => call.url === ENDPOINT);
   assert.ok(bridgeCall);
-  assert.ok(huffsherpaCall);
+  assert.equal(huffsherpaCall, undefined);
   assert.equal(bridgeCall.options.headers['x-bridge-key'], BRIDGE_KEY);
   const lead = JSON.parse(bridgeCall.options.body);
   assert.equal(lead.submission_id, SUBMISSION_ID);
@@ -542,13 +542,10 @@ test('submission-created posts get-help to the bridge without changing HuffSherp
   assert.equal(JSON.stringify(lead).includes('Sensitive note'), false);
   assert.equal(JSON.stringify(lead).includes('must-not-forward'), false);
 
-  const envelope = JSON.parse(huffsherpaCall.options.body);
-  assert.equal(envelope.payload.form_name, 'get-help');
-  assert.equal(envelope.payload.data.phone, '8635550118');
-  assert.equal(JSON.stringify(envelope).includes('must-not-forward'), false);
   assert.equal(store.entries.size, 0);
   assert.equal(logs.some((entry) => entry.event === 'website_lead_bridge'), true);
-  assert.equal(logs.at(-1).reason, 'direct_preferred');
+  assert.equal(logs.at(-1).event, 'website_lead_crm_relay');
+  assert.equal(logs.at(-1).reason, 'website_lead_bridge');
   assert.equal(JSON.stringify(logs).includes('Avery'), false);
   assert.equal(JSON.stringify(logs).includes(BRIDGE_KEY), false);
 });
@@ -562,7 +559,7 @@ test('submission-created forwards several valid click IDs to the website lead br
     now: () => NOW,
     randomBytes: () => Buffer.alloc(32, 7),
     storeFactory: async () => {
-      throw new Error('HuffSherpa hot path must not open Blobs');
+      throw new Error('retired HuffSherpa path must not open Blobs');
     },
     bridgeStoreFactory: async () => memoryStore(),
     alertImpl: async () => {
@@ -584,8 +581,8 @@ test('submission-created forwards several valid click IDs to the website lead br
     }
   }));
   assert.equal(result.statusCode, 200);
+  assert.equal(calls.some((call) => call.url === ENDPOINT), false);
   const lead = JSON.parse(calls.find((call) => call.url === BRIDGE_ENDPOINT).options.body);
-  const envelope = JSON.parse(calls.find((call) => call.url === ENDPOINT).options.body);
   assert.equal(lead.gclid, 'CurrentGclid_CaseSensitive-001');
   assert.equal(lead.gbraid, 'CurrentGbraid_CaseSensitive-003');
   assert.equal(Object.hasOwn(lead, 'wbraid'), false);
@@ -595,9 +592,6 @@ test('submission-created forwards several valid click IDs to the website lead br
   assert.equal(lead.lhi_lead_source, 'google_ads_site');
   assert.equal(lead.lhi_attribution_status, 'click_id_matched');
   assert.equal(lead.preferred_click_id, 'CurrentGclid_CaseSensitive-001');
-  assert.equal(envelope.payload.data.gclid, 'CurrentGclid_CaseSensitive-001');
-  assert.equal(envelope.payload.data.gbraid, 'CurrentGbraid_CaseSensitive-003');
-  assert.equal(envelope.payload.data.wbraid, '');
 });
 
 test('other allowlisted lead forms also build a website lead for the bridge', () => {
@@ -626,28 +620,32 @@ test('other allowlisted lead forms also build a website lead for the bridge', ()
   }
 });
 
-test('bridge failures do not fail HuffSherpa or email the lead', async () => {
+test('bridge failures fail the function visibly, queue the lead, and do not email', async () => {
   const calls = [];
   const store = memoryStore();
+  const logs = [];
   const handler = createSubmissionCreatedHandler({
     environment: productionEnv(),
     fetchImpl: routedFetch(calls, { bridgeStatus: 500, bridgeOk: false }),
-    logger: () => {},
+    logger: (entry) => logs.push(entry),
     now: () => NOW,
     randomBytes: () => Buffer.alloc(32, 7),
     storeFactory: async () => {
-      throw new Error('HuffSherpa hot path must not open Blobs');
+      throw new Error('retired HuffSherpa path must not open Blobs');
     },
     bridgeStoreFactory: async () => store,
     alertImpl: async () => {
       throw new Error('must not email');
     }
   });
-  const result = await handler(submission());
-  assert.equal(result.statusCode, 200);
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'STAGED' });
-  assert.equal(calls.some((call) => call.url === ENDPOINT), true);
+  await assert.rejects(handler(submission()), (error) => (
+    error && error.name === 'SubmissionRelayError' && error.code === 'upstream_500'
+  ));
+  assert.equal(calls.some((call) => call.url === ENDPOINT), false);
   assert.equal(store.entries.size, 1);
+  assert.equal(logs.some((entry) => entry.event === 'website_lead_bridge' && entry.outcome === 'QUEUED'), true);
+  assert.equal(logs.at(-1).outcome, 'FAILED');
+  assert.equal(JSON.stringify(logs).includes('Avery'), false);
 });
 
 test('Hopper ingest is gone and no function texts or emails a lead from the bridge', () => {

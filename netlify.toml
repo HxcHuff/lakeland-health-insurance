@@ -8,9 +8,8 @@
 [functions."google-lead-crm-retry"]
   schedule = "*/15 * * * *"
 
-[functions."huffsherpa-relay-retry"]
-  schedule = "*/15 * * * *"
-
+# HuffSherpa website-lead retry is retired. The function file remains so an
+# accidental invoke is a no-op; do not reschedule it.
 [functions."lead-bridge-retry"]
   schedule = "*/15 * * * *"
 

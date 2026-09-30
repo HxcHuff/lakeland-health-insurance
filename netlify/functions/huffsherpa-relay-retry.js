@@ -1,14 +1,10 @@
 'use strict';
 
 /**
- * Scheduled reconciliation for the site-scoped HuffSherpa lead relay outbox.
- * The shared implementation keeps retry validation, HMAC signing, bounded
- * Google redirects, PII minimization, and metadata-only logging identical to
- * the submission-created event path.
+ * Retired HuffSherpa website-lead retry.
  *
- * This file is a Lambda-compatibility handler (`exports.handler`). The retry
- * function receives the Lambda event and passes it through so
- * `connectLambda(event)` can run immediately before `getStore`.
+ * Website leads now go to the Vercel bridge. This handler stays deployed as a
+ * no-op so leftover schedules or accidental invokes do not POST to Apps Script.
  */
 
 const { createRetryHandler } = require('./submission-created.js');
