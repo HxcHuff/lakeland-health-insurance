@@ -11,9 +11,16 @@
  *
  * Delivery posts the signed envelope directly to
  * HUFFSHERPA_LEAD_WEBHOOK_URL_V1. The Forms hot path does not open or write
- * the Blobs outbox. Scheduled `huffsherpa-relay-retry` may still drain leftover
- * outbox keys; if Blobs is unavailable, retry fails closed. Preview, branch,
- * and non-production CONTEXT values remain fail-closed.
+ * the HuffSherpa Blobs outbox. Scheduled `huffsherpa-relay-retry` may still
+ * drain leftover outbox keys; if Blobs is unavailable, retry fails closed.
+ * Preview, branch, and non-production CONTEXT values remain fail-closed.
+ *
+ * After production context is confirmed, allowlisted website leads are also
+ * posted to `{LEAD_BRIDGE_URL}/website/lead` when `LEAD_BRIDGE_URL` and
+ * `LEAD_BRIDGE_KEY` are set. Hopper is not called. A failed bridge POST is
+ * written to a separate Blobs outbox and retried by `lead-bridge-retry`.
+ * Bridge failures never change HuffSherpa delivery, Forms storage, or
+ * NOTIFY_EMAIL. The bridge path never texts or emails a lead.
  *
  * HuffSherpa activation remains blocked until both environment variables are
  * provisioned:
@@ -27,6 +34,7 @@
 
 const crypto = require('node:crypto');
 const { relaySchema } = require('./lead.js');
+const { buildWebsiteLeadPayload, deliverWebsiteLead } = require('./lib/lead-bridge');
 
 const PROTOCOL = Object.freeze({
   envelopeSource: 'netlify',
@@ -279,15 +287,23 @@ function parseNetlifyEvent(event) {
 
   const filtered = relaySchema.filterLeadPayloadForRelay(submission.data, formName);
   if (!filtered.ok) fail('invalid_submission_data', 400);
+  const createdAt = normalizeTimestamp(submission.created_at);
   return Object.freeze({
     eligible: true,
     formName,
     payload: Object.freeze({
-      created_at: normalizeTimestamp(submission.created_at),
+      created_at: createdAt,
       data: normalizeRelayData(filtered.payload),
       event_type: 'submission_accepted',
       form_name: formName,
       submission_id: submissionId
+    }),
+    websiteLead: buildWebsiteLeadPayload({
+      formName,
+      submissionId,
+      createdAt,
+      data: submission.data,
+      filtered: filtered.payload
     })
   });
 }
@@ -1065,7 +1081,9 @@ function createCrmRelayHandler({
   randomBytes = crypto.randomBytes,
   setTimer = setTimeout,
   clearTimer = clearTimeout,
-  timeoutMilliseconds = PROTOCOL.timeoutMilliseconds
+  timeoutMilliseconds = PROTOCOL.timeoutMilliseconds,
+  bridgeStoreFactory,
+  bridgeBlobsImport
 } = {}) {
   return async function crmRelayHandler(event) {
     let formName = null;
@@ -1077,6 +1095,19 @@ function createCrmRelayHandler({
       }
       formName = normalized.formName;
       requireProductionContext(environment);
+      await deliverWebsiteLead({
+        lead: normalized.websiteLead,
+        environment,
+        fetchImpl,
+        logger,
+        now,
+        event,
+        storeFactory: bridgeStoreFactory,
+        blobsImport: bridgeBlobsImport,
+        setTimer,
+        clearTimer,
+        timeoutMilliseconds
+      });
       const configuration = validateConfiguration(environment);
       const requestBody = buildEnvelope(
         normalized.payload,

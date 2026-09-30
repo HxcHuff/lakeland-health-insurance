@@ -1,9 +1,11 @@
 # HuffSherpa Netlify lead relay
 
-Status: **implemented in live `submission-created` as the sole Forms-to-CRM
+Status: **implemented in live `submission-created` as the Forms-to-CRM
 path**. Allowlisted submissions, including `get-help`, are staged into HuffSherpa
-IMPORT STAGING through the signed Apps Script webhook. Hopper is not called
-from this function.
+IMPORT STAGING through the signed Apps Script webhook. Hopper is not called.
+When `LEAD_BRIDGE_URL` and `LEAD_BRIDGE_KEY` are set, the same allowlisted
+website leads are also posted to `{LEAD_BRIDGE_URL}/website/lead`. A failed
+bridge call is retried from the website-lead-bridge Blobs outbox.
 
 ## Event boundary
 
@@ -13,15 +15,24 @@ sales/service forms and posts a signed HMAC envelope to IMPORT STAGING.
 
 Delivery order:
 
-1. **Direct signed POST** — allowlisted Forms events, including `get-help`,
+1. **Website lead bridge** — after production context is confirmed, allowlisted
+   Forms events, including `get-help` and the other sales/service forms, POST
+   `{LEAD_BRIDGE_URL}/website/lead` with `x-bridge-key: {LEAD_BRIDGE_KEY}` when
+   those env vars are present. Missing configuration skips the bridge without
+   changing HuffSherpa or Netlify Forms storage. A failed bridge POST is
+   written to `website-lead-bridge-outbox-v1` and drained by
+   `lead-bridge-retry`. This path never texts or emails a lead and never
+   calls Hopper.
+2. **Direct signed POST** — allowlisted Forms events, including `get-help`,
    post the HMAC envelope immediately to `HUFFSHERPA_LEAD_WEBHOOK_URL_V1`.
-   The Forms hot path does not open or write the Blobs outbox. Success logs
-   `direct_preferred` with controlled non-PII cause `blobs_skipped`. Direct
-   delivery has no retry record; the original Netlify Forms submission
-   remains the source of truth. Signature, configuration, and context errors
-   still fail closed without a POST.
-2. **Scheduled outbox drain** — `huffsherpa-relay-retry` may still list and
-   retry leftover keys in the site-scoped Blob store. If Blobs is
+   The Forms hot path does not open or write the HuffSherpa Blobs outbox.
+   Success logs `direct_preferred` with controlled non-PII cause
+   `blobs_skipped`. Direct delivery has no HuffSherpa retry record; the
+   original Netlify Forms submission remains the source of truth. Signature,
+   configuration, and context errors still fail closed without a HuffSherpa
+   POST.
+3. **Scheduled HuffSherpa outbox drain** — `huffsherpa-relay-retry` may still
+   list and retry leftover keys in the HuffSherpa Blob store. If Blobs is
    unavailable, retry fails closed: the scheduled function has no Forms body
    to re-send.
 

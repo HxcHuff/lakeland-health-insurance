@@ -809,6 +809,9 @@ test('submission-created does not call Hopper', () => {
   assert.equal(source.includes('forwardGetHelpToHopper'), false);
   assert.equal(source.includes('hopperForward'), false);
   assert.equal(source.includes('forwardHopperSafely'), false);
+  assert.equal(source.includes('HOPPER_LEAD_INGEST_SECRET'), false);
+  assert.equal(source.includes('huff-health-app.netlify.app'), false);
+  assert.equal(fs.existsSync(path.join(ROOT, 'netlify/functions/lib/hopper-ingest.js')), false);
 });
 
 test('Forms path posts directly without needing a working store.set', async () => {
