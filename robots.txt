@@ -14,3 +14,4 @@ User-agent: ChatGPT-User
 Allow: /
 
 Sitemap: https://lakelandhealthinsurance.com/sitemap.xml
+Sitemap: https://lakelandhealthinsurance.com/sitemap_index.xml

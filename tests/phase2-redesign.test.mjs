@@ -89,6 +89,10 @@ test('shared chrome maps Medicare, under-65, and losing-coverage pages to intent
   assert.equal(chrome.resolveIntent('/advantage-guard/'), '');
   assert.equal(chrome.resolveIntent('/aca-health-insurance-lakeland-fl/'), 'under-65');
   assert.equal(chrome.resolveIntent('/tampa-health-insurance/'), 'under-65');
+  assert.equal(chrome.resolveIntent('/states/'), 'under-65');
+  assert.equal(chrome.resolveIntent('/health-insurance-texas/'), 'under-65');
+  assert.equal(chrome.resolveIntent('/health-insurance-georgia/'), 'under-65');
+  assert.equal(chrome.resolveIntent('/health-insurance-broker-lakeland-fl/'), '');
   assert.equal(chrome.resolveIntent('/quote/'), '');
   assert.equal(chrome.resolveIntent('/losing-coverage/'), 'losing-coverage');
   assert.equal(chrome.resolveIntent('/'), '');
@@ -117,6 +121,13 @@ test('HealthSherpa stays out of Medicare chrome and paid landing paths', () => {
   assert.equal(chrome.shouldShowHealthSherpa('/lp/aca/', ''), false);
   assert.equal(chrome.shouldShowHealthSherpa('/aca-health-insurance-lakeland-fl/', 'under-65'), true);
   assert.equal(chrome.shouldShowHealthSherpa('/', ''), true);
+  assert.equal(chrome.shouldShowHealthSherpa('/states/', 'under-65'), false);
+  assert.equal(chrome.shouldShowHealthSherpa('/health-insurance-georgia/', 'under-65'), false);
+  assert.equal(chrome.shouldShowHealthSherpa('/health-insurance-texas/', 'under-65'), false);
+  assert.equal(chrome.shouldShowTpmoDisclaimer('/medicare/'), true);
+  assert.equal(chrome.shouldShowTpmoDisclaimer('/states/'), false);
+  assert.equal(chrome.shouldShowTpmoDisclaimer('/health-insurance-texas/'), false);
+  assert.equal(chrome.shouldShowTpmoDisclaimer('/health-insurance-georgia/'), false);
 });
 
 test('seasonal banner is AEP-dated, dismissible, and avoids enrollment guarantees', () => {

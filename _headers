@@ -10,6 +10,18 @@
 /404.html
   X-Robots-Tag: noindex, nofollow
 
+/health-insurance-georgia/
+  X-Robots-Tag: noindex, nofollow
+
+/health-insurance-georgia/index.html
+  X-Robots-Tag: noindex, nofollow
+
+/sitemap.xml
+  Content-Type: application/xml; charset=UTF-8
+
+/sitemap_index.xml
+  Content-Type: application/xml; charset=UTF-8
+
 /*
   Content-Security-Policy: default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.doubleclick.net https://www.googleadservices.com https://www.googletagmanager.com https://www.gstatic.com https://bzrcdn.openai.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https: data:; img-src 'self' data: https: blob: https://*.doubleclick.net https://www.googleadservices.com; connect-src 'self' https: wss: data: blob: https://*.doubleclick.net https://www.googleadservices.com https://bzr.openai.com; frame-src 'self' https: data:; font-src 'self' data: https: blob:; media-src 'self' https: data: blob:; object-src 'none'; base-uri 'self'; form-action 'self' https:; child-src 'self' https: data: blob:; worker-src 'self' blob: https: data:; manifest-src 'self' https:;
   X-Frame-Options: SAMEORIGIN

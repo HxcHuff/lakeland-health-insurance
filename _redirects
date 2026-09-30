@@ -25,6 +25,11 @@
 /lp/campaign-*.html /get-help/ 301!
 /lp/campaign-* /get-help/ 301!
 
+# Florida has no /health-insurance-florida/ page; keep the Lakeland ACA cluster as the destination.
+/health-insurance-florida /aca-health-insurance-lakeland-fl/ 301!
+/health-insurance-florida/ /aca-health-insurance-lakeland-fl/ 301!
+/health-insurance-florida/index.html /aca-health-insurance-lakeland-fl/ 301!
+
 # Permanently remove public campaign-operation documents.
 /blog/ads-manager-setup-checklist.html /404.html 410
 /blog/campaign-funnel-ab-test.html /404.html 410

@@ -46,6 +46,8 @@
     '/winter-haven-health-insurance/'
   ];
 
+  const MULTI_STATE_PAGE_RE = /^\/health-insurance-(alabama|arizona|georgia|iowa|indiana|louisiana|maryland|michigan|missouri|mississippi|north-carolina|nebraska|new-jersey|ohio|south-carolina|tennessee|texas|virginia|washington|west-virginia)\/$/;
+
   const LOSING_COVERAGE_PATHS = [
     '/losing-coverage/',
     '/losing-medicaid-florida/'
@@ -84,6 +86,15 @@
       needle = normalizePath(needle);
       return path === needle || path.indexOf(needle) === 0;
     });
+  }
+
+  function isMultiStatePage(pathname) {
+    var path = normalizePath(pathname);
+    return path === '/states/' || MULTI_STATE_PAGE_RE.test(path);
+  }
+
+  function shouldShowTpmoDisclaimer(pathname) {
+    return !isMultiStatePage(pathname);
   }
 
   function pathLooksLikeMedicare(pathname) {
@@ -178,7 +189,7 @@
     var path = normalizePath(pathname || currentPathname());
     if (pathLooksLikeMedicare(pathname || path)) return 'medicare';
     if (pathMatches(path, LOSING_COVERAGE_PATHS)) return 'losing-coverage';
-    if (pathMatches(path, UNDER65_PATHS)) return 'under-65';
+    if (isMultiStatePage(path) || pathMatches(path, UNDER65_PATHS)) return 'under-65';
     return readQueryIntent(search);
   }
 
@@ -193,6 +204,7 @@
     var path = normalizePath(pathname || currentPathname());
     if (path.indexOf('/lp/') === 0) return false;
     if (intent === 'medicare') return false;
+    if (isMultiStatePage(path)) return false;
     return true;
   }
 
@@ -309,6 +321,7 @@
               <li><a href="/winter-haven-health-insurance/">Winter Haven</a></li>
               <li>Polk County</li>
               <li>Remote assistance across Florida</li>
+              <li><a href="/states/">States I'm licensed in</a></li>
             </ul>
           </div>
           <div class="footer-column">
@@ -328,10 +341,10 @@
             </ul>
           </div>
         </div>
-        <div class="footer-tpmo" role="note">
+        ${shouldShowTpmoDisclaimer(pathname) ? `<div class="footer-tpmo" role="note">
           <p class="tpmo-standard-disclaimer">${tpmoDisclaimer}</p>
           <p class="tpmo-inventory-note">Company inventory note: The 10 organizations and 73 products referenced above reflect the plans available for the 2026 plan year in the Lakeland/Polk County service area as of August 17, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
-        </div>
+        </div>` : ''}
         <div class="footer-bottom">
           <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>
           <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier.</p>
@@ -477,6 +490,8 @@
     resolveIntent: resolveChromeIntent,
     getHelpHref: chromeGetHelpHref,
     shouldShowHealthSherpa: shouldShowHealthSherpa,
+    shouldShowTpmoDisclaimer: shouldShowTpmoDisclaimer,
+    isMultiStatePage: isMultiStatePage,
     shouldShowSeasonalBanner: shouldShowSeasonalBanner,
     isWithinSeasonalBannerWindow: isWithinSeasonalBannerWindow,
     bannerStorageKey: seasonalBannerStorageKey,

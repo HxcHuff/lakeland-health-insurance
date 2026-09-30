@@ -111,6 +111,77 @@ const OWNERS = [
       /href="\/aca-health-insurance-agent-polk-county-fl\//,
       /href="\/provider-prescription-check\//
     ]
+  },
+  {
+    prompt: 'Which states is David Huff licensed in for ACA Marketplace help?',
+    rel: 'states/index.html',
+    url: '/states/',
+    mustMatch: [
+      /Direct answer:/i,
+      /21 states/,
+      /licensed health agent/i,
+      /href="\/health-insurance-texas\//,
+      /href="\/aca-health-insurance-lakeland-fl\//,
+      /href="\/aca-health-insurance-agent-polk-county-fl\//,
+      /href="\/medicare\//,
+      /href="\/get-help\//
+    ]
+  },
+  {
+    prompt: 'Texas ACA health insurance agent for 2027 HealthCare.gov',
+    rel: 'health-insurance-texas/index.html',
+    url: '/health-insurance-texas/',
+    mustMatch: [
+      /Direct answer:/i,
+      /HealthCare\.gov/,
+      /licensed health agent/i,
+      /Lakeland, FL 33805/,
+      /href="\/get-help\/\?state=TX/,
+      /href="\/states\//,
+      /review is not enrollment/i,
+      /no separate agent fee/i
+    ]
+  },
+  {
+    prompt: 'North Carolina ACA Marketplace agent for 2027 open enrollment',
+    rel: 'health-insurance-north-carolina/index.html',
+    url: '/health-insurance-north-carolina/',
+    mustMatch: [
+      /Direct answer:/i,
+      /HealthCare\.gov/,
+      /href="\/get-help\/\?state=NC/,
+      /under 65 who are not on Medicare/i
+    ]
+  },
+  {
+    prompt: 'South Carolina ACA health insurance agent HealthCare.gov 2027',
+    rel: 'health-insurance-south-carolina/index.html',
+    url: '/health-insurance-south-carolina/',
+    mustMatch: [
+      /Direct answer:/i,
+      /HealthCare\.gov/,
+      /href="\/get-help\/\?state=SC/
+    ]
+  },
+  {
+    prompt: 'Tennessee ACA Marketplace plan review for 2027',
+    rel: 'health-insurance-tennessee/index.html',
+    url: '/health-insurance-tennessee/',
+    mustMatch: [
+      /Direct answer:/i,
+      /HealthCare\.gov/,
+      /href="\/get-help\/\?state=TN/
+    ]
+  },
+  {
+    prompt: 'Alabama ACA health insurance agent for HealthCare.gov 2027',
+    rel: 'health-insurance-alabama/index.html',
+    url: '/health-insurance-alabama/',
+    mustMatch: [
+      /Direct answer:/i,
+      /HealthCare\.gov/,
+      /href="\/get-help\/\?state=AL/
+    ]
   }
 ];
 

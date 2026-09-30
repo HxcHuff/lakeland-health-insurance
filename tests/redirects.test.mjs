@@ -40,7 +40,14 @@ const AFFECTED_DIRECTORY_PATHS = [
   '/supplemental-insurance',
   '/tampa-health-insurance',
   '/wesley-chapel-health-insurance',
-  '/winter-haven-health-insurance'
+  '/winter-haven-health-insurance',
+  '/states',
+  '/health-insurance-texas',
+  '/health-insurance-georgia',
+  '/health-insurance-north-carolina',
+  '/health-insurance-south-carolina',
+  '/health-insurance-tennessee',
+  '/health-insurance-alabama'
 ];
 
 function normalizePath(value) {
@@ -254,7 +261,9 @@ test('direct controls have no 3xx rule and approved aliases terminate within two
     ['/life', '/life-insurance-dime-method/'],
     ['/medicare-advantage', '/medicare/'],
     ['/privacy', '/privacy-policy.html'],
-    ['/index.html', '/']
+    ['/index.html', '/'],
+    ['/health-insurance-florida', '/aca-health-insurance-lakeland-fl/'],
+    ['/health-insurance-florida/', '/aca-health-insurance-lakeland-fl/']
   ]);
   for (const [source, expected] of aliases) {
     const result = followRedirects(rules, source);
