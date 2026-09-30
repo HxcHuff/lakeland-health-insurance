@@ -59,6 +59,8 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /name="preferred_contact_method" value="Text message"/);
     assert.match(form, /name="preferred_contact_method" value="Email"/);
     assert.match(form, /name="consent_request" value="yes" required/);
+    assert.match(form, /name="consent_marketing_email" value="yes"/);
+    assert.doesNotMatch(form, /name="consent_marketing_email"[^>]*\brequired\b/);
     assert.match(form, /name="consent_text_version" value="get-help-2026-07-30-v1"/);
     assert.match(form, /name="started_at"/);
     assert.match(form, /name="human_check"/);

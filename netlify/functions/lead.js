@@ -6,6 +6,7 @@
 
 const crypto = require('crypto');
 const { sendAdsLead } = require('./lib/ads-capi');
+const { syncToMailchimp } = require('./lib/mailchimp');
 
 const META_DATASET_ID = '1480756087079484';
 const META_GRAPH_VERSION = 'v25.0';
@@ -17,12 +18,6 @@ const TEST_EVENT_CODE = process.env.META_CAPI_TEST_EVENT_CODE; // optional
 const NETLIFY_CONTEXT = process.env.CONTEXT || 'unknown';
 const SITE_ENV = process.env.LHI_SITE_ENV || 'unknown';
 const IS_PROD_CONTEXT = NETLIFY_CONTEXT === 'production' && SITE_ENV === 'production';
-
-// Mailchimp — single audience, tag-segmented. All three vars must be set
-// or the sync no-ops gracefully (matches the CAPI guard pattern above).
-const MC_API_KEY = process.env.MAILCHIMP_API_KEY;
-const MC_AUDIENCE_ID = process.env.MAILCHIMP_AUDIENCE_ID;
-const MC_SERVER = process.env.MAILCHIMP_SERVER_PREFIX; // e.g. "us12"
 
 const PRIMARY_SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const MAX_JSON_BODY_BYTES = 64 * 1024;
@@ -175,45 +170,6 @@ const MEDICARE_GENERAL_INTAKE_EXCLUDED_FIELDS = new Set([
   'upcoming_procedures'
 ]);
 
-// Mailchimp always uses confirmed opt-in. Sales-form contact permission is
-// not marketing permission; lead sync requires consent_marketing_email=yes.
-const FORM_MC_CONFIG = {
-  'homepage-newsletter':           { status: 'pending',    tags: ['homepage', 'newsletter'] },
-  'newsletter-signup':             { status: 'pending',    tags: ['newsletter', 'newsletter-page'] },
-  'get-help':                      { status: 'pending', tags: ['lead', 'get-help'] },
-  'lp-aca-lead':                   { status: 'pending', tags: ['aca', 'paid-ad'] },
-  'lp-medicare-lead':              { status: 'pending', tags: ['medicare', 'paid-ad'] },
-  'lp-gap-lead':                   { status: 'pending', tags: ['gap', 'paid-ad'] },
-  'aca-lakeland-lead':             { status: 'pending', tags: ['aca', 'local-seo', 'lakeland'] },
-  'tampa-health-insurance':        { status: 'pending', tags: ['aca', 'local-seo', 'tampa'] },
-  'winter-haven-health-insurance': { status: 'pending', tags: ['aca', 'local-seo', 'winter-haven'] },
-  'haines-city-health-insurance':  { status: 'pending', tags: ['aca', 'local-seo', 'haines-city'] },
-  'lake-alfred-health-insurance':  { status: 'pending', tags: ['aca', 'local-seo', 'lake-alfred'] },
-  'davenport-health-insurance':    { status: 'pending', tags: ['aca', 'local-seo', 'davenport'] },
-  'brandon-health-insurance':      { status: 'pending', tags: ['aca', 'local-seo', 'brandon'] },
-  'clearwater-health-insurance':   { status: 'pending', tags: ['aca', 'local-seo', 'clearwater'] },
-  'largo-health-insurance':        { status: 'pending', tags: ['aca', 'local-seo', 'largo'] },
-  'new-port-richey-health-insurance': { status: 'pending', tags: ['aca', 'local-seo', 'new-port-richey'] },
-  'riverview-health-insurance':    { status: 'pending', tags: ['aca', 'local-seo', 'riverview'] },
-  'st-petersburg-health-insurance': { status: 'pending', tags: ['aca', 'local-seo', 'st-petersburg'] },
-  'wesley-chapel-health-insurance': { status: 'pending', tags: ['aca', 'local-seo', 'wesley-chapel'] },
-  'subsidy-estimator-lead':        { status: 'pending', tags: ['aca', 'subsidy-estimator'] }
-};
-
-const INTENT_MC_TAGS = {
-  'aca': ['intent-aca'],
-  'medicare': ['intent-medicare'],
-  'lost-coverage': ['intent-lost-coverage', 'sep-review'],
-  'turning-26': ['intent-turning-26', 'sep-review'],
-  'self-employed': ['intent-self-employed'],
-  'current-client-review': ['intent-current-client-review', 'existing-client-service'],
-  'provider-check': ['intent-provider-check', 'network-review'],
-  'prescription-check': ['intent-prescription-check', 'rx-review'],
-  'coverage-gap': ['intent-coverage-gap'],
-  'employer-referral': ['intent-employer-referral', 'professional-referral'],
-  'post-enrollment-review': ['intent-post-enrollment-review', 'existing-client-service']
-};
-
 const NEWSLETTER_FORMS = new Set(['homepage-newsletter', 'newsletter-signup']);
 const HUFFSHERPA_RELAY_FORMS = new Set([
   'get-help',
@@ -303,6 +259,7 @@ const LP_COMMON_FIELDS = [
   'best_time_to_reach',
   'coverage_status',
   'consent',
+  'consent_marketing_email',
   'source_page',
   'consent_text_version'
 ];
@@ -1127,87 +1084,6 @@ function classifyLead(payload, formName) {
   }
 
   return { level: 'standard', reason: 'basic_lead_submission' };
-}
-
-async function syncToMailchimp(payload) {
-  const formName = payload['form-name'] || payload.form_name || '';
-  const isNewsletter = NEWSLETTER_FORMS.has(formName);
-  if (!isNewsletter && payload.consent_marketing_email !== 'yes') {
-    return { ok: false, skipped: true };
-  }
-  if (!MC_API_KEY || !MC_AUDIENCE_ID || !MC_SERVER) {
-    return { ok: false, error: 'Mailchimp env vars not set (MAILCHIMP_API_KEY / MAILCHIMP_AUDIENCE_ID / MAILCHIMP_SERVER_PREFIX)' };
-  }
-  const email = payload.email && String(payload.email).trim();
-  if (!email) return { ok: false, error: 'no email in payload' };
-
-  const config = mailchimpConfigFor(payload, formName);
-
-  // subscriber_hash is MD5 of lowercased email — used for upsert by email.
-  const hash = crypto.createHash('md5').update(email.toLowerCase()).digest('hex');
-  const baseUrl = `https://${MC_SERVER}.api.mailchimp.com/3.0/lists/${MC_AUDIENCE_ID}/members/${hash}`;
-  const auth = 'Basic ' + Buffer.from('any:' + MC_API_KEY).toString('base64');
-
-  const mergeFields = {};
-  if (payload.first_name) mergeFields.FNAME = payload.first_name;
-  if (payload.last_name) mergeFields.LNAME = payload.last_name;
-  if (payload.full_name && !payload.first_name) {
-    const parts = String(payload.full_name).trim().split(/\s+/);
-    if (parts[0]) mergeFields.FNAME = parts[0];
-    if (parts.length > 1) mergeFields.LNAME = parts.slice(1).join(' ');
-  }
-  // New contacts remain pending until they confirm the marketing email opt-in.
-  const upsertBody = { email_address: email, merge_fields: mergeFields };
-  upsertBody.status_if_new = 'pending';
-
-  try {
-    const res = await fetch(baseUrl, {
-      method: 'PUT',
-      headers: { 'Authorization': auth, 'Content-Type': 'application/json' },
-      body: JSON.stringify(upsertBody)
-    });
-    if (!res.ok) {
-      return { ok: false, error: `MC upsert ${res.status}` };
-    }
-  } catch (e) {
-    return { ok: false, error: `MC upsert exception${e && e.name ? ` (${e.name})` : ''}` };
-  }
-
-  // Tags via separate endpoint — this ADDS without clobbering existing tags.
-  // (Tags inside the PUT body would replace the full tag list.)
-  if (config.tags.length) {
-    try {
-      const tagBody = { tags: config.tags.map(name => ({ name, status: 'active' })) };
-      const tagRes = await fetch(`${baseUrl}/tags`, {
-        method: 'POST',
-        headers: { 'Authorization': auth, 'Content-Type': 'application/json' },
-        body: JSON.stringify(tagBody)
-      });
-      if (!tagRes.ok) {
-        return { ok: true, error: `MC tags ${tagRes.status}` };
-      }
-    } catch (e) {
-      return { ok: true, error: `MC tags exception${e && e.name ? ` (${e.name})` : ''}` };
-    }
-  }
-
-  return { ok: true };
-}
-
-function mailchimpConfigFor(payload, formName) {
-  const base = FORM_MC_CONFIG[formName] || { status: 'pending', tags: ['unmapped', formName || 'unknown-form'] };
-  const normalizedIntent = String(payload.normalized_intent || '').trim();
-  const tags = new Set(base.tags);
-  if (normalizedIntent && INTENT_MC_TAGS[normalizedIntent]) {
-    INTENT_MC_TAGS[normalizedIntent].forEach(tag => tags.add(tag));
-  }
-  if (payload.line_of_business) tags.add(String(payload.line_of_business).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
-  if (payload.lead_priority) tags.add(`lead-priority-${String(payload.lead_priority).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`);
-  if (normalizedIntent === 'current-client-review' || normalizedIntent === 'post-enrollment-review') {
-    tags.delete('hot-lead');
-    tags.add('service-request');
-  }
-  return { status: base.status, tags: Array.from(tags).filter(Boolean) };
 }
 
 function safeAdsError(error, skipped) {

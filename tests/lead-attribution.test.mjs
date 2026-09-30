@@ -10,6 +10,7 @@ const ENV_KEYS = [
   'META_CAPI_TEST_EVENT_CODE',
   'MAILCHIMP_API_KEY',
   'MAILCHIMP_AUDIENCE_ID',
+  'MAILCHIMP_DC',
   'MAILCHIMP_SERVER_PREFIX',
   'OPENAI_ADS_PIXEL_ID',
   'OPENAI_ADS_CAPI_KEY',
@@ -26,6 +27,7 @@ process.env.LEAD_ALLOWED_ORIGINS = 'https://lakelandhealthinsurance.com';
 delete process.env.META_CAPI_TEST_EVENT_CODE;
 delete process.env.MAILCHIMP_API_KEY;
 delete process.env.MAILCHIMP_AUDIENCE_ID;
+delete process.env.MAILCHIMP_DC;
 delete process.env.MAILCHIMP_SERVER_PREFIX;
 delete process.env.OPENAI_ADS_PIXEL_ID;
 delete process.env.OPENAI_ADS_CAPI_KEY;

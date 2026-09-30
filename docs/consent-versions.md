@@ -43,6 +43,10 @@ I authorize text messages about this request. Message frequency varies; message 
 I authorize email about this request.
 ```
 
+Optional Mailchimp marketing email on these sitelink forms is a separate,
+unchecked checkbox (`consent_marketing_email`) and is not part of this
+versioned SMS/TCPA record.
+
 ## get-help-2026-09-29-v2
 
 - Date: 2026-09-29
