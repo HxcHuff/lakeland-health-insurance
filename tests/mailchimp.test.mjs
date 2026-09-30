@@ -268,7 +268,7 @@ test('lead forms make no Mailchimp call without consent', async () => {
 });
 
 test('unset API key skips with a one-line warning and never logs the key', async () => {
-  const { logger, serialized } = captureLogger();
+  const { logs, logger, serialized } = captureLogger();
   const calls = [];
   const result = await syncToMailchimp({
     'form-name': 'newsletter-signup',
@@ -283,9 +283,9 @@ test('unset API key skips with a one-line warning and never logs the key', async
   });
   assert.equal(result.skipped, true);
   assert.equal(calls.length, 0);
-  assert.equal(logger.logs.length, 1);
-  assert.equal(logger.logs[0][0], 'warn');
-  assert.match(String(logger.logs[0][1]), /MAILCHIMP_API_KEY is unset/);
+  assert.equal(logs.length, 1);
+  assert.equal(logs[0][0], 'warn');
+  assert.match(String(logs[0][1]), /MAILCHIMP_API_KEY is unset/);
   assert.equal(serialized().includes(SECRET_KEY), false);
 });
 
