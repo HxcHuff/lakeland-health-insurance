@@ -249,8 +249,8 @@ test('hub cites official exchange sources and omits the unverified Maryland dead
   assert.match(html, /wahealthplanfinder\.org\/us\/en\/tools-and-resources\/health-care-education\/enrollment-periods\.html/);
   assert.match(html, /See Maryland Health Connection for 2027 dates/);
   assert.doesNotMatch(html, /Maryland Health Connection\. 2027 enrollment ends January 15, 2027/);
-  assert.match(html, /licensed in the states listed below/);
-  assert.doesNotMatch(html, /appointed with|appointed to discuss|appointed in the state/);
+  assert.match(html, /I'm licensed in the states listed below\. The plans I can review depend on which insurers I'm appointed with in your state, which may not include every Marketplace insurer\./);
+  assert.doesNotMatch(html, /appointed to discuss|appointed in the state where you live|I compare plans from the insurers I'm licensed in the states listed below/);
 });
 
 test('Georgia FAQ states the Access certification requirement without claiming David is certified', () => {
