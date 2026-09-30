@@ -53,11 +53,11 @@ test('passes when FAQPage text is visible after entity and whitespace normalizat
 
 test('skips PR 200 conflict files and requires visible FAQ text on audited pages', () => {
   const skipped = findFaqVisibleMatchIssues(
-    'blog/health-insurance-self-employed-lakeland-polk-county-2026.html',
+    'blog/aca-subsidy-cliff.html',
     '<p>No FAQ.</p><script type="application/ld+json">{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Missing?","acceptedAnswer":{"@type":"Answer","text":"Nope."}}]}</script>'
   );
   assert.deepEqual(skipped, []);
-  assert.equal(FAQ_MATCH_SKIP_RELS.size, 15);
+  assert.equal(FAQ_MATCH_SKIP_RELS.size, 13);
   assert.equal(FAQ_MATCH_SCOPE_RELS, null);
   assert.ok(FAQ_MATCH_EXTRA_SKIP_RELS instanceof Set);
   const issues = collectFaqVisibleMatchIssues();

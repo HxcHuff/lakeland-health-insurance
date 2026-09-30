@@ -356,7 +356,7 @@ const siteSearchIndex = [
   },
   {
     title: "Medicare Advantage vs Medicare Supplement: What to Compare",
-    url: "/blog/medicare-advantage-vs-supplement.html",
+    url: "/blog/medicare-advantage-vs-medicare-supplement.html",
     excerpt: "Compare Medicare Advantage and Medicare Supplement costs, provider access, prescription coverage, enrollment rules, and plan limitations.",
     tags: ["Medicare", "Comparison", "Seniors"]
   },
