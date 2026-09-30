@@ -33,7 +33,7 @@ const OWNERS = [
       /FL(?:orida)?(?: License)? #W371813/i,
       /Lakeland, FL 33805/,
       /review is not enrollment/i,
-      /no separate broker fee/i,
+      /no separate agent fee/i,
       /href="\/get-help\//,
       /href="\/marketplace-agent-fraud-cms-crackdown-florida\//,
       /href="\/provider-prescription-check\//,
