@@ -453,6 +453,10 @@ a:focus-visible,
   color: var(--navy, #1B2A4A);
 }
 
+.medicare-hero .hub-breadcrumb {
+  color: var(--hub-muted);
+}
+
 .medicare-hero .hub-breadcrumb a,
 .medicare-hero .hub-season-alert a {
   color: var(--hub-blue);
