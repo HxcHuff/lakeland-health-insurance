@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const CURRENT_SEASON_DISCLAIMER = 'We do not offer every plan available in your area. Currently we represent 9 organizations which offer 102 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
+const CURRENT_SEASON_DISCLAIMER = 'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
 const INVENTORY_NOTE = 'Company inventory note: The counts above reflect the plans available for the 2027 plan year in the Lakeland/Polk County service area as of September 30, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
 const SUBJECT_TO_PLAN = 'Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
 
@@ -112,6 +112,26 @@ test('primary HTML excludes superseded disclaimer variants and known unsupported
   for (const file of primaryHtmlFiles()) {
     assert.doesNotMatch(readFileSync(file, 'utf8'), forbidden, `${file.slice(ROOT.length + 1)} excludes stale wording`);
   }
+});
+
+test('TPMO copy uses 10 organizations / 73 products and never says 102 products', () => {
+  const files = [...primaryHtmlFiles(), resolve(ROOT, 'js/site-template.js')];
+
+  for (const file of files) {
+    const text = readFileSync(file, 'utf8');
+    const relativePath = file.slice(ROOT.length + 1);
+    assert.doesNotMatch(text, /102 products/, `${relativePath} must not say 102 products`);
+    assert.doesNotMatch(text, /9 organizations which offer 102 products/, `${relativePath} must not keep the old 9/102 TPMO counts`);
+  }
+
+  assert.ok(
+    source('js/site-template.js').includes(CURRENT_SEASON_DISCLAIMER),
+    'sitewide footer chrome uses the exact 10/73 TPMO text'
+  );
+  assert.ok(
+    source('medicare/index.html').includes(CURRENT_SEASON_DISCLAIMER),
+    'Medicare hub uses the exact 10/73 TPMO text'
+  );
 });
 
 test('Medicare hub is a current-season, privacy-minimized, keyboard-accessible lead router', () => {

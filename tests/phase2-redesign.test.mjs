@@ -14,7 +14,7 @@ const COVERAGE_CENTER = readFileSync(resolve(ROOT, 'coverage-center/index.html')
 const ACA = readFileSync(resolve(ROOT, 'aca-health-insurance-lakeland-fl/index.html'), 'utf8');
 const POLK_ACA = readFileSync(resolve(ROOT, 'aca-health-insurance-agent-polk-county-fl/index.html'), 'utf8');
 const MEDICARE = readFileSync(resolve(ROOT, 'medicare/index.html'), 'utf8');
-const TPMO = 'We do not offer every plan available in your area. Currently we represent 9 organizations which offer 102 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
+const TPMO = 'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 73 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
 const HEALTHSHERPA = 'https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q';
 const SKIP_DIRS = new Set([
   '.git',
