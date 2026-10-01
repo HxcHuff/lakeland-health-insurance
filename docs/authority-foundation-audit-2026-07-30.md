@@ -37,7 +37,7 @@ Baseline accessibility failures were low-contrast text on the shared license lin
 | Provider/prescription verification | `/provider-prescription-check/` | Expand | Exact-plan, plan-ID, location, formulary, pharmacy, year, and verification-state workflow |
 | ACA estimator | `/aca-subsidy-estimator/` | Tighten | Fixed Lakeland benchmark scope, no arbitrary ZIP claim, no estimate values in URLs/analytics, embedded lead form removed |
 | Plans/products | `/plans/` | Consolidate | Rebuilt as a coverage-path hub; unsupported prices, carrier claims, and Offer markup removed |
-| Get Help | `/get-help/` | Tighten | Separate request/call/SMS/service-email/marketing-email consent and versioned evidence |
+| Get Help | `/get-help/` | Tighten | Separate request/call/SMS/service-email/marketing-email consent and versioned evidence. Superseded 2026-10-01: marketing-email checkbox and list sync removed (PR 224). |
 | Quote/enrollment router | `/quote/` | Consolidate | Florida ZIP prefix gate, official outside-Florida fallback, coverage-path routing |
 | Contact | `/contact/` | Tighten | Florida-only business contact, no unverified office address or nationwide scope |
 | Privacy | `/privacy-policy.html` | Tighten | Rewritten to match current first-party forms, processors, measurement minimization, consent, security, and retention boundaries |
@@ -80,7 +80,7 @@ No established URL was changed and no redirect was added.
 - Outside-Florida routing goes only to HealthCare.gov and Medicare.gov.
 - Get Help consent is separated by channel and records text version, page, timestamp, explicit channel state, and initial withdrawal state.
 - The form blocks submission when the preferred channel lacks matching authorization or contact information.
-- Sales leads are not added to marketing email unless the separate marketing-email checkbox is selected; new subscriptions use pending confirmation.
+- Sales leads are not added to marketing email unless the separate marketing-email checkbox is selected; new subscriptions use pending confirmation. Superseded 2026-10-01: marketing-email checkbox and list sync removed (PR 224).
 - Google enhanced-conversion user data was disabled. Client-side tracking no longer exposes identity helpers or form identity, ZIP, income, provider, prescription, health-status, timing, or free text.
 - Server-side advertising events no longer include raw contact data, ZIP, IP address, user agent, line of business, intent, or lead priority. Only pseudonymous platform references and a generic lead event remain.
 - The ACA estimator no longer creates a lead, places estimate values into a URL, or emits those values to analytics.

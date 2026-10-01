@@ -109,7 +109,7 @@ Goal: optimize site measurement for qualified Medicare/ACA leads, not raw clicks
 - `/api/lead` accepts only registered form names and form-specific scalar fields, with a 64 KB request limit and an 8 KB per-field limit. Unknown keys, objects, arrays, and oversized values fail closed or are discarded before Forms forwarding.
 - Get Help request consent is required. Consent timestamps, evidence version, page, withdrawal state, and channel states are derived server-side; client-authored consent-state fields are not authoritative.
 - `/api/lead` returns non-200 when Netlify Forms forwarding fails, so GA does not count a failed Forms forward as `generate_lead`.
-- Meta CAPI, Ads/OpenAI CAPI, and Mailchimp run only after Netlify Forms accepts the request. The PHI-free function log records the opaque `event_id` and component outcomes for reconciliation.
+- Meta CAPI and Ads/OpenAI CAPI run only after Netlify Forms accepts the request. The PHI-free function log records the opaque `event_id` and component outcomes for reconciliation.
 - 5xx/API failures can fall back to native Netlify submit, but that fallback does not set the GA Forms-accepted marker before Netlify acceptance is proven.
 - GTM owns the only `Lead` → `generate_lead` conversion path. `/thanks.html` consumes the same-session marker and emits only `lead_receipt_view`; direct visits and refreshes do not create a conversion.
 - OpenAI Ads `lead_created` fires only for sales/service `Lead` submissions after `/api/lead` confirms Netlify Forms forwarding. Browser Pixel and server CAPI share the same server event ID for deduplication.
@@ -145,7 +145,7 @@ Measurement boundaries are intentionally separate:
 
 ### Website CRM (Netlify Forms → Vercel bridge)
 
-Allowlisted website form submissions post to `{LEAD_BRIDGE_URL}/website/lead`. That bridge writes HubSpot portal 247504188. HuffSherpa and Apps Script are not called. A failed bridge POST is logged, queued for `lead-bridge-retry`, and the visitor still receives HTTP 200. Missing `LEAD_BRIDGE_URL` or `LEAD_BRIDGE_KEY` is logged as an error and queued the same way; it is not a silent skip. Mailchimp and Meta CAPI stay on `/api/lead` and do not depend on HuffSherpa.
+Allowlisted website form submissions post to `{LEAD_BRIDGE_URL}/website/lead`. That bridge writes HubSpot portal 247504188. HuffSherpa and Apps Script are not called. A failed bridge POST is logged, queued for `lead-bridge-retry`, and the visitor still receives HTTP 200. Missing `LEAD_BRIDGE_URL` or `LEAD_BRIDGE_KEY` is logged as an error and queued the same way; it is not a silent skip. Meta CAPI stays on `/api/lead`. Mailchimp audience sync is no longer part of this site.
 
 | Variable | Surface | Required | Notes |
 |---|---|---:|---|
@@ -159,7 +159,7 @@ Allowlisted website form submissions post to `{LEAD_BRIDGE_URL}/website/lead`. T
 - Google delivery is not exactly once. The webhook validates and bounds the payload, authenticates the exact approved form with its unique Google key, and atomically creates a minimized site-scoped Netlify Blobs outbox record before any CRM delivery attempt.
 - The outbox key is a domain-separated SHA-256 digest of Google's opaque `lead_id`, independent of all authentication secrets. While pending, the record contains only approved contact fields and Google attribution identifiers. Successful delivery immediately removes that payload and retains a metadata-only tombstone for replay suppression.
 - Exact replays return 200 without another CRM delivery. A changed payload under the same `lead_id` is quarantined. A write/read-confirmation outage returns 503 before downstream delivery so Google can retry.
-- The only downstream CRM path is `{LEAD_BRIDGE_URL}/` on the Vercel lead relay, which writes HubSpot portal 247504188. HuffSherpa is not called. Customer.io, Lob, email, SMS, Mailchimp, and other marketing or messaging providers are not part of this Google-hosted lead workflow.
+- The only downstream CRM path is `{LEAD_BRIDGE_URL}/` on the Vercel lead relay, which writes HubSpot portal 247504188. HuffSherpa and Apps Script are not called. Customer.io, Lob, email, SMS, Mailchimp, and other marketing or messaging providers are not part of this Google-hosted lead workflow.
 - A bounded 15-minute scheduled function retries pending deliveries and performs best-effort privacy maintenance. Operational logs and alerts contain controlled reason codes and counts only, never lead IDs, click IDs, contact data, Blob keys, payloads, or secrets. See `docs/google-ads-crm-relay-runbook.md` for retry, retention, and activation details.
 
 | Variable | Surface | Required | Notes |
@@ -171,9 +171,6 @@ Allowlisted website form submissions post to `{LEAD_BRIDGE_URL}/website/lead`. T
 | `LEAD_BRIDGE_URL` / `LEAD_BRIDGE_KEY` | Server only | Yes, for Google-hosted CRM | Same vars as website CRM. This webhook POSTs `{LEAD_BRIDGE_URL}/`. |
 | `APPS_SCRIPT_LEAD_WEBHOOK_URL_V1` | Server only | Unused in this repo | Leftover Apps Script `/exec` URL. The Google-hosted webhook does not read it. Do not delete in Netlify until David says so. |
 | `APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1` | Server only | Unused in this repo | Leftover Apps Script HMAC secret. Same as above. |
-| `MAILCHIMP_API_KEY` | Server only | Yes, for audience sync | Runtime Mailchimp API key. If unset, Mailchimp is skipped with a one-line warning. Never log or commit it. |
-| `MAILCHIMP_AUDIENCE_ID` | Server only | Yes, for audience sync | Audience / list id. Production value `cd34641e14`. |
-| `MAILCHIMP_DC` | Server only | Yes, for audience sync | Data-center prefix. Production value `us17`. |
 
 ### OpenAI Ads Environment Variables
 | Variable | Surface | Required | Notes |
@@ -245,7 +242,7 @@ Allowlisted website form submissions post to `{LEAD_BRIDGE_URL}/website/lead`. T
 ### Resolved In This Release Candidate
 6. **GA4 Landing page `(not set)`** — on-page `init()` now sends a real GA4 `page_view` as the first GA4 hit (`send_page_view: false` on config + immediate `gtag('event', 'page_view')`). `medicare_content_view` is deferred until after that hit. Funnel `{ event: 'PageView' }` remains dataLayer-only.
 7. **Google-hosted lead durability and deduplication** — resolved locally with a minimized atomic Netlify Blobs outbox keyed from Google `lead_id`, immediate first delivery, bounded scheduled retry, changed-replay quarantine, and metadata-only terminal tombstones.
-8. **Downstream scope review** — resolved fail-closed. This workflow calls only the pinned signed Apps Script CRM receiver. It does not call Customer.io, Lob, Mailchimp, email, SMS, or another customer-messaging provider.
+8. **Downstream scope review** — resolved fail-closed. This workflow posts only to `{LEAD_BRIDGE_URL}/` on the Vercel lead relay. It does not call HuffSherpa, Apps Script, Customer.io, Lob, email, SMS, or another customer-messaging provider.
 
 ---
 

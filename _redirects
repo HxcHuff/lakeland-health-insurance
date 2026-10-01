@@ -20,6 +20,12 @@
 /medicare-advantage/ /medicare/ 301!
 /privacy /privacy-policy.html 301!
 /privacy/ /privacy-policy.html 301!
+
+# Meta App Review legal pages
+/terms /terms/index.html 200
+/terms/ /terms/index.html 200
+/data-deletion /data-deletion/index.html 200
+/data-deletion/ /data-deletion/index.html 200
 /index.html / 301!
 /contact.html /contact/ 301!
 /lp/campaign-*.html /get-help/ 301!
@@ -296,7 +302,7 @@
 /*.xlsx /404.html 404!
 
 
-# SEO audit 2026-10-01: canonical blog index and merged duplicate posts
+# SEO audit 2026-09-30: canonical blog index and merged duplicate posts
 /blog/index.html /blog/ 301!
 /blog/aca-premiums-2026-lakeland.html /blog/why-florida-health-insurance-premiums-increased-2026.html 301!
 /blog/aca-premiums-2026-lakeland /blog/why-florida-health-insurance-premiums-increased-2026.html 301!

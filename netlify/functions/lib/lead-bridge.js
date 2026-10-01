@@ -62,7 +62,6 @@ const RAW_SAFE_EXTRAS = Object.freeze([
   'consent_call_state',
   'consent_sms_state',
   'consent_email_state',
-  'consent_marketing_email_state',
   'state'
 ]);
 const PERMANENT_STATUSES = new Set([400, 401, 403, 404, 422]);
@@ -125,16 +124,13 @@ function consentFrom(data) {
   // the SMS ladder (currently shadow mode). Do not omit or stringify it.
   const sms = Boolean(granted(data.consent_sms) || granted(data.consent_sms_state));
   const email = granted(data.consent_email) || granted(data.consent_email_state);
-  const marketingEmail = granted(data.consent_marketing_email)
-    || granted(data.consent_marketing_email_state);
   const formConsent = granted(data.consent);
   return Object.freeze({
     request: Boolean(request || formConsent),
     call: Boolean(call || formConsent),
     sms,
     email: Boolean(email || formConsent),
-    marketing_email: Boolean(marketingEmail),
-    granted: Boolean(request || call || sms || email || marketingEmail || formConsent)
+    granted: Boolean(request || call || sms || email || formConsent)
   });
 }
 

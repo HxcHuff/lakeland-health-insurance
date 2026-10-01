@@ -72,7 +72,7 @@ Unknown values fall back to `not-sure`. Query-string values are never injected i
 | `MedicareIntakeStart` / `medicare_intake_start` | First meaningful interaction on allowlisted Medicare Get Help intake | `schema_version`, `page_key=get_help`, `page_role=intake`, source tuple when valid, `content_cluster`, `intent`, `step` | Raw query/referrer, PII, form answers | dataLayer and direct GA4 diagnostic event | Per-form in-memory guard |
 | `Lead` | Browser verifies `/api/lead` returned `ok: true`, `forms: true`, and an approved server `event_id` | `content_name`, `event_id`, `acceptance_status=forms_accepted`; canonical Medicare context when present | Raw names, email, phone, ZIP, policy/Medicare IDs, providers, prescriptions, income, health/coverage answers, free text | dataLayer; GTM owns GA4 `generate_lead` and Google Ads; server owns CAPI | One accepted response, one server event ID, one thank-you marker |
 | `LeadReceiptView` | Fresh same-session lead reaches `/thanks.html` | `content_name`, `step` | PII, form answers | dataLayer, GA4 diagnostic event `lead_receipt_view` | Fresh lead marker consumed once; direct visits do not fire |
-| `Subscriber` | `/api/lead` success for newsletter forms | `content_name`, `event_id` | Raw names, email, phone | dataLayer, Mailchimp only | `event_id`, same-session marker consumed once |
+| `Subscriber` | `/api/lead` success for newsletter forms | `content_name`, `event_id` | Raw names, email, phone | dataLayer only | `event_id`, same-session marker consumed once |
 | `Schedule` | Calendly link click | `content_name` | PII | dataLayer | Click event id |
 | `PhoneCallClick` | Canonical future phone event | Link label only | Phone/email/name answers | dataLayer | Click event id |
 | `ExternalQuoteClick` | HealthSherpa or quote engine click | `content_name`, destination class | PII | dataLayer | Click event id |
@@ -85,13 +85,13 @@ Legacy `phone_call_click`, `phone_call`, and `generate_lead` are preserved for e
 
 ## Form And Downstream Mapping
 
-| Submission | API Behavior | Meta CAPI | Google Ads Lead | Mailchimp |
-|---|---|---|---|---|
-| Sales/service lead | POST `/api/lead`; server canonicalizes attribution; Netlify Forms acceptance gates the success response | Production only after Forms acceptance | Browser `Lead` only after semantic acceptance | `pending` only when separately authorized marketing consent is present |
-| Current client review | Same acceptance boundary, tagged as service request | Production only after Forms acceptance | Browser `Lead` only after semantic acceptance unless later split in ad UI | `pending` only with separate marketing consent; service tags retained |
-| Post-enrollment review | Same acceptance boundary, tagged as service request | Production only after Forms acceptance | Browser `Lead` only after semantic acceptance unless later split in ad UI | `pending` only with separate marketing consent; service tags retained |
-| Newsletter | POST `/api/lead`, forward to Netlify Forms, return accepted server event ID | Skipped | Skipped | `pending` confirmed opt-in |
-| Google-hosted Ads lead | Google webhook authenticates the exact approved form, atomically writes a minimized durable outbox record, and POSTs `{LEAD_BRIDGE_URL}/` | Not applicable | Recorded by Google Ads at the hosted form | Always skipped; this workflow has no marketing or messaging provider |
+| Submission | API Behavior | Meta CAPI | Google Ads Lead |
+|---|---|---|---|
+| Sales/service lead | POST `/api/lead`; server canonicalizes attribution; Netlify Forms acceptance gates the success response | Production only after Forms acceptance | Browser `Lead` only after semantic acceptance |
+| Current client review | Same acceptance boundary, tagged as service request | Production only after Forms acceptance | Browser `Lead` only after semantic acceptance unless later split in ad UI |
+| Post-enrollment review | Same acceptance boundary, tagged as service request | Production only after Forms acceptance | Browser `Lead` only after semantic acceptance unless later split in ad UI |
+| Newsletter | POST `/api/lead`, forward to Netlify Forms, return accepted server event ID | Skipped | Skipped |
+| Google-hosted Ads lead | Google webhook authenticates the exact approved form, atomically writes a minimized durable outbox record, and POSTs `{LEAD_BRIDGE_URL}/` | Not applicable | Recorded by Google Ads at the hosted form |
 
 ## Thank-You Behavior
 
@@ -127,9 +127,9 @@ Medicare source URLs contain only `intent=medicare`, an allowlisted page key, an
 
 The analytics field allowlist excludes raw name, email, phone, ZIP, DOB/age, Medicare and policy identifiers, provider/facility names, prescription names, income, health or coverage answers, notes, messages, free text, unknown fields, arrays, and objects. Exact registry values are derived rather than trusted from query or hidden fields.
 
-The API applies a separate form-storage boundary: registered form-specific field allowlists, a 64 KB body cap, scalar-only values, and an 8 KB per-field cap. Get Help requires request consent and overwrites consent evidence with server-derived timestamps, version, page, withdrawal state, and channel states. Meta CAPI, Ads/OpenAI CAPI, and Mailchimp run only after Forms acceptance.
+The API applies a separate form-storage boundary: registered form-specific field allowlists, a 64 KB body cap, scalar-only values, and an 8 KB per-field cap. Get Help requires request consent and overwrites consent evidence with server-derived timestamps, version, page, withdrawal state, and channel states. Meta CAPI and Ads/OpenAI CAPI run only after Forms acceptance.
 
-The Google-hosted lead path is separate from `/api/lead`. Its webhook has a 64 KB body cap, bounded scalar fields, an exact two-form allowlist, a unique Google key per approved form, and a trusted configured account-routing assertion. It atomically stores a minimized Netlify Blobs outbox record keyed by a domain-separated SHA-256 digest of Google `lead_id` before POSTing `{LEAD_BRIDGE_URL}/`. Exact replays are no-ops, changed replays are quarantined, successful delivery immediately removes contact and attribution payload data, and a bounded scheduled function retries pending records and performs best-effort privacy cleanup. Operational logs contain metadata-only counts and controlled reasons. HuffSherpa, Customer.io, Lob, email, SMS, Mailchimp, and other messaging or marketing platforms are not in this Google-hosted lead workflow.
+The Google-hosted lead path is separate from `/api/lead`. Its webhook has a 64 KB body cap, bounded scalar fields, an exact two-form allowlist, a unique Google key per approved form, and a trusted configured account-routing assertion. It atomically stores a minimized Netlify Blobs outbox record keyed by a domain-separated SHA-256 digest of Google `lead_id` before POSTing `{LEAD_BRIDGE_URL}/`. Exact replays are no-ops, changed replays are quarantined, successful delivery immediately removes contact and attribution payload data, and a bounded scheduled function retries pending records and performs best-effort privacy cleanup. Operational logs contain metadata-only counts and controlled reasons. HuffSherpa, Apps Script, Customer.io, Lob, email, SMS, Mailchimp, and other messaging or marketing platforms are not in this Google-hosted lead workflow.
 
 ## Measurement Boundaries
 

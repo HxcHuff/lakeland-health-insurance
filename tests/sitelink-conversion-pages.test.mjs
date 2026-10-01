@@ -59,10 +59,8 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /name="preferred_contact_method" value="Text message"/);
     assert.match(form, /name="preferred_contact_method" value="Email"/);
     assert.match(form, /name="consent_request" value="yes" required/);
-    assert.match(form, /name="consent_marketing_email" value="yes"/);
-    assert.doesNotMatch(form, /name="consent_marketing_email"[^>]*\brequired\b/);
+    assert.doesNotMatch(form, /tips and updates/i);
     assert.match(form, /name="consent_text_version" value="get-help-2026-07-30-v1"/);
-    assert.match(form, /name="consent_marketing_email_version" value="marketing-email-2026-09-30-v1"/);
     for (const field of [
       'consent_recorded_at',
       'consent_page',
@@ -70,7 +68,6 @@ for (const [file, sourcePage, intent] of pages) {
       'consent_call_state',
       'consent_sms_state',
       'consent_email_state',
-      'consent_marketing_email_state',
       'consent_withdrawal_state',
       'consent_version_source',
       'consent_version_mismatch',

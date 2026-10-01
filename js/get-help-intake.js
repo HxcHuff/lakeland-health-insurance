@@ -791,7 +791,6 @@
       setValue('consentCallStateInput', form.consent_call && form.consent_call.checked ? 'granted' : 'not_granted');
       setValue('consentSmsStateInput', form.consent_sms && form.consent_sms.checked ? 'granted' : 'not_granted');
       setValue('consentEmailStateInput', form.consent_email && form.consent_email.checked ? 'granted' : 'not_granted');
-      setValue('consentMarketingEmailStateInput', form.consent_marketing_email && form.consent_marketing_email.checked ? 'granted' : 'not_granted');
       setValue('consentRecordedAtInput', new Date().toISOString());
       if (status) status.textContent = 'Sending your request...';
       if (button) {

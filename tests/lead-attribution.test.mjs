@@ -8,10 +8,6 @@ const ENV_KEYS = [
   'META_PIXEL_ID',
   'META_CAPI_ACCESS_TOKEN',
   'META_CAPI_TEST_EVENT_CODE',
-  'MAILCHIMP_API_KEY',
-  'MAILCHIMP_AUDIENCE_ID',
-  'MAILCHIMP_DC',
-  'MAILCHIMP_SERVER_PREFIX',
   'OPENAI_ADS_PIXEL_ID',
   'OPENAI_ADS_CAPI_KEY',
   'LEAD_FORMS_ORIGIN',
@@ -25,10 +21,6 @@ process.env.META_CAPI_ACCESS_TOKEN = 'test-token';
 process.env.LEAD_FORMS_ORIGIN = 'https://lakelandhealthinsurance.com';
 process.env.LEAD_ALLOWED_ORIGINS = 'https://lakelandhealthinsurance.com';
 delete process.env.META_CAPI_TEST_EVENT_CODE;
-delete process.env.MAILCHIMP_API_KEY;
-delete process.env.MAILCHIMP_AUDIENCE_ID;
-delete process.env.MAILCHIMP_DC;
-delete process.env.MAILCHIMP_SERVER_PREFIX;
 delete process.env.OPENAI_ADS_PIXEL_ID;
 delete process.env.OPENAI_ADS_CAPI_KEY;
 
@@ -62,7 +54,6 @@ function getHelpPayload(overrides = {}) {
     consent_call: 'yes',
     consent_sms: 'yes',
     consent_email: 'yes',
-    consent_marketing_email: 'yes',
     source_page: '/get-help/?email=jane@example.com',
     source_url: 'https://lakelandhealthinsurance.com/get-help/?email=jane@example.com#contact',
     source_page_key: 'best_medicare_broker_lakeland_fl',
@@ -174,7 +165,6 @@ test('Forms acceptance mints receipt metadata, authorizes consent, and returns c
   assert.equal(form.get('consent_call_state'), 'granted');
   assert.equal(form.get('consent_sms_state'), 'granted');
   assert.equal(form.get('consent_email_state'), 'granted');
-  assert.equal(form.get('consent_marketing_email_state'), 'granted');
   assert.equal(form.get('consent_withdrawal_state'), 'not_withdrawn_at_submission');
   assert.equal(form.get('utm_term'), 'health insurance lakeland');
   assert.equal(form.get('gclid'), 'CurrentGclid_CaseSensitive-001');
@@ -644,7 +634,6 @@ for (const [formName, version, page, includeEmail] of LP_CONSENT_CASES) {
     if (includeEmail) {
       assert.equal(form.get('consent_email'), 'yes');
       assert.equal(form.get('consent_email_state'), 'granted');
-      assert.equal(form.get('consent_marketing_email_state'), 'not_granted');
     } else {
       assert.equal(form.get('consent_email'), null);
       assert.equal(form.get('consent_email_state'), null);
@@ -675,72 +664,11 @@ for (const [formName, version, page, includeEmail] of LP_CONSENT_CASES) {
     if (includeEmail) {
       assert.equal(form.get('consent_email'), 'no');
       assert.equal(form.get('consent_email_state'), 'not_granted');
-      assert.equal(form.get('consent_marketing_email_state'), 'not_granted');
     } else {
       assert.equal(form.get('consent_email'), null);
     }
   });
 }
-
-test('lp-gap records marketing-email granted only when the optional box and email are present', async () => {
-  const { response, calls } = await invoke(lpPayload('lp-gap-lead', 'lp-gap-2026-09-29-v2', {
-    email: 'jane@example.com',
-    consent_marketing_email: 'yes',
-    consent_marketing_email_version: 'marketing-email-2026-09-30-v1'
-  }));
-  assert.equal(response.statusCode, 200);
-  const form = new URLSearchParams(calls[0].init.body);
-  assert.equal(form.get('consent_text_version'), 'lp-gap-2026-09-29-v2');
-  assert.equal(form.get('consent_marketing_email'), 'yes');
-  assert.equal(form.get('consent_marketing_email_version'), 'marketing-email-2026-09-30-v1');
-  assert.equal(form.get('consent_marketing_email_state'), 'granted');
-});
-
-test('lead.js keeps only marketing-email-2026-09-30-v1 and drops any other version', async () => {
-  const kept = await invoke(getHelpPayload({
-    consent_marketing_email_version: 'marketing-email-2026-09-30-v1'
-  }));
-  assert.equal(kept.response.statusCode, 200);
-  const keptForm = new URLSearchParams(kept.calls[0].init.body);
-  assert.equal(keptForm.get('consent_marketing_email_version'), 'marketing-email-2026-09-30-v1');
-
-  const dropped = await invoke(getHelpPayload({
-    consent_marketing_email_version: 'attacker-version'
-  }));
-  assert.equal(dropped.response.statusCode, 200);
-  const droppedForm = new URLSearchParams(dropped.calls[0].init.body);
-  assert.equal(droppedForm.get('consent_marketing_email_version'), null);
-  assert.equal(droppedForm.get('consent_text_version'), 'get-help-2026-09-29-v2');
-});
-
-test('sitelink and gap pages default the known marketing-email version when it is missing', async () => {
-  const sitelink = await invoke(getHelpPayload({
-    source_page: '/medicare/',
-    source_url: 'https://lakelandhealthinsurance.com/medicare/'
-  }), { headers: { referer: 'https://lakelandhealthinsurance.com/medicare/' } });
-  assert.equal(sitelink.response.statusCode, 200);
-  const sitelinkForm = new URLSearchParams(sitelink.calls[0].init.body);
-  assert.equal(sitelinkForm.get('consent_page'), '/medicare/');
-  assert.equal(sitelinkForm.get('consent_marketing_email_version'), 'marketing-email-2026-09-30-v1');
-
-  const gap = await invoke(lpPayload('lp-gap-lead', 'lp-gap-2026-09-29-v2', {
-    email: 'jane@example.com'
-  }));
-  assert.equal(gap.response.statusCode, 200);
-  const gapForm = new URLSearchParams(gap.calls[0].init.body);
-  assert.equal(gapForm.get('consent_page'), '/lp/gap/');
-  assert.equal(gapForm.get('consent_marketing_email_version'), 'marketing-email-2026-09-30-v1');
-});
-
-test('lp-gap marketing-email state uses the same yes normalization as Mailchimp', async () => {
-  const { response, calls } = await invoke(lpPayload('lp-gap-lead', 'lp-gap-2026-09-29-v2', {
-    email: 'jane@example.com',
-    consent_marketing_email: ' YES '
-  }));
-  assert.equal(response.statusCode, 200);
-  const form = new URLSearchParams(calls[0].init.body);
-  assert.equal(form.get('consent_marketing_email_state'), 'granted');
-});
 
 test('unchecked lp lead with a v1 client version still records the live v2 text', async () => {
   const payload = lpPayload('lp-aca-lead', 'lp-aca-2026-09-29-v1');

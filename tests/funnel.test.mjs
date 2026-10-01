@@ -2188,15 +2188,12 @@ test('get-help consent evidence is channel-specific and versioned', () => {
     'consent_call',
     'consent_sms',
     'consent_email',
-    'consent_marketing_email',
-    'consent_marketing_email_version',
     'consent_text_version',
     'consent_recorded_at',
     'consent_request_state',
     'consent_call_state',
     'consent_sms_state',
     'consent_email_state',
-    'consent_marketing_email_state',
     'consent_withdrawal_state'
   ]) {
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
@@ -2459,4 +2456,19 @@ test('click-ID capture stays on the first-party attribution cookie and is not ga
   assert.doesNotMatch(GET_HELP_SRC, /approvedClickID[\s\S]{0,200}consent/i);
   assert.doesNotMatch(FUNNEL_SRC, /gclid[\s\S]{0,80}fbclid|fbclid[\s\S]{0,80}gclid/);
   assert.doesNotMatch(GET_HELP_SRC, /fbclid/);
+});
+
+test('estimator uses 2027 applicable percentages and 2026 HHS poverty guidelines', () => {
+  assert.match(ESTIMATOR_HTML, /<title>2027 Lakeland ACA Subsidy Estimator \| Educational Tool<\/title>/);
+  assert.match(ESTIMATOR_HTML, /<h1>2027 Lakeland ACA Subsidy Estimator<\/h1>/);
+  assert.match(ESTIMATOR_HTML, /Projected 2027 Annual Income/);
+  assert.doesNotMatch(ESTIMATOR_HTML, /This educational tool still uses 2026 IRS applicable percentages/);
+  assert.doesNotMatch(ESTIMATOR_HTML, /Uses 2025 Federal Poverty Guidelines for 2026 coverage year/);
+  assert.match(ESTIMATOR_HTML, /IRS Revenue Procedure 2026-26/);
+  assert.match(ESTIMATOR_HTML, /HHS\/ASPE, 2026 poverty guidelines/);
+  assert.match(ESTIMATOR_HTML, /var FPL_2026 = \{ 1:15960, 2:21640, 3:27320, 4:33000, 5:38680, 6:44360, 7:50040, 8:55720 \}/);
+  assert.match(ESTIMATOR_HTML, /var FPL_ADDITIONAL = 5680/);
+  assert.match(ESTIMATOR_HTML, /initialPct: 0\.0215, finalPct: 0\.0215/);
+  assert.match(ESTIMATOR_HTML, /initialPct: 0\.1022, finalPct: 0\.1022/);
+  assert.doesNotMatch(ESTIMATOR_HTML, /Rev\. Proc\. 2025-25/);
 });
