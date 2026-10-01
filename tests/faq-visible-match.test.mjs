@@ -8,6 +8,7 @@ import {
   FAQ_MATCH_SKIP_RELS,
   findFaqVisibleMatchIssues,
   normalizeFaqText,
+  normalizeFaqTextStrict,
   visiblePageText,
 } from '../scripts/faq-visible-match.mjs';
 
@@ -16,6 +17,22 @@ test('normalizes FAQ whitespace and HTML entities', () => {
   assert.equal(normalizeFaqText('A&amp;B &#39;quote&#39;'), "A&B 'quote'");
   assert.equal(normalizeFaqText('opened on July 8, 2026 . Confirm'), 'opened on July 8, 2026. Confirm');
   assert.equal(normalizeFaqText('( Select 2000, Premier 5000 )'), '(Select 2000, Premier 5000)');
+});
+
+test('strict mode keeps quote and dash differences after collapsing whitespace', () => {
+  assert.equal(normalizeFaqTextStrict('I am turning 65'), 'I am turning 65');
+  assert.notEqual(normalizeFaqTextStrict('I am turning 65'), normalizeFaqTextStrict('I’m turning 65'));
+});
+
+test('checks non-blog pages, not only blog posts', () => {
+  const html = `
+    <p>Body copy only.</p>
+    <script type="application/ld+json">
+      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Hidden homepage question?","acceptedAnswer":{"@type":"Answer","text":"Hidden homepage answer."}}]}
+    </script>
+  `;
+  const issues = findFaqVisibleMatchIssues('index.html', html);
+  assert.equal(issues.length, 2);
 });
 
 test('visible text ignores JSON-LD script blocks', () => {
@@ -53,7 +70,7 @@ test('passes when FAQPage text is visible after entity and whitespace normalizat
   assert.deepEqual(findFaqVisibleMatchIssues('blog/cobra-vs-marketplace-florida.html', html), []);
 });
 
-test('checks every blog page and requires visible FAQ text', () => {
+test('checks every indexable page and requires visible FAQ text', () => {
   const flagged = findFaqVisibleMatchIssues(
     'blog/health-insurance-self-employed-lakeland-polk-county-2026.html',
     '<p>No FAQ.</p><script type="application/ld+json">{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Missing?","acceptedAnswer":{"@type":"Answer","text":"Nope."}}]}</script>'

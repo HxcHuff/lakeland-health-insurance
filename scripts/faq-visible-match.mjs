@@ -13,9 +13,17 @@ export const FAQ_MATCH_EXTRA_SKIP_RELS = new Set([
 
 export const FAQ_MATCH_SCOPE_RELS = null;
 
-// Non-blog pages that still need FAQPage/visible-copy parity.
+// Extra pages kept for backward-compatible tests. Site-wide matching now
+// covers every HTML page; this set is no longer an inclusion filter.
 export const FAQ_MATCH_EXTRA_RELS = new Set([
   'local-health-insurance-answers/watson-clinic-insurance-network-help/index.html',
+]);
+
+const FAQ_MATCH_SKIP_FILES = new Set([
+  'google79927e3ae56b9c82.html',
+  'offline.html',
+  'thanks.html',
+  '404.html',
 ]);
 
 const SKIP_DIRS = new Set([
@@ -46,6 +54,12 @@ export function normalizeFaqText(value) {
     .replace(/\s+/g, ' ')
     .replace(/\s+([.,;:!?\)])/g, '$1')
     .replace(/\(\s+/g, '(')
+    .trim();
+}
+
+export function normalizeFaqTextStrict(value) {
+  return decodeHtmlEntities(value)
+    .replace(/\s+/g, ' ')
     .trim();
 }
 
@@ -98,17 +112,25 @@ export function findFaqVisibleMatchIssues(rel, html, {
   skipRels = FAQ_MATCH_SKIP_RELS,
   extraSkipRels = FAQ_MATCH_EXTRA_SKIP_RELS,
   scopeRels = FAQ_MATCH_SCOPE_RELS,
+  strict = false,
 } = {}) {
-  if (!rel.startsWith('blog/') && !FAQ_MATCH_EXTRA_RELS.has(rel)) return [];
+  if (FAQ_MATCH_SKIP_FILES.has(rel.split('/').pop())) return [];
   if (skipRels.has(rel) || extraSkipRels.has(rel)) return [];
   if (scopeRels && !scopeRels.has(rel)) return [];
-  const visible = visiblePageText(html);
+  const normalize = strict ? normalizeFaqTextStrict : normalizeFaqText;
+  const visibleSource = String(html)
+    .replace(/<script\b[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style\b[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<noscript\b[\s\S]*?<\/noscript>/gi, ' ')
+    .replace(/<!--([\s\S]*?)-->/g, ' ')
+    .replace(/<[^>]+>/g, ' ');
+  const visible = normalize(visibleSource);
   const issues = [];
   for (const block of jsonLdBlocks(html)) {
     if (block.error) continue;
     for (const entry of faqEntries(block.data)) {
-      const question = normalizeFaqText(entry.name);
-      const answer = normalizeFaqText(entry.text);
+      const question = normalize(entry.name);
+      const answer = normalize(entry.text);
       if (question && !visible.includes(question)) {
         issues.push(`${rel}: FAQPage question is not visible: ${question}`);
       }
@@ -136,19 +158,26 @@ export function collectFaqVisibleMatchIssues({
   skipRels = FAQ_MATCH_SKIP_RELS,
   extraSkipRels = FAQ_MATCH_EXTRA_SKIP_RELS,
   scopeRels = FAQ_MATCH_SCOPE_RELS,
+  strict = false,
 } = {}) {
   const issues = [];
   for (const file of walkHtml(root)) {
     const rel = relative(root, file);
-    issues.push(...findFaqVisibleMatchIssues(rel, readFileSync(file, 'utf8'), { skipRels, extraSkipRels, scopeRels }));
+    issues.push(...findFaqVisibleMatchIssues(rel, readFileSync(file, 'utf8'), {
+      skipRels,
+      extraSkipRels,
+      scopeRels,
+      strict,
+    }));
   }
   return issues;
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const issues = collectFaqVisibleMatchIssues();
+  const strict = process.argv.includes('--strict');
+  const issues = collectFaqVisibleMatchIssues({ strict });
   if (issues.length === 0) {
-    console.log('OK — FAQPage questions and answers match visible copy');
+    console.log(`OK — FAQPage questions and answers match visible copy${strict ? ' (strict)' : ' (site-wide)'}`);
     process.exit(0);
   }
   console.error(`FAIL — ${issues.length} FAQPage visible-copy issue(s):`);

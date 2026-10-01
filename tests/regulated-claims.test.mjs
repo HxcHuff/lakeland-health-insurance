@@ -9,7 +9,7 @@ const ROOT = resolve(new URL('.', import.meta.url).pathname, '..');
 const registry = JSON.parse(readFileSync(resolve(ROOT, 'data/regulated-claims.json'), 'utf8'));
 
 test('regulated claim registry is current and every claim is cited', async () => {
-  const result = await checkRegistry({ root: ROOT, registry, asOf: '2026-09-29' });
+  const result = await checkRegistry({ root: ROOT, registry, asOf: '2026-09-30' });
   assert.deepEqual(result.issues, []);
 });
 
