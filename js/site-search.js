@@ -252,7 +252,7 @@ const siteSearchIndex = [
     tags: ["Florida", "Coverage", "Alternatives"]
   },
   {
-    title: "Why Florida Health Insurance Premiums Increased in 2026",
+    title: "Why Florida ACA Premiums Rose 34.1% on Average in 2026",
     url: "/blog/why-florida-health-insurance-premiums-increased-2026.html",
     excerpt: "Many Floridians are seeing higher 2026 premiums. Here are the key reasons: subsidy changes, rising healthcare costs, and Marketplace enrollment dynamics.",
     tags: ["Florida", "ACA", "Premiums"]
@@ -424,12 +424,6 @@ const siteSearchIndex = [
     tags: ["ACA", "Florida", "Subsidies", "Premiums"]
   },
   {
-    title: "ACA Premiums Are Up in 2026 — Lakeland FL Health Insurance Guide",
-    url: "/blog/why-florida-health-insurance-premiums-increased-2026.html",
-    excerpt: "Why ACA premiums changed in Lakeland for 2026, who qualifies for an SEP, and how Bronze + HSA plans changed.",
-    tags: ["ACA", "Lakeland", "Premiums", "Florida"]
-  },
-  {
     title: "Why Central Florida Health Insurance Is So Competitive",
     url: "/blog/central-florida-health-insurance-competition.html",
     excerpt: "Central Florida ACA market competition, carrier choices, and what local shoppers should compare before enrolling.",
@@ -452,12 +446,6 @@ const siteSearchIndex = [
     url: "/blog/dont-overlook-rx-costs-2027.html",
     excerpt: "Plan ahead for 2027 by checking prescriptions, pharmacies, and medication changes before choosing coverage.",
     tags: ["Prescriptions", "RX", "ACA", "Medicare", "Planning"]
-  },
-  {
-    title: "Florida ACA Premiums Up 34.1% in 2026",
-    url: "/blog/why-florida-health-insurance-premiums-increased-2026.html",
-    excerpt: "What higher 2026 Florida ACA premiums mean for Lakeland residents and how subsidies affect the real cost.",
-    tags: ["ACA", "Florida", "Premiums", "Lakeland"]
   },
   {
     title: "Health Insurance in Brandon FL — 2026 Family Premium Guide",
@@ -550,7 +538,7 @@ const siteSearchIndex = [
     tags: ["Lakeland", "Networks", "Hospital Expansion", "ACA", "Medicare"]
   },
   {
-    title: "Now Open: Orlando Health Watson Clinic Network Guide",
+    title: "Orlando Health Watson Clinic Hospital Is Now Open",
     url: "/blog/orlando-health-watson-clinic-doctors-network-2026.html",
     excerpt: "The South Lakeland hospital is open, but doctor, facility, referral, and exact plan-ID participation still require verification.",
     tags: ["Lakeland", "Networks", "Watson Clinic", "Orlando Health"]

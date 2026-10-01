@@ -296,7 +296,7 @@
 /*.xlsx /404.html 404!
 
 
-# SEO audit 2026-10-01: canonical blog index and merged duplicate posts
+# SEO audit 2026-09-30: canonical blog index and merged duplicate posts
 /blog/index.html /blog/ 301!
 /blog/aca-premiums-2026-lakeland.html /blog/why-florida-health-insurance-premiums-increased-2026.html 301!
 /blog/aca-premiums-2026-lakeland /blog/why-florida-health-insurance-premiums-increased-2026.html 301!
