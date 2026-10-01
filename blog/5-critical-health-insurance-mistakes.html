@@ -519,7 +519,7 @@
                 align-items: center;
             }
         }
-    
+
 /* LHI Header Standardization Override */
 header .brand-name,
 header .logo {
@@ -575,7 +575,7 @@ header .cta-button {
                         <div class="dot"></div>
                     </div>
                 </button>
-                
+
                 <div class="dropdown-menu" id="dropdownMenu">
                     <div class="menu-item"><a href="/">Home</a></div>
                     <div class="menu-item"><a href="/#plans">Health Plans</a></div>
@@ -718,7 +718,7 @@ header .cta-button {
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('dropdownMenu');
             const button = document.querySelector('.menu-button');
-            
+
             if (!menu.contains(event.target) && !button.contains(event.target)) {
                 menu.classList.remove('show');
             }
@@ -744,7 +744,7 @@ header .cta-button {
             const scrolled = window.pageYOffset;
             const rate = scrolled / (article.offsetHeight - window.innerHeight);
             const progress = Math.min(rate * 100, 100);
-            
+
             // You could add a progress bar here if desired
         });
     </script>
