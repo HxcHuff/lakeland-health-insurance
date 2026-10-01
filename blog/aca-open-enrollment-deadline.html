@@ -494,26 +494,26 @@
             .nav-links {
                 display: none;
             }
-            
+
             .article-header h1 {
                 font-size: 2rem;
             }
-            
+
             .article-meta {
                 flex-direction: column;
                 gap: 1rem;
             }
-            
+
             .article-body {
                 padding: 2rem;
             }
-            
+
             .cta-buttons {
                 flex-direction: column;
                 align-items: center;
             }
         }
-    
+
 /* LHI Header Standardization Override */
 header .brand-name,
 header .logo {
@@ -595,7 +595,7 @@ header .cta-button {
                         <div class="dot"></div>
                     </div>
                 </button>
-                
+
                 <div class="dropdown-menu" id="dropdownMenu">
                     <div class="menu-item"><a href="/#plans">Health Plans</a></div>
                     <div class="menu-item"><a href="/contact/">Get Quote</a></div>
@@ -624,7 +624,7 @@ header .cta-button {
     <section class="article-header">
         <div class="container">
             <h1>2027 ACA Open Enrollment: Florida Dates and Checklist</h1>
-            
+
             <div class="article-meta">
                 <div class="author-info">
                     <img src="/assets/images/david-huff-blue-polo.jpg" alt="David Huff, licensed insurance agent" class="author-avatar" loading="lazy">
@@ -794,7 +794,7 @@ header .cta-button {
             <div class="article-cta">
                 <h2>Ready to Get This Done Right?</h2>
                 <p>Let me help review the complicated parts while you focus on what matters. Insurance carriers generally compensate appointed agents when an enrollment is completed; the Marketplace determines any premium tax credit.</p>
-                
+
                 <div class="cta-buttons">
                     <a href="/coverage-center/#under-65" class="cta-primary">Coverage Center plan review</a>
                     <a href="/get-help/?intent=aca" class="cta-primary">Request a plan review</a>
@@ -802,7 +802,8 @@ header .cta-button {
                 </div>
             </div>
         </div>
-    </article>
+    <p class="related-hub-note">For enrollment timing in this market, see <a href="/aca-health-insurance-lakeland-fl/">Florida Marketplace open-enrollment help</a>.</p>
+</article>
 
     <section class="related-posts" style="padding-top: 0;">
         <div class="container">
@@ -811,12 +812,12 @@ header .cta-button {
                 <div class="related-post">
                     <h3>Master ACA Enrollment + Benefits Guide (Florida 2027)</h3>
                     <p>HealthCare.gov workflow, onboarding checklist, and benefit-usage framework for Florida shoppers.</p>
-                    <a href="/blog/florida-aca-enrollment-and-benefits-2026.html">Read More &rarr;</a>
+                    <a href="/blog/florida-aca-enrollment-and-benefits-2026.html">Master ACA Enrollment + Benefits Guide (Florida 2027) &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>ACA Carrier Hub (Polk ZIP 33805)</h3>
                     <p>Quick access to 2026 carrier references. Confirm 2027 plans on HealthCare.gov starting November 1, 2026.</p>
-                    <a href="/carriers/">Open Hub &rarr;</a>
+                    <a href="/carriers/">ACA Carrier Hub (Polk ZIP 33805) &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>Direct Carrier Playbooks</h3>
@@ -833,17 +834,17 @@ header .cta-button {
                 <div class="related-post">
                     <h3>The ACA Subsidy Cliff: Strategic MAGI Management</h3>
                     <p>How household income affects Marketplace premium tax credits and tax-time reconciliation.</p>
-                    <a href="aca-subsidy-cliff.html">Read More &rarr;</a>
+                    <a href="aca-subsidy-cliff.html">The ACA Subsidy Cliff: Strategic MAGI Management &rarr;</a>
                 </div>
                 <div class="related-post">
-                    <h3>Short-Term Health Insurance in Florida: Costs, Limits, Risks</h3>
+                    <h3>Compare short-term medical coverage before you apply.</h3>
                     <p>What short-term health insurance covers in Florida, what it excludes, and when an ACA plan or COBRA is safer.</p>
-                    <a href="/short-term-medical/">Read More &rarr;</a>
+                    <a href="/short-term-medical/">Compare short-term medical coverage before you apply. &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>5 Critical Health Insurance Mistakes</h3>
                     <p>Review five common plan-selection and enrollment mistakes.</p>
-                    <a href="5-critical-health-insurance-mistakes.html">Read More &rarr;</a>
+                    <a href="5-critical-health-insurance-mistakes.html">5 Critical Health Insurance Mistakes &rarr;</a>
                 </div>
             </div>
         </div>
@@ -858,7 +859,7 @@ header .cta-button {
                 <p>✉️ <a href="mailto:david@lakelandhealthinsurance.com" style="color: white; text-decoration: none;">david@lakelandhealthinsurance.com</a></p>
                 <p>📍 Central Florida</p>
             </div>
-            
+
             <div class="footer-section">
                 <h4>Quick Links</h4>
                 <p><a href="/#plans" style="color: #ccc; text-decoration: none;">Insurance Plans</a></p>
@@ -868,7 +869,7 @@ header .cta-button {
                 <p><a href="/terms/" style="color: #ccc; text-decoration: none;">Terms of Service</a></p>
                 <p><a href="/data-deletion/" style="color: #ccc; text-decoration: none;">Data Deletion</a></p>
             </div>
-            
+
             <div class="footer-section">
                 <h4>More Articles</h4>
                 <p><a href="/blog/" style="color: #ccc; text-decoration: none;">All Blog Posts</a></p>
@@ -876,7 +877,7 @@ header .cta-button {
                 <p><a href="/blog/medicare-advantage-vs-medicare-supplement.html" style="color: #ccc; text-decoration: none;">Medicare Guide</a></p>
             </div>
         </div>
-        
+
         <div style="border-top: 1px solid #555; padding-top: 2rem; margin-top: 2rem;">
             <p>&copy; 2026 Lakeland Health Insurance. Lakeland-based, serving Florida.</p>
         </div>
@@ -893,7 +894,7 @@ header .cta-button {
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('dropdownMenu');
             const button = document.querySelector('.menu-button');
-            
+
             if (!menu.contains(event.target) && !button.contains(event.target)) {
                 menu.classList.remove('show');
             }

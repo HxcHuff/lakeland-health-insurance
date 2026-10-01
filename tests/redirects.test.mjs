@@ -6,10 +6,11 @@ import test from 'node:test';
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const REDIRECTS = readFileSync(join(ROOT, '_redirects'), 'utf8');
 const REDIRECT_CODES = new Set([301, 302, 303, 307, 308]);
-const FORCE_ONLY_CONFLICT_ALLOWLIST = new Set(['/blog/aca-subsidy-cliff']);
+const FORCE_ONLY_CONFLICT_ALLOWLIST = new Set();
 
 const AFFECTED_DIRECTORY_PATHS = [
   '/about',
+  '/book',
   '/aca-health-insurance-lakeland-fl',
   '/aca-subsidy-estimator',
   '/blog',
@@ -263,7 +264,10 @@ test('direct controls have no 3xx rule and approved aliases terminate within two
     ['/privacy', '/privacy-policy.html'],
     ['/index.html', '/'],
     ['/health-insurance-florida', '/aca-health-insurance-lakeland-fl/'],
-    ['/health-insurance-florida/', '/aca-health-insurance-lakeland-fl/']
+    ['/health-insurance-florida/', '/aca-health-insurance-lakeland-fl/'],
+    ['/calendly-book.html', '/book/'],
+    ['/calendly-book', '/book/'],
+    ['/calendly-book.html/', '/book/']
   ]);
   for (const [source, expected] of aliases) {
     const result = followRedirects(rules, source);
@@ -300,4 +304,23 @@ test('retired best-broker URLs 301 to the primary commercial broker page', () =>
 
   assert.doesNotMatch(REDIRECTS, /\/best-medicare-broker-lakeland-fl\/index\.html 200/);
   assert.equal(existsSync(join(ROOT, 'best-medicare-broker-lakeland-fl/index.html')), false);
+});
+
+test('blog extensionless and trailing-slash aliases force 301 to the .html canonical', () => {
+  const rules = parseRedirects(REDIRECTS);
+  const samples = [
+    '/blog/aca-subsidy-cliff',
+    '/blog/aca-subsidy-cliff/',
+    '/blog/medicare-supplement-cost-lakeland',
+    '/blog/when-can-i-switch-medicare-plans-florida/'
+  ];
+  for (const source of samples) {
+    const rule = matchingRule(rules, source);
+    assert.ok(rule, `${source} has an explicit redirect`);
+    assert.equal(rule.status, 301, source);
+    assert.equal(rule.forced, true, source);
+    assert.match(rule.target, /\.html$/, source);
+    const result = followRedirects(rules, source);
+    assert.ok(result.hops <= 2, `${source} used ${result.hops} hops`);
+  }
 });

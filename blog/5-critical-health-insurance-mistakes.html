@@ -519,7 +519,7 @@
                 align-items: center;
             }
         }
-    
+
 /* LHI Header Standardization Override */
 header .brand-name,
 header .logo {
@@ -575,7 +575,7 @@ header .cta-button {
                         <div class="dot"></div>
                     </div>
                 </button>
-                
+
                 <div class="dropdown-menu" id="dropdownMenu">
                     <div class="menu-item"><a href="/">Home</a></div>
                     <div class="menu-item"><a href="/#plans">Health Plans</a></div>
@@ -676,17 +676,17 @@ header .cta-button {
                 <div class="related-post">
                     <h3>Insurance Claim Denied? Review the Next Steps</h3>
                     <p>Review the denial reason, plan documents, records, appeal process, and available external review.</p>
-                    <a href="/blog/what-to-do-if-health-plan-denies-a-claim.html">Read More &rarr;</a>
+                    <a href="/blog/what-to-do-if-health-plan-denies-a-claim.html">Insurance Claim Denied? Review the Next Steps &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>The Real Cost of Going Without Health Insurance</h3>
                     <p>Review emergency, hospital, prescription, and ongoing-care exposure without comprehensive coverage.</p>
-                    <a href="real-cost-going-without-health-insurance.html">Read More &rarr;</a>
+                    <a href="real-cost-going-without-health-insurance.html">The Real Cost of Going Without Health Insurance &rarr;</a>
                 </div>
                 <div class="related-post">
                     <h3>How to Use Health Insurance and Manage Yearly Costs</h3>
                     <p>Your complete guide to deductibles, copays, and networks.</p>
-                    <a href="how-to-use-health-insurance-without-going-broke.html">Read More &rarr;</a>
+                    <a href="how-to-use-health-insurance-without-going-broke.html">How to Use Health Insurance and Manage Yearly Costs &rarr;</a>
                 </div>
             </div>
         </div>
@@ -718,7 +718,7 @@ header .cta-button {
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('dropdownMenu');
             const button = document.querySelector('.menu-button');
-            
+
             if (!menu.contains(event.target) && !button.contains(event.target)) {
                 menu.classList.remove('show');
             }
@@ -744,7 +744,7 @@ header .cta-button {
             const scrolled = window.pageYOffset;
             const rate = scrolled / (article.offsetHeight - window.innerHeight);
             const progress = Math.min(rate * 100, 100);
-            
+
             // You could add a progress bar here if desired
         });
     </script>
