@@ -1,12 +1,9 @@
 import crypto from "node:crypto";
-import { createRequire } from "node:module";
-
-const require = createRequire(import.meta.url);
-const {
+import {
   buildGoogleAdsLeadPayload,
   postWebsiteLead,
   readGoogleAdsBridgeConfig,
-} = require("./lead-bridge.js");
+} from "./lead-bridge.js";
 
 export const RELAY_PROTOCOL = Object.freeze({
   envelopeSource: "google_ads",
