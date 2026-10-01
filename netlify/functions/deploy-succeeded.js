@@ -11,7 +11,9 @@
  *   - payload.context / CONTEXT must be "production"
  *   - LHI_SITE_ENV, when set, must be "production"
  *   - Deploy previews and branch deploys are skipped
- *   - Hostname, when known, must be lakelandhealthinsurance.com
+ *   - Hostname, when known, must include lakelandhealthinsurance.com.
+ *     A production branch alias such as main--lhi.netlify.app does not skip
+ *     the ping when the deploy context (or production branch) is production.
  *
  * URL selection:
  *   - Fetch the live sitemap and submit URLs whose lastmod is on the
@@ -40,16 +42,31 @@ function hostnameOf(value) {
   }
 }
 
-function looksLikePreviewHost(hostname) {
-  if (!hostname) return false;
-  if (hostname.includes('--')) return true;
-  if (hostname.endsWith('.netlify.app') && !PRODUCTION_HOSTS.has(hostname)) return true;
-  return false;
+function deployContext(payload = {}, env = process.env) {
+  return String(payload.context || env.CONTEXT || '').trim().toLowerCase();
+}
+
+function deployBranch(payload = {}, env = process.env) {
+  return String(payload.branch || env.BRANCH || env.HEAD || '').trim();
+}
+
+function productionBranchName(payload = {}, env = process.env) {
+  return String(payload.production_branch || env.PRODUCTION_BRANCH || 'main').trim();
 }
 
 function isProductionLakelandDeploy(payload = {}, env = process.env) {
-  const context = String(payload.context || env.CONTEXT || '').trim().toLowerCase();
-  if (context !== 'production') return { ok: false, reason: `context=${context || '(empty)'}` };
+  const context = deployContext(payload, env);
+  if (context === 'deploy-preview' || context === 'branch-deploy') {
+    return { ok: false, reason: `context=${context}` };
+  }
+
+  const branch = deployBranch(payload, env);
+  const productionBranch = productionBranchName(payload, env);
+  const productionContext = context === 'production';
+  const productionBranchMatch = Boolean(branch) && branch === productionBranch;
+  if (!productionContext && !productionBranchMatch) {
+    return { ok: false, reason: `context=${context || '(empty)'}` };
+  }
 
   const siteEnv = String(env.LHI_SITE_ENV || '').trim().toLowerCase();
   if (siteEnv && siteEnv !== 'production') {
@@ -64,10 +81,8 @@ function isProductionLakelandDeploy(payload = {}, env = process.env) {
     env.SITE_URL
   ].map(hostnameOf).filter(Boolean);
 
-  if (hosts.some(looksLikePreviewHost)) {
-    return { ok: false, reason: `preview-or-branch-host=${hosts.join(',')}` };
-  }
-
+  // Production deploys include a main--*.netlify.app alias among their URLs.
+  // That alias must not veto a production context with a canonical host.
   const productionHost = hosts.find((host) => PRODUCTION_HOSTS.has(host));
   if (hosts.length > 0 && !productionHost) {
     return { ok: false, reason: `non-production-host=${hosts.join(',')}` };

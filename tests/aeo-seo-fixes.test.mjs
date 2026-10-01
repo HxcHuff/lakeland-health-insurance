@@ -77,6 +77,24 @@ test('IndexNow ping is production-only, fail-open, and needs no secrets', () => 
   assert.equal(isProductionLakelandDeploy({ context: 'branch-deploy' }, {}).ok, false);
   assert.equal(isProductionLakelandDeploy({ context: 'production', url: 'https://deploy-preview-9--demo.netlify.app' }, {}).ok, false);
   assert.equal(isProductionLakelandDeploy({ context: 'production', url: `${ORIGIN}/` }, { LHI_SITE_ENV: 'production' }).ok, true);
+  assert.equal(
+    isProductionLakelandDeploy({
+      context: 'production',
+      branch: 'main',
+      url: `${ORIGIN}/`,
+      ssl_url: `${ORIGIN}/`,
+      deploy_ssl_url: 'https://main--lhi.netlify.app',
+    }, { LHI_SITE_ENV: 'production', URL: 'https://main--lhi.netlify.app' }).ok,
+    true,
+  );
+  assert.equal(
+    isProductionLakelandDeploy({
+      context: 'deploy-preview',
+      url: `${ORIGIN}/`,
+      deploy_ssl_url: 'https://deploy-preview-217--lhi.netlify.app',
+    }, {}).ok,
+    false,
+  );
 
   const sourceText = source('netlify/functions/deploy-succeeded.js');
   assert.doesNotMatch(sourceText, /process\.env\.[A-Z0-9_]+_SECRET|INDEXNOW_API_KEY/);
@@ -104,8 +122,27 @@ test('IndexNow submits lastmod-changed URLs and swallows handler errors', async 
   const posted = JSON.parse(calls.find((call) => String(call.url).includes('indexnow')).options.body);
   assert.deepEqual(posted.urlList, [`${ORIGIN}/blog/a.html`]);
 
+  const productionWithAlias = await pingIndexNow({
+    payload: {
+      context: 'production',
+      branch: 'main',
+      url: `${ORIGIN}/`,
+      deploy_ssl_url: 'https://main--lhi.netlify.app',
+      published_at: '2026-09-30T12:00:00.000Z',
+    },
+    env: { CONTEXT: 'production', LHI_SITE_ENV: 'production', URL: 'https://main--lhi.netlify.app' },
+    fetchImpl: async (url, options = {}) => {
+      calls.push({ url, options });
+      if (String(url).includes('sitemap.xml')) return { ok: true, status: 200, text: async () => sitemap };
+      return { ok: true, status: 200, text: async () => 'ok' };
+    },
+    now: new Date('2026-09-30T12:00:00.000Z'),
+  });
+  assert.equal(productionWithAlias.skipped, false);
+  assert.equal(productionWithAlias.submitted, 1);
+
   const preview = await pingIndexNow({
-    payload: { context: 'deploy-preview' },
+    payload: { context: 'deploy-preview', deploy_ssl_url: 'https://deploy-preview-217--lhi.netlify.app' },
     fetchImpl: async () => { throw new Error('must not fetch'); },
   });
   assert.equal(preview.skipped, true);
@@ -147,6 +184,47 @@ test('facility posts use one question for title, H1, and headline, without ellip
     assert.ok(answer, rel);
     const words = answer[1].replace(/<[^>]+>/g, ' ').trim().split(/\s+/).length;
     assert.ok(words >= 40 && words <= 60, `${rel} answer words ${words}`);
+  }
+});
+
+function hexToRgb(hex) {
+  const value = hex.replace('#', '');
+  return [0, 2, 4].map((offset) => Number.parseInt(value.slice(offset, offset + 2), 16) / 255);
+}
+
+function relativeLuminance(hex) {
+  const [r, g, b] = hexToRgb(hex).map((channel) => (
+    channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+  ));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function contrastRatio(foreground, background) {
+  const lighter = Math.max(relativeLuminance(foreground), relativeLuminance(background));
+  const darker = Math.min(relativeLuminance(foreground), relativeLuminance(background));
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+test('Direct answer box keeps navy text on mint at 4.5:1 inside dark heroes', () => {
+  const css = source('css/blog-unified.css');
+  assert.match(
+    css,
+    /body\.blog-post \.hero \.key-answer[\s\S]*?color:\s*var\(--lhi-navy,\s*#1B2A4A\)\s*!important/,
+  );
+  const ratio = contrastRatio('#1B2A4A', '#F0FDFA');
+  assert.ok(ratio >= 4.5, `navy on mint contrast ${ratio.toFixed(2)}`);
+
+  const affected = [
+    'blog/adventhealth-haines-city.html',
+    'blog/florida-insurance-guide.html',
+    'blog/health-insurance-tampa-2026.html',
+    'blog/lakeland-regional-health-insurance-accepted.html',
+    'blog/health-insurance-wesley-chapel-2026.html',
+  ];
+  for (const rel of affected) {
+    const html = source(rel);
+    assert.match(html, /\/css\/blog-unified\.css/);
+    assert.match(html, /class="key-answer"/);
   }
 });
 
