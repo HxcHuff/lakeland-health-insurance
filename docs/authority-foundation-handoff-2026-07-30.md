@@ -58,10 +58,9 @@ No public URL was changed. No redirect was added. The existing Florida guide, Le
 ## Conversion and privacy changes
 
 - `/quote/` keeps the ZIP in-browser, checks Florida prefixes 320–349, and provides official HealthCare.gov/Medicare.gov fallback outside Florida.
-- `/get-help/` separately records request, call, SMS, service email, and marketing email authorization.
+- `/get-help/` separately records request, call, SMS, and service email authorization.
 - Consent evidence includes text version, timestamp, page, explicit per-channel state, and `not_withdrawn_at_submission`.
 - Preferred contact must match an authorized channel and a corresponding phone number or email.
-- Sales leads enter Mailchimp only when separate marketing-email authorization is present; new subscriptions remain pending confirmation.
 - Google enhanced-conversion user data is disabled.
 - Client tracking strips identity, contact, ZIP, income, health status, coverage status, timing, provider, prescription, intent, line of business, lead priority, and free text.
 - Server ad events omit contact identity, ZIP, IP address, user agent, intent, line of business, and lead priority.

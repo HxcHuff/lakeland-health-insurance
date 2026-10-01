@@ -3,7 +3,7 @@
  *
  * The Google-facing shared key authenticates intake only. A separate HMAC
  * secret signs the minimized payload delivered to the pinned Apps Script CRM
- * endpoint. No Mailchimp, Twilio, customer messaging, or PII-bearing
+ * endpoint. No Twilio, customer messaging, or PII-bearing
  * notification is performed by this function.
  */
 

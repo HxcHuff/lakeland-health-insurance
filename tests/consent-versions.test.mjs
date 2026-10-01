@@ -62,7 +62,6 @@ test('documented consent label text matches the live HTML on every listed page',
     'lp-aca-2026-09-29-v2',
     'lp-medicare-2026-09-29-v2',
     'lp-gap-2026-09-29-v2',
-    'marketing-email-2026-09-30-v1',
     'none'
   ]);
 
@@ -107,10 +106,9 @@ test('city health-insurance forms have no SMS checkbox', () => {
   }
 });
 
-test('get-help declares consent_marketing_email_version without stamping the sitelink label ID', () => {
+test('get-help keeps the v2 consent version and has no marketing-email list fields', () => {
   const html = readFileSync(resolve(ROOT, 'get-help/index.html'), 'utf8');
-  assert.match(html, /name="consent_marketing_email_version" id="consentMarketingEmailVersionInput"/);
-  assert.doesNotMatch(html, /name="consent_marketing_email_version" value="marketing-email-2026-09-30-v1"/);
+  assert.doesNotMatch(html, /ongoing educational and marketing emails/);
   assert.match(html, /name="consent_text_version" value="get-help-2026-09-29-v2"/);
 });
 
@@ -118,7 +116,6 @@ test('lp-gap declares the server-set consent fields lead.js forwards', () => {
   const html = readFileSync(resolve(ROOT, 'lp/gap/index.html'), 'utf8');
   const form = html.match(/<form id="gapLeadForm"[\s\S]*?<\/form>/)[0];
   for (const field of [
-    'consent_marketing_email_state',
     'consent_sms_state',
     'consent_email_state',
     'consent_call_state',

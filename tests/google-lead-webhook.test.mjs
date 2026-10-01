@@ -1015,6 +1015,8 @@ test("source has no customer messaging or external marketing delivery and retry 
   );
   const config = await readFile(new URL("../netlify.toml", import.meta.url), "utf8");
   const implementation = `${webhookSource}\n${helperSource}`;
+  // Deliberate grep exception: api.mailchimp.com is listed only as a prohibited
+  // outbound host this webhook must never call. It is not a Mailchimp integration.
   for (const prohibited of ["api.mailchimp.com", "api.twilio.com", "customer.io", "Customer.io"]) {
     assert.equal(implementation.includes(prohibited), false);
   }

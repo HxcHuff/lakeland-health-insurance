@@ -2179,15 +2179,12 @@ test('get-help consent evidence is channel-specific and versioned', () => {
     'consent_call',
     'consent_sms',
     'consent_email',
-    'consent_marketing_email',
-    'consent_marketing_email_version',
     'consent_text_version',
     'consent_recorded_at',
     'consent_request_state',
     'consent_call_state',
     'consent_sms_state',
     'consent_email_state',
-    'consent_marketing_email_state',
     'consent_withdrawal_state'
   ]) {
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
