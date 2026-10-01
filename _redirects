@@ -159,12 +159,12 @@
 /blog/short-term-medical-guide/ /blog/short-term-medical-guide.html 301!
 /blog/trump-state-of-the-union-healthcare-hsa-2026 /blog/trump-state-of-the-union-healthcare-hsa-2026.html 301!
 /blog/trump-state-of-the-union-healthcare-hsa-2026/ /blog/trump-state-of-the-union-healthcare-hsa-2026.html 301!
-/blog/understanding-out-of-pocket-maximum /blog/understanding-out-of-pocket-maximum.html 301!
-/blog/understanding-out-of-pocket-maximum/ /blog/understanding-out-of-pocket-maximum.html 301!
+/blog/understanding-out-of-pocket-maximum /blog/deductible-vs-out-of-pocket-maximum.html 301!
+/blog/understanding-out-of-pocket-maximum/ /blog/deductible-vs-out-of-pocket-maximum.html 301!
 /blog/what-is-supplemental-coverage /blog/what-is-supplemental-coverage.html 301!
 /blog/what-is-supplemental-coverage/ /blog/what-is-supplemental-coverage.html 301!
-/blog/what-to-do-when-insurance-denies-claim /blog/what-to-do-when-insurance-denies-claim.html 301!
-/blog/what-to-do-when-insurance-denies-claim/ /blog/what-to-do-when-insurance-denies-claim.html 301!
+/blog/what-to-do-when-insurance-denies-claim /blog/what-to-do-if-health-plan-denies-a-claim.html 301!
+/blog/what-to-do-when-insurance-denies-claim/ /blog/what-to-do-if-health-plan-denies-a-claim.html 301!
 
 # Newer blog posts (non-.html → .html redirects)
 /blog/er-visit-cost-lakeland-without-insurance-2026 /blog/er-visit-cost-lakeland-without-insurance-2026.html 301!
@@ -301,8 +301,6 @@
 # Remaining blog extensionless and trailing-slash aliases
 /blog/3-things-changing-florida-health-insurance-may-2026 /blog/3-things-changing-florida-health-insurance-may-2026.html 301!
 /blog/3-things-changing-florida-health-insurance-may-2026/ /blog/3-things-changing-florida-health-insurance-may-2026.html 301!
-/blog/aca-premiums-2026-lakeland /blog/aca-premiums-2026-lakeland.html 301!
-/blog/aca-premiums-2026-lakeland/ /blog/aca-premiums-2026-lakeland.html 301!
 /blog/aca-subsidy-wrong-income-florida /blog/aca-subsidy-wrong-income-florida.html 301!
 /blog/aca-subsidy-wrong-income-florida/ /blog/aca-subsidy-wrong-income-florida.html 301!
 /blog/adventhealth-haines-city /blog/adventhealth-haines-city.html 301!
@@ -379,8 +377,6 @@
 /blog/employer-coverage-family-marketplace-affordability-florida/ /blog/employer-coverage-family-marketplace-affordability-florida.html 301!
 /blog/encompass-health-lakeland-insurance /blog/encompass-health-lakeland-insurance.html 301!
 /blog/encompass-health-lakeland-insurance/ /blog/encompass-health-lakeland-insurance.html 301!
-/blog/florida-aca-premiums-up-31-percent-2026 /blog/florida-aca-premiums-up-31-percent-2026.html 301!
-/blog/florida-aca-premiums-up-31-percent-2026/ /blog/florida-aca-premiums-up-31-percent-2026.html 301!
 /blog/florida-cancer-specialists-davenport /blog/florida-cancer-specialists-davenport.html 301!
 /blog/florida-cancer-specialists-davenport/ /blog/florida-cancer-specialists-davenport.html 301!
 /blog/gessler-clinic-insurance /blog/gessler-clinic-insurance.html 301!
@@ -523,3 +519,14 @@
 /blog/winter-haven-womens-hospital-insurance/ /blog/winter-haven-womens-hospital-insurance.html 301!
 /blog/zip-code-health-insurance-pricing-florida /blog/zip-code-health-insurance-pricing-florida.html 301!
 /blog/zip-code-health-insurance-pricing-florida/ /blog/zip-code-health-insurance-pricing-florida.html 301!
+
+# SEO audit 2026-10-01: canonical blog index and merged duplicate posts
+/blog/index.html /blog/ 301!
+/blog/aca-premiums-2026-lakeland.html /blog/why-florida-health-insurance-premiums-increased-2026.html 301!
+/blog/aca-premiums-2026-lakeland /blog/why-florida-health-insurance-premiums-increased-2026.html 301!
+/blog/aca-premiums-2026-lakeland/ /blog/why-florida-health-insurance-premiums-increased-2026.html 301!
+/blog/florida-aca-premiums-up-31-percent-2026.html /blog/why-florida-health-insurance-premiums-increased-2026.html 301!
+/blog/florida-aca-premiums-up-31-percent-2026 /blog/why-florida-health-insurance-premiums-increased-2026.html 301!
+/blog/florida-aca-premiums-up-31-percent-2026/ /blog/why-florida-health-insurance-premiums-increased-2026.html 301!
+/blog/understanding-out-of-pocket-maximum.html /blog/deductible-vs-out-of-pocket-maximum.html 301!
+/blog/what-to-do-when-insurance-denies-claim.html /blog/what-to-do-if-health-plan-denies-a-claim.html 301!
