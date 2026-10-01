@@ -14,13 +14,11 @@ const WEBHOOK_URL = "https://example.test/api/google-lead-webhook";
 const BRIDGE_URL = "https://google-ads-lead-relay.vercel.app";
 const BRIDGE_ENDPOINT = BRIDGE_URL + "/";
 const BRIDGE_KEY = "synthetic-lead-bridge-key-001";
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbSYNTHETIC_GOOGLE_ADS_RECEIVER_001/exec";
 const GOOGLE_KEY = "synthetic-aca-google-webhook-key-0001";
 const MEDICARE_GOOGLE_KEY = "synthetic-medicare-google-webhook-key-0002";
 const OVERLONG_GOOGLE_KEY = Buffer.from(
   Array.from({ length: 38 }, (_, index) => index + 1),
 ).toString("base64url");
-const HMAC_SECRET = Buffer.from(Array.from({ length: 48 }, (_, index) => index + 1)).toString("base64url");
 const FIXED_NOW = Date.parse("2026-08-27T20:00:00.000Z");
 
 function makePayload(overrides = {}) {
@@ -72,8 +70,6 @@ function makeEnv(overrides = {}) {
     GOOGLE_LEAD_WEBHOOK_KEY_398917236265: MEDICARE_GOOGLE_KEY,
     LEAD_BRIDGE_URL: BRIDGE_URL,
     LEAD_BRIDGE_KEY: BRIDGE_KEY,
-    HUFFSHERPA_LEAD_WEBHOOK_URL_V1: APPS_SCRIPT_URL,
-    HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: HMAC_SECRET,
     ...overrides,
   };
   return (key) => String(values[key] || "");
@@ -462,8 +458,6 @@ test("scheduled scanning is bounded, concurrent, and rotates across later candid
   const maintenanceOnlyEnv = makeEnv({
     LEAD_BRIDGE_URL: "",
     LEAD_BRIDGE_KEY: "",
-    HUFFSHERPA_LEAD_WEBHOOK_URL_V1: "",
-    HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: "",
   });
   const retry = createRetryHandler({
     env: maintenanceOnlyEnv,
@@ -515,8 +509,6 @@ test("scheduled retention purges payloads without relay configuration and later 
     GOOGLE_LEAD_WEBHOOK_KEY_398917236265: "",
     LEAD_BRIDGE_URL: "",
     LEAD_BRIDGE_KEY: "",
-    HUFFSHERPA_LEAD_WEBHOOK_URL_V1: "",
-    HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: "",
   });
   const purge = createRetryHandler({
     env: maintenanceEnv,
@@ -979,12 +971,14 @@ test("production intake rejects reused authentication secrets", async () => {
   assert.equal(reused.apps.calls.length, 0);
 });
 
-test("Google Ads CRM delivery works without leftover HuffSherpa env vars", async () => {
+test("Google Ads CRM delivery ignores leftover HuffSherpa and Apps Script env vars", async () => {
   const apps = makeBridgeFetch();
   const context = makeContext({
     env: makeEnv({
-      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: "",
-      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: "",
+      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: "https://script.google.com/macros/s/AKfycbSYNTHETIC_GOOGLE_ADS_RECEIVER_001/exec",
+      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: "unused-huffsherpa-secret",
+      APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "https://script.google.com/macros/s/AKfycbSYNTHETIC_GOOGLE_ADS_RECEIVER_001/exec",
+      APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1: "unused-apps-script-secret",
     }),
     fetchImpl: apps.fetchImpl,
   });

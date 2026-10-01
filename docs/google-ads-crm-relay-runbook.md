@@ -32,12 +32,15 @@ Required production environment variables:
 | `LEAD_BRIDGE_URL` | HTTPS origin of the Vercel lead relay. This webhook POSTs `{LEAD_BRIDGE_URL}/`. |
 | `LEAD_BRIDGE_KEY` | Shared bridge key sent as `x-bridge-key`. Must differ from both Google form keys. Placeholder values are rejected. |
 
-Leftover HuffSherpa variables are unused on this path. Do not delete them in Netlify until David says so:
+Leftover HuffSherpa and Apps Script variables are unused on this path. Do not delete them in Netlify until David says so:
 
 | Name | Status |
 | --- | --- |
 | `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Unused. Previously the Apps Script `/exec` URL. |
 | `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Unused. Previously the HMAC envelope secret. |
+| `HUFFSHERPA_RELAY_ALERT_EMAIL` | Unused. Previously the HuffSherpa alert address. |
+| `APPS_SCRIPT_LEAD_WEBHOOK_URL_V1` | Unused. Renamed Apps Script receiver URL. This webhook does not read it. |
+| `APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1` | Unused. Renamed Apps Script HMAC secret. This webhook does not read it. |
 
 Netlify serverless runtimes supply the read-only `SITE_ID`, which must exactly match `b6ad2d8f-d771-44f4-89b5-7ab30350950e`. The build-only `CONTEXT` value may be absent at runtime and cannot authorize intake. Configure `LHI_SITE_ENV=production` in Netlify's site environment with Functions scope and the Production deploy context only; the values in `netlify.toml` are build-side settings and do not establish this runtime control. All listed application variables must be production-scoped and unavailable to deploy previews and branch deploys.
 
@@ -77,7 +80,7 @@ Every scheduled run emits one `google_ads_crm_relay_summary` event. `ATTENTION_R
 
 Activation is a separate approval gate from source changes.
 
-1. Merge and deploy `HxcHuff/google-ads-lead-relay#7` first so `POST /` writes HubSpot portal 247504188.
+1. `HxcHuff/google-ads-lead-relay#7` is already merged to that repo's main, so `POST /` writes HubSpot portal 247504188. Deploy that relay before this Netlify release if production is not already running it.
 2. Confirm production Netlify already has `LEAD_BRIDGE_URL`, `LEAD_BRIDGE_KEY`, the two Google form keys, and the routing allowlist. Do not delete leftover `HUFFSHERPA_*` variables.
 3. Deploy this Netlify release so `/api/google-lead-webhook` posts only to `{LEAD_BRIDGE_URL}/`.
 4. Keep `/api/google-lead-webhook` and the corresponding unique key on each Google Ads form unless David separately points Google Ads at the Vercel URL.

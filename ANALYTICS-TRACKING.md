@@ -145,7 +145,7 @@ Measurement boundaries are intentionally separate:
 
 ### Website CRM (Netlify Forms → Vercel bridge)
 
-Allowlisted website form submissions post to `{LEAD_BRIDGE_URL}/website/lead`. That bridge writes HubSpot portal 247504188. HuffSherpa is retired on this path. A failed or missing bridge call is logged and must not drop the lead silently. Mailchimp and Meta CAPI stay on `/api/lead` and do not depend on HuffSherpa.
+Allowlisted website form submissions post to `{LEAD_BRIDGE_URL}/website/lead`. That bridge writes HubSpot portal 247504188. HuffSherpa and Apps Script are not called. A failed bridge POST is logged, queued for `lead-bridge-retry`, and the visitor still receives HTTP 200. Missing `LEAD_BRIDGE_URL` or `LEAD_BRIDGE_KEY` is logged as an error and queued the same way; it is not a silent skip. Mailchimp and Meta CAPI stay on `/api/lead` and do not depend on HuffSherpa.
 
 | Variable | Surface | Required | Notes |
 |---|---|---:|---|
@@ -169,6 +169,8 @@ Allowlisted website form submissions post to `{LEAD_BRIDGE_URL}/website/lead`. T
 | `GOOGLE_LEAD_WEBHOOK_KEY_357496832026` | Server only | Yes | Unique high-entropy Google key for the approved ACA form. Never expose, persist, or log it. |
 | `GOOGLE_LEAD_WEBHOOK_KEY_398917236265` | Server only | Yes | Different unique high-entropy Google key for the approved Medicare form. Never expose, persist, or log it. |
 | `LEAD_BRIDGE_URL` / `LEAD_BRIDGE_KEY` | Server only | Yes, for Google-hosted CRM | Same vars as website CRM. This webhook POSTs `{LEAD_BRIDGE_URL}/`. |
+| `APPS_SCRIPT_LEAD_WEBHOOK_URL_V1` | Server only | Unused in this repo | Leftover Apps Script `/exec` URL. The Google-hosted webhook does not read it. Do not delete in Netlify until David says so. |
+| `APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1` | Server only | Unused in this repo | Leftover Apps Script HMAC secret. Same as above. |
 | `MAILCHIMP_API_KEY` | Server only | Yes, for audience sync | Runtime Mailchimp API key. If unset, Mailchimp is skipped with a one-line warning. Never log or commit it. |
 | `MAILCHIMP_AUDIENCE_ID` | Server only | Yes, for audience sync | Audience / list id. Production value `cd34641e14`. |
 | `MAILCHIMP_DC` | Server only | Yes, for audience sync | Data-center prefix. Production value `us17`. |

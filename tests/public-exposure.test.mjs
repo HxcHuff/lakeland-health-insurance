@@ -211,8 +211,8 @@ test('plans presents five one-click coverage choices with relevant limitations',
   const cmsFactSheet = 'https://www.cms.gov/newsroom/fact-sheets/short-term-limited-duration-insurance-and-independent-noncoordinated-excepted-benefits-coverage-cms';
   assert.match(PLANS, new RegExp(cmsFactSheet));
   assert.doesNotMatch(PLANS, /fixed-indemnity-excepted-benefits-coverage-notice\.pdf/);
-  assert.match(PLANS, /"dateModified": "2026-09-26"/);
-  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/plans\/<\/loc>\s*<lastmod>2026-09-26<\/lastmod>/);
+  assert.match(PLANS, /"dateModified": "2026-09-30"/);
+  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/plans\/<\/loc>\s*<lastmod>2026-09-30<\/lastmod>/);
 });
 
 test('quote presents three direct actions without a routing form or plans detour', () => {
@@ -252,14 +252,14 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
   assert.match(HOME, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(QUOTE, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(SITE_SEARCH, /url: "\/coverage-center\/"/);
-  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/coverage-center\/<\/loc>\s*<lastmod>2026-09-16<\/lastmod>/);
+  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/coverage-center\/<\/loc>\s*<lastmod>2026-09-30<\/lastmod>/);
 });
 
 test('ACA pricing CTA reaches the quote actions without legacy router language', () => {
   assert.match(ACA, /href="\/quote\/">Get pricing or start a review<\/a>/);
   assert.doesNotMatch(ACA, /coverage router/i);
-  assert.match(ACA, /"dateModified": "2026-09-24"/);
-  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/aca-health-insurance-lakeland-fl\/<\/loc>\s*<lastmod>2026-09-24<\/lastmod>/);
+  assert.match(ACA, /"dateModified": "2026-10-01"/);
+  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/aca-health-insurance-lakeland-fl\/<\/loc>\s*<lastmod>2026-10-01<\/lastmod>/);
 });
 
 test('private medical insurance route separates product categories and keeps intake privacy-minimized', () => {
@@ -291,7 +291,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 182);
+  assert.equal(templateConsumers.length, 231);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_TEMPLATE_LOADER), true, `${relative(ROOT, file)} uses the current shared-template release`);

@@ -7,11 +7,77 @@ Disallow: /lp/facebook-ad-copy.html
 Disallow: /thanks.html
 Disallow: /google79927e3ae56b9c82.html
 
+User-agent: GPTBot
+Allow: /
+Disallow: /offline.html
+Disallow: /lp/campaign-funnel-map.html
+Disallow: /lp/campaign-strategy.html
+Disallow: /lp/facebook-ad-copy.html
+Disallow: /thanks.html
+Disallow: /google79927e3ae56b9c82.html
+
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /offline.html
+Disallow: /lp/campaign-funnel-map.html
+Disallow: /lp/campaign-strategy.html
+Disallow: /lp/facebook-ad-copy.html
+Disallow: /thanks.html
+Disallow: /google79927e3ae56b9c82.html
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /offline.html
+Disallow: /lp/campaign-funnel-map.html
+Disallow: /lp/campaign-strategy.html
+Disallow: /lp/facebook-ad-copy.html
+Disallow: /thanks.html
+Disallow: /google79927e3ae56b9c82.html
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /offline.html
+Disallow: /lp/campaign-funnel-map.html
+Disallow: /lp/campaign-strategy.html
+Disallow: /lp/facebook-ad-copy.html
+Disallow: /thanks.html
+Disallow: /google79927e3ae56b9c82.html
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /offline.html
+Disallow: /lp/campaign-funnel-map.html
+Disallow: /lp/campaign-strategy.html
+Disallow: /lp/facebook-ad-copy.html
+Disallow: /thanks.html
+Disallow: /google79927e3ae56b9c82.html
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /offline.html
+Disallow: /lp/campaign-funnel-map.html
+Disallow: /lp/campaign-strategy.html
+Disallow: /lp/facebook-ad-copy.html
+Disallow: /thanks.html
+Disallow: /google79927e3ae56b9c82.html
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /offline.html
+Disallow: /lp/campaign-funnel-map.html
+Disallow: /lp/campaign-strategy.html
+Disallow: /lp/facebook-ad-copy.html
+Disallow: /thanks.html
+Disallow: /google79927e3ae56b9c82.html
+
+User-agent: Bingbot
+Allow: /
+Disallow: /offline.html
+Disallow: /lp/campaign-funnel-map.html
+Disallow: /lp/campaign-strategy.html
+Disallow: /lp/facebook-ad-copy.html
+Disallow: /thanks.html
+Disallow: /google79927e3ae56b9c82.html
 
 Sitemap: https://lakelandhealthinsurance.com/sitemap.xml
 Sitemap: https://lakelandhealthinsurance.com/sitemap_index.xml

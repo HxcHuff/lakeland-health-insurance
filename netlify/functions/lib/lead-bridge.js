@@ -5,9 +5,11 @@
  * destination (HubSpot portal 247504188). Never texts or emails a lead.
  *
  * Website Forms POST `{LEAD_BRIDGE_URL}/website/lead`. Google-hosted Ads
- * lead forms POST `{LEAD_BRIDGE_URL}/`. Missing LEAD_BRIDGE_URL /
- * LEAD_BRIDGE_KEY is a visible production failure. POST failures are
- * logged and retried from the caller outbox.
+ * lead forms POST `{LEAD_BRIDGE_URL}/`. A failed website POST is logged and
+ * queued in `website-lead-bridge-outbox-v1` for `lead-bridge-retry`.
+ * Missing LEAD_BRIDGE_URL / LEAD_BRIDGE_KEY is logged as an error and
+ * queued the same way. It is not a silent skip. HuffSherpa and Apps Script
+ * are not called.
  */
 
 const crypto = require('node:crypto');
@@ -687,7 +689,37 @@ async function deliverWebsiteLead({
     if (!isProductionContext(environment)) return { skipped: true, reason: 'non_production' };
 
     const config = readBridgeConfig(environment);
-    if (!config) return { skipped: true, reason: 'missing_configuration' };
+    if (!config) {
+      const missingFactory = typeof storeFactory === 'function'
+        ? storeFactory
+        : createProductionStoreFactory({ environment, blobsImport });
+      const missingStore = await openBridgeStore(missingFactory, event);
+      let missingQueued = false;
+      if (missingStore) {
+        try {
+          missingQueued = await enqueueFailedLead({
+            store: missingStore,
+            lead,
+            reason: 'missing_configuration',
+            nowMilliseconds: Number(now()),
+            permanent: false
+          });
+        } catch {
+          missingQueued = false;
+        }
+      }
+      safeLog(logger, {
+        form_name: lead.form_name,
+        outcome: 'FAILED',
+        reason: 'missing_configuration'
+      });
+      return {
+        skipped: false,
+        ok: false,
+        queued: missingQueued,
+        reason: 'missing_configuration'
+      };
+    }
 
     const result = await postWebsiteLead({
       lead,
@@ -839,6 +871,10 @@ function createBridgeRetryHandler({
     }
     const config = readBridgeConfig(environment);
     if (!config) {
+      safeLog(logger, {
+        outcome: 'FAILED',
+        reason: 'missing_configuration'
+      });
       return {
         statusCode: 200,
         headers: { 'cache-control': 'no-store', 'content-type': 'application/json; charset=utf-8' },

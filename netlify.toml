@@ -5,11 +5,14 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+# deploy-succeeded.js is a Netlify event function. It pings IndexNow after a
+# successful production deploy of lakelandhealthinsurance.com and fail-opens
+# on every error so it cannot fail the deploy. No extra secrets required.
+
 [functions."google-lead-crm-retry"]
   schedule = "*/15 * * * *"
 
-# HuffSherpa website-lead retry is retired. The function file remains so an
-# accidental invoke is a no-op; do not reschedule it.
+# huffsherpa-relay-retry was removed. Do not reschedule it.
 [functions."lead-bridge-retry"]
   schedule = "*/15 * * * *"
 

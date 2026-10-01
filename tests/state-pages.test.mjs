@@ -223,7 +223,7 @@ test('APTC, Medicaid-gap, and NC work-requirement copy match the approved verdic
   }
   const texas = source('health-insurance-texas/index.html');
   const georgia = source('health-insurance-georgia/index.html');
-  assert.ok(texas.includes(repay));
+  assert.ok(!texas.includes(repay), 'Texas CMS card should not repeat the APTC repayment point');
   assert.ok(georgia.includes(repay));
   assert.ok(georgia.includes(aptcGa));
   assert.ok(source('health-insurance-north-carolina/index.html').includes(ncWork));

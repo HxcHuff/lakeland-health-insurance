@@ -1,5 +1,4 @@
 import assert from 'node:assert/strict';
-import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
@@ -8,22 +7,17 @@ import { test } from 'node:test';
 
 const require = createRequire(import.meta.url);
 const {
-  createRetryHandler,
   createSubmissionCreatedHandler,
   _test
 } = require('../netlify/functions/submission-created.js');
 const { relaySchema } = require('../netlify/functions/lead.js');
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SECRET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-';
-const DEPLOYMENT_ID = 'AKfycbSYNTHETIC_HUFFSHERPA_DEPLOYMENT_001';
-const ENDPOINT = 'https://script.google.com/macros/s/' + DEPLOYMENT_ID + '/exec';
-const REDIRECT = 'https://script.googleusercontent.com/opaque/content-service/result-v2'
-  + '?one_time=SYNTHETIC_USER_CONTENT_KEY_001&deployment=SYNTHETIC_LIBRARY_001';
 const BRIDGE_URL = 'https://google-ads-lead-relay.vercel.app';
 const BRIDGE_ENDPOINT = BRIDGE_URL + '/website/lead';
 const BRIDGE_KEY = 'synthetic-lead-bridge-key-001';
 const NOW = Date.parse('2026-08-27T16:00:00.000Z');
+const SUBMISSION_ID = '0123456789abcdef01234567';
 
 const RELAY_FORMS = [
   'get-help',
@@ -50,7 +44,7 @@ function submission(overrides = {}) {
   return {
     body: JSON.stringify({
       payload: {
-        id: '0123456789abcdef01234567',
+        id: SUBMISSION_ID,
         created_at: '2026-08-27T15:59:00.000Z',
         form_name: 'get-help',
         data: {
@@ -59,6 +53,11 @@ function submission(overrides = {}) {
           email: 'AVERY.FIXTURE@EXAMPLE.TEST',
           zip_code: '33801',
           line_of_business: 'ACA',
+          normalized_intent: 'aca',
+          inquiry_type: 'ACA guidance',
+          event_id: '11111111-2222-4333-a444-555555555555',
+          source_url: '/get-help/',
+          source_page: '/get-help/',
           gclid: 'CurrentGclid_CaseSensitive-001',
           gad_campaignid: '24123358247',
           utm_source: 'Google',
@@ -73,6 +72,10 @@ function submission(overrides = {}) {
           first_utm_campaign: 'first_touch',
           first_utm_term: 'First Touch Keyword',
           first_utm_content: 'sitelink',
+          consent_request: 'yes',
+          consent_call: 'yes',
+          consent_sms: 'no',
+          consent_email: 'yes',
           consent: 'must-not-forward',
           notes: 'Sensitive note must not forward',
           prescriptions: 'Sensitive prescription must not forward',
@@ -114,23 +117,22 @@ function memoryStore() {
   };
 }
 
-function finalResponse(value, headers = {}) {
-  return new Response(JSON.stringify(value), {
-    status: 200,
-    headers: {
-      'content-type': 'application/json; charset=utf-8',
-      ...headers
-    }
-  });
+function productionEnv(overrides = {}) {
+  return {
+    CONTEXT: 'production',
+    LHI_SITE_ENV: 'production',
+    LEAD_BRIDGE_URL: BRIDGE_URL,
+    LEAD_BRIDGE_KEY: BRIDGE_KEY,
+    ...overrides
+  };
 }
 
-function successFetch(calls, beforeFirstRequest = () => {}) {
+function bridgeFetch(calls, { status = 200, ok = true } = {}) {
   return async (url, options) => {
-    if (calls.length === 0) beforeFirstRequest();
     calls.push({ url: String(url), options });
     if (String(url).includes('/website/lead')) {
-      return new Response(JSON.stringify({ ok: true }), {
-        status: 200,
+      return new Response(JSON.stringify({ ok }), {
+        status,
         headers: { 'content-type': 'application/json' }
       });
     }
@@ -142,60 +144,18 @@ function makeHandler(overrides = {}) {
   const calls = [];
   const logs = [];
   const store = overrides.store || memoryStore();
-  const environment = {
-    CONTEXT: 'production',
-    LHI_SITE_ENV: 'production',
-    LEAD_BRIDGE_URL: BRIDGE_URL,
-    LEAD_BRIDGE_KEY: BRIDGE_KEY,
-    HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
-    HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
-    ...(overrides.environment || {})
-  };
   return {
     calls,
     logs,
     store,
     handler: createSubmissionCreatedHandler({
-      environment,
-      fetchImpl: overrides.fetchImpl || successFetch(calls),
+      environment: productionEnv(overrides.environment || {}),
+      fetchImpl: overrides.fetchImpl || bridgeFetch(calls),
       logger: (entry) => logs.push(entry),
       now: overrides.now || (() => NOW),
-      randomBytes: overrides.randomBytes || (() => Buffer.alloc(32, 7)),
-      storeFactory: overrides.storeFactory || (async () => {
-        throw new Error('retired HuffSherpa path must not open Blobs');
-      }),
-      bridgeStoreFactory: overrides.bridgeStoreFactory || (async () => store),
-      alertImpl: overrides.alertImpl || (async () => false),
-      timeoutMilliseconds: overrides.timeoutMilliseconds
+      bridgeStoreFactory: overrides.bridgeStoreFactory || (async () => store)
     })
   };
-}
-
-async function seedOutbox(store, event = submission(), nowMilliseconds = NOW) {
-  const normalized = _test.parseNetlifyEvent(event);
-  return _test.prepareOutboxAttempt({
-    store,
-    payload: normalized.payload,
-    secret: SECRET,
-    nowMilliseconds,
-    randomBytes: () => Buffer.alloc(32, 7)
-  });
-}
-
-function productionRetry(overrides = {}) {
-  return createRetryHandler({
-    environment: {
-      CONTEXT: 'production',
-      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
-      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
-      LHI_SITE_ENV: 'production'
-    },
-    logger: () => {},
-    now: () => NOW,
-    randomBytes: () => Buffer.alloc(32, 9),
-    alertImpl: async () => false,
-    ...overrides
-  });
 }
 
 function walkHtml(directory, files = []) {
@@ -214,49 +174,38 @@ async function expectRelayFailure(promise, code) {
   ));
 }
 
-test('Forms path posts the website lead to the Vercel bridge and does not call HuffSherpa', async () => {
-  const calls = [];
-  let huffsherpaStoreCalls = 0;
-  const store = memoryStore();
-  const fixture = makeHandler({
-    store,
-    fetchImpl: successFetch(calls, () => assert.equal(store.entries.size, 0)),
-    storeFactory: async () => {
-      huffsherpaStoreCalls += 1;
-      return store;
-    }
-  });
+test('Forms path posts one minimized website lead to the bridge', async () => {
+  const fixture = makeHandler();
   const result = await fixture.handler(submission());
 
   assert.equal(result.statusCode, 200);
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'DELIVERED' });
-  assert.equal(calls.length, 1);
-  assert.equal(huffsherpaStoreCalls, 0);
-  assert.equal(store.entries.size, 0);
-  assert.equal(calls[0].url, BRIDGE_ENDPOINT);
-  assert.equal(calls[0].options.method, 'POST');
-  assert.equal(calls[0].options.headers['x-bridge-key'], BRIDGE_KEY);
-  assert.equal(calls.some((call) => String(call.url).includes('script.google.com')), false);
-  assert.equal(fixture.logs.at(-1).event, 'website_lead_crm_relay');
-  assert.equal(fixture.logs.at(-1).outcome, 'DELIVERED');
-  assert.equal(fixture.logs.at(-1).reason, 'website_lead_bridge');
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'ACCEPTED' });
+  assert.equal(fixture.calls.length, 1);
+  assert.equal(fixture.calls[0].url, BRIDGE_ENDPOINT);
+  assert.equal(fixture.calls[0].options.method, 'POST');
+  assert.equal(fixture.calls[0].options.headers['x-bridge-key'], BRIDGE_KEY);
+  assert.equal(fixture.store.entries.size, 0);
+  assert.equal(fixture.logs.at(-1).event, 'website_form_lead_relay');
+  assert.equal(fixture.logs.at(-1).outcome, 'ACCEPTED');
+  assert.equal(fixture.logs.at(-1).reason, 'direct');
 
-  const lead = JSON.parse(calls[0].options.body);
+  const lead = JSON.parse(fixture.calls[0].options.body);
   assert.equal(lead.source, 'website_form');
   assert.equal(lead.form_name, 'get-help');
-  assert.equal(lead.first_name, 'Avery');
-  assert.equal(lead.last_name, 'Fixture');
+  assert.equal(lead.submission_id, SUBMISSION_ID);
+  assert.equal(lead.first, 'Avery');
+  assert.equal(lead.last, 'Fixture');
   assert.equal(lead.phone, '8635550118');
   assert.equal(lead.email, 'avery.fixture@example.test');
+  assert.equal(lead.intent, 'aca');
   assert.equal(lead.gclid, 'CurrentGclid_CaseSensitive-001');
   assert.equal(lead.first_gclid, 'FirstGclid_CaseSensitive-002');
-  assert.equal(lead.gad_campaignid, '24123358247');
-  assert.equal(lead.first_gad_campaignid, '23802433323');
-  assert.equal(Object.hasOwn(lead, 'gbraid'), false);
-  assert.equal(Object.hasOwn(lead, 'wbraid'), false);
   assert.equal(lead.lhi_gclid, 'CurrentGclid_CaseSensitive-001');
   assert.equal(lead.lhi_lead_source, 'google_ads_site');
   assert.equal(lead.lhi_attribution_status, 'click_id_matched');
+  assert.equal(lead.page_url, 'https://lakelandhealthinsurance.com/get-help/');
+  assert.equal(lead.consent.request, true);
+  assert.equal(lead.consent.sms, false);
 
   const serialized = JSON.stringify(lead);
   for (const forbidden of [
@@ -317,8 +266,7 @@ test('newsletters skip without configuration while unknown forms fail visibly', 
   const unconfigured = createSubmissionCreatedHandler({
     environment: {},
     fetchImpl: async () => { calls += 1; },
-    logger: (entry) => logs.push(entry),
-    storeFactory: async () => { throw new Error('must not load'); }
+    logger: (entry) => logs.push(entry)
   });
   for (const form_name of ['homepage-newsletter', 'newsletter-signup']) {
     const outcome = await unconfigured(submission({ form_name, data: { email: 'newsletter@example.test' } }));
@@ -333,7 +281,7 @@ test('newsletters skip without configuration while unknown forms fail visibly', 
   assert.equal(logs.at(-1).outcome, 'FAILED');
 });
 
-test('shared schema prevents cross-form injection and accepts campaign-only context', async () => {
+test('shared schema prevents cross-form injection', async () => {
   const fixture = makeHandler();
   const event = submission({
     form_name: 'aca-lakeland-lead',
@@ -353,161 +301,28 @@ test('shared schema prevents cross-form injection and accepts campaign-only cont
   assert.equal(lead.email, '');
   assert.equal(lead.phone, '8635550118');
   assert.equal(lead.insurance_type, 'ACA');
-  assert.equal(Object.hasOwn(lead, 'gclid'), false);
-  assert.equal(lead.gad_campaignid, '24123358247');
-  assert.equal(lead.first_gad_campaignid, '23802433323');
   assert.equal(JSON.stringify(lead).includes('exfiltrate'), false);
+  assert.equal(JSON.stringify(lead).includes('not-allowed-on-this-form'), false);
 });
 
-test('website lead bridge keeps every valid click ID and drops only malformed values', async () => {
-  const several = makeHandler();
-  assert.equal((await several.handler(submission({
-    data: {
-      full_name: 'Avery Fixture',
-      phone: '(863) 555-0118',
-      gclid: 'CurrentGclid_CaseSensitive-001',
-      gbraid: 'CurrentGbraid_CaseSensitive-003',
-      wbraid: 'CurrentWbraid_CaseSensitive-004',
-      gad_campaignid: '24123358247',
-      first_gclid: 'FirstGclid_CaseSensitive-002',
-      first_gbraid: 'FirstGbraid_CaseSensitive-005'
-    }
-  }))).statusCode, 200);
-  const severalLead = JSON.parse(several.calls[0].options.body);
-  assert.equal(severalLead.gclid, 'CurrentGclid_CaseSensitive-001');
-  assert.equal(severalLead.gbraid, 'CurrentGbraid_CaseSensitive-003');
-  assert.equal(severalLead.wbraid, 'CurrentWbraid_CaseSensitive-004');
-  assert.equal(severalLead.first_gclid, 'FirstGclid_CaseSensitive-002');
-  assert.equal(severalLead.first_gbraid, 'FirstGbraid_CaseSensitive-005');
-  assert.equal(severalLead.gad_campaignid, '24123358247');
-  assert.equal(severalLead.lhi_attribution_status, 'click_id_matched');
-
-  const malformed = makeHandler();
-  assert.equal((await malformed.handler(submission({
-    data: {
-      full_name: 'Avery Fixture',
-      phone: '(863) 555-0118',
-      gclid: 'CurrentGclid_CaseSensitive-001',
-      gbraid: 'not a valid id!',
-      wbraid: 'jane@example.com'
-    }
-  }))).statusCode, 200);
-  const malformedLead = JSON.parse(malformed.calls[0].options.body);
-  assert.equal(malformedLead.gclid, 'CurrentGclid_CaseSensitive-001');
-  assert.equal(Object.hasOwn(malformedLead, 'gbraid'), false);
-  assert.equal(Object.hasOwn(malformedLead, 'wbraid'), false);
-
-  const none = makeHandler();
-  assert.equal((await none.handler(submission({
-    data: {
-      full_name: 'Avery Fixture',
-      phone: '(863) 555-0118'
-    }
-  }))).statusCode, 200);
-  const noneLead = JSON.parse(none.calls[0].options.body);
-  assert.equal(Object.hasOwn(noneLead, 'gclid'), false);
-  assert.equal(Object.hasOwn(noneLead, 'gbraid'), false);
-  assert.equal(Object.hasOwn(noneLead, 'wbraid'), false);
-  assert.equal(Object.hasOwn(noneLead, 'gad_campaignid'), false);
-  assert.equal(noneLead.lhi_attribution_status, 'manual_review');
-});
-
-test('secret contract requires one canonical 64-character high-diversity base64url value', () => {
-  assert.equal(_test.validateHmacSecret(SECRET), SECRET);
-  for (const value of [
-    '',
-    'too-short',
-    'A'.repeat(64),
-    'AB'.repeat(32),
-    'placeholder_' + 'A'.repeat(52),
-    SECRET + ' ',
-    SECRET.slice(0, 63) + '='
-  ]) {
-    assert.throws(() => _test.validateHmacSecret(value), { code: 'configuration_unavailable' });
-  }
-});
-
-test('shared Unicode/key-ordering fixture is byte-stable for the cross-system receiver', () => {
-  const fixture = JSON.parse(fs.readFileSync(
-    path.join(ROOT, 'tests/fixtures/huffsherpa-netlify-envelope-v1.json'),
-    'utf8'
-  ));
-  const rebuilt = JSON.parse(_test.buildEnvelope(
-    fixture.envelope.payload,
-    fixture.synthetic_secret,
-    fixture.verify_at_ms,
-    () => Buffer.alloc(32, 11)
-  ));
-  assert.deepEqual(rebuilt, fixture.envelope);
-  assert.deepEqual(
-    _test.parseStoredPayload(_test.canonicalJson(fixture.envelope.payload)),
-    fixture.envelope.payload
-  );
-  assert.notEqual(
-    fixture.envelope.payload.data.gclid,
-    fixture.envelope.payload.data.first_gclid
-  );
-  assert.equal(fixture.envelope.payload.data.first_name, 'Zoë');
-  assert.equal(fixture.envelope.payload.data.last_name, 'Ångström');
-});
-
-test('unsafe configuration blocks before forwarding', async () => {
-  for (const environment of [
-    {},
-    {
-      CONTEXT: 'production',
-      LHI_SITE_ENV: 'production'
-    },
-    {
-      CONTEXT: 'production',
-      LHI_SITE_ENV: 'production',
-      LEAD_BRIDGE_URL: BRIDGE_URL,
-      LEAD_BRIDGE_KEY: 'placeholder'
-    }
-  ]) {
-    let calls = 0;
-    const logs = [];
-    const handler = createSubmissionCreatedHandler({
-      environment,
-      fetchImpl: async () => { calls += 1; },
-      logger: (entry) => logs.push(entry),
-      storeFactory: async () => memoryStore()
-    });
-    await assert.rejects(handler(submission()), { name: 'SubmissionRelayError' });
-    assert.equal(calls, 0);
-    assert.equal(logs.length, 1);
-    assert.equal(logs[0].outcome, 'FAILED');
-    assert.equal(JSON.stringify(logs).includes('Avery'), false);
-    assert.equal(JSON.stringify(logs).includes('attacker.example'), false);
-    assert.equal(JSON.stringify(logs).includes(SECRET), false);
-  }
-});
-
-test('eligible preview and branch events never access the production-scoped outbox or endpoint', async () => {
+test('eligible preview and branch events never access the bridge', async () => {
   for (const environment of [
     {
       CONTEXT: 'deploy-preview',
-      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
-      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
       LHI_SITE_ENV: 'preview'
     },
     {
       CONTEXT: 'branch-deploy',
-      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
-      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
       LHI_SITE_ENV: 'branch'
     }
   ]) {
-    let storeCalls = 0;
     let networkCalls = 0;
     const handler = createSubmissionCreatedHandler({
-      environment,
+      environment: productionEnv(environment),
       fetchImpl: async () => { networkCalls += 1; },
-      logger: () => {},
-      storeFactory: async () => { storeCalls += 1; return memoryStore(); }
+      logger: () => {}
     });
     await expectRelayFailure(handler(submission()), 'production_context_required');
-    assert.equal(storeCalls, 0);
     assert.equal(networkCalls, 0);
   }
 });
@@ -538,290 +353,20 @@ test('form-event production context allows missing CONTEXT when LHI_SITE_ENV is 
   });
   assert.equal((await allowed.handler(submission())).statusCode, 200);
   assert.equal(allowed.calls.length, 1);
-  assert.equal(allowed.calls[0].url, BRIDGE_ENDPOINT);
 
   for (const context of ['deploy-preview', 'branch-deploy', 'dev']) {
-    let storeCalls = 0;
     let networkCalls = 0;
     const handler = createSubmissionCreatedHandler({
-      environment: {
-        CONTEXT: context,
-        HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
-        HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
-        LHI_SITE_ENV: 'production'
-      },
+      environment: productionEnv({ CONTEXT: context }),
       fetchImpl: async () => { networkCalls += 1; },
-      logger: () => {},
-      storeFactory: async () => { storeCalls += 1; return memoryStore(); }
+      logger: () => {}
     });
     await expectRelayFailure(handler(submission()), 'production_context_required');
-    assert.equal(storeCalls, 0);
     assert.equal(networkCalls, 0);
   }
 });
 
-test('store factory calls connectLambda immediately before getStore for Lambda events', async () => {
-  const store = memoryStore();
-  const siteID = 'b6ad2d8f-d771-44f4-89b5-7ab30350950e';
-  const token = 'nfb_synthetic_blobs_token_0001';
-  const blobsPayload = Buffer.from(JSON.stringify({ token, url: 'https://blobs.netlify.com' })).toString('base64');
-  const contextEnv = Buffer.from(JSON.stringify({ siteID, token })).toString('base64');
-
-  function missingBlobsError() {
-    const error = new Error('The environment has not been configured to use Netlify Blobs');
-    error.name = 'MissingBlobsEnvironmentError';
-    return error;
-  }
-
-  const connectedCalls = [];
-  const connected = await _test.createProductionStoreFactory({
-    environment: { SITE_ID: siteID },
-    blobsImport: async () => ({
-      connectLambda(event) {
-        connectedCalls.push(['connectLambda', typeof event.blobs]);
-      },
-      getStore() {
-        connectedCalls.push(['getStore']);
-        return store;
-      }
-    })
-  })({
-    blobs: blobsPayload,
-    headers: { 'x-nf-site-id': siteID }
-  });
-  assert.equal(connected, store);
-  assert.deepEqual(connectedCalls, [
-    ['connectLambda', 'string'],
-    ['getStore']
-  ]);
-
-  const explicitCalls = [];
-  const explicit = await _test.createProductionStoreFactory({
-    environment: {
-      SITE_ID: siteID,
-      NETLIFY_BLOBS_CONTEXT: contextEnv
-    },
-    blobsImport: async () => ({
-      connectLambda() {
-        explicitCalls.push('connectLambda');
-        throw missingBlobsError();
-      },
-      getStore(options) {
-        explicitCalls.push({
-          name: options.name,
-          consistency: options.consistency,
-          siteID: options.siteID || null,
-          hasToken: Boolean(options.token)
-        });
-        if (!options.siteID) throw missingBlobsError();
-        return store;
-      }
-    })
-  })({ headers: {} });
-  assert.equal(explicit, store);
-  assert.equal(explicitCalls[0], 'connectLambda');
-  assert.equal(explicitCalls.length, 2);
-  assert.equal(explicitCalls[1].siteID, siteID);
-  assert.equal(explicitCalls[1].hasToken, true);
-  assert.equal(explicitCalls[1].name, _test.OUTBOX.storeName);
-  assert.equal(JSON.stringify(explicitCalls).includes(token), false);
-
-  const retryEvents = [];
-  const retry = createRetryHandler({
-    environment: {
-      CONTEXT: 'production',
-      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
-      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
-      LHI_SITE_ENV: 'production'
-    },
-    fetchImpl: async () => { throw new Error('must not deliver in this test'); },
-    logger: () => {},
-    storeFactory: async (event) => {
-      retryEvents.push(event);
-      return memoryStore();
-    },
-    alertImpl: async () => false
-  });
-  const retryEvent = { blobs: blobsPayload, headers: { 'x-nf-site-id': siteID } };
-  const retryResult = await retry(retryEvent);
-  assert.deepEqual(JSON.parse(retryResult.body), {
-    ok: true,
-    outcome: 'SKIPPED',
-    reason: 'huffsherpa_retired'
-  });
-  assert.equal(retryEvents.length, 0);
-
-  await assert.rejects(
-    _test.createProductionStoreFactory({
-      environment: { SITE_ID: '00000000-0000-0000-0000-000000000000' },
-      blobsImport: async () => ({
-        connectLambda() { throw missingBlobsError(); },
-        getStore() { throw missingBlobsError(); }
-      })
-    })({ headers: {} }),
-    (error) => error && error.code === 'outbox_unavailable' && error.causeCode === 'MissingBlobsEnvironmentError'
-  );
-});
-
-test('one bounded opaque Google ContentService URL is allowed; unsafe targets are rejected', () => {
-  for (const location of [
-    REDIRECT,
-    'https://script.googleusercontent.com/macros/echo?user_content_key=one&lib=two&future=three'
-  ]) {
-    const response = new Response(null, { status: 302, headers: { location } });
-    assert.equal(_test.validateContentServiceRedirect(response), location);
-  }
-  for (const location of [
-    'https://attacker.example/macros/echo?token=one',
-    'http://script.googleusercontent.com/macros/echo?token=one',
-    'https://user@script.googleusercontent.com/macros/echo?token=one',
-    'https://script.googleusercontent.com:444/macros/echo?token=one',
-    'https://script.googleusercontent.com/macros/echo#fragment',
-    'https://script.googleusercontent.com/' + 'a'.repeat(2050)
-  ]) {
-    const response = new Response(null, { status: 302, headers: { location } });
-    assert.throws(() => _test.validateContentServiceRedirect(response), {
-      code: 'upstream_redirect_rejected'
-    });
-  }
-});
-
-test('network failure on leftover outbox stays PENDING and retry after five minutes signs a fresh envelope', async () => {
-  const store = memoryStore();
-  const attempt = await seedOutbox(store);
-  await _test.markOutboxFailure({
-    store,
-    attempt,
-    reason: 'upstream_network_error',
-    permanent: false,
-    nowMilliseconds: NOW
-  });
-  assert.equal(store.entries.size, 1);
-  const pending = [...store.entries.values()][0];
-  assert.equal(pending.metadata.state, 'PENDING');
-  assert.equal(pending.metadata.attempt_count, '1');
-  assert.equal(JSON.parse(pending.data).signature, undefined);
-
-  const retryCalls = [];
-  const retryNow = NOW + _test.OUTBOX.retryBaseMilliseconds;
-  assert.ok(retryNow - NOW > 5 * 60 * 1000);
-  const retry = productionRetry({
-    fetchImpl: successFetch(retryCalls),
-    now: () => retryNow,
-    storeFactory: async () => store
-  });
-  const result = await retry();
-  assert.deepEqual(JSON.parse(result.body), {
-    ok: true,
-    outcome: 'SKIPPED',
-    reason: 'huffsherpa_retired'
-  });
-  assert.equal(store.entries.size, 1);
-  assert.equal(retryCalls.length, 0);
-});
-
-test('bridge failure queues the lead, logs it, and fails the function visibly', async () => {
-  const alerts = [];
-  const fixture = makeHandler({
-    alertImpl: async (entry) => { alerts.push(entry); return true; },
-    fetchImpl: async () => new Response(null, { status: 500 })
-  });
-  await expectRelayFailure(fixture.handler(submission()), 'upstream_500');
-  assert.equal(fixture.store.entries.size, 1);
-  const queued = [...fixture.store.entries.values()][0];
-  assert.equal(queued.metadata.state, 'PENDING');
-  assert.equal(queued.metadata.last_reason, 'upstream_500');
-  assert.equal(alerts.length, 0);
-  assert.equal(fixture.logs.some((entry) => entry.event === 'website_lead_bridge' && entry.outcome === 'QUEUED'), true);
-  assert.equal(fixture.logs.at(-1).outcome, 'FAILED');
-  assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
-
-  const leftover = memoryStore();
-  await seedOutbox(leftover);
-  const retryAlerts = [];
-  const retry = productionRetry({
-    storeFactory: async () => leftover,
-    alertImpl: async (entry) => { retryAlerts.push(entry); return true; },
-    fetchImpl: async () => { throw new Error('retired HuffSherpa retry must not POST'); }
-  });
-  const result = await retry();
-  assert.deepEqual(JSON.parse(result.body), {
-    ok: true,
-    outcome: 'SKIPPED',
-    reason: 'huffsherpa_retired'
-  });
-  assert.equal(leftover.entries.size, 1);
-  assert.equal(retryAlerts.length, 0);
-});
-
-test('the hard retry ceiling produces one visible alerted FAILED item', async () => {
-  const store = memoryStore();
-  const attempt = await seedOutbox(store);
-  const [key, record] = [...store.entries.entries()][0];
-  store.entries.set(key, {
-    data: record.data,
-    metadata: {
-      ...record.metadata,
-      attempt_count: String(_test.OUTBOX.maximumAttempts - 1),
-      next_attempt_at: new Date(NOW).toISOString()
-    }
-  });
-  const alerts = [];
-  const retry = productionRetry({
-    fetchImpl: async () => { throw new Error('synthetic network failure'); },
-    now: () => NOW + _test.OUTBOX.retryBaseMilliseconds,
-    storeFactory: async () => store,
-    alertImpl: async (entry) => { alerts.push(entry); return true; }
-  });
-  const result = await retry();
-  assert.deepEqual(JSON.parse(result.body), {
-    ok: true,
-    outcome: 'SKIPPED',
-    reason: 'huffsherpa_retired'
-  });
-  const leftover = [...store.entries.values()][0];
-  assert.equal(leftover.metadata.attempt_count, String(_test.OUTBOX.maximumAttempts - 1));
-  assert.equal(alerts.length, 0);
-  assert.equal(attempt.payload.form_name, 'get-help');
-});
-
-test('retention expiry purges minimized PII but leaves a visible FAILED tombstone', async () => {
-  const store = memoryStore();
-  await seedOutbox(store);
-  const retry = productionRetry({
-    fetchImpl: async () => { throw new Error('must not retry expired'); },
-    now: () => NOW + _test.OUTBOX.retentionMilliseconds + 1,
-    storeFactory: async () => store,
-    alertImpl: async () => true
-  });
-  await retry();
-  assert.equal(store.entries.size, 1);
-  const leftover = [...store.entries.values()][0];
-  assert.equal(JSON.parse(leftover.data).form_name, 'get-help');
-  assert.equal(leftover.metadata.pii_purged, undefined);
-});
-
-test('website leads never POST to the retired HuffSherpa Apps Script receiver', async () => {
-  const calls = [];
-  const fixture = makeHandler({
-    fetchImpl: async (url, options) => {
-      calls.push({ url: String(url), options });
-      if (String(url).includes('script.google.com') || String(url).includes('script.googleusercontent.com')) {
-        throw new Error('retired HuffSherpa receiver must not be called');
-      }
-      return new Response(JSON.stringify({ ok: true }), {
-        status: 200,
-        headers: { 'content-type': 'application/json' }
-      });
-    }
-  });
-  const result = await fixture.handler(submission());
-  assert.equal(result.statusCode, 200);
-  assert.equal(calls.length, 1);
-  assert.equal(calls[0].url, BRIDGE_ENDPOINT);
-});
-
-test('malformed bodies and identifiers fail before storage or forwarding', async () => {
+test('malformed bodies and identifiers fail before forwarding', async () => {
   const fixture = makeHandler();
   for (const event of [
     { body: '' },
@@ -838,187 +383,70 @@ test('malformed bodies and identifiers fail before storage or forwarding', async
   assert.equal(fixture.store.entries.size, 0);
 });
 
-test('website CRM works without leftover HuffSherpa env vars and does not schedule HuffSherpa retry', async () => {
+test('missing bridge configuration is logged, queued, and still accepts the Forms event', async () => {
   const calls = [];
+  const logs = [];
+  const store = memoryStore();
   const handler = createSubmissionCreatedHandler({
     environment: {
       CONTEXT: 'production',
-      LHI_SITE_ENV: 'production',
-      LEAD_BRIDGE_URL: BRIDGE_URL,
-      LEAD_BRIDGE_KEY: BRIDGE_KEY
+      LHI_SITE_ENV: 'production'
     },
-    fetchImpl: successFetch(calls),
-    logger: () => {},
-    now: () => NOW,
-    bridgeStoreFactory: async () => memoryStore()
+    fetchImpl: async (...args) => {
+      calls.push(args);
+      throw new Error('must not fetch');
+    },
+    logger: (entry) => logs.push(entry),
+    bridgeStoreFactory: async () => store
   });
   const result = await handler(submission());
   assert.equal(result.statusCode, 200);
-  assert.equal(calls[0].url, BRIDGE_ENDPOINT);
-
-  const toml = fs.readFileSync(path.join(ROOT, 'netlify.toml'), 'utf8');
-  assert.doesNotMatch(toml, /\[functions\."huffsherpa-relay-retry"\][\s\S]*schedule/);
-  assert.match(toml, /\[functions\."lead-bridge-retry"\]\s*\n\s*schedule/);
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'ACCEPTED' });
+  assert.equal(calls.length, 0);
+  assert.equal(store.entries.size, 1);
+  assert.equal(store.entries.values().next().value.metadata.state, 'PENDING');
+  assert.equal(logs.at(-1).outcome, 'FAILED');
+  assert.equal(logs.at(-1).reason, 'missing_configuration');
 });
 
-test('submission-created does not call Hopper', () => {
-  const source = fs.readFileSync(
-    path.join(ROOT, 'netlify/functions/submission-created.js'),
-    'utf8'
-  );
-  assert.equal(source.includes('hopper-ingest'), false);
-  assert.equal(source.includes('forwardGetHelpToHopper'), false);
-  assert.equal(source.includes('hopperForward'), false);
-  assert.equal(source.includes('forwardHopperSafely'), false);
-  assert.equal(source.includes('HOPPER_LEAD_INGEST_SECRET'), false);
-  assert.equal(source.includes('huff-health-app.netlify.app'), false);
-  assert.equal(fs.existsSync(path.join(ROOT, 'netlify/functions/lib/hopper-ingest.js')), false);
-});
-
-test('successful bridge delivery does not need a working HuffSherpa or bridge outbox write', async () => {
-  const blobsError = new Error('strong consistency could not be confirmed');
-  blobsError.name = 'BlobsConsistencyError';
-  blobsError.code = 'BlobsConsistencyError';
+test('bridge failures queue the outbox and still accept the Forms event', async () => {
   const store = memoryStore();
-  let setCalls = 0;
-  store.set = async () => {
-    setCalls += 1;
-    throw blobsError;
-  };
-  const calls = [];
-  let factoryCalls = 0;
   const fixture = makeHandler({
     store,
-    fetchImpl: successFetch(calls),
-    storeFactory: async () => {
-      factoryCalls += 1;
-      return store;
-    },
-    bridgeStoreFactory: async () => {
-      factoryCalls += 1;
-      return store;
-    }
+    fetchImpl: bridgeFetch([], { status: 500, ok: false }),
+    now: () => NOW
   });
   const result = await fixture.handler(submission());
-
   assert.equal(result.statusCode, 200);
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'DELIVERED' });
-  assert.equal(factoryCalls, 0);
-  assert.equal(setCalls, 0);
-  assert.equal(calls.length, 1);
-  assert.equal(calls[0].url, BRIDGE_ENDPOINT);
-  assert.equal(store.entries.size, 0);
-  assert.equal(fixture.logs.at(-1).outcome, 'DELIVERED');
-  assert.equal(fixture.logs.at(-1).reason, 'website_lead_bridge');
-  assert.equal(JSON.stringify(fixture.logs).includes('confirmed'), false);
-  assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
-  assert.equal(JSON.stringify(fixture.logs).includes(BRIDGE_KEY), false);
-
-  const lead = JSON.parse(calls[0].options.body);
-  assert.equal(lead.form_name, 'get-help');
-  assert.equal(lead.phone, '8635550118');
-  assert.equal(lead.email, 'avery.fixture@example.test');
-});
-
-test('unavailable Blobs storeFactory does not delay the Forms direct POST', async () => {
-  const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
-  blobsError.name = 'MissingBlobsEnvironmentError';
-  const calls = [];
-  const fixture = makeHandler({
-    fetchImpl: successFetch(calls),
-    storeFactory: async () => { throw blobsError; }
-  });
-  const result = await fixture.handler(submission());
-
-  assert.equal(result.statusCode, 200);
-  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'DELIVERED' });
-  assert.equal(calls.length, 1);
-  assert.equal(calls[0].url, BRIDGE_ENDPOINT);
-  assert.equal(fixture.store.entries.size, 0);
-  assert.equal(fixture.logs.at(-1).outcome, 'DELIVERED');
-  assert.equal(fixture.logs.at(-1).reason, 'website_lead_bridge');
-  assert.equal(JSON.stringify(fixture.logs).includes('configured'), false);
-  assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
-  assert.equal(JSON.stringify(fixture.logs).includes(BRIDGE_KEY), false);
-});
-
-test('retry still rejects leftover outbox payload drift', async () => {
-  const store = memoryStore();
-  await seedOutbox(store);
-  const drifted = _test.parseNetlifyEvent(submission({
-    data: {
-      full_name: 'Avery Fixture',
-      phone: '(863) 555-0118',
-      email: 'OTHER.FIXTURE@EXAMPLE.TEST',
-      zip_code: '33801',
-      line_of_business: 'ACA'
-    }
-  }));
-  await assert.rejects(
-    _test.prepareOutboxAttempt({
-      store,
-      payload: drifted.payload,
-      secret: SECRET,
-      nowMilliseconds: NOW,
-      randomBytes: () => Buffer.alloc(32, 7)
-    }),
-    (error) => error && error.name === 'SubmissionRelayError' && error.code === 'source_id_payload_drift'
-  );
+  assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'ACCEPTED' });
   assert.equal(store.entries.size, 1);
-});
-
-test('bridge network failure still fails visibly when the outbox cannot open', async () => {
-  const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
-  blobsError.name = 'MissingBlobsEnvironmentError';
-  const fixture = makeHandler({
-    fetchImpl: async () => { throw new Error('synthetic network failure'); },
-    storeFactory: async () => { throw blobsError; },
-    bridgeStoreFactory: async () => { throw blobsError; }
-  });
-  await expectRelayFailure(fixture.handler(submission()), 'upstream_network_error');
-  assert.equal(fixture.store.entries.size, 0);
-  assert.equal(fixture.logs.some((entry) => entry.event === 'website_lead_bridge' && entry.outcome === 'FAILED'), true);
+  assert.equal(fixture.logs.some((entry) => entry.event === 'website_lead_bridge' && entry.outcome === 'QUEUED'), true);
   assert.equal(fixture.logs.at(-1).outcome, 'FAILED');
-  assert.equal(fixture.logs.at(-1).reason, 'upstream_network_error');
-  assert.equal(JSON.stringify(fixture.logs).includes('configured'), false);
-  assert.equal(JSON.stringify(fixture.logs).includes('Avery'), false);
+  assert.equal(fixture.logs.at(-1).reason, 'upstream_500');
 });
 
-test('preview and branch events never fall back to the Vercel bridge or HuffSherpa', async () => {
-  let networkCalls = 0;
-  const handler = createSubmissionCreatedHandler({
-    environment: {
-      CONTEXT: 'deploy-preview',
-      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: ENDPOINT,
-      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: SECRET,
-      LHI_SITE_ENV: 'preview'
-    },
-    fetchImpl: async () => { networkCalls += 1; },
-    logger: () => {},
-    storeFactory: async () => { throw new Error('must not open Blobs'); }
-  });
-  await expectRelayFailure(handler(submission()), 'production_context_required');
-  assert.equal(networkCalls, 0);
-});
-
-test('scheduled HuffSherpa retry is retired and does not open the outbox or POST', async () => {
-  const blobsError = new Error('The environment has not been configured to use Netlify Blobs');
-  blobsError.name = 'MissingBlobsEnvironmentError';
-  let networkCalls = 0;
-  let storeCalls = 0;
-  const retry = productionRetry({
-    fetchImpl: async () => { networkCalls += 1; },
-    storeFactory: async () => {
-      storeCalls += 1;
-      throw blobsError;
-    }
-  });
-  const result = await retry();
-  assert.deepEqual(JSON.parse(result.body), {
-    ok: true,
-    outcome: 'SKIPPED',
-    reason: 'huffsherpa_retired'
-  });
-  assert.equal(networkCalls, 0);
-  assert.equal(storeCalls, 0);
+test('other allowlisted lead forms also build a website lead for the bridge', () => {
+  const forms = [
+    ['aca-lakeland-lead', { full_name: 'Local Lead', phone_number: '8635550118' }],
+    ['lp-aca-lead', { full_name: 'LP ACA', phone: '8635550118', email: 'lp@example.test' }],
+    ['lp-gap-lead', { full_name: 'LP Gap', phone: '8635550118' }],
+    ['winter-haven-health-insurance', { full_name: 'WH Lead', phone_number: '8635550118' }],
+    ['subsidy-estimator-lead', { first_name: 'Estimator', phone: '8635550118' }]
+  ];
+  for (const [formName, data] of forms) {
+    const normalized = _test.parseNetlifyEvent({
+      body: JSON.stringify({
+        payload: {
+          id: SUBMISSION_ID,
+          created_at: '2026-08-27T15:59:00.000Z',
+          form_name: formName,
+          data
+        }
+      })
+    });
+    assert.equal(normalized.formName, formName);
+    assert.equal(normalized.websiteLead.form_name, formName);
+    assert.ok(normalized.websiteLead.phone || normalized.websiteLead.email);
+    assert.ok(normalized.websiteLead.name || normalized.websiteLead.first);
+  }
 });

@@ -181,8 +181,7 @@ const MEDICARE_GENERAL_INTAKE_EXCLUDED_FIELDS = new Set([
 
 const NEWSLETTER_FORMS = new Set(['homepage-newsletter', 'newsletter-signup']);
 // Website sales/service forms forwarded to the Vercel lead bridge.
-// Name is historical; HuffSherpa is retired for this path.
-const HUFFSHERPA_RELAY_FORMS = new Set([
+const WEBSITE_LEAD_RELAY_FORMS = new Set([
   'get-help',
   'aca-lakeland-lead',
   'lp-aca-lead',
@@ -480,7 +479,7 @@ function filterPayloadForForm(rawPayload, formName) {
 
 /** Shared production boundary for the Netlify submission-created relay. */
 function filterLeadPayloadForRelay(rawPayload, formName) {
-  if (!HUFFSHERPA_RELAY_FORMS.has(formName)) return { ok: false, error: 'Unsupported relay form' };
+  if (!WEBSITE_LEAD_RELAY_FORMS.has(formName)) return { ok: false, error: 'Unsupported relay form' };
   const filtered = filterPayloadForForm(rawPayload, formName);
   if (!filtered.ok) return filtered;
   sanitizeCampaignAttribution(filtered.payload);
@@ -1129,7 +1128,7 @@ exports._test = {
 
 exports.relaySchema = Object.freeze({
   allFormNames: Object.freeze(Object.keys(FORM_FIELD_ALLOWLIST)),
-  formNames: Object.freeze(Array.from(HUFFSHERPA_RELAY_FORMS)),
+  formNames: Object.freeze(Array.from(WEBSITE_LEAD_RELAY_FORMS)),
   newsletterFormNames: Object.freeze(Array.from(NEWSLETTER_FORMS)),
   filterLeadPayloadForRelay
 });
