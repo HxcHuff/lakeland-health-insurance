@@ -89,7 +89,8 @@ const TITLE_CAP_PAGES = [
   'carriers/wellpoint-aca-2026/index.html',
   'about/index.html',
   'blog/cigna-exiting-aca-marketplace-polk-county-2026.html',
-  'blog/why-florida-health-insurance-premiums-increased-2026.html'
+  'blog/why-florida-health-insurance-premiums-increased-2026.html',
+  'blog/florida-cancer-specialists-davenport.html'
 ];
 
 const REDIRECTED = [

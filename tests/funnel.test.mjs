@@ -923,7 +923,7 @@ test('first-party attribution loads immediately on the homepage, Get Help, and p
   for (const pathname of ['/', '/get-help/', '/lp/aca/', '/lp/medicare/', '/lp/gap/']) {
     const { appendedScripts } = loadAnalytics({ pathname });
     assert.ok(
-      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260821-lead-reconciliation'),
+      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260930-click-id'),
       `${pathname} requests the attribution bus during analytics initialization`
     );
   }
@@ -936,7 +936,7 @@ test('first-party delivery bus loads immediately on any parsed tracked form page
   });
 
   assert.ok(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260821-lead-reconciliation'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260930-click-id'),
     'a tracked city-page form requests the delivery bus during analytics initialization'
   );
 });
@@ -949,7 +949,7 @@ test('tracked form pages with a direct funnel script do not request it twice', (
   });
 
   assert.equal(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260821-lead-reconciliation'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260930-click-id'),
     false
   );
 });
@@ -1974,6 +1974,8 @@ test('analytics QA override is session-bounded and explicitly clearable', () => 
 test('attribution cookies add Secure on HTTPS', () => {
   assert.match(FUNNEL_SRC, /location\.protocol === 'https:' \? '; Secure'/);
   assert.match(FUNNEL_SRC, /SameSite=Lax' \+ secure/);
+  assert.match(GET_HELP_SRC, /location\.protocol === 'https:' \? '; Secure'/);
+  assert.match(GET_HELP_SRC, /SameSite=Lax' \+ secure/);
 });
 
 test('retired Get Help v2 is a noindex redirect without a lead form or Offer schema', () => {
@@ -2126,20 +2128,27 @@ test('Get Help stores only bounded Medicare attribution and approved campaign fi
     'utm_medium',
     'utm_campaign',
     'utm_term',
-    'utm_content'
+    'utm_content',
+    'gclid',
+    'gbraid',
+    'wbraid',
+    'gad_campaignid',
+    'first_gclid',
+    'first_gbraid',
+    'first_wbraid',
+    'first_gad_campaignid'
   ]) {
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
   }
-  for (const removed of ['gclid', 'fbclid']) {
-    assert.doesNotMatch(GET_HELP_HTML, new RegExp(`name="${removed}"`));
-  }
+  assert.doesNotMatch(GET_HELP_HTML, /name="fbclid"/);
+  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20260930-click-id/);
   assert.match(GET_HELP_SRC, /setValue\('sourcePageInput', String\(window\.location\.pathname \|\| '\/'\)\.slice\(0, 160\)\);/);
   assert.doesNotMatch(GET_HELP_SRC, /window\.location\.pathname \+ window\.location\.search/);
   assert.match(GET_HELP_HTML, /id="optionalPrivacyNote">Do not enter medication names, medical details, policy or member numbers, Medicare numbers, Social Security numbers, or medical records in optional fields\./);
   assert.doesNotMatch(GET_HELP_HTML, /id="optionalPrivacyNote" hidden/);
   assert.match(GET_HELP_SRC, /privacyNote\.hidden = false;/);
   assert.doesNotMatch(GET_HELP_SRC, /privacyNote\.hidden = intentKey !== 'medicare';/);
-  assert.match(GET_HELP_SRC, /setValue\('utmTermInput', approvedCampaignTerm\(qs\.get\('utm_term'\)\)\);/);
+  assert.match(GET_HELP_SRC, /setValue\('utmTermInput', approvedCampaignTerm\(qs\.get\('utm_term'\)\) \|\| approvedCampaignTerm\(stored\.utm_term\)\);/);
 });
 
 test('shared attribution hydrates hero ZIP and lead forms with a bounded multi-word Google keyword', () => {
@@ -2179,15 +2188,12 @@ test('get-help consent evidence is channel-specific and versioned', () => {
     'consent_call',
     'consent_sms',
     'consent_email',
-    'consent_marketing_email',
-    'consent_marketing_email_version',
     'consent_text_version',
     'consent_recorded_at',
     'consent_request_state',
     'consent_call_state',
     'consent_sms_state',
     'consent_email_state',
-    'consent_marketing_email_state',
     'consent_withdrawal_state'
   ]) {
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
@@ -2204,4 +2210,265 @@ test('estimator keeps sensitive estimate inputs out of lead forms, URLs, and ana
   assert.doesNotMatch(ESTIMATOR_HTML, /gtag\(['"]event['"],\s*['"]subsidy_calculator_complete/);
   assert.match(ESTIMATOR_HTML, /href="\/get-help\/\?intent=aca"/);
   assert.match(ESTIMATOR_HTML, /Inputs stay in this browser/);
+});
+
+function makeAttributionForm({ eventName = 'Lead', sitelink = false } = {}) {
+  const elements = {};
+  return {
+    elements,
+    getAttribute(name) {
+      if (name === 'data-funnel-event') return eventName;
+      if (name === 'data-funnel-name') return 'test_form';
+      return null;
+    },
+    hasAttribute(name) {
+      return name === 'data-sitelink-lead-form' && sitelink;
+    },
+    addEventListener() {},
+    appendChild(input) {
+      this.elements[input.name] = input;
+      return input;
+    }
+  };
+}
+
+function loadGetHelpIntake({ search = '', cookie = '', protocol = 'http:' } = {}) {
+  const inputs = {};
+  [
+    'zipCode',
+    'coverageStateInput',
+    'sourcePageInput',
+    'referralPageInput',
+    'sourcePageKeyInput',
+    'sourcePageRoleInput',
+    'sourceCtaKeyInput',
+    'contentClusterInput',
+    'productInterestInput',
+    'planInterestInput',
+    'utmSourceInput',
+    'utmMediumInput',
+    'utmCampaignInput',
+    'utmTermInput',
+    'utmContentInput',
+    'gclidInput',
+    'gbraidInput',
+    'wbraidInput',
+    'gadCampaignIdInput',
+    'firstGclidInput',
+    'firstGbraidInput',
+    'firstWbraidInput',
+    'firstGadCampaignIdInput',
+    'startedAtInput',
+    'humanCheckInput'
+  ].forEach((id) => {
+    inputs[id] = { id, value: '' };
+  });
+  const sandbox = {
+    window: null,
+    location: {
+      pathname: '/get-help/',
+      search,
+      origin: 'https://lakelandhealthinsurance.com',
+      protocol
+    },
+    document: {
+      cookie,
+      referrer: '',
+      addEventListener: () => {},
+      getElementById: (id) => inputs[id] || null,
+      querySelectorAll: () => []
+    },
+    URL,
+    URLSearchParams,
+    String,
+    Object,
+    Date,
+    JSON,
+    encodeURIComponent,
+    decodeURIComponent,
+    btoa: (value) => Buffer.from(value).toString('base64')
+  };
+  sandbox.window = sandbox;
+  vm.createContext(sandbox);
+  vm.runInContext(GET_HELP_SRC, sandbox, { filename: 'get-help-intake.js' });
+  return { sandbox, inputs };
+}
+
+test('shared click-ID validators keep case, drop malformed values, and never invent an ID', () => {
+  const { approvedClickID, approvedGoogleCampaignID, getAttribution } = loadFunnel().LHI._t;
+
+  assert.equal(approvedClickID('CurrentGclid_CaseSensitive-001'), 'CurrentGclid_CaseSensitive-001');
+  assert.equal(approvedClickID('  CurrentGbraid_CaseSensitive-001  '), 'CurrentGbraid_CaseSensitive-001');
+  assert.equal(approvedClickID('jane@example.com'), null);
+  assert.equal(approvedClickID('863 640 3102'), null);
+  assert.equal(approvedClickID('https://example.com/'), null);
+  assert.equal(approvedClickID('a'.repeat(513)), null);
+  assert.equal(approvedClickID(''), null);
+  assert.equal(approvedGoogleCampaignID('24123358247'), '24123358247');
+  assert.equal(approvedGoogleCampaignID('cid_24123358247'), null);
+  assert.equal(approvedGoogleCampaignID('24 123'), null);
+  assert.equal(approvedGoogleCampaignID(''), null);
+
+  const organic = getAttribution();
+  assert.equal(Object.hasOwn(organic, 'gclid'), false);
+  assert.equal(Object.hasOwn(organic, 'first_gclid'), false);
+  assert.equal(Object.hasOwn(organic, 'gbraid'), false);
+  assert.equal(Object.hasOwn(organic, 'wbraid'), false);
+  assert.equal(Object.hasOwn(organic, 'gad_campaignid'), false);
+});
+
+test('landing with no, one, or several valid click IDs stores current-touch plus first-touch', () => {
+  const none = loadFunnel({ search: '?utm_source=google&fbclid=MetaClick123&first_gclid=SpoofedFirst' });
+  const noneAttr = none.LHI.getAttribution();
+  assert.equal(noneAttr.utm_source, 'google');
+  assert.equal(Object.hasOwn(noneAttr, 'gclid'), false);
+  assert.equal(Object.hasOwn(noneAttr, 'first_gclid'), false);
+  assert.equal(Object.hasOwn(noneAttr, 'fbclid'), false);
+
+  const one = loadFunnel({ search: '?gclid=CurrentGclid_CaseSensitive-001' });
+  const oneAttr = one.LHI.getAttribution();
+  assert.equal(oneAttr.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(oneAttr.first_gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(Object.hasOwn(oneAttr, 'gbraid'), false);
+
+  const several = loadFunnel({
+    search: '?gclid=CurrentGclid_CaseSensitive-001&gbraid=CurrentGbraid_CaseSensitive-001&wbraid=CurrentWbraid_CaseSensitive-001&gad_campaignid=24123358247'
+  });
+  const severalAttr = several.LHI.getAttribution();
+  assert.equal(severalAttr.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(severalAttr.gbraid, 'CurrentGbraid_CaseSensitive-001');
+  assert.equal(severalAttr.wbraid, 'CurrentWbraid_CaseSensitive-001');
+  assert.equal(severalAttr.gad_campaignid, '24123358247');
+  assert.equal(severalAttr.first_gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(severalAttr.first_gbraid, 'CurrentGbraid_CaseSensitive-001');
+  assert.equal(severalAttr.first_wbraid, 'CurrentWbraid_CaseSensitive-001');
+  assert.equal(severalAttr.first_gad_campaignid, '24123358247');
+});
+
+test('a later click updates current-touch and keeps the first observed valid ID', () => {
+  const w = loadFunnel({ search: '?gclid=FirstGclid_CaseSensitive-002&gbraid=FirstGbraid_CaseSensitive-002' });
+  const first = w.LHI.getAttribution();
+  assert.equal(first.gclid, 'FirstGclid_CaseSensitive-002');
+  assert.equal(first.first_gclid, 'FirstGclid_CaseSensitive-002');
+  assert.equal(first.first_gbraid, 'FirstGbraid_CaseSensitive-002');
+
+  w.location.search = '?gclid=CurrentGclid_CaseSensitive-001&wbraid=CurrentWbraid_CaseSensitive-001';
+  const second = w.LHI.getAttribution();
+  assert.equal(second.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(second.first_gclid, 'FirstGclid_CaseSensitive-002');
+  assert.equal(second.gbraid, 'FirstGbraid_CaseSensitive-002');
+  assert.equal(second.first_gbraid, 'FirstGbraid_CaseSensitive-002');
+  assert.equal(second.wbraid, 'CurrentWbraid_CaseSensitive-001');
+  assert.equal(second.first_wbraid, 'CurrentWbraid_CaseSensitive-001');
+});
+
+test('malformed click IDs and spoofed first-touch query values are dropped', () => {
+  const w = loadFunnel({
+    search: '?gclid=CurrentGclid_CaseSensitive-001&gbraid=jane@example.com&wbraid=863%20640%203102&gad_campaignid=cid_24123358247&fbclid=MetaClick123&first_gclid=SpoofedFirst'
+  });
+  const attr = w.LHI.getAttribution();
+  assert.equal(attr.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(attr.first_gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(Object.hasOwn(attr, 'gbraid'), false);
+  assert.equal(Object.hasOwn(attr, 'wbraid'), false);
+  assert.equal(Object.hasOwn(attr, 'gad_campaignid'), false);
+  assert.equal(Object.hasOwn(attr, 'fbclid'), false);
+  assert.notEqual(attr.first_gclid, 'SpoofedFirst');
+});
+
+test('Lead and sitelink forms receive click IDs; Subscriber and hero ZIP forms do not', () => {
+  const search = '?utm_source=google&gclid=CurrentGclid_CaseSensitive-001&gbraid=CurrentGbraid_CaseSensitive-001';
+  const w = loadFunnel({ search });
+  const leadForm = makeAttributionForm({ eventName: 'Lead' });
+  const sitelinkForm = makeAttributionForm({ eventName: null, sitelink: true });
+  const subscriberForm = makeAttributionForm({ eventName: 'Subscriber' });
+  const heroForm = makeAttributionForm({ eventName: null });
+
+  w.LHI._t.initializeFormAttribution(leadForm);
+  w.LHI._t.initializeFormAttribution(sitelinkForm);
+  w.LHI._t.initializeFormAttribution(subscriberForm);
+  w.LHI._t.initializeFormAttribution(heroForm);
+
+  assert.equal(leadForm.elements.gclid.value, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(leadForm.elements.first_gclid.value, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(leadForm.elements.gbraid.value, 'CurrentGbraid_CaseSensitive-001');
+  assert.equal(sitelinkForm.elements.gclid.value, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(subscriberForm.elements.utm_source.value, 'google');
+  assert.equal(subscriberForm.elements.gclid, undefined);
+  assert.equal(subscriberForm.elements.first_gclid, undefined);
+  assert.equal(heroForm.elements.utm_source.value, 'google');
+  assert.equal(heroForm.elements.gclid, undefined);
+});
+
+test('Get Help hydrates click IDs from the URL or first-party store and ignores spoofed first-touch params', () => {
+  const firstLanding = loadGetHelpIntake({
+    search: '?gclid=FirstGclid_CaseSensitive-002&gbraid=jane@example.com&fbclid=MetaClick123&first_gclid=SpoofedFirst'
+  });
+  firstLanding.sandbox.LHIGetHelpIntake.initAttribution();
+  assert.equal(firstLanding.inputs.gclidInput.value, 'FirstGclid_CaseSensitive-002');
+  assert.equal(firstLanding.inputs.firstGclidInput.value, 'FirstGclid_CaseSensitive-002');
+  assert.equal(firstLanding.inputs.gbraidInput.value, '');
+  assert.equal(firstLanding.inputs.firstGclidInput.value !== 'SpoofedFirst', true);
+  assert.match(firstLanding.sandbox.document.cookie, /lhi_attr=/);
+  assert.doesNotMatch(firstLanding.sandbox.document.cookie, /fbclid/);
+
+  const laterVisit = loadGetHelpIntake({
+    search: '?gclid=CurrentGclid_CaseSensitive-001&wbraid=CurrentWbraid_CaseSensitive-001&gad_campaignid=24123358247',
+    cookie: firstLanding.sandbox.document.cookie
+  });
+  laterVisit.sandbox.LHIGetHelpIntake.initAttribution();
+  assert.equal(laterVisit.inputs.gclidInput.value, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(laterVisit.inputs.firstGclidInput.value, 'FirstGclid_CaseSensitive-002');
+  assert.equal(laterVisit.inputs.wbraidInput.value, 'CurrentWbraid_CaseSensitive-001');
+  assert.equal(laterVisit.inputs.firstWbraidInput.value, 'CurrentWbraid_CaseSensitive-001');
+  assert.equal(laterVisit.inputs.gadCampaignIdInput.value, '24123358247');
+
+  const storedOnly = loadGetHelpIntake({
+    cookie: laterVisit.sandbox.document.cookie
+  });
+  storedOnly.sandbox.LHIGetHelpIntake.initAttribution();
+  assert.equal(storedOnly.inputs.gclidInput.value, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(storedOnly.inputs.firstGclidInput.value, 'FirstGclid_CaseSensitive-002');
+  assert.equal(storedOnly.inputs.wbraidInput.value, 'CurrentWbraid_CaseSensitive-001');
+
+  const organic = loadGetHelpIntake({ search: '?utm_source=google' });
+  organic.sandbox.LHIGetHelpIntake.initAttribution();
+  assert.equal(organic.inputs.gclidInput.value, '');
+  assert.equal(organic.inputs.firstGclidInput.value, '');
+  assert.equal(organic.sandbox.LHIGetHelpIntake.approvedClickID('jane@example.com'), '');
+  assert.equal(organic.sandbox.LHIGetHelpIntake.approvedGoogleCampaignID('cid_24123358247'), '');
+
+  const cleaned = organic.sandbox.LHIGetHelpIntake.persistClickIds({
+    fbclid: 'MetaClick123',
+    extra: 'nope',
+    gclid: 'CurrentGclid_CaseSensitive-001'
+  }, new URLSearchParams(''));
+  assert.equal(cleaned.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(Object.hasOwn(cleaned, 'fbclid'), false);
+  assert.equal(Object.hasOwn(cleaned, 'extra'), false);
+});
+
+test('click-ID capture stays on the first-party attribution cookie and is not gated on Meta consent', () => {
+  assert.match(FUNNEL_SRC, /cookie\('lhi_attr', JSON\.stringify\(stored\), days\)/);
+  assert.match(FUNNEL_SRC, /CLICK_ATTRIBUTION_COOKIE_DAYS = 90/);
+  assert.match(GET_HELP_SRC, /document\.cookie = 'lhi_attr='/);
+  assert.doesNotMatch(FUNNEL_SRC, /approvedClickID[\s\S]{0,200}consent/i);
+  assert.doesNotMatch(GET_HELP_SRC, /approvedClickID[\s\S]{0,200}consent/i);
+  assert.doesNotMatch(FUNNEL_SRC, /gclid[\s\S]{0,80}fbclid|fbclid[\s\S]{0,80}gclid/);
+  assert.doesNotMatch(GET_HELP_SRC, /fbclid/);
+});
+
+test('estimator uses 2027 applicable percentages and 2026 HHS poverty guidelines', () => {
+  assert.match(ESTIMATOR_HTML, /<title>2027 Lakeland ACA Subsidy Estimator \| Educational Tool<\/title>/);
+  assert.match(ESTIMATOR_HTML, /<h1>2027 Lakeland ACA Subsidy Estimator<\/h1>/);
+  assert.match(ESTIMATOR_HTML, /Projected 2027 Annual Income/);
+  assert.doesNotMatch(ESTIMATOR_HTML, /This educational tool still uses 2026 IRS applicable percentages/);
+  assert.doesNotMatch(ESTIMATOR_HTML, /Uses 2025 Federal Poverty Guidelines for 2026 coverage year/);
+  assert.match(ESTIMATOR_HTML, /IRS Revenue Procedure 2026-26/);
+  assert.match(ESTIMATOR_HTML, /HHS\/ASPE, 2026 poverty guidelines/);
+  assert.match(ESTIMATOR_HTML, /var FPL_2026 = \{ 1:15960, 2:21640, 3:27320, 4:33000, 5:38680, 6:44360, 7:50040, 8:55720 \}/);
+  assert.match(ESTIMATOR_HTML, /var FPL_ADDITIONAL = 5680/);
+  assert.match(ESTIMATOR_HTML, /initialPct: 0\.0215, finalPct: 0\.0215/);
+  assert.match(ESTIMATOR_HTML, /initialPct: 0\.1022, finalPct: 0\.1022/);
+  assert.doesNotMatch(ESTIMATOR_HTML, /Rev\. Proc\. 2025-25/);
 });

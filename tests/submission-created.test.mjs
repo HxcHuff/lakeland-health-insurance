@@ -198,6 +198,11 @@ test('Forms path posts one minimized website lead to the bridge', async () => {
   assert.equal(lead.phone, '8635550118');
   assert.equal(lead.email, 'avery.fixture@example.test');
   assert.equal(lead.intent, 'aca');
+  assert.equal(lead.gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(lead.first_gclid, 'FirstGclid_CaseSensitive-002');
+  assert.equal(lead.lhi_gclid, 'CurrentGclid_CaseSensitive-001');
+  assert.equal(lead.lhi_lead_source, 'google_ads_site');
+  assert.equal(lead.lhi_attribution_status, 'click_id_matched');
   assert.equal(lead.page_url, 'https://lakelandhealthinsurance.com/get-help/');
   assert.equal(lead.consent.request, true);
   assert.equal(lead.consent.sms, false);
@@ -378,9 +383,10 @@ test('malformed bodies and identifiers fail before forwarding', async () => {
   assert.equal(fixture.store.entries.size, 0);
 });
 
-test('missing bridge configuration still accepts the Forms event', async () => {
+test('missing bridge configuration is logged, queued, and still accepts the Forms event', async () => {
   const calls = [];
   const logs = [];
+  const store = memoryStore();
   const handler = createSubmissionCreatedHandler({
     environment: {
       CONTEXT: 'production',
@@ -390,12 +396,16 @@ test('missing bridge configuration still accepts the Forms event', async () => {
       calls.push(args);
       throw new Error('must not fetch');
     },
-    logger: (entry) => logs.push(entry)
+    logger: (entry) => logs.push(entry),
+    bridgeStoreFactory: async () => store
   });
   const result = await handler(submission());
   assert.equal(result.statusCode, 200);
   assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'ACCEPTED' });
   assert.equal(calls.length, 0);
+  assert.equal(store.entries.size, 1);
+  assert.equal(store.entries.values().next().value.metadata.state, 'PENDING');
+  assert.equal(logs.at(-1).outcome, 'FAILED');
   assert.equal(logs.at(-1).reason, 'missing_configuration');
 });
 
@@ -410,7 +420,9 @@ test('bridge failures queue the outbox and still accept the Forms event', async 
   assert.equal(result.statusCode, 200);
   assert.deepEqual(JSON.parse(result.body), { ok: true, outcome: 'ACCEPTED' });
   assert.equal(store.entries.size, 1);
-  assert.equal(fixture.logs.at(-1).reason, 'queued');
+  assert.equal(fixture.logs.some((entry) => entry.event === 'website_lead_bridge' && entry.outcome === 'QUEUED'), true);
+  assert.equal(fixture.logs.at(-1).outcome, 'FAILED');
+  assert.equal(fixture.logs.at(-1).reason, 'upstream_500');
 });
 
 test('other allowlisted lead forms also build a website lead for the bridge', () => {

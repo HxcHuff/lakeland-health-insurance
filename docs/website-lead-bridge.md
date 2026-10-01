@@ -2,8 +2,10 @@
 
 Status: **implemented in live `submission-created`**. Allowlisted Netlify
 Forms submissions, including `get-help`, are posted to
-`{LEAD_BRIDGE_URL}/website/lead`. A failed bridge call is retried from the
-`website-lead-bridge-outbox-v1` Blobs store.
+`{LEAD_BRIDGE_URL}/website/lead`. A failed bridge call is logged, queued in
+`website-lead-bridge-outbox-v1`, and the visitor still receives HTTP 200.
+Missing `LEAD_BRIDGE_URL` or `LEAD_BRIDGE_KEY` is logged as an error and
+queued the same way. It is not a silent skip.
 
 ## Event boundary
 
@@ -15,12 +17,23 @@ Delivery:
 
 1. **Website lead bridge** — after production context is confirmed, allowlisted
    Forms events POST `{LEAD_BRIDGE_URL}/website/lead` with
-   `x-bridge-key: {LEAD_BRIDGE_KEY}` when those env vars are present. Missing
-   configuration skips the bridge without changing Netlify Forms storage. A
-   failed bridge POST is written to `website-lead-bridge-outbox-v1` and drained
-   by `lead-bridge-retry`. This path never texts or emails a lead.
+   `x-bridge-key: {LEAD_BRIDGE_KEY}`. A failed POST is logged, written to
+   `website-lead-bridge-outbox-v1`, and the handler returns HTTP 200
+   `ACCEPTED` so the visitor is not shown an error and the lead is not lost.
+   Missing `LEAD_BRIDGE_URL` or `LEAD_BRIDGE_KEY` is logged as an error
+   (`FAILED` / `missing_configuration`), and the lead is queued for retry
+   when the outbox is available. It is not skipped. The visitor still
+   receives HTTP 200 `ACCEPTED`. This path never texts or emails a lead.
+   HuffSherpa, Hopper, and Apps Script are not called.
 2. **Scheduled bridge outbox drain** — `lead-bridge-retry` lists and retries
-   leftover keys in the website-lead-bridge Blob store.
+   leftover keys in the website-lead-bridge Blob store. If bridge
+   configuration is still missing, the run logs that error and leaves queued
+   records untouched. It does not delete them or spend their retry budget.
+3. **Google-hosted Ads forms** — a separate webhook,
+   `/api/google-lead-webhook`, posts accepted leads to `{LEAD_BRIDGE_URL}/`
+   with the same `x-bridge-key`. That path also writes HubSpot portal
+   247504188 and does not call HuffSherpa or Apps Script. See
+   `docs/google-ads-crm-relay-runbook.md`.
 
 Preview, branch, and `dev` `CONTEXT` values stay fail-closed and never POST
 the bridge payload.
@@ -63,9 +76,12 @@ payload.
   functions often omit `CONTEXT`; an empty or missing `CONTEXT` is allowed
   only when `LHI_SITE_ENV=production`. Explicit `deploy-preview`,
   `branch-deploy`, or `dev` `CONTEXT` values still fail closed.
-- A failed bridge POST is written to the site-scoped
-  `website-lead-bridge-outbox-v1` store under a one-way digest of the
-  immutable submission ID. The scheduled function retries every 15 minutes.
+- A failed bridge POST, and a missing `LEAD_BRIDGE_URL` or `LEAD_BRIDGE_KEY`,
+  are written to the site-scoped `website-lead-bridge-outbox-v1` store under
+  a one-way digest of the immutable submission ID. The scheduled function
+  retries every 15 minutes once configuration is present. Missing
+  configuration is an error log, not a silent skip. The Forms response to
+  the visitor remains HTTP 200 `ACCEPTED`.
 - The original submission remains retained in Netlify Forms. No name, email,
   phone, ZIP, click ID, submission ID, endpoint, secret, or form payload is
   written to logs.
@@ -90,3 +106,16 @@ may omit `CONTEXT`; that omission is allowed only alongside
 This relay forwards website leads only. It does not create a SOLD event,
 upload a Google Ads conversion, or change Google Ads bidding, goals, budgets,
 ads, or campaign settings.
+
+## Leftover environment variables
+
+These names may still exist in Netlify. This repository does not read them.
+Do not delete them until David says so.
+
+| Name | Status |
+| --- | --- |
+| `HUFFSHERPA_LEAD_WEBHOOK_URL_V1` | Unused. Previously the Apps Script receiver URL. |
+| `HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1` | Unused. Previously the HMAC envelope secret. |
+| `HUFFSHERPA_RELAY_ALERT_EMAIL` | Unused. Previously the HuffSherpa alert address. |
+| `APPS_SCRIPT_LEAD_WEBHOOK_URL_V1` | Unused. Renamed Apps Script receiver URL. |
+| `APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1` | Unused. Renamed Apps Script HMAC secret. |

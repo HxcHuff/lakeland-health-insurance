@@ -12,6 +12,7 @@
 [functions."google-lead-crm-retry"]
   schedule = "*/15 * * * *"
 
+# huffsherpa-relay-retry was removed. Do not reschedule it.
 [functions."lead-bridge-retry"]
   schedule = "*/15 * * * *"
 

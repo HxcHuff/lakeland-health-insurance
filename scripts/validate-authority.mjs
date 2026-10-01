@@ -510,14 +510,12 @@ for (const field of [
   'consent_call',
   'consent_sms',
   'consent_email',
-  'consent_marketing_email',
   'consent_text_version',
   'consent_recorded_at',
   'consent_request_state',
   'consent_call_state',
   'consent_sms_state',
   'consent_email_state',
-  'consent_marketing_email_state',
   'consent_withdrawal_state'
 ]) {
   if (!getHelp.includes(`name="${field}"`)) issues.push(`get-help/index.html: missing ${field}`);

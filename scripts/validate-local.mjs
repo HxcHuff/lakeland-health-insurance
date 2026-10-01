@@ -7,7 +7,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const DEFAULT_ROOT = resolve(dirname(SCRIPT_PATH), '..');
-const PUBLIC_DATE = '2026-09-29';
+const PUBLIC_DATE = '2026-10-01';
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const JS_EXTENSIONS = new Set(['.js', '.mjs', '.cjs']);
 const REF_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._/@{}~^+\-]*$/;

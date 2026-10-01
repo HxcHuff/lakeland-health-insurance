@@ -122,7 +122,7 @@ Required remediation: classify each cookie by purpose, minimize lifetime, add se
 
 ### P1 — aggregate delivery reconciliation is not currently reproducible
 
-The lead function returns component results (`forms`, `capi`, `ads_capi`, and `mailchimp`) to the browser, but the safe aggregate connector exposes only retained Forms counts. There is no PHI-free daily delivery/error ledger available in this audit. Forms counts, GA4 events, advertising conversions, Mailchimp state, and CRM state therefore cannot yet be reconciled.
+The lead function returns component results (`forms`, `capi`, and `ads_capi`) to the browser, but the safe aggregate connector exposes only retained Forms counts. There is no PHI-free daily delivery/error ledger available in this audit. Forms counts, GA4 events, advertising conversions, and CRM state therefore cannot yet be reconciled.
 
 Required remediation: emit a bounded structured operational metric containing only date bucket, form/version, HTTP outcome, component outcome, and synthetic/production flag. Never log form payloads, contact data, ZIP, provider, prescription, policy, income, IP, user agent, or free text.
 
@@ -169,7 +169,7 @@ The following reversible repairs were implemented locally after the evidence cap
 - `thanks.html` consumes the completion marker for receipt presentation only and does not emit GA4 or Ads lead events.
 - The analytics QA override uses tab-scoped session storage, supports `?analytics_test=0` clearing, and marks GA4 debug mode.
 - First-party attribution cookies add `Secure` on HTTPS.
-- The lead function writes a PHI-free `lead_delivery_outcome_v1` operational record and no longer includes Mailchimp response bodies in returned/logged errors.
+- The lead function writes a PHI-free `lead_delivery_outcome_v1` operational record and no longer includes provider response bodies in returned/logged errors.
 - All analytics-loader references use cache version `20260731-measurement-integrity`.
 
 These repairs do not supply QA-excluded conversion or downstream-delivery evidence. Direct Search Console access and its zero-external-link report are now documented, CRM is out of scope, and the owner selected the US default-granted consent posture. The repairs must not be deployed until preview tests pass and the release gate is explicitly approved.

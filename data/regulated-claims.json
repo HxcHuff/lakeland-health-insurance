@@ -128,6 +128,20 @@
       "reviewStatus": "approved",
       "reviewCadenceDays": 90,
       "usedBy": [
+        "blog/employer-coverage-family-marketplace-affordability-florida.html"
+      ]
+    },
+    {
+      "id": "aca-applicable-percentages-2027",
+      "claim": "The 2027 premium tax credit applicable percentage table ranges from 2.15 percent below 133 percent FPL to 10.22 percent from 300 through 400 percent FPL.",
+      "sourceUrl": "https://www.irs.gov/pub/irs-drop/rp-26-26.pdf",
+      "accessDate": "2026-09-30",
+      "applicableYear": 2027,
+      "state": "Florida",
+      "productLine": "ACA Marketplace",
+      "reviewStatus": "approved",
+      "reviewCadenceDays": 90,
+      "usedBy": [
         "aca-subsidy-estimator/index.html"
       ]
     },

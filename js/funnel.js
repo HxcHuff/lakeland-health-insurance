@@ -33,6 +33,12 @@
   var MEDICARE_ATTRIBUTION_SCHEMA_VERSION = 'medicare-attribution.v1';
   var MEDICARE_CONTENT_CLUSTER = 'lakeland_medicare_broker';
   var ATTRIBUTION_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+  var CLICK_ID_FIELDS = ['gclid', 'gbraid', 'wbraid', 'gad_campaignid'];
+  var CLICK_ID_STORAGE_FIELDS = CLICK_ID_FIELDS.concat(CLICK_ID_FIELDS.map(function (field) {
+    return 'first_' + field;
+  }));
+  var ATTRIBUTION_COOKIE_DAYS = 30;
+  var CLICK_ATTRIBUTION_COOKIE_DAYS = 90;
   var MEDICARE_PAGE_REGISTRY = {
     medicare: {
       path: '/medicare/',
@@ -336,6 +342,30 @@
     return name === 'utm_term' ? approvedCampaignTerm(value) : approvedCampaignValue(value);
   }
 
+  function approvedClickID(value) {
+    var text = String(value || '').trim();
+    if (!text || text.length > 512) return null;
+    return /^[a-z0-9._~-]+$/i.test(text) ? text : null;
+  }
+
+  function approvedGoogleCampaignID(value) {
+    var text = String(value || '').trim();
+    return /^\d{1,20}$/.test(text) ? text : null;
+  }
+
+  function approvedClickAttributionValue(name, value) {
+    return String(name || '').indexOf('gad_campaignid') !== -1
+      ? approvedGoogleCampaignID(value)
+      : approvedClickID(value);
+  }
+
+  function persistAttribution(stored) {
+    var days = CLICK_ID_STORAGE_FIELDS.some(function (field) { return stored[field]; })
+      ? CLICK_ATTRIBUTION_COOKIE_DAYS
+      : ATTRIBUTION_COOKIE_DAYS;
+    cookie('lhi_attr', JSON.stringify(stored), days);
+  }
+
   function getAttribution() {
     var qs = new URLSearchParams(w.location.search);
     var rawStored = {};
@@ -348,13 +378,33 @@
       if (previous) stored[k] = previous;
       if (incoming) fresh[k] = incoming;
     });
+    CLICK_ID_FIELDS.forEach(function (k) {
+      var previous = approvedClickAttributionValue(k, rawStored[k]);
+      var incoming = approvedClickAttributionValue(k, qs.get(k));
+      var previousFirst = approvedClickAttributionValue(k, rawStored['first_' + k]);
+      if (previous) stored[k] = previous;
+      if (previousFirst) stored['first_' + k] = previousFirst;
+      if (incoming) {
+        fresh[k] = incoming;
+        stored[k] = incoming;
+        if (!stored['first_' + k]) stored['first_' + k] = incoming;
+      } else if (stored[k] && !stored['first_' + k]) {
+        stored['first_' + k] = stored[k];
+      }
+    });
     if (Object.keys(fresh).length) {
       stored = Object.assign({}, stored, fresh);
-      cookie('lhi_attr', JSON.stringify(stored), 30);
+      persistAttribution(stored);
     } else if (JSON.stringify(rawStored) !== JSON.stringify(stored)) {
-      cookie('lhi_attr', JSON.stringify(stored), 30);
+      persistAttribution(stored);
     }
     return stored;
+  }
+
+  function isLeadClickAttributionForm(form) {
+    if (!form || typeof form.getAttribute !== 'function') return false;
+    if (form.getAttribute('data-funnel-event') === 'Lead') return true;
+    return Boolean(form.hasAttribute && form.hasAttribute('data-sitelink-lead-form'));
   }
 
   function approvedAnalyticsToken(value, maxLength) {
@@ -614,6 +664,10 @@
     var attribution = getAttribution();
     ATTRIBUTION_FIELDS.forEach(function (name) {
       setAttributionField(form, name, approvedAttributionValue(name, attribution[name]));
+    });
+    if (!isLeadClickAttributionForm(form)) return;
+    CLICK_ID_STORAGE_FIELDS.forEach(function (name) {
+      setAttributionField(form, name, approvedClickAttributionValue(name, attribution[name]));
     });
   }
 
@@ -943,7 +997,7 @@
   }
 
   // Boot ------------------------------------------------------------------
-  w.LHI = { track: track, pageType: pageType, session: getSession };
+  w.LHI = { track: track, pageType: pageType, session: getSession, getAttribution: getAttribution };
 
   /* Test-only surface. Tree-shaken for prod by the gate: only attaches when
      w.__LHI_TEST is set to true before this script evaluates (Node test
@@ -956,6 +1010,8 @@
       approvedCampaignValue: approvedCampaignValue,
       approvedCampaignTerm: approvedCampaignTerm,
       approvedAttributionValue: approvedAttributionValue,
+      approvedClickID: approvedClickID,
+      approvedGoogleCampaignID: approvedGoogleCampaignID,
       getAttribution: getAttribution,
       initializeFormAttribution: initializeFormAttribution,
       wireHeroZipForms: wireHeroZipForms,

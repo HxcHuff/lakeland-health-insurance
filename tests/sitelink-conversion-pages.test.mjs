@@ -59,10 +59,8 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /name="preferred_contact_method" value="Text message"/);
     assert.match(form, /name="preferred_contact_method" value="Email"/);
     assert.match(form, /name="consent_request" value="yes" required/);
-    assert.match(form, /name="consent_marketing_email" value="yes"/);
-    assert.doesNotMatch(form, /name="consent_marketing_email"[^>]*\brequired\b/);
+    assert.doesNotMatch(form, /tips and updates/i);
     assert.match(form, /name="consent_text_version" value="get-help-2026-07-30-v1"/);
-    assert.match(form, /name="consent_marketing_email_version" value="marketing-email-2026-09-30-v1"/);
     for (const field of [
       'consent_recorded_at',
       'consent_page',
@@ -70,7 +68,6 @@ for (const [file, sourcePage, intent] of pages) {
       'consent_call_state',
       'consent_sms_state',
       'consent_email_state',
-      'consent_marketing_email_state',
       'consent_withdrawal_state',
       'consent_version_source',
       'consent_version_mismatch',
@@ -89,6 +86,15 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /name="utm_campaign"/);
     assert.match(form, /name="utm_term"/);
     assert.match(form, /name="utm_content"/);
+    assert.match(form, /name="gclid"/);
+    assert.match(form, /name="gbraid"/);
+    assert.match(form, /name="wbraid"/);
+    assert.match(form, /name="gad_campaignid"/);
+    assert.match(form, /name="first_gclid"/);
+    assert.match(form, /name="first_gbraid"/);
+    assert.match(form, /name="first_wbraid"/);
+    assert.match(form, /name="first_gad_campaignid"/);
+    assert.doesNotMatch(form, /name="fbclid"/);
     assert.match(form, new RegExp(`name="source_page" value="${escapeRegex(sourcePage)}"`));
     assert.match(form, new RegExp(`name="normalized_intent" value="${escapeRegex(intent)}"`));
     assert.doesNotMatch(form, /<textarea/i);
@@ -98,7 +104,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /Reply STOP to cancel or HELP for help/);
 
     assert.match(html, /\/css\/site-template\.css\?v=20260929-compliance/);
-    assert.match(html, /\/js\/funnel\.js\?v=20260821-lead-reconciliation/);
+    assert.match(html, /\/js\/funnel\.js\?v=20260930-click-id/);
   });
 }
 

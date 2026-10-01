@@ -5,15 +5,16 @@
  *
  * Netlify invokes this file after a submission has already been accepted and
  * retained. Allowlisted sales/service forms are minimized and posted to
- * `{LEAD_BRIDGE_URL}/website/lead` when `LEAD_BRIDGE_URL` and
- * `LEAD_BRIDGE_KEY` are set. A failed bridge POST is written to the
- * `website-lead-bridge-outbox-v1` Blobs store and retried by
- * `lead-bridge-retry`.
+ * `{LEAD_BRIDGE_URL}/website/lead`, which writes HubSpot portal 247504188.
+ * HuffSherpa, Hopper, and Apps Script are not called. This path never texts
+ * or emails a lead. NOTIFY_EMAIL and meta-lead-webhook remain independent.
  *
- * Missing bridge configuration skips delivery without changing Netlify Forms
- * storage. Bridge failures never change Forms storage. This path never texts
- * or emails a lead. NOTIFY_EMAIL and meta-lead-webhook remain independent of
- * this function.
+ * A failed bridge POST is logged, written to `website-lead-bridge-outbox-v1`,
+ * and retried by `lead-bridge-retry`. The handler still returns HTTP 200
+ * ACCEPTED so the visitor is not shown an error. Missing LEAD_BRIDGE_URL or
+ * LEAD_BRIDGE_KEY is not a silent skip: it is logged as an error, the lead
+ * stays queued for retry, and the visitor still receives HTTP 200 ACCEPTED.
+ * The original Netlify Forms submission remains the source of truth.
  *
  * Preview, branch, and explicit non-production CONTEXT values fail closed.
  *
@@ -21,7 +22,11 @@
  */
 
 const { relaySchema } = require('./lead.js');
-const { buildWebsiteLeadPayload, deliverWebsiteLead } = require('./lib/lead-bridge');
+const {
+  buildWebsiteLeadPayload,
+  deliverWebsiteLead,
+  readBridgeConfig
+} = require('./lib/lead-bridge');
 
 const PROTOCOL = Object.freeze({
   maximumEventBytes: 64 * 1024
@@ -150,6 +155,10 @@ function productionLogger(entry) {
   }
 }
 
+function requireBridgeConfiguration(environment) {
+  if (!readBridgeConfig(environment)) fail('bridge_configuration_missing', 503);
+}
+
 function safeLog(logger, formName, outcome, reason, cause) {
   const entry = {
     event: 'website_form_lead_relay',
@@ -199,14 +208,16 @@ function createSubmissionCreatedHandler({
         clearTimer,
         timeoutMilliseconds
       });
-      const reason = delivery && delivery.skipped
-        ? delivery.reason
-        : delivery && delivery.ok
-          ? 'direct'
-          : delivery && delivery.queued
-            ? 'queued'
-            : delivery && delivery.reason || 'bridge_failed';
-      safeLog(logger, formName, 'ACCEPTED', reason);
+      if (!delivery || delivery.ok !== true) {
+        safeLog(
+          logger,
+          formName,
+          'FAILED',
+          (delivery && delivery.reason) || 'bridge_delivery_failed'
+        );
+        return response(200, { ok: true, outcome: 'ACCEPTED' });
+      }
+      safeLog(logger, formName, 'ACCEPTED', 'direct');
       return response(200, { ok: true, outcome: 'ACCEPTED' });
     } catch (error) {
       const controlled = error instanceof SubmissionRelayError
@@ -231,5 +242,6 @@ exports._test = Object.freeze({
   PROTOCOL,
   SubmissionRelayError,
   parseNetlifyEvent,
+  requireBridgeConfiguration,
   requireProductionContext
 });

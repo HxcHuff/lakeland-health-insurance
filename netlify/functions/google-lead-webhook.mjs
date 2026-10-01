@@ -1,10 +1,11 @@
 /**
  * Google Ads lead-form intake and durable CRM relay.
  *
- * The Google-facing shared key authenticates intake only. A separate HMAC
- * secret signs the minimized payload delivered to the pinned Apps Script CRM
- * endpoint. No Mailchimp, Twilio, customer messaging, or PII-bearing
- * notification is performed by this function.
+ * The Google-facing shared key authenticates intake only. The minimized
+ * payload is posted to `{LEAD_BRIDGE_URL}/` (Vercel google-ads-lead-relay),
+ * which writes HubSpot portal 247504188. HuffSherpa and Apps Script are not
+ * called. No Twilio, customer messaging, or PII-bearing notification is
+ * performed by this function.
  */
 
 import crypto from "node:crypto";
@@ -46,7 +47,14 @@ function jsonResponse(status, body) {
 
 function defaultLogger(entry) {
   const line = JSON.stringify(entry);
-  if (["REJECTED", "FAILED", "QUARANTINED", "CHANGED_REPLAY"].includes(entry.outcome)) {
+  if ([
+    "REJECTED",
+    "FAILED",
+    "QUARANTINED",
+    "CHANGED_REPLAY",
+    "PENDING",
+    "DELIVERY_DEFERRED",
+  ].includes(entry.outcome)) {
     console.error(line);
   } else {
     console.info(line);
