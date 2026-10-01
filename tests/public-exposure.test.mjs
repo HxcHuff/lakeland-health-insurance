@@ -205,7 +205,8 @@ test('plans presents five one-click coverage choices with relevant limitations',
   assert.match(PLANS, /data-coverage-choice="coverage-loss" href="\/losing-coverage\/"/);
   assert.match(PLANS, /data-coverage-choice="additional-coverage" href="\/supplemental-insurance\/"/);
   assert.match(PLANS, /data-coverage-choice="not-sure" href="\/get-help\/"/);
-  assert.doesNotMatch(PLANS, /href="\/quote\/"/);
+  assert.doesNotMatch(PLANS, /data-coverage-choice="[^"]+" href="\/quote\/"/);
+  assert.match(PLANS, /href="\/quote\/">quote and review options<\/a>/);
   assert.match(PLANS, /This is a fixed indemnity policy, NOT health insurance\./);
 
   const cmsFactSheet = 'https://www.cms.gov/newsroom/fact-sheets/short-term-limited-duration-insurance-and-independent-noncoordinated-excepted-benefits-coverage-cms';
@@ -291,7 +292,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 231);
+  assert.equal(templateConsumers.length, 232);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_TEMPLATE_LOADER), true, `${relative(ROOT, file)} uses the current shared-template release`);
