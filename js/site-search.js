@@ -296,7 +296,7 @@ const siteSearchIndex = [
   },
   {
     title: "Insurance Claim Denied? A Step-by-Step Review Process",
-    url: "/blog/what-to-do-when-insurance-denies-claim.html",
+    url: "/blog/what-to-do-if-health-plan-denies-a-claim.html",
     excerpt: "Review the denial reason, plan documents, provider records, internal appeal process, and external-review options.",
     tags: ["Claims", "Appeals", "Tips"]
   },
@@ -314,7 +314,7 @@ const siteSearchIndex = [
   },
   {
     title: "How the Out-of-Pocket Maximum Works",
-    url: "/blog/understanding-out-of-pocket-maximum.html",
+    url: "/blog/deductible-vs-out-of-pocket-maximum.html",
     excerpt: "Learn which eligible in-network costs count toward the annual limit and which expenses remain outside it.",
     tags: ["Coverage", "Financial", "Basics"]
   },
@@ -425,7 +425,7 @@ const siteSearchIndex = [
   },
   {
     title: "ACA Premiums Are Up in 2026 — Lakeland FL Health Insurance Guide",
-    url: "/blog/aca-premiums-2026-lakeland.html",
+    url: "/blog/why-florida-health-insurance-premiums-increased-2026.html",
     excerpt: "Why ACA premiums changed in Lakeland for 2026, who qualifies for an SEP, and how Bronze + HSA plans changed.",
     tags: ["ACA", "Lakeland", "Premiums", "Florida"]
   },
@@ -455,7 +455,7 @@ const siteSearchIndex = [
   },
   {
     title: "Florida ACA Premiums Up 34.1% in 2026",
-    url: "/blog/florida-aca-premiums-up-31-percent-2026.html",
+    url: "/blog/why-florida-health-insurance-premiums-increased-2026.html",
     excerpt: "What higher 2026 Florida ACA premiums mean for Lakeland residents and how subsidies affect the real cost.",
     tags: ["ACA", "Florida", "Premiums", "Lakeland"]
   },

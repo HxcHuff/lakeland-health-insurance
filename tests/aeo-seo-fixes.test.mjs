@@ -170,7 +170,7 @@ test('sitemap lastmod is on or after each page dateModified', () => {
 
 test('facility posts use one question for title, H1, and headline, without ellipsis', () => {
   const titles = {
-    'blog/adventhealth-haines-city.html': 'Does AdventHealth Centra Care Haines City Take My Insurance?',
+    'blog/adventhealth-haines-city.html': 'Is the New Centra Care Haines City in My Plan?',
     'blog/centra-care-four-corners.html': 'Does Centra Care Four Corners Take My Insurance?',
     'blog/lrh-physician-group-insurance.html': 'Is My Lakeland Regional Health Doctor in My Plan?',
   };
