@@ -455,6 +455,49 @@
     return /^[a-z0-9][a-z0-9._~-]*$/.test(text) ? text : '';
   }
 
+  function approvedClickID(value) {
+    var text = String(value || '').trim();
+    if (!text || text.length > 512) return '';
+    return /^[a-z0-9._~-]+$/i.test(text) ? text : '';
+  }
+
+  function approvedGoogleCampaignID(value) {
+    var text = String(value || '').trim();
+    return /^\d{1,20}$/.test(text) ? text : '';
+  }
+
+  function readStoredAttribution() {
+    if (window.LHI && typeof window.LHI.getAttribution === 'function') {
+      try {
+        var shared = window.LHI.getAttribution();
+        if (shared && typeof shared === 'object') return shared;
+      } catch (e) {}
+    }
+    var match = String(document.cookie || '').match(/(?:^|; )lhi_attr=([^;]*)/);
+    if (!match) return {};
+    try {
+      var parsed = JSON.parse(decodeURIComponent(match[1]));
+      return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function clickAttributionValue(name, queryValue, stored) {
+    var fromQuery = String(name || '').indexOf('first_') === 0
+      ? ''
+      : (String(name || '').indexOf('gad_campaignid') !== -1
+        ? approvedGoogleCampaignID(queryValue)
+        : approvedClickID(queryValue));
+    if (fromQuery) return fromQuery;
+    var storedValue = stored && stored[name];
+    var storedCurrent = stored && stored[String(name || '').replace(/^first_/, '')];
+    var chosen = storedValue || (String(name || '').indexOf('first_') === 0 ? storedCurrent : '');
+    return String(name || '').indexOf('gad_campaignid') !== -1
+      ? approvedGoogleCampaignID(chosen)
+      : approvedClickID(chosen);
+  }
+
   function approvedCampaignTerm(value) {
     var candidate = value;
     var shared = window.LHIMedicareAttribution;
@@ -628,8 +671,64 @@
     return true;
   }
 
+  var ATTRIBUTION_COOKIE_KEYS = [
+    'utm_source',
+    'utm_medium',
+    'utm_campaign',
+    'utm_term',
+    'utm_content',
+    'gclid',
+    'gbraid',
+    'wbraid',
+    'gad_campaignid',
+    'first_gclid',
+    'first_gbraid',
+    'first_wbraid',
+    'first_gad_campaignid'
+  ];
+
+  function storedAttributionValue(name, value) {
+    if (String(name || '').indexOf('gad_campaignid') !== -1) return approvedGoogleCampaignID(value);
+    if (name === 'utm_term') return approvedCampaignTerm(value);
+    if (String(name || '').indexOf('utm_') === 0) return approvedCampaignValue(value);
+    return approvedClickID(value);
+  }
+
+  function persistClickIds(stored, qs) {
+    var next = {};
+    ATTRIBUTION_COOKIE_KEYS.forEach(function (key) {
+      var value = storedAttributionValue(key, stored && stored[key]);
+      if (value) next[key] = value;
+    });
+    var changed = false;
+    ['gclid', 'gbraid', 'wbraid', 'gad_campaignid'].forEach(function (name) {
+      var incoming = clickAttributionValue(name, qs.get(name), {});
+      if (!incoming) return;
+      if (next[name] !== incoming) {
+        next[name] = incoming;
+        changed = true;
+      }
+      if (!next['first_' + name]) {
+        next['first_' + name] = incoming;
+        changed = true;
+      }
+    });
+    if (!changed) return next;
+    var days = 90;
+    var secure = window.location && window.location.protocol === 'https:' ? '; Secure' : '';
+    var expires = '';
+    try {
+      var dt = new Date();
+      dt.setTime(dt.getTime() + days * 86400000);
+      expires = '; expires=' + dt.toUTCString();
+    } catch (e) {}
+    document.cookie = 'lhi_attr=' + encodeURIComponent(JSON.stringify(next)) + expires + '; path=/; SameSite=Lax' + secure;
+    return next;
+  }
+
   function initAttribution() {
     var qs = new URLSearchParams(window.location.search);
+    var stored = persistClickIds(readStoredAttribution(), qs);
     var medicareSource = medicareSourceContext(qs);
     setValue('zipCode', qsValue(qs, 'zip_code'));
     setValue('coverageStateInput', resolveCoverageState(qs));
@@ -641,11 +740,19 @@
     setValue('contentClusterInput', medicareSource && medicareSource.content_cluster);
     setValue('productInterestInput', qsValue(qs, 'product'));
     setValue('planInterestInput', qsValue(qs, 'plan'));
-    setValue('utmSourceInput', approvedCampaignValue(qs.get('utm_source')));
-    setValue('utmMediumInput', approvedCampaignValue(qs.get('utm_medium')));
-    setValue('utmCampaignInput', approvedCampaignValue(qs.get('utm_campaign')));
-    setValue('utmTermInput', approvedCampaignTerm(qs.get('utm_term')));
-    setValue('utmContentInput', approvedCampaignValue(qs.get('utm_content')));
+    setValue('utmSourceInput', approvedCampaignValue(qs.get('utm_source')) || approvedCampaignValue(stored.utm_source));
+    setValue('utmMediumInput', approvedCampaignValue(qs.get('utm_medium')) || approvedCampaignValue(stored.utm_medium));
+    setValue('utmCampaignInput', approvedCampaignValue(qs.get('utm_campaign')) || approvedCampaignValue(stored.utm_campaign));
+    setValue('utmTermInput', approvedCampaignTerm(qs.get('utm_term')) || approvedCampaignTerm(stored.utm_term));
+    setValue('utmContentInput', approvedCampaignValue(qs.get('utm_content')) || approvedCampaignValue(stored.utm_content));
+    setValue('gclidInput', clickAttributionValue('gclid', qs.get('gclid'), stored));
+    setValue('gbraidInput', clickAttributionValue('gbraid', qs.get('gbraid'), stored));
+    setValue('wbraidInput', clickAttributionValue('wbraid', qs.get('wbraid'), stored));
+    setValue('gadCampaignIdInput', clickAttributionValue('gad_campaignid', qs.get('gad_campaignid'), stored));
+    setValue('firstGclidInput', clickAttributionValue('first_gclid', qs.get('first_gclid'), stored));
+    setValue('firstGbraidInput', clickAttributionValue('first_gbraid', qs.get('first_gbraid'), stored));
+    setValue('firstWbraidInput', clickAttributionValue('first_wbraid', qs.get('first_wbraid'), stored));
+    setValue('firstGadCampaignIdInput', clickAttributionValue('first_gad_campaignid', qs.get('first_gad_campaignid'), stored));
     var startedAt = String(Date.now());
     setValue('startedAtInput', startedAt);
     try { setValue('humanCheckInput', btoa(startedAt + ':lakeland-human')); } catch (e) {}
@@ -733,6 +840,12 @@
     optionalFields: OPTIONAL_FIELDS,
     approvedCampaignValue: approvedCampaignValue,
     approvedCampaignTerm: approvedCampaignTerm,
+    approvedClickID: approvedClickID,
+    approvedGoogleCampaignID: approvedGoogleCampaignID,
+    clickAttributionValue: clickAttributionValue,
+    persistClickIds: persistClickIds,
+    initAttribution: initAttribution,
+    readStoredAttribution: readStoredAttribution,
     referralClass: referralClass,
     medicareSourceContext: medicareSourceContext,
     allowlistedCoverageState: allowlistedCoverageState,

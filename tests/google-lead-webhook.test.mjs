@@ -1,4 +1,3 @@
-import crypto from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -12,14 +11,14 @@ import {
 } from "../netlify/functions/lib/google-ads-crm-relay.mjs";
 
 const WEBHOOK_URL = "https://example.test/api/google-lead-webhook";
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbSYNTHETIC_GOOGLE_ADS_RECEIVER_001/exec";
-const CONTENT_SERVICE_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=synthetic";
+const BRIDGE_URL = "https://google-ads-lead-relay.vercel.app";
+const BRIDGE_ENDPOINT = BRIDGE_URL + "/";
+const BRIDGE_KEY = "synthetic-lead-bridge-key-001";
 const GOOGLE_KEY = "synthetic-aca-google-webhook-key-0001";
 const MEDICARE_GOOGLE_KEY = "synthetic-medicare-google-webhook-key-0002";
 const OVERLONG_GOOGLE_KEY = Buffer.from(
   Array.from({ length: 38 }, (_, index) => index + 1),
 ).toString("base64url");
-const HMAC_SECRET = Buffer.from(Array.from({ length: 48 }, (_, index) => index + 1)).toString("base64url");
 const FIXED_NOW = Date.parse("2026-08-27T20:00:00.000Z");
 
 function makePayload(overrides = {}) {
@@ -69,8 +68,8 @@ function makeEnv(overrides = {}) {
     GOOGLE_LEAD_FORM_ID_ALLOWLIST: GOOGLE_ADS_ROUTING.formIds.join(","),
     GOOGLE_LEAD_WEBHOOK_KEY_357496832026: GOOGLE_KEY,
     GOOGLE_LEAD_WEBHOOK_KEY_398917236265: MEDICARE_GOOGLE_KEY,
-    APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: APPS_SCRIPT_URL,
-    APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1: HMAC_SECRET,
+    LEAD_BRIDGE_URL: BRIDGE_URL,
+    LEAD_BRIDGE_KEY: BRIDGE_KEY,
     ...overrides,
   };
   return (key) => String(values[key] || "");
@@ -129,28 +128,28 @@ function makeStore() {
   };
 }
 
-function makeAppsScriptFetch({ outcome = "STAGED", reason = null, failPost = false, onPost } = {}) {
+function makeBridgeFetch({ status = 200, failPost = false, onPost } = {}) {
   const calls = [];
   const fetchImpl = async (url, options = {}) => {
     calls.push({ url: String(url), options });
-    if (String(url) === APPS_SCRIPT_URL) {
-      if (onPost) await onPost(options);
-      if (failPost) throw new Error("synthetic network failure");
-      return new Response(null, {
-        status: 302,
-        headers: { location: CONTENT_SERVICE_URL },
-      });
+    if (String(url).includes("script.google.com") || String(url).includes("script.googleusercontent.com")) {
+      throw new Error("retired HuffSherpa receiver must not be called");
     }
-    assert.equal(String(url), CONTENT_SERVICE_URL);
-    return new Response(JSON.stringify({ ok: !reason, outcome, reason }), {
-      status: 200,
-      headers: {
-        "cache-control": "no-store",
-        "content-type": "application/json; charset=utf-8",
-      },
+    if (String(url) !== BRIDGE_ENDPOINT) {
+      throw new Error(`unexpected fetch ${url}`);
+    }
+    if (onPost) await onPost(options);
+    if (failPost) throw new Error("synthetic network failure");
+    return new Response(JSON.stringify({ ok: status < 400 }), {
+      status,
+      headers: { "content-type": "application/json" },
     });
   };
   return { calls, fetchImpl };
+}
+
+function makeAppsScriptFetch(options = {}) {
+  return makeBridgeFetch(options);
 }
 
 function makeContext({
@@ -202,18 +201,10 @@ function delay(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-function verifyEnvelopeSignature(envelope) {
-  const { signature, ...unsigned } = envelope;
-  const expected = crypto.createHmac("sha256", Buffer.from(HMAC_SECRET, "utf8"))
-    .update(canonicalJson(unsigned), "utf8")
-    .digest("base64url");
-  assert.equal(signature, expected);
-}
-
-test("durably stores a minimized payload before delivery, signs it, and closes without PII", async () => {
+test("durably stores a minimized payload before delivery, posts it to the Vercel bridge, and closes without PII", async () => {
   const store = makeStore();
   let durableStateDuringPost = null;
-  const apps = makeAppsScriptFetch({
+  const apps = makeBridgeFetch({
     onPost() {
       durableStateDuringPost = parsedRecord(store).state;
     },
@@ -226,35 +217,30 @@ test("durably stores a minimized payload before delivery, signs it, and closes w
   assert.equal(response.status, 200);
   assert.deepEqual(await response.json(), {});
   assert.equal(durableStateDuringPost, "ATTEMPTING");
-  assert.equal(apps.calls.length, 2);
-  const envelope = JSON.parse(apps.calls[0].options.body);
-  verifyEnvelopeSignature(envelope);
-  assert.deepEqual(Object.keys(envelope).sort(), ["issuedAt", "nonce", "payload", "signature", "source", "version"]);
-  assert.equal(envelope.source, "google_ads");
-  assert.equal(envelope.version, 1);
-  assert.deepEqual(envelope.payload, {
-    account_id: "7880085811",
-    adgroup_id: "200750743844",
-    asset_group_id: "",
-    campaign_id: "24123358247",
-    creative_id: "820410157593",
-    email: "jane@example.test",
-    event_type: "google_ads_lead_form_accepted",
-    first_name: "Jane",
-    form_id: "357496832026",
-    gcl_id: "Exact.Gclid_AbC-123~x",
-    is_test: false,
-    last_name: "Test",
-    lead_id: "Exact-Google-Lead_123",
-    lead_source: "LEAD_FORM",
-    lead_stage: "SUBMITTED",
-    lead_submit_time: "2026-08-27T19:59:58Z",
-    phone_number: "8635550100",
-    postal_code: "33801",
-  });
-  assert.equal("user_column_data" in envelope.payload, false);
-  assert.equal(JSON.stringify(envelope).includes("MEDICAL_CONDITIONS"), false);
-  assert.equal(JSON.stringify(envelope).includes("attacker@example.test"), false);
+  assert.equal(apps.calls.length, 1);
+  assert.equal(apps.calls[0].url, BRIDGE_ENDPOINT);
+  assert.equal(apps.calls[0].options.method, "POST");
+  assert.equal(apps.calls[0].options.headers["x-bridge-key"], BRIDGE_KEY);
+  const lead = JSON.parse(apps.calls[0].options.body);
+  assert.equal(lead.source, "google_ads_lead_form");
+  assert.equal(lead.lead_id, "Exact-Google-Lead_123");
+  assert.equal(lead.account_id, "7880085811");
+  assert.equal(lead.form_id, "357496832026");
+  assert.equal(lead.first_name, "Jane");
+  assert.equal(lead.last_name, "Test");
+  assert.equal(lead.email, "jane@example.test");
+  assert.equal(lead.phone, "8635550100");
+  assert.equal(lead.zip, "33801");
+  assert.equal(lead.gcl_id, "Exact.Gclid_AbC-123~x");
+  assert.equal(lead.gclid, "Exact.Gclid_AbC-123~x");
+  assert.equal(lead.lhi_gclid, "Exact.Gclid_AbC-123~x");
+  assert.equal(lead.lhi_gad_campaign_id, "24123358247");
+  assert.equal(lead.lhi_lead_source, "google_ads_site");
+  assert.equal(lead.lhi_attribution_status, "click_id_matched");
+  assert.equal("user_column_data" in lead, false);
+  assert.equal(JSON.stringify(lead).includes("MEDICAL_CONDITIONS"), false);
+  assert.equal(JSON.stringify(lead).includes("attacker@example.test"), false);
+  assert.equal(JSON.stringify(lead).includes("signature"), false);
 
   const stored = parsedRecord(store);
   assert.equal(stored.state, "CLOSED");
@@ -348,7 +334,7 @@ test("transient delivery failure stays durable and the scheduled retry closes it
 
   assert.equal(retried.status, 200);
   assert.deepEqual(await retried.json(), { ok: true, processed: 1 });
-  assert.equal(successfulApps.calls.length, 2);
+  assert.equal(successfulApps.calls.length, 1);
   assert.equal(parsedRecord(store).state, "CLOSED");
   assert.equal(parsedRecord(store).payload, null);
   assert.ok(retryLogs.some((entry) => entry.outcome === "CLOSED"));
@@ -379,7 +365,7 @@ test("scheduled retry bounds delivery work and reports deferred due records with
 
   assert.equal(response.status, 200);
   assert.deepEqual(await response.json(), { ok: true, processed: OUTBOX.maximumBatchSize });
-  assert.equal(apps.calls.length, OUTBOX.maximumBatchSize * 2);
+  assert.equal(apps.calls.length, OUTBOX.maximumBatchSize);
   const states = [...store.records.values()].map(({ data }) => JSON.parse(data).state);
   assert.equal(states.filter((state) => state === "CLOSED").length, OUTBOX.maximumBatchSize);
   assert.equal(states.filter((state) => state === "PENDING").length, 1);
@@ -470,8 +456,8 @@ test("scheduled scanning is bounded, concurrent, and rotates across later candid
 
   const logs = [];
   const maintenanceOnlyEnv = makeEnv({
-    APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "",
-    APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1: "",
+    LEAD_BRIDGE_URL: "",
+    LEAD_BRIDGE_KEY: "",
   });
   const retry = createRetryHandler({
     env: maintenanceOnlyEnv,
@@ -521,8 +507,8 @@ test("scheduled retention purges payloads without relay configuration and later 
     GOOGLE_LEAD_FORM_ID_ALLOWLIST: "",
     GOOGLE_LEAD_WEBHOOK_KEY_357496832026: "",
     GOOGLE_LEAD_WEBHOOK_KEY_398917236265: "",
-    APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "",
-    APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1: "",
+    LEAD_BRIDGE_URL: "",
+    LEAD_BRIDGE_KEY: "",
   });
   const purge = createRetryHandler({
     env: maintenanceEnv,
@@ -591,7 +577,7 @@ test("scheduled maintenance caps payload purges and reports deferred work", asyn
   };
   const logs = [];
   const retry = createRetryHandler({
-    env: makeEnv({ APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "" }),
+    env: makeEnv({ LEAD_BRIDGE_URL: "", LEAD_BRIDGE_KEY: "" }),
     logger: (entry) => logs.push(entry),
     now: () => FIXED_NOW + OUTBOX.retentionMilliseconds + 1,
     storeFactory: async () => store,
@@ -621,7 +607,7 @@ test("invalid outbox data is CAS-scrubbed to a metadata-only tombstone", async (
   });
   const logs = [];
   const retry = createRetryHandler({
-    env: makeEnv({ APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "" }),
+    env: makeEnv({ LEAD_BRIDGE_URL: "", LEAD_BRIDGE_KEY: "" }),
     logger: (entry) => logs.push(entry),
     now: () => FIXED_NOW,
     storeFactory: async () => store,
@@ -668,46 +654,38 @@ test("concurrent tombstone deletion cannot delete a replacement written after cl
 });
 
 test("controlled receiver rejection remains quarantined and is not closed", async () => {
-  const apps = makeAppsScriptFetch({ outcome: "REJECTED", reason: "invalid_google_ads_data" });
+  const apps = makeBridgeFetch({ status: 422 });
   const context = makeContext({ fetchImpl: apps.fetchImpl });
 
   const response = await context.handler(makeRequest());
 
   assert.equal(response.status, 200);
   assert.equal(parsedRecord(context.store).state, "QUARANTINED");
-  assert.equal(parsedRecord(context.store).last_reason, "invalid_google_ads_data");
+  assert.equal(parsedRecord(context.store).last_reason, "upstream_422");
   assert.notEqual(parsedRecord(context.store).payload, null);
 });
 
-test("receiver availability, configuration, and signed-contract failures remain retryable", async () => {
-  for (const reason of [
-    "staging_lock_unavailable",
-    "hmac_secret_unavailable",
-    "invalid_google_ads_payload",
-    "invalid_webhook_signature",
-    "invalid_source_fingerprint",
-    "lead_formula_mismatch",
-    "stale_webhook_envelope",
-    "google_ads_identity_mismatch",
+test("bridge 5xx and network failures remain retryable and are logged", async () => {
+  for (const [label, fetchImpl] of [
+    ["upstream 503", makeBridgeFetch({ status: 503 }).fetchImpl],
+    ["network error", makeBridgeFetch({ failPost: true }).fetchImpl],
   ]) {
-    const apps = makeAppsScriptFetch({ outcome: "REJECTED", reason });
     const logs = [];
-    const context = makeContext({ fetchImpl: apps.fetchImpl, logger: (entry) => logs.push(entry) });
+    const context = makeContext({ fetchImpl, logger: (entry) => logs.push(entry) });
 
     const response = await context.handler(makeRequest());
 
-    assert.equal(response.status, 200, reason);
-    assert.equal(parsedRecord(context.store).state, "PENDING", reason);
-    assert.equal(parsedRecord(context.store).last_reason, reason, reason);
-    assert.equal(parsedRecord(context.store).attempt_count, 1, reason);
+    assert.equal(response.status, 200, label);
+    assert.equal(parsedRecord(context.store).state, "PENDING", label);
+    assert.equal(parsedRecord(context.store).attempt_count, 1, label);
     assert.equal(
       parsedRecord(context.store).next_attempt_at,
       new Date(FIXED_NOW + OUTBOX.retryBaseMilliseconds).toISOString(),
-      reason,
+      label,
     );
-    assert.ok(logs.some((entry) => entry.outcome === "PENDING" && entry.reason === reason), reason);
+    assert.ok(logs.some((entry) => entry.outcome === "PENDING"), label);
     for (const sensitive of ["Exact-Google-Lead_123", "jane@example.test", "8635550100"]) {
-      assert.equal(JSON.stringify(logs).includes(sensitive), false, reason);
+      assert.equal(JSON.stringify(logs).includes(sensitive), false, label);
     }
   }
 });
@@ -718,7 +696,7 @@ test("scheduled attention fails the invocation with metadata-only diagnostics", 
   assert.equal((await context.handler(makeRequest())).status, 200);
   const logs = [];
   const retry = createRetryHandler({
-    env: makeEnv({ APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "" }),
+    env: makeEnv({ LEAD_BRIDGE_URL: "", LEAD_BRIDGE_KEY: "" }),
     failOnAttention: true,
     logger: (entry) => logs.push(entry),
     now: () => FIXED_NOW + OUTBOX.retryBaseMilliseconds + 1,
@@ -733,7 +711,7 @@ test("scheduled attention fails the invocation with metadata-only diagnostics", 
   assert.ok(logs.some((entry) => (
     entry.event === "google_ads_crm_relay_summary"
     && entry.outcome === "ATTENTION_REQUIRED"
-    && entry.configuration_reason === "relay_configuration_invalid"
+    && entry.configuration_reason === "bridge_configuration_missing"
   )));
   assert.ok(logs.some((entry) => entry.reason === "relay_attention_required"));
   for (const sensitive of ["Exact-Google-Lead_123", "jane@example.test", "8635550100"]) {
@@ -741,8 +719,8 @@ test("scheduled attention fails the invocation with metadata-only diagnostics", 
   }
 });
 
-test("test data validates and reaches only the receiver TEST_ACKNOWLEDGED path", async () => {
-  const apps = makeAppsScriptFetch({ outcome: "TEST_ACKNOWLEDGED" });
+test("test data validates the bridge is configured and does not POST or persist", async () => {
+  const apps = makeBridgeFetch();
   const context = makeContext({
     fetchImpl: apps.fetchImpl,
     store: {
@@ -756,16 +734,16 @@ test("test data validates and reaches only the receiver TEST_ACKNOWLEDGED path",
   assert.equal(response.status, 200);
   assert.deepEqual(await response.json(), {});
   assert.equal(context.storeFactoryCalls.length, 0);
-  assert.equal(apps.calls.length, 2);
-  assert.equal(JSON.parse(apps.calls[0].options.body).payload.is_test, true);
+  assert.equal(apps.calls.length, 0);
 
   const missingConfiguration = makeContext({
-    env: makeEnv({ APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "" }),
+    env: makeEnv({ LEAD_BRIDGE_URL: "", LEAD_BRIDGE_KEY: "" }),
     fetchImpl: apps.fetchImpl,
   });
   const failed = await missingConfiguration.handler(makeRequest(makePayload({ is_test: true })));
   assert.equal(failed.status, 503);
   assert.equal(missingConfiguration.storeFactoryCalls.length, 0);
+  assert.equal(missingConfiguration.apps.calls.length, 0);
 });
 
 test("Google Ads UI test omissions are normalized only for non-writing test data", async () => {
@@ -775,18 +753,13 @@ test("Google Ads UI test omissions are normalized only for non-writing test data
   delete googleUiTestPayload.lead_submit_time;
   delete googleUiTestPayload.lead_source;
 
-  const apps = makeAppsScriptFetch({ outcome: "TEST_ACKNOWLEDGED" });
+  const apps = makeBridgeFetch();
   const testContext = makeContext({ fetchImpl: apps.fetchImpl });
   const testResponse = await testContext.handler(makeRequest(googleUiTestPayload));
   assert.equal(testResponse.status, 200);
   assert.deepEqual(await testResponse.json(), {});
   assert.equal(testContext.storeFactoryCalls.length, 0);
-  const envelope = JSON.parse(apps.calls[0].options.body);
-  assert.equal(envelope.payload.is_test, true);
-  assert.equal(envelope.payload.asset_group_id, "");
-  assert.equal(envelope.payload.lead_stage, "");
-  assert.equal(envelope.payload.lead_submit_time, "1970-01-01T00:00:00.000Z");
-  assert.equal(envelope.payload.lead_source, "LEAD_FORM");
+  assert.equal(apps.calls.length, 0);
 
   const productionContext = makeContext();
   const productionResponse = await productionContext.handler(makeRequest({
@@ -807,7 +780,8 @@ test("absent is_test is treated as a production lead", async () => {
   const response = await context.handler(makeRequest(payload));
 
   assert.equal(response.status, 200);
-  assert.equal(JSON.parse(context.apps.calls[0].options.body).payload.is_test, false);
+  assert.equal(JSON.parse(context.apps.calls[0].options.body).is_test, undefined);
+  assert.equal(JSON.parse(context.apps.calls[0].options.body).source, "google_ads_lead_form");
   assert.equal(parsedRecord(context.store).state, "CLOSED");
 });
 
@@ -821,9 +795,10 @@ test("approved forms require distinct per-form keys and bind the configured Ads 
     google_key: MEDICARE_GOOGLE_KEY,
   })));
   assert.equal(accepted.status, 200);
-  const envelope = JSON.parse(medicareApps.calls[0].options.body);
-  assert.equal(envelope.payload.account_id, "7880085811");
-  assert.equal(envelope.payload.form_id, "398917236265");
+  const lead = JSON.parse(medicareApps.calls[0].options.body);
+  assert.equal(lead.account_id, "7880085811");
+  assert.equal(lead.form_id, "398917236265");
+  assert.equal(medicareApps.calls[0].url, BRIDGE_ENDPOINT);
 
   const wrongFormKey = makeContext();
   const wrongFormKeyResponse = await wrongFormKey.handler(makeRequest(makePayload({
@@ -929,14 +904,14 @@ test("the signed receiver contract accepts both documented Google lead-source en
       lead_source: leadSource,
     })));
     assert.equal(response.status, 200, leadSource);
-    assert.equal(JSON.parse(context.apps.calls[0].options.body).payload.lead_source, leadSource);
+    assert.equal(JSON.parse(context.apps.calls[0].options.body).lead_source, leadSource);
   }
 });
 
 test("production intake accepts a serverless runtime without build context", async () => {
   const context = makeContext({
     env: makeEnv({ CONTEXT: "" }),
-    fetchImpl: makeAppsScriptFetch({ outcome: "TEST_ACKNOWLEDGED" }).fetchImpl,
+    fetchImpl: makeBridgeFetch().fetchImpl,
   });
   const response = await context.handler(makeRequest(makePayload({ is_test: true })));
   assert.equal(response.status, 200);
@@ -984,24 +959,34 @@ test("scheduled retry rejects invalid runtime context before Blob access", async
 });
 
 test("production intake rejects reused authentication secrets", async () => {
-
   const reused = makeContext({
     env: makeEnv({
-      GOOGLE_LEAD_WEBHOOK_KEY_357496832026: HMAC_SECRET,
-      APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1: HMAC_SECRET,
+      GOOGLE_LEAD_WEBHOOK_KEY_357496832026: BRIDGE_KEY,
+      LEAD_BRIDGE_KEY: BRIDGE_KEY,
     }),
   });
-  const reusedResponse = await reused.handler(makeRequest(makePayload({ google_key: HMAC_SECRET })));
+  const reusedResponse = await reused.handler(makeRequest(makePayload({ google_key: BRIDGE_KEY })));
   assert.equal(reusedResponse.status, 503);
   assert.equal(reused.store.records.size, 0);
   assert.equal(reused.apps.calls.length, 0);
 });
 
-test("test receiver cannot return an operational success outcome", async () => {
-  const context = makeContext({ fetchImpl: makeAppsScriptFetch({ outcome: "STAGED" }).fetchImpl });
-  const response = await context.handler(makeRequest(makePayload({ is_test: true })));
-  assert.equal(response.status, 502);
-  assert.equal(context.storeFactoryCalls.length, 0);
+test("Google Ads CRM delivery ignores leftover HuffSherpa and Apps Script env vars", async () => {
+  const apps = makeBridgeFetch();
+  const context = makeContext({
+    env: makeEnv({
+      HUFFSHERPA_LEAD_WEBHOOK_URL_V1: "https://script.google.com/macros/s/AKfycbSYNTHETIC_GOOGLE_ADS_RECEIVER_001/exec",
+      HUFFSHERPA_LEAD_WEBHOOK_HMAC_SECRET_V1: "unused-huffsherpa-secret",
+      APPS_SCRIPT_LEAD_WEBHOOK_URL_V1: "https://script.google.com/macros/s/AKfycbSYNTHETIC_GOOGLE_ADS_RECEIVER_001/exec",
+      APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1: "unused-apps-script-secret",
+    }),
+    fetchImpl: apps.fetchImpl,
+  });
+  const response = await context.handler(makeRequest());
+  assert.equal(response.status, 200);
+  assert.equal(apps.calls.length, 1);
+  assert.equal(apps.calls[0].url, BRIDGE_ENDPOINT);
+  assert.equal(parsedRecord(context.store).state, "CLOSED");
 });
 
 test("source has no customer messaging or external marketing delivery and retry is scheduled", async () => {

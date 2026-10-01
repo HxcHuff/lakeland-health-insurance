@@ -356,7 +356,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20260821-lead-reconciliation';
+    funnel.src = '/js/funnel.js?v=20260930-click-id';
     document.head.appendChild(funnel);
   }
 

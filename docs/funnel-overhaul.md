@@ -91,7 +91,7 @@ Legacy `phone_call_click`, `phone_call`, and `generate_lead` are preserved for e
 | Current client review | Same acceptance boundary, tagged as service request | Production only after Forms acceptance | Browser `Lead` only after semantic acceptance unless later split in ad UI |
 | Post-enrollment review | Same acceptance boundary, tagged as service request | Production only after Forms acceptance | Browser `Lead` only after semantic acceptance unless later split in ad UI |
 | Newsletter | POST `/api/lead`, forward to Netlify Forms, return accepted server event ID | Skipped | Skipped |
-| Google-hosted Ads lead | Google webhook authenticates the exact approved form, atomically writes a minimized durable outbox record, and sends only a signed Apps Script CRM envelope | Not applicable | Recorded by Google Ads at the hosted form |
+| Google-hosted Ads lead | Google webhook authenticates the exact approved form, atomically writes a minimized durable outbox record, and POSTs `{LEAD_BRIDGE_URL}/` | Not applicable | Recorded by Google Ads at the hosted form |
 
 ## Thank-You Behavior
 
@@ -123,13 +123,13 @@ The Get Help flow preserves:
 - `normalized_intent`
 - `line_of_business`
 
-Medicare source URLs contain only `intent=medicare`, an allowlisted page key, an allowlisted CTA key, and validated campaign values. Contact-like values are rejected. The Get Help attribution record may copy bounded `utm_term` from Google Ads ValueTrack `{keyword}` (the matched advertiser keyword, not the user's raw Search Terms query); it does not copy `gclid`, `fbclid`, a full referrer URL, or the arbitrary query string.
+Medicare source URLs contain only `intent=medicare`, an allowlisted page key, an allowlisted CTA key, and validated campaign values. Contact-like values are rejected. The Get Help attribution record may copy bounded `utm_term` from Google Ads ValueTrack `{keyword}` (the matched advertiser keyword, not the user's raw Search Terms query) and validated Google click IDs (`gclid`, `gbraid`, `wbraid`) plus `gad_campaignid`. It does not copy `fbclid`, a full referrer URL, or the arbitrary query string.
 
 The analytics field allowlist excludes raw name, email, phone, ZIP, DOB/age, Medicare and policy identifiers, provider/facility names, prescription names, income, health or coverage answers, notes, messages, free text, unknown fields, arrays, and objects. Exact registry values are derived rather than trusted from query or hidden fields.
 
 The API applies a separate form-storage boundary: registered form-specific field allowlists, a 64 KB body cap, scalar-only values, and an 8 KB per-field cap. Get Help requires request consent and overwrites consent evidence with server-derived timestamps, version, page, withdrawal state, and channel states. Meta CAPI and Ads/OpenAI CAPI run only after Forms acceptance.
 
-The Google-hosted lead path is separate from `/api/lead`. Its webhook has a 64 KB body cap, bounded scalar fields, an exact two-form allowlist, a unique Google key per approved form, and a trusted configured account-routing assertion. It atomically stores a minimized Netlify Blobs outbox record keyed by a domain-separated SHA-256 digest of Google `lead_id` before sending a versioned HMAC-signed envelope to the pinned Apps Script CRM receiver. Exact replays are no-ops, changed replays are quarantined, successful delivery immediately removes contact and attribution payload data, and a bounded scheduled function retries pending records and performs best-effort privacy cleanup. Operational logs contain metadata-only counts and controlled reasons. Customer.io, Lob, email, SMS, and other messaging or marketing platforms are not in this Google-hosted lead workflow.
+The Google-hosted lead path is separate from `/api/lead`. Its webhook has a 64 KB body cap, bounded scalar fields, an exact two-form allowlist, a unique Google key per approved form, and a trusted configured account-routing assertion. It atomically stores a minimized Netlify Blobs outbox record keyed by a domain-separated SHA-256 digest of Google `lead_id` before POSTing `{LEAD_BRIDGE_URL}/`. Exact replays are no-ops, changed replays are quarantined, successful delivery immediately removes contact and attribution payload data, and a bounded scheduled function retries pending records and performs best-effort privacy cleanup. Operational logs contain metadata-only counts and controlled reasons. HuffSherpa, Apps Script, Customer.io, Lob, email, SMS, Mailchimp, and other messaging or marketing platforms are not in this Google-hosted lead workflow.
 
 ## Measurement Boundaries
 

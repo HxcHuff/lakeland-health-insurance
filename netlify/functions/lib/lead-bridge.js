@@ -1,13 +1,22 @@
 'use strict';
 
 /**
- * Forward an accepted website form lead to the Vercel lead bridge.
- * Never texts or emails a lead. Missing LEAD_BRIDGE_URL / LEAD_BRIDGE_KEY
- * skips delivery. Failures are written to a Blobs outbox and retried by
- * lead-bridge-retry.
+ * Forward accepted leads to the Vercel lead bridge, the primary CRM
+ * destination (HubSpot portal 247504188). Never texts or emails a lead.
+ *
+ * Website Forms POST `{LEAD_BRIDGE_URL}/website/lead`. Google-hosted Ads
+ * lead forms POST `{LEAD_BRIDGE_URL}/`. A failed website POST is logged and
+ * queued in `website-lead-bridge-outbox-v1` for `lead-bridge-retry`.
+ * Missing LEAD_BRIDGE_URL / LEAD_BRIDGE_KEY is logged as an error and
+ * queued the same way. It is not a silent skip. HuffSherpa and Apps Script
+ * are not called.
  */
 
 const crypto = require('node:crypto');
+const {
+  collectSanitizedClickIds,
+  hubSpotClickAttribution
+} = require('./campaign-attribution');
 
 const PRIMARY_SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const PRODUCTION_SITE_ID = 'b6ad2d8f-d771-44f4-89b5-7ab30350950e';
@@ -223,14 +232,91 @@ function buildWebsiteLeadPayload({
     if (value) lead[field] = value;
   }
 
+  const created = cleanText(createdAt || source.server_received_at, 40);
+  const createdIso = created && Number.isFinite(Date.parse(created))
+    ? new Date(created).toISOString()
+    : '';
+  if (createdIso) lead.created_at = createdIso;
+
+  const clicks = collectSanitizedClickIds(source);
+  Object.assign(lead, clicks);
+
+  const { preferred, attribution } = hubSpotClickAttribution(source, createdIso);
+  Object.assign(lead, attribution);
+  if (preferred) {
+    lead.preferred_click_id = preferred.value;
+    lead.preferred_click_id_type = preferred.field;
+  }
+
   const eventId = cleanText(source.event_id, 64).toLowerCase();
   if (EVENT_ID.test(eventId)) lead.event_id = eventId;
 
-  const created = cleanText(createdAt || source.server_received_at, 40);
-  if (created && Number.isFinite(Date.parse(created))) {
-    lead.created_at = new Date(created).toISOString();
+  return Object.freeze(lead);
+}
+
+function buildGoogleAdsLeadPayload(payload) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return null;
+  if (payload.is_test === true) return null;
+  const leadId = cleanText(payload.lead_id, 512);
+  const first = cleanText(payload.first_name, 100);
+  const last = cleanText(payload.last_name, 100);
+  const email = normalizeEmail(payload.email);
+  const phone = normalizePhone(payload.phone_number);
+  if (!leadId) return null;
+  if (!first && !last && !email && !phone) return null;
+
+  const lead = {
+    source: 'google_ads_lead_form',
+    lead_id: leadId,
+    form_id: cleanText(payload.form_id, 32),
+    account_id: cleanText(payload.account_id, 32),
+    event_type: cleanText(payload.event_type, 80) || 'google_ads_lead_form_accepted',
+    first,
+    last,
+    first_name: first,
+    last_name: last,
+    email,
+    phone
+  };
+  const name = [first, last].filter(Boolean).join(' ');
+  if (name) lead.name = name;
+
+  const zip = normalizeZip(payload.postal_code);
+  if (zip) lead.zip = zip;
+
+  for (const field of [
+    'campaign_id',
+    'adgroup_id',
+    'creative_id',
+    'asset_group_id',
+    'lead_source',
+    'lead_stage',
+    'lead_submit_time'
+  ]) {
+    const value = cleanText(payload[field], 80);
+    if (value) lead[field] = value;
   }
 
+  const clickSource = {
+    gclid: payload.gcl_id,
+    gad_campaignid: payload.campaign_id
+  };
+  const clicks = collectSanitizedClickIds(clickSource);
+  if (clicks.gclid) {
+    lead.gclid = clicks.gclid;
+    lead.gcl_id = clicks.gclid;
+  }
+  if (clicks.gad_campaignid) lead.gad_campaignid = clicks.gad_campaignid;
+
+  const { preferred, attribution } = hubSpotClickAttribution(
+    clickSource,
+    payload.lead_submit_time
+  );
+  Object.assign(lead, attribution);
+  if (preferred) {
+    lead.preferred_click_id = preferred.value;
+    lead.preferred_click_id_type = preferred.field;
+  }
   return Object.freeze(lead);
 }
 
@@ -258,14 +344,50 @@ function resolveBridgeEndpoint(baseUrl) {
   return parsed.origin + '/website/lead';
 }
 
-function readBridgeConfig(environment = process.env) {
-  const endpoint = resolveBridgeEndpoint(environment && environment.LEAD_BRIDGE_URL);
-  const key = String(environment && environment.LEAD_BRIDGE_KEY || '').trim();
-  if (!endpoint || !key) return null;
-  if (key.length < 16 || key.length > 256) return null;
-  if (/(?:placeholder|changeme|replace[_-]me|example[_-]secret|your[_-]secret|test[_-]secret)/iu.test(key)) {
+function resolveGoogleAdsBridgeEndpoint(baseUrl) {
+  const raw = String(baseUrl || '').trim();
+  if (!raw) return null;
+  let parsed;
+  try {
+    parsed = new URL(raw);
+  } catch {
     return null;
   }
+  if (
+    parsed.protocol !== 'https:'
+    || parsed.username
+    || parsed.password
+    || parsed.search
+    || parsed.hash
+  ) {
+    return null;
+  }
+  const path = parsed.pathname.replace(/\/+$/u, '') || '';
+  if (path && path !== '/website/lead') return null;
+  return parsed.origin + '/';
+}
+
+function readBridgeKey(environment = process.env) {
+  const key = String(environment && environment.LEAD_BRIDGE_KEY || '').trim();
+  if (!key) return '';
+  if (key.length < 16 || key.length > 256) return '';
+  if (/(?:placeholder|changeme|replace[_-]me|example[_-]secret|your[_-]secret|test[_-]secret)/iu.test(key)) {
+    return '';
+  }
+  return key;
+}
+
+function readBridgeConfig(environment = process.env) {
+  const endpoint = resolveBridgeEndpoint(environment && environment.LEAD_BRIDGE_URL);
+  const key = readBridgeKey(environment);
+  if (!endpoint || !key) return null;
+  return Object.freeze({ endpoint, key });
+}
+
+function readGoogleAdsBridgeConfig(environment = process.env) {
+  const endpoint = resolveGoogleAdsBridgeEndpoint(environment && environment.LEAD_BRIDGE_URL);
+  const key = readBridgeKey(environment);
+  if (!endpoint || !key) return null;
   return Object.freeze({ endpoint, key });
 }
 
@@ -424,6 +546,7 @@ function safeLog(logger, entry) {
   if (entry.status != null) line.status = entry.status;
   try {
     if (typeof logger === 'function') logger(Object.freeze(line));
+    else if (line.outcome === 'FAILED' || line.outcome === 'QUEUED') console.error(JSON.stringify(line));
     else console.info(JSON.stringify(line));
   } catch {
     // Observability must never alter delivery or disclose submission material.
@@ -562,7 +685,37 @@ async function deliverWebsiteLead({
     if (!isProductionContext(environment)) return { skipped: true, reason: 'non_production' };
 
     const config = readBridgeConfig(environment);
-    if (!config) return { skipped: true, reason: 'missing_configuration' };
+    if (!config) {
+      const missingFactory = typeof storeFactory === 'function'
+        ? storeFactory
+        : createProductionStoreFactory({ environment, blobsImport });
+      const missingStore = await openBridgeStore(missingFactory, event);
+      let missingQueued = false;
+      if (missingStore) {
+        try {
+          missingQueued = await enqueueFailedLead({
+            store: missingStore,
+            lead,
+            reason: 'missing_configuration',
+            nowMilliseconds: Number(now()),
+            permanent: false
+          });
+        } catch {
+          missingQueued = false;
+        }
+      }
+      safeLog(logger, {
+        form_name: lead.form_name,
+        outcome: 'FAILED',
+        reason: 'missing_configuration'
+      });
+      return {
+        skipped: false,
+        ok: false,
+        queued: missingQueued,
+        reason: 'missing_configuration'
+      };
+    }
 
     const result = await postWebsiteLead({
       lead,
@@ -714,6 +867,10 @@ function createBridgeRetryHandler({
     }
     const config = readBridgeConfig(environment);
     if (!config) {
+      safeLog(logger, {
+        outcome: 'FAILED',
+        reason: 'missing_configuration'
+      });
       return {
         statusCode: 200,
         headers: { 'cache-control': 'no-store', 'content-type': 'application/json; charset=utf-8' },
@@ -788,6 +945,7 @@ function createBridgeRetryHandler({
 module.exports = {
   OUTBOX,
   PROTOCOL,
+  buildGoogleAdsLeadPayload,
   buildWebsiteLeadPayload,
   createBridgeRetryHandler,
   createProductionStoreFactory,
@@ -796,5 +954,7 @@ module.exports = {
   outboxKey,
   postWebsiteLead,
   readBridgeConfig,
-  resolveBridgeEndpoint
+  readGoogleAdsBridgeConfig,
+  resolveBridgeEndpoint,
+  resolveGoogleAdsBridgeEndpoint
 };
