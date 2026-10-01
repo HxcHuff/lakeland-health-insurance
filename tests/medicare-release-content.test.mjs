@@ -42,7 +42,12 @@ const MEDICARE_MARKETING_SURFACES = [
   'medicare/index.html',
   'moving-florida-medicare/index.html',
   'provider-prescription-check/index.html',
-  'privacy-policy.html'
+  'privacy-policy.html',
+  'davenport-health-insurance/index.html',
+  'haines-city-health-insurance/index.html',
+  'lake-alfred-health-insurance/index.html',
+  'winter-haven-health-insurance/index.html',
+  'health-insurance-broker-lakeland-fl/index.html'
 ];
 
 const SKIP_DIRS = new Set([
@@ -188,16 +193,17 @@ test('provider-check routing and rewritten Medicare sitemap dates are canonical'
   assert.match(watson, /href="\/get-help\/\?intent=provider-check">Start a provider check<\/a>/);
   assert.doesNotMatch(watson, /intent=provider-prescription(?:["&])/);
   assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/when-can-i-switch-medicare-plans-florida\.html<\/loc>\s*<lastmod>2026-09-30<\/lastmod>/);
-  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/medicare-supplement-cost-lakeland\.html<\/loc>\s*<lastmod>2026-09-30<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/medicare-supplement-cost-lakeland\.html<\/loc>\s*<lastmod>2026-10-01<\/lastmod>/);
 });
 
-test('privacy policy carries the current-season SOA exceptions and retention rule', () => {
+test('privacy policy uses current-season SOA wording without treating expired 2026 exceptions as current', () => {
   const html = source('privacy-policy.html');
 
-  assert.match(html, /Through September 30, 2026, the 48-hour waiting period has two CMS exceptions/);
-  assert.match(html, /last four days of a valid election period/);
-  assert.match(html, /An inbound telephone call is not one of these exceptions/);
-  assert.match(html, /recorded calls that pertain to sales or enrollment are subject to a 10-year retention requirement/);
+  assert.match(html, /must agree upon and record a Scope of Appointment with the beneficiary before the appointment/);
+  assert.doesNotMatch(html, /48 hours before/);
+  assert.doesNotMatch(html, /Through September 30, 2026, the 48-hour waiting period has two CMS exceptions/);
+  assert.doesNotMatch(html, /Under the CMS requirements in effect through September 30, 2026/);
+  assert.match(html, /retained for the period required by current CMS rules/);
 });
 
 test('privacy policy describes homepage and newsletter-page sign-up without naming Mailchimp', () => {
