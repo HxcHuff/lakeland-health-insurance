@@ -199,7 +199,8 @@ test('provider-check routing and rewritten Medicare sitemap dates are canonical'
 test('privacy policy uses current-season SOA wording without treating expired 2026 exceptions as current', () => {
   const html = source('privacy-policy.html');
 
-  assert.match(html, /Scope of Appointment requirements follow current CMS rules/);
+  assert.match(html, /must agree upon and record a Scope of Appointment with the beneficiary before the appointment/);
+  assert.doesNotMatch(html, /48 hours before/);
   assert.doesNotMatch(html, /Through September 30, 2026, the 48-hour waiting period has two CMS exceptions/);
   assert.doesNotMatch(html, /Under the CMS requirements in effect through September 30, 2026/);
   assert.match(html, /retained for the period required by current CMS rules/);
