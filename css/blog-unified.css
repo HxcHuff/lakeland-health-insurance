@@ -45,6 +45,14 @@
   color: rgba(255,255,255,0.9) !important;
 }
 
+/* Pale mint Direct answer box: keep navy text inside dark heroes. */
+body .key-answer,
+body .key-answer :is(p, strong, a, em, li),
+body.blog-post .hero .key-answer,
+body.blog-post .hero .key-answer :is(p, strong, a, em, li) {
+  color: var(--lhi-navy, #1B2A4A) !important;
+}
+
 .article-content,
 .blog-article,
 .card,
