@@ -2202,3 +2202,18 @@ test('estimator keeps sensitive estimate inputs out of lead forms, URLs, and ana
   assert.match(ESTIMATOR_HTML, /href="\/get-help\/\?intent=aca"/);
   assert.match(ESTIMATOR_HTML, /Inputs stay in this browser/);
 });
+
+test('estimator uses 2027 applicable percentages and 2026 HHS poverty guidelines', () => {
+  assert.match(ESTIMATOR_HTML, /<title>2027 Lakeland ACA Subsidy Estimator \| Educational Tool<\/title>/);
+  assert.match(ESTIMATOR_HTML, /<h1>2027 Lakeland ACA Subsidy Estimator<\/h1>/);
+  assert.match(ESTIMATOR_HTML, /Projected 2027 Annual Income/);
+  assert.doesNotMatch(ESTIMATOR_HTML, /This educational tool still uses 2026 IRS applicable percentages/);
+  assert.doesNotMatch(ESTIMATOR_HTML, /Uses 2025 Federal Poverty Guidelines for 2026 coverage year/);
+  assert.match(ESTIMATOR_HTML, /IRS Revenue Procedure 2026-26/);
+  assert.match(ESTIMATOR_HTML, /HHS\/ASPE, 2026 poverty guidelines/);
+  assert.match(ESTIMATOR_HTML, /var FPL_2026 = \{ 1:15960, 2:21640, 3:27320, 4:33000, 5:38680, 6:44360, 7:50040, 8:55720 \}/);
+  assert.match(ESTIMATOR_HTML, /var FPL_ADDITIONAL = 5680/);
+  assert.match(ESTIMATOR_HTML, /initialPct: 0\.0215, finalPct: 0\.0215/);
+  assert.match(ESTIMATOR_HTML, /initialPct: 0\.1022, finalPct: 0\.1022/);
+  assert.doesNotMatch(ESTIMATOR_HTML, /Rev\. Proc\. 2025-25/);
+});
