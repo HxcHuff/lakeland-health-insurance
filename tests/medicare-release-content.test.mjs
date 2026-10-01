@@ -5,8 +5,8 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const CURRENT_SEASON_DISCLAIMER = 'We do not offer every plan available in your area. Currently we represent 9 organizations which offer 102 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
-const INVENTORY_NOTE = 'Company inventory note: The counts above reflect the plans available for the 2027 plan year in the Lakeland/Polk County service area as of September 30, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
+const CURRENT_SEASON_DISCLAIMER = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
+const INVENTORY_NOTE = 'Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
 const SUBJECT_TO_PLAN = 'Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
 
 const MEDICARE_MARKETING_SURFACES = [
@@ -105,7 +105,7 @@ test('TPMO is in the sitewide footer, beside Medicare CTAs, and on the Get Help 
   assert.ok(getHelp.includes(CURRENT_SEASON_DISCLAIMER), 'Get Help shows the exact TPMO text beside the form');
   assert.match(getHelp, /Start my request/);
   assert.match(getHelp, /Call \(863\) 640-3102/);
-  assert.match(getHelp, /863-640-3102/);
+  assert.match(getHelp, /\(863\) 640-3102/);
   assert.doesNotMatch(getHelp, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.ok(medicare.includes('class="tpmo-cta-disclaimer"'), 'Medicare hub keeps TPMO in view of CTAs');
   assert.ok(coverageCenter.includes('class="tpmo-cta-disclaimer"'), 'Coverage Center keeps TPMO in view of Medicare CTAs');
@@ -126,7 +126,11 @@ test('Medicare hub is a current-season, privacy-minimized, keyboard-accessible l
 
   assert.match(html, /<body[^>]*>\s*<a class="hub-skip-link" href="#medicare-content">/);
   assert.match(html, /<main class="medicare-hub" id="medicare-content">/);
-  assert.match(html, /Compare official 2027 plan details beginning October 1/);
+  assert.match(html, /Official 2027 plan details are available to compare beginning October 1, 2026/);
+  assert.match(html, /An Annual Enrollment request cannot be submitted before October 15/);
+  assert.match(html, /2026-06600/);
+  assert.doesNotMatch(html, /Prepare now\. Compare official 2027 plan details beginning October 1/);
+  assert.doesNotMatch(html, /current official plan data beginning October 1/);
   assert.match(html, /class="hub-scenario-shortcut" href="#start"/);
   assert.match(html, /class="btn secondary hub-provider-link"/);
   assert.equal(forms.length, 1, 'Medicare hub exposes one controlled lead form');
@@ -200,6 +204,15 @@ test('privacy policy uses current-season SOA wording without treating expired 20
   const html = source('privacy-policy.html');
 
   assert.match(html, /must agree upon and record a Scope of Appointment with the beneficiary before the appointment/);
+  assert.match(html, /eliminated the 48-hour waiting period/);
+  assert.match(html, /eliminated the two exceptions to that waiting period/);
+  assert.match(html, /last four days of a valid election period/);
+  assert.match(html, /unscheduled in-person meeting initiated by the beneficiary/);
+  assert.match(html, /must be in writing for an in-person personal marketing appointment/);
+  assert.match(html, /minimum of 6 years/);
+  assert.match(html, /complete and accurate transcript/);
+  assert.match(html, /10-year retention requirement/);
+  assert.match(html, /2026-06600/);
   assert.doesNotMatch(html, /48 hours before/);
   assert.doesNotMatch(html, /Through September 30, 2026, the 48-hour waiting period has two CMS exceptions/);
   assert.doesNotMatch(html, /Under the CMS requirements in effect through September 30, 2026/);

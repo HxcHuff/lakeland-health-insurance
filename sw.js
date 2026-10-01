@@ -1,6 +1,6 @@
-const CACHE_NAME = 'lhi-20260930-tpmo-2027';
+const CACHE_NAME = 'lhi-20261001-tpmo-8-65';
 const OFFLINE_URL = '/offline.html';
-const SITE_TEMPLATE_URL = '/js/site-template.js?v=20260930-tpmo-2027';
+const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261001-tpmo-8-65';
 
 // Core pages to pre-cache for offline access
 const PRECACHE_URLS = [

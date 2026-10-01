@@ -3,7 +3,7 @@
   const phoneDisplay = '(863) 640-3102';
   const phoneHref = 'tel:+18636403102';
   const messengerHref = 'https://m.me/2330958066941437';
-  const tpmoDisclaimer = 'We do not offer every plan available in your area. Currently we represent 9 organizations which offer 102 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
+  const tpmoDisclaimer = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
   const healthSherpaHref = 'https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q';
   const BANNER_ID = 'lhi-seasonal-banner';
   const SEASONAL_BANNER_TIMEZONE = 'America/New_York';
@@ -345,7 +345,7 @@
         </div>
         ${shouldShowTpmoDisclaimer(pathname) ? `<div class="footer-tpmo" role="note">
           <p class="tpmo-standard-disclaimer">${tpmoDisclaimer}</p>
-          <p class="tpmo-inventory-note">Company inventory note: The counts above reflect the plans available for the 2027 plan year in the Lakeland/Polk County service area as of September 30, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
+          <p class="tpmo-inventory-note">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
         </div>` : ''}
         <div class="footer-bottom">
           <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>

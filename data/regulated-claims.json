@@ -32,9 +32,9 @@
     },
     {
       "id": "medicare-soa-and-call-recording-cy2027",
-      "claim": "For contract year 2027, CMS removed the prior 48-hour Scope of Appointment waiting period while retaining pre-appointment documentation requirements; applicable TPMO marketing, sales, and enrollment calls must be recorded.",
+      "claim": "For contract year 2027 marketing beginning October 1, 2026, CMS removed the 48-hour Scope of Appointment waiting period. A Scope of Appointment is still required before every personal marketing appointment, including beneficiary-initiated inbound contact and walk-ins, and must be in writing for an in-person appointment. TPMOs must record marketing, sales, and enrollment calls, including the audio portion of web-based calls, in their entirety.",
       "sourceUrl": "https://www.cms.gov/files/document/cy2027-agent-broker-training-testing-guidelines-pdf.pdf",
-      "accessDate": "2026-09-30",
+      "accessDate": "2026-10-01",
       "applicableYear": 2027,
       "state": "Florida",
       "productLine": "Medicare",

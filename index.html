@@ -45,7 +45,7 @@
       "@type": "WebSite",
       "@id": "https://lakelandhealthinsurance.com/#website",
       "name": "Lakeland Health Insurance",
-      "alternateName": "David The Insurance Dude",
+      "alternateName": "David the Insurance Dude",
       "url": "https://lakelandhealthinsurance.com/",
       "description": "The website for Lakeland Health Insurance and David Huff, a licensed Florida health agent based in Lakeland.",
       "publisher": {
@@ -60,7 +60,7 @@
   "@type": "InsuranceAgency",
   "@id": "https://lakelandhealthinsurance.com/#agency",
   "name": "Lakeland Health Insurance",
-  "alternateName": "David The Insurance Dude",
+  "alternateName": "David the Insurance Dude",
   "url": "https://lakelandhealthinsurance.com/",
   "description": "Lakeland Health Insurance is the public-facing business name used by David Huff for local health-insurance assistance in Lakeland and Polk County and remote assistance across Florida. It is not an insurance carrier. Product and plan availability varies by ZIP code, county, eligibility, and plan year.",
   "telephone": "+1-863-640-3102",
@@ -155,7 +155,7 @@
           "name": "How do I get health insurance in Lakeland, FL?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Lakeland residents can enroll in health insurance through the ACA Marketplace (Healthcare.gov), Medicare (if eligible), or private plans. A licensed Florida health agent can compare options from multiple carriers with carrier-paid agent compensation. Call 863-640-3102 or visit the help form to start."
+            "text": "Lakeland residents can enroll in health insurance through the ACA Marketplace (Healthcare.gov), Medicare (if eligible), or private plans. A licensed Florida health agent can compare options from multiple carriers with carrier-paid agent compensation. Call (863) 640-3102 or visit the help form to start."
           }
         },
         {
@@ -680,6 +680,43 @@
       .home-hero .hero-path-links { font-size: 1rem; margin: 1rem 0; }
       .home-hero .hero-path-links a { color: var(--navy); text-underline-offset: 3px; }
 
+      .home-hero .hero-season {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        margin: 1.25rem 0 0;
+        padding: 1rem 1.1rem 0.9rem;
+      }
+
+      .home-hero .hero-season-kicker {
+        color: var(--navy);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        margin: 0 0 0.35rem;
+        text-transform: uppercase;
+      }
+
+      .home-hero .hero-season-title {
+        color: var(--navy);
+        font-family: 'Instrument Serif', serif;
+        font-size: clamp(1.6rem, 3vw, 2rem);
+        font-weight: 400;
+        line-height: 1.15;
+        margin: 0 0 0.45rem;
+      }
+
+      .home-hero .hero-season p {
+        margin: 0 0 0.75rem;
+      }
+
+      .home-hero .hero-season .tpmo-cta-disclaimer {
+        color: var(--gray-600);
+        font-size: 0.92rem;
+        line-height: 1.5;
+        margin: 0.75rem 0 0;
+      }
+
       .review-card-actions {
         display: flex;
         flex-wrap: wrap;
@@ -834,6 +871,16 @@
                 <div class="hero-kicker">HEALTH COVERAGE FOR LIFE&rsquo;S BIG CHANGES</div>
                 <h1>Health coverage for job changes, self-employment, and early retirement.</h1>
                 <p class="hero-lede">Compare <a href="/provider-prescription-check/">doctors, prescriptions</a>, and income in Lakeland and Polk County.</p>
+                <aside class="hero-season" aria-label="2027 Medicare comparison">
+                    <p class="hero-season-kicker">Medicare, through December 7</p>
+                    <h2 class="hero-season-title">Compare 2027 Medicare plans now.</h2>
+                    <p>Official 2027 Medicare plan details are available to compare. An Annual Enrollment request cannot be submitted before October 15. A review is not enrollment. Marketplace enrollment for 2027 starts November 1.</p>
+                    <div class="hero-cta-group">
+                        <a class="hero-cta" href="/get-help/?intent=medicare">Request a Medicare review</a>
+                        <a class="hero-cta secondary" href="tel:+18636403102">Call (863) 640-3102</a>
+                    </div>
+                    <p class="tpmo-cta-disclaimer">We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
+                </aside>
                 <p class="hero-path-links"><a href="/get-help/?intent=lost-coverage">Losing coverage now?</a> &bull; <a href="/medicare-broker-lakeland-fl/">Medicare broker in Lakeland</a></p>
                 <ul class="hero-benefits" aria-label="Plan review benefits">
                     <li>Check doctors, prescriptions, and yearly cost together</li>
@@ -1024,7 +1071,7 @@
                 <a href="/get-help/?intent=under-65" class="btn btn-navy">Under-65 review</a>
                 <a href="/get-help/?intent=losing-coverage" class="btn btn-navy">Losing coverage</a>
                 <a href="tel:+18636403102" class="btn btn-outline">Call (863) 640-3102</a>
-                <p class="tpmo-cta-disclaimer">We do not offer every plan available in your area. Currently we represent 9 organizations which offer 102 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
+                <p class="tpmo-cta-disclaimer">We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
             </div>
         </div>
     </section>
@@ -1136,7 +1183,7 @@
 
             <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--gray-200);">
                 <h3 style="color: var(--navy); font-size: 1.1rem; margin-bottom: 0.5rem;">How do I get health insurance in Lakeland, FL?</h3>
-                <p style="color: var(--gray-600); line-height: 1.7;">Lakeland residents can enroll in health insurance through the ACA Marketplace (Healthcare.gov), Medicare (if eligible), or private plans. A licensed Florida health agent can compare options from multiple carriers with carrier-paid agent compensation. Call 863-640-3102 or visit the help form to start.</p>
+                <p style="color: var(--gray-600); line-height: 1.7;">Lakeland residents can enroll in health insurance through the ACA Marketplace (Healthcare.gov), Medicare (if eligible), or private plans. A licensed Florida health agent can compare options from multiple carriers with carrier-paid agent compensation. Call (863) 640-3102 or visit the help form to start.</p>
             </div>
 
             <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--gray-200);">
@@ -1167,8 +1214,8 @@
                 Sources: <a href="https://www.healthcare.gov/quick-guide/dates-and-deadlines/" target="_blank" rel="noopener noreferrer">HealthCare.gov dates and deadlines</a>, accessed September 23, 2026, and <a href="https://www.medicare.gov/health-drug-plans/open-enrollment" target="_blank" rel="noopener noreferrer">Medicare.gov Open Enrollment</a>, accessed July 31, 2026.
             </p>
             <div style="background: var(--white); border: 1px solid var(--gray-200); border-radius: 12px; margin-top: 1.5rem; padding: 1.25rem;">
-                <p style="color: var(--gray-700); font-size: 1rem; line-height: 1.6; margin: 0;">We do not offer every plan available in your area. Currently we represent 9 organizations which offer 102 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
-                <p style="color: var(--gray-600); font-size: 0.875rem; line-height: 1.6; margin: 0.75rem 0 0;">Company inventory note: The counts above reflect the plans available for the 2027 plan year in the Lakeland/Polk County service area as of September 30, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
+                <p style="color: var(--gray-700); font-size: 1rem; line-height: 1.6; margin: 0;">We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
+                <p style="color: var(--gray-600); font-size: 0.875rem; line-height: 1.6; margin: 0.75rem 0 0;">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
             </div>
         </div>
     </section>
@@ -1185,7 +1232,7 @@
                         <a class="btn btn-navy" href="/get-help/?intent=under-65">Under-65 review</a>
                         <a class="btn btn-navy" href="/get-help/?intent=losing-coverage">Losing coverage</a>
                         <a class="btn btn-outline" href="tel:+18636403102">Call (863) 640-3102</a>
-                        <p class="tpmo-cta-disclaimer">We do not offer every plan available in your area. Currently we represent 9 organizations which offer 102 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
+                        <p class="tpmo-cta-disclaimer">We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
                     </div>
                 </div>
             </div>
@@ -1339,7 +1386,7 @@
                 </div>
             </div>
             <div class="footer-tpmo" role="note">
-                <p class="tpmo-standard-disclaimer">We do not offer every plan available in your area. Currently we represent 9 organizations which offer 102 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
+                <p class="tpmo-standard-disclaimer">We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
             </div>
             <div class="footer-bottom">
                 <p>&copy; <span id="current-year"></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>
@@ -1428,6 +1475,6 @@
         }
 
     </script>
-    <script src="/js/site-template.js?v=20260930-tpmo-2027" defer></script>
+    <script src="/js/site-template.js?v=20261001-tpmo-8-65" defer></script>
 </body>
 </html>
