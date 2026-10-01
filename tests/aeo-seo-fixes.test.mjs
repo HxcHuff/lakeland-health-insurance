@@ -57,7 +57,7 @@ test('llms.txt lists sitemap URLs and excludes Georgia', () => {
   assert.doesNotMatch(llms, /health-insurance-georgia/);
   assert.match(
     llms,
-    /We do not offer every plan available in your area\. Currently we represent 9 organizations which offer 102 products in your area\. Please contact Medicare\.gov or 1-800-MEDICARE to get information on all of your options\./,
+    /We do not offer every plan available in your area\. Currently we represent 8 organizations which offer 65 products in your area\. Please contact Medicare\.gov or 1-800-MEDICARE to get information on all of your options\./,
   );
   assert.match(llms, /health-insurance-texas/);
   assert.match(llms, /lakeland-regional-health-insurance-accepted\.html/);

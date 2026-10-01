@@ -14,7 +14,7 @@ const COVERAGE_CENTER = readFileSync(resolve(ROOT, 'coverage-center/index.html')
 const ACA = readFileSync(resolve(ROOT, 'aca-health-insurance-lakeland-fl/index.html'), 'utf8');
 const POLK_ACA = readFileSync(resolve(ROOT, 'aca-health-insurance-agent-polk-county-fl/index.html'), 'utf8');
 const MEDICARE = readFileSync(resolve(ROOT, 'medicare/index.html'), 'utf8');
-const TPMO = 'We do not offer every plan available in your area. Currently we represent 9 organizations which offer 102 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
+const TPMO = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
 const HEALTHSHERPA = 'https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q';
 const SKIP_DIRS = new Set([
   '.git',
@@ -239,7 +239,7 @@ test('Get Help is a 3-step who/details/contact flow with preserved fields and SM
   assert.match(GET_HELP_HTML, /How should David follow up\?/);
   assert.match(GET_HELP_HTML, /Start my request/);
   assert.match(GET_HELP_HTML, /Call \(863\) 640-3102/);
-  assert.match(GET_HELP_HTML, /863-640-3102/);
+  assert.match(GET_HELP_HTML, /\(863\) 640-3102/);
   assert.match(GET_HELP_HTML, /Reply STOP to cancel or HELP for help/);
   assert.match(GET_HELP_HTML, /name="consent_request"/);
   assert.match(GET_HELP_HTML, /name="need_timing"/);
