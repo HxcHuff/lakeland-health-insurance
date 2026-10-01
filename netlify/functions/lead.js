@@ -6,7 +6,6 @@
 
 const crypto = require('crypto');
 const { sendAdsLead } = require('./lib/ads-capi');
-const { syncToMailchimp } = require('./lib/mailchimp');
 
 const META_DATASET_ID = '1480756087079484';
 const META_GRAPH_VERSION = 'v25.0';
@@ -259,8 +258,6 @@ const LP_COMMON_FIELDS = [
   'best_time_to_reach',
   'coverage_status',
   'consent',
-  'consent_marketing_email',
-  'consent_marketing_email_version',
   'source_page',
   'consent_text_version'
 ];
@@ -292,8 +289,6 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'consent_call',
     'consent_sms',
     'consent_email',
-    'consent_marketing_email',
-    'consent_marketing_email_version',
     'consent_text_version'
   ]),
   'lp-aca-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['household_size']),
@@ -558,17 +553,6 @@ function minimizeGetHelpPayload(payload) {
 
 const GET_HELP_CONSENT_TEXT_VERSION_V1 = 'get-help-2026-07-30-v1';
 const GET_HELP_CONSENT_TEXT_VERSION_V2 = 'get-help-2026-09-29-v2';
-const MARKETING_EMAIL_CONSENT_VERSION = 'marketing-email-2026-09-30-v1';
-const MARKETING_EMAIL_CONSENT_VERSION_PAGES = Object.freeze([
-  '/blog/',
-  '/carriers/',
-  '/dental-vision/',
-  '/medicare/',
-  '/plans/',
-  '/private-medical-insurance/',
-  '/supplemental-insurance/',
-  '/lp/gap/'
-]);
 const LP_ACA_CONSENT_TEXT_VERSION_V1 = 'lp-aca-2026-09-29-v1';
 const LP_ACA_CONSENT_TEXT_VERSION_V2 = 'lp-aca-2026-09-29-v2';
 const LP_MEDICARE_CONSENT_TEXT_VERSION_V1 = 'lp-medicare-2026-09-29-v1';
@@ -666,25 +650,6 @@ function isGrantedLpConsentValue(value) {
   return normalized === 'yes' || normalized === 'on';
 }
 
-function isGrantedYesValue(value) {
-  return String(value || '').trim().toLowerCase() === 'yes';
-}
-
-function applyMarketingEmailConsentVersion(payload, consentPage) {
-  const submitted = typeof payload.consent_marketing_email_version === 'string'
-    ? payload.consent_marketing_email_version.trim()
-    : '';
-  if (submitted === MARKETING_EMAIL_CONSENT_VERSION) {
-    payload.consent_marketing_email_version = MARKETING_EMAIL_CONSENT_VERSION;
-    return;
-  }
-  delete payload.consent_marketing_email_version;
-  const page = sanitizeSourcePath(consentPage || payload.consent_page || payload.source_page || '');
-  if (MARKETING_EMAIL_CONSENT_VERSION_PAGES.includes(page)) {
-    payload.consent_marketing_email_version = MARKETING_EMAIL_CONSENT_VERSION;
-  }
-}
-
 function applyLpMarketingConsentRecord(payload, formName, serverReceivedAt) {
   const granted = isGrantedLpConsentValue(payload.consent);
   const includeEmail = formName === 'lp-gap-lead';
@@ -698,9 +663,6 @@ function applyLpMarketingConsentRecord(payload, formName, serverReceivedAt) {
   if (includeEmail) {
     payload.consent_email = channelValue;
     payload.consent_email_state = state;
-    payload.consent_marketing_email_state = isGrantedYesValue(payload.consent_marketing_email) && String(payload.email || '').trim()
-      ? 'granted'
-      : 'not_granted';
   }
   if (serverReceivedAt) payload.consent_recorded_at = serverReceivedAt;
 
@@ -737,11 +699,10 @@ function authorizeGetHelpConsent(payload, serverReceivedAt, consentPage) {
   const channelConsent = {
     call: payload.consent_call === 'yes' && hasPhone,
     sms: payload.consent_sms === 'yes' && hasPhone,
-    email: payload.consent_email === 'yes' && hasEmail,
-    marketing_email: payload.consent_marketing_email === 'yes' && hasEmail
+    email: payload.consent_email === 'yes' && hasEmail
   };
 
-  ['call', 'sms', 'email', 'marketing_email'].forEach((channel) => {
+  ['call', 'sms', 'email'].forEach((channel) => {
     const field = `consent_${channel}`;
     if (channelConsent[channel]) payload[field] = 'yes';
     else delete payload[field];
@@ -755,7 +716,6 @@ function authorizeGetHelpConsent(payload, serverReceivedAt, consentPage) {
     consent_call_state: channelConsent.call ? 'granted' : 'not_granted',
     consent_sms_state: channelConsent.sms ? 'granted' : 'not_granted',
     consent_email_state: channelConsent.email ? 'granted' : 'not_granted',
-    consent_marketing_email_state: channelConsent.marketing_email ? 'granted' : 'not_granted',
     consent_withdrawal_state: 'not_withdrawn_at_submission'
   });
   return { ok: true };
@@ -842,7 +802,6 @@ exports.handler = async (event) => {
     };
   }
   applyNonGetHelpConsentRecord(payload, formName, sourcePath, serverReceivedAt);
-  applyMarketingEmailConsentVersion(payload, payload.consent_page || sourcePath);
 
   const sourceUrl = eventSourceUrl(sourcePath);
   payload.source_url = sourcePath;
@@ -951,24 +910,6 @@ exports.handler = async (event) => {
     console.warn(capiError);
   }
 
-  // Sync to Mailchimp only after Forms acceptance. It remains non-blocking so
-  // a Mailchimp outage cannot turn an accepted request into a failed response.
-  let mcOk = false;
-  let mcError = null;
-  if (formsOk) {
-    try {
-      const result = await syncToMailchimp(payload);
-      mcOk = result.ok;
-      if (result.error && !result.skipped) {
-        mcError = result.error;
-        console.error(mcError);
-      }
-    } catch (e) {
-      mcError = `Mailchimp sync exception${e && e.name ? ` (${e.name})` : ''}`;
-      console.error(mcError);
-    }
-  }
-
   let adsCapiOk = false;
   let adsCapiError = null;
   if (!formsOk) {
@@ -1002,11 +943,9 @@ exports.handler = async (event) => {
     capi: capiOk,
     ads_capi: adsCapiOk,
     forms: formsOk,
-    mailchimp: mcOk,
     ...(capiError ? { capi_error: capiError } : {}),
     ...(adsCapiError ? { ads_capi_error: adsCapiError } : {}),
-    ...(formsError ? { forms_error: formsError } : {}),
-    ...(mcError ? { mc_error: mcError } : {})
+    ...(formsError ? { forms_error: formsError } : {})
   };
   if (formsOk) {
     responseBody.accepted_at = acceptedAt;
@@ -1026,8 +965,7 @@ exports.handler = async (event) => {
     components: {
       forms: formsOk,
       meta_capi: capiOk,
-      ads_capi: adsCapiOk,
-      mailchimp: mcOk
+      ads_capi: adsCapiOk
     }
   }));
 
@@ -1139,8 +1077,6 @@ exports._test = {
   CONSENT_TEXT_VERSION_NONE,
   GET_HELP_CONSENT_TEXT_VERSION_V1,
   GET_HELP_CONSENT_TEXT_VERSION_V2,
-  MARKETING_EMAIL_CONSENT_VERSION,
-  applyMarketingEmailConsentVersion,
   LP_ACA_CONSENT_TEXT_VERSION_V1,
   LP_ACA_CONSENT_TEXT_VERSION_V2,
   LP_GAP_CONSENT_TEXT_VERSION_V1,

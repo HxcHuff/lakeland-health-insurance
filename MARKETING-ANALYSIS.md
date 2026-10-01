@@ -401,7 +401,7 @@ After form submission, don't just rely on David calling back. Set up an automate
 **Day 7:** "Still looking? David can find you a plan in 15 minutes"
 **Day 14:** "Open enrollment reminder + personal invitation"
 
-Use a free/cheap tool: Mailchimp (free for 500 contacts), ConvertKit, or Brevo.
+Use a free/cheap tool: ConvertKit, Brevo, or a similar email platform (free for 500 contacts).
 
 ### 5.7 Add SMS Opt-In
 

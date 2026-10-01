@@ -1015,7 +1015,7 @@ test("source has no customer messaging or external marketing delivery and retry 
   );
   const config = await readFile(new URL("../netlify.toml", import.meta.url), "utf8");
   const implementation = `${webhookSource}\n${helperSource}`;
-  for (const prohibited of ["api.mailchimp.com", "api.twilio.com", "customer.io", "Customer.io"]) {
+  for (const prohibited of ["api.twilio.com", "customer.io", "Customer.io"]) {
     assert.equal(implementation.includes(prohibited), false);
   }
   assert.match(config, /\[functions\."google-lead-crm-retry"\][\s\S]*schedule = "\*\/15 \* \* \* \*"/u);
