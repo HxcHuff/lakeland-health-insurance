@@ -199,3 +199,17 @@ test('privacy policy carries the current-season SOA exceptions and retention rul
   assert.match(html, /An inbound telephone call is not one of these exceptions/);
   assert.match(html, /recorded calls that pertain to sales or enrollment are subject to a 10-year retention requirement/);
 });
+
+test('privacy policy describes homepage and newsletter-page sign-up without naming Mailchimp', () => {
+  const html = source('privacy-policy.html');
+  const sitemap = source('sitemap.xml');
+
+  assert.match(html, /If you sign up for our newsletter/);
+  assert.doesNotMatch(html, /Mailchimp/);
+  assert.match(html, /"dateModified": "2026-10-01"/);
+  assert.match(html, /Last updated <time datetime="2026-10-01">October 1, 2026<\/time>/);
+  assert.match(
+    sitemap,
+    /<loc>https:\/\/lakelandhealthinsurance\.com\/privacy-policy\.html<\/loc>\s*<lastmod>2026-10-01<\/lastmod>/
+  );
+});
