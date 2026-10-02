@@ -141,6 +141,31 @@ test('shortened city, carrier, and audit titles stay at or under 60 characters',
   }
 });
 
+test('carrier enrollment guide titles use the current plan year', () => {
+  const titles = [
+    ['carriers/ambetter-aca-2026/index.html', 'Ambetter ACA Plans in Florida (2027) | Enrollment Guide'],
+    ['carriers/molina-aca-2026/index.html', 'Molina ACA Plans in Florida (2027) | Enrollment Guide'],
+    ['carriers/oscar-aca-2026/index.html', 'Oscar ACA Plans in Florida (2027) | Enrollment Guide'],
+    ['carriers/unitedhealthcare-aca-2026/index.html', 'UnitedHealthcare ACA Florida (2027) | Enrollment Guide'],
+    ['carriers/wellpoint-aca-2026/index.html', 'Wellpoint ACA Plans in Florida (2027) | Enrollment Guide']
+  ];
+
+  for (const [rel, expected] of titles) {
+    const html = source(rel);
+    assert.equal(decode(html.match(/<title>([^<]*)<\/title>/)[1]), expected, rel);
+    assert.match(html, new RegExp(`property="og:title" content="${expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`));
+    assert.match(html, new RegExp(`name="twitter:title" content="${expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`));
+  }
+});
+
+test('short-term options CTA asks for current-season coverage and income', () => {
+  const html = source('blog/health-insurance-too-expensive-florida-2026-short-term-options.html');
+  assert.match(html, /<h2>Do not guess with 2027 coverage\.<\/h2>/);
+  assert.match(html, /estimated 2027 income/);
+  assert.doesNotMatch(html, /Do not guess with 2026 coverage/);
+  assert.doesNotMatch(html, /estimated 2026 income/);
+});
+
 test('internal links do not point at redirected URLs', () => {
   const skip = new Set(['.git', 'node_modules', 'netlify', '.netlify', 'output', 'tests', 'scripts', 'audit']);
   const files = [];
