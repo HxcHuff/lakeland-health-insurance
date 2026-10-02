@@ -39,6 +39,8 @@ test('refund and plan-ending posts are listed, sourced, and carrier-neutral', ()
   assert.match(ending, /December 15/);
   assert.doesNotMatch(ending, EXCLUDED_CARRIER);
   assert.doesNotMatch(refund, EXCLUDED_CARRIER);
+  assert.doesNotMatch(refund, /href="tel:\+(?!18636403102)/);
+  assert.match(refund, /Marketplace Call Center at 1-800-318-2596/);
 
   assert.match(index, /\/blog\/healthcare-gov-500-refund-checks-florida\.html/);
   assert.match(index, /\/blog\/marketplace-plan-ending-2027\.html/);
