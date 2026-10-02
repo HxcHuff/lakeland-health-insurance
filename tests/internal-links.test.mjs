@@ -62,7 +62,6 @@ test('booking page stays on-site and does not expose the third-party account str
 
   for (const file of walkHtml()) {
     const rel = relative(ROOT, file);
-    if (rel === 'privacy-policy.html') continue;
     const source = readFileSync(file, 'utf8');
     const refs = [...source.matchAll(/\b(?:href|src)=["']([^"']+)["']/gi)].map((match) => match[1]);
     for (const ref of refs) {
