@@ -22,7 +22,7 @@
     callBtn.className = 'click-to-call';
     callBtn.href = phoneUrl;
     callBtn.setAttribute('data-floating-call', 'true');
-    callBtn.setAttribute('aria-label','Call Lakeland Health Insurance at 863-640-3102');
+    callBtn.setAttribute('aria-label','Call Lakeland Health Insurance at (863) 640-3102');
     document.body.appendChild(callBtn);
   }
   callBtn.innerHTML = '<span class="call-widget-icon" aria-hidden="true">&#9742;</span><span>Call: (863) 640-3102</span>';

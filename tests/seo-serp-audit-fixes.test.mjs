@@ -166,6 +166,60 @@ test('short-term options CTA asks for current-season coverage and income', () =>
   assert.doesNotMatch(html, /estimated 2026 income/);
 });
 
+test('shared chrome uses one phone display, booking CTA, schema name, and asset version', () => {
+  const answerPagesHref = '/css/answer-pages.css?v=20260930-medicare-hero-contrast';
+  const schedulePages = [
+    'blog/aca-subsidy-cliff.html',
+    'blog/non-income-based-health-insurance-florida.html',
+    'blog/planning-healthcare-budget-2026.html'
+  ];
+  const fontPages = [
+    'index.html',
+    'privacy-policy.html',
+    'terms/index.html',
+    'data-deletion/index.html'
+  ];
+
+  for (const rel of schedulePages) {
+    const html = source(rel);
+    assert.match(html, /href="\/book\/"[^>]*>Schedule a Plan Review/);
+    assert.doesNotMatch(html, /href="\/get-help\/"[^>]*>Schedule a Plan Review/);
+  }
+
+  for (const rel of fontPages) {
+    const html = source(rel);
+    assert.match(html, /href="\/css\/fonts\.css"/);
+    assert.match(html, /rel="icon"[^>]+href="\/favicon\.ico"[^>]+type="image\/x-icon"|rel="icon"[^>]+type="image\/x-icon"[^>]+href="\/favicon\.ico"/);
+  }
+
+  const dental = source('dental-vision/index.html');
+  assert.match(dental, /"name": "Lakeland Health Insurance — Dental & Vision \(David Huff\)"/);
+  assert.doesNotMatch(dental, /"name": "Lakeland Health Insurance — Dental &amp; Vision \(David Huff\)"/);
+  assert.doesNotMatch(dental, /David The Insurance Dude/);
+
+  const skip = new Set(['.git', 'node_modules', 'netlify', '.netlify', 'output', 'tests', 'scripts', 'audit', 'search-engine-from-zip']);
+  const walk = (dir, files = []) => {
+    for (const name of readdirSync(dir, { withFileTypes: true })) {
+      if (skip.has(name.name)) continue;
+      const full = join(dir, name.name);
+      if (name.isDirectory()) walk(full, files);
+      else if (name.name.endsWith('.html')) files.push(full);
+    }
+    return files;
+  };
+
+  for (const file of walk(ROOT)) {
+    const html = readFileSync(file, 'utf8');
+    const refs = html.match(/\/css\/answer-pages\.css(?:\?[^"']*)?/g) || [];
+    for (const ref of refs) {
+      assert.equal(ref, answerPagesHref, `${file.slice(ROOT.length + 1)} uses ${ref}`);
+    }
+  }
+
+  assert.match(source('js/chat-widget.js'), /Call Lakeland Health Insurance at \(863\) 640-3102/);
+  assert.match(source('js/blog-floating-actions.js'), /Call David now at \(863\) 640-3102/);
+});
+
 test('internal links do not point at redirected URLs', () => {
   const skip = new Set(['.git', 'node_modules', 'netlify', '.netlify', 'output', 'tests', 'scripts', 'audit']);
   const files = [];
