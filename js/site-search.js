@@ -355,15 +355,15 @@ const siteSearchIndex = [
     tags: ["ACA", "Open Enrollment", "Subsidies"]
   },
   {
-    title: "$500 HealthCare.gov Refund Checks in Florida: Who Gets One",
+    title: "The $500 HealthCare.gov Refund Checks: Who Gets One in Florida",
     url: "/blog/healthcare-gov-500-refund-checks-florida.html",
-    excerpt: "Treasury began mailing $500 HealthCare.gov payments on Sept. 30, 2026. See who typically receives one in Florida and how to recognize copycat messages.",
+    excerpt: "Treasury started sending a one-time $500 refund on September 30, 2026 to some people who paid full price on HealthCare.gov. CNBC reported about 127,900 Floridians. You do not apply.",
     tags: ["ACA", "Marketplace", "Florida", "Open Enrollment"]
   },
   {
     title: "My Marketplace Plan Is Ending in 2027. What Now?",
-    url: "/blog/marketplace-plan-ending-2027.html",
-    excerpt: "What a plan-ending letter means, whether doctors and prescriptions carry over, and why December 15 matters for January 1 coverage.",
+    url: "/blog/marketplace-plan-ending-2027-what-now.html",
+    excerpt: "Your 2026 Marketplace plan still runs through December 31. If it will not be offered in 2027, HealthCare.gov can match you with a different plan. December 15 is the last day to choose your own for January 1.",
     tags: ["ACA", "Marketplace", "Open Enrollment", "Doctors", "Prescriptions"]
   },
   {
