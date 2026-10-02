@@ -355,6 +355,18 @@ const siteSearchIndex = [
     tags: ["ACA", "Open Enrollment", "Subsidies"]
   },
   {
+    title: "$500 HealthCare.gov Refund Checks in Florida: Who Gets One",
+    url: "/blog/healthcare-gov-500-refund-checks-florida.html",
+    excerpt: "Treasury began mailing $500 HealthCare.gov payments on Sept. 30, 2026. See who typically receives one in Florida and how to recognize copycat messages.",
+    tags: ["ACA", "Marketplace", "Florida", "Open Enrollment"]
+  },
+  {
+    title: "My Marketplace Plan Is Ending in 2027. What Now?",
+    url: "/blog/marketplace-plan-ending-2027.html",
+    excerpt: "What a plan-ending letter means, whether doctors and prescriptions carry over, and why December 15 matters for January 1 coverage.",
+    tags: ["ACA", "Marketplace", "Open Enrollment", "Doctors", "Prescriptions"]
+  },
+  {
     title: "Medicare Advantage vs Medicare Supplement: What to Compare",
     url: "/blog/medicare-advantage-vs-medicare-supplement.html",
     excerpt: "Compare Medicare Advantage and Medicare Supplement costs, provider access, prescription coverage, enrollment rules, and plan limitations.",
