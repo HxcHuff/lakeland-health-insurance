@@ -217,6 +217,9 @@ test('privacy policy uses current-season SOA wording without treating expired 20
   assert.doesNotMatch(html, /Through September 30, 2026, the 48-hour waiting period has two CMS exceptions/);
   assert.doesNotMatch(html, /Under the CMS requirements in effect through September 30, 2026/);
   assert.match(html, /retained for the period required by current CMS rules/);
+  assert.doesNotMatch(html, /healthmarkets/i);
+  assert.match(html, /mailto:david@lakelandhealthinsurance\.com\?subject=Privacy%20Request/);
+  assert.doesNotMatch(html, /dhuff@/);
 });
 
 test('privacy policy describes homepage and newsletter-page sign-up without naming Mailchimp', () => {
