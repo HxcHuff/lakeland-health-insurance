@@ -13,7 +13,7 @@ Use this after the booking-page `Schedule` event is live on production. The goal
 | Server event | Same **`Schedule`** through Conversions API, deduped with the browser `event_id` |
 | Trigger | Calendly `event_scheduled` from the embedded calendar, not a Book-now click |
 
-The booking page still uses the first-party `/book/embed` iframe. It does not put a third-party account string in the page HTML. `Schedule` does not include invitee name, email, phone, notes, or other calendar details.
+The booking page loads Calendly’s official inline iframe from `calendly.com` in `js/calendly-meta-schedule.js`. It does not put a third-party account string in the page HTML. A same-origin `/book/embed` rewrite is not used for the live calendar because Calendly’s booking API would then call `/api/booking/*` on this host and fail. `Schedule` does not include invitee name, email, phone, notes, or other calendar details.
 
 This is separate from the consent-gated website-audience `PageView` loader. `/book/` is not an audience-PageView page.
 
@@ -37,11 +37,17 @@ If CAPI is not arriving in Events Manager after a real production booking:
 
 ## Verify the event before changing the ad set
 
-1. Open [Meta Events Manager](https://business.facebook.com/events_manager2).
-2. Select dataset **Lakeland Health insurance** (`1480756087079484`).
-3. Use Test events if needed, then complete one booking on `https://lakelandhealthinsurance.com/book/`.
-4. Confirm a **`Schedule`** event from `/book/` with matching Pixel and CAPI rows (same `event_id`).
-5. Do not treat a Calendly click, a page view, or `Lead` as the booking result.
+After a production deploy of the calendar-origin embed:
+
+1. Open `https://lakelandhealthinsurance.com/book/` and confirm the calendar draws selectable times (not a blank iframe). Cached `/book/embed` hits 302 to Calendly; the live page no longer uses that rewrite.
+2. Open [Meta Events Manager](https://business.facebook.com/events_manager2) → Test events.
+3. Select dataset **Lakeland Health insurance** (`1480756087079484`).
+4. Complete one booking on `https://lakelandhealthinsurance.com/book/`.
+5. Confirm **one** **`Schedule`** event from `/book/` with matching Pixel and CAPI rows (same `event_id`). The booking page should not log `Duplicate Pixel ID 1480756087079484`.
+6. Do not treat a Calendly click, a page view, or `Lead` as the booking result.
+7. If Events Manager still shows two `Schedule` rows for one booking, check Calendly → Integrations → Facebook Pixel and remove dataset `1480756087079484` there. The site Pixel + CAPI path is the source of truth.
+
+Then switch OEP 2027 Book now ad set `120252243350740324` to Maximize conversions → event **`Schedule`** using the Ads Manager steps below.
 
 ## Ads Manager steps: switch Book now from Landing Page Views to Schedule
 
