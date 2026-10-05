@@ -17,7 +17,8 @@
  *
  * URL selection:
  *   - Fetch the live sitemap and submit URLs whose lastmod is on the
- *     deploy date (content/lastmod changed in this release window)
+ *     America/New_York deploy date (content/lastmod changed in this
+ *     Eastern release window). UTC midnight must not shift that date.
  *   - If that set is empty or unreadable, submit sitemap URLs capped
  *     well under the IndexNow 10,000-URL limit
  */
@@ -146,8 +147,23 @@ function jsonResponse(statusCode, payload) {
   };
 }
 
-function utcDate(value = new Date()) {
-  return new Date(value).toISOString().slice(0, 10);
+const INDEXNOW_TIMEZONE = 'America/New_York';
+
+function easternDate(value = new Date()) {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: INDEXNOW_TIMEZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).formatToParts(date);
+  const out = {};
+  for (const part of parts) {
+    if (part.type !== 'literal') out[part.type] = part.value;
+  }
+  if (!out.year || !out.month || !out.day) return '';
+  return `${out.year}-${out.month}-${out.day}`;
 }
 
 async function pingIndexNow({
@@ -174,7 +190,7 @@ async function pingIndexNow({
   }
 
   const xml = await sitemapResponse.text();
-  const selection = selectUrls(parseSitemapUrls(xml), utcDate(payload.published_at || now));
+  const selection = selectUrls(parseSitemapUrls(xml), easternDate(payload.published_at || now));
   if (selection.urls.length === 0) {
     console.log('indexnow skip: no sitemap URLs');
     return { skipped: true, reason: 'empty-url-list' };
@@ -219,8 +235,10 @@ module.exports = {
   isProductionLakelandDeploy,
   parseSitemapUrls,
   selectUrls,
+  easternDate,
   INDEXNOW_KEY,
   INDEXNOW_KEY_LOCATION,
   INDEXNOW_HOST,
+  INDEXNOW_TIMEZONE,
   MAX_URLS
 };
