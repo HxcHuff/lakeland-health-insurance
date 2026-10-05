@@ -147,12 +147,37 @@
     return true;
   }
 
-  function pixelAlreadyPresent() {
-    return pixelQueued || typeof w.fbq === 'function';
+  function pixelHasInstance() {
+    try {
+      if (typeof w.fbq !== 'function' || typeof w.fbq.getState !== 'function') return false;
+      var state = w.fbq.getState() || {};
+      var pixels = state.pixels || [];
+      for (var i = 0; i < pixels.length; i += 1) {
+        if (pixels[i] && String(pixels[i].id) === PIXEL_ID) return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function initPixelInstance() {
+    w.fbq.disablePushState = true;
+    w.fbq('consent', 'grant');
+    w.fbq('set', 'autoConfig', false, PIXEL_ID);
+    w.fbq('init', PIXEL_ID);
+  }
+
+  function adoptExistingFbq() {
+    if (pixelHasInstance()) return 'pixel-reused';
+    try {
+      initPixelInstance();
+    } catch (_) { /* GTM or another loader already owns fbq */ }
+    return 'pixel-adopted';
   }
 
   function installFbq() {
-    if (pixelAlreadyPresent()) return false;
+    if (typeof w.fbq === 'function') return false;
     var queue = function () {
       if (queue.callMethod) queue.callMethod.apply(queue, arguments);
       else queue.queue.push(arguments);
@@ -163,10 +188,7 @@
     queue.version = '2.0';
     queue.queue = [];
     w.fbq = queue;
-    w.fbq.disablePushState = true;
-    w.fbq('consent', 'grant');
-    w.fbq('set', 'autoConfig', false, PIXEL_ID);
-    w.fbq('init', PIXEL_ID);
+    initPixelInstance();
     w.fbq('trackSingle', PIXEL_ID, 'PageView');
 
     var script = d.createElement('script');
@@ -178,8 +200,37 @@
   }
 
   function ensurePixel() {
-    if (pixelAlreadyPresent()) return true;
-    return installFbq();
+    if (pixelQueued) return 'pixel-initialized';
+    if (typeof w.fbq === 'function') return adoptExistingFbq();
+    return installFbq() ? 'pixel-initialized' : 'pixel-unavailable';
+  }
+
+  function pixelTransportUrl(eventId) {
+    return 'https://www.facebook.com/tr?id=' + encodeURIComponent(PIXEL_ID)
+      + '&ev=Schedule&eid=' + encodeURIComponent(eventId)
+      + '&noscript=1';
+  }
+
+  function firePixelTransport(eventId) {
+    var url = pixelTransportUrl(eventId);
+    try {
+      if (typeof w.Image === 'function') {
+        var probe = new w.Image(1, 1);
+        probe.alt = '';
+        probe.src = url;
+        return true;
+      }
+    } catch (_) { /* fall through to a markup image */ }
+    try {
+      var img = d.createElement('img');
+      img.alt = '';
+      img.width = 1;
+      img.height = 1;
+      img.src = url;
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   function fireGtag(eventId) {
@@ -197,13 +248,20 @@
   }
 
   function firePixel(eventId) {
-    if (typeof w.fbq !== 'function') return false;
-    try {
-      w.fbq('trackSingle', PIXEL_ID, 'Schedule', {}, { eventID: eventId });
-      return true;
-    } catch (_) {
-      return false;
+    // Use the documented track + eventID form. Live 2026-10-05 capture:
+    // trackSingle(PIXEL, 'Schedule', {}, {eventID}) incremented fbq eventCount
+    // but never issued facebook.com/tr?ev=Schedule. GTM's track PageView did.
+    // The image /tr with the same eid is Meta's official noscript/eventID
+    // transport, so a GET still leaves if fbevents.js swallows the JS send.
+    var tracked = false;
+    if (typeof w.fbq === 'function') {
+      try {
+        w.fbq('track', 'Schedule', {}, { eventID: eventId });
+        tracked = true;
+      } catch (_) { /* keep going; the /tr transport still has to leave */ }
     }
+    firePixelTransport(eventId);
+    return tracked;
   }
 
   function fireCapi(eventId) {
@@ -269,9 +327,9 @@
       setStatus('ready', blocked);
       return false;
     }
-    ensurePixel();
-    setStatus('ready', pixelQueued ? 'pixel-initialized' : 'pixel-reused');
-    return true;
+    var readyReason = ensurePixel();
+    setStatus('ready', readyReason);
+    return readyReason !== 'pixel-unavailable';
   }
 
   function init() {
@@ -295,7 +353,8 @@
     isBookingPath: isBookingPath,
     isCalendlyOrigin: isCalendlyOrigin,
     isScheduledMessage: isScheduledMessage,
-    normalizePath: normalizePath
+    normalizePath: normalizePath,
+    pixelTransportUrl: pixelTransportUrl
   };
 
   init();
