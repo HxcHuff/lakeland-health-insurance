@@ -4,6 +4,7 @@
   const phoneHref = 'tel:+18636403102';
   const messengerHref = 'https://m.me/2330958066941437';
   const tpmoDisclaimer = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
+  const medicareShipDisclaimer = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
   const healthSherpaHref = 'https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q';
   const BANNER_ID = 'lhi-seasonal-banner';
   const SEASONAL_BANNER_TIMEZONE = 'America/New_York';
@@ -16,12 +17,14 @@
     '/medicare/',
     '/medicare/east-polk/',
     '/medicare-broker-lakeland-fl/',
+    '/medicare-part-d-lakeland-fl/',
     '/moving-florida-medicare/',
     '/working-past-65-medicare-lakeland-fl/',
     '/local-health-insurance-answers/medicare-plan-help-lakeland/',
     '/lp/medicare/',
     '/blog/aep-',
     '/blog/medigap-',
+    '/blog/do-i-need-part-b-',
     '/blog/florida-insurance-guide.html'
   ];
 
@@ -103,6 +106,16 @@
     if (pathMatches(path, MEDICARE_PATHS) || pathMatches(raw, MEDICARE_PATHS)) return true;
     if (/\/blog\/[^"'<>]*medicare/i.test(raw) || /\/blog\/[^"'<>]*medicare/i.test(path)) return true;
     if (/advantage/i.test(raw) && raw.indexOf('/advantage-guard') !== 0) return true;
+    return false;
+  }
+
+  function shouldUseShipDisclaimer(pathname) {
+    var path = normalizePath(pathname);
+    var raw = rawPath(pathname);
+    if (pathMatches(path, MEDICARE_PATHS) || pathMatches(raw, MEDICARE_PATHS)) return true;
+    if (/\/blog\/[^"'<>]*medicare/i.test(raw) || /\/blog\/[^"'<>]*medicare/i.test(path)) return true;
+    if (/\/blog\/[^"'<>]*medigap/i.test(raw) || /\/blog\/[^"'<>]*medigap/i.test(path)) return true;
+    if (/\/blog\/aep-/i.test(raw) || /\/blog\/aep-/i.test(path)) return true;
     return false;
   }
 
@@ -344,7 +357,7 @@
           </div>
         </div>
         ${shouldShowTpmoDisclaimer(pathname) ? `<div class="footer-tpmo" role="note">
-          <p class="tpmo-standard-disclaimer">${tpmoDisclaimer}</p>
+          <p class="tpmo-standard-disclaimer">${shouldUseShipDisclaimer(pathname) ? medicareShipDisclaimer : tpmoDisclaimer}</p>
           <p class="tpmo-inventory-note">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
         </div>` : ''}
         <div class="footer-bottom">
@@ -493,6 +506,7 @@
     getHelpHref: chromeGetHelpHref,
     shouldShowHealthSherpa: shouldShowHealthSherpa,
     shouldShowTpmoDisclaimer: shouldShowTpmoDisclaimer,
+    shouldUseShipDisclaimer: shouldUseShipDisclaimer,
     isMultiStatePage: isMultiStatePage,
     shouldShowSeasonalBanner: shouldShowSeasonalBanner,
     isWithinSeasonalBannerWindow: isWithinSeasonalBannerWindow,

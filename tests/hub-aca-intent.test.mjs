@@ -6,7 +6,7 @@ import test from 'node:test';
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const PRIMARY_BROKER = '/medicare-broker-lakeland-fl/';
 const TPMO =
-  'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
+  'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
 
 function source(rel) {
   return readFileSync(join(ROOT, rel), 'utf8');
