@@ -485,6 +485,7 @@ test('static marker inventory exactly matches the reviewed 8-page landing ledger
     'post-enrollment-review/index.html',
     'provider-prescription-check/index.html',
     'losing-medicaid-florida/index.html',
+    'book/index.html',
     'blog/aca-subsidy-wrong-income-florida.html',
     'blog/dont-overlook-rx-costs-2027.html',
     'blog/mental-health-awareness-month-therapy-benefit-lakeland-2026.html'

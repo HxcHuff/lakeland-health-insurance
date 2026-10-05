@@ -172,6 +172,18 @@ Allowlisted website form submissions post to `{LEAD_BRIDGE_URL}/website/lead`. T
 | `APPS_SCRIPT_LEAD_WEBHOOK_URL_V1` | Server only | Unused in this repo | Leftover Apps Script `/exec` URL. The Google-hosted webhook does not read it. Do not delete in Netlify until David says so. |
 | `APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1` | Server only | Unused in this repo | Leftover Apps Script HMAC secret. Same as above. |
 
+### Meta booking conversion (`Schedule`)
+
+Completed Calendly bookings on `/book/` (the `/calendly-book.html` destination) send the standard Meta event **`Schedule`** from the browser Pixel and, in production, the Conversions API. Dataset/Pixel ID is `1480756087079484`. This is not the consent-gated website-audience `PageView` loader and is not the form `Lead` event.
+
+Ads Manager setup for the OEP 2027 Book now ad set is in [`docs/meta-booked-appointment-conversion.md`](docs/meta-booked-appointment-conversion.md).
+
+| Variable | Surface | Required | Notes |
+|---|---|---:|---|
+| `META_PIXEL_ID` | Server only | Yes, for CAPI | Must equal `1480756087079484`. Already used by `/api/lead`. |
+| `META_CAPI_ACCESS_TOKEN` | Server only | Yes, for CAPI | Same production token as form `Lead` CAPI. Never expose it. Preview/branch contexts blank this token. |
+| `META_CAPI_TEST_EVENT_CODE` | Server only | No | Optional Events Manager test code. |
+
 ### OpenAI Ads Environment Variables
 | Variable | Surface | Required | Notes |
 |---|---|---:|---|

@@ -73,7 +73,7 @@ Unknown values fall back to `not-sure`. Query-string values are never injected i
 | `Lead` | Browser verifies `/api/lead` returned `ok: true`, `forms: true`, and an approved server `event_id` | `content_name`, `event_id`, `acceptance_status=forms_accepted`; canonical Medicare context when present | Raw names, email, phone, ZIP, policy/Medicare IDs, providers, prescriptions, income, health/coverage answers, free text | dataLayer; GTM owns GA4 `generate_lead` and Google Ads; server owns CAPI | One accepted response, one server event ID, one thank-you marker |
 | `LeadReceiptView` | Fresh same-session lead reaches `/thanks.html` | `content_name`, `step` | PII, form answers | dataLayer, GA4 diagnostic event `lead_receipt_view` | Fresh lead marker consumed once; direct visits do not fire |
 | `Subscriber` | `/api/lead` success for newsletter forms | `content_name`, `event_id` | Raw names, email, phone | dataLayer only | `event_id`, same-session marker consumed once |
-| `Schedule` | Calendly link click | `content_name` | PII | dataLayer | Click event id |
+| `Schedule` | Funnel-bus Calendly **link click** (GA/dataLayer). Meta standard `Schedule` is reserved for a completed `/book/` Calendly booking | `content_name` for clicks; Meta booking event has no invitee PII | PII | dataLayer for clicks; Meta Pixel + CAPI for completed `/book/` bookings | Click event id; booking uses a shared Pixel/CAPI `event_id` |
 | `PhoneCallClick` | Canonical future phone event | Link label only | Phone/email/name answers | dataLayer | Click event id |
 | `ExternalQuoteClick` | HealthSherpa or quote engine click | `content_name`, destination class | PII | dataLayer | Click event id |
 | `QualifiedLead` | Server-side/admin outcome update | `lead_id`, `stage` | PHI, commission, private notes | Future server/offline conversion workflow | Stable lead id |
@@ -244,11 +244,11 @@ Do not submit real production leads during testing.
 ## Known Limitations
 
 - There is no authenticated CRM/admin status workflow in this repo yet; outcome attribution is documented as a secure spec, not an insecure public endpoint.
-- Calendly appointment-completed tracking depends on Calendly event availability and is not implemented as a completed appointment signal here.
+- Calendly appointment-completed tracking for Meta uses `calendly.event_scheduled` on `/book/` and sends standard `Schedule`. See `docs/meta-booked-appointment-conversion.md`. Funnel-bus `Schedule` on other pages remains a calendar-link click.
 - Some legacy pages still contain page-local submit listeners. The global funnel bus now handles canonical API delivery for `data-funnel-track` forms; remaining local listeners should be removed only after page-by-page testing.
 
 ## Recommended Conversion Configuration
 
 - GA4 key events: `Lead`, `Subscriber`, `Schedule`, `PhoneCallClick`, `ExternalQuoteClick`, `QualifiedLead`, `ApplicationStarted`, `Enrollment`.
 - Google Ads primary conversion: Forms-accepted `Lead` only after semantic `/api/lead` success. Treat `Subscriber`, phone clicks, schedule clicks, and external quote clicks separately.
-- Meta standard event: server-side `Lead` only for non-newsletter lead forms. Do not send `Lead` for newsletter subscribers.
+- Meta standard event: server-side `Lead` only for non-newsletter lead forms. Do not send `Lead` for newsletter subscribers. Completed `/book/` appointments use standard `Schedule`, not `Lead`.
