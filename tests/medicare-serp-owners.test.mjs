@@ -27,7 +27,7 @@ test('Broker page owns commercial broker SERP while keeping cite-ready direct an
     BROKER,
     /content="Licensed Florida health agent \(FL #W371813\)\. Compare Advantage, Medigap &amp; Part D around your doctors and prescriptions\. No separate agent fee\."/
   );
-  assert.match(BROKER, /<h1>Medicare broker in Lakeland, FL — doctors, prescriptions, and AEP review\.<\/h1>/);
+  assert.match(BROKER, /<h1>Medicare broker in Lakeland, FL — licensed local agent for doctors, prescriptions, and AEP\.<\/h1>/);
   assert.match(BROKER, /Direct answer:\s*who can help review Medicare Advantage in Lakeland/i);
   assert.match(BROKER, /href="\/get-help\/\?intent=medicare/);
 });
