@@ -7,9 +7,6 @@ const META_GRAPH_VERSION = 'v25.0';
 const CONFIGURED_META_DATASET_ID = String(process.env.META_PIXEL_ID || '').trim();
 const ACCESS_TOKEN = process.env.META_CAPI_ACCESS_TOKEN;
 const TEST_EVENT_CODE = process.env.META_CAPI_TEST_EVENT_CODE;
-const NETLIFY_CONTEXT = process.env.CONTEXT || 'unknown';
-const SITE_ENV = process.env.LHI_SITE_ENV || 'unknown';
-const IS_PROD_CONTEXT = NETLIFY_CONTEXT === 'production' && SITE_ENV === 'production';
 const PRIMARY_SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const BOOKING_SOURCE_URL = `${PRIMARY_SITE_ORIGIN}/book/`;
 const MAX_JSON_BODY_BYTES = 4 * 1024;
@@ -115,6 +112,22 @@ function metaBrowserIdentifier(cookieHeader, name) {
   return null;
 }
 
+function runtimeLabel(value) {
+  return String(value || '').trim() || 'unknown';
+}
+
+// Netlify's built-in CONTEXT is a build-image variable and is often unset in
+// Functions. This site's production runtime has been observed with CONTEXT
+// empty while LHI_SITE_ENV=production. Match submission-created.js and
+// google-ads-crm-relay: LHI_SITE_ENV=production is the runtime gate. Empty
+// CONTEXT is allowed. Explicit deploy-preview / branch-deploy / dev CONTEXT
+// values fail closed.
+function isProductionContext(environment = process.env) {
+  const siteEnv = String(environment.LHI_SITE_ENV || '').trim();
+  const buildContext = String(environment.CONTEXT || '').trim();
+  return siteEnv === 'production' && (!buildContext || buildContext === 'production');
+}
+
 function measurementBlocked(headers, cookieHeader) {
   const gpc = String(headerValue(headers, 'sec-gpc') || '').trim();
   const dnt = String(headerValue(headers, 'dnt') || '').trim().toLowerCase();
@@ -181,12 +194,14 @@ exports.handler = async (event) => {
     return json(400, cors.headers, { ok: false, error: 'Unexpected fields' });
   }
 
-  if (!IS_PROD_CONTEXT) {
+  const netlifyContext = runtimeLabel(process.env.CONTEXT);
+  const siteEnv = runtimeLabel(process.env.LHI_SITE_ENV);
+  if (!isProductionContext(process.env)) {
     return json(200, cors.headers, {
       ok: false,
       skipped: true,
       event_id: eventId,
-      error: `CAPI skipped: production context not confirmed (${NETLIFY_CONTEXT}/${SITE_ENV})`
+      error: `CAPI skipped: production context not confirmed (${netlifyContext}/${siteEnv})`
     });
   }
 
@@ -254,7 +269,7 @@ exports.handler = async (event) => {
     type: 'calendly_schedule_capi_v1',
     event_id: eventId,
     day: new Date().toISOString().slice(0, 10),
-    context: NETLIFY_CONTEXT,
+    context: netlifyContext,
     outcome: capiOk ? 'accepted' : 'failed'
   }));
 
@@ -272,6 +287,7 @@ exports._test = {
   META_DATASET_ID,
   approvedEventId,
   corsPolicy,
+  isProductionContext,
   measurementBlocked,
   metaBrowserIdentifier
 };
