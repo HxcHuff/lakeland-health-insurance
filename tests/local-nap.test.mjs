@@ -8,6 +8,8 @@ const STREET = '2298 Lakeland Hills Blvd';
 const MAPS_CID = 'https://www.google.com/maps?cid=5421693615683546210';
 const BBB_HREF = 'https://www.bbb.org/us/fl/lakeland/profile/health-insurance/lakeland-health-insurance-0733-235981531/';
 const VISIBLE_NAP = '2298 Lakeland Hills Blvd, Lakeland, FL 33805';
+const AGENCY_LAT = 28.073688;
+const AGENCY_LNG = -81.953367;
 const SKIP_DIRS = new Set([
   '.git', '.netlify', '.claude', '.codex', '.playwright-cli',
   '.ai-worker-local', 'node_modules', 'output', 'netlify',
@@ -52,7 +54,7 @@ function jsonLdNodes(html) {
   return nodes;
 }
 
-test('homepage #agency JSON-LD includes 2298 streetAddress, phone, and Maps sameAs', () => {
+test('homepage #agency JSON-LD includes 2298 streetAddress, phone, Maps sameAs, and verified geo', () => {
   const html = source('index.html');
   const agency = jsonLdNodes(html).find((node) => (
     node['@type'] === 'InsuranceAgency' && String(node['@id'] || '').endsWith('#agency')
@@ -68,7 +70,9 @@ test('homepage #agency JSON-LD includes 2298 streetAddress, phone, and Maps same
   assert.ok(agency.sameAs.includes(MAPS_CID), 'agency sameAs includes Maps cid');
   assert.ok(agency.sameAs.includes(BBB_HREF), 'agency sameAs includes homepage BBB URL');
   assert.equal(agency.sameAs.some((url) => /linkedin|facebook|healthmarkets/i.test(url)), false);
-  assert.equal(agency.geo, undefined);
+  assert.equal(agency.geo?.['@type'], 'GeoCoordinates');
+  assert.equal(Number(agency.geo?.latitude), AGENCY_LAT);
+  assert.equal(Number(agency.geo?.longitude), AGENCY_LNG);
 });
 
 test('footer partial and required visible NAP surfaces show 2298 street and By appointment', () => {
@@ -112,7 +116,9 @@ test('every InsuranceAgency #agency and Person #david-huff address uses the conf
     assert.equal(node.telephone, '+1-863-640-3102', `${rel} #agency telephone`);
     assert.ok(Array.isArray(node.sameAs) && node.sameAs.includes(MAPS_CID), `${rel} #agency sameAs Maps cid`);
     assert.ok(node.sameAs.includes(BBB_HREF), `${rel} #agency sameAs BBB`);
-    assert.equal(node.geo, undefined, `${rel} must not invent geo`);
+    assert.equal(node.geo?.['@type'], 'GeoCoordinates', `${rel} #agency geo @type`);
+    assert.equal(Number(node.geo?.latitude), AGENCY_LAT, `${rel} #agency latitude`);
+    assert.equal(Number(node.geo?.longitude), AGENCY_LNG, `${rel} #agency longitude`);
   }
 
   assert.ok(people.length >= 2, `expected homepage and about Person addresses; found ${people.length}`);
