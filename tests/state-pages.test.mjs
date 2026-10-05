@@ -86,7 +86,8 @@ test('state pages and the hub are ACA/under-65 only and do not ship Florida Medi
     assert.doesNotMatch(html, /footer-tpmo/);
     assert.doesNotMatch(html, /Medicare Advantage|Medigap|Part D|1-800-MEDICARE/i);
     assert.doesNotMatch(html, /HealthMarkets|Florida Blue/i);
-    assert.doesNotMatch(html, /33801|2298 Lakeland Hills/);
+    assert.doesNotMatch(html, /33801/);
+    assert.match(html, /2298 Lakeland Hills Blvd/);
     assert.doesNotMatch(html, /href="\/provider-prescription-check\//);
     assert.doesNotMatch(html, /I hold a Alabama/);
     assert.match(html, /licensed health agent/i);
