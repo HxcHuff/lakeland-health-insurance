@@ -228,10 +228,10 @@ test('privacy policy describes homepage and newsletter-page sign-up without nami
 
   assert.match(html, /If you sign up for our newsletter/);
   assert.doesNotMatch(html, /Mailchimp/);
-  assert.match(html, /"dateModified": "2026-10-01"/);
-  assert.match(html, /Last updated <time datetime="2026-10-01">October 1, 2026<\/time>/);
+  assert.match(html, /"dateModified": "2026-10-05"/);
+  assert.match(html, /Last updated <time datetime="2026-10-05">October 5, 2026<\/time>/);
   assert.match(
     sitemap,
-    /<loc>https:\/\/lakelandhealthinsurance\.com\/privacy-policy\.html<\/loc>\s*<lastmod>2026-10-01<\/lastmod>/
+    /<loc>https:\/\/lakelandhealthinsurance\.com\/privacy-policy\.html<\/loc>\s*<lastmod>2026-10-05<\/lastmod>/
   );
 });

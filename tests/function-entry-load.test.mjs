@@ -14,6 +14,7 @@ const ENTRIES = [
   'google-lead-crm-retry.mjs',
   'meta-lead-webhook.mjs',
   'lead.js',
+  'calendly-schedule.js',
   'submission-created.js',
   'lead-bridge-retry.js',
   'deploy-succeeded.js',

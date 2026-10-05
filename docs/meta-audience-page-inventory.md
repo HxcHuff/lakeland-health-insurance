@@ -23,6 +23,8 @@ These routes are eligible only under the isolation boundary: the loader sends a 
 
 - Homepage, about, our-approach, learning, blog index, geographic brand pages, and general educational articles that are not listed above.
 - Newsletter, booking/chat pages, all `/lp/` pages, and any confirmation surface other than `/thanks.html`.
+
+`/book/` remains outside this audience-PageView inventory. Completed Calendly bookings on that page send a separate standard Meta `Schedule` conversion. See [`docs/meta-booked-appointment-conversion.md`](meta-booked-appointment-conversion.md).
 - Estimators, calculators, applications, enrollment, current-client, post-enrollment, policy-service, referral, and other operational workflows.
 - Medicaid status pages; provider, prescription, condition, mental-health, pre-existing-condition, claim, and hospital-bill pages.
 - Income, subsidy, employment, coverage-loss, retirement, student, self-employed, or other life-event/status pages that are not listed above.

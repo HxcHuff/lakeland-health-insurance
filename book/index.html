@@ -24,7 +24,7 @@
     "url": "https://lakelandhealthinsurance.com/book/",
     "name": "Book a time with David",
     "description": "Schedule a coverage-review time with David Huff, a licensed Florida health agent.",
-    "dateModified": "2026-10-01",
+    "dateModified": "2026-10-05",
     "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
     "about": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
     "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
@@ -110,23 +110,6 @@
   </div>
 </footer>
 <script defer src="/js/site-template.js?v=20261001-tpmo-8-65"></script>
-<script>
-  (function () {
-    var frame = document.getElementById('booking-frame');
-    if (frame && window.location.search) {
-      frame.src = '/book/embed' + window.location.search;
-    }
-    window.addEventListener('message', function (event) {
-      if (event.origin !== 'https://calendly.com') return;
-      if (!event.data || event.data.event !== 'calendly.event_scheduled') return;
-      if (typeof window.gtag === 'function') {
-        window.gtag('event', 'schedule_appointment', {
-          event_category: 'conversion',
-          event_label: 'booking_page'
-        });
-      }
-    });
-  })();
-</script>
+<script defer src="/js/calendly-meta-schedule.js?v=20261005a"></script>
 </body>
 </html>
