@@ -122,6 +122,28 @@ function queuedPixelCalls(sandbox) {
   return Array.from(sandbox.fbq?.queue || [], (args) => Array.from(args));
 }
 
+async function withEnv(overrides, fn) {
+  const keys = Object.keys(overrides);
+  const previous = Object.fromEntries(keys.map((key) => [key, process.env[key]]));
+  try {
+    for (const [key, value] of Object.entries(overrides)) {
+      if (value == null) delete process.env[key];
+      else process.env[key] = value;
+    }
+    return await fn();
+  } finally {
+    for (const key of keys) {
+      if (previous[key] == null) delete process.env[key];
+      else process.env[key] = previous[key];
+    }
+  }
+}
+
+const SCHEDULE_BODY = {
+  event_name: 'Schedule',
+  event_id: '11111111-2222-4333-a444-555555555555'
+};
+
 async function invoke(body, {
   method = 'POST',
   headers = {},
@@ -329,4 +351,81 @@ test('CAPI stays quiet for opt-out, non-Schedule names, and invalid ids', async 
   assert.equal(get.response.statusCode, 405);
   assert.equal(_test.approvedEventId('11111111-2222-4333-a444-555555555555'), '11111111-2222-4333-a444-555555555555');
   assert.equal(_test.measurementBlocked({ dnt: '1' }, ''), 'browser-opt-out-signal');
+});
+
+test('production context allows empty CONTEXT when LHI_SITE_ENV is production', () => {
+  assert.equal(_test.isProductionContext({ LHI_SITE_ENV: 'production' }), true);
+  assert.equal(_test.isProductionContext({ LHI_SITE_ENV: 'production', CONTEXT: '' }), true);
+  assert.equal(_test.isProductionContext({ LHI_SITE_ENV: 'production', CONTEXT: '   ' }), true);
+  assert.equal(_test.isProductionContext({ LHI_SITE_ENV: 'production', CONTEXT: 'production' }), true);
+
+  for (const environment of [
+    { LHI_SITE_ENV: 'production', CONTEXT: 'deploy-preview' },
+    { LHI_SITE_ENV: 'production', CONTEXT: 'branch-deploy' },
+    { LHI_SITE_ENV: 'production', CONTEXT: 'dev' },
+    { LHI_SITE_ENV: 'preview', CONTEXT: '' },
+    { LHI_SITE_ENV: 'branch' },
+    { CONTEXT: 'production' },
+    {}
+  ]) {
+    assert.equal(_test.isProductionContext(environment), false, JSON.stringify(environment));
+  }
+});
+
+test('CAPI proceeds when LHI_SITE_ENV is production and CONTEXT is empty', async () => {
+  await withEnv({ CONTEXT: '' }, async () => {
+    const { response, calls } = await invoke(SCHEDULE_BODY);
+    const result = JSON.parse(response.body);
+    assert.equal(response.statusCode, 200);
+    assert.equal(result.ok, true);
+    assert.equal(result.capi, true);
+    assert.equal(result.skipped, undefined);
+    assert.equal(calls.length, 1);
+    assert.match(calls[0].url, new RegExp(`graph\\.facebook\\.com/v25\\.0/${PIXEL_ID}/events`));
+    const body = JSON.parse(calls[0].init.body);
+    assert.equal(body.data[0].event_name, 'Schedule');
+    assert.equal(body.data[0].event_id, SCHEDULE_BODY.event_id);
+    assert.doesNotMatch(JSON.stringify(body), /invitee|"email"|"phone"|@example/i);
+  });
+});
+
+test('CAPI stays quiet for deploy-preview and branch-deploy even when LHI_SITE_ENV is production', async () => {
+  for (const context of ['deploy-preview', 'branch-deploy', 'dev']) {
+    await withEnv({ CONTEXT: context, LHI_SITE_ENV: 'production' }, async () => {
+      const { response, calls } = await invoke(SCHEDULE_BODY);
+      const result = JSON.parse(response.body);
+      assert.equal(response.statusCode, 200, context);
+      assert.equal(result.ok, false, context);
+      assert.equal(result.skipped, true, context);
+      assert.equal(
+        result.error,
+        `CAPI skipped: production context not confirmed (${context}/production)`,
+        context
+      );
+      assert.equal(calls.length, 0, context);
+    });
+  }
+});
+
+test('privacy skips still win when CONTEXT is empty in production', async () => {
+  await withEnv({ CONTEXT: '' }, async () => {
+    const declined = await invoke(SCHEDULE_BODY, {
+      headers: { cookie: 'lhi_meta_audience_consent=denied' }
+    });
+    assert.equal(declined.response.statusCode, 200);
+    assert.equal(JSON.parse(declined.response.body).error, 'CAPI skipped: visitor-declined');
+    assert.equal(declined.calls.length, 0);
+
+    const gpc = await invoke(SCHEDULE_BODY, {
+      headers: { 'sec-gpc': '1' }
+    });
+    assert.equal(JSON.parse(gpc.response.body).error, 'CAPI skipped: global-privacy-control');
+    assert.equal(gpc.calls.length, 0);
+
+    const dnt = await invoke(SCHEDULE_BODY, {
+      headers: { dnt: '1' }
+    });
+    assert.equal(JSON.parse(dnt.response.body).error, 'CAPI skipped: browser-opt-out-signal');
+    assert.equal(dnt.calls.length, 0);
+  });
 });
