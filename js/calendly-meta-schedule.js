@@ -2,7 +2,10 @@
  * Lakeland Health Insurance — booking-page Meta Schedule conversion
  *
  * Listens for Calendly event_scheduled on /book/ (the /calendly-book.html
- * destination) and sends the standard Meta event Schedule. This is advertising
+ * destination) and sends the standard Meta event Schedule plus the neutral
+ * custom event booking_complete. Schedule stays on the wire so it works if
+ * data-source restrictions later lift. booking_complete is the Ads Manager
+ * optimization signal while Schedule is blocked. This is advertising
  * conversion measurement, not the consent-gated website-audience PageView
  * loader in analytics.js. It never reads Calendly invitee details or form
  * fields. Automatic advanced matching stays off. The booking iframe is loaded
@@ -14,6 +17,8 @@
   var PIXEL_ID = '1480756087079484';
   var PIXEL_SCRIPT_SRC = 'https://connect.facebook.net/en_US/fbevents.js';
   var CAPI_PATH = '/api/calendly-schedule';
+  var BOOKING_CUSTOM_EVENT = 'booking_complete';
+  var BOOKING_CUSTOM_SUFFIX = 'bcomp';
   var BOOKING_EMBED_BASE = 'https://calendly.com/dhuff-healthmarkets';
   var CONSENT_KEY = 'lhi_meta_audience_consent';
   var LEGACY_OPT_OUT_KEY = 'lhi_meta_audience_opt_out';
@@ -123,6 +128,23 @@
     return null;
   }
 
+  // Distinct event_id for booking_complete, derived from the Schedule id so
+  // Pixel and CAPI share one booking prefix without colliding on dedup.
+  function derivedCustomEventId(baseId, suffix) {
+    var text = String(baseId || '').trim();
+    var tag = String(suffix || '').toLowerCase();
+    if (!/^[a-z0-9]{4,16}$/.test(tag)) return null;
+    var compact;
+    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(text)) {
+      compact = text.replace(/-/g, '').slice(0, 16).toLowerCase();
+    } else {
+      var match = text.match(/^lhi_book_([a-z0-9]{6,24})_[a-z0-9]{4,16}$/i);
+      if (!match) return null;
+      compact = match[1].toLowerCase();
+    }
+    return 'lhi_book_' + compact + '_' + tag;
+  }
+
   function bookingEmbedUrl(hostname, search) {
     var params = [
       'embed_domain=' + encodeURIComponent(String(hostname || 'lakelandhealthinsurance.com')),
@@ -205,14 +227,15 @@
     return installFbq() ? 'pixel-initialized' : 'pixel-unavailable';
   }
 
-  function pixelTransportUrl(eventId) {
+  function pixelTransportUrl(eventId, eventName) {
     return 'https://www.facebook.com/tr?id=' + encodeURIComponent(PIXEL_ID)
-      + '&ev=Schedule&eid=' + encodeURIComponent(eventId)
+      + '&ev=' + encodeURIComponent(eventName || 'Schedule')
+      + '&eid=' + encodeURIComponent(eventId)
       + '&noscript=1';
   }
 
-  function firePixelTransport(eventId) {
-    var url = pixelTransportUrl(eventId);
+  function firePixelTransport(eventId, eventName) {
+    var url = pixelTransportUrl(eventId, eventName);
     try {
       if (typeof w.Image === 'function') {
         var probe = new w.Image(1, 1);
@@ -247,7 +270,7 @@
     }
   }
 
-  function firePixel(eventId) {
+  function firePixel(eventId, customEventId) {
     // Use the documented track + eventID form. Live 2026-10-05 capture:
     // trackSingle(PIXEL, 'Schedule', {}, {eventID}) incremented fbq eventCount
     // but never issued facebook.com/tr?ev=Schedule. GTM's track PageView did.
@@ -259,23 +282,31 @@
         w.fbq('track', 'Schedule', {}, { eventID: eventId });
         tracked = true;
       } catch (_) { /* keep going; the /tr transport still has to leave */ }
+      if (customEventId) {
+        try {
+          w.fbq('trackCustom', BOOKING_CUSTOM_EVENT, {}, { eventID: customEventId });
+        } catch (_) { /* image /tr still has to leave for the custom event */ }
+      }
     }
-    firePixelTransport(eventId);
+    firePixelTransport(eventId, 'Schedule');
+    if (customEventId) firePixelTransport(customEventId, BOOKING_CUSTOM_EVENT);
     return tracked;
   }
 
-  function fireCapi(eventId) {
+  function fireCapi(eventId, customEventId) {
     if (typeof w.fetch !== 'function') return false;
     try {
+      var body = {
+        event_name: 'Schedule',
+        event_id: eventId
+      };
+      if (customEventId) body.custom_event_id = customEventId;
       w.fetch(CAPI_PATH, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
         keepalive: true,
-        body: JSON.stringify({
-          event_name: 'Schedule',
-          event_id: eventId
-        })
+        body: JSON.stringify(body)
       }).catch(function () { /* never break the booking page */ });
       return true;
     } catch (_) {
@@ -292,25 +323,36 @@
     fired = true;
 
     var eventId = makeEventId();
+    var customEventId = derivedCustomEventId(eventId, BOOKING_CUSTOM_SUFFIX);
     fireGtag(eventId);
 
     if (!isProductionHost(w.location && w.location.hostname)) {
-      setStatus('recorded', 'non-production-host', { event_id: eventId, meta: false });
+      setStatus('recorded', 'non-production-host', {
+        event_id: eventId,
+        custom_event_id: customEventId,
+        meta: false
+      });
       return true;
     }
 
     var blocked = privacyBlocked();
     if (blocked) {
-      setStatus('recorded', blocked, { event_id: eventId, meta: false });
+      setStatus('recorded', blocked, {
+        event_id: eventId,
+        custom_event_id: customEventId,
+        meta: false
+      });
       return true;
     }
 
     ensurePixel();
-    var pixel = firePixel(eventId);
-    var capi = fireCapi(eventId);
+    var pixel = firePixel(eventId, customEventId);
+    var capi = fireCapi(eventId, customEventId);
     setStatus('sent', 'schedule-conversion', {
       event_id: eventId,
       event_name: 'Schedule',
+      custom_event_id: customEventId,
+      custom_event_name: BOOKING_CUSTOM_EVENT,
       pixel: pixel,
       capi: capi
     });
@@ -346,9 +388,11 @@
   w.__LHI_CALENDLY_META__ = {
     PIXEL_ID: PIXEL_ID,
     CAPI_PATH: CAPI_PATH,
+    BOOKING_CUSTOM_EVENT: BOOKING_CUSTOM_EVENT,
     BOOKING_EMBED_BASE: BOOKING_EMBED_BASE,
     approvedEventId: approvedEventId,
     bookingEmbedUrl: bookingEmbedUrl,
+    derivedCustomEventId: derivedCustomEventId,
     handleScheduled: handleScheduled,
     isBookingPath: isBookingPath,
     isCalendlyOrigin: isCalendlyOrigin,

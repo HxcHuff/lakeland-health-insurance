@@ -172,11 +172,11 @@ Allowlisted website form submissions post to `{LEAD_BRIDGE_URL}/website/lead`. T
 | `APPS_SCRIPT_LEAD_WEBHOOK_URL_V1` | Server only | Unused in this repo | Leftover Apps Script `/exec` URL. The Google-hosted webhook does not read it. Do not delete in Netlify until David says so. |
 | `APPS_SCRIPT_LEAD_WEBHOOK_HMAC_SECRET_V1` | Server only | Unused in this repo | Leftover Apps Script HMAC secret. Same as above. |
 
-### Meta booking conversion (`Schedule`)
+### Meta booking conversion (`Schedule` + `booking_complete`)
 
-Completed Calendly bookings on `/book/` (the `/calendly-book.html` destination) send the standard Meta event **`Schedule`** from the browser Pixel and, in production, the Conversions API. Dataset/Pixel ID is `1480756087079484`. This is not the consent-gated website-audience `PageView` loader and is not the form `Lead` event.
+Completed Calendly bookings on `/book/` (the `/calendly-book.html` destination) send the standard Meta event **`Schedule`** and the neutral custom event **`booking_complete`** from the browser Pixel and, in production, the Conversions API. Dataset/Pixel ID is `1480756087079484`. `booking_complete` is the Ads Manager optimization signal while data-source restrictions hide `Schedule` in Events Manager. This is not the consent-gated website-audience `PageView` loader and is not the form `Lead` / `form_submit_complete` path.
 
-Ads Manager setup for the OEP 2027 Book now ad set is in [`docs/meta-booked-appointment-conversion.md`](docs/meta-booked-appointment-conversion.md).
+Ads Manager setup for the OEP 2027 Book now ad set is in [`docs/meta-booked-appointment-conversion.md`](docs/meta-booked-appointment-conversion.md). The custom-event inventory is in [`docs/meta-custom-events.md`](docs/meta-custom-events.md).
 
 | Variable | Surface | Required | Notes |
 |---|---|---:|---|

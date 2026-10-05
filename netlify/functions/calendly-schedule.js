@@ -1,9 +1,12 @@
 // Netlify Function: /api/calendly-schedule
-// Browser-confirmed Calendly booking → Meta CAPI Schedule.
-// Accepts only event_id + event_name. Never reads Calendly invitee details.
+// Browser-confirmed Calendly booking → Meta CAPI Schedule + booking_complete.
+// Accepts event_id, event_name, and optional custom_event_id.
+// Never reads Calendly invitee details.
 
 const META_DATASET_ID = '1480756087079484';
 const META_GRAPH_VERSION = 'v25.0';
+const BOOKING_CUSTOM_EVENT = 'booking_complete';
+const BOOKING_CUSTOM_SUFFIX = 'bcomp';
 const CONFIGURED_META_DATASET_ID = String(process.env.META_PIXEL_ID || '').trim();
 const ACCESS_TOKEN = process.env.META_CAPI_ACCESS_TOKEN;
 const TEST_EVENT_CODE = process.env.META_CAPI_TEST_EVENT_CODE;
@@ -73,6 +76,35 @@ function approvedEventId(value) {
   }
   if (/^lhi_book_[a-z0-9]{6,24}_[a-z0-9]{4,16}$/i.test(text)) return text;
   return null;
+}
+
+function derivedCustomEventId(baseId, suffix) {
+  const text = String(baseId || '').trim();
+  const tag = String(suffix || '').toLowerCase();
+  if (!/^[a-z0-9]{4,16}$/.test(tag)) return null;
+  let compact;
+  if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(text)) {
+    compact = text.replace(/-/g, '').slice(0, 16).toLowerCase();
+  } else {
+    const match = text.match(/^lhi_book_([a-z0-9]{6,24})_[a-z0-9]{4,16}$/i);
+    if (!match) return null;
+    compact = match[1].toLowerCase();
+  }
+  return `lhi_book_${compact}_${tag}`;
+}
+
+function resolveCustomEventId(payload, scheduleEventId) {
+  if (payload.custom_event_id == null || String(payload.custom_event_id).trim() === '') {
+    return { ok: true, eventId: derivedCustomEventId(scheduleEventId, BOOKING_CUSTOM_SUFFIX) };
+  }
+  const customEventId = approvedEventId(payload.custom_event_id);
+  if (!customEventId) {
+    return { ok: false, statusCode: 400, error: 'Invalid custom event id' };
+  }
+  if (customEventId === scheduleEventId) {
+    return { ok: false, statusCode: 400, error: 'Custom event id must be distinct' };
+  }
+  return { ok: true, eventId: customEventId };
 }
 
 function readCookieState(cookieHeader, name, maxValueLength = 128) {
@@ -189,10 +221,18 @@ exports.handler = async (event) => {
     return json(400, cors.headers, { ok: false, error: 'Invalid event id' });
   }
 
-  const extraKeys = Object.keys(payload).filter((key) => key !== 'event_name' && key !== 'event_id');
+  const extraKeys = Object.keys(payload).filter(
+    (key) => key !== 'event_name' && key !== 'event_id' && key !== 'custom_event_id'
+  );
   if (extraKeys.length) {
     return json(400, cors.headers, { ok: false, error: 'Unexpected fields' });
   }
+
+  const customEvent = resolveCustomEventId(payload, eventId);
+  if (!customEvent.ok) {
+    return json(customEvent.statusCode, cors.headers, { ok: false, error: customEvent.error });
+  }
+  const customEventId = customEvent.eventId;
 
   const netlifyContext = runtimeLabel(process.env.CONTEXT);
   const siteEnv = runtimeLabel(process.env.LHI_SITE_ENV);
@@ -201,6 +241,7 @@ exports.handler = async (event) => {
       ok: false,
       skipped: true,
       event_id: eventId,
+      custom_event_id: customEventId,
       error: `CAPI skipped: production context not confirmed (${netlifyContext}/${siteEnv})`
     });
   }
@@ -212,6 +253,7 @@ exports.handler = async (event) => {
       ok: false,
       skipped: true,
       event_id: eventId,
+      custom_event_id: customEventId,
       error: `CAPI skipped: ${blocked}`
     });
   }
@@ -222,6 +264,7 @@ exports.handler = async (event) => {
       ok: false,
       skipped: true,
       event_id: eventId,
+      custom_event_id: customEventId,
       error: 'Meta dataset configuration unavailable or mismatched'
     });
   }
@@ -233,14 +276,17 @@ exports.handler = async (event) => {
   if (fbc) userData.fbc = fbc;
 
   const eventTime = Math.floor(Date.now() / 1000);
+  const sharedEvent = {
+    event_time: eventTime,
+    action_source: 'website',
+    event_source_url: BOOKING_SOURCE_URL,
+    user_data: userData
+  };
   const body = {
     data: [{
+      ...sharedEvent,
       event_name: 'Schedule',
-      event_time: eventTime,
       event_id: eventId,
-      action_source: 'website',
-      event_source_url: BOOKING_SOURCE_URL,
-      user_data: userData,
       custom_data: {
         content_name: 'calendly_booking_completed',
         currency: 'USD',
@@ -248,6 +294,13 @@ exports.handler = async (event) => {
       }
     }]
   };
+  if (customEventId) {
+    body.data.push({
+      ...sharedEvent,
+      event_name: BOOKING_CUSTOM_EVENT,
+      event_id: customEventId
+    });
+  }
   if (TEST_EVENT_CODE) body.test_event_code = TEST_EVENT_CODE;
 
   let capiOk = false;
@@ -268,6 +321,8 @@ exports.handler = async (event) => {
   console.info(JSON.stringify({
     type: 'calendly_schedule_capi_v1',
     event_id: eventId,
+    custom_event_id: customEventId,
+    custom_event_name: BOOKING_CUSTOM_EVENT,
     day: new Date().toISOString().slice(0, 10),
     context: netlifyContext,
     outcome: capiOk ? 'accepted' : 'failed'
@@ -276,6 +331,8 @@ exports.handler = async (event) => {
   return json(capiOk ? 200 : 502, cors.headers, {
     ok: capiOk,
     event_id: eventId,
+    custom_event_id: customEventId,
+    custom_event_name: BOOKING_CUSTOM_EVENT,
     capi: capiOk,
     ...(capiError ? { capi_error: capiError } : {})
   });
@@ -283,10 +340,12 @@ exports.handler = async (event) => {
 
 exports._test = {
   ALLOWED_ORIGINS,
+  BOOKING_CUSTOM_EVENT,
   BOOKING_SOURCE_URL,
   META_DATASET_ID,
   approvedEventId,
   corsPolicy,
+  derivedCustomEventId,
   isProductionContext,
   measurementBlocked,
   metaBrowserIdentifier
