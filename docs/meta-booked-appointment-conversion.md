@@ -44,8 +44,9 @@ After a production deploy of the calendar-origin embed:
 3. Select dataset **Lakeland Health insurance** (`1480756087079484`).
 4. Complete one booking on `https://lakelandhealthinsurance.com/book/`.
 5. Confirm **one** **`Schedule`** event from `/book/` with matching Pixel and CAPI rows (same `event_id`). The booking page should not log `Duplicate Pixel ID 1480756087079484`.
-6. Do not treat a Calendly click, a page view, or `Lead` as the booking result.
-7. If Events Manager still shows two `Schedule` rows for one booking, check Calendly → Integrations → Facebook Pixel and remove dataset `1480756087079484` there. The site Pixel + CAPI path is the source of truth.
+6. In Chrome DevTools → Network, filter `tr`. After the Calendly confirmation, there must be a request to `facebook.com/tr` with `ev=Schedule` and `eid=` equal to `__LHI_CALENDLY_META_STATUS__.event_id` and to the CAPI `POST /api/calendly-schedule` body `event_id`. PageView `/tr` hits alone are not enough. The site fires `fbq('track', 'Schedule', {}, {eventID})` plus Meta’s official image `/tr` with the same `eid`, so a GET still leaves if GTM already owns `fbq`.
+7. Do not treat a Calendly click, a page view, or `Lead` as the booking result.
+8. If Events Manager still shows two `Schedule` rows for one booking, check Calendly → Integrations → Facebook Pixel and remove dataset `1480756087079484` there. The site Pixel + CAPI path is the source of truth. The browser `track` call and the image `/tr` share that same `event_id` with CAPI, so Meta should collapse them.
 
 Then switch OEP 2027 Book now ad set `120252243350740324` to Maximize conversions → event **`Schedule`** using the Ads Manager steps below.
 

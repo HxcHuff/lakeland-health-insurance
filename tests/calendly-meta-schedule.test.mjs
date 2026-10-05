@@ -55,9 +55,12 @@ function loadBookingScript({
   consent = null,
   doNotTrack = '0',
   globalPrivacyControl = false,
-  preexistingFbq = false
+  preexistingFbq = false,
+  preexistingPixelId = null
 } = {}) {
   const scripts = [];
+  const imageSrcs = [];
+  const createdImages = [];
   const frame = {
     id: 'booking-frame',
     src: ''
@@ -74,7 +77,9 @@ function loadBookingScript({
     cookie: consent === 'denied' ? 'lhi_meta_audience_consent=denied' : '',
     head,
     createElement(tagName) {
-      return { tagName: String(tagName).toUpperCase(), async: false, src: '' };
+      const node = { tagName: String(tagName).toUpperCase(), async: false, src: '' };
+      if (node.tagName === 'IMG') createdImages.push(node);
+      return node;
     },
     getElementById(id) {
       return id === 'booking-frame' ? frame : null;
@@ -83,8 +88,23 @@ function loadBookingScript({
   const fetchCalls = [];
   const gtagCalls = [];
   const listeners = [];
+  function ImageMock(width, height) {
+    this.width = width || 0;
+    this.height = height || 0;
+    this.alt = '';
+    this._src = '';
+    Object.defineProperty(this, 'src', {
+      configurable: true,
+      get() { return this._src; },
+      set(value) {
+        this._src = String(value || '');
+        imageSrcs.push(this._src);
+      }
+    });
+  }
   const sandbox = {
     URL,
+    Image: ImageMock,
     document,
     localStorage: makeStorage(consent ? { lhi_meta_audience_consent: consent } : {}),
     location: {
@@ -110,12 +130,15 @@ function loadBookingScript({
   if (preexistingFbq) {
     const queue = function () { queue.queue.push(Array.from(arguments)); };
     queue.queue = [];
+    if (preexistingPixelId) {
+      queue.getState = () => ({ pixels: [{ id: preexistingPixelId }] });
+    }
     sandbox.fbq = queue;
     sandbox._fbq = queue;
   }
   vm.createContext(sandbox);
   vm.runInContext(SCRIPT_SRC, sandbox, { filename: 'calendly-meta-schedule.js' });
-  return { sandbox, scripts, frame, fetchCalls, gtagCalls, listeners };
+  return { sandbox, scripts, frame, fetchCalls, gtagCalls, listeners, imageSrcs, createdImages };
 }
 
 function queuedPixelCalls(sandbox) {
@@ -181,7 +204,7 @@ async function invoke(body, {
 test('booking page keeps the Schedule converter without hardcoding the calendar account', () => {
   assert.match(BOOK_HTML, /id="booking-frame"/);
   assert.doesNotMatch(BOOK_HTML, /src="\/book\/embed"/);
-  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261005b/);
+  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261005c/);
   assert.doesNotMatch(BOOK_HTML, /healthmarkets|calendly\.com\/dhuff|\bfbq\s*\(/i);
   assert.match(REDIRECTS, /\/book\/embed https:\/\/calendly\.com\/dhuff-healthmarkets\?embed_domain=lakelandhealthinsurance\.com&embed_type=Inline/);
   assert.match(REDIRECTS, /^\/book\/embed .* 302$/m);
@@ -208,11 +231,25 @@ test('converter points the iframe at Calendly, initializes the Pixel once, and i
   assert.equal(booking.sandbox.__LHI_CALENDLY_META_STATUS__.state, 'ready');
   assert.equal(booking.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'pixel-initialized');
 
-  const reused = loadBookingScript({ preexistingFbq: true, search: '?utm_medium=paid_social' });
+  const reused = loadBookingScript({
+    preexistingFbq: true,
+    preexistingPixelId: PIXEL_ID,
+    search: '?utm_medium=paid_social'
+  });
   assert.equal(reused.scripts.length, 0);
   assert.equal(queuedPixelCalls(reused.sandbox).length, 0);
   assert.equal(reused.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'pixel-reused');
   assert.match(reused.frame.src, /utm_medium=paid_social/);
+
+  const adopted = loadBookingScript({ preexistingFbq: true, search: '?utm_campaign=book' });
+  assert.equal(adopted.scripts.length, 0);
+  assert.deepEqual(queuedPixelCalls(adopted.sandbox), [
+    ['consent', 'grant'],
+    ['set', 'autoConfig', false, PIXEL_ID],
+    ['init', PIXEL_ID]
+  ]);
+  assert.equal(adopted.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'pixel-adopted');
+  assert.match(adopted.frame.src, /utm_campaign=book/);
 
   const other = loadBookingScript({ pathname: '/get-help/' });
   assert.equal(other.scripts.length, 0);
@@ -221,7 +258,7 @@ test('converter points the iframe at Calendly, initializes the Pixel once, and i
 });
 
 test('event_scheduled fires Schedule once without Calendly payload fields', async () => {
-  const { sandbox, listeners, gtagCalls, fetchCalls } = loadBookingScript();
+  const { sandbox, listeners, gtagCalls, fetchCalls, imageSrcs } = loadBookingScript();
   const handler = listeners.find((entry) => entry.type === 'message').handler;
   handler({
     origin: 'https://calendly.com',
@@ -235,12 +272,11 @@ test('event_scheduled fires Schedule once without Calendly payload fields', asyn
   });
 
   const pixelCalls = queuedPixelCalls(sandbox);
-  const scheduleCall = pixelCalls.find((call) => call[2] === 'Schedule');
-  assert.equal(scheduleCall[0], 'trackSingle');
-  assert.equal(scheduleCall[1], PIXEL_ID);
-  assert.equal(scheduleCall[2], 'Schedule');
-  assert.deepEqual({ ...scheduleCall[3] }, {});
-  assert.equal(scheduleCall[4].eventID, '11111111-2222-4333-a444-555555555555');
+  const scheduleCall = pixelCalls.find((call) => call[1] === 'Schedule');
+  assert.equal(scheduleCall[0], 'track');
+  assert.equal(scheduleCall[1], 'Schedule');
+  assert.deepEqual({ ...scheduleCall[2] }, {});
+  assert.equal(scheduleCall[3].eventID, '11111111-2222-4333-a444-555555555555');
   assert.equal(gtagCalls[0][1], 'schedule_appointment');
   assert.equal(fetchCalls.length, 1);
   assert.equal(fetchCalls[0].url, '/api/calendly-schedule');
@@ -248,16 +284,53 @@ test('event_scheduled fires Schedule once without Calendly payload fields', asyn
     event_name: 'Schedule',
     event_id: '11111111-2222-4333-a444-555555555555'
   });
+  assert.equal(imageSrcs.length, 1);
+  assert.equal(
+    imageSrcs[0],
+    sandbox.__LHI_CALENDLY_META__.pixelTransportUrl('11111111-2222-4333-a444-555555555555')
+  );
+  assert.match(imageSrcs[0], /https:\/\/www\.facebook\.com\/tr\?/);
+  assert.match(imageSrcs[0], /[?&]ev=Schedule(?:&|$)/);
+  assert.match(imageSrcs[0], /[?&]eid=11111111-2222-4333-a444-555555555555(?:&|$)/);
+  assert.match(imageSrcs[0], new RegExp(`[?&]id=${PIXEL_ID}(?:&|$)`));
   assert.doesNotMatch(JSON.stringify(fetchCalls), /person@example\.com|scheduled_events|invitees/i);
   assert.doesNotMatch(JSON.stringify(pixelCalls), /person@example\.com|scheduled_events|invitees/i);
+  assert.doesNotMatch(imageSrcs[0], /person@example\.com|scheduled_events|invitees/i);
   assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.event_name, 'Schedule');
+  assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.pixel, true);
+  assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.capi, true);
 
   handler({
     origin: 'https://calendly.com',
     data: { event: 'calendly.event_scheduled' }
   });
   assert.equal(fetchCalls.length, 1);
+  assert.equal(imageSrcs.length, 1);
   assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'already-fired');
+});
+
+test('GTM-owned fbq still sends track + /tr Schedule with the CAPI event_id', () => {
+  const { sandbox, listeners, fetchCalls, imageSrcs, scripts } = loadBookingScript({
+    preexistingFbq: true,
+    preexistingPixelId: PIXEL_ID
+  });
+  assert.equal(scripts.length, 0);
+  assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'pixel-reused');
+
+  const handler = listeners.find((entry) => entry.type === 'message').handler;
+  handler({ origin: 'https://calendly.com', data: { event: 'calendly.event_scheduled' } });
+
+  const pixelCalls = queuedPixelCalls(sandbox);
+  assert.equal(pixelCalls.some((call) => call[0] === 'init'), false);
+  const scheduleCall = pixelCalls.find((call) => call[0] === 'track' && call[1] === 'Schedule');
+  assert.equal(scheduleCall[3].eventID, '11111111-2222-4333-a444-555555555555');
+  assert.equal(fetchCalls.length, 1);
+  assert.equal(JSON.parse(fetchCalls[0].init.body).event_id, scheduleCall[3].eventID);
+  assert.equal(imageSrcs.length, 1);
+  assert.match(imageSrcs[0], /[?&]ev=Schedule(?:&|$)/);
+  assert.match(imageSrcs[0], /[?&]eid=11111111-2222-4333-a444-555555555555(?:&|$)/);
+  assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.pixel, true);
+  assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.capi, true);
 });
 
 test('same-origin embed messages count and declined browsers do not send Meta', () => {
@@ -283,8 +356,31 @@ test('same-origin embed messages count and declined browsers do not send Meta', 
   handler({ origin: 'https://calendly.com', data: { event: 'calendly.event_scheduled' } });
   assert.equal(declined.sandbox.fbq, undefined);
   assert.equal(declined.fetchCalls.length, 0);
+  assert.equal(declined.imageSrcs.length, 0);
   assert.equal(declined.gtagCalls[0][1], 'schedule_appointment');
   assert.equal(declined.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'visitor-declined');
+
+  const gpc = loadBookingScript({ globalPrivacyControl: true });
+  const gpcHandler = gpc.listeners.find((entry) => entry.type === 'message').handler;
+  gpcHandler({ origin: 'https://calendly.com', data: { event: 'calendly.event_scheduled' } });
+  assert.equal(gpc.sandbox.fbq, undefined);
+  assert.equal(gpc.fetchCalls.length, 0);
+  assert.equal(gpc.imageSrcs.length, 0);
+  assert.equal(gpc.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'global-privacy-control');
+
+  const dnt = loadBookingScript({ doNotTrack: '1' });
+  const dntHandler = dnt.listeners.find((entry) => entry.type === 'message').handler;
+  dntHandler({ origin: 'https://calendly.com', data: { event: 'calendly.event_scheduled' } });
+  assert.equal(dnt.fetchCalls.length, 0);
+  assert.equal(dnt.imageSrcs.length, 0);
+  assert.equal(dnt.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'browser-opt-out-signal');
+
+  const local = loadBookingScript({ hostname: 'localhost' });
+  const localHandler = local.listeners.find((entry) => entry.type === 'message').handler;
+  localHandler({ origin: 'https://calendly.com', data: { event: 'calendly.event_scheduled' } });
+  assert.equal(local.fetchCalls.length, 0);
+  assert.equal(local.imageSrcs.length, 0);
+  assert.equal(local.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'non-production-host');
 });
 
 test('CAPI accepts a production Schedule and rejects invitee fields', async () => {
