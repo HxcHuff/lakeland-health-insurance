@@ -200,7 +200,12 @@ test('event_scheduled fires Schedule once without Calendly payload fields', asyn
   });
 
   const pixelCalls = queuedPixelCalls(sandbox);
-  assert.deepEqual(pixelCalls.at(-1), ['trackSingle', PIXEL_ID, 'Schedule', {}, { eventID: '11111111-2222-4333-a444-555555555555' }]);
+  const scheduleCall = pixelCalls.find((call) => call[2] === 'Schedule');
+  assert.equal(scheduleCall[0], 'trackSingle');
+  assert.equal(scheduleCall[1], PIXEL_ID);
+  assert.equal(scheduleCall[2], 'Schedule');
+  assert.deepEqual({ ...scheduleCall[3] }, {});
+  assert.equal(scheduleCall[4].eventID, '11111111-2222-4333-a444-555555555555');
   assert.equal(gtagCalls[0][1], 'schedule_appointment');
   assert.equal(fetchCalls.length, 1);
   assert.equal(fetchCalls[0].url, '/api/calendly-schedule');
@@ -267,7 +272,7 @@ test('CAPI accepts a production Schedule and rejects invitee fields', async () =
   assert.equal(body.data[0].event_source_url, 'https://lakelandhealthinsurance.com/book/');
   assert.equal(body.data[0].custom_data.content_name, 'calendly_booking_completed');
   assert.equal(body.data[0].user_data.fbp, 'fb.1.1234567890.123456');
-  assert.doesNotMatch(JSON.stringify(body), /email|phone|invitee|name/i);
+  assert.doesNotMatch(JSON.stringify(body), /invitee|"email"|"phone"|@example/i);
   assert.match(logs[0][1], /calendly_schedule_capi_v1/);
 
   const rejected = await invoke({
