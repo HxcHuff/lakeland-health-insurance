@@ -6,8 +6,27 @@ import test from 'node:test';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const CURRENT_SEASON_DISCLAIMER = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
+const MEDICARE_SHIP_DISCLAIMER = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
 const INVENTORY_NOTE = 'Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
 const SUBJECT_TO_PLAN = 'Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
+const MEDICARE_SHIP_SURFACES = new Set([
+  'blog/aep-2026-polk-county-checklist.html',
+  'blog/florida-insurance-guide.html',
+  'blog/keep-doctor-switch-medicare-plans-florida.html',
+  'blog/medicare-advantage-lakeland-2026.html',
+  'blog/medicare-advantage-vs-medicare-supplement.html',
+  'blog/medicare-for-dummies.html',
+  'blog/medicare-supplement-cost-lakeland.html',
+  'blog/medicare-vs-aca-central-florida-age-65.html',
+  'blog/turning-65-medicare-checklist-florida.html',
+  'blog/when-can-i-switch-medicare-plans-florida.html',
+  'local-health-insurance-answers/medicare-plan-help-lakeland/index.html',
+  'lp/medicare/index.html',
+  'medicare-broker-lakeland-fl/index.html',
+  'medicare/east-polk/index.html',
+  'medicare/index.html',
+  'moving-florida-medicare/index.html'
+]);
 
 const MEDICARE_MARKETING_SURFACES = [
   'about/index.html',
@@ -78,7 +97,10 @@ function primaryHtmlFiles(directory = ROOT) {
 test('current-season TPMO wording is exact, contextualized, subject to plan, and rendered inside main', () => {
   for (const relativePath of MEDICARE_MARKETING_SURFACES) {
     const html = source(relativePath);
-    const disclaimerAt = html.indexOf(CURRENT_SEASON_DISCLAIMER);
+    const expectedDisclaimer = MEDICARE_SHIP_SURFACES.has(relativePath)
+      ? MEDICARE_SHIP_DISCLAIMER
+      : CURRENT_SEASON_DISCLAIMER;
+    const disclaimerAt = html.indexOf(expectedDisclaimer);
     const mainEndsAt = html.lastIndexOf('</main>');
 
     assert.ok(disclaimerAt >= 0, `${relativePath} includes the exact current-season disclaimer`);
@@ -99,10 +121,12 @@ test('TPMO is in the sitewide footer, beside Medicare CTAs, and on the Get Help 
   const coverageCenter = source('coverage-center/index.html');
 
   assert.match(footer, /class="footer-tpmo"/);
-  assert.ok(footer.includes(CURRENT_SEASON_DISCLAIMER), 'sitewide footer uses the exact TPMO text');
+  assert.ok(footer.includes(CURRENT_SEASON_DISCLAIMER), 'sitewide footer keeps the non-SHIP TPMO text for mixed pages');
+  assert.ok(footer.includes(MEDICARE_SHIP_DISCLAIMER), 'Medicare footer path uses the approved SHIP TPMO text');
   assert.doesNotMatch(footer, /createElement\('a'\);\s*messenger/);
   assert.match(getHelp, /class="form-tpmo tpmo-cta-disclaimer"/);
-  assert.ok(getHelp.includes(CURRENT_SEASON_DISCLAIMER), 'Get Help shows the exact TPMO text beside the form');
+  assert.ok(getHelp.includes(MEDICARE_SHIP_DISCLAIMER), 'Get Help shows the SHIP TPMO text beside the Medicare form');
+  assert.ok(getHelp.includes(CURRENT_SEASON_DISCLAIMER), 'Get Help keeps the non-SHIP TPMO text in the mixed footer');
   assert.match(getHelp, /Start my request/);
   assert.match(getHelp, /Call \(863\) 640-3102/);
   assert.match(getHelp, /\(863\) 640-3102/);
