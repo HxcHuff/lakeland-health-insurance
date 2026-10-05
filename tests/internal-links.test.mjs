@@ -60,8 +60,9 @@ test('required contextual links and blog-index listings are present', () => {
 
 test('booking page stays on-site and does not expose the third-party account string', () => {
   const html = readFileSync(join(ROOT, 'book/index.html'), 'utf8');
-  assert.match(html, /src="\/book\/embed"/);
-  assert.match(html, /\/js\/calendly-meta-schedule\.js\?v=20261005a/);
+  assert.match(html, /id="booking-frame"/);
+  assert.doesNotMatch(html, /src="\/book\/embed"/);
+  assert.match(html, /\/js\/calendly-meta-schedule\.js\?v=20261005b/);
   assert.match(html, /Book a time with David/);
   assert.doesNotMatch(html, /healthmarkets/i);
   assert.doesNotMatch(html, /calendly\.com\/dhuff/i);

@@ -5,7 +5,8 @@
  * destination) and sends the standard Meta event Schedule. This is advertising
  * conversion measurement, not the consent-gated website-audience PageView
  * loader in analytics.js. It never reads Calendly invitee details or form
- * fields. Automatic advanced matching stays off.
+ * fields. Automatic advanced matching stays off. The booking iframe is loaded
+ * from calendly.com so Calendly's booking API stays on their origin.
  */
 (function (w, d) {
   'use strict';
@@ -13,6 +14,7 @@
   var PIXEL_ID = '1480756087079484';
   var PIXEL_SCRIPT_SRC = 'https://connect.facebook.net/en_US/fbevents.js';
   var CAPI_PATH = '/api/calendly-schedule';
+  var BOOKING_EMBED_BASE = 'https://calendly.com/dhuff-healthmarkets';
   var CONSENT_KEY = 'lhi_meta_audience_consent';
   var LEGACY_OPT_OUT_KEY = 'lhi_meta_audience_opt_out';
   var PROD_HOSTS = {
@@ -121,15 +123,36 @@
     return null;
   }
 
+  function bookingEmbedUrl(hostname, search) {
+    var params = [
+      'embed_domain=' + encodeURIComponent(String(hostname || 'lakelandhealthinsurance.com')),
+      'embed_type=Inline',
+      'hide_event_type_details=1',
+      'hide_gdpr_banner=1',
+      'hide_landing_page_details=1'
+    ];
+    var extra = String(search || '');
+    if (extra.charAt(0) === '?') extra = extra.slice(1);
+    if (extra) params.push(extra);
+    return BOOKING_EMBED_BASE + '?' + params.join('&');
+  }
+
   function applyBookingFrame() {
     var frame = d.getElementById('booking-frame');
-    if (!frame || !w.location || !w.location.search) return false;
-    frame.src = '/book/embed' + w.location.search;
+    if (!frame || !w.location) return false;
+    // Point the iframe at Calendly's origin. A same-origin 200 rewrite of
+    // Calendly HTML makes their booking BFF call /api/booking/* on this host
+    // and the calendar stays blank.
+    frame.src = bookingEmbedUrl(w.location.hostname, w.location.search);
     return true;
   }
 
+  function pixelAlreadyPresent() {
+    return pixelQueued || typeof w.fbq === 'function';
+  }
+
   function installFbq() {
-    if (typeof w.fbq === 'function') return false;
+    if (pixelAlreadyPresent()) return false;
     var queue = function () {
       if (queue.callMethod) queue.callMethod.apply(queue, arguments);
       else queue.queue.push(arguments);
@@ -155,7 +178,7 @@
   }
 
   function ensurePixel() {
-    if (pixelQueued || typeof w.fbq === 'function') return true;
+    if (pixelAlreadyPresent()) return true;
     return installFbq();
   }
 
@@ -265,7 +288,9 @@
   w.__LHI_CALENDLY_META__ = {
     PIXEL_ID: PIXEL_ID,
     CAPI_PATH: CAPI_PATH,
+    BOOKING_EMBED_BASE: BOOKING_EMBED_BASE,
     approvedEventId: approvedEventId,
+    bookingEmbedUrl: bookingEmbedUrl,
     handleScheduled: handleScheduled,
     isBookingPath: isBookingPath,
     isCalendlyOrigin: isCalendlyOrigin,

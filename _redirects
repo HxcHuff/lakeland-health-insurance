@@ -7,7 +7,7 @@
 # Booking page
 /book /book/index.html 200
 /book/ /book/index.html 200
-/book/embed https://calendly.com/dhuff-healthmarkets?embed_domain=lakelandhealthinsurance.com&embed_type=Inline&hide_event_type_details=1&hide_gdpr_banner=1&hide_landing_page_details=1 200
+/book/embed https://calendly.com/dhuff-healthmarkets?embed_domain=lakelandhealthinsurance.com&embed_type=Inline&hide_event_type_details=1&hide_gdpr_banner=1&hide_landing_page_details=1 302
 /calendly-book.html /book/ 301!
 /calendly-book /book/ 301!
 /calendly-book.html/ /book/ 301!

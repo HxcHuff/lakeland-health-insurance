@@ -60,7 +60,7 @@ function loadBookingScript({
   const scripts = [];
   const frame = {
     id: 'booking-frame',
-    src: '/book/embed'
+    src: ''
   };
   const head = {
     children: [],
@@ -156,19 +156,25 @@ async function invoke(body, {
   }
 }
 
-test('booking page keeps the first-party embed and loads the Schedule converter', () => {
-  assert.match(BOOK_HTML, /src="\/book\/embed"/);
-  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261005a/);
+test('booking page keeps the Schedule converter without hardcoding the calendar account', () => {
+  assert.match(BOOK_HTML, /id="booking-frame"/);
+  assert.doesNotMatch(BOOK_HTML, /src="\/book\/embed"/);
+  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261005b/);
   assert.doesNotMatch(BOOK_HTML, /healthmarkets|calendly\.com\/dhuff|\bfbq\s*\(/i);
   assert.match(REDIRECTS, /\/book\/embed https:\/\/calendly\.com\/dhuff-healthmarkets\?embed_domain=lakelandhealthinsurance\.com&embed_type=Inline/);
+  assert.match(REDIRECTS, /^\/book\/embed .* 302$/m);
+  assert.doesNotMatch(REDIRECTS, /^\/book\/embed .* 200$/m);
   assert.match(REDIRECTS, /^\/calendly-book\.html \/book\/ 301!$/m);
   assert.match(NETLIFY_TOML, /from = "\/api\/calendly-schedule"/);
   assert.match(PRIVACY, /standard Meta <code>Schedule<\/code> conversion/);
 });
 
-test('converter initializes the production Pixel on /book/ and ignores other pages', () => {
+test('converter points the iframe at Calendly, initializes the Pixel once, and ignores other pages', () => {
   const booking = loadBookingScript({ search: '?utm_source=facebook' });
-  assert.equal(booking.frame.src, '/book/embed?utm_source=facebook');
+  assert.equal(
+    booking.frame.src,
+    'https://calendly.com/dhuff-healthmarkets?embed_domain=lakelandhealthinsurance.com&embed_type=Inline&hide_event_type_details=1&hide_gdpr_banner=1&hide_landing_page_details=1&utm_source=facebook'
+  );
   assert.equal(booking.scripts.length, 1);
   assert.equal(booking.scripts[0].src, 'https://connect.facebook.net/en_US/fbevents.js');
   assert.deepEqual(queuedPixelCalls(booking.sandbox), [
@@ -178,6 +184,13 @@ test('converter initializes the production Pixel on /book/ and ignores other pag
     ['trackSingle', PIXEL_ID, 'PageView']
   ]);
   assert.equal(booking.sandbox.__LHI_CALENDLY_META_STATUS__.state, 'ready');
+  assert.equal(booking.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'pixel-initialized');
+
+  const reused = loadBookingScript({ preexistingFbq: true, search: '?utm_medium=paid_social' });
+  assert.equal(reused.scripts.length, 0);
+  assert.equal(queuedPixelCalls(reused.sandbox).length, 0);
+  assert.equal(reused.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'pixel-reused');
+  assert.match(reused.frame.src, /utm_medium=paid_social/);
 
   const other = loadBookingScript({ pathname: '/get-help/' });
   assert.equal(other.scripts.length, 0);
