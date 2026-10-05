@@ -62,19 +62,20 @@
 /links/ /learning/ 301!
 /links/index.html /learning/ 301!
 # Retired humor section. Hub goes to About (professional + David), not a joke destination.
-/dudes-corner /about/ 301!
-/dudes-corner/ /about/ 301!
-/dudes-corner/index.html /about/ 301!
-/dudes-corner/index.html/ /about/ 301!
-/dudes-corner/index /about/ 301!
-/dudes-corner/index/ /about/ 301!
+# Absolute HTTPS destinations keep Location on the apex host after www/http hops.
+/dudes-corner https://lakelandhealthinsurance.com/about/ 301!
+/dudes-corner/ https://lakelandhealthinsurance.com/about/ 301!
+/dudes-corner/index.html https://lakelandhealthinsurance.com/about/ 301!
+/dudes-corner/index.html/ https://lakelandhealthinsurance.com/about/ 301!
+/dudes-corner/index https://lakelandhealthinsurance.com/about/ 301!
+/dudes-corner/index/ https://lakelandhealthinsurance.com/about/ 301!
 /dudes-corner/subsidy-cliff-dudes-take.html /blog/aca-subsidy-cliff.html 301!
 /dudes-corner/subsidy-cliff-dudes-take /blog/aca-subsidy-cliff.html 301!
 /dudes-corner/subsidy-cliff-dudes-take/ /blog/aca-subsidy-cliff.html 301!
-/dudes-corner/fixed-indemnity-dudes-take.html /blog/fixed-indemnity-analysis.html 301!
-/dudes-corner/fixed-indemnity-dudes-take.html/ /blog/fixed-indemnity-analysis.html 301!
-/dudes-corner/fixed-indemnity-dudes-take /blog/fixed-indemnity-analysis.html 301!
-/dudes-corner/fixed-indemnity-dudes-take/ /blog/fixed-indemnity-analysis.html 301!
+/dudes-corner/fixed-indemnity-dudes-take.html https://lakelandhealthinsurance.com/blog/fixed-indemnity-analysis.html 301!
+/dudes-corner/fixed-indemnity-dudes-take.html/ https://lakelandhealthinsurance.com/blog/fixed-indemnity-analysis.html 301!
+/dudes-corner/fixed-indemnity-dudes-take https://lakelandhealthinsurance.com/blog/fixed-indemnity-analysis.html 301!
+/dudes-corner/fixed-indemnity-dudes-take/ https://lakelandhealthinsurance.com/blog/fixed-indemnity-analysis.html 301!
 
 # Twilio A2P 10DLC convention alias → SMS Terms page
 /sms-consent  /sms-policy.html  301
@@ -108,8 +109,8 @@
 /blog/lost-job-health-insurance-lakeland.html /blog/lost-job-coverage-aca-insurance-florida.html 301!
 
 # Blog post redirects: non-.html → .html (canonical)
-/blog/5-critical-health-insurance-mistakes /blog/5-critical-health-insurance-mistakes.html 301!
-/blog/5-critical-health-insurance-mistakes/ /blog/5-critical-health-insurance-mistakes.html 301!
+/blog/5-critical-health-insurance-mistakes https://lakelandhealthinsurance.com/blog/5-critical-health-insurance-mistakes.html 301!
+/blog/5-critical-health-insurance-mistakes/ https://lakelandhealthinsurance.com/blog/5-critical-health-insurance-mistakes.html 301!
 /blog/aca-open-enrollment-deadline /blog/aca-open-enrollment-deadline.html 301!
 /blog/aca-open-enrollment-deadline/ /blog/aca-open-enrollment-deadline.html 301!
 /blog/aca-subsidy-cliff /blog/aca-subsidy-cliff.html 301!
@@ -124,8 +125,8 @@
 /blog/fixed-indemnity-analysis/ /blog/fixed-indemnity-analysis.html 301!
 /blog/florida-aca-enrollment-and-benefits-2026 /blog/florida-aca-enrollment-and-benefits-2026.html 301!
 /blog/florida-aca-enrollment-and-benefits-2026/ /blog/florida-aca-enrollment-and-benefits-2026.html 301!
-/blog/florida-insurance-guide /blog/florida-insurance-guide.html 301!
-/blog/florida-insurance-guide/ /blog/florida-insurance-guide.html 301!
+/blog/florida-insurance-guide https://lakelandhealthinsurance.com/blog/florida-insurance-guide.html 301!
+/blog/florida-insurance-guide/ https://lakelandhealthinsurance.com/blog/florida-insurance-guide.html 301!
 /blog/freelancer-health-insurance-lakeland-2026 /blog/health-insurance-self-employed-lakeland-polk-county-2026.html 301!
 /blog/freelancer-health-insurance-lakeland-2026/ /blog/health-insurance-self-employed-lakeland-polk-county-2026.html 301!
 /blog/health-insurance-self-employed-tax-deductions /blog/health-insurance-self-employed-tax-deductions.html 301!
@@ -136,8 +137,8 @@
 /blog/how-to-negotiate-hospital-bills/ /blog/how-to-negotiate-hospital-bills.html 301!
 /blog/how-to-read-insurance-card /blog/how-to-read-health-insurance-card-guide.html 301!
 /blog/how-to-read-insurance-card/ /blog/how-to-read-health-insurance-card-guide.html 301!
-/blog/how-to-use-health-insurance-without-going-broke /blog/how-to-use-health-insurance-without-going-broke.html 301!
-/blog/how-to-use-health-insurance-without-going-broke/ /blog/how-to-use-health-insurance-without-going-broke.html 301!
+/blog/how-to-use-health-insurance-without-going-broke https://lakelandhealthinsurance.com/blog/how-to-use-health-insurance-without-going-broke.html 301!
+/blog/how-to-use-health-insurance-without-going-broke/ https://lakelandhealthinsurance.com/blog/how-to-use-health-insurance-without-going-broke.html 301!
 /blog/lakeland-regional-watson-clinic-insurance-2026 /blog/orlando-health-watson-clinic-insurance-2026.html 301!
 /blog/lakeland-regional-watson-clinic-insurance-2026/ /blog/orlando-health-watson-clinic-insurance-2026.html 301!
 /blog/lakeland-regional-watson-clinic-insurance-2026.html /blog/orlando-health-watson-clinic-insurance-2026.html 301!
@@ -271,8 +272,8 @@
 /carriers/florida-blue-aca-2026/index.html /carriers/ 301!
 
 # Removed/never-shipped carrier page (was 404)
-/carriers/aca-florida-2026 /carriers/ 301!
-/carriers/aca-florida-2026/ /carriers/ 301!
+/carriers/aca-florida-2026 https://lakelandhealthinsurance.com/carriers/ 301!
+/carriers/aca-florida-2026/ https://lakelandhealthinsurance.com/carriers/ 301!
 
 # 301 the deleted orphan root page to the blog version
 /lost-job-health-insurance-lakeland.html /blog/lost-job-coverage-aca-insurance-florida.html 301!

@@ -306,6 +306,29 @@ test('retired best-broker URLs 301 to the primary commercial broker page', () =>
   assert.equal(existsSync(join(ROOT, 'best-medicare-broker-lakeland-fl/index.html')), false);
 });
 
+test('GSC redirect-error URLs force one hop to an absolute apex HTTPS destination', () => {
+  const rules = parseRedirects(REDIRECTS);
+  const aliases = new Map([
+    ['/dudes-corner/', 'https://lakelandhealthinsurance.com/about/'],
+    ['/dudes-corner/fixed-indemnity-dudes-take.html', 'https://lakelandhealthinsurance.com/blog/fixed-indemnity-analysis.html'],
+    ['/blog/how-to-use-health-insurance-without-going-broke', 'https://lakelandhealthinsurance.com/blog/how-to-use-health-insurance-without-going-broke.html'],
+    ['/carriers/aca-florida-2026/', 'https://lakelandhealthinsurance.com/carriers/'],
+    ['/blog/florida-insurance-guide', 'https://lakelandhealthinsurance.com/blog/florida-insurance-guide.html'],
+    ['/blog/5-critical-health-insurance-mistakes', 'https://lakelandhealthinsurance.com/blog/5-critical-health-insurance-mistakes.html']
+  ]);
+
+  for (const [source, expected] of aliases) {
+    const rule = matchingRule(rules, source);
+    assert.ok(rule, `${source} has an explicit redirect`);
+    assert.equal(rule.status, 301, source);
+    assert.equal(rule.forced, true, source);
+    assert.equal(rule.target, expected, source);
+    const result = followRedirects(rules, source);
+    assert.equal(result.final, expected, source);
+    assert.equal(result.hops, 1, `${source} used ${result.hops} hops`);
+  }
+});
+
 test('blog extensionless and trailing-slash aliases force 301 to the .html canonical', () => {
   const rules = parseRedirects(REDIRECTS);
   const samples = [
