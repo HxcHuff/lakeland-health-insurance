@@ -14,8 +14,10 @@ const {
   handler,
   pingIndexNow,
   isProductionLakelandDeploy,
+  easternDate,
   INDEXNOW_KEY: FN_KEY,
   INDEXNOW_KEY_LOCATION,
+  INDEXNOW_TIMEZONE,
   MAX_URLS,
 } = require('../netlify/functions/deploy-succeeded.js');
 
@@ -98,6 +100,16 @@ test('IndexNow ping is production-only, fail-open, and needs no secrets', () => 
 
   const sourceText = source('netlify/functions/deploy-succeeded.js');
   assert.doesNotMatch(sourceText, /process\.env\.[A-Z0-9_]+_SECRET|INDEXNOW_API_KEY/);
+  assert.match(sourceText, /America\/New_York/);
+  assert.doesNotMatch(sourceText, /function utcDate/);
+});
+
+test('IndexNow deploy date is America/New_York, not UTC', () => {
+  assert.equal(INDEXNOW_TIMEZONE, 'America/New_York');
+  assert.equal(easternDate('2026-10-05T03:30:00.000Z'), '2026-10-04');
+  assert.equal(easternDate('2026-10-05T04:30:00.000Z'), '2026-10-05');
+  assert.equal(easternDate(new Date('2026-11-01T03:59:59.000Z')), '2026-10-31');
+  assert.equal(easternDate(new Date('2026-09-30T12:00:00.000Z')), '2026-09-30');
 });
 
 test('IndexNow submits lastmod-changed URLs and swallows handler errors', async () => {
@@ -150,6 +162,33 @@ test('IndexNow submits lastmod-changed URLs and swallows handler errors', async 
   const failed = await handler({ body: '{' });
   assert.equal(failed.statusCode, 200);
   assert.equal(JSON.parse(failed.body).ok, true);
+
+  const lateNightEtCalls = [];
+  const lateNightEt = await pingIndexNow({
+    payload: { context: 'production', url: `${ORIGIN}/`, published_at: '2026-10-05T03:30:00.000Z' },
+    env: { CONTEXT: 'production', LHI_SITE_ENV: 'production' },
+    fetchImpl: async (url, options = {}) => {
+      lateNightEtCalls.push({ url, options });
+      if (String(url).includes('sitemap.xml')) {
+        return {
+          ok: true,
+          status: 200,
+          text: async () => `<?xml version="1.0"?><urlset>
+            <url><loc>${ORIGIN}/blog/a.html</loc><lastmod>2026-10-04</lastmod></url>
+            <url><loc>${ORIGIN}/terms/</loc><lastmod>2026-10-01</lastmod></url>
+          </urlset>`
+        };
+      }
+      return { ok: true, status: 200, text: async () => 'ok' };
+    },
+    now: new Date('2026-10-05T03:30:00.000Z'),
+  });
+  assert.equal(lateNightEt.mode, 'lastmod-changed');
+  assert.equal(lateNightEt.submitted, 1);
+  const lateNightPosted = JSON.parse(
+    lateNightEtCalls.find((call) => String(call.url).includes('indexnow')).options.body
+  );
+  assert.deepEqual(lateNightPosted.urlList, [`${ORIGIN}/blog/a.html`]);
 });
 
 test('sitemap lastmod is on or after each page dateModified', () => {

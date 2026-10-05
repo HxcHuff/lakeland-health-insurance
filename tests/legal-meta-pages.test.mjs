@@ -53,3 +53,22 @@ test('slashless legal URLs rewrite to the directory index with HTTP 200', () => 
     assert.equal(rule[1], `${pathname.replace(/\/$/, '')}/index.html`);
   }
 });
+
+test('legal sitemap lastmod matches dateModified and is not stamped today unless content changed', () => {
+  const legalPages = [
+    { rel: 'terms/index.html', canonical: `${ORIGIN}/terms/` },
+    { rel: 'data-deletion/index.html', canonical: `${ORIGIN}/data-deletion/` },
+    { rel: 'sms-policy.html', canonical: `${ORIGIN}/sms-policy.html` },
+    { rel: 'privacy-policy.html', canonical: `${ORIGIN}/privacy-policy.html` }
+  ];
+
+  for (const page of legalPages) {
+    const html = source(page.rel);
+    const modified = html.match(/"dateModified"\s*:\s*"([0-9]{4}-[0-9]{2}-[0-9]{2})"/);
+    assert.ok(modified, `${page.rel} has dateModified`);
+    const escaped = escapeRegExp(page.canonical);
+    const lastmod = SITEMAP.match(new RegExp(`<loc>${escaped}</loc>\\s*<lastmod>([0-9]{4}-[0-9]{2}-[0-9]{2})</lastmod>`));
+    assert.ok(lastmod, `${page.canonical} has a sitemap lastmod`);
+    assert.equal(lastmod[1], modified[1], `${page.rel} lastmod must equal dateModified so IndexNow does not ping a false today`);
+  }
+});
