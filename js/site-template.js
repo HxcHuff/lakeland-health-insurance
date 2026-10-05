@@ -300,7 +300,7 @@
               <li><a href="${phoneHref}"><span aria-hidden="true">&#128222;</span> ${phoneDisplay}</a></li>
               <li><a href="mailto:david@lakelandhealthinsurance.com"><span aria-hidden="true">&#128231;</span> david@lakelandhealthinsurance.com</a></li>
               <li><a href="${messengerHref}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
-              <li><span aria-hidden="true">&#128205;</span> Lakeland Health Insurance · Lakeland, FL 33805 · By appointment</li>
+              <li><span aria-hidden="true">&#128205;</span> Lakeland Health Insurance · 2298 Lakeland Hills Blvd, Lakeland, FL 33805 · By appointment</li>
             </ul>
           </div>
           <div class="footer-column">
