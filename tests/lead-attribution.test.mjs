@@ -177,6 +177,8 @@ test('Forms acceptance mints receipt metadata, authorizes consent, and returns c
   assert.equal(calls.length, 2, 'Forms precedes the single Meta request');
   assert.equal(calls[1].url, 'https://graph.facebook.com/v25.0/1480756087079484/events?access_token=test-token');
   const meta = JSON.parse(calls[1].init.body);
+  assert.equal(meta.data.length, 2);
+  assert.equal(meta.data[0].event_name, 'Lead');
   assert.equal(meta.data[0].event_id, result.event_id);
   assert.equal(meta.data[0].event_source_url, 'https://lakelandhealthinsurance.com/get-help/');
   assert.deepEqual(meta.data[0].user_data, {});
@@ -189,6 +191,17 @@ test('Forms acceptance mints receipt metadata, authorizes consent, and returns c
     'event_time',
     'user_data'
   ]);
+  const compactLeadId = String(result.event_id).replace(/-/g, '').slice(0, 16).toLowerCase();
+  assert.equal(meta.data[1].event_name, 'form_submit_complete');
+  assert.equal(meta.data[1].event_id, `lhi_book_${compactLeadId}_fcomp`);
+  assert.notEqual(meta.data[1].event_id, meta.data[0].event_id);
+  assert.equal(meta.data[1].event_source_url, 'https://lakelandhealthinsurance.com/get-help/');
+  assert.equal('custom_data' in meta.data[1], false);
+  assert.doesNotMatch(meta.data[1].event_name, /health|medicare|insurance|financial/i);
+  assert.equal(
+    _test.derivedCustomEventId(result.event_id, 'fcomp'),
+    meta.data[1].event_id
+  );
   const serializedMeta = JSON.stringify(meta);
   for (const prohibited of ['Jane Example', 'jane@example.com', '863-555-1212', '33801', 'Sensitive Clinic', 'Sensitive prescription', 'Sensitive note']) {
     assert.equal(serializedMeta.includes(prohibited), false, `Meta payload excludes ${prohibited}`);

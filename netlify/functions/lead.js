@@ -18,6 +18,8 @@ const {
 
 const META_DATASET_ID = '1480756087079484';
 const META_GRAPH_VERSION = 'v25.0';
+const FORM_CUSTOM_EVENT = 'form_submit_complete';
+const FORM_CUSTOM_SUFFIX = 'fcomp';
 const CONFIGURED_META_DATASET_ID = String(process.env.META_PIXEL_ID || '').trim();
 const ACCESS_TOKEN = process.env.META_CAPI_ACCESS_TOKEN;
 const TEST_EVENT_CODE = process.env.META_CAPI_TEST_EVENT_CODE; // optional
@@ -427,6 +429,21 @@ function eventSourceUrl(sourcePath) {
   return `${FORMS_FORWARD_ORIGIN}${sanitizeSourcePath(sourcePath)}`;
 }
 
+function derivedCustomEventId(baseId, suffix) {
+  const text = String(baseId || '').trim();
+  const tag = String(suffix || '').toLowerCase();
+  if (!/^[a-z0-9]{4,16}$/.test(tag)) return null;
+  let compact;
+  if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(text)) {
+    compact = text.replace(/-/g, '').slice(0, 16).toLowerCase();
+  } else {
+    const match = text.match(/^lhi_book_([a-z0-9]{6,24})_[a-z0-9]{4,16}$/i);
+    if (!match) return null;
+    compact = match[1].toLowerCase();
+  }
+  return `lhi_book_${compact}_${tag}`;
+}
+
 function decodeRequestBody(event) {
   const encoded = String(event.body || '');
   const body = event.isBase64Encoded ? Buffer.from(encoded, 'base64').toString('utf8') : encoded;
@@ -829,14 +846,17 @@ exports.handler = async (event) => {
       if (fbp) userData.fbp = fbp;
       if (fbc) userData.fbc = fbc;
 
+      const sharedEvent = {
+        event_time: eventTime,
+        action_source: 'website',
+        event_source_url: sourceUrl,
+        user_data: userData
+      };
       const body = {
         data: [{
+          ...sharedEvent,
           event_name: 'Lead',
-          event_time: eventTime,
           event_id: eventId,
-          action_source: 'website',
-          event_source_url: sourceUrl,
-          user_data: userData,
           custom_data: {
             content_name: 'first_party_lead',
             currency: 'USD',
@@ -844,6 +864,14 @@ exports.handler = async (event) => {
           }
         }]
       };
+      const customEventId = derivedCustomEventId(eventId, FORM_CUSTOM_SUFFIX);
+      if (customEventId) {
+        body.data.push({
+          ...sharedEvent,
+          event_name: FORM_CUSTOM_EVENT,
+          event_id: customEventId
+        });
+      }
       if (TEST_EVENT_CODE) body.test_event_code = TEST_EVENT_CODE;
 
       const url = `https://graph.facebook.com/${META_GRAPH_VERSION}/${META_DATASET_ID}/events?access_token=${encodeURIComponent(ACCESS_TOKEN)}`;
@@ -1044,6 +1072,7 @@ exports._test = {
   canonicalizeMedicareAttribution,
   corsPolicy,
   decodeRequestBody,
+  derivedCustomEventId,
   defaultConsentTextVersion,
   defaultGetHelpConsentTextVersion,
   filterPayloadForForm,

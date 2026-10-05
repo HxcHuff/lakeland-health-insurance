@@ -204,7 +204,7 @@ async function invoke(body, {
 test('booking page keeps the Schedule converter without hardcoding the calendar account', () => {
   assert.match(BOOK_HTML, /id="booking-frame"/);
   assert.doesNotMatch(BOOK_HTML, /src="\/book\/embed"/);
-  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261005c/);
+  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261005d/);
   assert.doesNotMatch(BOOK_HTML, /healthmarkets|calendly\.com\/dhuff|\bfbq\s*\(/i);
   assert.match(REDIRECTS, /\/book\/embed https:\/\/calendly\.com\/dhuff-healthmarkets\?embed_domain=lakelandhealthinsurance\.com&embed_type=Inline/);
   assert.match(REDIRECTS, /^\/book\/embed .* 302$/m);
@@ -272,31 +272,47 @@ test('event_scheduled fires Schedule once without Calendly payload fields', asyn
   });
 
   const pixelCalls = queuedPixelCalls(sandbox);
+  const scheduleId = '11111111-2222-4333-a444-555555555555';
+  const customId = sandbox.__LHI_CALENDLY_META__.derivedCustomEventId(scheduleId, 'bcomp');
+  assert.equal(customId, 'lhi_book_1111111122224333_bcomp');
+  assert.notEqual(customId, scheduleId);
+
   const scheduleCall = pixelCalls.find((call) => call[1] === 'Schedule');
   assert.equal(scheduleCall[0], 'track');
   assert.equal(scheduleCall[1], 'Schedule');
   assert.deepEqual({ ...scheduleCall[2] }, {});
-  assert.equal(scheduleCall[3].eventID, '11111111-2222-4333-a444-555555555555');
+  assert.equal(scheduleCall[3].eventID, scheduleId);
+
+  const customCall = pixelCalls.find((call) => call[1] === 'booking_complete');
+  assert.equal(customCall[0], 'trackCustom');
+  assert.equal(customCall[1], 'booking_complete');
+  assert.deepEqual({ ...customCall[2] }, {});
+  assert.equal(customCall[3].eventID, customId);
+  assert.doesNotMatch(JSON.stringify(customCall), /health|medicare|insurance|financial/i);
+
   assert.equal(gtagCalls[0][1], 'schedule_appointment');
   assert.equal(fetchCalls.length, 1);
   assert.equal(fetchCalls[0].url, '/api/calendly-schedule');
   assert.deepEqual(JSON.parse(fetchCalls[0].init.body), {
     event_name: 'Schedule',
-    event_id: '11111111-2222-4333-a444-555555555555'
+    event_id: scheduleId,
+    custom_event_id: customId
   });
-  assert.equal(imageSrcs.length, 1);
-  assert.equal(
-    imageSrcs[0],
-    sandbox.__LHI_CALENDLY_META__.pixelTransportUrl('11111111-2222-4333-a444-555555555555')
-  );
+  assert.equal(imageSrcs.length, 2);
+  assert.equal(imageSrcs[0], sandbox.__LHI_CALENDLY_META__.pixelTransportUrl(scheduleId, 'Schedule'));
+  assert.equal(imageSrcs[1], sandbox.__LHI_CALENDLY_META__.pixelTransportUrl(customId, 'booking_complete'));
   assert.match(imageSrcs[0], /https:\/\/www\.facebook\.com\/tr\?/);
   assert.match(imageSrcs[0], /[?&]ev=Schedule(?:&|$)/);
   assert.match(imageSrcs[0], /[?&]eid=11111111-2222-4333-a444-555555555555(?:&|$)/);
   assert.match(imageSrcs[0], new RegExp(`[?&]id=${PIXEL_ID}(?:&|$)`));
+  assert.match(imageSrcs[1], /[?&]ev=booking_complete(?:&|$)/);
+  assert.match(imageSrcs[1], /[?&]eid=lhi_book_1111111122224333_bcomp(?:&|$)/);
   assert.doesNotMatch(JSON.stringify(fetchCalls), /person@example\.com|scheduled_events|invitees/i);
   assert.doesNotMatch(JSON.stringify(pixelCalls), /person@example\.com|scheduled_events|invitees/i);
-  assert.doesNotMatch(imageSrcs[0], /person@example\.com|scheduled_events|invitees/i);
+  assert.doesNotMatch(imageSrcs.join(' '), /person@example\.com|scheduled_events|invitees/i);
   assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.event_name, 'Schedule');
+  assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.custom_event_name, 'booking_complete');
+  assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.custom_event_id, customId);
   assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.pixel, true);
   assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.capi, true);
 
@@ -305,7 +321,7 @@ test('event_scheduled fires Schedule once without Calendly payload fields', asyn
     data: { event: 'calendly.event_scheduled' }
   });
   assert.equal(fetchCalls.length, 1);
-  assert.equal(imageSrcs.length, 1);
+  assert.equal(imageSrcs.length, 2);
   assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'already-fired');
 });
 
@@ -323,12 +339,19 @@ test('GTM-owned fbq still sends track + /tr Schedule with the CAPI event_id', ()
   const pixelCalls = queuedPixelCalls(sandbox);
   assert.equal(pixelCalls.some((call) => call[0] === 'init'), false);
   const scheduleCall = pixelCalls.find((call) => call[0] === 'track' && call[1] === 'Schedule');
+  const customCall = pixelCalls.find((call) => call[0] === 'trackCustom' && call[1] === 'booking_complete');
+  const capiBody = JSON.parse(fetchCalls[0].init.body);
   assert.equal(scheduleCall[3].eventID, '11111111-2222-4333-a444-555555555555');
+  assert.equal(customCall[3].eventID, 'lhi_book_1111111122224333_bcomp');
+  assert.notEqual(scheduleCall[3].eventID, customCall[3].eventID);
   assert.equal(fetchCalls.length, 1);
-  assert.equal(JSON.parse(fetchCalls[0].init.body).event_id, scheduleCall[3].eventID);
-  assert.equal(imageSrcs.length, 1);
+  assert.equal(capiBody.event_id, scheduleCall[3].eventID);
+  assert.equal(capiBody.custom_event_id, customCall[3].eventID);
+  assert.equal(imageSrcs.length, 2);
   assert.match(imageSrcs[0], /[?&]ev=Schedule(?:&|$)/);
   assert.match(imageSrcs[0], /[?&]eid=11111111-2222-4333-a444-555555555555(?:&|$)/);
+  assert.match(imageSrcs[1], /[?&]ev=booking_complete(?:&|$)/);
+  assert.match(imageSrcs[1], /[?&]eid=lhi_book_1111111122224333_bcomp(?:&|$)/);
   assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.pixel, true);
   assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.capi, true);
 });
@@ -399,12 +422,25 @@ test('CAPI accepts a production Schedule and rejects invitee fields', async () =
   assert.equal(calls.length, 1);
   assert.match(calls[0].url, new RegExp(`graph\\.facebook\\.com/v25\\.0/${PIXEL_ID}/events`));
   const body = JSON.parse(calls[0].init.body);
+  assert.equal(body.data.length, 2);
   assert.equal(body.data[0].event_name, 'Schedule');
+  assert.equal(body.data[0].event_id, '11111111-2222-4333-a444-555555555555');
   assert.equal(body.data[0].event_source_url, 'https://lakelandhealthinsurance.com/book/');
   assert.equal(body.data[0].custom_data.content_name, 'calendly_booking_completed');
   assert.equal(body.data[0].user_data.fbp, 'fb.1.1234567890.123456');
+  assert.equal(body.data[1].event_name, 'booking_complete');
+  assert.equal(body.data[1].event_id, 'lhi_book_1111111122224333_bcomp');
+  assert.notEqual(body.data[1].event_id, body.data[0].event_id);
+  assert.equal(body.data[1].event_source_url, 'https://lakelandhealthinsurance.com/book/');
+  assert.equal('custom_data' in body.data[1], false);
+  assert.doesNotMatch(body.data[1].event_name, /health|medicare|insurance|financial/i);
+  assert.doesNotMatch(JSON.stringify(body.data[1]), /invitee|"email"|"phone"|@example/i);
   assert.doesNotMatch(JSON.stringify(body), /invitee|"email"|"phone"|@example/i);
+  assert.equal(result.custom_event_id, 'lhi_book_1111111122224333_bcomp');
+  assert.equal(result.custom_event_name, 'booking_complete');
   assert.match(logs[0][1], /calendly_schedule_capi_v1/);
+  assert.equal(_test.derivedCustomEventId('11111111-2222-4333-a444-555555555555', 'bcomp'), 'lhi_book_1111111122224333_bcomp');
+  assert.equal(_test.BOOKING_CUSTOM_EVENT, 'booking_complete');
 
   const rejected = await invoke({
     event_name: 'Schedule',
@@ -433,6 +469,27 @@ test('CAPI stays quiet for opt-out, non-Schedule names, and invalid ids', async 
     event_id: '11111111-2222-4333-a444-555555555555'
   });
   assert.equal(leadNamed.response.statusCode, 400);
+
+  const customNamed = await invoke({
+    event_name: 'booking_complete',
+    event_id: '11111111-2222-4333-a444-555555555555'
+  });
+  assert.equal(customNamed.response.statusCode, 400);
+
+  const sameCustomId = await invoke({
+    event_name: 'Schedule',
+    event_id: '11111111-2222-4333-a444-555555555555',
+    custom_event_id: '11111111-2222-4333-a444-555555555555'
+  });
+  assert.equal(sameCustomId.response.statusCode, 400);
+  assert.equal(JSON.parse(sameCustomId.response.body).error, 'Custom event id must be distinct');
+
+  const badCustomId = await invoke({
+    event_name: 'Schedule',
+    event_id: '11111111-2222-4333-a444-555555555555',
+    custom_event_id: 'not-an-id'
+  });
+  assert.equal(badCustomId.response.statusCode, 400);
 
   const badId = await invoke({
     event_name: 'Schedule',
@@ -481,6 +538,8 @@ test('CAPI proceeds when LHI_SITE_ENV is production and CONTEXT is empty', async
     const body = JSON.parse(calls[0].init.body);
     assert.equal(body.data[0].event_name, 'Schedule');
     assert.equal(body.data[0].event_id, SCHEDULE_BODY.event_id);
+    assert.equal(body.data[1].event_name, 'booking_complete');
+    assert.equal(body.data[1].event_id, 'lhi_book_1111111122224333_bcomp');
     assert.doesNotMatch(JSON.stringify(body), /invitee|"email"|"phone"|@example/i);
   });
 });
@@ -501,6 +560,29 @@ test('CAPI stays quiet for deploy-preview and branch-deploy even when LHI_SITE_E
       assert.equal(calls.length, 0, context);
     });
   }
+});
+
+test('CAPI uses a supplied distinct custom_event_id and still validates Schedule ids', async () => {
+  const supplied = {
+    event_name: 'Schedule',
+    event_id: '11111111-2222-4333-a444-555555555555',
+    custom_event_id: 'aaaaaaaa-2222-4333-8444-555555555555'
+  };
+  const { response, calls } = await invoke(supplied);
+  const result = JSON.parse(response.body);
+  const body = JSON.parse(calls[0].init.body);
+  assert.equal(response.statusCode, 200);
+  assert.equal(result.custom_event_id, supplied.custom_event_id);
+  assert.equal(body.data[0].event_id, supplied.event_id);
+  assert.equal(body.data[1].event_name, 'booking_complete');
+  assert.equal(body.data[1].event_id, supplied.custom_event_id);
+  assert.equal(_test.approvedEventId(supplied.event_id), supplied.event_id);
+  assert.equal(_test.approvedEventId('lhi_book_abc123def456_xyz789'), 'lhi_book_abc123def456_xyz789');
+  assert.equal(_test.approvedEventId('not-an-id'), null);
+  assert.equal(
+    _test.derivedCustomEventId('lhi_book_abc123def456_xyz789', 'bcomp'),
+    'lhi_book_abc123def456_bcomp'
+  );
 });
 
 test('privacy skips still win when CONTEXT is empty in production', async () => {
