@@ -102,17 +102,32 @@ function loadBookingScript({
       }
     });
   }
+  const origin = `https://${hostname}`;
+  const location = {
+    hostname,
+    pathname,
+    search,
+    hash: '',
+    origin,
+    protocol: 'https:',
+    href: `${origin}${pathname}${search || ''}`
+  };
   const sandbox = {
     URL,
     Image: ImageMock,
     document,
     localStorage: makeStorage(consent ? { lhi_meta_audience_consent: consent } : {}),
-    location: {
-      hostname,
-      pathname,
-      search,
-      origin: `https://${hostname}`,
-      protocol: 'https:'
+    location,
+    history: {
+      state: null,
+      replaceState(state, _title, url) {
+        const parsed = new URL(String(url || ''), origin);
+        location.pathname = parsed.pathname;
+        location.search = parsed.search;
+        location.hash = parsed.hash;
+        location.href = `${parsed.origin}${parsed.pathname}`;
+        this.state = state;
+      }
     },
     navigator: { globalPrivacyControl, doNotTrack },
     crypto: { randomUUID() { return '11111111-2222-4333-a444-555555555555'; } },
@@ -204,7 +219,7 @@ async function invoke(body, {
 test('booking page keeps the Schedule converter without hardcoding the calendar account', () => {
   assert.match(BOOK_HTML, /id="booking-frame"/);
   assert.doesNotMatch(BOOK_HTML, /src="\/book\/embed"/);
-  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261006-utm/);
+  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261006-hold/);
   assert.doesNotMatch(BOOK_HTML, /healthmarkets|calendly\.com\/dhuff|\bfbq\s*\(/i);
   assert.match(REDIRECTS, /\/book\/embed https:\/\/calendly\.com\/dhuff-healthmarkets\?embed_domain=lakelandhealthinsurance\.com&embed_type=Inline/);
   assert.match(REDIRECTS, /^\/book\/embed .* 302$/m);
@@ -258,6 +273,15 @@ test('converter points the iframe at Calendly, initializes the Pixel once, and i
   assert.match(organicBooking.frame.src, /utm_medium=social/);
   assert.match(organicBooking.frame.src, /utm_campaign=retireespousetips/);
   assert.doesNotMatch(organicBooking.frame.src, /Retiree\+|Spouse\+|Tips/);
+  assert.equal(organicBooking.sandbox.location.search, '');
+  assert.doesNotMatch(organicBooking.sandbox.location.href, /[?#]/);
+
+  const droppedExtra = loadBookingScript({
+    search: '?utm_source=facebook&foo=bar&email=jane%40example.com'
+  });
+  assert.match(droppedExtra.frame.src, /utm_source=facebook/);
+  assert.doesNotMatch(droppedExtra.frame.src, /foo=|email=/);
+  assert.equal(droppedExtra.sandbox.location.search, '');
 
   const other = loadBookingScript({ pathname: '/get-help/' });
   assert.equal(other.scripts.length, 0);

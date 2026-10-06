@@ -31,6 +31,6 @@ These routes are eligible only under the isolation boundary: the loader sends a 
 - Product- and plan-intent routes other than `/plans/`, including `/carriers/` and carrier children, dental/vision, supplemental, private medical, short-term medical, and Health ProtectorGuard pages.
 - Privacy, SMS, consent, 404, offline, verification, and other utility pages.
 - `/links/`, which redirects to `/learning/` and is not a production landing page for this pixel.
-- Any target or referring URL with a fragment, an unapproved non-UTM query key/value, duplicate parameters, malformed encoding, or user-entered/sensitive data. Sanitized `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, and `utm_content` values are not limited to a campaign allowlist. Health-sensitive or PII-like UTM values still fail closed.
+- Any target or referring URL with a fragment, an unapproved non-UTM query key/value, duplicate parameters, malformed encoding, or user-entered/sensitive data. Sanitized `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, and `utm_content` values are not limited to a campaign allowlist. Raw `utm_campaign`, `utm_term`, and `utm_content` values still fail closed when they look health-sensitive. After first-party capture, PageView reports origin + pathname only.
 
 An accepted request can produce a server-side standard `Lead` only after Netlify Forms acceptance and only when the separate server gates pass. Browser pages never send a `Lead` event.

@@ -191,12 +191,9 @@
       var eq = part.indexOf('=');
       var key = decodeQueryValue(eq === -1 ? part : part.slice(0, eq));
       var value = decodeQueryValue(eq === -1 ? '' : part.slice(eq + 1));
-      if (UTM_QUERY_KEYS[key]) {
-        var sanitized = key === 'utm_term' ? sanitizeBookingTerm(value) : sanitizeUtmValue(value);
-        if (sanitized) cleaned.push(encodeURIComponent(key) + '=' + encodeURIComponent(sanitized));
-        continue;
-      }
-      cleaned.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+      if (!UTM_QUERY_KEYS[key]) continue;
+      var sanitized = key === 'utm_term' ? sanitizeBookingTerm(value) : sanitizeUtmValue(value);
+      if (sanitized) cleaned.push(encodeURIComponent(key) + '=' + encodeURIComponent(sanitized));
     }
     return cleaned.join('&');
   }
@@ -214,12 +211,27 @@
     return BOOKING_EMBED_BASE + '?' + params.join('&');
   }
 
+  function reportedPageUrl() {
+    return String(w.location && w.location.origin || '') + String(w.location && w.location.pathname || '/');
+  }
+
+  function stripLocationForPixel() {
+    var clean = reportedPageUrl();
+    try {
+      if (w.history && typeof w.history.replaceState === 'function') {
+        w.history.replaceState(w.history.state || null, '', clean);
+      }
+    } catch (_) {}
+    return !String(w.location && w.location.search || '') && !String(w.location && w.location.hash || '');
+  }
+
   function applyBookingFrame() {
     var frame = d.getElementById('booking-frame');
     if (!frame || !w.location) return false;
     // Point the iframe at Calendly's origin. A same-origin 200 rewrite of
     // Calendly HTML makes their booking BFF call /api/booking/* on this host
-    // and the calendar stays blank.
+    // and the calendar stays blank. Capture sanitized UTMs first, then strip
+    // the page URL before the booking Pixel PageView.
     frame.src = bookingEmbedUrl(w.location.hostname, w.location.search);
     return true;
   }
@@ -435,6 +447,10 @@
       return false;
     }
     applyBookingFrame();
+    if (!stripLocationForPixel()) {
+      setStatus('skipped', 'query-not-stripped');
+      return false;
+    }
     preparePixel();
     w.addEventListener('message', handleScheduled);
     return true;

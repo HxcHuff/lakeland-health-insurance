@@ -734,10 +734,12 @@
  * Default: off. The loader queues one standard PageView only when the current
  * production page is in the reviewed path allowlist and carries the exact
  * meta-audience-eligible marker, the URL/referrer pass the remaining gates,
- * and the visitor has saved an explicit site preference. Sanitized UTM values
- * no longer have to match a campaign allowlist. Unknown non-UTM query keys,
- * PII-like or health-sensitive values, consent, path, and referrer gates stay
- * in place. It never reads form fields or builds custom event data.
+ * and the visitor has saved an explicit site preference. First-party
+ * attribution is captured first. The reported PageView URL is then origin +
+ * pathname only (no query, no hash). Raw utm_campaign, utm_term, and
+ * utm_content values still fail closed when they look health-sensitive.
+ * Unknown non-UTM query keys, consent, path, and referrer gates stay in
+ * place. It never reads form fields or builds custom event data.
  */
 (function (w, d) {
   'use strict';
@@ -814,7 +816,7 @@
     if (!text || /[\u0000-\u001f\u007f@]/.test(text)) return true;
     if (/(?:\d[\s().-]*){7,}/.test(text)) return true;
     if (/(?:^|\D)\d{5}(?:-\d{4})?(?:\D|$)/.test(text)) return true;
-    return /(?:cancer|oncolog|diabet|diagnos|condition|mental|medicaid|medicare|subsid|income|provider|prescription|pharmacy|pregnan|tobacco|eligib|enroll|application|policy|plan[_ -]?id|member)/i.test(text);
+    return /(?:cancer|oncolog|diabet|diagnos|condition|mental|medicaid|medicare|subsid|income|provider|prescription|pharmacy|pregnan|tobacco|eligib|enroll|application|policy|plan[_ -]?id|member|hiv|insulin|anxiety|depress|glp-?1|ozempic|wegovy|mounjaro|dialysis|opioid|chemo|alzheimer|dementia|copd|heart|stroke|disab)/i.test(text);
   }
 
   function sanitizeUtmValue(value) {
@@ -860,10 +862,11 @@
       return Boolean(approvedCampaignSlug(text));
     }
     if (hasOwn(UTM_QUERY_KEYS, key)) {
-      if (key === 'utm_term') {
-        return Boolean(approvedCampaignTermValue(text));
+      if (key === 'utm_campaign' && /^cid_\d{8,20}$/i.test(String(text || '').trim())) {
+        return Boolean(sanitizeUtmValue(text));
       }
-      if (key !== 'utm_campaign' && looksSensitive(text)) return false;
+      if (looksSensitive(text)) return false;
+      if (key === 'utm_term') return Boolean(approvedCampaignTermValue(text));
       return Boolean(sanitizeUtmValue(text));
     }
     if (looksSensitive(text)) return false;
@@ -1069,6 +1072,107 @@
     renderPreference(privacyDecision());
   }
 
+  function approvedClickID(value) {
+    var text = String(value || '').trim();
+    if (!text || text.length > 512) return '';
+    return /^[a-z0-9._~-]+$/i.test(text) ? text : '';
+  }
+
+  function approvedGoogleCampaignID(value) {
+    var text = String(value || '').trim();
+    return /^\d{1,20}$/.test(text) ? text : '';
+  }
+
+  function persistAttributionCookieFromLocation() {
+    if (!w.location || typeof w.URLSearchParams !== 'function' || typeof JSON === 'undefined') return;
+    var qs = new w.URLSearchParams(String(w.location.search || ''));
+    var stored = {};
+    try {
+      stored = JSON.parse((function () {
+        var cookieText;
+        try { cookieText = String(d.cookie || ''); } catch (_) { return '{}'; }
+        var prefix = 'lhi_attr=';
+        var parts = cookieText.split(';');
+        for (var i = 0; i < parts.length; i += 1) {
+          var part = parts[i].trim();
+          if (part.indexOf(prefix) === 0) {
+            try { return decodeURIComponent(part.slice(prefix.length)); } catch (_) { return '{}'; }
+          }
+        }
+        return '{}';
+      })() || '{}');
+    } catch (_) {
+      stored = {};
+    }
+    if (!stored || typeof stored !== 'object') stored = {};
+
+    var next = {};
+    var changed = false;
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (key) {
+      var previous = key === 'utm_term' ? approvedCampaignTermValue(stored[key]) : sanitizeUtmValue(stored[key]);
+      var incoming = key === 'utm_term' ? approvedCampaignTermValue(qs.get(key)) : sanitizeUtmValue(qs.get(key));
+      if (previous) next[key] = previous;
+      if (incoming) {
+        next[key] = incoming;
+        changed = true;
+      }
+    });
+    ['gclid', 'gbraid', 'wbraid', 'gad_campaignid'].forEach(function (key) {
+      var approve = key === 'gad_campaignid' ? approvedGoogleCampaignID : approvedClickID;
+      var previous = approve(stored[key]);
+      var incoming = approve(qs.get(key));
+      var previousFirst = approve(stored['first_' + key]);
+      if (previous) next[key] = previous;
+      if (previousFirst) next['first_' + key] = previousFirst;
+      if (incoming) {
+        next[key] = incoming;
+        if (!next['first_' + key]) next['first_' + key] = incoming;
+        changed = true;
+      } else if (next[key] && !next['first_' + key]) {
+        next['first_' + key] = next[key];
+        changed = true;
+      }
+    });
+    if (!changed && JSON.stringify(stored) === JSON.stringify(next)) return;
+
+    var days = next.gclid || next.gbraid || next.wbraid || next.gad_campaignid ? 90 : 30;
+    var secure = w.location.protocol === 'https:' ? '; Secure' : '';
+    var expires = '';
+    try {
+      var dt = new Date();
+      dt.setTime(dt.getTime() + days * 86400000);
+      expires = '; expires=' + dt.toUTCString();
+    } catch (_) {}
+    try {
+      d.cookie = 'lhi_attr=' + encodeURIComponent(JSON.stringify(next)) + expires + '; path=/; SameSite=Lax' + secure;
+    } catch (_) {}
+  }
+
+  function captureFirstPartyAttribution() {
+    if (w.LHI && typeof w.LHI.getAttribution === 'function') {
+      try { w.LHI.getAttribution(); } catch (_) {}
+    } else {
+      persistAttributionCookieFromLocation();
+    }
+    if (w.LHIGetHelpIntake && typeof w.LHIGetHelpIntake.initAttribution === 'function') {
+      try { w.LHIGetHelpIntake.initAttribution(); } catch (_) {}
+    }
+  }
+
+  function reportedPageUrl() {
+    return String(w.location && w.location.origin || '') + String(w.location && w.location.pathname || '/');
+  }
+
+  function stripLocationForPixel() {
+    var clean = reportedPageUrl();
+    try {
+      if (w.history && typeof w.history.replaceState === 'function') {
+        w.history.replaceState(w.history.state || null, '', clean);
+      }
+    } catch (_) {}
+    return !String(w.location && w.location.search || '') && !String(w.location && w.location.hash || '');
+  }
+
   function installFbq() {
     var queue = function () {
       if (queue.callMethod) queue.callMethod.apply(queue, arguments);
@@ -1141,8 +1245,18 @@
       return false;
     }
 
+    captureFirstPartyAttribution();
+    if (!stripLocationForPixel()) {
+      setStatus('skipped', 'query-not-stripped');
+      return false;
+    }
+
     w[INITIALIZED_KEY] = true;
-    setStatus('queued', 'standard-pageview-only');
+    w.__LHI_META_AUDIENCE_STATUS__ = {
+      state: 'queued',
+      reason: 'standard-pageview-only',
+      page_url: reportedPageUrl()
+    };
     installFbq();
     return true;
   }
