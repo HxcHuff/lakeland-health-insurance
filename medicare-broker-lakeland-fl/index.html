@@ -549,8 +549,65 @@
       .hero-actions a { width: 100%; text-align: center; }
       .deadline-list li { grid-template-columns: 1fr; gap: 3px; }
       .mini-cta { position: static; }
-      .comparison-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      .comparison-table { display: table; min-width: 720px; }
+      .comparison-scroll {
+        overflow: hidden;
+        position: relative;
+      }
+      .comparison-table {
+        background: transparent;
+        border: 0;
+        display: block;
+        min-width: 0;
+        width: 100%;
+      }
+      .comparison-table caption {
+        display: block;
+      }
+      .comparison-table thead {
+        border: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+      .comparison-table tbody,
+      .comparison-table tr,
+      .comparison-table td {
+        display: block;
+        max-width: 100%;
+        min-width: 0;
+        width: auto;
+      }
+      .comparison-table tr {
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        margin-top: 12px;
+        overflow: hidden;
+      }
+      .comparison-table td {
+        border-bottom: 0;
+        overflow-wrap: anywhere;
+      }
+      .comparison-table td:first-child {
+        background: #F1F5F9;
+      }
+      .comparison-table td::before {
+        color: #475569;
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 800;
+        line-height: 1.35;
+        margin-bottom: 3px;
+      }
+      .comparison-table td:nth-child(2)::before { content: "Medicare Advantage"; }
+      .comparison-table td:nth-child(3)::before { content: "Medigap"; }
+      .comparison-table td:nth-child(4)::before { content: "Part D"; }
       nav { align-items: flex-start; }
       .nav-links { gap: 10px; }
     }
