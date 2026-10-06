@@ -436,23 +436,29 @@
     if (note) note.hidden = false;
   }
 
+  var UTM_VALUE_MAX_LENGTH = 64;
+
+  function sanitizeUtmValue(value) {
+    var text = String(value || '').trim().toLowerCase();
+    if (!text) return '';
+    if (/^cid_\d{8,20}$/.test(text)) {
+      return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
+    }
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
+    return text.replace(/[^a-z0-9_-]/g, '').slice(0, UTM_VALUE_MAX_LENGTH);
+  }
+
   function approvedCampaignValue(value) {
-    var candidate = value;
     var shared = window.LHIMedicareAttribution;
     if (shared && typeof shared.approvedCampaignValue === 'function') {
       try {
-        candidate = shared.approvedCampaignValue(value);
+        var sharedValue = shared.approvedCampaignValue(value);
+        if (sharedValue) return sanitizeUtmValue(sharedValue);
       } catch (e) {
-        return '';
+        return sanitizeUtmValue(value);
       }
     }
-    var text = String(candidate || '').trim().toLowerCase();
-    if (!text || text.length > 80) return '';
-    // Google Ads suffixes prefix {campaignid} so platform IDs remain
-    // distinguishable from untrusted phone-like numeric values.
-    if (/^cid_\d{8,20}$/.test(text)) return text;
-    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
-    return /^[a-z0-9][a-z0-9._~-]*$/.test(text) ? text : '';
+    return sanitizeUtmValue(value);
   }
 
   function approvedClickID(value) {
@@ -538,13 +544,30 @@
     };
   }
 
+  function landingSearch() {
+    try {
+      if (window.LHILandingQuery && window.LHILandingQuery.search != null) {
+        return String(window.LHILandingQuery.search || '');
+      }
+    } catch (e) {}
+    try {
+      if (window.sessionStorage && typeof window.sessionStorage.getItem === 'function') {
+        var stored = JSON.parse(window.sessionStorage.getItem('lhi_landing_query') || 'null');
+        if (stored && stored.search != null && stored.pathname === String(window.location.pathname || '/')) {
+          return String(stored.search || '');
+        }
+      }
+    } catch (e) {}
+    return String(window.location.search || '');
+  }
+
   function medicareSourceContext(qs) {
     if (String(qs.get('intent') || '').toLowerCase() !== 'medicare') return null;
 
     var shared = window.LHIMedicareAttribution;
     if (shared && typeof shared.sourceContext === 'function') {
       try {
-        var sharedContext = shared.sourceContext(window.location.search);
+        var sharedContext = shared.sourceContext(qs.toString());
         if (sharedContext) {
           return validateMedicareSourceTuple(sharedContext.source_page_key, sharedContext.source_cta_key);
         }
@@ -727,7 +750,7 @@
   }
 
   function initAttribution() {
-    var qs = new URLSearchParams(window.location.search);
+    var qs = new URLSearchParams(landingSearch());
     var stored = persistClickIds(readStoredAttribution(), qs);
     var medicareSource = medicareSourceContext(qs);
     setValue('zipCode', qsValue(qs, 'zip_code'));
@@ -802,7 +825,7 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     initAttribution();
-    var qs = new URLSearchParams(window.location.search);
+    var qs = new URLSearchParams(landingSearch());
     var coverageState = resolveCoverageState(qs);
     var hideMedicare = isNonFloridaCoverageState(coverageState);
     var selected = normalizeIntent(qs.get('intent'));
@@ -844,6 +867,7 @@
     approvedGoogleCampaignID: approvedGoogleCampaignID,
     clickAttributionValue: clickAttributionValue,
     persistClickIds: persistClickIds,
+    landingSearch: landingSearch,
     initAttribution: initAttribution,
     readStoredAttribution: readStoredAttribution,
     referralClass: referralClass,

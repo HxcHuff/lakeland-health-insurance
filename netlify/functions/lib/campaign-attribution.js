@@ -16,18 +16,39 @@ const FIRST_ATTRIBUTION_FIELDS = Object.freeze(
 const LEAD_ATTRIBUTION_FIELDS = Object.freeze(
   CURRENT_ATTRIBUTION_FIELDS.concat(FIRST_ATTRIBUTION_FIELDS)
 );
+const UTM_VALUE_MAX_LENGTH = 64;
+const UTM_TERM_MAX_LENGTH = 80;
+
+/**
+ * Sanitize a campaign UTM token for storage and forwarding.
+ * Rules: lowercase; keep only [a-z0-9_-]; strip every other character;
+ * cap at 64 characters; drop the value when the result is empty.
+ * Reject email/phone-like strings before stripping so they cannot become
+ * stored tokens (for example jane@x.com must not become janexcom).
+ * Google Ads cid_{campaignid} tokens stay intact because they are already
+ * safe and must remain distinguishable from phone-like numbers.
+ */
+function sanitizeUtmValue(value) {
+  const text = String(value || '').trim().toLowerCase();
+  if (!text) return '';
+  if (/^cid_\d{8,20}$/.test(text)) {
+    return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
+  }
+  if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
+  return text.replace(/[^a-z0-9_-]/g, '').slice(0, UTM_VALUE_MAX_LENGTH);
+}
 
 function sanitizeCampaignToken(value, allowSpaces = false) {
-  const text = String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
-  if (!text || text.length > 80) return '';
-  // Google Ads suffixes prefix {campaignid} so platform IDs remain
-  // distinguishable from untrusted phone-like numeric values.
-  if (!allowSpaces && /^cid_\d{8,20}$/.test(text)) return text;
-  if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
-  const pattern = allowSpaces
-    ? /^[a-z0-9][a-z0-9 ._~+\-]*$/
-    : /^[a-z0-9][a-z0-9._~-]*$/;
-  return pattern.test(text) ? text : '';
+  if (allowSpaces) {
+    // utm_term keeps the Google Ads {keyword} sanitizer: spaces allowed,
+    // 80-character cap, validate-or-drop. Organic Facebook posts do not
+    // use this field; sitelink keywords still need the multi-word form.
+    const text = String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    if (!text || text.length > UTM_TERM_MAX_LENGTH) return '';
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
+    return /^[a-z0-9][a-z0-9 ._~+\-]*$/.test(text) ? text : '';
+  }
+  return sanitizeUtmValue(value);
 }
 
 function sanitizeClickID(value) {
@@ -121,6 +142,8 @@ module.exports = {
   CURRENT_ATTRIBUTION_FIELDS,
   FIRST_ATTRIBUTION_FIELDS,
   LEAD_ATTRIBUTION_FIELDS,
+  UTM_TERM_MAX_LENGTH,
+  UTM_VALUE_MAX_LENGTH,
   collectSanitizedClickIds,
   hasValidatedClickId,
   hubSpotClickAttribution,
@@ -129,5 +152,6 @@ module.exports = {
   sanitizeCampaignToken,
   sanitizeClickID,
   sanitizeGoogleCampaignID,
+  sanitizeUtmValue,
   selectPreferredClickId
 };

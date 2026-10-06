@@ -754,6 +754,17 @@ test('form schemas preserve declared live fields and discard arbitrary keys', ()
     utm_content: 'sitelink_aca'
   });
   assert.deepEqual(_test.sanitizeCampaignAttribution({
+    utm_source: 'Facebook',
+    utm_medium: 'social',
+    utm_campaign: 'Retiree Spouse Tips!',
+    utm_content: 'post_a 🎉'
+  }), {
+    utm_source: 'facebook',
+    utm_medium: 'social',
+    utm_campaign: 'retireespousetips',
+    utm_content: 'post_a'
+  });
+  assert.deepEqual(_test.sanitizeCampaignAttribution({
     utm_term: 'jane@example.com',
     utm_content: '863-640-3102'
   }), {});

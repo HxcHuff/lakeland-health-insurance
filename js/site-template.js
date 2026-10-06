@@ -123,9 +123,16 @@
     var raw = search;
     if (raw == null) {
       try {
-        raw = window.location.search || '';
-      } catch (error) {
-        raw = '';
+        if (window.LHILandingQuery && window.LHILandingQuery.search != null) {
+          raw = window.LHILandingQuery.search;
+        }
+      } catch (error) {}
+      if (raw == null) {
+        try {
+          raw = window.location.search || '';
+        } catch (error) {
+          raw = '';
+        }
       }
     }
     var query = String(raw || '');

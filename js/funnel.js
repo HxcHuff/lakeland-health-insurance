@@ -226,6 +226,23 @@
     };
   }
 
+  function landingSearch() {
+    try {
+      if (w.LHILandingQuery && w.LHILandingQuery.search != null) {
+        return String(w.LHILandingQuery.search || '');
+      }
+    } catch (e) {}
+    try {
+      if (w.sessionStorage && typeof w.sessionStorage.getItem === 'function') {
+        var stored = JSON.parse(w.sessionStorage.getItem('lhi_landing_query') || 'null');
+        if (stored && stored.search != null && stored.pathname === String(w.location.pathname || '/')) {
+          return String(stored.search || '');
+        }
+      }
+    } catch (e) {}
+    return String(w.location.search || '');
+  }
+
   function sourceContextFromSearch(search) {
     var qs = new URLSearchParams(String(search || ''));
     if (String(qs.get('intent') || '').toLowerCase() !== 'medicare') return null;
@@ -236,18 +253,19 @@
   }
 
   function currentMedicareSourceContext() {
+    var search = landingSearch();
     var context = null;
     try {
       if (w.LHIMedicareAttribution && typeof w.LHIMedicareAttribution.sourceContext === 'function') {
-        context = w.LHIMedicareAttribution.sourceContext(w.location.search || '');
+        context = w.LHIMedicareAttribution.sourceContext(search);
       }
     } catch (e) {}
-    return canonicalSourceContext(context || {}) || sourceContextFromSearch(w.location.search || '');
+    return canonicalSourceContext(context || {}) || sourceContextFromSearch(search);
   }
 
   function medicareIntakeContext() {
     if (normalizePath(w.location.pathname) !== '/get-help/') return null;
-    var qs = new URLSearchParams(String(w.location.search || ''));
+    var qs = new URLSearchParams(landingSearch());
     var source = currentMedicareSourceContext();
     if (!source && String(qs.get('intent') || '').toLowerCase() !== 'medicare') return null;
     return Object.assign({
@@ -321,14 +339,19 @@
     return cookie('lhi_sid') || cookie('lhi_sid', uuid(), 365);
   }
 
+  var UTM_VALUE_MAX_LENGTH = 64;
+
   function approvedCampaignValue(value) {
     var text = String(value || '').trim().toLowerCase();
-    if (!text || text.length > 80) return null;
+    if (!text) return null;
     // Google Ads suffixes prefix {campaignid} so platform IDs remain
     // distinguishable from untrusted phone-like numeric values.
-    if (/^cid_\d{8,20}$/.test(text)) return text;
+    if (/^cid_\d{8,20}$/.test(text)) {
+      return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
+    }
     if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
-    return /^[a-z0-9][a-z0-9._~-]*$/.test(text) ? text : null;
+    text = text.replace(/[^a-z0-9_-]/g, '').slice(0, UTM_VALUE_MAX_LENGTH);
+    return text || null;
   }
 
   function approvedCampaignTerm(value) {
@@ -367,7 +390,7 @@
   }
 
   function getAttribution() {
-    var qs = new URLSearchParams(w.location.search);
+    var qs = new URLSearchParams(landingSearch());
     var rawStored = {};
     try { rawStored = JSON.parse(cookie('lhi_attr') || '{}'); } catch (e) {}
     var stored = {};
