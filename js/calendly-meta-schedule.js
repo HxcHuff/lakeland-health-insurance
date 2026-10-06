@@ -145,6 +145,59 @@
     return 'lhi_book_' + compact + '_' + tag;
   }
 
+  var UTM_QUERY_KEYS = {
+    utm_source: true,
+    utm_medium: true,
+    utm_campaign: true,
+    utm_term: true,
+    utm_content: true
+  };
+  var UTM_VALUE_MAX_LENGTH = 64;
+
+  function sanitizeUtmValue(value) {
+    var text = String(value || '').trim().toLowerCase();
+    if (!text) return '';
+    if (/^cid_\d{8,20}$/.test(text)) {
+      return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
+    }
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
+    return text.replace(/[^a-z0-9_-]/g, '').slice(0, UTM_VALUE_MAX_LENGTH);
+  }
+
+  function sanitizeBookingTerm(value) {
+    var text = String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    if (!text || text.length > 80) return '';
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
+    return /^[a-z0-9][a-z0-9 ._~+\-]*$/.test(text) ? text : '';
+  }
+
+  function decodeQueryValue(value) {
+    try {
+      return decodeURIComponent(String(value || '').replace(/\+/g, ' '));
+    } catch (_) {
+      return '';
+    }
+  }
+
+  function sanitizeBookingSearch(search) {
+    var extra = String(search || '');
+    if (extra.charAt(0) === '?') extra = extra.slice(1);
+    if (!extra) return '';
+    var parts = extra.split('&');
+    var cleaned = [];
+    for (var i = 0; i < parts.length; i += 1) {
+      var part = parts[i];
+      if (!part) continue;
+      var eq = part.indexOf('=');
+      var key = decodeQueryValue(eq === -1 ? part : part.slice(0, eq));
+      var value = decodeQueryValue(eq === -1 ? '' : part.slice(eq + 1));
+      if (!UTM_QUERY_KEYS[key]) continue;
+      var sanitized = key === 'utm_term' ? sanitizeBookingTerm(value) : sanitizeUtmValue(value);
+      if (sanitized) cleaned.push(encodeURIComponent(key) + '=' + encodeURIComponent(sanitized));
+    }
+    return cleaned.join('&');
+  }
+
   function bookingEmbedUrl(hostname, search) {
     var params = [
       'embed_domain=' + encodeURIComponent(String(hostname || 'lakelandhealthinsurance.com')),
@@ -153,10 +206,23 @@
       'hide_gdpr_banner=1',
       'hide_landing_page_details=1'
     ];
-    var extra = String(search || '');
-    if (extra.charAt(0) === '?') extra = extra.slice(1);
+    var extra = sanitizeBookingSearch(search);
     if (extra) params.push(extra);
     return BOOKING_EMBED_BASE + '?' + params.join('&');
+  }
+
+  function reportedPageUrl() {
+    return String(w.location && w.location.origin || '') + String(w.location && w.location.pathname || '/');
+  }
+
+  function stripLocationForPixel() {
+    var clean = reportedPageUrl();
+    try {
+      if (w.history && typeof w.history.replaceState === 'function') {
+        w.history.replaceState(w.history.state || null, '', clean);
+      }
+    } catch (_) {}
+    return !String(w.location && w.location.search || '') && !String(w.location && w.location.hash || '');
   }
 
   function applyBookingFrame() {
@@ -164,7 +230,8 @@
     if (!frame || !w.location) return false;
     // Point the iframe at Calendly's origin. A same-origin 200 rewrite of
     // Calendly HTML makes their booking BFF call /api/booking/* on this host
-    // and the calendar stays blank.
+    // and the calendar stays blank. Capture sanitized UTMs first, then strip
+    // the page URL before the booking Pixel PageView.
     frame.src = bookingEmbedUrl(w.location.hostname, w.location.search);
     return true;
   }
@@ -380,6 +447,10 @@
       return false;
     }
     applyBookingFrame();
+    if (!stripLocationForPixel()) {
+      setStatus('skipped', 'query-not-stripped');
+      return false;
+    }
     preparePixel();
     w.addEventListener('message', handleScheduled);
     return true;

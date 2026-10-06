@@ -11,7 +11,7 @@ assert.ok(loaderMatch, 'shared analytics asset contains the Meta audience loader
 const LOADER_SRC = loaderMatch[1];
 const PIXEL_ID = '1480756087079484';
 const ELIGIBLE_MARKER = '<meta name="meta-audience-eligible" content="pageview">';
-const ANALYTICS_VERSION = '/js/analytics.js?v=20260918a';
+const ANALYTICS_VERSION = '/js/analytics.js?v=20261006-handoff';
 const CONSENT_KEY = 'lhi_meta_audience_consent';
 const ELIGIBLE_PAGES = [
   ['get-help/index.html', '/get-help/'],
@@ -173,12 +173,37 @@ function loadMetaAudience({
   installCookieJar(document, cookie);
   const protocol = hostname === 'localhost' ? 'http:' : 'https:';
   const origin = `${protocol}//${hostname}`;
+  const location = {
+    hostname,
+    pathname,
+    search,
+    hash,
+    protocol,
+    origin,
+    href: `${origin}${pathname}${search || ''}${hash || ''}`
+  };
   const sandbox = {
     URL,
     URLSearchParams,
+    JSON,
+    Date,
+    encodeURIComponent,
+    decodeURIComponent,
     document,
     localStorage: storage,
-    location: { hostname, pathname, search, hash, protocol, origin },
+    sessionStorage: makeStorage(),
+    location,
+    history: {
+      state: null,
+      replaceState(state, _title, url) {
+        const parsed = new URL(String(url || ''), origin);
+        location.pathname = parsed.pathname;
+        location.search = parsed.search;
+        location.hash = parsed.hash;
+        location.href = `${parsed.origin}${parsed.pathname}`;
+        this.state = state;
+      }
+    },
     navigator: { globalPrivacyControl, doNotTrack },
     window: null
   };
@@ -224,6 +249,10 @@ test('all 8 reviewed landing routes queue one isolated standard PageView with no
     assert.deepEqual(queuedCalls(sandbox).map((call) => call.length), [2, 4, 2, 3], pathname);
     assert.equal(sandbox.fbq.disablePushState, true, pathname);
     assert.equal(sandbox.__LHI_META_AUDIENCE_STATUS__.state, 'queued', pathname);
+    assert.equal(sandbox.__LHI_META_AUDIENCE_STATUS__.page_url, `https://lakelandhealthinsurance.com${pathname}`, pathname);
+    assert.equal(sandbox.location.search, '', pathname);
+    assert.equal(sandbox.location.hash, '', pathname);
+    assert.doesNotMatch(sandbox.location.href, /[?#]/, pathname);
     assert.equal(controls.metaAudienceConsentPrompt, undefined, pathname);
     assert.doesNotMatch(JSON.stringify(queuedCalls(sandbox)), /Lead|Contact|Schedule|trackCustom|full_name|email|phone|zip|income/i, pathname);
   }
@@ -264,7 +293,7 @@ test('query, fragment, and referrer gates reject uncertain or user-like data', (
     { search: '?utm_term=jane%40example.com' },
     { search: '?utm_content=863-555-1212' },
     { search: '?utm_content=33801' },
-    { search: '?utm_content=Jane+Smith' },
+    { search: '?utm_content=medicare-tips' },
     { search: '?intent=jane%40example.com' },
     { search: '?zip_code=863-555-1212' },
     { search: '?fbclid=IwAR8635551212SensitiveValue' },
@@ -301,6 +330,93 @@ test('query, fragment, and referrer gates reject uncertain or user-like data', (
     search: '?utm_campaign=cid_12345678'
   });
   assert.equal(campaignSlug.scripts.length, 1);
+
+  const organicPost = loadMetaAudience({
+    pathname: '/get-help/',
+    search: '?utm_source=facebook&utm_medium=social&utm_campaign=Retiree+Spouse+Tips&utm_content=post_topic_v1'
+  });
+  assert.equal(organicPost.scripts.length, 1);
+  assert.deepEqual(queuedCalls(organicPost.sandbox), EXPECTED_CALLS);
+  assert.equal(organicPost.sandbox.location.search, '');
+  assert.equal(organicPost.sandbox.location.hash, '');
+  assert.equal(organicPost.sandbox.location.href, 'https://lakelandhealthinsurance.com/get-help/');
+  assert.equal(organicPost.sandbox.__LHI_META_AUDIENCE_STATUS__.page_url, 'https://lakelandhealthinsurance.com/get-help/');
+  assert.match(organicPost.document.cookie, /lhi_attr=/);
+  assert.match(decodeURIComponent(organicPost.document.cookie), /retireespousetips/);
+
+  const paidSocial = loadMetaAudience({
+    pathname: '/get-help/',
+    search: '?utm_source=facebook&utm_medium=paid_social&utm_campaign=lhi_site_retargeting_fps&utm_content=new_creative_v2'
+  });
+  assert.equal(paidSocial.scripts.length, 1);
+  assert.deepEqual(queuedCalls(paidSocial.sandbox), EXPECTED_CALLS);
+  assert.equal(paidSocial.sandbox.location.search, '');
+  assert.equal(paidSocial.sandbox.__LHI_META_AUDIENCE_STATUS__.page_url, 'https://lakelandhealthinsurance.com/get-help/');
+
+  const brand = loadMetaAudience({
+    pathname: '/get-help/',
+    search: '?utm_source=facebook&utm_medium=paid_social&utm_campaign=florida_brand&utm_content=home_brand_v1'
+  });
+  assert.equal(brand.scripts.length, 1);
+  assert.equal(brand.sandbox.location.search, '');
+});
+
+test('health slugs in raw campaign or term values skip the Pixel', () => {
+  for (const search of [
+    '?utm_campaign=diabetes-medicare',
+    '?utm_campaign=cancer',
+    '?utm_campaign=medicaid-loss',
+    '?utm_campaign=Diabetes+Medicare',
+    '?utm_campaign=glp1',
+    '?utm_term=ozempic',
+    '?utm_content=wegovy-ad'
+  ]) {
+    const { sandbox, scripts } = loadMetaAudience({ search });
+    assert.equal(scripts.length, 0, search);
+    assert.equal(sandbox.fbq, undefined, search);
+    assert.equal(sandbox.__LHI_META_AUDIENCE_STATUS__.reason, 'query-rejected', search);
+    assert.equal(sandbox.location.search, search, search);
+  }
+});
+
+test('heartland, heart-of-florida, and disbursement still load the Pixel', () => {
+  for (const search of [
+    '?utm_source=facebook&utm_medium=social&utm_campaign=heartland',
+    '?utm_source=facebook&utm_medium=social&utm_campaign=heart-of-florida',
+    '?utm_source=facebook&utm_medium=social&utm_campaign=disbursement'
+  ]) {
+    const { sandbox, scripts } = loadMetaAudience({ search });
+    assert.equal(scripts.length, 1, search);
+    assert.equal(sandbox.location.search, '');
+    assert.equal(sandbox.__LHI_META_AUDIENCE_STATUS__.state, 'queued', search);
+  }
+
+  for (const search of [
+    '?utm_campaign=heart-disease',
+    '?utm_campaign=heart_attack',
+    '?utm_campaign=heart-failure',
+    '?utm_content=disabled',
+    '?utm_term=disability'
+  ]) {
+    const { sandbox, scripts } = loadMetaAudience({ search });
+    assert.equal(scripts.length, 0, search);
+    assert.equal(sandbox.__LHI_META_AUDIENCE_STATUS__.reason, 'query-rejected', search);
+  }
+});
+
+test('name-like utm_content does not send the raw query to the Pixel', () => {
+  const named = loadMetaAudience({
+    pathname: '/quote/',
+    search: '?utm_source=facebook&utm_medium=social&utm_campaign=retiree-spouse-tips&utm_content=Jane+Smith'
+  });
+  assert.equal(named.scripts.length, 1);
+  assert.deepEqual(queuedCalls(named.sandbox), EXPECTED_CALLS);
+  assert.equal(named.sandbox.location.search, '');
+  assert.equal(named.sandbox.location.hash, '');
+  assert.doesNotMatch(named.sandbox.location.href, /[?#]/);
+  assert.doesNotMatch(named.sandbox.location.href, /Jane|Smith|utm_/i);
+  assert.equal(named.sandbox.__LHI_META_AUDIENCE_STATUS__.page_url, 'https://lakelandhealthinsurance.com/quote/');
+  assert.match(decodeURIComponent(named.document.cookie), /janesmith/);
 });
 
 test('only reviewed same-site referrers pass without query or fragment data', () => {
@@ -519,6 +635,7 @@ test('CSP and static source preserve the single-loader, intended-dataset contrac
   assert.doesNotMatch(lead, /user_data:\s*\{[^}]*\b(?:email|phone|zip|name|income|provider|prescription)\b/is);
   assert.doesNotMatch(privacy, /Meta website-audience measurement[^.]*disabled on forms/i);
   assert.match(privacy, /does not inspect or transmit anything entered into a form/i);
+  assert.match(privacy, /The PageView reports only the page path \(no query or campaign parameters\)\./);
   assert.match(privacy, /Measurement remains disabled on other intake pages/i);
   assert.match(privacy, /server-side Meta Lead integration also requires the saved “allow” preference cookie/i);
   assert.doesNotMatch(LOADER_SRC, /ensureConsentPrompt|CONSENT_STYLES_ID|createElement\(['"]aside['"]\)|position:\s*fixed/i);

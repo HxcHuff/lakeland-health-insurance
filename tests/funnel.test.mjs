@@ -770,7 +770,7 @@ test('Google consent default is queued before any gtag config, including eager w
 test('idle production homepage sends one GA4 page_view as the first GA4 event', () => {
   assert.match(
     ANALYTICS_SRC,
-    /window\.gtag\('event', 'page_view', \{\s*send_to: 'G-W45RMKHXV0',\s*page_location: window\.location\.href,\s*page_title: document\.title\s*\}\);/s
+    /window\.gtag\('event', 'page_view', \{\s*send_to: 'G-W45RMKHXV0',\s*page_location: ga4PageLocation\(\),\s*page_title: document\.title\s*\}\);/s
   );
   assert.match(ANALYTICS_SRC, /send_page_view: false,\s*debug_mode: IS_ANALYTICS_DEBUG/s);
 
@@ -805,6 +805,23 @@ test('idle production homepage sends one GA4 page_view as the first GA4 event', 
     commands.filter((entry) => entry[0] === 'event' && entry[1] === 'medicare_content_view').length,
     0
   );
+});
+
+test('GA4 page_location keeps sanitized UTMs and gclid after the landing query is snapshotted', () => {
+  const loaded = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/get-help/',
+    search: '?utm_source=facebook&utm_medium=social&utm_campaign=florida_brand&gclid=OpaqueGoogleClickIdentifier123&zip_code=33805&intent=medicare',
+    readyState: 'complete'
+  });
+  loaded.runTimeouts();
+  const pageViews = gtagCommands(loaded.dataLayer).filter((entry) => entry[0] === 'event' && entry[1] === 'page_view');
+  assert.equal(pageViews.length, 1);
+  assert.equal(
+    pageViews[0][2].page_location,
+    'https://lakelandhealthinsurance.com/get-help/?utm_source=facebook&utm_medium=social&utm_campaign=florida_brand&gclid=OpaqueGoogleClickIdentifier123'
+  );
+  assert.doesNotMatch(pageViews[0][2].page_location, /zip_code|intent=/);
 });
 
 test('listener-order-safe DOMContentLoaded retry initializes website-call tracking for a late template link exactly once', () => {
@@ -923,7 +940,7 @@ test('first-party attribution loads immediately on the homepage, Get Help, and p
   for (const pathname of ['/', '/get-help/', '/lp/aca/', '/lp/medicare/', '/lp/gap/']) {
     const { appendedScripts } = loadAnalytics({ pathname });
     assert.ok(
-      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260930-click-id'),
+      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261006-handoff'),
       `${pathname} requests the attribution bus during analytics initialization`
     );
   }
@@ -936,7 +953,7 @@ test('first-party delivery bus loads immediately on any parsed tracked form page
   });
 
   assert.ok(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260930-click-id'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261006-handoff'),
     'a tracked city-page form requests the delivery bus during analytics initialization'
   );
 });
@@ -949,7 +966,7 @@ test('tracked form pages with a direct funnel script do not request it twice', (
   });
 
   assert.equal(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260930-click-id'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261006-handoff'),
     false
   );
 });
@@ -1194,6 +1211,11 @@ test('Medicare attribution rejects tampered page, CTA, and campaign values', () 
   }
   assert.equal(helper.approvedCampaignValue('jane@example.com'), null);
   assert.equal(helper.approvedCampaignValue('863-640-3102'), null);
+  assert.equal(helper.approvedCampaignValue('FACEBOOK'), 'facebook');
+  assert.equal(helper.approvedCampaignValue('Retiree Spouse Tips!'), 'retireespousetips');
+  assert.equal(helper.approvedCampaignValue('<script>alert(1)</script>'), 'scriptalert1script');
+  assert.equal(helper.approvedCampaignValue('🎉🎉🎉'), null);
+  assert.equal(helper.approvedCampaignValue('a'.repeat(80)), 'a'.repeat(64));
 
   assert.deepEqual(JSON.parse(JSON.stringify(helper.sourceContext(
     '?intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_page_role=transaction&source_cta_key=request_review_hero'
@@ -1226,7 +1248,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
     assert.equal(ctas.some((cta) => cta.ctaKey === null), false, `${expected.pageKey} has an unkeyed in-content Get Help CTA`);
     assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
-    assert.match(html, /\/js\/analytics\.js\?v=20260918a/);
+    assert.match(html, /\/js\/analytics\.js\?v=20261006-handoff/);
 
     for (const cta of ctas) {
       const url = new URL(cta.href, 'https://lakelandhealthinsurance.com');
@@ -1602,7 +1624,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
 test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /David will reach out shortly\./);
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
-  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20260918a/);
+  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261006-handoff/);
 });
 
 test('direct thank-you visits show customer-facing help copy', () => {
@@ -2002,7 +2024,7 @@ test('legacy campaign aliases land on current canonical articles', () => {
 });
 
 test('shared release invalidates stale asset caches and keeps desktop navigation on one row', () => {
-  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261001-tpmo-8-65';/);
+  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261006-handoff';/);
   assert.match(SITE_TEMPLATE_CSS, /header \.nav-links\s*\{[^}]*flex-wrap:\s*nowrap;/s);
 });
 
@@ -2111,6 +2133,8 @@ test('get-help intent allowlist falls back safely', () => {
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('medicare_review'), 'medicare_review');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('jane@example.com'), '');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('863-640-3102'), '');
+  assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('Retiree Spouse Tips!'), 'retireespousetips');
+  assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('FACEBOOK'), 'facebook');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignTerm('Health Insurance Lakeland'), 'health insurance lakeland');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignTerm('jane@example.com'), '');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignTerm('863-640-3102'), '');
@@ -2141,7 +2165,7 @@ test('Get Help stores only bounded Medicare attribution and approved campaign fi
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
   }
   assert.doesNotMatch(GET_HELP_HTML, /name="fbclid"/);
-  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20260930-click-id/);
+  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20261006-handoff/);
   assert.match(GET_HELP_SRC, /setValue\('sourcePageInput', String\(window\.location\.pathname \|\| '\/'\)\.slice\(0, 160\)\);/);
   assert.doesNotMatch(GET_HELP_SRC, /window\.location\.pathname \+ window\.location\.search/);
   assert.match(GET_HELP_HTML, /id="optionalPrivacyNote">Do not enter medication names, medical details, policy or member numbers, Medicare numbers, Social Security numbers, or medical records in optional fields\./);
@@ -2232,7 +2256,70 @@ function makeAttributionForm({ eventName = 'Lead', sitelink = false } = {}) {
   };
 }
 
-function loadGetHelpIntake({ search = '', cookie = '', protocol = 'http:' } = {}) {
+function loadMetaAudienceForGetHelp(search) {
+  const loaderMatch = ANALYTICS_SRC.match(/\/\* LHI_META_AUDIENCE_START \*\/([\s\S]*?)\/\* LHI_META_AUDIENCE_END \*\//);
+  assert.ok(loaderMatch, 'analytics.js contains the Meta audience loader');
+  const values = new Map([['lhi_meta_audience_consent', 'granted']]);
+  const sessionValues = new Map();
+  const origin = 'https://lakelandhealthinsurance.com';
+  const location = {
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/get-help/',
+    search,
+    hash: '',
+    protocol: 'https:',
+    origin,
+    href: `${origin}/get-help/${search}`
+  };
+  const sandbox = {
+    URL,
+    URLSearchParams,
+    JSON,
+    Date,
+    encodeURIComponent,
+    decodeURIComponent,
+    document: {
+      cookie: 'lhi_meta_audience_consent=granted',
+      referrer: '',
+      head: { appendChild() {} },
+      createElement() { return { async: false, src: '' }; },
+      querySelector(selector) {
+        return selector === 'meta[name="meta-audience-eligible"][content="pageview"]' ? {} : null;
+      },
+      getElementById() { return null; }
+    },
+    localStorage: {
+      getItem(key) { return values.has(key) ? values.get(key) : null; },
+      setItem(key, value) { values.set(key, String(value)); },
+      removeItem(key) { values.delete(key); }
+    },
+    sessionStorage: {
+      getItem(key) { return sessionValues.has(key) ? sessionValues.get(key) : null; },
+      setItem(key, value) { sessionValues.set(key, String(value)); },
+      removeItem(key) { sessionValues.delete(key); }
+    },
+    location,
+    history: {
+      state: null,
+      replaceState(state, _title, url) {
+        const parsed = new URL(String(url || ''), origin);
+        location.pathname = parsed.pathname;
+        location.search = parsed.search;
+        location.hash = parsed.hash;
+        location.href = `${parsed.origin}${parsed.pathname}`;
+        this.state = state;
+      }
+    },
+    navigator: { globalPrivacyControl: false, doNotTrack: '0' },
+    window: null
+  };
+  sandbox.window = sandbox;
+  vm.createContext(sandbox);
+  vm.runInContext(loaderMatch[1], sandbox, { filename: 'meta-audience.js' });
+  return { sandbox };
+}
+
+function loadGetHelpIntake({ search = '', cookie = '', protocol = 'http:', landingQuery = null, sessionStore = null } = {}) {
   const inputs = {};
   [
     'zipCode',
@@ -2270,6 +2357,12 @@ function loadGetHelpIntake({ search = '', cookie = '', protocol = 'http:' } = {}
       search,
       origin: 'https://lakelandhealthinsurance.com',
       protocol
+    },
+    LHILandingQuery: landingQuery,
+    sessionStorage: sessionStore || {
+      getItem: () => null,
+      setItem: () => {},
+      removeItem: () => {}
     },
     document: {
       cookie,
@@ -2398,6 +2491,41 @@ test('Lead and sitelink forms receive click IDs; Subscriber and hero ZIP forms d
   assert.equal(subscriberForm.elements.first_gclid, undefined);
   assert.equal(heroForm.elements.utm_source.value, 'google');
   assert.equal(heroForm.elements.gclid, undefined);
+});
+
+test('consented Get Help keeps medicare handoff fields after the address bar is cleaned', () => {
+  const search = '?intent=medicare&source_page_key=medicare&source_cta_key=start_review_hero&zip_code=33805&utm_source=facebook&utm_medium=social&utm_campaign=florida_brand';
+  const { sandbox: meta } = loadMetaAudienceForGetHelp(search);
+  assert.equal(meta.location.search, '');
+  assert.doesNotMatch(meta.location.href, /[?#]/);
+  assert.equal(meta.LHILandingQuery.search, search);
+  assert.match(meta.sessionStorage.getItem('lhi_landing_query') || '', /intent=medicare/);
+
+  const { sandbox, inputs } = loadGetHelpIntake({
+    search: '',
+    landingQuery: meta.LHILandingQuery,
+    sessionStore: meta.sessionStorage
+  });
+  sandbox.LHIGetHelpIntake.initAttribution();
+  assert.equal(inputs.zipCode.value, '33805');
+  assert.equal(inputs.sourcePageKeyInput.value, 'medicare');
+  assert.equal(inputs.sourceCtaKeyInput.value, 'start_review_hero');
+  assert.equal(inputs.utmCampaignInput.value, 'florida_brand');
+  assert.equal(sandbox.LHIGetHelpIntake.landingSearch(), search);
+  assert.equal(sandbox.LHIGetHelpIntake.normalizeIntent(new URLSearchParams(sandbox.LHIGetHelpIntake.landingSearch()).get('intent')), 'medicare');
+  const source = sandbox.LHIGetHelpIntake.medicareSourceContext(new URLSearchParams(sandbox.LHIGetHelpIntake.landingSearch()));
+  assert.equal(source.source_page_key, 'medicare');
+  assert.equal(source.source_cta_key, 'start_review_hero');
+
+  const extraSearch = search + '&product=medicare&plan=advantage';
+  const extra = loadGetHelpIntake({
+    search: '',
+    landingQuery: { search: extraSearch, pathname: '/get-help/' }
+  });
+  extra.sandbox.LHIGetHelpIntake.initAttribution();
+  assert.equal(extra.inputs.productInterestInput.value, 'medicare');
+  assert.equal(extra.inputs.planInterestInput.value, 'advantage');
+  assert.equal(extra.sandbox.LHIGetHelpIntake.normalizeIntent(new URLSearchParams(extra.sandbox.LHIGetHelpIntake.landingSearch()).get('intent')), 'medicare');
 });
 
 test('Get Help hydrates click IDs from the URL or first-party store and ignores spoofed first-touch params', () => {

@@ -20,7 +20,7 @@ const SERVICE_WORKER = readFileSync(join(ROOT, 'sw.js'), 'utf8');
 const HOME = readFileSync(join(ROOT, 'index.html'), 'utf8');
 const BLOG = readFileSync(join(ROOT, 'blog/index.html'), 'utf8');
 const NETLIFY_IGNORE = readFileSync(join(ROOT, '.netlifyignore'), 'utf8');
-const SITE_TEMPLATE_LOADER = '/js/site-template.js?v=20261001-tpmo-8-65';
+const SITE_TEMPLATE_LOADER = '/js/site-template.js?v=20261006-handoff';
 
 const RETIRED_FILES = [
   'blog/ads-manager-setup-checklist.html',
@@ -236,7 +236,7 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
   assert.match(COVERAGE_CENTER, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/coverage-center\/">/);
   assert.match(COVERAGE_CENTER, /<title>Coverage Center: Medicare &amp; Under-65 Plan Review<\/title>/);
   assert.match(COVERAGE_CENTER, /\/css\/site-template\.css\?v=20260929-compliance/);
-  assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261001-tpmo-8-65/);
+  assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261006-handoff/);
   assert.match(COVERAGE_CENTER, /"@type": "BreadcrumbList"/);
   assert.match(COVERAGE_CENTER, /Lakeland Health Insurance · Lakeland, FL 33805 · By appointment/);
   assert.match(COVERAGE_CENTER, /FL License #W371813 \/ NPN 18213932/);
@@ -281,8 +281,8 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   assert.match(QUOTE, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/quote\/">/);
   assert.match(PLANS, /https:\/\/lakelandhealthinsurance\.com\/plans\/#webpage/);
   assert.match(QUOTE, /https:\/\/lakelandhealthinsurance\.com\/quote\/#webpage/);
-  assert.match(PLANS, /\/js\/analytics\.js\?v=20260918a/);
-  assert.match(QUOTE, /\/js\/analytics\.js\?v=20260918a/);
+  assert.match(PLANS, /\/js\/analytics\.js\?v=20261006-handoff/);
+  assert.match(QUOTE, /\/js\/analytics\.js\?v=20261006-handoff/);
   assert.equal((SITE_TEMPLATE.match(/\['\/plans\/', 'Coverage Options'\]/g) || []).length, 2);
   assert.match(SITE_TEMPLATE, /<a href="\/plans\/">Coverage Options<\/a>/);
   assert.doesNotMatch(SITE_TEMPLATE, /['"]Plan Types['"]/);
@@ -303,8 +303,8 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
     assert.equal(source.includes('/js/site-template.js'), false, `${rel} owns focused paid-page chrome`);
   }
 
-  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261001-tpmo-8-65';/);
-  assert.match(SERVICE_WORKER, /const SITE_TEMPLATE_URL = '\/js\/site-template\.js\?v=20261001-tpmo-8-65';/);
+  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261006-handoff';/);
+  assert.match(SERVICE_WORKER, /const SITE_TEMPLATE_URL = '\/js\/site-template\.js\?v=20261006-handoff';/);
   assert.match(SERVICE_WORKER, /requestUrl\.pathname === '\/js\/site-template\.js'/);
   assert.match(SERVICE_WORKER, /fetchSharedTemplate\(request\)/);
 });

@@ -104,7 +104,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /Reply STOP to cancel or HELP for help/);
 
     assert.match(html, /\/css\/site-template\.css\?v=20260929-compliance/);
-    assert.match(html, /\/js\/funnel\.js\?v=20260930-click-id/);
+    assert.match(html, /\/js\/funnel\.js\?v=20261006-handoff/);
   });
 }
 
@@ -142,7 +142,7 @@ test('every public click-to-call link uses the verified E.164 target and tracked
     for (const target of phoneTargets) assert.equal(target, 'tel:+18636403102', file);
     assert.match(
       html,
-      /\/js\/analytics\.js\?v=20260918a/,
+      /\/js\/analytics\.js\?v=20261006-handoff/,
       `${file} loads the canonical phone telemetry and forwarding-number handler`
     );
   }
