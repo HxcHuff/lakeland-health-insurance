@@ -44,6 +44,7 @@ const MEDICARE_SHIP_PAGES = [
   'blog/medicare-extra-help-savings-programs-polk-county.html',
   'blog/medicare-for-dummies.html',
   'blog/medicare-part-b-giveback-polk-county.html',
+  'blog/city-of-lakeland-retiree-medicare-spouse-premium.html',
   'blog/medicare-supplement-cost-lakeland.html',
   'blog/medicare-vs-aca-central-florida-age-65.html',
   'blog/medigap-plan-g-vs-plan-n.html',
