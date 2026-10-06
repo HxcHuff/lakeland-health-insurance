@@ -25,6 +25,74 @@
   <link rel="stylesheet" href="/css/fonts.css">
   <link rel="stylesheet" href="/css/site-template.css?v=20261006-banner">
   <link rel="stylesheet" href="/css/answer-pages.css?v=20260930-medicare-hero-contrast">
+  <style>
+    @media (max-width: 760px) {
+      .hub-table-wrap {
+        overflow: hidden;
+        position: relative;
+      }
+      .hub-comparison-table {
+        background: #fff;
+        display: block;
+        min-width: 0;
+        width: 100%;
+      }
+      .hub-comparison-table caption {
+        display: block;
+      }
+      .hub-comparison-table thead {
+        border: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+      .hub-comparison-table tbody {
+        display: block;
+      }
+      .hub-comparison-table tr {
+        display: block;
+      }
+      .hub-comparison-table tr + tr {
+        border-top: 1px solid #d9e2e6;
+      }
+      .hub-comparison-table th,
+      .hub-comparison-table td {
+        display: block;
+        max-width: 100%;
+        min-width: 0;
+        overflow-wrap: anywhere;
+        width: auto;
+      }
+      .hub-comparison-table tbody th {
+        padding-bottom: 4px;
+        width: auto;
+      }
+      .hub-comparison-table td {
+        border-bottom: 0;
+        padding-top: 8px;
+      }
+      .hub-comparison-table td::before {
+        color: #475569;
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 800;
+        line-height: 1.35;
+        margin-bottom: 3px;
+      }
+      .hub-comparison-table td:nth-child(2)::before {
+        content: "Original Medicare path";
+      }
+      .hub-comparison-table td:nth-child(3)::before {
+        content: "Medicare Advantage path";
+      }
+    }
+  </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",

@@ -612,6 +612,11 @@
   .sp-text p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.55; }
 
   .surgical-section { background: var(--white); }
+  .tier-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   .tier-table {
     width: 100%;
     margin-top: 40px;
@@ -866,8 +871,73 @@
       overflow-wrap: anywhere;
     }
     .savings-grid { grid-template-columns: 1fr; gap: 32px; }
-    .tier-table { font-size: 0.82rem; }
-    .tier-table thead th, .tier-table tbody td { padding: 10px 12px; }
+    .tier-scroll {
+      overflow: visible;
+      position: relative;
+    }
+    .tier-table {
+      background: transparent;
+      box-shadow: none;
+      display: block;
+      font-size: 0.92rem;
+      min-width: 0;
+      overflow: visible;
+      width: 100%;
+    }
+    .tier-table thead {
+      border: 0;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
+    .tier-table tbody,
+    .tier-table tr,
+    .tier-table td {
+      display: block;
+      max-width: 100%;
+      min-width: 0;
+      width: auto;
+    }
+    .tier-table tr {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      margin-top: 12px;
+      overflow: hidden;
+    }
+    .tier-table tbody tr:nth-child(even),
+    .tier-table tbody tr:hover { background: var(--white); }
+    .tier-table thead th,
+    .tier-table tbody td,
+    .tier-table tbody td:not(:first-child) {
+      border-bottom: 0;
+      overflow-wrap: anywhere;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    .tier-table tbody td:first-child {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .tier-table tbody td:first-child .tier-label { color: var(--white); }
+    .tier-table td::before {
+      color: var(--gray-600);
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      line-height: 1.35;
+      margin-bottom: 3px;
+    }
+    .tier-table td:nth-child(2)::before { content: "Network"; }
+    .tier-table td:nth-child(3)::before { content: "Non-Network Treatment"; }
+    .tier-table td:nth-child(4)::before { content: "What To Verify"; }
     .plan-grid { grid-template-columns: 1fr; }
   }
 
@@ -1106,7 +1176,7 @@ header .cta-button {
     <div class="section-label">Provider Networks</div>
     <div class="section-title">Choice Plus and Choice are not the same thing.</div>
     <p class="section-desc">Network differences matter more with short-term medical because non-network benefits can be limited or unavailable. Before choosing a plan, confirm your doctors, nearby hospitals, prescriptions, and expected care under the exact plan design.</p>
-    <div style="overflow-x:auto;">
+    <div class="tier-scroll">
       <table class="tier-table">
         <thead><tr><th>Plan Design</th><th>Network</th><th>Non-Network Treatment</th><th>What To Verify</th></tr></thead>
         <tbody>

@@ -444,6 +444,17 @@
       .menu-wrap { display: block; }
       .site-nav { gap: 14px; }
     }
+    @media (max-width: 900px) {
+      .jump-nav .container {
+        flex-wrap: wrap;
+        overflow-x: visible;
+      }
+      .jump-nav a {
+        max-width: 100%;
+        min-width: 0;
+        white-space: normal;
+      }
+    }
     @media (max-width: 760px) {
       .header-cta { display: none; }
       .hero { padding: 40px 0 34px; }

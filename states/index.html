@@ -48,6 +48,64 @@
       .answer-grid { grid-template-columns: 1fr; }
       .side-card { position: static; }
     }
+    @media (max-width: 760px) {
+      .facts-table-wrap {
+        overflow: hidden;
+        position: relative;
+      }
+      .facts-table {
+        display: block;
+        min-width: 0;
+        width: 100%;
+      }
+      .facts-table thead {
+        border: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+      .facts-table tbody,
+      .facts-table tr,
+      .facts-table th,
+      .facts-table td {
+        display: block;
+        max-width: 100%;
+        min-width: 0;
+        width: auto;
+      }
+      .facts-table tr {
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        margin: 0 0 12px;
+        padding: 10px 12px;
+      }
+      .facts-table tr:last-child { margin-bottom: 0; }
+      .facts-table th,
+      .facts-table td {
+        border-bottom: 0;
+        overflow-wrap: anywhere;
+        padding: 6px 0;
+      }
+      .facts-table th { width: auto; }
+      .facts-table td:empty { display: none; }
+      .facts-table td::before {
+        color: #475569;
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 800;
+        line-height: 1.35;
+        margin-bottom: 2px;
+      }
+      .facts-table td:nth-child(2)::before { content: "Where to enroll"; }
+      .facts-table td:nth-child(3)::before { content: "Open Enrollment for 2027"; }
+      .facts-table td:nth-child(4)::before { content: "Page"; }
+    }
 </style>
   <script type="application/ld+json">
   {
