@@ -321,14 +321,19 @@
     return cookie('lhi_sid') || cookie('lhi_sid', uuid(), 365);
   }
 
+  var UTM_VALUE_MAX_LENGTH = 64;
+
   function approvedCampaignValue(value) {
     var text = String(value || '').trim().toLowerCase();
-    if (!text || text.length > 80) return null;
+    if (!text) return null;
     // Google Ads suffixes prefix {campaignid} so platform IDs remain
     // distinguishable from untrusted phone-like numeric values.
-    if (/^cid_\d{8,20}$/.test(text)) return text;
+    if (/^cid_\d{8,20}$/.test(text)) {
+      return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
+    }
     if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
-    return /^[a-z0-9][a-z0-9._~-]*$/.test(text) ? text : null;
+    text = text.replace(/[^a-z0-9_-]/g, '').slice(0, UTM_VALUE_MAX_LENGTH);
+    return text || null;
   }
 
   function approvedCampaignTerm(value) {

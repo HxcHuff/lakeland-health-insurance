@@ -11,7 +11,7 @@ assert.ok(loaderMatch, 'shared analytics asset contains the Meta audience loader
 const LOADER_SRC = loaderMatch[1];
 const PIXEL_ID = '1480756087079484';
 const ELIGIBLE_MARKER = '<meta name="meta-audience-eligible" content="pageview">';
-const ANALYTICS_VERSION = '/js/analytics.js?v=20260918a';
+const ANALYTICS_VERSION = '/js/analytics.js?v=20261006-utm';
 const CONSENT_KEY = 'lhi_meta_audience_consent';
 const ELIGIBLE_PAGES = [
   ['get-help/index.html', '/get-help/'],
@@ -264,7 +264,7 @@ test('query, fragment, and referrer gates reject uncertain or user-like data', (
     { search: '?utm_term=jane%40example.com' },
     { search: '?utm_content=863-555-1212' },
     { search: '?utm_content=33801' },
-    { search: '?utm_content=Jane+Smith' },
+    { search: '?utm_content=medicare-tips' },
     { search: '?intent=jane%40example.com' },
     { search: '?zip_code=863-555-1212' },
     { search: '?fbclid=IwAR8635551212SensitiveValue' },
@@ -301,6 +301,20 @@ test('query, fragment, and referrer gates reject uncertain or user-like data', (
     search: '?utm_campaign=cid_12345678'
   });
   assert.equal(campaignSlug.scripts.length, 1);
+
+  const organicPost = loadMetaAudience({
+    pathname: '/get-help/',
+    search: '?utm_source=facebook&utm_medium=social&utm_campaign=Retiree+Spouse+Tips&utm_content=post_topic_v1'
+  });
+  assert.equal(organicPost.scripts.length, 1);
+  assert.deepEqual(queuedCalls(organicPost.sandbox), EXPECTED_CALLS);
+
+  const paidSocial = loadMetaAudience({
+    pathname: '/get-help/',
+    search: '?utm_source=facebook&utm_medium=paid_social&utm_campaign=lhi_site_retargeting_fps&utm_content=new_creative_v2'
+  });
+  assert.equal(paidSocial.scripts.length, 1);
+  assert.deepEqual(queuedCalls(paidSocial.sandbox), EXPECTED_CALLS);
 });
 
 test('only reviewed same-site referrers pass without query or fragment data', () => {

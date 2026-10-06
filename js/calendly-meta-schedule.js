@@ -145,6 +145,32 @@
     return 'lhi_book_' + compact + '_' + tag;
   }
 
+  var UTM_QUERY_KEYS = {
+    utm_source: true,
+    utm_medium: true,
+    utm_campaign: true,
+    utm_term: true,
+    utm_content: true
+  };
+  var UTM_VALUE_MAX_LENGTH = 64;
+
+  function sanitizeUtmValue(value) {
+    var text = String(value || '').trim().toLowerCase();
+    if (!text) return '';
+    if (/^cid_\d{8,20}$/.test(text)) {
+      return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
+    }
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
+    return text.replace(/[^a-z0-9_-]/g, '').slice(0, UTM_VALUE_MAX_LENGTH);
+  }
+
+  function sanitizeBookingTerm(value) {
+    var text = String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    if (!text || text.length > 80) return '';
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
+    return /^[a-z0-9][a-z0-9 ._~+\-]*$/.test(text) ? text : '';
+  }
+
   function bookingEmbedUrl(hostname, search) {
     var params = [
       'embed_domain=' + encodeURIComponent(String(hostname || 'lakelandhealthinsurance.com')),
@@ -155,6 +181,19 @@
     ];
     var extra = String(search || '');
     if (extra.charAt(0) === '?') extra = extra.slice(1);
+    if (extra && typeof w.URLSearchParams === 'function') {
+      var parsed = new w.URLSearchParams(extra);
+      var cleaned = [];
+      parsed.forEach(function (value, key) {
+        if (UTM_QUERY_KEYS[key]) {
+          var sanitized = key === 'utm_term' ? sanitizeBookingTerm(value) : sanitizeUtmValue(value);
+          if (sanitized) cleaned.push(encodeURIComponent(key) + '=' + encodeURIComponent(sanitized));
+          return;
+        }
+        cleaned.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+      });
+      extra = cleaned.join('&');
+    }
     if (extra) params.push(extra);
     return BOOKING_EMBED_BASE + '?' + params.join('&');
   }

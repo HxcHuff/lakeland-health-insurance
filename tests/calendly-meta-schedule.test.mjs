@@ -204,7 +204,7 @@ async function invoke(body, {
 test('booking page keeps the Schedule converter without hardcoding the calendar account', () => {
   assert.match(BOOK_HTML, /id="booking-frame"/);
   assert.doesNotMatch(BOOK_HTML, /src="\/book\/embed"/);
-  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261005d/);
+  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261006-utm/);
   assert.doesNotMatch(BOOK_HTML, /healthmarkets|calendly\.com\/dhuff|\bfbq\s*\(/i);
   assert.match(REDIRECTS, /\/book\/embed https:\/\/calendly\.com\/dhuff-healthmarkets\?embed_domain=lakelandhealthinsurance\.com&embed_type=Inline/);
   assert.match(REDIRECTS, /^\/book\/embed .* 302$/m);
@@ -250,6 +250,14 @@ test('converter points the iframe at Calendly, initializes the Pixel once, and i
   ]);
   assert.equal(adopted.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'pixel-adopted');
   assert.match(adopted.frame.src, /utm_campaign=book/);
+
+  const organicBooking = loadBookingScript({
+    search: '?utm_source=Facebook&utm_medium=social&utm_campaign=Retiree+Spouse+Tips'
+  });
+  assert.match(organicBooking.frame.src, /utm_source=facebook/);
+  assert.match(organicBooking.frame.src, /utm_medium=social/);
+  assert.match(organicBooking.frame.src, /utm_campaign=retireespousetips/);
+  assert.doesNotMatch(organicBooking.frame.src, /Retiree\+|Spouse\+|Tips/);
 
   const other = loadBookingScript({ pathname: '/get-help/' });
   assert.equal(other.scripts.length, 0);

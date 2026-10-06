@@ -923,7 +923,7 @@ test('first-party attribution loads immediately on the homepage, Get Help, and p
   for (const pathname of ['/', '/get-help/', '/lp/aca/', '/lp/medicare/', '/lp/gap/']) {
     const { appendedScripts } = loadAnalytics({ pathname });
     assert.ok(
-      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260930-click-id'),
+      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261006-utm'),
       `${pathname} requests the attribution bus during analytics initialization`
     );
   }
@@ -936,7 +936,7 @@ test('first-party delivery bus loads immediately on any parsed tracked form page
   });
 
   assert.ok(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260930-click-id'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261006-utm'),
     'a tracked city-page form requests the delivery bus during analytics initialization'
   );
 });
@@ -949,7 +949,7 @@ test('tracked form pages with a direct funnel script do not request it twice', (
   });
 
   assert.equal(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20260930-click-id'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261006-utm'),
     false
   );
 });
@@ -1194,6 +1194,11 @@ test('Medicare attribution rejects tampered page, CTA, and campaign values', () 
   }
   assert.equal(helper.approvedCampaignValue('jane@example.com'), null);
   assert.equal(helper.approvedCampaignValue('863-640-3102'), null);
+  assert.equal(helper.approvedCampaignValue('FACEBOOK'), 'facebook');
+  assert.equal(helper.approvedCampaignValue('Retiree Spouse Tips!'), 'retireespousetips');
+  assert.equal(helper.approvedCampaignValue('<script>alert(1)</script>'), 'scriptalert1script');
+  assert.equal(helper.approvedCampaignValue('🎉🎉🎉'), null);
+  assert.equal(helper.approvedCampaignValue('a'.repeat(80)), 'a'.repeat(64));
 
   assert.deepEqual(JSON.parse(JSON.stringify(helper.sourceContext(
     '?intent=medicare&source_page_key=best_medicare_broker_lakeland_fl&source_page_role=transaction&source_cta_key=request_review_hero'
@@ -1226,7 +1231,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
     assert.equal(ctas.some((cta) => cta.ctaKey === null), false, `${expected.pageKey} has an unkeyed in-content Get Help CTA`);
     assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
-    assert.match(html, /\/js\/analytics\.js\?v=20260918a/);
+    assert.match(html, /\/js\/analytics\.js\?v=20261006-utm/);
 
     for (const cta of ctas) {
       const url = new URL(cta.href, 'https://lakelandhealthinsurance.com');
@@ -1602,7 +1607,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
 test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /David will reach out shortly\./);
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
-  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20260918a/);
+  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261006-utm/);
 });
 
 test('direct thank-you visits show customer-facing help copy', () => {
@@ -2111,6 +2116,8 @@ test('get-help intent allowlist falls back safely', () => {
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('medicare_review'), 'medicare_review');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('jane@example.com'), '');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('863-640-3102'), '');
+  assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('Retiree Spouse Tips!'), 'retireespousetips');
+  assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignValue('FACEBOOK'), 'facebook');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignTerm('Health Insurance Lakeland'), 'health insurance lakeland');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignTerm('jane@example.com'), '');
   assert.equal(sandbox.LHIGetHelpIntake.approvedCampaignTerm('863-640-3102'), '');
@@ -2141,7 +2148,7 @@ test('Get Help stores only bounded Medicare attribution and approved campaign fi
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
   }
   assert.doesNotMatch(GET_HELP_HTML, /name="fbclid"/);
-  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20260930-click-id/);
+  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20261006-utm/);
   assert.match(GET_HELP_SRC, /setValue\('sourcePageInput', String\(window\.location\.pathname \|\| '\/'\)\.slice\(0, 160\)\);/);
   assert.doesNotMatch(GET_HELP_SRC, /window\.location\.pathname \+ window\.location\.search/);
   assert.match(GET_HELP_HTML, /id="optionalPrivacyNote">Do not enter medication names, medical details, policy or member numbers, Medicare numbers, Social Security numbers, or medical records in optional fields\./);

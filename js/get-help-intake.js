@@ -436,23 +436,29 @@
     if (note) note.hidden = false;
   }
 
+  var UTM_VALUE_MAX_LENGTH = 64;
+
+  function sanitizeUtmValue(value) {
+    var text = String(value || '').trim().toLowerCase();
+    if (!text) return '';
+    if (/^cid_\d{8,20}$/.test(text)) {
+      return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
+    }
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
+    return text.replace(/[^a-z0-9_-]/g, '').slice(0, UTM_VALUE_MAX_LENGTH);
+  }
+
   function approvedCampaignValue(value) {
-    var candidate = value;
     var shared = window.LHIMedicareAttribution;
     if (shared && typeof shared.approvedCampaignValue === 'function') {
       try {
-        candidate = shared.approvedCampaignValue(value);
+        var sharedValue = shared.approvedCampaignValue(value);
+        if (sharedValue) return sanitizeUtmValue(sharedValue);
       } catch (e) {
-        return '';
+        return sanitizeUtmValue(value);
       }
     }
-    var text = String(candidate || '').trim().toLowerCase();
-    if (!text || text.length > 80) return '';
-    // Google Ads suffixes prefix {campaignid} so platform IDs remain
-    // distinguishable from untrusted phone-like numeric values.
-    if (/^cid_\d{8,20}$/.test(text)) return text;
-    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';
-    return /^[a-z0-9][a-z0-9._~-]*$/.test(text) ? text : '';
+    return sanitizeUtmValue(value);
   }
 
   function approvedClickID(value) {

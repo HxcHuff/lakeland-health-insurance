@@ -220,14 +220,19 @@
     return null;
   }
 
+  var UTM_VALUE_MAX_LENGTH = 64;
+
   function approvedCampaignValue(value) {
     var text = String(value || '').trim().toLowerCase();
-    if (!text || text.length > 80) return null;
+    if (!text) return null;
     // Google Ads suffixes prefix {campaignid} so platform IDs remain
     // distinguishable from untrusted phone-like numeric values.
-    if (/^cid_\d{8,20}$/.test(text)) return text;
+    if (/^cid_\d{8,20}$/.test(text)) {
+      return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
+    }
     if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
-    return /^[a-z0-9][a-z0-9._~-]*$/.test(text) ? text : null;
+    text = text.replace(/[^a-z0-9_-]/g, '').slice(0, UTM_VALUE_MAX_LENGTH);
+    return text || null;
   }
 
   function approvedCampaignTerm(value) {
@@ -356,7 +361,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20260930-click-id';
+    funnel.src = '/js/funnel.js?v=20261006-utm';
     document.head.appendChild(funnel);
   }
 
@@ -728,9 +733,11 @@
  *
  * Default: off. The loader queues one standard PageView only when the current
  * production page is in the reviewed path allowlist and carries the exact
- * meta-audience-eligible marker, the URL/referrer are neutral, and the visitor
- * has saved an explicit site preference. It never reads form fields or builds
- * custom event data.
+ * meta-audience-eligible marker, the URL/referrer pass the remaining gates,
+ * and the visitor has saved an explicit site preference. Sanitized UTM values
+ * no longer have to match a campaign allowlist. Unknown non-UTM query keys,
+ * PII-like or health-sensitive values, consent, path, and referrer gates stay
+ * in place. It never reads form fields or builds custom event data.
  */
 (function (w, d) {
   'use strict';
@@ -753,30 +760,14 @@
     '/plans/': true,
     '/thanks.html': true
   };
-  var ALLOWED_CAMPAIGN_VALUES = {
-    utm_source: {
-      facebook: true,
-      instagram: true,
-      meta: true
-    },
-    utm_medium: {
-      paid_social: true,
-      social: true
-    },
-    utm_campaign: {
-      lhi_site_retargeting_fps: true,
-      florida_brand: true
-    },
-    utm_content: {
-      about_brand_v1: true,
-      home_brand_v1: true,
-      blog_education_v1: true,
-      learning_brand_v1: true,
-      tab_chaos_v1: true,
-      fine_print_i4_v1: true,
-      bigger_decision_v1: true
-    }
+  var UTM_QUERY_KEYS = {
+    utm_source: true,
+    utm_medium: true,
+    utm_campaign: true,
+    utm_term: true,
+    utm_content: true
   };
+  var UTM_VALUE_MAX_LENGTH = 64;
   var TRUSTED_EXTERNAL_REFERRERS = {
     'facebook.com': true,
     'www.facebook.com': true,
@@ -826,6 +817,17 @@
     return /(?:cancer|oncolog|diabet|diagnos|condition|mental|medicaid|medicare|subsid|income|provider|prescription|pharmacy|pregnan|tobacco|eligib|enroll|application|policy|plan[_ -]?id|member)/i.test(text);
   }
 
+  function sanitizeUtmValue(value) {
+    var text = String(value || '').trim().toLowerCase();
+    if (!text) return null;
+    if (/^cid_\d{8,20}$/.test(text)) {
+      return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
+    }
+    if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
+    text = text.replace(/[^a-z0-9_-]/g, '').slice(0, UTM_VALUE_MAX_LENGTH);
+    return text || null;
+  }
+
   function approvedCampaignSlug(value) {
     var text = String(value || '').trim().toLowerCase();
     if (!text || text.length > 80) return null;
@@ -857,15 +859,15 @@
     if (key === 'intent' || key === 'source_page_key' || key === 'source_cta_key') {
       return Boolean(approvedCampaignSlug(text));
     }
-    if (key === 'utm_term') {
-      return Boolean(approvedCampaignTermValue(text));
-    }
-    if (key === 'utm_campaign') {
-      if (hasOwn(ALLOWED_CAMPAIGN_VALUES.utm_campaign, text)) return true;
-      return Boolean(approvedCampaignSlug(text));
+    if (hasOwn(UTM_QUERY_KEYS, key)) {
+      if (key === 'utm_term') {
+        return Boolean(approvedCampaignTermValue(text));
+      }
+      if (key !== 'utm_campaign' && looksSensitive(text)) return false;
+      return Boolean(sanitizeUtmValue(text));
     }
     if (looksSensitive(text)) return false;
-    return hasOwn(ALLOWED_CAMPAIGN_VALUES, key) && hasOwn(ALLOWED_CAMPAIGN_VALUES[key], text);
+    return false;
   }
 
   function hasApprovedQuery(search) {
