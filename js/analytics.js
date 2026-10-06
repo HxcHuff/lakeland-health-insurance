@@ -54,6 +54,15 @@
         footer_start_plan_review: true
       }
     },
+    '/blog/city-of-lakeland-retiree-medicare-spouse-premium.html/': {
+      page_key: 'city_of_lakeland_retiree_medicare_spouse_premium',
+      page_role: 'education',
+      cta_keys: {
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
     '/blog/medicare-vs-aca-central-florida-age-65.html/': {
       page_key: 'medicare_vs_aca_central_florida_age_65',
       page_role: 'education',

@@ -160,6 +160,12 @@ const siteSearchIndex = [
     tags: ["Medicare", "Medicare Supplement", "Medigap", "Plan G", "Lakeland"]
   },
   {
+    title: "Lakeland City Retiree Spouse on Medicare: What to Check",
+    url: "/blog/city-of-lakeland-retiree-medicare-spouse-premium.html",
+    excerpt: "Before moving a Medicare spouse off the City of Lakeland plan, check Part A and B, Medigap approval, Part D timing, and the city's re-entry rules.",
+    tags: ["Medicare", "Medicare Supplement", "Part D", "Lakeland", "City of Lakeland", "Retiree", "Medigap"]
+  },
+  {
     title: "Medigap Plan G vs Plan N Comparison in Lakeland, FL",
     url: "/blog/medigap-plan-g-vs-plan-n.html",
     excerpt: "Compare standardized Plan G and Plan N for Lakeland and Polk County: cost sharing, Part B excess charges, Part D, and Florida underwriting.",
