@@ -544,13 +544,30 @@
     };
   }
 
+  function landingSearch() {
+    try {
+      if (window.LHILandingQuery && window.LHILandingQuery.search != null) {
+        return String(window.LHILandingQuery.search || '');
+      }
+    } catch (e) {}
+    try {
+      if (window.sessionStorage && typeof window.sessionStorage.getItem === 'function') {
+        var stored = JSON.parse(window.sessionStorage.getItem('lhi_landing_query') || 'null');
+        if (stored && stored.search != null && stored.pathname === String(window.location.pathname || '/')) {
+          return String(stored.search || '');
+        }
+      }
+    } catch (e) {}
+    return String(window.location.search || '');
+  }
+
   function medicareSourceContext(qs) {
     if (String(qs.get('intent') || '').toLowerCase() !== 'medicare') return null;
 
     var shared = window.LHIMedicareAttribution;
     if (shared && typeof shared.sourceContext === 'function') {
       try {
-        var sharedContext = shared.sourceContext(window.location.search);
+        var sharedContext = shared.sourceContext(qs.toString());
         if (sharedContext) {
           return validateMedicareSourceTuple(sharedContext.source_page_key, sharedContext.source_cta_key);
         }
@@ -733,7 +750,7 @@
   }
 
   function initAttribution() {
-    var qs = new URLSearchParams(window.location.search);
+    var qs = new URLSearchParams(landingSearch());
     var stored = persistClickIds(readStoredAttribution(), qs);
     var medicareSource = medicareSourceContext(qs);
     setValue('zipCode', qsValue(qs, 'zip_code'));
@@ -808,7 +825,7 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     initAttribution();
-    var qs = new URLSearchParams(window.location.search);
+    var qs = new URLSearchParams(landingSearch());
     var coverageState = resolveCoverageState(qs);
     var hideMedicare = isNonFloridaCoverageState(coverageState);
     var selected = normalizeIntent(qs.get('intent'));
@@ -850,6 +867,7 @@
     approvedGoogleCampaignID: approvedGoogleCampaignID,
     clickAttributionValue: clickAttributionValue,
     persistClickIds: persistClickIds,
+    landingSearch: landingSearch,
     initAttribution: initAttribution,
     readStoredAttribution: readStoredAttribution,
     referralClass: referralClass,

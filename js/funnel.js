@@ -226,6 +226,23 @@
     };
   }
 
+  function landingSearch() {
+    try {
+      if (w.LHILandingQuery && w.LHILandingQuery.search != null) {
+        return String(w.LHILandingQuery.search || '');
+      }
+    } catch (e) {}
+    try {
+      if (w.sessionStorage && typeof w.sessionStorage.getItem === 'function') {
+        var stored = JSON.parse(w.sessionStorage.getItem('lhi_landing_query') || 'null');
+        if (stored && stored.search != null && stored.pathname === String(w.location.pathname || '/')) {
+          return String(stored.search || '');
+        }
+      }
+    } catch (e) {}
+    return String(w.location.search || '');
+  }
+
   function sourceContextFromSearch(search) {
     var qs = new URLSearchParams(String(search || ''));
     if (String(qs.get('intent') || '').toLowerCase() !== 'medicare') return null;
@@ -236,18 +253,19 @@
   }
 
   function currentMedicareSourceContext() {
+    var search = landingSearch();
     var context = null;
     try {
       if (w.LHIMedicareAttribution && typeof w.LHIMedicareAttribution.sourceContext === 'function') {
-        context = w.LHIMedicareAttribution.sourceContext(w.location.search || '');
+        context = w.LHIMedicareAttribution.sourceContext(search);
       }
     } catch (e) {}
-    return canonicalSourceContext(context || {}) || sourceContextFromSearch(w.location.search || '');
+    return canonicalSourceContext(context || {}) || sourceContextFromSearch(search);
   }
 
   function medicareIntakeContext() {
     if (normalizePath(w.location.pathname) !== '/get-help/') return null;
-    var qs = new URLSearchParams(String(w.location.search || ''));
+    var qs = new URLSearchParams(landingSearch());
     var source = currentMedicareSourceContext();
     if (!source && String(qs.get('intent') || '').toLowerCase() !== 'medicare') return null;
     return Object.assign({
@@ -372,7 +390,7 @@
   }
 
   function getAttribution() {
-    var qs = new URLSearchParams(w.location.search);
+    var qs = new URLSearchParams(landingSearch());
     var rawStored = {};
     try { rawStored = JSON.parse(cookie('lhi_attr') || '{}'); } catch (e) {}
     var stored = {};

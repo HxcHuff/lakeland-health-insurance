@@ -173,6 +173,7 @@
     IS_ANALYTICS_DEBUG = !qsClear && (qsForce || sessionStorage.getItem('lhi_analytics_test') === '1');
     if (IS_ANALYTICS_DEBUG) IS_PROD = true;
   } catch (e) {}
+  snapshotLandingQueryEarly();
 
   if (window.console && console.info) {
     console.info('[LHI analytics] Google analytics gate:', IS_PROD ? 'ENABLED' : 'SKIPPED (non-prod host)');
@@ -320,7 +321,7 @@
     url.searchParams.set('intent', 'medicare');
     url.searchParams.set('source_page_key', context.page_key);
     url.searchParams.set('source_cta_key', ctaKey);
-    var current = new URLSearchParams(window.location.search || '');
+    var current = new URLSearchParams(landingSearch());
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (key) {
       var approved = key === 'utm_term'
         ? approvedCampaignTerm(current.get(key))
@@ -361,7 +362,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261006-utm';
+    funnel.src = '/js/funnel.js?v=20261006-handoff';
     document.head.appendChild(funnel);
   }
 
@@ -536,10 +537,73 @@
     return true;
   }
 
+  function approvedGa4ClickId(value) {
+    var text = String(value || '').trim();
+    if (!text || text.length > 512) return null;
+    return /^[a-z0-9._~-]+$/i.test(text) ? text : null;
+  }
+
+  function approvedGa4CampaignId(value) {
+    var text = String(value || '').trim();
+    return /^\d{1,20}$/.test(text) ? text : null;
+  }
+
+  function landingSearch() {
+    try {
+      if (window.LHILandingQuery && window.LHILandingQuery.search != null) {
+        return String(window.LHILandingQuery.search || '');
+      }
+    } catch (e) {}
+    try {
+      if (window.sessionStorage && typeof window.sessionStorage.getItem === 'function') {
+        var stored = JSON.parse(window.sessionStorage.getItem('lhi_landing_query') || 'null');
+        if (stored && stored.search != null && stored.pathname === String(window.location.pathname || '/')) {
+          return String(stored.search || '');
+        }
+      }
+    } catch (e) {}
+    return String(window.location.search || '');
+  }
+
+  function snapshotLandingQueryEarly() {
+    if (window.LHILandingQuery && window.LHILandingQuery.search != null) return window.LHILandingQuery;
+    var snapshot = {
+      search: String(window.location.search || ''),
+      pathname: String(window.location.pathname || '/')
+    };
+    window.LHILandingQuery = snapshot;
+    try {
+      if (window.sessionStorage && typeof window.sessionStorage.setItem === 'function') {
+        window.sessionStorage.setItem('lhi_landing_query', JSON.stringify(snapshot));
+      }
+    } catch (e) {}
+    return snapshot;
+  }
+
+  function ga4PageLocation() {
+    var origin = String(window.location.origin || '');
+    var pathname = String(window.location.pathname || '/');
+    var qs = new URLSearchParams(landingSearch());
+    var kept = [];
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (key) {
+      var approved = approvedCampaignValue(qs.get(key));
+      if (approved) kept.push(encodeURIComponent(key) + '=' + encodeURIComponent(approved));
+    });
+    var term = approvedCampaignTerm(qs.get('utm_term'));
+    if (term) kept.push('utm_term=' + encodeURIComponent(term));
+    ['gclid', 'gbraid', 'wbraid'].forEach(function (key) {
+      var approved = approvedGa4ClickId(qs.get(key));
+      if (approved) kept.push(encodeURIComponent(key) + '=' + encodeURIComponent(approved));
+    });
+    var campaignId = approvedGa4CampaignId(qs.get('gad_campaignid'));
+    if (campaignId) kept.push('gad_campaignid=' + encodeURIComponent(campaignId));
+    return origin + pathname + (kept.length ? '?' + kept.join('&') : '');
+  }
+
   function sendGa4PageView() {
     window.gtag('event', 'page_view', {
       send_to: 'G-W45RMKHXV0',
-      page_location: window.location.href,
+      page_location: ga4PageLocation(),
       page_title: document.title
     });
   }
@@ -816,7 +880,7 @@
     if (!text || /[\u0000-\u001f\u007f@]/.test(text)) return true;
     if (/(?:\d[\s().-]*){7,}/.test(text)) return true;
     if (/(?:^|\D)\d{5}(?:-\d{4})?(?:\D|$)/.test(text)) return true;
-    return /(?:cancer|oncolog|diabet|diagnos|condition|mental|medicaid|medicare|subsid|income|provider|prescription|pharmacy|pregnan|tobacco|eligib|enroll|application|policy|plan[_ -]?id|member|hiv|insulin|anxiety|depress|glp-?1|ozempic|wegovy|mounjaro|dialysis|opioid|chemo|alzheimer|dementia|copd|heart|stroke|disab)/i.test(text);
+    return /(?:cancer|oncolog|diabet|diagnos|condition|mental|medicaid|medicare|subsid|income|provider|prescription|pharmacy|pregnan|tobacco|eligib|enroll|application|policy|plan[_ -]?id|member|hiv|insulin|anxiety|depress|glp-?1|ozempic|wegovy|mounjaro|dialysis|opioid|chemo|alzheimer|dementia|copd|stroke|(?:^|[^a-z])heart(?:[-_](?:disease|attack|failure)|(?![a-z-]))|(?:^|[^a-z])disab(?:ilit|led))/i.test(text);
   }
 
   function sanitizeUtmValue(value) {
@@ -1148,7 +1212,24 @@
     } catch (_) {}
   }
 
+  function snapshotLandingQuery() {
+    var search = String(w.location && w.location.search || '');
+    var pathname = String(w.location && w.location.pathname || '/');
+    if (w.LHILandingQuery && w.LHILandingQuery.search != null && w.LHILandingQuery.pathname === pathname) {
+      return w.LHILandingQuery;
+    }
+    var snapshot = { search: search, pathname: pathname };
+    w.LHILandingQuery = snapshot;
+    try {
+      if (w.sessionStorage && typeof w.sessionStorage.setItem === 'function') {
+        w.sessionStorage.setItem('lhi_landing_query', JSON.stringify(snapshot));
+      }
+    } catch (_) {}
+    return snapshot;
+  }
+
   function captureFirstPartyAttribution() {
+    snapshotLandingQuery();
     if (w.LHI && typeof w.LHI.getAttribution === 'function') {
       try { w.LHI.getAttribution(); } catch (_) {}
     } else {

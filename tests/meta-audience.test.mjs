@@ -11,7 +11,7 @@ assert.ok(loaderMatch, 'shared analytics asset contains the Meta audience loader
 const LOADER_SRC = loaderMatch[1];
 const PIXEL_ID = '1480756087079484';
 const ELIGIBLE_MARKER = '<meta name="meta-audience-eligible" content="pageview">';
-const ANALYTICS_VERSION = '/js/analytics.js?v=20261006-hold';
+const ANALYTICS_VERSION = '/js/analytics.js?v=20261006-handoff';
 const CONSENT_KEY = 'lhi_meta_audience_consent';
 const ELIGIBLE_PAGES = [
   ['get-help/index.html', '/get-help/'],
@@ -191,6 +191,7 @@ function loadMetaAudience({
     decodeURIComponent,
     document,
     localStorage: storage,
+    sessionStorage: makeStorage(),
     location,
     history: {
       state: null,
@@ -375,6 +376,31 @@ test('health slugs in raw campaign or term values skip the Pixel', () => {
     assert.equal(sandbox.fbq, undefined, search);
     assert.equal(sandbox.__LHI_META_AUDIENCE_STATUS__.reason, 'query-rejected', search);
     assert.equal(sandbox.location.search, search, search);
+  }
+});
+
+test('heartland, heart-of-florida, and disbursement still load the Pixel', () => {
+  for (const search of [
+    '?utm_source=facebook&utm_medium=social&utm_campaign=heartland',
+    '?utm_source=facebook&utm_medium=social&utm_campaign=heart-of-florida',
+    '?utm_source=facebook&utm_medium=social&utm_campaign=disbursement'
+  ]) {
+    const { sandbox, scripts } = loadMetaAudience({ search });
+    assert.equal(scripts.length, 1, search);
+    assert.equal(sandbox.location.search, '');
+    assert.equal(sandbox.__LHI_META_AUDIENCE_STATUS__.state, 'queued', search);
+  }
+
+  for (const search of [
+    '?utm_campaign=heart-disease',
+    '?utm_campaign=heart_attack',
+    '?utm_campaign=heart-failure',
+    '?utm_content=disabled',
+    '?utm_term=disability'
+  ]) {
+    const { sandbox, scripts } = loadMetaAudience({ search });
+    assert.equal(scripts.length, 0, search);
+    assert.equal(sandbox.__LHI_META_AUDIENCE_STATUS__.reason, 'query-rejected', search);
   }
 });
 
