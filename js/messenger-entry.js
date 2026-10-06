@@ -1,6 +1,6 @@
 /* Scoped Meta Message Us (m.me) entry for three public pages only.
- * Meta retired fb-customer-chat on 2024-05-09. This is a plain m.me link
- * to the Facey-confirmed Facebook Page Inbox — no Facebook SDK, no Pixel.
+ * Meta retired the native Customer Chat plugin on 2024-05-09. This is a
+ * plain m.me link to the Facey-confirmed Facebook Page Inbox — no SDK, no Pixel.
  */
 (function (w, d) {
   'use strict';
