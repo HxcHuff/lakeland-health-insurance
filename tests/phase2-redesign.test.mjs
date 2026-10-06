@@ -7,6 +7,7 @@ import vm from 'node:vm';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE_TEMPLATE = readFileSync(resolve(ROOT, 'js/site-template.js'), 'utf8');
+const SITE_TEMPLATE_CSS = readFileSync(resolve(ROOT, 'css/site-template.css'), 'utf8');
 const GET_HELP_HTML = readFileSync(resolve(ROOT, 'get-help/index.html'), 'utf8');
 const GET_HELP_JS = readFileSync(resolve(ROOT, 'js/get-help-intake.js'), 'utf8');
 const HOME = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
@@ -27,6 +28,24 @@ const SKIP_DIRS = new Set([
   '.playwright-cli'
 ]);
 const IN_WINDOW = new Date('2026-10-15T16:00:00.000Z');
+
+function hexToRgb(hex) {
+  const value = hex.replace('#', '');
+  return [0, 2, 4].map((offset) => Number.parseInt(value.slice(offset, offset + 2), 16) / 255);
+}
+
+function relativeLuminance(hex) {
+  const [r, g, b] = hexToRgb(hex).map((channel) => (
+    channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+  ));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function contrastRatio(foreground, background) {
+  const lighter = Math.max(relativeLuminance(foreground), relativeLuminance(background));
+  const darker = Math.min(relativeLuminance(foreground), relativeLuminance(background));
+  return (lighter + 0.05) / (darker + 0.05);
+}
 
 function loadChrome(options = {}) {
   const sandbox = {
@@ -170,6 +189,16 @@ test('seasonal banner dismiss key is scoped to the current AEP year', () => {
   const dismissedChrome = loadChrome({ localStorage: dismissed });
   assert.equal(dismissedChrome.shouldShowSeasonalBanner('/', { now: new Date('2026-10-15T16:00:00.000Z') }), false);
   assert.equal(dismissedChrome.shouldShowSeasonalBanner('/', { now: new Date('2027-10-15T16:00:00.000Z') }), true);
+});
+
+test('seasonal banner text stays light on navy and click-to-call uses border-box', () => {
+  assert.match(SITE_TEMPLATE_CSS, /\.seasonal-banner p,\s*\.seasonal-banner strong\s*\{\s*color:\s*#F8FAFC;/);
+  assert.match(SITE_TEMPLATE_CSS, /\.seasonal-banner a,\s*\.seasonal-banner p a\s*\{\s*color:\s*#F6E7C1;/);
+  assert.match(SITE_TEMPLATE_CSS, /\.click-to-call,\s*\.messenger-button\s*\{[^}]*box-sizing:\s*border-box;/s);
+  const bannerText = contrastRatio('#F8FAFC', '#0F1A2E');
+  const bannerLink = contrastRatio('#F6E7C1', '#0F1A2E');
+  assert.ok(bannerText >= 4.5, `banner text contrast ${bannerText.toFixed(2)}`);
+  assert.ok(bannerLink >= 4.5, `banner link contrast ${bannerLink.toFixed(2)}`);
 });
 
 test('seasonal banner date helpers hide the banner if timezone formatting fails', () => {

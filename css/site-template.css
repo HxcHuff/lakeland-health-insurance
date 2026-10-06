@@ -453,11 +453,13 @@ footer {
 }
 
 .floating-actions {
+  box-sizing: border-box;
   display: contents;
 }
 
 .click-to-call,
 .messenger-button {
+  box-sizing: border-box;
   position: fixed;
   bottom: 20px;
   color: white;
@@ -837,7 +839,13 @@ footer {
   margin: 0;
 }
 
-.seasonal-banner a {
+.seasonal-banner p,
+.seasonal-banner strong {
+  color: #F8FAFC;
+}
+
+.seasonal-banner a,
+.seasonal-banner p a {
   color: #F6E7C1;
   font-weight: 800;
   text-decoration: underline;

@@ -235,7 +235,7 @@ test('quote presents three direct actions without a routing form or plans detour
 test('coverage center is a two-lane 2027 plan-review hub wired into get-help', () => {
   assert.match(COVERAGE_CENTER, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/coverage-center\/">/);
   assert.match(COVERAGE_CENTER, /<title>Coverage Center: Medicare &amp; Under-65 Plan Review<\/title>/);
-  assert.match(COVERAGE_CENTER, /\/css\/site-template\.css\?v=20260929-compliance/);
+  assert.match(COVERAGE_CENTER, /\/css\/site-template\.css\?v=20261006-banner/);
   assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261006-handoff/);
   assert.match(COVERAGE_CENTER, /"@type": "BreadcrumbList"/);
   assert.match(COVERAGE_CENTER, /Lakeland Health Insurance · Lakeland, FL 33805 · By appointment/);
