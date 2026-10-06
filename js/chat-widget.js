@@ -13,6 +13,7 @@
   document.head.appendChild(style);
 
   document.querySelectorAll('.messenger-button, .chat-widget-button, #openChat').forEach(function (node) {
+    if (node.getAttribute && node.getAttribute('data-lhi-page-inbox')) return;
     node.remove();
   });
 

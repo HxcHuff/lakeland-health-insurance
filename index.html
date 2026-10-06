@@ -631,9 +631,16 @@
         }
 
         .home-page .click-to-call,
-        .home-page .messenger-button,
         .home-page .floating-actions {
           display: none !important;
+        }
+
+        .home-page .messenger-button {
+          box-sizing: border-box;
+          bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+          display: flex !important;
+          left: 12px;
+          max-width: calc(100vw - 24px);
         }
 
         .hero-zip-form {
@@ -660,6 +667,7 @@
         .home-page .click-to-call,
         .home-page .messenger-button {
           border-radius: 999px;
+          box-sizing: border-box;
           height: 54px;
           max-width: 54px;
           min-height: 54px;
@@ -1488,5 +1496,6 @@
 
     </script>
     <script src="/js/site-template.js?v=20261006-handoff" defer></script>
+    <script src="/js/messenger-entry.js?v=20261006-messenger" defer></script>
 </body>
 </html>
