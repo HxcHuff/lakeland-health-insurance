@@ -15,7 +15,6 @@ const MEDICARE = readFileSync(join(ROOT, 'medicare/index.html'), 'utf8');
 const BLOG = readFileSync(join(ROOT, 'blog/index.html'), 'utf8');
 const ENTRY_HREF = '/js/messenger-entry.js?v=20261006-messenger';
 const PAGE_ID = '1068037236387352';
-const LEGACY_FOOTER_ID = '2330958066941437';
 const GREETING = 'Hi, this is David Huff, a licensed health insurance agent here in Lakeland. What can I help you with?';
 const SKIP_DIRS = new Set([
   '.ai-worker-local',
@@ -210,7 +209,6 @@ test('m.me href uses Page 1068037236387352 and the licensed-agent greeting', () 
   const href = sandbox.LHIMessengerEntry.buildHref();
   assert.equal(href, `https://m.me/${PAGE_ID}?text=${encodeURIComponent(GREETING)}`);
   assert.ok(href.includes(PAGE_ID));
-  assert.equal(href.includes(LEGACY_FOOTER_ID), false);
   assert.match(href, /licensed%20health%20insurance%20agent/);
   assert.doesNotMatch(href, /HealthMarkets|customer_chat|fb-customer-chat/i);
 });
@@ -242,7 +240,7 @@ test('book and medicare host the button inside existing floating-actions', () =>
     const button = sandbox.LHIMessengerEntry.mount(pathname);
     assert.equal(button.parentNode, floating);
     assert.equal(floating.getAttribute('aria-label'), 'Call or message David Huff');
-    assert.equal(button.href.includes(LEGACY_FOOTER_ID), false);
+    assert.match(button.href, new RegExp(`m\\.me/${PAGE_ID}\\?text=`));
   }
 });
 
@@ -318,24 +316,35 @@ test('only homepage, /book/, and /medicare/ load the messenger helper', () => {
     if (html.includes('/js/messenger-entry.js')) loaded.push(rel);
   }
   assert.deepEqual(loaded.sort(), [...allowed].sort());
-  assert.match(HOME, new RegExp(`site-template\\.js\\?v=20261006-handoff" defer></script>\\s*<script src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
-  assert.match(BOOK, new RegExp(`site-template\\.js\\?v=20261006-handoff"></script>\\s*<script defer src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
-  assert.match(MEDICARE, new RegExp(`site-template\\.js\\?v=20261006-handoff" defer></script>\\s*<script src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
+  assert.match(HOME, new RegExp(`site-template\\.js\\?v=20261006-page-inbox" defer></script>\\s*<script src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
+  assert.match(BOOK, new RegExp(`site-template\\.js\\?v=20261006-page-inbox"></script>\\s*<script defer src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
+  assert.match(MEDICARE, new RegExp(`site-template\\.js\\?v=20261006-page-inbox" defer></script>\\s*<script src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
   assert.doesNotMatch(BLOG, /messenger-entry\.js/);
   assert.doesNotMatch(readFileSync(join(ROOT, 'medicare/east-polk/index.html'), 'utf8'), /messenger-entry\.js/);
 });
 
-test('draft does not revive the retired customer_chat plugin or change the footer m.me id', () => {
+test('draft does not revive the retired customer_chat plugin', () => {
   assert.doesNotMatch(ENTRY_SRC, /FB\.init|connect\.facebook\.net|sdk\.js|fbevents\.js/);
   assert.doesNotMatch(ENTRY_SRC, /<div class=["']fb-customer-chat["']/);
   assert.doesNotMatch(HOME, /fb-customer-chat|customer_chat/);
   assert.doesNotMatch(BOOK, /fb-customer-chat|customer_chat/);
   assert.doesNotMatch(MEDICARE, /fb-customer-chat|customer_chat/);
-  assert.match(SITE_TEMPLATE_SRC, new RegExp(`messengerHref = 'https://m\\.me/${LEGACY_FOOTER_ID}'`));
-  assert.doesNotMatch(SITE_TEMPLATE_SRC, new RegExp(`messengerHref = 'https://m\\.me/${PAGE_ID}'`));
-  assert.doesNotMatch(ENTRY_SRC, /2330958066941437/);
   assert.match(HOME, /home-page \.click-to-call,\s*\.home-page \.floating-actions \{\s*display: none !important;/);
   assert.doesNotMatch(HOME, /home-page \.click-to-call,\s*\.home-page \.messenger-button,\s*\.home-page \.floating-actions/);
   assert.match(HOME, /home-page \.messenger-button \{[^}]*box-sizing:\s*border-box;[^}]*max-width:\s*calc\(100vw - 24px\);/s);
   assert.match(CHAT_WIDGET_SRC, /data-lhi-page-inbox/);
+});
+
+test('footer and static m.me links use the Facey-confirmed Page Inbox without a greeting', () => {
+  assert.match(SITE_TEMPLATE_SRC, new RegExp(`messengerHref = 'https://m\\.me/${PAGE_ID}'`));
+  assert.doesNotMatch(SITE_TEMPLATE_SRC, /messengerHref = '[^']*\?text=/);
+  const pageInbox = new RegExp(`^https://m\\.me/${PAGE_ID}(?:\\?|$)`);
+  for (const file of [join(ROOT, 'js/site-template.js'), ...walkHtml()]) {
+    const source = readFileSync(file, 'utf8');
+    const hrefs = [...source.matchAll(/https:\/\/m\.me\/[^\s"'<>]+/g)].map((match) => match[0]);
+    for (const href of hrefs) {
+      assert.match(href, pageInbox, `${relative(ROOT, file)} uses the Page Inbox`);
+      assert.equal(href, `https://m.me/${PAGE_ID}`, `${relative(ROOT, file)} footer href stays greeting-free`);
+    }
+  }
 });
