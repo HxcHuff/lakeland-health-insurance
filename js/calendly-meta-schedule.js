@@ -171,6 +171,36 @@
     return /^[a-z0-9][a-z0-9 ._~+\-]*$/.test(text) ? text : '';
   }
 
+  function decodeQueryValue(value) {
+    try {
+      return decodeURIComponent(String(value || '').replace(/\+/g, ' '));
+    } catch (_) {
+      return '';
+    }
+  }
+
+  function sanitizeBookingSearch(search) {
+    var extra = String(search || '');
+    if (extra.charAt(0) === '?') extra = extra.slice(1);
+    if (!extra) return '';
+    var parts = extra.split('&');
+    var cleaned = [];
+    for (var i = 0; i < parts.length; i += 1) {
+      var part = parts[i];
+      if (!part) continue;
+      var eq = part.indexOf('=');
+      var key = decodeQueryValue(eq === -1 ? part : part.slice(0, eq));
+      var value = decodeQueryValue(eq === -1 ? '' : part.slice(eq + 1));
+      if (UTM_QUERY_KEYS[key]) {
+        var sanitized = key === 'utm_term' ? sanitizeBookingTerm(value) : sanitizeUtmValue(value);
+        if (sanitized) cleaned.push(encodeURIComponent(key) + '=' + encodeURIComponent(sanitized));
+        continue;
+      }
+      cleaned.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+    }
+    return cleaned.join('&');
+  }
+
   function bookingEmbedUrl(hostname, search) {
     var params = [
       'embed_domain=' + encodeURIComponent(String(hostname || 'lakelandhealthinsurance.com')),
@@ -179,21 +209,7 @@
       'hide_gdpr_banner=1',
       'hide_landing_page_details=1'
     ];
-    var extra = String(search || '');
-    if (extra.charAt(0) === '?') extra = extra.slice(1);
-    if (extra && typeof w.URLSearchParams === 'function') {
-      var parsed = new w.URLSearchParams(extra);
-      var cleaned = [];
-      parsed.forEach(function (value, key) {
-        if (UTM_QUERY_KEYS[key]) {
-          var sanitized = key === 'utm_term' ? sanitizeBookingTerm(value) : sanitizeUtmValue(value);
-          if (sanitized) cleaned.push(encodeURIComponent(key) + '=' + encodeURIComponent(sanitized));
-          return;
-        }
-        cleaned.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
-      });
-      extra = cleaned.join('&');
-    }
+    var extra = sanitizeBookingSearch(search);
     if (extra) params.push(extra);
     return BOOKING_EMBED_BASE + '?' + params.join('&');
   }
