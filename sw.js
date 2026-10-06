@@ -1,6 +1,6 @@
 const CACHE_NAME = 'lhi-20261006-handoff';
 const OFFLINE_URL = '/offline.html';
-const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261006-handoff';
+const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261006-page-inbox';
 
 // Core pages to pre-cache for offline access
 const PRECACHE_URLS = [
