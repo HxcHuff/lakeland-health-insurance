@@ -911,6 +911,10 @@ body.has-seasonal-banner.has-watson-notice .home-hero {
   padding-top: calc(clamp(96px, 10vw, 132px) + 74px);
 }
 
+body.has-watson-notice .answer-hero {
+  padding-top: 168px;
+}
+
 body.has-watson-notice.get-help-page .help-hero {
   padding-top: 200px;
 }
@@ -1069,6 +1073,10 @@ body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero {
 
   .seasonal-banner-dismiss {
     align-self: flex-end;
+  }
+
+  body.has-watson-notice .answer-hero {
+    padding-top: 156px;
   }
 
   body.has-watson-notice.get-help-page .help-hero {
