@@ -61,7 +61,6 @@ const NON_MEDICARE_KEEP_OLD = [
   'about/index.html',
   'coverage-center/index.html',
   'davenport-health-insurance/index.html',
-  'index.html',
   'privacy-policy.html',
   'quote/index.html',
   'terms/index.html',
@@ -112,6 +111,19 @@ test('Medicare hubs, landers, and Medicare blogs reuse the approved SHIP TPMO se
     assert.doesNotMatch(html, /State Health Insurance Assistance Program \(SHIP\)/);
     assert.doesNotMatch(html, /HealthMarkets/i);
   }
+});
+
+test('homepage review CTAs include SHIP TPMO in hero and sticky placements', () => {
+  const html = source('index.html');
+  const heroBlock = html.match(
+    /aria-label="Start a coverage review"[\s\S]*?<p class="tpmo-cta-disclaimer">[\s\S]*?<\/p>/
+  );
+  assert.ok(heroBlock, 'hero review CTA group is followed by TPMO disclaimer');
+  assert.ok(heroBlock[0].includes(SHIP_TPMO), 'hero review TPMO uses SHIP wording');
+
+  const sticky = html.match(/class="home-sticky-cta"[\s\S]*?<\/div>/);
+  assert.ok(sticky, 'home sticky CTA block exists');
+  assert.ok(sticky[0].includes(SHIP_TPMO), 'sticky CTA TPMO uses SHIP wording');
 });
 
 test('Get Help Medicare form uses SHIP while the mixed footer keeps the older TPMO sentence', () => {
