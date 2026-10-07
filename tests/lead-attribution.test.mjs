@@ -557,7 +557,9 @@ test('consent version resolver accepts only the explicit allowlist', () => {
     'lp-medicare-2026-09-29-v1',
     'lp-medicare-2026-09-29-v2',
     'lp-gap-2026-09-29-v1',
-    'lp-gap-2026-09-29-v2'
+    'lp-gap-2026-09-29-v2',
+    'homepage-newsletter-2026-10-07-v1',
+    'newsletter-signup-2026-10-07-v1'
   ]);
 });
 
