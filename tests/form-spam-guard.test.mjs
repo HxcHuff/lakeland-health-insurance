@@ -11,21 +11,22 @@ const {
   _test: spamTest
 } = require('../netlify/functions/lib/form-spam-guard.js');
 
-test('honeypot detection ignores empty trap fields', () => {
+test('honeypot detection only checks bot-field', () => {
   assert.equal(honeypotFilled({ 'bot-field': '' }), false);
-  assert.equal(honeypotFilled({ website: '  ' }), false);
-  assert.equal(honeypotFilled({ company: 'Acme' }), true);
+  assert.equal(honeypotFilled({ 'bot-field': 'filled' }), true);
+  assert.equal(honeypotFilled({ website: 'https://spam.example' }), false);
+  assert.equal(honeypotFilled({ company: 'Acme' }), false);
 });
 
 test('human timing accepts realistic submissions and rejects instant bots', () => {
-  const startedAt = Date.now() - 1_500;
+  const startedAt = Date.now() - 2_100;
   const payload = {
     started_at: String(startedAt),
     human_check: Buffer.from(`${startedAt}:lakeland-human`).toString('base64')
   };
   const accepted = validateHumanTiming(payload, 'lp-aca-lead');
   assert.equal(accepted.ok, true);
-  assert.ok(accepted.elapsedMs >= 1_400);
+  assert.ok(accepted.elapsedMs >= 2_000);
 
   const fastStart = Date.now() - 50;
   const fastPayload = {

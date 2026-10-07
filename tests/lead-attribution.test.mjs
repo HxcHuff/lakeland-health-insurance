@@ -743,15 +743,17 @@ test('spam honeypot returns silent success without Forms or integrations', async
   assert.equal(String(dropLog.email_hash).includes('@'), false);
 });
 
-test('too-fast lp submissions are silently dropped', async () => {
+test('too-fast lp submissions return 422 so the client can retry', async () => {
   const startedAt = Date.now() - 100;
   const { response, calls } = await invoke(lpPayload('lp-aca-lead', 'lp-aca-2026-09-29-v2', {
     started_at: String(startedAt),
     human_check: Buffer.from(`${startedAt}:lakeland-human`).toString('base64')
   }));
 
-  assert.equal(response.statusCode, 200);
-  assert.equal(JSON.parse(response.body).silent_spam_drop, true);
+  assert.equal(response.statusCode, 422);
+  const body = JSON.parse(response.body);
+  assert.equal(body.ok, false);
+  assert.equal(body.error, 'submitted_too_quickly');
   assert.equal(calls.length, 0);
 });
 

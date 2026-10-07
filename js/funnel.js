@@ -905,6 +905,17 @@
       if (err && ((err.status >= 400 && err.status < 500) || err.noNativeFallback)) {
         clearPendingLeadMarker();
         f.__lhiApiSubmitting = false;
+        var startedEl = f.elements && f.elements.started_at;
+        var startedVal = startedEl && String(startedEl.value || '').trim();
+        if (startedVal) {
+          try {
+            setAttributionField(f, 'human_check', w.btoa(startedVal + ':lakeland-human'));
+          } catch (e) {
+            setAttributionField(f, 'human_check', '');
+          }
+        } else {
+          ensureLeadSpamGuard(f);
+        }
         try { w.alert('Please wait a moment, then send your request again.'); } catch (e) {}
         return;
       }

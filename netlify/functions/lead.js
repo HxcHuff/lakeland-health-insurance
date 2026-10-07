@@ -767,7 +767,14 @@ exports.handler = async (event) => {
     console.info(JSON.stringify(buildSpamDropLog(formName, eventId, spamEvaluation, {
       netlifyContext: NETLIFY_CONTEXT
     })));
-    return buildSilentSpamResponse(cors.headers, eventId, serverReceivedAt);
+    if (spamEvaluation.reason === 'honeypot_filled' || spamEvaluation.reason === 'rate_limited') {
+      return buildSilentSpamResponse(cors.headers, eventId, serverReceivedAt);
+    }
+    return {
+      statusCode: 422,
+      headers: { ...cors.headers, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: false, error: spamEvaluation.reason })
+    };
   }
   const eventTime = Math.floor(Date.parse(serverReceivedAt) / 1000);
   const sourcePath = sanitizeSourcePath(

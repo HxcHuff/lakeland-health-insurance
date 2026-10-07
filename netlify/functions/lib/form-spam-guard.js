@@ -1,9 +1,9 @@
 const crypto = require('crypto');
 
-const HONEYPOT_FIELD_NAMES = ['bot-field', 'website', 'company'];
+const HONEYPOT_FIELD_NAMES = ['bot-field'];
 const HUMAN_CHECK_SECRET = 'lakeland-human';
 const GET_HELP_FORM = 'get-help';
-const MIN_SUBMIT_MS_DEFAULT = 800;
+const MIN_SUBMIT_MS_DEFAULT = 2000;
 const MIN_SUBMIT_MS_GET_HELP = 1200;
 const MAX_SUBMIT_AGE_MS = 2 * 60 * 60 * 1000;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
