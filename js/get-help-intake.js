@@ -100,8 +100,8 @@
       content: 'get_help_provider_check',
       subject: 'New Lead: Provider or Prescription Check',
       line: 'Provider review',
-      intro: 'Request a provider, facility, or prescription review. Directories and contracts can change, so final confirmation may require carrier or provider verification.',
-      optional: ['provider_name', 'provider_location', 'prescription_name', 'current_plan', 'coverage_type', 'plan_year', 'notes']
+      intro: 'Request a callback to review doctors or prescriptions on official directories. Do not enter provider names, medication names, policy numbers, or Medicare IDs in this form.',
+      optional: ['current_plan', 'coverage_type', 'plan_year', 'notes']
     },
     'prescription-check': {
       label: 'Prescription check',
@@ -109,7 +109,7 @@
       subject: 'New Lead: Prescription Coverage Check',
       line: 'Prescription review',
       intro: 'Request a prescription-focused review without sending medication details to advertising platforms.',
-      optional: ['prescription_name', 'current_plan', 'coverage_type', 'plan_year', 'notes']
+      optional: ['current_plan', 'coverage_type', 'plan_year', 'notes']
     },
     'employer-referral': {
       label: 'Employer or referral partner',
