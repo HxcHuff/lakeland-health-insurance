@@ -1043,6 +1043,8 @@ exports.handler = async (event) => {
     });
     if (doi.ok) {
       responseBody.newsletter_confirmation = 'sent';
+    } else if (doi.suppressed) {
+      responseBody.newsletter_confirmation = 'suppressed';
     } else if (doi.skipped) {
       responseBody.newsletter_confirmation = 'skipped';
       responseBody.newsletter_confirmation_error = doi.error;

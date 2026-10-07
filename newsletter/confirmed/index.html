@@ -66,6 +66,12 @@
           title: 'Confirmation is temporarily unavailable.',
           message: 'Please try again later or contact David if you need help.',
           showCta: true
+        },
+        suppressed: {
+          title: 'This address cannot be re-subscribed.',
+          message: 'This email is on our do-not-email list (for example after an unsubscribe or delivery complaint).',
+          secondary: 'We did not add you to the newsletter or send new mail. Contact David if you believe this is a mistake.',
+          showCta: true
         }
       };
       var selected = copy[status] || copy.invalid;

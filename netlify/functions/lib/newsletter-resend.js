@@ -61,18 +61,36 @@ function signTokenPayload(payload, secret) {
   return b64url(crypto.createHmac('sha256', secret).update(payload).digest());
 }
 
-function mintConfirmToken(email, secret, nowMs = Date.now()) {
+function cleanFormName(raw) {
+  return String(raw || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 80);
+}
+
+function websiteNewsletterSource(formName) {
+  const form = cleanFormName(formName);
+  return form ? `website-${form}` : 'website-newsletter';
+}
+
+function mintConfirmToken(email, secret, nowMs = Date.now(), sourceForm = '') {
   const exp = Math.floor(nowMs / 1000) + TOKEN_TTL_SECONDS;
-  const body = `${exp}.${b64url(Buffer.from(email, 'utf8'))}`;
+  const formB64 = b64url(Buffer.from(cleanFormName(sourceForm), 'utf8'));
+  const body = `${exp}.${b64url(Buffer.from(email, 'utf8'))}.${formB64}`;
   const sig = signTokenPayload(body, secret);
   return `${body}.${sig}`;
 }
 
 function verifyConfirmToken(token, secret, nowMs = Date.now()) {
   const parts = String(token || '').split('.');
-  if (parts.length !== 3) return { ok: false, reason: 'malformed' };
-  const [expRaw, emailB64, sig] = parts;
-  const body = `${expRaw}.${emailB64}`;
+  if (parts.length !== 3 && parts.length !== 4) return { ok: false, reason: 'malformed' };
+  const expRaw = parts[0];
+  const emailB64 = parts[1];
+  const sig = parts[parts.length - 1];
+  const formB64 = parts.length === 4 ? parts[2] : '';
+  const body = parts.length === 4 ? `${expRaw}.${emailB64}.${formB64}` : `${expRaw}.${emailB64}`;
   const expected = signTokenPayload(body, secret);
   const left = Buffer.from(sig);
   const right = Buffer.from(expected);
@@ -84,13 +102,15 @@ function verifyConfirmToken(token, secret, nowMs = Date.now()) {
     return { ok: false, reason: 'expired' };
   }
   let email;
+  let sourceForm = '';
   try {
     email = normalizeEmail(fromB64url(emailB64).toString('utf8'));
+    if (formB64) sourceForm = cleanFormName(fromB64url(formB64).toString('utf8'));
   } catch (_) {
     return { ok: false, reason: 'malformed' };
   }
   if (!email) return { ok: false, reason: 'invalid_email' };
-  return { ok: true, email, exp };
+  return { ok: true, email, exp, sourceForm };
 }
 
 function confirmUrl(token) {
@@ -231,14 +251,48 @@ async function getContactByEmail(email) {
   return { ok: true, contact: result.json };
 }
 
-async function markContactConfirmed(email, confirmedAt) {
+function buildConfirmedContactProperties(sourceForm, confirmedAt) {
+  return {
+    source: websiteNewsletterSource(sourceForm),
+    optin_at: String(confirmedAt || '').slice(0, 40),
+    lhi_confirm_status: 'confirmed'
+  };
+}
+
+async function isEmailSuppressedForNewsletter(email) {
+  const normalized = normalizeEmail(email);
+  if (!normalized) return { suppressed: true, reason: 'invalid_email' };
+
+  const suppression = await resendFetch(`/suppressions/${encodeURIComponent(normalized)}`, { method: 'GET' });
+  if (suppression.ok) {
+    return {
+      suppressed: true,
+      reason: 'suppression_list',
+      origin: suppression.json && suppression.json.origin ? suppression.json.origin : 'unknown'
+    };
+  }
+  if (suppression.status !== 404 && !suppression.skipped && suppression.status !== 0) {
+    console.warn(JSON.stringify({
+      type: 'newsletter_suppression_check_failed_v1',
+      email_hash: sha256Prefix(normalized),
+      status: suppression.status
+    }));
+  }
+
+  const contact = await getContactByEmail(normalized);
+  if (contact.ok && contact.contact && contact.contact.unsubscribed === true) {
+    return { suppressed: true, reason: 'contact_unsubscribed' };
+  }
+
+  return { suppressed: false };
+}
+
+async function markContactConfirmed(email, confirmedAt, sourceForm) {
   return resendFetch(`/contacts/${encodeURIComponent(email)}`, {
     method: 'PATCH',
     body: JSON.stringify({
-      properties: {
-        lhi_confirm_status: 'confirmed',
-        lhi_confirmed_at: confirmedAt
-      }
+      unsubscribed: false,
+      properties: buildConfirmedContactProperties(sourceForm, confirmedAt)
     })
   });
 }
@@ -256,6 +310,16 @@ async function startDoubleOptIn(input) {
       email_hash: sha256Prefix(email)
     }));
     return { ok: false, skipped: true, error: 'newsletter_not_configured' };
+  }
+
+  const suppression = await isEmailSuppressedForNewsletter(email);
+  if (suppression.suppressed) {
+    console.info(JSON.stringify({
+      type: 'newsletter_doi_suppressed_v1',
+      email_hash: sha256Prefix(email),
+      reason: suppression.reason || 'suppressed'
+    }));
+    return { ok: false, suppressed: true, error: 'suppressed' };
   }
 
   const firstName = cleanName(input.firstName);
@@ -280,7 +344,7 @@ async function startDoubleOptIn(input) {
     return { ok: false, error: contact.error || 'contact_failed' };
   }
 
-  const token = mintConfirmToken(email, secret);
+  const token = mintConfirmToken(email, secret, Date.now(), input.sourceForm);
   const link = confirmUrl(token);
   const mail = await sendConfirmationEmail({ email, firstName, confirmLink: link });
   if (!mail.ok) {
@@ -301,9 +365,19 @@ async function startDoubleOptIn(input) {
   return { ok: true, action: contact.action };
 }
 
-async function completeDoubleOptIn(email, confirmedAt = new Date().toISOString()) {
+async function completeDoubleOptIn(email, confirmedAt = new Date().toISOString(), sourceForm = '') {
   const normalized = normalizeEmail(email);
   if (!normalized) return { ok: false, error: 'invalid_email' };
+
+  const suppression = await isEmailSuppressedForNewsletter(normalized);
+  if (suppression.suppressed) {
+    console.info(JSON.stringify({
+      type: 'newsletter_confirm_suppressed_v1',
+      email_hash: sha256Prefix(normalized),
+      reason: suppression.reason || 'suppressed'
+    }));
+    return { ok: false, suppressed: true, error: 'suppressed' };
+  }
 
   const segment = await addContactToNewsletterSegment(normalized);
   if (!segment.ok && !segment.skipped) {
@@ -315,7 +389,15 @@ async function completeDoubleOptIn(email, confirmedAt = new Date().toISOString()
     return { ok: false, error: segment.error || 'segment_failed' };
   }
 
-  const patch = await markContactConfirmed(normalized, confirmedAt);
+  let resolvedForm = cleanFormName(sourceForm);
+  if (!resolvedForm) {
+    const existing = await getContactByEmail(normalized);
+    if (existing.ok && existing.contact && existing.contact.properties) {
+      resolvedForm = cleanFormName(existing.contact.properties.lhi_source_form);
+    }
+  }
+
+  const patch = await markContactConfirmed(normalized, confirmedAt, resolvedForm);
   if (!patch.ok) {
     console.error(JSON.stringify({
       type: 'newsletter_confirm_patch_failed_v1',
@@ -329,21 +411,25 @@ async function completeDoubleOptIn(email, confirmedAt = new Date().toISOString()
     email_hash: sha256Prefix(normalized),
     segment: segment.skipped ? 'skipped' : 'added'
   }));
-  return { ok: true, email: normalized, confirmedAt };
+  return { ok: true, email: normalized, confirmedAt, sourceForm: resolvedForm };
 }
 
 module.exports = {
   CAN_SPAM_POSTAL,
   TOKEN_TTL_SECONDS,
   addContactToNewsletterSegment,
+  buildConfirmedContactProperties,
   buildContactProperties,
+  cleanFormName,
   cleanName,
   completeDoubleOptIn,
   confirmUrl,
   getContactByEmail,
+  isEmailSuppressedForNewsletter,
   mintConfirmToken,
   normalizeEmail,
   sha256Prefix,
   startDoubleOptIn,
-  verifyConfirmToken
+  verifyConfirmToken,
+  websiteNewsletterSource
 };

@@ -13,17 +13,30 @@ test('normalizeEmail rejects invalid addresses', () => {
   assert.equal(resend.normalizeEmail(' Reader@Example.COM '), 'reader@example.com');
 });
 
-test('confirm token verifies and expires', () => {
+test('confirm token verifies, carries form name, and expires', () => {
   const secret = 'test-secret-for-newsletter';
   const email = 'reader@example.test';
-  const token = resend.mintConfirmToken(email, secret, Date.now());
+  const token = resend.mintConfirmToken(email, secret, Date.now(), 'newsletter-signup');
   const ok = resend.verifyConfirmToken(token, secret, Date.now());
   assert.equal(ok.ok, true);
   assert.equal(ok.email, email);
+  assert.equal(ok.sourceForm, 'newsletter-signup');
 
   const expired = resend.verifyConfirmToken(token, secret, Date.now() + 8 * 24 * 60 * 60 * 1000);
   assert.equal(expired.ok, false);
   assert.equal(expired.reason, 'expired');
+});
+
+test('websiteNewsletterSource maps form ids for Resend source property', () => {
+  assert.equal(resend.websiteNewsletterSource('homepage-newsletter'), 'website-homepage-newsletter');
+  assert.equal(resend.websiteNewsletterSource('newsletter-signup'), 'website-newsletter-signup');
+});
+
+test('buildConfirmedContactProperties sets source and optin_at', () => {
+  const props = resend.buildConfirmedContactProperties('homepage-newsletter', '2026-10-07T20:00:00.000Z');
+  assert.equal(props.source, 'website-homepage-newsletter');
+  assert.equal(props.optin_at, '2026-10-07T20:00:00.000Z');
+  assert.equal(props.lhi_confirm_status, 'confirmed');
 });
 
 test('buildContactProperties stores consent metadata', () => {

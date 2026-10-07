@@ -38,8 +38,13 @@ exports.handler = async (event) => {
     return redirectResponse(status);
   }
 
-  const confirmed = await completeDoubleOptIn(verified.email);
+  const confirmed = await completeDoubleOptIn(
+    verified.email,
+    new Date().toISOString(),
+    verified.sourceForm
+  );
   if (!confirmed.ok) {
+    if (confirmed.suppressed) return redirectResponse('suppressed');
     return redirectResponse('error');
   }
 
