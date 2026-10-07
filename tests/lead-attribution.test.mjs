@@ -882,6 +882,30 @@ test('Medicare general intake strips known plan and health-detail fields without
   assert.equal(providerCheck.providers, 'Provider needed for follow-up');
 });
 
+test('provider-check intake drops provider and prescription detail fields at relay', async () => {
+  const { response, calls } = await invoke(getHelpPayload({
+    normalized_intent: 'provider-check',
+    inquiry_type: 'Provider or prescription check',
+    line_of_business: 'Medicare',
+    source_page_key: '',
+    source_cta_key: '',
+    current_plan: 'Plan type only',
+    provider_name: 'Must not relay',
+    provider_location: 'Must not relay',
+    prescription_name: 'Must not relay',
+    providers: 'General follow-up note',
+    notes: 'Callback timing'
+  }));
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('provider_name'), null);
+  assert.equal(form.get('provider_location'), null);
+  assert.equal(form.get('prescription_name'), null);
+  assert.equal(form.get('current_plan'), 'Plan type only');
+  assert.equal(form.get('providers'), 'General follow-up note');
+  assert.equal(form.get('notes'), 'Callback timing');
+});
+
 test('CORS, body shape, and body size fail closed', async () => {
   const denied = await invoke(getHelpPayload(), { headers: { origin: 'https://evil.example' } });
   assert.equal(denied.response.statusCode, 403);
