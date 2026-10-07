@@ -254,6 +254,9 @@ export function inspectSite({ root, origin = PUBLIC_ORIGIN, requireTracked = fal
         externalUrls.add(parsed.href);
         continue;
       }
+      if (parsed.pathname === '/.netlify/images' || parsed.pathname.startsWith('/.netlify/functions/')) {
+        continue;
+      }
       const redirectKey = parsed.pathname + (parsed.pathname.endsWith('/') ? '' : '');
       let targetRel = resolveExisting(approvedRoot, parsed.pathname, tracked, issues, doc.rel, 'local-reference');
       if (!targetRel && redirects.has(redirectKey)) continue;
