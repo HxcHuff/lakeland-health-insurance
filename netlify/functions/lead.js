@@ -9,6 +9,7 @@ const { sendAdsLead } = require('./lib/ads-capi');
 const {
   CLICK_ID_PRECEDENCE,
   LEAD_ATTRIBUTION_FIELDS,
+  sanitizeAbVariant,
   sanitizeCampaignAttribution,
   sanitizeCampaignToken,
   sanitizeClickID,
@@ -239,7 +240,8 @@ const GET_HELP_OPTIONAL_FIELDS = [
   'handoff_instructions',
   'service_reason',
   'effective_date',
-  'notes'
+  'notes',
+  'ab_variant'
 ];
 
 function formFields(...groups) {
@@ -254,7 +256,8 @@ const LOCAL_FORM_FIELDS = [
   'coverage_type',
   'lead_source',
   'primary_provider',
-  'source_page'
+  'source_page',
+  'ab_variant'
 ];
 const LP_COMMON_FIELDS = [
   ...LEAD_ATTRIBUTION_FIELDS,
@@ -266,7 +269,8 @@ const LP_COMMON_FIELDS = [
   'coverage_status',
   'consent',
   'source_page',
-  'consent_text_version'
+  'consent_text_version',
+  'ab_variant'
 ];
 const FORM_FIELD_ALLOWLIST = Object.freeze({
   'homepage-newsletter': formFields(BOT_FIELDS, ['email', 'consent', 'source_page', '_subject']),
@@ -316,7 +320,8 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'estimated_monthly_subsidy',
     'estimated_annual_savings',
     'source_page',
-    '_subject'
+    '_subject',
+    'ab_variant'
   ]),
   'tampa-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
   'winter-haven-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
@@ -495,7 +500,15 @@ function filterLeadPayloadForRelay(rawPayload, formName) {
   const filtered = filterPayloadForForm(rawPayload, formName);
   if (!filtered.ok) return filtered;
   sanitizeCampaignAttribution(filtered.payload);
+  sanitizeAbVariantField(filtered.payload);
   return filtered;
+}
+
+function sanitizeAbVariantField(payload) {
+  if (!payload || !Object.prototype.hasOwnProperty.call(payload, 'ab_variant')) return;
+  const sanitized = sanitizeAbVariant(payload.ab_variant);
+  if (sanitized) payload.ab_variant = sanitized;
+  else delete payload.ab_variant;
 }
 
 function canonicalizeMedicareAttribution(payload) {
@@ -749,6 +762,7 @@ exports.handler = async (event) => {
     };
   }
   const payload = sanitizeCampaignAttribution(minimizeGetHelpPayload(filteredPayload.payload));
+  sanitizeAbVariantField(payload);
 
   const botCheck = checkBotSubmission(payload);
   if (!botCheck.ok) {

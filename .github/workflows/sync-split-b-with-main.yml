@@ -1,0 +1,34 @@
+# Keep the Netlify split-test variant branch aligned with main so merges are not doubled.
+name: Sync split-b with main
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  sync-split-b:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Merge main into split-b
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          if git show-ref --verify --quiet refs/remotes/origin/split-b; then
+            git checkout split-b
+            git merge origin/main -m "chore: sync split-b with main"
+          else
+            git checkout -B split-b origin/main
+          fi
+          git push origin split-b

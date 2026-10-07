@@ -328,7 +328,8 @@ test('event_scheduled fires Schedule once without Calendly payload fields', asyn
   assert.deepEqual(JSON.parse(fetchCalls[0].init.body), {
     event_name: 'Schedule',
     event_id: scheduleId,
-    custom_event_id: customId
+    custom_event_id: customId,
+    ab_variant: 'control'
   });
   assert.equal(imageSrcs.length, 2);
   assert.equal(imageSrcs[0], sandbox.__LHI_CALENDLY_META__.pixelTransportUrl(scheduleId, 'Schedule'));

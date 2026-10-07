@@ -361,7 +361,24 @@
     emitMedicareEvent('MedicareCtaClick', Object.assign({}, context, { cta_key: ctaKey }));
   }
 
+  function loadAbVariant() {
+    if (abVariantRequested || window.LHIAbVariant) return;
+    if (typeof document.querySelector === 'function'
+        && document.querySelector('script[src^="/js/ab-variant.js"]')) {
+      abVariantRequested = true;
+      return;
+    }
+    abVariantRequested = true;
+    var ab = document.createElement('script');
+    ab.async = true;
+    ab.src = '/js/ab-variant.js?v=20261007-split';
+    document.head.appendChild(ab);
+  }
+
+  var abVariantRequested = false;
+
   function loadFunnelBus() {
+    loadAbVariant();
     if (funnelRequested || window.LHI) return;
     if (typeof document.querySelector === 'function'
         && document.querySelector('script[src^="/js/funnel.js"]')) {

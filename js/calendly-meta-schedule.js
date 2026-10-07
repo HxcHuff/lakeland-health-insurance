@@ -360,12 +360,26 @@
     return tracked;
   }
 
+  function readAbVariantForBooking() {
+    if (w.LHIAbVariant && typeof w.LHIAbVariant.getVariant === 'function') {
+      return w.LHIAbVariant.getVariant();
+    }
+    try {
+      var match = String(d.cookie || '').match(/(?:^|; )lhi_ab_variant=([^;]*)/);
+      if (!match) return 'control';
+      var text = decodeURIComponent(match[1]).trim().toLowerCase();
+      if (text === 'home-hero-primary-b') return text;
+    } catch (_) {}
+    return 'control';
+  }
+
   function fireCapi(eventId, customEventId) {
     if (typeof w.fetch !== 'function') return false;
     try {
       var body = {
         event_name: 'Schedule',
-        event_id: eventId
+        event_id: eventId,
+        ab_variant: readAbVariantForBooking()
       };
       if (customEventId) body.custom_event_id = customEventId;
       w.fetch(CAPI_PATH, {
