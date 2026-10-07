@@ -75,8 +75,8 @@ for (const [label, html, canonical, formName] of [
 }
 
 test('ACA paid page uses the approved conversion copy and audience', () => {
-  assert.match(ACA, /<h1[^>]*>Job change or 1099 income\? Compare Marketplace coverage before you buy COBRA\.<\/h1>/);
-  assert.match(ACA, /David Huff, licensed Florida health agent appointed with multiple carriers\. I compare 2026 Marketplace plans for Lakeland and Polk County and I answer my own phone\./);
+  assert.match(ACA, /<h1[^>]*>Compare 2027 Marketplace plans for Lakeland and Polk County\.<\/h1>/);
+  assert.match(ACA, /David Huff, licensed Florida health agent appointed with multiple carriers, compares ACA options for your ZIP and answers his own phone\. Call or use the form for a plan comparison—this is not enrollment\./);
   assert.match(ACA, /<h2>Request a plan comparison\.<\/h2>/);
   assert.match(ACA, /<button[^>]*>Request a callback<\/button>/);
   assert.match(ACA, /Recent job loss/);
@@ -87,7 +87,9 @@ test('ACA paid page uses the approved conversion copy and audience', () => {
 
 test('Medicare paid page keeps compensation and required disclosures below the service content', () => {
   assert.match(MEDICARE, /<h1[^>]*>Review your Medicare plan before doctors, drugs, or costs change\.<\/h1>/);
+  assert.match(MEDICARE, /The 2027 Medicare Annual Enrollment Period runs October 15 through December 7, 2026\./);
   assert.match(MEDICARE, /David Huff, licensed Florida health agent appointed with multiple carriers in Lakeland and Polk County\. I answer my own phone\. This is not a call center\./);
+  assert.match(MEDICARE, /A Medicare plan review is not enrollment\./);
   assert.doesNotMatch(MEDICARE.match(/<section class="lp-hero"[\s\S]*?<\/section>/i)?.[0] || '', /Broker Compensation/i);
 
   const disclosuresAt = MEDICARE.indexOf('<section class="lp-disclosures"');
