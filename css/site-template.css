@@ -1055,3 +1055,93 @@ body.has-seasonal-banner .home-hero {
     align-self: flex-end;
   }
 }
+
+/* Watson Clinic / carrier network alert: bright, high-contrast, mobile-first. */
+.lhi-alert-notice {
+  background: #9B1C1C;
+  border: 2px solid #7F1D1D;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(127, 29, 29, 0.28);
+  color: #fff;
+  margin: 16px 0 18px;
+  max-width: 100%;
+  padding: 16px 18px;
+}
+
+.lhi-alert-notice h2,
+.lhi-alert-notice p,
+.lhi-alert-notice strong {
+  color: #fff !important;
+}
+
+.lhi-alert-notice h2 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.35;
+  margin: 0 0 0.65rem;
+}
+
+.lhi-alert-notice p {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0 0 0.75rem;
+}
+
+.lhi-alert-notice p:last-child {
+  margin-bottom: 0;
+}
+
+.lhi-alert-notice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.lhi-alert-notice-actions a {
+  align-items: center;
+  border-radius: 10px;
+  display: inline-flex;
+  font-weight: 800;
+  justify-content: center;
+  min-height: 44px;
+  padding: 12px 16px;
+  text-decoration: none !important;
+}
+
+.lhi-alert-notice-actions a[href^="tel"] {
+  background: #F5ECD7;
+  border: 2px solid #F5ECD7;
+  color: #1B2A4A !important;
+}
+
+.lhi-alert-notice-actions a[href*="get-help"] {
+  background: #fff;
+  border: 2px solid #fff;
+  color: #7F1D1D !important;
+}
+
+.lhi-alert-notice-actions a:focus-visible {
+  outline: 3px solid #FDE68A;
+  outline-offset: 3px;
+}
+
+.lhi-followup-cta p {
+  margin-bottom: 12px;
+}
+
+@media (max-width: 720px) {
+  .lhi-alert-notice {
+    padding: 14px 14px;
+  }
+
+  .lhi-alert-notice h2 {
+    font-size: 1.05rem;
+  }
+
+  .lhi-alert-notice-actions a {
+    flex: 1 1 100%;
+  }
+}
