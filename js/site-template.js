@@ -383,7 +383,7 @@
   function shouldShowWatsonNotice(pathname) {
     try {
       var path = normalizePath(pathname || currentPathname());
-      if (path !== '/' && path !== '/get-help/') return false;
+      if (path !== '/' && path !== '/get-help/' && path !== '/provider-prescription-check/') return false;
       try {
         if (window.localStorage && window.localStorage.getItem(WATSON_NOTICE_STORAGE_KEY) === 'dismissed') {
           return false;
@@ -414,7 +414,9 @@
       'body.has-seasonal-banner.has-watson-notice .home-hero{padding-top:calc(clamp(96px, 10vw, 132px) + 74px);}',
       'body.has-watson-notice.get-help-page .help-hero{padding-top:200px;}',
       'body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero{padding-top:240px;}',
-      '@media (max-width:720px){body.has-watson-notice.get-help-page .help-hero{padding-top:188px;}body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero{padding-top:232px;}}'
+      '@media (max-width:720px){body.has-watson-notice.get-help-page .help-hero{padding-top:188px;}body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero{padding-top:232px;}}',
+      'body.has-watson-notice .answer-hero{padding-top:168px;}',
+      '@media (max-width:860px){body.has-watson-notice .answer-hero{padding-top:156px;}}'
     ].join('');
     document.head.appendChild(style);
   }
