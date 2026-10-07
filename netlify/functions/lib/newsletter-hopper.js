@@ -13,9 +13,7 @@ function hopperConfigured() {
 }
 
 function mapInterestToInsuranceType(interest) {
-  const value = String(interest || '').trim().toLowerCase();
-  if (value === 'medicare') return 'MEDICARE_ADVANTAGE';
-  if (value === 'aca') return 'ACA';
+  void interest;
   return 'OTHER';
 }
 
@@ -37,16 +35,13 @@ async function notifyHopperOfConfirmedSubscriber(input) {
     firstName: cleanName(input.firstName) || undefined,
     lastName: cleanName(input.lastName) || undefined,
     email,
-    phone: cleanName(input.phone) || undefined,
     source: 'lhi_newsletter_confirmed',
     status: 'NEW_LEAD',
     insuranceType: mapInterestToInsuranceType(input.interest),
     notes: [
       'Newsletter double opt-in confirmed on lakelandhealthinsurance.com.',
-      'Email-only newsletter consent; do not treat as phone/SMS marketing consent.',
-      input.signupPage ? `Signup page: ${input.signupPage}` : null,
-      input.confirmedAt ? `Confirmed at: ${input.confirmedAt}` : null
-    ].filter(Boolean).join(' ')
+      'Email-only education newsletter. Not a sales lead. Do not call, text, or start Medicare plan marketing from this record.'
+    ].join(' ')
   };
 
   try {

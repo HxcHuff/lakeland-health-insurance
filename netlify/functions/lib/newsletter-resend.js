@@ -202,7 +202,7 @@ async function sendConfirmationEmail({ email, firstName, confirmLink }) {
     '',
     `Confirm your subscription: ${confirmLink}`,
     '',
-    'If you did not request this, ignore this email. You will not be added until you confirm.',
+    'If you did not request this, ignore this email. You will not be added until you confirm. To cancel this request or stop future newsletter email, reply to this message, write Lakeland Health Insurance, 2298 Lakeland Hills Blvd, Lakeland, FL 33805, or call (863) 640-3102.',
     '',
     canSpamFooterText()
   ].join('\n');
@@ -212,7 +212,7 @@ async function sendConfirmationEmail({ email, firstName, confirmLink }) {
     '<p>Please confirm your email to join <strong>The Coverage Insider</strong> newsletter from Lakeland Health Insurance.</p>',
     '<p>You will receive occasional educational emails about general health insurance and Medicare topics for Florida readers — not sales calls or plan marketing texts.</p>',
     `<p><a href="${confirmLink}">Confirm your subscription</a></p>`,
-    '<p style="font-size:14px;color:#555;">If you did not request this, ignore this email. You will not be added until you confirm.</p>',
+    '<p style="font-size:14px;color:#555;">If you did not request this, ignore this email. You will not be added until you confirm. To cancel this request or stop future newsletter email, reply to this message, write Lakeland Health Insurance, 2298 Lakeland Hills Blvd, Lakeland, FL 33805, or call (863) 640-3102.</p>',
     `<p style="font-size:12px;color:#777;">${canSpamFooterHtml()}</p>`
   ].join('');
 
@@ -247,7 +247,9 @@ async function getContactByEmail(email) {
   const normalized = normalizeEmail(email);
   if (!normalized) return { ok: false, error: 'invalid_email' };
   const result = await resendFetch(`/contacts/${encodeURIComponent(normalized)}`, { method: 'GET' });
-  if (!result.ok || !result.json) return { ok: false, error: `resend_get_${result.status}` };
+  if (!result.ok || !result.json) {
+    return { ok: false, error: `resend_get_${result.status}`, status: result.status };
+  }
   return { ok: true, contact: result.json };
 }
 
@@ -277,11 +279,15 @@ async function isEmailSuppressedForNewsletter(email) {
       email_hash: sha256Prefix(normalized),
       status: suppression.status
     }));
+    return { suppressed: true, reason: 'suppression_check_unavailable' };
   }
 
   const contact = await getContactByEmail(normalized);
   if (contact.ok && contact.contact && contact.contact.unsubscribed === true) {
     return { suppressed: true, reason: 'contact_unsubscribed' };
+  }
+  if (!contact.ok && contact.status !== 404) {
+    return { suppressed: true, reason: 'contact_lookup_unavailable' };
   }
 
   return { suppressed: false };
