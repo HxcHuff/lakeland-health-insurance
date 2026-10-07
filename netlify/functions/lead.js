@@ -6,6 +6,8 @@
 
 const crypto = require('crypto');
 const { sendAdsLead } = require('./lib/ads-capi');
+const { checkNewsletterRateLimit } = require('./lib/newsletter-rate-limit');
+const { normalizeEmail, startDoubleOptIn } = require('./lib/newsletter-resend');
 const {
   CLICK_ID_PRECEDENCE,
   LEAD_ATTRIBUTION_FIELDS,
@@ -529,6 +531,18 @@ const LP_MEDICARE_CONSENT_TEXT_VERSION_V1 = 'lp-medicare-2026-09-29-v1';
 const LP_MEDICARE_CONSENT_TEXT_VERSION_V2 = 'lp-medicare-2026-09-29-v2';
 const LP_GAP_CONSENT_TEXT_VERSION_V1 = 'lp-gap-2026-09-29-v1';
 const LP_GAP_CONSENT_TEXT_VERSION_V2 = 'lp-gap-2026-09-29-v2';
+const HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION = 'homepage-newsletter-2026-10-07-v1';
+const NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION = 'newsletter-signup-2026-10-07-v1';
+const NEWSLETTER_CONSENT_TEXT_VERSIONS = Object.freeze({
+  'homepage-newsletter': HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION,
+  'newsletter-signup': NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION
+});
+const NEWSLETTER_CONSENT_COPY = Object.freeze({
+  [HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION]:
+    'I agree to receive email newsletters from Lakeland Health Insurance with general health insurance and Medicare education tips. This is not consent to sales calls, texts, or Medicare plan marketing contact. Unsubscribe anytime.',
+  [NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION]:
+    'I agree to receive email newsletters from Lakeland Health Insurance with general health insurance and Medicare education tips. Optional phone is for newsletter context only, not consent to sales calls or texts. Unsubscribe anytime.'
+});
 const CONSENT_TEXT_VERSION_NONE = 'none';
 const LP_CONSENT_TEXT_VERSIONS = Object.freeze({
   'lp-aca-lead': LP_ACA_CONSENT_TEXT_VERSION_V2,
@@ -558,7 +572,9 @@ const ALLOWED_CONSENT_TEXT_VERSIONS = Object.freeze([
   LP_MEDICARE_CONSENT_TEXT_VERSION_V1,
   LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
   LP_GAP_CONSENT_TEXT_VERSION_V1,
-  LP_GAP_CONSENT_TEXT_VERSION_V2
+  LP_GAP_CONSENT_TEXT_VERSION_V2,
+  HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION,
+  NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION
 ]);
 const ALLOWED_CONSENT_TEXT_VERSION_SET = new Set(ALLOWED_CONSENT_TEXT_VERSIONS);
 
@@ -577,6 +593,9 @@ function defaultConsentTextVersion(formName, consentPage) {
   if (formName === 'get-help') return defaultGetHelpConsentTextVersion(consentPage);
   if (Object.prototype.hasOwnProperty.call(LP_CONSENT_TEXT_VERSIONS, formName)) {
     return LP_CONSENT_TEXT_VERSIONS[formName];
+  }
+  if (Object.prototype.hasOwnProperty.call(NEWSLETTER_CONSENT_TEXT_VERSIONS, formName)) {
+    return NEWSLETTER_CONSENT_TEXT_VERSIONS[formName];
   }
   return null;
 }
@@ -643,12 +662,31 @@ function applyLpMarketingConsentRecord(payload, formName, serverReceivedAt) {
   }
 }
 
+function applyNewsletterConsentRecord(payload, formName, consentPage, serverReceivedAt) {
+  const granted = isGrantedLpConsentValue(payload.consent);
+  if (!granted) return;
+  const recordedPage = sanitizeSourcePath(consentPage || payload.source_page || '/');
+  assignResolvedConsentVersion(payload, formName, recordedPage);
+  payload.consent_page = recordedPage;
+  payload.consent_email = 'yes';
+  payload.consent_email_state = 'granted';
+  payload.consent_sms = 'no';
+  payload.consent_call = 'no';
+  payload.consent_sms_state = 'not_granted';
+  payload.consent_call_state = 'not_granted';
+  if (serverReceivedAt) payload.consent_recorded_at = serverReceivedAt;
+}
+
 function applyNonGetHelpConsentRecord(payload, formName, consentPage, serverReceivedAt) {
   if (formName === 'get-help') return;
   const recordedPage = sanitizeSourcePath(consentPage || payload.source_page || '/');
   const resolved = assignResolvedConsentVersion(payload, formName, recordedPage);
   if (!resolved.version) return;
   payload.consent_page = recordedPage;
+  if (NEWSLETTER_FORMS.has(formName)) {
+    applyNewsletterConsentRecord(payload, formName, consentPage, serverReceivedAt);
+    return;
+  }
   if (CITY_HEALTH_INSURANCE_FORM_SET.has(formName)) {
     payload.consent_sms = 'no';
     return;
@@ -656,6 +694,17 @@ function applyNonGetHelpConsentRecord(payload, formName, consentPage, serverRece
   if (Object.prototype.hasOwnProperty.call(LP_CONSENT_TEXT_VERSIONS, formName)) {
     applyLpMarketingConsentRecord(payload, formName, serverReceivedAt);
   }
+}
+
+function authorizeNewsletterConsent(payload, formName) {
+  if (!NEWSLETTER_FORMS.has(formName)) return { ok: true };
+  if (!isGrantedLpConsentValue(payload.consent)) {
+    return { ok: false, error: 'newsletter consent is required' };
+  }
+  if (!normalizeEmail(payload.email)) {
+    return { ok: false, error: 'valid email is required' };
+  }
+  return { ok: true };
 }
 
 function authorizeGetHelpConsent(payload, serverReceivedAt, consentPage) {
@@ -770,6 +819,24 @@ exports.handler = async (event) => {
       headers: { ...cors.headers, 'Content-Type': 'application/json' },
       body: JSON.stringify({ ok: false, error: consentCheck.error })
     };
+  }
+  const newsletterConsentCheck = authorizeNewsletterConsent(payload, formName);
+  if (!newsletterConsentCheck.ok) {
+    return {
+      statusCode: 422,
+      headers: { ...cors.headers, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: false, error: newsletterConsentCheck.error })
+    };
+  }
+  if (NEWSLETTER_FORMS.has(formName)) {
+    const rate = await checkNewsletterRateLimit(event, payload.email);
+    if (!rate.ok) {
+      return {
+        statusCode: 429,
+        headers: { ...cors.headers, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ok: false, error: rate.error || 'rate_limited' })
+      };
+    }
   }
   applyNonGetHelpConsentRecord(payload, formName, sourcePath, serverReceivedAt);
 
@@ -956,6 +1023,32 @@ exports.handler = async (event) => {
       headers: { ...cors.headers, 'Content-Type': 'application/json' },
       body: JSON.stringify({ ok: false, error: 'forms forward failed', ...responseBody })
     };
+  }
+
+  if (isNewsletter) {
+    const consentVersion = String(payload.consent_text_version || NEWSLETTER_CONSENT_TEXT_VERSIONS[formName] || '');
+    const doi = await startDoubleOptIn({
+      email: payload.email,
+      firstName: payload.first_name,
+      lastName: payload.last_name,
+      interest: payload.interest,
+      sourceForm: formName,
+      signupPage: sourcePath,
+      signupAt: serverReceivedAt,
+      consentVersion,
+      consentText: NEWSLETTER_CONSENT_COPY[consentVersion] || ''
+    });
+    if (doi.ok) {
+      responseBody.newsletter_confirmation = 'sent';
+    } else if (doi.suppressed) {
+      responseBody.newsletter_confirmation = 'suppressed';
+    } else if (doi.skipped) {
+      responseBody.newsletter_confirmation = 'skipped';
+      responseBody.newsletter_confirmation_error = doi.error;
+    } else {
+      responseBody.newsletter_confirmation = 'failed';
+      responseBody.newsletter_confirmation_error = doi.error;
+    }
   }
 
   return {
