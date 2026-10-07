@@ -28,7 +28,8 @@ const MEDICARE_SHIP_SURFACES = new Set([
   'medicare-broker-lakeland-fl/index.html',
   'medicare/east-polk/index.html',
   'medicare/index.html',
-  'moving-florida-medicare/index.html'
+  'moving-florida-medicare/index.html',
+  'provider-prescription-check/index.html'
 ]);
 
 const MEDICARE_MARKETING_SURFACES = [
@@ -223,8 +224,9 @@ test('provider-check routing and rewritten Medicare sitemap dates are canonical'
 
   assert.match(watson, /href="\/get-help\/\?intent=provider-check">Start a provider check<\/a>/);
   assert.doesNotMatch(watson, /intent=provider-prescription(?:["&])/);
-  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/when-can-i-switch-medicare-plans-florida\.html<\/loc>\s*<lastmod>2026-10-05<\/lastmod>/);
-  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/medicare-supplement-cost-lakeland\.html<\/loc>\s*<lastmod>2026-10-05<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/when-can-i-switch-medicare-plans-florida\.html<\/loc>\s*<lastmod>2026-10-07<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/medicare-supplement-cost-lakeland\.html<\/loc>\s*<lastmod>2026-10-07<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/provider-prescription-check\/<\/loc>\s*<lastmod>2026-10-07<\/lastmod>/);
 });
 
 test('privacy policy uses current-season SOA wording without treating expired 2026 exceptions as current', () => {
