@@ -703,6 +703,36 @@
     });
   }
 
+  function ensureLeadSpamGuard(form) {
+    if (!form || typeof form.setAttribute !== 'function') return;
+    if (!form.getAttribute('data-netlify-honeypot')) {
+      form.setAttribute('data-netlify-honeypot', 'bot-field');
+    }
+    if (!form.querySelector('input[name="bot-field"]')) {
+      var honeypotWrap = d.createElement('div');
+      honeypotWrap.hidden = true;
+      honeypotWrap.setAttribute('aria-hidden', 'true');
+      var label = d.createElement('label');
+      var input = d.createElement('input');
+      input.name = 'bot-field';
+      input.tabIndex = -1;
+      input.autocomplete = 'off';
+      label.appendChild(d.createTextNode('Do not fill this out '));
+      label.appendChild(input);
+      honeypotWrap.appendChild(label);
+      form.insertBefore(honeypotWrap, form.firstChild);
+    }
+    var startedInput = form.elements && form.elements.started_at;
+    if (startedInput && String(startedInput.value || '').trim()) return;
+    var startedAt = String(Date.now());
+    setAttributionField(form, 'started_at', startedAt);
+    try {
+      setAttributionField(form, 'human_check', w.btoa(startedAt + ':lakeland-human'));
+    } catch (e) {
+      setAttributionField(form, 'human_check', '');
+    }
+  }
+
   function sitelinkReferralClass() {
     if (!d.referrer) return 'direct';
     try {
@@ -854,6 +884,10 @@
     }).then(function (res) {
       if (res.ok) {
         return (typeof res.json === 'function' ? res.json().catch(function () { return null; }) : Promise.resolve(null)).then(function (body) {
+          if (body && body.ok === true && body.silent_spam_drop === true) {
+            redirectAfterLead(f);
+            return;
+          }
           if (!body || body.ok !== true || body.forms !== true || !approvedEventID(body.event_id)) {
             var semanticError = new Error('lead api response was not a confirmed Forms acceptance');
             semanticError.status = 502;
@@ -940,6 +974,7 @@
   function wireForms() {
     d.querySelectorAll('form[data-funnel-track], form[data-funnel-step]').forEach(function (f) {
       initializeFormAttribution(f);
+      ensureLeadSpamGuard(f);
       if (f.__lhiWired) return;
       f.__lhiWired = true;
       f.__lhiFormStarted = false;
