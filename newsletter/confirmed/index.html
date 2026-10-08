@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Newsletter confirmation | Lakeland Health Insurance</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://lakelandhealthinsurance.com/newsletter/confirmed/">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/fonts.css">
+  <style>
+    :root { --navy:#1B2A4A; --ink:#172033; --muted:#5B6475; --soft:#F8FAFC; --line:#E2E8F0; --green:#0F766E; }
+    body { margin:0; font-family:'DM Sans',sans-serif; background:var(--soft); color:var(--ink); line-height:1.6; }
+    .wrap { max-width:640px; margin:0 auto; padding:3rem 1.25rem 4rem; }
+    h1 { font-family:'Instrument Serif',serif; font-weight:400; color:var(--navy); font-size:2rem; margin:0 0 0.75rem; }
+    p { color:var(--muted); margin:0 0 1rem; }
+    .card { background:#fff; border:1px solid var(--line); border-radius:12px; padding:1.75rem; }
+    .ok { color:var(--green); font-weight:600; }
+    a { color:var(--navy); }
+    .btn { display:inline-block; margin-top:1rem; padding:0.75rem 1.25rem; background:var(--navy); color:#fff; text-decoration:none; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="card" id="statusCard">
+      <h1 id="title">Newsletter confirmation</h1>
+      <p id="message">Loading…</p>
+      <p id="secondary" hidden></p>
+      <a class="btn" href="/newsletter/" id="cta" hidden>Back to newsletter</a>
+    </div>
+  </main>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var status = (params.get('status') || 'unknown').toLowerCase();
+      var title = document.getElementById('title');
+      var message = document.getElementById('message');
+      var secondary = document.getElementById('secondary');
+      var cta = document.getElementById('cta');
+      var copy = {
+        confirmed: {
+          title: 'You are subscribed.',
+          message: 'Thanks for confirming. The Coverage Insider newsletter will arrive by email from Lakeland Health Insurance.',
+          secondary: 'Educational emails only — not sales calls or Medicare plan marketing texts. Unsubscribe anytime from any issue.',
+          showCta: true
+        },
+        expired: {
+          title: 'This confirmation link expired.',
+          message: 'For your security, confirmation links expire after seven days.',
+          secondary: 'Submit the newsletter form again to receive a fresh confirmation email.',
+          showCta: true
+        },
+        invalid: {
+          title: 'This confirmation link is not valid.',
+          message: 'The link may be incomplete or already used.',
+          secondary: 'Try the confirmation button in the most recent email, or sign up again.',
+          showCta: true
+        },
+        error: {
+          title: 'We could not finish confirming.',
+          message: 'Your click was received, but something prevented the final step.',
+          secondary: 'Please try the link once more. If it keeps failing, call (863) 640-3102 or use the newsletter form again.',
+          showCta: true
+        },
+        unavailable: {
+          title: 'Confirmation is temporarily unavailable.',
+          message: 'Please try again later or contact David if you need help.',
+          showCta: true
+        },
+        suppressed: {
+          title: 'This address cannot be re-subscribed.',
+          message: 'This email is on our do-not-email list (for example after an unsubscribe or delivery complaint).',
+          secondary: 'We did not add you to the newsletter or send new mail. Contact David if you believe this is a mistake.',
+          showCta: true
+        }
+      };
+      var selected = copy[status] || copy.invalid;
+      title.textContent = selected.title;
+      message.textContent = selected.message;
+      if (selected.secondary) {
+        secondary.textContent = selected.secondary;
+        secondary.hidden = false;
+      }
+      if (selected.showCta) cta.hidden = false;
+    })();
+  </script>
+</body>
+</html>

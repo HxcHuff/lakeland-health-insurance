@@ -34,6 +34,14 @@ after(() => {
   }
 });
 
+function spamGuardFields(offsetMs = 2_000) {
+  const startedAt = Date.now() - offsetMs;
+  return {
+    started_at: String(startedAt),
+    human_check: Buffer.from(`${startedAt}:lakeland-human`).toString('base64')
+  };
+}
+
 function getHelpPayload(overrides = {}) {
   const startedAt = Date.now() - 2_000;
   return {
@@ -557,7 +565,9 @@ test('consent version resolver accepts only the explicit allowlist', () => {
     'lp-medicare-2026-09-29-v1',
     'lp-medicare-2026-09-29-v2',
     'lp-gap-2026-09-29-v1',
-    'lp-gap-2026-09-29-v2'
+    'lp-gap-2026-09-29-v2',
+    'homepage-newsletter-2026-10-07-v1',
+    'newsletter-signup-2026-10-07-v1'
   ]);
 });
 
@@ -572,6 +582,7 @@ function cityPayload(overrides = {}) {
     source_url: 'https://lakelandhealthinsurance.com/tampa-health-insurance/',
     consent_text_version: 'get-help-2026-09-29-v2',
     consent_sms: 'yes',
+    ...spamGuardFields(),
     ...overrides
   };
 }
@@ -587,6 +598,7 @@ function lpPayload(formName, version, overrides = {}) {
     source_page: formName === 'lp-aca-lead' ? '/lp/aca/' : formName === 'lp-medicare-lead' ? '/lp/medicare/' : '/lp/gap/',
     source_url: `https://lakelandhealthinsurance.com${formName === 'lp-aca-lead' ? '/lp/aca/' : formName === 'lp-medicare-lead' ? '/lp/medicare/' : '/lp/gap/'}`,
     consent_text_version: version,
+    ...spamGuardFields(),
     ...overrides
   };
 }
@@ -704,6 +716,47 @@ test('city health-insurance leads store no-SMS and none consent versions', async
   assert.equal(form.get('consent_version_source'), 'none');
   assert.equal(form.get('consent_version_mismatch'), 'false');
   assert.equal(form.toString().includes('get-help-2026-09-29-v2'), false);
+});
+
+test('spam honeypot returns silent success without Forms or integrations', async () => {
+  const payload = getHelpPayload({ 'bot-field': 'filled-by-bot' });
+  const { response, calls, logs } = await invoke(payload);
+
+  assert.equal(response.statusCode, 200);
+  const body = JSON.parse(response.body);
+  assert.equal(body.ok, true);
+  assert.equal(body.silent_spam_drop, true);
+  assert.equal(body.forms, false);
+  assert.match(body.event_id, /^[0-9a-f-]{36}$/i);
+  assert.equal(calls.length, 0);
+
+  const dropLog = logs.map(([level, value]) => {
+    if (level !== 'info') return null;
+    try {
+      return JSON.parse(value);
+    } catch (_) {
+      return null;
+    }
+  }).find((entry) => entry && entry.type === 'lead_spam_drop_v1');
+  assert.equal(dropLog.reason, 'honeypot_filled');
+  assert.equal(dropLog.form, 'get_help');
+  assert.equal(typeof dropLog.email_hash, 'string');
+  assert.equal(dropLog.email_hash.length, 16);
+  assert.equal(String(dropLog.email_hash).includes('@'), false);
+});
+
+test('too-fast lp submissions return 422 so the client can retry', async () => {
+  const startedAt = Date.now() - 100;
+  const { response, calls } = await invoke(lpPayload('lp-aca-lead', 'lp-aca-2026-09-29-v2', {
+    started_at: String(startedAt),
+    human_check: Buffer.from(`${startedAt}:lakeland-human`).toString('base64')
+  }));
+
+  assert.equal(response.statusCode, 422);
+  const body = JSON.parse(response.body);
+  assert.equal(body.ok, false);
+  assert.equal(body.error, 'submitted_too_quickly');
+  assert.equal(calls.length, 0);
 });
 
 test('get-help rejects missing request consent before Forms or integrations', async () => {
@@ -880,6 +933,30 @@ test('Medicare general intake strips known plan and health-detail fields without
     providers: 'Provider needed for follow-up'
   });
   assert.equal(providerCheck.providers, 'Provider needed for follow-up');
+});
+
+test('provider-check intake drops provider and prescription detail fields at relay', async () => {
+  const { response, calls } = await invoke(getHelpPayload({
+    normalized_intent: 'provider-check',
+    inquiry_type: 'Provider or prescription check',
+    line_of_business: 'Medicare',
+    source_page_key: '',
+    source_cta_key: '',
+    current_plan: 'Plan type only',
+    provider_name: 'Must not relay',
+    provider_location: 'Must not relay',
+    prescription_name: 'Must not relay',
+    providers: 'General follow-up note',
+    notes: 'Callback timing'
+  }));
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('provider_name'), null);
+  assert.equal(form.get('provider_location'), null);
+  assert.equal(form.get('prescription_name'), null);
+  assert.equal(form.get('current_plan'), 'Plan type only');
+  assert.equal(form.get('providers'), 'General follow-up note');
+  assert.equal(form.get('notes'), 'Callback timing');
 });
 
 test('CORS, body shape, and body size fail closed', async () => {

@@ -212,8 +212,8 @@ test('plans presents five one-click coverage choices with relevant limitations',
   const cmsFactSheet = 'https://www.cms.gov/newsroom/fact-sheets/short-term-limited-duration-insurance-and-independent-noncoordinated-excepted-benefits-coverage-cms';
   assert.match(PLANS, new RegExp(cmsFactSheet));
   assert.doesNotMatch(PLANS, /fixed-indemnity-excepted-benefits-coverage-notice\.pdf/);
-  assert.match(PLANS, /"dateModified": "2026-09-30"/);
-  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/plans\/<\/loc>\s*<lastmod>2026-09-30<\/lastmod>/);
+  assert.match(PLANS, /"dateModified": "2026-10-07"/);
+  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/plans\/<\/loc>\s*<lastmod>2026-10-07<\/lastmod>/);
 });
 
 test('quote presents three direct actions without a routing form or plans detour', () => {
@@ -228,8 +228,8 @@ test('quote presents three direct actions without a routing form or plans detour
   assert.doesNotMatch(quoteMain[0], /<form\b|routerZip|routerCoverage|ZIP-prefix|coverage router|routing gate|verified pathway|verified next steps/i);
   assert.doesNotMatch(quoteMain[0], /href="\/plans\/"/);
   assert.equal(existsSync(join(ROOT, 'js/quote-router.js')), false);
-  assert.match(QUOTE, /"dateModified": "2026-08-16"/);
-  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/quote\/<\/loc>\s*<lastmod>2026-08-16<\/lastmod>/);
+  assert.match(QUOTE, /"dateModified": "2026-10-07"/);
+  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/quote\/<\/loc>\s*<lastmod>2026-10-07<\/lastmod>/);
 });
 
 test('coverage center is a two-lane 2027 plan-review hub wired into get-help', () => {

@@ -28,7 +28,8 @@ const MEDICARE_SHIP_SURFACES = new Set([
   'medicare-broker-lakeland-fl/index.html',
   'medicare/east-polk/index.html',
   'medicare/index.html',
-  'moving-florida-medicare/index.html'
+  'moving-florida-medicare/index.html',
+  'provider-prescription-check/index.html'
 ]);
 
 const MEDICARE_MARKETING_SURFACES = [
@@ -223,8 +224,9 @@ test('provider-check routing and rewritten Medicare sitemap dates are canonical'
 
   assert.match(watson, /href="\/get-help\/\?intent=provider-check">Start a provider check<\/a>/);
   assert.doesNotMatch(watson, /intent=provider-prescription(?:["&])/);
-  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/when-can-i-switch-medicare-plans-florida\.html<\/loc>\s*<lastmod>2026-10-05<\/lastmod>/);
-  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/medicare-supplement-cost-lakeland\.html<\/loc>\s*<lastmod>2026-10-05<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/when-can-i-switch-medicare-plans-florida\.html<\/loc>\s*<lastmod>2026-10-07<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/medicare-supplement-cost-lakeland\.html<\/loc>\s*<lastmod>2026-10-07<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/provider-prescription-check\/<\/loc>\s*<lastmod>2026-10-07<\/lastmod>/);
 });
 
 test('privacy policy uses current-season SOA wording without treating expired 2026 exceptions as current', () => {
@@ -257,6 +259,8 @@ test('privacy policy describes homepage and newsletter-page sign-up without nami
   assert.match(html, /nf_ab/);
   assert.match(html, /not sent to Meta or Google advertising tools/);
   assert.match(html, /If you sign up for our newsletter/);
+  assert.match(html, /Every commercial newsletter issue includes an unsubscribe link/);
+  assert.match(html, /transactional double-opt-in message/);
   assert.doesNotMatch(html, /Mailchimp/);
   assert.match(html, /"dateModified": "2026-10-06"/);
   assert.match(html, /Last updated <time datetime="2026-10-06">October 6, 2026<\/time>/);

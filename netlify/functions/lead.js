@@ -6,6 +6,12 @@
 
 const crypto = require('crypto');
 const { sendAdsLead } = require('./lib/ads-capi');
+const { checkNewsletterRateLimit } = require('./lib/newsletter-rate-limit');
+const { normalizeEmail, startDoubleOptIn } = require('./lib/newsletter-resend');
+const {
+  buildSpamDropLog,
+  evaluateLeadSpam
+} = require('./lib/form-spam-guard');
 const {
   CLICK_ID_PRECEDENCE,
   LEAD_ATTRIBUTION_FIELDS,
@@ -205,6 +211,7 @@ const WEBSITE_LEAD_RELAY_FORMS = new Set([
 ]);
 
 const BOT_FIELDS = ['bot-field', 'website', 'company'];
+const SPAM_GUARD_FIELDS = ['started_at', 'human_check'];
 const GET_HELP_OPTIONAL_FIELDS = [
   'who',
   'coverage_end',
@@ -229,9 +236,6 @@ const GET_HELP_OPTIONAL_FIELDS = [
   'upcoming_procedures',
   'billing_issue',
   'keep_current',
-  'provider_name',
-  'provider_location',
-  'prescription_name',
   'plan_year',
   'organization',
   'contact_person',
@@ -246,6 +250,10 @@ const GET_HELP_OPTIONAL_FIELDS = [
 
 function formFields(...groups) {
   return new Set(groups.flat());
+}
+
+function leadFormFields(...groups) {
+  return formFields(SPAM_GUARD_FIELDS, BOT_FIELDS, ...groups);
 }
 
 const LOCAL_FORM_FIELDS = [
@@ -273,9 +281,9 @@ const LP_COMMON_FIELDS = [
   'ab_variant'
 ];
 const FORM_FIELD_ALLOWLIST = Object.freeze({
-  'homepage-newsletter': formFields(BOT_FIELDS, ['email', 'consent', 'source_page', '_subject']),
-  'newsletter-signup': formFields(BOT_FIELDS, ['first_name', 'last_name', 'email', 'phone', 'interest', 'consent', 'source_page', '_subject']),
-  'get-help': formFields(BOT_FIELDS, LEAD_ATTRIBUTION_FIELDS, GET_HELP_OPTIONAL_FIELDS, [
+  'homepage-newsletter': leadFormFields(['email', 'consent', 'source_page', '_subject']),
+  'newsletter-signup': leadFormFields(['first_name', 'last_name', 'email', 'phone', 'interest', 'consent', 'source_page', '_subject']),
+  'get-help': leadFormFields(LEAD_ATTRIBUTION_FIELDS, GET_HELP_OPTIONAL_FIELDS, [
     'full_name',
     'phone',
     'email',
@@ -302,11 +310,11 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'consent_email',
     'consent_text_version'
   ]),
-  'lp-aca-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['household_size']),
-  'lp-medicare-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
-  'lp-gap-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['coverage_situation']),
-  'aca-lakeland-lead': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS, ['income_range', 'employment_status']),
-  'subsidy-estimator-lead': formFields(BOT_FIELDS, LEAD_ATTRIBUTION_FIELDS, [
+  'lp-aca-lead': leadFormFields(LP_COMMON_FIELDS, ['household_size']),
+  'lp-medicare-lead': leadFormFields(LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
+  'lp-gap-lead': leadFormFields(LP_COMMON_FIELDS, ['coverage_situation']),
+  'aca-lakeland-lead': leadFormFields(LOCAL_FORM_FIELDS, ['income_range', 'employment_status']),
+  'subsidy-estimator-lead': leadFormFields(LEAD_ATTRIBUTION_FIELDS, [
     'first_name',
     'email',
     'phone',
@@ -323,18 +331,18 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     '_subject',
     'ab_variant'
   ]),
-  'tampa-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'winter-haven-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'haines-city-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'lake-alfred-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'davenport-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'brandon-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'clearwater-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'largo-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'new-port-richey-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'riverview-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'st-petersburg-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'wesley-chapel-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS)
+  'tampa-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'winter-haven-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'haines-city-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'lake-alfred-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'davenport-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'brandon-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'clearwater-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'largo-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'new-port-richey-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'riverview-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'st-petersburg-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'wesley-chapel-health-insurance': leadFormFields(LOCAL_FORM_FIELDS)
 });
 
 function readCookieState(cookieHeader, name, maxValueLength = 128) {
@@ -545,6 +553,18 @@ const LP_MEDICARE_CONSENT_TEXT_VERSION_V1 = 'lp-medicare-2026-09-29-v1';
 const LP_MEDICARE_CONSENT_TEXT_VERSION_V2 = 'lp-medicare-2026-09-29-v2';
 const LP_GAP_CONSENT_TEXT_VERSION_V1 = 'lp-gap-2026-09-29-v1';
 const LP_GAP_CONSENT_TEXT_VERSION_V2 = 'lp-gap-2026-09-29-v2';
+const HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION = 'homepage-newsletter-2026-10-07-v1';
+const NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION = 'newsletter-signup-2026-10-07-v1';
+const NEWSLETTER_CONSENT_TEXT_VERSIONS = Object.freeze({
+  'homepage-newsletter': HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION,
+  'newsletter-signup': NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION
+});
+const NEWSLETTER_CONSENT_COPY = Object.freeze({
+  [HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION]:
+    'I agree to receive email newsletters from Lakeland Health Insurance with general health insurance and Medicare education tips. This is not consent to sales calls, texts, or Medicare plan marketing contact. Unsubscribe anytime.',
+  [NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION]:
+    'I agree to receive email newsletters from Lakeland Health Insurance with general health insurance and Medicare education tips. Optional phone is for newsletter context only, not consent to sales calls or texts. Unsubscribe anytime.'
+});
 const CONSENT_TEXT_VERSION_NONE = 'none';
 const LP_CONSENT_TEXT_VERSIONS = Object.freeze({
   'lp-aca-lead': LP_ACA_CONSENT_TEXT_VERSION_V2,
@@ -574,7 +594,9 @@ const ALLOWED_CONSENT_TEXT_VERSIONS = Object.freeze([
   LP_MEDICARE_CONSENT_TEXT_VERSION_V1,
   LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
   LP_GAP_CONSENT_TEXT_VERSION_V1,
-  LP_GAP_CONSENT_TEXT_VERSION_V2
+  LP_GAP_CONSENT_TEXT_VERSION_V2,
+  HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION,
+  NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION
 ]);
 const ALLOWED_CONSENT_TEXT_VERSION_SET = new Set(ALLOWED_CONSENT_TEXT_VERSIONS);
 
@@ -593,6 +615,9 @@ function defaultConsentTextVersion(formName, consentPage) {
   if (formName === 'get-help') return defaultGetHelpConsentTextVersion(consentPage);
   if (Object.prototype.hasOwnProperty.call(LP_CONSENT_TEXT_VERSIONS, formName)) {
     return LP_CONSENT_TEXT_VERSIONS[formName];
+  }
+  if (Object.prototype.hasOwnProperty.call(NEWSLETTER_CONSENT_TEXT_VERSIONS, formName)) {
+    return NEWSLETTER_CONSENT_TEXT_VERSIONS[formName];
   }
   return null;
 }
@@ -659,12 +684,31 @@ function applyLpMarketingConsentRecord(payload, formName, serverReceivedAt) {
   }
 }
 
+function applyNewsletterConsentRecord(payload, formName, consentPage, serverReceivedAt) {
+  const granted = isGrantedLpConsentValue(payload.consent);
+  if (!granted) return;
+  const recordedPage = sanitizeSourcePath(consentPage || payload.source_page || '/');
+  assignResolvedConsentVersion(payload, formName, recordedPage);
+  payload.consent_page = recordedPage;
+  payload.consent_email = 'yes';
+  payload.consent_email_state = 'granted';
+  payload.consent_sms = 'no';
+  payload.consent_call = 'no';
+  payload.consent_sms_state = 'not_granted';
+  payload.consent_call_state = 'not_granted';
+  if (serverReceivedAt) payload.consent_recorded_at = serverReceivedAt;
+}
+
 function applyNonGetHelpConsentRecord(payload, formName, consentPage, serverReceivedAt) {
   if (formName === 'get-help') return;
   const recordedPage = sanitizeSourcePath(consentPage || payload.source_page || '/');
   const resolved = assignResolvedConsentVersion(payload, formName, recordedPage);
   if (!resolved.version) return;
   payload.consent_page = recordedPage;
+  if (NEWSLETTER_FORMS.has(formName)) {
+    applyNewsletterConsentRecord(payload, formName, consentPage, serverReceivedAt);
+    return;
+  }
   if (CITY_HEALTH_INSURANCE_FORM_SET.has(formName)) {
     payload.consent_sms = 'no';
     return;
@@ -672,6 +716,17 @@ function applyNonGetHelpConsentRecord(payload, formName, consentPage, serverRece
   if (Object.prototype.hasOwnProperty.call(LP_CONSENT_TEXT_VERSIONS, formName)) {
     applyLpMarketingConsentRecord(payload, formName, serverReceivedAt);
   }
+}
+
+function authorizeNewsletterConsent(payload, formName) {
+  if (!NEWSLETTER_FORMS.has(formName)) return { ok: true };
+  if (!isGrantedLpConsentValue(payload.consent)) {
+    return { ok: false, error: 'newsletter consent is required' };
+  }
+  if (!normalizeEmail(payload.email)) {
+    return { ok: false, error: 'valid email is required' };
+  }
+  return { ok: true };
 }
 
 function authorizeGetHelpConsent(payload, serverReceivedAt, consentPage) {
@@ -764,17 +819,23 @@ exports.handler = async (event) => {
   const payload = sanitizeCampaignAttribution(minimizeGetHelpPayload(filteredPayload.payload));
   sanitizeAbVariantField(payload);
 
-  const botCheck = checkBotSubmission(payload);
-  if (!botCheck.ok) {
+  const eventId = crypto.randomUUID();
+  const serverReceivedAt = new Date().toISOString();
+
+  const spamEvaluation = evaluateLeadSpam(payload, formName, headers);
+  if (spamEvaluation.spam) {
+    console.info(JSON.stringify(buildSpamDropLog(formName, eventId, spamEvaluation, {
+      netlifyContext: NETLIFY_CONTEXT
+    })));
+    if (spamEvaluation.reason === 'honeypot_filled' || spamEvaluation.reason === 'rate_limited') {
+      return buildSilentSpamResponse(cors.headers, eventId, serverReceivedAt);
+    }
     return {
       statusCode: 422,
       headers: { ...cors.headers, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ok: false, error: botCheck.error })
+      body: JSON.stringify({ ok: false, error: spamEvaluation.reason })
     };
   }
-
-  const eventId = crypto.randomUUID();
-  const serverReceivedAt = new Date().toISOString();
   const eventTime = Math.floor(Date.parse(serverReceivedAt) / 1000);
   const sourcePath = sanitizeSourcePath(
     rawPayload.source_url || headerValue(headers, 'referer') || headerValue(headers, 'referrer') || ''
@@ -787,6 +848,24 @@ exports.handler = async (event) => {
       headers: { ...cors.headers, 'Content-Type': 'application/json' },
       body: JSON.stringify({ ok: false, error: consentCheck.error })
     };
+  }
+  const newsletterConsentCheck = authorizeNewsletterConsent(payload, formName);
+  if (!newsletterConsentCheck.ok) {
+    return {
+      statusCode: 422,
+      headers: { ...cors.headers, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: false, error: newsletterConsentCheck.error })
+    };
+  }
+  if (NEWSLETTER_FORMS.has(formName)) {
+    const rate = await checkNewsletterRateLimit(event, payload.email);
+    if (!rate.ok) {
+      return {
+        statusCode: 429,
+        headers: { ...cors.headers, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ok: false, error: rate.error || 'rate_limited' })
+      };
+    }
   }
   applyNonGetHelpConsentRecord(payload, formName, sourcePath, serverReceivedAt);
 
@@ -975,6 +1054,32 @@ exports.handler = async (event) => {
     };
   }
 
+  if (isNewsletter) {
+    const consentVersion = String(payload.consent_text_version || NEWSLETTER_CONSENT_TEXT_VERSIONS[formName] || '');
+    const doi = await startDoubleOptIn({
+      email: payload.email,
+      firstName: payload.first_name,
+      lastName: payload.last_name,
+      interest: payload.interest,
+      sourceForm: formName,
+      signupPage: sourcePath,
+      signupAt: serverReceivedAt,
+      consentVersion,
+      consentText: NEWSLETTER_CONSENT_COPY[consentVersion] || ''
+    });
+    if (doi.ok) {
+      responseBody.newsletter_confirmation = 'sent';
+    } else if (doi.suppressed) {
+      responseBody.newsletter_confirmation = 'suppressed';
+    } else if (doi.skipped) {
+      responseBody.newsletter_confirmation = 'skipped';
+      responseBody.newsletter_confirmation_error = doi.error;
+    } else {
+      responseBody.newsletter_confirmation = 'failed';
+      responseBody.newsletter_confirmation_error = doi.error;
+    }
+  }
+
   return {
     statusCode: 200,
     headers: { ...cors.headers, 'Content-Type': 'application/json' },
@@ -982,29 +1087,19 @@ exports.handler = async (event) => {
   };
 };
 
-function checkBotSubmission(payload) {
-  const formName = payload['form-name'] || payload.form_name || '';
-  const trapFilled = ['bot-field', 'website', 'company'].some((key) => String(payload[key] || '').trim());
-  if (trapFilled) return { ok: false, error: 'bot trap field filled' };
-
-  if (formName !== 'get-help') return { ok: true };
-
-  const startedAt = Number(payload.started_at);
-  const humanCheck = String(payload.human_check || '');
-  const expectedCheck = Buffer.from(`${payload.started_at}:lakeland-human`).toString('base64');
-  const elapsedMs = Date.now() - startedAt;
-
-  if (!Number.isFinite(startedAt) || humanCheck !== expectedCheck) {
-    return { ok: false, error: 'human check failed' };
-  }
-  if (elapsedMs < 1200) {
-    return { ok: false, error: 'submitted too quickly' };
-  }
-  if (elapsedMs > 2 * 60 * 60 * 1000) {
-    return { ok: false, error: 'stale submission' };
-  }
-
-  return { ok: true };
+function buildSilentSpamResponse(headers, eventId, serverReceivedAt) {
+  return {
+    statusCode: 200,
+    headers: { ...headers, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      ok: true,
+      silent_spam_drop: true,
+      event_id: eventId,
+      server_received_at: serverReceivedAt,
+      accepted_at: serverReceivedAt,
+      forms: false
+    })
+  };
 }
 
 function cleanLeadToken(value) {
@@ -1102,7 +1197,9 @@ exports._test = {
   sanitizeGoogleCampaignID,
   sanitizeSourcePath,
   selectPreferredClickId,
-  CLICK_ID_PRECEDENCE
+  CLICK_ID_PRECEDENCE,
+  buildSilentSpamResponse,
+  evaluateLeadSpam
 };
 
 exports.relaySchema = Object.freeze({
