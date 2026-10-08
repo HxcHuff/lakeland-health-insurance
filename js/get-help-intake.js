@@ -749,6 +749,19 @@
     return next;
   }
 
+  function readAbVariantForForm() {
+    if (window.LHIAbVariant && typeof window.LHIAbVariant.getVariant === 'function') {
+      return window.LHIAbVariant.getVariant();
+    }
+    try {
+      var match = String(document.cookie || '').match(/(?:^|; )lhi_ab_variant=([^;]*)/);
+      if (!match) return 'control';
+      var text = decodeURIComponent(match[1]).trim().toLowerCase();
+      if (text === 'home-hero-primary-b') return text;
+    } catch (e) {}
+    return 'control';
+  }
+
   function initAttribution() {
     var qs = new URLSearchParams(landingSearch());
     var stored = persistClickIds(readStoredAttribution(), qs);
@@ -776,6 +789,7 @@
     setValue('firstGbraidInput', clickAttributionValue('first_gbraid', qs.get('first_gbraid'), stored));
     setValue('firstWbraidInput', clickAttributionValue('first_wbraid', qs.get('first_wbraid'), stored));
     setValue('firstGadCampaignIdInput', clickAttributionValue('first_gad_campaignid', qs.get('first_gad_campaignid'), stored));
+    setValue('abVariantInput', readAbVariantForForm());
     var startedAt = String(Date.now());
     setValue('startedAtInput', startedAt);
     try { setValue('humanCheckInput', btoa(startedAt + ':lakeland-human')); } catch (e) {}

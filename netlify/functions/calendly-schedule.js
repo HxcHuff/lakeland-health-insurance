@@ -3,6 +3,8 @@
 // Accepts event_id, event_name, and optional custom_event_id.
 // Never reads Calendly invitee details.
 
+const { sanitizeAbVariant } = require('./lib/campaign-attribution');
+
 const META_DATASET_ID = '1480756087079484';
 const META_GRAPH_VERSION = 'v25.0';
 const BOOKING_CUSTOM_EVENT = 'booking_complete';
@@ -221,8 +223,14 @@ exports.handler = async (event) => {
     return json(400, cors.headers, { ok: false, error: 'Invalid event id' });
   }
 
+  const abVariantRaw = payload.ab_variant;
+  const abVariant = sanitizeAbVariant(abVariantRaw);
+  if (abVariantRaw != null && String(abVariantRaw).trim() !== '' && !abVariant) {
+    return json(400, cors.headers, { ok: false, error: 'Invalid ab_variant' });
+  }
+
   const extraKeys = Object.keys(payload).filter(
-    (key) => key !== 'event_name' && key !== 'event_id' && key !== 'custom_event_id'
+    (key) => key !== 'event_name' && key !== 'event_id' && key !== 'custom_event_id' && key !== 'ab_variant'
   );
   if (extraKeys.length) {
     return json(400, cors.headers, { ok: false, error: 'Unexpected fields' });
@@ -323,6 +331,7 @@ exports.handler = async (event) => {
     event_id: eventId,
     custom_event_id: customEventId,
     custom_event_name: BOOKING_CUSTOM_EVENT,
+    ab_variant: abVariant || 'control',
     day: new Date().toISOString().slice(0, 10),
     context: netlifyContext,
     outcome: capiOk ? 'accepted' : 'failed'
@@ -333,6 +342,7 @@ exports.handler = async (event) => {
     event_id: eventId,
     custom_event_id: customEventId,
     custom_event_name: BOOKING_CUSTOM_EVENT,
+    ab_variant: abVariant || 'control',
     capi: capiOk,
     ...(capiError ? { capi_error: capiError } : {})
   });

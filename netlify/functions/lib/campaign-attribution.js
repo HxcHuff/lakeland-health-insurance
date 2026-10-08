@@ -62,6 +62,12 @@ function sanitizeGoogleCampaignID(value) {
   return /^\d{1,20}$/.test(text) ? text : '';
 }
 
+function sanitizeAbVariant(value) {
+  const text = String(value || '').trim().toLowerCase();
+  if (!text || text.length > 64) return '';
+  return /^[a-z0-9][a-z0-9._-]*$/.test(text) ? text : '';
+}
+
 function sanitizeAttributionValue(field, value) {
   const baseField = String(field || '').replace(/^first_/, '');
   if (baseField === 'gclid' || baseField === 'gbraid' || baseField === 'wbraid') {
@@ -147,6 +153,7 @@ module.exports = {
   collectSanitizedClickIds,
   hasValidatedClickId,
   hubSpotClickAttribution,
+  sanitizeAbVariant,
   sanitizeAttributionValue,
   sanitizeCampaignAttribution,
   sanitizeCampaignToken,

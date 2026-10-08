@@ -692,11 +692,25 @@
     if (input) input.value = value || '';
   }
 
+  function readAbVariantForForms() {
+    if (w.LHIAbVariant && typeof w.LHIAbVariant.getVariant === 'function') {
+      return w.LHIAbVariant.getVariant();
+    }
+    try {
+      var match = d.cookie.match(/(?:^|; )lhi_ab_variant=([^;]*)/);
+      if (!match) return 'control';
+      var text = decodeURIComponent(match[1]).trim().toLowerCase();
+      if (text === 'home-hero-primary-b') return text;
+    } catch (e) {}
+    return 'control';
+  }
+
   function initializeFormAttribution(form) {
     var attribution = getAttribution();
     ATTRIBUTION_FIELDS.forEach(function (name) {
       setAttributionField(form, name, approvedAttributionValue(name, attribution[name]));
     });
+    setAttributionField(form, 'ab_variant', readAbVariantForForms());
     if (!isLeadClickAttributionForm(form)) return;
     CLICK_ID_STORAGE_FIELDS.forEach(function (name) {
       setAttributionField(form, name, approvedClickAttributionValue(name, attribution[name]));

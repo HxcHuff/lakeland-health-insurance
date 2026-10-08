@@ -2200,7 +2200,7 @@ test('shared attribution hydrates hero ZIP and lead forms with a bounded multi-w
 });
 
 test('homepage hero opens the review directly and get-help still accepts ZIP query values', () => {
-  assert.match(HOME_HTML, /href="\/get-help\/">Review my coverage<\/a>/);
+  assert.match(HOME_HTML, /href="\/get-help\/"[^>]*data-lhi-ab-home-primary[^>]*>Review my coverage<\/a>/);
   assert.match(HOME_HTML, /href="tel:\+18636403102">Call \(863\) 640-3102<\/a>/);
   assert.match(HOME_HTML, /class="home-sticky-cta"/);
   assert.match(GET_HELP_SRC, /setValue\('zipCode', qsValue\(qs, 'zip_code'\)\);/);

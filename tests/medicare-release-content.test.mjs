@@ -256,6 +256,10 @@ test('privacy policy describes homepage and newsletter-page sign-up without nami
   const html = source('privacy-policy.html');
   const sitemap = source('sitemap.xml');
 
+  assert.match(html, /lhi_ab_variant/);
+  assert.match(html, /nf_ab/);
+  assert.match(html, /not sent to Meta or Google advertising tools/);
+  assert.match(html, /If you sign up for our newsletter/);
   assert.match(html, /Every commercial newsletter issue includes an unsubscribe link/);
   assert.match(html, /transactional double-opt-in message/);
   assert.doesNotMatch(html, /Mailchimp/);
