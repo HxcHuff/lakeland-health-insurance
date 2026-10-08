@@ -940,7 +940,7 @@ test('first-party attribution loads immediately on the homepage, Get Help, and p
   for (const pathname of ['/', '/get-help/', '/lp/aca/', '/lp/medicare/', '/lp/gap/']) {
     const { appendedScripts } = loadAnalytics({ pathname });
     assert.ok(
-      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261006-handoff'),
+      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261007-spam-guard'),
       `${pathname} requests the attribution bus during analytics initialization`
     );
   }
@@ -953,7 +953,7 @@ test('first-party delivery bus loads immediately on any parsed tracked form page
   });
 
   assert.ok(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261006-handoff'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261007-spam-guard'),
     'a tracked city-page form requests the delivery bus during analytics initialization'
   );
 });
@@ -966,7 +966,7 @@ test('tracked form pages with a direct funnel script do not request it twice', (
   });
 
   assert.equal(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261006-handoff'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261007-spam-guard'),
     false
   );
 });

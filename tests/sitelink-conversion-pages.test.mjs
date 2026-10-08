@@ -104,7 +104,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /Reply STOP to cancel or HELP for help/);
 
     assert.match(html, /\/css\/site-template\.css\?v=20261006-banner/);
-    assert.match(html, /\/js\/funnel\.js\?v=20261006-handoff/);
+    assert.match(html, /\/js\/funnel\.js\?v=20261007-spam-guard/);
   });
 }
 

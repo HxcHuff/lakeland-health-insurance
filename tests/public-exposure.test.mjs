@@ -234,7 +234,7 @@ test('quote presents three direct actions without a routing form or plans detour
 
 test('coverage center is a two-lane 2027 plan-review hub wired into get-help', () => {
   assert.match(COVERAGE_CENTER, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/coverage-center\/">/);
-  assert.match(COVERAGE_CENTER, /<title>Coverage Center: Medicare &amp; Under-65 Plan Review<\/title>/);
+  assert.match(COVERAGE_CENTER, /<title>Lakeland Coverage Center \| Medicare &amp; Under-65 Plan Help<\/title>/);
   assert.match(COVERAGE_CENTER, /\/css\/site-template\.css\?v=20261006-banner/);
   assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261006-page-inbox/);
   assert.match(COVERAGE_CENTER, /"@type": "BreadcrumbList"/);
@@ -253,7 +253,7 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
   assert.match(HOME, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(QUOTE, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(SITE_SEARCH, /url: "\/coverage-center\/"/);
-  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/coverage-center\/<\/loc>\s*<lastmod>2026-09-30<\/lastmod>/);
+  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/coverage-center\/<\/loc>\s*<lastmod>2026-10-08<\/lastmod>/);
 });
 
 test('ACA pricing CTA reaches the quote actions without legacy router language', () => {
