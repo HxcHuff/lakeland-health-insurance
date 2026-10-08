@@ -29,7 +29,8 @@ const MEDICARE_SHIP_SURFACES = new Set([
   'medicare/east-polk/index.html',
   'medicare/index.html',
   'moving-florida-medicare/index.html',
-  'provider-prescription-check/index.html'
+  'provider-prescription-check/index.html',
+  'index.html'
 ]);
 
 const MEDICARE_MARKETING_SURFACES = [
