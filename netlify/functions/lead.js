@@ -9,6 +9,10 @@ const { sendAdsLead } = require('./lib/ads-capi');
 const { checkNewsletterRateLimit } = require('./lib/newsletter-rate-limit');
 const { normalizeEmail, startDoubleOptIn } = require('./lib/newsletter-resend');
 const {
+  buildSpamDropLog,
+  evaluateLeadSpam
+} = require('./lib/form-spam-guard');
+const {
   CLICK_ID_PRECEDENCE,
   LEAD_ATTRIBUTION_FIELDS,
   sanitizeCampaignAttribution,
@@ -206,6 +210,7 @@ const WEBSITE_LEAD_RELAY_FORMS = new Set([
 ]);
 
 const BOT_FIELDS = ['bot-field', 'website', 'company'];
+const SPAM_GUARD_FIELDS = ['started_at', 'human_check'];
 const GET_HELP_OPTIONAL_FIELDS = [
   'who',
   'coverage_end',
@@ -245,6 +250,10 @@ function formFields(...groups) {
   return new Set(groups.flat());
 }
 
+function leadFormFields(...groups) {
+  return formFields(SPAM_GUARD_FIELDS, BOT_FIELDS, ...groups);
+}
+
 const LOCAL_FORM_FIELDS = [
   ...LEAD_ATTRIBUTION_FIELDS,
   'full_name',
@@ -268,9 +277,9 @@ const LP_COMMON_FIELDS = [
   'consent_text_version'
 ];
 const FORM_FIELD_ALLOWLIST = Object.freeze({
-  'homepage-newsletter': formFields(BOT_FIELDS, ['email', 'consent', 'source_page', '_subject']),
-  'newsletter-signup': formFields(BOT_FIELDS, ['first_name', 'last_name', 'email', 'phone', 'interest', 'consent', 'source_page', '_subject']),
-  'get-help': formFields(BOT_FIELDS, LEAD_ATTRIBUTION_FIELDS, GET_HELP_OPTIONAL_FIELDS, [
+  'homepage-newsletter': leadFormFields(['email', 'consent', 'source_page', '_subject']),
+  'newsletter-signup': leadFormFields(['first_name', 'last_name', 'email', 'phone', 'interest', 'consent', 'source_page', '_subject']),
+  'get-help': leadFormFields(LEAD_ATTRIBUTION_FIELDS, GET_HELP_OPTIONAL_FIELDS, [
     'full_name',
     'phone',
     'email',
@@ -297,11 +306,11 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'consent_email',
     'consent_text_version'
   ]),
-  'lp-aca-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['household_size']),
-  'lp-medicare-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
-  'lp-gap-lead': formFields(BOT_FIELDS, LP_COMMON_FIELDS, ['coverage_situation']),
-  'aca-lakeland-lead': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS, ['income_range', 'employment_status']),
-  'subsidy-estimator-lead': formFields(BOT_FIELDS, LEAD_ATTRIBUTION_FIELDS, [
+  'lp-aca-lead': leadFormFields(LP_COMMON_FIELDS, ['household_size']),
+  'lp-medicare-lead': leadFormFields(LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
+  'lp-gap-lead': leadFormFields(LP_COMMON_FIELDS, ['coverage_situation']),
+  'aca-lakeland-lead': leadFormFields(LOCAL_FORM_FIELDS, ['income_range', 'employment_status']),
+  'subsidy-estimator-lead': leadFormFields(LEAD_ATTRIBUTION_FIELDS, [
     'first_name',
     'email',
     'phone',
@@ -317,18 +326,18 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'source_page',
     '_subject'
   ]),
-  'tampa-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'winter-haven-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'haines-city-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'lake-alfred-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'davenport-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'brandon-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'clearwater-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'largo-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'new-port-richey-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'riverview-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'st-petersburg-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS),
-  'wesley-chapel-health-insurance': formFields(BOT_FIELDS, LOCAL_FORM_FIELDS)
+  'tampa-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'winter-haven-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'haines-city-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'lake-alfred-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'davenport-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'brandon-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'clearwater-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'largo-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'new-port-richey-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'riverview-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'st-petersburg-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  'wesley-chapel-health-insurance': leadFormFields(LOCAL_FORM_FIELDS)
 });
 
 function readCookieState(cookieHeader, name, maxValueLength = 128) {
@@ -796,17 +805,23 @@ exports.handler = async (event) => {
   }
   const payload = sanitizeCampaignAttribution(minimizeGetHelpPayload(filteredPayload.payload));
 
-  const botCheck = checkBotSubmission(payload);
-  if (!botCheck.ok) {
+  const eventId = crypto.randomUUID();
+  const serverReceivedAt = new Date().toISOString();
+
+  const spamEvaluation = evaluateLeadSpam(payload, formName, headers);
+  if (spamEvaluation.spam) {
+    console.info(JSON.stringify(buildSpamDropLog(formName, eventId, spamEvaluation, {
+      netlifyContext: NETLIFY_CONTEXT
+    })));
+    if (spamEvaluation.reason === 'honeypot_filled' || spamEvaluation.reason === 'rate_limited') {
+      return buildSilentSpamResponse(cors.headers, eventId, serverReceivedAt);
+    }
     return {
       statusCode: 422,
       headers: { ...cors.headers, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ok: false, error: botCheck.error })
+      body: JSON.stringify({ ok: false, error: spamEvaluation.reason })
     };
   }
-
-  const eventId = crypto.randomUUID();
-  const serverReceivedAt = new Date().toISOString();
   const eventTime = Math.floor(Date.parse(serverReceivedAt) / 1000);
   const sourcePath = sanitizeSourcePath(
     rawPayload.source_url || headerValue(headers, 'referer') || headerValue(headers, 'referrer') || ''
@@ -1058,29 +1073,19 @@ exports.handler = async (event) => {
   };
 };
 
-function checkBotSubmission(payload) {
-  const formName = payload['form-name'] || payload.form_name || '';
-  const trapFilled = ['bot-field', 'website', 'company'].some((key) => String(payload[key] || '').trim());
-  if (trapFilled) return { ok: false, error: 'bot trap field filled' };
-
-  if (formName !== 'get-help') return { ok: true };
-
-  const startedAt = Number(payload.started_at);
-  const humanCheck = String(payload.human_check || '');
-  const expectedCheck = Buffer.from(`${payload.started_at}:lakeland-human`).toString('base64');
-  const elapsedMs = Date.now() - startedAt;
-
-  if (!Number.isFinite(startedAt) || humanCheck !== expectedCheck) {
-    return { ok: false, error: 'human check failed' };
-  }
-  if (elapsedMs < 1200) {
-    return { ok: false, error: 'submitted too quickly' };
-  }
-  if (elapsedMs > 2 * 60 * 60 * 1000) {
-    return { ok: false, error: 'stale submission' };
-  }
-
-  return { ok: true };
+function buildSilentSpamResponse(headers, eventId, serverReceivedAt) {
+  return {
+    statusCode: 200,
+    headers: { ...headers, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      ok: true,
+      silent_spam_drop: true,
+      event_id: eventId,
+      server_received_at: serverReceivedAt,
+      accepted_at: serverReceivedAt,
+      forms: false
+    })
+  };
 }
 
 function cleanLeadToken(value) {
@@ -1178,7 +1183,9 @@ exports._test = {
   sanitizeGoogleCampaignID,
   sanitizeSourcePath,
   selectPreferredClickId,
-  CLICK_ID_PRECEDENCE
+  CLICK_ID_PRECEDENCE,
+  buildSilentSpamResponse,
+  evaluateLeadSpam
 };
 
 exports.relaySchema = Object.freeze({
