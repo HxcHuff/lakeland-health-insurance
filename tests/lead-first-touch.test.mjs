@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 import vm from 'node:vm';
 
-const ROOT = '/workspace';
+const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const SRC = readFileSync(join(ROOT, 'js/lead-first-touch.js'), 'utf8');
 const ANALYTICS_SRC = readFileSync(join(ROOT, 'js/analytics.js'), 'utf8');
 
