@@ -55,14 +55,14 @@ const MEDICARE_SHIP_PAGES = [
   'blog/turning-65-medicare-checklist-florida.html',
   'blog/when-can-i-switch-medicare-plans-florida.html',
   'blog/when-to-sign-up-for-medicare-if-still-working.html',
-  'provider-prescription-check/index.html'
+  'provider-prescription-check/index.html',
+  'index.html'
 ];
 
 const NON_MEDICARE_KEEP_OLD = [
   'about/index.html',
   'coverage-center/index.html',
   'davenport-health-insurance/index.html',
-  'index.html',
   'privacy-policy.html',
   'quote/index.html',
   'terms/index.html',
