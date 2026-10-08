@@ -24,7 +24,7 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
 ]);
-const SERVICE_WORKER_CACHE_VERSION = '20261006-handoff';
+const SERVICE_WORKER_CACHE_VERSION = '20261007-spam-guard';
 
 const FORBIDDEN_PUBLIC_FILES = [
   'blog/ads-manager-setup-checklist.html',
