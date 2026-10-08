@@ -371,7 +371,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261007-spam-guard';
+    funnel.src = '/js/funnel.js?v=20261006-handoff';
     document.head.appendChild(funnel);
   }
 
