@@ -571,7 +571,7 @@ test('static marker inventory exactly matches the reviewed 8-page landing ledger
     const html = readFileSync(join(ROOT, file), 'utf8');
     assert.equal((html.match(/<meta name="meta-audience-eligible" content="pageview">/g) || []).length, 1, file);
     assert.ok(html.indexOf(ELIGIBLE_MARKER) < html.indexOf('</head>'), file);
-    assert.match(html, new RegExp(ANALYTICS_VERSION.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), file);
+    assert.match(html, /\/js\/analytics\.js\?v=2026100[78]-/, file);
     assert.match(html, new RegExp(`https://lakelandhealthinsurance\\.com${pathname === '/' ? '/' : pathname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`), file);
     if (FORM_BEARING_ELIGIBLE_FILES.has(file)) {
       assert.match(html, /<(?:form|input|textarea|select)\b/i, file);

@@ -790,6 +790,10 @@
     setValue('firstWbraidInput', clickAttributionValue('first_wbraid', qs.get('first_wbraid'), stored));
     setValue('firstGadCampaignIdInput', clickAttributionValue('first_gad_campaignid', qs.get('first_gad_campaignid'), stored));
     setValue('abVariantInput', readAbVariantForForm());
+    if (window.LHILeadFirstTouch && typeof window.LHILeadFirstTouch.applyToForm === 'function') {
+      var leadForm = byId('leadForm');
+      if (leadForm) window.LHILeadFirstTouch.applyToForm(leadForm);
+    }
     var startedAt = String(Date.now());
     setValue('startedAtInput', startedAt);
     try { setValue('humanCheckInput', btoa(startedAt + ':lakeland-human')); } catch (e) {}
@@ -823,6 +827,9 @@
         showError('Authorize the preferred contact channel and provide the matching phone number or email address.');
         if (status) status.textContent = '';
         return;
+      }
+      if (window.LHILeadFirstTouch && typeof window.LHILeadFirstTouch.applyToForm === 'function') {
+        window.LHILeadFirstTouch.applyToForm(form);
       }
       setValue('consentRequestStateInput', form.consent_request && form.consent_request.checked ? 'granted' : 'not_granted');
       setValue('consentCallStateInput', form.consent_call && form.consent_call.checked ? 'granted' : 'not_granted');

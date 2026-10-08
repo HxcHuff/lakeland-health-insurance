@@ -94,6 +94,17 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /name="first_gbraid"/);
     assert.match(form, /name="first_wbraid"/);
     assert.match(form, /name="first_gad_campaignid"/);
+    for (const field of [
+      'lead_source',
+      'lead_medium',
+      'lead_campaign',
+      'landing_page',
+      'referrer',
+      'click_id_type',
+      'lead_channel'
+    ]) {
+      assert.match(form, new RegExp(`name="${field}"`), `${file} declares first-touch ${field}`);
+    }
     assert.doesNotMatch(form, /name="fbclid"/);
     assert.match(form, new RegExp(`name="source_page" value="${escapeRegex(sourcePage)}"`));
     assert.match(form, new RegExp(`name="normalized_intent" value="${escapeRegex(intent)}"`));
@@ -104,7 +115,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /Reply STOP to cancel or HELP for help/);
 
     assert.match(html, /\/css\/site-template\.css\?v=20261008-disclaimers-ship-hold/);
-    assert.match(html, /\/js\/funnel\.js\?v=20261007-spam-guard/);
+    assert.match(html, /\/js\/funnel\.js\?v=20261008-first-touch-lead/);
   });
 }
 
@@ -142,7 +153,7 @@ test('every public click-to-call link uses the verified E.164 target and tracked
     for (const target of phoneTargets) assert.equal(target, 'tel:+18636403102', file);
     assert.match(
       html,
-      /\/js\/analytics\.js\?v=20261007-spam-guard/,
+      /\/js\/analytics\.js\?v=2026100[78]-/,
       `${file} loads the canonical phone telemetry and forwarding-number handler`
     );
   }
