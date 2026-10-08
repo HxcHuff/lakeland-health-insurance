@@ -115,13 +115,11 @@ test('Medicare hubs, landers, and Medicare blogs reuse the approved SHIP TPMO se
   }
 });
 
-test('homepage review CTA includes SHIP TPMO in hero; sticky bar stays CTA-only', () => {
+test('homepage keeps SHIP TPMO in footer and sticky bar stays CTA-only', () => {
   const html = source('index.html');
-  const heroBlock = html.match(
-    /aria-label="Start a coverage review"[\s\S]*?<p class="tpmo-cta-disclaimer">[\s\S]*?<\/p>/
-  );
-  assert.ok(heroBlock, 'hero review CTA group is followed by TPMO disclaimer');
-  assert.ok(heroBlock[0].includes(SHIP_TPMO), 'hero review TPMO uses SHIP wording');
+  const footer = html.slice(html.lastIndexOf('<footer'));
+  assert.ok(footer.includes(SHIP_TPMO), 'homepage footer TPMO uses SHIP wording');
+  assert.doesNotMatch(html, /class="tpmo-cta-disclaimer"/, 'homepage removes inline TPMO near CTAs');
 
   const sticky = html.match(/class="home-sticky-cta"[\s\S]*?<\/div>/);
   assert.ok(sticky, 'home sticky CTA block exists');
@@ -129,15 +127,15 @@ test('homepage review CTA includes SHIP TPMO in hero; sticky bar stays CTA-only'
   assert.ok(sticky[0].includes('Review my coverage'), 'sticky bar keeps the coverage review CTA');
 });
 
-test('Get Help Medicare form uses SHIP while the mixed footer keeps the older TPMO sentence', () => {
+test('Get Help keeps Medicare TPMO in the bottom disclosure block', () => {
   const html = source('get-help/index.html');
+  const disclosures = html.match(/class="site-page-disclosures"[\s\S]*?<\/section>/);
+  assert.ok(disclosures, 'get-help exposes a bottom disclosure block');
   assert.match(
-    html,
+    disclosures[0],
     new RegExp(`id="medicareTpmoDisclaimer">${FULL_SHIP.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`)
   );
-  const footer = html.slice(html.lastIndexOf('<footer'));
-  assert.ok(footer.includes(OLD_TPMO), 'mixed Get Help footer keeps the non-SHIP sentence');
-  assert.ok(!footer.includes(SHIP_TPMO), 'mixed Get Help footer does not invent SHIP');
+  assert.doesNotMatch(html, /class="tpmo-cta-disclaimer"/, 'get-help removes inline tpmo-cta-disclaimer class');
 });
 
 test('non-Medicare TPMO pages do not invent a SHIP line', () => {

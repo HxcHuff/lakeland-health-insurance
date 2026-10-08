@@ -42,7 +42,7 @@ test('Medicare hub leads with Call David, then Get Help and the primary broker U
   assert.match(row, /class="btn primary" href="tel:\+18636403102">Call David</);
   assert.match(row, /Get Help</);
   assert.match(row, /Lakeland Medicare broker</);
-  assert.match(row, new RegExp(TPMO.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  assert.match(html, new RegExp(TPMO.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 
   assert.match(html, /<title>Medicare Help in Lakeland, FL \| Doctors, Rx &amp; 2027 AEP<\/title>/);
   assert.match(html, /licensed Florida health agent \(FL #W371813 \/ NPN 18213932\)/);

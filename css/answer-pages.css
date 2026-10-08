@@ -136,6 +136,18 @@ h3 {
   padding: 18px 20px;
 }
 
+.answer-snippet a {
+  color: var(--navy, #1B2A4A);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.answer-snippet a:hover,
+.answer-snippet a:focus-visible {
+  color: var(--hub-blue, #0f5f7b);
+}
+
 .content-band {
   padding: 34px 20px;
 }

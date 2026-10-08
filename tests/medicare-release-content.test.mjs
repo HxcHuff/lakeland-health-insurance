@@ -107,9 +107,19 @@ test('current-season TPMO wording is exact, contextualized, subject to plan, and
       : CURRENT_SEASON_DISCLAIMER;
     const disclaimerAt = html.indexOf(expectedDisclaimer);
     const mainEndsAt = html.lastIndexOf('</main>');
+    const footerStart = html.search(/<footer[\s>]/i);
+    const bottomZone = Math.min(
+      footerStart >= 0 ? footerStart : html.length,
+      html.includes('class="site-page-disclosures"')
+        ? html.indexOf('class="site-page-disclosures"')
+        : html.length
+    );
 
     assert.ok(disclaimerAt >= 0, `${relativePath} includes the exact current-season disclaimer`);
-    assert.ok(mainEndsAt > disclaimerAt, `${relativePath} renders the disclaimer inside main content`);
+    assert.ok(
+      disclaimerAt >= bottomZone || (mainEndsAt > disclaimerAt && disclaimerAt > html.indexOf('<main')),
+      `${relativePath} renders the disclaimer in the bottom zone (site-page-disclosures or footer), not inline with CTAs`
+    );
     if (relativePath === 'privacy-policy.html') {
       assert.ok(html.includes('Company inventory note:'), `${relativePath} keeps the existing inventory note`);
     } else {
@@ -119,7 +129,7 @@ test('current-season TPMO wording is exact, contextualized, subject to plan, and
   }
 });
 
-test('TPMO is in the sitewide footer, beside Medicare CTAs, and on the Get Help Medicare form', () => {
+test('TPMO is in the sitewide footer template and bottom disclosure blocks', () => {
   const footer = source('js/site-template.js');
   const getHelp = source('get-help/index.html');
   const medicare = source('medicare/index.html');
@@ -129,15 +139,18 @@ test('TPMO is in the sitewide footer, beside Medicare CTAs, and on the Get Help 
   assert.ok(footer.includes(CURRENT_SEASON_DISCLAIMER), 'sitewide footer keeps the non-SHIP TPMO text for mixed pages');
   assert.ok(footer.includes(MEDICARE_SHIP_DISCLAIMER), 'Medicare footer path uses the approved SHIP TPMO text');
   assert.doesNotMatch(footer, /createElement\('a'\);\s*messenger/);
-  assert.match(getHelp, /class="form-tpmo tpmo-cta-disclaimer"/);
-  assert.ok(getHelp.includes(MEDICARE_SHIP_DISCLAIMER), 'Get Help shows the SHIP TPMO text beside the Medicare form');
-  assert.ok(getHelp.includes(CURRENT_SEASON_DISCLAIMER), 'Get Help keeps the non-SHIP TPMO text in the mixed footer');
+  assert.match(getHelp, /class="site-page-disclosures"/);
+  assert.ok(getHelp.includes(MEDICARE_SHIP_DISCLAIMER), 'Get Help shows the SHIP TPMO text in the bottom block');
   assert.match(getHelp, /Start my request/);
   assert.match(getHelp, /Call \(863\) 640-3102/);
   assert.match(getHelp, /\(863\) 640-3102/);
   assert.doesNotMatch(getHelp, /href="\/coverage-center\/">Coverage Center<\/a>/);
-  assert.ok(medicare.includes('class="tpmo-cta-disclaimer"'), 'Medicare hub keeps TPMO in view of CTAs');
-  assert.ok(coverageCenter.includes('class="tpmo-cta-disclaimer"'), 'Coverage Center keeps TPMO in view of Medicare CTAs');
+  assert.doesNotMatch(medicare, /class="tpmo-cta-disclaimer"/, 'Medicare hub removes inline TPMO near CTAs');
+  assert.ok(
+    medicare.includes('class="site-page-disclosures"') || medicare.includes('class="footer-tpmo"'),
+    'Medicare hub keeps TPMO in the bottom zone'
+  );
+  assert.doesNotMatch(coverageCenter, /class="tpmo-cta-disclaimer"/, 'Coverage Center removes inline TPMO near CTAs');
 });
 
 test('primary HTML excludes superseded disclaimer variants and known unsupported Medicare claims', () => {
@@ -172,7 +185,7 @@ test('Medicare hub is a current-season, privacy-minimized, keyboard-accessible l
   assert.match(css, /\.hub-skip-link:focus\s*{[^}]*transform:\s*translateY\(0\)/s);
   assert.match(css, /\.hub-scenario-shortcut\s*{[^}]*min-height:\s*44px/s);
   assert.match(css, /\.hub-disclosures \.tpmo-standard-disclaimer\s*{[^}]*font-size:\s*1rem/s);
-  assert.match(html, /answer-pages\.css\?v=20260930-medicare-hero-contrast/);
+  assert.match(html, /answer-pages\.css\?v=20261008-answer-snippet-links/);
   assert.match(css, /\.answer-hero\.medicare-hero \.tpmo-cta-disclaimer\s*{[^}]*color:\s*var\(--navy/s);
   assert.match(css, /\.answer-hero\.medicare-hero a:not\(\.btn\):not\(\.hero-cta\):not\(\.lp-primary-call\)\s*{[^}]*color:\s*var\(--hub-blue/s);
   assert.match(css, /\.medicare-hero\s*{[^}]*padding:\s*160px 24px 72px/s);

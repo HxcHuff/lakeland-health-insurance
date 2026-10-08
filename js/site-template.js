@@ -533,8 +533,29 @@
     });
   }
 
+  function stripInlineDisclaimerDuplicates() {
+    var allowed = new Set();
+    document.querySelectorAll('.site-page-disclosures, .footer-tpmo').forEach(function (zone) {
+      allowed.add(zone);
+    });
+    document.querySelectorAll('.tpmo-cta-disclaimer').forEach(function (node) {
+      var parent = node;
+      while (parent && parent !== document.body) {
+        if (allowed.has(parent)) return;
+        parent = parent.parentElement;
+      }
+      node.remove();
+    });
+    document.querySelectorAll('.site-page-disclosures').forEach(function (block) {
+      var footer = document.querySelector('body > footer');
+      if (!footer || block.compareDocumentPosition(footer) & Node.DOCUMENT_POSITION_FOLLOWING) return;
+      footer.parentNode.insertBefore(block, footer);
+    });
+  }
+
   function normalizeTemplate() {
     document.querySelectorAll('.compliance-banner').forEach((node) => node.remove());
+    stripInlineDisclaimerDuplicates();
     var pathname = currentPathname();
     var intent = resolveChromeIntent(pathname, document);
     const firstHeader = document.querySelector('header');
