@@ -24,6 +24,7 @@ const MEDICARE_SHIP_SURFACES = new Set([
   'blog/turning-65-medicare-checklist-florida.html',
   'blog/when-can-i-switch-medicare-plans-florida.html',
   'local-health-insurance-answers/medicare-plan-help-lakeland/index.html',
+  'local-health-insurance-answers/watson-clinic-insurance-network-help/index.html',
   'lp/medicare/index.html',
   'medicare-broker-lakeland-fl/index.html',
   'medicare/east-polk/index.html',

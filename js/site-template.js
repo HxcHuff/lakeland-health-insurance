@@ -17,6 +17,15 @@
   const SEASONAL_BANNER_END_MONTH = 12;
   const SEASONAL_BANNER_END_DAY = 7;
 
+  const SHIP_DISCLAIMER_PATHS = [
+    '/book/',
+    '/get-help/',
+    '/coverage-center/',
+    '/plans/',
+    '/lp/gap/',
+    '/local-health-insurance-answers/'
+  ];
+
   const MEDICARE_PATHS = [
     '/medicare/',
     '/medicare/east-polk/',
@@ -116,6 +125,8 @@
   function shouldUseShipDisclaimer(pathname) {
     var path = normalizePath(pathname);
     var raw = rawPath(pathname);
+    if (path === '/' || raw === '/' || raw === '/index.html') return true;
+    if (pathMatches(path, SHIP_DISCLAIMER_PATHS) || pathMatches(raw, SHIP_DISCLAIMER_PATHS)) return true;
     if (pathMatches(path, MEDICARE_PATHS) || pathMatches(raw, MEDICARE_PATHS)) return true;
     if (/\/blog\/[^"'<>]*medicare/i.test(raw) || /\/blog\/[^"'<>]*medicare/i.test(path)) return true;
     if (/\/blog\/[^"'<>]*medigap/i.test(raw) || /\/blog\/[^"'<>]*medigap/i.test(path)) return true;

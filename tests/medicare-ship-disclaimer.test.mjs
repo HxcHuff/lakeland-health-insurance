@@ -61,7 +61,6 @@ const MEDICARE_SHIP_PAGES = [
 
 const NON_MEDICARE_KEEP_OLD = [
   'about/index.html',
-  'coverage-center/index.html',
   'davenport-health-insurance/index.html',
   'privacy-policy.html',
   'quote/index.html',
@@ -83,6 +82,16 @@ function walkHtml(dir = ROOT, out = []) {
     else if (entry.endsWith('.html')) out.push(relative(ROOT, full).replace(/\\/g, '/'));
   }
   return out;
+}
+
+function relToPathname(rel) {
+  if (rel === 'index.html') return '/';
+  if (rel.endsWith('/index.html')) return `/${rel.slice(0, -'index.html'.length)}`;
+  return `/${rel}`;
+}
+
+function isMultiState(rel) {
+  return rel === 'states/index.html' || /^health-insurance-(alabama|arizona|georgia|iowa|indiana|louisiana|maryland|michigan|missouri|mississippi|north-carolina|nebraska|new-jersey|ohio|south-carolina|tennessee|texas|virginia|washington|west-virginia)\/index\.html$/.test(rel);
 }
 
 function loadChrome() {
@@ -115,10 +124,11 @@ test('Medicare hubs, landers, and Medicare blogs reuse the approved SHIP TPMO se
   }
 });
 
-test('homepage keeps SHIP TPMO in footer and sticky bar stays CTA-only', () => {
+test('homepage keeps SHIP TPMO in static bottom disclosures and sticky bar stays CTA-only', () => {
   const html = source('index.html');
-  const footer = html.slice(html.lastIndexOf('<footer'));
-  assert.ok(footer.includes(SHIP_TPMO), 'homepage footer TPMO uses SHIP wording');
+  const disclosures = html.match(/class="site-page-disclosures"[\s\S]*?<\/section>/);
+  assert.ok(disclosures, 'homepage exposes a bottom disclosure block');
+  assert.ok(disclosures[0].includes(FULL_SHIP), 'homepage static disclosures use the approved SHIP TPMO sentence');
   assert.doesNotMatch(html, /class="tpmo-cta-disclaimer"/, 'homepage removes inline TPMO near CTAs');
 
   const sticky = html.match(/class="home-sticky-cta"[\s\S]*?<\/div>/);
@@ -146,17 +156,38 @@ test('non-Medicare TPMO pages do not invent a SHIP line', () => {
   }
 });
 
-test('shared chrome uses SHIP only on Medicare paths', () => {
+test('shared chrome uses SHIP on Medicare and compliance HOLD paths', () => {
   const chrome = loadChrome();
   assert.equal(chrome.shouldUseShipDisclaimer('/medicare/'), true);
   assert.equal(chrome.shouldUseShipDisclaimer('/medicare-broker-lakeland-fl/'), true);
   assert.equal(chrome.shouldUseShipDisclaimer('/medicare-part-d-lakeland-fl/'), true);
   assert.equal(chrome.shouldUseShipDisclaimer('/blog/when-can-i-switch-medicare-plans-florida.html'), true);
   assert.equal(chrome.shouldUseShipDisclaimer('/blog/do-i-need-part-b-with-employer-insurance.html'), true);
-  assert.equal(chrome.shouldUseShipDisclaimer('/'), false);
-  assert.equal(chrome.shouldUseShipDisclaimer('/coverage-center/'), false);
+  assert.equal(chrome.shouldUseShipDisclaimer('/'), true);
+  assert.equal(chrome.shouldUseShipDisclaimer('/book/'), true);
+  assert.equal(chrome.shouldUseShipDisclaimer('/get-help/'), true);
+  assert.equal(chrome.shouldUseShipDisclaimer('/coverage-center/'), true);
+  assert.equal(chrome.shouldUseShipDisclaimer('/plans/'), true);
+  assert.equal(chrome.shouldUseShipDisclaimer('/lp/gap/'), true);
+  assert.equal(chrome.shouldUseShipDisclaimer('/local-health-insurance-answers/'), true);
+  assert.equal(
+    chrome.shouldUseShipDisclaimer('/local-health-insurance-answers/watson-clinic-insurance-network-help/'),
+    true
+  );
   assert.equal(chrome.shouldUseShipDisclaimer('/blog/winter-haven-hospital-insurance.html'), false);
   assert.equal(chrome.shouldUseShipDisclaimer('/aca-health-insurance-lakeland-fl/'), false);
+});
+
+test('every static page mentioning Medicare includes the approved SHIP TPMO sentence', () => {
+  const chrome = loadChrome();
+  const skip = new Set(NON_MEDICARE_KEEP_OLD);
+  for (const rel of walkHtml()) {
+    if (skip.has(rel) || isMultiState(rel)) continue;
+    const html = source(rel);
+    if (!/\bMedicare\b/.test(html)) continue;
+    if (!chrome.shouldUseShipDisclaimer(relToPathname(rel))) continue;
+    assert.ok(html.includes(FULL_SHIP), `${rel} includes the approved SHIP TPMO sentence in static HTML`);
+  }
 });
 
 test('SHIP wording never uses the rejected Assistance Program name', () => {
