@@ -746,7 +746,7 @@
     </style>
 
     <script defer src="/js/analytics.js?v=20261007-spam-guard"></script>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261006-banner">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261008-disclaimers-ship-hold">
     <style>
         header .license-tag { color: #765600 !important; }
     </style>
@@ -1103,16 +1103,20 @@
             <p class="section-subtitle">Choose the Medicare or under-65 lane. Both buttons open the same help form with that type of help already selected.</p>
             <div style="display:flex; flex-wrap:wrap; gap:0.75rem; justify-content:center;">
                 <a href="/get-help/?intent=medicare&amp;source_page_key=learning&amp;source_cta_key=request_review_medicare" class="cta-button" data-medicare-cta="request_review_medicare">Request a plan review<span style="display:block;font-size:0.75rem;font-weight:600;">Medicare</span></a>
-            <p class="tpmo-cta-disclaimer">We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
-            <p class="tpmo-cta-disclaimer">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
-                <a href="/get-help/?intent=under-65" class="cta-button">Request a plan review<span style="display:block;font-size:0.75rem;font-weight:600;">Under 65</span></a>
+            <a href="/get-help/?intent=under-65" class="cta-button">Request a plan review<span style="display:block;font-size:0.75rem;font-weight:600;">Under 65</span></a>
                 <a href="tel:+18636403102" class="cta-button secondary">Call (863) 640-3102</a>
             </div>
         </div>
     </section>
-    </main>
+    
+<section class="site-page-disclosures" aria-label="Legal and compliance disclaimers">
+      <p class="tpmo-standard-disclaimer">We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.</p>
+      <p class="tpmo-inventory-note">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
+</section>
+</main>
 
-    <footer>
+    
+<footer>
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-column">
@@ -1204,6 +1208,6 @@
         // Automatically update footer year
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
-    <script src="/js/site-template.js?v=20261006-page-inbox" defer></script>
+    <script src="/js/site-template.js?v=20261008-disclaimers-ship-hold" defer></script>
 </body>
 </html>

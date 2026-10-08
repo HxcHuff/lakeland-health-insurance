@@ -49,7 +49,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/fonts.css">
-  <link rel="stylesheet" href="/css/site-template.css?v=20261006-banner">
+  <link rel="stylesheet" href="/css/site-template.css?v=20261008-disclaimers-ship-hold">
   <style>
     :root {
       --lhi-navy: #1B2A4A;
@@ -584,9 +584,6 @@
 
     <section class="form-section" aria-labelledby="form-title">
       <div class="form-shell">
-        <p class="form-tpmo tpmo-cta-disclaimer" id="medicareTpmoDisclaimer">We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.</p>
-        <p class="form-tpmo" id="floridaTpmoInventoryNote">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
-        <p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for Florida residents only.</p>
         <form name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="leadForm" data-funnel-track data-funnel-event="Lead" data-funnel-name="get_help_default">
           <input type="hidden" name="form-name" value="get-help">
           <div hidden aria-hidden="true">
@@ -772,11 +769,20 @@
       </div>
       <p class="page-privacy">Your request is handled under our <a href="/privacy-policy.html">Privacy Policy</a>.</p>
     </section>
-  </main>
+  
+
+<section class="site-page-disclosures" aria-label="Legal and compliance disclaimers">
+      <p class="form-tpmo" id="medicareTpmoDisclaimer">We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.</p>
+        <p class="form-tpmo" id="floridaTpmoInventoryNote">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
+        <p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for Florida residents only.</p>
+</section>
+</main>
 
   <script src="/js/ab-variant.js?v=20261007-split" defer></script>
   <script src="/js/get-help-intake.js?v=20261007-spam-guard" defer></script>
-  <script src="/js/site-template.js?v=20261006-page-inbox" defer></script>
+  <script src="/js/site-template.js?v=20261008-disclaimers-ship-hold" defer></script>
+
+
 <footer>
   <div class="container">
     <div class="footer-grid">

@@ -397,6 +397,45 @@ footer {
   text-decoration: underline;
 }
 
+.site-page-disclosures {
+  background: var(--gray-50, #F8FAFC);
+  border-top: 1px solid var(--gray-200, #E2E8F0);
+  color: var(--gray-700, #334155);
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0;
+  padding: 28px 20px 32px;
+}
+
+.site-page-disclosures .container,
+.site-page-disclosures > p,
+.site-page-disclosures .tpmo-standard-disclaimer,
+.site-page-disclosures .tpmo-inventory-note,
+.site-page-disclosures .disclosure {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.site-page-disclosures .tpmo-standard-disclaimer {
+  color: var(--navy, #1B2A4A);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.65;
+  margin: 0 0 0.75rem;
+}
+
+.site-page-disclosures .tpmo-inventory-note {
+  color: var(--gray-600, #475569);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 0.75rem;
+}
+
+.site-page-disclosures .disclosure {
+  margin: 0 0 0.75rem;
+}
+
 .footer-tpmo {
   margin: 0 0 1.5rem;
   padding: 1.25rem 1rem;

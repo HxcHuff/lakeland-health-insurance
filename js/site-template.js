@@ -17,6 +17,15 @@
   const SEASONAL_BANNER_END_MONTH = 12;
   const SEASONAL_BANNER_END_DAY = 7;
 
+  const SHIP_DISCLAIMER_PATHS = [
+    '/book/',
+    '/get-help/',
+    '/coverage-center/',
+    '/plans/',
+    '/lp/gap/',
+    '/local-health-insurance-answers/'
+  ];
+
   const MEDICARE_PATHS = [
     '/medicare/',
     '/medicare/east-polk/',
@@ -116,6 +125,8 @@
   function shouldUseShipDisclaimer(pathname) {
     var path = normalizePath(pathname);
     var raw = rawPath(pathname);
+    if (path === '/' || raw === '/' || raw === '/index.html') return true;
+    if (pathMatches(path, SHIP_DISCLAIMER_PATHS) || pathMatches(raw, SHIP_DISCLAIMER_PATHS)) return true;
     if (pathMatches(path, MEDICARE_PATHS) || pathMatches(raw, MEDICARE_PATHS)) return true;
     if (/\/blog\/[^"'<>]*medicare/i.test(raw) || /\/blog\/[^"'<>]*medicare/i.test(path)) return true;
     if (/\/blog\/[^"'<>]*medigap/i.test(raw) || /\/blog\/[^"'<>]*medigap/i.test(path)) return true;
@@ -533,8 +544,29 @@
     });
   }
 
+  function stripInlineDisclaimerDuplicates() {
+    var allowed = new Set();
+    document.querySelectorAll('.site-page-disclosures, .footer-tpmo').forEach(function (zone) {
+      allowed.add(zone);
+    });
+    document.querySelectorAll('.tpmo-cta-disclaimer').forEach(function (node) {
+      var parent = node;
+      while (parent && parent !== document.body) {
+        if (allowed.has(parent)) return;
+        parent = parent.parentElement;
+      }
+      node.remove();
+    });
+    document.querySelectorAll('.site-page-disclosures').forEach(function (block) {
+      var footer = document.querySelector('body > footer');
+      if (!footer || block.compareDocumentPosition(footer) & Node.DOCUMENT_POSITION_FOLLOWING) return;
+      footer.parentNode.insertBefore(block, footer);
+    });
+  }
+
   function normalizeTemplate() {
     document.querySelectorAll('.compliance-banner').forEach((node) => node.remove());
+    stripInlineDisclaimerDuplicates();
     var pathname = currentPathname();
     var intent = resolveChromeIntent(pathname, document);
     const firstHeader = document.querySelector('header');

@@ -316,9 +316,9 @@ test('only homepage, /book/, and /medicare/ load the messenger helper', () => {
     if (html.includes('/js/messenger-entry.js')) loaded.push(rel);
   }
   assert.deepEqual(loaded.sort(), [...allowed].sort());
-  assert.match(HOME, new RegExp(`site-template\\.js\\?v=20261006-page-inbox" defer></script>\\s*<script src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
-  assert.match(BOOK, new RegExp(`site-template\\.js\\?v=20261006-page-inbox"></script>\\s*<script defer src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
-  assert.match(MEDICARE, new RegExp(`site-template\\.js\\?v=20261006-page-inbox" defer></script>\\s*<script src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
+  assert.match(HOME, new RegExp(`site-template\\.js\\?v=20261008-disclaimers-ship-hold" defer></script>\\s*<script src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
+  assert.match(BOOK, new RegExp(`site-template\\.js\\?v=20261008-disclaimers-ship-hold"></script>\\s*<script defer src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
+  assert.match(MEDICARE, new RegExp(`site-template\\.js\\?v=20261008-disclaimers-ship-hold" defer></script>\\s*<script src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
   assert.doesNotMatch(BLOG, /messenger-entry\.js/);
   assert.doesNotMatch(readFileSync(join(ROOT, 'medicare/east-polk/index.html'), 'utf8'), /messenger-entry\.js/);
 });

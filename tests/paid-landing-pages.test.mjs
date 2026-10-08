@@ -92,7 +92,7 @@ test('Medicare paid page keeps compensation and required disclosures below the s
   assert.match(MEDICARE, /A Medicare plan review is not enrollment\./);
   assert.doesNotMatch(MEDICARE.match(/<section class="lp-hero"[\s\S]*?<\/section>/i)?.[0] || '', /Broker Compensation/i);
 
-  const disclosuresAt = MEDICARE.indexOf('<section class="lp-disclosures"');
+  const disclosuresAt = MEDICARE.indexOf('<section class="site-page-disclosures"');
   const contentAt = MEDICARE.indexOf('<section class="lp-content"');
   const mainEndsAt = MEDICARE.indexOf('</main>');
   assert.ok(disclosuresAt > contentAt, 'disclosures follow the service content');
