@@ -47,6 +47,23 @@ body {
   outline-offset: 3px;
 }
 
+.answer-hero .answer-snippet a:not(.btn):not(.hero-cta):not(.lp-primary-call) {
+  color: var(--navy, #1B2A4A);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.answer-hero .answer-snippet a:not(.btn):not(.hero-cta):not(.lp-primary-call):hover,
+.answer-hero .answer-snippet a:not(.btn):not(.hero-cta):not(.lp-primary-call):focus-visible {
+  color: var(--hub-blue, #0f5f7b);
+}
+
+.answer-hero .answer-snippet a:not(.btn):not(.hero-cta):not(.lp-primary-call):focus-visible {
+  outline: 3px solid var(--navy, #1B2A4A);
+  outline-offset: 3px;
+}
+
 .cta-row .tpmo-cta-disclaimer,
 .hub-final-actions .tpmo-cta-disclaimer,
 .cc-hero-actions .tpmo-cta-disclaimer,
