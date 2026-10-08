@@ -22,10 +22,10 @@ test('Medicare hub owns help/decision SERP, not broker phrasing in title', () =>
 });
 
 test('Broker page owns commercial broker SERP while keeping cite-ready direct answer', () => {
-  assert.match(BROKER, /<title>Medicare Broker in Lakeland, FL \| Doctors, Rx &amp; AEP Review<\/title>/);
+  assert.match(BROKER, /<title>Medicare Broker in Lakeland, FL \| Licensed Local Review<\/title>/);
   assert.match(
     BROKER,
-    /content="Licensed Florida health agent \(FL #W371813\)\. Compare Advantage, Medigap &amp; Part D around your doctors and prescriptions\. No separate agent fee\."/
+    /content="Looking for Medicare help in Lakeland\? A licensed Florida health agent reviews your doctors and prescriptions with you\. Call \(863\) 640-3102 for a review\."/
   );
   assert.match(BROKER, /<h1>Medicare broker in Lakeland, FL — licensed local agent for doctors, prescriptions, and AEP\.<\/h1>/);
   assert.match(BROKER, /Direct answer:\s*who can help review Medicare Advantage in Lakeland/i);
