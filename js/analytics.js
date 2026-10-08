@@ -5,7 +5,7 @@
 (function(){
   if (!window.__LHI_TEST && !window.LHILeadFirstTouch && typeof document !== 'undefined' && document.createElement) {
     var firstTouchScript = document.createElement('script');
-    firstTouchScript.src = '/js/lead-first-touch.js?v=20261008-google-offline-ec';
+    firstTouchScript.src = '/js/lead-first-touch.js?v=20261008-no-enhanced-ec';
     firstTouchScript.async = false;
     document.head.appendChild(firstTouchScript);
   }
@@ -394,7 +394,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261008-google-offline-ec';
+    funnel.src = '/js/funnel.js?v=20261008-no-enhanced-ec';
     document.head.appendChild(funnel);
   }
 
@@ -713,59 +713,6 @@
       pushDataLayerEvent(legacyName, params);
     }
   }
-
-  var ENHANCED_CONVERSIONS_ENABLED = false;
-
-  function normalizeEnhancedEmail(value) {
-    var email = String(value || '').trim().toLowerCase();
-    if (!email || email.length > 254) return '';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return '';
-    return email;
-  }
-
-  function normalizeEnhancedPhoneE164(value) {
-    var digits = String(value || '').replace(/\D/g, '');
-    if (digits.length === 10) return '+1' + digits;
-    if (digits.length === 11 && digits.charAt(0) === '1') return '+' + digits;
-    return '';
-  }
-
-  function leadFormConsentGranted(form) {
-    if (!form || !form.elements) return false;
-    function granted(name) {
-      var el = form.elements[name];
-      var raw = el ? String(el.value || '').trim().toLowerCase() : '';
-      return raw === 'yes' || raw === 'granted' || raw === 'true' || raw === 'on';
-    }
-    if (granted('consent_request') || granted('consent_call') || granted('consent_sms') || granted('consent_email')) {
-      return true;
-    }
-    return granted('consent');
-  }
-
-  function applyEnhancedConversionsForLeadForm(form) {
-    if (!ENHANCED_CONVERSIONS_ENABLED || !form || !IS_PROD) return;
-    if (typeof window.gtag !== 'function') return;
-    if (!leadFormConsentGranted(form)) return;
-    var email = normalizeEnhancedEmail(
-      (form.elements.email && form.elements.email.value)
-      || (form.elements.email_address && form.elements.email_address.value)
-    );
-    var phone = normalizeEnhancedPhoneE164(
-      (form.elements.phone && form.elements.phone.value)
-      || (form.elements.phone_number && form.elements.phone_number.value)
-    );
-    if (!email && !phone) return;
-    var normalized = {};
-    if (email) normalized.email = email;
-    if (phone) normalized.phone_number = phone;
-    window.gtag('set', 'user_' + 'data', normalized);
-  }
-
-  window.LHIEnhancedConversions = {
-    enabled: ENHANCED_CONVERSIONS_ENABLED,
-    applyForLeadForm: applyEnhancedConversionsForLeadForm
-  };
 
   window.lhiTrackPhoneClick = trackPhoneClick;
   window.trackPhoneCall = window.trackPhoneCall || function (label) {

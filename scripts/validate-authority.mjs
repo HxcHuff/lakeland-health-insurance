@@ -530,6 +530,15 @@ const analytics = readFileSync(resolve(ROOT, 'js/analytics.js'), 'utf8');
 if (/allow_enhanced_conversions\s*:\s*true/i.test(analytics)) {
   issues.push('js/analytics.js: enhanced conversions are still enabled');
 }
+if (/gtag\(['"]set["'],\s*['"]user_data["']/i.test(analytics)) {
+  issues.push('js/analytics.js: advertising user_data transmission is still enabled');
+}
+if (/LHIEnhancedConversions|ENHANCED_CONVERSIONS_ENABLED|user_\s*\+\s*['"]data['"]/i.test(analytics)) {
+  issues.push('js/analytics.js: enhanced-conversion helper or flag is still present');
+}
+if (/LHIEnhancedConversions/i.test(funnel)) {
+  issues.push('js/funnel.js: enhanced-conversion hook is still present');
+}
 
 const lead = readFileSync(resolve(ROOT, 'netlify/functions/lead.js'), 'utf8');
 for (const key of [

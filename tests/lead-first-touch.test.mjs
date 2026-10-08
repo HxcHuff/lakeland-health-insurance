@@ -219,11 +219,25 @@ test('applyToForm writes hidden first-touch and Google click ID fields', () => {
   assert.ok(form.elements.click_timestamp.value.length > 10);
 });
 
-test('enhanced conversions remain disabled and analytics source avoids PII in URLs', () => {
-  assert.match(ANALYTICS_SRC, /ENHANCED_CONVERSIONS_ENABLED\s*=\s*false/);
-  assert.equal(/enabled:\s*ENHANCED_CONVERSIONS_ENABLED/.test(ANALYTICS_SRC), true);
+const SITE_JS_DIR = join(ROOT, 'js');
+const FORBIDDEN_GOOGLE_USER_DATA = /gtag\s*\(\s*['"]set['"]\s*,\s*['"]user_data['"]|user_\s*\+\s*['"]data['"]|LHIEnhancedConversions|ENHANCED_CONVERSIONS_ENABLED/i;
+
+function listSiteJsFiles() {
+  return readdirSync(SITE_JS_DIR)
+    .filter((name) => name.endsWith('.js'))
+    .map((name) => join(SITE_JS_DIR, name));
+}
+
+test('site JS must not call gtag user_data or ship enhanced-conversion helpers', () => {
+  for (const file of listSiteJsFiles()) {
+    const src = readFileSync(file, 'utf8');
+    assert.doesNotMatch(
+      src,
+      FORBIDDEN_GOOGLE_USER_DATA,
+      `${file} must not contain gtag user_data or enhanced-conversion code`
+    );
+  }
   assert.doesNotMatch(ANALYTICS_SRC, /sha256_/i);
-  assert.doesNotMatch(ANALYTICS_SRC, /gtag\('set',\s*'user_data'/);
 });
 
 const LEAD_FORM_MARKERS = ['data-funnel-event="Lead"'];

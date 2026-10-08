@@ -1034,9 +1034,6 @@
           if (e && typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
           submitLeadViaApi(f, formPayload(f, fd, content), function (apiResult) {
             if (name === 'Lead') {
-              if (w.LHIEnhancedConversions && typeof w.LHIEnhancedConversions.applyForLeadForm === 'function') {
-                w.LHIEnhancedConversions.applyForLeadForm(f);
-              }
               track(name, safeLeadPropsFromForm(f, fd, content, step, apiResult));
             } else {
               track(name, { content_name: content, step: step });
