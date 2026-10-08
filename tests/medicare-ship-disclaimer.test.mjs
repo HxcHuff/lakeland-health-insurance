@@ -115,7 +115,7 @@ test('Medicare hubs, landers, and Medicare blogs reuse the approved SHIP TPMO se
   }
 });
 
-test('homepage review CTAs include SHIP TPMO in hero and sticky placements', () => {
+test('homepage review CTA includes SHIP TPMO in hero; sticky bar stays CTA-only', () => {
   const html = source('index.html');
   const heroBlock = html.match(
     /aria-label="Start a coverage review"[\s\S]*?<p class="tpmo-cta-disclaimer">[\s\S]*?<\/p>/
@@ -125,7 +125,8 @@ test('homepage review CTAs include SHIP TPMO in hero and sticky placements', () 
 
   const sticky = html.match(/class="home-sticky-cta"[\s\S]*?<\/div>/);
   assert.ok(sticky, 'home sticky CTA block exists');
-  assert.ok(sticky[0].includes(SHIP_TPMO), 'sticky CTA TPMO uses SHIP wording');
+  assert.ok(!sticky[0].includes('tpmo-cta-disclaimer'), 'sticky bar does not duplicate TPMO disclaimer');
+  assert.ok(sticky[0].includes('Review my coverage'), 'sticky bar keeps the coverage review CTA');
 });
 
 test('Get Help Medicare form uses SHIP while the mixed footer keeps the older TPMO sentence', () => {

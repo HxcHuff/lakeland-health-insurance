@@ -618,20 +618,25 @@
           bottom: 0;
           box-shadow: 0 -8px 24px rgba(15, 26, 46, 0.12);
           display: flex;
-          gap: 0.75rem;
+          flex-direction: row;
+          gap: 0;
           justify-content: center;
           left: 0;
-          padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+          max-height: 80px;
+          padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
           position: fixed;
           right: 0;
           z-index: 1200;
         }
 
         .home-sticky-cta .hero-cta {
-          flex: 1 1 auto;
-          max-width: 420px;
+          flex: 0 1 auto;
+          font-size: 1rem;
+          max-width: min(100%, 420px);
           min-height: 48px;
-          width: 100%;
+          padding: 14px 24px;
+          white-space: nowrap;
+          width: auto;
         }
 
         .home-page .click-to-call,
@@ -734,7 +739,8 @@
         margin: 0 0 0.75rem;
       }
 
-      .home-hero .hero-season .tpmo-cta-disclaimer {
+      .home-hero .hero-season .tpmo-cta-disclaimer,
+      .home-hero .hero-cta-group + .tpmo-cta-disclaimer {
         color: var(--gray-600);
         font-size: 0.92rem;
         line-height: 1.5;
@@ -1429,7 +1435,6 @@
 
     <div class="home-sticky-cta" aria-label="Request a coverage review">
         <a class="hero-cta" href="/get-help/" data-lhi-ab-home-primary>Review my coverage</a>
-        <p class="tpmo-cta-disclaimer">We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.</p>
     </div>
 
     <a href="tel:+18636403102" class="click-to-call" data-floating-call="true" onclick="trackPhoneCall()">
