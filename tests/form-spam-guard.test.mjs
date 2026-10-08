@@ -18,6 +18,25 @@ test('honeypot detection only checks bot-field', () => {
   assert.equal(honeypotFilled({ company: 'Acme' }), false);
 });
 
+test('legacy clients without started_at and human_check skip timing checks', () => {
+  assert.equal(validateHumanTiming({}, 'lp-aca-lead').ok, true);
+  assert.equal(validateHumanTiming({ started_at: '', human_check: '' }, 'get-help').ok, true);
+
+  const startedAt = Date.now() - 2_100;
+  const partial = {
+    started_at: String(startedAt),
+    human_check: ''
+  };
+  assert.equal(validateHumanTiming(partial, 'lp-aca-lead').ok, false);
+
+  const evaluation = evaluateLeadSpam(
+    { email: 'legacy@example.com' },
+    'homepage-newsletter',
+    { 'x-nf-client-connection-ip': '203.0.113.11' }
+  );
+  assert.equal(evaluation.spam, false);
+});
+
 test('human timing accepts realistic submissions and rejects instant bots', () => {
   const startedAt = Date.now() - 2_100;
   const payload = {

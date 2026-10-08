@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lhi-20261006-handoff';
+const CACHE_NAME = 'lhi-20261007-spam-guard';
 const OFFLINE_URL = '/offline.html';
 const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261006-page-inbox';
 

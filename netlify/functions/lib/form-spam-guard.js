@@ -56,7 +56,19 @@ function honeypotFilled(payload) {
   return HONEYPOT_FIELD_NAMES.some((key) => String(payload[key] || '').trim());
 }
 
+function spamGuardFieldMissing(value) {
+  return value === undefined || value === null || String(value).trim() === '';
+}
+
+function isLegacySpamGuardClient(payload) {
+  return spamGuardFieldMissing(payload.started_at) && spamGuardFieldMissing(payload.human_check);
+}
+
 function validateHumanTiming(payload, formName) {
+  if (isLegacySpamGuardClient(payload)) {
+    return { ok: true, legacy: true };
+  }
+
   const startedAt = Number(payload.started_at);
   const humanCheck = String(payload.human_check || '');
   const expectedCheck = Buffer.from(`${payload.started_at}:${HUMAN_CHECK_SECRET}`).toString('base64');
