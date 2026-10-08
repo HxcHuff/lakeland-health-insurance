@@ -39,6 +39,7 @@ const MEDICARE_SHIP_PAGES = [
   'blog/keep-doctor-switch-medicare-plans-florida.html',
   'blog/lakeland-va-clinic-medicare.html',
   'blog/medicare-advantage-lakeland-2026.html',
+  'blog/baycare-medicare-advantage-plans-2027-polk-county.html',
   'blog/medicare-advantage-plan-ending-what-now.html',
   'blog/medicare-advantage-vs-medicare-supplement.html',
   'blog/medicare-extra-help-savings-programs-polk-county.html',
