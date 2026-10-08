@@ -41,7 +41,7 @@ test('primary broker URL stays the only commercial lander and best-broker still 
 
 test('primary broker snippet and FAQ cover licensed local agent language without ranking claims', () => {
   const html = source('medicare-broker-lakeland-fl/index.html');
-  assert.match(html, /<title>Medicare Broker in Lakeland, FL \| Doctors, Rx &amp; AEP Review<\/title>/);
+  assert.match(html, /<title>Medicare Broker in Lakeland, FL \| Licensed Local Review<\/title>/);
   assert.match(html, /Licensed Florida health agent \(FL #W371813\)/);
   assert.match(html, /<h1>Medicare broker in Lakeland, FL — licensed local agent for doctors, prescriptions, and AEP\.<\/h1>/);
   assert.match(html, /Licensed local Medicare agent · Lakeland, FL/);
