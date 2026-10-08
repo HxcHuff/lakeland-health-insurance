@@ -101,7 +101,8 @@ for (const [file, sourcePage, intent] of pages) {
       'landing_page',
       'referrer',
       'click_id_type',
-      'lead_channel'
+      'lead_channel',
+      'click_timestamp'
     ]) {
       assert.match(form, new RegExp(`name="${field}"`), `${file} declares first-touch ${field}`);
     }
@@ -115,7 +116,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /Reply STOP to cancel or HELP for help/);
 
     assert.match(html, /\/css\/site-template\.css\?v=20261008-disclaimers-ship-hold/);
-    assert.match(html, /\/js\/funnel\.js\?v=20261008-first-touch-lead/);
+    assert.match(html, /\/js\/funnel\.js\?v=20261008-google-offline-ec/);
   });
 }
 

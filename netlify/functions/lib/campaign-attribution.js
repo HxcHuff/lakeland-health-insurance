@@ -114,6 +114,13 @@ function collectSanitizedClickIds(source) {
   return collected;
 }
 
+function sanitizeClickTimestamp(value) {
+  const text = String(value || '').trim();
+  if (!text || text.length > 40) return '';
+  if (!Number.isFinite(Date.parse(text))) return '';
+  return new Date(text).toISOString();
+}
+
 function hubSpotClickAttribution(source, capturedAt) {
   const clicks = collectSanitizedClickIds(source);
   const preferred = selectPreferredClickId(clicks, '') || selectPreferredClickId(clicks, 'first_');
@@ -132,9 +139,11 @@ function hubSpotClickAttribution(source, capturedAt) {
 
   if (preferred) {
     attribution.lhi_lead_source = 'google_ads_site';
-    const when = capturedAt && Number.isFinite(Date.parse(capturedAt))
-      ? new Date(capturedAt).toISOString()
-      : '';
+    const fromForm = sanitizeClickTimestamp(source && source.click_timestamp);
+    const when = fromForm
+      || (capturedAt && Number.isFinite(Date.parse(capturedAt))
+        ? new Date(capturedAt).toISOString()
+        : '');
     if (when) attribution.lhi_click_captured_at = when;
   }
 
@@ -158,6 +167,7 @@ module.exports = {
   sanitizeCampaignAttribution,
   sanitizeCampaignToken,
   sanitizeClickID,
+  sanitizeClickTimestamp,
   sanitizeGoogleCampaignID,
   sanitizeUtmValue,
   selectPreferredClickId
