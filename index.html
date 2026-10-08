@@ -325,6 +325,7 @@
     <script defer src="/js/ab-variant.js?v=20261007-split"></script>
     <script defer src="/js/analytics.js?v=20261007-spam-guard"></script>
     <link rel="stylesheet" href="/css/site-template.css?v=20261008-disclaimers-ship-hold">
+    <link rel="stylesheet" href="/css/office-map.css?v=20261008-office-map">
     <style>
       .home-hero {
         background: var(--gray-50);
@@ -1359,6 +1360,17 @@
             </div>
         </div>
     </section>
+
+    <section class="office-map-section" aria-labelledby="office-map-heading-home">
+        <div class="container">
+            <h2 id="office-map-heading-home" class="office-map-heading">Find our Lakeland office</h2>
+            <p class="office-map-lede">The Lakeland office address and phone number are in the footer below. Load the map when you are ready to plan a visit by appointment.</p>
+            <p class="office-map-actions"><a class="office-map-directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=2298%20Lakeland%20Hills%20Blvd%2C%20Lakeland%2C%20FL%2033805" target="_blank" rel="noopener noreferrer">Get directions</a></p>
+            <div class="office-map-embed office-map-embed--click" data-office-map-click>
+                <button type="button" class="office-map-load-btn">Load map</button>
+            </div>
+        </div>
+    </section>
     </main>
 
 <section class="site-page-disclosures" aria-label="Legal and compliance disclaimers">
@@ -1509,6 +1521,7 @@
         }
 
     </script>
+    <script src="/js/office-map.js?v=20261008-office-map" defer></script>
     <script src="/js/site-template.js?v=20261008-disclaimers-ship-hold" defer></script>
     <script src="/js/messenger-entry.js?v=20261006-messenger" defer></script>
 </body>
