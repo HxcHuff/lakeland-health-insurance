@@ -60,6 +60,12 @@
   status = 200
   force = true
 
+[[redirects]]
+  from = "/api/newsletter-confirm"
+  to = "/.netlify/functions/newsletter-confirm"
+  status = 200
+  force = true
+
 # NOTE: Page/blog redirects (PDF casing, non-.html → .html, /lp/ aliases,
 # /find-plans, etc.) live in /_redirects as the single source of truth.
 # Do not duplicate them here — Netlify processes _redirects first and

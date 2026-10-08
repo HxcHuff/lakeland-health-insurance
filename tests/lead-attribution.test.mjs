@@ -557,7 +557,9 @@ test('consent version resolver accepts only the explicit allowlist', () => {
     'lp-medicare-2026-09-29-v1',
     'lp-medicare-2026-09-29-v2',
     'lp-gap-2026-09-29-v1',
-    'lp-gap-2026-09-29-v2'
+    'lp-gap-2026-09-29-v2',
+    'homepage-newsletter-2026-10-07-v1',
+    'newsletter-signup-2026-10-07-v1'
   ]);
 });
 
@@ -880,6 +882,30 @@ test('Medicare general intake strips known plan and health-detail fields without
     providers: 'Provider needed for follow-up'
   });
   assert.equal(providerCheck.providers, 'Provider needed for follow-up');
+});
+
+test('provider-check intake drops provider and prescription detail fields at relay', async () => {
+  const { response, calls } = await invoke(getHelpPayload({
+    normalized_intent: 'provider-check',
+    inquiry_type: 'Provider or prescription check',
+    line_of_business: 'Medicare',
+    source_page_key: '',
+    source_cta_key: '',
+    current_plan: 'Plan type only',
+    provider_name: 'Must not relay',
+    provider_location: 'Must not relay',
+    prescription_name: 'Must not relay',
+    providers: 'General follow-up note',
+    notes: 'Callback timing'
+  }));
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('provider_name'), null);
+  assert.equal(form.get('provider_location'), null);
+  assert.equal(form.get('prescription_name'), null);
+  assert.equal(form.get('current_plan'), 'Plan type only');
+  assert.equal(form.get('providers'), 'General follow-up note');
+  assert.equal(form.get('notes'), 'Callback timing');
 });
 
 test('CORS, body shape, and body size fail closed', async () => {

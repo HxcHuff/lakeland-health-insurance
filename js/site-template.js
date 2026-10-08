@@ -260,6 +260,7 @@
   const navLinks = [
     ['/aca-health-insurance-lakeland-fl/', 'Individual and Family Coverage'],
     ['/medicare/', 'Medicare'],
+    ['/provider-prescription-check/', 'Check doctors & Rx'],
     ['/plans/', 'Coverage Options'],
     ['/carriers/', 'Carriers'],
     ['/blog/', 'Blog'],
@@ -273,6 +274,7 @@
       ['/', 'Home'],
       ['/aca-health-insurance-lakeland-fl/', 'Individual and Family Coverage'],
       ['/medicare/', 'Medicare'],
+      ['/provider-prescription-check/', 'Check doctors & Rx'],
       ['/plans/', 'Coverage Options'],
       ['/carriers/', 'Carriers'],
       ['/blog/', 'Blog'],

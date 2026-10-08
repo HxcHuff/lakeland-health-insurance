@@ -62,6 +62,8 @@ test('documented consent label text matches the live HTML on every listed page',
     'lp-aca-2026-09-29-v2',
     'lp-medicare-2026-09-29-v2',
     'lp-gap-2026-09-29-v2',
+    'homepage-newsletter-2026-10-07-v1',
+    'newsletter-signup-2026-10-07-v1',
     'none'
   ]);
 

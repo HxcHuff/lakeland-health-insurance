@@ -18,7 +18,8 @@ const ENTRIES = [
   'submission-created.js',
   'lead-bridge-retry.js',
   'deploy-succeeded.js',
-  'openai-ads-config.js'
+  'openai-ads-config.js',
+  'newsletter-confirm.js'
 ];
 
 function functionSources(dir = FUNCTIONS, out = []) {
