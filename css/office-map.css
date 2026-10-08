@@ -1,0 +1,102 @@
+.office-map-section {
+  padding: 3.5rem 0;
+  background: var(--gray-50, #f8fafc);
+  border-top: 1px solid var(--gray-200, #e2e8f0);
+}
+
+.office-map-band {
+  padding-top: 0;
+}
+
+.office-map-heading {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(1.65rem, 3.5vw, 2rem);
+  font-weight: 400;
+  color: var(--navy, #1b2a4a);
+  margin: 0 0 0.75rem;
+}
+
+.office-map-lede {
+  color: var(--gray-600, #475569);
+  margin: 0 0 1rem;
+  max-width: 42rem;
+  line-height: 1.6;
+}
+
+.office-map-actions {
+  margin-bottom: 1.25rem;
+}
+
+.office-map-directions {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  color: var(--blue, #2563eb);
+  text-decoration: none;
+}
+
+.office-map-directions:hover {
+  color: var(--navy, #1b2a4a);
+  text-decoration: underline;
+}
+
+.office-map-embed {
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  background: var(--gray-200, #e2e8f0);
+  border-radius: var(--radius, 12px);
+  overflow: hidden;
+  border: 1px solid var(--gray-200, #e2e8f0);
+}
+
+.office-map-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  border: 0;
+}
+
+.office-map-embed--click {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(165deg, var(--sky-soft, #f0f5ff), var(--gray-100, #f1f5f9));
+}
+
+.office-map-load-btn {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--navy-deep, #0f1a2e);
+  background: var(--gold, #d4a843);
+  border: none;
+  border-radius: 100px;
+  padding: 14px 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(212, 168, 67, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.office-map-load-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(212, 168, 67, 0.45);
+}
+
+.office-map-load-btn:focus-visible {
+  outline: 3px solid var(--blue-light, #3b82f6);
+  outline-offset: 3px;
+}
+
+@media (max-width: 720px) {
+  .office-map-section {
+    padding: 2.5rem 0;
+  }
+
+  .office-map-embed {
+    aspect-ratio: 4 / 3;
+  }
+}
