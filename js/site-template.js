@@ -23,7 +23,8 @@
     '/coverage-center/',
     '/plans/',
     '/lp/gap/',
-    '/local-health-insurance-answers/'
+    '/local-health-insurance-answers/',
+    '/thank-you/'
   ];
 
   const MEDICARE_PATHS = [

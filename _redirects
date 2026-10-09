@@ -4,6 +4,10 @@
 /get-help/ /get-help/index.html 200
 /get-help/index-v2.html /get-help/ 301!
 
+# QR thank-you page (distinct from /thanks form confirmation)
+/thank-you /thank-you/index.html 200
+/thank-you/ /thank-you/index.html 200
+
 # Booking page
 /book /book/index.html 200
 /book/ /book/index.html 200
