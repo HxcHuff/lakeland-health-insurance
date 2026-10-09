@@ -3,6 +3,12 @@
 /* Google tags only fire on production host. Netlify deploy previews, branch
    deploys, and localhost are explicitly excluded to keep reporting clean. */
 (function(){
+  if (!window.__LHI_TEST && !window.LHILeadFirstTouch && typeof document !== 'undefined' && document.createElement) {
+    var firstTouchScript = document.createElement('script');
+    firstTouchScript.src = '/js/lead-first-touch.js?v=20261008-no-enhanced-ec';
+    firstTouchScript.async = false;
+    document.head.appendChild(firstTouchScript);
+  }
   var loaded=false;
   var funnelRequested=false;
   var websiteCallTrackingInitialized=false;
@@ -388,7 +394,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261007-spam-guard';
+    funnel.src = '/js/funnel.js?v=20261008-no-enhanced-ec';
     document.head.appendChild(funnel);
   }
 

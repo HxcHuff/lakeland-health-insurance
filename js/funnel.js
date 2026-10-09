@@ -715,6 +715,9 @@
     CLICK_ID_STORAGE_FIELDS.forEach(function (name) {
       setAttributionField(form, name, approvedClickAttributionValue(name, attribution[name]));
     });
+    if (w.LHILeadFirstTouch && typeof w.LHILeadFirstTouch.applyToForm === 'function') {
+      w.LHILeadFirstTouch.applyToForm(form);
+    }
   }
 
   function ensureLeadSpamGuard(form) {
@@ -1022,6 +1025,7 @@
       });
 
       f.addEventListener('submit', function (e) {
+        initializeFormAttribution(f);
         var fd = new FormData(f);
         trackFormStart();
 

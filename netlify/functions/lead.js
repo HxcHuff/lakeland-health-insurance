@@ -19,6 +19,7 @@ const {
   sanitizeCampaignAttribution,
   sanitizeCampaignToken,
   sanitizeClickID,
+  sanitizeClickTimestamp,
   sanitizeGoogleCampaignID,
   selectPreferredClickId
 } = require('./lib/campaign-attribution');
@@ -256,8 +257,20 @@ function leadFormFields(...groups) {
   return formFields(SPAM_GUARD_FIELDS, BOT_FIELDS, ...groups);
 }
 
+const FIRST_TOUCH_TRACKING_FIELDS = Object.freeze([
+  'lead_medium',
+  'lead_campaign',
+  'landing_page',
+  'referrer',
+  'click_id_type',
+  'lead_channel',
+  'click_timestamp'
+]);
+const FIRST_TOUCH_WITH_SOURCE = Object.freeze(['lead_source'].concat(FIRST_TOUCH_TRACKING_FIELDS));
+
 const LOCAL_FORM_FIELDS = [
   ...LEAD_ATTRIBUTION_FIELDS,
+  ...FIRST_TOUCH_TRACKING_FIELDS,
   'full_name',
   'phone_number',
   'zip_code',
@@ -269,6 +282,7 @@ const LOCAL_FORM_FIELDS = [
 ];
 const LP_COMMON_FIELDS = [
   ...LEAD_ATTRIBUTION_FIELDS,
+  ...FIRST_TOUCH_WITH_SOURCE,
   'full_name',
   'phone',
   'email',
@@ -308,7 +322,8 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'consent_call',
     'consent_sms',
     'consent_email',
-    'consent_text_version'
+    'consent_text_version',
+    ...FIRST_TOUCH_WITH_SOURCE
   ]),
   'lp-aca-lead': leadFormFields(LP_COMMON_FIELDS, ['household_size']),
   'lp-medicare-lead': leadFormFields(LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
@@ -508,8 +523,33 @@ function filterLeadPayloadForRelay(rawPayload, formName) {
   const filtered = filterPayloadForForm(rawPayload, formName);
   if (!filtered.ok) return filtered;
   sanitizeCampaignAttribution(filtered.payload);
+  sanitizeFirstTouchFields(filtered.payload);
   sanitizeAbVariantField(filtered.payload);
   return filtered;
+}
+
+function sanitizeFirstTouchFields(payload) {
+  if (!payload || typeof payload !== 'object') return;
+  if (Object.prototype.hasOwnProperty.call(payload, 'click_timestamp')) {
+    const sanitized = sanitizeClickTimestamp(payload.click_timestamp);
+    if (sanitized) payload.click_timestamp = sanitized;
+    else delete payload.click_timestamp;
+  }
+  const clickType = String(payload.click_id_type || '').trim().toLowerCase();
+  const allowedClickTypes = new Set(['none', 'gclid', 'gbraid', 'wbraid', 'fbclid']);
+  if (clickType && allowedClickTypes.has(clickType)) payload.click_id_type = clickType;
+  else if (Object.prototype.hasOwnProperty.call(payload, 'click_id_type')) delete payload.click_id_type;
+  const channel = String(payload.lead_channel || '').trim().toLowerCase();
+  const allowedChannels = new Set([
+    'google_ads',
+    'facebook',
+    'chatgpt',
+    'google_organic',
+    'direct',
+    'other'
+  ]);
+  if (channel && allowedChannels.has(channel)) payload.lead_channel = channel;
+  else if (Object.prototype.hasOwnProperty.call(payload, 'lead_channel')) delete payload.lead_channel;
 }
 
 function sanitizeAbVariantField(payload) {
@@ -817,6 +857,7 @@ exports.handler = async (event) => {
     };
   }
   const payload = sanitizeCampaignAttribution(minimizeGetHelpPayload(filteredPayload.payload));
+  sanitizeFirstTouchFields(payload);
   sanitizeAbVariantField(payload);
 
   const eventId = crypto.randomUUID();

@@ -644,7 +644,9 @@ test('website-call conversion uses the verified Ads tag while click telemetry re
   );
   assert.match(ANALYTICS_SRC, /pushDataLayerEvent\('phone_call_click', params\);/);
   assert.match(ANALYTICS_SRC, /gtag\('config', 'AW-300112445', \{ send_page_view: false \}\);/);
-  assert.doesNotMatch(ANALYTICS_SRC, /enhanced_conversions|(?<![a-z_])user_data|sha256_/i);
+  assert.doesNotMatch(ANALYTICS_SRC, /LHIEnhancedConversions|ENHANCED_CONVERSIONS_ENABLED/i);
+  assert.doesNotMatch(ANALYTICS_SRC, /sha256_/i);
+  assert.doesNotMatch(ANALYTICS_SRC, /gtag\(\s*['"]set['"]\s*,\s*['"]user_data['"]|user_\s*\+\s*['"]data['"]/);
 });
 
 test('website-call retrieval starts before deferred init and a first tel interaction', () => {
@@ -940,7 +942,7 @@ test('first-party attribution loads immediately on the homepage, Get Help, and p
   for (const pathname of ['/', '/get-help/', '/lp/aca/', '/lp/medicare/', '/lp/gap/']) {
     const { appendedScripts } = loadAnalytics({ pathname });
     assert.ok(
-      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261007-spam-guard'),
+      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261008-no-enhanced-ec'),
       `${pathname} requests the attribution bus during analytics initialization`
     );
   }
@@ -953,7 +955,7 @@ test('first-party delivery bus loads immediately on any parsed tracked form page
   });
 
   assert.ok(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261007-spam-guard'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261008-no-enhanced-ec'),
     'a tracked city-page form requests the delivery bus during analytics initialization'
   );
 });
@@ -966,7 +968,7 @@ test('tracked form pages with a direct funnel script do not request it twice', (
   });
 
   assert.equal(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261007-spam-guard'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261008-no-enhanced-ec'),
     false
   );
 });
@@ -1248,7 +1250,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
     assert.equal(ctas.some((cta) => cta.ctaKey === null), false, `${expected.pageKey} has an unkeyed in-content Get Help CTA`);
     assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
-    assert.match(html, /\/js\/analytics\.js\?v=20261007-spam-guard/);
+    assert.match(html, /\/js\/analytics\.js\?v=2026100[78]-/);
 
     for (const cta of ctas) {
       const url = new URL(cta.href, 'https://lakelandhealthinsurance.com');
@@ -2165,7 +2167,19 @@ test('Get Help stores only bounded Medicare attribution and approved campaign fi
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
   }
   assert.doesNotMatch(GET_HELP_HTML, /name="fbclid"/);
-  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20261007-spam-guard/);
+  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20261008-no-enhanced-ec/);
+  for (const field of [
+    'lead_source',
+    'lead_medium',
+    'lead_campaign',
+    'landing_page',
+    'referrer',
+    'click_id_type',
+    'lead_channel'
+  ]) {
+    assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
+  }
+  assert.match(GET_HELP_SRC, /LHILeadFirstTouch\.applyToForm/);
   assert.match(GET_HELP_SRC, /setValue\('sourcePageInput', String\(window\.location\.pathname \|\| '\/'\)\.slice\(0, 160\)\);/);
   assert.doesNotMatch(GET_HELP_SRC, /window\.location\.pathname \+ window\.location\.search/);
   assert.match(GET_HELP_HTML, /id="optionalPrivacyNote">Do not enter medication names, medical details, policy or member numbers, Medicare numbers, Social Security numbers, or medical records in optional fields\./);
