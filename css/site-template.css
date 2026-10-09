@@ -926,18 +926,6 @@ header.has-seasonal-banner {
   box-shadow: var(--shadow-md);
 }
 
-body.has-seasonal-banner .home-hero,
-body.has-seasonal-banner .help-hero,
-body.has-seasonal-banner .answer-hero,
-body.has-seasonal-banner .legacy-article-hero {
-  scroll-margin-top: 8px;
-}
-
-body.has-seasonal-banner .answer-hero,
-body.has-seasonal-banner .legacy-article-hero {
-  padding-top: 172px;
-}
-
 body.has-seasonal-banner .home-hero {
   padding-top: calc(clamp(96px, 10vw, 132px) + 40px);
 }
@@ -948,10 +936,6 @@ body.has-watson-notice .home-hero {
 
 body.has-seasonal-banner.has-watson-notice .home-hero {
   padding-top: calc(clamp(96px, 10vw, 132px) + 74px);
-}
-
-body.has-watson-notice .answer-hero {
-  padding-top: 168px;
 }
 
 body.has-watson-notice.get-help-page .help-hero {
