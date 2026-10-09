@@ -22,7 +22,7 @@
 
   if (!window.__LHI_TEST && !window.LHILeadFirstTouch && typeof document !== 'undefined' && document.createElement) {
     var firstTouchScript = document.createElement('script');
-    firstTouchScript.src = '/js/lead-first-touch.js?v=20261008-no-enhanced-ec';
+    firstTouchScript.src = '/js/lead-first-touch.js?v=20261008-first-touch-sync';
     firstTouchScript.async = false;
     firstTouchScript.onload = flushLeadFirstTouchWaiters;
     firstTouchScript.onerror = flushLeadFirstTouchWaiters;
@@ -415,7 +415,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261008-no-enhanced-ec';
+    funnel.src = '/js/funnel.js?v=20261008-first-touch-sync';
     document.head.appendChild(funnel);
   }
 

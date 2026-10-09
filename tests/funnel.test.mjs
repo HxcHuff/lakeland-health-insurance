@@ -955,7 +955,7 @@ test('first-party attribution loads immediately on the homepage, Get Help, and p
   for (const pathname of ['/', '/get-help/', '/lp/aca/', '/lp/medicare/', '/lp/gap/']) {
     const { appendedScripts } = loadAnalytics({ pathname });
     assert.ok(
-      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261008-no-enhanced-ec'),
+      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261008-first-touch-sync'),
       `${pathname} requests the attribution bus during analytics initialization`
     );
   }
@@ -968,7 +968,7 @@ test('first-party delivery bus loads immediately on any parsed tracked form page
   });
 
   assert.ok(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261008-no-enhanced-ec'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261008-first-touch-sync'),
     'a tracked city-page form requests the delivery bus during analytics initialization'
   );
 });
@@ -981,7 +981,7 @@ test('tracked form pages with a direct funnel script do not request it twice', (
   });
 
   assert.equal(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261008-no-enhanced-ec'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261008-first-touch-sync'),
     false
   );
 });
@@ -1639,7 +1639,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
 test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /David will reach out shortly\./);
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
-  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261007-spam-guard/);
+  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261008-first-touch-sync/);
 });
 
 test('direct thank-you visits show customer-facing help copy', () => {
