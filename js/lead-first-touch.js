@@ -199,6 +199,20 @@
     return out;
   }
 
+  function shouldStampClickTimestamp(record) {
+    if (!record || typeof record !== 'object') return false;
+    if (String(record.click_timestamp || '').trim()) return false;
+    if (hasStoredGoogleClickId(record)) return true;
+    if (String(record.click_id_type || 'none') !== 'none') return true;
+    return hasAnyUtm(record);
+  }
+
+  function stampClickTimestampIfNeeded(record) {
+    if (!shouldStampClickTimestamp(record)) return record;
+    record.click_timestamp = iso8601WithOffset(new Date());
+    return record;
+  }
+
   function normalizeRecord(record) {
     var out = {
       expires_at: Number(record.expires_at) || (Date.now() + TTL_MS),
@@ -218,6 +232,7 @@
     if (CLICK_TYPE_ORDER.indexOf(clickType) !== -1) out.click_id_type = clickType;
     var ts = String(record.click_timestamp || '').trim();
     if (ts && Number.isFinite(Date.parse(ts))) out.click_timestamp = ts.slice(0, 40);
+    stampClickTimestampIfNeeded(out);
     out.lead_channel = deriveLeadChannel(out);
     return out;
   }
@@ -291,6 +306,26 @@
     return true;
   }
 
+  function leadAttributionForms() {
+    var forms = [];
+    var seen = Object.create(null);
+    function add(form) {
+      if (!form || seen[form]) return;
+      seen[form] = true;
+      forms.push(form);
+    }
+    if (typeof d.querySelectorAll === 'function') {
+      d.querySelectorAll('form[data-funnel-event="Lead"], form[data-sitelink-lead-form], form[data-funnel-track]').forEach(add);
+    }
+    if (typeof d.getElementById === 'function') add(d.getElementById('leadForm'));
+    return forms;
+  }
+
+  function hydrateLeadForms() {
+    captureIfNeeded();
+    leadAttributionForms().forEach(applyToForm);
+  }
+
   function applyToForm(form) {
     if (!form || typeof form !== 'object') return;
     var touch = getFirstTouch();
@@ -322,6 +357,7 @@
     captureIfNeeded: captureIfNeeded,
     getFirstTouch: getFirstTouch,
     applyToForm: applyToForm,
+    hydrateLeadForms: hydrateLeadForms,
     deriveLeadChannel: deriveLeadChannel,
     detectClickIdType: detectClickIdType,
     referrerDomain: referrerDomain,
@@ -341,9 +377,25 @@
       hasAnyUtm: hasAnyUtm,
       mergeIncomingGoogleClicks: mergeIncomingGoogleClicks,
       readGoogleClickIdsFromQuery: readGoogleClickIdsFromQuery,
-      hasStoredGoogleClickId: hasStoredGoogleClickId
+      hasStoredGoogleClickId: hasStoredGoogleClickId,
+      stampClickTimestampIfNeeded: stampClickTimestampIfNeeded,
+      leadAttributionForms: leadAttributionForms
     };
   }
 
+  function notifyReady() {
+    hydrateLeadForms();
+    try {
+      if (typeof w.CustomEvent === 'function') {
+        w.dispatchEvent(new w.CustomEvent('lhi-first-touch-ready'));
+      }
+    } catch (e) {}
+  }
+
   captureIfNeeded();
+  if (d.readyState === 'loading') {
+    d.addEventListener('DOMContentLoaded', notifyReady);
+  } else {
+    notifyReady();
+  }
 })(window, document);

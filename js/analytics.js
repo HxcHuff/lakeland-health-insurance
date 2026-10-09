@@ -3,11 +3,32 @@
 /* Google tags only fire on production host. Netlify deploy previews, branch
    deploys, and localhost are explicitly excluded to keep reporting clean. */
 (function(){
+  var leadFirstTouchWaiters = [];
+  function flushLeadFirstTouchWaiters() {
+    var waiters = leadFirstTouchWaiters.splice(0, leadFirstTouchWaiters.length);
+    waiters.forEach(function (cb) {
+      try { cb(); } catch (e) {}
+    });
+  }
+  function whenLeadFirstTouchReady(cb) {
+    if (typeof cb !== 'function') return;
+    if (window.LHILeadFirstTouch) {
+      cb();
+      return;
+    }
+    leadFirstTouchWaiters.push(cb);
+  }
+  window.__LHI_whenLeadFirstTouchReady = whenLeadFirstTouchReady;
+
   if (!window.__LHI_TEST && !window.LHILeadFirstTouch && typeof document !== 'undefined' && document.createElement) {
     var firstTouchScript = document.createElement('script');
     firstTouchScript.src = '/js/lead-first-touch.js?v=20261008-no-enhanced-ec';
     firstTouchScript.async = false;
+    firstTouchScript.onload = flushLeadFirstTouchWaiters;
+    firstTouchScript.onerror = flushLeadFirstTouchWaiters;
     document.head.appendChild(firstTouchScript);
+  } else {
+    flushLeadFirstTouchWaiters();
   }
   var loaded=false;
   var funnelRequested=false;
@@ -383,7 +404,7 @@
 
   var abVariantRequested = false;
 
-  function loadFunnelBus() {
+  function loadFunnelBusNow() {
     loadAbVariant();
     if (funnelRequested || window.LHI) return;
     if (typeof document.querySelector === 'function'
@@ -396,6 +417,10 @@
     funnel.async = true;
     funnel.src = '/js/funnel.js?v=20261008-no-enhanced-ec';
     document.head.appendChild(funnel);
+  }
+
+  function loadFunnelBus() {
+    whenLeadFirstTouchReady(loadFunnelBusNow);
   }
 
   window.LHIMedicareAttribution = {
@@ -821,6 +846,10 @@
     }
     return false;
   };
+
+  if (window.__LHI_TEST) {
+    flushLeadFirstTouchWaiters();
+  }
 })();
 
 /* LHI_META_AUDIENCE_START */

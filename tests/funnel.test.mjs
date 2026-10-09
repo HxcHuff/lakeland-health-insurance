@@ -378,9 +378,22 @@ function loadAnalytics({
         return null;
       },
       createElement(tagName) {
-        return tagName === 'span' ? makeAnalyticsDomElement('span') : { async: false, src: '' };
+        if (tagName === 'span') return makeAnalyticsDomElement('span');
+        if (tagName === 'script') return { async: false, src: '', onload: null, onerror: null };
+        return { async: false, src: '' };
       },
-      head: { appendChild: (node) => { appendedScripts.push(node); } },
+      head: {
+        appendChild(node) {
+          appendedScripts.push(node);
+          if (node && node.src && node.src.indexOf('/js/lead-first-touch.js') !== -1) {
+            sandbox.LHILeadFirstTouch = sandbox.LHILeadFirstTouch || {
+              captureIfNeeded: () => ({}),
+              applyToForm: () => {}
+            };
+            if (typeof node.onload === 'function') node.onload();
+          }
+        }
+      },
       readyState,
       title: 'Lakeland Health Insurance'
     },
