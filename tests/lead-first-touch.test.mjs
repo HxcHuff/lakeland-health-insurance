@@ -186,6 +186,121 @@ test('lead_channel mapping covers google, facebook, chatgpt, direct, organic, an
   assert.equal(deriveLeadChannel({ referrer: 'bing.com', utm_source: 'bing' }), 'other');
 });
 
+const FIRST_TOUCH_SUBMIT_FIELDS = [
+  'lead_source',
+  'lead_medium',
+  'lead_campaign',
+  'landing_page',
+  'lead_channel',
+  'click_timestamp',
+  'gclid'
+];
+
+function makeLeadFormStub() {
+  const elements = {
+    lead_source: { type: 'hidden', value: '' },
+    lead_medium: { value: '' },
+    lead_campaign: { value: '' },
+    landing_page: { value: '' },
+    referrer: { value: '' },
+    click_id_type: { value: '' },
+    lead_channel: { value: '' },
+    gclid: { value: '' },
+    gbraid: { value: '' },
+    wbraid: { value: '' },
+    click_timestamp: { value: '' }
+  };
+  return {
+    elements,
+    querySelector() {
+      return null;
+    }
+  };
+}
+
+test('first landing view submit hydrates all seven first-touch hidden fields without reload', () => {
+  const form = makeLeadFormStub();
+  const ctx = loadFirstTouch({
+    pathname: '/medicare/',
+    search: '?gclid=FastSubmitGclid-001&utm_source=google&utm_medium=cpc&utm_campaign=cid_24123358247',
+    referrer: 'https://www.google.com/'
+  });
+
+  FIRST_TOUCH_SUBMIT_FIELDS.forEach((field) => {
+    assert.equal(String(form.elements[field].value || '').trim(), '', `expected empty ${field} before submit`);
+  });
+
+  ctx.LHILeadFirstTouch.applyToForm(form);
+  FIRST_TOUCH_SUBMIT_FIELDS.forEach((field) => {
+    assert.ok(String(form.elements[field].value || '').trim(), `expected ${field} at submit`);
+  });
+  assert.equal(form.elements.landing_page.value, '/medicare/');
+  assert.equal(form.elements.lead_channel.value, 'google_ads');
+  assert.equal(form.elements.gclid.value, 'FastSubmitGclid-001');
+});
+
+test('hydrateLeadForms fills first-touch fields on the first page view', () => {
+  const form = makeLeadFormStub();
+  const domReadyHandlers = [];
+  const document = {
+    referrer: 'https://www.google.com/',
+    readyState: 'loading',
+    createElement: () => ({}),
+    querySelectorAll(selector) {
+      if (selector.indexOf('form[data-funnel') === 0) return [form];
+      return [];
+    },
+    getElementById: () => null,
+    addEventListener(type, handler) {
+      if (type === 'DOMContentLoaded') domReadyHandlers.push(handler);
+    }
+  };
+  const local = makeStorage();
+  const sandbox = {
+    __LHI_TEST: true,
+    document,
+    window: {},
+    location: {
+      pathname: '/lp/medicare/',
+      search: '?gclid=LpFirstView-001&utm_source=google&utm_medium=cpc&utm_campaign=testcamp',
+      href: 'https://lakelandhealthinsurance.com/lp/medicare/?gclid=LpFirstView-001'
+    },
+    localStorage: local,
+    sessionStorage: makeStorage(),
+    URLSearchParams,
+    URL,
+    Date,
+    JSON,
+    Object,
+    String,
+    Number,
+    Array,
+    RegExp,
+    CustomEvent: globalThis.CustomEvent
+  };
+  sandbox.window = sandbox;
+  sandbox.window.document = document;
+  vm.createContext(sandbox);
+  vm.runInContext(SRC, sandbox, { filename: 'lead-first-touch.js' });
+
+  assert.equal(domReadyHandlers.length, 1);
+  domReadyHandlers[0]();
+  FIRST_TOUCH_SUBMIT_FIELDS.forEach((field) => {
+    assert.ok(String(form.elements[field].value || '').trim(), `expected ${field} after first-view hydrate`);
+  });
+});
+
+test('UTM-only first capture stamps click_timestamp for submit-time attribution', () => {
+  const ctx = loadFirstTouch({
+    pathname: '/lp/medicare/',
+    search: '?utm_source=google&utm_medium=cpc&utm_campaign=testcamp'
+  });
+  const touch = ctx.LHILeadFirstTouch.getFirstTouch();
+  assert.equal(touch.click_id_type, 'none');
+  assert.ok(touch.click_timestamp && Number.isFinite(Date.parse(touch.click_timestamp)));
+  assert.equal(touch.lead_channel, 'google_ads');
+});
+
 test('applyToForm writes hidden first-touch and Google click ID fields', () => {
   const ctx = loadFirstTouch({
     pathname: '/tampa-health-insurance/',

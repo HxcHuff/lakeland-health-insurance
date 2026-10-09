@@ -705,6 +705,12 @@
     return 'control';
   }
 
+  function applyLeadFirstTouchToForm(form) {
+    if (w.LHILeadFirstTouch && typeof w.LHILeadFirstTouch.applyToForm === 'function') {
+      w.LHILeadFirstTouch.applyToForm(form);
+    }
+  }
+
   function initializeFormAttribution(form) {
     var attribution = getAttribution();
     ATTRIBUTION_FIELDS.forEach(function (name) {
@@ -715,9 +721,7 @@
     CLICK_ID_STORAGE_FIELDS.forEach(function (name) {
       setAttributionField(form, name, approvedClickAttributionValue(name, attribution[name]));
     });
-    if (w.LHILeadFirstTouch && typeof w.LHILeadFirstTouch.applyToForm === 'function') {
-      w.LHILeadFirstTouch.applyToForm(form);
-    }
+    applyLeadFirstTouchToForm(form);
   }
 
   function ensureLeadSpamGuard(form) {
@@ -1119,6 +1123,19 @@
     };
   }
 
+  function whenLeadFirstTouchReady(cb) {
+    if (typeof cb !== 'function') return;
+    if (w.LHILeadFirstTouch) {
+      cb();
+      return;
+    }
+    if (typeof w.__LHI_whenLeadFirstTouchReady === 'function') {
+      w.__LHI_whenLeadFirstTouchReady(cb);
+      return;
+    }
+    cb();
+  }
+
   // Give GTM time to initialize (analytics.js loads on interaction/idle/timeout)
   function boot() {
     getAttribution(); // persist UTMs on first hit
@@ -1137,9 +1154,13 @@
     }
   }
 
+  function start() {
+    whenLeadFirstTouchReady(boot);
+  }
+
   if (d.readyState === 'loading') {
-    d.addEventListener('DOMContentLoaded', boot);
+    d.addEventListener('DOMContentLoaded', start);
   } else {
-    boot();
+    start();
   }
 })(window, document);
