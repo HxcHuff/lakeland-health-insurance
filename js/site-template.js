@@ -429,8 +429,6 @@
       'body.has-watson-notice.get-help-page .help-hero{padding-top:200px;}',
       'body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero{padding-top:240px;}',
       '@media (max-width:720px){body.has-watson-notice.get-help-page .help-hero{padding-top:188px;}body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero{padding-top:232px;}}',
-      'body.has-watson-notice .answer-hero{padding-top:168px;}',
-      '@media (max-width:860px){body.has-watson-notice .answer-hero{padding-top:156px;}}'
     ].join('');
     document.head.appendChild(style);
   }
@@ -512,6 +510,23 @@
     document.querySelectorAll('.click-to-call, .lhi-floating-call, [data-floating-call], .messenger-button, .chat-widget-button').forEach((node) => node.remove());
   }
 
+  function syncSiteHeaderOffset() {
+    var header = document.querySelector('header');
+    if (!header) return;
+    var height = Math.ceil(header.getBoundingClientRect().height);
+    if (!height) return;
+    document.documentElement.style.setProperty('--lhi-site-header-height', height + 'px');
+  }
+
+  var headerOffsetFrame = null;
+  function scheduleSiteHeaderOffsetSync() {
+    if (headerOffsetFrame !== null) return;
+    headerOffsetFrame = window.requestAnimationFrame(function () {
+      headerOffsetFrame = null;
+      syncSiteHeaderOffset();
+    });
+  }
+
   function loadBbbSeal() {
     if (window.LHIBbbSeal) {
       window.LHIBbbSeal.mount();
@@ -521,7 +536,7 @@
     if (document.querySelector('script[src*="/js/bbb-seal.js"]')) return;
 
     const script = document.createElement('script');
-    script.src = '/js/bbb-seal.js?v=20260729-bbb-seal';
+    script.src = '/js/bbb-seal.js?v=20261009-bbb-profile-link';
     script.defer = true;
     document.body.append(script);
   }
@@ -631,6 +646,9 @@
 
     wireMenu();
     loadBbbSeal();
+    syncSiteHeaderOffset();
+    window.addEventListener('resize', scheduleSiteHeaderOffsetSync, { passive: true });
+    window.addEventListener('orientationchange', scheduleSiteHeaderOffsetSync, { passive: true });
   }
 
   window.LHISiteChrome = {

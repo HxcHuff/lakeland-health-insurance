@@ -15,7 +15,8 @@ body {
   background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%);
   border-bottom: 4px solid #D4A843;
   color: #fff;
-  padding: 132px 20px 44px;
+  padding: calc(var(--lhi-site-header-height, 108px) + 28px) 20px 44px;
+  scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 16px);
 }
 
 .answer-hero .eyebrow {
@@ -141,7 +142,7 @@ h3 {
 .side-card {
   background: #f9fafc;
   position: sticky;
-  top: 104px;
+  top: calc(var(--lhi-site-header-height, 108px) + 16px);
 }
 
 .answer-snippet {
@@ -271,7 +272,8 @@ a:focus-visible,
 
 @media (max-width: 860px) {
   .answer-hero {
-    padding-top: 112px;
+    padding-top: calc(var(--lhi-site-header-height, 108px) + 20px);
+    scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 12px);
   }
 
   .answer-grid,
@@ -390,8 +392,9 @@ a:focus-visible,
   border-bottom: 0;
   color: var(--hub-ink);
   overflow: hidden;
-  padding: 160px 24px 72px;
+  padding: calc(var(--lhi-site-header-height, 108px) + 52px) 24px 72px;
   position: relative;
+  scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 16px);
 }
 
 .medicare-hero::before {
@@ -494,10 +497,6 @@ a:focus-visible,
 .answer-hero.medicare-hero a.hub-phone-link:not(.btn):not(.hero-cta):not(.lp-primary-call),
 .answer-hero.medicare-hero a.hub-scenario-shortcut:not(.btn):not(.hero-cta):not(.lp-primary-call) {
   color: var(--hub-ink);
-}
-
-body.has-seasonal-banner .medicare-hero {
-  padding-top: 204px;
 }
 
 .hub-season-alert {
@@ -1570,7 +1569,7 @@ body.has-seasonal-banner .medicare-hero {
 @media (max-width: 860px) {
   .medicare-hero {
     padding-bottom: 54px;
-    padding-top: 108px;
+    padding-top: calc(var(--lhi-site-header-height, 108px) + 20px);
   }
 
   .medicare-hero-grid,

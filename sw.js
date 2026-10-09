@@ -1,6 +1,6 @@
 const CACHE_NAME = 'lhi-20261007-spam-guard';
 const OFFLINE_URL = '/offline.html';
-const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261009-thank-you-ship-hold';
+const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261009-hero-header-offset';
 
 // Core pages to pre-cache for offline access
 const PRECACHE_URLS = [

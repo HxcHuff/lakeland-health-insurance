@@ -186,10 +186,13 @@ test('Medicare hub is a current-season, privacy-minimized, keyboard-accessible l
   assert.match(css, /\.hub-skip-link:focus\s*{[^}]*transform:\s*translateY\(0\)/s);
   assert.match(css, /\.hub-scenario-shortcut\s*{[^}]*min-height:\s*44px/s);
   assert.match(css, /\.hub-disclosures \.tpmo-standard-disclaimer\s*{[^}]*font-size:\s*1rem/s);
-  assert.match(html, /answer-pages\.css\?v=20261008-answer-snippet-hero-contrast/);
+  assert.match(html, /answer-pages\.css\?v=20261009-hero-header-offset/);
   assert.match(css, /\.answer-hero\.medicare-hero \.tpmo-cta-disclaimer\s*{[^}]*color:\s*var\(--navy/s);
   assert.match(css, /\.answer-hero\.medicare-hero a:not\(\.btn\):not\(\.hero-cta\):not\(\.lp-primary-call\)\s*{[^}]*color:\s*var\(--hub-blue/s);
-  assert.match(css, /\.medicare-hero\s*{[^}]*padding:\s*160px 24px 72px/s);
+  assert.match(
+    css,
+    /\.medicare-hero\s*{[^}]*padding:\s*calc\(var\(--lhi-site-header-height, 108px\) \+ 52px\) 24px 72px/s,
+  );
 });
 
 test('get-help step navigation moves focus after user-triggered transitions only', () => {

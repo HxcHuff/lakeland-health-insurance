@@ -6,7 +6,7 @@ import test from 'node:test';
 import { chromium } from 'playwright';
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
-const ANSWER_PAGES_VERSION = '20261008-answer-snippet-hero-contrast';
+const ANSWER_PAGES_VERSION = '20261009-hero-header-offset';
 
 const LOCAL_ANSWER_PAGES = [
   '/local-health-insurance-answers/',
