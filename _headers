@@ -10,6 +10,9 @@
 /404.html
   X-Robots-Tag: noindex, nofollow
 
+/assets/ads/*
+  X-Robots-Tag: noindex
+
 /health-insurance-georgia/
   X-Robots-Tag: noindex, nofollow
 
