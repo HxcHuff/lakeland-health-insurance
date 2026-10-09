@@ -510,12 +510,46 @@
     document.querySelectorAll('.click-to-call, .lhi-floating-call, [data-floating-call], .messenger-button, .chat-widget-button').forEach((node) => node.remove());
   }
 
+  var SITE_HEADER_HEIGHT_BUFFER_PX = 8;
+  var siteHeaderResizeObserver = null;
+  var observedSiteHeader = null;
+
   function syncSiteHeaderOffset() {
     var header = document.querySelector('header');
     if (!header) return;
     var height = Math.ceil(header.getBoundingClientRect().height);
     if (!height) return;
+    height += SITE_HEADER_HEIGHT_BUFFER_PX;
     document.documentElement.style.setProperty('--lhi-site-header-height', height + 'px');
+  }
+
+  function bindSiteHeaderOffsetObserver(header) {
+    if (!header || typeof ResizeObserver === 'undefined') return;
+    if (!siteHeaderResizeObserver) {
+      siteHeaderResizeObserver = new ResizeObserver(function () {
+        scheduleSiteHeaderOffsetSync();
+      });
+    } else if (observedSiteHeader && observedSiteHeader !== header) {
+      try {
+        siteHeaderResizeObserver.unobserve(observedSiteHeader);
+      } catch (error) {}
+    }
+    siteHeaderResizeObserver.observe(header);
+    observedSiteHeader = header;
+  }
+
+  function initSiteHeaderOffsetTracking(header) {
+    var target = header || document.querySelector('header');
+    if (!target) return;
+    syncSiteHeaderOffset();
+    bindSiteHeaderOffsetObserver(target);
+    if (document.fonts && typeof document.fonts.ready !== 'undefined') {
+      document.fonts.ready.then(function () {
+        scheduleSiteHeaderOffsetSync();
+      }).catch(function () {
+        scheduleSiteHeaderOffsetSync();
+      });
+    }
   }
 
   var headerOffsetFrame = null;
@@ -646,7 +680,7 @@
 
     wireMenu();
     loadBbbSeal();
-    syncSiteHeaderOffset();
+    initSiteHeaderOffsetTracking(nextHeader);
     window.addEventListener('resize', scheduleSiteHeaderOffsetSync, { passive: true });
     window.addEventListener('orientationchange', scheduleSiteHeaderOffsetSync, { passive: true });
   }
