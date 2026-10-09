@@ -241,7 +241,7 @@ test('provider-check routing and rewritten Medicare sitemap dates are canonical'
   assert.doesNotMatch(watson, /intent=provider-prescription(?:["&])/);
   assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/when-can-i-switch-medicare-plans-florida\.html<\/loc>\s*<lastmod>2026-10-07<\/lastmod>/);
   assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/blog\/medicare-supplement-cost-lakeland\.html<\/loc>\s*<lastmod>2026-10-07<\/lastmod>/);
-  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/provider-prescription-check\/<\/loc>\s*<lastmod>2026-10-07<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/lakelandhealthinsurance\.com\/provider-prescription-check\/<\/loc>\s*<lastmod>2026-10-09<\/lastmod>/);
 });
 
 test('privacy policy uses current-season SOA wording without treating expired 2026 exceptions as current', () => {

@@ -61,7 +61,7 @@ const MEDICARE_EDUCATION_PAGES = [
     html: readFileSync(resolve(__dirname, '../blog/aep-2026-polk-county-checklist.html'), 'utf8'),
     pageKey: 'aep_2026_polk_county_checklist',
     pageRole: 'education',
-    ctaKeys: ['request_review_final']
+    ctaKeys: ['request_review_final', 'star_ratings_faq']
   },
   {
     html: readFileSync(resolve(__dirname, '../blog/medicare-supplement-cost-lakeland.html'), 'utf8'),
