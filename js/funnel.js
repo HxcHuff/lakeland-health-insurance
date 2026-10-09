@@ -64,6 +64,7 @@
       page_role: 'education',
       cta_keys: {
         request_review_final: true,
+        star_ratings_faq: true,
         menu_get_help: true,
         header_talk_to_david: true,
         footer_start_plan_review: true
