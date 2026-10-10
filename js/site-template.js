@@ -275,7 +275,7 @@
     ['/provider-prescription-check/', 'Check doctors & Rx'],
     ['/plans/', 'Coverage Options'],
     ['/carriers/', 'Carriers'],
-    ['/states/', "States I'm licensed in"],
+    ['/states/', 'States'],
     ['/blog/', 'Blog'],
     ['/learning/', 'Learn'],
     ['/about/', 'About']
@@ -426,8 +426,6 @@
       '.watson-notice-dismiss{background:transparent;border:1px solid rgba(255,255,255,0.85);border-radius:999px;color:#fff;cursor:pointer;flex:0 0 auto;font:inherit;font-size:0.72rem;font-weight:800;line-height:1;min-height:26px;padding:2px 8px;}',
       '.watson-notice-dismiss:hover,.watson-notice-dismiss:focus-visible{background:rgba(255,255,255,0.12);color:#fff;}',
       '.watson-notice a:focus-visible,.watson-notice-dismiss:focus-visible{outline:2px solid #fff;outline-offset:2px;}',
-      'body.has-watson-notice .home-hero{padding-top:calc(clamp(96px, 10vw, 132px) + 34px);}',
-      'body.has-seasonal-banner.has-watson-notice .home-hero{padding-top:calc(clamp(96px, 10vw, 132px) + 74px);}',
       'body.has-watson-notice.get-help-page .help-hero{padding-top:200px;}',
       'body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero{padding-top:240px;}',
       '@media (max-width:720px){body.has-watson-notice.get-help-page .help-hero{padding-top:188px;}body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero{padding-top:232px;}}',
