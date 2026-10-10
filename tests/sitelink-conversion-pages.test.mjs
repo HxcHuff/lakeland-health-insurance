@@ -154,7 +154,7 @@ test('every public click-to-call link uses the verified E.164 target and tracked
     for (const target of phoneTargets) assert.equal(target, 'tel:+18636403102', file);
     assert.match(
       html,
-      /\/js\/analytics\.js\?v=2026100[78]-/,
+      /\/js\/analytics\.js\?v=20261010-dual-call-conversion/,
       `${file} loads the canonical phone telemetry and forwarding-number handler`
     );
   }

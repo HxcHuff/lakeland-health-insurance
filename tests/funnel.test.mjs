@@ -650,11 +650,13 @@ test('legacy phone_call remains supported through shared helper', () => {
   assert.ok(dataLayer.some((entry) => entry.event === 'phone_call'), 'legacy phone_call event still fires');
 });
 
-test('website-call conversion uses the verified Ads tag while click telemetry remains separate', () => {
-  assert.match(
-    ANALYTICS_SRC,
-    /gtag\('config', 'AW-300112445\/MVhNCILUi-IaEL20jY8B', \{\s*phone_conversion_number: '\(863\) 640-3102',\s*phone_conversion_callback: applyGoogleForwardingNumber\s*\}\);/s
-  );
+test('website-call conversion uses both verified Ads phone tags while click telemetry remains separate', () => {
+  const phoneConversionConfigPattern =
+    /gtag\('config', 'AW-300112445\/[^']+', \{\s*phone_conversion_number: '\(863\) 640-3102',\s*phone_conversion_callback: applyGoogleForwardingNumber\s*\}\);/gs;
+  const phoneConversionConfigs = [...ANALYTICS_SRC.matchAll(phoneConversionConfigPattern)];
+  assert.equal(phoneConversionConfigs.length, 2, 'both phone conversion configs are present');
+  assert.match(ANALYTICS_SRC, /AW-300112445\/MVhNCILUi-IaEL20jY8B/);
+  assert.match(ANALYTICS_SRC, /AW-300112445\/1lFWCNG3l5gdEL20jY8B/);
   assert.match(ANALYTICS_SRC, /pushDataLayerEvent\('phone_call_click', params\);/);
   assert.match(ANALYTICS_SRC, /gtag\('config', 'AW-300112445', \{ send_page_view: false \}\);/);
   assert.doesNotMatch(ANALYTICS_SRC, /LHIEnhancedConversions|ENHANCED_CONVERSIONS_ENABLED/i);
@@ -862,7 +864,12 @@ test('listener-order-safe DOMContentLoaded retry initializes website-call tracki
   assert.equal(
     loaded.dataLayer.filter((entry) => entry && entry[0] === 'config' && entry[1] === 'AW-300112445/MVhNCILUi-IaEL20jY8B').length,
     1,
-    'website-call conversion initializes exactly once'
+    'primary website-call conversion initializes exactly once'
+  );
+  assert.equal(
+    loaded.dataLayer.filter((entry) => entry && entry[0] === 'config' && entry[1] === 'AW-300112445/1lFWCNG3l5gdEL20jY8B').length,
+    1,
+    'secondary website-call conversion initializes exactly once'
   );
 
   loaded.dispatch('DOMContentLoaded');
@@ -934,6 +941,10 @@ test('website-call callback updates every link, preserves labels and markup, and
   assert.match(labelLink.textContent, /\(321\) 555-0199/);
   assert.doesNotMatch(labelLink.textContent, /\(407\) 555-0112/);
   assert.equal(labelLink.querySelector('[data-lhi-forwarding-number]').textContent, ': (321) 555-0199');
+
+  assert.equal(tracking.applyGoogleForwardingNumber('(321) 555-0199', '+13215550199'), 0);
+  assert.ok(labelLink.querySelector('[data-lhi-forwarding-number]'), 'forwarding suffix is not duplicated');
+  assert.equal(labelLink.getAttribute('aria-label'), 'Call David, (321) 555-0199');
 
   loaded.dispatch('click', labelLink);
   const canonical = loaded.dataLayer.filter((entry) => entry && entry.event === 'phone_call_click');
@@ -1263,7 +1274,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
     assert.equal(ctas.some((cta) => cta.ctaKey === null), false, `${expected.pageKey} has an unkeyed in-content Get Help CTA`);
     assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
-    assert.match(html, /\/js\/analytics\.js\?v=2026100[78]-/);
+    assert.match(html, /\/js\/analytics\.js\?v=20261010-dual-call-conversion/);
 
     for (const cta of ctas) {
       const url = new URL(cta.href, 'https://lakelandhealthinsurance.com');
@@ -1639,7 +1650,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
 test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /David will reach out shortly\./);
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
-  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261008-first-touch-sync/);
+  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261010-dual-call-conversion/);
 });
 
 test('direct thank-you visits show customer-facing help copy', () => {

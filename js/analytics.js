@@ -686,6 +686,10 @@
       phone_conversion_number: '(863) 640-3102',
       phone_conversion_callback: applyGoogleForwardingNumber
     });
+    window.gtag('config', 'AW-300112445/1lFWCNG3l5gdEL20jY8B', {
+      phone_conversion_number: '(863) 640-3102',
+      phone_conversion_callback: applyGoogleForwardingNumber
+    });
   }
 
   function refreshWebsiteCallTracking() {
