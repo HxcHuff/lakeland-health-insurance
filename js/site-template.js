@@ -275,6 +275,7 @@
     ['/provider-prescription-check/', 'Check doctors & Rx'],
     ['/plans/', 'Coverage Options'],
     ['/carriers/', 'Carriers'],
+    ['/states/', "States I'm licensed in"],
     ['/blog/', 'Blog'],
     ['/learning/', 'Learn'],
     ['/about/', 'About']
@@ -289,6 +290,7 @@
       ['/provider-prescription-check/', 'Check doctors & Rx'],
       ['/plans/', 'Coverage Options'],
       ['/carriers/', 'Carriers'],
+      ['/states/', "States I'm licensed in"],
       ['/blog/', 'Blog'],
       ['/learning/', 'Learn'],
       ['/about/', 'About'],

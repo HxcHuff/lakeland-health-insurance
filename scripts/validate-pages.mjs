@@ -20,7 +20,7 @@ const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/site-template.css', '20261009-hero-header-offset'],
   ['/css/blog-unified.css', '20260803-brand-release'],
-  ['/js/site-template.js', '20261009-header-offset-fonts'],
+  ['/js/site-template.js', '20261010-indexing-internal-links'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
 ]);
