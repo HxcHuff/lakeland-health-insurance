@@ -926,16 +926,16 @@ header.has-seasonal-banner {
   box-shadow: var(--shadow-md);
 }
 
-body.has-seasonal-banner .home-hero {
-  padding-top: calc(clamp(96px, 10vw, 132px) + 40px);
+.home-hero {
+  padding-top: calc(var(--lhi-site-header-height, 108px) + 28px);
+  scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 16px);
 }
 
-body.has-watson-notice .home-hero {
-  padding-top: calc(clamp(96px, 10vw, 132px) + 34px);
-}
-
-body.has-seasonal-banner.has-watson-notice .home-hero {
-  padding-top: calc(clamp(96px, 10vw, 132px) + 74px);
+@media (max-width: 768px) {
+  .home-hero {
+    padding-top: calc(var(--lhi-site-header-height, 108px) + 20px);
+    scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 12px);
+  }
 }
 
 body.has-watson-notice.get-help-page .help-hero {

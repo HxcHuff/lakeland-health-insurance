@@ -18,9 +18,9 @@ const FORBIDDEN_SERVICE_CLAIMS = [
 const CLIENT_COPY_FILES = ['js/site-search.js', 'js/blog-cta.js', 'js/site-template.js'];
 const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const RELEASE_ASSET_VERSIONS = new Map([
-  ['/css/site-template.css', '20261009-hero-header-offset'],
+  ['/css/site-template.css', '20261010-home-hero-header-fix'],
   ['/css/blog-unified.css', '20260803-brand-release'],
-  ['/js/site-template.js', '20261010-indexing-internal-links'],
+  ['/js/site-template.js', '20261010-home-hero-header-fix'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
 ]);
@@ -38,7 +38,7 @@ const FORBIDDEN_PUBLIC_FILES = [
 const FORBIDDEN_PUBLIC_DIRS = new Set(['search-engine-from-zip']);
 
 const SKIP_DIRS = new Set([
-  '.git', '.claude', '.audit-data', 'audit', 'node_modules', 'netlify', '.netlify', 'output', 'tests', 'scripts',
+  '.git', '.claude', '.audit-data', 'audit', 'node_modules', 'netlify', '.netlify', 'output', 'tests', 'scripts', '.ai-worker-local',
 ]);
 
 const SKIP_FILES = new Set([
