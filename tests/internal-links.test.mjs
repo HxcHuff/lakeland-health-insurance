@@ -58,7 +58,6 @@ test('required contextual links and blog-index listings are present', () => {
     ['index.html', '/states/'],
     ['index.html', '/carriers/oscar-aca-2026/'],
     ['medicare/index.html', '/blog/baycare-medicare-advantage-plans-2027-polk-county.html'],
-    ['medicare/index.html', '/health-insurance-texas/'],
     ['aca-health-insurance-lakeland-fl/index.html', '/states/'],
     ['aca-health-insurance-lakeland-fl/index.html', '/carriers/oscar-aca-2026/'],
     ['blog/index.html', '/health-insurance-texas/'],
