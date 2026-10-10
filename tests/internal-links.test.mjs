@@ -54,7 +54,15 @@ test('required contextual links and blog-index listings are present', () => {
     ['plans/index.html', '/quote/'],
     ['learning/index.html', '/quote/'],
     ['get-help/index.html', '/book/'],
-    ['contact/index.html', '/book/']
+    ['contact/index.html', '/book/'],
+    ['index.html', '/states/'],
+    ['index.html', '/carriers/oscar-aca-2026/'],
+    ['medicare/index.html', '/blog/baycare-medicare-advantage-plans-2027-polk-county.html'],
+    ['aca-health-insurance-lakeland-fl/index.html', '/states/'],
+    ['aca-health-insurance-lakeland-fl/index.html', '/carriers/oscar-aca-2026/'],
+    ['blog/index.html', '/health-insurance-texas/'],
+    ['carriers/index.html', '/carriers/oscar-aca-2026/'],
+    ['coverage-center/index.html', '/states/']
   ];
   for (const [file, href] of required) {
     const html = readFileSync(join(ROOT, file), 'utf8');

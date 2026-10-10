@@ -20,7 +20,7 @@ const SERVICE_WORKER = readFileSync(join(ROOT, 'sw.js'), 'utf8');
 const HOME = readFileSync(join(ROOT, 'index.html'), 'utf8');
 const BLOG = readFileSync(join(ROOT, 'blog/index.html'), 'utf8');
 const NETLIFY_IGNORE = readFileSync(join(ROOT, '.netlifyignore'), 'utf8');
-const SITE_TEMPLATE_LOADER = '/js/site-template.js?v=20261009-header-offset-fonts';
+const SITE_TEMPLATE_LOADER = '/js/site-template.js?v=20261010-indexing-internal-links';
 
 const RETIRED_FILES = [
   'blog/ads-manager-setup-checklist.html',
@@ -236,7 +236,7 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
   assert.match(COVERAGE_CENTER, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/coverage-center\/">/);
   assert.match(COVERAGE_CENTER, /<title>Lakeland Coverage Center \| Medicare &amp; Under-65 Plan Help<\/title>/);
   assert.match(COVERAGE_CENTER, /\/css\/site-template\.css\?v=20261009-hero-header-offset/);
-  assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261009-header-offset-fonts/);
+  assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261010-indexing-internal-links/);
   assert.match(COVERAGE_CENTER, /"@type": "BreadcrumbList"/);
   assert.match(COVERAGE_CENTER, /Lakeland Health Insurance · Lakeland, FL 33805 · By appointment/);
   assert.match(COVERAGE_CENTER, /FL License #W371813 \/ NPN 18213932/);
@@ -253,14 +253,14 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
   assert.match(HOME, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(QUOTE, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(SITE_SEARCH, /url: "\/coverage-center\/"/);
-  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/coverage-center\/<\/loc>\s*<lastmod>2026-10-08<\/lastmod>/);
+  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/coverage-center\/<\/loc>\s*<lastmod>2026-10-10<\/lastmod>/);
 });
 
 test('ACA pricing CTA reaches the quote actions without legacy router language', () => {
   assert.match(ACA, /href="\/quote\/">Get pricing or start a review<\/a>/);
   assert.doesNotMatch(ACA, /coverage router/i);
-  assert.match(ACA, /"dateModified": "2026-09-30"/);
-  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/aca-health-insurance-lakeland-fl\/<\/loc>\s*<lastmod>2026-09-30<\/lastmod>/);
+  assert.match(ACA, /"dateModified": "2026-10-10"/);
+  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/aca-health-insurance-lakeland-fl\/<\/loc>\s*<lastmod>2026-10-10<\/lastmod>/);
 });
 
 test('private medical insurance route separates product categories and keeps intake privacy-minimized', () => {
@@ -304,7 +304,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   }
 
   assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261007-spam-guard';/);
-  assert.match(SERVICE_WORKER, /const SITE_TEMPLATE_URL = '\/js\/site-template\.js\?v=20261009-header-offset-fonts';/);
+  assert.match(SERVICE_WORKER, /const SITE_TEMPLATE_URL = '\/js\/site-template\.js\?v=20261010-indexing-internal-links';/);
   assert.match(SERVICE_WORKER, /requestUrl\.pathname === '\/js\/site-template\.js'/);
   assert.match(SERVICE_WORKER, /fetchSharedTemplate\(request\)/);
 });
