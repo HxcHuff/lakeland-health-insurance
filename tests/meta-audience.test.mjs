@@ -230,7 +230,7 @@ const EXPECTED_CALLS = [
 
 function htmlFiles(dir = ROOT, out = []) {
   for (const name of readdirSync(dir)) {
-    if (['.git', '.claude', 'node_modules', 'search-engine-from-zip', 'output', 'audit', 'netlify', 'tests', 'scripts'].includes(name)) continue;
+    if (['.git', '.claude', 'node_modules', 'search-engine-from-zip', 'output', 'audit', 'netlify', 'tests', 'scripts', '.ai-worker-local'].includes(name)) continue;
     const full = join(dir, name);
     const info = statSync(full);
     if (info.isDirectory()) htmlFiles(full, out);
