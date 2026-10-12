@@ -26,6 +26,7 @@ const MEDICARE_SHIP_PAGES = [
   'medicare-broker-lakeland-fl/index.html',
   'medicare-part-d-lakeland-fl/index.html',
   'working-past-65-medicare-lakeland-fl/index.html',
+  'retiring-and-medicare-lakeland-fl/index.html',
   'moving-florida-medicare/index.html',
   'lp/medicare/index.html',
   'local-health-insurance-answers/medicare-plan-help-lakeland/index.html',
@@ -162,6 +163,7 @@ test('shared chrome uses SHIP on Medicare and compliance HOLD paths', () => {
   assert.equal(chrome.shouldUseShipDisclaimer('/medicare/'), true);
   assert.equal(chrome.shouldUseShipDisclaimer('/medicare-broker-lakeland-fl/'), true);
   assert.equal(chrome.shouldUseShipDisclaimer('/medicare-part-d-lakeland-fl/'), true);
+  assert.equal(chrome.shouldUseShipDisclaimer('/retiring-and-medicare-lakeland-fl/'), true);
   assert.equal(chrome.shouldUseShipDisclaimer('/blog/when-can-i-switch-medicare-plans-florida.html'), true);
   assert.equal(chrome.shouldUseShipDisclaimer('/blog/do-i-need-part-b-with-employer-insurance.html'), true);
   assert.equal(chrome.shouldUseShipDisclaimer('/'), true);

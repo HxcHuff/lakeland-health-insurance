@@ -68,7 +68,8 @@ test('homepage Medicare paths, Medicare hub, and working-past-65 link only to th
   const pages = [
     ['index.html', /href="\/medicare-broker-lakeland-fl\/">Medicare broker in Lakeland</],
     ['medicare/index.html', /href="\/medicare-broker-lakeland-fl\/"/],
-    ['working-past-65-medicare-lakeland-fl/index.html', /href="\/medicare-broker-lakeland-fl\/">Licensed Lakeland Medicare agent</]
+    ['working-past-65-medicare-lakeland-fl/index.html', /href="\/medicare-broker-lakeland-fl\/">Licensed Lakeland Medicare agent</],
+    ['retiring-and-medicare-lakeland-fl/index.html', /href="\/medicare-broker-lakeland-fl\/">Licensed Lakeland Medicare agent</]
   ];
   for (const [rel, required] of pages) {
     const html = source(rel);

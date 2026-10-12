@@ -161,6 +161,18 @@
         footer_start_plan_review: true
       }
     },
+    '/retiring-and-medicare-lakeland-fl/': {
+      page_key: 'retiring_and_medicare_lakeland_fl',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
     /* Historical selection URL. The public path 301s to /medicare-broker-lakeland-fl/.
        Keep the page_key so inbound Get Help links still attribute. */
     '/best-medicare-broker-lakeland-fl/': {
