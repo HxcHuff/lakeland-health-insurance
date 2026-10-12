@@ -2201,7 +2201,7 @@ test('Get Help stores only bounded Medicare attribution and approved campaign fi
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
   }
   assert.doesNotMatch(GET_HELP_HTML, /name="fbclid"/);
-  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20261012-az-medicare-licensed/);
+  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20261012-get-help-out-of-state/);
   for (const field of [
     'lead_source',
     'lead_medium',

@@ -303,6 +303,59 @@
     TN: true,
     TX: true
   };
+  var US_STATE_CODES = {
+    AL: true,
+    AK: true,
+    AZ: true,
+    AR: true,
+    CA: true,
+    CO: true,
+    CT: true,
+    DE: true,
+    DC: true,
+    FL: true,
+    GA: true,
+    HI: true,
+    ID: true,
+    IL: true,
+    IN: true,
+    IA: true,
+    KS: true,
+    KY: true,
+    LA: true,
+    ME: true,
+    MD: true,
+    MA: true,
+    MI: true,
+    MN: true,
+    MS: true,
+    MO: true,
+    MT: true,
+    NE: true,
+    NV: true,
+    NH: true,
+    NJ: true,
+    NM: true,
+    NY: true,
+    NC: true,
+    ND: true,
+    OH: true,
+    OK: true,
+    OR: true,
+    PA: true,
+    RI: true,
+    SC: true,
+    SD: true,
+    TN: true,
+    TX: true,
+    UT: true,
+    VT: true,
+    VA: true,
+    WA: true,
+    WV: true,
+    WI: true,
+    WY: true
+  };
   var STATE_SLUG_TO_CODE = {
     alabama: 'AL',
     arizona: 'AZ',
@@ -414,6 +467,11 @@
     return hasOwn(LICENSED_COVERAGE_STATES, code) ? code : '';
   }
 
+  function normalizedUsStateCode(raw) {
+    var code = String(raw || '').trim().toUpperCase();
+    return hasOwn(US_STATE_CODES, code) ? code : '';
+  }
+
   function coverageStateFromReferrer(referrerValue) {
     var raw = referrerValue == null ? document.referrer : referrerValue;
     if (!raw) return '';
@@ -429,7 +487,9 @@
   }
 
   function resolveCoverageState(qs, referrerValue) {
-    return allowlistedCoverageState(qs && qs.get ? qs.get('state') : '') || coverageStateFromReferrer(referrerValue);
+    var fromQuery = normalizedUsStateCode(qs && qs.get ? qs.get('state') : '');
+    if (fromQuery) return fromQuery;
+    return coverageStateFromReferrer(referrerValue);
   }
 
   function isOutOfStateMedicareCoverageState(code) {
@@ -456,7 +516,7 @@
   }
 
   function syncGetHelpMedicareDisclosures(coverageState) {
-    var code = allowlistedCoverageState(coverageState) || String(coverageState || '').trim().toUpperCase();
+    var code = normalizedUsStateCode(coverageState) || allowlistedCoverageState(coverageState);
     if (isOutOfStateMedicareCoverageState(code)) {
       hideFloridaTpmoForOutOfState();
       return;
@@ -932,8 +992,10 @@
     referralClass: referralClass,
     medicareSourceContext: medicareSourceContext,
     allowlistedCoverageState: allowlistedCoverageState,
+    normalizedUsStateCode: normalizedUsStateCode,
     coverageStateFromReferrer: coverageStateFromReferrer,
     resolveCoverageState: resolveCoverageState,
+    syncGetHelpMedicareDisclosures: syncGetHelpMedicareDisclosures,
     isOutOfStateMedicareCoverageState: isOutOfStateMedicareCoverageState,
     licensedMedicareStates: LICENSED_MEDICARE_STATES
   };
