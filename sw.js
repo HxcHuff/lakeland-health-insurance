@@ -1,6 +1,7 @@
-const CACHE_NAME = 'lhi-20261007-spam-guard';
+const CACHE_NAME = 'lhi-20261012-call-tracking';
 const OFFLINE_URL = '/offline.html';
-const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261010-home-hero-header-fix';
+const SITE_PHONE_URL = '/js/site-phone.js?v=20261012-call-tracking';
+const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261012-call-tracking';
 
 // Core pages to pre-cache for offline access
 const PRECACHE_URLS = [
@@ -9,6 +10,7 @@ const PRECACHE_URLS = [
   '/about/',
   '/blog/',
   '/css/blog.css',
+  SITE_PHONE_URL,
   SITE_TEMPLATE_URL,
   '/manifest.json',
   OFFLINE_URL
@@ -91,7 +93,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Shared navigation: revalidate before using the cached release asset.
-  if (requestUrl.pathname === '/js/site-template.js') {
+  if (requestUrl.pathname === '/js/site-template.js' || requestUrl.pathname === '/js/site-phone.js') {
     event.respondWith(fetchSharedTemplate(request));
     return;
   }

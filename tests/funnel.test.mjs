@@ -38,7 +38,7 @@ const EXTERNAL_QUOTE_SELECTOR = 'a[data-funnel-external-quote], a[href*="healths
 const MEDICARE_HUB_HTML = readFileSync(resolve(__dirname, '../medicare/index.html'), 'utf8');
 const MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../medicare-broker-lakeland-fl/index.html'), 'utf8');
 const COVERAGE_CENTER_HTML = readFileSync(resolve(__dirname, '../coverage-center/index.html'), 'utf8');
-const WEBSITE_CALL_SELECTOR = 'a[href="tel:+18636403102"], a[data-lhi-business-phone="+18636403102"]';
+const WEBSITE_CALL_SELECTOR = 'a[href="tel:+18634742500"], a[data-lhi-business-phone="+18636403102"]';
 const CITY_LEAD_PAGES = [
   'brandon-health-insurance',
   'clearwater-health-insurance',
@@ -302,7 +302,7 @@ function makeAnalyticsDomElement(tagName, text = '', attributes = {}) {
 }
 
 function makeWebsiteCallLink({ text, ariaLabel = null, analyticsLabel = null, nested = false }) {
-  const attributes = { href: 'tel:+18636403102' };
+  const attributes = { href: 'tel:+18634742500' };
   if (ariaLabel) attributes['aria-label'] = ariaLabel;
   if (analyticsLabel) attributes['data-analytics-label'] = analyticsLabel;
   const link = makeAnalyticsDomElement('a', '', attributes);
@@ -652,7 +652,7 @@ test('legacy phone_call remains supported through shared helper', () => {
 
 test('website-call conversion uses both verified Ads phone tags while click telemetry remains separate', () => {
   const phoneConversionConfigPattern =
-    /gtag\('config', 'AW-300112445\/[^']+', \{\s*phone_conversion_number: '\(863\) 640-3102',\s*phone_conversion_callback: applyGoogleForwardingNumber\s*\}\);/gs;
+    /gtag\('config', 'AW-300112445\/[^']+', \{\s*phone_conversion_number: '\(863\) 474-2500',\s*phone_conversion_callback: applyGoogleForwardingNumber\s*\}\);/gs;
   const phoneConversionConfigs = [...ANALYTICS_SRC.matchAll(phoneConversionConfigPattern)];
   assert.equal(phoneConversionConfigs.length, 2, 'both phone conversion configs are present');
   assert.match(ANALYTICS_SRC, /AW-300112445\/MVhNCILUi-IaEL20jY8B/);
@@ -958,7 +958,7 @@ test('website-call callback rejects malformed forwarding values without changing
 
   assert.equal(tracking.applyGoogleForwardingNumber('<script>alert(1)</script>', '+14075550112'), 0);
   assert.equal(tracking.applyGoogleForwardingNumber('(407) 555-0112', 'javascript:alert(1)'), 0);
-  assert.equal(link.getAttribute('href'), 'tel:+18636403102');
+  assert.equal(link.getAttribute('href'), 'tel:+18634742500');
   assert.equal(link.textContent, 'Call David');
 });
 
@@ -2050,7 +2050,7 @@ test('legacy campaign aliases land on current canonical articles', () => {
 });
 
 test('shared release invalidates stale asset caches and keeps desktop navigation on one row', () => {
-  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261007-spam-guard';/);
+  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261012-call-tracking';/);
   assert.match(SITE_TEMPLATE_CSS, /header \.nav-links\s*\{[^}]*flex-wrap:\s*nowrap;/s);
 });
 
@@ -2239,7 +2239,7 @@ test('shared attribution hydrates hero ZIP and lead forms with a bounded multi-w
 
 test('homepage hero opens the review directly and get-help still accepts ZIP query values', () => {
   assert.match(HOME_HTML, /href="\/get-help\/"[^>]*data-lhi-ab-home-primary[^>]*>Review my coverage<\/a>/);
-  assert.match(HOME_HTML, /href="tel:\+18636403102">Call \(863\) 640-3102<\/a>/);
+  assert.match(HOME_HTML, /href="tel:\+18634742500">Call \(863\) 474-2500<\/a>/);
   assert.match(HOME_HTML, /class="home-sticky-cta"/);
   assert.match(GET_HELP_SRC, /setValue\('zipCode', qsValue\(qs, 'zip_code'\)\);/);
 });

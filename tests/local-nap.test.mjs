@@ -75,8 +75,15 @@ test('homepage #agency JSON-LD includes 2298 streetAddress, phone, Maps sameAs, 
   assert.equal(Number(agency.geo?.longitude), AGENCY_LNG);
 });
 
+test('site phone config keeps canonical NAP separate from website call tracking', () => {
+  const config = source('js/site-phone.js');
+  assert.match(config, /e164: '\+18636403102'/);
+  assert.match(config, /e164: '\+18634742500'/);
+});
+
 test('footer partial and required visible NAP surfaces show 2298 street and By appointment', () => {
   const footer = source('js/site-template.js');
+  assert.match(footer, /napPhoneHref/);
   assert.match(footer, /2298 Lakeland Hills Blvd, Lakeland, FL 33805 · By appointment/);
   assert.doesNotMatch(footer, /healthmarkets/i);
 

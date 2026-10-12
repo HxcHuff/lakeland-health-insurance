@@ -143,7 +143,8 @@ test('TPMO is in the sitewide footer template and bottom disclosure blocks', () 
   assert.match(getHelp, /class="site-page-disclosures"/);
   assert.ok(getHelp.includes(MEDICARE_SHIP_DISCLAIMER), 'Get Help shows the SHIP TPMO text in the bottom block');
   assert.match(getHelp, /Start my request/);
-  assert.match(getHelp, /Call \(863\) 640-3102/);
+  assert.match(getHelp, /Call \(863\) 474-2500/);
+  assert.match(getHelp, /href="tel:\+18634742500"/);
   assert.match(getHelp, /\(863\) 640-3102/);
   assert.doesNotMatch(getHelp, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.doesNotMatch(medicare, /class="tpmo-cta-disclaimer"/, 'Medicare hub removes inline TPMO near CTAs');
