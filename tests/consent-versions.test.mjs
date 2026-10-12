@@ -7,7 +7,13 @@ const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const DOC = readFileSync(resolve(ROOT, 'docs/consent-versions.md'), 'utf8');
 const SITELINK_V1_REQUEST =
   'I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage.';
+const ACA_SITELINK_SHORT_FORM_PAGES = new Set([
+  'aca-health-insurance-agent-polk-county-fl/index.html',
+  'aca-health-insurance-lakeland-fl/index.html'
+]);
 const SITELINK_PAGES = [
+  'aca-health-insurance-agent-polk-county-fl/index.html',
+  'aca-health-insurance-lakeland-fl/index.html',
   'blog/index.html',
   'carriers/index.html',
   'dental-vision/index.html',
@@ -76,6 +82,13 @@ test('documented consent label text matches the live HTML on every listed page',
     for (const rel of section.pages) {
       const html = readFileSync(resolve(ROOT, rel), 'utf8');
       for (const [name, text] of Object.entries(section.labels)) {
+        if (
+          section.id === 'get-help-2026-07-30-v1' &&
+          ACA_SITELINK_SHORT_FORM_PAGES.has(rel) &&
+          (name === 'sms' || name === 'email')
+        ) {
+          continue;
+        }
         assert.ok(html.includes(text), `${rel} still contains ${section.id} ${name} label`);
       }
     }

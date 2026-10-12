@@ -157,8 +157,12 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
     assert.match(form, /Do not enter/i);
+    assert.match(
+      form,
+      /<p class="sitelink-lead-privacy" data-sitelink-medicare-florida-note hidden>Medicare reviews are available for Florida residents only\.<\/p>/
+    );
 
-    assert.match(html, /\/js\/funnel\.js\?v=20261012-aca-sitelink-coverage/);
+    assert.match(html, /\/js\/funnel\.js\?v=20261012-aca-medicare-fl-note/);
     assert.match(html, /\/css\/site-template\.css\?v=20261010-home-hero-header-fix/);
   });
 }
@@ -168,6 +172,7 @@ test('funnel.js maps ACA sitelink coverage choices to intent fields', async () =
   assert.match(script, /SITELINK_COVERAGE_MAP/);
   assert.match(script, /syncSitelinkCoverageChoice/);
   assert.match(script, /data-sitelink-coverage-choice/);
+  assert.match(script, /data-sitelink-medicare-florida-note/);
 });
 
 test('Medicare direct form preserves the approved hub attribution tuple', async () => {

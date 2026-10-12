@@ -811,11 +811,14 @@
   function syncSitelinkCoverageChoice(form) {
     if (!form || !form.hasAttribute('data-sitelink-coverage-choice')) return;
     var selected = form.querySelector('input[name="coverage_choice"]:checked');
-    var map = selected && SITELINK_COVERAGE_MAP[String(selected.value || '').toLowerCase()];
+    var choice = String(selected && selected.value || '').toLowerCase();
+    var map = selected && SITELINK_COVERAGE_MAP[choice];
     if (!map) return;
     setSitelinkField(form, 'inquiry_type', map.inquiry_type);
     setSitelinkField(form, 'normalized_intent', map.normalized_intent);
     setSitelinkField(form, 'line_of_business', map.line_of_business);
+    var floridaMedicareNote = form.querySelector('[data-sitelink-medicare-florida-note]');
+    if (floridaMedicareNote) floridaMedicareNote.hidden = choice !== 'medicare';
   }
 
   function wireSitelinkCoverageChoice(form) {
