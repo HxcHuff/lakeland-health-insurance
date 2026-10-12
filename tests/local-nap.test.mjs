@@ -78,7 +78,20 @@ test('homepage #agency JSON-LD includes 2298 streetAddress, phone, Maps sameAs, 
 test('site phone config keeps canonical NAP separate from website call tracking', () => {
   const config = source('js/site-phone.js');
   assert.match(config, /e164: '\+18636403102'/);
+  assert.match(config, /display: '\(863\) 640-3102'/);
+  assert.match(config, /href: 'tel:\+18636403102'/);
   assert.match(config, /e164: '\+18634742500'/);
+  assert.match(config, /display: '\(863\) 474-2500'/);
+  assert.match(config, /href: 'tel:\+18634742500'/);
+});
+
+test('shared chrome uses call-tracking display and tel for header and floating call surfaces', () => {
+  const template = source('js/site-template.js');
+  assert.match(template, /display: '\(863\) 474-2500'/);
+  assert.match(template, /href: 'tel:\+18634742500'/);
+  assert.match(template, /\[phoneHref, phoneDisplay\]/);
+  assert.match(template, /napPhoneHref/);
+  assert.match(template, /display: '\(863\) 640-3102'/);
 });
 
 test('footer partial and required visible NAP surfaces show 2298 street and By appointment', () => {

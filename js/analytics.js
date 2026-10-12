@@ -700,6 +700,9 @@
        GTM/GA4 initialization. This is the only eagerly loaded Google tag. */
     ensureGoogleTagScript('AW-300112445');
     window.gtag('config', 'AW-300112445', { send_page_view: false });
+    window.gtag('config', 'AW-300112445/mcKKCKrhwZodEL20jY8B', {
+      'phone_conversion_number': '(863) 474-2500'
+    });
     window.gtag('config', 'AW-300112445/MVhNCILUi-IaEL20jY8B', {
       phone_conversion_number: '(863) 474-2500',
       phone_conversion_callback: applyGoogleForwardingNumber
