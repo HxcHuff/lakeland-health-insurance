@@ -15,6 +15,7 @@ const LOCAL_ANSWER_PAGES = [
   '/local-health-insurance-answers/employee-losing-group-coverage/',
   '/local-health-insurance-answers/self-employed-health-insurance-polk-county/',
   '/local-health-insurance-answers/watson-clinic-insurance-network-help/',
+  '/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/',
 ];
 
 function source(rel) {
@@ -88,7 +89,7 @@ test('local answer hub pages cache-bust answer-pages.css after snippet hero link
   }
 });
 
-test('rendered hero snippet links meet 4.5:1 contrast on all six local answer pages', async () => {
+test('rendered hero snippet links meet 4.5:1 contrast on all local answer pages', async () => {
   const server = await startStaticServer();
   const origin = `http://127.0.0.1:${server.address().port}`;
   const browser = await chromium.launch({
