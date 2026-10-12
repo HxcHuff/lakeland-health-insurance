@@ -430,7 +430,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261008-first-touch-sync';
+    funnel.src = '/js/funnel.js?v=20261012-multi-state-medicare';
     document.head.appendChild(funnel);
   }
 

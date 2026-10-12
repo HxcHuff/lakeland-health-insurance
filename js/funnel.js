@@ -807,6 +807,25 @@
       line_of_business: 'Medicare'
     }
   };
+  var LICENSED_MEDICARE_STATES = {
+    AL: true,
+    FL: true,
+    GA: true,
+    KS: true,
+    NC: true,
+    SC: true,
+    TN: true,
+    TX: true
+  };
+
+  function sitelinkCoverageStateFromQuery() {
+    try {
+      var code = String(new URLSearchParams(w.location.search || '').get('state') || '').trim().toUpperCase();
+      return code.length === 2 ? code : '';
+    } catch (e) {
+      return '';
+    }
+  }
 
   function syncSitelinkCoverageChoice(form) {
     if (!form || !form.hasAttribute('data-sitelink-coverage-choice')) return;
@@ -818,7 +837,14 @@
     setSitelinkField(form, 'normalized_intent', map.normalized_intent);
     setSitelinkField(form, 'line_of_business', map.line_of_business);
     var floridaMedicareNote = form.querySelector('[data-sitelink-medicare-florida-note]');
-    if (floridaMedicareNote) floridaMedicareNote.hidden = choice !== 'medicare';
+    if (floridaMedicareNote) {
+      if (choice !== 'medicare') {
+        floridaMedicareNote.hidden = true;
+      } else {
+        var coverageState = sitelinkCoverageStateFromQuery();
+        floridaMedicareNote.hidden = Boolean(coverageState) && Object.prototype.hasOwnProperty.call(LICENSED_MEDICARE_STATES, coverageState);
+      }
+    }
   }
 
   function wireSitelinkCoverageChoice(form) {
