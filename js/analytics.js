@@ -39,6 +39,8 @@
   var lastPhoneCanonicalAt = 0;
   var BUSINESS_PHONE_E164 = '+18636403102';
   var BUSINESS_PHONE_HREF = 'tel:' + BUSINESS_PHONE_E164;
+  var WEBSITE_CALL_TRACKING_E164 = '+18634742500';
+  var WEBSITE_CALL_TRACKING_HREF = 'tel:' + WEBSITE_CALL_TRACKING_E164;
   var MEDICARE_ATTRIBUTION_SCHEMA_VERSION = 'medicare-attribution.v1';
   var MEDICARE_CONTENT_CLUSTER = 'lakeland_medicare_broker';
   var MEDICARE_PAGE_REGISTRY = {
@@ -469,10 +471,14 @@
     return /(?:\+?1[\s.-]*)?\(?863\)?[\s.-]*640[\s.-]*3102/g;
   }
 
+  function websiteCallDisplayPattern() {
+    return /(?:\+?1[\s.-]*)?\(?863\)?[\s.-]*(?:474[\s.-]*2500|640[\s.-]*3102)/g;
+  }
+
   function replacePhoneTextNodes(root, formattedNumber, previousNumber) {
     var pattern = previousNumber
       ? new RegExp(escapedPattern(previousNumber), 'g')
-      : businessPhonePattern();
+      : websiteCallDisplayPattern();
     var replaced = false;
 
     function visit(node) {
@@ -557,7 +563,7 @@
   }
 
   function websiteCallLinkSelector() {
-    return 'a[href="' + BUSINESS_PHONE_HREF + '"], a[data-lhi-business-phone="' + BUSINESS_PHONE_E164 + '"]';
+    return 'a[href="' + WEBSITE_CALL_TRACKING_HREF + '"], a[data-lhi-business-phone="' + BUSINESS_PHONE_E164 + '"]';
   }
 
   function ensureGoogleConsentDefault() {
@@ -683,11 +689,11 @@
     ensureGoogleTagScript('AW-300112445');
     window.gtag('config', 'AW-300112445', { send_page_view: false });
     window.gtag('config', 'AW-300112445/MVhNCILUi-IaEL20jY8B', {
-      phone_conversion_number: '(863) 640-3102',
+      phone_conversion_number: '(863) 474-2500',
       phone_conversion_callback: applyGoogleForwardingNumber
     });
     window.gtag('config', 'AW-300112445/1lFWCNG3l5gdEL20jY8B', {
-      phone_conversion_number: '(863) 640-3102',
+      phone_conversion_number: '(863) 474-2500',
       phone_conversion_callback: applyGoogleForwardingNumber
     });
   }

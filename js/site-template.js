@@ -1,7 +1,17 @@
 (function () {
-  const phone = '863-640-3102';
-  const phoneDisplay = '(863) 640-3102';
-  const phoneHref = 'tel:+18636403102';
+  var phoneConfig = window.LHIPhone || {};
+  var canonicalPhone = phoneConfig.canonical || {
+    display: '(863) 640-3102',
+    href: 'tel:+18636403102'
+  };
+  var callTrackingPhone = phoneConfig.callTracking || {
+    display: '(863) 474-2500',
+    href: 'tel:+18634742500'
+  };
+  const napPhoneDisplay = canonicalPhone.display;
+  const napPhoneHref = canonicalPhone.href;
+  const phoneDisplay = callTrackingPhone.display;
+  const phoneHref = callTrackingPhone.href;
   const messengerHref = 'https://m.me/1068037236387352';
   const tpmoDisclaimer = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
   const medicareShipDisclaimer = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
@@ -337,7 +347,7 @@
           <div class="footer-column">
             <h3>Contact David</h3>
             <ul>
-              <li><a href="${phoneHref}"><span aria-hidden="true">&#128222;</span> ${phoneDisplay}</a></li>
+              <li><a href="${napPhoneHref}"><span aria-hidden="true">&#128222;</span> ${napPhoneDisplay}</a></li>
               <li><a href="mailto:david@lakelandhealthinsurance.com"><span aria-hidden="true">&#128231;</span> david@lakelandhealthinsurance.com</a></li>
               <li><a href="${messengerHref}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
               <li><span aria-hidden="true">&#128205;</span> Lakeland Health Insurance · 2298 Lakeland Hills Blvd, Lakeland, FL 33805 · By appointment</li>

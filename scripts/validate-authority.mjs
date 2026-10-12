@@ -322,7 +322,7 @@ if (/David is my healthcare savior|David did all the legwork for me/i.test(visib
   issues.push('index.html: copied review excerpts remain without direct current-source evidence');
 }
 for (const required of [
-  'href="tel:+18636403102"',
+  'href="tel:+18634742500"',
   'href="mailto:david@lakelandhealthinsurance.com"',
   'href="/get-help/"',
   'src="/js/analytics.js?v=20261010-dual-call-conversion"'
@@ -362,7 +362,7 @@ if (!hasCurrentDateModified(about)) {
   issues.push('about/index.html: current machine-readable profile dateModified is missing');
 }
 for (const required of [
-  'href="tel:+18636403102"',
+  'href="tel:+18634742500"',
   'href="mailto:david@lakelandhealthinsurance.com"',
   'href="/get-help/"',
   'src="/js/analytics.js?v=20261010-dual-call-conversion"'
@@ -479,7 +479,7 @@ for (const rel of workPackageThreePages) {
   if (!/Primary sources/i.test(text)) issues.push(`${rel}: primary-source section is missing`);
   if (!hasCurrentDateModified(html)) issues.push(`${rel}: current machine-readable dateModified is missing`);
   if (!html.includes('href="/get-help/')) issues.push(`${rel}: Get Help action is missing`);
-  if (!html.includes('href="tel:+18636403102"')) issues.push(`${rel}: phone action is missing`);
+  if (!html.includes('href="tel:+18634742500"')) issues.push(`${rel}: phone action is missing`);
   const expectedAnalyticsLoader = 'src="/js/analytics.js?v=20261010-dual-call-conversion"';
   if (!html.includes(expectedAnalyticsLoader)) issues.push(`${rel}: analytics loader is missing`);
   if (!siteTemplateLoaderPattern.test(html)) issues.push(`${rel}: shared site shell is missing`);

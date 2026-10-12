@@ -20,7 +20,8 @@ const SERVICE_WORKER = readFileSync(join(ROOT, 'sw.js'), 'utf8');
 const HOME = readFileSync(join(ROOT, 'index.html'), 'utf8');
 const BLOG = readFileSync(join(ROOT, 'blog/index.html'), 'utf8');
 const NETLIFY_IGNORE = readFileSync(join(ROOT, '.netlifyignore'), 'utf8');
-const SITE_TEMPLATE_LOADER = '/js/site-template.js?v=20261010-home-hero-header-fix';
+const SITE_PHONE_LOADER = '/js/site-phone.js?v=20261012-call-tracking';
+const SITE_TEMPLATE_LOADER = '/js/site-template.js?v=20261012-call-tracking';
 
 const RETIRED_FILES = [
   'blog/ads-manager-setup-checklist.html',
@@ -236,7 +237,8 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
   assert.match(COVERAGE_CENTER, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/coverage-center\/">/);
   assert.match(COVERAGE_CENTER, /<title>Lakeland Coverage Center \| Medicare &amp; Under-65 Plan Help<\/title>/);
   assert.match(COVERAGE_CENTER, /\/css\/site-template\.css\?v=20261010-home-hero-header-fix/);
-  assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261010-home-hero-header-fix/);
+  assert.match(COVERAGE_CENTER, /\/js\/site-phone\.js\?v=20261012-call-tracking/);
+  assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261012-call-tracking/);
   assert.match(COVERAGE_CENTER, /"@type": "BreadcrumbList"/);
   assert.match(COVERAGE_CENTER, /Lakeland Health Insurance · Lakeland, FL 33805 · By appointment/);
   assert.match(COVERAGE_CENTER, /FL License #W371813 \/ NPN 18213932/);
@@ -249,7 +251,7 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
   assert.match(COVERAGE_CENTER, /href="\/medicare-broker-lakeland-fl\/"/);
   assert.match(COVERAGE_CENTER, /href="\/aca-health-insurance-lakeland-fl\/"/);
   assert.match(COVERAGE_CENTER, /Prefer to talk now\?/);
-  assert.match(COVERAGE_CENTER, /cc-hero-note[\s\S]*href="tel:\+18636403102"/);
+  assert.match(COVERAGE_CENTER, /cc-hero-note[\s\S]*href="tel:\+18634742500"/);
   assert.match(HOME, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(QUOTE, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(SITE_SEARCH, /url: "\/coverage-center\/"/);
@@ -295,6 +297,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   assert.equal(templateConsumers.length, 242);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
+    assert.equal(source.includes(SITE_PHONE_LOADER), true, `${relative(ROOT, file)} loads the shared phone config before site chrome`);
     assert.equal(source.includes(SITE_TEMPLATE_LOADER), true, `${relative(ROOT, file)} uses the current shared-template release`);
     assert.equal(source.includes('/js/site-template.js?v=20260803-brand-release'), false, `${relative(ROOT, file)} does not use the retired shared-template release`);
   }
@@ -303,8 +306,9 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
     assert.equal(source.includes('/js/site-template.js'), false, `${rel} owns focused paid-page chrome`);
   }
 
-  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261007-spam-guard';/);
-  assert.match(SERVICE_WORKER, /const SITE_TEMPLATE_URL = '\/js\/site-template\.js\?v=20261010-home-hero-header-fix';/);
+  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261012-call-tracking';/);
+  assert.match(SERVICE_WORKER, /const SITE_PHONE_URL = '\/js\/site-phone\.js\?v=20261012-call-tracking';/);
+  assert.match(SERVICE_WORKER, /const SITE_TEMPLATE_URL = '\/js\/site-template\.js\?v=20261012-call-tracking';/);
   assert.match(SERVICE_WORKER, /requestUrl\.pathname === '\/js\/site-template\.js'/);
   assert.match(SERVICE_WORKER, /fetchSharedTemplate\(request\)/);
 });

@@ -42,7 +42,7 @@ test('QR thank-you page keeps bottom TPMO disclosures and no lead form', () => {
 
 test('QR thank-you page routes booking through the on-site book page', () => {
   assert.match(HTML, /<a class="btn primary" href="\/book\/">Book a review<\/a>/);
-  assert.match(HTML, /href="tel:\+18636403102"/);
+  assert.match(HTML, /href="tel:\+18634742500"/);
   assert.match(HTML, /href="mailto:david@lakelandhealthinsurance.com"/);
   assert.match(HTML, /\/js\/analytics\.js\?v=20261010-dual-call-conversion/);
   assert.match(HTML, /thank-you-video-slot" hidden/);

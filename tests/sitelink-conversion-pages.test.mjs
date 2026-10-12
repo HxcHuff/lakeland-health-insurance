@@ -151,7 +151,10 @@ test('every public click-to-call link uses the verified E.164 target and tracked
     if (!phoneTargets.length) continue;
 
     phoneLinkCount += phoneTargets.length;
-    for (const target of phoneTargets) assert.equal(target, 'tel:+18636403102', file);
+    const allowedPhoneTargets = new Set(['tel:+18634742500', 'tel:+18636403102']);
+    for (const target of phoneTargets) {
+      assert.ok(allowedPhoneTargets.has(target), `${file}: unexpected tel target ${target}`);
+    }
     assert.match(
       html,
       /\/js\/analytics\.js\?v=20261010-dual-call-conversion/,

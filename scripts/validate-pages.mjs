@@ -20,11 +20,12 @@ const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/site-template.css', '20261010-home-hero-header-fix'],
   ['/css/blog-unified.css', '20260803-brand-release'],
-  ['/js/site-template.js', '20261010-home-hero-header-fix'],
+  ['/js/site-phone.js', '20261012-call-tracking'],
+  ['/js/site-template.js', '20261012-call-tracking'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
 ]);
-const SERVICE_WORKER_CACHE_VERSION = '20261007-spam-guard';
+const SERVICE_WORKER_CACHE_VERSION = '20261012-call-tracking';
 
 const FORBIDDEN_PUBLIC_FILES = [
   'blog/ads-manager-setup-checklist.html',

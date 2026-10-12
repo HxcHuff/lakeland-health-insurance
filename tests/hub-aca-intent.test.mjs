@@ -28,7 +28,7 @@ test('Medicare hub leads with Call David, then Get Help and the primary broker U
   const html = source('medicare/index.html');
   const hero = heroMarkup(html);
   const formAt = hero.search(/<form class="sitelink-lead-form"/);
-  const callAt = hero.search(/href="tel:\+18636403102"[^>]*>Call David</);
+  const callAt = hero.search(/href="tel:\+18634742500"[^>]*>Call David</);
   const helpAt = hero.search(/href="\/get-help\/\?intent=medicare&amp;source_page_key=medicare&amp;source_cta_key=start_review_hero"/);
   const brokerAt = hero.search(/href="\/medicare-broker-lakeland-fl\/"/);
 
@@ -39,7 +39,7 @@ test('Medicare hub leads with Call David, then Get Help and the primary broker U
   assert.ok(callAt < helpAt, 'Call David is earlier than Get Help in the hero');
 
   const row = firstCtaRow(hero);
-  assert.match(row, /class="btn primary" href="tel:\+18636403102">Call David</);
+  assert.match(row, /class="btn primary" href="tel:\+18634742500">Call David</);
   assert.match(row, /Get Help</);
   assert.match(row, /Lakeland Medicare broker</);
   assert.match(html, new RegExp(TPMO.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
@@ -57,7 +57,7 @@ test('ACA Lakeland lander leads with Call David and Get Help intent params', () 
   const html = source('aca-health-insurance-lakeland-fl/index.html');
   const hero = heroMarkup(html);
   const snippetAt = hero.search(/class="answer-snippet"/);
-  const callAt = hero.search(/href="tel:\+18636403102"[^>]*>Call David</);
+  const callAt = hero.search(/href="tel:\+18634742500"[^>]*>Call David</);
   const helpAt = hero.search(/href="\/get-help\/\?intent=aca"/);
 
   assert.ok(snippetAt > 0, 'ACA hero keeps the cite-ready snippet');
@@ -66,7 +66,7 @@ test('ACA Lakeland lander leads with Call David and Get Help intent params', () 
   assert.ok(callAt < helpAt, 'Call David is earlier than Get Help in the hero');
 
   const row = firstCtaRow(hero);
-  assert.match(row, /class="btn primary" href="tel:\+18636403102">Call David</);
+  assert.match(row, /class="btn primary" href="tel:\+18634742500">Call David</);
   assert.match(row, /href="\/get-help\/\?intent=aca">Get Help</);
   assert.doesNotMatch(row, /href="\/medicare-broker-lakeland-fl\//);
 

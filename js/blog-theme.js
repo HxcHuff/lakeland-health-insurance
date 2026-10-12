@@ -7,7 +7,7 @@
 
   var bar = document.createElement('div');
   bar.className = 'lhi-topbar';
-  bar.innerHTML = 'Need plan-specific help now? Call <a href="tel:+18636403102">(863) 640-3102</a>';
+  bar.innerHTML = 'Need plan-specific help now? Call <a href="tel:+18634742500">(863) 474-2500</a>';
 
   header.parentNode.insertBefore(bar, header);
 })();
