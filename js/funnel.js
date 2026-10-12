@@ -809,6 +809,7 @@
   };
   var LICENSED_MEDICARE_STATES = {
     AL: true,
+    AZ: true,
     FL: true,
     GA: true,
     KS: true,

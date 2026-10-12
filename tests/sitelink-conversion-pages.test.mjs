@@ -116,7 +116,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /Reply STOP to cancel or HELP for help/);
 
     assert.match(html, /\/css\/site-template\.css\?v=20261010-home-hero-header-fix/);
-    assert.match(html, /\/js\/funnel\.js\?v=20261012-multi-state-medicare/);
+    assert.match(html, /\/js\/funnel\.js\?v=20261012-az-medicare-licensed/);
   });
 }
 
@@ -159,10 +159,10 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
     assert.match(form, /Do not enter/i);
     assert.match(
       form,
-      /<p class="sitelink-lead-privacy" data-sitelink-medicare-florida-note hidden>Medicare reviews are available for residents of Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
+      /<p class="sitelink-lead-privacy" data-sitelink-medicare-florida-note hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
     );
 
-    assert.match(html, /\/js\/funnel\.js\?v=20261012-multi-state-medicare/);
+    assert.match(html, /\/js\/funnel\.js\?v=20261012-az-medicare-licensed/);
     assert.match(html, /\/css\/site-template\.css\?v=20261010-home-hero-header-fix/);
   });
 }
@@ -214,7 +214,7 @@ test('every public click-to-call link uses the verified E.164 target and tracked
     }
     assert.match(
       html,
-      /\/js\/analytics\.js\?v=20261012-aw-474-mckk/,
+      /\/js\/analytics\.js\?v=20261012-az-medicare-licensed/,
       `${file} loads the canonical phone telemetry and forwarding-number handler`
     );
   }
