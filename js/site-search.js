@@ -130,6 +130,12 @@ const siteSearchIndex = [
     tags: ["Medicare", "Working Past 65", "Part B", "Employer Coverage", "Special Enrollment", "Lakeland", "Polk County"]
   },
   {
+    title: "Retiring in Lakeland and Need Medicare: What to Do, Step by Step",
+    url: "/retiring-and-medicare-lakeland-fl/",
+    excerpt: "Turning 65 as you retire or leaving employer coverage after 65 in Polk County: IEP and SEP timing, Part B start dates, Advantage vs Medigap, and doctor checks.",
+    tags: ["Medicare", "Retiring", "Part B", "Initial Enrollment", "Special Enrollment", "Lakeland", "Polk County"]
+  },
+  {
     title: "East Polk Medicare Help: Doctors, Drugs & Plan Costs",
     url: "/medicare/east-polk/",
     excerpt: "Medicare plan review for Lake Alfred, Haines City, Davenport, and Winter Haven residents.",
