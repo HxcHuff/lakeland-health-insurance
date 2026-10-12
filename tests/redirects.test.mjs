@@ -35,6 +35,7 @@ const AFFECTED_DIRECTORY_PATHS = [
   '/private-medical-insurance',
   '/quote',
   '/retiring-before-65-florida',
+  '/retiring-and-medicare-lakeland-fl',
   '/riverview-health-insurance',
   '/short-term-medical',
   '/st-petersburg-health-insurance',

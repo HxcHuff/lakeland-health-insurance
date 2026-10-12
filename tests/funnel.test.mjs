@@ -98,6 +98,12 @@ const MEDICARE_EDUCATION_PAGES = [
     pageKey: 'moving_florida_medicare',
     pageRole: 'education',
     ctaKeys: ['request_move_review', 'request_related_review']
+  },
+  {
+    html: readFileSync(resolve(__dirname, '../retiring-and-medicare-lakeland-fl/index.html'), 'utf8'),
+    pageKey: 'retiring_and_medicare_lakeland_fl',
+    pageRole: 'education',
+    ctaKeys: ['request_review_final', 'request_review_hero', 'request_review_mid']
   }
 ];
 
