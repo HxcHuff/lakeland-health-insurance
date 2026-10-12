@@ -56,13 +56,18 @@ test('Medicare hub leads with Call David, then Get Help and the primary broker U
 test('ACA Lakeland lander leads with Call David and Get Help intent params', () => {
   const html = source('aca-health-insurance-lakeland-fl/index.html');
   const hero = heroMarkup(html);
+  const formAt = hero.search(/<form class="sitelink-lead-form"/);
   const snippetAt = hero.search(/class="answer-snippet"/);
   const callAt = hero.search(/href="tel:\+18634742500"[^>]*>Call David</);
   const helpAt = hero.search(/href="\/get-help\/\?intent=aca"/);
+  const ctaRowAt = hero.search(/<div class="cta-row"/);
 
+  assert.ok(formAt > 0, 'ACA hero includes the sitelink lead form');
   assert.ok(snippetAt > 0, 'ACA hero keeps the cite-ready snippet');
-  assert.ok(callAt > 0 && callAt < snippetAt, 'Call David appears before the eligibility snippet');
-  assert.ok(helpAt > 0 && helpAt < snippetAt, 'Get Help with ACA intent appears before the snippet');
+  assert.ok(ctaRowAt > 0 && formAt > ctaRowAt, 'sitelink form follows the hero CTA row');
+  assert.ok(formAt < snippetAt, 'sitelink form appears before the eligibility snippet');
+  assert.ok(callAt > 0 && callAt < formAt, 'Call David appears before the sitelink form');
+  assert.ok(helpAt > 0 && helpAt < formAt, 'Get Help with ACA intent appears before the sitelink form');
   assert.ok(callAt < helpAt, 'Call David is earlier than Get Help in the hero');
 
   const row = firstCtaRow(hero);

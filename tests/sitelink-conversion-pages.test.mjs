@@ -120,6 +120,56 @@ for (const [file, sourcePage, intent] of pages) {
   });
 }
 
+const acaSitelinkPages = [
+  ['aca-health-insurance-lakeland-fl/index.html', '/aca-health-insurance-lakeland-fl/', 'aca_lakeland', 'aca'],
+  ['aca-health-insurance-agent-polk-county-fl/index.html', '/aca-health-insurance-agent-polk-county-fl/', 'aca_polk_county', 'aca']
+];
+
+for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages) {
+  test(`${sourcePage} has the short ACA sitelink lead form`, async () => {
+    const html = await readFile(new URL(`../${file}`, import.meta.url), 'utf8');
+    const match = html.match(/<form class="sitelink-lead-form"[\s\S]*?<\/form>/);
+    assert.ok(match, `${file} includes the sitelink lead form`);
+    const form = match[0];
+
+    assert.match(form, /name="get-help"/);
+    assert.match(form, /method="POST"/);
+    assert.match(form, /action="\/thanks\.html"/);
+    assert.match(form, /data-sitelink-lead-form/);
+    assert.match(form, /data-sitelink-coverage-choice/);
+    assert.match(form, /data-funnel-event="Lead"/);
+    assert.match(form, /name="full_name"[^>]*required/);
+    assert.match(form, /name="zip_code"[^>]*required/);
+    assert.match(form, /name="phone"[^>]*required/);
+    assert.match(form, /name="email"[^>]*type="email"/);
+    assert.match(form, /name="coverage_choice" value="marketplace"[^>]*required/);
+    assert.match(form, /name="coverage_choice" value="medicare"/);
+    assert.match(form, /name="preferred_contact_method" value="Phone call" required/);
+    assert.match(form, /name="consent_request" value="yes" required/);
+    assert.match(form, /name="consent_text_version" value="get-help-2026-07-30-v1"/);
+    assert.match(form, new RegExp(`name="source_page" value="${escapeRegex(sourcePage)}"`));
+    assert.match(form, new RegExp(`name="source_page_key" value="${escapeRegex(sourcePageKey)}"`));
+    assert.match(form, /name="source_cta_key" value="start_review_hero"/);
+    assert.match(form, new RegExp(`name="normalized_intent" value="${escapeRegex(defaultIntent)}"`));
+    assert.doesNotMatch(form, /<textarea/i);
+    assert.doesNotMatch(form, /tips and updates/i);
+    assert.doesNotMatch(form, /\bfree\b/i);
+    assert.doesNotMatch(form, /no cost/i);
+    assert.doesNotMatch(form, /\$0/);
+    assert.match(form, /Do not enter/i);
+
+    assert.match(html, /\/js\/funnel\.js\?v=20261012-aca-sitelink-coverage/);
+    assert.match(html, /\/css\/site-template\.css\?v=20261010-home-hero-header-fix/);
+  });
+}
+
+test('funnel.js maps ACA sitelink coverage choices to intent fields', async () => {
+  const script = await readFile(new URL('../js/funnel.js', import.meta.url), 'utf8');
+  assert.match(script, /SITELINK_COVERAGE_MAP/);
+  assert.match(script, /syncSitelinkCoverageChoice/);
+  assert.match(script, /data-sitelink-coverage-choice/);
+});
+
 test('Medicare direct form preserves the approved hub attribution tuple', async () => {
   const html = await readFile(new URL('../medicare/index.html', import.meta.url), 'utf8');
   const form = html.match(/<form class="sitelink-lead-form"[\s\S]*?<\/form>/)[0];
