@@ -25,6 +25,7 @@ const MEDICARE_SHIP_SURFACES = new Set([
   'blog/when-can-i-switch-medicare-plans-florida.html',
   'local-health-insurance-answers/medicare-plan-help-lakeland/index.html',
   'local-health-insurance-answers/watson-clinic-insurance-network-help/index.html',
+  'local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/index.html',
   'lp/medicare/index.html',
   'medicare-broker-lakeland-fl/index.html',
   'medicare/east-polk/index.html',
@@ -61,6 +62,7 @@ const MEDICARE_MARKETING_SURFACES = [
   'links/index.html',
   'local-health-insurance-answers/medicare-plan-help-lakeland/index.html',
   'local-health-insurance-answers/watson-clinic-insurance-network-help/index.html',
+  'local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/index.html',
   'lp/medicare/index.html',
   'medicare-broker-lakeland-fl/index.html',
   'medicare/east-polk/index.html',
@@ -187,7 +189,7 @@ test('Medicare hub is a current-season, privacy-minimized, keyboard-accessible l
   assert.match(css, /\.hub-skip-link:focus\s*{[^}]*transform:\s*translateY\(0\)/s);
   assert.match(css, /\.hub-scenario-shortcut\s*{[^}]*min-height:\s*44px/s);
   assert.match(css, /\.hub-disclosures \.tpmo-standard-disclaimer\s*{[^}]*font-size:\s*1rem/s);
-  assert.match(html, /answer-pages\.css\?v=20261009-hero-header-offset/);
+  assert.match(html, /answer-pages\.css\?v=20261012-answer-card-table-scroll/);
   assert.match(css, /\.answer-hero\.medicare-hero \.tpmo-cta-disclaimer\s*{[^}]*color:\s*var\(--navy/s);
   assert.match(css, /\.answer-hero\.medicare-hero a:not\(\.btn\):not\(\.hero-cta\):not\(\.lp-primary-call\)\s*{[^}]*color:\s*var\(--hub-blue/s);
   assert.match(

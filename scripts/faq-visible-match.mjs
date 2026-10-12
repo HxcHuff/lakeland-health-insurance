@@ -17,6 +17,7 @@ export const FAQ_MATCH_SCOPE_RELS = null;
 // covers every HTML page; this set is no longer an inclusion filter.
 export const FAQ_MATCH_EXTRA_RELS = new Set([
   'local-health-insurance-answers/watson-clinic-insurance-network-help/index.html',
+  'local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/index.html',
 ]);
 
 const FAQ_MATCH_SKIP_FILES = new Set([

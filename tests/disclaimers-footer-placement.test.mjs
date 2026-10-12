@@ -75,10 +75,11 @@ test('local answer snippet links use high-contrast rules in shared CSS', () => {
   for (const rel of [
     'local-health-insurance-answers/medicare-plan-help-lakeland/index.html',
     'local-health-insurance-answers/index.html',
-    'local-health-insurance-answers/watson-clinic-insurance-network-help/index.html'
+    'local-health-insurance-answers/watson-clinic-insurance-network-help/index.html',
+    'local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/index.html'
   ]) {
     const html = readFileSync(join(ROOT, rel), 'utf8');
-    assert.match(html, /answer-pages\.css\?v=20261009-hero-header-offset/);
+    assert.match(html, /answer-pages\.css\?v=20261012-answer-card-table-scroll/);
     assert.match(html, /class="answer-snippet"/);
   }
 });
