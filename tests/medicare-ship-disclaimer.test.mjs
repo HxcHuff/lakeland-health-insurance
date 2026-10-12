@@ -176,6 +176,10 @@ test('shared chrome uses SHIP on Medicare and compliance HOLD paths', () => {
     chrome.shouldUseShipDisclaimer('/local-health-insurance-answers/watson-clinic-insurance-network-help/'),
     true
   );
+  assert.equal(
+    chrome.shouldUseShipDisclaimer('/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/'),
+    true
+  );
   assert.equal(chrome.shouldUseShipDisclaimer('/blog/winter-haven-hospital-insurance.html'), false);
   assert.equal(chrome.shouldUseShipDisclaimer('/aca-health-insurance-lakeland-fl/'), false);
 });

@@ -45,6 +45,8 @@ test('LRH UnitedHealthcare 2027 answer page: URL, compliance guardrails, and cit
   assert.doesNotMatch(html, /retiring-and-medicare-lakeland-fl/);
 
   assert.match(html, /tel:\+18636403102/);
+  assert.doesNotMatch(html, /474-2500|18634742500/, 'must not use the legacy 474-2500 call number');
+  assert.match(html, /site-template\.js\?v=20261012-lrh-uhc-medicare-path/);
   assert.match(html, /Florida residents/);
 
   const internalPromoLinks = [...html.matchAll(/<a href="\/[^"]*">([^<]+)<\/a>/g)]
@@ -57,6 +59,14 @@ test('LRH UnitedHealthcare 2027 answer page: URL, compliance guardrails, and cit
 test('LRH UnitedHealthcare 2027 answer page: FAQPage JSON-LD matches visible FAQ text', () => {
   const issues = findFaqVisibleMatchIssues(PAGE, source());
   assert.deepEqual(issues, [], issues.join('\n'));
+});
+
+test('site-template lists LRH UHC 2027 under Medicare paths for SHIP footer', () => {
+  const template = source('js/site-template.js');
+  assert.match(
+    template,
+    /'\/local-health-insurance-answers\/lakeland-regional-unitedhealthcare-2027\/'/,
+  );
 });
 
 test('sitemap lists the new answer page with 2026-10-12 lastmod', () => {

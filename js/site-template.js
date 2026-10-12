@@ -45,6 +45,7 @@
     '/moving-florida-medicare/',
     '/working-past-65-medicare-lakeland-fl/',
     '/local-health-insurance-answers/medicare-plan-help-lakeland/',
+    '/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/',
     '/lp/medicare/',
     '/blog/aep-',
     '/blog/medigap-',
