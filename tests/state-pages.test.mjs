@@ -277,7 +277,7 @@ test('Georgia FAQ states the Access certification requirement without claiming D
   assert.doesNotMatch(html, /I am a Georgia Access-certified agent|I completed Georgia Access certification/i);
 });
 
-test('get-help allowlists coverage_state and treats non-Florida visitors as out-of-state', () => {
+test('get-help allowlists coverage_state and treats non-Medicare-licensed visitors as out-of-state', () => {
   const GET_HELP = source('js/get-help-intake.js');
   const sandbox = {
     document: {
@@ -308,9 +308,12 @@ test('get-help allowlists coverage_state and treats non-Florida visitors as out-
   assert.equal(intake.allowlistedCoverageState('ks'), 'KS');
   assert.equal(intake.allowlistedCoverageState('fl'), 'FL');
   assert.equal(intake.allowlistedCoverageState('XX'), '');
-  assert.equal(intake.isNonFloridaCoverageState('TX'), true);
-  assert.equal(intake.isNonFloridaCoverageState('KS'), true);
-  assert.equal(intake.isNonFloridaCoverageState('FL'), false);
+  assert.equal(intake.isOutOfStateMedicareCoverageState('TX'), false);
+  assert.equal(intake.isOutOfStateMedicareCoverageState('KS'), false);
+  assert.equal(intake.isOutOfStateMedicareCoverageState('NC'), false);
+  assert.equal(intake.isOutOfStateMedicareCoverageState('FL'), false);
+  assert.equal(intake.isOutOfStateMedicareCoverageState('AZ'), true);
+  assert.equal(intake.isOutOfStateMedicareCoverageState(''), false);
   assert.equal(intake.resolveCoverageState(new URLSearchParams('state=TX')), 'TX');
   assert.equal(intake.resolveCoverageState(new URLSearchParams('state=KS')), 'KS');
   assert.equal(intake.resolveCoverageState(new URLSearchParams('')), 'TX');
@@ -320,7 +323,10 @@ test('get-help allowlists coverage_state and treats non-Florida visitors as out-
   assert.match(source('get-help/index.html'), /id="floridaTpmoInventoryNote"/);
   assert.match(source('get-help/index.html'), /name="consent_text_version" value="get-help-2026-09-29-v2"/);
   assert.match(source('get-help/index.html'), /\.footer-tpmo\[hidden\] \{ display: none; \}/);
-  assert.match(source('get-help/index.html'), /<p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for Florida residents only\.<\/p>/);
+  assert.match(
+    source('get-help/index.html'),
+    /<p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
+  );
 });
 
 test('public copy and search index say 22 licensed states and include Kansas', () => {

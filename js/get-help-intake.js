@@ -292,6 +292,16 @@
     WA: true,
     WV: true
   };
+  var LICENSED_MEDICARE_STATES = {
+    AL: true,
+    FL: true,
+    GA: true,
+    KS: true,
+    NC: true,
+    SC: true,
+    TN: true,
+    TX: true
+  };
   var STATE_SLUG_TO_CODE = {
     alabama: 'AL',
     arizona: 'AZ',
@@ -421,8 +431,9 @@
     return allowlistedCoverageState(qs && qs.get ? qs.get('state') : '') || coverageStateFromReferrer(referrerValue);
   }
 
-  function isNonFloridaCoverageState(code) {
-    return Boolean(code) && code !== 'FL';
+  function isOutOfStateMedicareCoverageState(code) {
+    if (!code) return false;
+    return !hasOwn(LICENSED_MEDICARE_STATES, code);
   }
 
   function hideFloridaTpmoForOutOfState() {
@@ -849,7 +860,7 @@
     initAttribution();
     var qs = new URLSearchParams(landingSearch());
     var coverageState = resolveCoverageState(qs);
-    var hideMedicare = isNonFloridaCoverageState(coverageState);
+    var hideMedicare = isOutOfStateMedicareCoverageState(coverageState);
     var selected = normalizeIntent(qs.get('intent'));
     var product = qs.get('product');
     if (!hideMedicare && (product === 'medicare' || product === 'medicare-advantage')) selected = 'medicare';
@@ -897,6 +908,7 @@
     allowlistedCoverageState: allowlistedCoverageState,
     coverageStateFromReferrer: coverageStateFromReferrer,
     resolveCoverageState: resolveCoverageState,
-    isNonFloridaCoverageState: isNonFloridaCoverageState
+    isOutOfStateMedicareCoverageState: isOutOfStateMedicareCoverageState,
+    licensedMedicareStates: LICENSED_MEDICARE_STATES
   };
 })();

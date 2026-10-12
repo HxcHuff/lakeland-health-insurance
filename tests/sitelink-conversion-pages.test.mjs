@@ -116,7 +116,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /Reply STOP to cancel or HELP for help/);
 
     assert.match(html, /\/css\/site-template\.css\?v=20261010-home-hero-header-fix/);
-    assert.match(html, /\/js\/funnel\.js\?v=20261008-first-touch-sync/);
+    assert.match(html, /\/js\/funnel\.js\?v=20261012-multi-state-medicare/);
   });
 }
 
@@ -159,10 +159,10 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
     assert.match(form, /Do not enter/i);
     assert.match(
       form,
-      /<p class="sitelink-lead-privacy" data-sitelink-medicare-florida-note hidden>Medicare reviews are available for Florida residents only\.<\/p>/
+      /<p class="sitelink-lead-privacy" data-sitelink-medicare-florida-note hidden>Medicare reviews are available for residents of Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
     );
 
-    assert.match(html, /\/js\/funnel\.js\?v=20261012-aca-medicare-fl-note/);
+    assert.match(html, /\/js\/funnel\.js\?v=20261012-multi-state-medicare/);
     assert.match(html, /\/css\/site-template\.css\?v=20261010-home-hero-header-fix/);
   });
 }
@@ -173,6 +173,8 @@ test('funnel.js maps ACA sitelink coverage choices to intent fields', async () =
   assert.match(script, /syncSitelinkCoverageChoice/);
   assert.match(script, /data-sitelink-coverage-choice/);
   assert.match(script, /data-sitelink-medicare-florida-note/);
+  assert.match(script, /LICENSED_MEDICARE_STATES/);
+  assert.match(script, /sitelinkCoverageStateFromQuery/);
 });
 
 test('Medicare direct form preserves the approved hub attribution tuple', async () => {
