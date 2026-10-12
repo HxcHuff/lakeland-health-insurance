@@ -25,7 +25,9 @@ test('T12 retiring-and-medicare-lakeland-fl page metadata and hero', () => {
     /name="description" content="Retiring in Lakeland, FL\? Learn when to enroll in Medicare, how to time Part B with your employer plan, and how to compare options in Polk County\."/
   );
   assert.match(source, /rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/retiring-and-medicare-lakeland-fl\/"/);
-  assert.match(source, /answer-pages\.css\?v=20261009-hero-header-offset/);
+  assert.match(source, /answer-pages\.css\?v=20261012-answer-card-table-scroll/);
+  assert.match(source, /site-template\.js\?v=20261012-lrh-uhc-medicare-path/);
+  assert.match(source, /How to decide \(neutral comparison\)[\s\S]*<div class="table-wrap">/);
   assert.match(source, /class="answer-snippet"/);
   assert.match(source, /seven-month Initial Enrollment Period/);
   assert.match(source, /eight-month Special Enrollment Period/);
@@ -67,6 +69,12 @@ test('T12 sitemap entry uses lastmod 2026-10-12', () => {
     sitemap,
     /<loc>https:\/\/lakelandhealthinsurance\.com\/retiring-and-medicare-lakeland-fl\/<\/loc>\s*<lastmod>2026-10-12<\/lastmod>/
   );
+});
+
+test('T12 comparison table uses scrollable table-wrap and answer-card overflow CSS', () => {
+  const css = readFileSync(join(ROOT, 'css/answer-pages.css'), 'utf8');
+  assert.match(css, /\.answer-card \{\s*min-width: 0;/);
+  assert.match(css, /\.answer-card \.table-wrap \{\s*overflow-x: auto;/);
 });
 
 test('inbound links point to T12 from retiring-before-65, working-past-65, and city blog', () => {

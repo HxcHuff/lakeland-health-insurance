@@ -139,6 +139,14 @@ h3 {
   padding: 22px;
 }
 
+.answer-card {
+  min-width: 0;
+}
+
+.answer-card .table-wrap {
+  overflow-x: auto;
+}
+
 .side-card {
   background: #f9fafc;
   position: sticky;
