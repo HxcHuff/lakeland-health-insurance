@@ -1,7 +1,7 @@
-const CACHE_NAME = 'lhi-20261012-call-tracking';
+const CACHE_NAME = 'lhi-20261012-lrh-uhc-medicare-path';
 const OFFLINE_URL = '/offline.html';
 const SITE_PHONE_URL = '/js/site-phone.js?v=20261012-call-tracking';
-const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261012-call-tracking';
+const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261012-lrh-uhc-medicare-path';
 
 // Core pages to pre-cache for offline access
 const PRECACHE_URLS = [
