@@ -318,7 +318,16 @@ test('get-help allowlists coverage_state and treats non-Medicare-licensed visito
   assert.equal(intake.isOutOfStateMedicareCoverageState(''), false);
   assert.equal(intake.resolveCoverageState(new URLSearchParams('state=TX')), 'TX');
   assert.equal(intake.resolveCoverageState(new URLSearchParams('state=KS')), 'KS');
+  assert.equal(intake.resolveCoverageState(new URLSearchParams('state=CA')), 'CA');
+  assert.equal(intake.resolveCoverageState(new URLSearchParams('state=NY')), 'NY');
+  assert.equal(intake.allowlistedCoverageState('CA'), '');
+  assert.equal(intake.allowlistedCoverageState('NY'), '');
+  assert.equal(
+    intake.resolveCoverageState(new URLSearchParams('state=CA'), 'https://lakelandhealthinsurance.com/health-insurance-texas/'),
+    'CA'
+  );
   assert.equal(intake.resolveCoverageState(new URLSearchParams('')), 'TX');
+  assert.equal(intake.resolveCoverageState(new URLSearchParams(''), ''), '');
   assert.equal(intake.coverageStateFromReferrer('https://lakelandhealthinsurance.com/health-insurance-north-carolina/'), 'NC');
   assert.equal(intake.resolveCoverageState(new URLSearchParams('state=FL')), 'FL');
   assert.match(source('get-help/index.html'), /id="outOfStateMedicareNote"/);
