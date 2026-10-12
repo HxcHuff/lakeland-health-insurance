@@ -312,7 +312,9 @@ test('get-help allowlists coverage_state and treats non-Medicare-licensed visito
   assert.equal(intake.isOutOfStateMedicareCoverageState('KS'), false);
   assert.equal(intake.isOutOfStateMedicareCoverageState('NC'), false);
   assert.equal(intake.isOutOfStateMedicareCoverageState('FL'), false);
-  assert.equal(intake.isOutOfStateMedicareCoverageState('AZ'), true);
+  assert.equal(intake.isOutOfStateMedicareCoverageState('AZ'), false);
+  assert.equal(intake.isOutOfStateMedicareCoverageState('CA'), true);
+  assert.equal(intake.isOutOfStateMedicareCoverageState('NY'), true);
   assert.equal(intake.isOutOfStateMedicareCoverageState(''), false);
   assert.equal(intake.resolveCoverageState(new URLSearchParams('state=TX')), 'TX');
   assert.equal(intake.resolveCoverageState(new URLSearchParams('state=KS')), 'KS');
@@ -325,7 +327,12 @@ test('get-help allowlists coverage_state and treats non-Medicare-licensed visito
   assert.match(source('get-help/index.html'), /\.footer-tpmo\[hidden\] \{ display: none; \}/);
   assert.match(
     source('get-help/index.html'),
-    /<p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
+    /<p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
+  );
+  assert.match(source('get-help/index.html'), /id="medicareGenericTpmoDisclaimer"/);
+  assert.match(
+    source('js/get-help-intake.js'),
+    /syncGetHelpMedicareDisclosures/
   );
 });
 

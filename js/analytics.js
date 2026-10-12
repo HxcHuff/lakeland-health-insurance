@@ -430,7 +430,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261012-multi-state-medicare';
+    funnel.src = '/js/funnel.js?v=20261012-az-medicare-licensed';
     document.head.appendChild(funnel);
   }
 

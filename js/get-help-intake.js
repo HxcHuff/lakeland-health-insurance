@@ -294,6 +294,7 @@
   };
   var LICENSED_MEDICARE_STATES = {
     AL: true,
+    AZ: true,
     FL: true,
     GA: true,
     KS: true,
@@ -436,7 +437,7 @@
     return !hasOwn(LICENSED_MEDICARE_STATES, code);
   }
 
-  function hideFloridaTpmoForOutOfState() {
+  function hideFloridaSpecificMedicareTpmo() {
     ['medicareTpmoDisclaimer', 'floridaTpmoInventoryNote'].forEach(function (id) {
       var el = byId(id);
       if (el) el.hidden = true;
@@ -444,8 +445,31 @@
     document.querySelectorAll('.footer-tpmo').forEach(function (node) {
       node.hidden = true;
     });
+  }
+
+  function hideFloridaTpmoForOutOfState() {
+    hideFloridaSpecificMedicareTpmo();
+    var generic = byId('medicareGenericTpmoDisclaimer');
+    if (generic) generic.hidden = true;
     var note = byId('outOfStateMedicareNote');
     if (note) note.hidden = false;
+  }
+
+  function syncGetHelpMedicareDisclosures(coverageState) {
+    var code = allowlistedCoverageState(coverageState) || String(coverageState || '').trim().toUpperCase();
+    if (isOutOfStateMedicareCoverageState(code)) {
+      hideFloridaTpmoForOutOfState();
+      return;
+    }
+    var note = byId('outOfStateMedicareNote');
+    if (note) note.hidden = true;
+    var generic = byId('medicareGenericTpmoDisclaimer');
+    if (code && hasOwn(LICENSED_MEDICARE_STATES, code) && code !== 'FL') {
+      hideFloridaSpecificMedicareTpmo();
+      if (generic) generic.hidden = false;
+    } else if (generic) {
+      generic.hidden = true;
+    }
   }
 
   var UTM_VALUE_MAX_LENGTH = 64;
@@ -867,9 +891,11 @@
     if (hideMedicare && selected === 'medicare') selected = 'under-65';
     renderIntentOptions(selected, hideMedicare);
     applyIntent(selected);
+    syncGetHelpMedicareDisclosures(coverageState);
     if (hideMedicare) {
-      hideFloridaTpmoForOutOfState();
-      window.addEventListener('load', hideFloridaTpmoForOutOfState);
+      window.addEventListener('load', function () {
+        syncGetHelpMedicareDisclosures(coverageState);
+      });
     }
     showStep(1, false);
 
