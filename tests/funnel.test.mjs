@@ -661,6 +661,10 @@ test('website-call conversion uses both verified Ads phone tags while click tele
     /gtag\('config', 'AW-300112445\/[^']+', \{\s*phone_conversion_number: '\(863\) 474-2500',\s*phone_conversion_callback: applyGoogleForwardingNumber\s*\}\);/gs;
   const phoneConversionConfigs = [...ANALYTICS_SRC.matchAll(phoneConversionConfigPattern)];
   assert.equal(phoneConversionConfigs.length, 2, 'both phone conversion configs are present');
+  assert.match(
+    ANALYTICS_SRC,
+    /gtag\('config', 'AW-300112445\/mcKKCKrhwZodEL20jY8B', \{\s*'phone_conversion_number': '\(863\) 474-2500'\s*\}\);/
+  );
   assert.match(ANALYTICS_SRC, /AW-300112445\/MVhNCILUi-IaEL20jY8B/);
   assert.match(ANALYTICS_SRC, /AW-300112445\/1lFWCNG3l5gdEL20jY8B/);
   assert.match(ANALYTICS_SRC, /pushDataLayerEvent\('phone_call_click', params\);/);
@@ -1280,7 +1284,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
     assert.equal(ctas.some((cta) => cta.ctaKey === null), false, `${expected.pageKey} has an unkeyed in-content Get Help CTA`);
     assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
-    assert.match(html, /\/js\/analytics\.js\?v=20261010-dual-call-conversion/);
+    assert.match(html, /\/js\/analytics\.js\?v=20261012-aw-474-mckk/);
 
     for (const cta of ctas) {
       const url = new URL(cta.href, 'https://lakelandhealthinsurance.com');
@@ -1656,7 +1660,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
 test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /David will reach out shortly\./);
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
-  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261010-dual-call-conversion/);
+  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261012-aw-474-mckk/);
 });
 
 test('direct thank-you visits show customer-facing help copy', () => {

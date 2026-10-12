@@ -157,7 +157,7 @@ test('every public click-to-call link uses the verified E.164 target and tracked
     }
     assert.match(
       html,
-      /\/js\/analytics\.js\?v=20261010-dual-call-conversion/,
+      /\/js\/analytics\.js\?v=20261012-aw-474-mckk/,
       `${file} loads the canonical phone telemetry and forwarding-number handler`
     );
   }
