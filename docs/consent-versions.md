@@ -10,7 +10,10 @@ The `lp-*-2026-09-29-v1` strings remain on the server allowlist for older leads.
 
 - Date: 2026-07-30
 - Forms: `get-help` sitelink radio forms
+- ACA Lakeland and Polk County sitelink forms use the `request` and `call` labels only; contact authorization is phone-call-only on those pages.
 - Pages:
+  - `aca-health-insurance-agent-polk-county-fl/index.html`
+  - `aca-health-insurance-lakeland-fl/index.html`
   - `blog/index.html`
   - `carriers/index.html`
   - `dental-vision/index.html`

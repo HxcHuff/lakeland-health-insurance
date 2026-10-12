@@ -795,6 +795,43 @@
     if (status) status.textContent = message || '';
   }
 
+  var SITELINK_COVERAGE_MAP = {
+    marketplace: {
+      inquiry_type: 'ACA Marketplace',
+      normalized_intent: 'aca',
+      line_of_business: 'ACA Marketplace'
+    },
+    medicare: {
+      inquiry_type: 'Medicare',
+      normalized_intent: 'medicare',
+      line_of_business: 'Medicare'
+    }
+  };
+
+  function syncSitelinkCoverageChoice(form) {
+    if (!form || !form.hasAttribute('data-sitelink-coverage-choice')) return;
+    var selected = form.querySelector('input[name="coverage_choice"]:checked');
+    var choice = String(selected && selected.value || '').toLowerCase();
+    var map = selected && SITELINK_COVERAGE_MAP[choice];
+    if (!map) return;
+    setSitelinkField(form, 'inquiry_type', map.inquiry_type);
+    setSitelinkField(form, 'normalized_intent', map.normalized_intent);
+    setSitelinkField(form, 'line_of_business', map.line_of_business);
+    var floridaMedicareNote = form.querySelector('[data-sitelink-medicare-florida-note]');
+    if (floridaMedicareNote) floridaMedicareNote.hidden = choice !== 'medicare';
+  }
+
+  function wireSitelinkCoverageChoice(form) {
+    if (!form || form.__lhiSitelinkCoverageWired || !form.hasAttribute('data-sitelink-coverage-choice')) return;
+    form.__lhiSitelinkCoverageWired = true;
+    syncSitelinkCoverageChoice(form);
+    form.querySelectorAll('input[name="coverage_choice"]').forEach(function (input) {
+      input.addEventListener('change', function () {
+        syncSitelinkCoverageChoice(form);
+      });
+    });
+  }
+
   function validateSitelinkContactPath(form) {
     var preferredField = sitelinkField(form, 'preferred_contact_method');
     var phoneField = sitelinkField(form, 'phone');
@@ -825,9 +862,11 @@
     d.querySelectorAll('form[data-sitelink-lead-form]').forEach(function (form) {
       if (form.__lhiSitelinkLeadWired) return;
       form.__lhiSitelinkLeadWired = true;
+      wireSitelinkCoverageChoice(form);
       initializeSitelinkAttribution(form);
       form.addEventListener('submit', function (event) {
         showSitelinkStatus(form, '');
+        syncSitelinkCoverageChoice(form);
         if (!form.checkValidity()) return;
         if (!validateSitelinkContactPath(form)) {
           event.preventDefault();
