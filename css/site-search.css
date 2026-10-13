@@ -10,7 +10,7 @@
   padding: 14px 18px 14px 45px;
   border: 2px solid var(--gray-200);
   border-radius: var(--radius);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
   font-size: 1rem;
   color: var(--gray-800);
   background: var(--white);

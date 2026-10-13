@@ -20,7 +20,7 @@ html { scroll-behavior: smooth; }
 body.paid-landing-page {
   background: var(--lp-bg);
   color: var(--lp-ink);
-  font-family: 'DM Sans', Arial, sans-serif;
+  font-family: 'DM Sans', 'DM Sans Fallback', Arial, sans-serif;
   line-height: 1.55;
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -58,7 +58,7 @@ body.paid-landing-page img { display: block; max-width: 100%; }
 
 .lp-brand-name {
   color: var(--lp-navy);
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', Georgia, serif;
   font-size: 1.35rem;
   line-height: 1.05;
 }
@@ -66,7 +66,7 @@ body.paid-landing-page img { display: block; max-width: 100%; }
 .lp-brand-detail {
   color: var(--lp-muted);
   display: block;
-  font-family: 'DM Sans', Arial, sans-serif;
+  font-family: 'DM Sans', 'DM Sans Fallback', Arial, sans-serif;
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.05em;
@@ -145,7 +145,7 @@ body.paid-landing-page img { display: block; max-width: 100%; }
 
 .lp-intro h1 {
   color: var(--lp-surface);
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', Georgia, serif;
   font-size: clamp(2.65rem, 5.1vw, 4.65rem);
   font-weight: 400;
   letter-spacing: -0.025em;
@@ -193,7 +193,7 @@ body.paid-landing-page img { display: block; max-width: 100%; }
 
 .lp-lead-card h2 {
   color: var(--lp-navy);
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', Georgia, serif;
   font-size: 2rem;
   font-weight: 400;
   line-height: 1.05;
@@ -342,7 +342,7 @@ body.paid-landing-page img { display: block; max-width: 100%; }
 
 .lp-content h2 {
   color: var(--lp-navy);
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', Georgia, serif;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 400;
   line-height: 1.05;

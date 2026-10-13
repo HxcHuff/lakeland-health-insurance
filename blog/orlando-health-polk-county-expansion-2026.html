@@ -22,7 +22,7 @@
   <meta name="theme-color" content="#1B2A4A">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
 
   <script type="application/ld+json">
 {
@@ -281,15 +281,15 @@
     .byline { color: #64748B; font-size: .95rem; }
     :root { --navy:#1B2A4A; --gold:#D4A843; --gray:#475569; --bg:#F8FAFC; --card:#FFFFFF; --line:#E2E8F0; --danger:#B91C1C; --warnbg:#FEF2F2; --safebg:#EFF6FF; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'DM Sans', sans-serif; color: #1E293B; background: var(--bg); line-height: 1.65; }
+    body { margin: 0; font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; color: #1E293B; background: var(--bg); line-height: 1.65; }
     .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
     .article-hero { background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%); color: #fff; padding: 50px 20px 32px; }
-    .article-hero h1 { margin: 0 0 12px; color: #fff !important; font-family: 'Instrument Serif', serif; font-size: clamp(2.1rem, 5vw, 4rem); font-weight: 400; line-height: 1.06; max-width: 900px; }
+    .article-hero h1 { margin: 0 0 12px; color: #fff !important; font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif; font-size: clamp(2.1rem, 5vw, 4rem); font-weight: 400; line-height: 1.06; max-width: 900px; }
     .accent { color: var(--gold) !important; font-style: italic; }
     .article-hero p { margin: 0 0 12px; color: rgba(255,255,255,0.9); max-width: 840px; }
     .meta { font-size: 0.92rem; color: rgba(255,255,255,0.82); }
     .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px; margin-bottom: 16px; }
-    h2 { margin: 8px 0 10px; color: var(--navy); font-family: 'Instrument Serif', serif; font-size: 1.85rem; font-weight: 400; line-height: 1.15; }
+    h2 { margin: 8px 0 10px; color: var(--navy); font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif; font-size: 1.85rem; font-weight: 400; line-height: 1.15; }
     h3 { margin: 14px 0 8px; color: var(--navy); }
     p { margin: 0 0 12px; }
     ul, ol { margin: 8px 0 0; padding-left: 20px; }
@@ -315,14 +315,14 @@
 
   <link rel="stylesheet" href="/css/blog-unified.css?v=20260803-brand-release">
   <script defer src="/js/analytics.js?v=20261012-az-medicare-licensed"></script>
-  <link rel="stylesheet" href="/css/site-template.css?v=20261010-home-hero-header-fix">
+  <link rel="stylesheet" href="/css/site-template.css?v=20261013-font-fallback">
   <style>
     .article-hero.hero {
       background: linear-gradient(165deg, #0F1A2E 0%, #1B2A4A 50%, #1E3A5F 100%) !important;
     }
 
     .article-hero.hero h1 {
-      font-family: 'Instrument Serif', serif !important;
+      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif !important;
       font-size: clamp(2.5rem, 5vw, 3.5rem) !important;
       font-weight: 400 !important;
       line-height: 1.2 !important;

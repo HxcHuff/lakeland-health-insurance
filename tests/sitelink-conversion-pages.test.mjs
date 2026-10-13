@@ -115,7 +115,7 @@ for (const [file, sourcePage, intent] of pages) {
     assert.match(form, /Message frequency varies; message and data rates may apply/);
     assert.match(form, /Reply STOP to cancel or HELP for help/);
 
-    assert.match(html, /\/css\/site-template\.css\?v=20261010-home-hero-header-fix/);
+    assert.match(html, /\/css\/site-template\.css\?v=20261013-font-fallback/);
     assert.match(html, /\/js\/funnel\.js\?v=20261012-az-medicare-licensed/);
   });
 }
@@ -163,7 +163,7 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
     );
 
     assert.match(html, /\/js\/funnel\.js\?v=20261012-az-medicare-licensed/);
-    assert.match(html, /\/css\/site-template\.css\?v=20261010-home-hero-header-fix/);
+    assert.match(html, /\/css\/site-template\.css\?v=20261013-font-fallback/);
   });
 }
 

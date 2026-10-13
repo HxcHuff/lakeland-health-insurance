@@ -188,7 +188,7 @@ test('shared chrome uses one phone display, booking CTA, schema name, and asset 
 
   for (const rel of fontPages) {
     const html = source(rel);
-    assert.match(html, /href="\/css\/fonts\.css"/);
+    assert.match(html, /href="\/css\/fonts\.css\?v=20261013-font-fallback"/);
     assert.match(html, /rel="icon"[^>]+href="\/favicon\.ico"[^>]+type="image\/x-icon"|rel="icon"[^>]+type="image\/x-icon"[^>]+href="\/favicon\.ico"/);
   }
 

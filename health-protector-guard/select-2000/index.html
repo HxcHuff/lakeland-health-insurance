@@ -19,7 +19,7 @@
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
 
   <script type="application/ld+json">
   {
@@ -93,13 +93,13 @@
   <style>
     :root { --navy:#1B2A4A; --navy-deep:#0F1A2E; --gold:#D4A843; --line:#E2E8F0; --text:#1E293B; --muted:#64748B; --bg:#F8FAFC; --white:#fff; --green:#15803D; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: "DM Sans", sans-serif; color: var(--text); background: var(--bg); line-height: 1.65; }
+    body { font-family: "DM Sans", "DM Sans Fallback", sans-serif; color: var(--text); background: var(--bg); line-height: 1.65; }
     .container { max-width: 920px; margin: 0 auto; padding: 0 20px; }
-    .serif { font-family: "Instrument Serif", serif; }
+    .serif { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; }
     header { background: rgba(255,255,255,0.95); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; }
     nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
     nav a { text-decoration: none; color: var(--navy); font-weight: 500; font-size: 0.95rem; }
-    nav .brand { font-family: "Instrument Serif", serif; font-size: 1.2rem; }
+    nav .brand { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: 1.2rem; }
     nav .license { display: block; font-size: 0.7rem; color: var(--gold); font-weight: 600; }
     .nav-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
     .btn-cta { display: inline-block; background: var(--gold); color: var(--white); padding: 10px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; }
@@ -107,13 +107,13 @@
     .crumb { padding: 14px 0; font-size: 0.9rem; color: var(--muted); }
     .crumb a { color: var(--gold); text-decoration: none; }
     .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%); color: var(--white); padding: 56px 20px; text-align: center; }
-    .hero h1 { font-family: "Instrument Serif", serif; font-size: clamp(1.9rem, 5vw, 2.6rem); margin-bottom: 14px; line-height: 1.2; }
+    .hero h1 { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: clamp(1.9rem, 5vw, 2.6rem); margin-bottom: 14px; line-height: 1.2; }
     .hero p { color: #CBD5E1; max-width: 680px; margin: 0 auto 20px; }
     .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px; }
     .hero-phone { margin-top: 12px; font-size: 0.95rem; color: #94A3B8; }
     .hero-phone a { color: var(--gold); text-decoration: none; font-weight: 600; }
     section { padding: 40px 0; }
-    section h2 { font-family: "Instrument Serif", serif; font-size: 1.7rem; color: var(--navy); margin-bottom: 14px; }
+    section h2 { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: 1.7rem; color: var(--navy); margin-bottom: 14px; }
     .key { background: var(--white); border-left: 4px solid var(--gold); padding: 22px; border-radius: 8px; margin: 24px 0; }
     .key h2 { margin-bottom: 8px; }
     .key ul { padding-left: 20px; } .key li { margin: 6px 0; }
@@ -149,7 +149,7 @@
       .btn-secondary { display: block; margin: 12px auto 0; max-width: 240px; }
     }
   </style>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261010-home-hero-header-fix">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261013-font-fallback">
 </head>
 <body>
   <header>

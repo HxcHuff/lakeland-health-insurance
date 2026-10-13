@@ -20,7 +20,7 @@
     var style = document.createElement('style');
     style.textContent = '#articleCta{background:linear-gradient(135deg,#1B2A4A,#2563EB);margin:0;position:static}' +
         '.article-cta-inner{align-items:center;display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin:0 auto;max-width:1100px;padding:20px}' +
-        '.article-cta-text{color:white;font-family:DM Sans,-apple-system,BlinkMacSystemFont,sans-serif;font-size:1rem;font-weight:600}' +
+        '.article-cta-text{color:white;font-family:DM Sans,\"DM Sans Fallback\",-apple-system,BlinkMacSystemFont,sans-serif;font-size:1rem;font-weight:600}' +
         '.article-cta-buttons{align-items:center;display:flex;gap:10px}' +
         '.article-cta-call,.article-cta-review{border-radius:50px;font-family:inherit;font-size:0.9rem;font-weight:700;padding:9px 18px;text-decoration:none;transition:background-color 0.2s ease,transform 0.2s ease}' +
         '.article-cta-call{background:#D4A843;color:#0F1A2E}' +
