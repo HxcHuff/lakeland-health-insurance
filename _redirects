@@ -215,6 +215,8 @@
 /medicare/east-polk/ /medicare/east-polk/index.html 200
 /medicare/us-27-east-polk /medicare/east-polk/ 301!
 /medicare/us-27-east-polk/ /medicare/east-polk/ 301!
+/medicare/lakeland /medicare-broker-lakeland-fl/ 301!
+/medicare/lakeland/ /medicare-broker-lakeland-fl/ 301!
 
 # Retired quote-engine alias; route plan-finder traffic to the canonical intake
 /find-plans /get-help/ 301!
