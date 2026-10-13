@@ -160,8 +160,8 @@ test('retired Dude\'s Corner humor section redirects to professional pages', () 
   assert.match(REDIRECTS, /^\/dudes-corner\/index\/\s+https:\/\/lakelandhealthinsurance\.com\/about\/\s+301!$/m);
   assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\.html\s+https:\/\/lakelandhealthinsurance\.com\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
   assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\.html\/\s+https:\/\/lakelandhealthinsurance\.com\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
-  assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\s+https:\/\/lakelandhealthinsurance\.com\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
-  assert.match(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\/\s+https:\/\/lakelandhealthinsurance\.com\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
+  assert.doesNotMatch(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\s+https:\/\/lakelandhealthinsurance\.com\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
+  assert.doesNotMatch(REDIRECTS, /^\/dudes-corner\/fixed-indemnity-dudes-take\/\s+https:\/\/lakelandhealthinsurance\.com\/blog\/fixed-indemnity-analysis\.html\s+301!$/m);
   assert.match(REDIRECTS, /^\/dudes-corner\/subsidy-cliff-dudes-take\.html\s+\/blog\/aca-subsidy-cliff\.html\s+301!$/m);
   assert.ok(existsSync(join(ROOT, 'about/index.html')));
   assert.ok(existsSync(join(ROOT, 'blog/fixed-indemnity-analysis.html')));
