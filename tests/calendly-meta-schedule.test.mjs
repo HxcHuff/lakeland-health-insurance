@@ -63,7 +63,36 @@ function loadBookingScript({
   const createdImages = [];
   const frame = {
     id: 'booking-frame',
-    src: ''
+    src: '',
+    attributes: {},
+    getAttribute(name) {
+      return this.attributes[name] || null;
+    },
+    setAttribute(name, value) {
+      this.attributes[name] = String(value);
+    }
+  };
+  const facadeButton = {
+    id: 'booking-facade-activate',
+    listeners: {},
+    attributes: {},
+    getAttribute(name) {
+      return this.attributes[name] || null;
+    },
+    setAttribute(name, value) {
+      this.attributes[name] = String(value);
+    },
+    addEventListener(type, handler) {
+      this.listeners[type] = handler;
+    }
+  };
+  const frameWrap = {
+    className: '',
+    classList: {
+      add(name) {
+        this.className += ' ' + name;
+      }
+    }
   };
   const head = {
     children: [],
@@ -82,7 +111,13 @@ function loadBookingScript({
       return node;
     },
     getElementById(id) {
-      return id === 'booking-frame' ? frame : null;
+      if (id === 'booking-frame') return frame;
+      if (id === 'booking-facade-activate') return facadeButton;
+      if (id === 'booking-facade') return { hidden: false };
+      return null;
+    },
+    querySelector(selector) {
+      return selector === '.book-frame-wrap' ? frameWrap : null;
     }
   };
   const fetchCalls = [];
@@ -153,7 +188,17 @@ function loadBookingScript({
   }
   vm.createContext(sandbox);
   vm.runInContext(SCRIPT_SRC, sandbox, { filename: 'calendly-meta-schedule.js' });
-  return { sandbox, scripts, frame, fetchCalls, gtagCalls, listeners, imageSrcs, createdImages };
+  function activateBooking() {
+    if (typeof facadeButton.listeners.click === 'function') {
+      facadeButton.listeners.click({ preventDefault() {} });
+      return true;
+    }
+    if (sandbox.__LHI_CALENDLY_META__ && typeof sandbox.__LHI_CALENDLY_META__.activateBookingEmbed === 'function') {
+      return sandbox.__LHI_CALENDLY_META__.activateBookingEmbed();
+    }
+    return false;
+  }
+  return { sandbox, scripts, frame, facadeButton, fetchCalls, gtagCalls, listeners, imageSrcs, createdImages, activateBooking };
 }
 
 function queuedPixelCalls(sandbox) {
@@ -219,7 +264,8 @@ async function invoke(body, {
 test('booking page keeps the Schedule converter without hardcoding the calendar account', () => {
   assert.match(BOOK_HTML, /id="booking-frame"/);
   assert.doesNotMatch(BOOK_HTML, /src="\/book\/embed"/);
-  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261006-hold/);
+  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261013-facade/);
+  assert.match(BOOK_HTML, /id="booking-facade-activate"/);
   assert.doesNotMatch(BOOK_HTML, /healthmarkets|calendly\.com\/dhuff|\bfbq\s*\(/i);
   assert.match(REDIRECTS, /\/book\/embed https:\/\/calendly\.com\/dhuff-healthmarkets\?embed_domain=lakelandhealthinsurance\.com&embed_type=Inline/);
   assert.match(REDIRECTS, /^\/book\/embed .* 302$/m);
@@ -229,46 +275,44 @@ test('booking page keeps the Schedule converter without hardcoding the calendar 
   assert.match(PRIVACY, /standard Meta <code>Schedule<\/code> conversion/);
 });
 
-test('converter points the iframe at Calendly, initializes the Pixel once, and ignores other pages', () => {
+test('converter keeps the Calendly iframe behind a facade, avoids early Meta, and ignores other pages', () => {
   const booking = loadBookingScript({ search: '?utm_source=facebook' });
+  assert.equal(booking.frame.src, '');
+  assert.equal(booking.scripts.length, 0);
+  assert.equal(booking.sandbox.fbq, undefined);
+  assert.equal(booking.sandbox.__LHI_CALENDLY_META_STATUS__.state, 'ready');
+  assert.equal(booking.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'facade-idle');
+  assert.equal(booking.sandbox.location.search, '');
+  booking.activateBooking();
   assert.equal(
     booking.frame.src,
     'https://calendly.com/dhuff-healthmarkets?embed_domain=lakelandhealthinsurance.com&embed_type=Inline&hide_event_type_details=1&hide_gdpr_banner=1&hide_landing_page_details=1&utm_source=facebook'
   );
-  assert.equal(booking.scripts.length, 1);
-  assert.equal(booking.scripts[0].src, 'https://connect.facebook.net/en_US/fbevents.js');
-  assert.deepEqual(queuedPixelCalls(booking.sandbox), [
-    ['consent', 'grant'],
-    ['set', 'autoConfig', false, PIXEL_ID],
-    ['init', PIXEL_ID],
-    ['trackSingle', PIXEL_ID, 'PageView']
-  ]);
-  assert.equal(booking.sandbox.__LHI_CALENDLY_META_STATUS__.state, 'ready');
-  assert.equal(booking.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'pixel-initialized');
+  assert.equal(booking.scripts.length, 0);
+  assert.equal(booking.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'calendly-embed-active');
 
   const reused = loadBookingScript({
     preexistingFbq: true,
     preexistingPixelId: PIXEL_ID,
     search: '?utm_medium=paid_social'
   });
+  assert.equal(reused.frame.src, '');
+  reused.activateBooking();
   assert.equal(reused.scripts.length, 0);
   assert.equal(queuedPixelCalls(reused.sandbox).length, 0);
-  assert.equal(reused.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'pixel-reused');
   assert.match(reused.frame.src, /utm_medium=paid_social/);
 
   const adopted = loadBookingScript({ preexistingFbq: true, search: '?utm_campaign=book' });
+  assert.equal(adopted.frame.src, '');
+  adopted.activateBooking();
   assert.equal(adopted.scripts.length, 0);
-  assert.deepEqual(queuedPixelCalls(adopted.sandbox), [
-    ['consent', 'grant'],
-    ['set', 'autoConfig', false, PIXEL_ID],
-    ['init', PIXEL_ID]
-  ]);
-  assert.equal(adopted.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'pixel-adopted');
+  assert.equal(queuedPixelCalls(adopted.sandbox).length, 0);
   assert.match(adopted.frame.src, /utm_campaign=book/);
 
   const organicBooking = loadBookingScript({
     search: '?utm_source=Facebook&utm_medium=social&utm_campaign=Retiree+Spouse+Tips'
   });
+  organicBooking.activateBooking();
   assert.match(organicBooking.frame.src, /utm_source=facebook/);
   assert.match(organicBooking.frame.src, /utm_medium=social/);
   assert.match(organicBooking.frame.src, /utm_campaign=retireespousetips/);
@@ -279,6 +323,7 @@ test('converter points the iframe at Calendly, initializes the Pixel once, and i
   const droppedExtra = loadBookingScript({
     search: '?utm_source=facebook&foo=bar&email=jane%40example.com'
   });
+  droppedExtra.activateBooking();
   assert.match(droppedExtra.frame.src, /utm_source=facebook/);
   assert.doesNotMatch(droppedExtra.frame.src, /foo=|email=/);
   assert.equal(droppedExtra.sandbox.location.search, '');
@@ -290,7 +335,8 @@ test('converter points the iframe at Calendly, initializes the Pixel once, and i
 });
 
 test('event_scheduled fires Schedule once without Calendly payload fields', async () => {
-  const { sandbox, listeners, gtagCalls, fetchCalls, imageSrcs } = loadBookingScript();
+  const { sandbox, listeners, gtagCalls, fetchCalls, imageSrcs, activateBooking } = loadBookingScript();
+  activateBooking();
   const handler = listeners.find((entry) => entry.type === 'message').handler;
   handler({
     origin: 'https://calendly.com',
@@ -359,12 +405,13 @@ test('event_scheduled fires Schedule once without Calendly payload fields', asyn
 });
 
 test('GTM-owned fbq still sends track + /tr Schedule with the CAPI event_id', () => {
-  const { sandbox, listeners, fetchCalls, imageSrcs, scripts } = loadBookingScript({
+  const { sandbox, listeners, fetchCalls, imageSrcs, scripts, activateBooking } = loadBookingScript({
     preexistingFbq: true,
     preexistingPixelId: PIXEL_ID
   });
+  activateBooking();
   assert.equal(scripts.length, 0);
-  assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'pixel-reused');
+  assert.equal(sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'calendly-embed-active');
 
   const handler = listeners.find((entry) => entry.type === 'message').handler;
   handler({ origin: 'https://calendly.com', data: { event: 'calendly.event_scheduled' } });
@@ -408,6 +455,7 @@ test('same-origin embed messages count and declined browsers do not send Meta', 
 
   const declined = loadBookingScript({ consent: 'denied' });
   assert.equal(declined.scripts.length, 0);
+  declined.activateBooking();
   const handler = declined.listeners.find((entry) => entry.type === 'message').handler;
   handler({ origin: 'https://calendly.com', data: { event: 'calendly.event_scheduled' } });
   assert.equal(declined.sandbox.fbq, undefined);

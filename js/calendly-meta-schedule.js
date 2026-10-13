@@ -228,11 +228,27 @@
   function applyBookingFrame() {
     var frame = d.getElementById('booking-frame');
     if (!frame || !w.location) return false;
+    if (frame.getAttribute('data-lhi-calendly-loaded') === '1') return true;
     // Point the iframe at Calendly's origin. A same-origin 200 rewrite of
     // Calendly HTML makes their booking BFF call /api/booking/* on this host
-    // and the calendar stays blank. Capture sanitized UTMs first, then strip
-    // the page URL before the booking Pixel PageView.
-    frame.src = bookingEmbedUrl(w.location.hostname, w.location.search);
+    // and the calendar stays blank. UTMs are captured from the landing URL in
+    // init() before the visible URL is stripped.
+    frame.src = bookingEmbedUrl(w.location.hostname, w.__LHI_BOOKING_UTM_SEARCH__ || '');
+    frame.setAttribute('data-lhi-calendly-loaded', '1');
+    return true;
+  }
+
+  function revealBookingFrame() {
+    var facade = d.getElementById('booking-facade');
+    var wrap = d.querySelector('.book-frame-wrap');
+    if (facade) facade.hidden = true;
+    if (wrap) wrap.classList.add('book-frame-wrap--active');
+  }
+
+  function activateBookingEmbed() {
+    if (!applyBookingFrame()) return false;
+    revealBookingFrame();
+    setStatus('ready', 'calendly-embed-active');
     return true;
   }
 
@@ -455,17 +471,29 @@
     return readyReason !== 'pixel-unavailable';
   }
 
+  function bindBookingFacade() {
+    var trigger = d.getElementById('booking-facade-activate');
+    if (!trigger || trigger.getAttribute('data-lhi-bound') === '1') return false;
+    trigger.setAttribute('data-lhi-bound', '1');
+    trigger.addEventListener('click', function (event) {
+      event.preventDefault();
+      activateBookingEmbed();
+    });
+    return true;
+  }
+
   function init() {
     if (!w.location || !isBookingPath(w.location.pathname)) {
       setStatus('skipped', 'page-not-booking');
       return false;
     }
-    applyBookingFrame();
+    w.__LHI_BOOKING_UTM_SEARCH__ = w.location.search || '';
     if (!stripLocationForPixel()) {
       setStatus('skipped', 'query-not-stripped');
       return false;
     }
-    preparePixel();
+    bindBookingFacade();
+    setStatus('ready', 'facade-idle');
     w.addEventListener('message', handleScheduled);
     return true;
   }
@@ -478,6 +506,7 @@
     approvedEventId: approvedEventId,
     bookingEmbedUrl: bookingEmbedUrl,
     derivedCustomEventId: derivedCustomEventId,
+    activateBookingEmbed: activateBookingEmbed,
     handleScheduled: handleScheduled,
     isBookingPath: isBookingPath,
     isCalendlyOrigin: isCalendlyOrigin,

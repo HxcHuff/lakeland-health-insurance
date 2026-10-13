@@ -14,6 +14,8 @@
   <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
+    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="stylesheet" href="/css/site-template.css?v=20261010-home-hero-header-fix">
   <link rel="stylesheet" href="/css/answer-pages.css?v=20261012-answer-card-table-scroll">
   <script type="application/ld+json">
@@ -24,7 +26,7 @@
     "url": "https://lakelandhealthinsurance.com/book/",
     "name": "Book a time with David",
     "description": "Schedule a coverage-review time with David Huff, a licensed Florida health agent.",
-    "dateModified": "2026-10-05",
+    "dateModified": "2026-10-13",
     "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
     "about": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
     "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
@@ -44,14 +46,47 @@
       background: #fff;
       border: 1px solid #E2E8F0;
       border-radius: 16px;
-      min-height: 720px;
+      min-height: 320px;
       overflow: hidden;
     }
     .book-frame-wrap iframe {
       border: 0;
-      display: block;
+      display: none;
       height: 720px;
       width: 100%;
+    }
+    .book-frame-wrap.book-frame-wrap--active {
+      min-height: 720px;
+    }
+    .book-frame-wrap.book-frame-wrap--active iframe {
+      display: block;
+    }
+    .book-facade {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      justify-content: center;
+      min-height: 320px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    .book-facade h2 {
+      color: #1B2A4A;
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 400;
+      margin: 0;
+    }
+    .book-facade p {
+      color: #475569;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 0;
+      max-width: 36rem;
+    }
+    .book-facade .btn.primary {
+      margin-top: 0.25rem;
     }
     .book-fallback {
       color: #475569;
@@ -59,8 +94,8 @@
       margin: 1rem 0 0;
     }
     @media (max-width: 720px) {
-      .book-frame-wrap,
-      .book-frame-wrap iframe { min-height: 820px; height: 820px; }
+      .book-frame-wrap.book-frame-wrap--active,
+      .book-frame-wrap.book-frame-wrap--active iframe { min-height: 820px; height: 820px; }
     }
   </style>
 </head>
@@ -98,9 +133,14 @@
     <section class="content-band">
       <div class="answer-wrap">
         <div class="book-frame-wrap">
+          <div class="book-facade" id="booking-facade">
+            <h2>Open the scheduling calendar</h2>
+            <p>Tap below to load the interactive calendar on this page. Nothing loads until you choose to continue.</p>
+            <button type="button" class="btn primary" id="booking-facade-activate">Show available times</button>
+          </div>
           <iframe id="booking-frame" title="Schedule a time with David"></iframe>
         </div>
-        <p class="book-fallback">If the calendar does not load, call <a href="tel:+18634742500">(863) 474-2500</a> or use the <a href="/get-help/">plan review form</a>.</p>
+        <p class="book-fallback">If the calendar does not load, call <a href="tel:+18634742500">(863) 474-2500</a>, use the <a href="/get-help/">plan review form</a>, or <a href="/book/embed">open scheduling in a new tab</a>.</p>
       </div>
     </section>
   </main>
@@ -118,6 +158,6 @@
 <script src="/js/site-phone.js?v=20261012-call-tracking"></script>
 <script defer src="/js/site-template.js?v=20261012-lrh-uhc-medicare-path"></script>
 <script defer src="/js/messenger-entry.js?v=20261006-messenger"></script>
-<script defer src="/js/calendly-meta-schedule.js?v=20261006-hold"></script>
+<script defer src="/js/calendly-meta-schedule.js?v=20261013-facade"></script>
 </body>
 </html>
