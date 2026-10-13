@@ -175,6 +175,7 @@ test('funnel.js maps ACA sitelink coverage choices to intent fields', async () =
   assert.match(script, /data-sitelink-medicare-florida-note/);
   assert.match(script, /LICENSED_MEDICARE_STATES/);
   assert.match(script, /sitelinkCoverageStateFromQuery/);
+  assert.match(script, /syncLandingMedicareDisclosures/);
 });
 
 test('Medicare direct form preserves the approved hub attribution tuple', async () => {
