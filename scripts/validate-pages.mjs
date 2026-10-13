@@ -18,6 +18,7 @@ const FORBIDDEN_SERVICE_CLAIMS = [
 const CLIENT_COPY_FILES = ['js/site-search.js', 'js/blog-cta.js', 'js/site-template.js'];
 const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const RELEASE_ASSET_VERSIONS = new Map([
+  ['/css/fonts.css', '20261013-font-fallback'],
   ['/css/site-template.css', '20261010-home-hero-header-fix'],
   ['/css/blog-unified.css', '20260803-brand-release'],
   ['/js/site-phone.js', '20261012-call-tracking'],

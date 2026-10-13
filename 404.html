@@ -24,7 +24,7 @@
 
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
 
     <!-- Google Analytics --><style>
         :root {
@@ -59,7 +59,7 @@
         }
 
         body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'DM Sans', 'DM Sans Fallback', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.65;
             color: var(--gray-800);
             background: var(--white);
@@ -70,7 +70,7 @@
         }
 
         .serif {
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
         }
 
         .logo-container a {
@@ -78,7 +78,7 @@
         }
 
         .brand-name {
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
             font-size: 1.2rem;
             font-weight: 400;
             color: var(--navy);
@@ -86,7 +86,7 @@
         }
 
         .license-tag {
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
             font-size: 0.7rem;
             color: var(--gold);
             font-weight: 600;
@@ -143,7 +143,7 @@
         }
 
         .error-code {
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
             font-size: clamp(5rem, 12vw, 8rem);
             font-weight: 400;
             color: var(--gold);
@@ -153,7 +153,7 @@
         }
 
         .error-headline {
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
             font-size: clamp(1.6rem, 4vw, 2.2rem);
             font-weight: 400;
             color: var(--white);
@@ -280,7 +280,7 @@
 /* LHI Header Standardization Override */
 header .brand-name,
 header .logo {
-  font-family: 'Instrument Serif', serif !important;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif !important;
   font-size: 1.2rem !important;
   font-weight: 400 !important;
   line-height: 1.2 !important;
@@ -292,7 +292,7 @@ header .logo {
 header .license-tag,
 header .logo::after {
   content: 'Licensed FL Health Agent #W371813' !important;
-  font-family: 'DM Sans', sans-serif !important;
+  font-family: 'DM Sans', 'DM Sans Fallback', sans-serif !important;
   font-size: 0.7rem !important;
   font-weight: 600 !important;
   color: var(--gold, #D4A843) !important;

@@ -24,7 +24,7 @@
   <meta name="theme-color" content="#1B2A4A">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
   <link rel="stylesheet" href="/css/blog-unified.css?v=20260803-brand-release">
   <link rel="stylesheet" href="/css/site-template.css?v=20261010-home-hero-header-fix">
   <script defer src="/js/analytics.js?v=20261012-az-medicare-licensed"></script>
@@ -177,7 +177,7 @@
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: var(--guide-bg); color: var(--guide-text); font-family: 'DM Sans', sans-serif; line-height: 1.65; }
+    body { margin: 0; background: var(--guide-bg); color: var(--guide-text); font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; line-height: 1.65; }
     a { color: var(--guide-blue); }
     a:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--guide-gold); outline-offset: 3px; }
     .skip-link { background: #fff; border: 2px solid var(--guide-navy); border-radius: 8px; color: var(--guide-navy); font-weight: 800; left: 16px; padding: 10px 14px; position: fixed; top: 10px; transform: translateY(-150%); transition: transform .15s ease; z-index: 2000; }
@@ -188,7 +188,7 @@
     .guide-hero::before { background: radial-gradient(circle at 85% 10%, rgba(212,168,67,0.16), transparent 33%); content: ''; inset: 0; pointer-events: none; position: absolute; }
     .guide-hero .container { position: relative; }
     .eyebrow { color: #F5D98F !important; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.08em; margin: 0 0 12px; text-transform: uppercase; }
-    .guide-hero h1 { color: #fff !important; font-family: 'Instrument Serif', serif; font-size: clamp(2.35rem, 6vw, 4.1rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.02; margin: 0 0 18px; max-width: 900px; }
+    .guide-hero h1 { color: #fff !important; font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif; font-size: clamp(2.35rem, 6vw, 4.1rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.02; margin: 0 0 18px; max-width: 900px; }
     .guide-hero .lede { color: #E2E8F0 !important; font-size: clamp(1.03rem, 2vw, 1.19rem); margin: 0; max-width: 800px; }
     .hero-meta { color: #CBD5E1 !important; font-size: 0.9rem; margin: 18px 0 0 !important; }
     .guide-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
@@ -198,7 +198,7 @@
     .guide-btn:hover { transform: translateY(-1px); }
     .guide-main { margin-top: -46px; position: relative; z-index: 2; }
     .guide-post { background: var(--guide-card); border: 1px solid var(--guide-line); border-radius: 18px; box-shadow: 0 18px 50px rgba(15,23,42,0.10); padding: clamp(22px, 4vw, 46px); }
-    .guide-post h2 { color: var(--guide-navy); font-family: 'Instrument Serif', serif; font-size: clamp(1.72rem, 4vw, 2.18rem); font-weight: 400; letter-spacing: 0; line-height: 1.15; margin: 42px 0 14px; }
+    .guide-post h2 { color: var(--guide-navy); font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif; font-size: clamp(1.72rem, 4vw, 2.18rem); font-weight: 400; letter-spacing: 0; line-height: 1.15; margin: 42px 0 14px; }
     .guide-post h3 { color: var(--guide-navy); font-size: 1.08rem; line-height: 1.35; margin: 0 0 8px; }
     .guide-post p { margin: 0 0 16px; }
     .guide-post ul, .guide-post ol { margin: 10px 0 18px; padding-left: 23px; }

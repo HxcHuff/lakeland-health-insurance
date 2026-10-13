@@ -21,7 +21,7 @@
   <meta name="theme-color" content="#1B2A4A">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
   <script defer src="/js/analytics.js?v=20261012-az-medicare-licensed"></script>
 
   <style>
@@ -42,7 +42,7 @@
 
     body {
       margin: 0;
-      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'DM Sans', 'DM Sans Fallback', -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--ink);
       background: var(--soft);
       line-height: 1.6;
@@ -84,7 +84,7 @@
     }
 
     .brand {
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
       color: var(--navy);
       text-decoration: none;
       font-size: 1.28rem;
@@ -93,7 +93,7 @@
 
     .brand span {
       display: block;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
       color: var(--gold);
       font-size: 0.7rem;
       font-weight: 700;
@@ -151,7 +151,7 @@
     }
 
     .serif {
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
       color: var(--gold);
       font-weight: 400;
     }

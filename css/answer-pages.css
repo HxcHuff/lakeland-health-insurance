@@ -8,7 +8,7 @@ body {
   margin: 0;
   background: #f6f8fb;
   color: #111827;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
 }
 
 .answer-hero {
@@ -99,7 +99,7 @@ body {
 
 h1 {
   color: #1b2a4a;
-  font-family: 'Instrument Serif', serif;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
   font-size: clamp(2.35rem, 5vw, 4.2rem);
   font-weight: 400;
   letter-spacing: 0;
@@ -573,7 +573,7 @@ a:focus-visible,
 
 .hub-readiness-card h2 {
   color: #fff;
-  font-family: 'Instrument Serif', serif;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
   font-size: 2rem;
   font-weight: 400;
   line-height: 1.08;
@@ -769,7 +769,7 @@ a:focus-visible,
 .hub-faq-intro h2,
 .hub-final-cta h2,
 .hub-local-grid h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
   font-size: clamp(2.25rem, 4.6vw, 4rem);
   font-weight: 400;
   letter-spacing: -.025em;
@@ -882,7 +882,7 @@ a:focus-visible,
 }
 
 .hub-path-card h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
   font-size: 2.25rem;
   font-weight: 400;
   margin: 8px 0 12px;
@@ -1138,7 +1138,7 @@ a:focus-visible,
 }
 
 .hub-tool-panel h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
   font-size: 2rem;
   font-weight: 400;
   margin: 0 0 6px;
@@ -1299,7 +1299,7 @@ a:focus-visible,
   border-radius: 50%;
   color: var(--hub-blue);
   display: flex;
-  font-family: 'Instrument Serif', serif;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
   font-size: 1.45rem;
   height: 50px;
   justify-content: center;

@@ -26,7 +26,7 @@
   <meta name="theme-color" content="#1B2A4A">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
 
   <script type="application/ld+json">
   {
@@ -236,13 +236,13 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: "DM Sans", sans-serif;
+      font-family: "DM Sans", "DM Sans Fallback", sans-serif;
       color: var(--text);
       background: var(--bg);
       line-height: 1.65;
     }
     .container { max-width: 980px; margin: 0 auto; padding: 0 20px; }
-    .serif { font-family: "Instrument Serif", serif; }
+    .serif { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; }
 
     /* Header */
     header {
@@ -262,7 +262,7 @@
       gap: 10px;
     }
     nav a { text-decoration: none; color: var(--navy); font-weight: 500; font-size: 0.95rem; }
-    nav .brand { font-family: "Instrument Serif", serif; font-size: 1.2rem; }
+    nav .brand { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: 1.2rem; }
     nav .license { display: block; font-size: 0.7rem; color: var(--gold); font-weight: 600; }
     .nav-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
     .nav-links a:hover { color: var(--gold); }
@@ -313,7 +313,7 @@
     .hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr); gap: 32px; align-items: center; }
     .eyebrow { color: var(--gold); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: .78rem; margin-bottom: 10px; }
     .hero h1 {
-      font-family: "Instrument Serif", serif;
+      font-family: "Instrument Serif", "Instrument Serif Fallback", serif;
       font-size: clamp(2.3rem, 5vw, 3.65rem);
       line-height: 1.2;
       margin-bottom: 16px;
@@ -351,7 +351,7 @@
       margin-bottom: 16px;
     }
     .countdown-label { color: #CBD5E1; font-size: .82rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
-    .countdown-number { color: var(--white); font-family: "Instrument Serif", serif; font-size: clamp(2rem, 5vw, 3rem); line-height: 1; margin: 6px 0; }
+    .countdown-number { color: var(--white); font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: clamp(2rem, 5vw, 3rem); line-height: 1; margin: 6px 0; }
     .countdown-note { color: #E2E8F0; font-size: .92rem; }
     .deadline-list { list-style: none; display: grid; gap: 12px; }
     .deadline-list li { display: grid; grid-template-columns: 120px 1fr; gap: 14px; color: #E2E8F0; font-size: .95rem; }
@@ -362,7 +362,7 @@
     /* Sections */
     section { padding: 48px 0; }
     section h2 {
-      font-family: "Instrument Serif", serif;
+      font-family: "Instrument Serif", "Instrument Serif Fallback", serif;
       font-size: 1.8rem;
       color: var(--navy);
       margin-bottom: 16px;

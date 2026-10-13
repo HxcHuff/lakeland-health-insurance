@@ -68,7 +68,7 @@
             box-sizing: border-box;
         }
         body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'DM Sans', 'DM Sans Fallback', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
             color: #333;
             background: #f8f9fa;
@@ -539,7 +539,7 @@
     /* LHI Header Standardization Override */
     header .brand-name,
     header .logo {
-      font-family: 'Instrument Serif', serif !important;
+      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif !important;
       font-size: 1.2rem !important;
       font-weight: 400 !important;
       line-height: 1.2 !important;
@@ -551,7 +551,7 @@
     header .license-tag,
     header .logo::after {
       content: 'Licensed FL Health Agent #W371813' !important;
-      font-family: 'DM Sans', sans-serif !important;
+      font-family: 'DM Sans', 'DM Sans Fallback', sans-serif !important;
       font-size: 0.7rem !important;
       font-weight: 600 !important;
       color: var(--gold, #D4A843) !important;
@@ -592,7 +592,7 @@
 
     body.blog-post .blog-header h1 {
       color: #fff !important;
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
       font-size: clamp(2.05rem, 5vw, 3.25rem);
       font-weight: 400;
       line-height: 1.08;
@@ -629,7 +629,7 @@
     }
 
     .blog-article h2 {
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
       font-size: 1.75rem;
       font-weight: 400;
       line-height: 1.2;
@@ -704,7 +704,7 @@
 
     <link rel="stylesheet" href="/css/blog-unified.css?v=20260803-brand-release">
     <script defer src="/js/analytics.js?v=20261012-az-medicare-licensed"></script>
-    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="stylesheet" href="/css/site-template.css?v=20261010-home-hero-header-fix">

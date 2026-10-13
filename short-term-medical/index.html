@@ -93,7 +93,7 @@
 
 <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#1B2A4A">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -132,7 +132,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
     color: var(--gray-800);
     background: var(--white);
     line-height: 1.65;
@@ -140,7 +140,7 @@
     overflow-x: hidden;
   }
 
-  .serif { font-family: 'Instrument Serif', serif; }
+  .serif { font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif; }
 
   .compliance-banner {
     background: var(--navy-deep);
@@ -171,7 +171,7 @@
     padding: 1rem 20px;
   }
   .brand-name {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
     font-size: 1.2rem;
     font-weight: 400;
     color: var(--navy);
@@ -179,7 +179,7 @@
     text-decoration: none;
   }
   .license-tag {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
     font-size: 0.7rem;
     color: var(--gold);
     font-weight: 600;
@@ -257,7 +257,7 @@
     margin-bottom: 1rem;
   }
   .hero h1 {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
     font-size: clamp(2.5rem, 5vw, 3.5rem);
     font-weight: 400;
     color: var(--white);
@@ -265,7 +265,7 @@
     margin-bottom: 1rem;
   }
   .hero h2 {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
     font-size: 1.8rem;
     font-weight: 400;
     color: rgba(255,255,255,0.95);
@@ -338,7 +338,7 @@
     margin-bottom: 12px;
   }
   .section-title {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
     font-size: clamp(1.8rem, 4vw, 2.6rem);
     font-weight: 400;
     color: var(--navy);
@@ -404,7 +404,7 @@
     border-color: var(--blue-light);
   }
   .hiw-num {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
     font-size: 3rem;
     color: var(--sky);
     font-weight: 400;
@@ -464,7 +464,7 @@
     border-bottom: 1px solid var(--gray-100);
   }
   .plan-name {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
     font-size: 1.6rem;
     color: var(--navy);
     margin-bottom: 4px;
@@ -761,7 +761,7 @@
   }
   .cta-content { position: relative; z-index: 2; }
   .cta-section h2 {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
     font-size: clamp(2rem, 4vw, 2.8rem);
     color: var(--white);
     margin-bottom: 16px;
@@ -953,7 +953,7 @@
 /* LHI Header Standardization Override */
 header .brand-name,
 header .logo {
-  font-family: 'Instrument Serif', serif !important;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif !important;
   font-size: 1.2rem !important;
   font-weight: 400 !important;
   line-height: 1.2 !important;
@@ -965,7 +965,7 @@ header .logo {
 header .license-tag,
 header .logo::after {
   content: 'Licensed FL Health Agent #W371813' !important;
-  font-family: 'DM Sans', sans-serif !important;
+  font-family: 'DM Sans', 'DM Sans Fallback', sans-serif !important;
   font-size: 0.7rem !important;
   font-weight: 600 !important;
   color: var(--gold, #D4A843) !important;

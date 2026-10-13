@@ -9,7 +9,7 @@
 }
 
 .office-map-heading {
-  font-family: 'Instrument Serif', serif;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
   font-size: clamp(1.65rem, 3.5vw, 2rem);
   font-weight: 400;
   color: var(--navy, #1b2a4a);

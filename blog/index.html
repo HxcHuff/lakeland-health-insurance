@@ -15,7 +15,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="/icons/icon-192.png"><link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
     <link rel="stylesheet" href="/css/site-search.css"><link rel="canonical" href="https://lakelandhealthinsurance.com/blog/">
     <meta name="robots" content="index, follow">
 
@@ -118,14 +118,14 @@
         }
 
         body {
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
             line-height: 1.65;
             color: var(--gray-800);
             background: var(--white);
         }
 
         .serif {
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
         }
 
         .container {
@@ -174,7 +174,7 @@
         }
 
         .brand-name {
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
             font-size: 1.2rem;
             font-weight: 400;
             color: var(--navy);
@@ -182,7 +182,7 @@
         }
 
         .license-tag {
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
             font-size: 0.7rem;
             color: var(--gold);
             font-weight: 600;
@@ -303,7 +303,7 @@
         }
 
         .blog-header h1 {
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
             font-size: 3rem;
             font-weight: 400;
             line-height: 1.08;
@@ -353,7 +353,7 @@
             background: rgba(255,255,255,0.96);
             box-shadow: 0 18px 45px rgba(6, 15, 35, 0.28);
             color: var(--gray-800);
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
             font-size: 1rem;
             line-height: 1.2;
             transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
@@ -456,7 +456,7 @@
         .audience-season h2,
         .featured-under65 h2 {
             color: var(--navy);
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
             font-size: clamp(1.8rem, 4vw, 2.4rem);
             font-weight: 400;
             line-height: 1.12;
@@ -534,7 +534,7 @@
         }
 
         .medicare-secondary h2 {
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
             font-size: clamp(1.55rem, 3vw, 2rem);
             font-weight: 400;
             line-height: 1.15;
@@ -638,7 +638,7 @@
 
         .library-heading h2 {
             color: var(--navy);
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
             font-size: clamp(1.9rem, 4vw, 2.5rem);
             font-weight: 400;
             line-height: 1.12;
@@ -894,7 +894,7 @@
         }
 
         .article-title {
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
             font-size: 1.5rem;
             font-weight: 400;
             margin-bottom: 1rem;
@@ -1040,7 +1040,7 @@
 
         .national-guidance h2 {
             color: var(--navy);
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
             font-size: clamp(2rem, 5vw, 2.7rem);
             font-weight: 400;
             line-height: 1.12;
@@ -1093,7 +1093,7 @@
         }
 
         .footer-column h3 {
-            font-family: 'Instrument Serif', serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
             font-size: 1.25rem;
             font-weight: 400;
             color: white;
@@ -1305,7 +1305,7 @@
 /* LHI Header Standardization Override */
 header .brand-name,
 header .logo {
-  font-family: 'Instrument Serif', serif !important;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif !important;
   font-size: 1.2rem !important;
   font-weight: 400 !important;
   line-height: 1.2 !important;
@@ -1317,7 +1317,7 @@ header .logo {
 header .license-tag,
 header .logo::after {
   content: 'Licensed FL Health Agent #W371813' !important;
-  font-family: 'DM Sans', sans-serif !important;
+  font-family: 'DM Sans', 'DM Sans Fallback', sans-serif !important;
   font-size: 0.7rem !important;
   font-weight: 600 !important;
   color: var(--gold, #D4A843) !important;

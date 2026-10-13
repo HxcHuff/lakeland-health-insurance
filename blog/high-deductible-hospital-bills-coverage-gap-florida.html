@@ -20,7 +20,7 @@
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
   <script defer src="/js/analytics.js?v=20261012-az-medicare-licensed"></script>
   <script type="application/ld+json">
 {
@@ -81,7 +81,7 @@
     body {
       background: var(--gray-50);
       color: var(--gray-800);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
       line-height: 1.7;
     }
     a { color: var(--blue); }
@@ -110,14 +110,14 @@
     }
     .brand {
       color: var(--navy);
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
       font-size: 1.18rem;
       text-decoration: none;
     }
     .brand span {
       color: var(--gold);
       display: block;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
       font-size: 0.68rem;
       font-weight: 700;
       margin-top: 1px;
@@ -152,7 +152,7 @@
       text-transform: uppercase;
     }
     h1 {
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
       font-size: clamp(2.7rem, 6vw, 5rem);
       font-weight: 400;
       letter-spacing: 0;
@@ -204,7 +204,7 @@
     }
     .article h2 {
       color: var(--navy);
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
       font-size: clamp(2rem, 4vw, 2.7rem);
       font-weight: 400;
       line-height: 1.08;

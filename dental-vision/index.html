@@ -22,7 +22,7 @@
   <meta name="theme-color" content="#1B2A4A">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
 
   <script type="application/ld+json">
 {
@@ -211,13 +211,13 @@
   <style>
     :root { --navy:#1B2A4A; --navy-deep:#0F1A2E; --gold:#D4A843; --line:#E2E8F0; --text:#1E293B; --muted:#64748B; --bg:#F8FAFC; --white:#fff; --green:#15803D; --green-soft:#DCFCE7; --blue:#2563EB; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: "DM Sans", sans-serif; color: var(--text); background: var(--bg); line-height: 1.65; }
+    body { font-family: "DM Sans", "DM Sans Fallback", sans-serif; color: var(--text); background: var(--bg); line-height: 1.65; }
     .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-    .serif { font-family: "Instrument Serif", serif; }
+    .serif { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; }
     header { background: rgba(255,255,255,0.95); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; }
     nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
     nav a { text-decoration: none; color: var(--navy); font-weight: 500; font-size: 0.95rem; }
-    nav .brand { font-family: "Instrument Serif", serif; font-size: 1.2rem; }
+    nav .brand { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: 1.2rem; }
     nav .license { display: block; font-size: 0.7rem; color: var(--gold); font-weight: 600; }
     .nav-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
     body.dental-vision-page header {
@@ -240,7 +240,7 @@
     body.dental-vision-page header .logo-container { flex: 0 0 auto; min-width: 235px; }
     body.dental-vision-page header .brand-name {
       display: inline-block;
-      font-family: "Instrument Serif", serif;
+      font-family: "Instrument Serif", "Instrument Serif Fallback", serif;
       font-size: 1.18rem;
       line-height: 1.15;
       color: var(--navy);
@@ -250,7 +250,7 @@
     body.dental-vision-page header .license-tag {
       display: block;
       margin-top: 2px;
-      font-family: "DM Sans", sans-serif;
+      font-family: "DM Sans", "DM Sans Fallback", sans-serif;
       font-size: 0.68rem;
       line-height: 1.1;
       font-weight: 700;
@@ -296,7 +296,7 @@
     .hero { background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 50%, #2359c9 100%); color: var(--white); padding: 58px 20px 42px; text-align: left; border-bottom: 4px solid var(--gold); }
     .hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr); gap: 34px; align-items: center; }
     .hero-kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px; padding: 7px 12px; border: 1px solid rgba(255,255,255,0.22); border-radius: 999px; background: rgba(255,255,255,0.1); color: var(--gold); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
-    .hero h1 { font-family: "Instrument Serif", serif; font-size: clamp(2.4rem, 5vw, 4.15rem); margin-bottom: 16px; line-height: 1.05; font-weight: 400; }
+    .hero h1 { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: clamp(2.4rem, 5vw, 4.15rem); margin-bottom: 16px; line-height: 1.05; font-weight: 400; }
     .hero p { color: rgba(255,255,255,0.88); max-width: 720px; margin: 0 0 24px; font-size: 1.08rem; }
     .hero-cta-row { display: flex; gap: 12px; justify-content: flex-start; flex-wrap: wrap; margin-top: 18px; }
     .btn-phone { display: inline-flex; align-items: center; gap: 8px; background: var(--green); color: var(--white); padding: 14px 28px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 1.1rem; }
@@ -306,7 +306,7 @@
     .hero-trust { margin-top: 22px; font-size: 0.92rem; color: #94A3B8; }
     .hero-trust strong { color: var(--gold); }
     .hero-quote-panel { background: rgba(255,255,255,0.96); border: 1px solid rgba(255,255,255,0.7); border-radius: 14px; padding: 22px; color: var(--text); box-shadow: 0 24px 55px rgba(15, 23, 42, 0.28); }
-    .hero-quote-panel h2 { color: var(--navy); font-family: "DM Sans", sans-serif; font-size: 1.15rem; margin: 0 0 8px; }
+    .hero-quote-panel h2 { color: var(--navy); font-family: "DM Sans", "DM Sans Fallback", sans-serif; font-size: 1.15rem; margin: 0 0 8px; }
     .hero-quote-panel p { color: var(--muted); margin: 0 0 16px; font-size: 0.95rem; }
     .hero-quote-options { display: grid; gap: 12px; }
     .hero-quote-option { display: grid; gap: 8px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; text-decoration: none; color: var(--text); }
@@ -317,7 +317,7 @@
 
     #proof { background: var(--white); padding: 30px 0; border-bottom: 1px solid var(--line); }
     .proof-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; text-align: center; }
-    .proof-item .num { font-family: "Instrument Serif", serif; font-size: 1.8rem; color: var(--navy); }
+    .proof-item .num { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: 1.8rem; color: var(--navy); }
     .proof-item .label { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
 
     .medicare-dental-note { background: var(--white); border-bottom: 1px solid var(--line); padding: 30px 0; }
@@ -331,7 +331,7 @@
     .note-actions .secondary { background: var(--bg); border: 1px solid var(--line); color: var(--navy); }
 
     section { padding: 44px 0; }
-    section h2 { font-family: "Instrument Serif", serif; font-size: 1.7rem; color: var(--navy); margin-bottom: 14px; }
+    section h2 { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: 1.7rem; color: var(--navy); margin-bottom: 14px; }
     section p, section li { color: var(--text); font-size: 1rem; }
 
     .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-top: 18px; }

@@ -24,7 +24,7 @@
     <meta name="theme-color" content="#1B2A4A">
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
 
     <script type="application/ld+json">
 {
@@ -78,7 +78,7 @@
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'DM Sans', 'DM Sans Fallback', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--text);
             background: var(--bg);
             line-height: 1.7;
@@ -189,7 +189,7 @@
             text-transform: uppercase;
         }
         .sponsored-ad h3 {
-            font-family: 'Instrument Serif', Georgia, serif;
+            font-family: 'Instrument Serif', 'Instrument Serif Fallback', Georgia, serif;
             font-size: 1.55rem;
             color: var(--navy);
             margin: 0 0 6px;

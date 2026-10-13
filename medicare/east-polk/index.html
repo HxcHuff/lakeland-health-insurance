@@ -23,7 +23,7 @@
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
   <script defer src="/js/analytics.js?v=20261012-az-medicare-licensed"></script>
 
   <script type="application/ld+json">
@@ -156,13 +156,13 @@
       --green-soft: #DCFCE7;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: "DM Sans", sans-serif; line-height: 1.65; }
+    body { background: var(--bg); color: var(--text); font-family: "DM Sans", "DM Sans Fallback", sans-serif; line-height: 1.65; }
     .container { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
-    .serif { font-family: "Instrument Serif", serif; }
+    .serif { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; }
     header { background: rgba(255,255,255,0.96); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; }
     nav { align-items: center; display: flex; gap: 18px; justify-content: space-between; padding: 14px 0; }
-    .brand { color: var(--navy); font-family: "Instrument Serif", serif; font-size: 1.25rem; text-decoration: none; }
-    .license { color: var(--gold); display: block; font-family: "DM Sans", sans-serif; font-size: 0.7rem; font-weight: 700; }
+    .brand { color: var(--navy); font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: 1.25rem; text-decoration: none; }
+    .license { color: var(--gold); display: block; font-family: "DM Sans", "DM Sans Fallback", sans-serif; font-size: 0.7rem; font-weight: 700; }
     .nav-links { align-items: center; display: flex; gap: 18px; list-style: none; }
     .nav-links a { color: var(--text); font-weight: 600; text-decoration: none; }
     .nav-links a:hover { color: var(--navy); }
@@ -172,7 +172,7 @@
     .hero { background: linear-gradient(155deg, var(--navy-deep), var(--navy) 58%, #24476F); color: var(--white); padding: 84px 0 72px; }
     .hero-grid { align-items: center; display: grid; gap: 42px; grid-template-columns: minmax(0, 1.12fr) 330px; }
     .kicker { color: var(--gold); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; margin-bottom: 14px; text-transform: uppercase; }
-    h1 { font-family: "Instrument Serif", serif; font-size: clamp(2.45rem, 6vw, 4.45rem); font-weight: 400; letter-spacing: 0; line-height: 0.98; margin-bottom: 18px; }
+    h1 { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: clamp(2.45rem, 6vw, 4.45rem); font-weight: 400; letter-spacing: 0; line-height: 0.98; margin-bottom: 18px; }
     .hero p { color: rgba(255,255,255,0.84); font-size: 1.12rem; max-width: 690px; }
     .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
     .hero-card { background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.18); border-radius: 12px; overflow: hidden; }
@@ -181,7 +181,7 @@
     .hero-card strong { color: var(--white); display: block; margin-bottom: 4px; }
     .hero-card span { color: rgba(255,255,255,0.72); display: block; font-size: 0.92rem; }
     section { padding: 64px 0; }
-    .section-title { color: var(--navy); font-family: "Instrument Serif", serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; line-height: 1.06; margin-bottom: 14px; }
+    .section-title { color: var(--navy); font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; line-height: 1.06; margin-bottom: 14px; }
     .section-intro { color: var(--muted); max-width: 720px; }
     .grid-3 { display: grid; gap: 18px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 28px; }
     .card { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
@@ -202,7 +202,7 @@
     .checklist .card p, .checklist .card li { color: rgba(255,255,255,0.78); }
     .cta-band { background: var(--white); }
     .cta-box { align-items: center; background: var(--green-soft); border: 1px solid rgba(22,163,74,0.2); border-radius: 12px; display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr) auto; padding: 28px; }
-    .cta-box h2 { color: var(--navy); font-family: "Instrument Serif", serif; font-size: 2rem; font-weight: 400; line-height: 1.1; margin-bottom: 8px; }
+    .cta-box h2 { color: var(--navy); font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: 2rem; font-weight: 400; line-height: 1.1; margin-bottom: 8px; }
     .cta-box p { color: #166534; }
     footer { background: var(--navy-deep); color: rgba(255,255,255,0.62); padding: 32px 0; text-align: center; }
     footer a { color: var(--gold); text-decoration: none; }

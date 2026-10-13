@@ -29,7 +29,7 @@
 }
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
   color: var(--gray-800);
   background: var(--white);
   -webkit-font-smoothing: antialiased;
@@ -74,7 +74,7 @@ header nav.container {
 header .brand-name,
 header .logo,
 header .brand {
-  font-family: 'Instrument Serif', serif !important;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif !important;
   font-size: 1.2rem !important;
   font-weight: 400 !important;
   line-height: 1.2 !important;
@@ -85,7 +85,7 @@ header .brand {
 
 header .license-tag,
 header .license {
-  font-family: 'DM Sans', sans-serif !important;
+  font-family: 'DM Sans', 'DM Sans Fallback', sans-serif !important;
   font-size: 0.7rem !important;
   font-weight: 600 !important;
   color: #7a5b00 !important;
@@ -203,7 +203,7 @@ header .nav-links a:hover {
   color: var(--navy-deep);
   border: none;
   border-radius: 100px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
@@ -268,7 +268,7 @@ header .nav-links a:hover {
 .page-hero h1,
 .blog-header h1,
 .article-header h1 {
-  font-family: 'Instrument Serif', serif;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   font-weight: 400;
   line-height: 1.2;
@@ -357,7 +357,7 @@ footer {
 }
 
 .footer-column h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
   font-size: 1.25rem;
   font-weight: 400;
   color: white;
@@ -1194,7 +1194,7 @@ body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero {
 }
 
 .lhi-alert-notice h2 {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
   font-size: 1.15rem;
   font-weight: 800;
   line-height: 1.35;

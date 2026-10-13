@@ -34,7 +34,7 @@
     var style = document.createElement('style');
     style.id = 'lhi-blog-floating-actions-style';
     style.textContent =
-      '.lhi-floating-call{position:fixed;bottom:20px;right:20px;z-index:1500;background:linear-gradient(135deg,#16A34A,#059669);color:#fff;padding:15px 20px;border-radius:999px;text-decoration:none;font-weight:700;font-size:1rem;box-shadow:0 8px 25px rgba(22,163,74,.4);display:flex;align-items:center;gap:8px;transition:all .3s ease;font-family:DM Sans,-apple-system,BlinkMacSystemFont,sans-serif}' +
+      '.lhi-floating-call{position:fixed;bottom:20px;right:20px;z-index:1500;background:linear-gradient(135deg,#16A34A,#059669);color:#fff;padding:15px 20px;border-radius:999px;text-decoration:none;font-weight:700;font-size:1rem;box-shadow:0 8px 25px rgba(22,163,74,.4);display:flex;align-items:center;gap:8px;transition:all .3s ease;font-family:DM Sans,\"DM Sans Fallback\",-apple-system,BlinkMacSystemFont,sans-serif}' +
       '.lhi-floating-call:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(22,163,74,.55)}' +
       '@media(max-width:768px){.lhi-floating-call{bottom:15px;right:15px;padding:12px 15px;font-size:.9rem}}';
     document.head.appendChild(style);

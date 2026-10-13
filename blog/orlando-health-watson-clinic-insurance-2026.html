@@ -22,7 +22,7 @@
   <meta name="theme-color" content="#1B2A4A">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
 
   <script type="application/ld+json">
 {
@@ -216,10 +216,10 @@
   <style>
     :root { --navy:#1B2A4A; --gold:#D4A843; --gray:#475569; --bg:#F8FAFC; --card:#FFFFFF; --line:#E2E8F0; --warn:#B45309; --warnbg:#FFFBEB; --safebg:#EFF6FF; --green:#166534; --greenbg:#F0FDF4; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'DM Sans', sans-serif; color: #1E293B; background: var(--bg); line-height: 1.65; }
+    body { margin: 0; font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; color: #1E293B; background: var(--bg); line-height: 1.65; }
     .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
     .article-hero { background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%); color: #fff; margin-top: 48px; padding: 50px 20px 32px; }
-    .article-hero h1 { margin: 0 0 12px; color: #fff !important; font-family: 'Instrument Serif', serif; font-size: clamp(2.1rem, 5vw, 4rem); font-weight: 400; line-height: 1.06; max-width: 900px; }
+    .article-hero h1 { margin: 0 0 12px; color: #fff !important; font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif; font-size: clamp(2.1rem, 5vw, 4rem); font-weight: 400; line-height: 1.06; max-width: 900px; }
     .accent { color: var(--gold) !important; font-style: italic; }
     .article-hero p { margin: 0 0 12px; color: rgba(255,255,255,0.9); max-width: 840px; }
     .meta { font-size: 0.92rem; color: rgba(255,255,255,0.82); }
@@ -232,7 +232,7 @@
     .fact-grid { display: grid; gap: 0.85rem; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); margin-top: 1rem; }
     .fact { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
     .fact strong { color: var(--navy); display: block; margin-bottom: 4px; }
-    h2 { margin: 8px 0 10px; color: var(--navy); font-family: 'Instrument Serif', serif; font-size: 1.85rem; font-weight: 400; line-height: 1.15; }
+    h2 { margin: 8px 0 10px; color: var(--navy); font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif; font-size: 1.85rem; font-weight: 400; line-height: 1.15; }
     h3 { margin: 14px 0 8px; color: var(--navy); }
     p { margin: 0 0 12px; }
     ul, ol { margin: 8px 0 0; padding-left: 20px; }

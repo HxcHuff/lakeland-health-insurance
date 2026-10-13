@@ -25,7 +25,7 @@
   <meta name="theme-color" content="#1B2A4A">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
   <link rel="stylesheet" href="/css/blog-unified.css?v=20260803-brand-release">
   <link rel="stylesheet" href="/css/site-template.css?v=20261010-home-hero-header-fix">
   <script type="application/ld+json">
@@ -182,19 +182,19 @@
   <style>
     :root { --navy:#1B2A4A; --navy-deep:#0F1A2E; --gold:#D4A843; --blue:#2563EB; --text:#1E293B; --muted:#64748B; --line:#E2E8F0; --bg:#F8FAFC; --green:#0F766E; --green-bg:#F0FDFA; --amber-bg:#FFFBEB; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; overflow-x: hidden; }
+    body { margin: 0; font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; overflow-x: hidden; }
     .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
     .top-strip { background: var(--navy-deep); color: rgba(255,255,255,.86); font-size: .86rem; padding: 9px 0; }
     .top-strip a { color: white; }
     .hero { background: linear-gradient(165deg, var(--navy-deep), var(--navy)); color: white; padding: 72px 0 54px; }
-    .hero h1 { font-family: 'Instrument Serif', serif; font-size: clamp(1.7rem, 4vw, 3rem); font-weight: 400; line-height: 1.15; margin: 0 0 18px; color: white; overflow-wrap: anywhere; }
+    .hero h1 { font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif; font-size: clamp(1.7rem, 4vw, 3rem); font-weight: 400; line-height: 1.15; margin: 0 0 18px; color: white; overflow-wrap: anywhere; }
     .hero p { max-width: 780px; font-size: 1.08rem; color: rgba(255,255,255,.88); margin: 0 0 16px; }
     .meta { color: rgba(255,255,255,.72); font-size: .95rem; }
     .last-reviewed { color: rgba(255,255,255,.72); font-size: .9rem; margin: .5rem 0 0; }
     .crumb { font-size: .92rem; padding: 18px 20px; color: var(--muted); overflow-wrap: anywhere; }
     .crumb a { color: var(--blue); text-decoration: none; }
     .post { background: white; border: 1px solid var(--line); border-radius: 10px; margin: 30px 0 70px; padding: clamp(24px, 4vw, 44px); overflow-wrap: anywhere; }
-    .post h2 { font-family: 'Instrument Serif', serif; color: var(--navy); font-size: clamp(1.35rem, 3vw, 2rem); font-weight: 400; margin: 34px 0 12px; }
+    .post h2 { font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif; color: var(--navy); font-size: clamp(1.35rem, 3vw, 2rem); font-weight: 400; margin: 34px 0 12px; }
     .post h3 { color: var(--navy); margin: 22px 0 8px; }
     .key-answer { background: var(--green-bg); border: 1px solid #99F6E4; border-left: 5px solid var(--green); border-radius: 10px; padding: 18px 20px; margin-bottom: 24px; }
     .cta-section { background: var(--navy); color: white; border-radius: 10px; padding: 28px; margin: 34px 0; }
