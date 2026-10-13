@@ -885,6 +885,15 @@
     return true;
   }
 
+  function syncLandingMedicareDisclosures() {
+    var intake = w.LHIGetHelpIntake;
+    if (!intake || typeof intake.syncGetHelpMedicareDisclosures !== 'function') return;
+    if (!d.getElementById('medicareTpmoDisclaimer')) return;
+    try {
+      intake.syncGetHelpMedicareDisclosures(intake.resolveCoverageState(new URLSearchParams(w.location.search || '')));
+    } catch (e) {}
+  }
+
   function wireSitelinkLeadForms() {
     d.querySelectorAll('form[data-sitelink-lead-form]').forEach(function (form) {
       if (form.__lhiSitelinkLeadWired) return;
@@ -1221,8 +1230,12 @@
     wireHeroZipForms();
     wireSitelinkLeadForms();
     wireForms();
+    syncLandingMedicareDisclosures();
     trackLeadReceiptView();
     setTimeout(pageView, 300);
+    if (w.addEventListener) {
+      w.addEventListener('load', syncLandingMedicareDisclosures, { once: true });
+    }
     // Observe DOM for late-rendered forms (React/etc.)
     if (w.MutationObserver) {
       new MutationObserver(function () {
