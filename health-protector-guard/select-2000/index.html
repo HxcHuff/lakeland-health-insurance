@@ -125,6 +125,10 @@
     .step p { color: var(--muted); font-size: 0.9rem; }
     .compare-copy { background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: 22px; }
     .compare-copy p + p { margin-top: 12px; }
+    .compare-table { background: var(--white); border: 1px solid var(--line); border-radius: 10px; border-collapse: collapse; margin-top: 16px; width: 100%; }
+    .compare-table th, .compare-table td { border: 1px solid var(--line); padding: 12px 14px; text-align: left; vertical-align: top; }
+    .compare-table th { background: var(--bg); color: var(--navy); font-size: 0.92rem; }
+    .compare-table caption { caption-side: top; color: var(--muted); font-size: 0.9rem; margin-bottom: 10px; text-align: left; }
     .cta-section { background: var(--navy); color: var(--white); padding: 40px 20px; text-align: center; border-radius: 14px; margin: 32px 0; }
     .cta-section h2 { color: var(--white); margin-bottom: 10px; }
     .cta-section p { color: #CBD5E1; max-width: 560px; margin: 0 auto 20px; }
@@ -185,6 +189,11 @@
   <main class="container">
 
     <div class="key">
+      <h2>Direct answer</h2>
+      <p><strong>Health ProtectorGuard Select 2000</strong> is a Core fixed-indemnity option that pays a $2,000 fixed benefit for certain covered hospital services plus limited scheduled amounts for listed doctor, prescription, imaging, and other services—it is not major medical coverage, and David can confirm the current premium and Florida ZIP-code availability before you apply.</p>
+    </div>
+
+    <div class="key">
       <h2>What to know first</h2>
       <ul>
         <li>The plan pays a set amount for each covered service, not the full medical bill.</li>
@@ -233,10 +242,40 @@
     </section>
 
     <section>
-      <h2>Health ProtectorGuard Select 2000 vs Preferred 4000 and Premier 5000</h2>
+      <h2>Select 2000 vs Preferred 4000</h2>
       <div class="compare-copy">
-        <p>Select 2000 is the lower scheduled-benefit Core option. Preferred 4000 and Premier 5000 provide higher scheduled benefits for some covered services and may have different premiums and limits.</p>
-        <p>The right option depends on the care you expect to use, the coverage you already have, current rates, and what you could still owe.</p>
+        <p>Both are Health ProtectorGuard Core fixed-indemnity options with medical underwriting—not major medical insurance and not Minimum Essential Coverage under the ACA.</p>
+        <table class="compare-table">
+          <caption>Figures from the Select 2000 and Preferred 4000 plan pages; the issued policy controls benefits, limits, and premiums.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Topic</th>
+              <th scope="col">Select 2000</th>
+              <th scope="col">Preferred 4000</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Core series position</th>
+              <td>Lower scheduled-benefit option</td>
+              <td>Middle scheduled-benefit option</td>
+            </tr>
+            <tr>
+              <th scope="row">Hospital scheduled benefit</th>
+              <td>$2,000 fixed benefit for certain covered hospital services</td>
+              <td>$4,000 fixed benefit for each covered day of hospital confinement</td>
+            </tr>
+            <tr>
+              <th scope="row">Other covered services</th>
+              <td colspan="2">Limited scheduled amounts for listed doctor, prescription, imaging, and other services (see each plan page)</td>
+            </tr>
+            <tr>
+              <th scope="row">Premium</th>
+              <td colspan="2">David can confirm the current premium and availability for your Florida ZIP code before you apply</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top:12px;">The right option depends on the care you expect to use, the coverage you already have, current rates, and what you could still owe. See the <a href="/health-protector-guard/preferred-4000/">Preferred 4000</a> page for the middle Core schedule.</p>
         <p><a href="/get-help/?product=hpg&plan=select-2000" class="btn-cta">Talk to David About Core Options</a></p>
       </div>
     </section>

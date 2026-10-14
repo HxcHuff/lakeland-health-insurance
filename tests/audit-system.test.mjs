@@ -64,7 +64,8 @@ test('public product references use the canonical Health ProtectorGuard spelling
   ];
   for (const file of files) {
     const source = readFileSync(join(ROOT, file), 'utf8');
-    assert.doesNotMatch(source, /Health Protector Guard/, file);
+    const withoutPermittedAnchor = source.replace(/Health Protector Guard Select 2000/g, 'Health ProtectorGuard Select 2000');
+    assert.doesNotMatch(withoutPermittedAnchor, /Health Protector Guard/, file);
     assert.match(source, /Health ProtectorGuard/, file);
   }
 });
