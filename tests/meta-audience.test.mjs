@@ -27,7 +27,10 @@ const FORM_BEARING_ELIGIBLE_FILES = new Set([
   'get-help/index.html',
   'medicare/index.html',
   'plans/index.html',
-  'aca-health-insurance-lakeland-fl/index.html'
+  'aca-health-insurance-lakeland-fl/index.html',
+  'quote/index.html',
+  'carriers/index.html',
+  'medicare-broker-lakeland-fl/index.html'
 ]);
 const PROMPT_SUPPRESSED_PATHS = [
   ...ELIGIBLE_PAGES.map(([, pathname]) => pathname),

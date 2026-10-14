@@ -14,13 +14,7 @@ The `lp-*-2026-09-29-v1` strings remain on the server allowlist for older leads.
 - Pages:
   - `aca-health-insurance-agent-polk-county-fl/index.html`
   - `aca-health-insurance-lakeland-fl/index.html`
-  - `blog/index.html`
-  - `carriers/index.html`
-  - `dental-vision/index.html`
   - `medicare/index.html`
-  - `plans/index.html`
-  - `private-medical-insurance/index.html`
-  - `supplemental-insurance/index.html`
 
 ### request
 
@@ -184,23 +178,36 @@ I agree to receive email newsletters from Lakeland Health Insurance with general
 I agree to receive email newsletters from Lakeland Health Insurance with general health insurance and Medicare education tips. Optional phone is for newsletter context only, not consent to sales calls or texts. Unsubscribe anytime.
 ```
 
+## site-aca-2026-10-v1
+
+- Date: 2026-10-14
+- Forms: `site-aca-lead`
+- Pages:
+  - `index.html`
+  - `tampa-health-insurance/index.html`
+
+### consent
+
+```html
+By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+```
+
+## site-medicare-2026-10-v1
+
+- Date: 2026-10-14
+- Forms: `site-medicare-lead`
+- Pages:
+  - `medicare-broker-lakeland-fl/index.html`
+
+### consent
+
+```html
+By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my Medicare request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+```
+
 ## none
 
 - Date: 2026-09-29
-- Forms: city `*-health-insurance` leads
+- Status: superseded
+- Forms: legacy city `*-health-insurance` leads (replaced by `site-aca-lead` on 2026-10-14)
 - Stored fields: `consent_sms=no`, `consent_text_version=none`, `consent_version_source=none`
-- Pages:
-  - `brandon-health-insurance/index.html`
-  - `clearwater-health-insurance/index.html`
-  - `davenport-health-insurance/index.html`
-  - `haines-city-health-insurance/index.html`
-  - `lake-alfred-health-insurance/index.html`
-  - `largo-health-insurance/index.html`
-  - `new-port-richey-health-insurance/index.html`
-  - `riverview-health-insurance/index.html`
-  - `st-petersburg-health-insurance/index.html`
-  - `tampa-health-insurance/index.html`
-  - `wesley-chapel-health-insurance/index.html`
-  - `winter-haven-health-insurance/index.html`
-
-These pages have no SMS checkbox and no TCPA consent label. Do not add one without a separate compliance review.

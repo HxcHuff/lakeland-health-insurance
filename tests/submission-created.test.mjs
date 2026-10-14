@@ -21,6 +21,8 @@ const SUBMISSION_ID = '0123456789abcdef01234567';
 
 const RELAY_FORMS = [
   'get-help',
+  'site-medicare-lead',
+  'site-aca-lead',
   'aca-lakeland-lead',
   'lp-aca-lead',
   'lp-medicare-lead',
@@ -39,6 +41,9 @@ const RELAY_FORMS = [
   'st-petersburg-health-insurance',
   'wesley-chapel-health-insurance'
 ];
+
+const HOPPER_FORMS = new Set(['site-medicare-lead', 'site-aca-lead']);
+const HOPPER_URL = 'https://huff-health-app.vercel.app/api/leads/quick-add';
 
 function submission(overrides = {}) {
   return {
@@ -130,7 +135,7 @@ function productionEnv(overrides = {}) {
 function bridgeFetch(calls, { status = 200, ok = true } = {}) {
   return async (url, options) => {
     calls.push({ url: String(url), options });
-    if (String(url).includes('/website/lead')) {
+    if (String(url).includes('/website/lead') || String(url).includes('/api/leads/quick-add')) {
       return new Response(JSON.stringify({ ok }), {
         status,
         headers: { 'content-type': 'application/json' }
@@ -149,7 +154,11 @@ function makeHandler(overrides = {}) {
     logs,
     store,
     handler: createSubmissionCreatedHandler({
-      environment: productionEnv(overrides.environment || {}),
+      environment: productionEnv({
+        HOPPER_INTAKE_URL: HOPPER_URL,
+        HOPPER_INTAKE_KEY: 'synthetic-hopper-key-001',
+        ...(overrides.environment || {})
+      }),
       fetchImpl: overrides.fetchImpl || bridgeFetch(calls),
       logger: (entry) => logs.push(entry),
       now: overrides.now || (() => NOW),
@@ -237,7 +246,22 @@ test('relay inventory equals every active non-newsletter form and static Lead bl
   assert.equal([...staticLeadForms].every((name) => RELAY_FORMS.includes(name)), true);
   assert.deepEqual(
     RELAY_FORMS.filter((name) => !staticLeadForms.has(name)).sort(),
-    ['aca-lakeland-lead', 'subsidy-estimator-lead']
+    [
+      'aca-lakeland-lead',
+      'brandon-health-insurance',
+      'clearwater-health-insurance',
+      'davenport-health-insurance',
+      'haines-city-health-insurance',
+      'lake-alfred-health-insurance',
+      'largo-health-insurance',
+      'new-port-richey-health-insurance',
+      'riverview-health-insurance',
+      'st-petersburg-health-insurance',
+      'subsidy-estimator-lead',
+      'tampa-health-insurance',
+      'wesley-chapel-health-insurance',
+      'winter-haven-health-insurance'
+    ]
   );
 
   const fixture = makeHandler();
@@ -248,7 +272,7 @@ test('relay inventory equals every active non-newsletter form and static Lead bl
       ? { first_name: 'Test', phone: '8635550118' }
       : local
         ? { full_name: 'Test Lead', phone_number: '8635550118' }
-        : { full_name: 'Test Lead', phone: '8635550118' };
+        : { full_name: 'Test Lead', phone: '8635550118', zip_code: '33801', coverage_status: 'not_sure' };
     const event = submission({
       id: index.toString(16).padStart(24, '0'),
       form_name: formName,
@@ -256,8 +280,10 @@ test('relay inventory equals every active non-newsletter form and static Lead bl
     });
     assert.equal((await fixture.handler(event)).statusCode, 200);
   }
-  assert.equal(fixture.calls.length, RELAY_FORMS.length);
-  assert.equal(fixture.calls.every((call) => call.url === BRIDGE_ENDPOINT), true);
+  const bridgeCalls = fixture.calls.filter((call) => call.url === BRIDGE_ENDPOINT);
+  const hopperCalls = fixture.calls.filter((call) => call.url === HOPPER_URL);
+  assert.equal(bridgeCalls.length, RELAY_FORMS.length - HOPPER_FORMS.size);
+  assert.equal(hopperCalls.length, HOPPER_FORMS.size);
 });
 
 test('newsletters skip without configuration while unknown forms fail visibly', async () => {
