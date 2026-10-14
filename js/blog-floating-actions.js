@@ -5,6 +5,7 @@
   window.__LHI_BLOG_FLOATING_ACTIONS_LOADED__ = true;
 
   function hasFloatingCall() {
+    if (document.querySelector('.lhi-lead-hero, .lhi-lead-sticky')) return true;
     return document.querySelector('.click-to-call, .lhi-floating-call, [data-floating-call]') !== null;
   }
 

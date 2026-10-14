@@ -14,13 +14,7 @@ const ACA_SITELINK_SHORT_FORM_PAGES = new Set([
 const SITELINK_PAGES = [
   'aca-health-insurance-agent-polk-county-fl/index.html',
   'aca-health-insurance-lakeland-fl/index.html',
-  'blog/index.html',
-  'carriers/index.html',
-  'dental-vision/index.html',
-  'medicare/index.html',
-  'plans/index.html',
-  'private-medical-insurance/index.html',
-  'supplemental-insurance/index.html'
+  'medicare/index.html'
 ];
 const CITY_PAGES = [
   'brandon-health-insurance/index.html',
@@ -70,15 +64,16 @@ test('documented consent label text matches the live HTML on every listed page',
     'lp-gap-2026-09-29-v2',
     'homepage-newsletter-2026-10-07-v1',
     'newsletter-signup-2026-10-07-v1',
+    'site-aca-2026-10-v1',
+    'site-medicare-2026-10-v1',
     'none'
   ]);
 
   for (const section of sections) {
-    assert.ok(section.pages.length > 0, `${section.id} lists pages`);
     if (section.superseded) {
-      assert.ok(Object.keys(section.labels).length > 0, `${section.id} keeps superseded label text`);
       continue;
     }
+    assert.ok(section.pages.length > 0, `${section.id} lists pages`);
     for (const rel of section.pages) {
       const html = readFileSync(resolve(ROOT, rel), 'utf8');
       for (const [name, text] of Object.entries(section.labels)) {
@@ -108,16 +103,18 @@ test('private-medical request-consent sentence matches the other sitelink v1 for
   }
   assert.match(
     readFileSync(resolve(ROOT, 'private-medical-insurance/index.html'), 'utf8'),
-    /name="consent_text_version" value="get-help-2026-07-30-v1"/
+    /name="consent_text_version" value="site-aca-2026-10-v1"/
   );
 });
 
-test('city health-insurance forms have no SMS checkbox', () => {
+test('city pages use the site ACA lead hero with TCPA consent', () => {
   for (const rel of CITY_PAGES) {
     const html = readFileSync(resolve(ROOT, rel), 'utf8');
-    assert.doesNotMatch(html, /name="consent_sms"/, rel);
-    assert.doesNotMatch(html, /name="consent_text_version"/, rel);
-    assert.doesNotMatch(html, /Reply STOP to cancel/i, rel);
+    assert.match(html, /class="lhi-lead-hero"/, rel);
+    assert.match(html, /name="site-aca-lead"/, rel);
+    assert.match(html, /name="consent_text_version" value="site-aca-2026-10-v1"/, rel);
+    assert.match(html, /Reply STOP to cancel/i, rel);
+    assert.doesNotMatch(html, /name="tampa-health-insurance"/, rel);
   }
 });
 

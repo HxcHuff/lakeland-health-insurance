@@ -25,6 +25,8 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/js/site-template.js', '20261014-phone-6403102'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
+  ['/css/lead-hero.css', '20261014-lead-hero'],
+  ['/js/lead-hero.js', '20261014-lead-hero'],
 ]);
 const SERVICE_WORKER_CACHE_VERSION = '20261014-phone-6403102';
 

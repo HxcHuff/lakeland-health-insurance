@@ -226,7 +226,9 @@ test('quote presents three direct actions without a routing form or plans detour
   assert.doesNotMatch(QUOTE, /does not display every available qualified health plan/i);
   assert.match(QUOTE, /data-quote-action="medicare-review" href="\/get-help\/\?intent=medicare"/);
   assert.match(QUOTE, /data-quote-action="broker-review" href="\/get-help\/"/);
-  assert.doesNotMatch(quoteMain[0], /<form\b|routerZip|routerCoverage|ZIP-prefix|coverage router|routing gate|verified pathway|verified next steps/i);
+  assert.doesNotMatch(quoteMain[0], /routerZip|routerCoverage|ZIP-prefix|coverage router|routing gate|verified pathway|verified next steps/i);
+  assert.match(quoteMain[0], /class="lhi-lead-hero"/);
+  assert.match(quoteMain[0], /name="site-medicare-lead"/);
   assert.doesNotMatch(quoteMain[0], /href="\/plans\/"/);
   assert.equal(existsSync(join(ROOT, 'js/quote-router.js')), false);
   assert.match(QUOTE, /"dateModified": "2026-10-07"/);
@@ -269,11 +271,10 @@ test('private medical insurance route separates product categories and keeps int
   assert.match(PRIVATE_MEDICAL, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/private-medical-insurance\/">/);
   assert.match(PRIVATE_MEDICAL, /<h1>Private medical insurance options in Florida<\/h1>/);
   assert.match(PRIVATE_MEDICAL, /A plan purchased outside the Marketplace may still meet ACA standards\./);
-  assert.match(PRIVATE_MEDICAL, /name="get-help"[^>]+data-sitelink-lead-form[^>]+data-funnel-track/);
-  assert.match(PRIVATE_MEDICAL, /name="product_interest" value="comprehensive-private-coverage" required/);
-  assert.match(PRIVATE_MEDICAL, /name="consent_request" value="yes" required/);
-  assert.match(PRIVATE_MEDICAL, /<span>I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage.<\/span>/);
-  assert.match(PRIVATE_MEDICAL, /name="consent_text_version" value="get-help-2026-07-30-v1"/);
+  assert.match(PRIVATE_MEDICAL, /class="lhi-lead-hero"/);
+  assert.match(PRIVATE_MEDICAL, /name="site-aca-lead"[^>]+data-lhi-site-lead-form[^>]+data-funnel-track/);
+  assert.match(PRIVATE_MEDICAL, /name="consent_text_version" value="site-aca-2026-10-v1"/);
+  assert.match(PRIVATE_MEDICAL, /Reply STOP to cancel or HELP for help/);
   assert.doesNotMatch(PRIVATE_MEDICAL, /name="(?:health|medical|diagnosis|condition|prescription|policy_number|payment)"/i);
   assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/private-medical-insurance\/<\/loc>\s*<lastmod>2026-08-21<\/lastmod>/);
 });

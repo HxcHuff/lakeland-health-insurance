@@ -105,9 +105,10 @@ function primaryHtmlFiles(directory = ROOT) {
 test('current-season TPMO wording is exact, contextualized, subject to plan, and rendered inside main', () => {
   for (const relativePath of MEDICARE_MARKETING_SURFACES) {
     const html = source(relativePath);
-    const expectedDisclaimer = MEDICARE_SHIP_SURFACES.has(relativePath)
-      ? MEDICARE_SHIP_DISCLAIMER
-      : CURRENT_SEASON_DISCLAIMER;
+    const expectedDisclaimer =
+      MEDICARE_SHIP_SURFACES.has(relativePath) || html.includes('name="site-medicare-lead"')
+        ? MEDICARE_SHIP_DISCLAIMER
+        : CURRENT_SEASON_DISCLAIMER;
     const disclaimerAt = html.indexOf(expectedDisclaimer);
     const mainEndsAt = html.lastIndexOf('</main>');
     const footerStart = html.search(/<footer[\s>]/i);

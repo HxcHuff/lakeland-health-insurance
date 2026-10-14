@@ -65,11 +65,8 @@ const NON_MEDICARE_KEEP_OLD = [
   'about/index.html',
   'davenport-health-insurance/index.html',
   'privacy-policy.html',
-  'quote/index.html',
   'terms/index.html',
-  'data-deletion/index.html',
-  'blog/zip-code-health-insurance-pricing-florida.html',
-  'blog/winter-haven-hospital-insurance.html'
+  'data-deletion/index.html'
 ];
 
 function source(rel) {

@@ -11,6 +11,7 @@ const {
   _test
 } = require('../netlify/functions/submission-created.js');
 const { relaySchema } = require('../netlify/functions/lead.js');
+const { signNetlifyEventBody } = require('../netlify/functions/lib/netlify-event-signature.js');
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BRIDGE_URL = 'https://google-ads-lead-relay.vercel.app';
@@ -21,6 +22,8 @@ const SUBMISSION_ID = '0123456789abcdef01234567';
 
 const RELAY_FORMS = [
   'get-help',
+  'site-medicare-lead',
+  'site-aca-lead',
   'aca-lakeland-lead',
   'lp-aca-lead',
   'lp-medicare-lead',
@@ -39,6 +42,21 @@ const RELAY_FORMS = [
   'st-petersburg-health-insurance',
   'wesley-chapel-health-insurance'
 ];
+
+const HOPPER_FORMS = new Set(['site-medicare-lead', 'site-aca-lead']);
+const HOPPER_URL = 'https://huff-health-app.vercel.app/api/leads/quick-add';
+const EVENT_JWS_SECRET = 'synthetic-netlify-jws-secret-001';
+
+function signEvent(event, secret = EVENT_JWS_SECRET) {
+  const signature = signNetlifyEventBody(event.body, secret);
+  return {
+    ...event,
+    headers: {
+      'x-webhook-signature': signature,
+      ...(event.headers || {})
+    }
+  };
+}
 
 function submission(overrides = {}) {
   return {
@@ -87,6 +105,21 @@ function submission(overrides = {}) {
   };
 }
 
+function siteLeadSubmission(formName, data = {}, options = {}) {
+  const event = submission({
+    form_name: formName,
+    data: {
+      full_name: 'Site Lead',
+      phone: '8635550118',
+      zip_code: '33801',
+      coverage_status: 'not_sure',
+      consent: 'yes',
+      ...data
+    }
+  });
+  return options.unsigned ? event : signEvent(event);
+}
+
 function memoryStore() {
   const entries = new Map();
   const history = [];
@@ -123,6 +156,7 @@ function productionEnv(overrides = {}) {
     LHI_SITE_ENV: 'production',
     LEAD_BRIDGE_URL: BRIDGE_URL,
     LEAD_BRIDGE_KEY: BRIDGE_KEY,
+    NETLIFY_JWS_SECRET: EVENT_JWS_SECRET,
     ...overrides
   };
 }
@@ -130,7 +164,7 @@ function productionEnv(overrides = {}) {
 function bridgeFetch(calls, { status = 200, ok = true } = {}) {
   return async (url, options) => {
     calls.push({ url: String(url), options });
-    if (String(url).includes('/website/lead')) {
+    if (String(url).includes('/website/lead') || String(url).includes('/api/leads/quick-add')) {
       return new Response(JSON.stringify({ ok }), {
         status,
         headers: { 'content-type': 'application/json' }
@@ -149,7 +183,11 @@ function makeHandler(overrides = {}) {
     logs,
     store,
     handler: createSubmissionCreatedHandler({
-      environment: productionEnv(overrides.environment || {}),
+      environment: productionEnv({
+        HOPPER_INTAKE_URL: HOPPER_URL,
+        HOPPER_INTAKE_KEY: 'synthetic-hopper-key-001',
+        ...(overrides.environment || {})
+      }),
       fetchImpl: overrides.fetchImpl || bridgeFetch(calls),
       logger: (entry) => logs.push(entry),
       now: overrides.now || (() => NOW),
@@ -237,7 +275,22 @@ test('relay inventory equals every active non-newsletter form and static Lead bl
   assert.equal([...staticLeadForms].every((name) => RELAY_FORMS.includes(name)), true);
   assert.deepEqual(
     RELAY_FORMS.filter((name) => !staticLeadForms.has(name)).sort(),
-    ['aca-lakeland-lead', 'subsidy-estimator-lead']
+    [
+      'aca-lakeland-lead',
+      'brandon-health-insurance',
+      'clearwater-health-insurance',
+      'davenport-health-insurance',
+      'haines-city-health-insurance',
+      'lake-alfred-health-insurance',
+      'largo-health-insurance',
+      'new-port-richey-health-insurance',
+      'riverview-health-insurance',
+      'st-petersburg-health-insurance',
+      'subsidy-estimator-lead',
+      'tampa-health-insurance',
+      'wesley-chapel-health-insurance',
+      'winter-haven-health-insurance'
+    ]
   );
 
   const fixture = makeHandler();
@@ -248,16 +301,19 @@ test('relay inventory equals every active non-newsletter form and static Lead bl
       ? { first_name: 'Test', phone: '8635550118' }
       : local
         ? { full_name: 'Test Lead', phone_number: '8635550118' }
-        : { full_name: 'Test Lead', phone: '8635550118' };
-    const event = submission({
+        : { full_name: 'Test Lead', phone: '8635550118', zip_code: '33801', coverage_status: 'not_sure' };
+    let event = submission({
       id: index.toString(16).padStart(24, '0'),
       form_name: formName,
       data
     });
+    if (HOPPER_FORMS.has(formName)) event = signEvent(event);
     assert.equal((await fixture.handler(event)).statusCode, 200);
   }
-  assert.equal(fixture.calls.length, RELAY_FORMS.length);
-  assert.equal(fixture.calls.every((call) => call.url === BRIDGE_ENDPOINT), true);
+  const bridgeCalls = fixture.calls.filter((call) => call.url === BRIDGE_ENDPOINT);
+  const hopperCalls = fixture.calls.filter((call) => call.url === HOPPER_URL);
+  assert.equal(bridgeCalls.length, RELAY_FORMS.length - HOPPER_FORMS.size);
+  assert.equal(hopperCalls.length, HOPPER_FORMS.size);
 });
 
 test('newsletters skip without configuration while unknown forms fail visibly', async () => {
@@ -423,6 +479,35 @@ test('bridge failures queue the outbox and still accept the Forms event', async 
   assert.equal(fixture.logs.some((entry) => entry.event === 'website_lead_bridge' && entry.outcome === 'QUEUED'), true);
   assert.equal(fixture.logs.at(-1).outcome, 'FAILED');
   assert.equal(fixture.logs.at(-1).reason, 'upstream_500');
+});
+
+test('site lead hopper path rejects unsigned and forged events before Hopper', async () => {
+  const fixture = makeHandler();
+  await expectRelayFailure(
+    fixture.handler(siteLeadSubmission('site-medicare-lead', {}, { unsigned: true })),
+    'invalid_event_signature'
+  );
+  const forged = siteLeadSubmission('site-aca-lead');
+  forged.headers['x-webhook-signature'] = signNetlifyEventBody('{"payload":{}}', EVENT_JWS_SECRET);
+  await expectRelayFailure(fixture.handler(forged), 'invalid_event_signature');
+  assert.equal(fixture.calls.length, 0);
+});
+
+test('site lead hopper path rejects honeypot spam before Hopper', async () => {
+  const fixture = makeHandler();
+  await expectRelayFailure(
+    fixture.handler(siteLeadSubmission('site-aca-lead', { 'bot-field': 'bot' })),
+    'spam_rejected'
+  );
+  assert.equal(fixture.calls.length, 0);
+});
+
+test('signed site lead submissions still reach Hopper on the happy path', async () => {
+  const fixture = makeHandler();
+  const result = await fixture.handler(siteLeadSubmission('site-medicare-lead'));
+  assert.equal(result.statusCode, 200);
+  assert.equal(fixture.calls.length, 1);
+  assert.equal(fixture.calls[0].url, HOPPER_URL);
 });
 
 test('other allowlisted lead forms also build a website lead for the bridge', () => {

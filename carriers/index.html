@@ -20,6 +20,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261014-lead-hero">
 
   <script type="application/ld+json">
   {
@@ -530,6 +531,79 @@
   </header>
 
   <main>
+<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="carrier_page" aria-labelledby="carriers-lead-title">
+  <div class="lhi-lead-hero__grid">
+    <div class="lhi-lead-hero__intro">
+      <h2 class="lhi-lead-hero__title" id="carriers-lead-title">Get a Marketplace plan comparison</h2>
+      <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
+    </div>
+    <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="carriersForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_carrier_lead" aria-label="Get a Marketplace plan comparison">
+        <input type="hidden" name="form-name" value="site-aca-lead">
+        <input type="hidden" name="source_page" value="/carriers/">
+        <input type="hidden" name="source_template" value="carrier_page">
+        <input type="hidden" name="consent_text_version" value="site-aca-2026-10-v1">
+        <input type="hidden" name="utm_source" id="carriers_utm_source">
+        <input type="hidden" name="utm_medium" id="carriers_utm_medium">
+        <input type="hidden" name="utm_campaign" id="carriers_utm_campaign">
+        <input type="hidden" name="utm_term" id="carriers_utm_term">
+        <input type="hidden" name="utm_content" id="carriers_utm_content">
+        <input type="hidden" name="gclid" id="carriers_gclid">
+        <input type="hidden" name="gbraid" id="carriers_gbraid">
+        <input type="hidden" name="wbraid" id="carriers_wbraid">
+        <input type="hidden" name="gad_campaignid" id="carriers_gad_campaignid">
+        <input type="hidden" name="first_gclid" id="carriers_first_gclid">
+        <input type="hidden" name="first_gbraid" id="carriers_first_gbraid">
+        <input type="hidden" name="first_wbraid" id="carriers_first_wbraid">
+        <input type="hidden" name="first_gad_campaignid" id="carriers_first_gad_campaignid">
+        <input type="hidden" name="lead_source" value="">
+        <input type="hidden" name="lead_medium" value="">
+        <input type="hidden" name="lead_campaign" value="">
+        <input type="hidden" name="landing_page" value="">
+        <input type="hidden" name="referrer" value="">
+        <input type="hidden" name="click_id_type" value="">
+        <input type="hidden" name="lead_channel" value="">
+        <input type="hidden" name="click_timestamp" value="">
+        <input type="hidden" name="started_at">
+        <input type="hidden" name="human_check">
+        <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="lhi-lead-hero__fields">
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label for="carriers_full_name">Name</label>
+            <input type="text" id="carriers_full_name" name="full_name" required autocomplete="name">
+          </div>
+          <div class="lhi-lead-hero__field">
+            <label for="carriers_phone">Phone</label>
+            <input type="tel" id="carriers_phone" name="phone" required autocomplete="tel">
+          </div>
+          <div class="lhi-lead-hero__field">
+            <label for="carriers_zip_code">ZIP code</label>
+            <input type="text" id="carriers_zip_code" name="zip_code" required pattern="[0-9]{5}" maxlength="5" inputmode="numeric" autocomplete="postal-code">
+          </div>
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label for="carriers_coverage_status">Coverage type</label>
+            <select id="carriers_coverage_status" name="coverage_status" required>
+                  <option value="" selected disabled>Select one</option>
+                  <option value="individual_marketplace">Individual Marketplace coverage</option>
+                  <option value="family_marketplace">Family Marketplace coverage</option>
+                  <option value="not_sure">Not sure yet</option>
+            </select>
+          </div>
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label class="lhi-lead-hero__consent" for="carriers_consent">
+              <input type="checkbox" id="carriers_consent" name="consent" value="yes">
+              <span>By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
+            </label>
+          </div>
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <button class="lhi-lead-hero__submit" type="submit">Get my quote</button>
+          </div>
+        </div>
+        <p class="lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
     <section class="hero">
       <div class="container">
         <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -547,91 +621,6 @@
           <aside class="hero-card carrier-conversion-card" aria-label="Carrier help">
             <strong>Do not pick by carrier name alone.</strong>
             <p>David can help you compare options based on the coverage you need, where you live, the doctors and prescriptions you rely on, the benefits that matter to you, and your total yearly cost.</p>
-            <form class="sitelink-lead-form" name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="carrierLeadForm" data-sitelink-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="sitelink_carriers_lead" aria-label="Request a carrier comparison">
-              <input type="hidden" name="form-name" value="get-help">
-              <div hidden aria-hidden="true">
-                <label>Do not fill this out <input name="bot-field" tabindex="-1" autocomplete="off"></label>
-                <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
-                <label>Company <input name="company" tabindex="-1" autocomplete="off"></label>
-              </div>
-              <input type="hidden" name="inquiry_type" value="Carrier comparison">
-              <input type="hidden" name="normalized_intent" value="not-sure">
-              <input type="hidden" name="line_of_business" value="General">
-              <input type="hidden" name="source_page" value="/carriers/">
-              <input type="hidden" name="referral_page">
-              <input type="hidden" name="_subject" value="New Lead: Carrier Comparison">
-              <input type="hidden" name="utm_source">
-              <input type="hidden" name="utm_medium">
-              <input type="hidden" name="utm_campaign">
-              <input type="hidden" name="utm_term">
-              <input type="hidden" name="utm_content">
-              <input type="hidden" name="gclid">
-              <input type="hidden" name="gbraid">
-              <input type="hidden" name="wbraid">
-              <input type="hidden" name="gad_campaignid">
-              <input type="hidden" name="first_gclid">
-              <input type="hidden" name="first_gbraid">
-              <input type="hidden" name="first_wbraid">
-              <input type="hidden" name="first_gad_campaignid">
-          <input type="hidden" name="lead_source" value="">
-          <input type="hidden" name="lead_medium" value="">
-          <input type="hidden" name="lead_campaign" value="">
-          <input type="hidden" name="landing_page" value="">
-          <input type="hidden" name="referrer" value="">
-          <input type="hidden" name="click_id_type" value="">
-          <input type="hidden" name="lead_channel" value="">
-          <input type="hidden" name="click_timestamp" value="">
-              <input type="hidden" name="started_at">
-              <input type="hidden" name="human_check">
-              <input type="hidden" name="consent_call">
-              <input type="hidden" name="consent_sms">
-              <input type="hidden" name="consent_email">
-              <input type="hidden" name="consent_text_version" value="get-help-2026-07-30-v1">
-              <input type="hidden" name="consent_recorded_at">
-              <input type="hidden" name="consent_page">
-              <input type="hidden" name="consent_request_state">
-              <input type="hidden" name="consent_call_state">
-              <input type="hidden" name="consent_sms_state">
-              <input type="hidden" name="consent_email_state">
-              <input type="hidden" name="consent_withdrawal_state">
-              <input type="hidden" name="consent_version_source">
-              <input type="hidden" name="consent_version_mismatch">
-              <input type="hidden" name="event_id">
-              <input type="hidden" name="server_received_at">
-              <input type="hidden" name="lead_priority">
-              <input type="hidden" name="lead_priority_reason">
-              <input type="hidden" name="source_url">
-              <h2>Get a carrier comparison</h2>
-              <p>Send the minimum contact details David needs to respond. Do not enter policy numbers, health information, or payment details.</p>
-              <div class="sitelink-lead-grid">
-                <div class="sitelink-lead-field">
-                  <label for="carrierLeadName">Full name</label>
-                  <input id="carrierLeadName" name="full_name" autocomplete="name" required>
-                </div>
-                <div class="sitelink-lead-field">
-                  <label for="carrierLeadZip">ZIP code</label>
-                  <input id="carrierLeadZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="33805" required>
-                </div>
-                <div class="sitelink-lead-field">
-                  <label for="carrierLeadPhone">Phone, if choosing call or text</label>
-                  <input id="carrierLeadPhone" name="phone" type="tel" autocomplete="tel" minlength="7">
-                </div>
-                <div class="sitelink-lead-field">
-                  <label for="carrierLeadEmail">Email, if choosing email</label>
-                  <input id="carrierLeadEmail" name="email" type="email" autocomplete="email">
-                </div>
-              </div>
-              <fieldset class="sitelink-contact-options">
-                <legend>Choose one way David may respond</legend>
-                <label class="sitelink-contact-choice"><input type="radio" name="preferred_contact_method" value="Phone call" required><span>I authorize a telephone call about this request.</span></label>
-                <label class="sitelink-contact-choice"><input type="radio" name="preferred_contact_method" value="Text message"><span>I authorize text messages about this request. Message frequency varies; message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a>.</span></label>
-                <label class="sitelink-contact-choice"><input type="radio" name="preferred_contact_method" value="Email"><span>I authorize email about this request.</span></label>
-              </fieldset>
-              <label class="sitelink-request-consent"><input type="checkbox" name="consent_request" value="yes" required><span>I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage.</span></label>
-              <p class="sitelink-lead-privacy">Consent is not a condition of purchase. See the <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</p>
-              <button class="sitelink-lead-submit" type="submit">Send My Request</button>
-              <div class="sitelink-lead-status" data-sitelink-lead-status role="status" aria-live="polite"></div>
-            </form>
             <div class="hero-actions">
               <a class="btn btn-secondary" href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer">Self-Service ACA</a>
             </div>
@@ -904,5 +893,6 @@
   </div>
 </footer>
 
+  <script src="/js/lead-hero.js?v=20261014-lead-hero" defer></script>
 </body>
 </html>
