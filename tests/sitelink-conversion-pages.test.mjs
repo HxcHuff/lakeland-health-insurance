@@ -100,6 +100,19 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
     assert.match(form, new RegExp(`name="source_page" value="${escapeRegex(sourcePage)}"`));
     assert.match(form, new RegExp(`name="source_page_key" value="${escapeRegex(sourcePageKey)}"`));
     assert.match(form, new RegExp(`name="normalized_intent" value="${escapeRegex(defaultIntent)}"`));
+    assert.doesNotMatch(form, /<textarea/i);
+    assert.doesNotMatch(form, /tips and updates/i);
+    assert.doesNotMatch(form, /\bfree\b/i);
+    assert.doesNotMatch(form, /no cost/i);
+    assert.doesNotMatch(form, /\$0/);
+    assert.match(form, /Do not enter/i);
+    assert.match(
+      form,
+      /<p class="sitelink-lead-privacy" data-sitelink-medicare-florida-note hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
+    );
+
+    assert.match(html, /\/js\/funnel\.js\?v=20261014-phone-6403102/);
+    assert.match(html, /\/css\/site-template\.css\?v=20261013-font-fallback/);
   });
 }
 
@@ -137,13 +150,13 @@ test('every public click-to-call link uses the verified E.164 target and tracked
     if (!phoneTargets.length) continue;
 
     phoneLinkCount += phoneTargets.length;
-    const allowedPhoneTargets = new Set(['tel:+18634742500', 'tel:+18636403102']);
+    const allowedPhoneTargets = new Set(['tel:+18636403102', 'tel:+18636403102']);
     for (const target of phoneTargets) {
       assert.ok(allowedPhoneTargets.has(target), `${file}: unexpected tel target ${target}`);
     }
     assert.match(
       html,
-      /\/js\/analytics\.js\?v=20261012-az-medicare-licensed/,
+      /\/js\/analytics\.js\?v=20261014-phone-6403102/,
       `${file} loads the canonical phone telemetry and forwarding-number handler`
     );
   }

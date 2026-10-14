@@ -39,8 +39,8 @@
   var lastPhoneCanonicalAt = 0;
   var BUSINESS_PHONE_E164 = '+18636403102';
   var BUSINESS_PHONE_HREF = 'tel:' + BUSINESS_PHONE_E164;
-  var WEBSITE_CALL_TRACKING_E164 = '+18634742500';
-  var WEBSITE_CALL_TRACKING_HREF = 'tel:' + WEBSITE_CALL_TRACKING_E164;
+  var WEBSITE_CALL_TRACKING_E164 = BUSINESS_PHONE_E164;
+  var WEBSITE_CALL_TRACKING_HREF = BUSINESS_PHONE_HREF;
   var MEDICARE_ATTRIBUTION_SCHEMA_VERSION = 'medicare-attribution.v1';
   var MEDICARE_CONTENT_CLUSTER = 'lakeland_medicare_broker';
   var MEDICARE_PAGE_REGISTRY = {
@@ -430,7 +430,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261012-az-medicare-licensed';
+    funnel.src = '/js/funnel.js?v=20261014-phone-6403102';
     document.head.appendChild(funnel);
   }
 
@@ -691,26 +691,11 @@
   }
 
   function initializeWebsiteCallTracking(matchingLinks) {
+    /* Phone conversion swaps are disabled so visible tel links stay on the
+       canonical business number (863) 640-3102. Click telemetry is unchanged. */
     if (websiteCallTrackingInitialized || !IS_PROD) return;
     if (!matchingLinks || !matchingLinks.length) return;
     websiteCallTrackingInitialized = true;
-
-    /* Begin forwarding-number retrieval as soon as analytics.js evaluates so
-       the first tel: interaction does not wait for window.load or deferred
-       GTM/GA4 initialization. This is the only eagerly loaded Google tag. */
-    ensureGoogleTagScript('AW-300112445');
-    window.gtag('config', 'AW-300112445', { send_page_view: false });
-    window.gtag('config', 'AW-300112445/mcKKCKrhwZodEL20jY8B', {
-      'phone_conversion_number': '(863) 474-2500'
-    });
-    window.gtag('config', 'AW-300112445/MVhNCILUi-IaEL20jY8B', {
-      phone_conversion_number: '(863) 474-2500',
-      phone_conversion_callback: applyGoogleForwardingNumber
-    });
-    window.gtag('config', 'AW-300112445/1lFWCNG3l5gdEL20jY8B', {
-      phone_conversion_number: '(863) 474-2500',
-      phone_conversion_callback: applyGoogleForwardingNumber
-    });
   }
 
   function refreshWebsiteCallTracking() {

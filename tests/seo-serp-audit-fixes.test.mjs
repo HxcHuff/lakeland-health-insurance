@@ -216,7 +216,7 @@ test('shared chrome uses one phone display, booking CTA, schema name, and asset 
     }
   }
 
-  assert.match(source('js/chat-widget.js'), /Call Lakeland Health Insurance at \(863\) 474-2500/);
+  assert.match(source('js/chat-widget.js'), /Call Lakeland Health Insurance at \(863\) 640-3102/);
   assert.match(source('js/blog-floating-actions.js'), /Call David now at \(863\) 640-3102/);
 });
 

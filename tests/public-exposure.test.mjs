@@ -20,8 +20,8 @@ const SERVICE_WORKER = readFileSync(join(ROOT, 'sw.js'), 'utf8');
 const HOME = readFileSync(join(ROOT, 'index.html'), 'utf8');
 const BLOG = readFileSync(join(ROOT, 'blog/index.html'), 'utf8');
 const NETLIFY_IGNORE = readFileSync(join(ROOT, '.netlifyignore'), 'utf8');
-const SITE_PHONE_LOADER = '/js/site-phone.js?v=20261012-call-tracking';
-const SITE_TEMPLATE_LOADER = '/js/site-template.js?v=20261012-lrh-uhc-medicare-path';
+const SITE_PHONE_LOADER = '/js/site-phone.js?v=20261014-phone-6403102';
+const SITE_TEMPLATE_LOADER = '/js/site-template.js?v=20261014-phone-6403102';
 
 const RETIRED_FILES = [
   'blog/ads-manager-setup-checklist.html',
@@ -239,8 +239,8 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
   assert.match(COVERAGE_CENTER, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/coverage-center\/">/);
   assert.match(COVERAGE_CENTER, /<title>Lakeland Coverage Center \| Medicare &amp; Under-65 Plan Help<\/title>/);
   assert.match(COVERAGE_CENTER, /\/css\/site-template\.css\?v=20261013-font-fallback/);
-  assert.match(COVERAGE_CENTER, /\/js\/site-phone\.js\?v=20261012-call-tracking/);
-  assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261012-lrh-uhc-medicare-path/);
+  assert.match(COVERAGE_CENTER, /\/js\/site-phone\.js\?v=20261014-phone-6403102/);
+  assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261014-phone-6403102/);
   assert.match(COVERAGE_CENTER, /"@type": "BreadcrumbList"/);
   assert.match(COVERAGE_CENTER, /Lakeland Health Insurance · Lakeland, FL 33805 · By appointment/);
   assert.match(COVERAGE_CENTER, /FL License #W371813 \/ NPN 18213932/);
@@ -253,7 +253,7 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
   assert.match(COVERAGE_CENTER, /href="\/medicare-broker-lakeland-fl\/"/);
   assert.match(COVERAGE_CENTER, /href="\/aca-health-insurance-lakeland-fl\/"/);
   assert.match(COVERAGE_CENTER, /Prefer to talk now\?/);
-  assert.match(COVERAGE_CENTER, /cc-hero-note[\s\S]*href="tel:\+18634742500"/);
+  assert.match(COVERAGE_CENTER, /cc-hero-note[\s\S]*href="tel:\+18636403102"/);
   assert.match(HOME, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(QUOTE, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(SITE_SEARCH, /url: "\/coverage-center\/"/);
@@ -284,8 +284,8 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   assert.match(QUOTE, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/quote\/">/);
   assert.match(PLANS, /https:\/\/lakelandhealthinsurance\.com\/plans\/#webpage/);
   assert.match(QUOTE, /https:\/\/lakelandhealthinsurance\.com\/quote\/#webpage/);
-  assert.match(PLANS, /\/js\/analytics\.js\?v=20261012-az-medicare-licensed/);
-  assert.match(QUOTE, /\/js\/analytics\.js\?v=20261012-az-medicare-licensed/);
+  assert.match(PLANS, /\/js\/analytics\.js\?v=20261014-phone-6403102/);
+  assert.match(QUOTE, /\/js\/analytics\.js\?v=20261014-phone-6403102/);
   assert.equal((SITE_TEMPLATE.match(/\['\/plans\/', 'Coverage Options'\]/g) || []).length, 2);
   assert.match(SITE_TEMPLATE, /<a href="\/plans\/">Coverage Options<\/a>/);
   assert.doesNotMatch(SITE_TEMPLATE, /['"]Plan Types['"]/);
@@ -307,9 +307,9 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
     assert.equal(source.includes('/js/site-template.js'), false, `${rel} owns focused paid-page chrome`);
   }
 
-  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261012-lrh-uhc-medicare-path';/);
-  assert.match(SERVICE_WORKER, /const SITE_PHONE_URL = '\/js\/site-phone\.js\?v=20261012-call-tracking';/);
-  assert.match(SERVICE_WORKER, /const SITE_TEMPLATE_URL = '\/js\/site-template\.js\?v=20261012-lrh-uhc-medicare-path';/);
+  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261014-phone-6403102';/);
+  assert.match(SERVICE_WORKER, /const SITE_PHONE_URL = '\/js\/site-phone\.js\?v=20261014-phone-6403102';/);
+  assert.match(SERVICE_WORKER, /const SITE_TEMPLATE_URL = '\/js\/site-template\.js\?v=20261014-phone-6403102';/);
   assert.match(SERVICE_WORKER, /requestUrl\.pathname === '\/js\/site-template\.js'/);
   assert.match(SERVICE_WORKER, /fetchSharedTemplate\(request\)/);
 });

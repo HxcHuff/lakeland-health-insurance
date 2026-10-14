@@ -5,8 +5,8 @@
     href: 'tel:+18636403102'
   };
   var callTrackingPhone = phoneConfig.callTracking || {
-    display: '(863) 474-2500',
-    href: 'tel:+18634742500'
+    display: '(863) 640-3102',
+    href: 'tel:+18636403102'
   };
   const napPhoneDisplay = canonicalPhone.display;
   const napPhoneHref = canonicalPhone.href;
