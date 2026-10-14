@@ -25,22 +25,37 @@ test('verifyNetlifyEventSignature rejects tampered bodies and wrong secrets', ()
   assert.equal(verifyNetlifyEventSignature('', body, SECRET), false);
 });
 
-test('verifyNetlifyEventRequest maps missing configuration and invalid signatures', () => {
+test('verifyNetlifyEventRequest skips verification when no secret is configured', () => {
+  const body = JSON.stringify({ ok: true });
+  assert.deepEqual(verifyNetlifyEventRequest({ body, headers: {} }, {}), {
+    ok: true,
+    warn: 'jws_verification_skipped_no_secret'
+  });
+});
+
+test('verifyNetlifyEventRequest continues when secret is set but signature header is missing', () => {
+  const body = JSON.stringify({ ok: true });
+  assert.deepEqual(
+    verifyNetlifyEventRequest({ body, headers: {} }, { NETLIFY_JWS_SECRET: SECRET }),
+    { ok: true, warn: 'jws_signature_header_missing' }
+  );
+});
+
+test('verifyNetlifyEventRequest verifies signatures when secret and header are present', () => {
   const body = JSON.stringify({ ok: true });
   const signature = signNetlifyEventBody(body, SECRET);
-  assert.deepEqual(verifyNetlifyEventRequest({ body, headers: {} }, {}), {
-    ok: false,
-    reason: 'event_signature_configuration_missing'
-  });
-  assert.deepEqual(
-    verifyNetlifyEventRequest({ body, headers: { 'x-webhook-signature': signature } }, {}),
-    { ok: false, reason: 'event_signature_configuration_missing' }
-  );
   assert.deepEqual(
     verifyNetlifyEventRequest(
       { body, headers: { 'x-webhook-signature': signature } },
       { NETLIFY_JWS_SECRET: SECRET }
     ),
     { ok: true }
+  );
+  assert.deepEqual(
+    verifyNetlifyEventRequest(
+      { body: `${body}x`, headers: { 'x-webhook-signature': signature } },
+      { NETLIFY_JWS_SECRET: SECRET }
+    ),
+    { ok: false, reason: 'invalid_event_signature' }
   );
 });

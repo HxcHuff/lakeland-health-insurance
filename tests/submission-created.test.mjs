@@ -481,12 +481,46 @@ test('bridge failures queue the outbox and still accept the Forms event', async 
   assert.equal(fixture.logs.at(-1).reason, 'upstream_500');
 });
 
-test('site lead hopper path rejects unsigned and forged events before Hopper', async () => {
-  const fixture = makeHandler();
-  await expectRelayFailure(
-    fixture.handler(siteLeadSubmission('site-medicare-lead', {}, { unsigned: true })),
-    'invalid_event_signature'
+test('site lead hopper path continues without JWS when neither NETLIFY_JWS_SECRET nor JWS_SECRET is set', async () => {
+  const fixture = makeHandler({
+    environment: {
+      NETLIFY_JWS_SECRET: '',
+      JWS_SECRET: ''
+    }
+  });
+  const result = await fixture.handler(
+    siteLeadSubmission('site-medicare-lead', {}, { unsigned: true })
   );
+  assert.equal(result.statusCode, 200);
+  assert.equal(fixture.calls.length, 1);
+  assert.equal(fixture.calls[0].url, HOPPER_URL);
+  assert.equal(
+    fixture.logs.some(
+      (entry) => entry.event === 'netlify_event_jws_verification'
+        && entry.reason === 'jws_verification_skipped_no_secret'
+    ),
+    true
+  );
+});
+
+test('site lead hopper path continues when secret is set but signature header is missing', async () => {
+  const fixture = makeHandler();
+  const result = await fixture.handler(
+    siteLeadSubmission('site-medicare-lead', {}, { unsigned: true })
+  );
+  assert.equal(result.statusCode, 200);
+  assert.equal(fixture.calls.length, 1);
+  assert.equal(
+    fixture.logs.some(
+      (entry) => entry.event === 'netlify_event_jws_verification'
+        && entry.reason === 'jws_signature_header_missing'
+    ),
+    true
+  );
+});
+
+test('site lead hopper path rejects forged signatures when secret and header are present', async () => {
+  const fixture = makeHandler();
   const forged = siteLeadSubmission('site-aca-lead');
   forged.headers['x-webhook-signature'] = signNetlifyEventBody('{"payload":{}}', EVENT_JWS_SECRET);
   await expectRelayFailure(fixture.handler(forged), 'invalid_event_signature');

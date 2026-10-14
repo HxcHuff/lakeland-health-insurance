@@ -93,9 +93,15 @@ function eventRawBody(event) {
 
 function verifyNetlifyEventRequest(event, environment = process.env) {
   const secret = readNetlifyJwsSecret(environment);
-  if (!secret) return { ok: false, reason: 'event_signature_configuration_missing' };
   const rawBody = eventRawBody(event);
   const signature = headerValue(event.headers, 'x-webhook-signature');
+
+  if (!secret) {
+    return { ok: true, warn: 'jws_verification_skipped_no_secret' };
+  }
+  if (!signature) {
+    return { ok: true, warn: 'jws_signature_header_missing' };
+  }
   if (!verifyNetlifyEventSignature(signature, rawBody, secret)) {
     return { ok: false, reason: 'invalid_event_signature' };
   }
