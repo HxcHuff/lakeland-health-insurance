@@ -26,7 +26,7 @@ test('T12 retiring-and-medicare-lakeland-fl page metadata and hero', () => {
   );
   assert.match(source, /rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/retiring-and-medicare-lakeland-fl\/"/);
   assert.match(source, /answer-pages\.css\?v=20261012-answer-card-table-scroll/);
-  assert.match(source, /site-template\.js\?v=20261012-lrh-uhc-medicare-path/);
+  assert.match(source, /site-template\.js\?v=20261014-phone-6403102/);
   assert.match(source, /How to decide \(neutral comparison\)[\s\S]*<div class="table-wrap">/);
   assert.match(source, /class="answer-snippet"/);
   assert.match(source, /seven-month Initial Enrollment Period/);

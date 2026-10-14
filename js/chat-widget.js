@@ -1,7 +1,7 @@
 (function(){
   if (window.__LHI_CHAT_WIDGET_LOADED__) return;
   window.__LHI_CHAT_WIDGET_LOADED__ = true;
-  const phoneUrl = 'tel:+18634742500';
+  const phoneUrl = 'tel:+18636403102';
 
   const style = document.createElement('style');
   style.textContent = `
@@ -23,10 +23,10 @@
     callBtn.className = 'click-to-call';
     callBtn.href = phoneUrl;
     callBtn.setAttribute('data-floating-call', 'true');
-    callBtn.setAttribute('aria-label','Call Lakeland Health Insurance at (863) 474-2500');
+    callBtn.setAttribute('aria-label','Call Lakeland Health Insurance at (863) 640-3102');
     document.body.appendChild(callBtn);
   }
-  callBtn.innerHTML = '<span class="call-widget-icon" aria-hidden="true">&#9742;</span><span>Call: (863) 474-2500</span>';
+  callBtn.innerHTML = '<span class="call-widget-icon" aria-hidden="true">&#9742;</span><span>Call: (863) 640-3102</span>';
   callBtn.addEventListener('click', function () {
     if (typeof window.lhiTrackPhoneClick === 'function') {
       try { window.lhiTrackPhoneClick('floating_call_button', 'phone_click'); } catch (e) {}

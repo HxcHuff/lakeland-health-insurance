@@ -21,7 +21,7 @@
       id: 'home-hero-primary-b',
       test: ACTIVE_TEST,
       label: 'Talk with a licensed Florida health agent',
-      href: 'tel:+18634742500',
+      href: 'tel:+18636403102',
       analyticsLabel: 'home_hero_ab_phone_primary'
     })
   });

@@ -21,12 +21,12 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/fonts.css', '20261013-font-fallback'],
   ['/css/site-template.css', '20261013-font-fallback'],
   ['/css/blog-unified.css', '20260803-brand-release'],
-  ['/js/site-phone.js', '20261012-call-tracking'],
-  ['/js/site-template.js', '20261012-lrh-uhc-medicare-path'],
+  ['/js/site-phone.js', '20261014-phone-6403102'],
+  ['/js/site-template.js', '20261014-phone-6403102'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
 ]);
-const SERVICE_WORKER_CACHE_VERSION = '20261012-lrh-uhc-medicare-path';
+const SERVICE_WORKER_CACHE_VERSION = '20261014-phone-6403102';
 
 const FORBIDDEN_PUBLIC_FILES = [
   'blog/ads-manager-setup-checklist.html',

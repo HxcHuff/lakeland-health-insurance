@@ -45,10 +45,10 @@
     addStyles();
 
     var link = document.createElement('a');
-    link.href = 'tel:+18634742500';
+    link.href = 'tel:+18636403102';
     link.className = 'lhi-floating-call';
     link.setAttribute('data-floating-call', 'true');
-    link.setAttribute('aria-label', 'Call David now at (863) 474-2500');
+    link.setAttribute('aria-label', 'Call David now at (863) 640-3102');
     link.innerHTML = '<span aria-hidden="true">&#128222;</span><span>Call David Now</span>';
     link.addEventListener('click', trackCall);
     document.body.appendChild(link);

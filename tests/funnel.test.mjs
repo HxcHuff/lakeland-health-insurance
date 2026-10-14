@@ -38,7 +38,7 @@ const EXTERNAL_QUOTE_SELECTOR = 'a[data-funnel-external-quote], a[href*="healths
 const MEDICARE_HUB_HTML = readFileSync(resolve(__dirname, '../medicare/index.html'), 'utf8');
 const MEDICARE_BROKER_HTML = readFileSync(resolve(__dirname, '../medicare-broker-lakeland-fl/index.html'), 'utf8');
 const COVERAGE_CENTER_HTML = readFileSync(resolve(__dirname, '../coverage-center/index.html'), 'utf8');
-const WEBSITE_CALL_SELECTOR = 'a[href="tel:+18634742500"], a[data-lhi-business-phone="+18636403102"]';
+const WEBSITE_CALL_SELECTOR = 'a[href="tel:+18636403102"], a[data-lhi-business-phone="+18636403102"]';
 const CITY_LEAD_PAGES = [
   'brandon-health-insurance',
   'clearwater-health-insurance',
@@ -308,7 +308,7 @@ function makeAnalyticsDomElement(tagName, text = '', attributes = {}) {
 }
 
 function makeWebsiteCallLink({ text, ariaLabel = null, analyticsLabel = null, nested = false }) {
-  const attributes = { href: 'tel:+18634742500' };
+  const attributes = { href: 'tel:+18636403102' };
   if (ariaLabel) attributes['aria-label'] = ariaLabel;
   if (analyticsLabel) attributes['data-analytics-label'] = analyticsLabel;
   const link = makeAnalyticsDomElement('a', '', attributes);
@@ -656,25 +656,20 @@ test('legacy phone_call remains supported through shared helper', () => {
   assert.ok(dataLayer.some((entry) => entry.event === 'phone_call'), 'legacy phone_call event still fires');
 });
 
-test('website-call conversion uses both verified Ads phone tags while click telemetry remains separate', () => {
-  const phoneConversionConfigPattern =
-    /gtag\('config', 'AW-300112445\/[^']+', \{\s*phone_conversion_number: '\(863\) 474-2500',\s*phone_conversion_callback: applyGoogleForwardingNumber\s*\}\);/gs;
-  const phoneConversionConfigs = [...ANALYTICS_SRC.matchAll(phoneConversionConfigPattern)];
-  assert.equal(phoneConversionConfigs.length, 2, 'both phone conversion configs are present');
-  assert.match(
+test('website-call number swapping stays disabled while click telemetry remains separate', () => {
+  assert.match(ANALYTICS_SRC, /Phone conversion swaps are disabled/);
+  assert.doesNotMatch(
     ANALYTICS_SRC,
-    /gtag\('config', 'AW-300112445\/mcKKCKrhwZodEL20jY8B', \{\s*'phone_conversion_number': '\(863\) 474-2500'\s*\}\);/
+    /phone_conversion_number:\s*'\(863\) 474-2500'/
   );
-  assert.match(ANALYTICS_SRC, /AW-300112445\/MVhNCILUi-IaEL20jY8B/);
-  assert.match(ANALYTICS_SRC, /AW-300112445\/1lFWCNG3l5gdEL20jY8B/);
+  assert.doesNotMatch(ANALYTICS_SRC, /phone_conversion_callback: applyGoogleForwardingNumber/);
   assert.match(ANALYTICS_SRC, /pushDataLayerEvent\('phone_call_click', params\);/);
-  assert.match(ANALYTICS_SRC, /gtag\('config', 'AW-300112445', \{ send_page_view: false \}\);/);
   assert.doesNotMatch(ANALYTICS_SRC, /LHIEnhancedConversions|ENHANCED_CONVERSIONS_ENABLED/i);
   assert.doesNotMatch(ANALYTICS_SRC, /sha256_/i);
   assert.doesNotMatch(ANALYTICS_SRC, /gtag\(\s*['"]set['"]\s*,\s*['"]user_data['"]|user_\s*\+\s*['"]data['"]/);
 });
 
-test('website-call retrieval starts before deferred init and a first tel interaction', () => {
+test('tel clicks fire before deferred init without eager Ads phone conversion tags', () => {
   const phoneLink = makeWebsiteCallLink({ text: 'Call David' });
   const loaded = loadAnalytics({
     hostname: 'lakelandhealthinsurance.com',
@@ -682,21 +677,16 @@ test('website-call retrieval starts before deferred init and a first tel interac
     phoneLinks: [phoneLink]
   });
 
-  assert.deepEqual(
-    loaded.appendedScripts.map((script) => script.src),
-    ['https://www.googletagmanager.com/gtag/js?id=AW-300112445'],
-    'only the website-call Google tag loads eagerly'
+  assert.deepEqual(loaded.appendedScripts, [], 'Google tags stay deferred until general analytics init');
+  assert.equal(
+    loaded.dataLayer.some((entry) => entry && entry[0] === 'config' && String(entry[1] || '').startsWith('AW-300112445')),
+    false,
+    'Ads phone conversion configs are not queued eagerly'
   );
-  const callConfigIndex = loaded.dataLayer.findIndex((entry) =>
-    entry && entry[0] === 'config' && entry[1] === 'AW-300112445/MVhNCILUi-IaEL20jY8B'
-  );
-  assert.ok(callConfigIndex >= 0, 'website-call callback is queued before window.load');
   assert.equal(loaded.dataLayer.some((entry) => entry && entry.event === 'gtm.js'), false, 'general GTM remains deferred');
 
   loaded.clickTel();
 
-  const clickIndex = loaded.dataLayer.findIndex((entry) => entry && entry.event === 'phone_call_click');
-  assert.ok(clickIndex > callConfigIndex, 'call retrieval was initialized before the first tel click');
   assert.equal(loaded.dataLayer.filter((entry) => entry && entry.event === 'phone_call_click').length, 1);
 
   const productionPageWithoutPhone = loadAnalytics({
@@ -737,7 +727,7 @@ test('deferred init safely loads the GA4 Google tag once on a production page wi
   );
 });
 
-test('deferred init reuses the eager AW Google tag request on a production phone page', () => {
+test('deferred init loads GA4 on a production phone page without Ads phone conversion tags', () => {
   const phoneLink = makeWebsiteCallLink({ text: 'Call David' });
   const loaded = loadAnalytics({
     hostname: 'lakelandhealthinsurance.com',
@@ -746,36 +736,34 @@ test('deferred init reuses the eager AW Google tag request on a production phone
     readyState: 'complete'
   });
 
-  assert.deepEqual(
-    loaded.appendedScripts
-      .map((script) => script.src)
-      .filter((src) => src.startsWith('https://www.googletagmanager.com/gtag/js?id=')),
-    ['https://www.googletagmanager.com/gtag/js?id=AW-300112445']
-  );
+  assert.deepEqual(loaded.appendedScripts, [], 'phone pages no longer request Ads tags before deferred init');
   loaded.runTimeouts();
-  assert.deepEqual(
-    loaded.appendedScripts
-      .map((script) => script.src)
-      .filter((src) => src.startsWith('https://www.googletagmanager.com/gtag/js?id=')),
-    ['https://www.googletagmanager.com/gtag/js?id=AW-300112445'],
-    'GA4 configuration reuses the already requested Google tag library'
-  );
+  const googleTagScripts = loaded.appendedScripts
+    .map((script) => script.src)
+    .filter((src) => src.startsWith('https://www.googletagmanager.com/gtag/js?id='));
+  assert.deepEqual(googleTagScripts, ['https://www.googletagmanager.com/gtag/js?id=G-W45RMKHXV0']);
   assert.equal(
     loaded.dataLayer.filter((entry) => entry && entry[0] === 'config' && entry[1] === 'G-W45RMKHXV0').length,
     1
   );
+  assert.equal(
+    loaded.dataLayer.some((entry) => entry && entry[0] === 'config' && String(entry[1] || '').startsWith('AW-300112445')),
+    false
+  );
 });
 
-test('Google consent default is queued before any gtag config, including eager website-call', () => {
+test('Google consent default is queued before any gtag config after deferred init', () => {
   const phoneLink = makeWebsiteCallLink({ text: 'Call David' });
   const phonePage = loadAnalytics({
     hostname: 'lakelandhealthinsurance.com',
     pathname: '/about/',
-    phoneLinks: [phoneLink]
+    phoneLinks: [phoneLink],
+    readyState: 'complete'
   });
+  phonePage.runTimeouts();
   const consentIndex = gtagCommandIndex(phonePage.dataLayer, 'consent', 'default');
   const firstConfigIndex = gtagCommands(phonePage.dataLayer).findIndex((entry) => entry[0] === 'config');
-  assert.ok(consentIndex >= 0, 'consent default is set on the eager Ads path');
+  assert.ok(consentIndex >= 0, 'consent default is set during deferred init');
   assert.ok(consentIndex < firstConfigIndex, 'consent default precedes the first gtag config');
   assert.equal(phonePage.dataLayer[consentIndex][2].analytics_storage, 'granted');
   assert.equal(phonePage.dataLayer[consentIndex][2].ad_storage, 'granted');
@@ -851,7 +839,7 @@ test('GA4 page_location keeps sanitized UTMs and gclid after the landing query i
   assert.doesNotMatch(pageViews[0][2].page_location, /zip_code|intent=/);
 });
 
-test('listener-order-safe DOMContentLoaded retry initializes website-call tracking for a late template link exactly once', () => {
+test('listener-order-safe DOMContentLoaded retry does not load Ads phone conversion tags for late template links', () => {
   const phoneLinks = [];
   const loaded = loadAnalytics({
     hostname: 'lakelandhealthinsurance.com',
@@ -867,24 +855,15 @@ test('listener-order-safe DOMContentLoaded retry initializes website-call tracki
   assert.deepEqual(loaded.appendedScripts, [], 'analytics retry waits until every DOMContentLoaded listener has run');
   loaded.runTimeouts();
 
-  assert.deepEqual(
-    loaded.appendedScripts.map((script) => script.src),
-    ['https://www.googletagmanager.com/gtag/js?id=AW-300112445']
-  );
+  assert.deepEqual(loaded.appendedScripts, [], 'late phone links do not trigger Ads phone conversion tags');
   assert.equal(
-    loaded.dataLayer.filter((entry) => entry && entry[0] === 'config' && entry[1] === 'AW-300112445/MVhNCILUi-IaEL20jY8B').length,
-    1,
-    'primary website-call conversion initializes exactly once'
-  );
-  assert.equal(
-    loaded.dataLayer.filter((entry) => entry && entry[0] === 'config' && entry[1] === 'AW-300112445/1lFWCNG3l5gdEL20jY8B').length,
-    1,
-    'secondary website-call conversion initializes exactly once'
+    loaded.dataLayer.filter((entry) => entry && entry[0] === 'config' && String(entry[1] || '').startsWith('AW-300112445')).length,
+    0
   );
 
   loaded.dispatch('DOMContentLoaded');
   loaded.runTimeouts();
-  assert.equal(loaded.appendedScripts.length, 1, 'a repeated retry cannot append the Ads tag again');
+  assert.deepEqual(loaded.appendedScripts, [], 'a repeated retry still does not append Ads tags');
 });
 
 test('cached Google forwarding number is applied immediately to a late replacement link', () => {
@@ -914,7 +893,7 @@ test('cached Google forwarding number is applied immediately to a late replaceme
   assert.equal(lateLink.getAttribute('aria-label'), 'Call David, (407) 555-0112');
   assert.match(lateLink.textContent, /\(407\) 555-0112/);
   assert.equal(lateLink.childNodes[0], originalIcon, 'late-link nested markup is preserved');
-  assert.equal(loaded.appendedScripts.length, 1, 'cached application does not reinitialize the Ads tag');
+  assert.equal(loaded.appendedScripts.length, 0, 'cached application does not load Ads phone conversion tags');
 
   loaded.dispatch('click', lateLink);
   const canonical = loaded.dataLayer.filter((entry) => entry && entry.event === 'phone_call_click');
@@ -968,7 +947,7 @@ test('website-call callback rejects malformed forwarding values without changing
 
   assert.equal(tracking.applyGoogleForwardingNumber('<script>alert(1)</script>', '+14075550112'), 0);
   assert.equal(tracking.applyGoogleForwardingNumber('(407) 555-0112', 'javascript:alert(1)'), 0);
-  assert.equal(link.getAttribute('href'), 'tel:+18634742500');
+  assert.equal(link.getAttribute('href'), 'tel:+18636403102');
   assert.equal(link.textContent, 'Call David');
 });
 
@@ -976,7 +955,7 @@ test('first-party attribution loads immediately on the homepage, Get Help, and p
   for (const pathname of ['/', '/get-help/', '/lp/aca/', '/lp/medicare/', '/lp/gap/']) {
     const { appendedScripts } = loadAnalytics({ pathname });
     assert.ok(
-      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261012-az-medicare-licensed'),
+      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261014-phone-6403102'),
       `${pathname} requests the attribution bus during analytics initialization`
     );
   }
@@ -989,7 +968,7 @@ test('first-party delivery bus loads immediately on any parsed tracked form page
   });
 
   assert.ok(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261012-az-medicare-licensed'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261014-phone-6403102'),
     'a tracked city-page form requests the delivery bus during analytics initialization'
   );
 });
@@ -1002,7 +981,7 @@ test('tracked form pages with a direct funnel script do not request it twice', (
   });
 
   assert.equal(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261012-az-medicare-licensed'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261014-phone-6403102'),
     false
   );
 });
@@ -1284,7 +1263,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
     assert.equal(ctas.some((cta) => cta.ctaKey === null), false, `${expected.pageKey} has an unkeyed in-content Get Help CTA`);
     assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
-    assert.match(html, /\/js\/analytics\.js\?v=20261012-az-medicare-licensed/);
+    assert.match(html, /\/js\/analytics\.js\?v=20261014-phone-6403102/);
 
     for (const cta of ctas) {
       const url = new URL(cta.href, 'https://lakelandhealthinsurance.com');
@@ -1660,7 +1639,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
 test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /David will reach out shortly\./);
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
-  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261012-az-medicare-licensed/);
+  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261014-phone-6403102/);
 });
 
 test('direct thank-you visits show customer-facing help copy', () => {
@@ -2060,7 +2039,7 @@ test('legacy campaign aliases land on current canonical articles', () => {
 });
 
 test('shared release invalidates stale asset caches and keeps desktop navigation on one row', () => {
-  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261012-lrh-uhc-medicare-path';/);
+  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261014-phone-6403102';/);
   assert.match(SITE_TEMPLATE_CSS, /header \.nav-links\s*\{[^}]*flex-wrap:\s*nowrap;/s);
 });
 
@@ -2249,7 +2228,7 @@ test('shared attribution hydrates hero ZIP and lead forms with a bounded multi-w
 
 test('homepage hero opens the review directly and get-help still accepts ZIP query values', () => {
   assert.match(HOME_HTML, /href="\/get-help\/"[^>]*data-lhi-ab-home-primary[^>]*>Review my coverage<\/a>/);
-  assert.match(HOME_HTML, /href="tel:\+18634742500">Call \(863\) 474-2500<\/a>/);
+  assert.match(HOME_HTML, /href="tel:\+18636403102">Call \(863\) 640-3102<\/a>/);
   assert.match(HOME_HTML, /class="home-sticky-cta"/);
   assert.match(GET_HELP_SRC, /setValue\('zipCode', qsValue\(qs, 'zip_code'\)\);/);
 });
