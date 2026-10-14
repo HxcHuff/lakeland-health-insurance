@@ -28,6 +28,8 @@ const {
   readBridgeConfig
 } = require('./lib/lead-bridge');
 const { deliverSiteLeadToHopper, SITE_LEAD_FORMS } = require('./lib/site-lead-hopper');
+const { verifyNetlifyEventRequest } = require('./lib/netlify-event-signature');
+const { buildSpamDropLog, evaluateLeadSpam } = require('./lib/form-spam-guard');
 
 const PROTOCOL = Object.freeze({
   maximumEventBytes: 64 * 1024
@@ -118,8 +120,27 @@ function parseNetlifyEvent(event) {
   return Object.freeze({
     eligible: true,
     formName,
-    websiteLead
+    websiteLead,
+    formData: filtered.payload
   });
+}
+
+function requireVerifiedSiteLeadEvent(event, environment) {
+  const verification = verifyNetlifyEventRequest(event, environment);
+  if (!verification.ok) fail(verification.reason, verification.reason === 'invalid_event_signature' ? 403 : 503);
+}
+
+function requireSiteLeadSpamClear(formData, formName, event, environment, logger) {
+  const evaluation = evaluateLeadSpam(formData, formName, event.headers || {});
+  if (!evaluation.spam) return;
+  try {
+    logger(buildSpamDropLog(formName, null, evaluation, {
+      netlifyContext: String(environment.CONTEXT || 'unknown')
+    }));
+  } catch {
+    // Observability must never alter delivery or disclose submission material.
+  }
+  fail('spam_rejected', 403, evaluation.reason);
 }
 
 function requireProductionContext(environment) {
@@ -197,6 +218,14 @@ function createSubmissionCreatedHandler({
       formName = normalized.formName;
       requireProductionContext(environment);
       if (SITE_LEAD_FORMS.has(formName)) {
+        requireVerifiedSiteLeadEvent(event, environment);
+        requireSiteLeadSpamClear(
+          normalized.formData,
+          formName,
+          event,
+          environment,
+          logger
+        );
         const hopper = await deliverSiteLeadToHopper(normalized.websiteLead, { fetchImpl, environment });
         if (!hopper || hopper.ok !== true) {
           safeLog(logger, formName, 'FAILED', (hopper && hopper.error) || 'hopper_delivery_failed');
@@ -253,5 +282,7 @@ exports._test = Object.freeze({
   SubmissionRelayError,
   parseNetlifyEvent,
   requireBridgeConfiguration,
-  requireProductionContext
+  requireProductionContext,
+  requireVerifiedSiteLeadEvent,
+  requireSiteLeadSpamClear
 });

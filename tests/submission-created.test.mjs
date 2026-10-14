@@ -11,6 +11,7 @@ const {
   _test
 } = require('../netlify/functions/submission-created.js');
 const { relaySchema } = require('../netlify/functions/lead.js');
+const { signNetlifyEventBody } = require('../netlify/functions/lib/netlify-event-signature.js');
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BRIDGE_URL = 'https://google-ads-lead-relay.vercel.app';
@@ -44,6 +45,18 @@ const RELAY_FORMS = [
 
 const HOPPER_FORMS = new Set(['site-medicare-lead', 'site-aca-lead']);
 const HOPPER_URL = 'https://huff-health-app.vercel.app/api/leads/quick-add';
+const EVENT_JWS_SECRET = 'synthetic-netlify-jws-secret-001';
+
+function signEvent(event, secret = EVENT_JWS_SECRET) {
+  const signature = signNetlifyEventBody(event.body, secret);
+  return {
+    ...event,
+    headers: {
+      'x-webhook-signature': signature,
+      ...(event.headers || {})
+    }
+  };
+}
 
 function submission(overrides = {}) {
   return {
@@ -92,6 +105,21 @@ function submission(overrides = {}) {
   };
 }
 
+function siteLeadSubmission(formName, data = {}, options = {}) {
+  const event = submission({
+    form_name: formName,
+    data: {
+      full_name: 'Site Lead',
+      phone: '8635550118',
+      zip_code: '33801',
+      coverage_status: 'not_sure',
+      consent: 'yes',
+      ...data
+    }
+  });
+  return options.unsigned ? event : signEvent(event);
+}
+
 function memoryStore() {
   const entries = new Map();
   const history = [];
@@ -128,6 +156,7 @@ function productionEnv(overrides = {}) {
     LHI_SITE_ENV: 'production',
     LEAD_BRIDGE_URL: BRIDGE_URL,
     LEAD_BRIDGE_KEY: BRIDGE_KEY,
+    NETLIFY_JWS_SECRET: EVENT_JWS_SECRET,
     ...overrides
   };
 }
@@ -273,11 +302,12 @@ test('relay inventory equals every active non-newsletter form and static Lead bl
       : local
         ? { full_name: 'Test Lead', phone_number: '8635550118' }
         : { full_name: 'Test Lead', phone: '8635550118', zip_code: '33801', coverage_status: 'not_sure' };
-    const event = submission({
+    let event = submission({
       id: index.toString(16).padStart(24, '0'),
       form_name: formName,
       data
     });
+    if (HOPPER_FORMS.has(formName)) event = signEvent(event);
     assert.equal((await fixture.handler(event)).statusCode, 200);
   }
   const bridgeCalls = fixture.calls.filter((call) => call.url === BRIDGE_ENDPOINT);
@@ -449,6 +479,35 @@ test('bridge failures queue the outbox and still accept the Forms event', async 
   assert.equal(fixture.logs.some((entry) => entry.event === 'website_lead_bridge' && entry.outcome === 'QUEUED'), true);
   assert.equal(fixture.logs.at(-1).outcome, 'FAILED');
   assert.equal(fixture.logs.at(-1).reason, 'upstream_500');
+});
+
+test('site lead hopper path rejects unsigned and forged events before Hopper', async () => {
+  const fixture = makeHandler();
+  await expectRelayFailure(
+    fixture.handler(siteLeadSubmission('site-medicare-lead', {}, { unsigned: true })),
+    'invalid_event_signature'
+  );
+  const forged = siteLeadSubmission('site-aca-lead');
+  forged.headers['x-webhook-signature'] = signNetlifyEventBody('{"payload":{}}', EVENT_JWS_SECRET);
+  await expectRelayFailure(fixture.handler(forged), 'invalid_event_signature');
+  assert.equal(fixture.calls.length, 0);
+});
+
+test('site lead hopper path rejects honeypot spam before Hopper', async () => {
+  const fixture = makeHandler();
+  await expectRelayFailure(
+    fixture.handler(siteLeadSubmission('site-aca-lead', { 'bot-field': 'bot' })),
+    'spam_rejected'
+  );
+  assert.equal(fixture.calls.length, 0);
+});
+
+test('signed site lead submissions still reach Hopper on the happy path', async () => {
+  const fixture = makeHandler();
+  const result = await fixture.handler(siteLeadSubmission('site-medicare-lead'));
+  assert.equal(result.statusCode, 200);
+  assert.equal(fixture.calls.length, 1);
+  assert.equal(fixture.calls[0].url, HOPPER_URL);
 });
 
 test('other allowlisted lead forms also build a website lead for the bridge', () => {
