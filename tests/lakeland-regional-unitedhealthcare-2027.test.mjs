@@ -46,7 +46,7 @@ test('LRH UnitedHealthcare 2027 answer page: URL, compliance guardrails, and cit
 
   assert.match(html, /tel:\+18636403102/);
   assert.doesNotMatch(html, /474-2500|18634742500/, 'must not use the legacy 474-2500 call number');
-  assert.match(html, /site-template\.js\?v=20261012-lrh-uhc-medicare-path/);
+  assert.match(html, /site-template\.js\?v=20261014-phone-6403102/);
   assert.match(html, /Florida residents/);
 
   const internalPromoLinks = [...html.matchAll(/<a href="\/[^"]*">([^<]+)<\/a>/g)]
