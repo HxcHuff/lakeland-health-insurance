@@ -32,6 +32,7 @@ const MEDICARE_SHIP_SURFACES = new Set([
   'medicare/index.html',
   'moving-florida-medicare/index.html',
   'provider-prescription-check/index.html',
+  'health-insurance-broker-lakeland-fl/index.html',
   'index.html'
 ]);
 
