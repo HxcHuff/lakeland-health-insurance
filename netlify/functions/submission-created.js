@@ -27,6 +27,7 @@ const {
   deliverWebsiteLead,
   readBridgeConfig
 } = require('./lib/lead-bridge');
+const { deliverSiteLeadToHopper, SITE_LEAD_FORMS } = require('./lib/site-lead-hopper');
 
 const PROTOCOL = Object.freeze({
   maximumEventBytes: 64 * 1024
@@ -195,6 +196,15 @@ function createSubmissionCreatedHandler({
       }
       formName = normalized.formName;
       requireProductionContext(environment);
+      if (SITE_LEAD_FORMS.has(formName)) {
+        const hopper = await deliverSiteLeadToHopper(normalized.websiteLead, { fetchImpl, environment });
+        if (!hopper || hopper.ok !== true) {
+          safeLog(logger, formName, 'FAILED', (hopper && hopper.error) || 'hopper_delivery_failed');
+        } else {
+          safeLog(logger, formName, 'ACCEPTED', 'hopper');
+        }
+        return response(200, { ok: true, outcome: 'ACCEPTED' });
+      }
       const delivery = await deliverWebsiteLead({
         lead: normalized.websiteLead,
         environment,

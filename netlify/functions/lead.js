@@ -190,8 +190,12 @@ const MEDICARE_GENERAL_INTAKE_EXCLUDED_FIELDS = new Set([
 
 const NEWSLETTER_FORMS = new Set(['homepage-newsletter', 'newsletter-signup']);
 // Website sales/service forms forwarded to the Vercel lead bridge.
+const SITE_LEAD_FORMS = new Set(['site-medicare-lead', 'site-aca-lead']);
+
 const WEBSITE_LEAD_RELAY_FORMS = new Set([
   'get-help',
+  'site-medicare-lead',
+  'site-aca-lead',
   'aca-lakeland-lead',
   'lp-aca-lead',
   'lp-medicare-lead',
@@ -325,6 +329,8 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'consent_text_version',
     ...FIRST_TOUCH_WITH_SOURCE
   ]),
+  'site-aca-lead': leadFormFields(LP_COMMON_FIELDS, ['source_template']),
+  'site-medicare-lead': leadFormFields(LP_COMMON_FIELDS, ['source_template', 'medicare_stage', 'age_timeline']),
   'lp-aca-lead': leadFormFields(LP_COMMON_FIELDS, ['household_size']),
   'lp-medicare-lead': leadFormFields(LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
   'lp-gap-lead': leadFormFields(LP_COMMON_FIELDS, ['coverage_situation']),
@@ -593,6 +599,8 @@ const LP_MEDICARE_CONSENT_TEXT_VERSION_V1 = 'lp-medicare-2026-09-29-v1';
 const LP_MEDICARE_CONSENT_TEXT_VERSION_V2 = 'lp-medicare-2026-09-29-v2';
 const LP_GAP_CONSENT_TEXT_VERSION_V1 = 'lp-gap-2026-09-29-v1';
 const LP_GAP_CONSENT_TEXT_VERSION_V2 = 'lp-gap-2026-09-29-v2';
+const SITE_MEDICARE_CONSENT_TEXT_VERSION = 'site-medicare-2026-10-v1';
+const SITE_ACA_CONSENT_TEXT_VERSION = 'site-aca-2026-10-v1';
 const HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION = 'homepage-newsletter-2026-10-07-v1';
 const NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION = 'newsletter-signup-2026-10-07-v1';
 const NEWSLETTER_CONSENT_TEXT_VERSIONS = Object.freeze({
@@ -609,7 +617,9 @@ const CONSENT_TEXT_VERSION_NONE = 'none';
 const LP_CONSENT_TEXT_VERSIONS = Object.freeze({
   'lp-aca-lead': LP_ACA_CONSENT_TEXT_VERSION_V2,
   'lp-medicare-lead': LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
-  'lp-gap-lead': LP_GAP_CONSENT_TEXT_VERSION_V2
+  'lp-gap-lead': LP_GAP_CONSENT_TEXT_VERSION_V2,
+  'site-aca-lead': SITE_ACA_CONSENT_TEXT_VERSION,
+  'site-medicare-lead': SITE_MEDICARE_CONSENT_TEXT_VERSION
 });
 const CITY_HEALTH_INSURANCE_FORMS = Object.freeze([
   'tampa-health-insurance',
@@ -635,6 +645,8 @@ const ALLOWED_CONSENT_TEXT_VERSIONS = Object.freeze([
   LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
   LP_GAP_CONSENT_TEXT_VERSION_V1,
   LP_GAP_CONSENT_TEXT_VERSION_V2,
+  SITE_MEDICARE_CONSENT_TEXT_VERSION,
+  SITE_ACA_CONSENT_TEXT_VERSION,
   HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION,
   NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION
 ]);
@@ -921,6 +933,7 @@ exports.handler = async (event) => {
   payload.server_received_at = serverReceivedAt;
   const medicareAttribution = canonicalizeMedicareAttribution(payload);
   const isNewsletter = NEWSLETTER_FORMS.has(formName);
+  const isSiteLead = SITE_LEAD_FORMS.has(formName);
   const leadPriority = classifyLead(payload, formName);
   payload.lead_priority = leadPriority.level;
   payload.lead_priority_reason = leadPriority.reason;
@@ -970,6 +983,8 @@ exports.handler = async (event) => {
     capiError = 'CAPI skipped: Forms forward failed';
   } else if (isNewsletter) {
     capiError = 'CAPI skipped: newsletter subscriber is not a sales lead';
+  } else if (isSiteLead) {
+    capiError = 'CAPI skipped: site lead forms do not send PII to Meta';
   } else if (!IS_PROD_CONTEXT) {
     capiError = `CAPI skipped: production context not confirmed (${NETLIFY_CONTEXT}/${SITE_ENV})`;
   } else if (!metaMeasurementAllowed(headers, cookieHeader)) {
@@ -1034,6 +1049,8 @@ exports.handler = async (event) => {
     adsCapiError = 'Ads CAPI skipped: Forms forward failed';
   } else if (isNewsletter) {
     adsCapiError = 'Ads CAPI skipped: newsletter subscriber is not a sales lead';
+  } else if (isSiteLead) {
+    adsCapiError = 'Ads CAPI skipped: site lead forms do not send PII to ad platforms';
   } else {
     try {
       const result = await sendAdsLead({
