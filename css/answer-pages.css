@@ -38,6 +38,11 @@ body {
   text-underline-offset: 3px;
 }
 
+.answer-hero .lhi-proof-strip a,
+.medicare-hero .lhi-proof-strip a {
+  color: #f6e7c1;
+}
+
 .answer-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call):hover,
 .answer-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call):focus-visible {
   color: #fff;
@@ -297,7 +302,14 @@ a:focus-visible,
   }
 
   .answer-hero:not(.medicare-hero) h1 {
+    font-size: clamp(1.55rem, 6.8vw, 2.05rem);
+    line-height: 1.12;
     order: 1;
+  }
+
+  .answer-hero:not(.medicare-hero) .eyebrow {
+    font-size: 0.72rem;
+    line-height: 1.25;
   }
 
   .answer-hero:not(.medicare-hero) .lead.lhi-hero-lede {
@@ -375,6 +387,114 @@ a:focus-visible,
 
   .answer-hero:not(.medicare-hero) form.sitelink-lead-form > button.sitelink-lead-submit {
     order: 7;
+  }
+
+  body.medicare-page {
+    scroll-padding-top: calc(var(--lhi-site-header-height, 88px) + 8px);
+  }
+
+  .answer-hero.medicare-hero {
+    min-height: 0;
+    scroll-margin-top: calc(var(--lhi-site-header-height, 88px) + 12px);
+  }
+
+  .medicare-hero .medicare-hero-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .medicare-hero .medicare-hero-grid > .hub-readiness-card {
+    order: 40;
+    width: 100%;
+  }
+
+  .medicare-hero .medicare-hero-copy {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .medicare-hero .hub-breadcrumb {
+    font-size: 0.78rem;
+    margin-bottom: 10px;
+    order: -1;
+  }
+
+  .medicare-hero .eyebrow {
+    font-size: 0.72rem;
+    line-height: 1.25;
+    margin-bottom: 0.35rem;
+    order: 0;
+  }
+
+  .medicare-hero h1 {
+    color: var(--hub-ink, #1b2a4a);
+    order: 1;
+  }
+
+  .medicare-hero .lead.lhi-hero-lede {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    order: 2;
+    overflow: hidden;
+  }
+
+  .medicare-hero form.sitelink-lead-form {
+    display: flex;
+    flex-direction: column;
+    margin: 0.35rem 0 0.5rem;
+    max-width: none;
+    order: 3;
+    width: 100%;
+  }
+
+  .medicare-hero form.sitelink-lead-form > * {
+    order: 8;
+  }
+
+  .medicare-hero form.sitelink-lead-form h2 {
+    color: #1b2a4a;
+    margin-bottom: 0.35rem;
+    order: 1;
+  }
+
+  .medicare-hero form.sitelink-lead-form > p:not(.sitelink-lead-privacy) {
+    display: none;
+  }
+
+  .medicare-hero form.sitelink-lead-form .sitelink-lead-grid {
+    order: 2;
+  }
+
+  .medicare-hero form.sitelink-lead-form > fieldset.sitelink-contact-options:first-of-type {
+    order: 3;
+  }
+
+  .medicare-hero form.sitelink-lead-form > fieldset.sitelink-contact-options:nth-of-type(2) {
+    order: 4;
+  }
+
+  .medicare-hero form.sitelink-lead-form > label.sitelink-request-consent {
+    order: 5;
+  }
+
+  .medicare-hero form.sitelink-lead-form > p.sitelink-lead-privacy {
+    order: 6;
+  }
+
+  .medicare-hero form.sitelink-lead-form > button.sitelink-lead-submit {
+    order: 7;
+  }
+
+  .medicare-hero .medicare-direct-answer,
+  .medicare-hero .lhi-proof-strip,
+  .medicare-hero .medicare-hero-actions,
+  .medicare-hero .hub-season-alert,
+  .medicare-hero .hub-cta-note,
+  .medicare-hero .hub-scenario-shortcut {
+    order: 20;
   }
 
   .answer-grid,
@@ -571,6 +691,10 @@ a:focus-visible,
 /* Light cream hero: undo dark-hero link/disclaimer colors inherited from .answer-hero. */
 .answer-hero.medicare-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call) {
   color: var(--hub-blue);
+}
+
+.answer-hero.medicare-hero .lhi-proof-strip a:not(.btn):not(.hero-cta):not(.lp-primary-call) {
+  color: #f6e7c1;
 }
 
 .answer-hero.medicare-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call):hover,
@@ -1669,9 +1793,9 @@ a:focus-visible,
 
 @media (max-width: 860px) {
   .medicare-hero {
-    padding-bottom: 54px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-bottom: 24px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
     padding-top: calc(var(--lhi-site-header-height, 88px) + 12px);
   }
 
@@ -1701,7 +1825,13 @@ a:focus-visible,
 
   body.has-seasonal-banner .medicare-hero,
   body.has-watson-notice .medicare-hero {
-    padding-top: calc(var(--lhi-site-header-height, 96px) + 12px);
+    padding-top: calc(var(--lhi-site-header-height, 96px) + 16px);
+    scroll-margin-top: calc(var(--lhi-site-header-height, 96px) + 16px);
+  }
+
+  body.has-seasonal-banner.medicare-page,
+  body.has-watson-notice.medicare-page {
+    scroll-padding-top: calc(var(--lhi-site-header-height, 96px) + 12px);
   }
 
   .medicare-hero-grid,
@@ -1789,7 +1919,8 @@ a:focus-visible,
   }
 
   .medicare-hero h1 {
-    font-size: clamp(2.7rem, 14vw, 4.2rem);
+    font-size: clamp(1.55rem, 6.8vw, 2.05rem);
+    line-height: 1.12;
   }
 
   .medicare-hero-actions {

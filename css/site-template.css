@@ -1036,14 +1036,53 @@ body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero {
 }
 
 .answer-hero .lhi-proof-strip span,
-.answer-hero .lhi-proof-strip a {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(246, 231, 193, 0.35);
-  color: #F8FAFC;
+.answer-hero .lhi-proof-strip a,
+.medicare-hero .lhi-proof-strip span,
+.medicare-hero .lhi-proof-strip a,
+body.blog-post .article-hero .lhi-proof-strip span,
+body.blog-post .article-hero .lhi-proof-strip a {
+  background: rgba(27, 42, 74, 0.9);
+  border-color: rgba(212, 168, 67, 0.55);
+  color: #f8fafc;
 }
 
-.answer-hero .lhi-proof-strip a {
-  color: #F6E7C1;
+.answer-hero .lhi-proof-strip a,
+.medicare-hero .lhi-proof-strip a,
+body.blog-post .article-hero .lhi-proof-strip a {
+  color: #f6e7c1;
+}
+
+.answer-hero .lhi-proof-strip a:hover,
+.answer-hero .lhi-proof-strip a:focus-visible,
+.medicare-hero .lhi-proof-strip a:hover,
+.medicare-hero .lhi-proof-strip a:focus-visible {
+  color: #fff;
+}
+
+/* Dark gradient heroes: trust/kicker chips must not use faint white-on-white pills. */
+.answer-hero .hero-trust-row span,
+.home-hero .hero-trust-row span,
+section.hero:not(.light-hero) .hero-trust-row span {
+  background: rgba(27, 42, 74, 0.9);
+  border-color: rgba(212, 168, 67, 0.45);
+  color: #f8fafc;
+}
+
+.answer-hero .hero-kicker,
+.home-hero .hero-kicker,
+section.hero:not(.light-hero) .hero-kicker {
+  background: rgba(27, 42, 74, 0.9);
+  border-color: rgba(212, 168, 67, 0.45);
+  color: #d4a843;
+}
+
+/* Light heroes: keep navy text on light chip surfaces. */
+section.hero.light-hero .hero-trust-row span,
+section.hero.light-hero .hero-kicker,
+.lhi-page-hero section.hero.aw-hero .hero-kicker {
+  background: rgba(27, 42, 74, 0.06);
+  border-color: rgba(27, 42, 74, 0.14);
+  color: var(--navy, #1b2a4a);
 }
 
 .hs-secondary {

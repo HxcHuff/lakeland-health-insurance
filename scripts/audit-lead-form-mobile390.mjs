@@ -149,6 +149,39 @@ for (const file of candidates) {
         }
         titleContrast = { fg: cs.color, bg: bg || 'rgb(255, 255, 255)' };
       }
+
+      function effectiveBg(el) {
+        let node = el;
+        while (node) {
+          const bg = getComputedStyle(node).backgroundColor;
+          if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') return bg;
+          node = node.parentElement;
+        }
+        return 'rgb(255, 255, 255)';
+      }
+
+      const heroRoot =
+        document.querySelector('.answer-hero, .medicare-hero, .article-hero') ||
+        document.querySelector('.lhi-hero-shell section.answer-hero, .lhi-hero-shell section.hero') ||
+        document.querySelector('section.hero');
+      const heroContrastSamples = [];
+      if (heroRoot) {
+        const chipSel =
+          '.lhi-proof-strip span, .lhi-proof-strip a, .hero-trust-row span, .hero-kicker, .eyebrow, .answer-snippet, .lead, .lhi-hero-lede, .medicare-direct-answer, .hero-identity, p.lead';
+        for (const el of heroRoot.querySelectorAll(chipSel)) {
+          const rect = el.getBoundingClientRect();
+          if (rect.height < 1 || rect.width < 1) continue;
+          const cs = getComputedStyle(el);
+          if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+          heroContrastSamples.push({
+            tag: el.tagName,
+            cls: (el.className || '').toString().slice(0, 48),
+            fg: cs.color,
+            bg: effectiveBg(el)
+          });
+        }
+      }
+
       return {
         headerBottom,
         h1Top,
@@ -156,6 +189,7 @@ for (const file of candidates) {
         horizontalScroll: docWidth > viewWidth + 1,
         inputOverflow,
         titleContrast,
+        heroContrastSamples,
         hasH1: Boolean(h1),
         hasForm: Boolean(form)
       };
@@ -179,6 +213,19 @@ for (const file of candidates) {
       }
     }
 
+    const heroContrastFails = [];
+    for (const sample of metrics.heroContrastSamples || []) {
+      const fg = parseRgb(sample.fg);
+      const bg = parseRgb(sample.bg);
+      if (!fg || !bg) continue;
+      const ratio = contrastRatio(fg, bg);
+      if (ratio < 4.5) {
+        heroContrastFails.push({ ...sample, ratio: Number(ratio.toFixed(2)) });
+      }
+    }
+    metrics.heroContrastFails = heroContrastFails;
+    if (heroContrastFails.length) fail.push('hero_contrast_below_aa');
+
     results.push({ url, pass: fail.length === 0, failures: fail, metrics });
   } catch (e) {
     results.push({ url, pass: false, failures: ['load_error'], error: String(e.message || e) });
@@ -192,12 +239,32 @@ await server.close();
 
 const passCount = results.filter((r) => r.pass).length;
 const failCount = results.length - passCount;
+const isBlog = (url) => url.includes('/blog/');
+const blogResults = results.filter((r) => isBlog(r.url));
+const nonBlogResults = results.filter((r) => !isBlog(r.url));
+const reasonCounts = {};
+for (const row of results.filter((r) => !r.pass)) {
+  for (const reason of row.failures) {
+    reasonCounts[reason] = (reasonCounts[reason] || 0) + 1;
+  }
+}
 const payload = {
   generatedAt: new Date().toISOString(),
   viewport: VIEWPORT,
   passCount,
   failCount,
   total: results.length,
+  blog: {
+    passCount: blogResults.filter((r) => r.pass).length,
+    failCount: blogResults.filter((r) => !r.pass).length,
+    total: blogResults.length
+  },
+  nonBlog: {
+    passCount: nonBlogResults.filter((r) => r.pass).length,
+    failCount: nonBlogResults.filter((r) => !r.pass).length,
+    total: nonBlogResults.length
+  },
+  reasonCounts,
   failures: results.filter((r) => !r.pass).map(({ url, failures, metrics, error }) => ({ url, failures, metrics, error }))
 };
 writeFileSync(OUT, `${JSON.stringify(payload, null, 2)}\n`);
