@@ -43,6 +43,39 @@ body {
   padding-right: 20px;
 }
 
+.lhi-skip-link {
+  background: var(--navy-deep, #0f1a2e);
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 800;
+  left: 12px;
+  padding: 12px 16px;
+  position: fixed;
+  top: 12px;
+  transform: translateY(-180%);
+  z-index: 2500;
+}
+
+.lhi-skip-link:focus {
+  transform: translateY(0);
+}
+
+body.lhi-lead-sticky-active.has-floating-actions .floating-actions {
+  display: none !important;
+}
+
+body.lhi-lead-form-in-view .floating-actions,
+body.lhi-lead-form-in-view .lhi-lead-sticky,
+body.lhi-lead-form-in-view #lhi-lead-sticky-bar {
+  display: none !important;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+body.lhi-lead-form-in-view.lhi-lead-sticky-active {
+  padding-bottom: 0;
+}
+
 header {
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(10px);

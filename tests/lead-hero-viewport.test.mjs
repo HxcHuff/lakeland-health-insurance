@@ -50,7 +50,10 @@ function startStaticServer() {
 
 test('H1 is visible above lead form on mobile for representative templates', async () => {
   const server = await startStaticServer();
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({
+    headless: true,
+    executablePath: process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || '/usr/local/bin/google-chrome'
+  });
   try {
     for (const { path, label } of PAGES) {
       const page = await browser.newPage({ viewport: { width: 390, height: 844 } });

@@ -682,11 +682,24 @@
     });
   }
 
+  function ensureSkipToMainLink() {
+    if (document.querySelector('.lhi-skip-link, .hub-skip-link, .skip-link, .lp-skip-link')) return;
+    var main = document.querySelector('main');
+    if (!main) return;
+    if (!main.id) main.id = 'main-content';
+    var skip = document.createElement('a');
+    skip.className = 'lhi-skip-link';
+    skip.href = '#' + main.id;
+    skip.textContent = 'Skip to main content';
+    document.body.prepend(skip);
+  }
+
   function normalizeTemplate() {
     document.querySelectorAll('.compliance-banner').forEach((node) => node.remove());
     stripInlineDisclaimerDuplicates();
     var pathname = currentPathname();
     var intent = resolveChromeIntent(pathname, document);
+    ensureSkipToMainLink();
     const firstHeader = document.querySelector('header');
     const nextHeader = createHeader(intent);
     if (firstHeader) {

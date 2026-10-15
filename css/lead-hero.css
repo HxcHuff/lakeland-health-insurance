@@ -269,6 +269,22 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
   margin: 0 0 0.65rem;
 }
 
+#lhi-site-lead-form,
+.lhi-lead-hero__card,
+.lhi-lead-hero:target,
+.lhi-lead-hero__intro,
+.lhi-lead-hero__intro .lhi-lead-hero__title {
+  scroll-margin-top: calc(var(--lhi-site-header-height, 88px) + 32px);
+}
+
+body.has-seasonal-banner #lhi-site-lead-form,
+body.has-seasonal-banner .lhi-lead-hero__card,
+body.has-seasonal-banner .lhi-lead-hero:target,
+body.has-seasonal-banner .lhi-lead-hero__intro,
+body.has-seasonal-banner .lhi-lead-hero__intro .lhi-lead-hero__title {
+  scroll-margin-top: calc(var(--lhi-site-header-height, 88px) + 68px);
+}
+
 .lhi-lead-hero__note {
   color: var(--lhi-lead-muted);
   font-size: 0.95rem;
@@ -650,7 +666,13 @@ body.lhi-lead-sticky-active {
     display: block;
   }
 
+  section.hero:has(.lhi-lead-hero) .lhi-lead-hero__intro .lhi-lead-hero__title,
+  body.blog-post section.hero:has(.lhi-lead-hero) .lhi-lead-hero__title {
+    color: #fff;
+  }
+
   body.blog-post section.hero:has(.lhi-lead-hero) .lhi-lead-hero__note {
+    color: rgba(255, 255, 255, 0.88);
     display: none;
   }
 
@@ -1066,6 +1088,15 @@ body.lhi-lead-sticky-active {
     width: 100%;
   }
 
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) {
+    gap: 0;
+  }
+
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hub-breadcrumb,
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) nav[aria-label='Breadcrumb'] {
+    margin-bottom: 0.65rem;
+  }
+
   section.hero:has(.lhi-lead-hero) .lhi-lead-hero {
     box-sizing: border-box;
     margin-left: auto;
@@ -1150,10 +1181,11 @@ body.lhi-lead-sticky-active {
   body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .eyebrow,
   body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hero-kicker {
     background: var(--lhi-shell-hero-bg);
+    border-radius: 14px 14px 0 0;
     box-sizing: border-box;
     color: #d4a843;
     margin: 0;
-    padding: 0.35rem 0 0;
+    padding: 18px 18px 0;
     width: 100%;
   }
 
@@ -1162,7 +1194,7 @@ body.lhi-lead-sticky-active {
     box-sizing: border-box;
     color: #fff;
     margin: 0;
-    padding: 0.2rem 0 0;
+    padding: 0.15rem 18px 0;
     width: 100%;
   }
 
@@ -1170,11 +1202,42 @@ body.lhi-lead-sticky-active {
   body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.lead.lhi-hero-lede {
     background: var(--lhi-shell-hero-bg);
     border-bottom: 4px solid #d4a843;
+    border-radius: 0 0 14px 14px;
     box-sizing: border-box;
     color: rgba(255, 255, 255, 0.92);
-    margin: 0;
-    padding: 0.35rem 0 0.85rem;
+    margin: 0 0 0.75rem;
+    padding: 0.35rem 18px 18px;
     width: 100%;
+  }
+
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:has(.lhi-hero-lede-block) .lhi-hero-lede-block {
+    background: var(--lhi-shell-hero-bg, linear-gradient(135deg, #1b2a4a 0%, #2563eb 100%));
+    border-radius: 14px;
+    box-sizing: border-box;
+    gap: 0.35rem;
+    padding: 18px;
+    width: 100%;
+  }
+
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:has(.lhi-hero-lede-block) .lhi-hero-lede-block .eyebrow,
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:has(.lhi-hero-lede-block) .lhi-hero-lede-block .hero-kicker {
+    color: #d4a843;
+    margin: 0;
+    padding: 0;
+  }
+
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:has(.lhi-hero-lede-block) .lhi-hero-lede-block h1 {
+    color: #fff;
+    margin: 0;
+    padding: 0;
+  }
+
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:has(.lhi-hero-lede-block) .lhi-hero-lede-block .lhi-hero-lede,
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:has(.lhi-hero-lede-block) .lhi-hero-lede-block p.lhi-hero-lede {
+    border-bottom: 4px solid #d4a843;
+    color: rgba(255, 255, 255, 0.92);
+    margin: 0;
+    padding: 0 0 0.15rem;
   }
 
   body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.lhi-hero-lede a:not(.btn),
@@ -1224,7 +1287,7 @@ body.lhi-lead-sticky-active {
 
   .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) > section.lhi-lead-hero {
     order: 3;
-    margin-top: 0.35rem;
+    margin-top: 0.75rem;
     margin-bottom: 0.75rem;
     width: 100%;
   }
