@@ -170,3 +170,22 @@ body.lhi-lead-sticky-active {
     display: none !important;
   }
 }
+
+/* Legacy blog posts: stack lead form below article hero / direct answer (no side-by-side gap). */
+body.blog-post .lhi-lead-hero,
+.blog-post .lhi-lead-hero {
+  min-height: 0;
+  margin: 1.5rem auto 2rem;
+  max-width: 640px;
+}
+
+body.blog-post .lhi-lead-hero__grid,
+.blog-post .lhi-lead-hero__grid {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+body.blog-post .lhi-lead-hero__card,
+.blog-post .lhi-lead-hero__card {
+  order: 0;
+}

@@ -7,7 +7,7 @@ import { join, relative } from 'node:path';
 import { buildLeadHeroHtml } from './lib/lead-hero-html.mjs';
 
 const ROOT = new URL('..', import.meta.url).pathname.replace(/\/$/, '');
-const CSS_SNIPPET = '<link rel="stylesheet" href="/css/lead-hero.css?v=20261014-lead-hero">';
+const CSS_SNIPPET = '<link rel="stylesheet" href="/css/lead-hero.css?v=20261015-blog-lead-order">';
 const JS_SNIPPET = '<script src="/js/lead-hero.js?v=20261014-lead-hero" defer></script>';
 
 const EXCLUDE_PATHS = new Set([
@@ -226,6 +226,31 @@ function removeDuplicateSitelinkHeroForms(html) {
   );
 }
 
+function insertBlogLeadHero(html, heroHtml) {
+  const articleHero = html.match(/<section class="article-hero"[\s\S]*?<\/section>/i);
+  if (articleHero) {
+    const end = articleHero.index + articleHero[0].length;
+    return `${html.slice(0, end)}\n\n${heroHtml}\n\n${html.slice(end)}`;
+  }
+  const articleHeader = html.match(/<section class="article-header"[\s\S]*?<\/section>/i);
+  if (articleHeader) {
+    const headerEnd = articleHeader.index + articleHeader[0].length;
+    const keyAnswer = html
+      .slice(headerEnd)
+      .match(/<section class="key-answer"[\s\S]*?<\/section>/i);
+    const end = keyAnswer ? headerEnd + keyAnswer.index + keyAnswer[0].length : headerEnd;
+    return `${html.slice(0, end)}\n\n${heroHtml}\n\n${html.slice(end)}`;
+  }
+  const h1 = html.match(/<h1\b[\s\S]*?<\/h1>/i);
+  if (h1) {
+    const afterH1 = h1.index + h1[0].length;
+    const keyAnswer = html.slice(afterH1).match(/<section class="key-answer"[\s\S]*?<\/section>/i);
+    const end = keyAnswer ? afterH1 + keyAnswer.index + keyAnswer[0].length : afterH1;
+    return `${html.slice(0, end)}\n\n${heroHtml}\n\n${html.slice(end)}`;
+  }
+  return insertHero(html, heroHtml);
+}
+
 function insertHero(html, heroHtml) {
   if (html.includes('class="lhi-lead-hero"')) return html;
   if (html.includes('</section>\n\n  <main class="container">')) {
@@ -279,7 +304,10 @@ for (const file of files) {
   html = ensureAssets(html);
   if (cfg.removeLegacyForm) html = removeLegacyCityForm(html);
   if (cfg.removeSitelinkForm) html = removeDuplicateSitelinkHeroForms(html);
-  html = insertHero(html, heroHtml.trim());
+  html =
+    cfg.sourceTemplate === 'blog_post'
+      ? insertBlogLeadHero(html, heroHtml.trim())
+      : insertHero(html, heroHtml.trim());
 
   writeFileSync(file, html);
   changed += 1;
