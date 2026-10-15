@@ -207,6 +207,32 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
   padding: 0;
 }
 
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .hub-breadcrumb,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb {
+  color: #64748b;
+  font-size: 0.84rem;
+  font-weight: 700;
+  margin-bottom: clamp(0.65rem, 2vw, 1rem);
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .hub-breadcrumb a,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb a {
+  color: var(--navy, #1b2a4a);
+  font-weight: 700;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .hub-breadcrumb a:hover,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .hub-breadcrumb a:focus-visible,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb a:hover,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb a:focus-visible {
+  color: #2563eb;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .hub-breadcrumb [aria-current="page"],
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb [aria-current="page"] {
+  color: #1e293b;
+}
+
 @media (min-width: 901px) {
   /* Shell 2-col only when the lead form is a direct shell child (legacy shell layout). */
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:not(:has(> .lhi-hero-grid-lead)):has(> section.lhi-lead-hero) {
@@ -558,8 +584,16 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
     flex-direction: column;
     gap: clamp(0.75rem, 2vw, 1.25rem);
     grid-column: 1;
-    grid-row: 1 / span 2;
+    grid-row: 1;
     min-width: 0;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-copy-stack) > .lhi-hero-grid-lead,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-copy-stack) > .lhi-hero-grid-lead,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-copy-stack) > .lhi-hero-grid-lead {
+    align-self: start !important;
+    grid-column: 2 !important;
+    grid-row: 1 !important;
   }
 
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)):not(:has(> .side-card)) > .lhi-hero-grid-lead {
