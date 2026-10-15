@@ -613,9 +613,21 @@
   function syncSiteHeaderOffset() {
     var header = document.querySelector('header');
     if (!header) return;
+    if (
+      normalizePath(currentPathname()) === '/' &&
+      headerHasChromeShell(header)
+    ) {
+      return;
+    }
     var height = Math.ceil(header.getBoundingClientRect().height);
     if (!height) return;
     height += SITE_HEADER_HEIGHT_BUFFER_PX;
+    var current = parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue('--lhi-site-header-height')
+    );
+    if (Number.isFinite(current) && Math.abs(height - current) < 3) {
+      return;
+    }
     document.documentElement.style.setProperty('--lhi-site-header-height', height + 'px');
   }
 

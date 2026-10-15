@@ -22,7 +22,7 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/site-template.css', '20261015-lead-speed-cls'],
   ['/css/blog-unified.css', '20260803-brand-release'],
   ['/js/site-phone.js', '20261015-lead-speed-cls'],
-  ['/js/site-template.js', '20261015-lead-speed-cls'],
+  ['/js/site-template.js', '20261015-lead-speed-cls2'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
   ['/css/lead-hero.css', '20261015-lead-speed-cls'],
