@@ -862,6 +862,7 @@ footer {
   font-size: 0.84rem;
   font-weight: 600;
   line-height: 1.45;
+  min-height: 44px;
 }
 
 .seasonal-banner-inner {

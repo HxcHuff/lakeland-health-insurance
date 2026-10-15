@@ -553,7 +553,7 @@
   function initSiteHeaderOffsetTracking(header) {
     var target = header || document.querySelector('header');
     if (!target) return;
-    syncSiteHeaderOffset();
+    scheduleSiteHeaderOffsetSync();
     bindSiteHeaderOffsetObserver(target);
     if (document.fonts && typeof document.fonts.ready !== 'undefined') {
       document.fonts.ready.then(function () {
