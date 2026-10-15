@@ -57,7 +57,9 @@ const MEDICARE_SHIP_PAGES = [
   'blog/turning-65-medicare-checklist-florida.html',
   'blog/when-can-i-switch-medicare-plans-florida.html',
   'blog/when-to-sign-up-for-medicare-if-still-working.html',
+  'blog/watson-clinic-urgent-care.html',
   'provider-prescription-check/index.html',
+  'health-insurance-broker-lakeland-fl/index.html',
   'index.html'
 ];
 
