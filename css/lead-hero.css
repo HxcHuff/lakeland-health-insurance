@@ -230,6 +230,32 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
   body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero__card {
     order: 0;
   }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) {
+    align-items: start;
+    display: grid;
+    padding-top: calc(var(--lhi-site-header-height, 108px) + 16px);
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) > section.answer-hero {
+    align-self: start;
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+    padding-top: 0;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) > section.lhi-lead-hero {
+    align-self: start;
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    order: unset;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .lhi-lead-hero__intro {
+    display: block;
+  }
 }
 
 .lhi-lead-hero__grid {
@@ -342,6 +368,9 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
   bottom: 0;
   z-index: 1600;
   display: none;
+  min-height: calc(3.25rem + env(safe-area-inset-bottom, 0));
+  visibility: hidden;
+  pointer-events: none;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
   padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom, 0));
@@ -351,6 +380,8 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
 
 .lhi-lead-sticky.is-visible {
   display: grid;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .lhi-lead-sticky a {
@@ -376,6 +407,11 @@ body.lhi-lead-sticky-active {
   padding-bottom: calc(4.25rem + env(safe-area-inset-bottom, 0));
 }
 
+.home-page .lhi-lead-hero {
+  min-height: auto;
+  margin-top: 0;
+}
+
 @media (max-width: 900px) {
   html:has(body:not(.blog-post)),
   html:has(body.lhi-page-hero:not(.blog-post)) {
@@ -399,6 +435,11 @@ body.lhi-lead-sticky-active {
 
   body.lhi-page-hero:not(.blog-post) header .nav-links {
     display: none;
+  }
+
+  .home-page .lhi-lead-hero {
+    min-height: auto;
+    margin: 1.25rem auto 1.75rem;
   }
 
   .lhi-lead-hero__grid {

@@ -1,7 +1,18 @@
 (function () {
   'use strict';
 
+  var OFFICE_MAP_CSS = '/css/office-map.css?v=20261015-v6merge';
   var EMBED_SRC = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d56313.12040141287!2d-81.93287494999998!3d28.0986556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xad587a646ef093b7%3A0x4b3db99e3bd22c62!2sLakeland%20Health%20Insurance!5e0!3m2!1sen!2sus!4v1791470623360!5m2!1sen!2sus';
+
+  function ensureOfficeMapStyles() {
+    if (!document.querySelector || document.querySelector('link[href*="office-map.css"]')) return;
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = OFFICE_MAP_CSS;
+    document.head.appendChild(link);
+  }
+
+  ensureOfficeMapStyles();
 
   function createMapIframe() {
     var iframe = document.createElement('iframe');

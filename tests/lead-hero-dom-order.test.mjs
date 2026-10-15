@@ -21,7 +21,7 @@ test('page H1 precedes lhi-lead-hero in DOM order on every lead page', () => {
     const html = readFileSync(resolve(ROOT, rel), 'utf8');
     if (!html.includes('class="lhi-lead-hero"')) continue;
     const h1 = html.search(/<h1\b/i);
-    const lead = html.search(/<section class="lhi-lead-hero"/i);
+    const lead = html.search(/<section class="lhi-lead-hero[\s"]/i);
     assert.ok(h1 >= 0, `${rel} includes an H1`);
     assert.ok(lead > h1, `${rel} renders lhi-lead-hero after the H1`);
   }

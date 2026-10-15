@@ -47,6 +47,7 @@
         start_review_hero: true,
         request_review_process: true,
         start_review_final: true,
+        csnp_section: true,
         menu_get_help: true,
         header_talk_to_david: true,
         footer_start_plan_review: true

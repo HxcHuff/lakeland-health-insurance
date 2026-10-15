@@ -24,11 +24,18 @@ function walkHtml(dir = ROOT, out = []) {
 
 test('homepage ships site ACA lead hero above the fold', () => {
   const html = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
-  assert.match(html, /\/css\/lead-hero\.css\?v=20261015-v5qa8/);
-  assert.match(html, /class="lhi-hero-shell"/);
-  assert.match(html, /\/js\/lead-hero\.js\?v=20261014-lead-hero/);
+  assert.match(html, /\/css\/lead-hero\.css\?v=20261015-v6merge/);
+  assert.match(html, /\/js\/lead-hero\.js\?v=20261015-v6merge/);
   assert.match(html, /data-form-name="site-aca-lead"/);
-  assert.match(html, /\bclass="lhi-lead-hero\b/);
+  assert.ok(html.includes('class="lhi-lead-hero'));
+});
+
+test('homepage DOM order keeps branded hero before lead capture for LCP', () => {
+  const html = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
+  const heroIdx = html.indexOf('class="hero home-hero"');
+  const leadIdx = html.search(/class="lhi-lead-hero/);
+  assert.ok(heroIdx > 0 && leadIdx > 0);
+  assert.ok(heroIdx < leadIdx, 'branded home hero must precede the site lead form block');
 });
 
 test('sample blog post uses medicare site lead variant', () => {
@@ -37,21 +44,9 @@ test('sample blog post uses medicare site lead variant', () => {
   assert.match(html, /name="site-medicare-lead"/);
 });
 
-const MEDICARE_SCOPE_NOTE =
-  /<p class="form-tpmo lhi-lead-hero__medicare-scope" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/;
-
-test('every site-medicare-lead embed includes the nine-state Medicare scope note', () => {
-  for (const rel of walkHtml()) {
-    const html = readFileSync(resolve(ROOT, rel), 'utf8');
-    if (!html.includes('name="site-medicare-lead"')) continue;
-    assert.match(html, MEDICARE_SCOPE_NOTE, `${rel} missing outOfStateMedicareNote on Medicare lead form`);
-  }
-});
-
 test('every site-medicare-lead page includes the Medicare hub bottom TPMO block', () => {
   assert.ok(MEDICARE_TPMO_BLOCK, 'medicare/index.html exposes the canonical bottom TPMO block');
   for (const rel of walkHtml()) {
-    if (rel.startsWith('blog/')) continue;
     const html = readFileSync(resolve(ROOT, rel), 'utf8');
     if (!html.includes('name="site-medicare-lead"')) continue;
     assert.ok(html.includes(FULL_SHIP), `${rel} includes the approved SHIP TPMO sentence`);

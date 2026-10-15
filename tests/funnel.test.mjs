@@ -412,6 +412,11 @@ function loadAnalytics({
       scheduledTimeouts.push({ callback, delay });
       return scheduledTimeouts.length;
     },
+    requestIdleCallback(callback, options) {
+      const delay = options && options.timeout != null ? options.timeout : 1;
+      scheduledTimeouts.push({ callback, delay });
+      return scheduledTimeouts.length;
+    },
     addEventListener: () => {},
     removeEventListener: () => {}
   };
@@ -955,7 +960,7 @@ test('first-party attribution loads immediately on the homepage, Get Help, and p
   for (const pathname of ['/', '/get-help/', '/lp/aca/', '/lp/medicare/', '/lp/gap/']) {
     const { appendedScripts } = loadAnalytics({ pathname });
     assert.ok(
-      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261015-cwv'),
+      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261015-v6merge'),
       `${pathname} requests the attribution bus during analytics initialization`
     );
   }
@@ -968,7 +973,7 @@ test('first-party delivery bus loads immediately on any parsed tracked form page
   });
 
   assert.ok(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261015-cwv'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261015-v6merge'),
     'a tracked city-page form requests the delivery bus during analytics initialization'
   );
 });
@@ -981,7 +986,7 @@ test('tracked form pages with a direct funnel script do not request it twice', (
   });
 
   assert.equal(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261015-cwv'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261015-v6merge'),
     false
   );
 });
@@ -1249,7 +1254,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     [MEDICARE_HUB_HTML, {
       pageKey: 'medicare',
       pageRole: 'hub',
-      ctaKeys: ['request_review_process', 'start_review_final', 'start_review_hero']
+      ctaKeys: ['csnp_section', 'request_review_process', 'start_review_final', 'start_review_hero']
     }],
     [MEDICARE_BROKER_HTML, {
       pageKey: 'medicare_broker_lakeland_fl',
@@ -1263,7 +1268,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
     assert.equal(ctas.some((cta) => cta.ctaKey === null), false, `${expected.pageKey} has an unkeyed in-content Get Help CTA`);
     assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
-    assert.match(html, /\/js\/analytics\.js\?v=20261014-phone-6403102/);
+    assert.match(html, /\/js\/analytics\.js\?v=20261015-v6merge/);
 
     for (const cta of ctas) {
       const url = new URL(cta.href, 'https://lakelandhealthinsurance.com');
@@ -1639,7 +1644,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
 test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /David will reach out shortly\./);
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
-  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261014-phone-6403102/);
+  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261015-v6merge/);
 });
 
 test('direct thank-you visits show customer-facing help copy', () => {
@@ -2039,7 +2044,7 @@ test('legacy campaign aliases land on current canonical articles', () => {
 });
 
 test('shared release invalidates stale asset caches and keeps desktop navigation on one row', () => {
-  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261014-phone-6403102';/);
+  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261015-v6merge';/);
   assert.match(SITE_TEMPLATE_CSS, /header \.nav-links\s*\{[^}]*flex-wrap:\s*nowrap;/s);
 });
 

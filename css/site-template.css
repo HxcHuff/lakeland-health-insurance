@@ -655,13 +655,13 @@ footer {
   }
 }
 
-@media (min-width: 1101px) {
+@media (min-width: 1200px) {
   header .menu-button {
     display: none !important;
   }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1199px) {
   header .nav-links,
   .cta-group {
     display: none;
@@ -912,6 +912,7 @@ footer {
   font-size: 0.84rem;
   font-weight: 600;
   line-height: 1.45;
+  min-height: 44px;
 }
 
 .seasonal-banner-inner {
