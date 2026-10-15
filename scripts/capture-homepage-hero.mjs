@@ -51,6 +51,7 @@ const browser = await chromium.launch({ headless: true });
 for (const { w, h, file } of VIEWS) {
   const page = await browser.newPage({ viewport: { width: w, height: h } });
   await page.goto(`${server.baseUrl}/`, { waitUntil: 'networkidle' });
+  await page.waitForFunction(() => document.querySelector('header .nav-links') && document.querySelector('header .brand-name'), { timeout: 8000 }).catch(() => {});
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(300);
   const metrics = await page.evaluate(() => {

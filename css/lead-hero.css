@@ -36,12 +36,15 @@ body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .lhi-lead-her
 
 body.home-page .lhi-hero-shell {
   align-items: start;
-  padding-top: calc(var(--lhi-site-header-height, 108px) + 12px);
+  background: var(--gray-50, #f8fafc);
+  padding-top: calc(var(--lhi-site-header-height, 108px) + 8px);
 }
 
 body.home-page .lhi-hero-shell > .home-hero {
-  padding: 0 0 clamp(24px, 4vw, 40px);
-  scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 12px);
+  background: transparent;
+  border-bottom: 1px solid var(--gray-200, #e2e8f0);
+  padding: 0 0 clamp(20px, 3vw, 32px);
+  scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 8px);
   width: 100%;
 }
 
@@ -59,7 +62,17 @@ body.home-page .home-hero-grid .lhi-hero-grid-lead {
 }
 
 body.home-page .home-hero-grid .lhi-hero-grid-lead .lhi-lead-hero__intro {
+  display: block;
+}
+
+body.home-page .home-hero-grid .lhi-hero-grid-lead .lhi-lead-hero__note {
   display: none;
+}
+
+body.home-page .home-hero-grid .lhi-hero-grid-lead .lhi-lead-hero__title {
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  line-height: 1.2;
+  margin: 0 0 0.65rem;
 }
 
 body.home-page .lhi-hero-shell .home-hero h1 {
@@ -115,8 +128,46 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
   body.home-page .home-hero-grid .lhi-hero-grid-lead {
     align-self: start;
     grid-column: 2;
-    grid-row: 1;
-    margin-top: 2.35rem;
+    grid-row: 1 / span 2;
+    margin-top: 0;
+  }
+
+  body.home-page .lhi-hero-shell .lhi-lead-hero__card {
+    padding: 0.85rem 0.95rem 1rem;
+  }
+
+  body.home-page .lhi-hero-shell .lhi-lead-hero__consent {
+    font-size: 0.68rem;
+    line-height: 1.32;
+  }
+
+  body.home-page .lhi-hero-shell .lhi-lead-hero__fields {
+    gap: 0.5rem;
+  }
+
+  body.home-page .lhi-hero-lede-block .hero-path-links--above-fold,
+  body.home-page .lhi-hero-lede-block .hero-benefits--above-fold,
+  body.home-page .lhi-hero-lede-block .hero-proof-strip--above-fold {
+    display: block;
+  }
+
+  body.home-page .lhi-hero-deferred-block .hero-path-links--deferred-mobile,
+  body.home-page .lhi-hero-deferred-block .hero-benefits--deferred-mobile,
+  body.home-page .lhi-hero-deferred-block .hero-proof-strip--deferred-mobile {
+    display: none;
+  }
+
+  body.home-page .lhi-hero-lede-block .hero-path-links--above-fold {
+    font-size: 0.92rem;
+    margin: 0.85rem 0 0;
+  }
+
+  body.home-page .lhi-hero-lede-block .hero-benefits--above-fold {
+    margin-top: 0.65rem;
+  }
+
+  body.home-page .lhi-hero-lede-block .hero-proof-strip--above-fold {
+    margin-top: 0.75rem;
   }
 
   body.home-page .home-hero-grid .lhi-hero-lede-block {
@@ -526,7 +577,19 @@ body.lhi-lead-sticky-active {
   }
 
   body.home-page .lhi-hero-shell .lhi-lead-hero__intro {
-    display: none;
+    display: block;
+  }
+
+  body.home-page .lhi-hero-lede-block .hero-path-links--above-fold,
+  body.home-page .lhi-hero-lede-block .hero-benefits--above-fold,
+  body.home-page .lhi-hero-lede-block .hero-proof-strip--above-fold {
+    display: none !important;
+  }
+
+  body.home-page .lhi-hero-deferred-block .hero-path-links--deferred-mobile,
+  body.home-page .lhi-hero-deferred-block .hero-benefits--deferred-mobile,
+  body.home-page .lhi-hero-deferred-block .hero-proof-strip--deferred-mobile {
+    display: block;
   }
 
   body.home-page .lhi-hero-shell .lhi-lead-hero__card {

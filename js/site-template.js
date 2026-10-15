@@ -283,15 +283,12 @@
   }
 
   const navLinks = [
-    ['/aca-health-insurance-lakeland-fl/', 'Individual and Family Coverage'],
+    ['/aca-health-insurance-lakeland-fl/', 'Individual'],
     ['/medicare/', 'Medicare'],
-    ['/provider-prescription-check/', 'Check doctors & Rx'],
-    ['/plans/', 'Coverage Options'],
+    ['/provider-prescription-check/', 'Doctors & Rx'],
+    ['/plans/', 'Plans'],
     ['/carriers/', 'Carriers'],
-    ['/states/', 'States'],
-    ['/blog/', 'Blog'],
-    ['/learning/', 'Learn'],
-    ['/about/', 'About']
+    ['/blog/', 'Blog']
   ];
 
   function createHeader(intent) {
@@ -317,7 +314,7 @@
         <div class="logo-container">
           <a class="brand-name" href="/">
             Lakeland Health Insurance
-            <span class="license-tag">Licensed Florida health agent #W371813</span>
+            <span class="license-tag">FL #W371813</span>
           </a>
           <button class="menu-button" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
             <div class="ellipses" aria-hidden="true">
@@ -334,7 +331,7 @@
           ${navLinks.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}
         </ul>
         <div class="cta-group">
-          <a href="${helpHref}" class="cta-button">Request a plan review</a>
+          <a href="${helpHref}" class="cta-button">Plan review</a>
         </div>
       </nav>`;
     return header;
@@ -476,6 +473,58 @@
       if (header) header.classList.remove('has-watson-notice');
     });
     return banner;
+  }
+
+  function consolidateMobileHeaderAlerts(header, seasonalBanner, watsonNotice) {
+    if (!header || !seasonalBanner || !watsonNotice) return;
+    if (!window.matchMedia || !window.matchMedia('(max-width: 720px)').matches) return;
+    if (header.querySelector('.lhi-mobile-alert-rail')) return;
+
+    var rail = document.createElement('div');
+    rail.className = 'lhi-mobile-alert-rail';
+    rail.setAttribute('role', 'region');
+    rail.setAttribute('aria-label', 'Site alerts');
+    rail.innerHTML =
+      '<div class="lhi-mobile-alert-rail__track">' +
+      '<p class="lhi-mobile-alert-rail__slide is-active" data-alert="medicare">Medicare AEP Oct 15–Dec 7 · <a href="/medicare/">Dates</a></p>' +
+      '<p class="lhi-mobile-alert-rail__slide" data-alert="watson" hidden>Watson Clinic: no Humana plans Jan 1, 2027 · <a href="' +
+      WATSON_NOTICE_HREF +
+      '">Details</a></p>' +
+      '<button type="button" class="lhi-mobile-alert-rail__dismiss" aria-label="Dismiss alerts">Dismiss</button>' +
+      '</div>';
+
+    seasonalBanner.remove();
+    watsonNotice.remove();
+    header.prepend(rail);
+    header.classList.add('has-mobile-alert-rail');
+
+    var slides = rail.querySelectorAll('.lhi-mobile-alert-rail__slide');
+    var index = 0;
+    var rotateTimer = window.setInterval(function () {
+      if (slides.length < 2) return;
+      slides[index].hidden = true;
+      slides[index].classList.remove('is-active');
+      index = (index + 1) % slides.length;
+      slides[index].hidden = false;
+      slides[index].classList.add('is-active');
+    }, 6000);
+
+    rail.querySelector('.lhi-mobile-alert-rail__dismiss').addEventListener('click', function () {
+      window.clearInterval(rotateTimer);
+      rail.remove();
+      header.classList.remove('has-mobile-alert-rail');
+      document.body.classList.remove('has-seasonal-banner');
+      document.body.classList.remove('has-watson-notice');
+      header.classList.remove('has-seasonal-banner');
+      header.classList.remove('has-watson-notice');
+      try {
+        var storageKey = seasonalBannerStorageKey();
+        if (storageKey) window.localStorage.setItem(storageKey, 'dismissed');
+        if (window.localStorage) window.localStorage.setItem(WATSON_NOTICE_STORAGE_KEY, 'dismissed');
+      } catch (error) {
+        // Ignore storage failures.
+      }
+    });
   }
 
   function createSeasonalBanner(intent) {
@@ -674,6 +723,16 @@
     } catch (error) {
       document.body.classList.remove('has-watson-notice');
       nextHeader.classList.remove('has-watson-notice');
+    }
+
+    try {
+      consolidateMobileHeaderAlerts(
+        nextHeader,
+        nextHeader.querySelector('#' + BANNER_ID),
+        nextHeader.querySelector('#' + WATSON_NOTICE_ID)
+      );
+    } catch (error) {
+      // Keep separate banners if consolidation fails.
     }
 
     const skipFooterTpmo = hasStaticPageDisclosures();
