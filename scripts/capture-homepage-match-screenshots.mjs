@@ -12,9 +12,14 @@ const PAGES = [
   { url: '/plans/', name: 'plans' },
   { url: '/aca-health-insurance-lakeland-fl/', name: 'aca-lakeland' },
   { url: '/provider-prescription-check/', name: 'provider-check' },
+  { url: '/quote/', name: 'quote' },
+  { url: '/coverage-center/', name: 'coverage-center' },
+  { url: '/states/', name: 'states' },
   { url: '/blog/orlando-health-watson-clinic-insurance-2026.html', name: 'blog-watson' },
   { url: '/carriers/oscar-aca-2026/', name: 'carrier-oscar' },
-  { url: '/states/', name: 'states' },
+  { url: '/tampa-health-insurance/', name: 'tampa-city' },
+  { url: '/davenport-health-insurance/', name: 'davenport-city' },
+  { url: '/local-health-insurance-answers/medicare-plan-help-lakeland/', name: 'lhi-medicare-help' },
   { url: '/medicare/', name: 'medicare' }
 ];
 const VIEWPORTS = [
