@@ -95,9 +95,12 @@
       quote.addEventListener('click', function (event) {
         if (event && typeof event.preventDefault === 'function') event.preventDefault();
         var target = d.getElementById('lhi-site-lead-form') || d.getElementById('lhi-lead-hero');
-        if (target && typeof target.scrollIntoView === 'function') {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        if (!target) return;
+        var root = d.documentElement;
+        var headerHeight = parseFloat(w.getComputedStyle(root).getPropertyValue('--lhi-site-header-height')) || 88;
+        var offset = headerHeight + (d.body.classList.contains('has-seasonal-banner') ? 52 : 16);
+        var top = target.getBoundingClientRect().top + w.pageYOffset - offset;
+        w.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
       });
     }
     return bar;
