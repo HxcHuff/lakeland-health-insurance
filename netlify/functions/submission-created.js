@@ -125,9 +125,25 @@ function parseNetlifyEvent(event) {
   });
 }
 
-function requireVerifiedSiteLeadEvent(event, environment) {
+function logJwsVerificationNotice(logger, reason) {
+  if (!logger || !reason) return;
+  try {
+    logger(Object.freeze({
+      event: 'netlify_event_jws_verification',
+      outcome: 'SKIPPED',
+      reason
+    }));
+  } catch {
+    // Observability must never alter delivery or disclose submission material.
+  }
+}
+
+function requireVerifiedSiteLeadEvent(event, environment, logger) {
   const verification = verifyNetlifyEventRequest(event, environment);
-  if (!verification.ok) fail(verification.reason, verification.reason === 'invalid_event_signature' ? 403 : 503);
+  if (!verification.ok) {
+    fail(verification.reason, verification.reason === 'invalid_event_signature' ? 403 : 503);
+  }
+  if (verification.warn) logJwsVerificationNotice(logger, verification.warn);
 }
 
 function requireSiteLeadSpamClear(formData, formName, event, environment, logger) {
@@ -218,7 +234,7 @@ function createSubmissionCreatedHandler({
       formName = normalized.formName;
       requireProductionContext(environment);
       if (SITE_LEAD_FORMS.has(formName)) {
-        requireVerifiedSiteLeadEvent(event, environment);
+        requireVerifiedSiteLeadEvent(event, environment, logger);
         requireSiteLeadSpamClear(
           normalized.formData,
           formName,
@@ -284,5 +300,6 @@ exports._test = Object.freeze({
   requireBridgeConfiguration,
   requireProductionContext,
   requireVerifiedSiteLeadEvent,
-  requireSiteLeadSpamClear
+  requireSiteLeadSpamClear,
+  logJwsVerificationNotice
 });
