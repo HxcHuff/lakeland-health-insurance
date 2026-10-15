@@ -828,6 +828,20 @@
     }
   }
 
+  function syncStandaloneMedicareScopeNote(form) {
+    if (!form) return;
+    var note = form.querySelector('#outOfStateMedicareNote');
+    if (!note || form.hasAttribute('data-sitelink-coverage-choice')) return;
+    var intentField = form.querySelector('input[name="normalized_intent"]');
+    var intent = String(intentField && intentField.value || '').toLowerCase();
+    if (intent && intent !== 'medicare') {
+      note.hidden = true;
+      return;
+    }
+    var coverageState = sitelinkCoverageStateFromQuery();
+    note.hidden = Boolean(coverageState) && Object.prototype.hasOwnProperty.call(LICENSED_MEDICARE_STATES, coverageState);
+  }
+
   function syncSitelinkCoverageChoice(form) {
     if (!form || !form.hasAttribute('data-sitelink-coverage-choice')) return;
     var selected = form.querySelector('input[name="coverage_choice"]:checked');
@@ -899,6 +913,7 @@
       if (form.__lhiSitelinkLeadWired) return;
       form.__lhiSitelinkLeadWired = true;
       wireSitelinkCoverageChoice(form);
+      syncStandaloneMedicareScopeNote(form);
       initializeSitelinkAttribution(form);
       form.addEventListener('submit', function (event) {
         showSitelinkStatus(form, '');

@@ -76,7 +76,7 @@ for (const [file, sourcePage, formName, consentVersion] of leadHeroPages) {
     assert.doesNotMatch(form, /\bfree\b/i);
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
-    assert.match(html, /\/css\/lead-hero\.css\?v=20261015-mobile390/);
+    assert.match(html, /\/css\/lead-hero\.css\?v=20261015-v4qa/);
     assert.match(html, /\/js\/lead-hero\.js\?v=20261014-lead-hero/);
   });
 }
@@ -112,7 +112,7 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
     );
 
     assert.match(html, /\/js\/funnel\.js\?v=20261014-phone-6403102/);
-    assert.match(html, /\/css\/site-template\.css\?v=20261015-mobile390/);
+    assert.match(html, /\/css\/site-template\.css\?v=20261015-v4qa/);
   });
 }
 
@@ -128,6 +128,10 @@ test('Medicare direct form preserves the approved hub attribution tuple', async 
   const form = html.match(/<form class="sitelink-lead-form"[\s\S]*?<\/form>/)[0];
   assert.match(form, /name="source_page_key" value="medicare"/);
   assert.match(form, /name="source_cta_key" value="start_review_hero"/);
+  assert.match(
+    form,
+    /<p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
+  );
 });
 
 test('shared site assets contain the sitelink lead form behavior and styles', async () => {

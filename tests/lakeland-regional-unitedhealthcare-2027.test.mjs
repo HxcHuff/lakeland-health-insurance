@@ -19,7 +19,7 @@ test('LRH UnitedHealthcare 2027 answer page: URL, compliance guardrails, and cit
   assert.match(html, /<h1>Is Lakeland Regional Health in network with UnitedHealthcare for 2027\?<\/h1>/);
   assert.match(html, /Last checked: October 12, 2026/);
   assert.match(html, /meta name="lhi-chrome-intent" content="medicare"/);
-  assert.match(html, /answer-pages\.css\?v=20261012-answer-card-table-scroll/);
+  assert.match(html, /answer-pages\.css\?v=20261015-v4qa/);
   assert.match(html, /class="site-page-disclosures"/);
   assert.match(html, /Please contact Medicare\.gov, 1-800-MEDICARE, or your local State Health Insurance Program \(SHIP\)/);
 

@@ -1577,7 +1577,38 @@ a:focus-visible,
 @media (max-width: 860px) {
   .medicare-hero {
     padding-bottom: 54px;
-    padding-top: calc(var(--lhi-site-header-height, 108px) + 20px);
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: calc(var(--lhi-site-header-height, 88px) + 12px);
+  }
+
+  .medicare-hero::before,
+  .medicare-hero::after {
+    display: none;
+  }
+
+  .medicare-hero h1 {
+    font-size: clamp(2.05rem, 8.5vw, 3rem);
+    line-height: 1.06;
+  }
+
+  .medicare-hero .lead.lhi-hero-lede {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    margin-bottom: 0.35rem;
+  }
+
+  .medicare-hero-copy > .sitelink-lead-form {
+    margin: 0.35rem 0 0.85rem;
+  }
+
+  .medicare-hero .medicare-direct-answer {
+    margin-top: 0.75rem;
+  }
+
+  body.has-seasonal-banner .medicare-hero,
+  body.has-watson-notice .medicare-hero {
+    padding-top: calc(var(--lhi-site-header-height, 96px) + 12px);
   }
 
   .medicare-hero-grid,

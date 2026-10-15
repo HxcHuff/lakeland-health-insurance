@@ -27,15 +27,20 @@ function firstCtaRow(html) {
 test('Medicare hub leads with Call David, then Get Help and the primary broker URL', () => {
   const html = source('medicare/index.html');
   const hero = heroMarkup(html);
+  const h1At = hero.search(/<h1 id="medicare-title"/);
+  const ledeAt = hero.search(/class="lead lhi-hero-lede"/);
   const formAt = hero.search(/<form class="sitelink-lead-form"/);
+  const directAt = hero.search(/class="lead medicare-direct-answer"/);
   const callAt = hero.search(/href="tel:\+18636403102"[^>]*>Call David</);
   const helpAt = hero.search(/href="\/get-help\/\?intent=medicare&amp;source_page_key=medicare&amp;source_cta_key=start_review_hero"/);
   const brokerAt = hero.search(/href="\/medicare-broker-lakeland-fl\/"/);
 
   assert.ok(formAt > 0, 'hub keeps the sitelink lead form');
-  assert.ok(callAt > 0 && callAt < formAt, 'Call David appears before the sitelink form');
-  assert.ok(helpAt > 0 && helpAt < formAt, 'Get Help with medicare intent params appears before the form');
-  assert.ok(brokerAt > 0 && brokerAt < formAt, 'primary broker URL appears before the form');
+  assert.ok(h1At >= 0 && ledeAt > h1At && formAt > ledeAt, 'mobile-first hero order: H1, short lede, then form');
+  assert.ok(directAt > formAt, 'direct answer follows the lead form in DOM');
+  assert.ok(callAt > formAt, 'Call David appears after the sitelink form in the hero stack');
+  assert.ok(helpAt > formAt, 'Get Help with medicare intent params appears after the form');
+  assert.ok(brokerAt > formAt, 'primary broker URL appears after the form');
   assert.ok(callAt < helpAt, 'Call David is earlier than Get Help in the hero');
 
   const row = firstCtaRow(hero);

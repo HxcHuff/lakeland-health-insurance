@@ -326,10 +326,18 @@ body.lhi-lead-sticky-active {
 
   body.blog-post .article-hero h1 {
     order: 1;
+    margin: 0;
+    padding: 5rem 1.25rem 0.65rem;
+    background: linear-gradient(135deg, #1b2a4a 0%, #2563eb 100%);
+    color: #fff;
   }
 
   body.blog-post .lhi-hero-lede {
     order: 2;
+    margin: 0;
+    padding: 0 1.25rem 0.85rem;
+    background: linear-gradient(135deg, #1b2a4a 0%, #2563eb 100%);
+    color: rgba(255, 255, 255, 0.92);
   }
 
   body.blog-post main > section.lhi-lead-hero {
@@ -342,7 +350,8 @@ body.lhi-lead-sticky-active {
     order: 4;
   }
 
-  body.blog-post .article-hero .hero-direct-answer:not(.lhi-hero-lede),
+  body.blog-post .article-hero .hero-direct-answer,
+  body.blog-post .article-hero .hero-lede:not(.lhi-hero-lede),
   body.blog-post .article-hero .last-reviewed,
   body.blog-post .article-hero .byline,
   body.blog-post .article-hero .meta,
@@ -350,9 +359,18 @@ body.lhi-lead-sticky-active {
     order: 5;
   }
 
+  .hero > .lhi-lead-hero {
+    margin-top: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
   body.blog-post main > .container.article-grid,
   body.blog-post .container.article-grid {
     order: 20;
+  }
+
+  body.blog-post main > section.related-reading {
+    order: 25;
   }
 
   /* Shell pages without lede/deferred HTML split: interleave lead form after H1 + short lede. */

@@ -8,6 +8,39 @@
   var BODY_ACTIVE = 'lhi-lead-sticky-active';
   var PHONE_DISPLAY = '(863) 640-3102';
   var PHONE_HREF = 'tel:+18636403102';
+  var LICENSED_MEDICARE_STATES = {
+    AL: true,
+    AZ: true,
+    FL: true,
+    GA: true,
+    KS: true,
+    NC: true,
+    SC: true,
+    TN: true,
+    TX: true
+  };
+
+  function medicareCoverageStateFromQuery() {
+    try {
+      var code = String(new URLSearchParams(w.location.search || '').get('state') || '').trim().toUpperCase();
+      return code.length === 2 ? code : '';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function isOutOfStateMedicareCoverageState(code) {
+    if (!code) return false;
+    return !Object.prototype.hasOwnProperty.call(LICENSED_MEDICARE_STATES, code);
+  }
+
+  function syncMedicareScopeNotes() {
+    var state = medicareCoverageStateFromQuery();
+    var show = isOutOfStateMedicareCoverageState(state);
+    d.querySelectorAll('#outOfStateMedicareNote').forEach(function (note) {
+      note.hidden = !show;
+    });
+  }
 
   function showLeadStatus(form, message) {
     var status = form.querySelector('[data-lhi-lead-status]');
@@ -108,6 +141,7 @@
 
   function init() {
     wireSiteLeadForms();
+    syncMedicareScopeNotes();
     var bar = ensureStickyBar();
     syncStickyVisibility(bar);
     wireStickyObserver(bar);

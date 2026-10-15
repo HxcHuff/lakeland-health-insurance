@@ -1148,13 +1148,13 @@ body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero {
     align-self: flex-end;
   }
 
-  body.home-page header .seasonal-banner,
-  body.home-page header .watson-notice {
+  header .seasonal-banner,
+  header .watson-notice {
     min-height: 0;
   }
 
-  body.home-page header .seasonal-banner-inner,
-  body.home-page header .watson-notice-inner {
+  header .seasonal-banner-inner,
+  header .watson-notice-inner {
     align-items: center;
     flex-direction: row;
     flex-wrap: wrap;
@@ -1162,12 +1162,12 @@ body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero {
     padding: 0.28rem 12px;
   }
 
-  body.home-page header .seasonal-banner {
+  header .seasonal-banner {
     font-size: 0.72rem;
     line-height: 1.25;
   }
 
-  body.home-page header .seasonal-banner-inner p {
+  header .seasonal-banner-inner p {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     display: -webkit-box;
@@ -1176,20 +1176,20 @@ body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero {
     overflow: hidden;
   }
 
-  body.home-page header .watson-notice-inner p {
+  header .watson-notice-inner p {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  body.home-page header .seasonal-banner-dismiss,
-  body.home-page header .watson-notice-dismiss {
+  header .seasonal-banner-dismiss,
+  header .watson-notice-dismiss {
     font-size: 0.65rem;
     min-height: 22px;
     padding: 2px 8px;
   }
 
-  body.home-page header .watson-notice {
+  header .watson-notice {
     font-size: 0.72rem;
     line-height: 1.2;
   }

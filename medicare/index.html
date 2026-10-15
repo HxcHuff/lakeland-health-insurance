@@ -25,8 +25,8 @@
   <link rel="stylesheet" href="/css/fonts.css?v=20261013-font-fallback">
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="stylesheet" href="/css/site-template.css?v=20261015-mobile390">
-  <link rel="stylesheet" href="/css/answer-pages.css?v=20261012-answer-card-table-scroll">
+  <link rel="stylesheet" href="/css/site-template.css?v=20261015-v4qa">
+  <link rel="stylesheet" href="/css/answer-pages.css?v=20261015-v4qa">
   <style>
     @media (max-width: 760px) {
       .hub-table-wrap {
@@ -151,27 +151,7 @@
           <div class="medicare-hero-copy">
             <p class="eyebrow">Medicare AEP 2027 | Lakeland &amp; Polk County</p>
             <h1 id="medicare-title">Medicare help built around your real care.</h1>
-            <p class="lead"><strong>Direct answer:</strong> For Medicare help in Lakeland, FL, contact David Huff, licensed Florida health agent (FL #W371813 / NPN 18213932), Lakeland Health Insurance, 2298 Lakeland Hills Blvd, Lakeland, FL 33805, <a href="tel:+18636403102">(863) 640-3102</a>, by appointment. A review compares doctors, prescriptions, and enrollment timing; it is not enrollment. For a focused local answer page, see <a href="/local-health-insurance-answers/medicare-plan-help-lakeland/">Medicare plan help in Lakeland</a>.</p>
-            <div class="lhi-proof-strip" aria-label="Agent contact">
-              <span>David Huff · FL #W371813 · NPN 18213932</span>
-              <span>2298 Lakeland Hills Blvd, Lakeland, FL 33805 · By appointment</span>
-              <a href="tel:+18636403102">(863) 640-3102</a>
-            </div>
-            <div class="cta-row medicare-hero-actions">
-              <a class="btn primary" href="tel:+18636403102">Call David</a>
-              <a class="btn secondary" href="/get-help/?intent=medicare&amp;source_page_key=medicare&amp;source_cta_key=start_review_hero" data-medicare-cta="start_review_hero">Get Help</a>
-              <a class="btn secondary" href="/medicare-broker-lakeland-fl/">Lakeland Medicare broker</a>
-              <a class="btn secondary" href="/coverage-center/#medicare">Coverage Center</a>
-              <a class="btn secondary hub-provider-link" href="/provider-prescription-check/">Check doctors &amp; prescriptions</a>
-              </div>
-            <div class="hub-season-alert" role="note" aria-label="2027 Medicare planning dates">
-              <span class="hub-season-label">2027 AEP planning</span>
-              <p><strong>Official 2027 plan details are available to compare beginning October 1, 2026.</strong> Medicare Open Enrollment runs October 15 through December 7, and approved changes generally begin January 1, 2027. An Annual Enrollment request cannot be submitted before October 15. Start in the <a href="/coverage-center/#medicare">Coverage Center Medicare lane</a> for a plan review. A review is not enrollment.</p>
-            </div>
-            <div class="hub-season-alert" role="note" aria-label="City of Lakeland retirees">
-              <span class="hub-season-label">City retirees</span>
-              <p>City of Lakeland retirees covering a Medicare spouse can review <a href="/blog/city-of-lakeland-retiree-medicare-spouse-premium.html">what to check before dropping the city plan</a>. Confirm city rules with Risk Benefits. A review is not enrollment.</p>
-            </div>
+            <p class="lead lhi-hero-lede">Compare doctors, prescriptions, and enrollment timing with a licensed Lakeland agent before you choose a 2027 plan. A review is not enrollment.</p>
             <form class="sitelink-lead-form" name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="medicareLeadForm" data-sitelink-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="sitelink_medicare_lead" aria-label="Request a Medicare review">
               <input type="hidden" name="form-name" value="get-help">
               <div hidden aria-hidden="true">
@@ -244,9 +224,31 @@
               </fieldset>
               <label class="sitelink-request-consent"><input type="checkbox" name="consent_request" value="yes" required><span>I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage.</span></label>
               <p class="sitelink-lead-privacy">Consent is not a condition of purchase. See the <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</p>
+              <p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia.</p>
               <button class="sitelink-lead-submit" type="submit">Send My Request</button>
               <div class="sitelink-lead-status" data-sitelink-lead-status role="status" aria-live="polite"></div>
             </form>
+            <p class="lead medicare-direct-answer"><strong>Direct answer:</strong> For Medicare help in Lakeland, FL, contact David Huff, licensed Florida health agent (FL #W371813 / NPN 18213932), Lakeland Health Insurance, 2298 Lakeland Hills Blvd, Lakeland, FL 33805, <a href="tel:+18636403102">(863) 640-3102</a>, by appointment. A review compares doctors, prescriptions, and enrollment timing; it is not enrollment. For a focused local answer page, see <a href="/local-health-insurance-answers/medicare-plan-help-lakeland/">Medicare plan help in Lakeland</a>.</p>
+            <div class="lhi-proof-strip" aria-label="Agent contact">
+              <span>David Huff · FL #W371813 · NPN 18213932</span>
+              <span>2298 Lakeland Hills Blvd, Lakeland, FL 33805 · By appointment</span>
+              <a href="tel:+18636403102">(863) 640-3102</a>
+            </div>
+            <div class="cta-row medicare-hero-actions">
+              <a class="btn primary" href="tel:+18636403102">Call David</a>
+              <a class="btn secondary" href="/get-help/?intent=medicare&amp;source_page_key=medicare&amp;source_cta_key=start_review_hero" data-medicare-cta="start_review_hero">Get Help</a>
+              <a class="btn secondary" href="/medicare-broker-lakeland-fl/">Lakeland Medicare broker</a>
+              <a class="btn secondary" href="/coverage-center/#medicare">Coverage Center</a>
+              <a class="btn secondary hub-provider-link" href="/provider-prescription-check/">Check doctors &amp; prescriptions</a>
+              </div>
+            <div class="hub-season-alert" role="note" aria-label="2027 Medicare planning dates">
+              <span class="hub-season-label">2027 AEP planning</span>
+              <p><strong>Official 2027 plan details are available to compare beginning October 1, 2026.</strong> Medicare Open Enrollment runs October 15 through December 7, and approved changes generally begin January 1, 2027. An Annual Enrollment request cannot be submitted before October 15. Start in the <a href="/coverage-center/#medicare">Coverage Center Medicare lane</a> for a plan review. A review is not enrollment.</p>
+            </div>
+            <div class="hub-season-alert" role="note" aria-label="City of Lakeland retirees">
+              <span class="hub-season-label">City retirees</span>
+              <p>City of Lakeland retirees covering a Medicare spouse can review <a href="/blog/city-of-lakeland-retiree-medicare-spouse-premium.html">what to check before dropping the city plan</a>. Confirm city rules with Risk Benefits. A review is not enrollment.</p>
+            </div>
             <p class="hub-cta-note">Prefer to write instead of call? Use the general form for contact, ZIP code, timing, and the type of help requested. Do not enter medication names, medical details, policy numbers, Medicare numbers, or Social Security numbers. Contacting an agent does not enroll you or change coverage.</p>
             <a class="hub-scenario-shortcut" href="#start">Not sure where to begin? Choose your situation <span aria-hidden="true">&darr;</span></a>
           </div>
