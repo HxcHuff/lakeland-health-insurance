@@ -25,9 +25,9 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/js/site-template.js', '20261015-post321'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
-  ['/css/lead-hero.css', '20261015-home-match2'],
+  ['/css/lead-hero.css', '20261015-home-match3'],
   ['/css/answer-pages.css', '20261015-v6merge2'],
-  ['/js/lead-hero.js', '20261015-home-match2'],
+  ['/js/lead-hero.js', '20261015-home-match3'],
 ]);
 const SERVICE_WORKER_CACHE_VERSION = '20261015-post321';
 

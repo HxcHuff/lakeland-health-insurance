@@ -323,8 +323,15 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .hero {
     align-self: start;
     grid-column: 1;
-    grid-row: 1 / -1;
+    grid-row: 1;
     padding-top: 0;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)):not(:has(> .side-card)) > .answer-hero,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)):not(:has(> .side-card)) > .hero,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .hero:has(.lhi-hero-deferred-block),
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero:has(.lhi-hero-deferred-block) {
+    grid-row: 1 / -1;
   }
 
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .hero .hero-grid:has(.lhi-hero-deferred-block),
@@ -337,10 +344,22 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .lhi-hero-grid-lead {
     align-self: start;
     grid-column: 2;
-    grid-row: 1 / -1;
+    grid-row: 1;
     margin: 0;
     max-width: none;
     padding: 0;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):has(> .side-card) > .lhi-hero-grid-lead {
+    grid-row: 1 / span 3;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) > .lhi-hero-grid-lead {
+    grid-row: 1 / span 2;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)):not(:has(> .side-card)) > .lhi-hero-grid-lead {
+    grid-row: 1 / -1;
   }
 
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .lhi-hero-deferred-block {
