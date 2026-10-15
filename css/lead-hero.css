@@ -9,6 +9,12 @@
   min-height: 0;
 }
 
+.lhi-hero-deferred-block:empty {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 .lhi-hero-shell {
   align-items: start;
   box-sizing: border-box;
@@ -37,11 +43,56 @@ body.lhi-page-hero:not(.home-page) .lhi-hero-shell {
 
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .answer-hero,
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .hero {
-  background: transparent;
+  background: transparent !important;
   border-bottom: 1px solid var(--gray-200, #e2e8f0);
-  color: var(--navy, #1b2a4a);
-  padding: 0 0 clamp(12px, 2vw, 18px);
+  box-shadow: none !important;
+  color: var(--navy, #1b2a4a) !important;
+  padding: 0 0 clamp(12px, 2vw, 18px) !important;
   scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 8px);
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > section.hero {
+  padding: 0 !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > section.hero .container,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > section.hero .hero-grid {
+  background: transparent !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .hero .hero-kicker,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > section.hero .hero-kicker {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #2563eb !important;
+  display: block !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  margin: 0 0 0.35rem !important;
+  padding: 0 !important;
+  text-transform: uppercase !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .hero .lhi-hero-lede-block p,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .hero .lhi-hero-lede-block .lhi-hero-lede,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .hero p.lhi-hero-lede {
+  color: #475569 !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .hero .lhi-hero-deferred-block p,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .hero p:not(.lhi-hero-lede) {
+  color: #475569 !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .hero h1 {
+  color: var(--navy, #1b2a4a) !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .lhi-hero-deferred-block,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .lhi-hero-deferred-block p {
+  color: #475569 !important;
 }
 
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero h1,
@@ -55,14 +106,21 @@ body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .eyebrow {
 
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .lead,
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .lhi-hero-lede,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero p.lhi-hero-lede,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero p.last-reviewed,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .byline,
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero .lhi-hero-lede {
-  color: #475569;
+  color: #475569 !important;
 }
 
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call),
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero a:not(.btn):not(.hero-cta):not(.lp-primary-call) {
   color: var(--navy, #1b2a4a);
   font-weight: 700;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero p {
+  color: #475569 !important;
 }
 
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .lhi-hero-grid-lead .lhi-lead-hero__title,
@@ -149,9 +207,52 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
   padding: 0;
 }
 
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .hub-breadcrumb,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb {
+  color: #64748b;
+  font-size: 0.84rem;
+  font-weight: 700;
+  margin-bottom: clamp(0.65rem, 2vw, 1rem);
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .hub-breadcrumb a,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb a {
+  color: var(--navy, #1b2a4a);
+  font-weight: 700;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .hub-breadcrumb a:hover,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .hub-breadcrumb a:focus-visible,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb a:hover,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb a:focus-visible {
+  color: #2563eb;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .hub-breadcrumb [aria-current="page"],
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb [aria-current="page"] {
+  color: #1e293b;
+}
+
 @media (min-width: 901px) {
-  .lhi-hero-shell {
+  /* Shell 2-col only when the lead form is a direct shell child (legacy shell layout). */
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:not(:has(> .lhi-hero-grid-lead)):has(> section.lhi-lead-hero) {
     grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+  }
+
+  /* Nested grid-lead: single-column shell; 2-col layout lives inside .hero-grid / .answer-grid. */
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:not(:has(> .lhi-hero-grid-lead)):has(.lhi-hero-grid-lead) {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 1160px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: calc(var(--lhi-site-header-height, 108px) + 8px);
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:not(:has(> .lhi-hero-grid-lead)):has(.lhi-hero-grid-lead) > section.hero,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:not(:has(> .lhi-hero-grid-lead)):has(.lhi-hero-grid-lead) > section.answer-hero {
+    overflow: visible !important;
+    padding: 0 0 clamp(12px, 2vw, 18px) !important;
+    scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 8px);
   }
 
   body.home-page .lhi-hero-shell {
@@ -321,9 +422,46 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
 
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero,
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .hero {
+    align-self: start;
     grid-column: 1;
     grid-row: 1;
     padding-top: 0;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero .answer-wrap,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero .answer-grid {
+    display: contents;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero .answer-grid > div:first-child {
+    align-self: start;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero .answer-grid > aside.side-card {
+    align-self: start;
+    grid-column: 1;
+    grid-row: 3;
+    margin: 0;
+    max-width: none;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .side-card) > .lhi-hero-grid-lead {
+    grid-row: 1 / span 3;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)):not(:has(> .side-card)) > .answer-hero,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)):not(:has(> .side-card)) > .hero {
+    grid-row: 1 / -1;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .hero .hero-grid:has(.lhi-hero-deferred-block),
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero .answer-wrap:has(.lhi-hero-deferred-block) {
+    display: grid;
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+    grid-template-columns: minmax(0, 1fr);
   }
 
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .lhi-hero-grid-lead {
@@ -333,6 +471,155 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
     margin: 0;
     max-width: none;
     padding: 0;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):has(> .side-card) > .lhi-hero-grid-lead {
+    grid-row: 1 / span 3;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) > .lhi-hero-grid-lead {
+    grid-row: 1;
+  }
+
+  /* Desktop: stack hoisted lede + deferred in one copy cell (no form-height gap in column 1). */
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) {
+    align-items: start;
+    grid-template-areas: "copy form";
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px);
+    grid-template-rows: auto;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) > section.hero,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) > section.answer-hero {
+    display: contents;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) .lhi-hero-lede-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) > .lhi-hero-deferred-block {
+    align-self: start;
+    grid-area: copy;
+    grid-column: auto;
+    grid-row: auto;
+    margin: 0;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) > .lhi-hero-grid-lead {
+    align-self: start;
+    grid-area: form;
+    grid-column: auto;
+    grid-row: auto;
+    margin: 0;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block),
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block),
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block) {
+    align-items: start;
+    display: grid !important;
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px) !important;
+    grid-template-rows: auto auto;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-deferred-block):has(> .lhi-hero-grid-lead) > .lhi-hero-lede-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-deferred-block):has(> .lhi-hero-grid-lead) > .lhi-hero-lede-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-deferred-block):has(> .lhi-hero-grid-lead) > .lhi-hero-lede-block {
+    align-self: start !important;
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-deferred-block):has(> .lhi-hero-grid-lead) > .lhi-hero-deferred-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-deferred-block):has(> .lhi-hero-grid-lead) > .lhi-hero-deferred-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-deferred-block):has(> .lhi-hero-grid-lead) > .lhi-hero-deferred-block {
+    align-self: start !important;
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-deferred-block):has(> .lhi-hero-grid-lead) > .lhi-hero-grid-lead,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-deferred-block):has(> .lhi-hero-grid-lead) > .lhi-hero-grid-lead,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-deferred-block):has(> .lhi-hero-grid-lead) > .lhi-hero-grid-lead {
+    align-self: start !important;
+    grid-column: 2 !important;
+    grid-row: 1 / span 2 !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)),
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)),
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) {
+    align-items: start;
+    display: grid !important;
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px) !important;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > .lhi-hero-lede-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > .lhi-hero-lede-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > .lhi-hero-lede-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > div:first-child:not(.lhi-hero-grid-lead),
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > div:first-child:not(.lhi-hero-grid-lead) {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > .lhi-hero-grid-lead,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > .lhi-hero-grid-lead,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > .lhi-hero-grid-lead {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid .lhi-hero-copy-stack,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid .lhi-hero-copy-stack,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid .lhi-hero-copy-stack {
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.75rem, 2vw, 1.25rem);
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-copy-stack) > .lhi-hero-grid-lead,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-copy-stack) > .lhi-hero-grid-lead,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-copy-stack) > .lhi-hero-grid-lead {
+    align-self: start !important;
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)):not(:has(> .side-card)) > .lhi-hero-grid-lead {
+    grid-row: 1 / -1;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .side-card) > .lhi-hero-deferred-block {
+    align-self: start;
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+    max-width: none;
+    padding: 0;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .side-card {
+    align-self: start;
+    grid-column: 1;
+    grid-row: 3;
+    margin: 0;
+    max-width: none;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero .lhi-hero-deferred-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .hero .lhi-hero-deferred-block {
+    display: none;
   }
 
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .lhi-hero-grid-lead .lhi-lead-hero__grid {
@@ -1342,6 +1629,93 @@ body.lhi-lead-sticky-active {
     order: 1;
   }
 
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .hero .lhi-hero-deferred-block,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero .lhi-hero-deferred-block {
+    display: none;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) .answer-hero .cta-row,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) .answer-hero .answer-grid > div:first-child > .answer-snippet:not(.lhi-hero-lede-block .answer-snippet),
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) .answer-hero .answer-grid > div:first-child > .answer-snippet,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) .hero .hero-cta-row {
+    display: none !important;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) .answer-hero aside.side-card {
+    display: none !important;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(.lhi-hero-grid-lead) .hero-panel,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(.lhi-hero-grid-lead) .hero-portrait-wrap,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(.lhi-hero-grid-lead) .hero-grid > .hero-panel,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(.lhi-hero-grid-lead) .container.hero-grid > .hero-panel,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .hero-grid .hero-panel,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .lhi-hero-lede-block .hero-panel,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell section.hero .hero-panel {
+    display: none !important;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead) > .lhi-hero-lede-block {
+    order: 1;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead) > .lhi-hero-grid-lead {
+    order: 2;
+    margin-top: 0;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead) > .lhi-hero-lede-block .lhi-hero-deferred-block,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead) > .lhi-hero-lede-block .answer-snippet,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead) > .lhi-hero-lede-block .cta-row,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead) > aside.side-card,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead) > .lhi-hero-deferred-block {
+    display: none !important;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell > .answer-hero .eyebrow {
+    display: none !important;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell > .answer-hero .lhi-alert-notice,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell > .answer-hero .answer-snippet,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell > .answer-hero .cta-row,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell > .answer-hero .last-reviewed,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell > .answer-hero aside.side-card {
+    display: none !important;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell > .answer-hero p.lead {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    margin: 0;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell > .lhi-hero-grid-lead .lhi-lead-hero__intro {
+    margin: 0 0 0.35rem;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell > .lhi-hero-grid-lead .lhi-lead-hero__note {
+    display: none !important;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > section.hero {
+    padding: 0 !important;
+  }
+
+  @media (max-width: 760px) {
+    body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > section.hero {
+      padding: 0 !important;
+    }
+  }
+
   body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .lhi-hero-deferred-block {
     order: 3;
   }
@@ -1473,5 +1847,110 @@ body.blog-post.has-seasonal-banner .blog-header {
 
   body.blog-post header nav .cta-group {
     flex-shrink: 0;
+  }
+}
+
+/* Loaded again after page-inline <style> via data-lhi-lead-hero-tail — shell must match homepage gray hero. */
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell {
+  background: var(--gray-50, #f8fafc) !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > section.hero {
+  background: transparent !important;
+  background-image: none !important;
+  color: var(--navy, #1b2a4a) !important;
+  box-shadow: none !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hero-kicker {
+  align-items: unset !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #2563eb !important;
+  display: block !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  margin: 0 0 0.35rem !important;
+  padding: 0 !important;
+  text-transform: uppercase !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero h1 {
+  color: var(--navy, #1b2a4a) !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero p,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero p.lhi-hero-lede,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .lhi-hero-lede-block p,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .lhi-hero-deferred-block,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .lhi-hero-deferred-block p,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .lhi-hero-deferred-block a:not(.btn-primary):not(.btn-secondary) {
+  color: #475569 !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .lhi-hero-deferred-block a.btn-primary,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .lhi-hero-deferred-block a.btn-secondary {
+  color: inherit;
+}
+
+@media (min-width: 901px) {
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)),
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)),
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) {
+    align-items: start;
+    display: grid !important;
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px);
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > .lhi-hero-lede-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > .lhi-hero-lede-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > .lhi-hero-lede-block {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > .lhi-hero-grid-lead,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > .lhi-hero-grid-lead,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > .lhi-hero-grid-lead {
+    align-self: start;
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    max-width: none;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > section.hero {
+    display: contents;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > section.hero .container,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > section.hero .hero-grid {
+    display: contents;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) .lhi-hero-lede-block {
+    align-self: start;
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 900px) {
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell > .lhi-hero-grid-lead) .lhi-lead-sticky,
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell > .lhi-hero-grid-lead) #lhi-lead-sticky-bar,
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .hero-grid > .lhi-hero-grid-lead) .lhi-lead-sticky,
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .hero-grid > .lhi-hero-grid-lead) #lhi-lead-sticky-bar,
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .answer-grid > .lhi-hero-grid-lead) .lhi-lead-sticky,
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .answer-grid > .lhi-hero-grid-lead) #lhi-lead-sticky-bar {
+    display: none !important;
+  }
+
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell > .lhi-hero-grid-lead),
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .hero-grid > .lhi-hero-grid-lead),
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .answer-grid > .lhi-hero-grid-lead) {
+    padding-bottom: 0;
   }
 }

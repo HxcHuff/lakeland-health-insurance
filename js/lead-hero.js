@@ -98,7 +98,16 @@
     d.body.classList.toggle(BODY_FORM_IN_VIEW, Boolean(inView));
   }
 
+  function usesShellSiblingLeadForm() {
+    return Boolean(
+      d.querySelector(
+        '.lhi-hero-shell > .lhi-hero-grid-lead, .lhi-hero-shell .hero-grid > .lhi-hero-grid-lead, .lhi-hero-shell .answer-grid > .lhi-hero-grid-lead'
+      )
+    );
+  }
+
   function ensureStickyBar() {
+    if (usesShellSiblingLeadForm() && !d.body.classList.contains('home-page')) return null;
     if (!d.querySelector('.lhi-lead-hero') || d.getElementById('lhi-lead-sticky-bar')) return null;
     var bar = d.createElement('div');
     bar.id = 'lhi-lead-sticky-bar';
