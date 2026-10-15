@@ -568,17 +568,17 @@ body.lhi-lead-sticky-active {
     margin-bottom: 0.5rem;
   }
 
-  body.blog-post main {
+  body.blog-post:not(.lhi-page-hero) main {
     display: flex;
     flex-direction: column;
   }
 
-  body.blog-post .article-hero,
-  body.blog-post .article-hero > .container {
+  body.blog-post:not(.lhi-page-hero) .article-hero,
+  body.blog-post:not(.lhi-page-hero) .article-hero > .container {
     display: contents;
   }
 
-  body.blog-post .article-hero h1 {
+  body.blog-post:not(.lhi-page-hero) .article-hero h1 {
     order: 1;
     margin: 0;
     padding: 5rem 1.25rem 0.65rem;
@@ -586,7 +586,7 @@ body.lhi-lead-sticky-active {
     color: #fff;
   }
 
-  body.blog-post .lhi-hero-lede {
+  body.blog-post:not(.lhi-page-hero) .lhi-hero-lede {
     order: 2;
     margin: 0;
     padding: 0 1.25rem 0.85rem;
@@ -594,22 +594,22 @@ body.lhi-lead-sticky-active {
     color: rgba(255, 255, 255, 0.92);
   }
 
-  body.blog-post main > section.lhi-lead-hero {
+  body.blog-post:not(.lhi-page-hero) main > section.lhi-lead-hero {
     order: 3;
     margin-top: 0.5rem;
     margin-bottom: 1rem;
   }
 
-  body.blog-post .lhi-alert-notice {
+  body.blog-post:not(.lhi-page-hero) .lhi-alert-notice {
     order: 4;
   }
 
-  body.blog-post .article-hero .hero-direct-answer,
-  body.blog-post .article-hero .hero-lede:not(.lhi-hero-lede),
-  body.blog-post .article-hero .last-reviewed,
-  body.blog-post .article-hero .byline,
-  body.blog-post .article-hero .meta,
-  body.blog-post .article-hero .cta-row {
+  body.blog-post:not(.lhi-page-hero) .article-hero .hero-direct-answer,
+  body.blog-post:not(.lhi-page-hero) .article-hero .hero-lede:not(.lhi-hero-lede),
+  body.blog-post:not(.lhi-page-hero) .article-hero .last-reviewed,
+  body.blog-post:not(.lhi-page-hero) .article-hero .byline,
+  body.blog-post:not(.lhi-page-hero) .article-hero .meta,
+  body.blog-post:not(.lhi-page-hero) .article-hero .cta-row {
     order: 5;
   }
 
@@ -1493,9 +1493,9 @@ body.blog-post.lhi-page-hero .lhi-hero-shell {
 body.blog-post.lhi-page-hero .lhi-hero-shell > .home-hero,
 body.blog-post.lhi-page-hero .lhi-hero-shell > .article-hero,
 body.blog-post.lhi-page-hero .lhi-hero-shell > .hero {
-  background: transparent;
+  background: transparent !important;
   border-bottom: 1px solid var(--gray-200, #e2e8f0);
-  color: var(--navy, #1b2a4a);
+  color: var(--navy, #1b2a4a) !important;
   margin: 0;
   padding: 0 0 clamp(20px, 3vw, 32px);
   scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 8px);

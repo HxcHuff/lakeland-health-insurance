@@ -76,8 +76,8 @@ for (const [file, sourcePage, formName, consentVersion] of leadHeroPages) {
     assert.doesNotMatch(form, /\bfree\b/i);
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
-    assert.match(html, /\/css\/lead-hero\.css\?v=20261016-watson-gray-hero/);
-    assert.match(html, /\/js\/lead-hero\.js\?v=20261016-watson-gray-hero/);
+    assert.match(html, /\/css\/lead-hero\.css\?v=20261017-watson-gray-hero-fix/);
+    assert.match(html, /\/js\/lead-hero\.js\?v=20261017-watson-gray-hero-fix/);
   });
 }
 

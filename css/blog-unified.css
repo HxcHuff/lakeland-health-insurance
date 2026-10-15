@@ -70,6 +70,26 @@ body.blog-post.has-seasonal-banner {
   color: rgba(255,255,255,0.9) !important;
 }
 
+/* Homepage-style gray lead heroes (Watson template and interior hubs). */
+body.lhi-page-hero .lhi-hero-shell :is(.hero, .home-hero, .article-hero, .answer-hero) {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell :is(.hero, .home-hero, .article-hero, .answer-hero) h1 {
+  color: var(--lhi-navy, #1b2a4a) !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell :is(.hero, .home-hero, .article-hero) :is(.hero-lede, .lhi-hero-lede, p.lead),
+body.lhi-page-hero .lhi-hero-shell .answer-hero .lead {
+  color: #475569 !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .meta,
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .last-reviewed {
+  color: #64748b !important;
+}
+
 /* Pale mint Direct answer box: keep navy text inside dark heroes. */
 body .key-answer,
 body .key-answer :is(p, strong, a, em, li),

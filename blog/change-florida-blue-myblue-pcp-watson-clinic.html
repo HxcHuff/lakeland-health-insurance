@@ -25,9 +25,9 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-watson-gray-hero">
-  <link rel="stylesheet" href="/css/blog-unified.css?v=20261015-post321">
+  <link rel="stylesheet" href="/css/blog-unified.css?v=20261017-lhi-page-hero-gray">
   <link rel="stylesheet" href="/css/site-template.css?v=20261016-no-red-banner">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261017-watson-gray-hero-fix">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -101,10 +101,7 @@
     .top-strip a { color:white; }
     .crumb { font-size:.92rem; padding:18px 20px; color:#475569; }
     .crumb a { color:#1D4ED8; text-decoration:underline; text-underline-offset:.16em; }
-    .hero { background:linear-gradient(165deg, var(--navy-deep), var(--navy)); color:white; padding:72px 0 54px; }
-    .hero h1 { font-family:'Instrument Serif', 'Instrument Serif Fallback', serif; font-size:clamp(2.25rem, 5vw, 4rem); font-weight:400; line-height:1.05; margin:0 0 18px; color:white; }
-    .hero p { max-width:800px; font-size:1.15rem; color:rgba(255,255,255,.88); margin:0 0 16px; }
-    .meta { color:rgba(255,255,255,.72); font-size:.95rem; }
+    .meta { color:var(--muted); font-size:.95rem; }
     .post { background:white; border:1px solid var(--line); border-radius:12px; margin:30px 0 70px; padding:clamp(24px, 4vw, 46px); }
     .post h2 { font-family:'Instrument Serif', 'Instrument Serif Fallback', serif; color:var(--navy); font-size:clamp(1.75rem, 3vw, 2.35rem); font-weight:400; line-height:1.18; margin:38px 0 12px; }
     .post h3 { color:var(--navy); margin:22px 0 8px; }
@@ -141,25 +138,20 @@
   </style>
   <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
 </head>
-<body class="blog-post">
+<body class="blog-post lhi-page-hero">
   <div class="top-strip"><div class="container">Independent Florida health insurance guidance: <a href="tel:+18636403102">(863) 640-3102</a></div></div>
   <header class="lhi-topbar"><div class="container"><nav><a href="/" class="brand">Lakeland Health Insurance<span class="license">FL License #W371813</span></a><div class="nav-links"><a href="/aca-health-insurance-lakeland-fl/">Individual &amp; Family</a><a href="/plans/">Plans</a><a href="/blog/">Blog</a><a href="/about/">About</a><a href="/get-help/" class="btn btn-primary">Get Help</a></div></nav></div></header>
   <div class="container crumb"><a href="/">Home</a> &rsaquo; <a href="/blog/">Blog</a> &rsaquo; Change a myBlue PCP</div>
 
-  <section class="hero"><div class="container">
+  <main>
+<div class="lhi-hero-shell">
+<section class="hero home-hero article-hero">
+      <div class="container home-hero-grid">
+        <div class="lhi-hero-lede-block">
     <h1>How to change your Florida Blue myBlue PCP</h1>
-    <p>Watson Clinic may accept myBlue, but acceptance does not mean every Watson physician can be assigned as your primary care provider. Here is how to verify the doctor and submit the change.</p>
-    <div class="meta">Published August 11, 2026 | By David Huff, Licensed Florida Agent #W371813 | NPN 18213932</div>
-  </div></section>
-
-<main class="container"><article class="post">
-    <section class="key-answer">
- <p><strong>Direct answer:</strong> Yes. Watson Clinic's current insurance page lists Florida Blue myBlue among its accepted ACA, Marketplace, and Exchange plans. However, a Watson Clinic physician can be selected as your PCP only if that individual doctor participates in your exact myBlue network, practices at the listed location, and has an available primary-care panel.</p>
- <p>The member-specific Florida Blue directory and the final PCP-change confirmation control the practical answer.</p>
- <p><a href="tel:+18636403102">Call David (863) 640-3102</a></p>
- </section>
-
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="change_florida_blue_myblue_pcp_watson_cl-lead-title">
+    <p class="hero-lede lhi-hero-lede">Watson Clinic may accept myBlue, but acceptance does not mean every Watson physician can be assigned as your primary care provider. Here is how to verify the doctor and submit the change.</p>
+        </div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="change_florida_blue_myblue_pcp_watson_cl-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="change_florida_blue_myblue_pcp_watson_cl-lead-title">Get a Marketplace plan comparison</h2>
@@ -232,9 +224,18 @@
     </div>
   </div>
 </section>
-
-
-
+        <div class="lhi-hero-deferred-block">
+    <section class="key-answer">
+ <p><strong>Direct answer:</strong> Yes. Watson Clinic's current insurance page lists Florida Blue myBlue among its accepted ACA, Marketplace, and Exchange plans. However, a Watson Clinic physician can be selected as your PCP only if that individual doctor participates in your exact myBlue network, practices at the listed location, and has an available primary-care panel.</p>
+ <p>The member-specific Florida Blue directory and the final PCP-change confirmation control the practical answer.</p>
+ <p><a href="tel:+18636403102">Call David (863) 640-3102</a></p>
+ </section>
+    <div class="meta">Published August 11, 2026 | By David Huff, Licensed Florida Agent #W371813 | NPN 18213932</div>
+        </div>
+      </div>
+    </section>
+</div>
+  <div class="container"><article class="post">
 <div class="takeaways" aria-label="Key takeaways">
       <div class="takeaway"><strong>Clinic acceptance</strong>Watson Clinic lists myBlue at the plan-category level.</div>
       <div class="takeaway"><strong>Physician assignment</strong>The individual doctor must be eligible and available as your PCP.</div>
@@ -365,6 +366,6 @@
   <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
   <script src="/js/site-template.js?v=20261016-no-red-banner" defer></script>
-  <script src="/js/lead-hero.js?v=20261016-watson-gray-hero" defer></script>
+  <script src="/js/lead-hero.js?v=20261017-watson-gray-hero-fix" defer></script>
 </body>
 </html>
