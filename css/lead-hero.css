@@ -30,10 +30,6 @@
   width: 100%;
 }
 
-body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .lhi-lead-hero__intro {
-  display: none;
-}
-
 body.home-page .lhi-hero-shell {
   align-items: start;
   background: var(--gray-50, #f8fafc);
@@ -1144,6 +1140,51 @@ body.lhi-lead-sticky-active {
   .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .eyebrow {
     font-size: 0.72rem;
     line-height: 1.25;
+  }
+
+  /* Flattened answer-hero (display:contents) drops section background; paint navy band on copy. */
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) {
+    --lhi-shell-hero-bg: linear-gradient(135deg, #1b2a4a 0%, #2563eb 100%);
+  }
+
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .eyebrow,
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hero-kicker {
+    background: var(--lhi-shell-hero-bg);
+    box-sizing: border-box;
+    color: #d4a843;
+    margin: 0;
+    padding: 0.35rem 0 0;
+    width: 100%;
+  }
+
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) h1 {
+    background: var(--lhi-shell-hero-bg);
+    box-sizing: border-box;
+    color: #fff;
+    margin: 0;
+    padding: 0.2rem 0 0;
+    width: 100%;
+  }
+
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.lhi-hero-lede,
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.lead.lhi-hero-lede {
+    background: var(--lhi-shell-hero-bg);
+    border-bottom: 4px solid #d4a843;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.92);
+    margin: 0;
+    padding: 0.35rem 0 0.85rem;
+    width: 100%;
+  }
+
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.lhi-hero-lede a:not(.btn),
+  body.lhi-page-hero:not(.blog-post) .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.lead.lhi-hero-lede a:not(.btn) {
+    color: #f6e7c1;
+    font-weight: 700;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell .lhi-lead-hero__intro {
+    display: block;
   }
 
   body.lhi-page-hero:not(.blog-post) .lhi-proof-strip {

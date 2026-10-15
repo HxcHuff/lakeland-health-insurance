@@ -460,7 +460,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261015-v6merge';
+    funnel.src = '/js/funnel.js?v=20261015-v6merge2';
     document.head.appendChild(funnel);
   }
 
