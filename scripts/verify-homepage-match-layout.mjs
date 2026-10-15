@@ -186,6 +186,9 @@ async function checkPage(page, url, viewport) {
         if (h1r.top < headerBottom - 4) {
           issues.push(`h1-clipped-under-header:h1Top=${Math.round(h1r.top)} headerBottom=${Math.round(headerBottom)}`);
         }
+        if (Math.abs(h1r.top - fr.top) > 140) {
+          issues.push(`h1-form-vertical-misalign:gap=${Math.round(Math.abs(h1r.top - fr.top))}`);
+        }
         const clipRoot = h1.closest('.hero, .answer-hero, .lhi-hero-lede-block, .lhi-hero-shell');
         const clipStyle = clipRoot ? getComputedStyle(clipRoot) : null;
         const overflowHidden =
