@@ -57,8 +57,18 @@ try {
   for (const { url, name } of PAGES) {
     for (const { w, h, tag } of VIEWPORTS) {
       const page = await browser.newPage({ viewport: { width: w, height: h } });
-      await page.route('**/js/site-template.js*', (route) => route.abort());
       await page.goto(`${server.baseUrl}${url}`, { waitUntil: 'networkidle' });
+      try {
+        await page.waitForFunction(
+          () => {
+            const h = document.querySelector('header');
+            return h && h.innerText.trim().length > 20;
+          },
+          { timeout: 4000 }
+        );
+      } catch {
+        /* static header pages */
+      }
       await page.waitForTimeout(300);
       const primary = join(OUT, `${name}-${tag}.png`);
       await page.screenshot({ path: primary });

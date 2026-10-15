@@ -52,6 +52,17 @@ async function checkPage(page, url, viewport) {
   await page.setViewportSize(viewport);
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.waitForTimeout(200);
+  try {
+    await page.waitForFunction(
+      () => {
+        const h = document.querySelector('header');
+        return h && h.innerText.trim().length > 20;
+      },
+      { timeout: 4000 }
+    );
+  } catch {
+    /* static header pages */
+  }
 
   return page.evaluate(({ vh, vw }) => {
     const shell = document.querySelector('.lhi-hero-shell');
@@ -139,6 +150,77 @@ async function checkPage(page, url, viewport) {
       }
     }
 
+    const siteHeader =
+      document.querySelector('header .site-header-inner, header .lhi-site-header, header nav, header a[href="/"]') ||
+      document.querySelector('header');
+    if (siteHeader) {
+      const hr = siteHeader.getBoundingClientRect();
+      const headerStyle = getComputedStyle(siteHeader.closest('header') || siteHeader);
+      if (headerStyle.display === 'none' || headerStyle.visibility === 'hidden') {
+        issues.push('header-hidden');
+      } else if (hr.height < 24 || hr.bottom < 8) {
+        issues.push(`header-not-visible:h=${Math.round(hr.height)} top=${Math.round(hr.top)}`);
+      } else if (vw < 900 && hr.top > 80) {
+        issues.push(`header-blank-band:top=${Math.round(hr.top)}`);
+      } else if (vw >= 900 && hr.top > 72) {
+        issues.push(`header-offset:top=${Math.round(hr.top)}`);
+      }
+    } else {
+      issues.push('no-header');
+    }
+
+    if (vw >= 900 && shellLead && formCard) {
+      const h1 = shell.querySelector('section.hero h1, section.answer-hero h1, .lhi-hero-lede-block h1');
+      const fr = formCard.getBoundingClientRect();
+      const formLeftPct = (fr.left / vw) * 100;
+      if (formLeftPct < 55) {
+        issues.push(`form-not-right:formLeftPct=${Math.round(formLeftPct)}`);
+      }
+      if (h1) {
+        const h1r = h1.getBoundingClientRect();
+        if (h1r.width < 450) issues.push(`h1-too-narrow:w=${Math.round(h1r.width)}`);
+        const headerBottom =
+          (siteHeader && siteHeader.getBoundingClientRect().bottom) ||
+          parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--lhi-site-header-height')) ||
+          108;
+        if (h1r.top < headerBottom - 4) {
+          issues.push(`h1-clipped-under-header:h1Top=${Math.round(h1r.top)} headerBottom=${Math.round(headerBottom)}`);
+        }
+        const clipRoot = h1.closest('.hero, .answer-hero, .lhi-hero-lede-block, .lhi-hero-shell');
+        const clipStyle = clipRoot ? getComputedStyle(clipRoot) : null;
+        const overflowHidden =
+          clipStyle &&
+          (clipStyle.overflow === 'hidden' ||
+            clipStyle.overflowY === 'hidden' ||
+            clipStyle.overflowX === 'hidden');
+        const h1r2 = h1.getBoundingClientRect();
+        const pr = clipRoot?.getBoundingClientRect();
+        const clippedByOverflow =
+          overflowHidden &&
+          pr &&
+          (h1r2.top < pr.top + 1 || h1r2.bottom > pr.bottom - 1);
+        if (clippedByOverflow) {
+          issues.push('h1-overflow-clipped');
+        }
+      }
+      const shellRect = shell.getBoundingClientRect();
+      const rightEdge = Math.max(fr.right, shellRect.right);
+      const gapRight = vw - rightEdge;
+      if (gapRight > 200 && fr.right < vw * 0.72) {
+        issues.push(`empty-right-column:gap=${Math.round(gapRight)} formRight=${Math.round(fr.right)}`);
+      }
+      if (ledeBlock) {
+        const copyRight = Math.max(
+          ledeBlock.getBoundingClientRect().right,
+          shellDeferred?.getBoundingClientRect().right ?? 0
+        );
+        const midGap = fr.left - copyRight;
+        if (midGap > 200 && fr.left > copyRight + 80) {
+          issues.push(`empty-middle-column:gap=${Math.round(midGap)}`);
+        }
+      }
+    }
+
     return { ok: issues.length === 0, issues };
   }, { vh: viewport.height, vw: viewport.width });
 }
@@ -157,7 +239,6 @@ let total = 0;
 
 try {
   const page = await browser.newPage();
-  await page.route('**/js/site-template.js*', (route) => route.abort());
 
   for (const { url, name } of routes) {
     for (const vp of [

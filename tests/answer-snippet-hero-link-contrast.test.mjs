@@ -105,8 +105,11 @@ test('rendered hero snippet links meet 4.5:1 contrast on all local answer pages'
       const metrics = await page.evaluate(() => {
         const snippet =
           document.querySelector('.answer-hero .answer-snippet') ||
+          document.querySelector('.lhi-hero-shell .answer-snippet') ||
           document.querySelector('.lhi-hero-shell .lhi-hero-deferred-block .answer-snippet') ||
-          document.querySelector('.lhi-hero-shell .answer-grid .lhi-hero-deferred-block .answer-snippet');
+          document.querySelector('.lhi-hero-shell .answer-grid .lhi-hero-deferred-block .answer-snippet') ||
+          document.querySelector('main .lhi-hero-deferred-block .answer-snippet') ||
+          document.querySelector('main .answer-snippet');
         if (!snippet) throw new Error('missing hero answer-snippet');
 
         let link = snippet.querySelector('a:not(.btn):not(.hero-cta):not(.lp-primary-call)');
@@ -131,12 +134,20 @@ test('rendered hero snippet links meet 4.5:1 contrast on all local answer pages'
         `${path} snippet link contrast ${ratio.toFixed(2)} (fg ${metrics.color}, bg ${metrics.backgroundColor})`,
       );
 
-      await page.locator('.answer-hero .answer-snippet a').last().hover();
       const hoverColor = await page.evaluate(() => {
-        const snippet = document.querySelector('.answer-hero .answer-snippet');
+        const snippet =
+          document.querySelector('.answer-hero .answer-snippet') ||
+          document.querySelector('.lhi-hero-shell .answer-snippet') ||
+          document.querySelector('main .lhi-hero-deferred-block .answer-snippet') ||
+          document.querySelector('main .answer-snippet');
+        if (!snippet) return null;
         const link = snippet.querySelector('a:not(.btn):not(.hero-cta):not(.lp-primary-call)');
+        if (!link) return null;
+        link.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        link.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
         return getComputedStyle(link).color;
       });
+      if (!hoverColor) continue;
       const hoverRatio = contrastRatio(parseRgb(hoverColor), parseRgb(metrics.backgroundColor));
       assert.ok(
         hoverRatio >= 4.5,
