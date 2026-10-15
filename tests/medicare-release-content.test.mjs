@@ -174,7 +174,8 @@ test('Medicare hub is a current-season, privacy-minimized, keyboard-accessible l
   assert.match(html, /<body[^>]*>\s*<a class="hub-skip-link" href="#medicare-content">/);
   assert.match(html, /<main class="medicare-hub" id="medicare-content">/);
   assert.match(html, /Official 2027 plan details are available to compare beginning October 1, 2026/);
-  assert.match(html, /An Annual Enrollment request cannot be submitted before October 15/);
+  assert.doesNotMatch(html, /cannot be submitted before October 15/i);
+  assert.match(html, /Medicare Open Enrollment runs October 15 through December 7/);
   assert.match(html, /2026-06600/);
   assert.doesNotMatch(html, /Prepare now\. Compare official 2027 plan details beginning October 1/);
   assert.doesNotMatch(html, /current official plan data beginning October 1/);
@@ -190,7 +191,7 @@ test('Medicare hub is a current-season, privacy-minimized, keyboard-accessible l
   assert.match(css, /\.hub-skip-link:focus\s*{[^}]*transform:\s*translateY\(0\)/s);
   assert.match(css, /\.hub-scenario-shortcut\s*{[^}]*min-height:\s*44px/s);
   assert.match(css, /\.hub-disclosures \.tpmo-standard-disclaimer\s*{[^}]*font-size:\s*1rem/s);
-  assert.match(html, /answer-pages\.css\?v=20261015-v6merge2/);
+  assert.match(html, /answer-pages\.css\?v=20261015-post321|answer-pages\.css\?v=20261015-v6merge2/);
   assert.match(css, /\.answer-hero\.medicare-hero \.tpmo-cta-disclaimer\s*{[^}]*color:\s*var\(--navy/s);
   assert.match(css, /\.answer-hero\.medicare-hero a:not\(\.btn\):not\(\.hero-cta\):not\(\.lp-primary-call\)\s*{[^}]*color:\s*var\(--hub-blue/s);
   assert.match(
