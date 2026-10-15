@@ -39,13 +39,7 @@ function parseRgb(color) {
   return match ? match.slice(1, 4).map(Number) : null;
 }
 
-function isNavyish(rgb) {
-  if (!rgb) return false;
-  const [r, g, b] = rgb;
-  return r < 80 && g < 80 && b > 100;
-}
-
-test('hub hero copy reads as one navy band on mobile @390', async () => {
+test('hub hero matches homepage gray stack on mobile @390', async () => {
   const server = await startStaticServer();
   const browser = await chromium.launch({
     headless: true,
@@ -55,27 +49,17 @@ test('hub hero copy reads as one navy band on mobile @390', async () => {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     await page.route('**/js/site-template.js*', (route) => route.abort());
     await page.goto(`${server.baseUrl}/plans/index.html`, { waitUntil: 'networkidle' });
-    const eyebrow = page.locator('.lhi-hero-shell .eyebrow').first();
-    const h1 = page.locator('.lhi-hero-shell h1').first();
-    const lede = page.locator('.lhi-hero-shell p.lhi-hero-lede').first();
-    const eyebrowBox = await eyebrow.boundingBox();
-    const h1Box = await h1.boundingBox();
-    const ledeBox = await lede.boundingBox();
-    assert.ok(eyebrowBox && h1Box && ledeBox, 'hero copy nodes have layout');
-    const gapEyebrowH1 = h1Box.y - (eyebrowBox.y + eyebrowBox.height);
-    const gapH1Lede = ledeBox.y - (h1Box.y + h1Box.height);
-    assert.ok(gapEyebrowH1 < 2, `eyebrow/h1 gap ${gapEyebrowH1}px`);
-    assert.ok(gapH1Lede < 2, `h1/lede gap ${gapH1Lede}px`);
-    const padLeft = await eyebrow.evaluate((el) => parseFloat(getComputedStyle(el).paddingLeft));
-    assert.ok(padLeft >= 16, 'hero band has inner horizontal padding');
-    const radius = await eyebrow.evaluate((el) => getComputedStyle(el).borderTopLeftRadius);
-    assert.notEqual(radius, '0px', 'hero band uses rounded corners');
-    const h1Styles = await h1.evaluate((el) => {
-      const style = getComputedStyle(el);
-      return { backgroundImage: style.backgroundImage, backgroundColor: style.backgroundColor };
-    });
-    const h1HasBand = String(h1Styles.backgroundImage).includes('gradient') || isNavyish(parseRgb(h1Styles.backgroundColor));
-    assert.ok(h1HasBand, `h1 keeps navy band background, got ${JSON.stringify(h1Styles)}`);
+    const shellBg = await page.locator('.lhi-hero-shell').first().evaluate((el) => getComputedStyle(el).backgroundColor);
+    const shellRgb = parseRgb(shellBg);
+    assert.ok(shellRgb && shellRgb.every((v) => v > 240), `shell background should be light gray, got ${shellBg}`);
+    const h1Color = await page.locator('.lhi-hero-shell h1').first().evaluate((el) => getComputedStyle(el).color);
+    const h1Rgb = parseRgb(h1Color);
+    assert.ok(h1Rgb && h1Rgb[2] > 50 && h1Rgb[0] < 80, `h1 should be navy on gray, got ${h1Color}`);
+    const formCard = page.locator('.lhi-hero-grid-lead .lhi-lead-hero__card').first();
+    const formBox = await formCard.boundingBox();
+    const h1Box = await page.locator('.lhi-hero-shell h1').first().boundingBox();
+    assert.ok(formBox && h1Box, 'hero copy and form card render');
+    assert.ok(formBox.y < h1Box.y + h1Box.height + 320, 'form stays in first mobile screen after headline');
     await page.close();
   } finally {
     await browser.close();

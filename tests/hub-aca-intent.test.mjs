@@ -18,6 +18,12 @@ function heroMarkup(html) {
   return match[0];
 }
 
+function homepageLeadShellMarkup(html) {
+  const match = html.match(/<div class="lhi-hero-shell">[\s\S]*?<\/div>\s*(?=<section class="content-band"|<\/main>)/);
+  assert.ok(match, 'page includes a homepage-style lhi-hero-shell');
+  return match[0];
+}
+
 function firstCtaRow(html) {
   const match = html.match(/<div class="cta-row[^"]*"[\s\S]*?<\/div>/);
   assert.ok(match, 'page includes a hero CTA row');
@@ -60,27 +66,18 @@ test('Medicare hub leads with Call David, then Get Help and the primary broker U
 
 test('ACA Lakeland lander leads with Call David and Get Help intent params', () => {
   const html = source('aca-health-insurance-lakeland-fl/index.html');
-  const hero = heroMarkup(html);
-  const formAt = hero.search(/<form class="sitelink-lead-form"/);
-  const snippetAt = hero.search(/class="answer-snippet"/);
-  const callAt = hero.search(/href="tel:\+18636403102"[^>]*>Call David</);
-  const helpAt = hero.search(/href="\/get-help\/\?intent=aca"/);
-  const ctaRowAt = hero.search(/<div class="cta-row"/);
+  const shell = homepageLeadShellMarkup(html);
+  const formAt = shell.search(/<form class="sitelink-lead-form"/);
+  const h1At = shell.search(/<h1\b/);
+  const ledeAt = shell.search(/class="lead lhi-hero-lede"/);
 
-  const h1At = hero.search(/<h1\b/);
-  const ledeAt = hero.search(/class="lead lhi-hero-lede"/);
-
-  assert.ok(formAt > 0, 'ACA hero includes the sitelink lead form');
-  assert.ok(snippetAt > 0, 'ACA hero keeps the cite-ready snippet');
+  assert.ok(formAt > 0, 'ACA above-fold shell includes the sitelink lead form');
   assert.ok(h1At > 0 && ledeAt > h1At, 'short mobile lede follows H1');
   assert.ok(formAt > ledeAt, 'sitelink form follows the short lede');
-  assert.ok(ctaRowAt > 0 && ctaRowAt > formAt, 'hero CTA row follows the sitelink form for mobile-first order');
-  assert.ok(snippetAt > formAt, 'eligibility snippet follows the sitelink form');
-  assert.ok(callAt > 0 && callAt > formAt, 'Call David CTA remains in hero after the form block');
-  assert.ok(helpAt > 0 && helpAt > formAt, 'Get Help CTA remains in hero after the form block');
-  assert.ok(callAt < helpAt, 'Call David is earlier than Get Help in the CTA row');
+  assert.match(html, /class="answer-snippet"/, 'page keeps the cite-ready snippet');
+  assert.match(html, /class="lhi-lead-hero lhi-hero-grid-lead"/);
 
-  const row = firstCtaRow(hero);
+  const row = firstCtaRow(html);
   assert.match(row, /class="btn primary" href="tel:\+18636403102">Call David</);
   assert.match(row, /href="\/get-help\/\?intent=aca">Get Help</);
   assert.doesNotMatch(row, /href="\/medicare-broker-lakeland-fl\//);

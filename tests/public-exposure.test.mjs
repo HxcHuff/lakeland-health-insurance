@@ -227,7 +227,7 @@ test('quote presents three direct actions without a routing form or plans detour
   assert.match(QUOTE, /data-quote-action="medicare-review" href="\/get-help\/\?intent=medicare"/);
   assert.match(QUOTE, /data-quote-action="broker-review" href="\/get-help\/"/);
   assert.doesNotMatch(quoteMain[0], /routerZip|routerCoverage|ZIP-prefix|coverage router|routing gate|verified pathway|verified next steps/i);
-  assert.match(quoteMain[0], /class="lhi-lead-hero"/);
+  assert.match(quoteMain[0], /class="lhi-lead-hero(?: lhi-hero-grid-lead)?"/);
   assert.match(quoteMain[0], /name="site-medicare-lead"/);
   assert.doesNotMatch(quoteMain[0], /href="\/plans\/"/);
   assert.equal(existsSync(join(ROOT, 'js/quote-router.js')), false);

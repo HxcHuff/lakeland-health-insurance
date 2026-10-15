@@ -24,10 +24,8 @@
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="stylesheet" href="/css/site-template.css?v=20261015-post326">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261015-home-match">
   <link rel="stylesheet" href="/css/answer-pages.css?v=20261015-v6merge2">
-  <style>
-    .answer-hero .lead a { color: #F6E7C1; font-weight: 700; }
-  </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -109,7 +107,7 @@
   </script>
   <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
 </head>
-<body>
+<body class="lhi-page-hero">
 <header>
   <nav class="container">
     <div class="logo-container">
@@ -155,13 +153,23 @@
 </header>
 
   <main>
+<div class="lhi-hero-shell">
     <section class="answer-hero">
-      <div class="answer-wrap answer-grid">
-        <div>
+      <div class="answer-wrap">
+        <div class="lhi-hero-lede-block">
           <p class="eyebrow">ACA Marketplace eligibility · Lakeland and Polk County · Licensed FL #W371813</p>
           <h1>Florida ACA Marketplace help in Lakeland: eligibility, income, and enrollment dates.</h1>
           <p class="lead lhi-hero-lede">Call David, a licensed Florida health agent (FL #W371813 / NPN 18213932), for a local Marketplace review.</p>
-
+        </div>
+      </div>
+    </section>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="get-help" data-source-template="local_seo_aca" aria-labelledby="acaLakeland-lead-title">
+  <div class="lhi-lead-hero__grid">
+    <div class="lhi-lead-hero__intro">
+      <h2 class="lhi-lead-hero__title" id="acaLakeland-lead-title">Request a local plan review</h2>
+      <p class="lhi-lead-hero__note">Send the minimum contact details David needs to respond. Do not enter a Medicare number, Social Security number, medical details, policy numbers, or payment information.</p>
+    </div>
+    <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
           <form class="sitelink-lead-form" name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="acaLakelandLeadForm" data-sitelink-lead-form data-sitelink-coverage-choice data-funnel-track data-funnel-event="Lead" data-funnel-name="sitelink_aca_lakeland_lead" aria-label="Request ACA or Medicare help in Lakeland">
             <input type="hidden" name="form-name" value="get-help">
             <div hidden aria-hidden="true">
@@ -219,8 +227,6 @@
             <input type="hidden" name="lead_priority">
             <input type="hidden" name="lead_priority_reason">
             <input type="hidden" name="source_url">
-            <h2>Request a local plan review</h2>
-            <p>Send the minimum contact details David needs to respond. Do not enter a Medicare number, Social Security number, medical details, policy numbers, or payment information.</p>
             <fieldset class="sitelink-contact-options">
               <legend>Which coverage do you need help with?</legend>
               <label class="sitelink-contact-choice"><input type="radio" name="coverage_choice" value="marketplace" required checked><span>ACA Marketplace (individual and family)</span></label>
@@ -241,23 +247,28 @@
             <button class="sitelink-lead-submit" type="submit">Send My Request</button>
             <div class="sitelink-lead-status" data-sitelink-lead-status role="status" aria-live="polite"></div>
           </form>
-          <p class="lead answer-hero-deferred">Call David, a licensed Florida health agent (FL #W371813 / NPN 18213932), for a local Marketplace review. This page covers HealthCare.gov eligibility, projected household income, and Open Enrollment or Special Enrollment timing for Lakeland and Polk County. The Marketplace—not a broker or estimator—determines eligibility and premium tax credits. You stay in control of your HealthCare.gov account. For a licensed local agent review, use the sibling <a href="/aca-health-insurance-agent-polk-county-fl/">Polk County ACA agent page</a>. For other quote and review options, see the <a href="/quote/">quote and review options</a> page.</p>
-          <div class="cta-row">
-            <a class="btn primary" href="tel:+18636403102">Call David</a>
-            <a class="btn secondary" href="/get-help/?intent=aca">Get Help</a>
-            <a class="btn secondary" href="/aca-health-insurance-agent-polk-county-fl/">Polk County ACA agent</a>
-            <a class="btn secondary" href="/provider-prescription-check/">Check doctors &amp; prescriptions</a>
-            <a class="btn secondary" href="/coverage-center/#under-65">Coverage Center</a>
-            <a class="btn secondary" href="/quote/">Get pricing or start a review</a>
-          </div>
-          <div class="answer-snippet"><strong>Direct answer:</strong> Confirm the enrollment window, ZIP code, county, household, and coverage year before you rely on a plan. Compare doctors and prescriptions on the exact plan ID, then use current HealthCare.gov dates for Open Enrollment or a Special Enrollment Period. You still authorize HealthCare.gov; a review is not enrollment. For a licensed Polk County ACA agent, use the <a href="/aca-health-insurance-agent-polk-county-fl/">Polk County agent page</a>. For networks and drugs, use the <a href="/provider-prescription-check/">provider and prescription workflow</a>.
+    </div>
+  </div>
+</section>
+</div>
+
+    <section class="content-band">
+      <div class="answer-wrap stack">
+        <p class="lead answer-hero-deferred">Call David, a licensed Florida health agent (FL #W371813 / NPN 18213932), for a local Marketplace review. This page covers HealthCare.gov eligibility, projected household income, and Open Enrollment or Special Enrollment timing for Lakeland and Polk County. The Marketplace—not a broker or estimator—determines eligibility and premium tax credits. You stay in control of your HealthCare.gov account. For a licensed local agent review, use the sibling <a href="/aca-health-insurance-agent-polk-county-fl/">Polk County ACA agent page</a>. For other quote and review options, see the <a href="/quote/">quote and review options</a> page.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="tel:+18636403102">Call David</a>
+          <a class="btn secondary" href="/get-help/?intent=aca">Get Help</a>
+          <a class="btn secondary" href="/aca-health-insurance-agent-polk-county-fl/">Polk County ACA agent</a>
+          <a class="btn secondary" href="/provider-prescription-check/">Check doctors &amp; prescriptions</a>
+          <a class="btn secondary" href="/coverage-center/#under-65">Coverage Center</a>
+          <a class="btn secondary" href="/quote/">Get pricing or start a review</a>
         </div>
-          <aside class="hs-secondary">
-            <strong>Secondary self-service during Marketplace Open Enrollment</strong>
-            Compare ACA plans yourself on HealthSherpa. A licensed review remains the primary next step. This is not Medicare enrollment. HealthSherpa is a private enrollment site, not HealthCare.gov.
-            <a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer" data-funnel-external-quote data-analytics-label="aca_lakeland_self_service">Open HealthSherpa</a>
-          </aside>
-        </div>
+        <div class="answer-snippet"><strong>Direct answer:</strong> Confirm the enrollment window, ZIP code, county, household, and coverage year before you rely on a plan. Compare doctors and prescriptions on the exact plan ID, then use current HealthCare.gov dates for Open Enrollment or a Special Enrollment Period. You still authorize HealthCare.gov; a review is not enrollment. For a licensed Polk County ACA agent, use the <a href="/aca-health-insurance-agent-polk-county-fl/">Polk County agent page</a>. For networks and drugs, use the <a href="/provider-prescription-check/">provider and prescription workflow</a>.</div>
+        <aside class="hs-secondary">
+          <strong>Secondary self-service during Marketplace Open Enrollment</strong>
+          Compare ACA plans yourself on HealthSherpa. A licensed review remains the primary next step. This is not Medicare enrollment. HealthSherpa is a private enrollment site, not HealthCare.gov.
+          <a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer" data-funnel-external-quote data-analytics-label="aca_lakeland_self_service">Open HealthSherpa</a>
+        </aside>
         <aside class="side-card">
           <h2>Have this ready</h2>
           <ul>
@@ -268,11 +279,6 @@
           </ul>
           <p class="disclosure">Do not send tax documents, Social Security numbers, medical records, or Marketplace credentials through a general website form.</p>
         </aside>
-      </div>
-    </section>
-
-    <section class="content-band">
-      <div class="answer-wrap stack">
         <div class="two-col">
           <article class="answer-card">
             <h2>2027 Florida enrollment timing</h2>
