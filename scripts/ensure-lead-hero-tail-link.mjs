@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 const ROOT = join(import.meta.dirname, '..');
-const VERSION = '20261015-home-match6';
+const VERSION = '20261015-home-match7';
 const MARKER = 'data-lhi-lead-hero-tail';
 const SKIP_DIRS = new Set(['.git', 'node_modules', 'search-engine-from-zip', '.ai-worker-local', 'output']);
 

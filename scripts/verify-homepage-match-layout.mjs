@@ -62,7 +62,9 @@ async function checkPage(page, url, viewport) {
       shell.querySelector('.hero-grid .lhi-hero-grid-lead, .answer-grid .lhi-hero-grid-lead');
     const formCard = shell.querySelector('.lhi-hero-grid-lead .lhi-lead-hero__card, .lhi-hero-grid-lead .lhi-lead-hero__card');
     const ledeBlock = shell.querySelector('.lhi-hero-lede-block');
-    const lede = ledeBlock || shell.querySelector('.answer-hero h1')?.closest('div') || shell.querySelector('h1');
+    const ledeHeading = shell.querySelector('section.answer-hero h1, section.hero h1, .lhi-hero-shell h1');
+    const ledeParagraph = shell.querySelector('.lhi-hero-lede, p.lead.lhi-hero-lede');
+    const lede = ledeBlock || ledeHeading;
     const hero = shell.querySelector('section.hero, section.answer-hero, section.home-hero');
     const shellDeferred =
       shell.querySelector(':scope > .lhi-hero-deferred-block') ||
@@ -122,8 +124,13 @@ async function checkPage(page, url, viewport) {
     if (vw < 900 && shellLead && formCard && lede) {
       const fr = formCard.getBoundingClientRect();
       const lr = lede.getBoundingClientRect();
+      const lp = ledeParagraph?.getBoundingClientRect();
+      const lh = ledeHeading?.getBoundingClientRect();
+      const ledeBottom = ledeBlock
+        ? lr.bottom
+        : Math.max(lh?.bottom ?? 0, lp?.bottom ?? lr.bottom);
       if (fr.y > vh - 48) issues.push(`form-below-fold:formY=${Math.round(fr.y)} vh=${vh}`);
-      if (fr.y > lr.bottom + 280) issues.push(`form-too-far-below-lede:gap=${Math.round(fr.y - lr.bottom)}`);
+      if (fr.y > ledeBottom + 280) issues.push(`form-too-far-below-lede:gap=${Math.round(fr.y - ledeBottom)}`);
       const sticky = document.querySelector('.lhi-lead-sticky.is-visible, #lhi-lead-sticky-bar.is-visible');
       if (sticky) issues.push('sticky-bar-visible');
       const heroPanel = shell.querySelector('.hero-panel');
