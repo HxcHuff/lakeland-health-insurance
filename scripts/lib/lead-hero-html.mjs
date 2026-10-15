@@ -2,6 +2,7 @@
  * Static HTML for the lhi-lead-hero Netlify lead block (site-medicare-lead / site-aca-lead).
  */
 import { OUT_OF_STATE_MEDICARE_NOTE } from './medicare-licensed-states.mjs';
+import { MEDICARE_SCOPE_NOTE_MARKUP } from './lead-hero-medicare-scope.mjs';
 
 const MEDICARE_COVERAGE_OPTIONS = `
                   <option value="" selected disabled>Select one</option>
@@ -15,6 +16,16 @@ const ACA_COVERAGE_OPTIONS = `
                   <option value="" selected disabled>Select one</option>
                   <option value="individual_marketplace">Individual Marketplace coverage</option>
                   <option value="family_marketplace">Family Marketplace coverage</option>
+                  <option value="not_sure">Not sure yet</option>`;
+
+const MIXED_ACA_MEDICARE_COVERAGE_OPTIONS = `
+                  <option value="" selected disabled>Select one</option>
+                  <option value="medicare_advantage">Medicare Advantage</option>
+                  <option value="medicare_supplement">Medicare Supplement</option>
+                  <option value="part_d">Part D prescription drug coverage</option>
+                  <option value="individual_marketplace">Individual Marketplace coverage</option>
+                  <option value="family_marketplace">Family Marketplace coverage</option>
+                  <option value="current_plan_review">Current plan review</option>
                   <option value="not_sure">Not sure yet</option>`;
 
 const MEDICARE_CONSENT =
@@ -40,6 +51,7 @@ function escapeAttr(value) {
  *   headline?: string,
  *   buttonText?: string,
  *   funnelName: string,
+ *   coverageOptions?: 'medicare' | 'aca' | 'aca_medicare_mixed',
  * }} config
  */
 export function buildLeadHeroHtml(config) {
@@ -52,8 +64,15 @@ export function buildLeadHeroHtml(config) {
   const headline = config.headline || defaultHeadline;
   const buttonText = config.buttonText || defaultButton;
   const p = config.idPrefix.replace(/[^a-zA-Z0-9_-]/g, '') || 'siteLead';
-  const coverageOptions = isMedicare ? MEDICARE_COVERAGE_OPTIONS : ACA_COVERAGE_OPTIONS;
+  const coverageProfile = config.coverageOptions || (isMedicare ? 'medicare' : 'aca');
+  const coverageOptions =
+    coverageProfile === 'aca_medicare_mixed'
+      ? MIXED_ACA_MEDICARE_COVERAGE_OPTIONS
+      : coverageProfile === 'medicare'
+        ? MEDICARE_COVERAGE_OPTIONS
+        : ACA_COVERAGE_OPTIONS;
   const consentCopy = isMedicare ? MEDICARE_CONSENT : ACA_CONSENT;
+  const includeMedicareScopeNote = isMedicare || coverageProfile === 'aca_medicare_mixed';
 
   return `
 <section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="${config.variant}" data-form-name="${config.formName}" data-source-template="${escapeAttr(config.sourceTemplate)}" aria-labelledby="${p}-lead-title">
@@ -120,9 +139,9 @@ export function buildLeadHeroHtml(config) {
             <button class="lhi-lead-hero__submit" type="submit">${escapeAttr(buttonText)}</button>
           </div>
         </div>${
-          isMedicare
+          includeMedicareScopeNote
             ? `
-        <p class="form-tpmo lhi-lead-hero__medicare-scope" id="outOfStateMedicareNote" hidden>${OUT_OF_STATE_MEDICARE_NOTE}</p>`
+        ${MEDICARE_SCOPE_NOTE_MARKUP}`
             : ''
         }
         <p class="lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>
