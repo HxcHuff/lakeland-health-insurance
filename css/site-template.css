@@ -655,6 +655,12 @@ footer {
   }
 }
 
+@media (min-width: 1101px) {
+  header .menu-button {
+    display: none !important;
+  }
+}
+
 @media (max-width: 1100px) {
   header .nav-links,
   .cta-group {
@@ -1151,6 +1157,14 @@ body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero {
 .home-hero .lhi-proof-strip a {
   background: #fff;
   border-color: var(--gray-200);
+  white-space: nowrap;
+}
+
+.home-hero .lhi-proof-strip span.lhi-proof-strip__address {
+  font-size: 0.78rem;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .answer-hero .lhi-proof-strip span,
