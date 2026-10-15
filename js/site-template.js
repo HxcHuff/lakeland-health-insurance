@@ -291,6 +291,45 @@
     ['/blog/', 'Blog']
   ];
 
+  function headerHasChromeShell(header) {
+    return !!(header && header.getAttribute('data-lhi-site-chrome') === 'shell' && header.querySelector('nav.container'));
+  }
+
+  function patchHeaderForIntent(header, intent) {
+    if (!header) return;
+    var helpHref = chromeGetHelpHref(intent);
+    var helpCta = header.querySelector('[data-lhi-help-cta]');
+    if (helpCta) helpCta.setAttribute('href', helpHref);
+    header.querySelectorAll('.dropdown-menu .menu-item a').forEach(function (link) {
+      var label = (link.textContent || '').trim();
+      if (label === 'Get Help') link.setAttribute('href', helpHref);
+      if (label === phoneDisplay || label === 'Call Now') {
+        link.setAttribute('href', phoneHref);
+        if (label !== 'Call Now') link.textContent = phoneDisplay;
+      }
+    });
+  }
+
+  function wireSeasonalBannerDismiss(banner) {
+    if (!banner || banner.getAttribute('data-lhi-banner-wired') === 'true') return;
+    var dismiss = banner.querySelector('.seasonal-banner-dismiss');
+    if (!dismiss) return;
+    banner.setAttribute('data-lhi-banner-wired', 'true');
+    dismiss.addEventListener('click', function () {
+      try {
+        var storageKey = seasonalBannerStorageKey();
+        if (storageKey) window.localStorage.setItem(storageKey, 'dismissed');
+      } catch (error) {
+        // Ignore quota / privacy-mode failures.
+      }
+      banner.remove();
+      document.body.classList.remove('has-seasonal-banner');
+      var header = document.querySelector('header');
+      if (header) header.classList.remove('has-seasonal-banner');
+      scheduleSiteHeaderOffsetSync();
+    });
+  }
+
   function createHeader(intent) {
     var helpHref = chromeGetHelpHref(intent);
     var menuLinks = [
@@ -538,18 +577,7 @@
         <p>Medicare Annual Enrollment is <strong>Oct 15–Dec 7</strong>. A review is not enrollment. <a href="/medicare/">See Medicare enrollment dates</a></p>
         <button type="button" class="seasonal-banner-dismiss" aria-label="Dismiss Medicare enrollment reminder">Dismiss</button>
       </div>`;
-    banner.querySelector('.seasonal-banner-dismiss').addEventListener('click', function () {
-      try {
-        var storageKey = seasonalBannerStorageKey();
-        if (storageKey) window.localStorage.setItem(storageKey, 'dismissed');
-      } catch (error) {
-        // Ignore quota / privacy-mode failures.
-      }
-      banner.remove();
-      document.body.classList.remove('has-seasonal-banner');
-      var header = document.querySelector('header');
-      if (header) header.classList.remove('has-seasonal-banner');
-    });
+    wireSeasonalBannerDismiss(banner);
     return banner;
   }
 
@@ -683,21 +711,40 @@
   }
 
   function normalizeTemplate() {
-    document.querySelectorAll('.compliance-banner').forEach((node) => node.remove());
-    stripInlineDisclaimerDuplicates();
     var pathname = currentPathname();
+    if (normalizePath(pathname) !== '/') {
+      document.querySelectorAll('.compliance-banner').forEach((node) => node.remove());
+    }
+    stripInlineDisclaimerDuplicates();
     var intent = resolveChromeIntent(pathname, document);
     const firstHeader = document.querySelector('header');
-    const nextHeader = createHeader(intent);
-    if (firstHeader) {
-      firstHeader.replaceWith(nextHeader);
+    var nextHeader;
+    if (headerHasChromeShell(firstHeader)) {
+      nextHeader = firstHeader;
+      patchHeaderForIntent(nextHeader, intent);
     } else {
-      document.body.prepend(nextHeader);
+      nextHeader = createHeader(intent);
+      nextHeader.setAttribute('data-lhi-site-chrome', 'shell');
+      if (firstHeader) {
+        firstHeader.replaceWith(nextHeader);
+      } else {
+        document.body.prepend(nextHeader);
+      }
     }
 
     var seasonalBanner = null;
     try {
-      if (shouldShowSeasonalBanner(pathname, { intent: intent })) {
+      var existingSeasonal = nextHeader.querySelector('#' + BANNER_ID);
+      if (existingSeasonal) {
+        if (shouldShowSeasonalBanner(pathname, { intent: intent })) {
+          seasonalBanner = existingSeasonal;
+          wireSeasonalBannerDismiss(seasonalBanner);
+          nextHeader.classList.add('has-seasonal-banner');
+          document.body.classList.add('has-seasonal-banner');
+        } else {
+          existingSeasonal.remove();
+        }
+      } else if (shouldShowSeasonalBanner(pathname, { intent: intent })) {
         seasonalBanner = createSeasonalBanner(intent);
         nextHeader.prepend(seasonalBanner);
         nextHeader.classList.add('has-seasonal-banner');
@@ -782,6 +829,11 @@
     bannerWindowStart: { month: SEASONAL_BANNER_START_MONTH, day: SEASONAL_BANNER_START_DAY },
     bannerWindowEnd: { month: SEASONAL_BANNER_END_MONTH, day: SEASONAL_BANNER_END_DAY }
   };
+
+  var prebuiltHeader = document.querySelector('header[data-lhi-site-chrome="shell"]');
+  if (prebuiltHeader) {
+    initSiteHeaderOffsetTracking(prebuiltHeader);
+  }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', normalizeTemplate);

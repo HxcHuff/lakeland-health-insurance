@@ -537,10 +537,6 @@ a:focus-visible,
   transform: translateY(0);
 }
 
-.hub-template-anchor {
-  min-height: 0;
-}
-
 .medicare-hub {
   --hub-ink: #0c2440;
   --hub-navy: #071b31;
