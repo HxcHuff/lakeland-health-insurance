@@ -1194,8 +1194,13 @@ body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero {
     line-height: 1.2;
   }
 
-  body.home-page header nav {
-    padding: 0.55rem 0;
+  body.home-page header nav.container {
+    padding: 0.55rem 20px;
+  }
+
+  header nav.container {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   body.home-page .lhi-hero-shell {

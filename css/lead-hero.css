@@ -42,11 +42,24 @@ body.home-page .lhi-hero-shell {
 body.home-page .lhi-hero-shell > .home-hero {
   padding: 0 0 clamp(24px, 4vw, 40px);
   scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 12px);
+  width: 100%;
 }
 
 body.home-page .lhi-hero-shell .home-hero-grid {
+  display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: clamp(1.25rem, 3vw, 2rem);
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  align-items: start;
+}
+
+body.home-page .home-hero-grid .lhi-hero-grid-lead {
+  margin: 0;
+  max-width: none;
+  padding: 0;
+}
+
+body.home-page .home-hero-grid .lhi-hero-grid-lead .lhi-lead-hero__intro {
+  display: none;
 }
 
 body.home-page .lhi-hero-shell .home-hero h1 {
@@ -77,12 +90,58 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
   }
 
   body.home-page .lhi-hero-shell {
+    display: block;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  body.home-page .lhi-hero-shell .home-hero-grid {
     grid-template-columns: minmax(0, 3fr) minmax(280px, 2fr);
     gap: clamp(1rem, 2.5vw, 1.75rem);
   }
 
+  body.home-page .home-hero-grid .lhi-hero-lede-block,
+  body.home-page .home-hero-grid .lhi-hero-deferred-block {
+    grid-column: 1;
+  }
+
+  body.home-page .home-hero-grid .hero-portrait-wrap {
+    grid-column: 1;
+  }
+
+  body.home-page .home-hero-grid .lhi-hero-grid-lead {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: start;
+  }
+
   body.home-page .lhi-hero-shell .home-hero h1 {
     max-width: none;
+  }
+
+  .lhi-hero-shell .hero-grid:has(.lhi-hero-lede-block),
+  .lhi-hero-shell .hero-grid:has(.lhi-hero-deferred-block) {
+    grid-template-columns: minmax(0, 3fr) minmax(280px, 2fr);
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+  }
+
+  .lhi-hero-shell .hero-grid .lhi-hero-lede-block,
+  .lhi-hero-shell .hero-grid .lhi-hero-deferred-block,
+  .lhi-hero-shell .hero-grid .hero-panel {
+    grid-column: 1;
+  }
+
+  .lhi-hero-shell .hero-grid > .lhi-lead-hero {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+    align-self: start;
+    margin: 0;
+    max-width: none;
+    padding: 0;
+  }
+
+  .lhi-hero-shell .hero-grid > .lhi-lead-hero .lhi-lead-hero__intro {
+    display: none;
   }
 
   body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero__grid {
@@ -247,6 +306,107 @@ body.lhi-lead-sticky-active {
 
   body:not(.blog-post) .lhi-hero-shell .lhi-lead-hero__intro {
     order: 1;
+  }
+
+  .lhi-hero-shell .hero-grid > .lhi-lead-hero,
+  .lhi-hero-shell .home-hero-grid > .lhi-lead-hero {
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  body.blog-post main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.blog-post .article-hero,
+  body.blog-post .article-hero > .container {
+    display: contents;
+  }
+
+  body.blog-post .article-hero h1 {
+    order: 1;
+  }
+
+  body.blog-post .lhi-hero-lede {
+    order: 2;
+  }
+
+  body.blog-post main > section.lhi-lead-hero {
+    order: 3;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  body.blog-post .lhi-alert-notice {
+    order: 4;
+  }
+
+  body.blog-post .article-hero .hero-direct-answer:not(.lhi-hero-lede),
+  body.blog-post .article-hero .last-reviewed,
+  body.blog-post .article-hero .byline,
+  body.blog-post .article-hero .meta,
+  body.blog-post .article-hero .cta-row {
+    order: 5;
+  }
+
+  body.blog-post main > .container.article-grid,
+  body.blog-post .container.article-grid {
+    order: 20;
+  }
+
+  /* Shell pages without lede/deferred HTML split: interleave lead form after H1 + short lede. */
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) > section {
+    display: contents;
+  }
+
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .answer-wrap,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .answer-grid,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hero-grid,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .container.hero-grid > div:first-child,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hero-grid > div:first-child,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hero-content {
+    display: contents;
+  }
+
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .eyebrow,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hero-kicker {
+    order: 0;
+  }
+
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) h1 {
+    order: 1;
+  }
+
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.lead,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.hero-lede,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) h1 + p {
+    order: 2;
+  }
+
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) > .lhi-lead-hero {
+    order: 3;
+    margin-top: 0.35rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .answer-snippet,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hero-season,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hero-panel,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) aside.side-card,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .cta-row,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hero-cta-row,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hero-benefits,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hero-cta-group,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hero-path-links,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .lhi-proof-strip,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .hero-portrait-wrap {
+    order: 5;
   }
 }
 
