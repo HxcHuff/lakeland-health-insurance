@@ -207,6 +207,36 @@
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
 
+  var THIRD_PARTY_DEFER_TIMEOUT_MS = 3500;
+
+  /* Shared deferral for GTM/GA4, Meta audience, chat widget, and other
+     third-party scripts: first interaction OR idle, with a hard timeout. */
+  function scheduleAfterInteractive(fn) {
+    if (typeof fn !== 'function') return;
+    var fired = false;
+    function fire() {
+      if (fired) return;
+      fired = true;
+      cleanup();
+      fn();
+    }
+    var events = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
+    function cleanup() {
+      events.forEach(function (ev) {
+        window.removeEventListener(ev, fire, { passive: true, capture: true });
+      });
+    }
+    events.forEach(function (ev) {
+      window.addEventListener(ev, fire, { passive: true, capture: true, once: true });
+    });
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(fire, { timeout: THIRD_PARTY_DEFER_TIMEOUT_MS });
+    } else {
+      window.setTimeout(fire, THIRD_PARTY_DEFER_TIMEOUT_MS);
+    }
+  }
+  window.LHI_scheduleAfterInteractive = scheduleAfterInteractive;
+
   /* ---- Production-host gate -------------------------------------------- */
   var host = (typeof location !== 'undefined' && location.hostname || '').toLowerCase();
   var PROD_HOSTS = ['lakelandhealthinsurance.com', 'www.lakelandhealthinsurance.com'];
@@ -430,7 +460,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261014-phone-6403102';
+    funnel.src = '/js/funnel.js?v=20261015-cwv';
     document.head.appendChild(funnel);
   }
 
@@ -803,32 +833,10 @@
 
     emitInitialMedicareContentView();
   }
-  /* Defer general GTM/GA4 initialization until after LCP/FCP so it does not
-     fight with the hero render. Website-call replacement already started.
-     General analytics initializes on:
-       - first user interaction (click / scroll / keydown / touchstart)
-       - OR requestIdleCallback (browser idle, typically <1s after LCP)
-       - OR a 2.5s hard timeout fallback for non-interactive bounces
-     Whichever comes first. Once init() runs it short-circuits via `loaded`. */
+  /* Defer general GTM/GA4 initialization until after LCP/FCP (see
+     scheduleAfterInteractive). Clarity and other GTM tags follow the same gate. */
   function scheduleInit() {
-    var fired = false;
-    function fire(){ if(fired) return; fired = true; init(); cleanup(); }
-
-    var events = ['pointerdown','keydown','touchstart','scroll'];
-    function cleanup(){
-      events.forEach(function(ev){
-        window.removeEventListener(ev, fire, { passive: true, capture: true });
-      });
-    }
-    events.forEach(function(ev){
-      window.addEventListener(ev, fire, { passive: true, capture: true, once: true });
-    });
-
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(fire, { timeout: 2500 });
-    } else {
-      setTimeout(fire, 2500);
-    }
+    scheduleAfterInteractive(init);
   }
 
   if (document.readyState === 'complete') {
@@ -1415,6 +1423,10 @@
   }
 
   preparePrivacyControls();
-  initialize();
+  if (typeof w.LHI_scheduleAfterInteractive === 'function') {
+    w.LHI_scheduleAfterInteractive(initialize);
+  } else {
+    initialize();
+  }
 })(window, document);
 /* LHI_META_AUDIENCE_END */
