@@ -117,6 +117,9 @@
   bottom: 0;
   z-index: 1600;
   display: none;
+  min-height: calc(3.25rem + env(safe-area-inset-bottom, 0));
+  visibility: hidden;
+  pointer-events: none;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
   padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom, 0));
@@ -126,6 +129,8 @@
 
 .lhi-lead-sticky.is-visible {
   display: grid;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .lhi-lead-sticky a {
@@ -151,9 +156,19 @@ body.lhi-lead-sticky-active {
   padding-bottom: calc(4.25rem + env(safe-area-inset-bottom, 0));
 }
 
+.home-page .lhi-lead-hero {
+  min-height: auto;
+  margin-top: 0;
+}
+
 @media (max-width: 900px) {
   .lhi-lead-hero {
     min-height: 520px;
+  }
+
+  .home-page .lhi-lead-hero {
+    min-height: auto;
+    margin: 1.25rem auto 1.75rem;
   }
 
   .lhi-lead-hero__grid {

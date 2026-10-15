@@ -1,6 +1,8 @@
 (function(){
   if (window.__LHI_CHAT_WIDGET_LOADED__) return;
   window.__LHI_CHAT_WIDGET_LOADED__ = true;
+
+  function bootChatWidget() {
   const phoneUrl = 'tel:+18636403102';
 
   const style = document.createElement('style');
@@ -35,4 +37,11 @@
       try { gtag('event', 'phone_click', { event_category: 'engagement', event_label: 'floating_call_button' }); } catch (e) {}
     }
   });
+  }
+
+  if (typeof window.LHI_scheduleAfterInteractive === 'function') {
+    window.LHI_scheduleAfterInteractive(bootChatWidget);
+  } else {
+    bootChatWidget();
+  }
 })();

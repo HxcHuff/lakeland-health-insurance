@@ -18,17 +18,17 @@ const FORBIDDEN_SERVICE_CLAIMS = [
 const CLIENT_COPY_FILES = ['js/site-search.js', 'js/blog-cta.js', 'js/site-template.js'];
 const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const RELEASE_ASSET_VERSIONS = new Map([
-  ['/css/fonts.css', '20261013-font-fallback'],
-  ['/css/site-template.css', '20261013-font-fallback'],
+  ['/css/fonts.css', '20261015-cwv'],
+  ['/css/site-template.css', '20261015-cwv'],
   ['/css/blog-unified.css', '20260803-brand-release'],
-  ['/js/site-phone.js', '20261014-phone-6403102'],
-  ['/js/site-template.js', '20261014-phone-6403102'],
+  ['/js/site-phone.js', '20261015-cwv'],
+  ['/js/site-template.js', '20261015-cwv'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
-  ['/css/lead-hero.css', '20261014-lead-hero'],
-  ['/js/lead-hero.js', '20261014-lead-hero'],
+  ['/css/lead-hero.css', '20261015-cwv'],
+  ['/js/lead-hero.js', '20261015-cwv'],
 ]);
-const SERVICE_WORKER_CACHE_VERSION = '20261014-phone-6403102';
+const SERVICE_WORKER_CACHE_VERSION = '20261015-cwv';
 
 const FORBIDDEN_PUBLIC_FILES = [
   'blog/ads-manager-setup-checklist.html',
