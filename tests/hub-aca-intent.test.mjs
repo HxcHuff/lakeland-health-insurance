@@ -67,13 +67,18 @@ test('ACA Lakeland lander leads with Call David and Get Help intent params', () 
   const helpAt = hero.search(/href="\/get-help\/\?intent=aca"/);
   const ctaRowAt = hero.search(/<div class="cta-row"/);
 
+  const h1At = hero.search(/<h1\b/);
+  const ledeAt = hero.search(/class="lead lhi-hero-lede"/);
+
   assert.ok(formAt > 0, 'ACA hero includes the sitelink lead form');
   assert.ok(snippetAt > 0, 'ACA hero keeps the cite-ready snippet');
-  assert.ok(ctaRowAt > 0 && formAt > ctaRowAt, 'sitelink form follows the hero CTA row');
-  assert.ok(formAt < snippetAt, 'sitelink form appears before the eligibility snippet');
-  assert.ok(callAt > 0 && callAt < formAt, 'Call David appears before the sitelink form');
-  assert.ok(helpAt > 0 && helpAt < formAt, 'Get Help with ACA intent appears before the sitelink form');
-  assert.ok(callAt < helpAt, 'Call David is earlier than Get Help in the hero');
+  assert.ok(h1At > 0 && ledeAt > h1At, 'short mobile lede follows H1');
+  assert.ok(formAt > ledeAt, 'sitelink form follows the short lede');
+  assert.ok(ctaRowAt > 0 && ctaRowAt > formAt, 'hero CTA row follows the sitelink form for mobile-first order');
+  assert.ok(snippetAt > formAt, 'eligibility snippet follows the sitelink form');
+  assert.ok(callAt > 0 && callAt > formAt, 'Call David CTA remains in hero after the form block');
+  assert.ok(helpAt > 0 && helpAt > formAt, 'Get Help CTA remains in hero after the form block');
+  assert.ok(callAt < helpAt, 'Call David is earlier than Get Help in the CTA row');
 
   const row = firstCtaRow(hero);
   assert.match(row, /class="btn primary" href="tel:\+18636403102">Call David</);

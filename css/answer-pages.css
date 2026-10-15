@@ -280,8 +280,101 @@ a:focus-visible,
 
 @media (max-width: 860px) {
   .answer-hero {
-    padding-top: calc(var(--lhi-site-header-height, 108px) + 20px);
-    scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 12px);
+    padding-top: calc(var(--lhi-site-header-height, 88px) + 12px);
+    padding-bottom: 28px;
+    scroll-margin-top: calc(var(--lhi-site-header-height, 88px) + 12px);
+  }
+
+  .answer-hero:not(.medicare-hero) .answer-wrap > .answer-grid > div:first-child,
+  .answer-hero:not(.medicare-hero) .answer-wrap.answer-grid > div:first-child,
+  .answer-hero:not(.medicare-hero) .answer-grid > div:first-child {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .answer-hero:not(.medicare-hero) .eyebrow {
+    order: 0;
+  }
+
+  .answer-hero:not(.medicare-hero) h1 {
+    order: 1;
+  }
+
+  .answer-hero:not(.medicare-hero) .lead.lhi-hero-lede {
+    order: 2;
+  }
+
+  .answer-hero:not(.medicare-hero) form.sitelink-lead-form {
+    order: 3;
+    margin: 0.35rem 0 0.85rem;
+  }
+
+  .answer-hero:not(.medicare-hero) .lead.answer-hero-deferred,
+  .answer-hero:not(.medicare-hero) .lead:not(.lhi-hero-lede):not(.answer-hero-deferred) {
+    order: 4;
+  }
+
+  .answer-hero:not(.medicare-hero) .cta-row {
+    order: 5;
+  }
+
+  .answer-hero:not(.medicare-hero) .answer-snippet,
+  .answer-hero:not(.medicare-hero) .hs-secondary {
+    order: 6;
+  }
+
+  .answer-hero:not(.medicare-hero) .answer-grid,
+  .answer-hero:not(.medicare-hero) .answer-wrap.answer-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .answer-hero:not(.medicare-hero) .answer-grid > .side-card {
+    order: 10;
+  }
+
+  .answer-hero:not(.medicare-hero) form.sitelink-lead-form h2 {
+    color: #1b2a4a;
+  }
+
+  .answer-hero:not(.medicare-hero) form.sitelink-lead-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .answer-hero:not(.medicare-hero) form.sitelink-lead-form > * {
+    order: 8;
+  }
+
+  .answer-hero:not(.medicare-hero) form.sitelink-lead-form h2 {
+    order: 1;
+    margin-bottom: 0.35rem;
+  }
+
+  .answer-hero:not(.medicare-hero) form.sitelink-lead-form .sitelink-lead-grid {
+    order: 2;
+  }
+
+  .answer-hero:not(.medicare-hero) form.sitelink-lead-form > fieldset.sitelink-contact-options:first-of-type {
+    order: 3;
+  }
+
+  .answer-hero:not(.medicare-hero) form.sitelink-lead-form > fieldset.sitelink-contact-options:nth-of-type(2) {
+    order: 4;
+  }
+
+  .answer-hero:not(.medicare-hero) form.sitelink-lead-form > label.sitelink-request-consent {
+    order: 5;
+  }
+
+  .answer-hero:not(.medicare-hero) form.sitelink-lead-form > p:not(.sitelink-lead-privacy) {
+    order: 6;
+    font-size: 0.88rem;
+    margin: 0.5rem 0 0;
+  }
+
+  .answer-hero:not(.medicare-hero) form.sitelink-lead-form > button.sitelink-lead-submit {
+    order: 7;
   }
 
   .answer-grid,

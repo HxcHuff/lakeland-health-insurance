@@ -199,6 +199,8 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
 
 .lhi-lead-hero__field input,
 .lhi-lead-hero__field select {
+  box-sizing: border-box;
+  max-width: 100%;
   width: 100%;
   border: 1px solid var(--lhi-lead-line);
   border-radius: 8px;
@@ -373,6 +375,89 @@ body.lhi-lead-sticky-active {
     order: 25;
   }
 
+  /* Legacy inline-hero blog/education pages (section.hero + embedded lhi-lead-hero). */
+  section.hero:has(.lhi-lead-hero) {
+    margin-top: 0 !important;
+    padding: calc(var(--lhi-site-header-height, 88px) + 12px) 0 3rem;
+    scroll-margin-top: calc(var(--lhi-site-header-height, 88px) + 8px);
+  }
+
+  section.hero:has(.lhi-lead-hero) .container {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    max-width: 820px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  section.hero:has(.lhi-lead-hero) .kicker {
+    order: 0;
+  }
+
+  section.hero:has(.lhi-lead-hero) h1 {
+    order: 1;
+    margin-top: 0;
+  }
+
+  section.hero:has(.lhi-lead-hero) .lhi-hero-lede {
+    order: 2;
+  }
+
+  section.hero:has(.lhi-lead-hero) .lhi-lead-hero {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Homepage shell: lede block → form → deferred (legacy section.hero order must not push form below portrait). */
+  body.home-page section.hero:has(.lhi-lead-hero) .home-hero-grid > .lhi-hero-lede-block {
+    order: 1;
+  }
+
+  body.home-page section.hero:has(.lhi-lead-hero) .home-hero-grid > .lhi-lead-hero {
+    order: 2;
+  }
+
+  body.home-page section.hero:has(.lhi-lead-hero) .home-hero-grid > .lhi-hero-deferred-block {
+    order: 3;
+  }
+
+  body.home-page section.hero:has(.lhi-lead-hero) .home-hero-grid > .hero-portrait-wrap {
+    order: 4;
+  }
+
+  section.hero:has(.lhi-lead-hero) .container > p:not(.lhi-hero-lede) {
+    order: 4;
+  }
+
+  section.hero:has(.lhi-lead-hero) .lhi-lead-hero__intro {
+    display: none;
+  }
+
+  section.hero:has(.lhi-lead-hero) .lhi-lead-hero__card {
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow: hidden;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  section.hero:has(.lhi-lead-hero) .lhi-lead-hero__fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body:has(section.hero .lhi-lead-hero) {
+    scroll-padding-top: calc(var(--lhi-site-header-height, 88px) + 8px);
+  }
+
+  body:has(section.hero .lhi-lead-hero) header .container {
+    box-sizing: border-box;
+    max-width: 820px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
   /* Shell pages without lede/deferred HTML split: interleave lead form after H1 + short lede. */
   .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) {
     display: flex;
@@ -405,10 +490,14 @@ body.lhi-lead-sticky-active {
     order: 1;
   }
 
-  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.lead,
-  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.hero-lede,
-  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) h1 + p {
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.lhi-hero-lede,
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.hero-lede.lhi-hero-lede {
     order: 2;
+  }
+
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.lead:not(.lhi-hero-lede),
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p.answer-hero-deferred {
+    order: 4;
   }
 
   .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) > section.lhi-lead-hero {
