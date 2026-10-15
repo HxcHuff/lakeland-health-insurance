@@ -911,11 +911,17 @@ footer {
 .seasonal-banner-inner {
   align-items: center;
   display: flex;
-  gap: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
   justify-content: space-between;
   margin: 0 auto;
   max-width: 1100px;
   padding: 0.45rem 20px;
+}
+
+.seasonal-banner-inner p {
+  flex: 1 1 12rem;
+  min-width: 0;
 }
 
 .seasonal-banner p {

@@ -7,7 +7,7 @@ import { join, relative } from 'node:path';
 import { buildLeadHeroHtml } from './lib/lead-hero-html.mjs';
 
 const ROOT = new URL('..', import.meta.url).pathname.replace(/\/$/, '');
-const CSS_SNIPPET = '<link rel="stylesheet" href="/css/lead-hero.css?v=20261015-blog-lead-order">';
+const CSS_SNIPPET = '<link rel="stylesheet" href="/css/lead-hero.css?v=20261015-audit-hero">';
 const JS_SNIPPET = '<script src="/js/lead-hero.js?v=20261014-lead-hero" defer></script>';
 
 const EXCLUDE_PATHS = new Set([
@@ -157,7 +157,7 @@ function blogVariant(tags, filePath) {
   const name = filePath.toLowerCase();
   if (/medicare|aep|medigap|part-d|turning-65|advantage/.test(name)) return 'medicare';
   if (/aca|marketplace|cobra|subsidy|medicaid|turning-26|self-employed/.test(name)) return 'aca';
-  return 'medicare';
+  return 'aca';
 }
 
 function pageConfig(path) {
@@ -253,14 +253,23 @@ function insertBlogLeadHero(html, heroHtml) {
 
 function insertHero(html, heroHtml) {
   if (html.includes('class="lhi-lead-hero"')) return html;
-  if (html.includes('</section>\n\n  <main class="container">')) {
-    return html.replace('</section>\n\n  <main class="container">', `</section>\n\n${heroHtml}\n\n  <main class="container">`);
-  }
-  if (html.includes('<main class="container">')) {
-    return html.replace('<main class="container">', `${heroHtml}\n\n  <main class="container">`);
-  }
-  if (html.includes('<main id="main-content">')) {
-    return html.replace('<main id="main-content">', `<main id="main-content">\n${heroHtml}`);
+  const heroSection = html.match(
+    /<section\b[^>]*class="[^"]*\b(?:hero|home-hero|answer-hero)\b[^"]*"[\s\S]*?<\/section>/i
+  );
+  if (heroSection) {
+    const end = heroSection.index + heroSection[0].length;
+    const shell =
+      `<div class="lhi-hero-shell">\n${heroSection[0].trim()}\n\n${heroHtml.trim()}\n</div>`;
+    let next = html.slice(0, heroSection.index) + shell + html.slice(end);
+    next = next.replace(/<body(\s[^>]*)?>/i, (m, attrs = '') => {
+      if (/class="/i.test(attrs)) {
+        return m.replace(/class="([^"]*)"/, (_, classes) =>
+          classes.includes('lhi-page-hero') ? m : `class="${classes} lhi-page-hero"`
+        );
+      }
+      return `<body class="lhi-page-hero"${attrs}>`;
+    });
+    return next;
   }
   if (html.includes('<main')) {
     return html.replace(/<main([^>]*)>/, `<main$1>\n${heroHtml}`);

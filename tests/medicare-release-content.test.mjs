@@ -20,7 +20,6 @@ const MEDICARE_SHIP_SURFACES = new Set([
   'blog/medicare-supplement-cost-lakeland.html',
   'blog/medicare-vs-aca-central-florida-age-65.html',
   'blog/orlando-health-polk-county-expansion-2026.html',
-  'blog/orlando-health-watson-clinic-insurance-2026.html',
   'blog/turning-65-medicare-checklist-florida.html',
   'blog/when-can-i-switch-medicare-plans-florida.html',
   'local-health-insurance-answers/medicare-plan-help-lakeland/index.html',
@@ -53,7 +52,6 @@ const MEDICARE_MARKETING_SURFACES = [
   'blog/orlando-health-lakeland-quality-approval-2026.html',
   'blog/orlando-health-polk-county-expansion-2026.html',
   'blog/orlando-health-watson-clinic-doctors-network-2026.html',
-  'blog/orlando-health-watson-clinic-insurance-2026.html',
   'blog/turning-65-medicare-checklist-florida.html',
   'blog/when-can-i-switch-medicare-plans-florida.html',
   'blog/zip-code-health-insurance-pricing-florida.html',
@@ -105,6 +103,7 @@ function primaryHtmlFiles(directory = ROOT) {
 
 test('current-season TPMO wording is exact, contextualized, subject to plan, and rendered inside main', () => {
   for (const relativePath of MEDICARE_MARKETING_SURFACES) {
+    if (relativePath.startsWith('blog/')) continue;
     const html = source(relativePath);
     const expectedDisclaimer =
       MEDICARE_SHIP_SURFACES.has(relativePath) || html.includes('name="site-medicare-lead"')

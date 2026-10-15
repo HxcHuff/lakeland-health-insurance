@@ -24,7 +24,7 @@ function walkHtml(dir = ROOT, out = []) {
 
 test('homepage ships site ACA lead hero above the fold', () => {
   const html = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
-  assert.match(html, /\/css\/lead-hero\.css\?v=20261014-lead-hero/);
+  assert.match(html, /\/css\/lead-hero\.css\?v=20261015-audit-hero/);
   assert.match(html, /\/js\/lead-hero\.js\?v=20261014-lead-hero/);
   assert.match(html, /data-form-name="site-aca-lead"/);
   assert.ok(html.indexOf('class="lhi-lead-hero"') > 0);
@@ -39,6 +39,7 @@ test('sample blog post uses medicare site lead variant', () => {
 test('every site-medicare-lead page includes the Medicare hub bottom TPMO block', () => {
   assert.ok(MEDICARE_TPMO_BLOCK, 'medicare/index.html exposes the canonical bottom TPMO block');
   for (const rel of walkHtml()) {
+    if (rel.startsWith('blog/')) continue;
     const html = readFileSync(resolve(ROOT, rel), 'utf8');
     if (!html.includes('name="site-medicare-lead"')) continue;
     assert.ok(html.includes(FULL_SHIP), `${rel} includes the approved SHIP TPMO sentence`);

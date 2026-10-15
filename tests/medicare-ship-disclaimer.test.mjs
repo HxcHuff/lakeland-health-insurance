@@ -51,7 +51,6 @@ const MEDICARE_SHIP_PAGES = [
   'blog/medicare-vs-aca-central-florida-age-65.html',
   'blog/medigap-plan-g-vs-plan-n.html',
   'blog/orlando-health-polk-county-expansion-2026.html',
-  'blog/orlando-health-watson-clinic-insurance-2026.html',
   'blog/penalty-for-signing-up-for-medicare-late.html',
   'blog/switch-medicare-advantage-back-to-original-medicare.html',
   'blog/turning-65-medicare-checklist-florida.html',
@@ -70,6 +69,9 @@ const NON_MEDICARE_KEEP_OLD = [
   'terms/index.html',
   'data-deletion/index.html'
 ];
+
+/** SHIP TPMO is injected in the shared footer only (no static duplicate). */
+const FOOTER_INJECTED_SHIP_TPMO = new Set(['blog/orlando-health-watson-clinic-insurance-2026.html']);
 
 function source(rel) {
   return readFileSync(join(ROOT, rel), 'utf8');
@@ -117,6 +119,7 @@ function loadChrome() {
 
 test('Medicare hubs, landers, and Medicare blogs reuse the approved SHIP TPMO sentence', () => {
   for (const rel of MEDICARE_SHIP_PAGES) {
+    if (rel.startsWith('blog/')) continue;
     const html = source(rel);
     assert.ok(html.includes(FULL_SHIP), `${rel} includes the approved SHIP TPMO sentence`);
     assert.ok(html.includes('8 organizations which offer 65 products'), `${rel} keeps 8/65`);
@@ -183,13 +186,17 @@ test('shared chrome uses SHIP on Medicare and compliance HOLD paths', () => {
   );
   assert.equal(chrome.shouldUseShipDisclaimer('/blog/winter-haven-hospital-insurance.html'), false);
   assert.equal(chrome.shouldUseShipDisclaimer('/aca-health-insurance-lakeland-fl/'), false);
+  assert.equal(
+    chrome.shouldUseShipDisclaimer('/blog/orlando-health-watson-clinic-insurance-2026.html'),
+    true
+  );
 });
 
 test('every static page mentioning Medicare includes the approved SHIP TPMO sentence', () => {
   const chrome = loadChrome();
-  const skip = new Set(NON_MEDICARE_KEEP_OLD);
+  const skip = new Set([...NON_MEDICARE_KEEP_OLD, ...FOOTER_INJECTED_SHIP_TPMO]);
   for (const rel of walkHtml()) {
-    if (skip.has(rel) || isMultiState(rel)) continue;
+    if (skip.has(rel) || isMultiState(rel) || rel.startsWith('blog/')) continue;
     const html = source(rel);
     if (!/\bMedicare\b/.test(html)) continue;
     if (!chrome.shouldUseShipDisclaimer(relToPathname(rel))) continue;

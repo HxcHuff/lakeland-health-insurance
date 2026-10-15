@@ -34,7 +34,8 @@
     '/plans/',
     '/lp/gap/',
     '/local-health-insurance-answers/',
-    '/thank-you/'
+    '/thank-you/',
+    '/blog/orlando-health-watson-clinic-insurance-2026.html'
   ];
 
   const MEDICARE_PATHS = [

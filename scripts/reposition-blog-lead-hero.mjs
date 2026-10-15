@@ -90,7 +90,7 @@ function normalizeBlogLead(html) {
 
 let moved = 0;
 for (const name of readdirSync(BLOG_DIR)) {
-  if (!name.endsWith('.html') || name === 'index.html') continue;
+  if (!name.endsWith('.html')) continue;
   const file = join(BLOG_DIR, name);
   const original = readFileSync(file, 'utf8');
   const { html, moved: didMove } = normalizeBlogLead(original);

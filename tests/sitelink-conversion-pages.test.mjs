@@ -34,7 +34,7 @@ const leadHeroPages = [
   ['carriers/index.html', '/carriers/', 'site-aca-lead', 'site-aca-2026-10-v1'],
   ['supplemental-insurance/index.html', '/supplemental-insurance/', 'site-aca-lead', 'site-aca-2026-10-v1'],
   ['dental-vision/index.html', '/dental-vision/', 'site-aca-lead', 'site-aca-2026-10-v1'],
-  ['blog/index.html', '/blog/', 'site-medicare-lead', 'site-medicare-2026-10-v1'],
+  ['blog/index.html', '/blog/', 'site-aca-lead', 'site-aca-2026-10-v1'],
   ['plans/index.html', '/plans/', 'site-aca-lead', 'site-aca-2026-10-v1']
 ];
 
@@ -76,7 +76,7 @@ for (const [file, sourcePage, formName, consentVersion] of leadHeroPages) {
     assert.doesNotMatch(form, /\bfree\b/i);
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
-    assert.match(html, /\/css\/lead-hero\.css\?v=20261014-lead-hero/);
+    assert.match(html, /\/css\/lead-hero\.css\?v=20261015-audit-hero/);
     assert.match(html, /\/js\/lead-hero\.js\?v=20261014-lead-hero/);
   });
 }
@@ -112,7 +112,7 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
     );
 
     assert.match(html, /\/js\/funnel\.js\?v=20261014-phone-6403102/);
-    assert.match(html, /\/css\/site-template\.css\?v=20261013-font-fallback/);
+    assert.match(html, /\/css\/site-template\.css\?v=20261015-audit-hero/);
   });
 }
 
