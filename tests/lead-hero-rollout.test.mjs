@@ -24,8 +24,8 @@ function walkHtml(dir = ROOT, out = []) {
 
 test('homepage ships site ACA lead hero above the fold', () => {
   const html = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
-  assert.match(html, /\/css\/lead-hero\.css\?v=20261015-post321/);
-  assert.match(html, /\/js\/lead-hero\.js\?v=20261015-post321/);
+  assert.match(html, /\/css\/lead-hero\.css\?v=20261015-post326/);
+  assert.match(html, /\/js\/lead-hero\.js\?v=20261015-post326/);
   assert.match(html, /data-form-name="site-aca-lead"/);
   assert.ok(html.includes('class="lhi-lead-hero'));
 });
@@ -42,6 +42,17 @@ test('sample blog post uses medicare site lead variant', () => {
   const html = readFileSync(resolve(ROOT, 'blog/aep-2026-polk-county-checklist.html'), 'utf8');
   assert.match(html, /data-variant="medicare"/);
   assert.match(html, /name="site-medicare-lead"/);
+});
+
+const MEDICARE_SCOPE_NOTE =
+  /<p class="form-tpmo lhi-lead-hero__medicare-scope" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/;
+
+test('every site-medicare-lead embed includes the nine-state Medicare scope note', () => {
+  for (const rel of walkHtml()) {
+    const html = readFileSync(resolve(ROOT, rel), 'utf8');
+    if (!html.includes('name="site-medicare-lead"')) continue;
+    assert.match(html, MEDICARE_SCOPE_NOTE, `${rel} missing outOfStateMedicareNote on Medicare lead form`);
+  }
 });
 
 test('every site-medicare-lead page includes the Medicare hub bottom TPMO block', () => {

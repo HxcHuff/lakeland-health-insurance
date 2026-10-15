@@ -271,14 +271,18 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
 
 #lhi-site-lead-form,
 .lhi-lead-hero__card,
-.lhi-lead-hero:target {
-  scroll-margin-top: calc(var(--lhi-site-header-height, 88px) + 16px);
+.lhi-lead-hero:target,
+.lhi-lead-hero__intro,
+.lhi-lead-hero__intro .lhi-lead-hero__title {
+  scroll-margin-top: calc(var(--lhi-site-header-height, 88px) + 32px);
 }
 
 body.has-seasonal-banner #lhi-site-lead-form,
 body.has-seasonal-banner .lhi-lead-hero__card,
-body.has-seasonal-banner .lhi-lead-hero:target {
-  scroll-margin-top: calc(var(--lhi-site-header-height, 88px) + 52px);
+body.has-seasonal-banner .lhi-lead-hero:target,
+body.has-seasonal-banner .lhi-lead-hero__intro,
+body.has-seasonal-banner .lhi-lead-hero__intro .lhi-lead-hero__title {
+  scroll-margin-top: calc(var(--lhi-site-header-height, 88px) + 68px);
 }
 
 .lhi-lead-hero__note {

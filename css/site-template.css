@@ -64,6 +64,18 @@ body.lhi-lead-sticky-active.has-floating-actions .floating-actions {
   display: none !important;
 }
 
+body.lhi-lead-form-in-view .floating-actions,
+body.lhi-lead-form-in-view .lhi-lead-sticky,
+body.lhi-lead-form-in-view #lhi-lead-sticky-bar {
+  display: none !important;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+body.lhi-lead-form-in-view.lhi-lead-sticky-active {
+  padding-bottom: 0;
+}
+
 header {
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(10px);

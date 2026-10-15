@@ -6,6 +6,9 @@
 
   var STICKY_CLASS = 'lhi-lead-sticky';
   var BODY_ACTIVE = 'lhi-lead-sticky-active';
+  var BODY_FORM_IN_VIEW = 'lhi-lead-form-in-view';
+  var SCROLL_EXTRA_DEFAULT = 32;
+  var SCROLL_EXTRA_SEASONAL = 68;
   var PHONE_DISPLAY = '(863) 640-3102';
   var PHONE_HREF = 'tel:+18636403102';
   var LICENSED_MEDICARE_STATES = {
@@ -70,6 +73,31 @@
     }
   }
 
+  function leadScrollTarget() {
+    return (
+      d.querySelector('.lhi-lead-hero__intro .lhi-lead-hero__title') ||
+      d.querySelector('.lhi-lead-hero__intro') ||
+      d.getElementById('lhi-lead-hero') ||
+      d.getElementById('lhi-site-lead-form')
+    );
+  }
+
+  function leadScrollOffsetPx() {
+    var headerHeight = parseFloat(w.getComputedStyle(d.documentElement).getPropertyValue('--lhi-site-header-height')) || 88;
+    var extra = d.body.classList.contains('has-seasonal-banner') ? SCROLL_EXTRA_SEASONAL : SCROLL_EXTRA_DEFAULT;
+    return headerHeight + extra;
+  }
+
+  function scrollToLeadTarget(target) {
+    if (!target) return;
+    var top = target.getBoundingClientRect().top + w.pageYOffset - leadScrollOffsetPx();
+    w.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  }
+
+  function setLeadFormInView(inView) {
+    d.body.classList.toggle(BODY_FORM_IN_VIEW, Boolean(inView));
+  }
+
   function ensureStickyBar() {
     if (!d.querySelector('.lhi-lead-hero') || d.getElementById('lhi-lead-sticky-bar')) return null;
     var bar = d.createElement('div');
@@ -94,20 +122,14 @@
     if (quote) {
       quote.addEventListener('click', function (event) {
         if (event && typeof event.preventDefault === 'function') event.preventDefault();
-        var target = d.getElementById('lhi-site-lead-form') || d.getElementById('lhi-lead-hero');
-        if (!target) return;
-        var root = d.documentElement;
-        var headerHeight = parseFloat(w.getComputedStyle(root).getPropertyValue('--lhi-site-header-height')) || 88;
-        var offset = headerHeight + (d.body.classList.contains('has-seasonal-banner') ? 52 : 16);
-        var top = target.getBoundingClientRect().top + w.pageYOffset - offset;
-        w.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        scrollToLeadTarget(leadScrollTarget());
       });
     }
     return bar;
   }
 
   function syncStickyVisibility(bar) {
-    if (!bar || leadSubmitted()) {
+    if (!bar || leadSubmitted() || d.body.classList.contains(BODY_FORM_IN_VIEW)) {
       if (bar) bar.classList.remove('is-visible');
       d.body.classList.remove(BODY_ACTIVE);
       return;
@@ -121,19 +143,31 @@
     d.body.classList.add(BODY_ACTIVE);
   }
 
+  function applyLeadFormVisibility(bar, visible) {
+    setLeadFormInView(visible);
+    if (visible || leadSubmitted()) {
+      if (bar) bar.classList.remove('is-visible');
+      d.body.classList.remove(BODY_ACTIVE);
+      return;
+    }
+    syncStickyVisibility(bar);
+  }
+
   function wireStickyObserver(bar) {
     if (!bar || !('IntersectionObserver' in w)) return;
-    var heroForm = d.getElementById('lhi-site-lead-form') || d.querySelector('.lhi-lead-hero__card');
+    var heroForm = d.getElementById('lhi-site-lead-form');
+    if (!heroForm) heroForm = d.querySelector('.lhi-lead-hero__card');
     if (!heroForm) return;
     var observer = new w.IntersectionObserver(function (entries) {
-      var visible = entries.some(function (entry) { return entry.isIntersecting && entry.intersectionRatio > 0.2; });
-      if (visible || leadSubmitted()) {
-        bar.classList.remove('is-visible');
-        d.body.classList.remove(BODY_ACTIVE);
-      } else {
-        syncStickyVisibility(bar);
-      }
-    }, { threshold: [0, 0.2, 0.5] });
+      var visible = entries.some(function (entry) {
+        return entry.isIntersecting && entry.intersectionRatio >= 0.08;
+      });
+      applyLeadFormVisibility(bar, visible);
+    }, {
+      root: null,
+      rootMargin: '0px 0px -12% 0px',
+      threshold: [0, 0.08, 0.2, 0.5]
+    });
     observer.observe(heroForm);
   }
 
