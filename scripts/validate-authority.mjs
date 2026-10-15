@@ -324,10 +324,15 @@ if (/David is my healthcare savior|David did all the legwork for me/i.test(visib
 for (const required of [
   'href="tel:+18636403102"',
   'href="mailto:david@lakelandhealthinsurance.com"',
-  'href="/get-help/"',
-  'src="/js/analytics.js?v=20261014-phone-6403102"'
+  'href="/get-help/"'
 ]) {
   if (!home.includes(required)) issues.push(`index.html: required contact, CTA, or tracking integration is missing (${required})`);
+}
+if (
+  !home.includes('src="/js/analytics.js?v=20261015-cwv"') &&
+  !home.includes('src="/js/analytics.js?v=20261014-phone-6403102"')
+) {
+  issues.push('index.html: required contact, CTA, or tracking integration is missing (analytics loader)');
 }
 if (!siteTemplateLoaderPattern.test(home)) {
   issues.push('index.html: required contact, CTA, or tracking integration is missing (site template loader)');

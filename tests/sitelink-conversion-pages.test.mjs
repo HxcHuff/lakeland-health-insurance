@@ -156,7 +156,7 @@ test('every public click-to-call link uses the verified E.164 target and tracked
     }
     assert.match(
       html,
-      /\/js\/analytics\.js\?v=20261014-phone-6403102/,
+      /\/js\/analytics\.js\?v=2026101(?:4-phone-6403102|5-cwv)/,
       `${file} loads the canonical phone telemetry and forwarding-number handler`
     );
   }

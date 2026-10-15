@@ -40,7 +40,7 @@ body.home-page .lhi-hero-shell {
 }
 
 body.home-page .lhi-hero-shell > .home-hero {
-  padding-top: 0;
+  padding: 0 0 clamp(24px, 4vw, 40px);
   scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 12px);
 }
 

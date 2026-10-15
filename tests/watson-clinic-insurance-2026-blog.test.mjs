@@ -75,7 +75,7 @@ const FULL_SHIP =
 test('Watson blog keeps static bottom TPMO (SHIP) for no-JS compliance', () => {
   const html = source();
   assert.match(html, /class="site-page-disclosures"/, 'static bottom disclosure block');
-  assert.match(html, FULL_SHIP, 'SHIP TPMO in static HTML');
+  assert.ok(html.includes(FULL_SHIP), 'SHIP TPMO in static HTML');
   assert.doesNotMatch(html, /class="tpmo-cta-disclaimer"/, 'no inline TPMO near CTAs');
   assert.match(html, /site-template\.js/, 'shared chrome skips footer TPMO when static block exists');
 });

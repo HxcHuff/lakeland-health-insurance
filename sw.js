@@ -1,7 +1,7 @@
 const CACHE_NAME = 'lhi-20261014-phone-6403102';
 const OFFLINE_URL = '/offline.html';
 const SITE_PHONE_URL = '/js/site-phone.js?v=20261014-phone-6403102';
-const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261014-phone-6403102';
+const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261015-qa321';
 
 // Core pages to pre-cache for offline access
 const PRECACHE_URLS = [
