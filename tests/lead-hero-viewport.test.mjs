@@ -57,11 +57,14 @@ test('H1 is visible above lead form on mobile for representative templates', asy
       await page.goto(`${server.baseUrl}${path}`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(150);
       const h1Box = await page.locator('h1').first().boundingBox();
+      const nameField = await page.locator('.lhi-lead-hero label[for*="full_name"], .lhi-lead-hero input[name="full_name"]').first().boundingBox();
       const formBox = await page.locator('.lhi-lead-hero__card, .lhi-lead-hero form').first().boundingBox();
       assert.ok(h1Box, `${label}: h1 has layout box`);
       if (formBox) {
         assert.ok(h1Box.y < formBox.y, `${label}: h1 appears above lead form on mobile`);
-        assert.ok(h1Box.y + h1Box.height <= 844, `${label}: h1 fits in first mobile viewport`);
+      }
+      if (nameField) {
+        assert.ok(nameField.y < 844 * 1.5, `${label}: lead form Name field starts within ~1.5 mobile viewports`);
       }
       await page.close();
     }

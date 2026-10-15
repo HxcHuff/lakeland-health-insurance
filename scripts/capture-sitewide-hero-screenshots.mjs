@@ -73,7 +73,19 @@ try {
       const page = await browser.newPage({ viewport: { width: w, height: h } });
       await page.goto(`${server.baseUrl}${url}`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(250);
-      await page.screenshot({ path: join(OUT, `after-${name}-${tag}.png`) });
+      const afterPath = join(OUT, `after-${name}-${tag}.png`);
+      await page.screenshot({ path: afterPath });
+      if (tag === '390') {
+        const mobileAliases = {
+          homepage: 'mobile-form-order-home-390.png',
+          medicare: 'mobile-form-order-medicare-390.png',
+          'city-davenport': 'mobile-form-order-city-davenport-390.png',
+          'watson-blog': 'mobile-form-order-watson-blog-390.png'
+        };
+        if (mobileAliases[name]) {
+          writeFileSync(join(OUT, mobileAliases[name]), readFileSync(afterPath));
+        }
+      }
       await page.close();
     }
   }

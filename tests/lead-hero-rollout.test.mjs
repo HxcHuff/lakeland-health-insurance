@@ -24,11 +24,11 @@ function walkHtml(dir = ROOT, out = []) {
 
 test('homepage ships site ACA lead hero above the fold', () => {
   const html = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
-  assert.match(html, /\/css\/lead-hero\.css\?v=20261015-qa321/);
+  assert.match(html, /\/css\/lead-hero\.css\?v=20261015-mobile390/);
   assert.match(html, /class="lhi-hero-shell"/);
   assert.match(html, /\/js\/lead-hero\.js\?v=20261014-lead-hero/);
   assert.match(html, /data-form-name="site-aca-lead"/);
-  assert.ok(html.indexOf('class="lhi-lead-hero"') > 0);
+  assert.match(html, /\bclass="lhi-lead-hero\b/);
 });
 
 test('sample blog post uses medicare site lead variant', () => {

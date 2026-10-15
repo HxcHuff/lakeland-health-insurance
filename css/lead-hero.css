@@ -361,8 +361,12 @@ body.lhi-lead-sticky-active {
     flex-direction: column;
   }
 
-  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) > section {
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) > section:not(.lhi-lead-hero) {
     display: contents;
+  }
+
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) p {
+    order: 6;
   }
 
   .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .answer-wrap,
@@ -389,10 +393,11 @@ body.lhi-lead-sticky-active {
     order: 2;
   }
 
-  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) > .lhi-lead-hero {
+  .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) > section.lhi-lead-hero {
     order: 3;
     margin-top: 0.35rem;
     margin-bottom: 0.75rem;
+    width: 100%;
   }
 
   .lhi-hero-shell:not(:has(.lhi-hero-lede-block)) .answer-snippet,

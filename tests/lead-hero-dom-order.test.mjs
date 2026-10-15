@@ -34,8 +34,10 @@ test('non-blog lead pages with a hero shell keep hero before the form block', ()
     const shellIdx = html.indexOf('lhi-hero-shell');
     if (shellIdx < 0) continue;
     const fromShell = html.slice(shellIdx);
-    const hero = fromShell.search(/<section\b[^>]*class="[^"]*\bhero\b/i);
-    const lead = fromShell.search(/class="lhi-lead-hero"/i);
+    const hero = fromShell.search(
+      /<section\b[^>]*class="[^"]*\b(?:home-hero|answer-hero)\b|<section class="hero\b/i,
+    );
+    const lead = fromShell.search(/<section class="lhi-lead-hero\b/i);
     assert.ok(hero >= 0 && lead > hero, `${rel} hero shell orders page hero before lead form`);
   }
 });

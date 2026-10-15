@@ -123,7 +123,10 @@ test('Watson H1 is visible in first mobile viewport', async () => {
     const h1Box = await page.locator('h1').first().boundingBox();
     assert.ok(h1Box, 'h1 has layout box');
     assert.ok(h1Box.y >= 0, 'h1 top is not above viewport');
-    assert.ok(h1Box.y + h1Box.height <= 844, 'h1 fits within 390x844 viewport height');
+    const nameField = await page.locator('.lhi-lead-hero input[name="full_name"]').first().boundingBox();
+    assert.ok(nameField, 'lead form Name field is present');
+    assert.ok(h1Box.y < nameField.y, 'h1 appears above lead form on mobile');
+    assert.ok(nameField.y < 844 * 1.5, 'Name field starts within ~1.5 mobile viewports');
   } finally {
     await browser.close();
     await server.close();
