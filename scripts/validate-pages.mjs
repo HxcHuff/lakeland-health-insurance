@@ -27,7 +27,7 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/js/blog-cta.js', '20260803-brand-release'],
   ['/css/lead-hero.css', '20261015-home-match9'],
   ['/css/answer-pages.css', '20261015-v6merge2'],
-  ['/js/lead-hero.js', '20261015-home-match8'],
+  ['/js/lead-hero.js', '20261015-home-match9'],
 ]);
 const SERVICE_WORKER_CACHE_VERSION = '20261015-post321';
 
