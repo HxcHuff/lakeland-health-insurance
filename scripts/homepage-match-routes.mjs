@@ -38,6 +38,14 @@ export const REFERENCE_ROUTES = [
   { url: '/provider-prescription-check/', name: 'provider-check', rel: 'provider-prescription-check/index.html' }
 ];
 
+/** Coordinator-facing screenshot filenames (legacy aliases). */
+export const SCREENSHOT_ALIASES = {
+  'tampa-health-insurance': 'tampa-city',
+  'health-insurance-alabama': 'alabama-state',
+  'carriers-oscar-aca-2026': 'carrier-oscar',
+  'davenport-health-insurance': 'davenport-city'
+};
+
 export function allCaptureRoutes() {
   const seen = new Set();
   const out = [];

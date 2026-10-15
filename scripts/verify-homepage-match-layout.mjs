@@ -57,43 +57,79 @@ async function checkPage(page, url, viewport) {
     const shell = document.querySelector('.lhi-hero-shell');
     if (!shell) return { ok: false, reason: 'no shell' };
 
+    const shellLead =
+      shell.querySelector(':scope > .lhi-hero-grid-lead') ||
+      shell.querySelector('.hero-grid .lhi-hero-grid-lead, .answer-grid .lhi-hero-grid-lead');
     const formCard = shell.querySelector('.lhi-hero-grid-lead .lhi-lead-hero__card, .lhi-hero-grid-lead .lhi-lead-hero__card');
-    const lede = shell.querySelector('.lhi-hero-lede-block') || shell.querySelector('.answer-hero h1')?.closest('div') || shell.querySelector('h1');
+    const ledeBlock = shell.querySelector('.lhi-hero-lede-block');
+    const lede = ledeBlock || shell.querySelector('.answer-hero h1')?.closest('div') || shell.querySelector('h1');
     const hero = shell.querySelector('section.hero, section.answer-hero, section.home-hero');
+    const shellDeferred =
+      shell.querySelector(':scope > .lhi-hero-deferred-block') ||
+      shell.querySelector('.hero-grid .lhi-hero-deferred-block, .answer-grid .lhi-hero-deferred-block');
 
     const issues = [];
+    const lum = (rgb) => (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+    const parseRgb = (color) => {
+      const m = String(color).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+      return m ? m.slice(1, 4).map(Number) : null;
+    };
 
-    const textEls = shell.querySelectorAll('p, .lhi-hero-deferred-block, .hero-kicker, h1, h2.lhi-lead-hero__title');
-    for (const el of textEls) {
-      if (!el.offsetParent && getComputedStyle(el).display === 'none') continue;
-      const fg = getComputedStyle(el).color;
-      const bgEl = el.closest('.lhi-hero-shell') || el;
-      const bg = getComputedStyle(bgEl).backgroundColor;
-      const fgM = fg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-      const bgM = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-      if (fgM && bgM) {
-        const f = fgM.slice(1, 4).map(Number);
-        const b = bgM.slice(1, 4).map(Number);
-        const fl = (0.299 * f[0] + 0.587 * f[1] + 0.114 * f[2]) / 255;
-        const bl = (0.299 * b[0] + 0.587 * b[1] + 0.114 * b[2]) / 255;
-        if (Math.abs(fl - bl) < 0.15 && fl > 0.75) issues.push(`low-contrast:${el.tagName}.${[...el.classList].join('.')}`);
+    if (shellLead && hero && vw >= 900) {
+      const heroStyle = getComputedStyle(hero);
+      const heroBg = heroStyle.backgroundImage || '';
+      const heroColorStr = heroStyle.backgroundColor || '';
+      const heroColor = parseRgb(heroColorStr);
+      const heroTransparent = heroColorStr.includes('rgba(0, 0, 0, 0)') || heroStyle.display === 'contents';
+      if (heroBg.includes('gradient') || (!heroTransparent && heroColor && lum(heroColor) < 0.35)) {
+        issues.push('hero-gradient-or-dark-bg');
+      }
+      const kicker = shell.querySelector('.hero-kicker');
+      if (kicker) {
+        const br = parseFloat(getComputedStyle(kicker).borderRadius) || 0;
+        const kBg = parseRgb(getComputedStyle(kicker).backgroundColor);
+        if (br > 30 || (kBg && lum(kBg) < 0.45 && br > 8)) issues.push('city-pill-kicker');
       }
     }
 
-    if (vw >= 900 && formCard && lede && hero) {
-      const fr = formCard.getBoundingClientRect();
-      const lr = lede.getBoundingClientRect();
-      const hr = hero.getBoundingClientRect();
-      if (hr.height > lr.height + 140 && fr.height > lr.height + 80) {
-        issues.push(`left-column-gap:heroH=${Math.round(hr.height)} ledeH=${Math.round(lr.height)} formH=${Math.round(fr.height)}`);
+    const contrastRoots = shell.querySelectorAll(
+      '.lhi-hero-lede-block p, :scope > .lhi-hero-deferred-block p, .hero-kicker, .lhi-hero-shell h1'
+    );
+    for (const el of contrastRoots) {
+      if (!el.isConnected) continue;
+      const style = getComputedStyle(el);
+      if (style.display === 'none' || style.visibility === 'hidden') continue;
+      const fg = parseRgb(style.color);
+      const shellBg = parseRgb(getComputedStyle(shell).backgroundColor) || [248, 250, 252];
+      if (fg && lum(fg) > 0.82 && lum(shellBg) > 0.75) {
+        issues.push(`white-on-light:${el.tagName}.${[...el.classList].slice(0, 2).join('.')}`);
       }
     }
 
-    if (vw < 900 && formCard && lede) {
+    if (vw >= 900 && formCard && ledeBlock && shellDeferred) {
+      const lr = ledeBlock.getBoundingClientRect();
+      const dr = shellDeferred.getBoundingClientRect();
+      const fr = formCard.getBoundingClientRect();
+      const ledeToDeferred = dr.top - lr.bottom;
+      if (ledeToDeferred > 160) {
+        issues.push(`left-column-gap:ledeToDeferred=${Math.round(ledeToDeferred)}`);
+      }
+      if (ledeToDeferred > 220 && dr.top > lr.bottom + 180 && fr.top <= lr.bottom + 40) {
+        issues.push('deferred-pushed-down-beside-form');
+      }
+    }
+
+    if (vw < 900 && shellLead && formCard && lede) {
       const fr = formCard.getBoundingClientRect();
       const lr = lede.getBoundingClientRect();
-      if (fr.y > vh - 24) issues.push(`form-below-fold:formY=${Math.round(fr.y)} vh=${vh}`);
-      if (fr.y > lr.bottom + 360) issues.push(`form-too-far-below-lede:gap=${Math.round(fr.y - lr.bottom)}`);
+      if (fr.y > vh - 48) issues.push(`form-below-fold:formY=${Math.round(fr.y)} vh=${vh}`);
+      if (fr.y > lr.bottom + 280) issues.push(`form-too-far-below-lede:gap=${Math.round(fr.y - lr.bottom)}`);
+      const sticky = document.querySelector('.lhi-lead-sticky.is-visible, #lhi-lead-sticky-bar.is-visible');
+      if (sticky) issues.push('sticky-bar-visible');
+      const heroPanel = shell.querySelector('.hero-panel');
+      if (heroPanel && getComputedStyle(heroPanel).display !== 'none') {
+        issues.push('hero-panel-visible-mobile');
+      }
     }
 
     return { ok: issues.length === 0, issues };

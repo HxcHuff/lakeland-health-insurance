@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-import { mkdirSync } from 'node:fs';
+import { copyFileSync, mkdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { createServer } from 'node:http';
 import { readFileSync } from 'node:fs';
 import { chromium } from 'playwright';
-import { allCaptureRoutes } from './homepage-match-routes.mjs';
+import { allCaptureRoutes, SCREENSHOT_ALIASES } from './homepage-match-routes.mjs';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const OUT = process.env.HERO_SCREENSHOT_DIR || '/cursor/stores/self/media/homepage-match';
@@ -60,7 +60,10 @@ try {
       await page.route('**/js/site-template.js*', (route) => route.abort());
       await page.goto(`${server.baseUrl}${url}`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(300);
-      await page.screenshot({ path: join(OUT, `${name}-${tag}.png`) });
+      const primary = join(OUT, `${name}-${tag}.png`);
+      await page.screenshot({ path: primary });
+      const alias = SCREENSHOT_ALIASES[name];
+      if (alias) copyFileSync(primary, join(OUT, `${alias}-${tag}.png`));
       await page.close();
     }
   }

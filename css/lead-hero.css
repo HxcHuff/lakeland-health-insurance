@@ -1630,3 +1630,148 @@ body.blog-post.has-seasonal-banner .blog-header {
     flex-shrink: 0;
   }
 }
+
+/* Loaded again after page-inline <style> via data-lhi-lead-hero-tail — shell must match homepage gray hero. */
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell {
+  background: var(--gray-50, #f8fafc) !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > section.hero {
+  background: transparent !important;
+  background-image: none !important;
+  color: var(--navy, #1b2a4a) !important;
+  box-shadow: none !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hero-kicker {
+  align-items: unset !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #2563eb !important;
+  display: block !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  margin: 0 0 0.35rem !important;
+  padding: 0 !important;
+  text-transform: uppercase !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero h1 {
+  color: var(--navy, #1b2a4a) !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero p,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero p.lhi-hero-lede,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .lhi-hero-lede-block p,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .lhi-hero-deferred-block,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .lhi-hero-deferred-block p,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .lhi-hero-deferred-block a:not(.btn-primary):not(.btn-secondary) {
+  color: #475569 !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .lhi-hero-deferred-block a.btn-primary,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .lhi-hero-deferred-block a.btn-secondary {
+  color: inherit;
+}
+
+@media (min-width: 901px) {
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid:has(> .lhi-hero-grid-lead),
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead),
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid:has(> .lhi-hero-grid-lead) {
+    align-items: start;
+    display: grid !important;
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px);
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid > .lhi-hero-lede-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid > .lhi-hero-lede-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid > .lhi-hero-lede-block {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid > .lhi-hero-deferred-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid > .lhi-hero-deferred-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid > .lhi-hero-deferred-block {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .hero-grid > .lhi-hero-grid-lead,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .container.hero-grid > .lhi-hero-grid-lead,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-grid > .lhi-hero-grid-lead {
+    align-self: start;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin: 0;
+    max-width: none;
+  }
+
+  /* Stack lede + hoisted deferred in one column beside the form (no row-1 form stretch gap). */
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block) {
+    grid-template-areas: "copy form";
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px);
+    grid-template-rows: auto;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block) > section.hero,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block) > section.answer-hero,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block) > section.hero .container,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block) > section.hero .hero-grid,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block) > section.answer-hero .answer-wrap,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block) > section.answer-hero .answer-grid {
+    display: contents;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) .lhi-hero-lede-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) > .lhi-hero-deferred-block {
+    align-self: start !important;
+    grid-area: copy !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    margin: 0 !important;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) > .lhi-hero-grid-lead {
+    align-self: start !important;
+    grid-area: form !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    margin: 0 !important;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > section.hero {
+    display: contents;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > section.hero .container,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > section.hero .hero-grid {
+    display: contents;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) .lhi-hero-lede-block {
+    align-self: start;
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 900px) {
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell > .lhi-hero-grid-lead) .lhi-lead-sticky,
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell > .lhi-hero-grid-lead) #lhi-lead-sticky-bar,
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .hero-grid > .lhi-hero-grid-lead) .lhi-lead-sticky,
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .hero-grid > .lhi-hero-grid-lead) #lhi-lead-sticky-bar,
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .answer-grid > .lhi-hero-grid-lead) .lhi-lead-sticky,
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .answer-grid > .lhi-hero-grid-lead) #lhi-lead-sticky-bar {
+    display: none !important;
+  }
+
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell > .lhi-hero-grid-lead),
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .hero-grid > .lhi-hero-grid-lead),
+  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .answer-grid > .lhi-hero-grid-lead) {
+    padding-bottom: 0;
+  }
+}
