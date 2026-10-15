@@ -32,16 +32,69 @@
     }
   }
 
+  var MEDICARE_LEAD_COVERAGE_VALUES = {
+    medicare_advantage: true,
+    medicare_supplement: true,
+    part_d: true,
+    current_plan_review: true
+  };
+
+  function isMedicareLeadCoverageValue(value) {
+    return Object.prototype.hasOwnProperty.call(
+      MEDICARE_LEAD_COVERAGE_VALUES,
+      String(value || '').trim().toLowerCase()
+    );
+  }
+
   function isOutOfStateMedicareCoverageState(code) {
     if (!code) return false;
     return !Object.prototype.hasOwnProperty.call(LICENSED_MEDICARE_STATES, code);
   }
 
-  function syncMedicareScopeNotes() {
+  function formHasMixedMedicareMarketplaceOptions(form) {
+    if (!form) return false;
+    var select = form.querySelector('select[name="coverage_status"]');
+    if (!select) return false;
+    var hasMedicare = false;
+    var hasMarketplace = false;
+    select.querySelectorAll('option[value]').forEach(function (option) {
+      var value = String(option.value || '').trim().toLowerCase();
+      if (!value || value === 'not_sure') return;
+      if (isMedicareLeadCoverageValue(value)) hasMedicare = true;
+      else hasMarketplace = true;
+    });
+    return hasMedicare && hasMarketplace;
+  }
+
+  function shouldShowMedicareScopeNote(form) {
     var state = medicareCoverageStateFromQuery();
-    var show = isOutOfStateMedicareCoverageState(state);
-    d.querySelectorAll('#outOfStateMedicareNote').forEach(function (note) {
-      note.hidden = !show;
+    if (!isOutOfStateMedicareCoverageState(state)) return false;
+    if (!formHasMixedMedicareMarketplaceOptions(form)) return true;
+    var select = form.querySelector('select[name="coverage_status"]');
+    return isMedicareLeadCoverageValue(select && select.value);
+  }
+
+  function syncMedicareScopeNote(note) {
+    if (!note) return;
+    var form = note.closest('form');
+    note.hidden = !shouldShowMedicareScopeNote(form);
+  }
+
+  function syncMedicareScopeNotes() {
+    d.querySelectorAll('#outOfStateMedicareNote').forEach(syncMedicareScopeNote);
+  }
+
+  function wireMedicareScopeCoverageSelects() {
+    d.querySelectorAll('form[data-lhi-site-lead-form]').forEach(function (form) {
+      if (form.__lhiMedicareScopeWired) return;
+      if (!formHasMixedMedicareMarketplaceOptions(form)) return;
+      form.__lhiMedicareScopeWired = true;
+      var select = form.querySelector('select[name="coverage_status"]');
+      if (!select) return;
+      select.addEventListener('change', function () {
+        var note = form.querySelector('#outOfStateMedicareNote');
+        syncMedicareScopeNote(note);
+      });
     });
   }
 
@@ -178,6 +231,7 @@
 
   function init() {
     wireSiteLeadForms();
+    wireMedicareScopeCoverageSelects();
     syncMedicareScopeNotes();
     var bar = ensureStickyBar();
     syncStickyVisibility(bar);
