@@ -33,14 +33,14 @@ test('Medicare-topic blog samples embed site-medicare-lead', () => {
   }
 });
 
-test('blog posts do not keep static site-page-disclosures TPMO blocks', () => {
+test('blog posts include static site-page-disclosures TPMO (SHIP)', () => {
+  const ship =
+    /Please contact Medicare\.gov, 1-800-MEDICARE, or your local State Health Insurance Program \(SHIP\)/;
   for (const name of readdirSync(join(ROOT, 'blog'))) {
     if (!name.endsWith('.html')) continue;
     const html = readFileSync(join(ROOT, 'blog', name), 'utf8');
-    assert.doesNotMatch(
-      html,
-      /class="site-page-disclosures"/,
-      `blog/${name} relies on footer TPMO only`
-    );
+    assert.match(html, /class="site-page-disclosures"/, `blog/${name} missing static TPMO`);
+    assert.match(html, ship, `blog/${name} missing SHIP TPMO text`);
+    assert.match(html, /tpmo-inventory-note/, `blog/${name} missing inventory note`);
   }
 });

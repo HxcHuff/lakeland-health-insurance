@@ -340,7 +340,13 @@
     return header;
   }
 
-  function createFooter(intent, pathname) {
+  function hasStaticPageDisclosures() {
+    return !!document.querySelector('.site-page-disclosures');
+  }
+
+  function createFooter(intent, pathname, options) {
+    options = options || {};
+    var skipFooterTpmo = options.skipFooterTpmo === true;
     var helpHref = chromeGetHelpHref(intent);
     var showHealthSherpa = shouldShowHealthSherpa(pathname, intent);
     const footer = document.createElement('footer');
@@ -396,7 +402,7 @@
             </ul>
           </div>
         </div>
-        ${shouldShowTpmoDisclaimer(pathname) ? `<div class="footer-tpmo" role="note">
+        ${shouldShowTpmoDisclaimer(pathname) && !skipFooterTpmo ? `<div class="footer-tpmo" role="note">
           <p class="tpmo-standard-disclaimer">${shouldUseShipDisclaimer(pathname) ? medicareShipDisclaimer : tpmoDisclaimer}</p>
           <p class="tpmo-inventory-note">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
         </div>` : ''}
@@ -670,11 +676,12 @@
       nextHeader.classList.remove('has-watson-notice');
     }
 
+    const skipFooterTpmo = hasStaticPageDisclosures();
     const lastFooter = document.querySelector('footer');
     if (lastFooter) {
-      lastFooter.replaceWith(createFooter(intent, pathname));
+      lastFooter.replaceWith(createFooter(intent, pathname, { skipFooterTpmo: skipFooterTpmo }));
     } else {
-      document.body.append(createFooter(intent, pathname));
+      document.body.append(createFooter(intent, pathname, { skipFooterTpmo: skipFooterTpmo }));
     }
 
     removeOldFloatingActions();

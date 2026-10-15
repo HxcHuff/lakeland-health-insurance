@@ -72,12 +72,12 @@ test('Watson blog keeps #318 internal links', () => {
 const FULL_SHIP =
   'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
 
-test('Watson blog uses footer-injected TPMO only (no static duplicate)', () => {
+test('Watson blog keeps static bottom TPMO (SHIP) for no-JS compliance', () => {
   const html = source();
-  assert.doesNotMatch(html, /class="site-page-disclosures"/, 'no static bottom disclosure block');
+  assert.match(html, /class="site-page-disclosures"/, 'static bottom disclosure block');
+  assert.match(html, FULL_SHIP, 'SHIP TPMO in static HTML');
   assert.doesNotMatch(html, /class="tpmo-cta-disclaimer"/, 'no inline TPMO near CTAs');
-  assert.ok(!html.includes(FULL_SHIP), 'SHIP TPMO is not duplicated in static HTML');
-  assert.match(html, /site-template\.js/, 'shared chrome injects footer TPMO at runtime');
+  assert.match(html, /site-template\.js/, 'shared chrome skips footer TPMO when static block exists');
 });
 
 function contentType(pathname) {

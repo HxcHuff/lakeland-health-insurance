@@ -91,7 +91,6 @@ const auditRows = parseCsv(readFileSync(CSV_PATH, 'utf8'));
 const auditByPath = new Map(auditRows.map((r) => [r.path, r]));
 
 let formSwaps = 0;
-let tpmoRemoved = 0;
 let emptyCards = 0;
 
 for (const name of readdirSync(join(ROOT, 'blog'))) {
@@ -110,11 +109,6 @@ for (const name of readdirSync(join(ROOT, 'blog'))) {
     formSwaps += 1;
   }
 
-  if (DISCLOSURE_RE.test(html)) {
-    html = html.replace(DISCLOSURE_RE, '');
-    tpmoRemoved += 1;
-  }
-
   const emptied = (html.match(EMPTY_CARD_RE) || []).length;
   if (emptied) {
     html = html.replace(EMPTY_CARD_RE, '');
@@ -124,4 +118,4 @@ for (const name of readdirSync(join(ROOT, 'blog'))) {
   if (html !== original) writeFileSync(file, html);
 }
 
-console.log(JSON.stringify({ formSwaps, tpmoRemovedPages: tpmoRemoved, emptyCardsRemoved: emptyCards }, null, 2));
+console.log(JSON.stringify({ formSwaps, emptyCardsRemoved: emptyCards }, null, 2));

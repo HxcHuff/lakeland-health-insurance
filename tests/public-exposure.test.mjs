@@ -238,7 +238,7 @@ test('quote presents three direct actions without a routing form or plans detour
 test('coverage center is a two-lane 2027 plan-review hub wired into get-help', () => {
   assert.match(COVERAGE_CENTER, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/coverage-center\/">/);
   assert.match(COVERAGE_CENTER, /<title>Lakeland Coverage Center \| Medicare &amp; Under-65 Plan Help<\/title>/);
-  assert.match(COVERAGE_CENTER, /\/css\/site-template\.css\?v=20261015-audit-hero/);
+  assert.match(COVERAGE_CENTER, /\/css\/site-template\.css\?v=20261015-qa321/);
   assert.match(COVERAGE_CENTER, /\/js\/site-phone\.js\?v=20261014-phone-6403102/);
   assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261014-phone-6403102/);
   assert.match(COVERAGE_CENTER, /"@type": "BreadcrumbList"/);

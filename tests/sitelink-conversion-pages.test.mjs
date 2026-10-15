@@ -76,7 +76,7 @@ for (const [file, sourcePage, formName, consentVersion] of leadHeroPages) {
     assert.doesNotMatch(form, /\bfree\b/i);
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
-    assert.match(html, /\/css\/lead-hero\.css\?v=20261015-audit-hero/);
+    assert.match(html, /\/css\/lead-hero\.css\?v=20261015-qa321/);
     assert.match(html, /\/js\/lead-hero\.js\?v=20261014-lead-hero/);
   });
 }
@@ -112,7 +112,7 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
     );
 
     assert.match(html, /\/js\/funnel\.js\?v=20261014-phone-6403102/);
-    assert.match(html, /\/css\/site-template\.css\?v=20261015-audit-hero/);
+    assert.match(html, /\/css\/site-template\.css\?v=20261015-qa321/);
   });
 }
 
