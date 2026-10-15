@@ -103,8 +103,10 @@ test('rendered hero snippet links meet 4.5:1 contrast on all local answer pages'
       await page.goto(`${origin}${path}`, { waitUntil: 'domcontentloaded' });
 
       const metrics = await page.evaluate(() => {
-        const snippet = document.querySelector('.answer-hero .answer-snippet');
-        if (!snippet) throw new Error('missing .answer-hero .answer-snippet');
+        const snippet =
+          document.querySelector('.answer-hero .answer-snippet') ||
+          document.querySelector('.lhi-hero-shell .lhi-hero-deferred-block .answer-snippet');
+        if (!snippet) throw new Error('missing hero answer snippet (.answer-hero or deferred block)');
 
         let link = snippet.querySelector('a:not(.btn):not(.hero-cta):not(.lp-primary-call)');
         if (!link) {
@@ -128,9 +130,11 @@ test('rendered hero snippet links meet 4.5:1 contrast on all local answer pages'
         `${path} snippet link contrast ${ratio.toFixed(2)} (fg ${metrics.color}, bg ${metrics.backgroundColor})`,
       );
 
-      await page.locator('.answer-hero .answer-snippet a').last().hover();
+      await page.locator('.answer-snippet a').last().hover();
       const hoverColor = await page.evaluate(() => {
-        const snippet = document.querySelector('.answer-hero .answer-snippet');
+        const snippet =
+          document.querySelector('.answer-hero .answer-snippet') ||
+          document.querySelector('.lhi-hero-shell .lhi-hero-deferred-block .answer-snippet');
         const link = snippet.querySelector('a:not(.btn):not(.hero-cta):not(.lp-primary-call)');
         return getComputedStyle(link).color;
       });
