@@ -17,10 +17,6 @@
   const medicareShipDisclaimer = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
   const healthSherpaHref = 'https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q';
   const BANNER_ID = 'lhi-seasonal-banner';
-  const WATSON_NOTICE_ID = 'lhi-watson-notice';
-  const WATSON_NOTICE_STORAGE_KEY = 'lhi-watson-humana-notice-v1';
-  const WATSON_NOTICE_HREF = 'https://lakelandhealthinsurance.com/blog/orlando-health-watson-clinic-insurance-2026.html';
-  const WATSON_NOTICE_TEXT = 'Watson Clinic will no longer accept Humana plans as of January 1, 2027.';
   const SEASONAL_BANNER_TIMEZONE = 'America/New_York';
   const SEASONAL_BANNER_START_MONTH = 10;
   const SEASONAL_BANNER_START_DAY = 1;
@@ -412,121 +408,6 @@
     return footer;
   }
 
-  function shouldShowWatsonNotice(pathname) {
-    try {
-      var path = normalizePath(pathname || currentPathname());
-      if (path !== '/' && path !== '/get-help/' && path !== '/provider-prescription-check/') return false;
-      try {
-        if (window.localStorage && window.localStorage.getItem(WATSON_NOTICE_STORAGE_KEY) === 'dismissed') {
-          return false;
-        }
-      } catch (error) {
-        // localStorage can be blocked; still show the notice.
-      }
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  function ensureWatsonNoticeStyles() {
-    if (document.getElementById('lhi-watson-notice-style')) return;
-    var style = document.createElement('style');
-    style.id = 'lhi-watson-notice-style';
-    style.textContent = [
-      '.watson-notice{background:#9B1C1C;color:#fff;font-size:0.82rem;font-weight:700;line-height:1.3;}',
-      '.watson-notice-inner{align-items:center;display:flex;flex-wrap:nowrap;gap:0.45rem 0.7rem;justify-content:space-between;margin:0 auto;max-width:1100px;padding:0.2rem 16px;}',
-      '.watson-notice p{flex:1 1 auto;margin:0;min-width:0;}',
-      '.watson-notice a{color:#fff;font-weight:800;text-decoration:underline;text-underline-offset:2px;}',
-      '.watson-notice a:hover,.watson-notice a:focus-visible{color:#fff;}',
-      '.watson-notice-dismiss{background:transparent;border:1px solid rgba(255,255,255,0.85);border-radius:999px;color:#fff;cursor:pointer;flex:0 0 auto;font:inherit;font-size:0.72rem;font-weight:800;line-height:1;min-height:26px;padding:2px 8px;}',
-      '.watson-notice-dismiss:hover,.watson-notice-dismiss:focus-visible{background:rgba(255,255,255,0.12);color:#fff;}',
-      '.watson-notice a:focus-visible,.watson-notice-dismiss:focus-visible{outline:2px solid #fff;outline-offset:2px;}',
-      'body.has-watson-notice.get-help-page .help-hero{padding-top:200px;}',
-      'body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero{padding-top:240px;}',
-      '@media (max-width:720px){body.has-watson-notice.get-help-page .help-hero{padding-top:188px;}body.has-seasonal-banner.has-watson-notice.get-help-page .help-hero{padding-top:232px;}}',
-    ].join('');
-    document.head.appendChild(style);
-  }
-
-  function createWatsonNotice() {
-    ensureWatsonNoticeStyles();
-    var banner = document.createElement('div');
-    banner.id = WATSON_NOTICE_ID;
-    banner.className = 'watson-notice';
-    banner.setAttribute('role', 'region');
-    banner.setAttribute('aria-label', 'Watson Clinic Humana plan notice');
-    banner.innerHTML = `
-      <div class="watson-notice-inner">
-        <p><a href="${WATSON_NOTICE_HREF}">${WATSON_NOTICE_TEXT}</a></p>
-        <button type="button" class="watson-notice-dismiss" aria-label="Dismiss Watson Clinic notice">Dismiss</button>
-      </div>`;
-    banner.querySelector('.watson-notice-dismiss').addEventListener('click', function () {
-      try {
-        if (window.localStorage) window.localStorage.setItem(WATSON_NOTICE_STORAGE_KEY, 'dismissed');
-      } catch (error) {
-        // Ignore quota / privacy-mode failures.
-      }
-      banner.remove();
-      document.body.classList.remove('has-watson-notice');
-      var header = document.querySelector('header');
-      if (header) header.classList.remove('has-watson-notice');
-    });
-    return banner;
-  }
-
-  function consolidateMobileHeaderAlerts(header, seasonalBanner, watsonNotice) {
-    if (!header || !seasonalBanner || !watsonNotice) return;
-    if (!window.matchMedia || !window.matchMedia('(max-width: 720px)').matches) return;
-    if (header.querySelector('.lhi-mobile-alert-rail')) return;
-
-    var rail = document.createElement('div');
-    rail.className = 'lhi-mobile-alert-rail';
-    rail.setAttribute('role', 'region');
-    rail.setAttribute('aria-label', 'Site alerts');
-    rail.innerHTML =
-      '<div class="lhi-mobile-alert-rail__track">' +
-      '<p class="lhi-mobile-alert-rail__slide is-active" data-alert="medicare">Medicare AEP Oct 15–Dec 7 · <a href="/medicare/">Dates</a></p>' +
-      '<p class="lhi-mobile-alert-rail__slide" data-alert="watson" hidden>Watson Clinic: no Humana plans Jan 1, 2027 · <a href="' +
-      WATSON_NOTICE_HREF +
-      '">Details</a></p>' +
-      '<button type="button" class="lhi-mobile-alert-rail__dismiss" aria-label="Dismiss alerts">Dismiss</button>' +
-      '</div>';
-
-    seasonalBanner.remove();
-    watsonNotice.remove();
-    header.prepend(rail);
-    header.classList.add('has-mobile-alert-rail');
-
-    var slides = rail.querySelectorAll('.lhi-mobile-alert-rail__slide');
-    var index = 0;
-    var rotateTimer = window.setInterval(function () {
-      if (slides.length < 2) return;
-      slides[index].hidden = true;
-      slides[index].classList.remove('is-active');
-      index = (index + 1) % slides.length;
-      slides[index].hidden = false;
-      slides[index].classList.add('is-active');
-    }, 6000);
-
-    rail.querySelector('.lhi-mobile-alert-rail__dismiss').addEventListener('click', function () {
-      window.clearInterval(rotateTimer);
-      rail.remove();
-      header.classList.remove('has-mobile-alert-rail');
-      document.body.classList.remove('has-seasonal-banner');
-      document.body.classList.remove('has-watson-notice');
-      header.classList.remove('has-seasonal-banner');
-      header.classList.remove('has-watson-notice');
-      try {
-        var storageKey = seasonalBannerStorageKey();
-        if (storageKey) window.localStorage.setItem(storageKey, 'dismissed');
-        if (window.localStorage) window.localStorage.setItem(WATSON_NOTICE_STORAGE_KEY, 'dismissed');
-      } catch (error) {
-        // Ignore storage failures.
-      }
-    });
-  }
-
   function createSeasonalBanner(intent) {
     var banner = document.createElement('div');
     banner.id = BANNER_ID;
@@ -722,32 +603,6 @@
       seasonalBanner = null;
     }
 
-    try {
-      if (shouldShowWatsonNotice(pathname)) {
-        var watsonNotice = createWatsonNotice();
-        if (seasonalBanner && seasonalBanner.parentNode === nextHeader) {
-          seasonalBanner.after(watsonNotice);
-        } else {
-          nextHeader.prepend(watsonNotice);
-        }
-        nextHeader.classList.add('has-watson-notice');
-        document.body.classList.add('has-watson-notice');
-      }
-    } catch (error) {
-      document.body.classList.remove('has-watson-notice');
-      nextHeader.classList.remove('has-watson-notice');
-    }
-
-    try {
-      consolidateMobileHeaderAlerts(
-        nextHeader,
-        nextHeader.querySelector('#' + BANNER_ID),
-        nextHeader.querySelector('#' + WATSON_NOTICE_ID)
-      );
-    } catch (error) {
-      // Keep separate banners if consolidation fails.
-    }
-
     const skipFooterTpmo = hasStaticPageDisclosures();
     const lastFooter = document.querySelector('footer');
     if (lastFooter) {
@@ -785,9 +640,6 @@
     shouldUseShipDisclaimer: shouldUseShipDisclaimer,
     isMultiStatePage: isMultiStatePage,
     shouldShowSeasonalBanner: shouldShowSeasonalBanner,
-    shouldShowWatsonNotice: shouldShowWatsonNotice,
-    watsonNoticeStorageKey: WATSON_NOTICE_STORAGE_KEY,
-    watsonNoticeId: WATSON_NOTICE_ID,
     isWithinSeasonalBannerWindow: isWithinSeasonalBannerWindow,
     bannerStorageKey: seasonalBannerStorageKey,
     bannerId: BANNER_ID,

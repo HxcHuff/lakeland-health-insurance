@@ -1823,14 +1823,12 @@ a:focus-visible,
     margin-top: 0.75rem;
   }
 
-  body.has-seasonal-banner .medicare-hero,
-  body.has-watson-notice .medicare-hero {
+  body.has-seasonal-banner .medicare-hero {
     padding-top: calc(var(--lhi-site-header-height, 96px) + 16px);
     scroll-margin-top: calc(var(--lhi-site-header-height, 96px) + 16px);
   }
 
-  body.has-seasonal-banner.medicare-page,
-  body.has-watson-notice.medicare-page {
+  body.has-seasonal-banner.medicare-page {
     scroll-padding-top: calc(var(--lhi-site-header-height, 96px) + 12px);
   }
 

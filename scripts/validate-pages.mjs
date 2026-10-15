@@ -19,17 +19,17 @@ const CLIENT_COPY_FILES = ['js/site-search.js', 'js/blog-cta.js', 'js/site-templ
 const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/fonts.css', '20261015-v6merge2'],
-  ['/css/site-template.css', '20261015-post326'],
+  ['/css/site-template.css', '20261016-no-red-banner'],
   ['/css/blog-unified.css', '20261015-post321'],
   ['/js/site-phone.js', '20261015-v6merge2'],
-  ['/js/site-template.js', '20261015-post321'],
+  ['/js/site-template.js', '20261016-no-red-banner'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
   ['/css/lead-hero.css', '20261015-home-match'],
-  ['/css/answer-pages.css', '20261015-v6merge2'],
+  ['/css/answer-pages.css', '20261016-no-red-banner'],
   ['/js/lead-hero.js', '20261015-home-match'],
 ]);
-const SERVICE_WORKER_CACHE_VERSION = '20261015-post321';
+const SERVICE_WORKER_CACHE_VERSION = '20261016-no-red-banner';
 
 const FORBIDDEN_PUBLIC_FILES = [
   'blog/ads-manager-setup-checklist.html',

@@ -25,8 +25,8 @@ test('T12 retiring-and-medicare-lakeland-fl page metadata and hero', () => {
     /name="description" content="Retiring in Lakeland, FL\? Learn when to enroll in Medicare, how to time Part B with your employer plan, and how to compare options in Polk County\."/
   );
   assert.match(source, /rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/retiring-and-medicare-lakeland-fl\/"/);
-  assert.match(source, /answer-pages\.css\?v=20261015-v6merge2/);
-  assert.match(source, /site-template\.js\?v=20261015-post321/);
+  assert.match(source, /answer-pages\.css\?v=20261016-no-red-banner/);
+  assert.match(source, /site-template\.js\?v=20261016-no-red-banner/);
   assert.match(source, /How to decide \(neutral comparison\)[\s\S]*<div class="table-wrap">/);
   assert.match(source, /class="answer-snippet"/);
   assert.match(source, /seven-month Initial Enrollment Period/);
