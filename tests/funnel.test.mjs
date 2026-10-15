@@ -1249,7 +1249,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     [MEDICARE_HUB_HTML, {
       pageKey: 'medicare',
       pageRole: 'hub',
-      ctaKeys: ['request_review_process', 'start_review_final', 'start_review_hero']
+      ctaKeys: ['csnp_section', 'request_review_process', 'start_review_final', 'start_review_hero']
     }],
     [MEDICARE_BROKER_HTML, {
       pageKey: 'medicare_broker_lakeland_fl',
