@@ -24,16 +24,16 @@ function walkHtml(dir = ROOT, out = []) {
 
 test('homepage ships site ACA lead hero above the fold', () => {
   const html = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
-  assert.match(html, /\/css\/lead-hero\.css\?v=20261015-cwv/);
-  assert.match(html, /\/js\/lead-hero\.js\?v=20261015-cwv/);
+  assert.match(html, /\/css\/lead-hero\.css\?v=20261015-v6merge2/);
+  assert.match(html, /\/js\/lead-hero\.js\?v=20261015-v6merge2/);
   assert.match(html, /data-form-name="site-aca-lead"/);
-  assert.ok(html.indexOf('class="lhi-lead-hero"') > 0);
+  assert.ok(html.includes('class="lhi-lead-hero'));
 });
 
 test('homepage DOM order keeps branded hero before lead capture for LCP', () => {
   const html = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
   const heroIdx = html.indexOf('class="hero home-hero"');
-  const leadIdx = html.indexOf('class="lhi-lead-hero"');
+  const leadIdx = html.search(/class="lhi-lead-hero/);
   assert.ok(heroIdx > 0 && leadIdx > 0);
   assert.ok(heroIdx < leadIdx, 'branded home hero must precede the site lead form block');
 });

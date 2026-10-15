@@ -1,6 +1,7 @@
 /**
  * Static HTML for the lhi-lead-hero Netlify lead block (site-medicare-lead / site-aca-lead).
  */
+import { OUT_OF_STATE_MEDICARE_NOTE } from './medicare-licensed-states.mjs';
 
 const MEDICARE_COVERAGE_OPTIONS = `
                   <option value="" selected disabled>Select one</option>
@@ -118,7 +119,12 @@ export function buildLeadHeroHtml(config) {
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <button class="lhi-lead-hero__submit" type="submit">${escapeAttr(buttonText)}</button>
           </div>
-        </div>
+        </div>${
+          isMedicare
+            ? `
+        <p class="form-tpmo lhi-lead-hero__medicare-scope" id="outOfStateMedicareNote" hidden>${OUT_OF_STATE_MEDICARE_NOTE}</p>`
+            : ''
+        }
         <p class="lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>
       </form>
     </div>

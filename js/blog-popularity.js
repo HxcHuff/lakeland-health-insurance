@@ -1,5 +1,5 @@
 (function () {
-  var DATA_URL = '../data/blog-visits.json';
+  var DATA_URL = '/data/blog-visits.json';
 
   function normalizePath(url) {
     try {

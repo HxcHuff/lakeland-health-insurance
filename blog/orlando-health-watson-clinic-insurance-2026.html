@@ -22,14 +22,14 @@
   <meta name="theme-color" content="#1B2A4A">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="stylesheet" href="/css/fonts.css?v=20261015-cwv">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261015-cwv">
+  <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261015-v6merge2">
 
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Watson Clinic Insurance Accepted 2026 and 2027 — Lakeland Network Guide",
+  "headline": "Orlando Health and Watson Clinic Insurance Guide",
   "description": "What insurance Watson Clinic accepts, how Medicare Advantage and Marketplace plan types differ, 2027 network changes, and how to verify doctors and Orlando Health Watson Clinic Lakeland Highlands Hospital before enrolling.",
   "author": {
     "@type": "Person",
@@ -49,7 +49,7 @@
     }
   },
   "datePublished": "2026-02-04",
-  "dateModified": "2026-10-13",
+  "dateModified": "2026-10-15",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://lakelandhealthinsurance.com/blog/orlando-health-watson-clinic-insurance-2026.html"
@@ -219,7 +219,15 @@
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; color: #1E293B; background: var(--bg); line-height: 1.65; }
     .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
-    .article-hero { background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%); color: #fff; margin-top: 48px; padding: 50px 20px 32px; }
+    .article-hero { background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%); color: #fff; margin-top: 0; padding: calc(var(--lhi-site-header-height, 96px) + 1.25rem) 20px 1.75rem; scroll-margin-top: calc(var(--lhi-site-header-height, 96px) + 12px); }
+    .article-hero .hero-direct-answer { font-size: 1.05rem; max-width: 820px; margin: 0.75rem 0 0; }
+    .article-hero .byline { margin: 0.85rem 0 0; font-size: 0.92rem; color: rgba(255,255,255,0.82); }
+    .article-grid .lhi-lead-hero { margin: 0 0 1.25rem; max-width: none; padding: 0; min-height: 0; }
+    .article-grid .lhi-lead-hero__grid { grid-template-columns: 1fr; max-width: 560px; }
+    #lhi-site-lead-form { scroll-margin-top: calc(var(--lhi-site-header-height, 96px) + 16px); }
+    .bottom-plan-banner { background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%); color: #fff; border-radius: 14px; padding: 1.35rem 1.25rem; margin: 0.5rem 0 1rem; }
+    .bottom-plan-banner p { color: rgba(255,255,255,0.92); margin: 0 0 0.85rem; }
+    .bottom-plan-banner .btn-primary { margin-right: 0.5rem; }
     .article-hero h1 { margin: 0 0 12px; color: #fff !important; font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif; font-size: clamp(2.1rem, 5vw, 4rem); font-weight: 400; line-height: 1.06; max-width: 900px; }
     .accent { color: var(--gold) !important; font-style: italic; }
     .article-hero p { margin: 0 0 12px; color: rgba(255,255,255,0.9); max-width: 840px; }
@@ -252,8 +260,16 @@
       .article-grid { grid-template-columns: 1fr; }
       .side-card { position: static; }
     }
+    @media (max-width: 1100px) {
+      header .nav-links,
+      header .cta-group {
+        display: none;
+      }
+    }
     @media (max-width: 720px) {
-      .article-hero { margin-top: 0; padding: 34px 20px 24px; }
+      .article-hero { margin-top: 0; padding: calc(var(--lhi-site-header-height, 72px) + 0.75rem) 16px 1.25rem; }
+      .article-hero h1 { font-size: 1.85rem; line-height: 1.12; }
+      .article-hero .hero-direct-answer { font-size: 0.95rem; }
       .card { padding: 16px; }
     }
     .click-to-call { position: fixed; right: 18px; bottom: 18px; background: #059669; color: #fff; padding: 13px 18px; border-radius: 999px; text-decoration: none; font-weight: 700; box-shadow: 0 10px 30px rgba(15,118,110,.3); z-index: 1500; }
@@ -261,10 +277,10 @@
   </style>
 
   <link rel="stylesheet" href="/css/blog-unified.css?v=20260803-brand-release">
-  <script defer src="/js/analytics.js?v=20261015-cwv"></script>
-  <link rel="stylesheet" href="/css/site-template.css?v=20261015-cwv">
+  <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
+  <link rel="stylesheet" href="/css/site-template.css?v=20261015-v6merge2">
 </head>
-<body class="blog-post">
+<body class="blog-post watson-insurance-2026">
   <div class="compliance-banner">
     <strong>Insurance questions?</strong> Call <a href="tel:+18636403102">(863) 640-3102</a> or <a href="/get-help/">start a plan review</a>. FL Health Agent License #W371813
   </div>
@@ -313,18 +329,37 @@
   </header>
 
   <main>
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="medicare" data-form-name="site-medicare-lead" data-source-template="blog_post" aria-labelledby="blog_orlando_health_watson_clinic_insura-lead-title">
+<section class="article-hero">
+      <div class="container">
+        <h1>Orlando Health and Watson Clinic <em class="accent">Insurance Guide</em></h1>
+        <p class="hero-lede lhi-hero-lede">Check Watson Clinic doctors and hospitals against your exact plan ID and benefit year before you enroll—not the carrier name alone.</p>
+        <section class="lhi-alert-notice" aria-labelledby="watson-humana-2027-heading">
+          <h2 id="watson-humana-2027-heading">Important: Starting January 1, 2027, Watson Clinic will no longer accept Humana plans.</h2>
+          <p>Have a Humana plan and see Watson Clinic doctors? Talk with David Huff, a local licensed agent, before Medicare Open Enrollment ends December 7.</p>
+          <div class="lhi-alert-notice-actions">
+            <a href="tel:+18636403102">Call (863) 640-3102</a>
+            <a href="/get-help/?intent=provider-check">Request a plan review</a>
+          </div>
+        </section>
+        <p class="hero-direct-answer"><strong>Direct answer:</strong> Watson Clinic publishes participation by plan type on its <a href="https://www.watsonclinic.com/about-us/medical-insurance.html" rel="noopener noreferrer" style="color:#fff;text-decoration:underline;">medical insurance page</a> — Medicare, commercial, and Florida Blue Marketplace plans such as myBlue — but “accepted” is not the same as in network for your exact plan ID, doctor, and benefit year.</p>
+        <p class="hero-direct-answer">For 2027 plan selection, verify each physician, hospital site, lab, imaging location, and prescription against the plan documents for the year you are enrolling, not the carrier name alone.</p>
+        <p class="last-reviewed" style="color:rgba(255,255,255,.82);font-size:0.9rem;margin:0.75rem 0 0;">Last reviewed: October 15, 2026. Plan lists and directories change by benefit year — confirm the exact plan ID before you enroll.</p>
+        <p class="byline">Updated October 15, 2026 · By David Huff, licensed Florida health agent (FL #W371813)</p>
+      </div>
+    </section>
+
+<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="blog_orlando_health_watson_clinic_insura-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
-      <h2 class="lhi-lead-hero__title" id="blog_orlando_health_watson_clinic_insura-lead-title">Request a Medicare plan review</h2>
-      <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
+      <h2 class="lhi-lead-hero__title" id="blog_orlando_health_watson_clinic_insura-lead-title">Request a Medicare or Marketplace plan review</h2>
+      <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment. Marketplace-only notes: <a href="/aca-health-insurance-lakeland-fl/">Lakeland Marketplace coverage</a>.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-medicare-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="blog_orlando_health_watson_clinic_insuraForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Request a Medicare plan review">
-        <input type="hidden" name="form-name" value="site-medicare-lead">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="blog_orlando_health_watson_clinic_insuraForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_blog_aca_lead" aria-label="Request a Medicare or Marketplace plan review">
+        <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/blog/orlando-health-watson-clinic-insurance-2026.html">
         <input type="hidden" name="source_template" value="blog_post">
-        <input type="hidden" name="consent_text_version" value="site-medicare-2026-10-v1">
+        <input type="hidden" name="consent_text_version" value="site-aca-2026-10-v1">
         <input type="hidden" name="utm_source" id="blog_orlando_health_watson_clinic_insura_utm_source">
         <input type="hidden" name="utm_medium" id="blog_orlando_health_watson_clinic_insura_utm_medium">
         <input type="hidden" name="utm_campaign" id="blog_orlando_health_watson_clinic_insura_utm_campaign">
@@ -369,18 +404,20 @@
                   <option value="medicare_advantage">Medicare Advantage</option>
                   <option value="medicare_supplement">Medicare Supplement</option>
                   <option value="part_d">Part D prescription drug coverage</option>
-                  <option value="current_plan_review">Current Medicare plan review</option>
+                  <option value="individual_marketplace">Individual Marketplace coverage</option>
+                  <option value="family_marketplace">Family Marketplace coverage</option>
+                  <option value="current_plan_review">Current plan review</option>
                   <option value="not_sure">Not sure yet</option>
             </select>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label class="lhi-lead-hero__consent" for="blog_orlando_health_watson_clinic_insura_consent">
               <input type="checkbox" id="blog_orlando_health_watson_clinic_insura_consent" name="consent" value="yes">
-              <span>By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my Medicare request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
+              <span>By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
             </label>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <button class="lhi-lead-hero__submit" type="submit">Request my Medicare review</button>
+            <button class="lhi-lead-hero__submit" type="submit">Request my plan review</button>
           </div>
         </div>
         <p class="lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>
@@ -388,31 +425,9 @@
     </div>
   </div>
 </section>
-    <section class="article-hero">
-      <div class="container">
-        <h1>Orlando Health and Watson Clinic <em class="accent">Insurance Guide</em></h1>
-        <section class="lhi-alert-notice" aria-labelledby="watson-humana-2027-heading">
-          <h2 id="watson-humana-2027-heading">Important: Starting January 1, 2027, Watson Clinic will no longer accept Humana plans.</h2>
-          <p>Have a Humana plan and see Watson Clinic doctors? Talk with David Huff, a local licensed agent, before Medicare Open Enrollment ends December 7.</p>
-          <div class="lhi-alert-notice-actions">
-            <a href="tel:+18636403102">Call (863) 640-3102</a>
-            <a href="/get-help/?intent=provider-check">Request a plan review</a>
-          </div>
-        </section>
-      <p class="last-reviewed" style="color:rgba(255,255,255,.82);font-size:0.9rem;margin:0.75rem 0 1rem;">Last reviewed: October 13, 2026. Plan lists and directories change by benefit year — confirm the exact plan ID before you enroll.</p>
-        <p>The new Orlando Health Watson Clinic Lakeland Highlands Hospital changes local care access in Lakeland. For 2027 plan selection, it does not automatically make every doctor, hospital service, lab, imaging center, referral path, or Medicare Advantage and ACA plan line up cleanly.</p>
-        <p class="meta">Published February 4, 2026 | Fully rewritten July 25, 2026 | Updated August 11, 2026 | By David Huff, licensed Florida health agent (FL #W371813)</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="/get-help/?intent=provider-check">Request a Network Check</a>
-          <a class="btn btn-secondary" href="/provider-prescription-check/">Provider and prescription check</a>
-          <a class="btn btn-secondary" href="/blog/orlando-health-polk-county-expansion-2026.html">Read the Expansion Guide</a>
-        </div>
-      </div>
-    </section>
 
-    <div class="container article-grid">
+<div class="container article-grid">
       <article>
-        <p class="card safe" style="margin-bottom:16px"><strong>What insurance does Watson Clinic accept?</strong> Watson Clinic publishes participation by plan type for Traditional Medicare, Medicare supplements, listed Medicare Advantage products, commercial payers, and Florida Blue Marketplace plans such as myBlue, but accepted at the clinic is not the same as in network for your exact plan ID.</p>
         <section class="card safe key-answer">
           <p><strong>Direct answer — watson clinic insurance accepted:</strong> Watson Clinic’s <a href="https://www.watsonclinic.com/about-us/medical-insurance.html" rel="noopener noreferrer">medical insurance page</a> describes participation by plan type: Traditional Medicare and Medicare supplements; specific Medicare Advantage products (with separate specialty-only rules for some HMO designs); commercial payers; and Florida Blue Marketplace plans such as myBlue, BlueCare, and BlueOptions. “Accepted” or “participating” is not the same as in network for your exact plan ID, doctor, location, or benefit year.</p>
           <p><strong>What insurance does Watson Clinic accept for Medicare Advantage in 2026 and 2027?</strong> Use Watson Clinic’s current published Medicare Advantage list for the benefit year you are enrolling in, then confirm each physician and site in your plan’s directory. Some Medicare Advantage HMO products are listed for specialty care only, which can limit primary care, urgent care, and XpressCare access. Starting January 1, 2027, Watson Clinic has announced it will no longer accept Humana plans — verify current rules with Patient Relations before Open Enrollment ends December 7 if that affects your doctors.</p>
@@ -556,15 +571,36 @@
           <p>For insurance shoppers, the right conclusion is not "everything is covered now." The right conclusion is: the local care map changed, so your network check needs to be more specific. Verify the exact doctors, facility, plan ID, referral rules, prescriptions, and benefit year before you enroll, switch, or renew.</p>
           <p>For the hospital's early licensing, community response, and system-level quality signals, read the <a href="/blog/orlando-health-lakeland-quality-approval-2026.html">Orlando Health Lakeland quality guide</a>.</p>
           <p>Related Lakeland checks: verify Lakeland Regional Health in a 2027 UnitedHealthcare plan on the <a href="/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/">Lakeland Regional and UnitedHealthcare 2027 network check</a> page. If you are retiring and need your own Medicare timing, start at <a href="/retiring-and-medicare-lakeland-fl/">Retiring in Lakeland and need Medicare</a>.</p>
+          <p>For a personal review of your Watson Clinic doctors and prescriptions against a specific Marketplace or Medicare plan ID, use the form below or the <a href="/provider-prescription-check/">provider and prescription check</a>.</p>
         </section>
 
-        <section class="card lhi-followup-cta">
-          <h2>Questions about a Humana plan and Watson Clinic?</h2>
-          <p>If you have a Humana plan and use Watson Clinic, David Huff can review your coverage before January 1, 2027. Call <a href="tel:+18636403102">(863) 640-3102</a> or email <a href="mailto:david@lakelandhealthinsurance.com">david@lakelandhealthinsurance.com</a>.</p>
-          <div class="cta-row">
-            <a class="btn btn-primary" href="/get-help/?intent=provider-check">Request a plan review</a>
-            <a class="btn btn-secondary" href="tel:+18636403102">Call (863) 640-3102</a>
-          </div>
+<section class="card safe">
+          <h2>What changed — and what did not</h2>
+          <ul>
+            <li><strong>Affiliation, not a merger:</strong> Orlando Health’s FAQ describes collaboration with Watson Clinic, not an acquisition.</li>
+            <li><strong>Hospital is open:</strong> Orlando Health Watson Clinic Lakeland Highlands Hospital (4000 Lakeland Highlands Road) began receiving patients July 8, 2026.</li>
+            <li><strong>Insurance is still plan-by-plan:</strong> Affiliation does not make every doctor, lab, imaging site, hospital service, or referral path in network for your plan ID.</li>
+            <li><strong>2027 Humana change:</strong> Watson Clinic will not accept Humana plans starting January 1, 2027 — confirm alternatives before enrollment deadlines.</li>
+            <li><strong>Where surprises happen:</strong> Exact plan ID, site of service, referral rules, prior authorization, directory lag, and benefit-year network changes.</li>
+          </ul>
+          <p class="small">More local context: <a href="/blog/orlando-health-polk-county-expansion-2026.html">hospital opening checklist</a> · <a href="/local-health-insurance-answers/watson-clinic-insurance-network-help/">Watson Clinic network help</a> · <a href="/blog/orlando-health-lakeland-quality-approval-2026.html">Orlando Health Lakeland quality guide</a></p>
+        </section>
+
+        <section class="card">
+          <h2>Medicare Advantage checks</h2>
+          <p>Confirm primary care and each specialist by name and location, the hospital and outpatient sites, referral rules, prior authorization for imaging or procedures, prescriptions, and the plan’s maximum out-of-pocket limit — not only the Watson Clinic brand.</p>
+        </section>
+
+        <section class="card">
+          <h2>Marketplace checks</h2>
+          <p>Florida Marketplace networks can be narrow. Match your doctors, hospital access, and prescriptions to the exact plan ID for the benefit year you are enrolling. Use the <a href="/provider-prescription-check/">provider and prescription check</a>, then review options with a licensed agent on the <a href="/aca-health-insurance-agent-polk-county-fl/">Polk County ACA agent</a> page. myBlue members can use the <a href="/blog/change-florida-blue-myblue-pcp-watson-clinic.html">Florida Blue myBlue PCP change guide</a>.</p>
+        </section>
+
+        <section class="bottom-plan-banner" aria-labelledby="watson-bottom-cta-heading">
+          <h2 id="watson-bottom-cta-heading">Need a Watson Clinic network check before you enroll?</h2>
+          <p>David Huff can compare your doctors and prescriptions against a specific Medicare or Marketplace plan ID in Polk County. A review is not enrollment.</p>
+          <a class="btn btn-primary" href="/get-help/?intent=provider-check">Request a plan review</a>
+          <a class="btn btn-secondary" href="tel:+18636403102">Call (863) 640-3102</a>
         </section>
 
         <section class="card">
@@ -598,22 +634,15 @@
 </article>
 
       <aside class="card side-card">
-        <h2>Network Check</h2>
-        <p>Before choosing a plan, verify:</p>
+        <h2>Network checklist</h2>
         <ul>
-          <li>Exact plan ID</li>
-          <li>Watson Clinic doctors</li>
-          <li>Orlando Health facility access</li>
-          <li>Specialists and referrals</li>
-          <li>Labs and imaging</li>
-          <li>Prescriptions</li>
-          <li>Pharmacy network</li>
+          <li>Exact plan ID and benefit year</li>
+          <li>Each Watson Clinic doctor and office</li>
+          <li>Hospital and outpatient sites</li>
+          <li>Referrals and prior authorization</li>
+          <li>Prescriptions and pharmacy</li>
         </ul>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="/get-help/?intent=provider-check">Start Here</a>
-          <a class="btn btn-secondary" href="/provider-prescription-check/">Provider and prescription check</a>
-          <a class="btn btn-secondary" href="/aca-health-insurance-agent-polk-county-fl/">Polk County ACA agent</a>
-        </div>
+        <p class="small"><a href="/provider-prescription-check/">Provider and prescription check</a></p>
       </aside>
     </div>
     <section class="related-reading" aria-labelledby="related-reading-heading" style="padding:48px 20px 64px;background:#F8FAFC;">
@@ -638,24 +667,23 @@
     </div>
   </div>
 </section>
-<section class="site-page-disclosures" aria-label="Legal and compliance disclaimers">
+</main>
+
+  <section class="site-page-disclosures" aria-label="Legal and compliance disclaimers">
       <p class="tpmo-standard-disclaimer">We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.</p>
       <p class="tpmo-inventory-note">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
 </section>
-</main>
-
-  <footer class="container">
+<footer class="container">
     <p class="small">Lakeland Health Insurance | Licensed FL Health Agent #W371813 | <a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms/">Terms of Service</a> · <a href="/data-deletion/">Data Deletion</a></p>
   </footer>
 
-  <a href="tel:+18636403102" class="click-to-call" data-floating-call="true">Call: (863) 640-3102</a>
   <script src="/js/blog-cta.js?v=20260803-brand-release" defer></script>
   <script src="/js/chat-widget.js" defer></script>
   <script src="/js/get-help-intake.js?v=20261012-get-help-out-of-state" defer></script>
   <script src="/js/funnel.js?v=20261013-watson-blog-lead" defer></script>
-  <script src="/js/site-phone.js?v=20261015-cwv"></script>
+  <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
-  <script src="/js/site-template.js?v=20261015-cwv" defer></script>
-  <script src="/js/lead-hero.js?v=20261015-cwv" defer></script>
+  <script src="/js/site-template.js?v=20261015-v6merge2" defer></script>
+  <script src="/js/lead-hero.js?v=20261015-v6merge2" defer></script>
 </body>
 </html>

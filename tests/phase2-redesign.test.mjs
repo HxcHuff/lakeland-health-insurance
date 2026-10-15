@@ -239,9 +239,9 @@ test('homepage publishes Person JSON-LD and a compact NAP proof strip', () => {
   assert.match(HOME, /Florida License #W371813/);
   assert.match(HOME, /"postalCode": "33805"/);
   assert.doesNotMatch(HOME, /"@type": "AggregateRating"|reviewCount|"ratingValue"/);
-  assert.match(HOME, /class="lhi-proof-strip"/);
+  assert.match(HOME, /class="lhi-proof-strip/);
   assert.match(HOME, /Licensed Florida health agent W371813/);
-  assert.match(SITE_TEMPLATE, /Licensed Florida health agent #W371813/);
+  assert.match(SITE_TEMPLATE, /FL #W371813/);
   assert.match(HOME, /2298 Lakeland Hills Blvd, Lakeland, FL 33805 · By appointment/);
   assert.doesNotMatch(HOME, /33801/);
   assert.doesNotMatch(HOME, /The official website for Lakeland Health Insurance/);

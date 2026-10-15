@@ -34,7 +34,7 @@ const leadHeroPages = [
   ['carriers/index.html', '/carriers/', 'site-aca-lead', 'site-aca-2026-10-v1'],
   ['supplemental-insurance/index.html', '/supplemental-insurance/', 'site-aca-lead', 'site-aca-2026-10-v1'],
   ['dental-vision/index.html', '/dental-vision/', 'site-aca-lead', 'site-aca-2026-10-v1'],
-  ['blog/index.html', '/blog/', 'site-medicare-lead', 'site-medicare-2026-10-v1'],
+  ['blog/index.html', '/blog/', 'site-aca-lead', 'site-aca-2026-10-v1'],
   ['plans/index.html', '/plans/', 'site-aca-lead', 'site-aca-2026-10-v1']
 ];
 
@@ -76,8 +76,8 @@ for (const [file, sourcePage, formName, consentVersion] of leadHeroPages) {
     assert.doesNotMatch(form, /\bfree\b/i);
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
-    assert.match(html, /\/css\/lead-hero\.css\?v=20261015-cwv/);
-    assert.match(html, /\/js\/lead-hero\.js\?v=20261015-cwv/);
+    assert.match(html, /\/css\/lead-hero\.css\?v=20261015-v6merge2/);
+    assert.match(html, /\/js\/lead-hero\.js\?v=20261015-v6merge2/);
   });
 }
 
@@ -111,8 +111,8 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
       /<p class="sitelink-lead-privacy" data-sitelink-medicare-florida-note hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
     );
 
-    assert.match(html, /\/js\/funnel\.js\?v=20261015-cwv/);
-    assert.match(html, /\/css\/site-template\.css\?v=20261015-cwv/);
+    assert.match(html, /\/js\/funnel\.js\?v=20261015-v6merge2/);
+    assert.match(html, /\/css\/site-template\.css\?v=20261015-v6merge2/);
   });
 }
 
@@ -156,7 +156,7 @@ test('every public click-to-call link uses the verified E.164 target and tracked
     }
     assert.match(
       html,
-      /\/js\/analytics\.js\?v=20261015-cwv/,
+      /\/js\/analytics\.js\?v=20261015-v6merge2/,
       `${file} loads the canonical phone telemetry and forwarding-number handler`
     );
   }

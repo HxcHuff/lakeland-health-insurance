@@ -167,7 +167,7 @@ test('short-term options CTA asks for current-season coverage and income', () =>
 });
 
 test('shared chrome uses one phone display, booking CTA, schema name, and asset version', () => {
-  const answerPagesHref = '/css/answer-pages.css?v=20261012-answer-card-table-scroll';
+  const answerPagesHref = '/css/answer-pages.css?v=20261015-v6merge2';
   const schedulePages = [
     'blog/aca-subsidy-cliff.html',
     'blog/non-income-based-health-insurance-florida.html',
@@ -188,7 +188,7 @@ test('shared chrome uses one phone display, booking CTA, schema name, and asset 
 
   for (const rel of fontPages) {
     const html = source(rel);
-    assert.match(html, /href="\/css\/fonts\.css\?v=20261015-cwv"/);
+    assert.match(html, /href="\/css\/fonts\.css\?v=20261015-v6merge2"/);
     assert.match(html, /rel="icon"[^>]+href="\/favicon\.ico"[^>]+type="image\/x-icon"|rel="icon"[^>]+type="image\/x-icon"[^>]+href="\/favicon\.ico"/);
   }
 

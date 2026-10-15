@@ -115,3 +115,45 @@ footer .bbb-footer-copy span {
     font-size: 0.82rem;
   }
 }
+
+.comparison-table-wrap,
+body.blog-post .table-scroll-wrap {
+  -webkit-overflow-scrolling: touch;
+  margin: 1rem 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+body.blog-post table.comparison-table,
+body.blog-post .article-content table,
+body.blog-post .card table {
+  min-width: 520px;
+}
+
+body.blog-post .quote-tool-card,
+body.blog-post .subsidy-estimator-card,
+body.blog-post #quote-tool {
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+@media (max-width: 720px) {
+  .seasonal-banner-inner {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding-bottom: 0.55rem;
+    padding-top: 0.55rem;
+  }
+
+  .seasonal-banner p {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  body.blog-post.has-seasonal-banner .article-hero,
+  body.blog-post.has-seasonal-banner .article-header,
+  body.blog-post.has-seasonal-banner .blog-header {
+    padding-top: 0.5rem;
+  }
+}

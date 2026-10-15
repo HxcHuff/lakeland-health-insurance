@@ -202,7 +202,7 @@ test('shared chrome skips TPMO and HealthSherpa on multi-state pages without cha
   assert.equal(chrome.isMultiStatePage('/health-insurance-broker-lakeland-fl/'), false);
   assert.equal(chrome.shouldShowTpmoDisclaimer('/health-insurance-alabama/'), false);
   assert.match(SITE_TEMPLATE, /States I'm licensed in/);
-  assert.match(SITE_TEMPLATE, /Licensed Florida health agent #W371813/);
+  assert.match(SITE_TEMPLATE, /FL #W371813/);
   assert.match(SITE_TEMPLATE, /Remote assistance across Florida/);
   assert.match(SITE_TEMPLATE, /Lakeland-based health insurance assistance for Florida residents/);
 });
