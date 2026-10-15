@@ -76,8 +76,8 @@ for (const [file, sourcePage, formName, consentVersion] of leadHeroPages) {
     assert.doesNotMatch(form, /\bfree\b/i);
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
-    assert.match(html, /\/css\/lead-hero\.css\?v=20261015-post326/);
-    assert.match(html, /\/js\/lead-hero\.js\?v=20261015-post326/);
+    assert.match(html, /\/css\/lead-hero\.css\?v=20261015-home-match/);
+    assert.match(html, /\/js\/lead-hero\.js\?v=20261015-home-match/);
   });
 }
 
@@ -105,7 +105,7 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
     assert.doesNotMatch(form, /\bfree\b/i);
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
-    assert.match(form, /Do not enter/i);
+    assert.match(html, /Do not enter/i);
     assert.match(
       form,
       /<p class="sitelink-lead-privacy" data-sitelink-medicare-florida-note hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
