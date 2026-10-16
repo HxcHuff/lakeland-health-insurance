@@ -315,6 +315,7 @@ test('GSC redirect-error URLs force one hop to an absolute apex HTTPS destinatio
     ['/blog/how-to-use-health-insurance-without-going-broke', 'https://lakelandhealthinsurance.com/blog/how-to-use-health-insurance-without-going-broke.html'],
     ['/carriers/aca-florida-2026/', 'https://lakelandhealthinsurance.com/carriers/'],
     ['/blog/florida-insurance-guide', 'https://lakelandhealthinsurance.com/blog/florida-insurance-guide.html'],
+    ['/blog/florida-insurance-guide/index.html', 'https://lakelandhealthinsurance.com/blog/florida-insurance-guide.html'],
     ['/blog/5-critical-health-insurance-mistakes', 'https://lakelandhealthinsurance.com/blog/5-critical-health-insurance-mistakes.html']
   ]);
 

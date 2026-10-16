@@ -189,6 +189,13 @@ test('robots permits crawlers to observe retirement responses', () => {
   for (const part of RETIRED_URL_PARTS) assert.doesNotMatch(ROBOTS, new RegExp(part.replaceAll('.', '\\.')));
 });
 
+test('demand-gen ad assets stay out of crawl indexes via robots.txt and response headers', () => {
+  const headers = readFileSync(join(ROOT, '_headers'), 'utf8');
+  assert.match(headers, /\/assets\/ads\/\*\n\s+X-Robots-Tag: noindex/);
+  assert.match(ROBOTS, /Disallow: \/assets\/ads\//);
+  assert.ok(existsSync(join(ROOT, 'assets/ads/dg-2027/logo_square_1200x1200.png')));
+});
+
 test('retired URLs are absent from public discovery files and the sitemap', () => {
   for (const file of findDiscoveryFiles(ROOT)) {
     const source = readFileSync(file, 'utf8');
