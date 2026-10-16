@@ -2,10 +2,11 @@
 /** Route lists for non-blog sitewide B + C (David approved 2026-10-16). */
 
 /** Pins aligned with scripts/validate-pages.mjs for this batch. */
-export const VERSION = '20261016-nonblog-gates3';
+export const VERSION = '20261016-hero-padding-hotfix';
 export const SITE_TEMPLATE_CSS_PIN = '20261016-pr-b-site-tpl';
 
 export const CATEGORY_B = [
+  'index.html',
   'clearwater-health-insurance/index.html',
   'largo-health-insurance/index.html',
   'new-port-richey-health-insurance/index.html',
