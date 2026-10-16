@@ -26,18 +26,36 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/js/site-template.js', '20261023-pr333-follow-up'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
-  ['/css/lead-hero.css', '20261016-nonblog-gates3'],
+  ['/css/lead-hero.css', '20261016-lead-form-v2'],
   ['/css/answer-pages.css', '20261016-pr337-c'],
   ['/css/paid-landing.css', '20261016-pr337-lp3'],
-  ['/js/lead-hero.js', '20261023-pr333-follow-up'],
+  ['/js/lead-hero.js', '20261016-lead-form-v2'],
+  ['/js/lead-form-v2.js', '20261016-lead-form-v2'],
 ]);
 const SERVICE_WORKER_CACHE_VERSION = '20261016-pr337-e';
+
+const LEAD_HERO_LEGACY_NONBLOG_GATES = '20261016-nonblog-gates2';
+
+function expectedReleaseAssetVersion(rel, assetPath, defaultVersion) {
+  if (
+    assetPath === '/css/lead-hero.css' &&
+    (/^lp\/(aca|gap|medicare)\//.test(rel) ||
+      /^(current-client-review|employer-referral|post-enrollment-review)\//.test(rel))
+  ) {
+    return LEAD_HERO_LEGACY_NONBLOG_GATES;
+  }
+  if (rel.startsWith('blog/') && BLOG_RELEASE_ASSET_VERSIONS.has(assetPath)) {
+    return BLOG_RELEASE_ASSET_VERSIONS.get(assetPath);
+  }
+  return defaultVersion;
+}
 
 /** Blog PR B ships newer cache tokens without sitewide HTML bumps. */
 const BLOG_RELEASE_ASSET_VERSIONS = new Map([
   ['/css/blog-unified.css', '20261023-pr333-follow-up'],
-  ['/css/lead-hero.css', '20261016-nonblog-gates3'],
-  ['/js/lead-hero.js', '20261023-pr333-follow-up']
+  ['/css/lead-hero.css', '20261016-lead-form-v2'],
+  ['/js/lead-hero.js', '20261016-lead-form-v2'],
+  ['/js/lead-form-v2.js', '20261016-lead-form-v2']
 ]);
 
 const FORBIDDEN_PUBLIC_FILES = [
@@ -125,12 +143,7 @@ for (const file of seen) {
   htmlByRel.set(rel, file);
   const html = readFileSync(file, 'utf8');
   for (const [assetPath, assetVersion] of RELEASE_ASSET_VERSIONS) {
-    const version =
-      rel.startsWith('blog/') && BLOG_RELEASE_ASSET_VERSIONS.has(assetPath)
-        ? BLOG_RELEASE_ASSET_VERSIONS.get(assetPath)
-        : rel.startsWith('lp/') && assetPath === '/css/lead-hero.css'
-          ? '20261016-nonblog-gates2'
-          : assetVersion;
+    const version = expectedReleaseAssetVersion(rel, assetPath, assetVersion);
     const expected = `${assetPath}?v=${version}`;
     const pattern = new RegExp(`${escapeRegExp(assetPath)}(?:\\?[^\"'\\s<>]*)?`, 'g');
     for (const match of html.matchAll(pattern)) {
