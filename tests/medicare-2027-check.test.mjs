@@ -54,6 +54,10 @@ test('medicare-2027-check mobile-first hero and four-field get-help v2 form', ()
   assert.match(markup, /data-sitelink-inline-thank-you/);
 });
 
+test('medicare-2027-check avoids site-template.css (layout isolated to page styles)', () => {
+  assert.doesNotMatch(HTML, /site-template\.css/);
+});
+
 test('medicare-2027-check trust bullets and TPMO disclosure ids', () => {
   assert.match(HTML, /Local Lakeland agent/);
   assert.match(HTML, /Compares plans from multiple carriers/);
@@ -152,18 +156,13 @@ test('medicare-2027-check submit button fits a 390x844 first screen', async () =
   }
 });
 
-test('medicare-2027-check submit button uses homepage gold cta-button computed styles', async () => {
+test('medicare-2027-check H1 offset and gold submit styles at 390x844', async () => {
   const server = createServer((request, response) => {
     try {
       let pathname = decodeURIComponent(new URL(request.url, 'http://127.0.0.1').pathname);
       if (pathname.endsWith('/')) pathname += 'index.html';
-      const filePath = join(ROOT, pathname.replace(/^\//, ''));
-      const body = readFileSync(filePath);
-      const type = pathname.endsWith('.css')
-        ? 'text/css'
-        : pathname.endsWith('.js')
-          ? 'application/javascript'
-          : 'text/html';
+      const body = readFileSync(join(ROOT, pathname.replace(/^\//, '')));
+      const type = pathname.endsWith('.css') ? 'text/css' : 'text/html';
       response.writeHead(200, { 'Content-Type': type });
       response.end(body);
     } catch {
@@ -180,20 +179,27 @@ test('medicare-2027-check submit button uses homepage gold cta-button computed s
   try {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     await page.goto(`http://127.0.0.1:${port}/medicare-2027-check/`, { waitUntil: 'networkidle' });
-    const styles = await page.evaluate(() => {
+    await page.evaluate(() => window.scrollTo(0, 0));
+    const metrics = await page.evaluate(() => {
+      const h1 = document.querySelector('.m27-title');
+      const disc = document.querySelector('.site-page-disclosures');
       const button = document.querySelector('button.cta-button.m27-submit');
       const computed = getComputedStyle(button);
       return {
+        h1Top: h1.getBoundingClientRect().top,
+        discWidth: disc.getBoundingClientRect().width,
         backgroundColor: computed.backgroundColor,
         color: computed.color,
         borderRadius: computed.borderRadius,
         fontWeight: computed.fontWeight
       };
     });
-    assert.equal(styles.backgroundColor, 'rgb(212, 168, 67)', 'gold background (#D4A843)');
-    assert.equal(styles.color, 'rgb(15, 26, 46)', 'navy-deep text (#0F1A2E)');
-    assert.match(styles.borderRadius, /100px|50%/);
-    assert.match(styles.fontWeight, /600|700/);
+    assert.ok(Math.abs(metrics.h1Top - 63.03125) < 1.5, `H1 top ${metrics.h1Top}px should match pre-site-template layout (~63px)`);
+    assert.ok(Math.abs(metrics.discWidth - 358) < 1.5, `disclosure width ${metrics.discWidth}px should stay 358px at 390 viewport`);
+    assert.equal(metrics.backgroundColor, 'rgb(212, 168, 67)', 'gold background (#D4A843)');
+    assert.equal(metrics.color, 'rgb(15, 26, 46)', 'navy-deep text (#0F1A2E)');
+    assert.match(metrics.borderRadius, /100px|50%/);
+    assert.match(metrics.fontWeight, /600|700/);
   } finally {
     await browser.close();
     await new Promise((resolvePromise) => server.close(() => resolvePromise()));

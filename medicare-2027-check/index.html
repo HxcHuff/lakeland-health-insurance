@@ -11,9 +11,8 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr339-site-tpl">
   <style>
-    :root { --navy: #1B2A4A; --muted: #5f6b7a; --line: #d8dde8; --hero: #F8FAFC; }
+    :root { --navy: #1B2A4A; --navy-deep: #0F1A2E; --gold: #D4A843; --muted: #5f6b7a; --line: #d8dde8; --hero: #F8FAFC; }
     *, *::before, *::after { box-sizing: border-box; }
     body { margin: 0; font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; color: #111827; background: var(--hero); line-height: 1.45; }
     a { color: #2563EB; }
@@ -37,8 +36,29 @@
     .m27-consent-group legend { font-size: 0.72rem; font-weight: 700; color: var(--navy); margin-bottom: 2px; padding: 0; }
     .m27-consent-help { font-size: 0.68rem; color: var(--muted); margin: 0 0 4px; line-height: 1.3; }
     .m27-consent-after { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
-    .m27-main .cta-button.m27-submit { width: 100%; margin-top: 10px; min-height: 44px; font-size: 0.98rem; }
-    .m27-main .cta-button.m27-submit:disabled { opacity: 0.65; cursor: wait; }
+    .m27-main button.cta-button.m27-submit {
+      background: var(--gold);
+      color: var(--navy-deep);
+      border: none;
+      border-radius: 100px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(212, 168, 67, 0.3);
+      width: 100%;
+      margin-top: 10px;
+      min-height: 44px;
+      font-size: 0.98rem;
+    }
+    .m27-main button.cta-button.m27-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(212, 168, 67, 0.45);
+    }
+    .m27-main button.cta-button.m27-submit:focus-visible {
+      outline: 2px solid var(--navy-deep);
+      outline-offset: 2px;
+    }
+    .m27-main button.cta-button.m27-submit:disabled { opacity: 0.65; cursor: wait; }
     .m27-status { min-height: 1.2em; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
     .m27-trust { list-style: none; padding: 18px 0 0; margin: 0; display: grid; gap: 8px; font-size: 0.9rem; color: var(--navy); }
     .m27-trust li::before { content: "✓ "; color: #2563EB; font-weight: 800; }
