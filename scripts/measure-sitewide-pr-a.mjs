@@ -58,34 +58,69 @@ function startServer() {
   });
 }
 
-async function measure(page, baseUrl, route, viewport) {
+async function measure(page, baseUrl, route, viewport, detail = false) {
   await page.setViewportSize(viewport);
   await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle', timeout: 20000 });
+  await page.evaluate(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  });
   await page.waitForTimeout(150);
-  return page.evaluate(({ vw, vh }) => {
+  return page.evaluate(({ vw, vh, detail }) => {
     const h1 = document.querySelector('section.hero h1, section.answer-hero h1, .article-hero h1, main h1, h1');
     const form = document.querySelector('.lhi-hero-grid-lead .lhi-lead-hero__card, .lhi-lead-hero__card');
     const headerInner = document.querySelector('header nav, header .container, header');
     const footer = document.querySelector('footer');
+    const shell = document.querySelector('.lhi-hero-shell, section.hero, .article-hero');
+    const lede = document.querySelector('.lhi-hero-lede, .hero-sub, .lhi-hero-deferred-block p, section.hero p');
+    const call = document.querySelector('.click-to-call, a.click-to-call');
     const h1r = h1?.getBoundingClientRect();
     const fr = form?.getBoundingClientRect();
     const hr = headerInner?.getBoundingClientRect();
     const ftr = footer?.getBoundingClientRect();
+    const cr = call?.getBoundingClientRect();
     const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
-    return {
+    const base = {
       h1Y: h1r ? Math.round(h1r.top) : null,
       formLeftPct: fr ? Math.round((fr.left / vw) * 100) : null,
+      formTopPx: fr ? Math.round(fr.top) : null,
+      formLeftPx: fr ? Math.round(fr.left) : null,
       headerWidth: hr ? Math.round(hr.width) : null,
       overflowPx: Math.round(overflow),
+      scrollWidth: document.documentElement.scrollWidth,
       footerBeforeH1: !!(ftr && h1r && ftr.top < h1r.top - 8),
       footerY: ftr ? Math.round(ftr.top) : null
     };
-  }, { vw: viewport.width, vh: viewport.height });
+    if (!detail) return base;
+    const shellBg = shell ? getComputedStyle(shell).backgroundColor : null;
+    const h1Style = h1 ? getComputedStyle(h1) : null;
+    const ledeStyle = lede ? getComputedStyle(lede) : null;
+    return {
+      ...base,
+      heroBgRgb: shellBg,
+      h1TextAlign: h1Style?.textAlign ?? null,
+      ledeColor: ledeStyle?.color ?? null,
+      ledeOpacity: ledeStyle?.opacity ?? null,
+      callBbox: cr
+        ? {
+            top: Math.round(cr.top),
+            left: Math.round(cr.left),
+            right: Math.round(cr.right),
+            bottom: Math.round(cr.bottom),
+            width: Math.round(cr.width),
+            height: Math.round(cr.height),
+            inViewport: cr.right <= vw && cr.left >= 0 && cr.bottom <= vh && cr.top >= 0
+          }
+        : null
+    };
+  }, { vw: viewport.width, vh: viewport.height, detail });
 }
 
 const jsonOut = process.argv.includes('--json');
+const detailOut = process.argv.includes('--detail');
 const routes = process.argv.slice(2).filter(
-  (a) => a.startsWith('/') && (a.endsWith('/') || a.endsWith('.html'))
+  (a) => a.startsWith('/') && (a.endsWith('/') || a.endsWith('.html')) && !a.startsWith('--')
 );
 const list = routes.length ? routes : DEFAULT_ROUTES;
 
@@ -102,7 +137,7 @@ for (const route of list) {
     { tag: '390', width: 390, height: 844 },
     { tag: '1280', width: 1280, height: 800 }
   ]) {
-    const m = await measure(page, server.baseUrl, route, vp);
+    const m = await measure(page, server.baseUrl, route, vp, detailOut || jsonOut);
     report.push({ route, viewport: vp.tag, ...m });
   }
 }

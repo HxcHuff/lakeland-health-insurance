@@ -548,12 +548,12 @@ footer {
 }
 
 .click-to-call {
-  right: max(12px, env(safe-area-inset-right, 0px));
+  right: max(20px, env(safe-area-inset-right, 0px));
   background: linear-gradient(135deg, var(--green), #059669);
   padding: 15px 20px;
   font-size: 1.1rem;
   box-shadow: 0 8px 25px rgba(22,163,74,0.4);
-  max-width: min(360px, calc(100vw - 24px));
+  max-width: min(300px, calc(100vw - 48px));
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -603,13 +603,17 @@ footer {
   .messenger-button {
     width: 56px;
     height: 56px;
+    max-width: 56px;
     padding: 0;
     justify-content: center;
+    overflow: visible;
+    right: max(20px, env(safe-area-inset-right, 0px));
+    white-space: nowrap;
   }
 
   .click-to-call .floating-action-label,
   .messenger-button .floating-action-label {
-    display: none;
+    display: none !important;
   }
 
   .click-to-call .phone-icon,
