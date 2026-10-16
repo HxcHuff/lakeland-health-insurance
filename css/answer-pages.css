@@ -40,6 +40,11 @@ body.lhi-page-hero .lhi-hero-shell > .answer-hero .lhi-hero-lede {
   color: #475569 !important;
 }
 
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block :is(p.last-reviewed, p.byline, .article-meta, .meta) {
+  color: #1e293b !important;
+  opacity: 1 !important;
+}
+
 .answer-hero .eyebrow {
   color: #D4A843;
 }

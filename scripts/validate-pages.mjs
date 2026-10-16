@@ -20,14 +20,14 @@ const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/fonts.css', '20261015-v6merge2'],
   ['/css/site-template.css', '20261016-no-red-banner'],
-  ['/css/blog-unified.css', '20261018-watson-gray-deferred'],
+  ['/css/blog-unified.css', '20261019-watson-deferred-meta'],
   ['/js/site-phone.js', '20261015-v6merge2'],
   ['/js/site-template.js', '20261016-no-red-banner'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
-  ['/css/lead-hero.css', '20261018-watson-gray-deferred'],
-  ['/css/answer-pages.css', '20261017-lhi-page-hero-gray'],
-  ['/js/lead-hero.js', '20261018-watson-gray-deferred'],
+  ['/css/lead-hero.css', '20261019-watson-deferred-meta'],
+  ['/css/answer-pages.css', '20261019-watson-deferred-meta'],
+  ['/js/lead-hero.js', '20261019-watson-deferred-meta'],
 ]);
 const SERVICE_WORKER_CACHE_VERSION = '20261016-no-red-banner';
 

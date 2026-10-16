@@ -48,33 +48,36 @@ body.blog-post.has-seasonal-banner {
 }
 
 
-.article-header,
-.blog-header,
-.hero,
-.page-hero {
+body:not(.lhi-page-hero) .article-header,
+body:not(.lhi-page-hero) .blog-header,
+body:not(.lhi-page-hero) .hero,
+body:not(.lhi-page-hero) .page-hero {
   background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%) !important;
   color: #fff !important;
 }
 
-.article-header h1,
-.blog-header h1,
-.hero h1,
-.page-hero h1 {
+body:not(.lhi-page-hero) .article-header h1,
+body:not(.lhi-page-hero) .blog-header h1,
+body:not(.lhi-page-hero) .hero h1,
+body:not(.lhi-page-hero) .page-hero h1 {
   color: #fff !important;
 }
 
-.article-header p,
-.blog-header p,
-.hero p,
-.page-hero p {
+body:not(.lhi-page-hero) .article-header p,
+body:not(.lhi-page-hero) .blog-header p,
+body:not(.lhi-page-hero) .hero p,
+body:not(.lhi-page-hero) .page-hero p {
   color: rgba(255,255,255,0.9) !important;
 }
 
 body.lhi-page-hero .lhi-hero-shell :is(.hero, .article-hero, .home-hero) .lhi-hero-deferred-block p,
 body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .meta,
 body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .byline,
-body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .last-reviewed {
-  color: #475569 !important;
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .last-reviewed,
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .article-meta {
+  color: #1e293b !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #1e293b !important;
 }
 
 /* Homepage-style gray lead heroes (Watson template and interior hubs). */
@@ -94,12 +97,15 @@ body.lhi-page-hero .lhi-hero-shell .answer-hero .lead {
 
 body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .meta,
 body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .last-reviewed,
-body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .byline {
-  color: #475569 !important;
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .byline,
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .article-meta {
+  color: #1e293b !important;
+  font-size: 0.92rem;
+  line-height: 1.55;
 }
 
 body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block :is(p, li, .hero-direct-answer, .key-answer, .key-answer p) {
-  color: #334155 !important;
+  color: #1e293b !important;
 }
 
 body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .hero-direct-answer,
@@ -134,8 +140,9 @@ body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .key-answer a {
   font-weight: 700;
 }
 
-body.lhi-page-hero .lhi-hero-shell :is(.hero, .article-hero) .lhi-hero-deferred-block p {
-  color: #334155 !important;
+body.lhi-page-hero .lhi-hero-shell :is(.hero, .article-hero) .lhi-hero-deferred-block :is(p.last-reviewed, p.byline, .article-meta, .meta) {
+  color: #1e293b !important;
+  opacity: 1 !important;
 }
 
 body.lhi-page-hero,
