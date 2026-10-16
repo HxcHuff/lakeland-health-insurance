@@ -426,7 +426,7 @@ async function measurePage(page, baseUrl, route, viewport) {
       let sibling = intro.nextElementSibling;
       while (sibling) {
         if (
-          sibling.matches('section.card, section.key-answer, .card') &&
+          sibling.matches('section.card, section.key-answer, .card, .container') &&
           isVisibleEl(sibling)
         ) {
           cardRef = sibling;
@@ -435,10 +435,8 @@ async function measurePage(page, baseUrl, route, viewport) {
         sibling = sibling.nextElementSibling;
       }
       if (!cardRef) {
-        cardRef =
-          intro.parentElement?.querySelector(
-            'section.card, section.key-answer, .card'
-          ) || null;
+        const nested = intro.parentElement?.querySelector('section.card, .card');
+        if (nested && isVisibleEl(nested)) cardRef = nested;
       }
       if (cardRef && isVisibleEl(intro)) {
         const cardR = cardRef.getBoundingClientRect();

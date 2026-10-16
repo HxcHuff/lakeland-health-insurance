@@ -2513,7 +2513,9 @@ body.lhi-page-hero.blog-post main.container:has(.lhi-hero-shell:first-child) {
   width: 100%;
 }
 
+body.lhi-page-hero.blog-post main:has(> .lhi-hero-shell) > .lhi-post-body-intro,
 body.lhi-page-hero.blog-post main.container:has(> .lhi-hero-shell) > .lhi-post-body-intro,
+body.lhi-page-hero.blog-post main:has(> .lhi-hero-shell) > .container,
 body.lhi-page-hero.blog-post main.container:has(> .lhi-hero-shell) > section.card,
 body.lhi-page-hero.blog-post main.container:has(> .lhi-hero-shell) > figure.media,
 body.lhi-page-hero.blog-post main.container:has(> .lhi-hero-shell) > section:not(.hero):not(.lhi-lead-hero):not(.related-reading):not(.lhi-hero-shell) {
@@ -2789,6 +2791,7 @@ body.lhi-page-hero.blog-post .lhi-post-body-intro {
 }
 
 /* Intro restored outside article card: match post/article column width. */
+body.lhi-page-hero.blog-post main:has(> .lhi-hero-shell) > .lhi-post-body-intro,
 body.lhi-page-hero.blog-post main.container > .lhi-post-body-intro,
 body.lhi-page-hero.blog-post main > .lhi-post-body-intro:first-child {
   background: #fff;
@@ -2805,6 +2808,7 @@ body.lhi-page-hero.blog-post main > .lhi-post-body-intro:first-child {
 }
 
 @media (max-width: 640px) {
+  body.lhi-page-hero.blog-post main:has(> .lhi-hero-shell) > .lhi-post-body-intro,
   body.lhi-page-hero.blog-post main.container > .lhi-post-body-intro,
   body.lhi-page-hero.blog-post main > .lhi-post-body-intro:first-child {
     border-radius: 14px;
