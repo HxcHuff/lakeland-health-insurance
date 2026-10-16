@@ -25,7 +25,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b2">
   <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
   <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
   <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
@@ -187,7 +187,7 @@
     .page-crumb a { color: var(--guide-navy); font-weight: 700; text-decoration: none; }
     .guide-hero { background: linear-gradient(145deg, var(--guide-navy-deep) 0%, var(--guide-navy) 58%, #1E3A5F 100%); color: #fff; overflow: hidden; padding: 54px 0 82px; position: relative; }
     .guide-hero::before { background: radial-gradient(circle at 85% 10%, rgba(212,168,67,0.16), transparent 33%); content: ''; inset: 0; pointer-events: none; position: absolute; }
-    .guide-hero .container { position: relative; }
+    .guide-hero .container:not(.hero-grid) { position: relative; }
     .eyebrow { color: #F5D98F !important; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.08em; margin: 0 0 12px; text-transform: uppercase; }
     .guide-hero h1 { color: #fff !important; font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif; font-size: clamp(2.35rem, 6vw, 4.1rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.02; margin: 0 0 18px; max-width: 900px; }
     .guide-hero .lede { color: #E2E8F0 !important; font-size: clamp(1.03rem, 2vw, 1.19rem); margin: 0; max-width: 800px; }
@@ -270,7 +270,7 @@
     }
   </style>
 
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b" data-lhi-lead-hero-tail>
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b2" data-lhi-lead-hero-tail>
 </head>
 <body class="blog-post lhi-page-hero">
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -294,12 +294,7 @@
 <div class="lhi-hero-shell">
 <section class="hero">
   <div class="container hero-grid">
-<div class="lhi-hero-lede-block"><p class="eyebrow">2027 Medicare guide · Florida</p>
-        <h1>Medicare Basics for 2027: What to Know Before You Choose</h1>
-
-
-
-<p class="last-reviewed" style="color:#64748B;font-size:0.9rem;margin:0.75rem 0 1rem;">Last reviewed: October 1, 2026.</p></div>
+<div class="lhi-hero-lede-block"><h1>Medicare Basics for 2027: What to Know Before You Choose</h1></div>
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="medicare" data-form-name="site-medicare-lead" data-source-template="blog_post" aria-labelledby="blog_medicare_for_dummies_html-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
@@ -381,8 +376,7 @@
         <p class="hero-meta">Originally published May 25, 2025 · Updated August 21, 2026 · 10-minute read</p>
         <div class="guide-actions">
           <a class="guide-btn primary" href="/get-help/?intent=medicare">Start My Medicare Review</a>
-            <a class="guide-btn secondary" href="tel:+18636403102">Call (863) 640-3102</a>
-        </div></div>
+            <a class="guide-btn secondary" href="tel:+18636403102">Call (863) 640-3102</a></div>
   </div>
 </section>
 </div>
@@ -698,6 +692,6 @@
 
 
   <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261016-sitewide-b" defer></script>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b2" defer></script>
 </body>
 </html>

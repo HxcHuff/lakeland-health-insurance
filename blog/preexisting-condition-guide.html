@@ -23,7 +23,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b2">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -120,7 +120,7 @@
     :root { --navy:#1B2A4A; --gold:#D4A843; --gray:#475569; --bg:#F8FAFC; --card:#FFFFFF; --line:#E2E8F0; --danger:#B91C1C; --warnbg:#FEF2F2; --safebg:#EFF6FF; }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; color: #1E293B; background: var(--bg); line-height: 1.65; }
-    .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+    .container:not(.hero-grid) { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
     .top { background: var(--navy); color: #fff; padding: 12px 0; font-size: 0.9rem; }
     .top a { color: #fff; }
     header { background: #fff; border-bottom: 1px solid var(--line); }
@@ -192,7 +192,7 @@ header .cta-button {
     <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
     <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
 
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b" data-lhi-lead-hero-tail>
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b2" data-lhi-lead-hero-tail>
 </head>
 <body class="blog-post lhi-page-hero">
   <div class="top">
@@ -215,11 +215,6 @@ header .cta-button {
 <section class="hero">
   <div class="container hero-grid">
 <div class="lhi-hero-lede-block"><h1>Florida Pre-Existing Condition Coverage for <em class="accent">2027</em></h1>
-
-
-
-
-
 <p class="lhi-hero-lede last-reviewed" style="color:#64748B;font-size:0.9rem;margin:0.75rem 0 1rem;">Last reviewed: September 30, 2026.</p></div>
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="preexisting_condition_guide-lead-title">
   <div class="lhi-lead-hero__grid">
@@ -299,8 +294,7 @@ header .cta-button {
       <p class="meta">Published February 1, 2026 | Updated March 13, 2026 | By David Huff, Licensed Insurance Agent</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="/get-help/">Need a condition-specific plan check?</a>
-        <a class="btn btn-secondary" href="/short-term-medical/">Compare ACA vs Non-ACA</a>
-      </div></div>
+        <a class="btn btn-secondary" href="/short-term-medical/">Compare ACA vs Non-ACA</a></div>
   </div>
 </section>
 </div>
@@ -428,6 +422,6 @@ header .cta-button {
     <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
     <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261016-sitewide-b" defer></script>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b2" defer></script>
 </body>
 </html>

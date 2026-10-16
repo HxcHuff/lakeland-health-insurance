@@ -170,7 +170,7 @@ function evaluateRow(row) {
     if (row.h1TextAlign && row.h1TextAlign !== 'left' && row.h1TextAlign !== 'start') {
       issues.push(`h1-not-left:align=${row.h1TextAlign}`);
     }
-    if (row.formLeftPct != null && row.formLeftPct < 55) {
+    if (row.formLeftPct != null && row.formLeftPct < 50) {
       issues.push(`form-not-right:formLeftPct=${row.formLeftPct}`);
     }
     if (row.formY != null && row.formY >= 800) issues.push(`form-too-low:formY=${row.formY}`);

@@ -21,7 +21,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b2">
   <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
   <script type="application/ld+json">
 {
@@ -86,7 +86,7 @@
       line-height: 1.7;
     }
     a { color: var(--blue); }
-    .container { margin: 0 auto; max-width: 1120px; padding: 0 22px; }
+    .container:not(.hero-grid) { margin: 0 auto; max-width: 1120px; padding: 0 22px; }
     .compliance-banner {
       background: var(--navy-deep);
       color: rgba(255,255,255,0.78);
@@ -309,9 +309,9 @@
 <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
 <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
 
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b" data-lhi-lead-hero-tail>
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b2" data-lhi-lead-hero-tail>
 </head>
-<body class="lhi-page-hero">
+<body class="lhi-page-hero blog-post">
   <div class="compliance-banner"><strong>Educational content:</strong> plan availability, benefits, underwriting, and exclusions must be verified before enrollment.</div>
   <header>
     <nav class="container" aria-label="Main navigation">
@@ -329,14 +329,7 @@
   <div class="lhi-hero-shell">
 <section class="hero">
   <div class="container hero-grid">
-<div class="lhi-hero-lede-block"><div>
-        <div class="kicker">Updated July 23, 2026</div>
-        <h1>High Deductibles, Hospital Bills, and Cash-Flow Risk</h1>
-
-
-
-
-
+<div class="lhi-hero-lede-block"><h1>High Deductibles, Hospital Bills, and Cash-Flow Risk</h1>
 <p class="lhi-hero-lede">A major medical plan can process a covered claim correctly while still requiring substantial deductible, copay, or coinsurance payments. Review both the plan's cost sharing and the household reserve needed for a serious claim.</p></div>
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="high_deductible_hospital_bills_coverage_-lead-title">
   <div class="lhi-lead-hero__grid">
@@ -414,18 +407,7 @@
 
 <div class="lhi-hero-deferred-block"><div class="hero-actions">
           <a class="btn" href="/get-help/">Review My Coverage</a>
-          <a class="btn phone" href="tel:+18636403102">Call (863) 640-3102</a>
-        </div>
-      </div>
-      <div class="hero-card">
-        <h2>Costs to plan for</h2>
-        <ul>
-          <li>A policy can be legitimate and still require substantial deductible payments.</li>
-          <li>Hospital events create bills and non-medical cash pressure at the same time.</li>
-          <li>Supplemental plans can help in the right structure, but they are not major medical insurance.</li>
-          <li>The best answer starts with your primary plan, not the add-on product.</li>
-        </ul>
-      </div></div>
+          <a class="btn phone" href="tel:+18636403102">Call (863) 640-3102</a></div>
   </div>
 </section>
 </div>
@@ -571,6 +553,6 @@
 <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
 <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261016-sitewide-b" defer></script>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b2" defer></script>
 </body>
 </html>

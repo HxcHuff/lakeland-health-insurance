@@ -2403,6 +2403,15 @@ body.lhi-page-hero.blog-post:has(.lhi-hero-shell) main {
   display: block;
 }
 
+body.lhi-page-hero.blog-post main.container:has(> .lhi-hero-shell),
+body.lhi-page-hero.blog-post main.container:has(.lhi-hero-shell:first-child) {
+  box-sizing: border-box;
+  max-width: 100% !important;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+}
+
 body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block {
   display: flex;
   flex-direction: column;
@@ -2447,6 +2456,14 @@ body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-lead-hero__intro {
     padding: 0;
   }
 
+  body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid {
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1100px !important;
+    width: 100%;
+  }
+
   body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block) {
     align-items: start;
     display: grid !important;
@@ -2456,12 +2473,35 @@ body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-lead-hero__intro {
     max-width: 1100px;
   }
 
+  body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(.lhi-hero-grid-lead) {
+    align-items: start;
+    display: grid !important;
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px) !important;
+  }
+
   body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) {
     align-items: start;
     display: grid !important;
     gap: clamp(1rem, 2.5vw, 1.75rem);
     grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px);
     max-width: 1100px;
+  }
+
+  body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(.lhi-hero-grid-lead) > .lhi-hero-lede-block {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+
+  body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(.lhi-hero-grid-lead) > .lhi-hero-deferred-block {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+  }
+
+  body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(.lhi-hero-grid-lead) > .lhi-hero-grid-lead,
+  body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(.lhi-hero-grid-lead) > section.lhi-hero-grid-lead {
+    grid-column: 2 !important;
+    grid-row: 1 / span 2 !important;
   }
 
   body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead) > .lhi-hero-lede-block {

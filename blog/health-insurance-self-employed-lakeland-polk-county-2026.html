@@ -24,7 +24,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b2">
   <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
   <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
   <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
@@ -116,7 +116,7 @@
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; color: var(--text); background: var(--bg); line-height: 1.65; }
     a { color: var(--blue); }
-    .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+    .container:not(.hero-grid) { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
     .top-strip { background: var(--navy); color: #fff; font-size: 0.9rem; padding: 10px 0; }
     .top-strip a { color: #fff; font-weight: 700; }
     header.lhi-topbar { background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 30; }
@@ -156,9 +156,9 @@
     @media (max-width: 720px) { .hero { padding: 42px 0 64px; } .post { padding: 22px; } .nav-links { width: 100%; } .btn { width: 100%; text-align: center; } }
   </style>
 
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b" data-lhi-lead-hero-tail>
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b2" data-lhi-lead-hero-tail>
 </head>
-<body class="lhi-page-hero">
+<body class="lhi-page-hero blog-post">
   <div class="top-strip">
     <div class="container">Lakeland Health Insurance | David Huff | FL License #W371813 | NPN 18213932 | <a href="tel:+18636403102">(863) 640-3102</a></div>
   </div>
@@ -179,9 +179,7 @@
   <div class="lhi-hero-shell">
 <section class="hero">
   <div class="container hero-grid">
-<div class="lhi-hero-lede-block"><p class="meta">ACA Marketplace | Self-Employed Coverage | Polk County | Published July 25, 2026</p>
-      <h1>Self-Employed Coverage Costs in Polk County for 2027</h1>
-      <section class="key-answer"><p><strong>Direct answer (2027 plan year):</strong> Most self-employed people in Lakeland and Polk County with no employees buy ACA coverage on HealthCare.gov. Premium tax credits use estimated <strong>2027</strong> household income (net self-employment profit plus other taxable income), reconcile at tax time, and require checking Polk County doctors on the exact plan ID before you enroll.</p></section></div>
+<div class="lhi-hero-lede-block"><h1>Self-Employed Coverage Costs in Polk County for 2027</h1></div>
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="blog_health_insurance_self_employed_lake-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
@@ -261,7 +259,7 @@
       <div class="cta-row">
         <a class="btn btn-primary" href="/get-help/?topic=self-employed">Request a Coverage Review</a>
         <a class="btn btn-phone" href="tel:+18636403102">Call (863) 640-3102</a>
-      </div></div>
+<section class="key-answer"><p><strong>Direct answer (2027 plan year):</strong> Most self-employed people in Lakeland and Polk County with no employees buy ACA coverage on HealthCare.gov. Premium tax credits use estimated <strong>2027</strong> household income (net self-employment profit plus other taxable income), reconcile at tax time, and require checking Polk County doctors on the exact plan ID before you enroll.</p></section></div>
   </div>
 </section>
 </div>
@@ -419,6 +417,6 @@
   ]
 }
 </script>
-  <script src="/js/lead-hero.js?v=20261016-sitewide-b" defer></script>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b2" defer></script>
 </body>
 </html>

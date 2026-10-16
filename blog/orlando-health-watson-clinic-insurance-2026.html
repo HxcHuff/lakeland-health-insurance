@@ -23,7 +23,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b2">
 
   <script type="application/ld+json">
 {
@@ -218,7 +218,7 @@
     :root { --navy:#1B2A4A; --gold:#D4A843; --gray:#475569; --bg:#F8FAFC; --card:#FFFFFF; --line:#E2E8F0; --warn:#B45309; --warnbg:#FFFBEB; --safebg:#EFF6FF; --green:#166534; --greenbg:#F0FDF4; }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; color: #1E293B; background: var(--bg); line-height: 1.65; }
-    .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+    .container:not(.hero-grid) { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
     .article-hero { background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%); color: #fff; margin-top: 0; padding: calc(var(--lhi-site-header-height, 96px) + 1.25rem) 20px 1.75rem; scroll-margin-top: calc(var(--lhi-site-header-height, 96px) + 12px); }
     .article-hero .hero-direct-answer { font-size: 1.05rem; max-width: 820px; margin: 0.75rem 0 0; }
     .article-hero .byline { margin: 0.85rem 0 0; font-size: 0.92rem; color: rgba(255,255,255,0.82); }
@@ -280,7 +280,7 @@
   <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
   <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
 
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b" data-lhi-lead-hero-tail>
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b2" data-lhi-lead-hero-tail>
 </head>
 <body class="blog-post watson-insurance-2026 lhi-page-hero">
   <div class="compliance-banner">
@@ -335,7 +335,7 @@
 <section class="hero">
   <div class="container hero-grid">
 <div class="lhi-hero-lede-block"><h1>Orlando Health and Watson Clinic <em class="accent">Insurance Guide</em></h1>
-        <p class="hero-lede lhi-hero-lede">Check Watson Clinic doctors and hospitals against your exact plan ID and benefit year before you enroll—not the carrier name alone.</p></div>
+<p class="hero-lede lhi-hero-lede">Check Watson Clinic doctors and hospitals against your exact plan ID and benefit year before you enroll—not the carrier name alone.</p></div>
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="blog_orlando_health_watson_clinic_insura-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
@@ -419,13 +419,7 @@
           <p>Have a Humana plan and see Watson Clinic doctors? Talk with David Huff, a local licensed agent, before Medicare Open Enrollment ends December 7.</p>
           <div class="lhi-alert-notice-actions">
             <a href="tel:+18636403102">Call (863) 640-3102</a>
-            <a href="/get-help/?intent=provider-check">Request a plan review</a>
-          </div>
-        </section>
-        <p class="hero-direct-answer"><strong>Direct answer:</strong> Watson Clinic publishes participation by plan type on its <a href="https://www.watsonclinic.com/about-us/medical-insurance.html" rel="noopener noreferrer" style="color:#fff;text-decoration:underline;">medical insurance page</a> — Medicare, commercial, and Florida Blue Marketplace plans such as myBlue — but “accepted” is not the same as in network for your exact plan ID, doctor, and benefit year.</p>
-        <p class="hero-direct-answer">For 2027 plan selection, verify each physician, hospital site, lab, imaging location, and prescription against the plan documents for the year you are enrolling, not the carrier name alone.</p>
-        <p class="last-reviewed" style="color:rgba(255,255,255,.82);font-size:0.9rem;margin:0.75rem 0 0;">Last reviewed: October 15, 2026. Plan lists and directories change by benefit year — confirm the exact plan ID before you enroll.</p>
-        <p class="byline">Updated October 15, 2026 · By David Huff, licensed Florida health agent (FL #W371813)</p></div>
+            <a href="/get-help/?intent=provider-check">Request a plan review</a></div>
   </div>
 </section>
 </div>
@@ -690,6 +684,6 @@
   <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
   <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261016-sitewide-b" defer></script>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b2" defer></script>
 </body>
 </html>

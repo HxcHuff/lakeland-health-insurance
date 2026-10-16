@@ -8,7 +8,7 @@ import { join, relative } from 'node:path';
 
 const ROOT = join(import.meta.dirname, '..');
 const BLOG_DIR = join(ROOT, 'blog');
-const VERSION = '20261016-sitewide-b';
+const VERSION = '20261016-sitewide-b2';
 const TAIL_MARKER = 'data-lhi-lead-hero-tail';
 
 const HERO_SECTION_RE =

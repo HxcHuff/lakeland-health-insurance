@@ -21,7 +21,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b2">
   <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
   <script type="application/ld+json">
 {
@@ -107,7 +107,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: var(--gray-50); color: var(--gray-800); font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; line-height: 1.7; }
     a { color: var(--blue); }
-    .container { margin: 0 auto; max-width: 1120px; padding: 0 22px; }
+    .container:not(.hero-grid) { margin: 0 auto; max-width: 1120px; padding: 0 22px; }
     .notice { background: var(--navy-deep); color: rgba(255,255,255,0.78); font-size: 0.78rem; padding: 9px 18px; text-align: center; }
     .notice strong { color: var(--gold); }
     header { background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--gray-200); position: sticky; top: 0; z-index: 20; }
@@ -172,9 +172,9 @@
 <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
 <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
 
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b" data-lhi-lead-hero-tail>
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b2" data-lhi-lead-hero-tail>
 </head>
-<body class="lhi-page-hero">
+<body class="lhi-page-hero blog-post">
   <div class="notice"><strong>Educational guidance:</strong> plan availability, underwriting, benefits, and subsidy eligibility must be verified before enrollment.</div>
   <header>
     <nav class="container" aria-label="Main navigation">
@@ -192,14 +192,7 @@
   <div class="lhi-hero-shell">
 <section class="hero">
   <div class="container hero-grid">
-<div class="lhi-hero-lede-block"><div>
-        <div class="kicker">Updated July 23, 2026</div>
-        <h1>Florida ACA Too Expensive in 2026?</h1>
-
-
-
-
-
+<div class="lhi-hero-lede-block"><h1>Florida ACA Too Expensive in 2026?</h1>
 <p class="lhi-hero-lede last-reviewed" style="color:#64748B;font-size:0.9rem;margin:0.75rem 0 1rem;">Last reviewed: July 23, 2026. Historical 2026 details below are left unchanged.</p></div>
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="health_insurance_too_expensive_florida_2-lead-title">
   <div class="lhi-lead-hero__grid">
@@ -278,18 +271,7 @@
 <div class="lhi-hero-deferred-block"><p>If your Marketplace premium jumped, do not panic-buy the cheapest plan and do not drop coverage without running the math. The right move may be a better ACA setup, a tax-credit correction, COBRA, a short bridge, or a layered non-ACA strategy for a very specific health profile.</p>
         <div class="hero-actions">
           <a class="btn" href="/get-help/">Compare My Options</a>
-          <a class="btn phone" href="tel:+18636403102">Call David</a>
-        </div>
-      </div>
-      <div class="signal-panel">
-        <h2>Why this is happening now</h2>
-        <ul>
-          <li>HealthCare.gov says the extra Marketplace savings tied to the COVID-era subsidy expansion ended December 31, 2025.</li>
-          <li>KFF reported average net Marketplace premium payments rose in 2026 as enhanced tax credits expired.</li>
-          <li>Short-term medical marketing is filling the attention gap, but STM is not ACA coverage.</li>
-          <li>Florida shoppers need a sequence, not a product pitch.</li>
-        </ul>
-      </div></div>
+          <a class="btn phone" href="tel:+18636403102">Call David</a></div>
   </div>
 </section>
 </div>
@@ -459,6 +441,6 @@
 <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
 <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261016-sitewide-b" defer></script>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b2" defer></script>
 </body>
 </html>
