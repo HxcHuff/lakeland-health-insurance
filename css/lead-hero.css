@@ -239,7 +239,7 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
 
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell .answer-hero .hub-breadcrumb,
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb {
-  color: #64748b;
+  color: #475569;
   font-size: 0.84rem;
   font-weight: 700;
   margin-bottom: clamp(0.65rem, 2vw, 1rem);
@@ -1554,6 +1554,12 @@ body.lhi-lead-sticky-active {
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(.lhi-hero-lede-block) .lhi-hero-lede-block h1 {
     font-size: clamp(1.55rem, 6.8vw, 2.05rem) !important;
     line-height: 1.12 !important;
+  }
+
+  .lhi-hero-shell:has(.lhi-hero-lede-block) .lhi-hero-lede-block .cta,
+  .lhi-hero-shell:has(.lhi-hero-lede-block) .lhi-hero-lede-block .hero-cta {
+    order: 3;
+    margin-top: 0.35rem;
   }
 
   .lhi-hero-shell:has(.lhi-hero-lede-block) .lhi-hero-lede-block .lhi-hero-lede,
@@ -3526,4 +3532,57 @@ body.lhi-page-hero .lhi-hero-shell .lhi-hero-lede-block > h1 {
 
 body.lhi-page-hero .lhi-hero-shell .lhi-hero-lede-block p.last-reviewed {
   margin: 0.35rem 0 0.35rem !important;
+}
+
+body.lhi-page-hero main :is(.aw-cta, .hw-cta, .cg-cta, .hsg-cta, .sg-cta) {
+  background: #1b2a4a !important;
+  color: #fff !important;
+}
+
+body.lhi-page-hero main :is(.aw-cta, .hw-cta, .cg-cta, .hsg-cta, .sg-cta) h2 {
+  color: #fff !important;
+}
+
+body.lhi-page-hero main :is(.aw-cta, .hw-cta, .cg-cta, .hsg-cta, .sg-cta) p {
+  color: #cbd5e1 !important;
+}
+
+body.lhi-page-hero main :is(.aw-cta, .hw-cta, .cg-cta, .hsg-cta, .sg-cta) .btn-secondary {
+  color: #fff !important;
+  border-color: #d4a843 !important;
+}
+
+body.lhi-page-hero.about-page .meta-audience-consent {
+  max-width: min(100%, 420px);
+}
+
+@media (max-width: 900px) {
+  body.lhi-page-hero.about-page:not(.home-page) .lhi-hero-shell {
+    padding-top: 3.65rem;
+  }
+
+  body.lhi-page-hero.about-page .lhi-hero-shell .about-header {
+    padding-top: 0;
+  }
+
+  body.lhi-page-hero.about-page .lhi-hero-shell .container.about-hero-grid:has(> .lhi-hero-grid-lead) {
+    gap: 0.75rem;
+  }
+
+  body.lhi-page-hero.about-page .meta-audience-consent {
+    margin-bottom: 0.75rem;
+    max-height: min(42vh, 280px);
+    overflow-y: auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  body.lhi-page-hero.about-page .lhi-hero-shell .lhi-hero-grid-lead {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+body.lhi-page-hero .floating-actions:not(:has(a, button)) {
+  display: none !important;
 }

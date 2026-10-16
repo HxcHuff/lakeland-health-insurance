@@ -112,6 +112,24 @@ body.paid-landing-page img { display: block; max-width: 100%; }
   max-width: 1120px;
 }
 
+body.paid-landing-page.lhi-page-hero .lhi-hero-shell .container.hero-grid:has(> .lp-lead-card) {
+  grid-template-columns: minmax(0, 1.55fr) minmax(320px, 480px);
+}
+
+body.paid-landing-page.lhi-page-hero .lhi-hero-shell .container.hero-grid:has(> .lp-lead-card) .lp-hero-grid {
+  gap: clamp(18px, 3vw, 28px);
+  grid-template-columns: minmax(0, 1fr);
+  max-width: none;
+}
+
+body.paid-landing-page.lhi-page-hero .lhi-hero-shell .container.hero-grid:has(> .lp-lead-card) .lp-intro h1 {
+  max-width: none;
+}
+
+body.paid-landing-page.lhi-page-hero .lhi-hero-shell .container.hero-grid:has(> .lp-lead-card) .lp-summary {
+  max-width: none;
+}
+
 .lp-identity {
   align-items: center;
   display: flex;
@@ -180,6 +198,18 @@ body.paid-landing-page img { display: block; max-width: 100%; }
   color: rgba(255, 255, 255, 0.92);
   font-size: 0.82rem;
   margin: 9px 0 0 4px;
+}
+
+body.paid-landing-page .site-page-disclosures .lp-call-note,
+.site-page-disclosures .lp-call-note {
+  color: #1b2a4a;
+  font-weight: 700;
+  margin: 12px 0 0;
+}
+
+body.paid-landing-page .site-page-disclosures .tpmo-standard-disclaimer,
+body.paid-landing-page .site-page-disclosures .tpmo-inventory-note {
+  color: #334155;
 }
 
 .lp-lead-card {
