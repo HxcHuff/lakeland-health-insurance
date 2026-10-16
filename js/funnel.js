@@ -1142,7 +1142,12 @@
           if (e && typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
           submitLeadViaApi(f, formPayload(f, fd, content), function (apiResult) {
             if (name === 'Lead') {
-              track(name, safeLeadPropsFromForm(f, fd, content, step, apiResult));
+              var suppressLead =
+                f.hasAttribute('data-lhi-suppress-lead-conversion') ||
+                String(fd.get('normalized_intent') || '').toLowerCase() === 'current-client-review';
+              if (!suppressLead) {
+                track(name, safeLeadPropsFromForm(f, fd, content, step, apiResult));
+              }
             } else {
               track(name, { content_name: content, step: step });
             }

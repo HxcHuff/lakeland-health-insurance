@@ -34,8 +34,11 @@ function hopperConfigured(environment = process.env) {
     && Boolean(env('HOPPER_INTAKE_KEY', environment));
 }
 
-function mapInsuranceType(formName) {
-  return formName === 'site-medicare-lead' ? 'MEDICARE' : 'ACA';
+function mapInsuranceType(formName, lineOfBusiness) {
+  if (formName === 'site-medicare-lead') return 'MEDICARE';
+  const line = cleanText(lineOfBusiness, 80).toLowerCase();
+  if (line.includes('supplemental')) return 'ACA';
+  return 'ACA';
 }
 
 function buildHopperBody(websiteLead) {
@@ -46,21 +49,28 @@ function buildHopperBody(websiteLead) {
   const lastName = lead.last_name || last;
   const phone = normalizePhone(lead.phone);
   const zip = cleanText(lead.zip, 10);
+  const email = cleanText(lead.email, 254);
   const notes = [
     `Site lead form: ${lead.form_name}`,
     lead.page_url ? `page_url=${lead.page_url}` : null,
     lead.intent ? `intent=${lead.intent}` : null,
-    lead.insurance_type ? `insurance_type=${lead.insurance_type}` : null
+    lead.insurance_type ? `insurance_type=${lead.insurance_type}` : null,
+    lead.line_of_business ? `line_of_business=${lead.line_of_business}` : null,
+    lead.coverage_status ? `coverage_status=${lead.coverage_status}` : null,
+    lead.consent_call ? `consent_call=${lead.consent_call}` : null,
+    lead.consent_sms ? `consent_sms=${lead.consent_sms}` : null,
+    lead.consent_email ? `consent_email=${lead.consent_email}` : null
   ].filter(Boolean).join(' | ');
 
   return {
     firstName: firstName || undefined,
     lastName: lastName || undefined,
     phone: phone || undefined,
+    email: email || undefined,
     zipCode: zip || undefined,
     source: 'lhi_site_lead_form',
     status: 'NEW_LEAD',
-    insuranceType: mapInsuranceType(websiteLead.form_name),
+    insuranceType: mapInsuranceType(websiteLead.form_name, lead.line_of_business),
     notes
   };
 }

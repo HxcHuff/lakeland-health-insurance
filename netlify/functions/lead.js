@@ -298,6 +298,26 @@ const LP_COMMON_FIELDS = [
   'consent_text_version',
   'ab_variant'
 ];
+const SITE_LEAD_V2_EXTRA_FIELDS = [
+  'normalized_intent',
+  'line_of_business',
+  'inquiry_type',
+  'consent_request',
+  'consent_call',
+  'consent_sms',
+  'consent_email',
+  'consent_request_state',
+  'consent_call_state',
+  'consent_sms_state',
+  'consent_email_state',
+  'consent_recorded_at',
+  'consent_page',
+  'consent_withdrawal_state',
+  'source_page_key',
+  'source_cta_key',
+  'review_reason',
+  '_subject'
+];
 const FORM_FIELD_ALLOWLIST = Object.freeze({
   'homepage-newsletter': leadFormFields(['email', 'consent', 'source_page', '_subject']),
   'newsletter-signup': leadFormFields(['first_name', 'last_name', 'email', 'phone', 'interest', 'consent', 'source_page', '_subject']),
@@ -329,8 +349,8 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'consent_text_version',
     ...FIRST_TOUCH_WITH_SOURCE
   ]),
-  'site-aca-lead': leadFormFields(LP_COMMON_FIELDS, ['source_template']),
-  'site-medicare-lead': leadFormFields(LP_COMMON_FIELDS, ['source_template', 'medicare_stage', 'age_timeline']),
+  'site-aca-lead': leadFormFields(LP_COMMON_FIELDS, ['source_template'], SITE_LEAD_V2_EXTRA_FIELDS),
+  'site-medicare-lead': leadFormFields(LP_COMMON_FIELDS, ['source_template', 'medicare_stage', 'age_timeline'], SITE_LEAD_V2_EXTRA_FIELDS),
   'lp-aca-lead': leadFormFields(LP_COMMON_FIELDS, ['household_size']),
   'lp-medicare-lead': leadFormFields(LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
   'lp-gap-lead': leadFormFields(LP_COMMON_FIELDS, ['coverage_situation']),
@@ -601,6 +621,7 @@ const LP_GAP_CONSENT_TEXT_VERSION_V1 = 'lp-gap-2026-09-29-v1';
 const LP_GAP_CONSENT_TEXT_VERSION_V2 = 'lp-gap-2026-09-29-v2';
 const SITE_MEDICARE_CONSENT_TEXT_VERSION = 'site-medicare-2026-10-v1';
 const SITE_ACA_CONSENT_TEXT_VERSION = 'site-aca-2026-10-v1';
+const SITE_LEAD_V2_CONSENT_TEXT_VERSION = 'site-lead-v2-2026-11-v1';
 const HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION = 'homepage-newsletter-2026-10-07-v1';
 const NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION = 'newsletter-signup-2026-10-07-v1';
 const NEWSLETTER_CONSENT_TEXT_VERSIONS = Object.freeze({
@@ -647,6 +668,7 @@ const ALLOWED_CONSENT_TEXT_VERSIONS = Object.freeze([
   LP_GAP_CONSENT_TEXT_VERSION_V2,
   SITE_MEDICARE_CONSENT_TEXT_VERSION,
   SITE_ACA_CONSENT_TEXT_VERSION,
+  SITE_LEAD_V2_CONSENT_TEXT_VERSION,
   HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION,
   NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION
 ]);
@@ -751,6 +773,58 @@ function applyNewsletterConsentRecord(payload, formName, consentPage, serverRece
   if (serverReceivedAt) payload.consent_recorded_at = serverReceivedAt;
 }
 
+function isSiteLeadV2ConsentVersion(version) {
+  return String(version || '').trim() === SITE_LEAD_V2_CONSENT_TEXT_VERSION;
+}
+
+function channelConsentFromPayload(payload) {
+  const hasPhone = Boolean(String(payload.phone || payload.phone_number || '').trim());
+  const hasEmail = Boolean(String(payload.email || '').trim());
+  return {
+    call: payload.consent_call === 'yes' && hasPhone,
+    sms: payload.consent_sms === 'yes' && hasPhone,
+    email: payload.consent_email === 'yes' && hasEmail
+  };
+}
+
+function applySiteLeadV2ConsentRecord(payload, formName, consentPage, serverReceivedAt) {
+  const recordedPage = sanitizeSourcePath(consentPage || payload.source_page || '/');
+  assignResolvedConsentVersion(payload, formName, recordedPage);
+  const channelConsent = channelConsentFromPayload(payload);
+  ['call', 'sms', 'email'].forEach((channel) => {
+    const field = `consent_${channel}`;
+    if (channelConsent[channel]) payload[field] = 'yes';
+    else delete payload[field];
+  });
+  Object.assign(payload, {
+    consent_recorded_at: serverReceivedAt,
+    consent_page: recordedPage,
+    consent_request_state: payload.consent_request === 'yes' ? 'granted' : 'not_granted',
+    consent_call_state: channelConsent.call ? 'granted' : 'not_granted',
+    consent_sms_state: channelConsent.sms ? 'granted' : 'not_granted',
+    consent_email_state: channelConsent.email ? 'granted' : 'not_granted',
+    consent_withdrawal_state: 'not_withdrawn_at_submission'
+  });
+}
+
+function authorizeSiteLeadV2Consent(payload, formName) {
+  if (!SITE_LEAD_FORMS.has(formName)) return { ok: true };
+  if (!isSiteLeadV2ConsentVersion(payload.consent_text_version)) return { ok: true };
+  if (payload.consent_request !== 'yes') {
+    return { ok: false, error: 'request consent is required' };
+  }
+  const channelConsent = channelConsentFromPayload(payload);
+  if (!channelConsent.call && !channelConsent.sms && !channelConsent.email) {
+    return { ok: false, error: 'at least one contact channel is required' };
+  }
+  return { ok: true };
+}
+
+function isExistingClientServiceIntent(payload) {
+  const intent = cleanLeadToken(payload.normalized_intent || payload.inquiry_type || '');
+  return intent === 'current_client_review';
+}
+
 function applyNonGetHelpConsentRecord(payload, formName, consentPage, serverReceivedAt) {
   if (formName === 'get-help') return;
   const recordedPage = sanitizeSourcePath(consentPage || payload.source_page || '/');
@@ -763,6 +837,10 @@ function applyNonGetHelpConsentRecord(payload, formName, consentPage, serverRece
   }
   if (CITY_HEALTH_INSURANCE_FORM_SET.has(formName)) {
     payload.consent_sms = 'no';
+    return;
+  }
+  if (SITE_LEAD_FORMS.has(formName) && isSiteLeadV2ConsentVersion(payload.consent_text_version)) {
+    applySiteLeadV2ConsentRecord(payload, formName, consentPage, serverReceivedAt);
     return;
   }
   if (Object.prototype.hasOwnProperty.call(LP_CONSENT_TEXT_VERSIONS, formName)) {
@@ -789,11 +867,10 @@ function authorizeGetHelpConsent(payload, serverReceivedAt, consentPage) {
 
   const hasPhone = Boolean(String(payload.phone || '').trim());
   const hasEmail = Boolean(String(payload.email || '').trim());
-  const channelConsent = {
-    call: payload.consent_call === 'yes' && hasPhone,
-    sms: payload.consent_sms === 'yes' && hasPhone,
-    email: payload.consent_email === 'yes' && hasEmail
-  };
+  const channelConsent = channelConsentFromPayload(payload);
+  if (!channelConsent.call && !channelConsent.sms && !channelConsent.email) {
+    return { ok: false, error: 'at least one contact channel is required' };
+  }
 
   ['call', 'sms', 'email'].forEach((channel) => {
     const field = `consent_${channel}`;
@@ -894,6 +971,14 @@ exports.handler = async (event) => {
     rawPayload.source_url || headerValue(headers, 'referer') || headerValue(headers, 'referrer') || ''
   );
 
+  const siteV2ConsentCheck = authorizeSiteLeadV2Consent(payload, formName);
+  if (!siteV2ConsentCheck.ok) {
+    return {
+      statusCode: 422,
+      headers: { ...cors.headers, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: false, error: siteV2ConsentCheck.error })
+    };
+  }
   const consentCheck = authorizeGetHelpConsent(payload, serverReceivedAt, sourcePath);
   if (!consentCheck.ok) {
     return {
@@ -934,6 +1019,7 @@ exports.handler = async (event) => {
   const medicareAttribution = canonicalizeMedicareAttribution(payload);
   const isNewsletter = NEWSLETTER_FORMS.has(formName);
   const isSiteLead = SITE_LEAD_FORMS.has(formName);
+  const skipLeadConversions = isExistingClientServiceIntent(payload);
   const leadPriority = classifyLead(payload, formName);
   payload.lead_priority = leadPriority.level;
   payload.lead_priority_reason = leadPriority.reason;
@@ -985,6 +1071,8 @@ exports.handler = async (event) => {
     capiError = 'CAPI skipped: newsletter subscriber is not a sales lead';
   } else if (isSiteLead) {
     capiError = 'CAPI skipped: site lead forms do not send PII to Meta';
+  } else if (skipLeadConversions) {
+    capiError = 'CAPI skipped: existing client service requests are not sales leads';
   } else if (!IS_PROD_CONTEXT) {
     capiError = `CAPI skipped: production context not confirmed (${NETLIFY_CONTEXT}/${SITE_ENV})`;
   } else if (!metaMeasurementAllowed(headers, cookieHeader)) {
@@ -1051,6 +1139,8 @@ exports.handler = async (event) => {
     adsCapiError = 'Ads CAPI skipped: newsletter subscriber is not a sales lead';
   } else if (isSiteLead) {
     adsCapiError = 'Ads CAPI skipped: site lead forms do not send PII to ad platforms';
+  } else if (skipLeadConversions) {
+    adsCapiError = 'Ads CAPI skipped: existing client service requests are not sales leads';
   } else {
     try {
       const result = await sendAdsLead({
@@ -1236,6 +1326,9 @@ exports._test = {
   LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
   applyNonGetHelpConsentRecord,
   authorizeGetHelpConsent,
+  authorizeSiteLeadV2Consent,
+  isExistingClientServiceIntent,
+  SITE_LEAD_V2_CONSENT_TEXT_VERSION,
   canonicalizeMedicareAttribution,
   corsPolicy,
   decodeRequestBody,

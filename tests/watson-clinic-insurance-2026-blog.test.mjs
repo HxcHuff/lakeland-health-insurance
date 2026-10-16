@@ -122,14 +122,16 @@ test('Watson H1 is visible in first mobile viewport', async () => {
   try {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     await page.goto(`${server.baseUrl}${PAGE_URL}`, { waitUntil: 'networkidle' });
-    await page.waitForTimeout(200);
+    await page.waitForSelector('form.lf2.lf2--js');
     const h1Box = await page.locator('h1').first().boundingBox();
     assert.ok(h1Box, 'h1 has layout box');
     assert.ok(h1Box.y >= 0, 'h1 top is not above viewport');
-    const nameField = await page.locator('.lhi-lead-hero input[name="full_name"]').first().boundingBox();
-    assert.ok(nameField, 'lead form Name field is present');
-    assert.ok(h1Box.y < nameField.y, 'h1 appears above lead form on mobile');
-    assert.ok(nameField.y < 844 * 1.5, 'Name field starts within ~1.5 mobile viewports');
+    const zipField = page.locator('form.lf2 input[name="zip_code"]').first();
+    await zipField.waitFor({ state: 'visible' });
+    const zipBox = await zipField.boundingBox();
+    assert.ok(zipBox, 'lead form ZIP field is visible after v2 preselect');
+    assert.ok(h1Box.y < zipBox.y, 'h1 appears above lead form on mobile');
+    assert.ok(zipBox.y < 844 * 1.5, 'ZIP step starts within ~1.5 mobile viewports');
   } finally {
     await browser.close();
     await server.close();

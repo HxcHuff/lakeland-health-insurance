@@ -25,7 +25,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-nonblog-gates3">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-lead-form-v2">
   <link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr333-follow-up">
   <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
   <script type="application/ld+json">
@@ -216,7 +216,7 @@
   </style>
   <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
 
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-nonblog-gates3" data-lhi-lead-hero-tail="">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-lead-form-v2" data-lhi-lead-hero-tail="">
 </head>
 <body class="blog-post lhi-page-hero" data-page-key="lakeland_regional_freestanding_emergency_department" data-page-role="education">
   <div class="top-strip"><div class="container">Lakeland Medicare help: <a href="tel:+18636403102">(863) 640-3102</a></div></div>
@@ -235,11 +235,16 @@
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="lakeland_regional_freestanding_emergencyForm" data-lhi-site-lead-form data-funnel-track="" data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lf2 lhi-lead-hero__form" id="lakeland_regional_freestanding_emergencyForm" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_blog_aca_lead" data-lf2-mode="site" data-lf2-preselect="under-65" aria-labelledby="lakeland_regional_freestanding_emergency_lf2_title">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/blog/lakeland-regional-freestanding-emergency-department.html">
         <input type="hidden" name="source_template" value="blog_post">
-        <input type="hidden" name="consent_text_version" value="site-aca-2026-10-v1">
+        <input type="hidden" name="consent_text_version" value="site-lead-v2-2026-11-v1">
+        <input type="hidden" name="line_of_business" value="">
+        <input type="hidden" name="inquiry_type" value="">
+        <input type="hidden" name="_subject" value="">
+        <input type="hidden" name="source_page_key" value="blog_lakeland_regional_freestanding_emergency_department.html">
+        <input type="hidden" name="source_cta_key" value="lead_form_v2_hero">
         <input type="hidden" name="utm_source" id="lakeland_regional_freestanding_emergency_utm_source">
         <input type="hidden" name="utm_medium" id="lakeland_regional_freestanding_emergency_utm_medium">
         <input type="hidden" name="utm_campaign" id="lakeland_regional_freestanding_emergency_utm_campaign">
@@ -263,40 +268,67 @@
         <input type="hidden" name="click_timestamp" value="">
         <input type="hidden" name="started_at">
         <input type="hidden" name="human_check">
-        <p class="lhi-lead-hero__honeypot" hidden=""><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-        <div class="lhi-lead-hero__fields">
-          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <label for="lakeland_regional_freestanding_emergency_full_name">Name</label>
-            <input type="text" id="lakeland_regional_freestanding_emergency_full_name" name="full_name" required autocomplete="name">
+        <p class="lf2__hp" aria-hidden="true"><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="lf2__head"><h2 class="lf2__title" id="lakeland_regional_freestanding_emergency_lf2_title">Get help choosing coverage</h2><p class="lf2__sub">Three short steps with David Huff, licensed agent. A review is not enrollment.</p></div>
+        <div class="lf2__progress" aria-live="polite"><p class="lf2__progress-label" data-lf2-progress-label><strong>Step 1 of 3</strong><span>What you need</span></p><div class="lf2__bar" aria-hidden="true"><span class="is-current"></span><span></span><span></span></div></div>
+        <fieldset data-lf2-step="1" class="lf2__group is-active">
+          <legend>What do you need help with?</legend>
+          <div class="lf2__tiles lf2__tiles--grid">
+            <label class="lf2__tile"><input type="radio" name="normalized_intent" value="medicare" required><span class="lf2__tile-ico" aria-hidden="true">65+</span><span class="lf2__tile-txt"><b>Medicare</b><small>Turning 65 or on Medicare</small></span></label>
+            <label class="lf2__tile"><input type="radio" name="normalized_intent" value="under-65"><span class="lf2__tile-ico" aria-hidden="true">&lt;65</span><span class="lf2__tile-txt"><b>Under 65</b><small>Individual and family plans</small></span></label>
+            <label class="lf2__tile"><input type="radio" name="normalized_intent" value="supplemental"><span class="lf2__tile-ico" aria-hidden="true">+</span><span class="lf2__tile-txt"><b>Supplemental</b><small>Accident, hospital, dental</small></span></label>
+            <label class="lf2__tile"><input type="radio" name="normalized_intent" value="current-client-review"><span class="lf2__tile-ico" aria-hidden="true">&#10003;</span><span class="lf2__tile-txt"><b>Existing client</b><small>Review or service my plan</small></span></label>
           </div>
-          <div class="lhi-lead-hero__field">
-            <label for="lakeland_regional_freestanding_emergency_phone">Phone</label>
-            <input type="tel" id="lakeland_regional_freestanding_emergency_phone" name="phone" required autocomplete="tel">
+          <p class="lf2__err" role="alert"></p>
+          <div class="lf2__actions"><button type="button" class="lf2__btn" data-lf2-next>Continue</button></div>
+        </fieldset>
+        <fieldset data-lf2-step="2">
+          <div class="lf2__picked"><span>Helping with: <b data-lf2-picked></b></span><button type="button" data-lf2-change>Change</button></div>
+          <legend>What is your ZIP code?</legend>
+          <div class="lf2__field">
+            <label for="lakeland_regional_freestanding_emergency_zip">ZIP code where coverage will be used</label>
+            <input class="lf2__zip" type="text" id="lakeland_regional_freestanding_emergency_zip" name="zip_code" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" required aria-describedby="lakeland_regional_freestanding_emergency_zip_err">
+            <p class="lf2__err" id="lakeland_regional_freestanding_emergency_zip_err" role="alert"></p>
           </div>
-          <div class="lhi-lead-hero__field">
-            <label for="lakeland_regional_freestanding_emergency_zip_code">ZIP code</label>
-            <input type="text" id="lakeland_regional_freestanding_emergency_zip_code" name="zip_code" required pattern="[0-9]{5}" maxlength="5" inputmode="numeric" autocomplete="postal-code">
+          <p class="lf2__note lf2__note--quiet" data-lf2-medicare-note data-lf2-show="medicare">Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia.</p>
+          <div class="lf2__group" data-lf2-show="medicare"><p class="lf2__label">Which fits best? <span class="lf2__opt">(optional)</span></p><div class="lf2__chips"><label class="lf2__chip"><input type="radio" name="coverage_status" value="medicare_advantage"><span>Medicare Advantage</span></label><label class="lf2__chip"><input type="radio" name="coverage_status" value="medicare_supplement"><span>Medicare Supplement</span></label><label class="lf2__chip"><input type="radio" name="coverage_status" value="part_d"><span>Part D drug plan</span></label><label class="lf2__chip"><input type="radio" name="coverage_status" value="current_plan_review"><span>Review my plan</span></label><label class="lf2__chip"><input type="radio" name="coverage_status" value="not_sure"><span>Not sure</span></label></div></div>
+          <div class="lf2__group" data-lf2-show="under-65"><p class="lf2__label">Who needs coverage? <span class="lf2__opt">(optional)</span></p><div class="lf2__chips"><label class="lf2__chip"><input type="radio" name="coverage_status" value="individual_marketplace"><span>Just me</span></label><label class="lf2__chip"><input type="radio" name="coverage_status" value="family_marketplace"><span>My family</span></label><label class="lf2__chip"><input type="radio" name="coverage_status" value="not_sure"><span>Not sure</span></label></div></div>
+          <div class="lf2__group" data-lf2-show="supplemental"><p class="lf2__label">What are you interested in? <span class="lf2__opt">(optional)</span></p><div class="lf2__chips"><label class="lf2__chip"><input type="radio" name="coverage_status" value="supplemental_accident"><span>Accident</span></label><label class="lf2__chip"><input type="radio" name="coverage_status" value="supplemental_hospital"><span>Hospital stay</span></label><label class="lf2__chip"><input type="radio" name="coverage_status" value="supplemental_critical_illness"><span>Critical illness</span></label><label class="lf2__chip"><input type="radio" name="coverage_status" value="supplemental_dental_vision"><span>Dental or vision</span></label><label class="lf2__chip"><input type="radio" name="coverage_status" value="not_sure"><span>Not sure</span></label></div></div>
+          <div class="lf2__group" data-lf2-show="current-client-review"><p class="lf2__label">What do you need? <span class="lf2__opt">(optional)</span></p><div class="lf2__chips"><label class="lf2__chip"><input type="radio" name="review_reason" value="renewal"><span>Annual renewal</span></label><label class="lf2__chip"><input type="radio" name="review_reason" value="doctor_rx_change"><span>Doctor or Rx change</span></label><label class="lf2__chip"><input type="radio" name="review_reason" value="household_income_change"><span>Household or income change</span></label><label class="lf2__chip"><input type="radio" name="review_reason" value="billing_id_card"><span>Billing or ID card</span></label></div></div>
+          <div class="lf2__actions"><button type="button" class="lf2__back" data-lf2-back>Back</button><button type="button" class="lf2__btn" data-lf2-next>Continue</button></div>
+        </fieldset>
+        <fieldset data-lf2-step="3">
+          <legend>How can David reach you?</legend>
+          <div class="lf2__field">
+            <label for="lakeland_regional_freestanding_emergency_name">Full name</label>
+            <input type="text" id="lakeland_regional_freestanding_emergency_name" name="full_name" autocomplete="name" required aria-describedby="lakeland_regional_freestanding_emergency_name_err">
+            <p class="lf2__err" id="lakeland_regional_freestanding_emergency_name_err" role="alert"></p>
           </div>
-          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <label for="lakeland_regional_freestanding_emergency_coverage_status">Coverage type</label>
-            <select id="lakeland_regional_freestanding_emergency_coverage_status" name="coverage_status" required>
-                  <option value="" selected="" disabled="">Select one</option>
-                  <option value="individual_marketplace">Individual Marketplace coverage</option>
-                  <option value="family_marketplace">Family Marketplace coverage</option>
-                  <option value="not_sure">Not sure yet</option>
-            </select>
+          <div class="lf2__row">
+            <div class="lf2__field">
+              <label for="lakeland_regional_freestanding_emergency_phone">Phone</label>
+              <input type="tel" id="lakeland_regional_freestanding_emergency_phone" name="phone" autocomplete="tel" inputmode="tel" required aria-describedby="lakeland_regional_freestanding_emergency_phone_err">
+              <p class="lf2__err" id="lakeland_regional_freestanding_emergency_phone_err" role="alert"></p>
+            </div>
+            <div class="lf2__field">
+              <label for="lakeland_regional_freestanding_emergency_email">Email <span class="lf2__opt">(optional)</span></label>
+              <input type="email" id="lakeland_regional_freestanding_emergency_email" name="email" autocomplete="email" aria-describedby="lakeland_regional_freestanding_emergency_email_err">
+              <p class="lf2__err" id="lakeland_regional_freestanding_emergency_email_err" role="alert"></p>
+            </div>
           </div>
-          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <label class="lhi-lead-hero__consent" for="lakeland_regional_freestanding_emergency_consent">
-              <input type="checkbox" id="lakeland_regional_freestanding_emergency_consent" name="consent" value="yes">
-              <span>By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
-            </label>
+          <div class="lf2__consent lf2__group" role="group" aria-labelledby="lakeland_regional_freestanding_emergency_ch_lbl">
+            <p class="lf2__label" id="lakeland_regional_freestanding_emergency_ch_lbl">How may David contact you?</p><p class="lf2__hint">Choose at least one.</p>
+            <div class="lf2__checks">
+              <label class="lf2__check"><input type="checkbox" name="consent_call" value="yes" data-lf2-channel><span>I authorize a telephone call about this request.</span></label>
+              <label class="lf2__check"><input type="checkbox" name="consent_sms" value="yes" data-lf2-channel><span>I authorize text messages about this request. Message frequency varies; message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a>.</span></label>
+              <label class="lf2__check"><input type="checkbox" name="consent_email" value="yes" data-lf2-channel><span>I authorize email about this request.</span></label>
+            </div>
+            <p class="lf2__err" role="alert"></p>
           </div>
-          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <button class="lhi-lead-hero__submit" type="submit">Get my quote</button>
-          </div>
-        </div>
-        <p class="lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>
+          <div class="lf2__actions"><button type="button" class="lf2__back" data-lf2-back>Back</button><button type="submit" class="lf2__btn" name="consent_request" value="yes" data-lf2-submit>Send my request</button></div>
+          <p class="lf2__fine">By sending, I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage. Consent is not a condition of purchase. See the <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</p>
+          <p class="lf2__status lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>
+        </fieldset>
       </form>
     </div>
   </div>
@@ -427,7 +459,8 @@
   <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
   <script src="/js/site-template.js?v=20261023-pr333-follow-up" defer></script>
-  <script src="/js/lead-hero.js?v=20261023-pr333-follow-up" defer></script>
+  <script src="/js/lead-hero.js?v=20261016-lead-form-v2" defer></script>
+    <script src="/js/lead-form-v2.js?v=20261016-lead-form-v2" defer></script>
 
 
 </body></html>

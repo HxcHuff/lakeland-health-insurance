@@ -24,8 +24,10 @@ function walkHtml(dir = ROOT, out = []) {
 
 test('homepage ships site ACA lead hero above the fold', () => {
   const html = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
-  assert.match(html, /\/css\/lead-hero.css\?v=20261016-nonblog-gates3/);
-  assert.match(html, /\/js\/lead-hero.js\?v=20261023-pr333-follow-up/);
+  assert.match(html, /\/css\/lead-hero.css\?v=20261016-lead-form-v2/);
+  assert.match(html, /\/js\/lead-hero.js\?v=20261016-lead-form-v2/);
+  assert.match(html, /\/js\/lead-form-v2\.js\?v=20261016-lead-form-v2/);
+  assert.match(html, /class="lf2/);
   assert.match(html, /data-form-name="site-aca-lead"/);
   assert.ok(html.includes('class="lhi-lead-hero'));
 });
@@ -44,14 +46,15 @@ test('sample blog post uses medicare site lead variant', () => {
   assert.match(html, /name="site-medicare-lead"/);
 });
 
-const MEDICARE_SCOPE_NOTE =
-  /<p class="form-tpmo lhi-lead-hero__medicare-scope" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/;
+const MEDICARE_SCOPE_SNIPPET =
+  /Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\./;
 
 test('every site-medicare-lead embed includes the nine-state Medicare scope note', () => {
   for (const rel of walkHtml()) {
     const html = readFileSync(resolve(ROOT, rel), 'utf8');
     if (!html.includes('name="site-medicare-lead"')) continue;
-    assert.match(html, MEDICARE_SCOPE_NOTE, `${rel} missing outOfStateMedicareNote on Medicare lead form`);
+    assert.match(html, /data-lf2-medicare-note/, `${rel} missing lf2 Medicare scope note`);
+    assert.match(html, MEDICARE_SCOPE_SNIPPET, `${rel} missing nine-state Medicare scope copy`);
   }
 });
 
