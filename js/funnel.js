@@ -564,10 +564,19 @@
     return openAIAdsConfigPromise;
   }
 
+  function conversionEventsBlocked() {
+    var suppress = w.__LHI_SUPPRESS;
+    if (suppress && suppress.suppressed) return true;
+    return w.__LHI_SUPPRESS_GOOGLE_TAGS === true;
+  }
+
   function fireGA(name, props) {
     props = props || {};
+    if (name === 'Lead' && conversionEventsBlocked()) return;
     w.dataLayer = w.dataLayer || [];
     w.dataLayer.push(Object.assign({ event: name }, props));
+
+    if (w.__LHI_SUPPRESS_GOOGLE_TAGS) return;
 
     /* GTM owns Lead -> generate_lead and the phone-call tag. These direct
        GA4 sends cover secondary events that the site already emits but GTM
@@ -578,7 +587,8 @@
       ExternalQuoteClick: 'external_quote_click',
       messenger_click: 'messenger_click',
       LeadReceiptView: 'lead_receipt_view',
-      MedicareIntakeStart: 'medicare_intake_start'
+      MedicareIntakeStart: 'medicare_intake_start',
+      ClientServiceRequest: 'client_service_request'
     };
     var ga4Name = directGA4Events[name];
     if (!ga4Name) return;
@@ -634,6 +644,16 @@
     if (!f || value == null) return;
     var field = f.elements && f.elements[name];
     if (field) field.value = value;
+  }
+
+  function isCurrentClientReviewIntent(form, fd) {
+    var intent = fdGet(fd, ['normalized_intent', 'intent']);
+    if (String(intent || '').toLowerCase() === 'current-client-review') return true;
+    if (form && form.querySelector) {
+      var field = form.querySelector('input[name="normalized_intent"]');
+      if (field && String(field.value || '').toLowerCase() === 'current-client-review') return true;
+    }
+    return false;
   }
 
   function safeLeadPropsFromForm(f, fd, content, step, apiResult) {
@@ -1062,6 +1082,10 @@
     getSession();
     getAttribution();
 
+    if ((name === 'Lead' || name === 'Subscriber' || name === 'Schedule') && conversionEventsBlocked()) {
+      return false;
+    }
+
     // GTM owns the single GA4 and Google Ads Lead conversion tags. Emit its
     // shared custom event only after first-party delivery has succeeded.
     if (name === 'Lead') {
@@ -1073,6 +1097,15 @@
       }));
       markCompletedSubmission('Lead', eventID, props, pt);
       fireOpenAIAdsLead(eventID);
+      return true;
+    } else if (name === 'ClientServiceRequest') {
+      if (props.acceptance_status !== 'forms_accepted' || !claimAcceptedLeadEventID(suppliedEventID)) return false;
+      fireGA('ClientServiceRequest', Object.assign({}, props, {
+        event_id: eventID,
+        page_type: pt,
+        original_event_name: 'ClientServiceRequest'
+      }));
+      markCompletedSubmission('ClientServiceRequest', eventID, props, pt);
       return true;
     } else if (name === 'Subscriber') {
       fireGA(name, { page_type: pt, event_params: props });
@@ -1142,7 +1175,12 @@
           if (e && typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
           submitLeadViaApi(f, formPayload(f, fd, content), function (apiResult) {
             if (name === 'Lead') {
-              track(name, safeLeadPropsFromForm(f, fd, content, step, apiResult));
+              var leadProps = safeLeadPropsFromForm(f, fd, content, step, apiResult);
+              if (isCurrentClientReviewIntent(f, fd)) {
+                track('ClientServiceRequest', leadProps);
+              } else {
+                track(name, leadProps);
+              }
             } else {
               track(name, { content_name: content, step: step });
             }

@@ -111,7 +111,7 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
       /<p class="sitelink-lead-privacy" data-sitelink-medicare-florida-note hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
     );
 
-    assert.match(html, /\/js\/funnel\.js\?v=20261015-v6merge2/);
+    assert.match(html, /\/js\/funnel\.js\?v=20261016-prd-conversion-d/);
     assert.match(html, /\/css\/site-template.css\?v=20261016-pr339-site-tpl/);
   });
 }
@@ -154,9 +154,11 @@ test('every public click-to-call link uses the verified E.164 target and tracked
     for (const target of phoneTargets) {
       assert.ok(allowedPhoneTargets.has(target), `${file}: unexpected tel target ${target}`);
     }
+    const lpFrozenAnalytics = /\/js\/analytics\.js\?v=20261015-v6merge2/;
+    const sitewideAnalytics = /\/js\/analytics\.js\?v=20261016-prd-conversion-d/;
     assert.match(
       html,
-      /\/js\/analytics\.js\?v=20261015-v6merge2/,
+      file.includes('/lp/') ? lpFrozenAnalytics : sitewideAnalytics,
       `${file} loads the canonical phone telemetry and forwarding-number handler`
     );
   }
