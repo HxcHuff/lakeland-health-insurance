@@ -164,6 +164,7 @@ export function buildValidationPlan({ root = DEFAULT_ROOT, base, gitRun = git } 
     { name: 'regulated-claims', command: 'node', args: ['scripts/check-regulated-claims.mjs', '--as-of', PUBLIC_DATE] },
     { name: 'authority', command: 'node', args: ['scripts/validate-authority.mjs'], env: { LHI_VALIDATION_DATE: PUBLIC_DATE } },
     { name: 'site-integrity', command: 'node', args: ['scripts/check-site-integrity.mjs'] },
+    { name: 'warm-alert-colors', command: 'node', args: ['scripts/check-warm-alert-colors.mjs'] },
     ...syntaxFiles.map((file) => ({ name: `syntax:${file}`, command: 'node', args: ['--check', file] })),
     { name: 'sitemap-xml', command: 'xmllint', args: ['--noout', 'sitemap.xml'] },
     { name: 'diff-working', command: 'git', args: ['diff', '--check'] },

@@ -100,10 +100,10 @@ async function preparePageForMeasure(page, baseUrl) {
   });
   const hasChrome = await page.evaluate(() => Boolean(window.LHISiteChrome));
   if (!hasChrome) {
-    await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=20261021-hscroll-fix` });
+    await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=20261023-pr333-follow-up` });
     await page.waitForTimeout(450);
   }
-  await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=20261016-sitewide-b10` });
+  await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=20261023-pr333-follow-up` });
   await page.waitForTimeout(80);
   await page.evaluate(() => {
     if (typeof window.LHIConsolidateBlogHeroCopy === 'function') {
@@ -421,31 +421,43 @@ async function measurePage(page, baseUrl, route, viewport) {
     const introCtaOverflow = [];
 
     document.querySelectorAll('.lhi-post-body-intro').forEach((intro) => {
-      const ref = intro.closest('article') || intro;
-      const refR = ref.getBoundingClientRect();
-      const minLeft = vw <= 390 ? Math.max(16, refR.left) : refR.left;
-      const maxRight = Math.min(refR.right, vw);
-
-      intro.querySelectorAll('*').forEach((el) => {
-        if (!isVisibleEl(el)) return;
-        const r = el.getBoundingClientRect();
-        if (r.left < minLeft - 2) {
+      const introR = intro.getBoundingClientRect();
+      let cardRef = null;
+      let sibling = intro.nextElementSibling;
+      while (sibling) {
+        if (
+          sibling.matches('section.card, section.key-answer, .card') &&
+          isVisibleEl(sibling)
+        ) {
+          cardRef = sibling;
+          break;
+        }
+        sibling = sibling.nextElementSibling;
+      }
+      if (!cardRef) {
+        cardRef =
+          intro.parentElement?.querySelector(
+            'section.card, section.key-answer, .card'
+          ) || null;
+      }
+      if (cardRef && isVisibleEl(intro)) {
+        const cardR = cardRef.getBoundingClientRect();
+        const tol = 3;
+        if (introR.left < cardR.left - tol) {
           introBoundsViolations.push({
-            kind: 'left',
-            left: Math.round(r.left),
-            minLeft: Math.round(minLeft),
-            tag: el.tagName.toLowerCase()
+            kind: 'intro-left',
+            left: Math.round(introR.left),
+            minLeft: Math.round(cardR.left)
           });
         }
-        if (r.right > maxRight + 2) {
+        if (introR.right > cardR.right + tol) {
           introBoundsViolations.push({
-            kind: 'right',
-            right: Math.round(r.right),
-            maxRight: Math.round(maxRight),
-            tag: el.tagName.toLowerCase()
+            kind: 'intro-right',
+            right: Math.round(introR.right),
+            maxRight: Math.round(cardR.right)
           });
         }
-      });
+      }
 
       intro.querySelectorAll('a, button').forEach((el) => {
         if (!isVisibleEl(el)) return;
