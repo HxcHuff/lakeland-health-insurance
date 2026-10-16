@@ -243,16 +243,68 @@ async function measurePage(page, baseUrl, route, viewport) {
 
     let leftColBottom = null;
     let formBottom = fr ? Math.round(fr.bottom) : null;
-    const ledeBlock = shell?.querySelector('.lhi-hero-lede-block');
-    if (ledeBlock) {
-      const lb = ledeBlock.getBoundingClientRect();
-      if (lb.height > 0) leftColBottom = Math.round(lb.bottom);
-    }
+    const heroGrid =
+      shell?.querySelector('.container.hero-grid') || shell?.querySelector('.hero-grid');
+    const leftColEls = heroGrid
+      ? [
+          ...heroGrid.querySelectorAll(':scope > .lhi-hero-lede-block'),
+          ...heroGrid.querySelectorAll(':scope > .lhi-hero-deferred-block')
+        ]
+      : [shell?.querySelector('.lhi-hero-lede-block')].filter(Boolean);
+    const leftBottoms = leftColEls
+      .map((el) => {
+        const st = getComputedStyle(el);
+        if (st.display === 'none' || st.visibility === 'hidden') return 0;
+        const r = el.getBoundingClientRect();
+        return r.height > 0 ? r.bottom : 0;
+      })
+      .filter((b) => b > 0);
+    if (leftBottoms.length) leftColBottom = Math.round(Math.max(...leftBottoms));
 
     const columnGapPx =
       leftColBottom != null && formBottom != null
         ? Math.abs(formBottom - leftColBottom)
         : null;
+
+    const heroGridAlignItems = heroGrid ? getComputedStyle(heroGrid).alignItems : null;
+
+    const heroTextBlocks = [];
+    const heroTextSelector =
+      '.lhi-hero-lede-block h1, .lhi-hero-lede-block p, .lhi-hero-deferred-block p, .lhi-hero-deferred-block .answer-snippet';
+    if (shell) {
+      for (const el of shell.querySelectorAll(heroTextSelector)) {
+        const st = getComputedStyle(el);
+        if (st.display === 'none' || st.visibility === 'hidden') continue;
+        const r = el.getBoundingClientRect();
+        if (r.width < 2 || r.height < 2) continue;
+        const text = (el.textContent || '').replace(/\s+/g, ' ').trim();
+        if (!text) continue;
+        heroTextBlocks.push({ prefix: text.slice(0, 40).toLowerCase(), text: text.slice(0, 80) });
+      }
+    }
+    const duplicateHeroText = [];
+    for (let i = 0; i < heroTextBlocks.length; i += 1) {
+      for (let j = i + 1; j < heroTextBlocks.length; j += 1) {
+        const a = heroTextBlocks[i].prefix;
+        const b = heroTextBlocks[j].prefix;
+        if (a.length >= 20 && a === b) duplicateHeroText.push(a);
+      }
+    }
+
+    let breadcrumbIssue = null;
+    if (vw <= 900) {
+      const crumb = shell?.querySelector('.hero-breadcrumb, .page-crumb, .crumb');
+      if (crumb) {
+        const st = getComputedStyle(crumb);
+        if (st.display !== 'none') {
+          const r = crumb.getBoundingClientRect();
+          const header = document.querySelector('header');
+          const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
+          if (r.top < headerBottom - 2) breadcrumbIssue = 'under-header';
+          if (r.height > 28) breadcrumbIssue = breadcrumbIssue || 'multi-line';
+        }
+      }
+    }
 
     const redHits = [];
     const scanRoot = shell || document.body;
@@ -297,6 +349,9 @@ async function measurePage(page, baseUrl, route, viewport) {
       leftColBottom,
       formBottom,
       columnGapPx,
+      heroGridAlignItems,
+      duplicateHeroText: [...new Set(duplicateHeroText)],
+      breadcrumbIssue,
       contrastSamples,
       contrastFails: contrastSamples.filter((s) => s.ratio < s.minRequired),
       redScan: { hitCount: redHits.length, hits: redHits.slice(0, 8) }
@@ -325,13 +380,17 @@ function evaluateRow(row) {
         `contrast:${row.contrastFails.map((f) => `${f.selector}=${f.ratio}`).join(',')}`
       );
     }
+    if (row.duplicateHeroText?.length > 0) {
+      issues.push(`duplicate-hero-text:${row.duplicateHeroText.join('|')}`);
+    }
     if (
       row.route !== '/blog/' &&
       row.hasHeroGrid &&
       row.formLeftPct != null &&
       row.formLeftPct >= 50 &&
       row.columnGapPx != null &&
-      row.columnGapPx > 120
+      row.columnGapPx > 120 &&
+      row.heroGridAlignItems !== 'center'
     ) {
       issues.push(`column-gap:columnGapPx=${row.columnGapPx}`);
     }
@@ -360,6 +419,12 @@ function evaluateRow(row) {
       issues.push(
         `contrast:${row.contrastFails.map((f) => `${f.selector}=${f.ratio}`).join(',')}`
       );
+    }
+    if (row.duplicateHeroText?.length > 0) {
+      issues.push(`duplicate-hero-text:${row.duplicateHeroText.join('|')}`);
+    }
+    if (row.breadcrumbIssue) {
+      issues.push(`breadcrumb:${row.breadcrumbIssue}`);
     }
   }
 

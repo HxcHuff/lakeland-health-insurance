@@ -2467,14 +2467,20 @@ body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-lead-hero__intro {
 }
 
 body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-shell-breadcrumb,
+body.lhi-page-hero.blog-post .lhi-hero-shell .hero-breadcrumb,
 body.lhi-page-hero.blog-post .lhi-hero-shell .page-crumb,
 body.lhi-page-hero.blog-post .lhi-hero-shell .crumb {
   color: #64748b;
   font-size: 0.9rem;
+  line-height: 1.35;
   margin: 0 0 0.5rem;
+  overflow: hidden;
   padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
+body.lhi-page-hero.blog-post .lhi-hero-shell .hero-breadcrumb a,
 body.lhi-page-hero.blog-post .lhi-hero-shell .page-crumb a,
 body.lhi-page-hero.blog-post .lhi-hero-shell .crumb a {
   color: var(--navy, #1b2a4a);
@@ -2518,7 +2524,7 @@ body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block .lhi-hero-lede
   }
 
   body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block) {
-    align-items: start;
+    align-items: center;
     display: grid !important;
     gap: clamp(1rem, 2.5vw, 1.75rem);
     grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px);
@@ -2527,14 +2533,14 @@ body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block .lhi-hero-lede
   }
 
   body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(.lhi-hero-grid-lead) {
-    align-items: start;
+    align-items: center;
     display: grid !important;
     gap: clamp(1rem, 2.5vw, 1.75rem);
     grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px) !important;
   }
 
   body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) {
-    align-items: start;
+    align-items: center;
     display: grid !important;
     gap: clamp(1rem, 2.5vw, 1.75rem);
     grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px);
@@ -2588,12 +2594,6 @@ body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block .lhi-hero-lede
     margin: 0 0 0.65rem;
   }
 
-  /* Row-1 balance: lede stack height tracks typical lead form card (PR B). */
-  body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead) > .lhi-hero-lede-block {
-    box-sizing: border-box;
-    min-height: 455px;
-    padding-bottom: 0.5rem;
-  }
 }
 
 @media (max-width: 900px) {
@@ -2637,6 +2637,19 @@ body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block .lhi-hero-lede
 
   body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-deferred-block {
     order: 3;
+  }
+
+  body.lhi-page-hero.blog-post .lhi-hero-shell .hero-breadcrumb,
+  body.lhi-page-hero.blog-post .lhi-hero-shell .page-crumb,
+  body.lhi-page-hero.blog-post .lhi-hero-shell .crumb {
+    display: none;
+  }
+
+  body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block > .lhi-hero-lede:not(.last-reviewed) {
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    overflow: hidden;
   }
 }
 
