@@ -569,6 +569,8 @@
     w.dataLayer = w.dataLayer || [];
     w.dataLayer.push(Object.assign({ event: name }, props));
 
+    if (w.__LHI_SUPPRESS_GOOGLE_TAGS) return;
+
     /* GTM owns Lead -> generate_lead and the phone-call tag. These direct
        GA4 sends cover secondary events that the site already emits but GTM
        does not currently convert into named GA4 events. */

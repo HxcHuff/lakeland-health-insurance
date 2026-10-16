@@ -256,10 +256,6 @@
   } catch (e) {}
   snapshotLandingQueryEarly();
 
-  if (window.console && console.info) {
-    console.info('[LHI analytics] Google analytics gate:', IS_PROD ? 'ENABLED' : 'SKIPPED (non-prod host)');
-  }
-
   /* Expose for other scripts (funnel.js) */
   window.__LHI_IS_PROD = IS_PROD;
   window.__LHI_ANALYTICS_DEBUG = IS_ANALYTICS_DEBUG;
@@ -274,6 +270,25 @@
     if (path.charAt(0) !== '/') path = '/' + path;
     if (path !== '/' && path.charAt(path.length - 1) !== '/') path += '/';
     return path;
+  }
+
+  /* Paid landing routes keep first-party funnel attribution but skip deferred
+     GTM/GA4 so ad-only traffic does not enter the main site analytics stream.
+     ?analytics_test=1 overrides suppression for the current tab (QA only). */
+  function isGoogleTagsSuppressedPath(pathname) {
+    return normalizePath(pathname).indexOf('/lp/') === 0;
+  }
+
+  var SUPPRESS_GOOGLE_TAGS = IS_PROD && !IS_ANALYTICS_DEBUG &&
+    isGoogleTagsSuppressedPath(window.location.pathname);
+  window.__LHI_SUPPRESS_GOOGLE_TAGS = SUPPRESS_GOOGLE_TAGS;
+
+  if (window.console && console.info) {
+    if (SUPPRESS_GOOGLE_TAGS) {
+      console.info('[LHI analytics] Google tags suppressed on paid landing path');
+    } else {
+      console.info('[LHI analytics] Google analytics gate:', IS_PROD ? 'ENABLED' : 'SKIPPED (non-prod host)');
+    }
   }
 
   function hasOwn(object, key) {
@@ -460,7 +475,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261015-v6merge2';
+    funnel.src = '/js/funnel.js?v=20261016-prd-analytics-suppress';
     document.head.appendChild(funnel);
   }
 
@@ -805,6 +820,8 @@
     if(loaded)return;loaded=true;
 
     loadFunnelBus();
+
+    if (SUPPRESS_GOOGLE_TAGS) return;
 
     if (IS_PROD) {
       /* Consent default must precede GTM and every gtag config so the first
