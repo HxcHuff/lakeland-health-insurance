@@ -238,7 +238,7 @@ test('quote presents three direct actions without a routing form or plans detour
 test('coverage center is a two-lane 2027 plan-review hub wired into get-help', () => {
   assert.match(COVERAGE_CENTER, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/coverage-center\/">/);
   assert.match(COVERAGE_CENTER, /<title>Lakeland Coverage Center \| Medicare &amp; Under-65 Plan Help<\/title>/);
-  assert.match(COVERAGE_CENTER, /\/css\/site-template.css\?v=20261016-pr-b-site-tpl/);
+  assert.match(COVERAGE_CENTER, /\/css\/site-template.css\?v=20261016-pr339-site-tpl/);
   assert.match(COVERAGE_CENTER, /\/js\/site-phone\.js\?v=20261015-v6merge2/);
   assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261023-pr333-follow-up/);
   assert.match(COVERAGE_CENTER, /"@type": "BreadcrumbList"/);
@@ -295,7 +295,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 243);
+  assert.equal(templateConsumers.length, 244);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_PHONE_LOADER), true, `${relative(ROOT, file)} loads the shared phone config before site chrome`);
@@ -307,7 +307,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
     assert.equal(source.includes('/js/site-template.js'), false, `${rel} owns focused paid-page chrome`);
   }
 
-  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261016-pr337-e';/);
+  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261016-pr339-watson';/);
   assert.match(SERVICE_WORKER, /const SITE_PHONE_URL = '\/js\/site-phone\.js\?v=20261015-v6merge2';/);
   assert.match(SERVICE_WORKER, /const SITE_TEMPLATE_URL = '\/js\/site-template\.js\?v=20261023-pr333-follow-up';/);
   assert.match(SERVICE_WORKER, /requestUrl\.pathname === '\/js\/site-template\.js'/);
