@@ -93,7 +93,7 @@ ${deferredBlock}
   if (!html.includes('lead-hero.css')) {
     html = html.replace(
       /<\/head>/i,
-      '  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-nonblog-gates2" data-lhi-lead-hero-tail>\n</head>'
+      '  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-nonblog-gates3" data-lhi-lead-hero-tail>\n</head>'
     );
   }
 

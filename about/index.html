@@ -25,7 +25,7 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png"><link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-nonblog-gates2">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-nonblog-gates3">
 
     <script type="application/ld+json">
     {
@@ -1286,7 +1286,11 @@ header .cta-button {
 
       @media (max-width: 480px) {
         .about-page .about-header {
-          padding-top: 86px;
+          padding-top: max(108px, calc(env(safe-area-inset-top, 0px) + 100px));
+        }
+
+        .about-page .about-header .hero-kicker {
+          margin-top: 0.75rem;
         }
 
         .about-hero-points {
@@ -1327,24 +1331,28 @@ header .cta-button {
         .meta-audience-consent-actions {
           align-items: stretch;
           flex-direction: row;
-          flex-wrap: nowrap;
+          flex-wrap: wrap;
           gap: 0.5rem;
         }
 
         .meta-audience-consent button {
-          flex: 1 1 0;
-          font-size: 0.78rem;
+          flex: 1 1 calc(50% - 0.25rem);
+          font-size: 0.82rem;
+          line-height: 1.25;
           min-height: 44px;
-          min-width: 0;
-          padding: 0.55rem 0.6rem;
-          width: auto;
+          min-width: 150px;
+          padding: 0.55rem 0.65rem;
+          text-align: center;
+          white-space: normal;
         }
 
         .meta-audience-consent a {
           flex: 0 0 100%;
           margin: 0.35rem 0 0;
+          margin-left: 0;
           order: 3;
           text-align: center;
+          width: 100%;
         }
       }
 

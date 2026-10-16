@@ -142,7 +142,7 @@ async function measurePage(page, baseUrl, route, viewport) {
   await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle', timeout: 25000 });
   await preparePageForMeasure(page, baseUrl);
 
-  return page.evaluate(({ vw, vh }) => {
+  const metrics = await page.evaluate(({ vw, vh }) => {
     const shell = document.querySelector('.lhi-hero-shell');
     const paidLp = document.body.classList.contains('paid-landing-page');
     const h1 = shell
@@ -318,6 +318,10 @@ async function measurePage(page, baseUrl, route, viewport) {
       return Math.round(bottom);
     })();
     const h1ClearancePx = h1r ? Math.round(h1r.top - stickyChromeBottom) : null;
+    const kickerEl = document.querySelector('.about-page .hero-kicker, body.about-page .hero-kicker');
+    const kickerClearancePx = kickerEl
+      ? Math.round(kickerEl.getBoundingClientRect().top - stickyChromeBottom)
+      : null;
 
     let leftColBottom = null;
     let formBottom = fr ? Math.round(fr.bottom) : null;
@@ -600,6 +604,7 @@ async function measurePage(page, baseUrl, route, viewport) {
       breadcrumbIssue,
       stickyChromeBottom,
       h1ClearancePx,
+      kickerClearancePx,
       contrastSamples,
       contrastFails: contrastSamples.filter((s) => s.ratio < s.minRequired),
       internalGaps,
@@ -618,6 +623,55 @@ async function measurePage(page, baseUrl, route, viewport) {
       })()
     };
   }, { vw: viewport.width, vh: viewport.height });
+
+  let aboutMetaConsent = null;
+  if (route === '/about/' && viewport.tag === '390') {
+    aboutMetaConsent = {};
+    for (const width of [390, 360]) {
+      await page.setViewportSize({ width, height: viewport.height });
+      await page.evaluate(() => {
+        try {
+          localStorage.removeItem('lhi_meta_audience_consent');
+          localStorage.removeItem('lhi_meta_audience_opt_out');
+        } catch {
+          /* ignore */
+        }
+        document.cookie = 'lhi_meta_audience_consent=; Max-Age=0; Path=/';
+        document.cookie = 'lhi_meta_audience_opt_out=; Max-Age=0; Path=/';
+        const prompt = document.getElementById('metaAudienceConsentPrompt');
+        if (prompt) prompt.hidden = false;
+        window.scrollTo(0, 0);
+      });
+      await page.waitForTimeout(100);
+      aboutMetaConsent[width] = await page.evaluate(() => {
+        const issues = [];
+        const prompt = document.getElementById('metaAudienceConsentPrompt');
+        if (!prompt || prompt.hidden) {
+          return { ok: false, issues: ['prompt-hidden'] };
+        }
+        const buttons = prompt.querySelectorAll('.meta-audience-consent-actions button');
+        if (buttons.length < 2) issues.push('missing-buttons');
+        buttons.forEach((btn, index) => {
+          const r = btn.getBoundingClientRect();
+          const sw = btn.scrollWidth;
+          const cw = btn.clientWidth;
+          const cx = r.left + r.width / 2;
+          const cy = r.top + r.height / 2;
+          const hit = document.elementFromPoint(cx, cy);
+          const hitsButton = hit === btn || btn.contains(hit);
+          if (r.width < 150) issues.push(`btn${index}-narrow:${Math.round(r.width)}`);
+          if (sw > cw + 1) issues.push(`btn${index}-overflow:${sw}>${cw}`);
+          if (!hitsButton) issues.push(`btn${index}-occluded`);
+          if (r.height < 44) issues.push(`btn${index}-short:${Math.round(r.height)}`);
+        });
+        return { ok: issues.length === 0, issues };
+      });
+    }
+    await page.setViewportSize(viewport);
+    await page.evaluate(() => window.scrollTo(0, 0));
+  }
+
+  return { ...metrics, aboutMetaConsent };
 }
 
 const FORBIDDEN_RE = /\bHealthMarkets\b|\$0\b|\bFREE\b|\bfree quote\b/i;
@@ -628,6 +682,21 @@ const FORBIDDEN_RE = /\bHealthMarkets\b|\$0\b|\bFREE\b|\bfree quote\b/i;
  * Exempt: /thank-you/, /thanks.html, /newsletter/confirmed/, /book/, /chat.html, /newsletter/,
  * /get-help/, /life-insurance-dime-method/, /aca-subsidy-estimator/, /download-free-guide-here.html
  */
+function pushAboutMetaConsentIssues(row, issues) {
+  if (row.route !== '/about/' || row.viewport !== '390') return;
+  if (row.aboutMetaConsent) {
+    for (const width of [390, 360]) {
+      const check = row.aboutMetaConsent[width];
+      if (!check?.ok) {
+        issues.push(`about-consent-${width}:${(check?.issues || ['missing']).join(',')}`);
+      }
+    }
+  }
+  if (row.kickerClearancePx != null && row.kickerClearancePx < 8) {
+    issues.push(`kicker-under-chrome:kickerClearancePx=${row.kickerClearancePx}`);
+  }
+}
+
 function pushPaidLpLayoutIssues(row, issues) {
   if (!/\/lp\/(aca|gap|medicare)\//.test(row.route)) return;
   const vp = row.viewport;
@@ -788,6 +857,7 @@ function evaluateRow(row) {
     if (row.emptyDecorativeCount > 0) {
       issues.push(`empty-decorative:${row.emptyDecorativeCount}`);
     }
+    pushAboutMetaConsentIssues(row, issues);
     pushPaidLpLayoutIssues(row, issues);
   }
 

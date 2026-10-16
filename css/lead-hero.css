@@ -3559,7 +3559,11 @@ body.lhi-page-hero.about-page .meta-audience-consent {
 
 @media (max-width: 900px) {
   body.lhi-page-hero.about-page:not(.home-page) .lhi-hero-shell {
-    padding-top: 3.65rem;
+    padding-top: 5.15rem;
+  }
+
+  body.lhi-page-hero.about-page .about-header .hero-kicker {
+    margin-top: 0.65rem;
   }
 
   body.lhi-page-hero.about-page .lhi-hero-shell .about-header {
@@ -3586,23 +3590,28 @@ body.lhi-page-hero.about-page .meta-audience-consent {
 
   body.lhi-page-hero.about-page .meta-audience-consent-actions {
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 0.5rem;
   }
 
   body.lhi-page-hero.about-page .meta-audience-consent button {
-    flex: 1 1 0;
-    font-size: 0.78rem;
+    flex: 1 1 calc(50% - 0.25rem);
+    font-size: 0.82rem;
+    line-height: 1.25;
     min-height: 44px;
-    min-width: 0;
-    padding: 0.55rem 0.6rem;
+    min-width: 150px;
+    padding: 0.55rem 0.65rem;
+    text-align: center;
+    white-space: normal;
   }
 
   body.lhi-page-hero.about-page .meta-audience-consent a {
     flex: 0 0 100%;
     margin: 0.35rem 0 0;
+    margin-left: 0;
     order: 3;
     text-align: center;
+    width: 100%;
   }
 }
 
@@ -3613,6 +3622,13 @@ body.lhi-page-hero .floating-actions:not(:has(a, button)) {
 body.lhi-page-hero.dental-vision-page footer .footer-column h3,
 body.lhi-page-hero.dental-vision-page footer .footer-column li,
 body.lhi-page-hero.dental-vision-page footer .footer-bottom {
+  color: #1b2a4a !important;
+}
+
+body.lhi-page-hero.download-free-guide-page footer .footer-column h3,
+body.lhi-page-hero.download-free-guide-page footer .footer-column li,
+body.lhi-page-hero.download-free-guide-page footer .footer-bottom,
+body.lhi-page-hero.download-free-guide-page footer .footer-column a {
   color: #1b2a4a !important;
 }
 
