@@ -315,6 +315,7 @@ test('GSC redirect-error URLs force one hop to an absolute apex HTTPS destinatio
     ['/blog/how-to-use-health-insurance-without-going-broke', 'https://lakelandhealthinsurance.com/blog/how-to-use-health-insurance-without-going-broke.html'],
     ['/carriers/aca-florida-2026/', 'https://lakelandhealthinsurance.com/carriers/'],
     ['/blog/florida-insurance-guide', 'https://lakelandhealthinsurance.com/blog/florida-insurance-guide.html'],
+    ['/blog/florida-insurance-guide/index.html', 'https://lakelandhealthinsurance.com/blog/florida-insurance-guide.html'],
     ['/blog/5-critical-health-insurance-mistakes', 'https://lakelandhealthinsurance.com/blog/5-critical-health-insurance-mistakes.html']
   ]);
 
@@ -327,6 +328,25 @@ test('GSC redirect-error URLs force one hop to an absolute apex HTTPS destinatio
     const result = followRedirects(rules, source);
     assert.equal(result.final, expected, source);
     assert.equal(result.hops, 1, `${source} used ${result.hops} hops`);
+  }
+});
+
+test('retired common-medicare FAQ blog aliases force 301 to the Medicare hub', () => {
+  const rules = parseRedirects(REDIRECTS);
+  const aliases = [
+    '/blog/common-medicare-health-insurance-questions-florida.html',
+    '/blog/common-medicare-health-insurance-questions-florida',
+    '/blog/common-medicare-health-insurance-questions-florida/',
+  ];
+  for (const source of aliases) {
+    const rule = matchingRule(rules, source);
+    assert.ok(rule, `${source} has an explicit redirect`);
+    assert.equal(rule.status, 301, source);
+    assert.equal(rule.forced, true, source);
+    assert.equal(rule.target, '/medicare/', source);
+    const result = followRedirects(rules, source);
+    assert.equal(normalizePath(result.final), '/medicare', source);
+    assert.ok(result.hops <= 2, `${source} used ${result.hops} hops`);
   }
 });
 
