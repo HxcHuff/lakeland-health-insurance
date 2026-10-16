@@ -103,7 +103,7 @@ async function preparePageForMeasure(page, baseUrl) {
     await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=20261021-hscroll-fix` });
     await page.waitForTimeout(450);
   }
-  await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=20261016-sitewide-b8` });
+  await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=20261016-sitewide-b9` });
   await page.waitForTimeout(80);
   await page.evaluate(() => {
     if (typeof window.LHIConsolidateBlogHeroCopy === 'function') {
@@ -406,6 +406,73 @@ async function measurePage(page, baseUrl, route, viewport) {
     const maxInternalGapPx =
       internalGaps.length > 0 ? Math.max(...internalGaps.map((g) => g.gapPx)) : 0;
 
+    const isVisibleEl = (el) => {
+      if (!el) return false;
+      const st = getComputedStyle(el);
+      if (st.display === 'none' || st.visibility === 'hidden' || Number(st.opacity) < 0.05) {
+        return false;
+      }
+      const r = el.getBoundingClientRect();
+      return r.width >= 2 && r.height >= 2;
+    };
+
+    const introBoundsViolations = [];
+    const emptyIntroControls = [];
+    const introCtaOverflow = [];
+
+    document.querySelectorAll('.lhi-post-body-intro').forEach((intro) => {
+      const ref = intro.closest('article') || intro;
+      const refR = ref.getBoundingClientRect();
+      const minLeft = vw <= 390 ? Math.max(16, refR.left) : refR.left;
+      const maxRight = Math.min(refR.right, vw);
+
+      intro.querySelectorAll('*').forEach((el) => {
+        if (!isVisibleEl(el)) return;
+        const r = el.getBoundingClientRect();
+        if (r.left < minLeft - 2) {
+          introBoundsViolations.push({
+            kind: 'left',
+            left: Math.round(r.left),
+            minLeft: Math.round(minLeft),
+            tag: el.tagName.toLowerCase()
+          });
+        }
+        if (r.right > maxRight + 2) {
+          introBoundsViolations.push({
+            kind: 'right',
+            right: Math.round(r.right),
+            maxRight: Math.round(maxRight),
+            tag: el.tagName.toLowerCase()
+          });
+        }
+      });
+
+      intro.querySelectorAll('a, button').forEach((el) => {
+        if (!isVisibleEl(el)) return;
+        const text = (el.textContent || '').replace(/\s+/g, ' ').trim();
+        const aria = (el.getAttribute('aria-label') || '').trim();
+        if (!text && !aria) {
+          emptyIntroControls.push({
+            tag: el.tagName.toLowerCase(),
+            className: (el.className || '').toString().slice(0, 80)
+          });
+        }
+      });
+
+      intro.querySelectorAll('.cta-row').forEach((row) => {
+        if (!isVisibleEl(row)) return;
+        const rr = row.getBoundingClientRect();
+        if (row.scrollWidth > row.clientWidth + 2 || rr.right > vw + 2) {
+          introCtaOverflow.push({
+            scrollWidth: row.scrollWidth,
+            clientWidth: row.clientWidth,
+            right: Math.round(rr.right),
+            viewport: vw
+          });
+        }
+      });
+    });
+
     return {
       hasShell: !!shell,
       hasHeroGrid,
@@ -435,6 +502,9 @@ async function measurePage(page, baseUrl, route, viewport) {
       contrastFails: contrastSamples.filter((s) => s.ratio < s.minRequired),
       internalGaps,
       maxInternalGapPx,
+      introBoundsViolations,
+      emptyIntroControls,
+      introCtaOverflow,
       redScan: { hitCount: redHits.length, hits: redHits.slice(0, 8) }
     };
   }, { vw: viewport.width, vh: viewport.height });
@@ -469,6 +539,15 @@ function evaluateRow(row) {
     }
     if (row.maxInternalGapPx != null && row.maxInternalGapPx > 48) {
       issues.push(`internal-gap:maxInternalGapPx=${row.maxInternalGapPx}`);
+    }
+    if (row.introBoundsViolations?.length > 0) {
+      issues.push(`intro-bounds:${row.introBoundsViolations.length}`);
+    }
+    if (row.emptyIntroControls?.length > 0) {
+      issues.push(`intro-empty-control:${row.emptyIntroControls.length}`);
+    }
+    if (row.viewport === '390' && row.introCtaOverflow?.length > 0) {
+      issues.push(`intro-cta-overflow:${row.introCtaOverflow.length}`);
     }
     if (
       row.route !== '/blog/' &&
@@ -515,6 +594,15 @@ function evaluateRow(row) {
     }
     if (row.maxInternalGapPx != null && row.maxInternalGapPx > 40) {
       issues.push(`internal-gap:maxInternalGapPx=${row.maxInternalGapPx}`);
+    }
+    if (row.introBoundsViolations?.length > 0) {
+      issues.push(`intro-bounds:${row.introBoundsViolations.length}`);
+    }
+    if (row.emptyIntroControls?.length > 0) {
+      issues.push(`intro-empty-control:${row.emptyIntroControls.length}`);
+    }
+    if (row.introCtaOverflow?.length > 0) {
+      issues.push(`intro-cta-overflow:${row.introCtaOverflow.length}`);
     }
   }
 

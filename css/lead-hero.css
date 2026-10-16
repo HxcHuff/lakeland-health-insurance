@@ -2775,6 +2775,39 @@ body.lhi-page-hero.blog-post .lhi-post-body-intro {
   margin: 0 0 1rem;
 }
 
+/* Intro restored outside article card: match post/article column width. */
+body.lhi-page-hero.blog-post main.container > .lhi-post-body-intro,
+body.lhi-page-hero.blog-post main > .lhi-post-body-intro:first-child {
+  background: #fff;
+  border: 1px solid var(--gray-200, #dde6f0);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  margin: -28px auto 1.25rem;
+  max-width: 940px;
+  padding: 28px 32px 24px;
+  position: relative;
+  width: calc(100% - 44px);
+  z-index: 2;
+}
+
+@media (max-width: 640px) {
+  body.lhi-page-hero.blog-post main.container > .lhi-post-body-intro,
+  body.lhi-page-hero.blog-post main > .lhi-post-body-intro:first-child {
+    border-radius: 0;
+    margin: 0 0 1rem;
+    padding: 22px 16px 18px;
+    width: 100%;
+  }
+}
+
+body.lhi-page-hero.blog-post .lhi-post-body-intro .subtitle {
+  color: #475569 !important;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  margin: 0 0 0.75rem;
+}
+
 body.lhi-page-hero.blog-post .lhi-post-body-intro .last-reviewed,
 body.lhi-page-hero.blog-post .lhi-post-body-intro p.last-reviewed,
 body.lhi-page-hero.blog-post .lhi-post-body-intro .meta,
@@ -2787,6 +2820,27 @@ body.lhi-page-hero.blog-post .lhi-post-body-intro .cta-row {
   flex-wrap: wrap;
   gap: 0.75rem;
   margin: 0.75rem 0 0;
+  max-width: 100%;
+}
+
+body.lhi-page-hero.blog-post .lhi-post-body-intro .cta-row .btn,
+body.lhi-page-hero.blog-post .lhi-post-body-intro .cta-row a {
+  max-width: 100%;
+}
+
+@media (max-width: 900px) {
+  body.lhi-page-hero.blog-post .lhi-post-body-intro {
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+  }
+
+  body.lhi-page-hero.blog-post article.post > .lhi-post-body-intro,
+  body.lhi-page-hero.blog-post article.article > .lhi-post-body-intro {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
 }
 
 body.lhi-page-hero.blog-post main article.post > .lhi-alert-notice:first-child,

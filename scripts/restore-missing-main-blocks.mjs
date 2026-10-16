@@ -84,33 +84,32 @@ const PAIR_EVAL = ({ mainHtml, branchHtml, missingBlocks }) => {
 
   if (!fragments.length) return { changed: false, inserted: 0 };
 
+  let container = branchDoc.createElement('div');
+  container.className = 'lhi-post-body-intro';
+  fragments.forEach(({ html }) => {
+    const wrap = branchDoc.createElement('div');
+    wrap.innerHTML = html;
+    while (wrap.firstChild) container.appendChild(wrap.firstChild);
+  });
+
   const article =
     branchDoc.querySelector('main article.post') ||
     branchDoc.querySelector('main article.blog-article') ||
+    branchDoc.querySelector('main article.guide-post') ||
+    branchDoc.querySelector('main article.article') ||
     branchDoc.querySelector('main article') ||
     branchDoc.querySelector('main .article');
 
-  let container;
   if (article) {
-    container = branchDoc.createElement('div');
-    container.className = 'lhi-post-body-intro';
-    fragments.forEach(({ html }) => {
-      const wrap = branchDoc.createElement('div');
-      wrap.innerHTML = html;
-      while (wrap.firstChild) container.appendChild(wrap.firstChild);
-    });
     article.insertBefore(container, article.firstChild);
   } else {
+    const main = branchDoc.querySelector('main');
     const shell = branchDoc.querySelector('.lhi-hero-shell');
-    container = branchDoc.createElement('div');
-    container.className = 'lhi-post-body-intro container';
-    fragments.forEach(({ html }) => {
-      const wrap = branchDoc.createElement('div');
-      wrap.innerHTML = html;
-      while (wrap.firstChild) container.appendChild(wrap.firstChild);
-    });
-    if (shell) shell.insertAdjacentElement('afterend', container);
-    else return { changed: false, inserted: 0, error: 'no insert point' };
+    if (main && shell && main.contains(shell)) {
+      shell.insertAdjacentElement('afterend', container);
+    } else if (main) {
+      main.insertBefore(container, main.firstChild);
+    } else return { changed: false, inserted: 0, error: 'no insert point' };
   }
 
   return {
