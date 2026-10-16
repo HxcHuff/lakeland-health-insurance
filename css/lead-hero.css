@@ -2822,6 +2822,15 @@ body.lhi-page-hero.blog-post main > .lhi-post-body-intro:first-child {
   z-index: 2;
 }
 
+/* Featured hero before intro card: keep caption clear of overlapping intro card. */
+body.lhi-page-hero.blog-post main > .lhi-post-featured-hero {
+  margin-bottom: 2rem;
+}
+
+body.lhi-page-hero.blog-post main > .lhi-post-featured-hero + .lhi-post-body-intro {
+  margin: 0 auto 1.25rem;
+}
+
 @media (max-width: 640px) {
   body.lhi-page-hero.blog-post main:has(> .lhi-hero-shell) > .lhi-post-body-intro,
   body.lhi-page-hero.blog-post main.container > .lhi-post-body-intro,
@@ -3213,10 +3222,6 @@ body.lhi-page-hero .lhi-hero-shell .countdown-note {
 body.lhi-page-hero .lhi-hero-shell .countdown-number,
 body.lhi-page-hero .lhi-hero-shell .hub-readiness-card h2 {
   color: #1b2a4a !important;
-}
-
-body.lhi-page-hero .lhi-hero-shell {
-  padding-top: clamp(1.25rem, 3vw, 2rem);
 }
 
 body.lhi-page-hero .lhi-hero-shell section.hero,

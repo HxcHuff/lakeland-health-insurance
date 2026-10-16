@@ -318,6 +318,7 @@ async function measurePage(page, baseUrl, route, viewport) {
       return Math.round(bottom);
     })();
     const h1ClearancePx = h1r ? Math.round(h1r.top - stickyChromeBottom) : null;
+    const formClearancePx = fr ? Math.round(fr.top - stickyChromeBottom) : null;
     const kickerEl = document.querySelector('.about-page .hero-kicker, body.about-page .hero-kicker');
     const kickerClearancePx = kickerEl
       ? Math.round(kickerEl.getBoundingClientRect().top - stickyChromeBottom)
@@ -604,6 +605,7 @@ async function measurePage(page, baseUrl, route, viewport) {
       breadcrumbIssue,
       stickyChromeBottom,
       h1ClearancePx,
+      formClearancePx,
       kickerClearancePx,
       contrastSamples,
       contrastFails: contrastSamples.filter((s) => s.ratio < s.minRequired),
@@ -736,6 +738,9 @@ function evaluateRow(row) {
   }
   if (row.hasShell && row.h1ClearancePx != null && row.h1ClearancePx < 8) {
     issues.push(`h1-under-chrome:h1ClearancePx=${row.h1ClearancePx}`);
+  }
+  if (row.route === '/' && row.formClearancePx != null && row.formClearancePx < 8) {
+    issues.push(`form-under-chrome:formClearancePx=${row.formClearancePx}`);
   }
 
   const paidLanding = /\/lp\/(aca|gap|medicare)\//.test(row.route);

@@ -2044,7 +2044,7 @@ test('legacy campaign aliases land on current canonical articles', () => {
 });
 
 test('shared release invalidates stale asset caches and keeps desktop navigation on one row', () => {
-  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261016-pr339-watson';/);
+  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261016-hero-padding-hotfix';/);
   assert.match(SITE_TEMPLATE_CSS, /header \.nav-links\s*\{[^}]*flex-wrap:\s*nowrap;/s);
 });
 
