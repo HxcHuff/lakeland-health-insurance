@@ -6,7 +6,7 @@ import test from 'node:test';
 import { chromium } from 'playwright';
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
-const ANSWER_PAGES_VERSION = '20261020-pr329-merge';
+const ANSWER_PAGES_VERSION = '20261021-hscroll-fix';
 
 const LOCAL_ANSWER_PAGES = [
   '/local-health-insurance-answers/',
