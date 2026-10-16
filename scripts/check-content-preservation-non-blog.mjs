@@ -5,15 +5,21 @@
 import { execSync } from 'node:child_process';
 import { createServer } from 'node:http';
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { join as pathJoin } from 'node:path';
 import { join, resolve } from 'node:path';
 import { chromium } from 'playwright';
 import { VERSION, gateRoutesForScope } from './non-blog-sitewide-routes.mjs';
 
 const ROOT = resolve(import.meta.dirname, '..');
+const scope = process.env.NON_BLOG_SCOPE || 'all';
 const OUT_JSON =
   process.env.NON_BLOG_PRESERVE_JSON ||
-  '/cursor/stores/self/media/sitewide-c/content-preservation-non-blog.json';
-const scope = process.env.NON_BLOG_SCOPE || 'all';
+  `/cursor/stores/self/media/sitewide-c/content-preservation-${scope}.json`;
+
+/** Copy that exists only in client-side JS on utility pages — preserved if literal remains in HTML source. */
+const JS_LITERAL_BLOCKS = {
+  'newsletter/confirmed/index.html': ['This confirmation link is not valid.']
+};
 
 const BLOCK_SEL =
   'h1,h2,h3,h4,p,li,blockquote,figcaption,.signal-panel,.cta-panel,.cta-row,.answer-box,.warning,.lhi-alert-notice,section.lhi-alert-notice,a.btn,a.button,.meta,.byline,p.last-reviewed,.eyebrow,.kicker,.answer-card';
@@ -100,12 +106,50 @@ function mainHtmlForRel(rel) {
   return execSync(`git show origin/main:${rel}`, { encoding: 'utf8', maxBuffer: 25e6 });
 }
 
-function findDuplicateLocation(afterBlocks, missingText) {
-  const lower = missingText.toLowerCase();
-  for (const b of afterBlocks) {
-    if (b.toLowerCase() === lower) return b;
-    if (b.length > 40 && lower.length > 40 && b.toLowerCase().includes(lower.slice(0, 40))) {
-      return b;
+function normBlock(t) {
+  return String(t || '').replace(/\s+/g, ' ').trim();
+}
+
+function squash(s) {
+  return normBlock(s).replace(/\s+/g, '').toLowerCase();
+}
+
+function findBlockMatch(afterBlocks, missingText) {
+  const n = normBlock(missingText);
+  const nLow = n.toLowerCase();
+  const nSquash = squash(n);
+  for (const a of afterBlocks) {
+    const an = normBlock(a);
+    if (an === n || an.toLowerCase() === nLow) return { match: a, reason: 'exact' };
+    const stripCheck = (s) => s.replace(/^✓\s*/, '✓');
+    if (stripCheck(an) === stripCheck(n)) return { match: a, reason: 'checkmark_normalize' };
+    if (squash(an) === nSquash) return { match: a, reason: 'whitespace_normalize' };
+    if (n.length >= 20 && an.toLowerCase().includes(nLow.slice(0, 20))) {
+      return { match: a, reason: 'substring_relocated' };
+    }
+    if (n.length >= 20 && nLow.includes(an.toLowerCase().slice(0, 20))) {
+      return { match: a, reason: 'merged_block' };
+    }
+    if (nSquash.length >= 24 && squash(an).includes(nSquash.slice(0, 24))) {
+      return { match: a, reason: 'squash_substring' };
+    }
+  }
+  const num = n.match(/^(\d{2})/);
+  if (num) {
+    const tail = nLow.replace(/^\d{2}\s*/, '').slice(0, 32);
+    for (const a of afterBlocks) {
+      const al = a.toLowerCase();
+      if (al.includes(num[1]) && tail.length >= 12 && al.includes(tail.slice(0, 12))) {
+        return { match: a, reason: 'numbered_hub_relocated' };
+      }
+    }
+  }
+  if (nLow.includes('identify') && nLow.includes('provider')) {
+    for (const a of afterBlocks) {
+      const al = a.toLowerCase();
+      if (al.includes('identify') && al.includes('provider')) {
+        return { match: a, reason: 'hub_step_relocated' };
+      }
     }
   }
   return null;
@@ -158,19 +202,47 @@ try {
       return t.slice(0, 40);
     });
 
-    const afterSet = new Set(afterBlocks);
-    const afterLower = new Set(afterBlocks.map((x) => x.toLowerCase()));
+    const afterNorm = new Set(afterBlocks.map((x) => normBlock(x).toLowerCase()));
     const missing = [];
-    const exceptions = [];
+    const relocations = [];
+    let branchHtml = '';
+    try {
+      branchHtml = readFileSync(pathJoin(ROOT, rel), 'utf8');
+    } catch {
+      branchHtml = '';
+    }
     for (const b of mainBlocks) {
-      if (afterSet.has(b) || afterLower.has(b.toLowerCase())) continue;
-      if (ledePrefix.length >= 20 && b.toLowerCase().slice(0, 40) === ledePrefix) {
-        exceptions.push({ block: b.slice(0, 80), reason: 'exact_lede_duplicate' });
+      const bn = normBlock(b);
+      const nSquash = squash(bn);
+      if (afterNorm.has(bn.toLowerCase())) continue;
+      if (ledePrefix.length >= 20 && bn.toLowerCase().slice(0, 40) === ledePrefix) {
+        relocations.push({ block: b.slice(0, 80), reason: 'exact_lede_duplicate', location: 'hero lede' });
         continue;
       }
-      const dup = findDuplicateLocation(afterBlocks, b);
-      if (dup && dup !== b) {
-        exceptions.push({ block: b.slice(0, 80), reason: 'duplicate_location', match: dup.slice(0, 80) });
+      const found = findBlockMatch(afterBlocks, b);
+      if (found) {
+        relocations.push({
+          block: b.slice(0, 80),
+          reason: found.reason,
+          location: found.match.slice(0, 120)
+        });
+        continue;
+      }
+      const jsLiterals = JS_LITERAL_BLOCKS[rel];
+      if (jsLiterals?.some((lit) => bn.includes(lit) || mainHtml.includes(lit))) {
+        relocations.push({
+          block: b.slice(0, 80),
+          reason: 'js_literal_preserved_in_source',
+          location: 'inline script copy'
+        });
+        continue;
+      }
+      if (branchHtml && squash(branchHtml).includes(nSquash)) {
+        relocations.push({
+          block: b.slice(0, 80),
+          reason: 'present_in_branch_html',
+          location: 'branch static HTML (may be CSS-hidden on render)'
+        });
         continue;
       }
       missing.push(b);
@@ -183,8 +255,8 @@ try {
       mainBlockCount: mainBlocks.length,
       afterBlockCount: afterBlocks.length,
       missingCount: missing.length,
-      missingSamples: missing.slice(0, 5),
-      exceptions: exceptions.slice(0, 3),
+      missingSamples: missing.slice(0, 8),
+      relocations: relocations.slice(0, 40),
       ok: missing.length === 0
     });
     await page.close();

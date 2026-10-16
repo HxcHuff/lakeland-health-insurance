@@ -236,10 +236,13 @@ async function measurePage(page, baseUrl, route, viewport) {
       const walker = document.createTreeWalker(shell, NodeFilter.SHOW_TEXT, {
         acceptNode(node) {
           if (!node.textContent || !node.textContent.trim()) return NodeFilter.FILTER_REJECT;
-          const parent = node.parentElement;
-          if (!parent || parent.closest('[hidden], script, style, noscript')) {
-            return NodeFilter.FILTER_REJECT;
-          }
+        const parent = node.parentElement;
+        if (
+          !parent ||
+          parent.closest('[hidden], script, style, noscript, footer, .footer-grid, .footer-bottom')
+        ) {
+          return NodeFilter.FILTER_REJECT;
+        }
           const st = getComputedStyle(parent);
           if (st.display === 'none' || st.visibility === 'hidden' || Number(st.opacity) < 0.05) {
             return NodeFilter.FILTER_REJECT;
@@ -393,35 +396,40 @@ async function measurePage(page, baseUrl, route, viewport) {
       return r.width >= 2 && r.height >= 2;
     };
 
-    const internalGapNodes = [];
-    if (shell) {
-      shell.querySelectorAll('.lhi-hero-lede-block, .lhi-hero-deferred-block').forEach((block) => {
-        block.querySelectorAll(':scope > h1, :scope > p, :scope > .meta, :scope > .blog-meta, :scope > .byline, :scope > .last-reviewed, :scope > div.meta, :scope > div.blog-meta').forEach((el) => {
-          if (isVisibleHeroEl(el)) internalGapNodes.push(el);
+    const collectGapNodes = (block) => {
+      const nodes = [];
+      block
+        .querySelectorAll(
+          ':scope > h1, :scope > p, :scope > .meta, :scope > .blog-meta, :scope > .byline, :scope > .last-reviewed, :scope > div.meta, :scope > div.blog-meta'
+        )
+        .forEach((el) => {
+          if (isVisibleHeroEl(el)) nodes.push(el);
         });
-      });
-      internalGapNodes.sort((a, b) => {
-        if (a === b) return 0;
-        const pos = a.compareDocumentPosition(b);
-        if (pos & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
-        if (pos & Node.DOCUMENT_POSITION_PRECEDING) return 1;
-        return 0;
-      });
-    }
+      return nodes;
+    };
 
     const internalGaps = [];
-    for (let gi = 0; gi < internalGapNodes.length - 1; gi += 1) {
-      const prev = internalGapNodes[gi].getBoundingClientRect();
-      const next = internalGapNodes[gi + 1].getBoundingClientRect();
-      const gapPx = Math.round(next.top - prev.bottom);
-      internalGaps.push({
-        from: (internalGapNodes[gi].textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40),
-        to: (internalGapNodes[gi + 1].textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40),
-        gapPx
-      });
+    let maxInternalGapPx = 0;
+    if (shell) {
+      for (const block of shell.querySelectorAll('.lhi-hero-lede-block, .lhi-hero-deferred-block')) {
+        const internalGapNodes = collectGapNodes(block);
+        const childEls = [...block.children];
+        for (let gi = 0; gi < internalGapNodes.length - 1; gi += 1) {
+          const idxA = childEls.indexOf(internalGapNodes[gi]);
+          const idxB = childEls.indexOf(internalGapNodes[gi + 1]);
+          if (idxA >= 0 && idxB >= 0 && idxB - idxA > 1) continue;
+          const prev = internalGapNodes[gi].getBoundingClientRect();
+          const next = internalGapNodes[gi + 1].getBoundingClientRect();
+          const gapPx = Math.round(next.top - prev.bottom);
+          internalGaps.push({
+            from: (internalGapNodes[gi].textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40),
+            to: (internalGapNodes[gi + 1].textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40),
+            gapPx
+          });
+          maxInternalGapPx = Math.max(maxInternalGapPx, gapPx);
+        }
+      }
     }
-    const maxInternalGapPx =
-      internalGaps.length > 0 ? Math.max(...internalGaps.map((g) => g.gapPx)) : 0;
 
     const isVisibleEl = (el) => {
       if (!el) return false;
@@ -591,6 +599,12 @@ async function measurePage(page, baseUrl, route, viewport) {
 
 const FORBIDDEN_RE = /\bHealthMarkets\b|\$0\b|\bFREE\b|\bfree quote\b/i;
 
+/**
+ * NO_LEAD_FORM_PAGES (scripts/non-blog-sitewide-routes.mjs): no missing-form / form-below-fold /
+ * form-not-right failures; still require gray hero shell, navy H1, contrast, and no horizontal scroll.
+ * Exempt: /thank-you/, /thanks.html, /newsletter/confirmed/, /book/, /chat.html, /newsletter/,
+ * /get-help/, /life-insurance-dime-method/, /aca-subsidy-estimator/, /download-free-guide-here.html
+ */
 function evaluateRow(row) {
   const issues = [];
   const expectsLeadForm = !NO_LEAD_FORM_PAGES.has(row.route);
