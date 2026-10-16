@@ -85,7 +85,7 @@ test('homepage ships lf2 v2 form markup', () => {
   const html = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
   assert.match(html, /class="lf2/);
   assert.match(html, /site-lead-v2-2026-11-v1/);
-  assert.match(html, /lead-form-v2\.js\?v=20261016-lead-form-v2/);
+  assert.match(html, /lead-form-v2\.js\?v=20261017-lead-form-v338/);
   assert.match(html, /name="normalized_intent"/);
 });
 

@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 /** Wizard step PNGs @1280 and @390 for key v2 paths (no submits). */
 import { createServer } from 'node:http';
+import { execSync } from 'node:child_process';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { chromium } from 'playwright';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const OUT = process.env.LEAD_FORM_V2_PNG_DIR || '/cursor/stores/self/media/lead-form-v2';
+const GIT_HEAD_SHORT = (process.env.LEAD_FORM_V2_GIT_HEAD || execSync('git rev-parse HEAD', { cwd: ROOT }).toString().trim()).slice(0, 8);
 
 const SCENARIOS = [
   { slug: 'homepage', path: '/', intent: 'under-65' },
@@ -75,7 +77,7 @@ async function captureScenario(page, baseUrl, scenario, viewportTag, width, heig
     const card = page.locator('.lhi-lead-hero__card, form.lf2').first();
     await card.waitFor({ state: 'visible', timeout: 10000 });
     const buf = await card.screenshot();
-    writeFileSync(join(OUT, `${scenario.slug}-step${step}-${viewportTag}.png`), buf);
+    writeFileSync(join(OUT, `${GIT_HEAD_SHORT}-${scenario.slug}-step${step}-${viewportTag}.png`), buf);
   }
 }
 

@@ -12,7 +12,7 @@ import {
 } from './lib/lead-hero-v2-html.mjs';
 
 const ROOT = new URL('..', import.meta.url).pathname.replace(/\/$/, '');
-const ASSET_V = '20261016-lead-form-v2';
+const ASSET_V = '20261017-lead-form-v338';
 const V2_JS = `<script src="/js/lead-form-v2.js?v=${ASSET_V}" defer></script>`;
 const SKIP_DIRS = new Set(['.git', 'node_modules', 'search-engine-from-zip', '.ai-worker-local', 'lp']);
 

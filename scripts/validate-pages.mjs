@@ -26,23 +26,19 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/js/site-template.js', '20261023-pr333-follow-up'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
-  ['/css/lead-hero.css', '20261016-lead-form-v2'],
+  ['/css/lead-hero.css', '20261016-nonblog-gates3'],
   ['/css/answer-pages.css', '20261016-pr337-c'],
   ['/css/paid-landing.css', '20261016-pr337-lp3'],
-  ['/js/lead-hero.js', '20261016-lead-form-v2'],
-  ['/js/lead-form-v2.js', '20261016-lead-form-v2'],
+  ['/js/lead-hero.js', '20261023-pr333-follow-up'],
+  ['/js/lead-form-v2.js', '20261017-lead-form-v338'],
 ]);
-const SERVICE_WORKER_CACHE_VERSION = '20261016-pr337-e';
-
-const LEAD_HERO_LEGACY_NONBLOG_GATES = '20261016-nonblog-gates2';
+const SERVICE_WORKER_CACHE_VERSION = '20261017-lead-form-v338';
+const LEAD_FORM_V2_RELEASE = '20261017-lead-form-v338';
+const LEAD_HERO_LP_GATES = '20261016-nonblog-gates2';
 
 function expectedReleaseAssetVersion(rel, assetPath, defaultVersion) {
-  if (
-    assetPath === '/css/lead-hero.css' &&
-    (/^lp\/(aca|gap|medicare)\//.test(rel) ||
-      /^(current-client-review|employer-referral|post-enrollment-review)\//.test(rel))
-  ) {
-    return LEAD_HERO_LEGACY_NONBLOG_GATES;
+  if (assetPath === '/css/lead-hero.css' && /^lp\/(aca|gap|medicare)\//.test(rel)) {
+    return LEAD_HERO_LP_GATES;
   }
   if (rel.startsWith('blog/') && BLOG_RELEASE_ASSET_VERSIONS.has(assetPath)) {
     return BLOG_RELEASE_ASSET_VERSIONS.get(assetPath);
@@ -50,12 +46,24 @@ function expectedReleaseAssetVersion(rel, assetPath, defaultVersion) {
   return defaultVersion;
 }
 
+function expectedAssetVersionForPage(rel, html, assetPath, defaultVersion) {
+  const isLf2Site = /data-lf2-mode=["']site["']/.test(html);
+  if (
+    isLf2Site &&
+    (assetPath === '/css/lead-hero.css' ||
+      assetPath === '/js/lead-hero.js' ||
+      assetPath === '/js/lead-form-v2.js')
+  ) {
+    return LEAD_FORM_V2_RELEASE;
+  }
+  return expectedReleaseAssetVersion(rel, assetPath, defaultVersion);
+}
+
 /** Blog PR B ships newer cache tokens without sitewide HTML bumps. */
 const BLOG_RELEASE_ASSET_VERSIONS = new Map([
   ['/css/blog-unified.css', '20261023-pr333-follow-up'],
-  ['/css/lead-hero.css', '20261016-lead-form-v2'],
-  ['/js/lead-hero.js', '20261016-lead-form-v2'],
-  ['/js/lead-form-v2.js', '20261016-lead-form-v2']
+  ['/css/lead-hero.css', '20261016-nonblog-gates3'],
+  ['/js/lead-hero.js', '20261023-pr333-follow-up']
 ]);
 
 const FORBIDDEN_PUBLIC_FILES = [
@@ -143,7 +151,7 @@ for (const file of seen) {
   htmlByRel.set(rel, file);
   const html = readFileSync(file, 'utf8');
   for (const [assetPath, assetVersion] of RELEASE_ASSET_VERSIONS) {
-    const version = expectedReleaseAssetVersion(rel, assetPath, assetVersion);
+    const version = expectedAssetVersionForPage(rel, html, assetPath, assetVersion);
     const expected = `${assetPath}?v=${version}`;
     const pattern = new RegExp(`${escapeRegExp(assetPath)}(?:\\?[^\"'\\s<>]*)?`, 'g');
     for (const match of html.matchAll(pattern)) {

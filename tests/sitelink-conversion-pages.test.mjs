@@ -77,9 +77,9 @@ for (const [file, sourcePage, formName, consentVersion, preselect] of leadHeroPa
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
     if (preselect) assert.match(form, new RegExp(`data-lf2-preselect="${preselect}"`));
-    assert.match(html, /\/css\/lead-hero\.css\?v=20261016-lead-form-v2/);
-    assert.match(html, /\/js\/lead-hero\.js\?v=20261016-lead-form-v2/);
-    assert.match(html, /\/js\/lead-form-v2\.js\?v=20261016-lead-form-v2/);
+    assert.match(html, /\/css\/lead-hero\.css\?v=20261017-lead-form-v338/);
+    assert.match(html, /\/js\/lead-hero\.js\?v=20261017-lead-form-v338/);
+    assert.match(html, /\/js\/lead-form-v2\.js\?v=20261017-lead-form-v338/);
   });
 }
 

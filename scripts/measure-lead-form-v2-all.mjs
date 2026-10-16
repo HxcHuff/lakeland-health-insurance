@@ -4,6 +4,7 @@
  * Writes measure-all.json to the project agent store by default.
  */
 import { createServer } from 'node:http';
+import { execSync } from 'node:child_process';
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { chromium } from 'playwright';
@@ -217,8 +218,11 @@ try {
   await server.close();
 }
 
+const gitHeadSha = process.env.LEAD_FORM_V2_GIT_HEAD || execSync('git rev-parse HEAD', { cwd: ROOT }).toString().trim();
+
 const summary = {
   generatedAt: new Date().toISOString(),
+  gitHeadSha,
   source: 'data-lf2-mode=site (inventory sections A+B site hero scope; LP/get-help sitelink excluded)',
   routeCount: routes.length,
   measurementCount: results.length,
