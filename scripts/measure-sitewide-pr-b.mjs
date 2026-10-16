@@ -74,10 +74,9 @@ async function measurePage(page, baseUrl, route, viewport) {
 
   return page.evaluate(({ vw, vh }) => {
     const shell = document.querySelector('.lhi-hero-shell');
-    const h1 =
-      shell?.querySelector('.lhi-hero-lede-block h1') ||
-      shell?.querySelector('section.hero h1') ||
-      document.querySelector('main h1, h1');
+    const h1 = shell
+      ? shell.querySelector('.lhi-hero-lede-block h1') || shell.querySelector('section.hero h1')
+      : document.querySelector('main h1, h1');
     const formCard =
       shell?.querySelector('.lhi-hero-grid-lead .lhi-lead-hero__card') ||
       document.querySelector('.lhi-lead-hero__card');
