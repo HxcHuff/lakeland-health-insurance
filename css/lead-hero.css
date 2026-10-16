@@ -2010,9 +2010,40 @@ body.lhi-lead-sticky-active {
     order: 1;
   }
 
+  /* Mobile product shell: keep .hero-sub lede visible; hide deferred CTAs/trust until desktop. */
   body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .hero .lhi-hero-deferred-block,
   body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero .lhi-hero-deferred-block {
-    display: none;
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .hero .lhi-hero-deferred-block > :not(.hero-sub),
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero .lhi-hero-deferred-block > :not(.hero-sub) {
+    display: none !important;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .hero .lhi-hero-deferred-block .hero-sub,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero .lhi-hero-deferred-block .hero-sub {
+    color: #475569 !important;
+    display: block;
+    font-size: 0.98rem;
+    line-height: 1.5;
+    margin: 0.1rem 0 0;
+    -webkit-text-fill-color: #475569 !important;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .hero .lhi-hero-deferred-block .hero-sub:not(:first-of-type),
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero .lhi-hero-deferred-block .hero-sub:not(:first-of-type) {
+    display: none !important;
+  }
+
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .hero .lhi-hero-deferred-block .hero-sub:first-of-type,
+  body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .answer-hero .lhi-hero-deferred-block .hero-sub:first-of-type {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
   }
 
   body.lhi-page-hero:not(.blog-post):not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) .answer-hero .cta-row,
