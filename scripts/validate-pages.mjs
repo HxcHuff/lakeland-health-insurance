@@ -25,7 +25,7 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/js/site-template.js', '20261021-hscroll-fix'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
-  ['/css/lead-hero.css', '20261023-pr331-lede'],
+  ['/css/lead-hero.css', '20261016-pr-c-hero-polish'],
   ['/css/answer-pages.css', '20261021-hscroll-fix'],
   ['/js/lead-hero.js', '20261022-pr331-review'],
 ]);
