@@ -17,7 +17,7 @@ const MEDICARE_SAMPLES = [
 
 function formName(rel) {
   const html = readFileSync(join(ROOT, rel), 'utf8');
-  const block = html.match(/<section class="lhi-lead-hero"[\s\S]*?<\/section>/i)?.[0] ?? '';
+  const block = html.match(/<section class="lhi-lead-hero[^"]*"[\s\S]*?<\/section>/i)?.[0] ?? '';
   return block.match(/name="(site-(?:medicare|aca)-lead)"/)?.[1] ?? '';
 }
 
