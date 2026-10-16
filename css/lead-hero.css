@@ -2883,6 +2883,18 @@ body.lhi-page-hero.blog-post main article.post > section.lhi-alert-notice:first-
   margin: 0 0 1.25rem;
 }
 
+body.lhi-page-hero.blog-post article.article-content > .lhi-post-body-intro {
+  background: #fff;
+  border: 1px solid var(--gray-200, #dde6f0);
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  margin: 0 auto 1rem;
+  max-width: 800px;
+  padding: 18px 20px;
+  width: calc(100% - 40px);
+}
+
 /* Blog index (/blog/): gray two-column hero; search + topic chips below hero band. */
 body.blog-index-page .lhi-hero-shell .lhi-hero-lede-block {
   text-align: left;
