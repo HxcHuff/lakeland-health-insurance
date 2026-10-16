@@ -39,6 +39,13 @@
 /* Interior hub shells follow homepage gray hero — not answer-page navy bands. */
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell {
   background: var(--gray-50, #f8fafc);
+  /* Clip .hero::before (200% width) without clipping fixed floating actions or vertical card shadow. */
+  overflow-x: clip;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero::before,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.answer-hero::before {
+  display: none;
 }
 
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .answer-hero,
@@ -250,7 +257,8 @@ body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb 
 
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:not(:has(> .lhi-hero-grid-lead)):has(.lhi-hero-grid-lead) > section.hero,
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:not(:has(> .lhi-hero-grid-lead)):has(.lhi-hero-grid-lead) > section.answer-hero {
-    overflow: visible !important;
+    overflow-x: clip !important;
+    overflow-y: visible !important;
     padding: 0 0 clamp(12px, 2vw, 18px) !important;
     scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 8px);
   }
