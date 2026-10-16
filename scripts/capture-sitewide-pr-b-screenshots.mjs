@@ -57,6 +57,24 @@ try {
     ]) {
       const page = await browser.newPage({ viewport: { width: w, height: h } });
       await page.goto(`${server.baseUrl}${url}`, { waitUntil: 'networkidle' });
+      await page.evaluate(() => {
+        try {
+          for (let i = localStorage.length - 1; i >= 0; i -= 1) {
+            const k = localStorage.key(i);
+            if (k && k.startsWith('lhi-seasonal-banner-aep-')) localStorage.removeItem(k);
+          }
+        } catch {
+          /* ignore */
+        }
+        window.scrollTo(0, 0);
+      });
+      const hasChrome = await page.evaluate(() => Boolean(window.LHISiteChrome));
+      if (!hasChrome) {
+        await page.addScriptTag({
+          url: `${server.baseUrl}/js/site-template.js?v=20261021-hscroll-fix`
+        });
+        await page.waitForTimeout(450);
+      }
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.waitForTimeout(250);
       await page.screenshot({ path: join(OUT, `${name}-${tag}.png`) });

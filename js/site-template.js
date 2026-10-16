@@ -465,10 +465,18 @@
 
   function syncSiteHeaderOffset() {
     var header = document.querySelector('header');
-    if (!header) return;
-    var height = Math.ceil(header.getBoundingClientRect().height);
-    if (!height) return;
-    height += SITE_HEADER_HEIGHT_BUFFER_PX;
+    var topStrip = document.querySelector('.top-strip');
+    var bottom = 0;
+    if (topStrip) {
+      var stripRect = topStrip.getBoundingClientRect();
+      if (stripRect.height > 0) bottom = Math.max(bottom, stripRect.bottom);
+    }
+    if (header) {
+      var headerRect = header.getBoundingClientRect();
+      if (headerRect.height > 0) bottom = Math.max(bottom, headerRect.bottom);
+    }
+    if (!bottom) return;
+    var height = Math.ceil(bottom) + SITE_HEADER_HEIGHT_BUFFER_PX;
     document.documentElement.style.setProperty('--lhi-site-header-height', height + 'px');
   }
 

@@ -84,10 +84,33 @@ function contrastRatio(fgRgb, bgRgb) {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
+async function preparePageForMeasure(page, baseUrl) {
+  await page.evaluate(() => {
+    try {
+      const keys = [];
+      for (let i = 0; i < localStorage.length; i += 1) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith('lhi-seasonal-banner-aep-')) keys.push(k);
+      }
+      keys.forEach((k) => localStorage.removeItem(k));
+    } catch {
+      /* ignore */
+    }
+    window.scrollTo(0, 0);
+  });
+  const hasChrome = await page.evaluate(() => Boolean(window.LHISiteChrome));
+  if (!hasChrome) {
+    await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=20261021-hscroll-fix` });
+    await page.waitForTimeout(450);
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(120);
+}
+
 async function measurePage(page, baseUrl, route, viewport) {
   await page.setViewportSize(viewport);
   await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle', timeout: 25000 });
-  await page.waitForTimeout(200);
+  await preparePageForMeasure(page, baseUrl);
 
   return page.evaluate(({ vw, vh }) => {
     const shell = document.querySelector('.lhi-hero-shell');
@@ -171,75 +194,82 @@ async function measurePage(page, baseUrl, route, viewport) {
       return base;
     };
 
+    const contrastRatioLocal = (fgRgb, bgRgb) => {
+      const rel = (rgb) =>
+        [0.2126, 0.7152, 0.0722].reduce((acc, w, i) => {
+          const s = rgb[i] / 255;
+          const c = s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+          return acc + w * c;
+        }, 0);
+      const l1 = rel(fgRgb);
+      const l2 = rel(bgRgb);
+      return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+    };
+
     const contrastSamples = [];
-    const contrastSelectors = [
-      '.lhi-hero-lede-block h1',
-      '.lhi-hero-lede-block .lhi-hero-lede:not(.last-reviewed)',
-      '.lhi-lead-hero__title',
-      '.lhi-lead-hero__submit',
-      '.lhi-alert-notice h2',
-      '.lhi-alert-notice-actions a'
-    ];
     if (shell) {
-      for (const sel of contrastSelectors) {
-        for (const el of shell.querySelectorAll(sel)) {
-          const st = getComputedStyle(el);
-          if (st.display === 'none' || st.visibility === 'hidden' || st.opacity === '0') continue;
-          const rect = el.getBoundingClientRect();
-          if (rect.width < 2 || rect.height < 2) continue;
-          let fgRgb = parseRgbLocal(st.color);
-          let bg = effectiveBgRgb(el);
-          const ownBg = parseRgbaLocal(st.backgroundColor);
-          if (ownBg && ownBg[3] > 0.2) {
-            bg = ownBg.slice(0, 3);
+      const seenText = new Set();
+      const walker = document.createTreeWalker(shell, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          if (!node.textContent || !node.textContent.trim()) return NodeFilter.FILTER_REJECT;
+          const parent = node.parentElement;
+          if (!parent || parent.closest('[hidden], script, style, noscript')) {
+            return NodeFilter.FILTER_REJECT;
           }
-          if (el.matches('.lhi-lead-hero__submit')) {
-            bg = [5, 150, 105];
+          const st = getComputedStyle(parent);
+          if (st.display === 'none' || st.visibility === 'hidden' || Number(st.opacity) < 0.05) {
+            return NodeFilter.FILTER_REJECT;
           }
-          if (el.matches('.lhi-alert-notice-actions a[href*="get-help"]')) {
-            bg = [27, 42, 74];
-            fgRgb = [255, 255, 255];
-          }
-          if (!fgRgb || !bg) continue;
-          const fontSize = parseFloat(st.fontSize) || 16;
-          const fontWeight = parseInt(st.fontWeight, 10) || 400;
-          const isLarge = fontSize >= 18 || (fontSize >= 14 && fontWeight >= 700);
-          const ratio = (() => {
-            const l1 = [0.2126, 0.7152, 0.0722].reduce(
-              (acc, w, i) =>
-                acc +
-                w *
-                  ((v) => {
-                    const s = v / 255;
-                    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
-                  })(fgRgb[i]),
-              0
-            );
-            const l2 = [0.2126, 0.7152, 0.0722].reduce(
-              (acc, w, i) =>
-                acc +
-                w *
-                  ((v) => {
-                    const s = v / 255;
-                    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
-                  })(bg[i]),
-              0
-            );
-            const lighter = Math.max(l1, l2);
-            const darker = Math.min(l1, l2);
-            return (lighter + 0.05) / (darker + 0.05);
-          })();
-          contrastSamples.push({
-            selector: sel,
-            text: (el.textContent || '').trim().slice(0, 60),
-            ratio: Math.round(ratio * 100) / 100,
-            minRequired: isLarge ? 3 : 4.5,
-            fg: fgRgb.join(','),
-            bg: bg.join(',')
-          });
+          return NodeFilter.FILTER_ACCEPT;
         }
+      });
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        const el = node.parentElement;
+        const rect = el.getBoundingClientRect();
+        if (rect.width < 2 || rect.height < 2) continue;
+        const text = (node.textContent || '').replace(/\s+/g, ' ').trim();
+        if (!text) continue;
+        const key = `${text.slice(0, 48)}@${Math.round(rect.top)}`;
+        if (seenText.has(key)) continue;
+        seenText.add(key);
+        const st = getComputedStyle(el);
+        let fgRgb = parseRgbLocal(st.color);
+        let bg = effectiveBgRgb(el);
+        const ownBg = parseRgbaLocal(st.backgroundColor);
+        if (ownBg && ownBg[3] > 0.2) bg = ownBg.slice(0, 3);
+        if (el.matches('.lhi-alert-notice-actions a[href*="get-help"]')) {
+          bg = [27, 42, 74];
+          fgRgb = [255, 255, 255];
+        }
+        if (!fgRgb || !bg) continue;
+        const ratio = contrastRatioLocal(fgRgb, bg);
+        contrastSamples.push({
+          selector: el.tagName.toLowerCase() + (el.className ? `.${String(el.className).split(/\s+/)[0]}` : ''),
+          text: text.slice(0, 60),
+          ratio: Math.round(ratio * 100) / 100,
+          minRequired: 4.5,
+          fg: fgRgb.join(','),
+          bg: bg.join(',')
+        });
       }
     }
+
+    const stickyChromeBottom = (() => {
+      let bottom = 0;
+      const topStrip = document.querySelector('.top-strip');
+      if (topStrip) {
+        const r = topStrip.getBoundingClientRect();
+        if (r.height > 0) bottom = Math.max(bottom, r.bottom);
+      }
+      const header = document.querySelector('header');
+      if (header) {
+        const r = header.getBoundingClientRect();
+        if (r.height > 0) bottom = Math.max(bottom, r.bottom);
+      }
+      return Math.round(bottom);
+    })();
+    const h1ClearancePx = h1r ? Math.round(h1r.top - stickyChromeBottom) : null;
 
     let leftColBottom = null;
     let formBottom = fr ? Math.round(fr.bottom) : null;
@@ -352,6 +382,8 @@ async function measurePage(page, baseUrl, route, viewport) {
       heroGridAlignItems,
       duplicateHeroText: [...new Set(duplicateHeroText)],
       breadcrumbIssue,
+      stickyChromeBottom,
+      h1ClearancePx,
       contrastSamples,
       contrastFails: contrastSamples.filter((s) => s.ratio < s.minRequired),
       redScan: { hitCount: redHits.length, hits: redHits.slice(0, 8) }
@@ -362,6 +394,9 @@ async function measurePage(page, baseUrl, route, viewport) {
 function evaluateRow(row) {
   const issues = [];
   if (!row.hasShell) issues.push('no-shell');
+  if (row.hasShell && row.h1ClearancePx != null && row.h1ClearancePx < 8) {
+    issues.push(`h1-under-chrome:h1ClearancePx=${row.h1ClearancePx}`);
+  }
 
   if (row.viewport === '1280') {
     if (!isGrayHeroBg(row.shellBg)) issues.push(`hero-not-gray:bg=${row.shellBg?.join(',')}`);
