@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
+import { findFaqVisibleMatchIssues } from '../scripts/faq-visible-match.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const PAGE = 'retiring-and-medicare-lakeland-fl/index.html';
@@ -39,6 +40,19 @@ test('T12 page includes FAQPage JSON-LD and body FAQ', () => {
   assert.match(source, /I'm retiring\. When do I sign up for Medicare\?/);
   assert.match(source, /Do I need Part D if I pick Medigap\?/);
   assert.match(source, /id="faq"/);
+});
+
+test('T13 IRMAA FAQ on retiring-and-medicare page with SSA links and visible-schema parity', () => {
+  const source = html();
+  assert.match(source, /I just retired\. Can I get my Medicare IRMAA surcharge lowered\?/);
+  assert.match(source, /href="https:\/\/www\.ssa\.gov\/forms\/ssa-44\.pdf"/);
+  assert.match(source, /href="https:\/\/www\.ssa\.gov\/medicare\/lower-irmaa"/);
+  assert.doesNotMatch(source, /2027.*IRMAA|IRMAA.*2027/i);
+  assert.doesNotMatch(source, /Core for Seniors/i);
+  const faqPageCount = (source.match(/"@type": "FAQPage"/g) || []).length;
+  assert.equal(faqPageCount, 1, 'single FAQPage JSON-LD block');
+  const issues = findFaqVisibleMatchIssues(PAGE, source);
+  assert.deepEqual(issues, [], issues.join('\n'));
 });
 
 test('T12 page internal links and compliance surfaces', () => {
