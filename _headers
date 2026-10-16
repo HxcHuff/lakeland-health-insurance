@@ -14,10 +14,10 @@
   X-Robots-Tag: noindex
 
 /medicare-2027-check/
-  X-Robots-Tag: noindex, follow
+  X-Robots-Tag: noindex, nofollow
 
 /medicare-2027-check/index.html
-  X-Robots-Tag: noindex, follow
+  X-Robots-Tag: noindex, nofollow
 
 /health-insurance-georgia/
   X-Robots-Tag: noindex, nofollow
