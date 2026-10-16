@@ -12,38 +12,16 @@ function source(rel) {
   return readFileSync(join(ROOT, rel), 'utf8');
 }
 
-function sectionEndFrom(html, startIndex) {
-  const tokenRe = /<section\b|<\/section>/gi;
-  tokenRe.lastIndex = startIndex;
-  let depth = 0;
-  let match;
-  while ((match = tokenRe.exec(html))) {
-    if (/^<section\b/i.test(match[0])) depth += 1;
-    else if (--depth === 0) return match.index + match[0].length;
-  }
-  return null;
-}
-
 function heroMarkup(html) {
-  const start = html.indexOf('<section class="answer-hero');
-  assert.ok(start >= 0, 'page includes an answer-hero section');
-  const end = sectionEndFrom(html, start);
-  assert.ok(end, 'answer-hero section closes');
-  return html.slice(start, end);
+  const match = html.match(/<section class="answer-hero[^"]*"[\s\S]*?<\/section>/);
+  assert.ok(match, 'page includes an answer-hero section');
+  return match[0];
 }
 
 function homepageLeadShellMarkup(html) {
-  const start = html.indexOf('<div class="lhi-hero-shell">');
-  assert.ok(start >= 0, 'page includes a homepage-style lhi-hero-shell');
-  let depth = 0;
-  for (let i = start; i < html.length; i += 1) {
-    if (html.startsWith('<div', i)) depth += 1;
-    if (html.startsWith('</div>', i)) {
-      depth -= 1;
-      if (depth === 0) return html.slice(start, i + '</div>'.length);
-    }
-  }
-  assert.fail('lhi-hero-shell never closes');
+  const match = html.match(/<div class="lhi-hero-shell">[\s\S]*?<\/div>\s*(?=<section class="content-band"|<\/main>)/);
+  assert.ok(match, 'page includes a homepage-style lhi-hero-shell');
+  return match[0];
 }
 
 function firstCtaRow(html) {
@@ -54,25 +32,24 @@ function firstCtaRow(html) {
 
 test('Medicare hub leads with Call David, then Get Help and the primary broker URL', () => {
   const html = source('medicare/index.html');
-  const shell = homepageLeadShellMarkup(html);
-  const hero = heroMarkup(shell);
+  const hero = heroMarkup(html);
   const h1At = hero.search(/<h1 id="medicare-title"/);
   const ledeAt = hero.search(/class="lead lhi-hero-lede"/);
-  const formAt = hero.search(/<form class="lhi-lead-hero__form"/);
-  const directAt = shell.search(/class="lead medicare-direct-answer"/);
-  const callAt = shell.search(/href="tel:\+18636403102"[^>]*>Call David</);
-  const helpAt = shell.search(/href="\/get-help\/\?intent=medicare&amp;source_page_key=medicare&amp;source_cta_key=start_review_hero"/);
-  const brokerAt = shell.search(/href="\/medicare-broker-lakeland-fl\/"/);
+  const formAt = hero.search(/<form class="sitelink-lead-form"/);
+  const directAt = hero.search(/class="lead medicare-direct-answer"/);
+  const callAt = hero.search(/href="tel:\+18636403102"[^>]*>Call David</);
+  const helpAt = hero.search(/href="\/get-help\/\?intent=medicare&amp;source_page_key=medicare&amp;source_cta_key=start_review_hero"/);
+  const brokerAt = hero.search(/href="\/medicare-broker-lakeland-fl\/"/);
 
-  assert.ok(formAt > 0, 'hub keeps the site Medicare lead form');
+  assert.ok(formAt > 0, 'hub keeps the sitelink lead form');
   assert.ok(h1At >= 0 && ledeAt > h1At && formAt > ledeAt, 'mobile-first hero order: H1, short lede, then form');
   assert.ok(directAt > formAt, 'direct answer follows the lead form in DOM');
-  assert.ok(callAt > formAt, 'Call David appears after the lead form in the hero stack');
+  assert.ok(callAt > formAt, 'Call David appears after the sitelink form in the hero stack');
   assert.ok(helpAt > formAt, 'Get Help with medicare intent params appears after the form');
   assert.ok(brokerAt > formAt, 'primary broker URL appears after the form');
   assert.ok(callAt < helpAt, 'Call David is earlier than Get Help in the hero');
 
-  const row = firstCtaRow(shell);
+  const row = firstCtaRow(hero);
   assert.match(row, /class="btn primary" href="tel:\+18636403102">Call David</);
   assert.match(row, /Get Help</);
   assert.match(row, /Lakeland Medicare broker</);

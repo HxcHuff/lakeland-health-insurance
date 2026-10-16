@@ -182,12 +182,11 @@ test('Medicare hub is a current-season, privacy-minimized, keyboard-accessible l
   assert.match(html, /class="hub-scenario-shortcut" href="#start"/);
   assert.match(html, /class="btn secondary hub-provider-link"/);
   assert.equal(forms.length, 1, 'Medicare hub exposes one controlled lead form');
-  assert.match(forms[0], /class="lhi-lead-hero__form"/);
-  assert.match(forms[0], /name="site-medicare-lead"/);
-  assert.match(forms[0], /name="consent_text_version" value="site-medicare-2026-10-v1"/);
-  assert.match(forms[0], /name="source_template" value="medicare_hub"/);
+  assert.match(forms[0], /class="sitelink-lead-form"/);
+  assert.match(forms[0], /name="normalized_intent" value="medicare"/);
+  assert.match(forms[0], /name="consent_request" value="yes" required/);
   assert.doesNotMatch(forms[0], /<textarea|name="(?:notes|providers|prescriptions|current_plan|policy_number|medicare_number)"/i);
-  assert.match(html, /Do not enter a Medicare number, Social Security number, medical details, policy numbers, or payment information/);
+  assert.match(forms[0], /Do not enter a Medicare number, Social Security number, medical details, policy numbers, or payment information/);
   assert.doesNotMatch(html, /Compare 2026 Medicare Plans/i);
   assert.match(css, /\.hub-skip-link:focus\s*{[^}]*transform:\s*translateY\(0\)/s);
   assert.match(css, /\.hub-scenario-shortcut\s*{[^}]*min-height:\s*44px/s);

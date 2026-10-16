@@ -43,7 +43,7 @@ for (const [label, html, canonical, formName] of [
     assert.match(html, /NPN 18213932/);
     assert.doesNotMatch(html, /No fluff\. Just Huff\./i);
     assert.doesNotMatch(html, /healthsherpa\.com|Self-Service ACA Quote/i);
-    assert.match(html, /\/js\/site-template\.js\?v=20261023-pr333-follow-up/, `${label} loads shared template without replacing LP chrome`);
+    assert.doesNotMatch(html, /\/js\/site-template\.js/, `${label} does not load global site chrome`);
 
     const header = headerFrom(html);
     assert.doesNotMatch(header, /<nav\b|menu-button|dropdown-menu|nav-links/i);

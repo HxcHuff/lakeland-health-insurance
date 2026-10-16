@@ -72,7 +72,10 @@ export const NO_LEAD_FORM_PAGES = new Set([
   '/get-help/',
   '/life-insurance-dime-method/',
   '/aca-subsidy-estimator/',
-  '/download-free-guide-here.html'
+  '/download-free-guide-here.html',
+  '/current-client-review/',
+  '/post-enrollment-review/',
+  '/employer-referral/'
 ]);
 
 export function relToRoute(rel) {

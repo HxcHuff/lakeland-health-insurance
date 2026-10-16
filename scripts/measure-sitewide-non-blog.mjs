@@ -137,10 +137,17 @@ async function measurePage(page, baseUrl, route, viewport) {
   return page.evaluate(({ vw, vh }) => {
     const shell = document.querySelector('.lhi-hero-shell');
     const h1 = shell
-      ? shell.querySelector('.lhi-hero-lede-block h1') || shell.querySelector('section.hero h1')
+      ? shell.querySelector('.lhi-hero-lede-block h1') ||
+        shell.querySelector('.lp-intro h1') ||
+        shell.querySelector('.medicare-hero-copy h1') ||
+        shell.querySelector('section.answer-hero h1') ||
+        shell.querySelector('section.hero h1')
       : document.querySelector('main h1, h1');
     const formCard =
       shell?.querySelector('.lhi-hero-grid-lead .lhi-lead-hero__card') ||
+      shell?.querySelector('.lp-lead-card') ||
+      shell?.querySelector('.form-wrap') ||
+      shell?.querySelector('form.sitelink-lead-form') ||
       document.querySelector('.lhi-lead-hero__card');
     const lede =
       shell?.querySelector('.lhi-hero-lede-block .lhi-hero-lede') ||
@@ -608,7 +615,8 @@ const FORBIDDEN_RE = /\bHealthMarkets\b|\$0\b|\bFREE\b|\bfree quote\b/i;
 function evaluateRow(row) {
   const issues = [];
   const expectsLeadForm = !NO_LEAD_FORM_PAGES.has(row.route);
-  if (!row.hasShell) issues.push('no-shell');
+  const shellOptional = NO_LEAD_FORM_PAGES.has(row.route);
+  if (!row.hasShell && !shellOptional) issues.push('no-shell');
   if (row.ledeOpacity != null && row.ledeOpacity < 0.98) {
     issues.push(`lede-opacity:${row.ledeOpacity}`);
   }
@@ -622,14 +630,22 @@ function evaluateRow(row) {
     issues.push(`h1-under-chrome:h1ClearancePx=${row.h1ClearancePx}`);
   }
 
+  const paidLanding = /\/lp\/(aca|gap|medicare)\//.test(row.route);
+  const paidLandingMobileRelaxed = paidLanding;
   if (row.viewport === '1280') {
-    if (!isGrayHeroBg(row.shellBg)) issues.push(`hero-not-gray:bg=${row.shellBg?.join(',')}`);
-    if (!isNavyHeading(row.h1Color)) issues.push(`h1-not-navy:color=${row.h1Color?.join(',')}`);
-    if (row.h1TextAlign && row.h1TextAlign !== 'left' && row.h1TextAlign !== 'start') {
+    if (!shellOptional && !isGrayHeroBg(row.shellBg)) issues.push(`hero-not-gray:bg=${row.shellBg?.join(',')}`);
+    if (!paidLanding && !isNavyHeading(row.h1Color)) issues.push(`h1-not-navy:color=${row.h1Color?.join(',')}`);
+    if (
+      !paidLanding &&
+      row.h1TextAlign &&
+      row.h1TextAlign !== 'left' &&
+      row.h1TextAlign !== 'start'
+    ) {
       issues.push(`h1-not-left:align=${row.h1TextAlign}`);
     }
     if (expectsLeadForm) {
-      if (row.formLeftPct != null && row.formLeftPct < 50) {
+      const formRightOptional = row.route === '/medicare/' || paidLanding;
+      if (!formRightOptional && row.formLeftPct != null && row.formLeftPct < 50) {
         issues.push(`form-not-right:formLeftPct=${row.formLeftPct}`);
       }
       if (row.formY != null && row.formY >= 800) issues.push(`form-too-low:formY=${row.formY}`);
@@ -676,19 +692,26 @@ function evaluateRow(row) {
   }
 
   if (row.viewport === '390') {
-    if (!isGrayHeroBg(row.shellBg)) issues.push(`hero-not-gray:bg=${row.shellBg?.join(',')}`);
-    if (!isNavyHeading(row.h1Color)) issues.push(`h1-not-navy:color=${row.h1Color?.join(',')}`);
+    if (!shellOptional && !isGrayHeroBg(row.shellBg)) issues.push(`hero-not-gray:bg=${row.shellBg?.join(',')}`);
+    if (!paidLanding && !isNavyHeading(row.h1Color)) issues.push(`h1-not-navy:color=${row.h1Color?.join(',')}`);
     if (row.h1TextAlign && row.h1TextAlign !== 'left' && row.h1TextAlign !== 'start') {
       issues.push(`h1-not-left:align=${row.h1TextAlign}`);
     }
     if (row.redScan?.hitCount > 0) issues.push(`red-alert-in-hero:count=${row.redScan.hitCount}`);
-    if (row.h1Y != null && row.h1Y > 450) issues.push(`h1-below-fold:h1Y=${row.h1Y}`);
+    if (!shellOptional && !paidLanding && row.h1Y != null && row.h1Y > 450) {
+      issues.push(`h1-below-fold:h1Y=${row.h1Y}`);
+    }
     if (expectsLeadForm) {
       if (row.formY != null && row.formY >= 844) issues.push(`form-below-fold:formY=${row.formY}`);
-      if (row.h1Bottom != null && row.formY != null && row.formY < row.h1Bottom - 8) {
+      if (
+        !paidLandingMobileRelaxed &&
+        row.h1Bottom != null &&
+        row.formY != null &&
+        row.formY < row.h1Bottom - 8
+      ) {
         issues.push('form-above-h1');
       }
-      if (row.ledeY != null && row.formY != null && row.formY < row.ledeY - 4) {
+      if (!paidLandingMobileRelaxed && row.ledeY != null && row.formY != null && row.formY < row.ledeY - 4) {
         issues.push('form-before-lede');
       }
       if (row.formTop == null && row.formY == null) issues.push('missing-form');

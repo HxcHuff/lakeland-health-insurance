@@ -3186,11 +3186,15 @@ body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block a:not([class*='btn']
   color: #1e40af !important;
 }
 
-body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block a.cta-button,
-body.lhi-page-hero .lhi-hero-shell .lhi-proof-strip a[href^='tel:'],
-body.lhi-page-hero .lhi-hero-shell .medicare-direct-answer a[href^='tel:'] {
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block a.cta-button {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell .lhi-proof-strip a[href^='tel:'],
+body.lhi-page-hero .lhi-hero-shell .medicare-direct-answer a[href^='tel:'] {
+  color: #1b2a4a !important;
+  -webkit-text-fill-color: #1b2a4a !important;
 }
 
 body.lhi-page-hero .lhi-hero-shell .hub-readiness-card li,

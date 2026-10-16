@@ -12,7 +12,9 @@ The `lp-*-2026-09-29-v1` strings remain on the server allowlist for older leads.
 - Forms: `get-help` sitelink radio forms
 - ACA Lakeland and Polk County sitelink forms use the `request` and `call` labels only; contact authorization is phone-call-only on those pages.
 - Pages:
+  - `aca-health-insurance-agent-polk-county-fl/index.html`
   - `aca-health-insurance-lakeland-fl/index.html`
+  - `medicare/index.html`
 
 ### request
 
@@ -183,17 +185,6 @@ I agree to receive email newsletters from Lakeland Health Insurance with general
 - Pages:
   - `index.html`
   - `tampa-health-insurance/index.html`
-  - `aca-health-insurance-agent-polk-county-fl/index.html`
-  - `contact/index.html`
-  - `about/index.html`
-  - `our-approach.html`
-  - `accident-wise/index.html`
-  - `critical-guard/index.html`
-  - `dental-vision/index.html`
-  - `supplemental-insurance/index.html`
-  - `current-client-review/index.html`
-  - `post-enrollment-review/index.html`
-  - `employer-referral/index.html`
 
 ### consent
 
@@ -206,9 +197,7 @@ By checking this box, I give my prior express written consent for Lakeland Healt
 - Date: 2026-10-14
 - Forms: `site-medicare-lead`
 - Pages:
-  - `medicare/index.html`
   - `medicare-broker-lakeland-fl/index.html`
-  - `medicare/east-polk/index.html`
 
 ### consent
 

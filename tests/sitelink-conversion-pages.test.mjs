@@ -26,16 +26,16 @@ async function publicHtmlFiles(directory = ROOT) {
   return files;
 }
 
-const sitelinkPages = [];
+const sitelinkPages = [
+  ['medicare/index.html', '/medicare/', 'medicare']
+];
 
 const leadHeroPages = [
   ['carriers/index.html', '/carriers/', 'site-aca-lead', 'site-aca-2026-10-v1'],
   ['supplemental-insurance/index.html', '/supplemental-insurance/', 'site-aca-lead', 'site-aca-2026-10-v1'],
   ['dental-vision/index.html', '/dental-vision/', 'site-aca-lead', 'site-aca-2026-10-v1'],
   ['blog/index.html', '/blog/', 'site-aca-lead', 'site-aca-2026-10-v1'],
-  ['plans/index.html', '/plans/', 'site-aca-lead', 'site-aca-2026-10-v1'],
-  ['medicare/index.html', '/medicare/', 'site-medicare-lead', 'site-medicare-2026-10-v1'],
-  ['aca-health-insurance-agent-polk-county-fl/index.html', '/aca-health-insurance-agent-polk-county-fl/', 'site-aca-lead', 'site-aca-2026-10-v1']
+  ['plans/index.html', '/plans/', 'site-aca-lead', 'site-aca-2026-10-v1']
 ];
 
 function escapeRegex(value) {
@@ -77,12 +77,13 @@ for (const [file, sourcePage, formName, consentVersion] of leadHeroPages) {
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
     assert.match(html, /\/css\/lead-hero\.css\?v=20261016-nonblog-gates2/);
-    assert.match(html, /\/js\/lead-hero\.js\?v=20261016-nonblog-gates2/);
+    assert.match(html, /\/js\/lead-hero\.js\?v=20261023-pr333-follow-up/);
   });
 }
 
 const acaSitelinkPages = [
-  ['aca-health-insurance-lakeland-fl/index.html', '/aca-health-insurance-lakeland-fl/', 'aca_lakeland', 'aca']
+  ['aca-health-insurance-lakeland-fl/index.html', '/aca-health-insurance-lakeland-fl/', 'aca_lakeland', 'aca'],
+  ['aca-health-insurance-agent-polk-county-fl/index.html', '/aca-health-insurance-agent-polk-county-fl/', 'aca_polk_county', 'aca']
 ];
 
 for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages) {
@@ -124,10 +125,9 @@ test('funnel.js maps ACA sitelink coverage choices to intent fields', async () =
 
 test('Medicare direct form preserves the approved hub attribution tuple', async () => {
   const html = await readFile(new URL('../medicare/index.html', import.meta.url), 'utf8');
-  const form = html.match(/<form class="lhi-lead-hero__form"[\s\S]*?<\/form>/)[0];
-  assert.match(form, /name="source_page" value="\/medicare\/"/);
-  assert.match(form, /name="source_template" value="medicare_hub"/);
-  assert.match(form, /data-funnel-name="site_medicare_hub_lead"/);
+  const form = html.match(/<form class="sitelink-lead-form"[\s\S]*?<\/form>/)[0];
+  assert.match(form, /name="source_page_key" value="medicare"/);
+  assert.match(form, /name="source_cta_key" value="start_review_hero"/);
 });
 
 test('shared site assets contain the sitelink lead form behavior and styles', async () => {
