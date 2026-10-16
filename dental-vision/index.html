@@ -23,7 +23,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261023-pr333-follow-up">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-nonblog-gates3">
 
   <script type="application/ld+json">
 {
@@ -197,7 +197,7 @@
 }
   </script>
 
-  <link rel="stylesheet" href="/css/site-template.css?v=20261016-watson-update">
+  <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr339-site-tpl">
   <style>
     .landing-zip-form{margin-top:1.35rem;max-width:600px}
     .landing-zip-form label{color:inherit;display:block;font-size:.9rem;font-weight:800;margin-bottom:.45rem}
@@ -377,8 +377,9 @@
     .bottom-link-row a { color: rgba(255,255,255,0.86); text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.28); }
     .bottom-link-row a:hover { color: var(--gold); border-color: var(--gold); }
 
-    body.dental-vision-page footer { background: var(--white) !important; text-align: center; padding: 28px 20px 150px; font-size: 0.85rem; color: var(--muted) !important; border-top: 1px solid var(--line); }
-    body.dental-vision-page footer a { color: var(--gold); text-decoration: none; }
+    body.dental-vision-page footer { background: var(--white) !important; text-align: center; padding: 28px 20px 150px; font-size: 0.85rem; color: #475569 !important; border-top: 1px solid var(--line); }
+    body.dental-vision-page footer .footer-column h3 { color: var(--navy) !important; }
+    body.dental-vision-page footer a { color: #1e40af; text-decoration: none; font-weight: 600; }
     .disclosure { font-size: 0.78rem; color: var(--muted); margin-top: 14px; line-height: 1.5; max-width: 760px; margin-left: auto; margin-right: auto; }
 
     .stuck-cta { position: fixed; bottom: 18px; right: 18px; background: var(--green); color: var(--white); padding: 13px 22px; border-radius: 100px; font-weight: 700; text-decoration: none; box-shadow: 0 8px 25px rgba(22,163,74,0.4); z-index: 1000; }
@@ -409,7 +410,7 @@
     }
   </style>
 </head>
-<body class="dental-vision-page">
+<body class="dental-vision-page lhi-page-hero">
   <header>
     <nav class="container">
       <div class="logo-container">
@@ -435,13 +436,15 @@
     <a href="/">Home</a> &rsaquo; <a href="/plans/">Plans</a> &rsaquo; Dental &amp; Vision Insurance
   </div>
 
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <span class="hero-kicker">Dental and vision coverage</span>
-        <h1>Dental &amp; Vision Coverage for the Care You Expect</h1>
-        <p>Adult dental and vision are usually separate from medical coverage. Use the NCD or UnitedHealthcare quote links to price coverage, enroll online, and keep David available for customer support when questions come up.</p>
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="product_page" aria-labelledby="dental_vision-lead-title">
+  <div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block">
+<span class="hero-kicker">Dental and vision coverage</span>
+<h1>Dental &amp; Vision Coverage for the Care You Expect</h1>
+<p class="lhi-hero-lede">Adult dental and vision are usually separate from medical coverage. Use the NCD or UnitedHealthcare quote links to price coverage, enroll online, and keep David available for customer support when questions come up.</p>
+</div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="product_page" aria-labelledby="dental_vision-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="dental_vision-lead-title">Get a Marketplace plan comparison</h2>
@@ -515,7 +518,15 @@
   </div>
 </section>
 
-        <div class="hero-cta-row">
+
+
+
+
+
+
+
+<div class="lhi-hero-deferred-block">
+<div class="hero-cta-row">
           <a href="https://enrollment.ncd.com/935869/" target="_blank" rel="noopener noreferrer" class="btn-gold">Quote NCD Dental</a>
           <a href="https://shop.uhone.com/en/quote/census?brokerid=AA5045127" target="_blank" rel="noopener noreferrer" class="btn-secondary-hero">Quote UnitedHealthcare</a>
           <a href="tel:+18636403102" class="btn-phone">Call (863) 640-3102</a>
@@ -538,8 +549,10 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
+</div>
+  </div>
+</section>
+</div>
 
   <section id="proof">
     <div class="container">

@@ -19,6 +19,7 @@
     <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
+    <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-nonblog-gates3">
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high"><style>
         
@@ -34,6 +35,29 @@
             color: #2c3e50;
             background: white;
             font-size: 16px;
+            overflow-x: clip;
+            max-width: 100%;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+                max-width: 100%;
+            }
+
+            .cover {
+                margin-left: 0;
+                margin-right: 0;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            body.lhi-page-hero {
+                overflow-x: clip;
+            }
         }
         
         .container {
@@ -453,9 +477,15 @@ header .cta-button {
 
   </style>
     <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261016-watson-update">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr339-site-tpl">
 </head>
-<body>
+<body class="lhi-page-hero download-free-guide-page">
+    <div class="lhi-hero-shell">
+        <div class="lhi-hero-lede-block">
+            <h1 style="text-align:left">Make More Informed Health Insurance Decisions</h1>
+            <p class="lhi-hero-lede">A practical guide to common health insurance mistakes, budget protection, and informed coverage decisions.</p>
+        </div>
+    </div>
 <header>
   <nav class="container">
     <div class="logo-container">

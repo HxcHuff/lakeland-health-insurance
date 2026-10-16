@@ -25,6 +25,7 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png"><link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-nonblog-gates3">
 
     <script type="application/ld+json">
     {
@@ -911,7 +912,7 @@ header .cta-button {
 
     </style>
     <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261016-watson-update">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr339-site-tpl">
     <style>
       .about-page .about-header {
         background: var(--gray-50);
@@ -1285,7 +1286,11 @@ header .cta-button {
 
       @media (max-width: 480px) {
         .about-page .about-header {
-          padding-top: 86px;
+          padding-top: max(108px, calc(env(safe-area-inset-top, 0px) + 100px));
+        }
+
+        .about-page .about-header .hero-kicker {
+          margin-top: 0.75rem;
         }
 
         .about-hero-points {
@@ -1312,18 +1317,42 @@ header .cta-button {
           width: 1px;
         }
 
+        .meta-audience-consent {
+          bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+          padding: 0.75rem 0.85rem;
+          width: calc(100% - 1rem);
+        }
+
+        .meta-audience-consent p {
+          font-size: 0.84rem;
+          line-height: 1.35;
+        }
+
         .meta-audience-consent-actions {
           align-items: stretch;
-          flex-direction: column;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 0.5rem;
         }
 
         .meta-audience-consent button {
-          width: 100%;
+          flex: 1 1 calc(50% - 0.25rem);
+          font-size: 0.82rem;
+          line-height: 1.25;
+          min-height: 44px;
+          min-width: 150px;
+          padding: 0.55rem 0.65rem;
+          text-align: center;
+          white-space: normal;
         }
 
         .meta-audience-consent a {
-          margin: 0.15rem 0 0;
+          flex: 0 0 100%;
+          margin: 0.35rem 0 0;
+          margin-left: 0;
+          order: 3;
           text-align: center;
+          width: 100%;
         }
       }
 
@@ -1339,7 +1368,7 @@ header .cta-button {
       }
     </style>
 </head>
-<body class="about-page">
+<body class="about-page lhi-page-hero">
     <div class="compliance-banner">
       <strong>Important:</strong> Fixed indemnity products provide limited benefits and are <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA. &nbsp;|&nbsp; FL Health Agent License #W371813
     </div>
@@ -1395,20 +1424,99 @@ header .cta-button {
     <script src="/js/chat-widget.js?v=20261016-pr-c-chat" defer></script>
 
     <main>
-    <section class="about-header">
-        <div class="container about-hero-grid">
-            <div class="about-hero-copy">
+    <div class="lhi-hero-shell">
+<section class="about-header">
+  <div class="container about-hero-grid">
+<div class="lhi-hero-lede-block">
+<div class="about-hero-copy">
                 <div class="hero-kicker">LOCAL, INDEPENDENT INSURANCE GUIDANCE</div>
-                <h1>Meet David &ldquo;The Insurance Dude&rdquo; Huff</h1>
-                <p class="about-hero-lede">Licensed Florida health agent helping individuals, families, and Medicare beneficiaries compare coverage. I review doctors, prescriptions, costs, and plan details before you choose.</p>
-                <ul class="about-hero-points" aria-label="About David highlights">
+<h1>Meet David &ldquo;The Insurance Dude&rdquo; Huff</h1>
+<p class="lhi-hero-lede about-hero-lede">Licensed Florida health agent helping individuals, families, and Medicare beneficiaries compare coverage. I review doctors, prescriptions, costs, and plan details before you choose.</p>
+</div>
+</div>
+
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="product_page" aria-labelledby="about_index_html-lead-title">
+  <div class="lhi-lead-hero__grid">
+    <div class="lhi-lead-hero__intro">
+      <h2 class="lhi-lead-hero__title" id="about_index_html-lead-title">Get a Marketplace plan comparison</h2>
+      <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
+    </div>
+    <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="about_index_htmlForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Get a Marketplace plan comparison">
+        <input type="hidden" name="form-name" value="site-aca-lead">
+        <input type="hidden" name="source_page" value="/about/">
+        <input type="hidden" name="source_template" value="product_page">
+        <input type="hidden" name="consent_text_version" value="site-aca-2026-10-v1">
+        <input type="hidden" name="utm_source" id="about_index_html_utm_source">
+        <input type="hidden" name="utm_medium" id="about_index_html_utm_medium">
+        <input type="hidden" name="utm_campaign" id="about_index_html_utm_campaign">
+        <input type="hidden" name="utm_term" id="about_index_html_utm_term">
+        <input type="hidden" name="utm_content" id="about_index_html_utm_content">
+        <input type="hidden" name="gclid" id="about_index_html_gclid">
+        <input type="hidden" name="gbraid" id="about_index_html_gbraid">
+        <input type="hidden" name="wbraid" id="about_index_html_wbraid">
+        <input type="hidden" name="gad_campaignid" id="about_index_html_gad_campaignid">
+        <input type="hidden" name="first_gclid" id="about_index_html_first_gclid">
+        <input type="hidden" name="first_gbraid" id="about_index_html_first_gbraid">
+        <input type="hidden" name="first_wbraid" id="about_index_html_first_wbraid">
+        <input type="hidden" name="first_gad_campaignid" id="about_index_html_first_gad_campaignid">
+        <input type="hidden" name="lead_source" value="">
+        <input type="hidden" name="lead_medium" value="">
+        <input type="hidden" name="lead_campaign" value="">
+        <input type="hidden" name="landing_page" value="">
+        <input type="hidden" name="referrer" value="">
+        <input type="hidden" name="click_id_type" value="">
+        <input type="hidden" name="lead_channel" value="">
+        <input type="hidden" name="click_timestamp" value="">
+        <input type="hidden" name="started_at">
+        <input type="hidden" name="human_check">
+        <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="lhi-lead-hero__fields">
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label for="about_index_html_full_name">Name</label>
+            <input type="text" id="about_index_html_full_name" name="full_name" required autocomplete="name">
+          </div>
+          <div class="lhi-lead-hero__field">
+            <label for="about_index_html_phone">Phone</label>
+            <input type="tel" id="about_index_html_phone" name="phone" required autocomplete="tel">
+          </div>
+          <div class="lhi-lead-hero__field">
+            <label for="about_index_html_zip_code">ZIP code</label>
+            <input type="text" id="about_index_html_zip_code" name="zip_code" required pattern="[0-9]{5}" maxlength="5" inputmode="numeric" autocomplete="postal-code">
+          </div>
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label for="about_index_html_coverage_status">Coverage type</label>
+            <select id="about_index_html_coverage_status" name="coverage_status" required>
+                  <option value="" selected disabled>Select one</option>
+                  <option value="individual_marketplace">Individual Marketplace coverage</option>
+                  <option value="family_marketplace">Family Marketplace coverage</option>
+                  <option value="not_sure">Not sure yet</option>
+            </select>
+          </div>
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label class="lhi-lead-hero__consent" for="about_index_html_consent">
+              <input type="checkbox" id="about_index_html_consent" name="consent" value="yes">
+              <span>By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
+            </label>
+          </div>
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <button class="lhi-lead-hero__submit" type="submit">Get my quote</button>
+          </div>
+        </div>
+        <p class="lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+<div class="lhi-hero-deferred-block">
+<ul class="about-hero-points" aria-label="About David highlights">
                     <li>Direct agent help from Lakeland, Florida</li>
                     <li>ACA, Medicare, life, and supplemental coverage reviews</li>
                     <li>Doctor, prescription, pharmacy, and cost checks before enrollment</li>
                 </ul>
                 <div class="about-actions">
-                    <a href="/get-help/" class="hero-cta">Start a Plan Review</a>
-                    <a href="tel:+18636403102" class="hero-cta secondary">Call (863) 640-3102</a>
+                    <a href="/get-help/" class="hero-cta lhi-gate-cta" style="color:#ffffff !important;background:#1b2a4a !important;border:2px solid #1b2a4a;">Start a Plan Review</a>
+                    <a href="tel:+18636403102" class="hero-cta secondary lhi-gate-cta-secondary" style="color:#1b2a4a !important;background:#ffffff !important;border:2px solid #1b2a4a;">Call (863) 640-3102</a>
                 </div>
             </div>
             <figure class="about-portrait-wrap" aria-label="David Huff portrait">
@@ -1420,8 +1528,22 @@ header .cta-button {
                     FL License #W371813 &bull; NPN 18213932
                 </figcaption>
             </figure>
-        </div>
-    </section>
+</div>
+
+
+
+
+
+
+
+
+  </div>
+</section>
+</div>
+
+
+
+
 
     <section class="trust-strip" aria-label="Agent trust signals">
         <div class="container">
@@ -1716,5 +1838,6 @@ header .cta-button {
     <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
     <script src="/js/site-template.js?v=20261023-pr333-follow-up" defer></script>
+  <script src="/js/lead-hero.js?v=20261023-pr333-follow-up" defer></script>
 </body>
 </html>

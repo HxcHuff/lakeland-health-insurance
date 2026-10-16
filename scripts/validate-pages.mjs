@@ -19,23 +19,24 @@ const CLIENT_COPY_FILES = ['js/site-search.js', 'js/blog-cta.js', 'js/site-templ
 const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/fonts.css', '20261015-v6merge2'],
-  ['/css/site-template.css', '20261016-watson-update'],
+  ['/css/site-template.css', '20261016-pr339-site-tpl'],
   ['/css/blog-unified.css', '20261023-pr333-follow-up'],
   ['/js/chat-widget.js', '20261016-pr-c-chat'],
   ['/js/site-phone.js', '20261015-v6merge2'],
   ['/js/site-template.js', '20261023-pr333-follow-up'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
-  ['/css/lead-hero.css', '20261023-pr333-follow-up'],
-  ['/css/answer-pages.css', '20261021-hscroll-fix'],
+  ['/css/lead-hero.css', '20261016-nonblog-gates3'],
+  ['/css/answer-pages.css', '20261016-pr337-c'],
+  ['/css/paid-landing.css', '20261016-pr337-lp3'],
   ['/js/lead-hero.js', '20261023-pr333-follow-up'],
 ]);
-const SERVICE_WORKER_CACHE_VERSION = '20261023-pr333-follow-up';
+const SERVICE_WORKER_CACHE_VERSION = '20261016-pr339-watson';
 
 /** Blog PR B ships newer cache tokens without sitewide HTML bumps. */
 const BLOG_RELEASE_ASSET_VERSIONS = new Map([
   ['/css/blog-unified.css', '20261023-pr333-follow-up'],
-  ['/css/lead-hero.css', '20261023-pr333-follow-up'],
+  ['/css/lead-hero.css', '20261016-nonblog-gates3'],
   ['/js/lead-hero.js', '20261023-pr333-follow-up']
 ]);
 
@@ -127,7 +128,9 @@ for (const file of seen) {
     const version =
       rel.startsWith('blog/') && BLOG_RELEASE_ASSET_VERSIONS.has(assetPath)
         ? BLOG_RELEASE_ASSET_VERSIONS.get(assetPath)
-        : assetVersion;
+        : rel.startsWith('lp/') && assetPath === '/css/lead-hero.css'
+          ? '20261016-nonblog-gates2'
+          : assetVersion;
     const expected = `${assetPath}?v=${version}`;
     const pattern = new RegExp(`${escapeRegExp(assetPath)}(?:\\?[^\"'\\s<>]*)?`, 'g');
     for (const match of html.matchAll(pattern)) {

@@ -65,8 +65,12 @@ body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block :is(p.last-reviewed,
 }
 
 .answer-hero .lhi-proof-strip a,
-.medicare-hero .lhi-proof-strip a {
-  color: #f6e7c1;
+.lhi-hero-shell .medicare-hero .lhi-proof-strip a,
+.lhi-hero-shell .medicare-hero .medicare-direct-answer a {
+  color: #1b2a4a;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .answer-hero a:not(.btn):not(.hero-cta):not(.lp-primary-call):hover,
@@ -675,7 +679,7 @@ a:focus-visible,
 
 .hub-breadcrumb {
   align-items: center;
-  color: #637582;
+  color: #475569;
   display: flex;
   font-size: .84rem;
   font-weight: 700;
