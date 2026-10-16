@@ -111,16 +111,19 @@ async function preparePageForMeasure(page, baseUrl) {
       await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=${VERSION}` });
       await page.waitForTimeout(450);
     }
+    await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=${VERSION}` });
+    await page.waitForTimeout(80);
+    await page.evaluate(() => {
+      if (typeof window.LHIConsolidateBlogHeroCopy === 'function') {
+        window.LHIConsolidateBlogHeroCopy();
+      }
+      window.scrollTo(0, 0);
+    });
+    await page.waitForTimeout(120);
+  } else {
+    await page.waitForTimeout(80);
+    await page.evaluate(() => window.scrollTo(0, 0));
   }
-  await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=${VERSION}` });
-  await page.waitForTimeout(80);
-  await page.evaluate(() => {
-    if (typeof window.LHIConsolidateBlogHeroCopy === 'function') {
-      window.LHIConsolidateBlogHeroCopy();
-    }
-    window.scrollTo(0, 0);
-  });
-  await page.waitForTimeout(120);
 }
 
 async function measurePage(page, baseUrl, route, viewport) {
@@ -141,13 +144,19 @@ async function measurePage(page, baseUrl, route, viewport) {
 
   return page.evaluate(({ vw, vh }) => {
     const shell = document.querySelector('.lhi-hero-shell');
+    const paidLp = document.body.classList.contains('paid-landing-page');
     const h1 = shell
-      ? shell.querySelector('.lhi-hero-lede-block h1') ||
+      ? (paidLp && shell.querySelector('.lp-intro h1')) ||
         shell.querySelector('.lp-intro h1') ||
+        shell.querySelector('.lhi-hero-lede-block h1') ||
         shell.querySelector('.medicare-hero-copy h1') ||
         shell.querySelector('section.answer-hero h1') ||
         shell.querySelector('section.hero h1')
       : document.querySelector('main h1, h1');
+    const lpCopyRoot = shell?.querySelector('.lp-intro') || null;
+    const lpCopyColumnWidth = lpCopyRoot
+      ? Math.round(lpCopyRoot.getBoundingClientRect().width)
+      : null;
     const formCard =
       shell?.querySelector('.lhi-hero-grid-lead .lhi-lead-hero__card') ||
       shell?.querySelector('.lp-lead-card') ||
@@ -570,6 +579,7 @@ async function measurePage(page, baseUrl, route, viewport) {
       h1Y: h1r ? Math.round(h1r.top) : null,
       h1Bottom: h1r ? Math.round(h1r.bottom) : null,
       h1Width: h1r ? Math.round(h1r.width) : null,
+      lpCopyColumnWidth,
       h1TextAlign: h1Align,
       ledeY: lr ? Math.round(lr.top) : null,
       ledeBbox,
@@ -660,8 +670,18 @@ function evaluateRow(row) {
       issues.push('unexpected-lead-form');
     }
     if (paidLanding) {
+      if (row.lpCopyColumnWidth != null && row.lpCopyColumnWidth < 640) {
+        issues.push(`lp-copy-column-narrow:lpCopyColumnWidth=${row.lpCopyColumnWidth}`);
+      }
       if (row.h1Width != null && row.h1Width < 450) {
         issues.push(`lp-h1-narrow:h1Width=${row.h1Width}`);
+      }
+      if (
+        row.lpCopyColumnWidth != null &&
+        row.h1Width != null &&
+        row.h1Width < row.lpCopyColumnWidth - 40
+      ) {
+        issues.push(`lp-h1-not-in-copy-column:h1Width=${row.h1Width},copy=${row.lpCopyColumnWidth}`);
       }
       if (row.ledeBbox?.bottom != null && row.ledeBbox.bottom > 800) {
         issues.push(`lp-lede-below-fold:ledeBottom=${row.ledeBbox.bottom}`);

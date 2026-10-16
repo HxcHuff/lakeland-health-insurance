@@ -3460,8 +3460,9 @@ body.paid-landing-page .lhi-hero-shell .lp-summary.lhi-hero-lede {
   body.paid-landing-page .lhi-hero-shell .container.hero-grid:has(> .lp-lead-card) {
     align-items: start;
     display: grid !important;
-    gap: clamp(1rem, 2.5vw, 1.75rem);
-    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 480px);
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    grid-template-columns: minmax(0, 1.65fr) minmax(320px, 440px);
+    max-width: 1180px;
   }
 
   body.paid-landing-page .lhi-hero-shell .container.hero-grid:has(> .lp-lead-card) > .lhi-hero-lede-block {

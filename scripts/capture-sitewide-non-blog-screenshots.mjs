@@ -88,9 +88,11 @@ try {
       if (!skipSiteChrome) {
         await page.addScriptTag({ url: `${server.baseUrl}/js/site-template.js?v=${VERSION}` });
         await page.waitForTimeout(400);
+        await page.addScriptTag({ url: `${server.baseUrl}/js/lead-hero.js?v=${VERSION}` });
+        await page.waitForTimeout(100);
+      } else {
+        await page.waitForTimeout(100);
       }
-      await page.addScriptTag({ url: `${server.baseUrl}/js/lead-hero.js?v=${VERSION}` });
-      await page.waitForTimeout(100);
       await page.evaluate(() => window.scrollTo(0, 0));
       const fileName = `${name}--${tag}.png`;
       const filePath = join(OUT, fileName);
