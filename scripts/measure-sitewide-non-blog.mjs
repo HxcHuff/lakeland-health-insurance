@@ -4,6 +4,7 @@
  * Usage: NON_BLOG_SCOPE=b|c|all node scripts/measure-sitewide-non-blog.mjs [--json] [/route ...]
  */
 import { createServer } from 'node:http';
+import { execSync } from 'node:child_process';
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { chromium } from 'playwright';
@@ -917,8 +918,10 @@ for (const { url, name } of routes) {
 await browser.close();
 await server.close();
 
+const gitHeadSha = process.env.NON_BLOG_MEASURE_GIT_HEAD || execSync('git rev-parse HEAD', { cwd: ROOT }).toString().trim();
 const payload = {
   generatedAt: new Date().toISOString(),
+  gitHeadSha,
   routeCount: routes.length,
   viewportPairs: report.length,
   rows: report
