@@ -158,8 +158,19 @@ body.lhi-page-hero main {
 body .key-answer,
 body .key-answer :is(p, strong, a, em, li),
 body.blog-post .hero .key-answer,
-body.blog-post .hero .key-answer :is(p, strong, a, em, li) {
+body.blog-post .hero .key-answer :is(p, strong, a, em, li),
+body.blog-post .warning-box,
+body.blog-post .warning-box :is(p, strong, a, em, li, h4) {
   color: var(--lhi-navy, #1B2A4A) !important;
+}
+
+body.blog-post .warning-box {
+  background: #f0fdfa !important;
+  border: 1px solid #99f6e4 !important;
+  border-left: 5px solid #0f766e !important;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin: 18px 0 24px;
 }
 
 .article-content,

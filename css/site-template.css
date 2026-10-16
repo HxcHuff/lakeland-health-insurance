@@ -33,6 +33,7 @@ body {
   color: var(--gray-800);
   background: var(--white);
   -webkit-font-smoothing: antialiased;
+  margin: 0;
 }
 
 .container {
@@ -548,11 +549,15 @@ footer {
 }
 
 .click-to-call {
-  right: 20px;
+  right: max(20px, env(safe-area-inset-right, 0px));
   background: linear-gradient(135deg, var(--green), #059669);
   padding: 15px 20px;
   font-size: 1.1rem;
   box-shadow: 0 8px 25px rgba(22,163,74,0.4);
+  max-width: min(300px, calc(100vw - 48px));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .messenger-button {
@@ -599,18 +604,38 @@ footer {
   .messenger-button {
     width: 56px;
     height: 56px;
+    max-width: 56px;
     padding: 0;
     justify-content: center;
+    overflow: visible;
+    right: max(20px, env(safe-area-inset-right, 0px));
+    white-space: nowrap;
   }
 
   .click-to-call .floating-action-label,
   .messenger-button .floating-action-label {
-    display: none;
+    display: none !important;
+  }
+
+  .click-to-call > span:not(.phone-icon):not(.call-widget-icon):not(.messenger-icon),
+  .messenger-button > span:not(.phone-icon):not(.call-widget-icon):not(.messenger-icon) {
+    clip: rect(0, 0, 0, 0) !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    white-space: nowrap !important;
+    width: 1px !important;
   }
 
   .click-to-call .phone-icon,
-  .messenger-icon {
+  .messenger-icon,
+  .click-to-call .call-widget-icon {
     font-size: 1.35rem;
+  }
+
+  .click-to-call,
+  .messenger-button {
+    overflow: hidden;
   }
 }
 
