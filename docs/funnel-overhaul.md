@@ -58,6 +58,7 @@ Unknown values fall back to `not-sure`. Query-string values are never injected i
 | `lp-aca-lead` | `Lead` | `lp_aca_lead_form` |
 | `lp-medicare-lead` | `Lead` | `lp_medicare_lead_form` |
 | `lp-gap-lead` | `Lead` | `lp_gap_lead_form` |
+| `lp-hpg-lead` | `Lead` | `lp_hpg_lead_form` |
 
 ## Event Dictionary
 

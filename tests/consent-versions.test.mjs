@@ -62,6 +62,7 @@ test('documented consent label text matches the live HTML on every listed page',
     'lp-aca-2026-09-29-v2',
     'lp-medicare-2026-09-29-v2',
     'lp-gap-2026-09-29-v2',
+    'lp-hpg-2026-10-16-v1',
     'homepage-newsletter-2026-10-07-v1',
     'newsletter-signup-2026-10-07-v1',
     'site-aca-2026-10-v1',
@@ -152,7 +153,8 @@ test('lp lead forms send their dedicated consent_text_version hidden fields', ()
   const cases = [
     ['lp/aca/index.html', 'lp-aca-lead', 'lp-aca-2026-09-29-v2'],
     ['lp/medicare/index.html', 'lp-medicare-lead', 'lp-medicare-2026-09-29-v2'],
-    ['lp/gap/index.html', 'lp-gap-lead', 'lp-gap-2026-09-29-v2']
+    ['lp/gap/index.html', 'lp-gap-lead', 'lp-gap-2026-09-29-v2'],
+    ['lp/hpg/index.html', 'lp-hpg-lead', 'lp-hpg-2026-10-16-v1']
   ];
   for (const [rel, formName, version] of cases) {
     const html = readFileSync(resolve(ROOT, rel), 'utf8');
@@ -162,7 +164,7 @@ test('lp lead forms send their dedicated consent_text_version hidden fields', ()
 });
 
 test('lp consent checkboxes stay optional and unchecked by default', () => {
-  for (const rel of ['lp/aca/index.html', 'lp/medicare/index.html', 'lp/gap/index.html']) {
+  for (const rel of ['lp/aca/index.html', 'lp/medicare/index.html', 'lp/gap/index.html', 'lp/hpg/index.html']) {
     const html = readFileSync(resolve(ROOT, rel), 'utf8');
     const checkbox = html.match(/<input type="checkbox" id="consent" name="consent" value="yes">/);
     assert.ok(checkbox, `${rel} keeps the optional consent checkbox`);

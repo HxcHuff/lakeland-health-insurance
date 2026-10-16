@@ -46,6 +46,7 @@ and forwards only these exact sales/service forms:
 - `lp-aca-lead`
 - `lp-medicare-lead`
 - `lp-gap-lead`
+- `lp-hpg-lead`
 - `subsidy-estimator-lead`
 - `tampa-health-insurance`
 - `winter-haven-health-insurance`

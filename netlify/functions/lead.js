@@ -200,6 +200,7 @@ const WEBSITE_LEAD_RELAY_FORMS = new Set([
   'lp-aca-lead',
   'lp-medicare-lead',
   'lp-gap-lead',
+  'lp-hpg-lead',
   'subsidy-estimator-lead',
   'tampa-health-insurance',
   'winter-haven-health-insurance',
@@ -334,6 +335,7 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
   'lp-aca-lead': leadFormFields(LP_COMMON_FIELDS, ['household_size']),
   'lp-medicare-lead': leadFormFields(LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
   'lp-gap-lead': leadFormFields(LP_COMMON_FIELDS, ['coverage_situation']),
+  'lp-hpg-lead': leadFormFields(LP_COMMON_FIELDS, ['hpg_interest']),
   'aca-lakeland-lead': leadFormFields(LOCAL_FORM_FIELDS, ['income_range', 'employment_status']),
   'subsidy-estimator-lead': leadFormFields(LEAD_ATTRIBUTION_FIELDS, [
     'first_name',
@@ -599,6 +601,7 @@ const LP_MEDICARE_CONSENT_TEXT_VERSION_V1 = 'lp-medicare-2026-09-29-v1';
 const LP_MEDICARE_CONSENT_TEXT_VERSION_V2 = 'lp-medicare-2026-09-29-v2';
 const LP_GAP_CONSENT_TEXT_VERSION_V1 = 'lp-gap-2026-09-29-v1';
 const LP_GAP_CONSENT_TEXT_VERSION_V2 = 'lp-gap-2026-09-29-v2';
+const LP_HPG_CONSENT_TEXT_VERSION_V1 = 'lp-hpg-2026-10-16-v1';
 const SITE_MEDICARE_CONSENT_TEXT_VERSION = 'site-medicare-2026-10-v1';
 const SITE_ACA_CONSENT_TEXT_VERSION = 'site-aca-2026-10-v1';
 const HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION = 'homepage-newsletter-2026-10-07-v1';
@@ -618,6 +621,7 @@ const LP_CONSENT_TEXT_VERSIONS = Object.freeze({
   'lp-aca-lead': LP_ACA_CONSENT_TEXT_VERSION_V2,
   'lp-medicare-lead': LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
   'lp-gap-lead': LP_GAP_CONSENT_TEXT_VERSION_V2,
+  'lp-hpg-lead': LP_HPG_CONSENT_TEXT_VERSION_V1,
   'site-aca-lead': SITE_ACA_CONSENT_TEXT_VERSION,
   'site-medicare-lead': SITE_MEDICARE_CONSENT_TEXT_VERSION
 });
@@ -645,6 +649,7 @@ const ALLOWED_CONSENT_TEXT_VERSIONS = Object.freeze([
   LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
   LP_GAP_CONSENT_TEXT_VERSION_V1,
   LP_GAP_CONSENT_TEXT_VERSION_V2,
+  LP_HPG_CONSENT_TEXT_VERSION_V1,
   SITE_MEDICARE_CONSENT_TEXT_VERSION,
   SITE_ACA_CONSENT_TEXT_VERSION,
   HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION,
@@ -715,7 +720,7 @@ function isGrantedLpConsentValue(value) {
 
 function applyLpMarketingConsentRecord(payload, formName, serverReceivedAt) {
   const granted = isGrantedLpConsentValue(payload.consent);
-  const includeEmail = formName === 'lp-gap-lead';
+  const includeEmail = formName === 'lp-gap-lead' || formName === 'lp-hpg-lead';
   const channelValue = granted ? 'yes' : 'no';
   const state = granted ? 'granted' : 'not_granted';
 
@@ -1232,6 +1237,7 @@ exports._test = {
   LP_ACA_CONSENT_TEXT_VERSION_V2,
   LP_GAP_CONSENT_TEXT_VERSION_V1,
   LP_GAP_CONSENT_TEXT_VERSION_V2,
+  LP_HPG_CONSENT_TEXT_VERSION_V1,
   LP_MEDICARE_CONSENT_TEXT_VERSION_V1,
   LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
   applyNonGetHelpConsentRecord,

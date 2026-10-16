@@ -152,6 +152,19 @@ By checking this box, I give my prior express written consent for Lakeland Healt
 By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers, and emails at the email address I provided. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
 ```
 
+## lp-hpg-2026-10-16-v1
+
+- Date: 2026-10-16
+- Forms: `lp-hpg-lead`
+- Pages:
+  - `lp/hpg/index.html`
+
+### consent
+
+```html
+By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers, and emails at the email address I provided. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+```
+
 ## homepage-newsletter-2026-10-07-v1
 
 - Date: 2026-10-07
