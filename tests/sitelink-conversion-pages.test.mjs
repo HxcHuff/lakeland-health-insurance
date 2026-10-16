@@ -111,7 +111,7 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
       /<p class="sitelink-lead-privacy" data-sitelink-medicare-florida-note hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
     );
 
-    assert.match(html, /\/js\/funnel\.js\?v=20261015-v6merge2/);
+    assert.match(html, /\/js\/funnel\.js\?v=20261016-pr345-funnel/);
     assert.match(html, /\/css\/site-template.css\?v=20261016-pr339-site-tpl/);
   });
 }

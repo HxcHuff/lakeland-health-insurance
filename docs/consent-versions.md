@@ -43,10 +43,10 @@ I authorize email about this request.
 ## get-help-2026-09-29-v2
 
 - Date: 2026-09-29
-- Forms: `/get-help/` intake and the `/medicare-2027-check/` demand-gen landing (same channel labels)
+- Forms: `/get-help/` intake and the `/medicare-2027-check/` demand-gen landing (call and SMS labels match; the demand-gen page has no email field)
 - Pages:
   - `get-help/index.html`
-  - `medicare-2027-check/index.html`
+  - `medicare-2027-check/index.html` (omits the email channel checkbox)
 
 ### request
 

@@ -483,11 +483,11 @@ test('missing consent_text_version falls back to the get-help page default', asy
   assert.equal(form.get('consent_version_mismatch'), 'false');
 });
 
-test('get-help consent_page follows submitted source_page when referer points elsewhere', async () => {
+test('get-help consent_page follows submitted consent_page when referer points elsewhere', async () => {
   const payload = getHelpPayload({
     consent_page: '/medicare-2027-check/',
     source_page: '/medicare-2027-check/',
-    source_page_key: 'medicare_2027_check',
+    source_page_key: 'medicare-2027-check',
     source_cta_key: 'start_review_hero',
     consent_text_version: 'get-help-2026-09-29-v2'
   });
@@ -505,7 +505,7 @@ test('get-help consent_page follows submitted source_page when referer points el
   assert.equal(form.get('consent_text_version'), 'get-help-2026-09-29-v2');
   assert.equal(form.get('consent_version_source'), 'client');
   assert.equal(form.get('consent_version_mismatch'), 'false');
-  assert.equal(form.get('source_page_key'), 'medicare_2027_check');
+  assert.equal(form.get('source_page_key'), 'medicare-2027-check');
   assert.equal(form.get('source_page_role'), 'campaign');
 });
 
@@ -529,7 +529,8 @@ test('missing sitelink consent_text_version falls back to the v1 label that form
     inquiry_type: 'Carrier comparison',
     line_of_business: 'General',
     source_url: 'https://lakelandhealthinsurance.com/carriers/',
-    source_page: '/carriers/'
+    source_page: '/carriers/',
+    consent_page: '/carriers/'
   });
   delete payload.consent_text_version;
   const { response, calls } = await invoke(payload);
@@ -539,6 +540,23 @@ test('missing sitelink consent_text_version falls back to the v1 label that form
   assert.equal(form.get('consent_version_source'), 'default');
   assert.equal(form.get('consent_version_mismatch'), 'false');
   assert.equal(form.get('consent_page'), '/carriers/');
+});
+
+test('resolveConsentPagePath ignores source_page without consent_page or referer match', () => {
+  assert.equal(
+    _test.resolveConsentPagePath(
+      { source_page: '/medicare-2027-check/', consent_page: '' },
+      { referer: 'https://lakelandhealthinsurance.com/carriers/' }
+    ),
+    '/carriers/'
+  );
+  assert.equal(
+    _test.resolveConsentPagePath(
+      { source_page: '/medicare-2027-check/', consent_page: '', source_page_key: 'site-medicare-lead' },
+      { referer: 'https://lakelandhealthinsurance.com/' }
+    ),
+    '/get-help/'
+  );
 });
 
 test('client-supplied consent_version_source is ignored and rewritten by the server', async () => {
