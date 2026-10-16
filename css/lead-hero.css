@@ -882,6 +882,12 @@ body.aw-page.lhi-page-hero .lhi-hero-shell .aw-hero p {
   margin: 0 0 0.65rem;
 }
 
+/* Beat legacy critical `.hero h2 { color: #fff }` on gray shell heroes (homepage + product pages). */
+body.lhi-page-hero .lhi-hero-shell .lhi-lead-hero__title,
+body.lhi-page-hero .lhi-hero-shell section.hero .lhi-lead-hero__title {
+  color: var(--lhi-lead-navy, var(--navy, #1b2a4a)) !important;
+}
+
 #lhi-site-lead-form,
 .lhi-lead-hero__card,
 .lhi-lead-hero:target,
@@ -1414,8 +1420,8 @@ body.lhi-lead-sticky-active {
     display: block;
   }
 
-  section.hero:has(.lhi-lead-hero):not(:has(.lhi-hero-shell)) .lhi-lead-hero__intro .lhi-lead-hero__title,
-  body.blog-post section.hero:has(.lhi-lead-hero):not(:has(.lhi-hero-shell)) .lhi-lead-hero__title {
+  body:not(:has(.lhi-hero-shell)) section.hero:has(.lhi-lead-hero) .lhi-lead-hero__intro .lhi-lead-hero__title,
+  body.blog-post:not(:has(.lhi-hero-shell)) section.hero:has(.lhi-lead-hero) .lhi-lead-hero__title {
     color: #fff;
   }
 
@@ -1425,7 +1431,7 @@ body.lhi-lead-sticky-active {
   }
 
   body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-lead-hero__title,
-  body.lhi-page-hero:not(.home-page) .lhi-hero-shell .lhi-lead-hero__title {
+  body.lhi-page-hero .lhi-hero-shell .lhi-lead-hero__title {
     color: var(--navy, #1b2a4a) !important;
   }
 
