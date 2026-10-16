@@ -191,7 +191,9 @@ test('robots permits crawlers to observe retirement responses', () => {
 
 test('demand-gen ad assets stay out of crawl indexes via robots.txt and response headers', () => {
   const headers = readFileSync(join(ROOT, '_headers'), 'utf8');
-  assert.match(headers, /\/assets\/ads\/\*\n\s+X-Robots-Tag: noindex/);
+  for (const path of ['/assets/ads/', '/assets/ads/*', '/assets/ads/*/']) {
+    assert.match(headers, new RegExp(`${path.replace(/\*/g, '\\*')}\\n\\s+X-Robots-Tag: noindex, nofollow`));
+  }
   assert.match(ROBOTS, /Disallow: \/assets\/ads\//);
   assert.ok(existsSync(join(ROOT, 'assets/ads/dg-2027/logo_square_1200x1200.png')));
 });

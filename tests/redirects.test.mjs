@@ -331,6 +331,25 @@ test('GSC redirect-error URLs force one hop to an absolute apex HTTPS destinatio
   }
 });
 
+test('retired common-medicare FAQ blog aliases force 301 to the Medicare hub', () => {
+  const rules = parseRedirects(REDIRECTS);
+  const aliases = [
+    '/blog/common-medicare-health-insurance-questions-florida.html',
+    '/blog/common-medicare-health-insurance-questions-florida',
+    '/blog/common-medicare-health-insurance-questions-florida/',
+  ];
+  for (const source of aliases) {
+    const rule = matchingRule(rules, source);
+    assert.ok(rule, `${source} has an explicit redirect`);
+    assert.equal(rule.status, 301, source);
+    assert.equal(rule.forced, true, source);
+    assert.equal(rule.target, '/medicare/', source);
+    const result = followRedirects(rules, source);
+    assert.equal(normalizePath(result.final), '/medicare', source);
+    assert.ok(result.hops <= 2, `${source} used ${result.hops} hops`);
+  }
+});
+
 test('blog extensionless and trailing-slash aliases force 301 to the .html canonical', () => {
   const rules = parseRedirects(REDIRECTS);
   const samples = [
