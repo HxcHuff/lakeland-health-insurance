@@ -555,7 +555,7 @@ test('resolveConsentPagePath ignores source_page without consent_page or referer
       { source_page: '/medicare-2027-check/', consent_page: '', source_page_key: 'site-medicare-lead' },
       { referer: 'https://lakelandhealthinsurance.com/' }
     ),
-    '/get-help/'
+    '/'
   );
 });
 

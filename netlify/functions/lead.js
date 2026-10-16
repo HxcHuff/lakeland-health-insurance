@@ -674,16 +674,19 @@ function isGetHelpV2ConsentPage(path) {
 
 function resolveConsentPagePath(payload, headers, rawPayload) {
   const raw = rawPayload && typeof rawPayload === 'object' ? rawPayload : payload;
-  const consentPath = sanitizeSourcePath(raw.consent_page || payload.consent_page || '');
-  if (consentPath && consentPath !== '/') return consentPath;
-  const inferred = sanitizeSourcePath(
+  const rawConsent = raw.consent_page ?? payload.consent_page;
+  if (rawConsent != null && String(rawConsent).trim() !== '') {
+    return sanitizeSourcePath(rawConsent);
+  }
+  const inferredRaw =
     raw.source_url ||
-      payload.source_url ||
-      headerValue(headers, 'referer') ||
-      headerValue(headers, 'referrer') ||
-      ''
-  );
+    payload.source_url ||
+    headerValue(headers, 'referer') ||
+    headerValue(headers, 'referrer') ||
+    '';
+  const inferred = sanitizeSourcePath(inferredRaw);
   if (inferred && inferred !== '/') return inferred;
+  if (inferred === '/' && String(inferredRaw || '').trim()) return '/';
   return '/get-help/';
 }
 
