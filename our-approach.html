@@ -64,6 +64,7 @@
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-nonblog-gates3">
 
     <style>
         :root {
@@ -1031,7 +1032,7 @@ header .cta-button {
         footer .footer-bottom a { color: #FFFFFF; text-decoration: underline; text-underline-offset: 2px; }
     </style>
 </head>
-<body>
+<body class="lhi-page-hero">
     <div class="compliance-banner">
         <strong>Important:</strong> Fixed indemnity products provide limited benefits and are <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA. &nbsp;|&nbsp; FL Health Agent License #W371813
     </div>
@@ -1073,15 +1074,104 @@ header .cta-button {
     </header>
 
     <main>
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>A Disciplined Health Insurance Review</h1>
-                <p>We evaluate eligibility, plan design, provider access, prescriptions, and total financial exposure before recommending a coverage path.</p>
-                <p>Plan availability, appointments, certification, provider networks, formularies, underwriting, and enrollment eligibility require current product, ZIP, county, and plan-year verification.</p>
-            </div>
+    <div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block">
+<h1>A Disciplined Health Insurance Review</h1>
+<p class="lhi-hero-lede">We evaluate eligibility, plan design, provider access, prescriptions, and total financial exposure before recommending a coverage path.</p>
+</div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="product_page" aria-labelledby="our_approach_html-lead-title">
+  <div class="lhi-lead-hero__grid">
+    <div class="lhi-lead-hero__intro">
+      <h2 class="lhi-lead-hero__title" id="our_approach_html-lead-title">Get a Marketplace plan comparison</h2>
+      <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
+    </div>
+    <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="our_approach_htmlForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Get a Marketplace plan comparison">
+        <input type="hidden" name="form-name" value="site-aca-lead">
+        <input type="hidden" name="source_page" value="/our-approach.html">
+        <input type="hidden" name="source_template" value="product_page">
+        <input type="hidden" name="consent_text_version" value="site-aca-2026-10-v1">
+        <input type="hidden" name="utm_source" id="our_approach_html_utm_source">
+        <input type="hidden" name="utm_medium" id="our_approach_html_utm_medium">
+        <input type="hidden" name="utm_campaign" id="our_approach_html_utm_campaign">
+        <input type="hidden" name="utm_term" id="our_approach_html_utm_term">
+        <input type="hidden" name="utm_content" id="our_approach_html_utm_content">
+        <input type="hidden" name="gclid" id="our_approach_html_gclid">
+        <input type="hidden" name="gbraid" id="our_approach_html_gbraid">
+        <input type="hidden" name="wbraid" id="our_approach_html_wbraid">
+        <input type="hidden" name="gad_campaignid" id="our_approach_html_gad_campaignid">
+        <input type="hidden" name="first_gclid" id="our_approach_html_first_gclid">
+        <input type="hidden" name="first_gbraid" id="our_approach_html_first_gbraid">
+        <input type="hidden" name="first_wbraid" id="our_approach_html_first_wbraid">
+        <input type="hidden" name="first_gad_campaignid" id="our_approach_html_first_gad_campaignid">
+        <input type="hidden" name="lead_source" value="">
+        <input type="hidden" name="lead_medium" value="">
+        <input type="hidden" name="lead_campaign" value="">
+        <input type="hidden" name="landing_page" value="">
+        <input type="hidden" name="referrer" value="">
+        <input type="hidden" name="click_id_type" value="">
+        <input type="hidden" name="lead_channel" value="">
+        <input type="hidden" name="click_timestamp" value="">
+        <input type="hidden" name="started_at">
+        <input type="hidden" name="human_check">
+        <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="lhi-lead-hero__fields">
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label for="our_approach_html_full_name">Name</label>
+            <input type="text" id="our_approach_html_full_name" name="full_name" required autocomplete="name">
+          </div>
+          <div class="lhi-lead-hero__field">
+            <label for="our_approach_html_phone">Phone</label>
+            <input type="tel" id="our_approach_html_phone" name="phone" required autocomplete="tel">
+          </div>
+          <div class="lhi-lead-hero__field">
+            <label for="our_approach_html_zip_code">ZIP code</label>
+            <input type="text" id="our_approach_html_zip_code" name="zip_code" required pattern="[0-9]{5}" maxlength="5" inputmode="numeric" autocomplete="postal-code">
+          </div>
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label for="our_approach_html_coverage_status">Coverage type</label>
+            <select id="our_approach_html_coverage_status" name="coverage_status" required>
+                  <option value="" selected disabled>Select one</option>
+                  <option value="individual_marketplace">Individual Marketplace coverage</option>
+                  <option value="family_marketplace">Family Marketplace coverage</option>
+                  <option value="not_sure">Not sure yet</option>
+            </select>
+          </div>
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label class="lhi-lead-hero__consent" for="our_approach_html_consent">
+              <input type="checkbox" id="our_approach_html_consent" name="consent" value="yes">
+              <span>By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
+            </label>
+          </div>
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <button class="lhi-lead-hero__submit" type="submit">Get my quote</button>
+          </div>
         </div>
-    </section>
+        <p class="lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+<div class="lhi-hero-deferred-block">
+<p>Plan availability, appointments, certification, provider networks, formularies, underwriting, and enrollment eligibility require current product, ZIP, county, and plan-year verification.</p>
+</div>
+  </div>
+</section>
+</div>
+
+
+
+
 
     <section class="philosophy">
         <div class="container">
@@ -1397,5 +1487,6 @@ header .cta-button {
     <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
     <script src="/js/site-template.js?v=20261023-pr333-follow-up" defer></script>
+  <script src="/js/lead-hero.js?v=20261023-pr333-follow-up" defer></script>
 </body>
 </html>
