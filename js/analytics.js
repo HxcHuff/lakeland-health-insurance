@@ -254,6 +254,97 @@
     IS_ANALYTICS_DEBUG = !qsClear && (qsForce || sessionStorage.getItem('lhi_analytics_test') === '1');
     if (IS_ANALYTICS_DEBUG) IS_PROD = true;
   } catch (e) {}
+
+  var INTERNAL_FLAG_KEY = 'lhi_internal';
+  var INTERNAL_COOKIE_MAX_AGE_SEC = 400 * 24 * 60 * 60;
+  var BOT_UA_SNIPPETS = [
+    'googlebot', 'adsbot-google', 'mediapartners-google', 'google-inspectiontool',
+    'googleother', 'storebot-google', 'apis-google', 'google-read-aloud',
+    'chrome-lighthouse', 'lighthouse', 'pagespeed', 'facebookexternalhit',
+    'facebookcatalog', 'facebot', 'meta-externalagent', 'meta-externalfetcher',
+    'bingbot', 'bingpreview', 'headlesschrome', 'phantomjs', 'playwright',
+    'puppeteer', 'selenium', 'cypress'
+  ];
+
+  function setInternalFlagCookie(active) {
+    if (typeof document === 'undefined') return;
+    var secure = location.protocol === 'https:' ? '; Secure' : '';
+    if (active) {
+      document.cookie = INTERNAL_FLAG_KEY + '=1; Max-Age=' + INTERNAL_COOKIE_MAX_AGE_SEC + '; Path=/; SameSite=Lax' + secure;
+    } else {
+      document.cookie = INTERNAL_FLAG_KEY + '=; Max-Age=0; Path=/; SameSite=Lax' + secure;
+    }
+  }
+
+  function readInternalFlagCookie() {
+    try {
+      var match = document.cookie.match(new RegExp('(?:^|; )' + INTERNAL_FLAG_KEY + '=([^;]*)'));
+      return match && decodeURIComponent(match[1]) === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function syncInternalFlagFromQuery() {
+    try {
+      var setInternal = /[?&]internal=1\b/.test(location.search);
+      var clearInternal = /[?&]internal=0\b/.test(location.search);
+      if (clearInternal) {
+        localStorage.removeItem(INTERNAL_FLAG_KEY);
+        setInternalFlagCookie(false);
+      }
+      if (setInternal) {
+        localStorage.setItem(INTERNAL_FLAG_KEY, '1');
+        setInternalFlagCookie(true);
+      }
+    } catch (e) {}
+  }
+
+  function internalFlagActive() {
+    try {
+      if (localStorage.getItem(INTERNAL_FLAG_KEY) === '1') return true;
+    } catch (e) {}
+    return readInternalFlagCookie();
+  }
+
+  function isBotUserAgent() {
+    var ua = '';
+    try { ua = String(navigator.userAgent || ''); } catch (e) {}
+    var lower = ua.toLowerCase();
+    for (var i = 0; i < BOT_UA_SNIPPETS.length; i += 1) {
+      if (lower.indexOf(BOT_UA_SNIPPETS[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function isAutomationWebdriver() {
+    try { return navigator.webdriver === true; } catch (e) {
+      return false;
+    }
+  }
+
+  function isInternalTrafficReferrer() {
+    try {
+      if (!document.referrer) return false;
+      var refHost = new URL(document.referrer).hostname.toLowerCase();
+      return refHost === 'tagassistant.google.com' ||
+        refHost === 'search.google.com' ||
+        refHost === 'ads.google.com';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function hasGtmDebugParams() {
+    var search = String(location.search || '');
+    return /[?&]gtm_debug=/.test(search) || /[?&]gtm_preview=/.test(search);
+  }
+
+  function isInternalTrafficSession() {
+    return IS_ANALYTICS_DEBUG || isInternalTrafficReferrer() || hasGtmDebugParams();
+  }
+
+  syncInternalFlagFromQuery();
   snapshotLandingQueryEarly();
 
   /* Expose for other scripts (funnel.js) */
@@ -274,18 +365,72 @@
 
   /* Paid landing routes keep first-party funnel attribution but skip deferred
      GTM/GA4 so ad-only traffic does not enter the main site analytics stream.
-     ?analytics_test=1 overrides suppression for the current tab (QA only). */
+     Internal-traffic QA (?analytics_test=1, Tag Assistant, gtm_debug) may load
+     GTM with GA4 traffic_type=internal and still blocks Lead conversions. */
   function isGoogleTagsSuppressedPath(pathname) {
     return normalizePath(pathname).indexOf('/lp/') === 0;
   }
 
-  var SUPPRESS_GOOGLE_TAGS = IS_PROD && !IS_ANALYTICS_DEBUG &&
-    isGoogleTagsSuppressedPath(window.location.pathname);
+  function resolveMeasurementSuppress() {
+    if (internalFlagActive()) {
+      return {
+        suppressed: true,
+        reason: 'internal-flag',
+        suppressGoogleTags: true,
+        internalTraffic: false
+      };
+    }
+    if (isBotUserAgent()) {
+      return {
+        suppressed: true,
+        reason: 'bot-user-agent',
+        suppressGoogleTags: true,
+        internalTraffic: false
+      };
+    }
+    if (isAutomationWebdriver()) {
+      return {
+        suppressed: true,
+        reason: 'webdriver',
+        suppressGoogleTags: true,
+        internalTraffic: false
+      };
+    }
+    if (isInternalTrafficSession()) {
+      return {
+        suppressed: true,
+        reason: 'internal-traffic',
+        suppressGoogleTags: false,
+        internalTraffic: true
+      };
+    }
+    if (IS_PROD && isGoogleTagsSuppressedPath(window.location.pathname)) {
+      return {
+        suppressed: true,
+        reason: 'paid-landing',
+        suppressGoogleTags: true,
+        internalTraffic: false
+      };
+    }
+    return {
+      suppressed: false,
+      reason: null,
+      suppressGoogleTags: false,
+      internalTraffic: false
+    };
+  }
+
+  var MEASUREMENT_SUPPRESS = resolveMeasurementSuppress();
+  var SUPPRESS_GOOGLE_TAGS = MEASUREMENT_SUPPRESS.suppressGoogleTags;
+  window.__LHI_SUPPRESS = {
+    suppressed: MEASUREMENT_SUPPRESS.suppressed,
+    reason: MEASUREMENT_SUPPRESS.reason
+  };
   window.__LHI_SUPPRESS_GOOGLE_TAGS = SUPPRESS_GOOGLE_TAGS;
 
   if (window.console && console.info) {
-    if (SUPPRESS_GOOGLE_TAGS) {
-      console.info('[LHI analytics] Google tags suppressed on paid landing path');
+    if (MEASUREMENT_SUPPRESS.suppressed) {
+      console.info('[LHI analytics] Measurement suppressed:', MEASUREMENT_SUPPRESS.reason || 'unknown');
     } else {
       console.info('[LHI analytics] Google analytics gate:', IS_PROD ? 'ENABLED' : 'SKIPPED (non-prod host)');
     }
@@ -475,7 +620,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261016-prd-analytics-suppress';
+    funnel.src = '/js/funnel.js?v=20261016-prd-conversion-d';
     document.head.appendChild(funnel);
   }
 
@@ -722,11 +867,15 @@
   }
 
   function sendGa4PageView() {
-    window.gtag('event', 'page_view', {
+    var params = {
       send_to: 'G-W45RMKHXV0',
       page_location: ga4PageLocation(),
       page_title: document.title
-    });
+    };
+    if (MEASUREMENT_SUPPRESS.internalTraffic) {
+      params.traffic_type = 'internal';
+    }
+    window.gtag('event', 'page_view', params);
   }
 
   function emitInitialMedicareContentView() {
@@ -838,10 +987,14 @@
       /* No-phone pages request gtag.js here; website-call pages reuse the eager
          AW request. In both paths the shared loader restores the queue first. */
       ensureGoogleTagScript('G-W45RMKHXV0');
-      window.gtag('config', 'G-W45RMKHXV0', {
+      var ga4Config = {
         send_page_view: false,
         debug_mode: IS_ANALYTICS_DEBUG
-      });
+      };
+      if (MEASUREMENT_SUPPRESS.internalTraffic) {
+        ga4Config.traffic_type = 'internal';
+      }
+      window.gtag('config', 'G-W45RMKHXV0', ga4Config);
       /* On-page owns the first GA4 hit. Keep config auto page_view off so this
          manual event is not doubled with the config command. send_to pins it
          to GA4, not the Ads website-call tag. */
@@ -1381,9 +1534,22 @@
     configurePrivacyControls();
   }
 
+  function metaTagsFullySuppressed() {
+    var suppress = w.__LHI_SUPPRESS;
+    if (!suppress || !suppress.suppressed) return false;
+    return suppress.reason === 'internal-flag' ||
+      suppress.reason === 'bot-user-agent' ||
+      suppress.reason === 'webdriver' ||
+      suppress.reason === 'paid-landing';
+  }
+
   function initialize() {
     if (w[INITIALIZED_KEY]) {
       setStatus('skipped', 'already-initialized');
+      return false;
+    }
+    if (metaTagsFullySuppressed()) {
+      setStatus('skipped', 'measurement-suppressed');
       return false;
     }
     if (!w.location || !hasOwn(PROD_HOSTS, String(w.location.hostname || '').toLowerCase())) {

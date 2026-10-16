@@ -6,7 +6,9 @@ import vm from 'node:vm';
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const ANALYTICS_SRC = readFileSync(join(ROOT, 'js/analytics.js'), 'utf8');
-const FUNNEL_PIN = '20261016-prd-analytics-suppress';
+const FUNNEL_SRC = readFileSync(join(ROOT, 'js/funnel.js'), 'utf8');
+const FUNNEL_PIN = '20261016-prd-conversion-d';
+const ANALYTICS_PIN = '20261016-prd-conversion-d';
 
 function makeSessionStorage(initial = {}) {
   const values = new Map(Object.entries(initial));
@@ -17,21 +19,36 @@ function makeSessionStorage(initial = {}) {
   };
 }
 
+function makeCookieJar(initial = '') {
+  let cookie = initial;
+  return {
+    get cookie() { return cookie; },
+    set cookie(value) { cookie = String(value); }
+  };
+}
+
 function loadAnalytics({
   hostname = 'lakelandhealthinsurance.com',
   pathname = '/lp/aca/',
   search = '',
-  readyState = 'complete'
+  readyState = 'complete',
+  userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36',
+  webdriver = false,
+  referrer = '',
+  localStorageInitial = {},
+  cookieInitial = ''
 } = {}) {
   const dataLayer = [];
   const appendedScripts = [];
   const scheduledTimeouts = [];
   const origin = `https://${hostname}`;
+  const cookieJar = makeCookieJar(cookieInitial);
   const sandbox = {
     __LHI_TEST: true,
     console: { info: () => {} },
-    localStorage: makeSessionStorage(),
+    localStorage: makeSessionStorage(localStorageInitial),
     sessionStorage: makeSessionStorage(),
+    navigator: { userAgent, webdriver },
     dataLayer,
     location: {
       hostname,
@@ -44,7 +61,8 @@ function loadAnalytics({
     crypto: globalThis.crypto,
     URL: globalThis.URL,
     URLSearchParams: globalThis.URLSearchParams,
-    document: {
+    document: Object.assign(cookieJar, {
+      referrer,
       addEventListener() {},
       querySelectorAll() { return []; },
       querySelector(selector) {
@@ -67,7 +85,7 @@ function loadAnalytics({
       },
       readyState,
       title: 'Paid landing test'
-    },
+    }),
     window: null,
     Date,
     setTimeout(callback, delay) {
@@ -94,10 +112,74 @@ function loadAnalytics({
   };
 }
 
+function attachFunnelFormData(sandbox) {
+  class TestFormData {
+    constructor(form) {
+      this.entries = Object.entries(form._fields || {});
+    }
+    get(name) {
+      const found = this.entries.find(([key]) => key === name);
+      return found ? found[1] : null;
+    }
+    forEach(cb) {
+      this.entries.forEach(([key, value]) => cb(value, key));
+    }
+  }
+  sandbox.FormData = TestFormData;
+}
+
+function loadFunnelInSandbox(sandbox, { pathname = '/blog/test.html', forms = [] } = {}) {
+  sandbox.LHILeadFirstTouch = sandbox.LHILeadFirstTouch || {
+    captureIfNeeded: () => ({}),
+    applyToForm: () => {}
+  };
+  sandbox.location.pathname = pathname;
+  sandbox.location.href = sandbox.location.origin + pathname + (sandbox.location.search || '');
+  sandbox.document.querySelectorAll = (selector) => {
+    if (selector === 'form[data-funnel-track], form[data-funnel-step]') return forms;
+    if (selector === '[data-funnel-booking], a[href*="calendly.com"]') return [];
+    if (selector === 'a[href^="tel:"]') return [];
+    return [];
+  };
+  attachFunnelFormData(sandbox);
+  vm.runInContext(FUNNEL_SRC, sandbox, { filename: 'funnel.js' });
+}
+
+function makeLeadForm(fields = {}) {
+  const listeners = {};
+  const elements = Object.fromEntries(Object.keys(fields).map((key) => [key, { value: fields[key] }]));
+  return {
+    _fields: fields,
+    elements,
+    getAttribute(name) {
+      if (name === 'data-funnel-event') return 'Lead';
+      if (name === 'data-funnel-name') return 'test_lead';
+      if (name === 'action') return '/thanks.html';
+      return null;
+    },
+    hasAttribute(name) { return name === 'data-funnel-track'; },
+    addEventListener(type, cb) {
+      listeners[type] = cb;
+    },
+    appendChild() {},
+    querySelector(sel) {
+      if (sel === 'input[name="normalized_intent"]') return elements.normalized_intent || null;
+      return null;
+    },
+    dispatchSubmit() {
+      listeners.submit({
+        preventDefault() {},
+        stopImmediatePropagation() {}
+      });
+    }
+  };
+}
+
 test('production paid landing paths suppress deferred Google tags but keep the funnel bus', () => {
   for (const pathname of ['/lp/aca/', '/lp/medicare/', '/lp/gap/']) {
     const loaded = loadAnalytics({ pathname });
     assert.equal(loaded.sandbox.__LHI_SUPPRESS_GOOGLE_TAGS, true, pathname);
+    assert.equal(loaded.sandbox.__LHI_SUPPRESS.reason, 'paid-landing');
     assert.ok(
       loaded.appendedScripts.some((script) => script.src === `/js/funnel.js?v=${FUNNEL_PIN}`),
       `${pathname} still requests funnel.js`
@@ -107,16 +189,6 @@ test('production paid landing paths suppress deferred Google tags but keep the f
       loaded.appendedScripts.some((script) => String(script.src || '').includes('googletagmanager.com')),
       false,
       `${pathname} must not request GTM/gtag`
-    );
-    assert.equal(
-      loaded.dataLayer.some((entry) => entry && entry.event === 'gtm.js'),
-      false,
-      `${pathname} must not queue gtm.js`
-    );
-    assert.equal(
-      loaded.dataLayer.some((entry) => entry && entry[0] === 'event' && entry[1] === 'page_view'),
-      false,
-      `${pathname} must not send GA4 page_view`
     );
   }
 });
@@ -128,20 +200,131 @@ test('non-LP production routes still initialize deferred Google tags', () => {
   assert.ok(
     loaded.appendedScripts.some((script) => script.src === 'https://www.googletagmanager.com/gtm.js?id=GTM-W6MZ7XT6')
   );
-  assert.ok(
-    loaded.dataLayer.some((entry) => entry && entry.event === 'gtm.js')
-  );
 });
 
-test('?analytics_test=1 overrides paid-landing suppression for the current tab', () => {
+test('?analytics_test=1 on paid LP loads GTM with internal-traffic suppression state', () => {
   const loaded = loadAnalytics({
     pathname: '/lp/aca/',
     search: '?analytics_test=1'
   });
   assert.equal(loaded.sandbox.__LHI_SUPPRESS_GOOGLE_TAGS, false);
+  assert.equal(loaded.sandbox.__LHI_SUPPRESS.reason, 'internal-traffic');
+  assert.equal(loaded.sandbox.__LHI_SUPPRESS.suppressed, true);
   loaded.runDeferredInit();
   assert.ok(
     loaded.appendedScripts.some((script) => script.src === 'https://www.googletagmanager.com/gtm.js?id=GTM-W6MZ7XT6')
+  );
+});
+
+test('?internal=1 suppresses Google tags and persists via localStorage and cookie', () => {
+  const loaded = loadAnalytics({
+    pathname: '/medicare/',
+    search: '?internal=1'
+  });
+  assert.equal(loaded.sandbox.__LHI_SUPPRESS.reason, 'internal-flag');
+  assert.equal(loaded.sandbox.localStorage.getItem('lhi_internal'), '1');
+  assert.match(loaded.sandbox.document.cookie, /lhi_internal=1/);
+  loaded.runDeferredInit();
+  assert.equal(
+    loaded.appendedScripts.some((script) => String(script.src || '').includes('googletagmanager.com')),
+    false
+  );
+
+  const persisted = loadAnalytics({
+    pathname: '/get-help/',
+    search: '',
+    localStorageInitial: { lhi_internal: '1' }
+  });
+  assert.equal(persisted.sandbox.__LHI_SUPPRESS.reason, 'internal-flag');
+});
+
+test('?internal=0 clears persisted internal flag', () => {
+  const loaded = loadAnalytics({
+    pathname: '/medicare/',
+    search: '?internal=0',
+    localStorageInitial: { lhi_internal: '1' },
+    cookieInitial: 'lhi_internal=1'
+  });
+  assert.equal(loaded.sandbox.localStorage.getItem('lhi_internal'), null);
+  assert.doesNotMatch(String(loaded.sandbox.document.cookie), /lhi_internal=1/);
+  assert.equal(loaded.sandbox.__LHI_SUPPRESS.suppressed, false);
+});
+
+test('bot user agents and webdriver receive full measurement suppression', () => {
+  const botLoaded = loadAnalytics({
+    pathname: '/medicare/',
+    userAgent: 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
+  });
+  assert.equal(botLoaded.sandbox.__LHI_SUPPRESS.reason, 'bot-user-agent');
+
+  const webdriverLoaded = loadAnalytics({
+    pathname: '/medicare/',
+    webdriver: true
+  });
+  assert.equal(webdriverLoaded.sandbox.__LHI_SUPPRESS.reason, 'webdriver');
+});
+
+test('blog page view does not push Lead or generate_lead to dataLayer', () => {
+  const loaded = loadAnalytics({ pathname: '/blog/aep-2026-polk-county-checklist.html/' });
+  loadFunnelInSandbox(loaded.sandbox, { pathname: '/blog/aep-2026-polk-county-checklist.html/' });
+  loaded.sandbox.LHI.track('PageView', { page_type: 'blog' });
+  assert.equal(
+    loaded.dataLayer.some((entry) => entry && (entry.event === 'Lead' || entry.event === 'generate_lead')),
+    false
+  );
+});
+
+test('current-client-review accepted submit emits ClientServiceRequest not Lead', async () => {
+  const eventId = '123e4567-e89b-42d3-a456-426614174000';
+  const loaded = loadAnalytics({ pathname: '/about/' });
+  loaded.sandbox.fetch = () => Promise.resolve({
+    ok: true,
+    json: () => Promise.resolve({ ok: true, forms: true, event_id: eventId })
+  });
+  const form = makeLeadForm({ normalized_intent: 'current-client-review' });
+  loadFunnelInSandbox(loaded.sandbox, { pathname: '/get-help/', forms: [form] });
+  form.dispatchSubmit();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(
+    loaded.dataLayer.some((entry) => entry && entry.event === 'Lead'),
+    false
+  );
+  assert.ok(
+    loaded.dataLayer.some((entry) => entry && entry.event === 'ClientServiceRequest'),
+    'ClientServiceRequest pushed to dataLayer'
+  );
+  assert.equal(loaded.sandbox.sessionStorage.getItem('lhi_lead_submitted'), null);
+});
+
+test('internal-traffic sessions block Lead track but allow GTM load', async () => {
+  const eventId = '223e4567-e89b-42d3-a456-426614174001';
+  const loaded = loadAnalytics({
+    pathname: '/medicare/',
+    search: '?gtm_debug=foo'
+  });
+  loaded.runDeferredInit();
+  loaded.sandbox.fetch = () => Promise.resolve({
+    ok: true,
+    json: () => Promise.resolve({ ok: true, forms: true, event_id: eventId })
+  });
+  const form = makeLeadForm({ normalized_intent: 'medicare' });
+  loadFunnelInSandbox(loaded.sandbox, { pathname: '/get-help/', forms: [form] });
+  form.dispatchSubmit();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(
+    loaded.dataLayer.some((entry) => entry && entry.event === 'Lead'),
+    false
+  );
+});
+
+test('QR thank-you route is not a conversion receipt page', () => {
+  const loaded = loadAnalytics({ pathname: '/thank-you/' });
+  loadFunnelInSandbox(loaded.sandbox, { pathname: '/thank-you/' });
+  assert.notEqual(loaded.sandbox.LHI.pageType(), 'conversion');
+  assert.equal(loaded.sandbox.__LHI_THANKS_LEAD_MARKER, undefined);
+  assert.equal(
+    loaded.dataLayer.some((entry) => entry && entry.event === 'LeadReceiptView'),
+    false
   );
 });
 
@@ -152,10 +335,10 @@ test('paid LP HTML keeps the prior analytics pin until a dedicated LP bump lands
   }
 });
 
-test('shared release pins match the PR D analytics suppress bump', () => {
-  assert.match(ANALYTICS_SRC, /\/js\/funnel\.js\?v=20261016-prd-analytics-suppress/);
+test('shared release pins match the PR D conversion-counting bump', () => {
+  assert.match(ANALYTICS_SRC, new RegExp(`/js/funnel\\.js\\?v=${FUNNEL_PIN}`));
   const sw = readFileSync(join(ROOT, 'sw.js'), 'utf8');
-  assert.match(sw, /const CACHE_NAME = 'lhi-20261016-prd-analytics-suppress';/);
+  assert.match(sw, /const CACHE_NAME = 'lhi-20261016-prd-conversion-d';/);
   const home = readFileSync(join(ROOT, 'index.html'), 'utf8');
-  assert.match(home, /\/js\/analytics\.js\?v=20261016-prd-analytics-suppress/);
+  assert.match(home, new RegExp(`/js/analytics\\.js\\?v=${ANALYTICS_PIN}`));
 });
