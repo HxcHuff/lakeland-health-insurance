@@ -1387,6 +1387,17 @@ section.hero.light-hero .hero-kicker,
 }
 
 /* In-content network notices (neutral info style). */
+.lhi-alert-notice .lhi-alert-eyebrow {
+  color: var(--navy);
+  font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  margin: 0 0 0.4rem;
+  text-transform: uppercase;
+}
+
 .lhi-alert-notice {
   background: var(--sky-soft);
   border: 1px solid var(--gray-200);
@@ -1457,7 +1468,8 @@ section.hero.light-hero .hero-kicker,
   color: var(--navy) !important;
 }
 
-.lhi-alert-notice-actions a[href*="get-help"] {
+.lhi-alert-notice-actions a[href*="get-help"],
+.lhi-alert-notice-actions a[href*="orlando-health-watson-clinic-2027-plan"] {
   background: var(--navy);
   border: 1px solid var(--navy);
   color: #ffffff !important;
