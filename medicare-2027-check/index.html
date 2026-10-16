@@ -11,6 +11,7 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
+  <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr339-site-tpl">
   <style>
     :root { --navy: #1B2A4A; --muted: #5f6b7a; --line: #d8dde8; --hero: #F8FAFC; }
     *, *::before, *::after { box-sizing: border-box; }
@@ -36,8 +37,8 @@
     .m27-consent-group legend { font-size: 0.72rem; font-weight: 700; color: var(--navy); margin-bottom: 2px; padding: 0; }
     .m27-consent-help { font-size: 0.68rem; color: var(--muted); margin: 0 0 4px; line-height: 1.3; }
     .m27-consent-after { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
-    .m27-submit { width: 100%; margin-top: 10px; min-height: 44px; border: 0; border-radius: 8px; background: var(--navy); color: #fff; font-weight: 800; font-size: 0.98rem; cursor: pointer; }
-    .m27-submit:disabled { opacity: 0.65; cursor: wait; }
+    .m27-main .cta-button.m27-submit { width: 100%; margin-top: 10px; min-height: 44px; font-size: 0.98rem; }
+    .m27-main .cta-button.m27-submit:disabled { opacity: 0.65; cursor: wait; }
     .m27-status { min-height: 1.2em; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
     .m27-trust { list-style: none; padding: 18px 0 0; margin: 0; display: grid; gap: 8px; font-size: 0.9rem; color: var(--navy); }
     .m27-trust li::before { content: "✓ "; color: #2563EB; font-weight: 800; }
@@ -147,7 +148,7 @@
         </div>
 
         <p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia.</p>
-        <button class="m27-submit" type="submit">Check my doctors</button>
+        <button class="cta-button m27-submit" type="submit">Check my doctors</button>
 
         <div class="m27-consent-after">
           <label class="m27-consent">

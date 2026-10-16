@@ -42,7 +42,7 @@ test('medicare-2027-check mobile-first hero and four-field get-help v2 form', ()
   assert.match(markup, /name="providers"/);
   assert.match(markup, /name="consent_request" value="yes"/);
   assert.match(markup, new RegExp(V2_SMS_SNIPPET.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-  assert.match(markup, /Check my doctors<\/button>/);
+  assert.match(markup, /class="cta-button m27-submit" type="submit">Check my doctors<\/button>/);
   assert.doesNotMatch(markup, /name="email"/);
   assert.doesNotMatch(markup, /preferred_contact_method/);
   assert.doesNotMatch(markup, /name="consent_email"/);
@@ -105,7 +105,7 @@ test('medicare-2027-check sitelink submit succeeds when call consent is checked'
     await page.fill('#medicare2027Zip', '33805');
     await page.check('input[name="consent_request"]');
     await page.check('input[name="consent_call"]');
-    await page.click('.m27-submit');
+    await page.click('.cta-button.m27-submit');
     await page.waitForSelector('.m27-thanks', { timeout: 8000 });
     const thanks = await page.locator('.m27-thanks').textContent();
     assert.match(String(thanks || ''), /Thanks/i);
@@ -140,12 +140,60 @@ test('medicare-2027-check submit button fits a 390x844 first screen', async () =
     await page.goto(`http://127.0.0.1:${port}/medicare-2027-check/`, { waitUntil: 'networkidle' });
     await page.evaluate(() => window.scrollTo(0, 0));
     const metrics = await page.evaluate(() => {
-      const button = document.querySelector('.m27-submit');
+      const button = document.querySelector('.cta-button.m27-submit');
       const rect = button.getBoundingClientRect();
       return { buttonBottom: rect.bottom, scrollHeight: document.documentElement.scrollHeight };
     });
     assert.ok(metrics.buttonBottom <= 844, `button bottom ${metrics.buttonBottom} should stay within first screen`);
     assert.ok(metrics.scrollHeight < 2060, `scroll height ${metrics.scrollHeight} should stay under Webby fail threshold`);
+  } finally {
+    await browser.close();
+    await new Promise((resolvePromise) => server.close(() => resolvePromise()));
+  }
+});
+
+test('medicare-2027-check submit button uses homepage gold cta-button computed styles', async () => {
+  const server = createServer((request, response) => {
+    try {
+      let pathname = decodeURIComponent(new URL(request.url, 'http://127.0.0.1').pathname);
+      if (pathname.endsWith('/')) pathname += 'index.html';
+      const filePath = join(ROOT, pathname.replace(/^\//, ''));
+      const body = readFileSync(filePath);
+      const type = pathname.endsWith('.css')
+        ? 'text/css'
+        : pathname.endsWith('.js')
+          ? 'application/javascript'
+          : 'text/html';
+      response.writeHead(200, { 'Content-Type': type });
+      response.end(body);
+    } catch {
+      response.writeHead(404);
+      response.end('not found');
+    }
+  });
+  await new Promise((resolvePromise) => server.listen(0, '127.0.0.1', resolvePromise));
+  const { port } = server.address();
+  const browser = await chromium.launch({
+    headless: true,
+    executablePath: process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || '/usr/local/bin/google-chrome'
+  });
+  try {
+    const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    await page.goto(`http://127.0.0.1:${port}/medicare-2027-check/`, { waitUntil: 'networkidle' });
+    const styles = await page.evaluate(() => {
+      const button = document.querySelector('button.cta-button.m27-submit');
+      const computed = getComputedStyle(button);
+      return {
+        backgroundColor: computed.backgroundColor,
+        color: computed.color,
+        borderRadius: computed.borderRadius,
+        fontWeight: computed.fontWeight
+      };
+    });
+    assert.equal(styles.backgroundColor, 'rgb(212, 168, 67)', 'gold background (#D4A843)');
+    assert.equal(styles.color, 'rgb(15, 26, 46)', 'navy-deep text (#0F1A2E)');
+    assert.match(styles.borderRadius, /100px|50%/);
+    assert.match(styles.fontWeight, /600|700/);
   } finally {
     await browser.close();
     await new Promise((resolvePromise) => server.close(() => resolvePromise()));
