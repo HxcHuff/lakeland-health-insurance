@@ -4,67 +4,66 @@ import { join, resolve } from 'node:path';
 import test from 'node:test';
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
+const PAGE = 'blog/orlando-health-watson-clinic-insurance-2026.html';
 
-/** Pages that carry the Oct 16, 2026 Watson teaser banner (not the dedicated 2027-plan post). */
-export const WATSON_2026_UPDATE_BANNER_PAGES = [
-  'local-health-insurance-answers/watson-clinic-insurance-network-help/index.html',
-  'blog/orlando-health-watson-clinic-insurance-2026.html',
-  'blog/orlando-health-watson-clinic-doctors-network-2026.html',
-  'blog/watson-clinic-urgent-care.html',
-  'blog/change-florida-blue-myblue-pcp-watson-clinic.html'
-];
+const TEASER_BODY =
+  'There is news about Orlando Health and Watson Clinic in Lakeland and Polk County that is not published online yet. David Huff spoke directly with the clinic in October 2026.';
 
-const BANNER_HEADING = 'Update (October 16, 2026)';
-const BANNER_LEDE =
-  'There is news about Orlando Health and Watson Clinic in Lakeland and Polk County—including Watson Clinic Lakeland Highlands—that is not published online yet. David Huff went straight to the source in a direct conversation with the clinic in October 2026.';
-const BLOG_LINK = '/blog/orlando-health-watson-clinic-2027-plan.html';
-const BANNED_IN_BANNER = /\b(framework|PCP|primary care|specialist|facilities)\b/i;
+const WATSON_HARD_LIMIT = /\b(the network framework|shared specialists or facilities|no PCP at Lakeland Highlands)\b/i;
 
-function readPage(rel) {
-  return readFileSync(join(ROOT, rel), 'utf8');
+function html() {
+  return readFileSync(join(ROOT, PAGE), 'utf8');
 }
 
-function extractUpdateBanner(html) {
-  const match = html.match(
-    /<section class="lhi-alert-notice" aria-labelledby="watson-update-20261016-heading">[\s\S]*?<\/section>/
+function extractBanner(block) {
+  const match = block.match(
+    /<section class="lhi-alert-notice" aria-labelledby="watson-2027-update-banner-heading">[\s\S]*?<\/section>/
   );
   return match?.[0] ?? '';
 }
 
-test('Watson Oct 16 update banner is on every qualifying page', () => {
-  for (const rel of WATSON_2026_UPDATE_BANNER_PAGES) {
-    const html = readPage(rel);
-    assert.match(html, /id="watson-update-20261016-heading"/, rel);
-    assert.match(html, new RegExp(BANNER_HEADING.replace(/[()]/g, '\\$&')), rel);
-    assert.match(html, /href="tel:\+18636403102"/, rel);
-    assert.match(html, /\(863\) 640-3102/, rel);
-    assert.match(html, new RegExp(BLOG_LINK.replace(/\//g, '\\/')), rel);
+test('PR A: 2027 update banner precedes Humana notice on Watson insurance guide', () => {
+  const source = html();
+  const updateIdx = source.indexOf('watson-2027-update-banner-heading');
+  const humanaIdx = source.indexOf('watson-humana-2027-heading');
+  assert.ok(updateIdx >= 0 && humanaIdx >= 0);
+  assert.ok(updateIdx < humanaIdx);
+  const banner = extractBanner(source);
+  assert.match(banner, /NEW: 2027 update/);
+  assert.match(banner, /Orlando Health and Watson Clinic: news for Lakeland patients/);
+  assert.ok(banner.includes(TEASER_BODY));
+  assert.match(banner, /href="\/blog\/orlando-health-watson-clinic-2027-plan\.html">Read the 2027 update/);
+  assert.match(banner, /href="tel:\+18636403102">Call or text \(863\) 640-3102/);
+  assert.doesNotMatch(banner, WATSON_HARD_LIMIT);
+});
+
+test('PR A: mid and bottom CTAs use provider-check intent and tel link', () => {
+  const source = html();
+  assert.match(source, /id="watson-mid-cta-heading">Check if your Watson doctor is in your 2027 plan/);
+  assert.match(source, /id="watson-bottom-cta-heading">Check if your Watson doctor is in your 2027 plan/);
+  const mid = source.match(/watson-mid-cta-heading[\s\S]*?<\/section>/)?.[0] ?? '';
+  const bottom = source.match(/watson-bottom-cta-heading[\s\S]*?<\/section>/)?.[0] ?? '';
+  for (const block of [mid, bottom]) {
+    assert.match(block, /href="tel:\+18636403102">Call or text \(863\) 640-3102/);
+    assert.match(block, /href="\/get-help\/\?intent=provider-check">Request a plan review/);
   }
 });
 
-test('Watson update banner uses approved teaser copy and hard-limit terms', () => {
-  for (const rel of WATSON_2026_UPDATE_BANNER_PAGES) {
-    const banner = extractUpdateBanner(readPage(rel));
-    assert.ok(banner.length > 0, `${rel} missing update banner block`);
-    assert.match(banner, /Call or text \(863\) 640-3102/);
-    assert.ok(banner.includes(BANNER_LEDE), `${rel} lede mismatch`);
-    assert.doesNotMatch(banner, BANNED_IN_BANNER, `${rel} banned term in banner`);
-  }
+test('PR A: related reading lists 2027 post first; title and meta unchanged', () => {
+  const source = html();
+  const related = source.match(/id="related-reading-heading"[\s\S]*?<\/section>/)?.[0] ?? '';
+  const firstLink = related.match(/<a href="([^"]+)">/)?.[1];
+  assert.equal(firstLink, '/blog/orlando-health-watson-clinic-2027-plan.html');
+  assert.match(source, /<title>Watson Clinic Insurance Accepted 2026 &amp; 2027 \| Lakeland Guide<\/title>/);
+  assert.match(
+    source,
+    /meta name="description" content="What insurance does Watson Clinic accept in 2026 and 2027\? Review Medicare Advantage, Marketplace, and commercial plan types, 2027 network changes, and how to verify your doctor before you enroll\."/
+  );
+  assert.doesNotMatch(source, /watson-clinic-lakeland-highlands-david-huff/);
 });
 
-test('Humana notice follows Watson update banner when both are present', () => {
-  const withHumana = WATSON_2026_UPDATE_BANNER_PAGES.filter((rel) => rel.includes('network-help') || rel.includes('insurance-2026') || rel.includes('doctors-network') || rel.includes('urgent-care'));
-  for (const rel of withHumana) {
-    const html = readPage(rel);
-    const updateIdx = html.indexOf('watson-update-20261016-heading');
-    const humanaIdx = html.indexOf('watson-humana-2027-heading');
-    assert.ok(updateIdx >= 0 && humanaIdx >= 0, rel);
-    assert.ok(updateIdx < humanaIdx, `${rel} update banner must precede Humana notice`);
-  }
-});
-
-test('2027-plan blog keeps hero lede teaser without duplicate in-page banner', () => {
-  const html = readPage('blog/orlando-health-watson-clinic-2027-plan.html');
-  assert.doesNotMatch(html, /watson-update-20261016-heading/);
-  assert.match(html, /direct conversation with the clinic in October 2026/);
+test('PR A: dateModified and last reviewed show October 16, 2026', () => {
+  const source = html();
+  assert.match(source, /"dateModified": "2026-10-16"/);
+  assert.match(source, /Last reviewed: October 16, 2026/);
 });
