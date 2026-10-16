@@ -171,7 +171,7 @@ const MEDICARE_SOURCE_REGISTRY = Object.freeze({
       'footer_start_plan_review'
     ])
   }),
-  medicare_2027_check: Object.freeze({
+  'medicare-2027-check': Object.freeze({
     page_role: 'campaign',
     cta_keys: new Set([
       'start_review_hero',
@@ -324,6 +324,8 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'plan_interest',
     'referral_page',
     'source_page',
+    'consent_page',
+    'content_name',
     'source_page_key',
     'source_cta_key',
     'started_at',
@@ -670,11 +672,16 @@ function isGetHelpV2ConsentPage(path) {
   return GET_HELP_V2_CONSENT_PAGES.has(normalized);
 }
 
-function resolveConsentPagePath(payload, headers) {
-  const payloadPath = sanitizeSourcePath(payload.consent_page || payload.source_page || '');
-  if (payloadPath && payloadPath !== '/') return payloadPath;
+function resolveConsentPagePath(payload, headers, rawPayload) {
+  const raw = rawPayload && typeof rawPayload === 'object' ? rawPayload : payload;
+  const consentPath = sanitizeSourcePath(raw.consent_page || payload.consent_page || '');
+  if (consentPath && consentPath !== '/') return consentPath;
   const inferred = sanitizeSourcePath(
-    payload.source_url || headerValue(headers, 'referer') || headerValue(headers, 'referrer') || ''
+    raw.source_url ||
+      payload.source_url ||
+      headerValue(headers, 'referer') ||
+      headerValue(headers, 'referrer') ||
+      ''
   );
   if (inferred && inferred !== '/') return inferred;
   return '/get-help/';
@@ -917,7 +924,7 @@ exports.handler = async (event) => {
   const sourcePath = sanitizeSourcePath(
     rawPayload.source_url || headerValue(headers, 'referer') || headerValue(headers, 'referrer') || ''
   );
-  const consentPagePath = resolveConsentPagePath(payload, headers);
+  const consentPagePath = resolveConsentPagePath(payload, headers, rawPayload);
 
   const consentCheck = authorizeGetHelpConsent(payload, serverReceivedAt, consentPagePath);
   if (!consentCheck.ok) {

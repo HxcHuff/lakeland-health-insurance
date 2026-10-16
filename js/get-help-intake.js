@@ -267,7 +267,7 @@
         footer_start_plan_review: true
       }
     },
-    medicare_2027_check: {
+    'medicare-2027-check': {
       page_role: 'campaign',
       cta_keys: {
         start_review_hero: true,
