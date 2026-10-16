@@ -11,6 +11,7 @@
     .click-to-call:hover{transform:translateY(-3px);box-shadow:0 12px 34px rgba(22,163,74,0.42)}
     .call-widget-icon{font-size:1rem;line-height:1}
     @media (max-width:640px){.click-to-call{bottom:14px;right:14px;font-size:14px;padding:12px 15px}}
+    @media (min-width:1280px){.click-to-call{width:56px;height:56px;max-width:56px;padding:0;justify-content:center;border-radius:50%;overflow:hidden;font-size:0;line-height:0}.click-to-call>span:not(.call-widget-icon){clip:rect(0,0,0,0)!important;height:1px!important;overflow:hidden!important;position:absolute!important;width:1px!important}.call-widget-icon{font-size:1.35rem;line-height:1}}
   `;
   document.head.appendChild(style);
 

@@ -73,7 +73,13 @@ async function measure(page, baseUrl, route, viewport, detail = false) {
     const headerInner = document.querySelector('header nav, header .container, header');
     const footer = document.querySelector('footer');
     const shell = document.querySelector('.lhi-hero-shell, section.hero, .article-hero');
-    const lede = document.querySelector('.lhi-hero-lede, .hero-sub, .lhi-hero-deferred-block p, section.hero p');
+    const lede =
+      document.querySelector('.lhi-hero-deferred-block .hero-sub, .lhi-hero-deferred-block h2, .lhi-hero-lede, section.hero p.lhi-hero-lede') ||
+      document.querySelector('.hero-sub, .lhi-hero-deferred-block p, section.hero p');
+    const ledeBlock = document.querySelector('.lhi-hero-lede-block');
+    const deferredBlock = document.querySelector(
+      'section.hero .lhi-hero-deferred-block, .lhi-hero-shell > .lhi-hero-deferred-block'
+    );
     const call = document.querySelector('.click-to-call, a.click-to-call');
     const h1r = h1?.getBoundingClientRect();
     const fr = form?.getBoundingClientRect();
@@ -92,16 +98,43 @@ async function measure(page, baseUrl, route, viewport, detail = false) {
       footerBeforeH1: !!(ftr && h1r && ftr.top < h1r.top - 8),
       footerY: ftr ? Math.round(ftr.top) : null
     };
-    if (!detail) return base;
     const shellBg = shell ? getComputedStyle(shell).backgroundColor : null;
     const h1Style = h1 ? getComputedStyle(h1) : null;
     const ledeStyle = lede ? getComputedStyle(lede) : null;
-    return {
-      ...base,
+    const ledeRect = lede?.getBoundingClientRect();
+    let leftColumnBottomPx = h1r ? Math.round(h1r.bottom) : null;
+    for (const el of [ledeBlock, deferredBlock]) {
+      if (!el || getComputedStyle(el).display === 'none') continue;
+      const b = el.getBoundingClientRect();
+      if (b.height > 0) leftColumnBottomPx = Math.max(leftColumnBottomPx ?? 0, Math.round(b.bottom));
+    }
+    const formBottomPx = fr ? Math.round(fr.bottom) : null;
+    const leftColumnToFormGapPx =
+      leftColumnBottomPx != null && formBottomPx != null ? formBottomPx - leftColumnBottomPx : null;
+    const deferredVisible = !!(
+      deferredBlock &&
+      getComputedStyle(deferredBlock).display !== 'none' &&
+      deferredBlock.getBoundingClientRect().height > 8
+    );
+    const callTextOverflowPx = call ? Math.max(0, call.scrollWidth - call.clientWidth) : null;
+    const extended = {
       heroBgRgb: shellBg,
       h1TextAlign: h1Style?.textAlign ?? null,
       ledeColor: ledeStyle?.color ?? null,
       ledeOpacity: ledeStyle?.opacity ?? null,
+      ledeBbox: ledeRect
+        ? {
+            top: Math.round(ledeRect.top),
+            bottom: Math.round(ledeRect.bottom),
+            height: Math.round(ledeRect.height),
+            width: Math.round(ledeRect.width)
+          }
+        : null,
+      leftColumnBottomPx,
+      formBottomPx,
+      leftColumnToFormGapPx,
+      deferredVisible,
+      callTextOverflowPx,
       callBbox: cr
         ? {
             top: Math.round(cr.top),
@@ -114,6 +147,8 @@ async function measure(page, baseUrl, route, viewport, detail = false) {
           }
         : null
     };
+    if (!detail) return { ...base, ...extended };
+    return { ...base, ...extended };
   }, { vw: viewport.width, vh: viewport.height, detail });
 }
 
@@ -159,9 +194,18 @@ const bad = report.filter(
   (r) =>
     (r.viewport === '390' && r.h1Y != null && r.h1Y > 400) ||
     r.footerBeforeH1 ||
-    (r.viewport === '390' && r.headerWidth != null && r.headerWidth > 400) ||
+    (r.viewport === '390' && r.headerWidth != null && r.headerWidth > 392) ||
+    (r.viewport === '390' && r.scrollWidth != null && r.scrollWidth > 392) ||
     (r.viewport === '1280' && r.overflowPx > 8) ||
-    (r.viewport === '1280' && r.formLeftPct != null && r.formLeftPct < 50 && r.route.includes('health-insurance'))
+    (r.viewport === '1280' && r.formLeftPct != null && r.formLeftPct < 50 && r.route.includes('health-insurance')) ||
+    (r.viewport === '1280' &&
+      r.deferredVisible &&
+      r.leftColumnToFormGapPx != null &&
+      r.leftColumnToFormGapPx > 120 &&
+      r.leftColumnToFormGapPx < 250 &&
+      !r.route.includes('/blog/')) ||
+    (r.viewport === '390' && r.scrollWidth != null && r.scrollWidth > 392 && !r.route.includes('/blog/')) ||
+    (r.viewport === '1280' && (r.callTextOverflowPx ?? 0) > 1)
 );
 if (!process.argv.includes('--no-fail')) {
   process.exit(bad.length ? 1 : 0);

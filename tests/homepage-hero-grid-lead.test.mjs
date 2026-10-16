@@ -26,7 +26,7 @@ test('priority lead pages use homepage grid-lead shell pattern', () => {
     const html = readFileSync(join(ROOT, rel), 'utf8');
     assert.match(html, /class="lhi-hero-shell"/, rel);
     assert.match(html, /class="lhi-lead-hero lhi-hero-grid-lead"/, rel);
-    assert.match(html, /lead-hero.css\?v=20261022-pr331-review/, rel);
+    assert.match(html, /lead-hero.css\?v=20261023-pr331-lede/, rel);
   }
 });
 

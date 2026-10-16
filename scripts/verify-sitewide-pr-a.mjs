@@ -72,12 +72,20 @@ const failures = report.filter(
     r.footerBeforeH1 ||
     (r.viewport === '390' && r.h1Y != null && r.h1Y > 450) ||
     (r.viewport === '390' && r.headerWidth != null && r.headerWidth > 392) ||
+    (r.viewport === '390' && r.scrollWidth != null && r.scrollWidth > 392 && !r.route.includes('/blog/')) ||
     (r.viewport === '1280' && r.overflowPx > 12) ||
     (r.viewport === '1280' &&
       r.route.includes('health-insurance') &&
       r.formLeftPct != null &&
       r.formLeftPct < 52 &&
-      !r.route.includes('blog'))
+      !r.route.includes('blog')) ||
+    (r.viewport === '1280' &&
+      r.deferredVisible &&
+      r.leftColumnToFormGapPx != null &&
+      r.leftColumnToFormGapPx > 120 &&
+      r.leftColumnToFormGapPx < 250 &&
+      !r.route.includes('/blog/')) ||
+    (r.viewport === '1280' && (r.callTextOverflowPx ?? 0) > 1)
 );
 
 if (failures.length) {

@@ -11,8 +11,7 @@ import { chromium } from 'playwright';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const OUT =
-  process.env.HERO_SCREENSHOT_DIR ||
-  '/cursor/stores/bc-18e337dd-aed0-4afd-ad21-cf64e33529e8/media/sitewide-a';
+  process.env.HERO_SCREENSHOT_DIR || '/cursor/stores/self/media/sitewide-a';
 
 const PAGES = [
   { url: '/advantage-guard/', name: 'advantage-guard' },
