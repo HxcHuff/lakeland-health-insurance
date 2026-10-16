@@ -185,7 +185,64 @@
     if (floating && d.querySelector('.lhi-lead-hero')) floating.remove();
   }
 
+  function normHeroText(value) {
+    return String(value || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function heroTextPrefix(value) {
+    return normHeroText(value).toLowerCase().slice(0, 40);
+  }
+
+  function isMetaLike(el) {
+    if (!el || el.nodeType !== 1) return false;
+    if (el.matches('.meta, .blog-meta, .byline, .last-reviewed, p.last-reviewed')) return true;
+    if (el.classList && (el.classList.contains('meta') || el.classList.contains('blog-meta'))) return true;
+    return false;
+  }
+
+  function ledePrefixFromBlock(ledeBlock) {
+    if (!ledeBlock) return '';
+    var lede = ledeBlock.querySelector('.lhi-hero-lede, p.lhi-hero-lede');
+    return lede ? heroTextPrefix(lede.textContent) : '';
+  }
+
+  function removeIfDuplicateOfLede(el, ledePrefix) {
+    if (!ledePrefix || ledePrefix.length < 20) return false;
+    if (!el || el.nodeType !== 1) return false;
+    if (isMetaLike(el)) return false;
+    var prefix = heroTextPrefix(el.textContent);
+    if (!prefix || prefix.length < 20) return false;
+    if (prefix === ledePrefix) {
+      el.remove();
+      return true;
+    }
+    return false;
+  }
+
+  function consolidateBlogHeroCopy() {
+    if (!d.body.classList.contains('blog-post') && !d.body.classList.contains('blog-index-page')) return;
+    d.querySelectorAll('.lhi-hero-shell').forEach(function (shell) {
+      var ledeBlock = shell.querySelector('.lhi-hero-lede-block');
+      if (!ledeBlock) return;
+      var ledePrefix = ledePrefixFromBlock(ledeBlock);
+      shell.querySelectorAll('.lhi-hero-deferred-block').forEach(function (def) {
+        Array.prototype.slice.call(def.children).forEach(function (el) {
+          if (removeIfDuplicateOfLede(el, ledePrefix)) return;
+          if (el.nodeType === 1 && isMetaLike(el)) {
+            ledeBlock.appendChild(el);
+          }
+        });
+        if (!normHeroText(def.textContent) && !def.querySelector('*')) {
+          def.remove();
+        }
+      });
+    });
+  }
+
+  w.LHIConsolidateBlogHeroCopy = consolidateBlogHeroCopy;
+
   function init() {
+    consolidateBlogHeroCopy();
     wireSiteLeadForms();
     syncMedicareScopeNotes();
     var bar = ensureStickyBar();

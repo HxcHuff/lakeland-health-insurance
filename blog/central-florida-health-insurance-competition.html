@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carrier Competition and Plan Choice in Central Florida</title>
@@ -21,10 +20,10 @@
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#1B2A4A">
-  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
+  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-pr-c-hero-polish">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10">
 
   <script type="application/ld+json">
 {
@@ -152,7 +151,7 @@
     :root { --navy:#1B2A4A; --gold:#D4A843; --gray:#475569; --bg:#F8FAFC; --card:#FFFFFF; --line:#E2E8F0; --danger:#B91C1C; --warnbg:#FEF2F2; --safebg:#EFF6FF; }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; color: #1E293B; background: var(--bg); line-height: 1.65; }
-    .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+    .container:not(.hero-grid) { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
     .top { background: var(--navy); color: #fff; padding: 12px 0; font-size: 0.9rem; }
     .top a { color: #fff; }
     header { background: #fff; border-bottom: 1px solid var(--line); }
@@ -207,11 +206,13 @@
   .key-answer{background:#F0FDFA;border:1px solid #99F6E4;border-left:5px solid #0F766E;border-radius:10px;padding:18px 20px;margin:18px 0 24px;}
         </style>
 
-  <link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr331-lede">
+  <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
     <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
+
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10" data-lhi-lead-hero-tail="">
 </head>
-<body class="blog-post">
+<body class="blog-post lhi-page-hero">
   <div class="top">
     <div class="container">Need help comparing Polk County plans? Call <a href="tel:+18636403102">(863) 640-3102</a></div>
   </div>
@@ -228,18 +229,20 @@
   </header>
 
   <main class="container">
-    <section class="hero">
-      <h1>Carrier Competition and Plan Choice in <em class="accent">Central Florida</em></h1>
-<section class="key-answer"><p><strong>Direct answer:</strong> Carrier lineups in Central Florida can change by county and plan year. Premium tax credits may lower the net premium, but the amount depends on MAGI and the benchmark plan on HealthCare.gov.</p></section>
-
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="central_florida_health_insurance_competi-lead-title">
+    <div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block"><h1>Carrier Competition and Plan Choice in <em class="accent">Central Florida</em></h1>
+<p class="lhi-hero-lede">Carrier lineups in Central Florida can change by county and plan year. Premium tax credits may lower the net premium, but the amount depends on MAGI and the benchmark plan on HealthCare.gov.</p>
+<p class="meta">Published April 30, 2026 | By David Huff, licensed Florida health agent (FL #W371813)</p></div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="central_florida_health_insurance_competi-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="central_florida_health_insurance_competi-lead-title">Get a Marketplace plan comparison</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="central_florida_health_insurance_competiForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="central_florida_health_insurance_competiForm" data-lhi-site-lead-form data-funnel-track="" data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Get a Marketplace plan comparison">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/blog/central-florida-health-insurance-competition.html">
         <input type="hidden" name="source_template" value="blog_post">
@@ -267,7 +270,7 @@
         <input type="hidden" name="click_timestamp" value="">
         <input type="hidden" name="started_at">
         <input type="hidden" name="human_check">
-        <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <p class="lhi-lead-hero__honeypot" hidden=""><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="central_florida_health_insurance_competi_full_name">Name</label>
@@ -284,7 +287,7 @@
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="central_florida_health_insurance_competi_coverage_status">Coverage type</label>
             <select id="central_florida_health_insurance_competi_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
+                  <option value="" selected="" disabled="">Select one</option>
                   <option value="individual_marketplace">Individual Marketplace coverage</option>
                   <option value="family_marketplace">Family Marketplace coverage</option>
                   <option value="not_sure">Not sure yet</option>
@@ -307,14 +310,11 @@
 </section>
 
 
-
-<p>Carrier participation can create more plan choices, but the practical comparison still depends on premium, household eligibility, provider network, prescriptions, cost sharing, and plan year.</p>
-      <p class="meta">Published April 30, 2026 | By David Huff, licensed Florida health agent (FL #W371813)</p>
-      <div class="cta-row">
+</div></section>
+</div><div class="lhi-post-body-intro"><p><strong>Direct answer:</strong> Carrier lineups in Central Florida can change by county and plan year. Premium tax credits may lower the net premium, but the amount depends on MAGI and the benchmark plan on HealthCare.gov.</p><p>Carrier participation can create more plan choices, but the practical comparison still depends on premium, household eligibility, provider network, prescriptions, cost sharing, and plan year.</p><div class="cta-row">
         <a class="btn btn-primary" href="/get-help/">Compare Polk County Plans</a>
         <a class="btn btn-secondary" href="tel:+18636403102">Call (863) 640-3102</a>
-      </div>
-    </section>
+</div></div>
 
     <section class="card safe">
       <h2>Fast Answer</h2>
@@ -458,6 +458,7 @@
     <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
     <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261022-pr331-review" defer></script>
-</body>
-</html>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b10" defer></script>
+
+
+</body></html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <script type="application/ld+json">
 {
@@ -65,7 +64,7 @@
             background: #f8f9fa;
         }
 
-        .container {
+        .container:not(.hero-grid) {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 20px;
@@ -418,16 +417,18 @@ header .cta-button {
 
   </style>
 
-    <link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
     <link rel="stylesheet" href="/css/quote-tools.css">
     <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
     <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-pr-c-hero-polish">
-    <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-    <link rel="stylesheet" href="/css/site-template.css?v=20261023-pr331-lede">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10">
+    <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
+    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
+
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10" data-lhi-lead-hero-tail="">
 </head>
-<body class="blog-post">
+<body class="blog-post lhi-page-hero">
     <header>
         <nav>
             <div class="logo-container">
@@ -445,24 +446,20 @@ header .cta-button {
         </nav>
     </header>
     <main>
-<section class="article-header">
-        <div class="container">
-            <h1>Dental Insurance: Costs, Limits, and When It May Fit</h1>
-            <div class="article-meta">
-                <p>Compare premiums, annual maximums, waiting periods, networks, exclusions, and expected dental costs.</p>
-                <p style="margin-top: 1rem; opacity: 0.8;">By David | June 11, 2025 | 8 min read</p>
-            </div>
-        </div>
-    </section>
-
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="dental_insurance_guide-lead-title">
+<div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block"><h1>Dental Insurance: Costs, Limits, and When It May Fit</h1>
+<p class="lhi-hero-lede">Compare premiums, annual maximums, waiting periods, networks, exclusions, and expected dental costs.</p>
+</div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="dental_insurance_guide-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="dental_insurance_guide-lead-title">Get a Marketplace plan comparison</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="dental_insurance_guideForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="dental_insurance_guideForm" data-lhi-site-lead-form data-funnel-track="" data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Get a Marketplace plan comparison">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/blog/dental-insurance-guide.html">
         <input type="hidden" name="source_template" value="blog_post">
@@ -490,7 +487,7 @@ header .cta-button {
         <input type="hidden" name="click_timestamp" value="">
         <input type="hidden" name="started_at">
         <input type="hidden" name="human_check">
-        <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <p class="lhi-lead-hero__honeypot" hidden=""><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="dental_insurance_guide_full_name">Name</label>
@@ -507,7 +504,7 @@ header .cta-button {
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="dental_insurance_guide_coverage_status">Coverage type</label>
             <select id="dental_insurance_guide_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
+                  <option value="" selected="" disabled="">Select one</option>
                   <option value="individual_marketplace">Individual Marketplace coverage</option>
                   <option value="family_marketplace">Family Marketplace coverage</option>
                   <option value="not_sure">Not sure yet</option>
@@ -529,10 +526,16 @@ header .cta-button {
   </div>
 </section>
 
+  </div>
+</section>
+</div>
+
+
+
 
 
 <div class="container">
-        <article class="article-content">
+        <article class="article-content"><div class="lhi-post-body-intro"><p style="margin-top: 1rem; opacity: 0.8;">By David | June 11, 2025 | 8 min read</p></div>
             <div class="article-body">
                 <h2>What Dental Coverage Usually Includes</h2>
                 <p>Dental plans commonly separate preventive, basic, and major services. The percentage shown for a service does not by itself establish what the plan will pay. The deductible, network fee schedule, annual maximum, waiting period, and frequency limits also matter.</p>
@@ -574,7 +577,7 @@ header .cta-button {
                             <span class="quote-tool-tag quote-tool-tag--gold">Compare Details</span>
                         </div>
                         <p class="quote-tool-desc">Benefit allowances, waiting periods, exclusions, networks, and annual limits vary by product and ZIP code. Verify current plan documents before enrolling.</p>
-                        <a href="https://enrollment.ncd.com/935869/" target="_blank" rel="noopener noreferrer" class="quote-tool-cta" data-tool="ncd-dental-blog">Compare NCD Plans &rarr;</a>
+                        <a href="https://enrollment.ncd.com/935869/" target="_blank" rel="noopener noreferrer" class="quote-tool-cta" data-tool="ncd-dental-blog">Compare NCD Plans →</a>
                         <p class="quote-tool-footnote">Opens the NCD enrollment site in a new tab. David remains available for plan-specific questions.</p>
                     </div>
                     <div class="quote-tool-card">
@@ -586,7 +589,7 @@ header .cta-button {
                             <span class="quote-tool-tag">Self-Service Quote</span>
                         </div>
                         <p class="quote-tool-desc">Review current dental, vision, and bundled options, including networks, waiting periods, exclusions, and annual limits.</p>
-                        <a href="https://shop.uhone.com/en/quote/census?brokerid=AA5045127" target="_blank" rel="noopener noreferrer" class="quote-tool-cta" data-tool="uhone-dental-blog">Start a UnitedHealthOne Quote &rarr;</a>
+                        <a href="https://shop.uhone.com/en/quote/census?brokerid=AA5045127" target="_blank" rel="noopener noreferrer" class="quote-tool-cta" data-tool="uhone-dental-blog">Start a UnitedHealthOne Quote →</a>
                         <p class="quote-tool-footnote">Opens the UnitedHealthOne quote site in a new tab. David remains available for plan-specific questions.</p>
                     </div>
                 </div>
@@ -607,22 +610,22 @@ header .cta-button {
                 <div class="related-post">
                     <h3>Florida Health Insurance Guide</h3>
                     <p>Navigating the Sunshine State's unique insurance challenges.</p>
-                    <a href="florida-insurance-guide.html">Florida Health Insurance Guide &rarr;</a>
+                    <a href="florida-insurance-guide.html">Florida Health Insurance Guide →</a>
                 </div>
                 <div class="related-post">
                     <h3>Pre-Existing Conditions: Know Your Rights</h3>
                     <p>How ACA protections work and what non-ACA plans can exclude.</p>
-                    <a href="preexisting-condition-guide.html">Pre-Existing Conditions: Know Your Rights &rarr;</a>
+                    <a href="preexisting-condition-guide.html">Pre-Existing Conditions: Know Your Rights →</a>
                 </div>
                 <div class="related-post">
                     <h3>How to Use Health Insurance and Manage Yearly Costs</h3>
                     <p>Your complete guide to deductibles, copays, and networks.</p>
-                    <a href="how-to-use-health-insurance-without-going-broke.html">How to Use Health Insurance and Manage Yearly Costs &rarr;</a>
+                    <a href="how-to-use-health-insurance-without-going-broke.html">How to Use Health Insurance and Manage Yearly Costs →</a>
                 </div>
                 <div class="related-post">
                     <h3>How to Budget for Healthcare Costs</h3>
                     <p>Real strategies for planning your medical spending this year.</p>
-                    <a href="planning-healthcare-budget-2026.html">How to Budget for Healthcare Costs &rarr;</a>
+                    <a href="planning-healthcare-budget-2026.html">How to Budget for Healthcare Costs →</a>
                 </div>
             </div>
         </div>
@@ -634,7 +637,7 @@ header .cta-button {
 </section>
 <footer>
         <div class="container">
-            <p>&copy; 2026 Lakeland Health Insurance. Lakeland-based, serving Florida.</p>
+            <p>© 2026 Lakeland Health Insurance. Lakeland-based, serving Florida.</p>
             <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.8;">FL License #W371813</p>
             <p style="font-size: 0.8rem; margin-top: 0.5rem;"><a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms/">Terms of Service</a> · <a href="/data-deletion/">Data Deletion</a></p>
         </div>
@@ -642,7 +645,7 @@ header .cta-button {
 
     <!-- Click to Call Button -->
     <a href="tel:+18636403102" class="click-to-call">
-        <span>&#128222;</span>
+        <span>📞</span>
         Call Now: (863) 640-3102
     </a>
 
@@ -669,6 +672,7 @@ header .cta-button {
     <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
     <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261022-pr331-review" defer></script>
-</body>
-</html>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b10" defer></script>
+
+
+</body></html>

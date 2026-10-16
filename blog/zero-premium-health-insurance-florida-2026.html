@@ -25,7 +25,7 @@
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-pr-c-hero-polish">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10">
 
     <script type="application/ld+json">
 {
@@ -84,7 +84,7 @@
             background: var(--bg);
             line-height: 1.7;
         }
-        .container { max-width: 850px; margin: 0 auto; padding: 0 20px; }
+        .container:not(.hero-grid) { max-width: 850px; margin: 0 auto; padding: 0 20px; }
         .article-header {
             background: linear-gradient(135deg, #0F1A2E 0%, #1B2A4A 100%);
             color: #fff;
@@ -226,11 +226,13 @@
         }
     </style>
 
-    <link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
     <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
+
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10" data-lhi-lead-hero-tail>
 </head>
-<body class="blog-post">
+<body class="blog-post lhi-page-hero">
     <header>
         <div class="container">
             <nav>
@@ -242,16 +244,16 @@
         </div>
     </header>
 
-    <section class="article-header">
-        <div class="container">
-            <h1>Cost-Sharing Reductions and zero net premiums in Florida</h1>
-      <p class="last-reviewed" style="color:#64748B;font-size:0.9rem;margin:0.75rem 0 1rem;">Last reviewed: August 2, 2026. Historical 2026 details below are left unchanged.</p>
-            <p>Premium tax credits may lower a Marketplace plan's monthly premium. Cost-sharing reductions may lower deductibles, copayments, coinsurance, and the annual out-of-pocket limit for eligible consumers who enroll in a Silver plan. These are separate forms of assistance.</p>
-            <p class="meta">Published April 6, 2026 | By David Huff, Licensed Insurance Agent</p>
-        </div>
-    </section>
+    <div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block"><h1>Cost-Sharing Reductions and zero net premiums in Florida</h1>
+<p class="lhi-hero-lede">Premium tax credits may lower a Marketplace plan's monthly premium. Cost-sharing reductions may lower deductibles, copayments, coinsurance, and the annual out-of-pocket limit for eligible consumers who enroll in a Silver plan. These are separate forms of assistance.</p>
+<p class="lhi-hero-lede last-reviewed">Last reviewed: August 2, 2026. Historical 2026 details below are left unchanged.</p>
 
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="zero_premium_health_insurance_florida_20-lead-title">
+<p class="meta">Published April 6, 2026 | By David Huff, Licensed Insurance Agent</p>
+</div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="zero_premium_health_insurance_florida_20-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="zero_premium_health_insurance_florida_20-lead-title">Get a Marketplace plan comparison</h2>
@@ -324,6 +326,12 @@
     </div>
   </div>
 </section>
+
+  </div>
+</section>
+</div>
+
+
 
 
 
@@ -432,6 +440,6 @@
     <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
     <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261022-pr331-review" defer></script>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b10" defer></script>
 </body>
 </html>

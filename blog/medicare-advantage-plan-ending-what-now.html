@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="lhi-chrome-intent" content="medicare">
@@ -24,8 +22,8 @@
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-pr-c-hero-polish">
-  <link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr331-lede">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10">
+  <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
 
   <script type="application/ld+json">
 {
@@ -155,7 +153,7 @@
     .byline { color: #64748B; font-size: .95rem; }
     :root { --navy:#1B2A4A; --navy-deep:#0F1A2E; --gold:#D4A843; --line:#E2E8F0; --text:#1E293B; --muted:#64748B; --bg:#F8FAFC; --green-soft:#DCFCE7; --green:#15803D; }
     body { margin: 0; font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; }
-    .container { max-width: 820px; margin: 0 auto; padding: 0 20px; }
+    .container:not(.hero-grid) { max-width: 820px; margin: 0 auto; padding: 0 20px; }
     .serif { font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif; }
     header.lhi-topbar { background: rgba(255,255,255,0.96); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 30; }
     header.lhi-topbar nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; flex-wrap: wrap; gap: 10px; }
@@ -198,9 +196,11 @@
     footer a { color: var(--gold); text-decoration: none; }
     .disclosure { font-size: 0.78rem; color: var(--muted); max-width: 740px; margin: 12px auto 0; line-height: 1.5; }
   </style>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
+
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10" data-lhi-lead-hero-tail>
 </head>
-<body data-page-key="medicare_advantage_plan_ending_what_now" data-page-role="education" data-content-cluster="lakeland_medicare_broker">
+<body class="lhi-page-hero blog-post" data-page-key="medicare_advantage_plan_ending_what_now" data-page-role="education" data-content-cluster="lakeland_medicare_broker">
   <header class="lhi-topbar">
     <div class="container">
       <nav>
@@ -216,24 +216,17 @@
   </header>
 
   <div class="container crumb">
-    <a href="/">Home</a> &rsaquo; <a href="/blog/">Blog</a> &rsaquo; My Medicare Advantage Plan Is Ending
+    <a href="/">Home</a> › <a href="/blog/">Blog</a> › My Medicare Advantage Plan Is Ending
   </div>
 
-  <section class="article-header">
-    <div class="container">
-      <h1>My Medicare Advantage Plan Is Ending. What Do I Do Now?</h1>
-      <p class="last-reviewed" style="color:#64748B;font-size:0.9rem;margin:0.75rem 0 1rem;">Last reviewed: October 5, 2026.</p>
-      <p class="subtitle">What a non-renewal or plan-change letter means in Lakeland and Polk County, which deadlines apply, and what to check before January 1.</p>
-    </div>
-  </section>
-
-<main class="container">
-    <article class="post">
-<p class="byline">By David Huff, licensed Florida health insurance agent #W371813 · Updated October 5, 2026</p>
-
-<section class="key-answer"><p><strong>Direct answer:</strong> A non-renewal letter means your Medicare Advantage plan ends December 31; your Medicare does not. Pick a new plan from October 15 to December 7 for a January 1 start. Because your plan is ending, you also get a Special Enrollment Period through the last day of February. If you return to Original Medicare, check your Medigap guaranteed-issue rights first.</p></section>
-
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="medicare" data-form-name="site-medicare-lead" data-source-template="blog_post" aria-labelledby="blog_medicare_advantage_plan_ending_what-lead-title">
+  <div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block"><h1>My Medicare Advantage Plan Is Ending. What Do I Do Now?</h1>
+<p class="lhi-hero-lede">A non-renewal letter ends that Medicare Advantage plan on December 31, not your Medicare. Use October 15–December 7, then the Special Enrollment Period through the last day of February.</p>
+<p class="lhi-hero-lede last-reviewed">Last reviewed: October 5, 2026.</p>
+</div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="medicare" data-form-name="site-medicare-lead" data-source-template="blog_post" aria-labelledby="blog_medicare_advantage_plan_ending_what-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="blog_medicare_advantage_plan_ending_what-lead-title">Request a Medicare plan review</h2>
@@ -309,6 +302,19 @@
     </div>
   </div>
 </section>
+
+
+  </div>
+</section>
+</div>
+
+<main class="container">
+    <article class="post">
+<p class="subtitle">What a non-renewal or plan-change letter means in Lakeland and Polk County, which deadlines apply, and what to check before January 1.</p><p class="byline">By David Huff, licensed Florida health insurance agent #W371813 · Updated October 5, 2026</p>
+
+<section class="key-answer"><p><strong>Direct answer:</strong> A non-renewal letter means your Medicare Advantage plan ends December 31; your Medicare does not. Pick a new plan from October 15 to December 7 for a January 1 start. Because your plan is ending, you also get a Special Enrollment Period through the last day of February. If you return to Original Medicare, check your Medigap guaranteed-issue rights first.</p></section>
+
+
 
 <p>CMS’s Florida 2027 landscape sheet lists 560 Medicare Advantage plans, down from 611 in 2026. That statewide drop is one reason more Polk County members are opening letters this fall. The letter does not cancel Part A or Part B. It changes how your medical and drug coverage is delivered after December 31.</p>
 
@@ -414,7 +420,7 @@
       <p class="tpmo-inventory-note">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
 </section>
 <footer>
-    <p>&copy; 2026 Lakeland Health Insurance &middot; FL License #W371813 &middot; NPN 18213932 &middot; <a href="/privacy-policy.html">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/data-deletion/">Data Deletion</a></p>
+    <p>© 2026 Lakeland Health Insurance · FL License #W371813 · NPN 18213932 · <a href="/privacy-policy.html">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/data-deletion/">Data Deletion</a></p>
   </footer>
     <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
     <script src="/js/chat-widget.js?v=20261016-pr-c-chat" defer></script>
@@ -422,6 +428,7 @@
     <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
     <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261022-pr331-review" defer></script>
-</body>
-</html>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b10" defer></script>
+
+
+</body></html>

@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What Is Supplemental Coverage? | Lakeland Health Insurance</title>
@@ -21,7 +19,7 @@
     <meta name="twitter:image:alt" content="David Huff, licensed Florida health agent">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-pr-c-hero-polish">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10">
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high"><script type="application/ld+json">
 {
@@ -72,7 +70,7 @@
             background: var(--bg);
             line-height: 1.7;
         }
-        .container {
+        .container:not(.hero-grid) {
             max-width: 850px;
             margin: 0 auto;
             padding: 0 20px;
@@ -154,11 +152,13 @@
         }
     </style>
 
-    <link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
     <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
+
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10" data-lhi-lead-hero-tail>
 </head>
-<body class="blog-post">
+<body class="blog-post lhi-page-hero">
 <header>
   <nav class="container">
     <div class="logo-container">
@@ -202,15 +202,13 @@
   </nav>
 </header>
 
-    <section class="article-header">
-        <div class="container">
-            <h1>What Is Supplemental Coverage?</h1>
-            <p>Supplemental plans can help cover gaps, but they are not a replacement for major medical insurance. Here is how they actually work.</p>
-            <p class="small" style="color:rgba(255,255,255,0.82); margin-top:10px;">By David Huff, Licensed Florida health agent | Updated July 30, 2026</p>
-        </div>
-    </section>
-
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="what_is_supplemental_coverage-lead-title">
+    <div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block"><h1>What Is Supplemental Coverage?</h1>
+<p class="lhi-hero-lede">Supplemental plans can help cover gaps, but they are not a replacement for major medical insurance. Here is how they actually work.</p>
+<p class="small" style="color:rgba(255,255,255,0.82); margin-top:10px;">By David Huff, Licensed Florida health agent | Updated July 30, 2026</p></div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="what_is_supplemental_coverage-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="what_is_supplemental_coverage-lead-title">Get a Marketplace plan comparison</h2>
@@ -283,6 +281,13 @@
     </div>
   </div>
 </section>
+
+
+  </div>
+</section>
+</div>
+
+
 
 
 
@@ -410,10 +415,10 @@
       <div class="footer-column">
         <h3>Contact David</h3>
         <ul>
-          <li><a href="tel:+18636403102"><span aria-hidden="true">&#128222;</span> (863) 640-3102</a></li>
-          <li><a href="mailto:david@lakelandhealthinsurance.com"><span aria-hidden="true">&#128231;</span> david@lakelandhealthinsurance.com</a></li>
-          <li><a href="https://m.me/1068037236387352" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128172;</span> David the Insurance Dude</a></li>
-          <li><span aria-hidden="true">&#128205;</span> Lakeland Health Insurance · Lakeland, FL 33805 · By appointment</li>
+          <li><a href="tel:+18636403102"><span aria-hidden="true">📞</span> (863) 640-3102</a></li>
+          <li><a href="mailto:david@lakelandhealthinsurance.com"><span aria-hidden="true">📧</span> david@lakelandhealthinsurance.com</a></li>
+          <li><a href="https://m.me/1068037236387352" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">💬</span> David the Insurance Dude</a></li>
+          <li><span aria-hidden="true">📍</span> Lakeland Health Insurance · Lakeland, FL 33805 · By appointment</li>
         </ul>
       </div>
       <div class="footer-column">
@@ -456,13 +461,14 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>
+      <p>© <span data-current-year=""></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>
       <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier.</p>
       <p style="margin-top: 1rem;">Powered by David the Insurance Dude</p>
     </div>
   </div>
 </footer>
 
-  <script src="/js/lead-hero.js?v=20261022-pr331-review" defer></script>
-</body>
-</html>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b10" defer></script>
+
+
+</body></html>

@@ -76,8 +76,13 @@ for (const [file, sourcePage, formName, consentVersion] of leadHeroPages) {
     assert.doesNotMatch(form, /\bfree\b/i);
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
-    assert.match(html, /\/css\/lead-hero.css\?v=20261016-pr-c-hero-polish/);
-    assert.match(html, /\/js\/lead-hero.js\?v=20261022-pr331-review/);
+    if (file.startsWith('blog/')) {
+      assert.match(html, /\/css\/lead-hero\.css\?v=20261016-sitewide-b10/);
+      assert.match(html, /\/js\/lead-hero\.js\?v=20261016-sitewide-b10/);
+    } else {
+      assert.match(html, /\/css\/lead-hero\.css\?v=20261016-pr-c-hero-polish/);
+      assert.match(html, /\/js\/lead-hero\.js\?v=20261022-pr331-review/);
+    }
   });
 }
 
@@ -112,7 +117,7 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
     );
 
     assert.match(html, /\/js\/funnel\.js\?v=20261015-v6merge2/);
-    assert.match(html, /\/css\/site-template.css\?v=20261023-pr331-lede/);
+    assert.match(html, /\/css\/site-template.css\?v=20261016-pr-b-site-tpl/);
   });
 }
 

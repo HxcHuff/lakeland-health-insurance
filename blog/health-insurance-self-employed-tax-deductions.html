@@ -80,7 +80,7 @@
     <meta name="theme-color" content="#1B2A4A">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-pr-c-hero-polish">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10">
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <style>
@@ -102,7 +102,7 @@
             background: #f8f9fa;
         }
 
-        .container {
+        .container:not(.hero-grid) {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 20px;
@@ -366,11 +366,13 @@ header .cta-button {
 
   </style>
 
-    <link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
     <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
+
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10" data-lhi-lead-hero-tail>
 </head>
-<body class="blog-post">
+<body class="blog-post lhi-page-hero">
     <header>
         <nav>
             <div class="logo-container">
@@ -385,20 +387,13 @@ header .cta-button {
         </nav>
     </header>
     <main>
-<section class="article-header">
-        <div class="container">
-            <h1>Self-Employed Health Insurance Deduction: Who Qualifies and How to Claim It</h1>
-        </div>
-    </section>
-
-    <div class="container">
-        <article class="article-content">
-            <div class="article-body">
-<p class="byline">By David Huff, licensed Florida health insurance agent #W371813 · Updated September 30, 2026</p>
-
-<section class="key-answer"><p><strong>Direct answer:</strong> If your business shows a net profit and, for a given month, you were not eligible for an employer-subsidized health plan (including one offered through your spouse's job), you can generally deduct the premiums you paid that month for medical, dental, vision and qualified long-term care insurance.</p><p><a href="tel:+18636403102">Call David (863) 640-3102</a> for coverage questions. A CPA or enrolled agent should handle tax filing.</p></section>
-
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="blog_health_insurance_self_employed_tax_-lead-title">
+<div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block"><h1>Self-Employed Health Insurance Deduction: Who Qualifies and How to Claim It</h1>
+<p class="lhi-hero-lede">If your business shows a net profit and, for a given month, you were not eligible for an employer-subsidized health plan (including one offered through your spouse's job), you can generally deduct the premiums you paid that month for medical, dental, vision and qualified long-term care insurance.</p>
+</div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="blog_health_insurance_self_employed_tax_-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="blog_health_insurance_self_employed_tax_-lead-title">Get a Marketplace plan comparison</h2>
@@ -471,6 +466,19 @@ header .cta-button {
     </div>
   </div>
 </section>
+
+  </div>
+</section>
+</div>
+
+    <div class="container">
+        <article class="article-content">
+            <div class="article-body">
+<p class="byline">By David Huff, licensed Florida health insurance agent #W371813 · Updated September 30, 2026</p>
+
+<section class="key-answer"><p><strong>Direct answer:</strong> If your business shows a net profit and, for a given month, you were not eligible for an employer-subsidized health plan (including one offered through your spouse's job), you can generally deduct the premiums you paid that month for medical, dental, vision and qualified long-term care insurance.</p><p><a href="tel:+18636403102">Call David (863) 640-3102</a> for coverage questions. A CPA or enrolled agent should handle tax filing.</p></section>
+
+
 
 
 
@@ -635,6 +643,6 @@ header .cta-button {
 }
 </script>
 
-  <script src="/js/lead-hero.js?v=20261022-pr331-review" defer></script>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b10" defer></script>
 </body>
 </html>

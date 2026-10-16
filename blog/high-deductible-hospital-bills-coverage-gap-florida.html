@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>High Deductibles, Hospital Bills, and Cash-Flow Risk</title>
@@ -18,10 +17,10 @@
   <meta name="twitter:description" content="How high deductibles affect hospital-bill and cash-flow risk and what supplemental coverage can and cannot do.">
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/lakeland-regional-health-facility.jpg">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
+  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-pr-c-hero-polish">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10">
   <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
   <script type="application/ld+json">
 {
@@ -86,7 +85,7 @@
       line-height: 1.7;
     }
     a { color: var(--blue); }
-    .container { margin: 0 auto; max-width: 1120px; padding: 0 22px; }
+    .container:not(.hero-grid) { margin: 0 auto; max-width: 1120px; padding: 0 22px; }
     .compliance-banner {
       background: var(--navy-deep);
       color: rgba(255,255,255,0.78);
@@ -306,10 +305,12 @@
       .floating-call { bottom: 14px; left: 16px; right: 16px; text-align: center; }
     }
   </style>
-<link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr331-lede">
-<link rel="stylesheet" href="/css/site-template.css?v=20261023-pr331-lede">
+<link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
+<link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
+
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10" data-lhi-lead-hero-tail="">
 </head>
-<body>
+<body class="lhi-page-hero blog-post">
   <div class="compliance-banner"><strong>Educational content:</strong> plan availability, benefits, underwriting, and exclusions must be verified before enrollment.</div>
   <header>
     <nav class="container" aria-label="Main navigation">
@@ -324,20 +325,20 @@
     </nav>
   </header>
 
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <div class="kicker">Updated July 23, 2026</div>
-        <h1>High Deductibles, Hospital Bills, and Cash-Flow Risk</h1>
-
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="high_deductible_hospital_bills_coverage_-lead-title">
+  <div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block"><h1>High Deductibles, Hospital Bills, and Cash-Flow Risk</h1>
+<p class="lhi-hero-lede">A major medical plan can process a covered claim correctly while still requiring substantial deductible, copay, or coinsurance payments. Review both the plan's cost sharing and the household reserve needed for a serious claim.</p>
+</div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="high_deductible_hospital_bills_coverage_-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="high_deductible_hospital_bills_coverage_-lead-title">Get a Marketplace plan comparison</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="high_deductible_hospital_bills_coverage_Form" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="high_deductible_hospital_bills_coverage_Form" data-lhi-site-lead-form data-funnel-track="" data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Get a Marketplace plan comparison">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/blog/high-deductible-hospital-bills-coverage-gap-florida.html">
         <input type="hidden" name="source_template" value="blog_post">
@@ -365,7 +366,7 @@
         <input type="hidden" name="click_timestamp" value="">
         <input type="hidden" name="started_at">
         <input type="hidden" name="human_check">
-        <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <p class="lhi-lead-hero__honeypot" hidden=""><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="high_deductible_hospital_bills_coverage__full_name">Name</label>
@@ -382,7 +383,7 @@
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="high_deductible_hospital_bills_coverage__coverage_status">Coverage type</label>
             <select id="high_deductible_hospital_bills_coverage__coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
+                  <option value="" selected="" disabled="">Select one</option>
                   <option value="individual_marketplace">Individual Marketplace coverage</option>
                   <option value="family_marketplace">Family Marketplace coverage</option>
                   <option value="not_sure">Not sure yet</option>
@@ -405,28 +406,14 @@
 </section>
 
 
-
-<p>A major medical plan can process a covered claim correctly while still requiring substantial deductible, copay, or coinsurance payments. Review both the plan's cost sharing and the household reserve needed for a serious claim.</p>
-        <div class="hero-actions">
-          <a class="btn" href="/get-help/">Review My Coverage</a>
-          <a class="btn phone" href="tel:+18636403102">Call (863) 640-3102</a>
-        </div>
-      </div>
-      <div class="hero-card">
-        <h2>Costs to plan for</h2>
-        <ul>
-          <li>A policy can be legitimate and still require substantial deductible payments.</li>
-          <li>Hospital events create bills and non-medical cash pressure at the same time.</li>
-          <li>Supplemental plans can help in the right structure, but they are not major medical insurance.</li>
-          <li>The best answer starts with your primary plan, not the add-on product.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+</div></section>
+</div>
 
   <main>
-<article class="article">
-      <section class="answer-box">
+<article class="article"><div class="lhi-post-body-intro"><div class="kicker">Updated July 23, 2026</div><h2>Costs to plan for</h2><li>A policy can be legitimate and still require substantial deductible payments.</li><li>Hospital events create bills and non-medical cash pressure at the same time.</li><li>Supplemental plans can help in the right structure, but they are not major medical insurance.</li><li>The best answer starts with your primary plan, not the add-on product.</li></div>
+      <div class="hero-actions">
+          <a class="btn" href="/get-help/">Review My Coverage</a>
+          <a class="btn phone" href="tel:+18636403102">Call (863) 640-3102</a></div><section class="answer-box">
         <p><strong>Quick answer:</strong> A high-deductible ACA, employer, or private health plan can require significant cost sharing after a hospital stay, surgery, ER visit, or accident. Supplemental hospital indemnity or fixed indemnity coverage may provide scheduled cash benefits, but it should be reviewed beside major medical coverage and is not a replacement for it.</p>
       </section>
 
@@ -565,6 +552,7 @@
 <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
 <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261022-pr331-review" defer></script>
-</body>
-</html>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b10" defer></script>
+
+
+</body></html>

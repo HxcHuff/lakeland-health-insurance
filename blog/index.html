@@ -16,7 +16,7 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png"><link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-pr-c-hero-polish">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10">
     <link rel="stylesheet" href="/css/site-search.css"><link rel="canonical" href="https://lakelandhealthinsurance.com/blog/">
     <meta name="robots" content="index, follow">
 
@@ -129,7 +129,7 @@
             font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
         }
 
-        .container {
+        .container:not(.hero-grid) {
             max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
@@ -1035,7 +1035,7 @@
             padding: 4rem 0;
         }
 
-        .national-guidance .container {
+        .national-guidance .container:not(.hero-grid) {
             max-width: 960px;
         }
 
@@ -1341,11 +1341,11 @@ header .cta-button {
 
   </style>
 
-    <link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
     <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
     <script defer src="/js/site-search.js?v=20260930-kansas"></script>
-    <script defer src="../js/blog-popularity.js"></script>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261023-pr331-lede">
+    <script defer src="/js/blog-popularity.js"></script>
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
   <style>
     .landing-zip-form{margin-top:1.35rem;max-width:600px}
     .landing-zip-form label{color:inherit;display:block;font-size:.9rem;font-weight:800;margin-bottom:.45rem}
@@ -1361,8 +1361,10 @@ header .cta-button {
         footer .footer-column a, footer .footer-bottom a { color: #1B2A4A; text-decoration: underline; text-underline-offset: 2px; }
         footer .bbb-footer-copy span { color: #334155; }
     </style>
+
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10" data-lhi-lead-hero-tail>
 </head>
-<body class="blog-post">
+<body class="blog-post lhi-page-hero blog-index-page">
     <div class="compliance-banner">
         <strong>Important:</strong> Fixed indemnity products provide limited benefits and are <strong>not</strong> a substitute for Minimum Essential Coverage under the ACA. &nbsp;|&nbsp; FL Health Agent License #W371813
     </div>
@@ -1410,11 +1412,12 @@ header .cta-button {
     </header>
 
     <main>
-<section class="blog-header">
-        <div class="container">
-            <h1>Florida health insurance answers for individuals and families.</h1>
-
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="blog-lead-title">
+<div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block"><h1>Florida health insurance answers for individuals and families.</h1>
+<p class="lhi-hero-lede hero-lead">Clear guidance for individual and family coverage before you choose, renew, or change a plan.</p></div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="blog-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="blog-lead-title">Get a Marketplace plan comparison</h2>
@@ -1488,13 +1491,16 @@ header .cta-button {
   </div>
 </section>
 
+  </div>
+</section>
+</div>
 
-
-<p class="hero-lead">Clear guidance for individual and family coverage before you choose, renew, or change a plan.</p>
+    <section class="blog-index-tools" aria-label="Search and filter articles">
+        <div class="container">
             <p class="hero-trust">Start with ACA Marketplace coverage, job loss, self-employment, early retirement, doctors, prescriptions, or costs. Medicare guidance remains available.</p>
             <div class="blog-search-wrap">
                 <div class="site-search-bar" data-site-search="bar">
-                    <span class="search-bar-icon">&#128269;</span>
+                    <span class="search-bar-icon" aria-hidden="true">&#128269;</span>
                     <input type="search" placeholder="Search ACA, job loss, self-employed, doctors, prescriptions..." aria-label="Search Florida health insurance articles">
                     <div class="search-results-dropdown" data-site-search="results"></div>
                 </div>
@@ -1506,6 +1512,16 @@ header .cta-button {
                     <button class="search-suggestion" type="button" data-search-suggestion="prescriptions">Prescriptions</button>
                     <button class="search-suggestion" type="button" data-search-suggestion="Medicare">Medicare</button>
                 </div>
+            </div>
+            <div class="topic-filter" role="group" aria-label="Filter articles by topic">
+                <button class="topic-filter-button active" type="button" data-topic-filter="all" aria-pressed="true">All topics</button>
+                <button class="topic-filter-button" type="button" data-topic-filter="aca" aria-pressed="false">Individual and Family Coverage</button>
+                <button class="topic-filter-button" type="button" data-topic-filter="losing" aria-pressed="false">Losing coverage</button>
+                <button class="topic-filter-button" type="button" data-topic-filter="self-employed" aria-pressed="false">Self-employed</button>
+                <button class="topic-filter-button" type="button" data-topic-filter="care" aria-pressed="false">Doctors &amp; prescriptions</button>
+                <button class="topic-filter-button" type="button" data-topic-filter="costs" aria-pressed="false">Costs &amp; bills</button>
+                <button class="topic-filter-button" type="button" data-topic-filter="medicare" aria-pressed="false">Medicare</button>
+                <button class="topic-filter-button" type="button" data-topic-filter="local" aria-pressed="false">Lakeland &amp; Polk</button>
             </div>
         </div>
     </section>
@@ -1636,16 +1652,6 @@ header .cta-button {
                             <h3>Tennessee Marketplace help</h3>
                             <p>Remote plan review when your doctors and pharmacy must stay in network.</p>
                         </a>
-                    </div>
-                    <div class="topic-filter" role="group" aria-label="Filter articles by topic">
-                        <button class="topic-filter-button active" type="button" data-topic-filter="all" aria-pressed="true">All topics</button>
-                        <button class="topic-filter-button" type="button" data-topic-filter="aca" aria-pressed="false">Individual and Family Coverage</button>
-                        <button class="topic-filter-button" type="button" data-topic-filter="losing" aria-pressed="false">Losing coverage</button>
-                        <button class="topic-filter-button" type="button" data-topic-filter="self-employed" aria-pressed="false">Self-employed</button>
-                        <button class="topic-filter-button" type="button" data-topic-filter="care" aria-pressed="false">Doctors &amp; prescriptions</button>
-                        <button class="topic-filter-button" type="button" data-topic-filter="costs" aria-pressed="false">Costs &amp; bills</button>
-                        <button class="topic-filter-button" type="button" data-topic-filter="medicare" aria-pressed="false">Medicare</button>
-                        <button class="topic-filter-button" type="button" data-topic-filter="local" aria-pressed="false">Lakeland &amp; Polk</button>
                     </div>
                     <p class="library-status" id="library-status" aria-live="polite"></p>
                     <div id="filter-indicator"></div>
@@ -3675,6 +3681,6 @@ header .cta-button {
     <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
     <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261022-pr331-review" defer></script>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b10" defer></script>
 </body>
 </html>

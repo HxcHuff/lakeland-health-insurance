@@ -84,7 +84,7 @@
     <meta name="twitter:image:alt" content="David Huff, licensed Florida health agent">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-pr-c-hero-polish">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10">
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <style>
@@ -106,7 +106,7 @@
             background: #f8f9fa;
         }
 
-        .container {
+        .container:not(.hero-grid) {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 20px;
@@ -409,11 +409,13 @@ header .cta-button {
 
   </style>
 
-    <link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
     <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
+
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10" data-lhi-lead-hero-tail>
 </head>
-<body class="blog-post">
+<body class="blog-post lhi-page-hero">
     <header>
         <nav>
             <div class="logo-container">
@@ -428,20 +430,13 @@ header .cta-button {
         </nav>
     </header>
 
-    <section class="article-header">
-        <div class="container">
-            <h1>HMO vs PPO vs EPO: How the Networks Differ and Which One Fits</h1>
-        </div>
-    </section>
-
-    <main class="container">
-        <article class="article-content">
-            <div class="article-body">
-<p class="byline">By David Huff, licensed Florida health insurance agent #W371813 · Updated October 1, 2026</p>
-
-<section class="key-answer"><p><strong>Direct answer:</strong> The three plan types differ in two ways: whether they pay for out-of-network care, and whether you need a referral to see a specialist.</p><ul><li>An <strong>HMO</strong> usually covers only in-network care, except emergencies. It often requires a referral from your primary care doctor before you see a specialist.</li><li>An <strong>EPO</strong> also covers only in-network care, except emergencies. It usually does not require referrals.</li><li>A <strong>PPO</strong> pays for out-of-network care at a higher cost and does not require referrals.</li></ul><p><a href="tel:+18636403102">Call David (863) 640-3102</a></p></section>
-
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="hmo_vs_ppo_vs_epo_explained-lead-title">
+    <div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block"><h1>HMO vs PPO vs EPO: How the Networks Differ and Which One Fits</h1>
+<p class="lhi-hero-lede">The three plan types differ in two ways: whether they pay for out-of-network care, and whether you need a referral to see a specialist.</p>
+</div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="hmo_vs_ppo_vs_epo_explained-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="hmo_vs_ppo_vs_epo_explained-lead-title">Get a Marketplace plan comparison</h2>
@@ -514,6 +509,19 @@ header .cta-button {
     </div>
   </div>
 </section>
+
+  </div>
+</section>
+</div>
+
+    <main class="container">
+        <article class="article-content">
+            <div class="article-body">
+<p class="byline">By David Huff, licensed Florida health insurance agent #W371813 · Updated October 1, 2026</p>
+
+<section class="key-answer"><p><strong>Direct answer:</strong> The three plan types differ in two ways: whether they pay for out-of-network care, and whether you need a referral to see a specialist.</p><ul><li>An <strong>HMO</strong> usually covers only in-network care, except emergencies. It often requires a referral from your primary care doctor before you see a specialist.</li><li>An <strong>EPO</strong> also covers only in-network care, except emergencies. It usually does not require referrals.</li><li>A <strong>PPO</strong> pays for out-of-network care at a higher cost and does not require referrals.</li></ul><p><a href="tel:+18636403102">Call David (863) 640-3102</a></p></section>
+
+
 
 
 
@@ -697,6 +705,6 @@ header .cta-button {
 }
 </script>
 
-  <script src="/js/lead-hero.js?v=20261022-pr331-review" defer></script>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b10" defer></script>
 </body>
 </html>

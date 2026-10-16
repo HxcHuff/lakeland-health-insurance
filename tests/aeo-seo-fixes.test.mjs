@@ -219,7 +219,9 @@ test('facility posts use one question for title, H1, and headline, without ellip
     assert.match(html, new RegExp(`<h1>${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}</h1>`));
     assert.match(html, new RegExp(`"headline": "${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`));
     assert.doesNotMatch(html, /<title>[^<]*…/);
-    const answer = html.match(/<section class="key-answer"><p><strong>Direct answer:<\/strong>\s*([\s\S]*?)<\/p><\/section>/);
+    const answer = html.match(
+      /<section class="key-answer"><p(?: class="[^"]*")?><strong>Direct answer:<\/strong>\s*([\s\S]*?)<\/p><\/section>/
+    );
     assert.ok(answer, rel);
     const words = answer[1].replace(/<[^>]+>/g, ' ').trim().split(/\s+/).length;
     assert.ok(words >= 40 && words <= 60, `${rel} answer words ${words}`);

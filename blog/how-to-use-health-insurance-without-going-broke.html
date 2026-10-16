@@ -65,7 +65,7 @@
             background: #f8f9fa;
         }
 
-        .container {
+        .container:not(.hero-grid) {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 20px;
@@ -326,15 +326,17 @@ header .cta-button {
 
   </style>
 
-    <link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
     <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
     <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-pr-c-hero-polish">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10">
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-    <link rel="stylesheet" href="/css/site-template.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
+
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10" data-lhi-lead-hero-tail>
 </head>
-<body class="blog-post">
+<body class="blog-post lhi-page-hero">
 <header>
   <nav class="container">
     <div class="logo-container">
@@ -378,12 +380,13 @@ header .cta-button {
   </nav>
 </header>
 
-    <section class="article-header legacy-article-hero">
-        <div class="container">
-            <div class="article-meta">June 4, 2025 • 8 min read</div>
-            <h1>How to Use Health Insurance and Manage Yearly Costs</h1>
-
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="how_to_use_health_insurance_without_goin-lead-title">
+    <div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block"><h1>How to Use Health Insurance and Manage Yearly Costs</h1>
+<p class="lhi-hero-lede">Use your health plan more effectively by checking networks, cost sharing, prescriptions, authorization rules, claims, and yearly costs.</p>
+</div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="how_to_use_health_insurance_without_goin-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="how_to_use_health_insurance_without_goin-lead-title">Get a Marketplace plan comparison</h2>
@@ -457,11 +460,9 @@ header .cta-button {
   </div>
 </section>
 
-
-
-<p class="article-excerpt">Review networks, deductibles, copays, coinsurance, prescriptions, authorization rules, claims, and yearly costs.</p>
-        </div>
-    </section>
+  </div>
+</section>
+</div>
     <main>
 <article class="article-content">
         <h2>Start With the Exact Plan Documents</h2>
@@ -541,6 +542,6 @@ header .cta-button {
     <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
     <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261022-pr331-review" defer></script>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b10" defer></script>
 </body>
 </html>

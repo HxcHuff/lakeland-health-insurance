@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <script type="application/ld+json">
 {
@@ -66,7 +65,7 @@
             background: #f8f9fa;
         }
 
-        .container {
+        .container:not(.hero-grid) {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 20px;
@@ -558,15 +557,17 @@ header .cta-button {
 
   </style>
 
-    <link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
     <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
     <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-pr-c-hero-polish">
-    <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-    <link rel="stylesheet" href="/css/site-template.css?v=20261023-pr331-lede">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10">
+    <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
+    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
+
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10" data-lhi-lead-hero-tail="">
 </head>
-<body class="blog-post">
+<body class="blog-post lhi-page-hero">
     <header>
         <nav>
             <div class="logo-container">
@@ -604,31 +605,20 @@ header .cta-button {
         </nav>
     </header>
     <main>
-<section class="article-header">
-        <div class="container">
-            <div class="article-header-content">
-                <div class="breadcrumb">
-                    <a href="/">Home</a> / <a href="/blog/">Blog</a> / Insurance Mistakes
-                </div>
-                <h1>5 Health Insurance Mistakes to Avoid</h1>
-                <div class="article-meta">
-                    By David | June 10, 2025 | 8 min read
-                </div>
-                <p class="article-intro">
-                    Review deductible affordability, provider networks, prescriptions, enrollment timing, and uninsured exposure before choosing coverage.
-                </p>
-            </div>
-        </div>
-    </section>
-
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="5_critical_health_insurance_mistakes-lead-title">
+<div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block"><h1>5 Health Insurance Mistakes to Avoid</h1>
+<p class="lhi-hero-lede">Review common health insurance mistakes with educational guidance from a licensed Florida health agent.</p>
+</div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="5_critical_health_insurance_mistakes-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="5_critical_health_insurance_mistakes-lead-title">Get a Marketplace plan comparison</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="5_critical_health_insurance_mistakesForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="5_critical_health_insurance_mistakesForm" data-lhi-site-lead-form data-funnel-track="" data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Get a Marketplace plan comparison">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/blog/5-critical-health-insurance-mistakes.html">
         <input type="hidden" name="source_template" value="blog_post">
@@ -656,7 +646,7 @@ header .cta-button {
         <input type="hidden" name="click_timestamp" value="">
         <input type="hidden" name="started_at">
         <input type="hidden" name="human_check">
-        <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <p class="lhi-lead-hero__honeypot" hidden=""><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="5_critical_health_insurance_mistakes_full_name">Name</label>
@@ -673,7 +663,7 @@ header .cta-button {
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="5_critical_health_insurance_mistakes_coverage_status">Coverage type</label>
             <select id="5_critical_health_insurance_mistakes_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
+                  <option value="" selected="" disabled="">Select one</option>
                   <option value="individual_marketplace">Individual Marketplace coverage</option>
                   <option value="family_marketplace">Family Marketplace coverage</option>
                   <option value="not_sure">Not sure yet</option>
@@ -695,10 +685,18 @@ header .cta-button {
   </div>
 </section>
 
+  </div>
+</section>
+</div>
+
+
+
 
 
 <div class="container">
-        <article class="article-content">
+        <article class="article-content"><div class="lhi-post-body-intro"><p class="article-intro">
+                    Review deductible affordability, provider networks, prescriptions, enrollment timing, and uninsured exposure before choosing coverage.
+                </p></div>
             <h2>1. Choosing a Deductible You Could Not Comfortably Meet</h2>
             <p>A lower premium can shift more cost to the deductible, copays, coinsurance, and annual out-of-pocket limit. Compare plans using both the monthly premium and the amount you could owe during a year with significant care.</p>
             <ul>
@@ -754,17 +752,17 @@ header .cta-button {
                 <div class="related-post">
                     <h3>Insurance Claim Denied? Review the Next Steps</h3>
                     <p>Review the denial reason, plan documents, records, appeal process, and available external review.</p>
-                    <a href="/blog/what-to-do-if-health-plan-denies-a-claim.html">Insurance Claim Denied? Review the Next Steps &rarr;</a>
+                    <a href="/blog/what-to-do-if-health-plan-denies-a-claim.html">Insurance Claim Denied? Review the Next Steps →</a>
                 </div>
                 <div class="related-post">
                     <h3>The Real Cost of Going Without Health Insurance</h3>
                     <p>Review emergency, hospital, prescription, and ongoing-care exposure without comprehensive coverage.</p>
-                    <a href="real-cost-going-without-health-insurance.html">The Real Cost of Going Without Health Insurance &rarr;</a>
+                    <a href="real-cost-going-without-health-insurance.html">The Real Cost of Going Without Health Insurance →</a>
                 </div>
                 <div class="related-post">
                     <h3>How to Use Health Insurance and Manage Yearly Costs</h3>
                     <p>Your complete guide to deductibles, copays, and networks.</p>
-                    <a href="how-to-use-health-insurance-without-going-broke.html">How to Use Health Insurance and Manage Yearly Costs &rarr;</a>
+                    <a href="how-to-use-health-insurance-without-going-broke.html">How to Use Health Insurance and Manage Yearly Costs →</a>
                 </div>
             </div>
         </div>
@@ -776,7 +774,7 @@ header .cta-button {
 </section>
 <footer>
         <div class="container">
-            <p>&copy; 2026 Lakeland Health Insurance. Lakeland-based, serving Florida.</p>
+            <p>© 2026 Lakeland Health Insurance. Lakeland-based, serving Florida.</p>
             <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.8;">FL License #W371813</p>
             <p style="font-size: 0.8rem; margin-top: 0.5rem;"><a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms/">Terms of Service</a> · <a href="/data-deletion/">Data Deletion</a></p>
         </div>
@@ -784,7 +782,7 @@ header .cta-button {
 
     <!-- Click to Call Button -->
     <a href="tel:+18636403102" class="click-to-call">
-        <span>&#128222;</span>
+        <span>📞</span>
         Call Now
     </a>
 
@@ -837,6 +835,7 @@ header .cta-button {
     <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
     <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261022-pr331-review" defer></script>
-</body>
-</html>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b10" defer></script>
+
+
+</body></html>

@@ -19,7 +19,7 @@ const CLIENT_COPY_FILES = ['js/site-search.js', 'js/blog-cta.js', 'js/site-templ
 const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/fonts.css', '20261015-v6merge2'],
-  ['/css/site-template.css', '20261023-pr331-lede'],
+  ['/css/site-template.css', '20261016-pr-b-site-tpl'],
   ['/css/blog-unified.css', '20261023-pr331-lede'],
   ['/js/chat-widget.js', '20261016-pr-c-chat'],
   ['/js/site-phone.js', '20261015-v6merge2'],
@@ -31,6 +31,13 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/js/lead-hero.js', '20261022-pr331-review'],
 ]);
 const SERVICE_WORKER_CACHE_VERSION = '20261023-pr331-lede';
+
+/** Blog PR B ships newer cache tokens without sitewide HTML bumps. */
+const BLOG_RELEASE_ASSET_VERSIONS = new Map([
+  ['/css/blog-unified.css', '20261016-sitewide-b'],
+  ['/css/lead-hero.css', '20261016-sitewide-b10'],
+  ['/js/lead-hero.js', '20261016-sitewide-b10']
+]);
 
 const FORBIDDEN_PUBLIC_FILES = [
   'blog/ads-manager-setup-checklist.html',
@@ -117,7 +124,11 @@ for (const file of seen) {
   htmlByRel.set(rel, file);
   const html = readFileSync(file, 'utf8');
   for (const [assetPath, assetVersion] of RELEASE_ASSET_VERSIONS) {
-    const expected = `${assetPath}?v=${assetVersion}`;
+    const version =
+      rel.startsWith('blog/') && BLOG_RELEASE_ASSET_VERSIONS.has(assetPath)
+        ? BLOG_RELEASE_ASSET_VERSIONS.get(assetPath)
+        : assetVersion;
+    const expected = `${assetPath}?v=${version}`;
     const pattern = new RegExp(`${escapeRegExp(assetPath)}(?:\\?[^\"'\\s<>]*)?`, 'g');
     for (const match of html.matchAll(pattern)) {
       if (match[0] !== expected) {

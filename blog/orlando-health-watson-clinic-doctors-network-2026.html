@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Orlando Health Watson Clinic Hospital Is Now Open</title>
@@ -20,9 +19,10 @@
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#1B2A4A">
-  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
+  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10">
 
   <script type="application/ld+json">
 {
@@ -130,9 +130,12 @@
     :root { --navy:#1B2A4A; --gold:#D4A843; --gray:#475569; --bg:#F8FAFC; --card:#FFFFFF; --line:#E2E8F0; --danger:#B91C1C; --warnbg:#FEF2F2; --safebg:#EFF6FF; }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; color: #1E293B; background: var(--bg); line-height: 1.65; }
-    .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+    .container:not(.hero-grid) { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+    .article-hero { background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%); color: #fff; padding: 44px 20px 22px; }
+    .article-hero h1 { margin: 0 0 10px; color: #fff !important; font-size: 2rem; line-height: 1.2; }
     .accent { font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif; color: var(--gold) !important; font-style: italic; }
-    .meta { font-size: 0.92rem; color: var(--gray); }
+    .article-hero p { margin: 0 0 12px; color: rgba(255,255,255,0.9); max-width: 860px; }
+    .meta { font-size: 0.92rem; color: rgba(255,255,255,0.85); }
     .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 16px; }
     h2 { margin: 8px 0 10px; color: var(--navy); }
     h3 { margin: 14px 0 8px; color: var(--navy); }
@@ -151,14 +154,16 @@
     .small { font-size: 0.9rem; color: var(--gray); }
     footer { padding: 24px 0 40px; }
     @media (max-width: 720px) {
+      .article-hero h1 { font-size: 1.7rem; }
       .card { padding: 16px; }
     }
   </style>
 
-  <link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr331-lede">
+  <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
   <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261023-pr331-lede">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-pr-c-hero-polish">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
+
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10" data-lhi-lead-hero-tail="">
 </head>
 <body class="blog-post lhi-page-hero">
   <div class="compliance-banner">
@@ -208,22 +213,21 @@
     </nav>
   </header>
 
-  <main>
-<div class="lhi-hero-shell">
-<section class="hero home-hero article-hero">
-      <div class="container home-hero-grid">
-        <div class="lhi-hero-lede-block">
-      <h1>Orlando Health Watson Clinic Hospital Is Now Open</h1>
-      <p class="hero-lede lhi-hero-lede">Orlando Health Watson Clinic Lakeland Highlands Hospital is now open in South Lakeland. That adds local capacity, but an open hospital does not prove that your doctor, facility, referral path, or exact plan ID is in network.</p>
-        </div>
-        <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="orlando_health_watson_clinic_doctors_net-lead-title">
+  <main class="container">
+    <div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block"><h1>Orlando Health Watson Clinic Hospital Is Now Open</h1>
+<p class="lhi-hero-lede"><strong>The new hospital is open, but network participation still requires verification.</strong> Facility contracts, doctor contracts, and referral rules are separate moving parts.</p>
+</div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="orlando_health_watson_clinic_doctors_net-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="orlando_health_watson_clinic_doctors_net-lead-title">Get a Marketplace plan comparison</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="orlando_health_watson_clinic_doctors_netForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="orlando_health_watson_clinic_doctors_netForm" data-lhi-site-lead-form data-funnel-track="" data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Get a Marketplace plan comparison">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/blog/orlando-health-watson-clinic-doctors-network-2026.html">
         <input type="hidden" name="source_template" value="blog_post">
@@ -251,7 +255,7 @@
         <input type="hidden" name="click_timestamp" value="">
         <input type="hidden" name="started_at">
         <input type="hidden" name="human_check">
-        <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <p class="lhi-lead-hero__honeypot" hidden=""><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="orlando_health_watson_clinic_doctors_net_full_name">Name</label>
@@ -268,7 +272,7 @@
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="orlando_health_watson_clinic_doctors_net_coverage_status">Coverage type</label>
             <select id="orlando_health_watson_clinic_doctors_net_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
+                  <option value="" selected="" disabled="">Select one</option>
                   <option value="individual_marketplace">Individual Marketplace coverage</option>
                   <option value="family_marketplace">Family Marketplace coverage</option>
                   <option value="not_sure">Not sure yet</option>
@@ -289,27 +293,24 @@
     </div>
   </div>
 </section>
-        <div class="lhi-hero-deferred-block">
-      <section class="lhi-alert-notice" aria-labelledby="watson-humana-2027-heading">
+
+
+</div></section>
+</div><div class="lhi-post-body-intro"><p class="hero-lede lhi-hero-lede">Orlando Health Watson Clinic Lakeland Highlands Hospital is now open in South Lakeland. That adds local capacity, but an open hospital does not prove that your doctor, facility, referral path, or exact plan ID is in network.</p><p class="meta">Published July 15, 2026 | Updated August 8, 2026 | By David Huff, licensed Florida health agent (FL #W371813)</p><p class="last-reviewed" style="color:#475569;font-size:0.9rem;margin:0.75rem 0 1rem;">Last reviewed: October 6, 2026. The Humana notice above reflects 2027 network rules; dated 2026 sections below are reference only.</p><div class="cta-row">
+        <a class="btn btn-primary" href="/get-help/?intent=provider-check">Request a Network Check</a>
+        <a class="btn btn-secondary" href="/provider-prescription-check/">Provider and prescription check</a>
+        <a class="btn btn-secondary" href="tel:+18636403102">Call (863) 640-3102</a>
+      </div><section class="lhi-alert-notice" aria-labelledby="watson-humana-2027-heading">
         <h2 id="watson-humana-2027-heading">Important: Starting January 1, 2027, Watson Clinic will no longer accept Humana plans.</h2>
         <p>Have a Humana plan and see Watson Clinic doctors? Talk with David Huff, a local licensed agent, before Medicare Open Enrollment ends December 7.</p>
         <div class="lhi-alert-notice-actions">
           <a href="tel:+18636403102">Call (863) 640-3102</a>
-          <a href="/get-help/?intent=provider-check">Request a plan review</a>
-        </div>
-      </section>
-      <p class="meta">Published July 15, 2026 | Updated August 8, 2026 | By David Huff, licensed Florida health agent (FL #W371813)</p>
-      <p class="last-reviewed">Last reviewed: October 6, 2026. The Humana notice above reflects 2027 network rules; dated 2026 sections below are reference only.</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="/get-help/?intent=provider-check">Request a Network Check</a>
-        <a class="btn btn-secondary" href="/provider-prescription-check/">Provider and prescription check</a>
-        <a class="btn btn-secondary" href="tel:+18636403102">Call (863) 640-3102</a>
-      </div>
-        </div>
-      </div>
-    </section>
-</div>
-<div class="container">
+          <a href="/get-help/?intent=provider-check">Request a plan review</a></div>
+  </section></div>
+
+
+
+
 
 <section class="card safe">
       <h2>Fast Answer</h2>
@@ -488,6 +489,7 @@
     <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
     <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261022-pr331-review" defer></script>
-</body>
-</html>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b10" defer></script>
+
+
+</body></html>

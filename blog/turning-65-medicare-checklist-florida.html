@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="lhi-chrome-intent" content="medicare">
@@ -18,11 +17,11 @@
   <meta name="twitter:description" content="Lakeland turning-65 checklist: map your IEP, compare Advantage and Supplement paths, and verify doctors and drugs before 2027 coverage starts.">
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
+  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-pr-c-hero-polish">
-  <link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr331-lede">
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10">
+  <link rel="stylesheet" href="/css/blog-unified.css?v=20261016-sitewide-b">
   <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
 
   <script type="application/ld+json">
@@ -108,7 +107,7 @@
   <style>
     :root { --navy:#1B2A4A; --navy-deep:#0F1A2E; --gold:#D4A843; --line:#E2E8F0; --text:#1E293B; --muted:#64748B; --bg:#F8FAFC; --white:#FFFFFF; --green-soft:#DCFCE7; }
     body { margin: 0; font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; }
-    .container { max-width: 820px; margin: 0 auto; padding: 0 20px; }
+    .container:not(.hero-grid) { max-width: 820px; margin: 0 auto; padding: 0 20px; }
     header { background: rgba(255,255,255,0.96); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; }
     nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; gap: 14px; }
     nav a { color: var(--navy); font-weight: 700; text-decoration: none; }
@@ -133,9 +132,11 @@
     footer a { color: var(--gold); }
     @media (max-width: 640px) { .hero { margin-top: 0; } article { padding: 22px; } nav { align-items: flex-start; flex-direction: column; } }
   </style>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261023-pr331-lede">
+    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
+
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-sitewide-b10" data-lhi-lead-hero-tail="">
 </head>
-<body data-page-key="turning_65_medicare_checklist_florida" data-page-role="education" data-content-cluster="lakeland_medicare_broker">
+<body class="lhi-page-hero blog-post" data-page-key="turning_65_medicare_checklist_florida" data-page-role="education" data-content-cluster="lakeland_medicare_broker">
   <header>
     <nav class="container">
       <a class="brand" href="/">Lakeland Health Insurance</a>
@@ -143,20 +144,20 @@
             </nav>
   </header>
 
-  <section class="hero">
-    <div class="container">
-      <div class="kicker">Lakeland &amp; Polk County · 2027 plan year</div>
-      <h1>Turning 65 Medicare in Lakeland, FL</h1>
-      <p class="lhi-hero-lede">Confirm your Initial Enrollment Period or qualifying employer coverage delay, then compare doctors, prescriptions, and pharmacy costs for 2027.</p>
-
-<section class="lhi-lead-hero" id="lhi-lead-hero" data-variant="medicare" data-form-name="site-medicare-lead" data-source-template="blog_post" aria-labelledby="blog_turning_65_medicare_checklist_flori-lead-title">
+  <div class="lhi-hero-shell">
+<section class="hero">
+  <div class="container hero-grid">
+<div class="lhi-hero-lede-block"><h1>Turning 65 Medicare in Lakeland, FL</h1>
+<p class="lhi-hero-lede">Confirm your Initial Enrollment Period or qualifying employer coverage delay, then compare doctors, prescriptions, and pharmacy costs for 2027.</p>
+</div>
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="medicare" data-form-name="site-medicare-lead" data-source-template="blog_post" aria-labelledby="blog_turning_65_medicare_checklist_flori-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
       <h2 class="lhi-lead-hero__title" id="blog_turning_65_medicare_checklist_flori-lead-title">Request a Medicare plan review</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-medicare-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="blog_turning_65_medicare_checklist_floriForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Request a Medicare plan review">
+      <form class="lhi-lead-hero__form" name="site-medicare-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="blog_turning_65_medicare_checklist_floriForm" data-lhi-site-lead-form data-funnel-track="" data-funnel-event="Lead" data-funnel-name="site_blog_medicare_lead" aria-label="Request a Medicare plan review">
         <input type="hidden" name="form-name" value="site-medicare-lead">
         <input type="hidden" name="source_page" value="/blog/turning-65-medicare-checklist-florida.html">
         <input type="hidden" name="source_template" value="blog_post">
@@ -184,7 +185,7 @@
         <input type="hidden" name="click_timestamp" value="">
         <input type="hidden" name="started_at">
         <input type="hidden" name="human_check">
-        <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <p class="lhi-lead-hero__honeypot" hidden=""><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="blog_turning_65_medicare_checklist_flori_full_name">Name</label>
@@ -201,7 +202,7 @@
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="blog_turning_65_medicare_checklist_flori_coverage_status">Coverage type</label>
             <select id="blog_turning_65_medicare_checklist_flori_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
+                  <option value="" selected="" disabled="">Select one</option>
                   <option value="medicare_advantage">Medicare Advantage</option>
                   <option value="medicare_supplement">Medicare Supplement</option>
                   <option value="part_d">Part D prescription drug coverage</option>
@@ -226,13 +227,14 @@
   </div>
 </section>
 
-<p>If you are turning 65 Medicare in Lakeland, FL, your first job is to confirm whether you are in the seven-month Initial Enrollment Period (IEP) or can delay Part B because of current-employer coverage—then compare plan type, doctors, prescriptions, and pharmacy costs before you enroll for 2027.</p>
-    </div>
-  </section>
+
+  </div>
+</section>
+</div>
 
   <main>
-<article class="container">
-      <div class="key-box"><strong>Quick answer:</strong> Turning 65 Medicare in Lakeland, FL starts with three moves: confirm your IEP dates (or a Special Enrollment Period if you have qualifying employer coverage); list doctors, prescriptions, and pharmacy; then compare Medicare Advantage against Original Medicare with a Supplement and Part D for the 2027 plan year. If you already have Medicare, use the <a href="/blog/aep-2026-polk-county-checklist.html">Oct 15–Dec 7, 2026 Annual Enrollment checklist</a> to review 2027 changes—not this IEP guide. A review is not enrollment.</div>
+<article class="container"><div class="lhi-post-body-intro"><div class="kicker">Lakeland &amp; Polk County · 2027 plan year</div></div>
+      <p>If you are turning 65 Medicare in Lakeland, FL, your first job is to confirm whether you are in the seven-month Initial Enrollment Period (IEP) or can delay Part B because of current-employer coverage—then compare plan type, doctors, prescriptions, and pharmacy costs before you enroll for 2027.</p><div class="key-box"><strong>Quick answer:</strong> Turning 65 Medicare in Lakeland, FL starts with three moves: confirm your IEP dates (or a Special Enrollment Period if you have qualifying employer coverage); list doctors, prescriptions, and pharmacy; then compare Medicare Advantage against Original Medicare with a Supplement and Part D for the 2027 plan year. If you already have Medicare, use the <a href="/blog/aep-2026-polk-county-checklist.html">Oct 15–Dec 7, 2026 Annual Enrollment checklist</a> to review 2027 changes—not this IEP guide. A review is not enrollment.</div>
 
       <h2>1. Confirm your enrollment window</h2>
       <p>Your first Medicare decision is identifying the correct Initial Enrollment Period or Special Enrollment Period. The Initial Enrollment Period is the 7-month window around your 65th birthday: 3 months before your birthday month, your birthday month, and 3 months after. Coverage generally starts the first of the month after you enroll during that window, subject to Medicare rules. If you are turning 65 and do not have other creditable coverage, missing the applicable window can create delayed coverage or late-enrollment penalties. In Lakeland and Polk County, start comparing doctors, prescriptions, and pharmacies before your birthday month so the review is not rushed.</p>
@@ -335,6 +337,7 @@
     <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
     <script src="/js/site-template.js?v=20261021-hscroll-fix" defer></script>
-  <script src="/js/lead-hero.js?v=20261022-pr331-review" defer></script>
-</body>
-</html>
+  <script src="/js/lead-hero.js?v=20261016-sitewide-b10" defer></script>
+
+
+</body></html>
