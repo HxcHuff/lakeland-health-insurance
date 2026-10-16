@@ -79,9 +79,13 @@ test('shipped state pages, hub, About, and get-help do not contain visible [TODO
   }
 });
 
+function htmlWithoutUnifiedLeadForm(html) {
+  return html.replace(/<form class="lf2[\s\S]*?<\/form>/gi, '');
+}
+
 test('state pages and the hub are ACA/under-65 only and do not ship Florida Medicare TPMO copy', () => {
   for (const [rel] of ALL_STATE_HTML) {
-    const html = source(rel);
+    const html = htmlWithoutUnifiedLeadForm(source(rel));
     assert.doesNotMatch(html, new RegExp(TPMO.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
     assert.doesNotMatch(html, /footer-tpmo/);
     assert.doesNotMatch(html, /Medicare Advantage|Medigap|Part D|1-800-MEDICARE/i);

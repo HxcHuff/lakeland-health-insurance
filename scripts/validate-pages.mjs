@@ -30,8 +30,34 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/answer-pages.css', '20261016-pr337-c'],
   ['/css/paid-landing.css', '20261016-pr337-lp3'],
   ['/js/lead-hero.js', '20261023-pr333-follow-up'],
+  ['/js/lead-form-v2.js', '20261017-lead-form-v338'],
 ]);
-const SERVICE_WORKER_CACHE_VERSION = '20261016-pr337-e';
+const SERVICE_WORKER_CACHE_VERSION = '20261017-lead-form-v338';
+const LEAD_FORM_V2_RELEASE = '20261017-lead-form-v338';
+const LEAD_HERO_LP_GATES = '20261016-nonblog-gates2';
+
+function expectedReleaseAssetVersion(rel, assetPath, defaultVersion) {
+  if (assetPath === '/css/lead-hero.css' && /^lp\/(aca|gap|medicare)\//.test(rel)) {
+    return LEAD_HERO_LP_GATES;
+  }
+  if (rel.startsWith('blog/') && BLOG_RELEASE_ASSET_VERSIONS.has(assetPath)) {
+    return BLOG_RELEASE_ASSET_VERSIONS.get(assetPath);
+  }
+  return defaultVersion;
+}
+
+function expectedAssetVersionForPage(rel, html, assetPath, defaultVersion) {
+  const isLf2Site = /data-lf2-mode=["']site["']/.test(html);
+  if (
+    isLf2Site &&
+    (assetPath === '/css/lead-hero.css' ||
+      assetPath === '/js/lead-hero.js' ||
+      assetPath === '/js/lead-form-v2.js')
+  ) {
+    return LEAD_FORM_V2_RELEASE;
+  }
+  return expectedReleaseAssetVersion(rel, assetPath, defaultVersion);
+}
 
 /** Blog PR B ships newer cache tokens without sitewide HTML bumps. */
 const BLOG_RELEASE_ASSET_VERSIONS = new Map([
@@ -125,12 +151,7 @@ for (const file of seen) {
   htmlByRel.set(rel, file);
   const html = readFileSync(file, 'utf8');
   for (const [assetPath, assetVersion] of RELEASE_ASSET_VERSIONS) {
-    const version =
-      rel.startsWith('blog/') && BLOG_RELEASE_ASSET_VERSIONS.has(assetPath)
-        ? BLOG_RELEASE_ASSET_VERSIONS.get(assetPath)
-        : rel.startsWith('lp/') && assetPath === '/css/lead-hero.css'
-          ? '20261016-nonblog-gates2'
-          : assetVersion;
+    const version = expectedAssetVersionForPage(rel, html, assetPath, assetVersion);
     const expected = `${assetPath}?v=${version}`;
     const pattern = new RegExp(`${escapeRegExp(assetPath)}(?:\\?[^\"'\\s<>]*)?`, 'g');
     for (const match of html.matchAll(pattern)) {

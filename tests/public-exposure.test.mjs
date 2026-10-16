@@ -273,7 +273,7 @@ test('private medical insurance route separates product categories and keeps int
   assert.match(PRIVATE_MEDICAL, /A plan purchased outside the Marketplace may still meet ACA standards\./);
   assert.match(PRIVATE_MEDICAL, /class="lhi-lead-hero(?:\s+lhi-hero-grid-lead)?"/);
   assert.match(PRIVATE_MEDICAL, /name="site-aca-lead"[^>]+data-lhi-site-lead-form[^>]+data-funnel-track/);
-  assert.match(PRIVATE_MEDICAL, /name="consent_text_version" value="site-aca-2026-10-v1"/);
+  assert.match(PRIVATE_MEDICAL, /name="consent_text_version" value="site-lead-v2-2026-11-v1"/);
   assert.match(PRIVATE_MEDICAL, /Reply STOP to cancel or HELP for help/);
   assert.doesNotMatch(PRIVATE_MEDICAL, /name="(?:health|medical|diagnosis|condition|prescription|policy_number|payment)"/i);
   assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/private-medical-insurance\/<\/loc>\s*<lastmod>2026-08-21<\/lastmod>/);
@@ -307,7 +307,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
     assert.equal(source.includes('/js/site-template.js'), false, `${rel} owns focused paid-page chrome`);
   }
 
-  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261016-pr337-e';/);
+  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261017-lead-form-v338';/);
   assert.match(SERVICE_WORKER, /const SITE_PHONE_URL = '\/js\/site-phone\.js\?v=20261015-v6merge2';/);
   assert.match(SERVICE_WORKER, /const SITE_TEMPLATE_URL = '\/js\/site-template\.js\?v=20261023-pr333-follow-up';/);
   assert.match(SERVICE_WORKER, /requestUrl\.pathname === '\/js\/site-template\.js'/);

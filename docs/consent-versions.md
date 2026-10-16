@@ -181,10 +181,10 @@ I agree to receive email newsletters from Lakeland Health Insurance with general
 ## site-aca-2026-10-v1
 
 - Date: 2026-10-14
-- Forms: `site-aca-lead`
+- Status: superseded
+- Forms: `site-aca-lead` (replaced by `site-lead-v2-2026-11-v1` on 2026-10-16)
 - Pages:
   - `index.html`
-  - `tampa-health-insurance/index.html`
 
 ### consent
 
@@ -195,7 +195,8 @@ By checking this box, I give my prior express written consent for Lakeland Healt
 ## site-medicare-2026-10-v1
 
 - Date: 2026-10-14
-- Forms: `site-medicare-lead`
+- Status: superseded
+- Forms: `site-medicare-lead` (replaced by `site-lead-v2-2026-11-v1` on 2026-10-16)
 - Pages:
   - `medicare-broker-lakeland-fl/index.html`
 
@@ -203,6 +204,41 @@ By checking this box, I give my prior express written consent for Lakeland Healt
 
 ```html
 By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my Medicare request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+```
+
+## site-lead-v2-2026-11-v1
+
+- Date: 2026-10-16
+- Forms: `site-aca-lead`, `site-medicare-lead` (unified site hero lead form v2)
+- Pages:
+  - `index.html`
+  - `tampa-health-insurance/index.html`
+  - `supplemental-insurance/index.html`
+  - `medicare-broker-lakeland-fl/index.html`
+  - `blog/aep-2026-polk-county-checklist.html`
+
+### consent_call
+
+```html
+I authorize a telephone call about this request.
+```
+
+### consent_sms
+
+```html
+I authorize text messages about this request. Message frequency varies; message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a>.
+```
+
+### consent_email
+
+```html
+I authorize email about this request.
+```
+
+### consent_request
+
+```html
+By sending, I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage. Consent is not a condition of purchase. See the <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
 ```
 
 ## none

@@ -31,11 +31,11 @@ const sitelinkPages = [
 ];
 
 const leadHeroPages = [
-  ['carriers/index.html', '/carriers/', 'site-aca-lead', 'site-aca-2026-10-v1'],
-  ['supplemental-insurance/index.html', '/supplemental-insurance/', 'site-aca-lead', 'site-aca-2026-10-v1'],
-  ['dental-vision/index.html', '/dental-vision/', 'site-aca-lead', 'site-aca-2026-10-v1'],
-  ['blog/index.html', '/blog/', 'site-aca-lead', 'site-aca-2026-10-v1'],
-  ['plans/index.html', '/plans/', 'site-aca-lead', 'site-aca-2026-10-v1']
+  ['carriers/index.html', '/carriers/', 'site-aca-lead', 'site-lead-v2-2026-11-v1', null],
+  ['supplemental-insurance/index.html', '/supplemental-insurance/', 'site-aca-lead', 'site-lead-v2-2026-11-v1', 'supplemental'],
+  ['dental-vision/index.html', '/dental-vision/', 'site-aca-lead', 'site-lead-v2-2026-11-v1', 'supplemental'],
+  ['blog/index.html', '/blog/', 'site-aca-lead', 'site-lead-v2-2026-11-v1', null],
+  ['plans/index.html', '/plans/', 'site-aca-lead', 'site-lead-v2-2026-11-v1', null]
 ];
 
 function escapeRegex(value) {
@@ -57,27 +57,29 @@ for (const [file, sourcePage, intent] of sitelinkPages) {
   });
 }
 
-for (const [file, sourcePage, formName, consentVersion] of leadHeroPages) {
+for (const [file, sourcePage, formName, consentVersion, preselect] of leadHeroPages) {
   test(`${sourcePage} has a site lead hero form`, async () => {
     const html = await readFile(new URL(`../${file}`, import.meta.url), 'utf8');
-    const match = html.match(/<form class="lhi-lead-hero__form"[\s\S]*?<\/form>/);
+    const match = html.match(/<form class="[^"]*lhi-lead-hero__form"[\s\S]*?<\/form>/);
     assert.ok(match, `${file} includes the site lead hero form`);
     const form = match[0];
     assert.match(form, new RegExp(`name="${formName}"`));
     assert.match(form, /data-lhi-site-lead-form/);
     assert.match(form, /data-funnel-event="Lead"/);
+    assert.match(form, /name="normalized_intent"/);
     assert.match(form, /name="full_name"[^>]*required/);
     assert.match(form, /name="phone"[^>]*required/);
     assert.match(form, /name="zip_code"[^>]*required/);
-    assert.match(form, /name="coverage_status"[^>]*required/);
     assert.match(form, new RegExp(`name="consent_text_version" value="${consentVersion}"`));
     assert.match(form, new RegExp(`name="source_page" value="${escapeRegex(sourcePage)}"`));
     assert.match(form, /Reply STOP to cancel or HELP for help/);
     assert.doesNotMatch(form, /\bfree\b/i);
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
-    assert.match(html, /\/css\/lead-hero\.css\?v=20261016-nonblog-gates3/);
-    assert.match(html, /\/js\/lead-hero\.js\?v=20261023-pr333-follow-up/);
+    if (preselect) assert.match(form, new RegExp(`data-lf2-preselect="${preselect}"`));
+    assert.match(html, /\/css\/lead-hero\.css\?v=20261017-lead-form-v338/);
+    assert.match(html, /\/js\/lead-hero\.js\?v=20261017-lead-form-v338/);
+    assert.match(html, /\/js\/lead-form-v2\.js\?v=20261017-lead-form-v338/);
   });
 }
 

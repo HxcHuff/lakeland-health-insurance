@@ -216,6 +216,9 @@ function buildWebsiteLeadPayload({
   const intent = firstField(source, ['normalized_intent', 'inquiry_type'], 160);
   if (intent) lead.intent = intent;
 
+  const lineOfBusiness = firstField(source, ['line_of_business'], 160);
+  if (lineOfBusiness) lead.line_of_business = lineOfBusiness;
+
   const insuranceType = firstField(source, [
     'line_of_business',
     'coverage_type',
@@ -223,6 +226,14 @@ function buildWebsiteLeadPayload({
     'plan_interest'
   ], 160);
   if (insuranceType) lead.insurance_type = insuranceType;
+
+  const coverageStatus = firstField(source, ['coverage_status'], 160);
+  if (coverageStatus) lead.coverage_status = coverageStatus;
+
+  ['consent_call', 'consent_sms', 'consent_email'].forEach((field) => {
+    const value = firstField(source, [field], 8);
+    if (value === 'yes') lead[field] = 'yes';
+  });
 
   const pageUrl = pageUrlFrom(source);
   if (pageUrl) lead.page_url = pageUrl;

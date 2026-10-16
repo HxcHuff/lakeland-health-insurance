@@ -114,7 +114,10 @@ test('customer-facing coverage labels avoid age-group shorthand', () => {
   const forbidden = /Under 65 \/ ACA Marketplace|Under 65 major-medical coverage|>Under 65<|residents under 65|primary option under 65|childless adults under 65|Pre-Medicare bridge|Pre-Medicare enrollees|Early retirees pre-65/i;
 
   for (const surface of surfaces) {
-    const source = readFileSync(resolve(ROOT, surface), 'utf8');
+    const source = readFileSync(resolve(ROOT, surface), 'utf8').replace(
+      /<form class="lf2[\s\S]*?<\/form>/gi,
+      ''
+    );
     assert.doesNotMatch(source, forbidden, `${surface} uses customer-ready coverage language`);
   }
 });

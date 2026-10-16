@@ -568,6 +568,7 @@ test('consent version resolver accepts only the explicit allowlist', () => {
     'lp-gap-2026-09-29-v2',
     'site-medicare-2026-10-v1',
     'site-aca-2026-10-v1',
+    'site-lead-v2-2026-11-v1',
     'homepage-newsletter-2026-10-07-v1',
     'newsletter-signup-2026-10-07-v1'
   ]);

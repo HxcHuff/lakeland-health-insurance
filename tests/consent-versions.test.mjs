@@ -66,6 +66,7 @@ test('documented consent label text matches the live HTML on every listed page',
     'newsletter-signup-2026-10-07-v1',
     'site-aca-2026-10-v1',
     'site-medicare-2026-10-v1',
+    'site-lead-v2-2026-11-v1',
     'none'
   ]);
 
@@ -101,10 +102,10 @@ test('private-medical request-consent sentence matches the other sitelink v1 for
   for (const { rel, sentence } of sentences) {
     assert.equal(sentence, SITELINK_V1_REQUEST, rel);
   }
-  assert.match(
-    readFileSync(resolve(ROOT, 'private-medical-insurance/index.html'), 'utf8'),
-    /name="consent_text_version" value="site-aca-2026-10-v1"/
-  );
+  const privateMedical = readFileSync(resolve(ROOT, 'private-medical-insurance/index.html'), 'utf8');
+  assert.match(privateMedical, /class="lf2 /);
+  assert.match(privateMedical, /name="consent_text_version" value="site-lead-v2-2026-11-v1"/);
+  assert.match(privateMedical, /I am asking Lakeland Health Insurance to review and respond to this insurance request/);
 });
 
 test('city pages use the site ACA lead hero with TCPA consent', () => {
@@ -112,7 +113,7 @@ test('city pages use the site ACA lead hero with TCPA consent', () => {
     const html = readFileSync(resolve(ROOT, rel), 'utf8');
     assert.match(html, /class="lhi-lead-hero(?:\s+lhi-hero-grid-lead)?"/, rel);
     assert.match(html, /name="site-aca-lead"/, rel);
-    assert.match(html, /name="consent_text_version" value="site-aca-2026-10-v1"/, rel);
+    assert.match(html, /name="consent_text_version" value="site-lead-v2-2026-11-v1"/, rel);
     assert.match(html, /Reply STOP to cancel/i, rel);
     assert.doesNotMatch(html, /name="tampa-health-insurance"/, rel);
   }
