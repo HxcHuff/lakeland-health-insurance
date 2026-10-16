@@ -35,7 +35,7 @@ test('non-blog lead pages with a hero shell keep hero before the form block', ()
     if (shellIdx < 0) continue;
     const fromShell = html.slice(shellIdx);
     const hero = fromShell.search(
-      /<section\b[^>]*class="[^"]*\b(?:home-hero|answer-hero)\b|<section class="hero\b/i,
+      /<section\b[^>]*class="[^"]*\b(?:home-hero|answer-hero|lp-hero|about-header)\b|<section class="hero\b|<main\b[^>]*class="[^"]*\bhero\b/i,
     );
     const lead = fromShell.search(/<section class="lhi-lead-hero\b/i);
     if (lead < 0) continue;

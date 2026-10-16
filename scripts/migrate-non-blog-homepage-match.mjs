@@ -16,7 +16,8 @@ const extraArgs = process.argv.filter((a) => !a.startsWith('-') && a.endsWith('.
 
 const LEAD_RE = /<section class="lhi-lead-hero[^"]*"[\s\S]*?<\/section>/i;
 const HERO_OPEN_RE =
-  /<section\b[^>]*class="[^"]*\b(?:hero|home-hero|answer-hero|aw-hero|medicare-hero)\b[^"]*"[^>]*>/i;
+  /<section\b[^>]*class="[^"]*\b(?:hero|home-hero|answer-hero|aw-hero|medicare-hero|about-header)\b[^"]*"[^>]*>/i;
+const MAIN_HERO_RE = /<main\b[^>]*class="[^"]*\bhero\b[^"]*"[^>]*>/i;
 
 function sectionEndFrom(html, startIndex) {
   const tokenRe = /<section\b|<\/section>/gi;
@@ -114,15 +115,39 @@ function extractLead(html) {
   return { html: next, lead };
 }
 
+function mainEndFrom(html, startIndex) {
+  const re = /<main\b|<\/main>/gi;
+  re.lastIndex = startIndex;
+  let depth = 0;
+  let m;
+  while ((m = re.exec(html))) {
+    if (/^<main\b/i.test(m[0])) depth += 1;
+    else if (--depth === 0) return m.index + m[0].length;
+  }
+  return null;
+}
+
 function findHeroBounds(html, searchFrom = 0) {
   const slice = html.slice(searchFrom);
   const open = slice.match(HERO_OPEN_RE);
-  if (!open || open.index == null) return null;
-  const start = searchFrom + open.index;
-  const end = sectionEndFrom(html, start);
-  if (end == null) return null;
-  const openTag = html.slice(start, html.indexOf('>', start) + 1);
-  return { start, end, openTag, sectionHtml: html.slice(start, end) };
+  if (open && open.index != null) {
+    const start = searchFrom + open.index;
+    const end = sectionEndFrom(html, start);
+    if (end != null) {
+      const openTag = html.slice(start, html.indexOf('>', start) + 1);
+      return { start, end, openTag, sectionHtml: html.slice(start, end) };
+    }
+  }
+  const mainOpen = slice.match(MAIN_HERO_RE);
+  if (mainOpen && mainOpen.index != null) {
+    const start = searchFrom + mainOpen.index;
+    const end = mainEndFrom(html, start);
+    if (end != null) {
+      const openTag = html.slice(start, html.indexOf('>', start) + 1);
+      return { start, end, openTag, sectionHtml: html.slice(start, end), isMainHero: true };
+    }
+  }
+  return null;
 }
 
 function stripOuterContainers(inner) {
@@ -177,20 +202,34 @@ function splitLedeDeferred(inner, isAnswer) {
 }
 
 function heroMeta(openTag) {
+  if (/about-header/i.test(openTag)) {
+    return { heroClass: openTag.match(/class="([^"]*)"/i)?.[1] || 'about-header', gridClass: 'container about-hero-grid' };
+  }
   if (/answer-hero/i.test(openTag)) {
     return { heroClass: openTag.match(/class="([^"]*)"/i)?.[1] || 'answer-hero', gridClass: 'answer-wrap answer-grid' };
+  }
+  if (/^<main\b/i.test(openTag) || /\bhero\b/.test(openTag)) {
+    return { heroClass: openTag.match(/class="([^"]*)"/i)?.[1] || 'hero', gridClass: 'wrap' };
   }
   return { heroClass: 'hero', gridClass: 'container hero-grid' };
 }
 
-function buildShell(heroOpenTag, gridClass, ledeBlock, leadBlock, deferredBlock) {
+function buildShell(heroOpenTag, gridClass, ledeBlock, leadBlock, deferredBlock, isMainHero = false) {
   const heroClass = heroOpenTag.match(/class="([^"]*)"/i)?.[1] || 'hero';
-  const open = heroOpenTag.startsWith('<section') ? heroOpenTag : `<section class="${heroClass}">`;
+  const isMain = isMainHero || /^<main\b/i.test(heroOpenTag);
+  const open = isMain
+    ? heroOpenTag.startsWith('<main')
+      ? heroOpenTag
+      : `<main class="${heroClass}">`
+    : heroOpenTag.startsWith('<section')
+      ? heroOpenTag
+      : `<section class="${heroClass}">`;
+  const closeTag = isMain ? '</main>' : '</section>';
   const def = deferredBlock ? `\n${deferredBlock}` : '';
   return (
     `<div class="lhi-hero-shell">\n${open}\n` +
     `  <div class="${gridClass}">\n${ledeBlock}\n${leadBlock}${def}\n` +
-    `  </div>\n</section>\n</div>`
+    `  </div>\n${closeTag}\n</div>`
   );
 }
 
@@ -320,7 +359,7 @@ function migrateFile(rel) {
 
   ledeBlock = cleanLedeBlock(ledeBlock);
   const { gridClass } = heroMeta(hero.openTag);
-  const shell = buildShell(hero.openTag, gridClass, ledeBlock, lead, deferredBlock || '');
+  const shell = buildShell(hero.openTag, gridClass, ledeBlock, lead, deferredBlock || '', hero.isMainHero);
 
   let next;
   if (region) {

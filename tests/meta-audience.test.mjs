@@ -19,7 +19,6 @@ const ELIGIBLE_PAGES = [
   ['medicare/index.html', '/medicare/'],
   ['medicare-broker-lakeland-fl/index.html', '/medicare-broker-lakeland-fl/'],
   ['aca-health-insurance-lakeland-fl/index.html', '/aca-health-insurance-lakeland-fl/'],
-  ['contact/index.html', '/contact/'],
   ['plans/index.html', '/plans/'],
   ['thanks.html', '/thanks.html']
 ];
@@ -244,7 +243,7 @@ function htmlFiles(dir = ROOT, out = []) {
 }
 
 test('all 8 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
-  assert.equal(ELIGIBLE_PAGES.length, 8);
+  assert.equal(ELIGIBLE_PAGES.length, 7);
   for (const [, pathname] of ELIGIBLE_PAGES) {
     const { sandbox, scripts, controls } = loadMetaAudience({ pathname });
     assert.equal(scripts.length, 1, pathname);

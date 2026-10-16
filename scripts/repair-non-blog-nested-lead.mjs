@@ -2,7 +2,7 @@
 /** Move lhi-lead-hero out of lhi-hero-lede-block when nested (migration artifact). */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { CATEGORY_B } from './non-blog-sitewide-routes.mjs';
+import { CATEGORY_B, CATEGORY_C } from './non-blog-sitewide-routes.mjs';
 
 const ROOT = join(import.meta.dirname, '..');
 
@@ -30,7 +30,7 @@ function repair(html) {
   });
 }
 
-for (const rel of CATEGORY_B) {
+for (const rel of [...CATEGORY_B, ...CATEGORY_C]) {
   const path = join(ROOT, rel);
   const orig = readFileSync(path, 'utf8');
   const next = repair(orig);

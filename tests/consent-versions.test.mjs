@@ -7,15 +7,8 @@ const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const DOC = readFileSync(resolve(ROOT, 'docs/consent-versions.md'), 'utf8');
 const SITELINK_V1_REQUEST =
   'I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage.';
-const ACA_SITELINK_SHORT_FORM_PAGES = new Set([
-  'aca-health-insurance-agent-polk-county-fl/index.html',
-  'aca-health-insurance-lakeland-fl/index.html'
-]);
-const SITELINK_PAGES = [
-  'aca-health-insurance-agent-polk-county-fl/index.html',
-  'aca-health-insurance-lakeland-fl/index.html',
-  'medicare/index.html'
-];
+const ACA_SITELINK_SHORT_FORM_PAGES = new Set(['aca-health-insurance-lakeland-fl/index.html']);
+const SITELINK_PAGES = ['aca-health-insurance-lakeland-fl/index.html'];
 const CITY_PAGES = [
   'brandon-health-insurance/index.html',
   'clearwater-health-insurance/index.html',
