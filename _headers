@@ -13,6 +13,12 @@
 /assets/ads/*
   X-Robots-Tag: noindex
 
+/medicare-2027-check/
+  X-Robots-Tag: noindex, follow
+
+/medicare-2027-check/index.html
+  X-Robots-Tag: noindex, follow
+
 /health-insurance-georgia/
   X-Robots-Tag: noindex, nofollow
 

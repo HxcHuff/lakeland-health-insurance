@@ -196,6 +196,14 @@
         header_talk_to_david: true,
         footer_start_plan_review: true
       }
+    },
+    medicare_2027_check: {
+      path: '/medicare-2027-check/',
+      page_role: 'campaign',
+      cta_keys: {
+        start_review_hero: true,
+        request_review_hero: true
+      }
     }
   };
 
@@ -309,6 +317,7 @@
     var p = (w.location.pathname || '/').toLowerCase();
     if (p.indexOf('/lp/aca') === 0) return 'lp_aca';
     if (p.indexOf('/lp/medicare') === 0) return 'lp_medicare';
+    if (p.indexOf('/medicare-2027-check') === 0) return 'medicare_2027_check';
     if (p.indexOf('/lp/gap') === 0) return 'lp_gap';
     if (p.indexOf('/carriers/') === 0) return 'carrier_lp';
     if (p.indexOf('/blog/') === 0) return 'blog';

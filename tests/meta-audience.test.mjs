@@ -607,7 +607,8 @@ test('static marker inventory exactly matches the reviewed 8-page landing ledger
     'book/index.html',
     'blog/aca-subsidy-wrong-income-florida.html',
     'blog/dont-overlook-rx-costs-2027.html',
-    'blog/mental-health-awareness-month-therapy-benefit-lakeland-2026.html'
+    'blog/mental-health-awareness-month-therapy-benefit-lakeland-2026.html',
+    'medicare-2027-check/index.html'
   ];
   for (const relative of explicitDenied) {
     assert.doesNotMatch(readFileSync(join(ROOT, relative), 'utf8'), /meta-audience-eligible/i, relative);

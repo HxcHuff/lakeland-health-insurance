@@ -43,9 +43,10 @@ I authorize email about this request.
 ## get-help-2026-09-29-v2
 
 - Date: 2026-09-29
-- Forms: `/get-help/` intake
+- Forms: `/get-help/` intake and the `/medicare-2027-check/` demand-gen landing (same channel labels)
 - Pages:
   - `get-help/index.html`
+  - `medicare-2027-check/index.html`
 
 ### request
 

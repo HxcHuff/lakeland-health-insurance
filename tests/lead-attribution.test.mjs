@@ -483,6 +483,46 @@ test('missing consent_text_version falls back to the get-help page default', asy
   assert.equal(form.get('consent_version_mismatch'), 'false');
 });
 
+test('get-help consent_page follows submitted source_page when referer points elsewhere', async () => {
+  const payload = getHelpPayload({
+    consent_page: '/medicare-2027-check/',
+    source_page: '/medicare-2027-check/',
+    source_page_key: 'medicare_2027_check',
+    source_cta_key: 'start_review_hero',
+    consent_text_version: 'get-help-2026-09-29-v2'
+  });
+  delete payload.source_url;
+  const { response, calls } = await invoke(payload, {
+    headers: {
+      origin: 'https://lakelandhealthinsurance.com',
+      referer: 'https://lakelandhealthinsurance.com/get-help/?private=query',
+      cookie: 'lhi_meta_audience_consent=granted'
+    }
+  });
+  assert.equal(response.statusCode, 200);
+  const form = new URLSearchParams(calls[0].init.body);
+  assert.equal(form.get('consent_page'), '/medicare-2027-check/');
+  assert.equal(form.get('consent_text_version'), 'get-help-2026-09-29-v2');
+  assert.equal(form.get('consent_version_source'), 'client');
+  assert.equal(form.get('consent_version_mismatch'), 'false');
+  assert.equal(form.get('source_page_key'), 'medicare_2027_check');
+  assert.equal(form.get('source_page_role'), 'campaign');
+});
+
+test('resolveConsentPagePath prefers payload consent_page over referer', () => {
+  assert.equal(
+    _test.resolveConsentPagePath(
+      { consent_page: '/medicare-2027-check/', source_page: '/medicare-2027-check/' },
+      { referer: 'https://lakelandhealthinsurance.com/get-help/' }
+    ),
+    '/medicare-2027-check/'
+  );
+  assert.equal(
+    _test.defaultGetHelpConsentTextVersion('/medicare-2027-check/'),
+    'get-help-2026-09-29-v2'
+  );
+});
+
 test('missing sitelink consent_text_version falls back to the v1 label that form renders', async () => {
   const payload = getHelpPayload({
     normalized_intent: 'not-sure',

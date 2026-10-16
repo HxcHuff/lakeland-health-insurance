@@ -170,6 +170,13 @@ const MEDICARE_SOURCE_REGISTRY = Object.freeze({
       'header_talk_to_david',
       'footer_start_plan_review'
     ])
+  }),
+  medicare_2027_check: Object.freeze({
+    page_role: 'campaign',
+    cta_keys: new Set([
+      'start_review_hero',
+      'request_review_hero'
+    ])
   })
 });
 const MEDICARE_ATTRIBUTION_FIELDS = [
@@ -656,8 +663,25 @@ function isGetHelpCanonicalPage(path) {
   return path === '/get-help/' || path === '/get-help';
 }
 
+const GET_HELP_V2_CONSENT_PAGES = new Set(['/get-help/', '/get-help', '/medicare-2027-check/', '/medicare-2027-check']);
+
+function isGetHelpV2ConsentPage(path) {
+  const normalized = sanitizeSourcePath(path);
+  return GET_HELP_V2_CONSENT_PAGES.has(normalized);
+}
+
+function resolveConsentPagePath(payload, headers) {
+  const payloadPath = sanitizeSourcePath(payload.consent_page || payload.source_page || '');
+  if (payloadPath && payloadPath !== '/') return payloadPath;
+  const inferred = sanitizeSourcePath(
+    payload.source_url || headerValue(headers, 'referer') || headerValue(headers, 'referrer') || ''
+  );
+  if (inferred && inferred !== '/') return inferred;
+  return '/get-help/';
+}
+
 function defaultGetHelpConsentTextVersion(consentPage) {
-  return isGetHelpCanonicalPage(consentPage)
+  return isGetHelpV2ConsentPage(consentPage)
     ? GET_HELP_CONSENT_TEXT_VERSION_V2
     : GET_HELP_CONSENT_TEXT_VERSION_V1;
 }
@@ -893,8 +917,9 @@ exports.handler = async (event) => {
   const sourcePath = sanitizeSourcePath(
     rawPayload.source_url || headerValue(headers, 'referer') || headerValue(headers, 'referrer') || ''
   );
+  const consentPagePath = resolveConsentPagePath(payload, headers);
 
-  const consentCheck = authorizeGetHelpConsent(payload, serverReceivedAt, sourcePath);
+  const consentCheck = authorizeGetHelpConsent(payload, serverReceivedAt, consentPagePath);
   if (!consentCheck.ok) {
     return {
       statusCode: 422,
@@ -920,7 +945,7 @@ exports.handler = async (event) => {
       };
     }
   }
-  applyNonGetHelpConsentRecord(payload, formName, sourcePath, serverReceivedAt);
+  applyNonGetHelpConsentRecord(payload, formName, consentPagePath, serverReceivedAt);
 
   const sourceUrl = eventSourceUrl(sourcePath);
   payload.source_url = sourcePath;
@@ -1242,6 +1267,8 @@ exports._test = {
   derivedCustomEventId,
   defaultConsentTextVersion,
   defaultGetHelpConsentTextVersion,
+  isGetHelpV2ConsentPage,
+  resolveConsentPagePath,
   filterPayloadForForm,
   metaBrowserIdentifier,
   metaMeasurementAllowed,
