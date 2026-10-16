@@ -9,6 +9,21 @@ const MEASURE_JSON =
   process.env.PR_B_MEASURE_JSON ||
   '/cursor/stores/self/media/sitewide-b/blog-measure-all.json';
 
+const preserve = spawnSync(process.execPath, ['scripts/check-content-preservation-pr-b.mjs'], {
+  cwd: ROOT,
+  encoding: 'utf8',
+  env: {
+    ...process.env,
+    PLAYWRIGHT_CHROME_EXECUTABLE_PATH:
+      process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || '/usr/local/bin/google-chrome'
+  },
+  maxBuffer: 8 * 1024 * 1024
+});
+if (preserve.stderr) process.stderr.write(preserve.stderr);
+if (preserve.status !== 0) {
+  process.exit(preserve.status ?? 1);
+}
+
 const child = spawnSync(process.execPath, ['scripts/measure-sitewide-pr-b.mjs'], {
   cwd: ROOT,
   encoding: 'utf8',
@@ -49,10 +64,30 @@ for (const row of failures) {
   byRoute.get(row.route).push(`${row.viewport}: ${row.issues.join(', ')}`);
 }
 
+let preserveSummary = null;
+const PRESERVE_JSON =
+  process.env.PR_B_PRESERVE_JSON ||
+  '/cursor/stores/self/media/sitewide-b/content-preservation.json';
+if (existsSync(PRESERVE_JSON)) {
+  try {
+    preserveSummary = JSON.parse(readFileSync(PRESERVE_JSON, 'utf8'));
+  } catch {
+    preserveSummary = null;
+  }
+}
+
 console.log(
   JSON.stringify(
     {
       measureJson: MEASURE_JSON,
+      contentPreservationJson: PRESERVE_JSON,
+      contentPreservation: preserveSummary
+        ? {
+            routesChecked: preserveSummary.routesChecked,
+            totalMissingBlocks: preserveSummary.totalMissingBlocks,
+            routesWithMissing: preserveSummary.routesWithMissing
+          }
+        : null,
       totalChecks: report.length,
       failedChecks: failures.length,
       failedRoutes: byRoute.size,

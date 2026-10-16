@@ -225,33 +225,16 @@
       var ledeBlock = shell.querySelector('.lhi-hero-lede-block');
       if (!ledeBlock) return;
       var ledePrefix = ledePrefixFromBlock(ledeBlock);
-      var deferredBlocks = shell.querySelectorAll('.lhi-hero-deferred-block');
-      deferredBlocks.forEach(function (def) {
-        var movable = Array.prototype.slice.call(def.children);
-        movable.forEach(function (el) {
+      shell.querySelectorAll('.lhi-hero-deferred-block').forEach(function (def) {
+        Array.prototype.slice.call(def.children).forEach(function (el) {
           if (removeIfDuplicateOfLede(el, ledePrefix)) return;
           if (el.nodeType === 1 && isMetaLike(el)) {
             ledeBlock.appendChild(el);
-            return;
-          }
-          if (el.nodeType === 1 && el.classList && el.classList.contains('last-reviewed')) {
-            ledeBlock.appendChild(el);
-            return;
-          }
-          if (el.nodeType === 1 && el.tagName === 'DIV' && isMetaLike(el.firstElementChild)) {
-            ledeBlock.appendChild(el);
-            return;
-          }
-          if (el.nodeType === 1 && (el.tagName === 'P' || el.tagName === 'H2' || el.tagName === 'H3')) {
-            el.remove();
-            return;
-          }
-          if (el.nodeType === 1) {
-            el.remove();
           }
         });
-        if (!normHeroText(def.textContent) && !def.querySelector('*')) def.remove();
-        else if (!normHeroText(def.textContent)) def.remove();
+        if (!normHeroText(def.textContent) && !def.querySelector('*')) {
+          def.remove();
+        }
       });
     });
   }

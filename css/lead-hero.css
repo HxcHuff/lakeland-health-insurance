@@ -2771,6 +2771,22 @@ body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block .lhi-hero-lede
   }
 }
 
+body.lhi-page-hero.blog-post .lhi-post-body-intro {
+  margin: 0 0 1rem;
+}
+
+body.lhi-page-hero.blog-post .lhi-post-body-intro .cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.75rem 0 0;
+}
+
+body.lhi-page-hero.blog-post main article.post > .lhi-alert-notice:first-child,
+body.lhi-page-hero.blog-post main article.post > section.lhi-alert-notice:first-child {
+  margin: 0 0 1.25rem;
+}
+
 /* Blog index (/blog/): gray two-column hero; search + topic chips below hero band. */
 body.blog-index-page .lhi-hero-shell .lhi-hero-lede-block {
   text-align: left;
