@@ -13,10 +13,10 @@ body.blog-post.has-seasonal-banner {
 }
 
 @media (min-width: 901px) {
-  body.blog-post .hero,
-  body.blog-post .article-header,
-  body.blog-post .article-hero,
-  body.blog-post .blog-header {
+  body.blog-post:not(.lhi-page-hero) .hero,
+  body.blog-post:not(.lhi-page-hero) .article-header,
+  body.blog-post:not(.lhi-page-hero) .article-hero,
+  body.blog-post:not(.lhi-page-hero) .blog-header {
     padding-top: var(--lhi-blog-hero-clearance);
     scroll-margin-top: var(--lhi-blog-hero-clearance);
   }
@@ -48,26 +48,110 @@ body.blog-post.has-seasonal-banner {
 }
 
 
-.article-header,
-.blog-header,
-.hero,
-.page-hero {
+body:not(.lhi-page-hero) .article-header,
+body:not(.lhi-page-hero) .blog-header,
+body:not(.lhi-page-hero) .hero,
+body:not(.lhi-page-hero) .page-hero {
   background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%) !important;
   color: #fff !important;
 }
 
-.article-header h1,
-.blog-header h1,
-.hero h1,
-.page-hero h1 {
+body:not(.lhi-page-hero) .article-header h1,
+body:not(.lhi-page-hero) .blog-header h1,
+body:not(.lhi-page-hero) .hero h1,
+body:not(.lhi-page-hero) .page-hero h1 {
   color: #fff !important;
 }
 
-.article-header p,
-.blog-header p,
-.hero p,
-.page-hero p {
+body:not(.lhi-page-hero) .article-header p,
+body:not(.lhi-page-hero) .blog-header p,
+body:not(.lhi-page-hero) .hero p,
+body:not(.lhi-page-hero) .page-hero p {
   color: rgba(255,255,255,0.9) !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell :is(.hero, .article-hero, .home-hero) .lhi-hero-deferred-block p,
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .meta,
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .byline,
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .last-reviewed,
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .article-meta {
+  color: #1e293b !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #1e293b !important;
+}
+
+/* Homepage-style gray lead heroes (Watson template and interior hubs). */
+body.lhi-page-hero .lhi-hero-shell :is(.hero, .home-hero, .article-hero, .answer-hero) {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell :is(.hero, .home-hero, .article-hero, .answer-hero) h1 {
+  color: var(--lhi-navy, #1b2a4a) !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell :is(.hero, .home-hero, .article-hero) :is(.hero-lede, .lhi-hero-lede, p.lead),
+body.lhi-page-hero .lhi-hero-shell .answer-hero .lead {
+  color: #475569 !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .meta,
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .last-reviewed,
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .byline,
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .article-meta {
+  color: #1e293b !important;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block :is(p, li, .hero-direct-answer, .key-answer, .key-answer p) {
+  color: #1e293b !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .hero-direct-answer,
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .key-answer,
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .answer-snippet {
+  background: #eaf3f8 !important;
+  border: none !important;
+  border-left: 4px solid #2563eb !important;
+  border-radius: 0;
+  color: #1f2933 !important;
+  line-height: 1.65;
+  margin: 0.85rem 0 0;
+  padding: 18px 20px;
+}
+
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .answer-snippet :is(p, strong, li) {
+  color: #1f2933 !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .answer-snippet a {
+  color: var(--lhi-navy, #1b2a4a) !important;
+  font-weight: 700;
+}
+
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .hero-direct-answer + .hero-direct-answer {
+  margin-top: 0.65rem;
+}
+
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .hero-direct-answer a,
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block .key-answer a {
+  color: var(--lhi-navy, #1b2a4a) !important;
+  font-weight: 700;
+}
+
+body.lhi-page-hero .lhi-hero-shell :is(.hero, .article-hero) .lhi-hero-deferred-block :is(p.last-reviewed, p.byline, .article-meta, .meta) {
+  color: #1e293b !important;
+  opacity: 1 !important;
+}
+
+body.lhi-page-hero,
+body.blog-post.lhi-page-hero {
+  background: #f8fafc !important;
+}
+
+body.lhi-page-hero main {
+  background: #f8fafc;
 }
 
 /* Pale mint Direct answer box: keep navy text inside dark heroes. */

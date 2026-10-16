@@ -19,6 +19,32 @@ body {
   scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 16px);
 }
 
+body.lhi-page-hero .lhi-hero-shell > .answer-hero {
+  background: transparent !important;
+  border-bottom: 1px solid #e2e8f0;
+  color: #1b2a4a;
+  padding: 0 0 clamp(12px, 2vw, 18px);
+  scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 8px);
+}
+
+body.lhi-page-hero .lhi-hero-shell > .answer-hero h1 {
+  color: #1b2a4a !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell > .answer-hero .eyebrow {
+  color: #2563eb !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell > .answer-hero .lead,
+body.lhi-page-hero .lhi-hero-shell > .answer-hero .lhi-hero-lede {
+  color: #475569 !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell .lhi-hero-deferred-block :is(p.last-reviewed, p.byline, .article-meta, .meta) {
+  color: #1e293b !important;
+  opacity: 1 !important;
+}
+
 .answer-hero .eyebrow {
   color: #D4A843;
 }
@@ -1823,14 +1849,12 @@ a:focus-visible,
     margin-top: 0.75rem;
   }
 
-  body.has-seasonal-banner .medicare-hero,
-  body.has-watson-notice .medicare-hero {
+  body.has-seasonal-banner .medicare-hero {
     padding-top: calc(var(--lhi-site-header-height, 96px) + 16px);
     scroll-margin-top: calc(var(--lhi-site-header-height, 96px) + 16px);
   }
 
-  body.has-seasonal-banner.medicare-page,
-  body.has-watson-notice.medicare-page {
+  body.has-seasonal-banner.medicare-page {
     scroll-padding-top: calc(var(--lhi-site-header-height, 96px) + 12px);
   }
 
