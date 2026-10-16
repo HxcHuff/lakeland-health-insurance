@@ -7,8 +7,8 @@ import { join, relative } from 'node:path';
 import { buildLeadHeroHtml } from './lib/lead-hero-html.mjs';
 
 const ROOT = new URL('..', import.meta.url).pathname.replace(/\/$/, '');
-const CSS_SNIPPET = '<link rel="stylesheet" href="/css/lead-hero.css?v=20261015-post3212">';
-const JS_SNIPPET = '<script src="/js/lead-hero.js?v=20261015-post3212" defer></script>';
+const CSS_SNIPPET = '<link rel="stylesheet" href="/css/lead-hero.css?v=20261020-pr329-merge2">';
+const JS_SNIPPET = '<script src="/js/lead-hero.js?v=20261020-pr329-merge2" defer></script>';
 
 const EXCLUDE_PATHS = new Set([
   '/about/',
