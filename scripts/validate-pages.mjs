@@ -20,23 +20,23 @@ const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/fonts.css', '20261015-v6merge2'],
   ['/css/site-template.css', '20261016-pr-b-site-tpl'],
-  ['/css/blog-unified.css', '20261023-pr331-lede'],
+  ['/css/blog-unified.css', '20261023-pr333-follow-up'],
   ['/js/chat-widget.js', '20261016-pr-c-chat'],
   ['/js/site-phone.js', '20261015-v6merge2'],
-  ['/js/site-template.js', '20261021-hscroll-fix'],
+  ['/js/site-template.js', '20261023-pr333-follow-up'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
-  ['/css/lead-hero.css', '20261016-pr-c-hero-polish'],
+  ['/css/lead-hero.css', '20261023-pr333-follow-up'],
   ['/css/answer-pages.css', '20261021-hscroll-fix'],
-  ['/js/lead-hero.js', '20261022-pr331-review'],
+  ['/js/lead-hero.js', '20261023-pr333-follow-up'],
 ]);
-const SERVICE_WORKER_CACHE_VERSION = '20261023-pr331-lede';
+const SERVICE_WORKER_CACHE_VERSION = '20261023-pr333-follow-up';
 
 /** Blog PR B ships newer cache tokens without sitewide HTML bumps. */
 const BLOG_RELEASE_ASSET_VERSIONS = new Map([
-  ['/css/blog-unified.css', '20261016-sitewide-b'],
-  ['/css/lead-hero.css', '20261016-sitewide-b10'],
-  ['/js/lead-hero.js', '20261016-sitewide-b10']
+  ['/css/blog-unified.css', '20261023-pr333-follow-up'],
+  ['/css/lead-hero.css', '20261023-pr333-follow-up'],
+  ['/js/lead-hero.js', '20261023-pr333-follow-up']
 ]);
 
 const FORBIDDEN_PUBLIC_FILES = [

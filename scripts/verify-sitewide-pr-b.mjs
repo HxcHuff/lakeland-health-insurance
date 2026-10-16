@@ -9,6 +9,16 @@ const MEASURE_JSON =
   process.env.PR_B_MEASURE_JSON ||
   '/cursor/stores/self/media/sitewide-b/blog-measure-all.json';
 
+const warmColors = spawnSync(process.execPath, ['scripts/check-warm-alert-colors.mjs'], {
+  cwd: ROOT,
+  encoding: 'utf8',
+  maxBuffer: 8 * 1024 * 1024
+});
+if (warmColors.stderr) process.stderr.write(warmColors.stderr);
+if (warmColors.status !== 0) {
+  process.exit(warmColors.status ?? 1);
+}
+
 const htmlNest = spawnSync(process.execPath, ['scripts/check-blog-html-nesting.mjs'], {
   cwd: ROOT,
   encoding: 'utf8',
