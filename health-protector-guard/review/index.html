@@ -125,10 +125,29 @@
     nav .brand { font-family: "Instrument Serif", "Instrument Serif Fallback", serif; font-size: 1.2rem; }
     nav .license { display: block; font-size: 0.7rem; color: var(--gold); font-weight: 600; }
     .nav-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-    .btn-cta { display: inline-block; background: var(--gold); color: var(--white); padding: 10px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; }
-    .btn-cta:hover { background: #c4982e; }
-    .btn-cta.btn-cta-navy { background: var(--navy); color: var(--white); }
-    .btn-cta.btn-cta-navy:hover { background: var(--navy-deep); }
+    .cta-button {
+      background: var(--gold);
+      color: var(--navy-deep);
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 15px rgba(212, 168, 67, 0.3);
+    }
+    .cta-button:hover { background: #c4982e; }
+    /* Match homepage gold pill inside lead-hero navy overrides */
+    body.hpg-review-page.lhi-page-hero .lhi-hero-shell a.cta-button,
+    body.hpg-review-page.lhi-page-hero header nav a.cta-button,
+    body.hpg-review-page.lhi-page-hero main .hero-actions a.cta-button {
+      background-color: #d4a843 !important;
+      border: 2px solid #d4a843 !important;
+      color: #0f1a2e !important;
+      -webkit-text-fill-color: #0f1a2e !important;
+      border-radius: 100px !important;
+      font-weight: 600 !important;
+      box-shadow: 0 4px 15px rgba(212, 168, 67, 0.3) !important;
+    }
     .btn-secondary { display: inline-block; background: transparent; color: var(--navy); border: 2px solid var(--navy); padding: 10px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; margin-left: 8px; }
     .crumb { padding: 14px 0; font-size: 0.9rem; color: var(--muted); }
     .crumb a { color: var(--gold); text-decoration: none; }
@@ -156,7 +175,7 @@
     @media (max-width: 720px) { .btn-secondary { margin-left: 0; margin-top: 8px; } }
   </style>
 </head>
-<body class="lhi-page-hero">
+<body class="lhi-page-hero hpg-review-page">
   <header>
     <div class="container">
       <nav>
@@ -165,7 +184,7 @@
           <a href="/plans/">Plans</a>
           <a href="/health-protector-guard/">Health ProtectorGuard</a>
           <a href="/blog/">Blog</a>
-          <a href="/get-help/?product=hpg" class="btn-cta">Request a plan review</a>
+          <a href="/get-help/?product=hpg" class="cta-button">Request a plan review</a>
         </div>
       </nav>
     </div>
@@ -185,7 +204,7 @@
         <h1 id="hpg-review-title">Health ProtectorGuard Reviews: What Select 2000 Pays (and Doesn't)</h1>
         <p class="lhi-hero-lede">This page is an honest, brochure-based look at Health ProtectorGuard fixed-indemnity insurance in Florida—what scheduled benefits pay, what they do not, and how Core and Guard options differ. It is not a star rating, testimonial, or price quote. Facts below come from carrier brochures 52001-G202605 (Core) and 52002-G202605 (Guard), May 2026.</p>
         <div class="hero-actions">
-          <a href="/get-help/?product=hpg" class="btn-cta">Request a plan review</a>
+          <a href="/get-help/?product=hpg" class="cta-button">Request a plan review</a>
           <a href="tel:+18636403102" class="btn-secondary">Call (863) 640-3102</a>
         </div>
       </div>
@@ -363,7 +382,7 @@
     </section>
 
     <section class="hero-actions" style="padding:24px 0;">
-      <a href="/get-help/?product=hpg" class="btn-cta btn-cta-navy">Request a plan review</a>
+      <a href="/get-help/?product=hpg" class="cta-button">Request a plan review</a>
       <a href="tel:+18636403102" class="btn-secondary">Call (863) 640-3102</a>
     </section>
   </main>
