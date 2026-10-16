@@ -49,6 +49,12 @@ test('PR A: mid and bottom CTAs use provider-check intent and tel link', () => {
   }
 });
 
+test('PR A: bottom-plan-banner headings and body use white text on navy gradient', () => {
+  const source = html();
+  assert.match(source, /\.bottom-plan-banner h2 \{ color: #ffffff;/);
+  assert.match(source, /\.bottom-plan-banner p \{ color: #ffffff;/);
+});
+
 test('PR A: related reading lists 2027 post first; title and meta unchanged', () => {
   const source = html();
   const related = source.match(/id="related-reading-heading"[\s\S]*?<\/section>/)?.[0] ?? '';
