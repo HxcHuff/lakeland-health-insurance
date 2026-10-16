@@ -4,12 +4,18 @@ import { join, relative } from 'node:path';
 import test from 'node:test';
 
 const ROOT = join(import.meta.dirname, '..');
-const PRIORITY = [
+const PRIORITY_SHELL = [
   'index.html',
   'plans/index.html',
   'aca-health-insurance-lakeland-fl/index.html',
   'provider-prescription-check/index.html'
 ];
+const PRIORITY_V2_PINS = [
+  'index.html',
+  'plans/index.html',
+  'provider-prescription-check/index.html'
+];
+const PRIORITY_SITELINK_PINS = ['aca-health-insurance-lakeland-fl/index.html'];
 
 function walkHtml(dir = ROOT, out = []) {
   for (const name of readdirSync(dir)) {
@@ -22,11 +28,18 @@ function walkHtml(dir = ROOT, out = []) {
 }
 
 test('priority lead pages use homepage grid-lead shell pattern', () => {
-  for (const rel of PRIORITY) {
+  for (const rel of PRIORITY_SHELL) {
     const html = readFileSync(join(ROOT, rel), 'utf8');
     assert.match(html, /class="lhi-hero-shell"/, rel);
     assert.match(html, /class="lhi-lead-hero lhi-hero-grid-lead"/, rel);
+  }
+  for (const rel of PRIORITY_V2_PINS) {
+    const html = readFileSync(join(ROOT, rel), 'utf8');
     assert.match(html, /lead-hero.css\?v=20261016-lead-form-v2/, rel);
+  }
+  for (const rel of PRIORITY_SITELINK_PINS) {
+    const html = readFileSync(join(ROOT, rel), 'utf8');
+    assert.match(html, /lead-hero.css\?v=20261016-nonblog-gates2/, rel);
   }
 });
 

@@ -7,7 +7,8 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const lead = require('../netlify/functions/lead.js');
-const { deliverSiteLeadToHopper } = require('../netlify/functions/lib/site-lead-hopper.js');
+const { handler } = lead;
+const { buildHopperBody, deliverSiteLeadToHopper } = require('../netlify/functions/lib/site-lead-hopper.js');
 
 const {
   authorizeSiteLeadV2Consent,
@@ -92,4 +93,108 @@ test('LP medicare page keeps lp-medicare-lead without lf2', () => {
   const html = readFileSync(resolve(ROOT, 'lp/medicare/index.html'), 'utf8');
   assert.match(html, /lp-medicare-lead/);
   assert.doesNotMatch(html, /data-lf2-mode="site"/);
+});
+
+function siteV2LeadPayload(overrides = {}) {
+  const startedAt = Date.now() - 5000;
+  return {
+    form_name: 'site-aca-lead',
+    consent_text_version: SITE_LEAD_V2_CONSENT_TEXT_VERSION,
+    consent_request: 'yes',
+    consent_call: 'yes',
+    consent_sms: 'yes',
+    consent_email: 'yes',
+    full_name: 'Pat Example',
+    phone: '8635550100',
+    email: 'pat@example.com',
+    zip_code: '33801',
+    normalized_intent: 'under-65',
+    line_of_business: 'ACA',
+    source_page: '/',
+    source_template: 'homepage',
+    started_at: String(startedAt),
+    human_check: Buffer.from(`${startedAt}:lakeland-human`).toString('base64'),
+    ...overrides
+  };
+}
+
+async function invokeLead(payload) {
+  const calls = [];
+  const originalFetch = global.fetch;
+  global.fetch = async (url, init = {}) => {
+    calls.push({ url: String(url), init });
+    if (String(url).includes('graph.facebook.com')) {
+      return { ok: true, status: 200 };
+    }
+    return { ok: true, status: 200 };
+  };
+  try {
+    const response = await handler({
+      httpMethod: 'POST',
+      headers: {
+        origin: 'https://lakelandhealthinsurance.com',
+        referer: 'https://lakelandhealthinsurance.com/'
+      },
+      body: JSON.stringify(payload)
+    });
+    return { response, calls, result: JSON.parse(response.body) };
+  } finally {
+    global.fetch = originalFetch;
+  }
+}
+
+test('mocked lead handler forwards v2 channel consents, email, and source keys', async () => {
+  const { response, calls, result } = await invokeLead(siteV2LeadPayload());
+  assert.equal(response.statusCode, 200);
+  assert.equal(result.ok, true);
+  assert.equal(result.forms, true);
+  const formsCall = calls.find((c) => c.url === 'https://lakelandhealthinsurance.com/');
+  assert.ok(formsCall);
+  const form = new URLSearchParams(formsCall.init.body);
+  assert.equal(form.get('consent_call'), 'yes');
+  assert.equal(form.get('consent_sms'), 'yes');
+  assert.equal(form.get('consent_email'), 'yes');
+  assert.equal(form.get('email'), 'pat@example.com');
+  assert.equal(form.get('normalized_intent'), 'under-65');
+  assert.equal(form.get('line_of_business'), 'ACA');
+  assert.equal(form.get('source_page'), '/');
+  assert.equal(form.get('source_template'), 'homepage');
+  assert.equal(form.get('consent_text_version'), SITE_LEAD_V2_CONSENT_TEXT_VERSION);
+});
+
+test('mocked hopper body from v2 relay fields includes email and consents', () => {
+  const body = buildHopperBody({
+    form_name: 'site-aca-lead',
+    name: 'Pat Example',
+    phone: '8635550100',
+    email: 'pat@example.com',
+    zip: '33801',
+    line_of_business: 'ACA',
+    consent_call: 'yes',
+    consent_sms: 'yes',
+    consent_email: 'yes'
+  });
+  assert.equal(body.email, 'pat@example.com');
+  assert.match(body.notes, /consent_call=yes/);
+  assert.match(body.notes, /consent_sms=yes/);
+  assert.match(body.notes, /consent_email=yes/);
+});
+
+test('existing client get-help payload skips ad lead conversions in handler response', async () => {
+  const startedAt = Date.now() - 5000;
+  const { result } = await invokeLead({
+    form_name: 'get-help',
+    consent_text_version: 'get-help-2026-09-29-v2',
+    consent_request: 'yes',
+    consent_call: 'yes',
+    phone: '8635550100',
+    full_name: 'Pat Example',
+    zip_code: '33801',
+    normalized_intent: 'current-client-review',
+    preferred_contact_method: 'phone_call',
+    started_at: String(startedAt),
+    human_check: Buffer.from(`${startedAt}:lakeland-human`).toString('base64')
+  });
+  assert.equal(result.ok, true);
+  assert.match(result.ads_capi_error || result.capi_error || '', /existing client service requests/i);
 });

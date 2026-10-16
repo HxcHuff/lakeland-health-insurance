@@ -273,7 +273,7 @@ test('private medical insurance route separates product categories and keeps int
   assert.match(PRIVATE_MEDICAL, /A plan purchased outside the Marketplace may still meet ACA standards\./);
   assert.match(PRIVATE_MEDICAL, /class="lhi-lead-hero(?:\s+lhi-hero-grid-lead)?"/);
   assert.match(PRIVATE_MEDICAL, /name="site-aca-lead"[^>]+data-lhi-site-lead-form[^>]+data-funnel-track/);
-  assert.match(PRIVATE_MEDICAL, /name="consent_text_version" value="site-aca-2026-10-v1"/);
+  assert.match(PRIVATE_MEDICAL, /name="consent_text_version" value="site-lead-v2-2026-11-v1"/);
   assert.match(PRIVATE_MEDICAL, /Reply STOP to cancel or HELP for help/);
   assert.doesNotMatch(PRIVATE_MEDICAL, /name="(?:health|medical|diagnosis|condition|prescription|policy_number|payment)"/i);
   assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/private-medical-insurance\/<\/loc>\s*<lastmod>2026-08-21<\/lastmod>/);

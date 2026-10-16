@@ -127,6 +127,7 @@ async function deliverSiteLeadToHopper(websiteLead, {
 module.exports = {
   DEFAULT_HOPPER_URL,
   SITE_LEAD_FORMS,
+  buildHopperBody,
   deliverSiteLeadToHopper,
   hopperConfigured
 };
