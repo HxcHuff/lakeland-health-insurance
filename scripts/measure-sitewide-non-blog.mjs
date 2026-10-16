@@ -102,10 +102,15 @@ async function preparePageForMeasure(page, baseUrl) {
     }
     window.scrollTo(0, 0);
   });
-  const hasChrome = await page.evaluate(() => Boolean(window.LHISiteChrome));
-  if (!hasChrome) {
-    await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=${VERSION}` });
-    await page.waitForTimeout(450);
+  const skipSiteChrome = await page.evaluate(() =>
+    document.body.classList.contains('paid-landing-page')
+  );
+  if (!skipSiteChrome) {
+    const hasChrome = await page.evaluate(() => Boolean(window.LHISiteChrome));
+    if (!hasChrome) {
+      await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=${VERSION}` });
+      await page.waitForTimeout(450);
+    }
   }
   await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=${VERSION}` });
   await page.waitForTimeout(80);
@@ -564,6 +569,7 @@ async function measurePage(page, baseUrl, route, viewport) {
       hasHeroGrid,
       h1Y: h1r ? Math.round(h1r.top) : null,
       h1Bottom: h1r ? Math.round(h1r.bottom) : null,
+      h1Width: h1r ? Math.round(h1r.width) : null,
       h1TextAlign: h1Align,
       ledeY: lr ? Math.round(lr.top) : null,
       ledeBbox,
@@ -652,6 +658,14 @@ function evaluateRow(row) {
       if (row.formTop == null && row.formY == null) issues.push('missing-form');
     } else if (row.formTop != null || row.formY != null) {
       issues.push('unexpected-lead-form');
+    }
+    if (paidLanding) {
+      if (row.h1Width != null && row.h1Width < 450) {
+        issues.push(`lp-h1-narrow:h1Width=${row.h1Width}`);
+      }
+      if (row.ledeBbox?.bottom != null && row.ledeBbox.bottom > 800) {
+        issues.push(`lp-lede-below-fold:ledeBottom=${row.ledeBbox.bottom}`);
+      }
     }
     if (row.overflowPx > 12) issues.push(`overflow:overflowPx=${row.overflowPx}`);
     if (row.redScan?.hitCount > 0) issues.push(`red-alert-in-hero:count=${row.redScan.hitCount}`);

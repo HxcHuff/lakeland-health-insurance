@@ -79,7 +79,7 @@ test('local answer snippet links use high-contrast rules in shared CSS', () => {
     'local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/index.html'
   ]) {
     const html = readFileSync(join(ROOT, rel), 'utf8');
-    assert.match(html, /answer-pages\.css\?v=20261021-hscroll-fix/);
+    assert.match(html, /answer-pages\.css\?v=20261016-pr337-c/);
     assert.match(html, /class="answer-snippet"/);
   }
 });

@@ -82,8 +82,13 @@ try {
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
       });
-      await page.addScriptTag({ url: `${server.baseUrl}/js/site-template.js?v=${VERSION}` });
-      await page.waitForTimeout(400);
+      const skipSiteChrome = await page.evaluate(() =>
+        document.body.classList.contains('paid-landing-page')
+      );
+      if (!skipSiteChrome) {
+        await page.addScriptTag({ url: `${server.baseUrl}/js/site-template.js?v=${VERSION}` });
+        await page.waitForTimeout(400);
+      }
       await page.addScriptTag({ url: `${server.baseUrl}/js/lead-hero.js?v=${VERSION}` });
       await page.waitForTimeout(100);
       await page.evaluate(() => window.scrollTo(0, 0));

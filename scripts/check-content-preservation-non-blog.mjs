@@ -114,6 +114,17 @@ function squash(s) {
   return normBlock(s).replace(/\s+/g, '').toLowerCase();
 }
 
+function leadHiddenFieldsFromHtml(html) {
+  const form =
+    html.match(/<form[^>]*data-lhi-site-lead-form[^>]*>[\s\S]*?<\/form>/i)?.[0] ||
+    html.match(/<form[^>]*name="site-aca-lead"[^>]*>[\s\S]*?<\/form>/i)?.[0];
+  if (!form) return null;
+  return {
+    source_template: form.match(/name="source_template"\s+value="([^"]*)"/)?.[1] ?? null,
+    data_funnel_name: form.match(/data-funnel-name="([^"]*)"/)?.[1] ?? null
+  };
+}
+
 function findBlockMatch(afterBlocks, missingText) {
   const n = normBlock(missingText);
   const nLow = n.toLowerCase();
@@ -248,6 +259,21 @@ try {
       missing.push(b);
     }
 
+    const mainHidden = leadHiddenFieldsFromHtml(mainHtml);
+    const branchHidden = leadHiddenFieldsFromHtml(branchHtml);
+    const hiddenMismatches = [];
+    if (mainHidden && branchHidden) {
+      for (const key of ['source_template', 'data_funnel_name']) {
+        if (mainHidden[key] != null && branchHidden[key] !== mainHidden[key]) {
+          hiddenMismatches.push({
+            field: key,
+            main: mainHidden[key],
+            branch: branchHidden[key]
+          });
+        }
+      }
+    }
+
     rows.push({
       route: url,
       name,
@@ -257,7 +283,9 @@ try {
       missingCount: missing.length,
       missingSamples: missing.slice(0, 8),
       relocations: relocations.slice(0, 40),
-      ok: missing.length === 0
+      hiddenLeadFields: branchHidden,
+      hiddenFieldMismatches: hiddenMismatches,
+      ok: missing.length === 0 && hiddenMismatches.length === 0
     });
     await page.close();
   }
@@ -274,7 +302,9 @@ const summary = {
   pin: VERSION,
   routesChecked: rows.length,
   totalMissingBlocks: rows.reduce((a, r) => a + (r.missingCount || 0), 0),
+  totalHiddenFieldMismatches: rows.reduce((a, r) => a + (r.hiddenFieldMismatches?.length || 0), 0),
   routesWithMissing: rows.filter((r) => r.missingCount > 0).length,
+  routesWithHiddenMismatch: rows.filter((r) => (r.hiddenFieldMismatches?.length || 0) > 0).length,
   rows
 };
 mkdirSync(resolve(OUT_JSON, '..'), { recursive: true });
@@ -286,10 +316,11 @@ console.log(
       routesChecked: summary.routesChecked,
       totalMissingBlocks: summary.totalMissingBlocks,
       routesWithMissing: summary.routesWithMissing,
-      ok: summary.totalMissingBlocks === 0
+      totalHiddenFieldMismatches: summary.totalHiddenFieldMismatches,
+      ok: summary.totalMissingBlocks === 0 && summary.totalHiddenFieldMismatches === 0
     },
     null,
     2
   )
 );
-process.exit(summary.totalMissingBlocks > 0 ? 1 : 0);
+process.exit(summary.totalMissingBlocks > 0 || summary.totalHiddenFieldMismatches > 0 ? 1 : 0);
