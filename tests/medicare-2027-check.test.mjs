@@ -46,6 +46,10 @@ test('medicare-2027-check mobile-first hero and four-field get-help v2 form', ()
   assert.doesNotMatch(markup, /name="email"/);
   assert.doesNotMatch(markup, /preferred_contact_method/);
   assert.doesNotMatch(markup, /name="consent_email"/);
+  assert.doesNotMatch(markup, /<input type="hidden" name="consent_call"/);
+  assert.doesNotMatch(markup, /<input type="hidden" name="consent_sms"/);
+  assert.match(markup, /type="checkbox" name="consent_call"/);
+  assert.match(markup, /type="checkbox" name="consent_sms"/);
   assert.doesNotMatch(markup, /lp-medicare-lead/);
   assert.match(markup, /data-sitelink-inline-thank-you/);
 });
@@ -61,6 +65,55 @@ test('medicare-2027-check trust bullets and TPMO disclosure ids', () => {
   assert.match(HTML, /Licensed Insurance Agent #W371813/);
   assert.match(HTML, /get-help-intake\.js\?v=20261016-pr345-get-help-intake/);
   assert.doesNotMatch(HTML, /\/lp\//);
+});
+
+test('medicare-2027-check sitelink submit succeeds when call consent is checked', async () => {
+  const server = createServer((request, response) => {
+    try {
+      let pathname = decodeURIComponent(new URL(request.url, 'http://127.0.0.1').pathname);
+      if (pathname === '/api/lead') {
+        response.writeHead(200, { 'Content-Type': 'application/json' });
+        response.end(JSON.stringify({ ok: true, forms: true, event_id: 'lhi_test_event_001' }));
+        return;
+      }
+      if (pathname.endsWith('/')) pathname += 'index.html';
+      const body = readFileSync(join(ROOT, pathname.replace(/^\//, '')));
+      const type = pathname.endsWith('.js') ? 'application/javascript' : 'text/html';
+      response.writeHead(200, { 'Content-Type': type });
+      response.end(body);
+    } catch {
+      response.writeHead(404);
+      response.end('not found');
+    }
+  });
+  await new Promise((resolvePromise) => server.listen(0, '127.0.0.1', resolvePromise));
+  const { port } = server.address();
+  const browser = await chromium.launch({
+    headless: true,
+    executablePath: process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || '/usr/local/bin/google-chrome'
+  });
+  try {
+    const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    await page.goto(`http://127.0.0.1:${port}/medicare-2027-check/`, { waitUntil: 'networkidle' });
+    await page.addScriptTag({ url: `http://127.0.0.1:${port}/js/funnel.js?v=20261016-pr345-funnel` });
+    await page.waitForFunction(() => {
+      const form = document.getElementById('medicare2027CheckForm');
+      return Boolean(form && form.__lhiSitelinkLeadWired);
+    });
+    await page.fill('#medicare2027Name', 'Jane');
+    await page.fill('#medicare2027Phone', '8635551212');
+    await page.fill('#medicare2027Zip', '33805');
+    await page.check('input[name="consent_request"]');
+    await page.check('input[name="consent_call"]');
+    await page.click('.m27-submit');
+    await page.waitForSelector('.m27-thanks', { timeout: 8000 });
+    const thanks = await page.locator('.m27-thanks').textContent();
+    assert.match(String(thanks || ''), /Thanks/i);
+    assert.doesNotMatch(String(thanks || ''), /Select at least one contact channel/i);
+  } finally {
+    await browser.close();
+    await new Promise((resolvePromise) => server.close(() => resolvePromise()));
+  }
 });
 
 test('medicare-2027-check submit button fits a 390x844 first screen', async () => {
