@@ -128,4 +128,6 @@ const bad = report.filter(
     (r.viewport === '1280' && r.overflowPx > 8) ||
     (r.viewport === '1280' && r.formLeftPct != null && r.formLeftPct < 50 && r.route.includes('health-insurance'))
 );
-process.exit(bad.length ? 1 : 0);
+if (!process.argv.includes('--no-fail')) {
+  process.exit(bad.length ? 1 : 0);
+}

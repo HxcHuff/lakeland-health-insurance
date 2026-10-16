@@ -548,11 +548,15 @@ footer {
 }
 
 .click-to-call {
-  right: 20px;
+  right: max(12px, env(safe-area-inset-right, 0px));
   background: linear-gradient(135deg, var(--green), #059669);
   padding: 15px 20px;
   font-size: 1.1rem;
   box-shadow: 0 8px 25px rgba(22,163,74,0.4);
+  max-width: min(360px, calc(100vw - 24px));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .messenger-button {

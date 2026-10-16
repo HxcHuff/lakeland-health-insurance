@@ -76,8 +76,13 @@ try {
     for (const { w, h, tag } of VIEWPORTS) {
       const page = await browser.newPage({ viewport: { width: w, height: h } });
       await page.goto(`${server.baseUrl}${url}`, { waitUntil: 'networkidle', timeout: 25000 });
+      await page.evaluate(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      });
       await page.waitForTimeout(200);
-      await page.screenshot({ path: join(OUT, `${name}-${tag}.png`) });
+      await page.screenshot({ path: join(OUT, `${name}-${tag}.png`), fullPage: false });
       await page.close();
     }
   }

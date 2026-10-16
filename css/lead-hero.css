@@ -81,6 +81,25 @@ body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .hero p.lhi-hero-lede {
   color: #475569 !important;
 }
 
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > section.hero .lhi-hero-deferred-block h2,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > section.hero .lhi-hero-deferred-block .hero-sub,
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > section.hero .lhi-hero-deferred-block p {
+  color: #334155 !important;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > section.hero .lhi-hero-deferred-block h2 {
+  color: var(--navy, #1b2a4a) !important;
+  font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+body.lhi-page-hero:not(.home-page) .lhi-hero-shell > section.hero .lhi-hero-deferred-block .hero-sub a {
+  color: #1d4ed8 !important;
+  font-weight: 700;
+}
+
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .hero .lhi-hero-deferred-block p,
 body.lhi-page-hero:not(.home-page) .lhi-hero-shell > .hero p:not(.lhi-hero-lede) {
   color: #475569 !important;
@@ -965,6 +984,28 @@ body.lhi-lead-sticky-active {
   body.blog-post main > figure.media,
   body.blog-post main > section:not(.article-hero):not(.lhi-lead-hero):not(.related-reading):not(.guide-hero):not(.hero):not(.aca-guide-hero) {
     order: 20;
+  }
+
+  /* Card-style blog heroes (hero stays one block; readable meta on gray). */
+  body.blog-post main.container > section.article-hero {
+    background: transparent !important;
+    display: block;
+    margin-top: 0;
+    padding: calc(var(--lhi-site-header-height, 88px) + 12px) 0 1rem;
+  }
+
+  body.blog-post main.container > section.article-hero h1 {
+    background: transparent !important;
+    color: var(--navy, #1b2a4a) !important;
+    order: unset;
+    padding: 0;
+  }
+
+  body.blog-post main.container > section.article-hero .last-reviewed,
+  body.blog-post main.container > section.article-hero p.last-reviewed,
+  body.blog-post main.container > section.article-hero .meta,
+  body.blog-post main.container > section.article-hero p {
+    color: #475569 !important;
   }
 
   body.blog-post main > section.guide-hero,

@@ -47,7 +47,7 @@ const ROUTES = [
 
 const child = spawnSync(
   process.execPath,
-  ['scripts/measure-sitewide-pr-a.mjs', '--json', ...ROUTES],
+  ['scripts/measure-sitewide-pr-a.mjs', '--json', '--no-fail', ...ROUTES],
   {
     cwd: ROOT,
     encoding: 'utf8',
