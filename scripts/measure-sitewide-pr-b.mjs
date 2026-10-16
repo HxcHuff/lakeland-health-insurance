@@ -4,7 +4,7 @@
  * Usage: node scripts/measure-sitewide-pr-b.mjs [--json] [route ...]
  */
 import { createServer } from 'node:http';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { chromium } from 'playwright';
 import { allBlogLeadHeroRoutes } from './blog-homepage-match-routes.mjs';
@@ -108,16 +108,55 @@ async function measurePage(page, baseUrl, route, viewport) {
           document.documentElement.scrollWidth - document.documentElement.clientWidth
         );
 
+    const h1Align = h1 ? getComputedStyle(h1).textAlign : null;
+
+    const ledeBbox =
+      lr && lr.width > 0 && lr.height > 0
+        ? {
+            top: Math.round(lr.top),
+            left: Math.round(lr.left),
+            right: Math.round(lr.right),
+            bottom: Math.round(lr.bottom),
+            width: Math.round(lr.width),
+            height: Math.round(lr.height)
+          }
+        : null;
+
+    const redHits = [];
+    const scanRoot = shell || document.body;
+    const candidates = scanRoot.querySelectorAll(
+      '[class*="alert"], [class*="error"], [class*="danger"], [class*="bg-red"], [role="alert"]'
+    );
+    for (const el of candidates) {
+      const st = getComputedStyle(el);
+      const bg = parseRgbLocal(st.backgroundColor);
+      const border = parseRgbLocal(st.borderColor);
+      const isRed = (rgb) => rgb && rgb[0] >= 160 && rgb[1] <= 120 && rgb[2] <= 120;
+      if (isRed(bg) || isRed(border)) {
+        redHits.push({
+          tag: el.tagName.toLowerCase(),
+          className: (el.className || '').toString().slice(0, 120)
+        });
+      }
+    }
+
     return {
       hasShell: !!shell,
       h1Y: h1r ? Math.round(h1r.top) : null,
       h1Bottom: h1r ? Math.round(h1r.bottom) : null,
+      h1TextAlign: h1Align,
       ledeY: lr ? Math.round(lr.top) : null,
+      ledeBbox,
+      formTop: fr ? Math.round(fr.top) : null,
+      formLeft: fr ? Math.round(fr.left) : null,
       formY: fr ? Math.round(fr.top) : null,
       formLeftPct: fr ? Math.round((fr.left / vw) * 100) : null,
       overflowPx: Math.round(overflow),
+      scrollWidth: document.body.scrollWidth,
       shellBg,
-      h1Color
+      shellBgRgb: shellBg ? shellBg.join(',') : null,
+      h1Color,
+      redScan: { hitCount: redHits.length, hits: redHits.slice(0, 8) }
     };
   }, { vw: viewport.width, vh: viewport.height });
 }
@@ -129,16 +168,24 @@ function evaluateRow(row) {
   if (row.viewport === '1280') {
     if (!isGrayHeroBg(row.shellBg)) issues.push(`hero-not-gray:bg=${row.shellBg?.join(',')}`);
     if (!isNavyHeading(row.h1Color)) issues.push(`h1-not-navy:color=${row.h1Color?.join(',')}`);
+    if (row.h1TextAlign && row.h1TextAlign !== 'left' && row.h1TextAlign !== 'start') {
+      issues.push(`h1-not-left:align=${row.h1TextAlign}`);
+    }
     if (row.formLeftPct != null && row.formLeftPct < 55) {
       issues.push(`form-not-right:formLeftPct=${row.formLeftPct}`);
     }
     if (row.formY != null && row.formY >= 800) issues.push(`form-too-low:formY=${row.formY}`);
     if (row.overflowPx > 12) issues.push(`overflow:overflowPx=${row.overflowPx}`);
+    if (row.redScan?.hitCount > 0) issues.push(`red-alert-in-hero:count=${row.redScan.hitCount}`);
   }
 
   if (row.viewport === '390') {
     if (!isGrayHeroBg(row.shellBg)) issues.push(`hero-not-gray:bg=${row.shellBg?.join(',')}`);
     if (!isNavyHeading(row.h1Color)) issues.push(`h1-not-navy:color=${row.h1Color?.join(',')}`);
+    if (row.h1TextAlign && row.h1TextAlign !== 'left' && row.h1TextAlign !== 'start') {
+      issues.push(`h1-not-left:align=${row.h1TextAlign}`);
+    }
+    if (row.redScan?.hitCount > 0) issues.push(`red-alert-in-hero:count=${row.redScan.hitCount}`);
     if (row.h1Y != null && row.h1Y > 450) issues.push(`h1-below-fold:h1Y=${row.h1Y}`);
     if (row.formY != null && row.formY >= 844) issues.push(`form-below-fold:formY=${row.formY}`);
     if (row.h1Bottom != null && row.formY != null && row.formY < row.h1Bottom - 8) {
@@ -157,7 +204,13 @@ function evaluateRow(row) {
 }
 
 const jsonOut = process.argv.includes('--json');
-const argRoutes = process.argv.slice(2).filter((a) => a.startsWith('/'));
+const DEFAULT_MEASURE_JSON = '/cursor/stores/self/media/sitewide-b/blog-measure-all.json';
+const jsonOutPath = process.argv.includes('--no-measure-json')
+  ? null
+  : process.env.PR_B_MEASURE_JSON || DEFAULT_MEASURE_JSON;
+const argRoutes = process.argv
+  .slice(2)
+  .filter((a) => a.startsWith('/') && !a.endsWith('.json'));
 const routes = argRoutes.length
   ? argRoutes.map((url) => ({ url, name: url.replace(/^\/blog\/?/, '').replace(/\/$/, 'blog-index') }))
   : allBlogLeadHeroRoutes();
@@ -186,8 +239,21 @@ for (const { url, name } of routes) {
 await browser.close();
 await server.close();
 
+const payload = {
+  generatedAt: new Date().toISOString(),
+  routeCount: routes.length,
+  viewportPairs: report.length,
+  rows: report
+};
+
+if (jsonOutPath) {
+  mkdirSync(resolve(jsonOutPath, '..'), { recursive: true });
+  writeFileSync(jsonOutPath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  console.error(`wrote ${jsonOutPath}`);
+}
+
 if (jsonOut) {
-  console.log(JSON.stringify(report, null, 2));
+  console.log(JSON.stringify(payload, null, 2));
 } else {
   for (const row of report) {
     console.log(
