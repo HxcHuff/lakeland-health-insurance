@@ -143,6 +143,26 @@
     .safe { background: var(--safebg); border-left: 4px solid #2563EB; }
     .media { margin: 14px 0 4px; }
     .media img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12); }
+    figure.media.lhi-post-featured-hero {
+      box-sizing: border-box;
+      margin: 18px auto 8px;
+      max-width: 600px;
+      padding: 0 20px;
+      width: 100%;
+    }
+    figure.media.lhi-post-featured-hero img {
+      display: block;
+      height: auto;
+      margin-inline: auto;
+      max-width: 600px;
+      width: 100%;
+    }
+    @media (max-width: 640px) {
+      figure.media.lhi-post-featured-hero {
+        max-width: 100%;
+        padding: 0 16px;
+      }
+    }
     .media figcaption { color: var(--gray); font-size: 0.9rem; margin-top: 8px; }
     .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
     .btn { display: inline-block; text-decoration: none; font-weight: 700; border-radius: 10px; padding: 12px 16px; }
@@ -311,7 +331,10 @@
 </div></section>
 </div>
 <figure class="media lhi-post-featured-hero">
-  <img src="/.netlify/images?url=/assets/watson-clinic-lakeland-highlands-david-huff.jpg&amp;w=800&amp;fm=webp&amp;q=82" srcset="/.netlify/images?url=/assets/watson-clinic-lakeland-highlands-david-huff.jpg&amp;w=384&amp;fm=webp&amp;q=82 384w, /.netlify/images?url=/assets/watson-clinic-lakeland-highlands-david-huff.jpg&amp;w=800&amp;fm=webp&amp;q=82 800w, /.netlify/images?url=/assets/watson-clinic-lakeland-highlands-david-huff.jpg&amp;w=1200&amp;fm=webp&amp;q=82 1200w" sizes="(max-width: 768px) 100vw, min(1100px, 92vw)" width="1600" height="1200" alt="David Huff outside Watson Clinic's Lakeland Highlands building in Lakeland, Florida." decoding="async" fetchpriority="high">
+  <picture>
+    <source type="image/webp" srcset="/.netlify/images?url=/assets/watson-clinic-lakeland-highlands-david-huff.webp&amp;w=600&amp;fm=webp&amp;q=82 600w, /.netlify/images?url=/assets/watson-clinic-lakeland-highlands-david-huff.webp&amp;w=1200&amp;fm=webp&amp;q=82 1200w" sizes="(max-width: 640px) 100vw, 600px">
+    <img src="/.netlify/images?url=/assets/watson-clinic-lakeland-highlands-david-huff.jpg&amp;w=600&amp;fm=jpg&amp;q=82" srcset="/.netlify/images?url=/assets/watson-clinic-lakeland-highlands-david-huff.jpg&amp;w=600&amp;fm=jpg&amp;q=82 600w, /.netlify/images?url=/assets/watson-clinic-lakeland-highlands-david-huff.jpg&amp;w=1200&amp;fm=jpg&amp;q=82 1200w" sizes="(max-width: 640px) 100vw, 600px" width="1200" height="900" alt="David Huff outside Watson Clinic's Lakeland Highlands building in Lakeland, Florida." decoding="async" fetchpriority="high">
+  </picture>
   <figcaption>David Huff at Watson Clinic Lakeland Highlands, October 2026.</figcaption>
 </figure>
 <div class="lhi-post-body-intro"><p>David Huff, a licensed Florida health agent in Lakeland, spoke directly with the clinic in October 2026. The details are not published online yet. Call or text <a href="tel:+18636403102">(863) 640-3102</a> to learn what it means for your doctors and your 2027 plan.</p><div class="cta-row">
