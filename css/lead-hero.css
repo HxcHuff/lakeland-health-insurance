@@ -478,15 +478,15 @@ body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb 
   }
 
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) > .lhi-hero-grid-lead {
-    grid-row: 1;
+    align-self: start;
+    grid-row: 1 / span 2;
   }
 
-  /* Desktop: stack hoisted lede + deferred in one copy cell (no form-height gap in column 1). */
+  /* Desktop: lede row 1 / deferred row 2 in copy column; form spans both rows (network-help pattern). */
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) {
     align-items: start;
-    grid-template-areas: "copy form";
     grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px);
-    grid-template-rows: auto;
+    grid-template-rows: auto auto;
   }
 
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) > section.hero,
@@ -494,20 +494,24 @@ body.lhi-page-hero:not(.home-page) .lhi-hero-shell section.hero .hub-breadcrumb 
     display: contents;
   }
 
-  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) .lhi-hero-lede-block,
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) .lhi-hero-lede-block {
+    align-self: start;
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+  }
+
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) > .lhi-hero-deferred-block {
     align-self: start;
-    grid-area: copy;
-    grid-column: auto;
-    grid-row: auto;
+    grid-column: 1;
+    grid-row: 2;
     margin: 0;
   }
 
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block):not(:has(> .side-card)) > .lhi-hero-grid-lead {
     align-self: start;
-    grid-area: form;
-    grid-column: auto;
-    grid-row: auto;
+    grid-column: 2;
+    grid-row: 1 / span 2;
     margin: 0;
   }
 
@@ -2014,7 +2018,16 @@ body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-lead-hero__intro {
     padding: 0;
   }
 
-  body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead) {
+  body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block) {
+    align-items: start;
+    display: grid !important;
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px);
+    grid-template-rows: auto auto;
+    max-width: 1100px;
+  }
+
+  body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) {
     align-items: start;
     display: grid !important;
     gap: clamp(1rem, 2.5vw, 1.75rem);
@@ -2028,14 +2041,20 @@ body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-lead-hero__intro {
     min-width: 0;
   }
 
-  body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead) > .lhi-hero-grid-lead {
+  body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-deferred-block):has(> .lhi-hero-grid-lead) > .lhi-hero-grid-lead {
+    align-self: start;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) > .lhi-hero-grid-lead {
     align-self: start;
     grid-column: 2;
     grid-row: 1;
   }
 
   body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-deferred-block) > .lhi-hero-deferred-block {
-    grid-column: 1 / -1;
+    grid-column: 1;
     grid-row: 2;
   }
 

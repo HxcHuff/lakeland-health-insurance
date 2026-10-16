@@ -57,6 +57,7 @@ try {
     ]) {
       const page = await browser.newPage({ viewport: { width: w, height: h } });
       await page.goto(`${server.baseUrl}${url}`, { waitUntil: 'networkidle' });
+      await page.evaluate(() => window.scrollTo(0, 0));
       await page.waitForTimeout(250);
       await page.screenshot({ path: join(OUT, `${name}-${tag}.png`) });
       await page.close();

@@ -216,6 +216,14 @@ test('seasonal banner date helpers hide the banner if timezone formatting fails'
   assert.equal(chrome.bannerStorageKey(IN_WINDOW), '');
 });
 
+test('Watson Humana sitewide banner is removed from shared chrome', () => {
+  assert.doesNotMatch(SITE_TEMPLATE, /Watson Clinic will no longer accept Humana plans/);
+  assert.doesNotMatch(SITE_TEMPLATE, /shouldShowWatsonNotice/);
+  assert.doesNotMatch(SITE_TEMPLATE_CSS, /#9B1C1C/);
+  assert.doesNotMatch(SITE_TEMPLATE_CSS, /\.watson-notice/);
+  assert.doesNotMatch(SITE_TEMPLATE_CSS, /background:\s*#9B1C1C/);
+});
+
 test('seasonal banner date window is Oct 1 through Dec 7 America/New_York', () => {
   const chrome = loadChrome();
   const samples = [

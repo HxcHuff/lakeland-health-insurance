@@ -2,7 +2,7 @@
   --lhi-navy: #1B2A4A;
   --lhi-gold: #D4A843;
   --lhi-line: #E2E8F0;
-  --lhi-bg: #EEF3F8;
+  --lhi-bg: #f8fafc;
   --lhi-body: #1E293B;
   --lhi-muted: #475569;
   --lhi-blog-hero-clearance: calc(var(--lhi-site-header-height, 96px) + 1.5rem);
@@ -53,12 +53,21 @@ body.blog-post.has-seasonal-banner {
 }
 
 
-.article-header,
-.blog-header,
-.hero,
-.page-hero {
+body:not(.lhi-page-hero) .article-header,
+body:not(.lhi-page-hero) .blog-header,
+body:not(.lhi-page-hero) .hero,
+body:not(.lhi-page-hero) .page-hero {
   background: linear-gradient(135deg, #1B2A4A 0%, #2563EB 100%) !important;
   color: #fff !important;
+}
+
+body.lhi-page-hero,
+body.blog-post.lhi-page-hero {
+  background: #f8fafc !important;
+}
+
+body.lhi-page-hero main {
+  background: #f8fafc;
 }
 
 body.lhi-page-hero.blog-post .lhi-hero-shell,
@@ -78,10 +87,10 @@ body.lhi-page-hero.blog-post .lhi-hero-shell section.hero .lhi-hero-lede-block .
   color: #475569 !important;
 }
 
-.article-header h1,
-.blog-header h1,
-.hero h1,
-.page-hero h1 {
+body:not(.lhi-page-hero) .article-header h1,
+body:not(.lhi-page-hero) .blog-header h1,
+body:not(.lhi-page-hero) .hero h1,
+body:not(.lhi-page-hero) .page-hero h1 {
   color: #fff !important;
 }
 
@@ -89,11 +98,16 @@ body.lhi-page-hero.blog-post .lhi-hero-shell section.hero h1 {
   color: var(--lhi-navy, #1b2a4a) !important;
 }
 
-.article-header p,
-.blog-header p,
-.hero p,
-.page-hero p {
+body:not(.lhi-page-hero) .article-header p,
+body:not(.lhi-page-hero) .blog-header p,
+body:not(.lhi-page-hero) .hero p,
+body:not(.lhi-page-hero) .page-hero p {
   color: rgba(255,255,255,0.9) !important;
+}
+
+body.lhi-page-hero.blog-post .lhi-hero-shell :is(.hero, .article-hero, .home-hero) {
+  background: transparent !important;
+  background-image: none !important;
 }
 
 /* Pale mint Direct answer box: keep navy text inside dark heroes. */

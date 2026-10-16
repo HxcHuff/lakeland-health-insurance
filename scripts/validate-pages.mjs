@@ -19,17 +19,17 @@ const CLIENT_COPY_FILES = ['js/site-search.js', 'js/blog-cta.js', 'js/site-templ
 const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/fonts.css', '20261015-v6merge2'],
-  ['/css/site-template.css', '20261015-post326'],
-  ['/css/blog-unified.css', '20261015-post321'],
+  ['/css/site-template.css', '20261020-pr329-merge'],
+  ['/css/blog-unified.css', '20261020-pr329-merge'],
   ['/js/site-phone.js', '20261015-v6merge2'],
-  ['/js/site-template.js', '20261015-post321'],
+  ['/js/site-template.js', '20261020-pr329-merge'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
-  ['/css/lead-hero.css', '20261015-home-match9'],
-  ['/css/answer-pages.css', '20261015-v6merge2'],
-  ['/js/lead-hero.js', '20261015-home-match9'],
+  ['/css/lead-hero.css', '20261020-pr329-merge'],
+  ['/css/answer-pages.css', '20261020-pr329-merge'],
+  ['/js/lead-hero.js', '20261020-pr329-merge'],
 ]);
-const SERVICE_WORKER_CACHE_VERSION = '20261015-post321';
+const SERVICE_WORKER_CACHE_VERSION = '20261020-pr329-merge';
 
 /** Blog PR B ships newer cache tokens without sitewide HTML bumps. */
 const BLOG_RELEASE_ASSET_VERSIONS = new Map([
