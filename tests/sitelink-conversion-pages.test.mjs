@@ -154,12 +154,9 @@ test('every public click-to-call link uses the verified E.164 target and tracked
     for (const target of phoneTargets) {
       assert.ok(allowedPhoneTargets.has(target), `${file}: unexpected tel target ${target}`);
     }
-    const analyticsPin = file.includes(`${join(ROOT, 'lp')}`)
-      ? /\/js\/analytics\.js\?v=20261015-v6merge2/
-      : /\/js\/analytics\.js\?v=20261016-pr345-analytics/;
     assert.match(
       html,
-      analyticsPin,
+      /\/js\/analytics\.js\?v=20261016-pr345-analytics/,
       `${file} loads the canonical phone telemetry and forwarding-number handler`
     );
   }
