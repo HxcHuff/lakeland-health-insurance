@@ -652,7 +652,6 @@ test('other allowlisted lead forms also build a website lead for the bridge', ()
     ['aca-lakeland-lead', { full_name: 'Local Lead', phone_number: '8635550118' }],
     ['lp-aca-lead', { full_name: 'LP ACA', phone: '8635550118', email: 'lp@example.test' }],
     ['lp-gap-lead', { full_name: 'LP Gap', phone: '8635550118' }],
-    ['lp-hpg-lead', { full_name: 'LP HPG', phone: '8635550118', email: 'hpg@example.test' }],
     ['winter-haven-health-insurance', { full_name: 'WH Lead', phone_number: '8635550118' }],
     ['subsidy-estimator-lead', { first_name: 'Estimator', phone: '8635550118' }]
   ];

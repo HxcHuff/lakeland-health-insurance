@@ -544,7 +544,6 @@ test('pageType — known landing-page paths', () => {
     ['/lp/aca/', 'lp_aca'],
     ['/lp/medicare/', 'lp_medicare'],
     ['/lp/gap/', 'lp_gap'],
-    ['/lp/hpg/', 'lp_hpg'],
     ['/carriers/aetna/', 'carrier_lp'],
     ['/blog/aca-vs-medicare/', 'blog'],
     ['/aca-subsidy-estimator/', 'estimator'],

@@ -40,8 +40,6 @@ const PROMPT_SUPPRESSED_PATHS = [
   '/lp/medicare.html',
   '/lp/gap/',
   '/lp/gap.html',
-  '/lp/hpg/',
-  '/lp/hpg.html',
   '/lp/campaign-regression'
 ];
 

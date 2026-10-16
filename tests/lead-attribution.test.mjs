@@ -566,7 +566,6 @@ test('consent version resolver accepts only the explicit allowlist', () => {
     'lp-medicare-2026-09-29-v2',
     'lp-gap-2026-09-29-v1',
     'lp-gap-2026-09-29-v2',
-    'lp-hpg-2026-10-16-v1',
     'site-medicare-2026-10-v1',
     'site-aca-2026-10-v1',
     'homepage-newsletter-2026-10-07-v1',
@@ -590,28 +589,16 @@ function cityPayload(overrides = {}) {
   };
 }
 
-function lpPageForForm(formName) {
-  if (formName === 'lp-aca-lead') return '/lp/aca/';
-  if (formName === 'lp-medicare-lead') return '/lp/medicare/';
-  if (formName === 'lp-hpg-lead') return '/lp/hpg/';
-  return '/lp/gap/';
-}
-
 function lpPayload(formName, version, overrides = {}) {
-  const page = lpPageForForm(formName);
   return {
     'form-name': formName,
     full_name: 'Jane Example',
     phone: '863-555-1212',
-    email: 'jane@example.test',
     zip_code: '33801',
-    best_time_to_reach: 'morning',
     coverage_status: 'individual_marketplace',
-    ...(formName === 'lp-gap-lead' ? { coverage_situation: 'currently_uninsured' } : {}),
-    ...(formName === 'lp-hpg-lead' ? { hpg_interest: 'not_sure' } : {}),
     consent: 'on',
-    source_page: page,
-    source_url: `https://lakelandhealthinsurance.com${page}`,
+    source_page: formName === 'lp-aca-lead' ? '/lp/aca/' : formName === 'lp-medicare-lead' ? '/lp/medicare/' : '/lp/gap/',
+    source_url: `https://lakelandhealthinsurance.com${formName === 'lp-aca-lead' ? '/lp/aca/' : formName === 'lp-medicare-lead' ? '/lp/medicare/' : '/lp/gap/'}`,
     consent_text_version: version,
     ...spamGuardFields(),
     ...overrides
@@ -650,8 +637,7 @@ test('unknown lp consent_text_version falls back to the form default', async () 
 const LP_CONSENT_CASES = [
   ['lp-aca-lead', 'lp-aca-2026-09-29-v2', '/lp/aca/', false],
   ['lp-medicare-lead', 'lp-medicare-2026-09-29-v2', '/lp/medicare/', false],
-  ['lp-gap-lead', 'lp-gap-2026-09-29-v2', '/lp/gap/', true],
-  ['lp-hpg-lead', 'lp-hpg-2026-10-16-v1', '/lp/hpg/', true]
+  ['lp-gap-lead', 'lp-gap-2026-09-29-v2', '/lp/gap/', true]
 ];
 
 for (const [formName, version, page, includeEmail] of LP_CONSENT_CASES) {

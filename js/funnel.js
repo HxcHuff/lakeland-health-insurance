@@ -15,7 +15,6 @@
  *   - /lp/aca/            -> lp_aca
  *   - /lp/medicare/       -> lp_medicare
  *   - /lp/gap/            -> lp_gap
- *   - /lp/hpg/            -> lp_hpg
  *   - /carriers/*         -> carrier_lp
  *   - /blog/*             -> blog
  *   - /aca-subsidy-estimator/ -> estimator
@@ -311,7 +310,6 @@
     if (p.indexOf('/lp/aca') === 0) return 'lp_aca';
     if (p.indexOf('/lp/medicare') === 0) return 'lp_medicare';
     if (p.indexOf('/lp/gap') === 0) return 'lp_gap';
-    if (p.indexOf('/lp/hpg') === 0) return 'lp_hpg';
     if (p.indexOf('/carriers/') === 0) return 'carrier_lp';
     if (p.indexOf('/blog/') === 0) return 'blog';
     if (p.indexOf('/aca-subsidy-estimator') === 0) return 'estimator';

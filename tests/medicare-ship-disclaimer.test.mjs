@@ -174,7 +174,6 @@ test('shared chrome uses SHIP on Medicare and compliance HOLD paths', () => {
   assert.equal(chrome.shouldUseShipDisclaimer('/coverage-center/'), true);
   assert.equal(chrome.shouldUseShipDisclaimer('/plans/'), true);
   assert.equal(chrome.shouldUseShipDisclaimer('/lp/gap/'), true);
-  assert.equal(chrome.shouldUseShipDisclaimer('/lp/hpg/'), false);
   assert.equal(chrome.shouldUseShipDisclaimer('/local-health-insurance-answers/'), true);
   assert.equal(chrome.shouldUseShipDisclaimer('/thank-you/'), true);
   assert.equal(

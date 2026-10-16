@@ -28,7 +28,6 @@ const RELAY_FORMS = [
   'lp-aca-lead',
   'lp-medicare-lead',
   'lp-gap-lead',
-  'lp-hpg-lead',
   'subsidy-estimator-lead',
   'tampa-health-insurance',
   'winter-haven-health-insurance',
