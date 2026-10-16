@@ -19,7 +19,7 @@ const CLIENT_COPY_FILES = ['js/site-search.js', 'js/blog-cta.js', 'js/site-templ
 const SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/fonts.css', '20261015-v6merge2'],
-  ['/css/site-template.css', '20261016-pr-b-site-tpl'],
+  ['/css/site-template.css', '20261016-watson-update'],
   ['/css/blog-unified.css', '20261023-pr333-follow-up'],
   ['/js/chat-widget.js', '20261016-pr-c-chat'],
   ['/js/site-phone.js', '20261015-v6merge2'],
