@@ -167,7 +167,7 @@ test('short-term options CTA asks for current-season coverage and income', () =>
 });
 
 test('shared chrome uses one phone display, booking CTA, schema name, and asset version', () => {
-  const answerPagesHref = '/css/answer-pages.css?v=20261019-watson-deferred-meta';
+  const answerPagesHref = '/css/answer-pages.css?v=20261020-pr329-merge';
   const schedulePages = [
     'blog/aca-subsidy-cliff.html',
     'blog/non-income-based-health-insurance-florida.html',

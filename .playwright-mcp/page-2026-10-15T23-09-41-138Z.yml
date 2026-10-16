@@ -1,0 +1,851 @@
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - region "Medicare Annual Enrollment reminder" [ref=e4]:
+      - generic [ref=e5]:
+        - paragraph [ref=e6]:
+          - text: Medicare Annual Enrollment is
+          - strong [ref=e7]: Oct 15–Dec 7
+          - text: . A review is not enrollment.
+          - link "See Medicare enrollment dates" [ref=e8] [cursor=pointer]:
+            - /url: /medicare/
+        - button "Dismiss Medicare enrollment reminder" [ref=e9] [cursor=pointer]: Dismiss
+    - navigation [ref=e10]:
+      - 'link "Lakeland Health Insurance FL #W371813" [ref=e12] [cursor=pointer]':
+        - /url: /
+        - text: Lakeland Health Insurance
+        - generic [ref=e13]: "FL #W371813"
+      - list [ref=e14]:
+        - listitem [ref=e15]:
+          - link "Individual" [ref=e16] [cursor=pointer]:
+            - /url: /aca-health-insurance-lakeland-fl/
+        - listitem [ref=e17]:
+          - link "Medicare" [ref=e18] [cursor=pointer]:
+            - /url: /medicare/
+        - listitem [ref=e19]:
+          - link "Doctors & Rx" [ref=e20] [cursor=pointer]:
+            - /url: /provider-prescription-check/
+        - listitem [ref=e21]:
+          - link "Plans" [ref=e22] [cursor=pointer]:
+            - /url: /plans/
+        - listitem [ref=e23]:
+          - link "Carriers" [ref=e24] [cursor=pointer]:
+            - /url: /carriers/
+        - listitem [ref=e25]:
+          - link "Blog" [ref=e26] [cursor=pointer]:
+            - /url: /blog/
+      - link "Plan review" [ref=e28] [cursor=pointer]:
+        - /url: /get-help/
+  - main [ref=e29]:
+    - generic [ref=e32]:
+      - generic [ref=e33]:
+        - generic [ref=e34]: Local licensed health agent · Lakeland & Polk County
+        - heading "Health insurance in Lakeland for job changes, self-employment, and early retirement." [level=1] [ref=e35]
+        - paragraph [ref=e36]:
+          - text: David Huff is a licensed Florida health agent who reviews ACA Marketplace and Medicare plans for Lakeland and Polk County residents, including after job changes and early retirement. Compare
+          - link "doctors, prescriptions" [ref=e37] [cursor=pointer]:
+            - /url: /provider-prescription-check/
+          - text: ", and income together."
+        - paragraph [ref=e38]:
+          - link "Losing coverage now?" [ref=e39] [cursor=pointer]:
+            - /url: /get-help/?intent=lost-coverage
+          - text: •
+          - link "Medicare broker in Lakeland" [ref=e40] [cursor=pointer]:
+            - /url: /medicare-broker-lakeland-fl/
+          - text: •
+          - link "Medicare plan help in Lakeland" [ref=e41] [cursor=pointer]:
+            - /url: /local-health-insurance-answers/medicare-plan-help-lakeland/
+        - list "Plan review benefits" [ref=e42]:
+          - listitem [ref=e43]: Check doctors, prescriptions, and yearly cost together
+          - listitem [ref=e44]: Match the review to the enrollment window in front of you
+        - generic "Agent facts" [ref=e45]:
+          - text: Licensed Florida health agent W371813 2298 Lakeland Hills Blvd, Lakeland, FL 33805 · By appointment
+          - link "(863) 640-3102" [ref=e46] [cursor=pointer]:
+            - /url: tel:+18636403102
+      - region [ref=e47]:
+        - generic [ref=e48]:
+          - heading "Get a Marketplace plan comparison" [level=2] [ref=e50]
+          - form "Get a Marketplace plan comparison" [ref=e52]:
+            - generic [ref=e53]:
+              - generic [ref=e54]:
+                - generic [ref=e55]: Name
+                - textbox "Name" [ref=e56]
+              - generic [ref=e57]:
+                - generic [ref=e58]: Phone
+                - textbox "Phone" [ref=e59]
+              - generic [ref=e60]:
+                - generic [ref=e61]: ZIP code
+                - textbox "ZIP code" [ref=e62]
+              - generic [ref=e63]:
+                - generic [ref=e64]: Coverage type
+                - combobox "Coverage type" [ref=e65]:
+                  - option "Select one" [disabled] [selected]
+                  - option "Individual Marketplace coverage"
+                  - option "Family Marketplace coverage"
+                  - option "Not sure yet"
+              - generic [ref=e67]:
+                - checkbox "By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See SMS Terms and Privacy Policy." [ref=e68]
+                - generic [ref=e69]:
+                  - text: By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See
+                  - link "SMS Terms" [ref=e70] [cursor=pointer]:
+                    - /url: /sms-policy.html
+                  - text: and
+                  - link "Privacy Policy" [ref=e71] [cursor=pointer]:
+                    - /url: /privacy-policy.html
+                  - text: .
+              - button "Get my quote" [ref=e73] [cursor=pointer]
+            - status [ref=e74]
+      - generic [ref=e76]:
+        - complementary "2027 Medicare comparison" [ref=e77]:
+          - paragraph [ref=e78]: Medicare, through December 7
+          - heading "Compare 2027 Medicare plans now." [level=2] [ref=e79]
+          - paragraph [ref=e80]: Official 2027 Medicare plan details are available to compare. Medicare Annual Enrollment runs October 15 through December 7. A review is not enrollment. Marketplace enrollment for 2027 starts November 1.
+          - generic [ref=e81]:
+            - link "Request a Medicare review" [ref=e82] [cursor=pointer]:
+              - /url: /get-help/?intent=medicare
+            - link "Call (863) 640-3102" [ref=e83] [cursor=pointer]:
+              - /url: tel:+18636403102
+        - generic "Start a coverage review" [ref=e84]:
+          - link "Review my coverage" [ref=e85] [cursor=pointer]:
+            - /url: /get-help/
+          - link "Check your doctors & prescriptions for 2027" [ref=e86] [cursor=pointer]:
+            - /url: /provider-prescription-check/
+          - link "Call (863) 640-3102" [ref=e87] [cursor=pointer]:
+            - /url: tel:+18636403102
+      - figure [ref=e88]:
+        - img "David Huff, licensed Florida health agent with Lakeland Health Insurance, wearing a blue polo" [ref=e90]
+        - generic [ref=e91]:
+          - strong [ref=e92]: David “The Insurance Dude” Huff
+          - text: Independent Licensed Health Agent
+          - paragraph [ref=e93]: “Enrollment is not the end of the relationship. It’s just the beginning.”
+    - region "Coverage areas" [ref=e94]:
+      - generic [ref=e95]:
+        - text: Lakeland • Polk County • Florida •
+        - link "View the BBB business profile" [ref=e96] [cursor=pointer]:
+          - /url: https://www.bbb.org/us/fl/lakeland/profile/health-insurance/lakeland-health-insurance-0733-235981531/
+        - text: "• FL License #W371813"
+    - region [ref=e97]:
+      - generic [ref=e98]:
+        - generic [ref=e99]:
+          - paragraph [ref=e100]: The years before Medicare
+          - heading "Between employer coverage and Medicare, the details matter." [level=2] [ref=e101]
+          - paragraph [ref=e102]:
+            - text: A job, household, income, or retirement change can reshape coverage. Start with
+            - link "doctors and prescriptions" [ref=e103] [cursor=pointer]:
+              - /url: /provider-prescription-check/
+            - text: ", yearly cost, and the enrollment window. Polk County Marketplace reviews start on the"
+            - link "Polk County ACA agent" [ref=e104] [cursor=pointer]:
+              - /url: /aca-health-insurance-agent-polk-county-fl/
+            - text: page.
+          - generic "Common individual and family coverage scenarios" [ref=e105]:
+            - link "ACA Marketplace" [ref=e106] [cursor=pointer]:
+              - /url: /aca-health-insurance-lakeland-fl/
+            - link "Polk County ACA agent" [ref=e107] [cursor=pointer]:
+              - /url: /aca-health-insurance-agent-polk-county-fl/
+            - link "Doctors and prescriptions" [ref=e108] [cursor=pointer]:
+              - /url: /provider-prescription-check/
+            - link "Self-employed" [ref=e109] [cursor=pointer]:
+              - /url: /self-employed-health-insurance/
+            - link "Losing coverage" [ref=e110] [cursor=pointer]:
+              - /url: /losing-coverage/
+            - link "Retiring before 65" [ref=e111] [cursor=pointer]:
+              - /url: /retiring-before-65-florida/
+            - link "Turning 26" [ref=e112] [cursor=pointer]:
+              - /url: /turning-26/
+          - generic [ref=e113]:
+            - link "Request a plan review" [ref=e114] [cursor=pointer]:
+              - /url: /get-help/?intent=under-65
+            - link "Call (863) 640-3102" [ref=e115] [cursor=pointer]:
+              - /url: tel:+18636403102
+          - complementary [ref=e116]:
+            - strong [ref=e117]: Optional self-service during Marketplace Open Enrollment
+            - text: Compare ACA plans yourself on HealthSherpa. This is secondary to a licensed review and is not Medicare enrollment. HealthSherpa is a private enrollment site, not HealthCare.gov.
+            - link "Open HealthSherpa" [ref=e118] [cursor=pointer]:
+              - /url: https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q
+        - generic [ref=e119]:
+          - heading "Have this ready for a focused review" [level=3] [ref=e120]
+          - list [ref=e121]:
+            - listitem [ref=e122]: Your current coverage and when it ends
+            - listitem [ref=e123]: Your doctors, facilities, and preferred pharmacy
+            - listitem [ref=e124]: Your prescriptions
+            - listitem [ref=e125]: Your household, projected income, and timing
+    - region [ref=e126]:
+      - generic [ref=e127]:
+        - paragraph [ref=e128]: Additional Services
+        - heading "Medicare and other coverage options remain available." [level=2] [ref=e129]
+        - paragraph [ref=e130]: Medicare, short-term, supplemental, and add-on paths stay available when they fit the situation.
+        - generic [ref=e131]:
+          - link "Medicare Local Medicare agent Licensed Lakeland agent review of Medicare Advantage, Medicare Supplement, and Part D around doctors, prescriptions, and AEP timing. Review Medicare with a licensed local agent →" [ref=e132] [cursor=pointer]:
+            - /url: /medicare-broker-lakeland-fl/
+            - generic [ref=e133]: Medicare
+            - heading "Local Medicare agent" [level=3] [ref=e134]
+            - paragraph [ref=e135]: Licensed Lakeland agent review of Medicare Advantage, Medicare Supplement, and Part D around doctors, prescriptions, and AEP timing.
+            - strong [ref=e136]: Review Medicare with a licensed local agent →
+          - link "Short-term Short-term coverage Understand non-ACA temporary coverage limits, medical underwriting, exclusions, and state and product availability before applying. Review short-term coverage →" [ref=e137] [cursor=pointer]:
+            - /url: /short-term-medical/
+            - generic [ref=e138]: Short-term
+            - heading "Short-term coverage" [level=3] [ref=e139]
+            - paragraph [ref=e140]: Understand non-ACA temporary coverage limits, medical underwriting, exclusions, and state and product availability before applying.
+            - strong [ref=e141]: Review short-term coverage →
+          - link "Fixed-benefit Fixed-indemnity education Understand scheduled-benefit design, limitations, and underwriting. Fixed-indemnity coverage is not comprehensive health insurance or ACA minimum essential coverage. Review fixed-indemnity limitations →" [ref=e142] [cursor=pointer]:
+            - /url: /health-protector-guard/
+            - generic [ref=e143]: Fixed-benefit
+            - heading "Fixed-indemnity education" [level=3] [ref=e144]
+            - paragraph [ref=e145]: Understand scheduled-benefit design, limitations, and underwriting. Fixed-indemnity coverage is not comprehensive health insurance or ACA minimum essential coverage.
+            - strong [ref=e146]: Review fixed-indemnity limitations →
+          - link "Add-ons Dental, vision, life, and more Round out coverage with practical add-ons, family protection, and plan combinations that do not create expensive overlap. Review add-ons →" [ref=e147] [cursor=pointer]:
+            - /url: /supplemental-insurance/
+            - generic [ref=e148]: Add-ons
+            - heading "Dental, vision, life, and more" [level=3] [ref=e149]
+            - paragraph [ref=e150]: Round out coverage with practical add-ons, family protection, and plan combinations that do not create expensive overlap.
+            - strong [ref=e151]: Review add-ons →
+        - generic [ref=e152]:
+          - generic [ref=e153]:
+            - strong [ref=e154]: No separate review fee
+            - text: David does not charge consumers a separate fee for the plan-review assistance described here. Carrier compensation can vary by product.
+          - generic [ref=e155]:
+            - strong [ref=e156]: Plan-specific factors
+            - text: Doctors, prescriptions, pharmacies, eligibility, and timing should be checked before enrollment.
+    - generic [ref=e158]:
+      - 'heading "Health insurance in Lakeland, FL: where to start" [level=2] [ref=e159]'
+      - paragraph [ref=e160]: Most Lakeland and Polk County households start with the ACA Marketplace or Medicare, depending on age and eligibility. For plan year 2027, Florida Marketplace Open Enrollment begins November 1, 2026; Medicare Annual Enrollment runs October 15 through December 7, 2026. Compare doctors, prescriptions, income, and enrollment timing before you choose. Product availability varies by ZIP code, county, eligibility, and plan year. A Special Enrollment Period may apply after a qualifying life event, but eligibility must be confirmed.
+      - paragraph [ref=e161]:
+        - text: Start in the
+        - link "Coverage Center" [ref=e162] [cursor=pointer]:
+          - /url: /coverage-center/
+        - text: ", the"
+        - link "Polk County ACA agent" [ref=e163] [cursor=pointer]:
+          - /url: /aca-health-insurance-agent-polk-county-fl/
+        - text: page, or the
+        - link "provider and prescription check" [ref=e164] [cursor=pointer]:
+          - /url: /provider-prescription-check/
+        - text: .
+      - paragraph [ref=e165]:
+        - strong [ref=e166]: "Service area:"
+        - text: Local assistance in Lakeland and Polk County, with remote assistance across Florida. City pages are listed in
+        - link "Service Areas" [ref=e167] [cursor=pointer]:
+          - /url: "#service-areas"
+        - text: . Product and plan availability varies by ZIP code, county, eligibility, and plan year.
+      - paragraph [ref=e168]:
+        - text: Call
+        - link "(863) 640-3102" [ref=e169] [cursor=pointer]:
+          - /url: tel:+18636403102
+        - text: or
+        - link "request a review" [ref=e170] [cursor=pointer]:
+          - /url: /get-help/
+        - text: .
+    - region [ref=e171]:
+      - generic [ref=e172]:
+        - paragraph [ref=e173]: Service Areas
+        - heading "Health insurance help for Lakeland and nearby Florida cities" [level=2] [ref=e174]
+        - paragraph [ref=e175]: Use the city page that matches where you live or receive care. Availability still depends on ZIP code, county, eligibility, and plan year.
+        - generic [ref=e176]:
+          - generic [ref=e177]:
+            - heading "Polk County" [level=3] [ref=e178]
+            - list [ref=e179]:
+              - listitem [ref=e180]:
+                - link "Lakeland" [ref=e181] [cursor=pointer]:
+                  - /url: /aca-health-insurance-lakeland-fl/
+              - listitem [ref=e182]:
+                - link "Winter Haven" [ref=e183] [cursor=pointer]:
+                  - /url: /winter-haven-health-insurance/
+              - listitem [ref=e184]:
+                - link "Haines City" [ref=e185] [cursor=pointer]:
+                  - /url: /haines-city-health-insurance/
+              - listitem [ref=e186]:
+                - link "Davenport" [ref=e187] [cursor=pointer]:
+                  - /url: /davenport-health-insurance/
+              - listitem [ref=e188]:
+                - link "Lake Alfred" [ref=e189] [cursor=pointer]:
+                  - /url: /lake-alfred-health-insurance/
+          - generic [ref=e190]:
+            - heading "Hillsborough County" [level=3] [ref=e191]
+            - list [ref=e192]:
+              - listitem [ref=e193]:
+                - link "Tampa" [ref=e194] [cursor=pointer]:
+                  - /url: /tampa-health-insurance/
+              - listitem [ref=e195]:
+                - link "Brandon" [ref=e196] [cursor=pointer]:
+                  - /url: /brandon-health-insurance/
+              - listitem [ref=e197]:
+                - link "Riverview" [ref=e198] [cursor=pointer]:
+                  - /url: /riverview-health-insurance/
+          - generic [ref=e199]:
+            - heading "Pinellas County" [level=3] [ref=e200]
+            - list [ref=e201]:
+              - listitem [ref=e202]:
+                - link "St. Petersburg" [ref=e203] [cursor=pointer]:
+                  - /url: /st-petersburg-health-insurance/
+              - listitem [ref=e204]:
+                - link "Clearwater" [ref=e205] [cursor=pointer]:
+                  - /url: /clearwater-health-insurance/
+              - listitem [ref=e206]:
+                - link "Largo" [ref=e207] [cursor=pointer]:
+                  - /url: /largo-health-insurance/
+          - generic [ref=e208]:
+            - heading "Pasco County" [level=3] [ref=e209]
+            - list [ref=e210]:
+              - listitem [ref=e211]:
+                - link "Wesley Chapel" [ref=e212] [cursor=pointer]:
+                  - /url: /wesley-chapel-health-insurance/
+              - listitem [ref=e213]:
+                - link "New Port Richey" [ref=e214] [cursor=pointer]:
+                  - /url: /new-port-richey-health-insurance/
+        - paragraph [ref=e215]:
+          - text: How a review works is explained on
+          - link "Our Approach" [ref=e216] [cursor=pointer]:
+            - /url: /our-approach.html
+          - text: . Remote assistance is available across Florida when product and plan availability allow.
+        - paragraph [ref=e217]:
+          - text: Outside Florida? I'm licensed in 21 more states. See
+          - link "States I'm licensed in" [ref=e218] [cursor=pointer]:
+            - /url: /states/
+          - text: .
+    - generic [ref=e220]:
+      - paragraph [ref=e221]: Coverage Options
+      - heading "Plan Types We Can Review Together" [level=2] [ref=e222]
+      - paragraph [ref=e223]: Compare the main options, then request a review with your contact details and timing. Discuss doctors, prescriptions, and other sensitive information during private follow-up.
+      - paragraph [ref=e224]: "Our services include:"
+      - list [ref=e225]:
+        - listitem [ref=e226]:
+          - link "ACA Marketplace Health Insurance Plans" [ref=e227] [cursor=pointer]:
+            - /url: /aca-health-insurance-lakeland-fl/
+          - text: for individuals and families
+        - listitem [ref=e228]:
+          - link "Private Medical Insurance Options" [ref=e229] [cursor=pointer]:
+            - /url: /private-medical-insurance/
+          - text: for ACA, direct, short-term, and supplemental comparisons
+        - listitem [ref=e230]:
+          - link "Medicare Advantage Plans (Part C)" [ref=e231] [cursor=pointer]:
+            - /url: /blog/medicare-advantage-lakeland-2026.html
+        - listitem [ref=e232]:
+          - link "Medicare Supplement (Medigap) Plans" [ref=e233] [cursor=pointer]:
+            - /url: /blog/medicare-advantage-vs-medicare-supplement.html
+        - listitem [ref=e234]:
+          - link "Short-Term Medical Coverage" [ref=e235] [cursor=pointer]:
+            - /url: /short-term-medical/
+        - listitem [ref=e236]:
+          - link "Dental and Vision Insurance" [ref=e237] [cursor=pointer]:
+            - /url: /blog/dental-insurance-guide.html
+        - listitem [ref=e238]:
+          - link "Life Insurance Solutions" [ref=e239] [cursor=pointer]:
+            - /url: /life-insurance-dime-method/
+        - listitem [ref=e240]:
+          - link "Fixed-Indemnity & Supplemental Coverage" [ref=e241] [cursor=pointer]:
+            - /url: /health-protector-guard/
+      - generic [ref=e242]:
+        - link "Medicare review" [ref=e243] [cursor=pointer]:
+          - /url: /get-help/?intent=medicare
+        - link "Under-65 review" [ref=e244] [cursor=pointer]:
+          - /url: /get-help/?intent=under-65
+        - link "Losing coverage" [ref=e245] [cursor=pointer]:
+          - /url: /get-help/?intent=losing-coverage
+        - link "Call (863) 640-3102" [ref=e246] [cursor=pointer]:
+          - /url: tel:+18636403102
+    - generic [ref=e248]:
+      - paragraph [ref=e249]: Resources
+      - heading "Want more in-depth articles?" [level=2] [ref=e250]
+      - paragraph [ref=e251]:
+        - text: Guides and tools live on the Blog and Learning Center. Start with the
+        - link "ACA intake page" [ref=e252] [cursor=pointer]:
+          - /url: /aca-health-insurance-lakeland-fl/
+        - text: ","
+        - link "Polk County Medicare help" [ref=e253] [cursor=pointer]:
+          - /url: /medicare/
+        - text: ", or the"
+        - link "Lakeland Medicare Advantage notes" [ref=e254] [cursor=pointer]:
+          - /url: /blog/medicare-advantage-lakeland-2026.html
+        - text: .
+      - generic [ref=e255]:
+        - heading "More guides" [level=3] [ref=e256]
+        - list [ref=e257]:
+          - listitem [ref=e258]:
+            - link "States I'm licensed in" [ref=e259] [cursor=pointer]:
+              - /url: /states/
+            - text: — 2027 Marketplace guides outside Florida, including
+            - link "Texas" [ref=e260] [cursor=pointer]:
+              - /url: /health-insurance-texas/
+            - text: ","
+            - link "North Carolina" [ref=e261] [cursor=pointer]:
+              - /url: /health-insurance-north-carolina/
+            - text: ","
+            - link "South Carolina" [ref=e262] [cursor=pointer]:
+              - /url: /health-insurance-south-carolina/
+            - text: ","
+            - link "Tennessee" [ref=e263] [cursor=pointer]:
+              - /url: /health-insurance-tennessee/
+            - text: ", and"
+            - link "Alabama" [ref=e264] [cursor=pointer]:
+              - /url: /health-insurance-alabama/
+            - text: .
+          - listitem [ref=e265]:
+            - link "2027 Florida Marketplace issuer notes" [ref=e266] [cursor=pointer]:
+              - /url: /carriers/oscar-aca-2026/
+            - text: — carrier-specific enrollment notes also listed on the
+            - link "carrier hub" [ref=e267] [cursor=pointer]:
+              - /url: /carriers/
+            - text: .
+          - listitem [ref=e268]:
+            - link "2027 Polk County Medicare Advantage hospital-system notes" [ref=e269] [cursor=pointer]:
+              - /url: /blog/baycare-medicare-advantage-plans-2027-polk-county.html
+            - text: — AEP planning from official plan documents.
+          - listitem [ref=e270]:
+            - link "Medicare Part B rebate checks in Florida" [ref=e271] [cursor=pointer]:
+              - /url: /blog/medicare-improvement-fund-90-rebate-florida.html
+            - text: — who may qualify and how to verify through official channels.
+          - listitem [ref=e272]:
+            - link "City of Lakeland retiree Medicare spouse checklist" [ref=e273] [cursor=pointer]:
+              - /url: /blog/city-of-lakeland-retiree-medicare-spouse-premium.html
+            - text: — what to confirm with city benefits before changing coverage.
+          - listitem [ref=e274]:
+            - link "How ZIP codes affect Florida health insurance pricing" [ref=e275] [cursor=pointer]:
+              - /url: /blog/zip-code-health-insurance-pricing-florida.html
+            - text: — why the same plan can price differently by county.
+          - listitem [ref=e276]:
+            - link "When a Marketplace plan ends in 2027" [ref=e277] [cursor=pointer]:
+              - /url: /blog/marketplace-plan-ending-2027-what-now.html
+            - text: — next steps before Open Enrollment deadlines.
+      - link "Visit Our Blog" [ref=e279] [cursor=pointer]:
+        - /url: /blog/
+      - generic [ref=e280]:
+        - paragraph [ref=e281]: Newsletter
+        - heading "Get monthly insurance tips" [level=3] [ref=e282]
+        - paragraph [ref=e283]:
+          - text: One focused email a month on ACA, Medicare, subsidies, and tax forms.
+          - link "Read about the newsletter" [ref=e284] [cursor=pointer]:
+            - /url: /newsletter/
+          - text: . Unsubscribe at any time.
+        - generic [ref=e285]:
+          - generic [ref=e286]:
+            - generic [ref=e287]: Email address
+            - textbox "Email address" [ref=e288]:
+              - /placeholder: you@example.com
+            - button "Subscribe" [ref=e289] [cursor=pointer]
+          - generic [ref=e290]:
+            - checkbox "I agree to receive email newsletters from Lakeland Health Insurance with general health insurance and Medicare education tips. This is not consent to sales calls, texts, or Medicare plan marketing contact. Unsubscribe anytime." [ref=e291]
+            - generic [ref=e292]: I agree to receive email newsletters from Lakeland Health Insurance with general health insurance and Medicare education tips. This is not consent to sales calls, texts, or Medicare plan marketing contact. Unsubscribe anytime.
+    - generic [ref=e294]:
+      - paragraph [ref=e295]: Google Reviews
+      - heading "What clients say on Google" [level=2] [ref=e296]
+      - paragraph [ref=e297]: Quotes are shown verbatim from public Google reviews. Individual experiences vary.
+      - paragraph [ref=e298]: Ratings and review totals change outside this site. Use the source profile for current feedback.
+      - generic [ref=e299]:
+        - figure "Elenita D. 5-star Google review · View on Google" [ref=e300]:
+          - img "5 out of 5 stars" [ref=e301]: ★★★★★
+          - blockquote [ref=e302]: “Amazing help with finding health insurance. They responded fast, gave clear guidance, and made the whole process simple. I appreciate the professionalism and quick support.”
+          - generic [ref=e303]:
+            - generic [ref=e304]: Elenita D.
+            - generic [ref=e305]:
+              - text: 5-star Google review ·
+              - link "View on Google" [ref=e306] [cursor=pointer]:
+                - /url: https://www.google.com/maps?cid=5421693615683546210
+        - figure "Dovonna R. 5-star Google review · View on Google" [ref=e307]:
+          - img "5 out of 5 stars" [ref=e308]: ★★★★★
+          - blockquote [ref=e309]: “…Navigating health insurance can feel overwhelming, but David has a way of simplifying everything and presenting clear, thoughtful options. …”
+          - generic [ref=e310]:
+            - generic [ref=e311]: Dovonna R.
+            - generic [ref=e312]:
+              - text: 5-star Google review ·
+              - link "View on Google" [ref=e313] [cursor=pointer]:
+                - /url: https://www.google.com/maps?cid=5421693615683546210
+        - figure "Cole K. 5-star Google review · View on Google" [ref=e314]:
+          - img "5 out of 5 stars" [ref=e315]: ★★★★★
+          - blockquote [ref=e316]: “David does awesome work. Very helpful and takes his time explaining everything well. Highly recommended”
+          - generic [ref=e317]:
+            - generic [ref=e318]: Cole K.
+            - generic [ref=e319]:
+              - text: 5-star Google review ·
+              - link "View on Google" [ref=e320] [cursor=pointer]:
+                - /url: https://www.google.com/maps?cid=5421693615683546210
+        - figure "Charlotte J. 5-star Google review · View on Google" [ref=e321]:
+          - img "5 out of 5 stars" [ref=e322]: ★★★★★
+          - blockquote [ref=e323]: “David was very helpful, attentive, and efficient at setting me up with the plan I needed. Quick & easy, definitely recommend”
+          - generic [ref=e324]:
+            - generic [ref=e325]: Charlotte J.
+            - generic [ref=e326]:
+              - text: 5-star Google review ·
+              - link "View on Google" [ref=e327] [cursor=pointer]:
+                - /url: https://www.google.com/maps?cid=5421693615683546210
+        - figure "Travis H. 5-star Google review · View on Google" [ref=e328]:
+          - img "5 out of 5 stars" [ref=e329]: ★★★★★
+          - blockquote [ref=e330]: “David was super easy to work with and helped me every step of the way. And when I decided I didn’t like what I had he helped me switch over smoothly. Highly recommend David Huff if you need anything!”
+          - generic [ref=e331]:
+            - generic [ref=e332]: Travis H.
+            - generic [ref=e333]:
+              - text: 5-star Google review ·
+              - link "View on Google" [ref=e334] [cursor=pointer]:
+                - /url: https://www.google.com/maps?cid=5421693615683546210
+        - figure "Richard R. 5-star Google review · View on Google" [ref=e335]:
+          - img "5 out of 5 stars" [ref=e336]: ★★★★★
+          - blockquote [ref=e337]: “What a great experience! All our questions were answered and the process was so easy. David Huff makes everything a breeze. 10 out of 10!!!!”
+          - generic [ref=e338]:
+            - generic [ref=e339]: Richard R.
+            - generic [ref=e340]:
+              - text: 5-star Google review ·
+              - link "View on Google" [ref=e341] [cursor=pointer]:
+                - /url: https://www.google.com/maps?cid=5421693615683546210
+      - generic [ref=e342]:
+        - link "Read all reviews on Google →" [ref=e343] [cursor=pointer]:
+          - /url: https://www.google.com/maps?cid=5421693615683546210
+        - link "Leave a Google review" [ref=e344] [cursor=pointer]:
+          - /url: https://search.google.com/local/writereview?placeid=ChIJt5PwbmR6WK0RYizSO565PUs
+      - link "View the BBB business profile →" [ref=e346] [cursor=pointer]:
+        - /url: https://www.bbb.org/us/fl/lakeland/profile/health-insurance/lakeland-health-insurance-0733-235981531/
+    - generic [ref=e348]:
+      - paragraph [ref=e349]: Common Questions
+      - heading "Health Insurance Questions for Lakeland Residents" [level=2] [ref=e350]
+      - generic [ref=e351]:
+        - heading "How do I get health insurance in Lakeland, FL?" [level=3] [ref=e352]
+        - paragraph [ref=e353]: Lakeland residents can enroll in health insurance through the ACA Marketplace (Healthcare.gov), Medicare (if eligible), or private plans. A licensed Florida health agent can compare options from multiple carriers with carrier-paid agent compensation. Call (863) 640-3102 or visit the help form to start.
+      - generic [ref=e354]:
+        - heading "What does a licensed Florida health agent cost?" [level=3] [ref=e355]
+        - paragraph [ref=e356]: Insurance carriers generally compensate appointed agents when an enrollment is completed. David does not charge a separate fee for the plan-review assistance described on this site. Compensation and availability can differ by carrier and product.
+      - generic [ref=e357]:
+        - heading "Can I get ACA health insurance if I am self-employed in Florida?" [level=3] [ref=e358]
+        - paragraph [ref=e359]: Self-employed individuals may enroll in ACA Marketplace coverage if they meet the applicable eligibility requirements and may qualify for premium tax credits based on projected household income and other application information. Eligibility and savings are determined by the Marketplace.
+      - generic [ref=e360]:
+        - heading "When is open enrollment for health insurance in Florida?" [level=3] [ref=e361]
+        - paragraph [ref=e362]: For plan year 2027, Florida uses HealthCare.gov. Marketplace Open Enrollment starts November 1, 2026. December 15, 2026 is the last day to enroll or change for coverage that starts January 1, 2027. Open Enrollment ends January 15, 2027; enrollments from December 16 through January 15 generally start February 1. Medicare Annual Enrollment runs October 15 through December 7. A Special Enrollment Period may apply outside those windows, but eligibility and documentation must be confirmed.
+      - generic [ref=e363]:
+        - heading "What is the difference between Medicare Advantage and Medicare Supplement?" [level=3] [ref=e364]
+        - paragraph [ref=e365]: Medicare Advantage (Part C) is an alternative way to receive Medicare benefits through a private plan that often includes prescription drugs, dental, and vision, with network restrictions. Medicare Supplement (Medigap) works alongside Original Medicare to cover out-of-pocket costs, with higher premiums but broader provider flexibility.
+      - generic [ref=e366]:
+        - heading "What health insurance plans are available in Polk County?" [level=3] [ref=e367]
+        - paragraph [ref=e368]: Available options depend on ZIP code, county, age, eligibility, plan year, carrier service area, and—in some products—health underwriting. Confirm current options before relying on any carrier, provider, prescription, premium, or benefit description.
+      - paragraph [ref=e369]:
+        - text: "Sources:"
+        - link "HealthCare.gov dates and deadlines" [ref=e370] [cursor=pointer]:
+          - /url: https://www.healthcare.gov/quick-guide/dates-and-deadlines/
+        - text: ", accessed September 23, 2026, and"
+        - link "Medicare.gov Open Enrollment" [ref=e371] [cursor=pointer]:
+          - /url: https://www.medicare.gov/health-drug-plans/open-enrollment
+        - text: ", accessed July 31, 2026."
+    - generic [ref=e375]:
+      - paragraph [ref=e376]: Get Started
+      - heading "Need a plan-specific review?" [level=2] [ref=e377]
+      - paragraph [ref=e378]: Start with your contact details, the type of help you need, and your deadline. David will explain the next steps for a private coverage review.
+      - generic [ref=e379]:
+        - link "Medicare review" [ref=e380] [cursor=pointer]:
+          - /url: /get-help/?intent=medicare
+        - link "Under-65 review" [ref=e381] [cursor=pointer]:
+          - /url: /get-help/?intent=under-65
+        - link "Losing coverage" [ref=e382] [cursor=pointer]:
+          - /url: /get-help/?intent=losing-coverage
+        - link "Call (863) 640-3102" [ref=e383] [cursor=pointer]:
+          - /url: tel:+18636403102
+    - generic [ref=e385]:
+      - heading "Browse coverage guidance by topic" [level=2] [ref=e386]
+      - paragraph [ref=e387]:
+        - text: Start with individual, family, and ACA guidance, then use the Medicare or secondary-coverage library when that is the relevant option. Calculators, situation pages, and official resources are collected in the
+        - link "Learning Center" [ref=e388] [cursor=pointer]:
+          - /url: /learning/
+        - text: .
+      - generic [ref=e389]:
+        - generic [ref=e390]:
+          - heading "Individual and Family Coverage" [level=3] [ref=e391]
+          - link "Explore ACA Marketplace Coverage →" [ref=e392] [cursor=pointer]:
+            - /url: /aca-health-insurance-lakeland-fl/
+          - paragraph [ref=e393]:
+            - link "Florida coverage paths that do not use Marketplace income verification" [ref=e394] [cursor=pointer]:
+              - /url: /blog/non-income-based-health-insurance-florida.html
+          - list [ref=e395]:
+            - listitem [ref=e396]:
+              - link "Polk County ACA Agent" [ref=e397] [cursor=pointer]:
+                - /url: /aca-health-insurance-agent-polk-county-fl/
+            - listitem [ref=e398]:
+              - link "Doctors and Prescriptions" [ref=e399] [cursor=pointer]:
+                - /url: /provider-prescription-check/
+            - listitem [ref=e400]:
+              - link "Florida ACA Enrollment" [ref=e401] [cursor=pointer]:
+                - /url: /blog/florida-aca-enrollment-and-benefits-2026.html
+            - listitem [ref=e402]:
+              - link "ACA Subsidy Changes" [ref=e403] [cursor=pointer]:
+                - /url: /blog/aca-2026-subsidy-expiration-florida-impact.html
+            - listitem [ref=e404]:
+              - link "ACA Income and MAGI" [ref=e405] [cursor=pointer]:
+                - /url: /blog/aca-subsidy-cliff.html
+            - listitem [ref=e406]:
+              - link "Premium-Tax-Credit Reconciliation" [ref=e407] [cursor=pointer]:
+                - /url: /blog/aca-subsidy-tax-return-clawback.html
+            - listitem [ref=e408]:
+              - link "Open Enrollment Timing" [ref=e409] [cursor=pointer]:
+                - /url: /blog/aca-open-enrollment-deadline.html
+            - listitem [ref=e410]:
+              - link "ACA Subsidy Estimator" [ref=e411] [cursor=pointer]:
+                - /url: /aca-subsidy-estimator/
+            - listitem [ref=e412]:
+              - link "Private Medical Insurance Options" [ref=e413] [cursor=pointer]:
+                - /url: /private-medical-insurance/
+            - listitem [ref=e414]:
+              - link "Health Insurance Broker in Lakeland" [ref=e415] [cursor=pointer]:
+                - /url: /local-health-insurance-answers/health-insurance-broker-lakeland-fl/
+        - generic [ref=e416]:
+          - heading "Work, Household & Life Changes" [level=3] [ref=e417]
+          - link "Self-Employed Coverage Guide →" [ref=e418] [cursor=pointer]:
+            - /url: /self-employed-health-insurance/
+          - list [ref=e419]:
+            - listitem [ref=e420]:
+              - link "Losing Job-Based Coverage" [ref=e421] [cursor=pointer]:
+                - /url: /losing-coverage/
+            - listitem [ref=e422]:
+              - link "Employee Losing Group Coverage" [ref=e423] [cursor=pointer]:
+                - /url: /local-health-insurance-answers/employee-losing-group-coverage/
+            - listitem [ref=e424]:
+              - link "Self-Employed Coverage in Lakeland" [ref=e425] [cursor=pointer]:
+                - /url: /blog/health-insurance-self-employed-lakeland-polk-county-2026.html
+            - listitem [ref=e426]:
+              - link "Self-Employed Coverage in Polk County" [ref=e427] [cursor=pointer]:
+                - /url: /local-health-insurance-answers/self-employed-health-insurance-polk-county/
+            - listitem [ref=e428]:
+              - link "Retiring Before 65" [ref=e429] [cursor=pointer]:
+                - /url: /retiring-before-65-florida/
+            - listitem [ref=e430]:
+              - link "Turning 26" [ref=e431] [cursor=pointer]:
+                - /url: /turning-26/
+            - listitem [ref=e432]:
+              - link "Doctors and Prescriptions" [ref=e433] [cursor=pointer]:
+                - /url: /provider-prescription-check/
+            - listitem [ref=e434]:
+              - link "Post-Enrollment Coverage Review" [ref=e435] [cursor=pointer]:
+                - /url: /post-enrollment-review/
+            - listitem [ref=e436]:
+              - link "Self-Employed Tax Considerations" [ref=e437] [cursor=pointer]:
+                - /url: /blog/health-insurance-self-employed-tax-deductions.html
+        - generic [ref=e438]:
+          - heading "Medicare" [level=3] [ref=e439]
+          - link "Medicare Help & 2027 Planning →" [ref=e440] [cursor=pointer]:
+            - /url: /medicare/
+          - list [ref=e441]:
+            - listitem [ref=e442]:
+              - link "Medicare Broker in Lakeland, FL" [ref=e443] [cursor=pointer]:
+                - /url: /medicare-broker-lakeland-fl/
+            - listitem [ref=e444]:
+              - link "How to choose a Medicare broker" [ref=e445] [cursor=pointer]:
+                - /url: /medicare-broker-lakeland-fl/#how-to-choose
+            - listitem [ref=e446]:
+              - 'link "Retiring or Working Past 65: Medicare Timing" [ref=e447] [cursor=pointer]':
+                - /url: /working-past-65-medicare-lakeland-fl/
+            - listitem [ref=e448]:
+              - link "Medicare Advantage" [ref=e449] [cursor=pointer]:
+                - /url: /blog/medicare-advantage-lakeland-2026.html
+            - listitem [ref=e450]:
+              - link "Medicare Advantage vs Supplement" [ref=e451] [cursor=pointer]:
+                - /url: /blog/medicare-advantage-vs-medicare-supplement.html
+            - listitem [ref=e452]:
+              - link "Medicare Plan Help in Lakeland" [ref=e453] [cursor=pointer]:
+                - /url: /local-health-insurance-answers/medicare-plan-help-lakeland/
+            - listitem [ref=e454]:
+              - link "Moving with Medicare in Florida" [ref=e455] [cursor=pointer]:
+                - /url: /moving-florida-medicare/
+            - listitem [ref=e456]:
+              - link "Orlando Health & Watson Clinic Guide" [ref=e457] [cursor=pointer]:
+                - /url: /blog/orlando-health-watson-clinic-insurance-2026.html
+            - listitem [ref=e458]:
+              - link "When Can I Switch Medicare Plans?" [ref=e459] [cursor=pointer]:
+                - /url: /blog/when-can-i-switch-medicare-plans-florida.html
+            - listitem [ref=e460]:
+              - link "Medigap Cost in Lakeland" [ref=e461] [cursor=pointer]:
+                - /url: /blog/medicare-supplement-cost-lakeland.html
+            - listitem [ref=e462]:
+              - link "AEP Polk County Checklist" [ref=e463] [cursor=pointer]:
+                - /url: /blog/aep-2026-polk-county-checklist.html
+            - listitem [ref=e464]:
+              - link "Medicare Enrollment Guide" [ref=e465] [cursor=pointer]:
+                - /url: /blog/medicare-for-dummies.html
+        - generic [ref=e466]:
+          - heading "Fixed-Indemnity Education" [level=3] [ref=e467]
+          - link "Understand Scheduled Benefits and Limits →" [ref=e468] [cursor=pointer]:
+            - /url: /health-protector-guard/
+          - list [ref=e469]:
+            - listitem [ref=e470]:
+              - link "Fixed Indemnity Explained" [ref=e471] [cursor=pointer]:
+                - /url: /blog/fixed-indemnity-analysis.html
+            - listitem [ref=e472]:
+              - link "Short-Term Health Insurance in Florida" [ref=e473] [cursor=pointer]:
+                - /url: /short-term-medical/
+        - generic [ref=e474]:
+          - heading "How Insurance Works" [level=3] [ref=e475]
+          - link "Florida Insurance Guide →" [ref=e476] [cursor=pointer]:
+            - /url: /blog/florida-insurance-guide.html
+          - list [ref=e477]:
+            - listitem [ref=e478]:
+              - link "HMO vs PPO vs EPO" [ref=e479] [cursor=pointer]:
+                - /url: /blog/hmo-vs-ppo-vs-epo-explained.html
+            - listitem [ref=e480]:
+              - link "How to Read Your Insurance Card" [ref=e481] [cursor=pointer]:
+                - /url: /blog/how-to-read-health-insurance-card-guide.html
+            - listitem [ref=e482]:
+              - link "Use Insurance and Manage Yearly Costs" [ref=e483] [cursor=pointer]:
+                - /url: /blog/how-to-use-health-insurance-without-going-broke.html
+            - listitem [ref=e484]:
+              - link "Negotiate Hospital Bills" [ref=e485] [cursor=pointer]:
+                - /url: /blog/how-to-negotiate-hospital-bills.html
+            - listitem [ref=e486]:
+              - link "5 Critical Mistakes to Avoid" [ref=e487] [cursor=pointer]:
+                - /url: /blog/5-critical-health-insurance-mistakes.html
+            - listitem [ref=e488]:
+              - link "Plan Your Healthcare Budget" [ref=e489] [cursor=pointer]:
+                - /url: /blog/planning-healthcare-budget-2026.html
+        - generic [ref=e490]:
+          - heading "Ancillary & Local" [level=3] [ref=e491]
+          - link "All Plan Types →" [ref=e492] [cursor=pointer]:
+            - /url: /plans/
+          - list [ref=e493]:
+            - listitem [ref=e494]:
+              - link "Dental Insurance Guide" [ref=e495] [cursor=pointer]:
+                - /url: /blog/dental-insurance-guide.html
+            - listitem [ref=e496]:
+              - link "Life Insurance (DIME Method)" [ref=e497] [cursor=pointer]:
+                - /url: /life-insurance-dime-method/
+            - listitem [ref=e498]:
+              - link "Local Health Insurance Answers" [ref=e499] [cursor=pointer]:
+                - /url: /local-health-insurance-answers/
+            - listitem [ref=e500]:
+              - link "Watson Clinic Network Help" [ref=e501] [cursor=pointer]:
+                - /url: /local-health-insurance-answers/watson-clinic-insurance-network-help/
+            - listitem [ref=e502]:
+              - link "Lake Alfred Health Insurance" [ref=e503] [cursor=pointer]:
+                - /url: /lake-alfred-health-insurance/
+            - listitem [ref=e504]:
+              - link "ER Cost in Lakeland Without Coverage" [ref=e505] [cursor=pointer]:
+                - /url: /blog/er-visit-cost-lakeland-without-insurance-2026.html
+            - listitem [ref=e506]:
+              - link "Carriers We Work With" [ref=e507] [cursor=pointer]:
+                - /url: /carriers/
+            - listitem [ref=e508]:
+              - link "About David Huff" [ref=e509] [cursor=pointer]:
+                - /url: /about/
+            - listitem [ref=e510]:
+              - link "Our Approach" [ref=e511] [cursor=pointer]:
+                - /url: /our-approach.html
+    - region [ref=e512]:
+      - generic [ref=e513]:
+        - heading "Find our Lakeland office" [level=2] [ref=e514]
+        - paragraph [ref=e515]: The Lakeland office address and phone number are in the footer below. Load the map when you are ready to plan a visit by appointment.
+        - paragraph [ref=e516]:
+          - link "Get directions" [ref=e517] [cursor=pointer]:
+            - /url: https://www.google.com/maps/dir/?api=1&destination=2298%20Lakeland%20Hills%20Blvd%2C%20Lakeland%2C%20FL%2033805
+        - button "Load map" [ref=e519] [cursor=pointer]
+  - region "Legal and compliance disclaimers" [ref=e520]:
+    - paragraph [ref=e521]: We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.
+    - paragraph [ref=e522]: "Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area."
+  - contentinfo [ref=e523]:
+    - generic [ref=e524]:
+      - generic [ref=e525]:
+        - generic [ref=e526]:
+          - heading "Contact David" [level=3] [ref=e527]
+          - list [ref=e528]:
+            - listitem [ref=e529]:
+              - link "(863) 640-3102" [ref=e530] [cursor=pointer]:
+                - /url: tel:+18636403102
+                - text: 📞 (863) 640-3102
+            - listitem [ref=e531]:
+              - link "david@lakelandhealthinsurance.com" [ref=e532] [cursor=pointer]:
+                - /url: mailto:david@lakelandhealthinsurance.com
+                - text: 📧 david@lakelandhealthinsurance.com
+            - listitem [ref=e533]:
+              - link "David the Insurance Dude" [ref=e534] [cursor=pointer]:
+                - /url: https://m.me/1068037236387352
+                - text: 💬 David the Insurance Dude
+            - listitem [ref=e535]: 📍 Lakeland Health Insurance · 2298 Lakeland Hills Blvd, Lakeland, FL 33805 · By appointment
+        - generic [ref=e536]:
+          - heading "Service Areas" [level=3] [ref=e537]
+          - list [ref=e538]:
+            - listitem [ref=e539]:
+              - link "Lakeland" [ref=e540] [cursor=pointer]:
+                - /url: /aca-health-insurance-lakeland-fl/
+            - listitem [ref=e541]:
+              - link "Brandon" [ref=e542] [cursor=pointer]:
+                - /url: /brandon-health-insurance/
+            - listitem [ref=e543]:
+              - link "Clearwater" [ref=e544] [cursor=pointer]:
+                - /url: /clearwater-health-insurance/
+            - listitem [ref=e545]:
+              - link "Davenport" [ref=e546] [cursor=pointer]:
+                - /url: /davenport-health-insurance/
+            - listitem [ref=e547]:
+              - link "Haines City" [ref=e548] [cursor=pointer]:
+                - /url: /haines-city-health-insurance/
+            - listitem [ref=e549]:
+              - link "Lake Alfred" [ref=e550] [cursor=pointer]:
+                - /url: /lake-alfred-health-insurance/
+            - listitem [ref=e551]:
+              - link "Largo" [ref=e552] [cursor=pointer]:
+                - /url: /largo-health-insurance/
+            - listitem [ref=e553]:
+              - link "New Port Richey" [ref=e554] [cursor=pointer]:
+                - /url: /new-port-richey-health-insurance/
+            - listitem [ref=e555]:
+              - link "Riverview" [ref=e556] [cursor=pointer]:
+                - /url: /riverview-health-insurance/
+            - listitem [ref=e557]:
+              - link "St. Petersburg" [ref=e558] [cursor=pointer]:
+                - /url: /st-petersburg-health-insurance/
+            - listitem [ref=e559]:
+              - link "Tampa" [ref=e560] [cursor=pointer]:
+                - /url: /tampa-health-insurance/
+            - listitem [ref=e561]:
+              - link "Wesley Chapel" [ref=e562] [cursor=pointer]:
+                - /url: /wesley-chapel-health-insurance/
+            - listitem [ref=e563]:
+              - link "Winter Haven" [ref=e564] [cursor=pointer]:
+                - /url: /winter-haven-health-insurance/
+            - listitem [ref=e565]: Polk County
+            - listitem [ref=e566]: Remote assistance across Florida
+            - listitem [ref=e567]:
+              - link "States I'm licensed in" [ref=e568] [cursor=pointer]:
+                - /url: /states/
+        - generic [ref=e569]:
+          - heading "Quick Links" [level=3] [ref=e570]
+          - list [ref=e571]:
+            - listitem [ref=e572]:
+              - link "Home" [ref=e573] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e574]:
+              - link "Individual and Family Coverage" [ref=e575] [cursor=pointer]:
+                - /url: /aca-health-insurance-lakeland-fl/
+            - listitem [ref=e576]:
+              - link "Losing Coverage" [ref=e577] [cursor=pointer]:
+                - /url: /losing-coverage/
+            - listitem [ref=e578]:
+              - link "Self-Employed Coverage" [ref=e579] [cursor=pointer]:
+                - /url: /self-employed-health-insurance/
+            - listitem [ref=e580]:
+              - link "Medicare" [ref=e581] [cursor=pointer]:
+                - /url: /medicare/
+            - listitem [ref=e582]:
+              - link "Coverage Options" [ref=e583] [cursor=pointer]:
+                - /url: /plans/
+            - listitem [ref=e584]:
+              - link "Self-Service ACA Quote" [ref=e585] [cursor=pointer]:
+                - /url: https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q
+            - listitem [ref=e586]:
+              - link "Blog" [ref=e587] [cursor=pointer]:
+                - /url: /blog/
+            - listitem [ref=e588]:
+              - link "Our Approach" [ref=e589] [cursor=pointer]:
+                - /url: /our-approach.html
+            - listitem [ref=e590]:
+              - link "Request a plan review" [ref=e591] [cursor=pointer]:
+                - /url: /get-help/
+            - listitem [ref=e592]:
+              - link "Privacy Policy" [ref=e593] [cursor=pointer]:
+                - /url: /privacy-policy.html
+            - listitem [ref=e594]:
+              - link "Terms of Service" [ref=e595] [cursor=pointer]:
+                - /url: /terms/
+            - listitem [ref=e596]:
+              - link "Data Deletion" [ref=e597] [cursor=pointer]:
+                - /url: /data-deletion/
+      - generic [ref=e599]:
+        - link "View the BBB business profile →" [ref=e600] [cursor=pointer]:
+          - /url: https://www.bbb.org/us/fl/lakeland/profile/health-insurance/lakeland-health-insurance-0733-235981531/
+        - generic [ref=e601]: Accreditation, rating, and profile details can change outside this site.
+      - generic [ref=e602]:
+        - paragraph [ref=e603]: © 2026 Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.
+        - paragraph [ref=e604]: "David Huff | FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier."
+        - paragraph [ref=e605]: Powered by David the Insurance Dude
+  - link "Hi, this is David Huff, a licensed health insurance agent here in Lakeland. What can I help you with?" [ref=e606] [cursor=pointer]:
+    - /url: https://m.me/1068037236387352?text=Hi%2C%20this%20is%20David%20Huff%2C%20a%20licensed%20health%20insurance%20agent%20here%20in%20Lakeland.%20What%20can%20I%20help%20you%20with%3F
+    - generic [aria-hidden] [ref=e607]: 💬

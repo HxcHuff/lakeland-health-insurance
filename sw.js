@@ -1,7 +1,7 @@
-const CACHE_NAME = 'lhi-20261016-no-red-banner';
+const CACHE_NAME = 'lhi-20261020-pr329-merge';
 const OFFLINE_URL = '/offline.html';
 const SITE_PHONE_URL = '/js/site-phone.js?v=20261015-v6merge2';
-const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261016-no-red-banner';
+const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261020-pr329-merge';
 
 // Core pages to pre-cache for offline access
 const PRECACHE_URLS = [

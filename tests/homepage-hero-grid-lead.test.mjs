@@ -26,17 +26,18 @@ test('priority lead pages use homepage grid-lead shell pattern', () => {
     const html = readFileSync(join(ROOT, rel), 'utf8');
     assert.match(html, /class="lhi-hero-shell"/, rel);
     assert.match(html, /class="lhi-lead-hero lhi-hero-grid-lead"/, rel);
-    assert.match(html, /lead-hero\.css\?v=20261020-watson-network-urgent/, rel);
+    assert.match(html, /lead-hero\.css\?v=20261020-pr329-merge/, rel);
   }
 });
 
-test('inventory: shell pages without lhi-hero-grid-lead are documented exceptions', () => {
+test('inventory: shell pages with lead use lhi-hero-grid-lead except documented skips', () => {
+  const SKIP = new Set(['medicare/index.html']);
   const missing = [];
   for (const rel of walkHtml()) {
-    if (rel.startsWith('blog/')) continue;
+    if (rel.startsWith('blog/') || SKIP.has(rel)) continue;
     const html = readFileSync(join(ROOT, rel), 'utf8');
     if (!html.includes('lhi-hero-shell') || !html.includes('lhi-lead-hero')) continue;
     if (!html.includes('lhi-hero-grid-lead')) missing.push(rel);
   }
-  assert.ok(missing.length < 80, `unexpected shell count without grid-lead: ${missing.length}`);
+  assert.deepEqual(missing, [], `shell pages missing grid-lead: ${missing.join(', ')}`);
 });
