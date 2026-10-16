@@ -329,10 +329,23 @@ body.lhi-page-hero:not(.blog-post) .lhi-hero-shell .lhi-lead-hero {
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .lhi-hero-grid-lead {
     align-self: start;
     grid-column: 2;
-    grid-row: 1;
+    grid-row: 1 / span 2;
     margin: 0;
     max-width: none;
     padding: 0;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .lhi-hero-deferred-block {
+    align-self: start;
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+    max-width: none;
+    width: 100%;
+  }
+
+  body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .lhi-hero-deferred-block > .lhi-alert-notice:first-child {
+    margin-top: 0;
   }
 
   body.lhi-page-hero:not(.home-page) .lhi-hero-shell:has(> .lhi-hero-grid-lead) > .lhi-hero-grid-lead .lhi-lead-hero__grid {

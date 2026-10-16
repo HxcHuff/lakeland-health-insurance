@@ -25,9 +25,9 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/js/site-template.js', '20261016-no-red-banner'],
   ['/js/site-search.js', '20260930-kansas'],
   ['/js/blog-cta.js', '20260803-brand-release'],
-  ['/css/lead-hero.css', '20261020-myblue-shell-band'],
+  ['/css/lead-hero.css', '20261020-watson-network-urgent'],
   ['/css/answer-pages.css', '20261019-watson-deferred-meta'],
-  ['/js/lead-hero.js', '20261020-myblue-shell-band'],
+  ['/js/lead-hero.js', '20261020-watson-network-urgent'],
 ]);
 const SERVICE_WORKER_CACHE_VERSION = '20261016-no-red-banner';
 
