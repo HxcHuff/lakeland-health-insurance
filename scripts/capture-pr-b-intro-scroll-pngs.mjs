@@ -7,25 +7,19 @@ import { chromium } from 'playwright';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const OUT = '/cursor/stores/self/media/sitewide-b';
-const PIN = '20261016-sitewide-b9';
+const PIN = '20261016-sitewide-b10';
 
 const REQUIRED = [
-  { url: '/blog/orlando-health-watson-clinic-doctors-network-2026.html', name: 'orlando-health-watson-clinic-doctors-network-2026' },
   { url: '/blog/orlando-health-lakeland-quality-approval-2026.html', name: 'orlando-health-lakeland-quality-approval-2026' },
-  { url: '/blog/medicare-advantage-lakeland-2026.html', name: 'medicare-advantage-lakeland-2026' },
-  { url: '/blog/health-insurance-checkup-every-age.html', name: 'health-insurance-checkup-every-age' },
-  {
-    url: '/blog/employer-coverage-family-marketplace-affordability-florida.html',
-    name: 'employer-coverage-family-marketplace-affordability-florida'
-  },
-  { url: '/blog/medigap-plan-g-vs-plan-n.html', name: 'medigap-plan-g-vs-plan-n' }
+  { url: '/blog/florida-aca-enrollment-and-benefits-2026.html', name: 'florida-aca-enrollment-and-benefits-2026' },
+  { url: '/blog/orlando-health-watson-clinic-doctors-network-2026.html', name: 'orlando-health-watson-clinic-doctors-network-2026' }
 ];
 
 const posts = readdirSync(join(ROOT, 'blog')).filter((f) => f.endsWith('.html') && f !== 'index.html');
 const used = new Set(REQUIRED.map((r) => r.name));
 const randomSix = [];
 for (let i = 0; randomSix.length < 6 && i < posts.length * 2; i += 1) {
-  const name = posts[(i * 13 + 5) % posts.length].replace(/\.html$/, '');
+  const name = posts[(i * 11 + 7) % posts.length].replace(/\.html$/, '');
   if (used.has(name) || randomSix.some((r) => r.name === `random-${name}`)) continue;
   randomSix.push({ url: `/blog/${name}.html`, name: `random-${name}` });
 }

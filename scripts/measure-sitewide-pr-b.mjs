@@ -103,7 +103,7 @@ async function preparePageForMeasure(page, baseUrl) {
     await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=20261021-hscroll-fix` });
     await page.waitForTimeout(450);
   }
-  await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=20261016-sitewide-b9` });
+  await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=20261016-sitewide-b10` });
   await page.waitForTimeout(80);
   await page.evaluate(() => {
     if (typeof window.LHIConsolidateBlogHeroCopy === 'function') {
@@ -473,6 +473,50 @@ async function measurePage(page, baseUrl, route, viewport) {
       });
     });
 
+    const normLocal = (s) => String(s || '').replace(/\s+/g, ' ').trim();
+    const hasMedia = (el) => Boolean(el.querySelector('img, svg, picture, video, iframe, canvas'));
+    const hasDecorativeSurface = (el) => {
+      const st = getComputedStyle(el);
+      const bg = parseRgbaLocal(st.backgroundColor);
+      const hasBg =
+        bg &&
+        bg[3] > 0.08 &&
+        !(bg[0] >= 248 && bg[1] >= 248 && bg[2] >= 248);
+      const borderW =
+        parseFloat(st.borderTopWidth) +
+        parseFloat(st.borderRightWidth) +
+        parseFloat(st.borderBottomWidth) +
+        parseFloat(st.borderLeftWidth);
+      return hasBg || borderW > 0.5;
+    };
+
+    const emptyDecorativeHits = [];
+    const scanZones = [];
+    if (shell) scanZones.push({ root: shell, maxY: Number.POSITIVE_INFINITY });
+    const mainEl = document.querySelector('main');
+    if (mainEl) {
+      const mainTop = mainEl.getBoundingClientRect().top;
+      scanZones.push({ root: mainEl, maxY: mainTop + 1200 });
+    }
+
+    scanZones.forEach(({ root, maxY }) => {
+      root.querySelectorAll('section, div, aside, figure, blockquote, a, button').forEach((el) => {
+        if (!isVisibleEl(el)) return;
+        const r = el.getBoundingClientRect();
+        if (r.top > maxY) return;
+        if (hasMedia(el)) return;
+        if (normLocal(el.textContent)) return;
+        if (!hasDecorativeSurface(el)) return;
+        if (r.width < 12 || r.height < 12) return;
+        emptyDecorativeHits.push({
+          tag: el.tagName.toLowerCase(),
+          className: (el.className || '').toString().slice(0, 72),
+          width: Math.round(r.width),
+          height: Math.round(r.height)
+        });
+      });
+    });
+
     return {
       hasShell: !!shell,
       hasHeroGrid,
@@ -505,6 +549,8 @@ async function measurePage(page, baseUrl, route, viewport) {
       introBoundsViolations,
       emptyIntroControls,
       introCtaOverflow,
+      emptyDecorativeHits,
+      emptyDecorativeCount: emptyDecorativeHits.length,
       redScan: { hitCount: redHits.length, hits: redHits.slice(0, 8) }
     };
   }, { vw: viewport.width, vh: viewport.height });
@@ -548,6 +594,9 @@ function evaluateRow(row) {
     }
     if (row.viewport === '390' && row.introCtaOverflow?.length > 0) {
       issues.push(`intro-cta-overflow:${row.introCtaOverflow.length}`);
+    }
+    if (row.emptyDecorativeCount > 0) {
+      issues.push(`empty-decorative:${row.emptyDecorativeCount}`);
     }
     if (
       row.route !== '/blog/' &&
@@ -603,6 +652,9 @@ function evaluateRow(row) {
     }
     if (row.introCtaOverflow?.length > 0) {
       issues.push(`intro-cta-overflow:${row.introCtaOverflow.length}`);
+    }
+    if (row.emptyDecorativeCount > 0) {
+      issues.push(`empty-decorative:${row.emptyDecorativeCount}`);
     }
   }
 

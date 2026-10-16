@@ -11,7 +11,7 @@ import { chromium } from 'playwright';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const BLOG = join(ROOT, 'blog');
-const PIN = process.env.PR_B_PIN || '20261016-sitewide-b9';
+const PIN = process.env.PR_B_PIN || '20261016-sitewide-b10';
 const OUT_JSON =
   process.env.PR_B_PRESERVE_JSON ||
   '/cursor/stores/self/media/sitewide-b/content-preservation.json';

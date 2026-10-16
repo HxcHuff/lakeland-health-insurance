@@ -9,6 +9,21 @@ const MEASURE_JSON =
   process.env.PR_B_MEASURE_JSON ||
   '/cursor/stores/self/media/sitewide-b/blog-measure-all.json';
 
+const htmlNest = spawnSync(process.execPath, ['scripts/check-blog-html-nesting.mjs'], {
+  cwd: ROOT,
+  encoding: 'utf8',
+  env: {
+    ...process.env,
+    PLAYWRIGHT_CHROME_EXECUTABLE_PATH:
+      process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || '/usr/local/bin/google-chrome'
+  },
+  maxBuffer: 8 * 1024 * 1024
+});
+if (htmlNest.stderr) process.stderr.write(htmlNest.stderr);
+if (htmlNest.status !== 0) {
+  process.exit(htmlNest.status ?? 1);
+}
+
 const preserve = spawnSync(process.execPath, ['scripts/check-content-preservation-pr-b.mjs'], {
   cwd: ROOT,
   encoding: 'utf8',

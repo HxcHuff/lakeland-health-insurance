@@ -2513,6 +2513,18 @@ body.lhi-page-hero.blog-post main.container:has(.lhi-hero-shell:first-child) {
   width: 100%;
 }
 
+body.lhi-page-hero.blog-post main.container:has(> .lhi-hero-shell) > section.card,
+body.lhi-page-hero.blog-post main.container:has(> .lhi-hero-shell) > figure.media,
+body.lhi-page-hero.blog-post main.container:has(> .lhi-hero-shell) > section:not(.hero):not(.lhi-lead-hero):not(.related-reading):not(.lhi-hero-shell) {
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1040px;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: calc(100% - 40px);
+}
+
 body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block {
   display: flex;
   flex-direction: column;
@@ -2825,7 +2837,19 @@ body.lhi-page-hero.blog-post .lhi-post-body-intro .cta-row {
 
 body.lhi-page-hero.blog-post .lhi-post-body-intro .cta-row .btn,
 body.lhi-page-hero.blog-post .lhi-post-body-intro .cta-row a {
+  align-items: center;
+  box-sizing: border-box;
+  display: inline-flex;
+  justify-content: center;
+  line-height: 1.25;
   max-width: 100%;
+  min-height: 44px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+body.lhi-page-hero.blog-post .lhi-post-body-intro .cta-row {
+  align-items: stretch;
 }
 
 @media (max-width: 900px) {
