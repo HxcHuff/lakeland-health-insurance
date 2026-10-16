@@ -35,8 +35,8 @@ const SERVICE_WORKER_CACHE_VERSION = '20261023-pr331-lede';
 /** Blog PR B ships newer cache tokens without sitewide HTML bumps. */
 const BLOG_RELEASE_ASSET_VERSIONS = new Map([
   ['/css/blog-unified.css', '20261016-sitewide-b'],
-  ['/css/lead-hero.css', '20261016-sitewide-b5'],
-  ['/js/lead-hero.js', '20261016-sitewide-b5']
+  ['/css/lead-hero.css', '20261016-sitewide-b6'],
+  ['/js/lead-hero.js', '20261016-sitewide-b6']
 ]);
 
 const FORBIDDEN_PUBLIC_FILES = [

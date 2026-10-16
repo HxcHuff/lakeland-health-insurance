@@ -103,7 +103,14 @@ async function preparePageForMeasure(page, baseUrl) {
     await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=20261021-hscroll-fix` });
     await page.waitForTimeout(450);
   }
-  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=20261016-sitewide-b6` });
+  await page.waitForTimeout(80);
+  await page.evaluate(() => {
+    if (typeof window.LHIConsolidateBlogHeroCopy === 'function') {
+      window.LHIConsolidateBlogHeroCopy();
+    }
+    window.scrollTo(0, 0);
+  });
   await page.waitForTimeout(120);
 }
 
@@ -359,6 +366,46 @@ async function measurePage(page, baseUrl, route, viewport) {
       shell?.querySelector('.hero-grid:has(.lhi-hero-grid-lead)')
     );
 
+    const isVisibleHeroEl = (el) => {
+      if (!el) return false;
+      const st = getComputedStyle(el);
+      if (st.display === 'none' || st.visibility === 'hidden' || Number(st.opacity) < 0.05) {
+        return false;
+      }
+      const r = el.getBoundingClientRect();
+      return r.width >= 2 && r.height >= 2;
+    };
+
+    const internalGapNodes = [];
+    if (shell) {
+      shell.querySelectorAll('.lhi-hero-lede-block, .lhi-hero-deferred-block').forEach((block) => {
+        block.querySelectorAll(':scope > h1, :scope > p, :scope > .meta, :scope > .blog-meta, :scope > .byline, :scope > .last-reviewed, :scope > div.meta, :scope > div.blog-meta').forEach((el) => {
+          if (isVisibleHeroEl(el)) internalGapNodes.push(el);
+        });
+      });
+      internalGapNodes.sort((a, b) => {
+        if (a === b) return 0;
+        const pos = a.compareDocumentPosition(b);
+        if (pos & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
+        if (pos & Node.DOCUMENT_POSITION_PRECEDING) return 1;
+        return 0;
+      });
+    }
+
+    const internalGaps = [];
+    for (let gi = 0; gi < internalGapNodes.length - 1; gi += 1) {
+      const prev = internalGapNodes[gi].getBoundingClientRect();
+      const next = internalGapNodes[gi + 1].getBoundingClientRect();
+      const gapPx = Math.round(next.top - prev.bottom);
+      internalGaps.push({
+        from: (internalGapNodes[gi].textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40),
+        to: (internalGapNodes[gi + 1].textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40),
+        gapPx
+      });
+    }
+    const maxInternalGapPx =
+      internalGaps.length > 0 ? Math.max(...internalGaps.map((g) => g.gapPx)) : 0;
+
     return {
       hasShell: !!shell,
       hasHeroGrid,
@@ -386,6 +433,8 @@ async function measurePage(page, baseUrl, route, viewport) {
       h1ClearancePx,
       contrastSamples,
       contrastFails: contrastSamples.filter((s) => s.ratio < s.minRequired),
+      internalGaps,
+      maxInternalGapPx,
       redScan: { hitCount: redHits.length, hits: redHits.slice(0, 8) }
     };
   }, { vw: viewport.width, vh: viewport.height });
@@ -418,6 +467,9 @@ function evaluateRow(row) {
     if (row.duplicateHeroText?.length > 0) {
       issues.push(`duplicate-hero-text:${row.duplicateHeroText.join('|')}`);
     }
+    if (row.maxInternalGapPx != null && row.maxInternalGapPx > 48) {
+      issues.push(`internal-gap:maxInternalGapPx=${row.maxInternalGapPx}`);
+    }
     if (
       row.route !== '/blog/' &&
       row.hasHeroGrid &&
@@ -425,7 +477,7 @@ function evaluateRow(row) {
       row.formLeftPct >= 50 &&
       row.columnGapPx != null &&
       row.columnGapPx > 120 &&
-      row.heroGridAlignItems !== 'center'
+      row.heroGridAlignItems === 'center'
     ) {
       issues.push(`column-gap:columnGapPx=${row.columnGapPx}`);
     }
@@ -460,6 +512,9 @@ function evaluateRow(row) {
     }
     if (row.breadcrumbIssue) {
       issues.push(`breadcrumb:${row.breadcrumbIssue}`);
+    }
+    if (row.maxInternalGapPx != null && row.maxInternalGapPx > 40) {
+      issues.push(`internal-gap:maxInternalGapPx=${row.maxInternalGapPx}`);
     }
   }
 

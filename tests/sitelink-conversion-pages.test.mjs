@@ -77,8 +77,8 @@ for (const [file, sourcePage, formName, consentVersion] of leadHeroPages) {
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
     if (file.startsWith('blog/')) {
-      assert.match(html, /\/css\/lead-hero\.css\?v=20261016-sitewide-b5/);
-      assert.match(html, /\/js\/lead-hero\.js\?v=20261016-sitewide-b5/);
+      assert.match(html, /\/css\/lead-hero\.css\?v=20261016-sitewide-b6/);
+      assert.match(html, /\/js\/lead-hero\.js\?v=20261016-sitewide-b6/);
     } else {
       assert.match(html, /\/css\/lead-hero\.css\?v=20261016-pr-c-hero-polish/);
       assert.match(html, /\/js\/lead-hero\.js\?v=20261022-pr331-review/);

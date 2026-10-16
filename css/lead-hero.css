@@ -2600,7 +2600,7 @@ body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block .lhi-hero-lede
   }
 
   body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):has(> .lhi-hero-deferred-block) {
-    align-items: center;
+    align-items: start;
     display: grid !important;
     gap: clamp(1rem, 2.5vw, 1.75rem);
     grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px);
@@ -2609,18 +2609,41 @@ body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block .lhi-hero-lede
   }
 
   body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(.lhi-hero-grid-lead) {
-    align-items: center;
+    align-items: start;
     display: grid !important;
     gap: clamp(1rem, 2.5vw, 1.75rem);
     grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px) !important;
   }
 
   body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(> .lhi-hero-grid-lead):not(:has(> .lhi-hero-deferred-block)) {
-    align-items: center;
+    align-items: start;
     display: grid !important;
     gap: clamp(1rem, 2.5vw, 1.75rem);
     grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px);
     max-width: 1100px;
+  }
+
+  body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block {
+    align-self: start !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    min-height: 0 !important;
+  }
+
+  body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block > :is(h1, p, .meta, .blog-meta, .byline, .last-reviewed) {
+    margin: 0 !important;
+  }
+
+  body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block > h1 {
+    margin-bottom: 0 !important;
+  }
+
+  body.lhi-page-hero.blog-post .lhi-hero-shell section.hero > .lhi-hero-deferred-block:empty,
+  body.lhi-page-hero.blog-post .lhi-hero-shell > .lhi-hero-deferred-block:empty {
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   body.lhi-page-hero.blog-post .lhi-hero-shell .container.hero-grid:has(.lhi-hero-grid-lead) > .lhi-hero-lede-block {
@@ -2709,7 +2732,15 @@ body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block .lhi-hero-lede
   }
 
   body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 0 !important;
     order: 1;
+  }
+
+  body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block > :is(h1, p, .meta, .blog-meta, .byline, .last-reviewed) {
+    margin: 0 !important;
   }
 
   body.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-grid-lead {
