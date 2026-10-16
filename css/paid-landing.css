@@ -446,6 +446,110 @@ body.paid-landing-page img { display: block; max-width: 100%; }
   .lp-footer { padding-left: 16px; padding-right: 16px; }
 }
 
+/* Gap paid LP reuses main lp-gap-lead markup (form-grid / submit-btn). */
+.gap-paid-landing .lp-lead-card .form-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr 1fr;
+  text-align: left;
+}
+
+.gap-paid-landing .lp-lead-card .form-grid .full {
+  grid-column: 1 / -1;
+}
+
+.gap-paid-landing .lp-lead-card .form-grid label {
+  color: var(--lp-navy);
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.gap-paid-landing .lp-lead-card .form-grid input,
+.gap-paid-landing .lp-lead-card .form-grid select {
+  background: var(--lp-bg);
+  border: 1px solid var(--lp-line);
+  border-radius: 8px;
+  color: var(--lp-ink);
+  font-family: inherit;
+  font-size: 15px;
+  padding: 12px 14px;
+  width: 100%;
+}
+
+.gap-paid-landing .lp-lead-card .form-grid input:focus,
+.gap-paid-landing .lp-lead-card .form-grid select:focus {
+  border-color: var(--lp-gold);
+  box-shadow: 0 0 0 3px rgba(216, 173, 74, 0.2);
+  outline: none;
+}
+
+.gap-paid-landing .lp-lead-card .consent {
+  align-items: flex-start;
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.gap-paid-landing .lp-lead-card .consent input[type='checkbox'] {
+  flex-shrink: 0;
+  height: 18px;
+  margin-top: 2px;
+  width: 18px;
+}
+
+.gap-paid-landing .lp-lead-card .consent span {
+  color: var(--lp-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.gap-paid-landing .lp-lead-card .consent a {
+  color: var(--lp-navy);
+}
+
+.gap-paid-landing .lp-lead-card .submit-btn {
+  background: var(--lp-gold);
+  border: none;
+  border-radius: 8px;
+  color: var(--lp-navy);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 8px;
+  padding: 14px;
+  width: 100%;
+}
+
+.gap-paid-landing .lp-lead-card .submit-btn:hover {
+  filter: brightness(0.96);
+}
+
+.gap-paid-landing .lp-lead-card .submit-btn:disabled {
+  background: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.gap-paid-landing .lp-lead-card .form-note {
+  color: var(--lp-muted);
+  font-size: 13px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.gap-paid-landing .lp-lead-card .form-note a {
+  color: var(--lp-navy);
+}
+
+@media (max-width: 640px) {
+  .gap-paid-landing .lp-lead-card .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }

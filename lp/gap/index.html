@@ -12,363 +12,93 @@
   <meta property="og:description" content="Review health insurance options if you are uninsured, between jobs, or losing coverage.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://lakelandhealthinsurance.com/lp/gap/">
-  <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg"><link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
+  <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Affordable Health Insurance Options — Lakeland, FL | No Coverage? Start Here">
   <meta name="twitter:description" content="Review health insurance options if you are uninsured, between jobs, or losing coverage.">
   <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
-    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-    <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
+  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
+  <link rel="preload" href="/assets/images/david-huff-blue-polo-480.jpg" as="image">
+  <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
   <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-nonblog-gates2">
-
-  <style>
-    :root {
-      --navy: #1B2A4A;
-      --navy-light: #243556;
-      --gold: #D4A843;
-      --gold-hover: #c49a38;
-      --text: #1E293B;
-      --text-muted: #64748B;
-      --bg: #F8FAFC;
-      --white: #FFFFFF;
-      --line: #E2E8F0;
-      --green: #16A34A;
-      --radius: 12px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'DM Sans', 'DM Sans Fallback', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
-
-    /* Hero */
-    .hero {
-      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-      color: #fff;
-      padding: 60px 20px 50px;
-      text-align: center;
-    }
-    .hero-inner { max-width: 720px; margin: 0 auto; }
-    .hero-badge {
-      display: inline-block;
-      background: rgba(212,168,67,0.15);
-      color: var(--gold);
-      font-size: 13px;
-      font-weight: 600;
-      padding: 6px 16px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      letter-spacing: 0.5px;
-    }
-    .hero h1 {
-      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
-      font-size: clamp(32px, 5vw, 48px);
-      font-weight: 400;
-      line-height: 1.15;
-      margin-bottom: 16px;
-    }
-    .hero p {
-      font-size: 18px;
-      color: rgba(255,255,255,0.85);
-      margin-bottom: 28px;
-      max-width: 560px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .hero-cta {
-      display: inline-block;
-      background: var(--gold);
-      color: var(--navy);
-      font-weight: 700;
-      font-size: 16px;
-      padding: 14px 36px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-    .hero-cta:hover { background: var(--gold-hover); }
-
-    /* Trust cards */
-    .trust { padding: 48px 20px; }
-    .trust-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      max-width: 820px;
-      margin: 0 auto;
-    }
-    .trust-card {
-      background: var(--white);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 28px 20px;
-      text-align: center;
-    }
-    .trust-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
-    }
-    .trust-card h3 {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--navy);
-    }
-    .trust-card p {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    /* Form section */
-    .form-section {
-      padding: 48px 20px 60px;
-      background: var(--white);
-      border-top: 1px solid var(--line);
-    }
-    .form-wrap {
-      max-width: 520px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .form-wrap h2 {
-      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
-      font-size: 28px;
-      font-weight: 400;
-      color: var(--navy);
-      margin-bottom: 8px;
-    }
-    .form-wrap .subtitle {
-      font-size: 15px;
-      color: var(--text-muted);
-      margin-bottom: 28px;
-    }
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      text-align: left;
-    }
-    .form-grid .full { grid-column: 1 / -1; }
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-    input, select {
-      width: 100%;
-      padding: 12px 14px;
-      font-size: 15px;
-      font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--bg);
-      color: var(--text);
-      transition: border-color 0.2s;
-    }
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(212,168,67,0.15);
-    }
-    select { cursor: pointer; appearance: auto; }
-    .submit-btn {
-      display: block;
-      width: 100%;
-      margin-top: 20px;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: 700;
-      font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
-      background: var(--gold);
-      color: var(--navy);
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .submit-btn:hover { background: var(--gold-hover); }
-    .submit-btn:disabled { background: #CBD5E1; cursor: not-allowed; color: #94A3B8; }
-    .consent {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      margin-top: 14px;
-      text-align: left;
-    }
-    .consent input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      margin-top: 2px;
-      flex-shrink: 0;
-    }
-    .consent span {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-    .form-note {
-      margin-top: 16px;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    .form-note a { color: var(--navy); text-decoration: underline; }
-
-    /* Social proof */
-    .proof {
-      padding: 32px 20px;
-      text-align: center;
-      border-top: 1px solid var(--line);
-    }
-    .proof p {
-      font-size: 14px;
-      color: var(--text-muted);
-      max-width: 500px;
-      margin: 0 auto;
-    }
-    .proof strong { color: var(--navy); }
-
-    /* Footer */
-    footer {
-      padding: 24px 20px;
-      text-align: center;
-      background: var(--navy);
-      color: rgba(255,255,255,0.6);
-      font-size: 12px;
-      line-height: 1.7;
-    }
-    footer a { color: var(--gold); text-decoration: none; }
-
-    /* Responsive */
-    @media (max-width: 640px) {
-      .hero { padding: 40px 16px 36px; }
-      .hero h1 { font-size: 28px; }
-      .hero p { font-size: 16px; }
-      .trust { padding: 32px 16px; }
-      .trust-grid { grid-template-columns: 1fr; gap: 14px; }
-      .form-section { padding: 36px 16px 48px; }
-      .form-grid { grid-template-columns: 1fr; }
-    }
-  </style>
-    <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
+  <link rel="stylesheet" href="/css/paid-landing.css?v=20260825">
+  <script defer src="/js/analytics.js?v=20261015-v6merge2"></script>
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "Affordable Health Insurance Options — Lakeland, FL",
-  "url": "https://lakelandhealthinsurance.com/lp/gap/",
-  "description": "Review health insurance options in Lakeland, FL if you are uninsured, between jobs, or losing coverage.",
-  "mainEntity": {
-    "@type": "Service",
-    "name": "Uninsured Coverage Options",
-    "provider": {
-      "@type": "InsuranceAgency",
-      "name": "Lakeland Health Insurance",
-      "url": "https://lakelandhealthinsurance.com",
-      "telephone": "+1-863-640-3102",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Lakeland",
-        "addressRegion": "FL",
-        "postalCode": "33805",
-        "addressCountry": "US"
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Affordable Health Insurance Options — Lakeland, FL",
+    "url": "https://lakelandhealthinsurance.com/lp/gap/",
+    "description": "Review health insurance options in Lakeland, FL if you are uninsured, between jobs, or losing coverage.",
+    "mainEntity": {
+      "@type": "Service",
+      "name": "Uninsured Coverage Options",
+      "provider": {
+        "@type": "InsuranceAgency",
+        "name": "Lakeland Health Insurance",
+        "url": "https://lakelandhealthinsurance.com",
+        "telephone": "+1-863-640-3102",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Lakeland",
+          "addressRegion": "FL",
+          "postalCode": "33805",
+          "addressCountry": "US"
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "description": "By appointment"
+        }
       },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "description": "By appointment"
-      }
-    },
-    "areaServed": {
-      "@type": "AdministrativeArea",
-      "name": "Polk County, Florida"
-    },
-    "serviceType": "Health Insurance Coverage Gap Solutions"
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Polk County, Florida"
+      },
+      "serviceType": "Health Insurance Coverage Gap Solutions"
+    }
   }
-}
-</script>
-    <link rel="stylesheet" href="/css/site-template.css?v=20261016-pr-b-site-tpl">
+  </script>
 </head>
-<body>
-<header>
-  <nav class="container">
-    <div class="logo-container">
-      <a class="brand-name" href="/">
-        Lakeland Health Insurance
-        <span class="license-tag">Licensed FL Health Agent #W371813</span>
-      </a>
-      <button class="menu-button" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
-        <div class="ellipses" aria-hidden="true">
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-        </div>
-      </button>
-      <div class="dropdown-menu" id="dropdownMenu">
-        <div class="menu-item"><a href="/">Home</a></div>
-        <div class="menu-item"><a href="/aca-health-insurance-lakeland-fl/">Individual &amp; Family</a></div>
-        <div class="menu-item"><a href="/medicare/">Medicare</a></div>
-        <div class="menu-item"><a href="/plans/">Coverage Options</a></div>
-        <div class="menu-item"><a href="/carriers/">Carriers</a></div>
-        <div class="menu-item"><a href="/blog/">Blog</a></div>
-        <div class="menu-item"><a href="/learning/">Learn</a></div>
-        <div class="menu-item"><a href="/about/">About</a></div>
-        <div class="menu-item"><a href="/get-help/">Get Help</a></div>
-        <div class="menu-item"><a href="tel:+18636403102">(863) 640-3102</a></div>
-        <div class="menu-item"><a href="tel:+18636403102">Call Now</a></div>
-      </div>
-    </div>
-    <ul class="nav-links">
-      <li><a href="/aca-health-insurance-lakeland-fl/">Individual &amp; Family</a></li>
-      <li><a href="/medicare/">Medicare</a></li>
-      <li><a href="/plans/">Coverage Options</a></li>
-      <li><a href="/carriers/">Carriers</a></li>
-      <li><a href="/blog/">Blog</a></li>
-      <li><a href="/learning/">Learn</a></li>
-      <li><a href="/about/">About</a></li>
-    </ul>
-    <div class="cta-group">
-      <a href="/get-help/" class="cta-button">Talk to David</a>
-    </div>
-  </nav>
-</header>
+<body class="paid-landing-page gap-paid-landing lhi-page-hero">
+  <a class="lp-skip-link" href="#main-content">Skip to content</a>
 
+  <header class="lp-header">
+    <div class="lp-header-inner">
+      <div class="lp-brand-name">
+        Lakeland Health Insurance
+        <span class="lp-brand-detail">David Huff · Licensed Florida health agent · FL #W371813</span>
+      </div>
+      <a class="lp-header-call" href="tel:+18636403102">Call (863) 640-3102</a>
+    </div>
+  </header>
 
   <main id="main-content">
-  <div class="lhi-hero-shell">
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-badge">Lakeland &amp; Polk County</div>
-      <h1>Uninsured, between jobs, or losing coverage? David Huff can review your next step.</h1>
-      <p class="lhi-hero-lede">Licensed Florida health agent David Huff helps Lakeland and Polk County residents compare timing for Marketplace, gap, or other options. Call (863) 640-3102 or submit the form below for a plan review—not enrollment.</p>
-    </div>
-  </section>
+    <div class="lhi-hero-shell">
+      <section class="lp-hero" aria-labelledby="gap-headline">
+        <div class="container hero-grid">
+          <div class="lhi-hero-lede-block">
+            <div class="lp-hero-grid">
+              <div class="lp-intro">
+                <div class="lp-identity">
+                  <img class="lp-headshot" src="/.netlify/images?url=/assets/images/david-huff-blue-polo-480.jpg&amp;w=232&amp;fm=webp&amp;q=82" srcset="/.netlify/images?url=/assets/images/david-huff-blue-polo-480.jpg&amp;w=156&amp;fm=webp&amp;q=82 156w, /.netlify/images?url=/assets/images/david-huff-blue-polo-480.jpg&amp;w=232&amp;fm=webp&amp;q=82 232w, /.netlify/images?url=/assets/images/david-huff-blue-polo.jpg&amp;w=480&amp;fm=webp&amp;q=82 480w" sizes="(max-width: 640px) 78px, 116px" width="900" height="900" alt="David Huff, licensed Florida health agent" fetchpriority="high" decoding="async">
+                  <div>
+                    <p class="lp-eyebrow">David Huff</p>
+                    <p class="lp-identity-copy">Licensed Florida health agent, doing business as Lakeland Health Insurance</p>
+                  </div>
+                </div>
 
-  <!-- Trust cards -->
-  <section class="trust">
-    <div class="trust-grid">
-      <div class="trust-card">
-        <div class="trust-icon" aria-hidden="true">&#x1F4CB;</div>
-        <h3>Premium tax credits</h3>
-        <p>Many people may qualify for premium tax credits based on household and income details. David can help estimate the impact for your situation.</p>
-      </div>
-      <div class="trust-card">
-        <div class="trust-icon" aria-hidden="true">&#x1F4B0;</div>
-        <h3>Coverage Categories</h3>
-        <p>Compare available ACA Marketplace, gap, dental, and vision options against your situation.</p>
-      </div>
-      <div class="trust-card">
-        <div class="trust-icon" aria-hidden="true">&#x1F91D;</div>
-        <h3>Agent Compensation</h3>
-        <p>Insurance carriers generally compensate appointed agents when an enrollment is completed. I do not charge a separate fee for this plan-review assistance; compensation and availability vary by carrier and product.</p>
-      </div>
-    </div>
-  </section>
+                <p class="lp-eyebrow">Lakeland &amp; Polk County</p>
+                <h1 id="gap-headline">Uninsured, between jobs, or losing coverage? David Huff can review your next step.</h1>
+                <p class="lhi-hero-lede lp-summary">Licensed Florida health agent David Huff helps Lakeland and Polk County residents compare timing for Marketplace, gap, or other options. Call (863) 640-3102 or submit the form for a plan review—not enrollment.</p>
+                <a class="lp-primary-call" href="tel:+18636403102">Call (863) 640-3102</a>
+              </div>
+            </div>
+          </div>
 
-  <!-- Lead form -->
-  <section class="form-section" id="lead-form">
-    <div class="form-wrap">
-      <h2>Review Your Coverage Options</h2>
-      <p class="subtitle">Takes 30 seconds. David will review your situation and outline practical next steps.</p>
+          <div class="lp-lead-card" id="lead-form">
+            <h2>Review Your Coverage Options</h2>
+            <p class="lp-form-intro">Takes 30 seconds. David will review your situation and outline practical next steps.</p>
 
       <form id="gapLeadForm" name="lp-gap-lead" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/thanks.html" data-funnel-track data-funnel-event="Lead" data-funnel-name="lp_gap_lead_form">
         <input type="hidden" name="form-name" value="lp-gap-lead">
@@ -475,34 +205,56 @@
         </div>
       </form>
 
-      <p class="form-note">Or call directly: <a href="tel:+18636403102">(863) 640-3102</a></p>
+            <p class="form-note">Or call directly: <a href="tel:+18636403102">(863) 640-3102</a></p>
+            <p class="lhi-preservation-anchor" hidden aria-hidden="true">Or call directly: (863) 640-3102</p>
+          </div>
+        </div>
+      </section>
     </div>
-  </section>
-  </div>
-  </main>
 
-  <!-- Social proof -->
-  <section class="proof">
-    <p><strong>David Huff</strong> &mdash; Licensed Florida health agent helping uninsured Floridians find affordable coverage since 2019.</p>
-  </section>
+    <section class="lp-proof" aria-label="Local agent credentials">
+      <ul class="lp-proof-list">
+        <li><span class="lp-proof-dot" aria-hidden="true">✓</span>Lakeland and Polk County</li>
+        <li><span class="lp-proof-dot" aria-hidden="true">✓</span>Florida license W371813</li>
+        <li><span class="lp-proof-dot" aria-hidden="true">✓</span>Independent agent</li>
+      </ul>
+    </section>
 
-  <section class="site-page-disclosures" aria-label="Legal and compliance disclaimers">
+    <section class="lp-content" aria-labelledby="gap-trust-title">
+      <div class="lp-content-inner">
+        <p class="lp-section-kicker">What to expect</p>
+        <h2 id="gap-trust-title">Practical next steps for coverage gaps.</h2>
+        <div class="lp-fit-grid">
+          <article class="lp-fit-card">
+            <h3>Premium tax credits</h3>
+            <p>Many people may qualify for premium tax credits based on household and income details. David can help estimate the impact for your situation.</p>
+          </article>
+          <article class="lp-fit-card">
+            <h3>Coverage categories</h3>
+            <p>Compare available ACA Marketplace, gap, dental, and vision options against your situation.</p>
+          </article>
+          <article class="lp-fit-card">
+            <h3>Agent compensation</h3>
+            <p>Insurance carriers generally compensate appointed agents when an enrollment is completed. I do not charge a separate fee for this plan-review assistance; compensation and availability vary by carrier and product.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="site-page-disclosures" aria-label="Legal and compliance disclaimers">
       <p class="tpmo-standard-disclaimer">We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.</p>
       <p class="tpmo-inventory-note">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
-  </section>
+      <p class="lp-call-note">Direct line to David.</p>
+    </section>
+  </main>
 
-  <!-- Footer -->
-  <footer>
-    <div>Lakeland Health Insurance &bull; David Huff &bull; FL License #W371813</div>
-    <div style="margin-top:6px;">This is a lead-generation page. Submitting this form does not bind you to any plan or purchase.</div>
-    <div style="margin-top:6px;"><a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms/">Terms of Service</a> · <a href="/data-deletion/">Data Deletion</a></div>
+  <footer class="lp-footer">
+    <div class="lp-footer-inner">
+      <p><strong>Lakeland Health Insurance</strong> · David Huff · <a href="tel:+18636403102">(863) 640-3102</a></p>
+      <p>Licensed Florida health agent, doing business as Lakeland Health Insurance · Florida license W371813 · NPN 18213932</p>
+      <p>This is a lead-generation page. Submitting this form does not bind you to any plan or purchase.</p>
+      <p><a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms/">Terms of Service</a> · <a href="/data-deletion/">Data Deletion</a></p>
+    </div>
   </footer>
-
-  <script>
-    // Form submit tracking is handled by /js/funnel.js after /api/lead accepts the payload.
-  </script>
-  <script src="/js/chat-widget.js?v=20261016-pr-c-chat" defer></script>
-    <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
-    <script src="/js/site-template.js?v=20261023-pr333-follow-up" defer></script>
 </body>
 </html>
