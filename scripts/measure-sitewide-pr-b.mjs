@@ -103,7 +103,7 @@ async function preparePageForMeasure(page, baseUrl) {
     await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=20261021-hscroll-fix` });
     await page.waitForTimeout(450);
   }
-  await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=20261016-sitewide-b7` });
+  await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=20261016-sitewide-b8` });
   await page.waitForTimeout(80);
   await page.evaluate(() => {
     if (typeof window.LHIConsolidateBlogHeroCopy === 'function') {

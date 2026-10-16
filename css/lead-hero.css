@@ -2775,6 +2775,13 @@ body.lhi-page-hero.blog-post .lhi-post-body-intro {
   margin: 0 0 1rem;
 }
 
+body.lhi-page-hero.blog-post .lhi-post-body-intro .last-reviewed,
+body.lhi-page-hero.blog-post .lhi-post-body-intro p.last-reviewed,
+body.lhi-page-hero.blog-post .lhi-post-body-intro .meta,
+body.lhi-page-hero.blog-post .lhi-post-body-intro .byline {
+  color: #475569 !important;
+}
+
 body.lhi-page-hero.blog-post .lhi-post-body-intro .cta-row {
   display: flex;
   flex-wrap: wrap;
