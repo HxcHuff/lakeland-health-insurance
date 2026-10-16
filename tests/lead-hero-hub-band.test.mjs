@@ -67,10 +67,10 @@ test('hub hero matches homepage gray stack on mobile @390', async () => {
   }
 });
 
-test('inline blog lead form title meets contrast on hero background', async () => {
+test('gray hero shell hides low-contrast inline lead form title', async () => {
   const css = readFileSync(join(ROOT, 'css/lead-hero.css'), 'utf8');
   assert.match(
     css,
-    /section\.hero:has\(\.lhi-lead-hero\) \.lhi-lead-hero__intro \.lhi-lead-hero__title[\s\S]*color:\s*#fff/s,
+    /body\.lhi-page-hero:not\(\.home-page\) \.lhi-hero-shell \.lhi-lead-hero__intro[\s\S]*display:\s*none !important/s,
   );
 });

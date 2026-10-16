@@ -67,6 +67,23 @@ function isNavyHeading(rgb) {
   return luminance(rgb) < 0.25 && rgb[2] > rgb[0];
 }
 
+function wcagRelativeLuminance(rgb) {
+  const [r, g, b] = rgb.map((v) => {
+    const s = v / 255;
+    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function contrastRatio(fgRgb, bgRgb) {
+  if (!fgRgb || !bgRgb) return null;
+  const l1 = wcagRelativeLuminance(fgRgb);
+  const l2 = wcagRelativeLuminance(bgRgb);
+  const lighter = Math.max(l1, l2);
+  const darker = Math.min(l1, l2);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
 async function measurePage(page, baseUrl, route, viewport) {
   await page.setViewportSize(viewport);
   await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle', timeout: 25000 });
@@ -121,6 +138,122 @@ async function measurePage(page, baseUrl, route, viewport) {
           }
         : null;
 
+    const parseRgbaLocal = (color) => {
+      const s = String(color).trim();
+      const m = s.match(/rgba?\(([^)]+)\)/);
+      if (!m) return null;
+      const parts = m[1].split(',').map((p) => p.trim());
+      const rgb = parts.slice(0, 3).map(Number);
+      const a = parts[3] != null ? Number(parts[3]) : 1;
+      return [...rgb, a];
+    };
+
+    const blend = (fg, bg) => {
+      const a = fg[3] ?? 1;
+      if (a >= 0.99) return fg.slice(0, 3);
+      const b = bg.slice(0, 3);
+      return fg.slice(0, 3).map((c, i) => Math.round(c * a + b[i] * (1 - a)));
+    };
+
+    const effectiveBgRgb = (el) => {
+      const stack = [];
+      let node = el;
+      while (node && node !== document.documentElement) {
+        const st = getComputedStyle(node);
+        const bg = parseRgbaLocal(st.backgroundColor);
+        if (bg && bg[3] > 0.01) stack.push(bg);
+        node = node.parentElement;
+      }
+      let base = [248, 250, 252];
+      for (let i = stack.length - 1; i >= 0; i -= 1) {
+        base = blend(stack[i], [...base, 1]);
+      }
+      return base;
+    };
+
+    const contrastSamples = [];
+    const contrastSelectors = [
+      '.lhi-hero-lede-block h1',
+      '.lhi-hero-lede-block .lhi-hero-lede:not(.last-reviewed)',
+      '.lhi-lead-hero__title',
+      '.lhi-lead-hero__submit',
+      '.lhi-alert-notice h2',
+      '.lhi-alert-notice-actions a'
+    ];
+    if (shell) {
+      for (const sel of contrastSelectors) {
+        for (const el of shell.querySelectorAll(sel)) {
+          const st = getComputedStyle(el);
+          if (st.display === 'none' || st.visibility === 'hidden' || st.opacity === '0') continue;
+          const rect = el.getBoundingClientRect();
+          if (rect.width < 2 || rect.height < 2) continue;
+          let fgRgb = parseRgbLocal(st.color);
+          let bg = effectiveBgRgb(el);
+          const ownBg = parseRgbaLocal(st.backgroundColor);
+          if (ownBg && ownBg[3] > 0.2) {
+            bg = ownBg.slice(0, 3);
+          }
+          if (el.matches('.lhi-lead-hero__submit')) {
+            bg = [5, 150, 105];
+          }
+          if (el.matches('.lhi-alert-notice-actions a[href*="get-help"]')) {
+            bg = [27, 42, 74];
+            fgRgb = [255, 255, 255];
+          }
+          if (!fgRgb || !bg) continue;
+          const fontSize = parseFloat(st.fontSize) || 16;
+          const fontWeight = parseInt(st.fontWeight, 10) || 400;
+          const isLarge = fontSize >= 18 || (fontSize >= 14 && fontWeight >= 700);
+          const ratio = (() => {
+            const l1 = [0.2126, 0.7152, 0.0722].reduce(
+              (acc, w, i) =>
+                acc +
+                w *
+                  ((v) => {
+                    const s = v / 255;
+                    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+                  })(fgRgb[i]),
+              0
+            );
+            const l2 = [0.2126, 0.7152, 0.0722].reduce(
+              (acc, w, i) =>
+                acc +
+                w *
+                  ((v) => {
+                    const s = v / 255;
+                    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+                  })(bg[i]),
+              0
+            );
+            const lighter = Math.max(l1, l2);
+            const darker = Math.min(l1, l2);
+            return (lighter + 0.05) / (darker + 0.05);
+          })();
+          contrastSamples.push({
+            selector: sel,
+            text: (el.textContent || '').trim().slice(0, 60),
+            ratio: Math.round(ratio * 100) / 100,
+            minRequired: isLarge ? 3 : 4.5,
+            fg: fgRgb.join(','),
+            bg: bg.join(',')
+          });
+        }
+      }
+    }
+
+    let leftColBottom = null;
+    let formBottom = fr ? Math.round(fr.bottom) : null;
+    const ledeBlock = shell?.querySelector('.lhi-hero-lede-block');
+    if (ledeBlock) {
+      const lb = ledeBlock.getBoundingClientRect();
+      if (lb.height > 0) leftColBottom = Math.round(lb.bottom);
+    }
+
+    const columnGapPx =
+      leftColBottom != null && formBottom != null
+        ? Math.abs(formBottom - leftColBottom)
+        : null;
+
     const redHits = [];
     const scanRoot = shell || document.body;
     const candidates = scanRoot.querySelectorAll(
@@ -139,8 +272,14 @@ async function measurePage(page, baseUrl, route, viewport) {
       }
     }
 
+    const hasHeroGrid = !!(
+      shell?.querySelector('.container.hero-grid:has(.lhi-hero-grid-lead)') ||
+      shell?.querySelector('.hero-grid:has(.lhi-hero-grid-lead)')
+    );
+
     return {
       hasShell: !!shell,
+      hasHeroGrid,
       h1Y: h1r ? Math.round(h1r.top) : null,
       h1Bottom: h1r ? Math.round(h1r.bottom) : null,
       h1TextAlign: h1Align,
@@ -155,6 +294,11 @@ async function measurePage(page, baseUrl, route, viewport) {
       shellBg,
       shellBgRgb: shellBg ? shellBg.join(',') : null,
       h1Color,
+      leftColBottom,
+      formBottom,
+      columnGapPx,
+      contrastSamples,
+      contrastFails: contrastSamples.filter((s) => s.ratio < s.minRequired),
       redScan: { hitCount: redHits.length, hits: redHits.slice(0, 8) }
     };
   }, { vw: viewport.width, vh: viewport.height });
@@ -176,6 +320,21 @@ function evaluateRow(row) {
     if (row.formY != null && row.formY >= 800) issues.push(`form-too-low:formY=${row.formY}`);
     if (row.overflowPx > 12) issues.push(`overflow:overflowPx=${row.overflowPx}`);
     if (row.redScan?.hitCount > 0) issues.push(`red-alert-in-hero:count=${row.redScan.hitCount}`);
+    if (row.contrastFails?.length > 0) {
+      issues.push(
+        `contrast:${row.contrastFails.map((f) => `${f.selector}=${f.ratio}`).join(',')}`
+      );
+    }
+    if (
+      row.route !== '/blog/' &&
+      row.hasHeroGrid &&
+      row.formLeftPct != null &&
+      row.formLeftPct >= 50 &&
+      row.columnGapPx != null &&
+      row.columnGapPx > 120
+    ) {
+      issues.push(`column-gap:columnGapPx=${row.columnGapPx}`);
+    }
   }
 
   if (row.viewport === '390') {
@@ -197,6 +356,11 @@ function evaluateRow(row) {
       issues.push('form-before-lede');
     }
     if (row.overflowPx > 12) issues.push(`overflow:overflowPx=${row.overflowPx}`);
+    if (row.contrastFails?.length > 0) {
+      issues.push(
+        `contrast:${row.contrastFails.map((f) => `${f.selector}=${f.ratio}`).join(',')}`
+      );
+    }
   }
 
   return issues;

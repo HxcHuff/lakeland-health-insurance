@@ -1451,7 +1451,11 @@ section.hero.light-hero .hero-kicker,
 .lhi-alert-notice-actions a[href*="get-help"] {
   background: var(--navy);
   border: 1px solid var(--navy);
-  color: var(--white) !important;
+  color: #ffffff !important;
+}
+
+.lhi-hero-shell .lhi-alert-notice-actions a[href*="get-help"] {
+  color: #ffffff !important;
 }
 
 .lhi-alert-notice-actions a:focus-visible {
