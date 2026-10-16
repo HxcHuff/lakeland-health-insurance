@@ -1508,13 +1508,14 @@ section.hero.light-hero .hero-kicker,
   outline-offset: 2px;
 }
 
-/* Watson Clinic / carrier network alert: bright, high-contrast, mobile-first. */
+/* Network / carrier notices: neutral direct-answer styling (not alarm red). */
 .lhi-alert-notice {
-  background: #9B1C1C;
-  border: 2px solid #7F1D1D;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(127, 29, 29, 0.28);
-  color: #fff;
+  background: #f0fdfa;
+  border: 1px solid #99f6e4;
+  border-left: 5px solid #0f766e;
+  border-radius: 10px;
+  box-shadow: none;
+  color: var(--navy, #1b2a4a);
   margin: 16px 0 18px;
   max-width: 100%;
   padding: 16px 18px;
@@ -1523,7 +1524,7 @@ section.hero.light-hero .hero-kicker,
 .lhi-alert-notice h2,
 .lhi-alert-notice p,
 .lhi-alert-notice strong {
-  color: #fff !important;
+  color: var(--navy, #1b2a4a) !important;
 }
 
 .lhi-alert-notice h2 {
@@ -1564,15 +1565,15 @@ section.hero.light-hero .hero-kicker,
 }
 
 .lhi-alert-notice-actions a[href^="tel"] {
-  background: #F5ECD7;
-  border: 2px solid #F5ECD7;
-  color: #1B2A4A !important;
+  background: #f8fafc;
+  border: 2px solid #cbd5e1;
+  color: #1b2a4a !important;
 }
 
 .lhi-alert-notice-actions a[href*="get-help"] {
-  background: #fff;
-  border: 2px solid #fff;
-  color: #7F1D1D !important;
+  background: var(--navy, #1b2a4a);
+  border: 2px solid var(--navy, #1b2a4a);
+  color: #fff !important;
 }
 
 .lhi-alert-notice-actions a:focus-visible {
