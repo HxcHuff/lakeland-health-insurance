@@ -3571,19 +3571,66 @@ body.lhi-page-hero.about-page .meta-audience-consent {
   }
 
   body.lhi-page-hero.about-page .meta-audience-consent {
-    margin-bottom: 0.75rem;
-    max-height: min(42vh, 280px);
-    overflow-y: auto;
-    position: relative;
-    z-index: 1;
+    bottom: max(0.65rem, env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    max-width: min(100%, calc(100vw - 1.25rem));
+    position: fixed;
+    transform: translateX(-50%);
+    z-index: 1200;
   }
 
-  body.lhi-page-hero.about-page .lhi-hero-shell .lhi-hero-grid-lead {
-    position: relative;
-    z-index: 2;
+  body.lhi-page-hero.about-page .meta-audience-consent p {
+    font-size: 0.84rem;
+    line-height: 1.35;
+  }
+
+  body.lhi-page-hero.about-page .meta-audience-consent-actions {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  body.lhi-page-hero.about-page .meta-audience-consent button {
+    flex: 1 1 0;
+    font-size: 0.78rem;
+    min-height: 44px;
+    min-width: 0;
+    padding: 0.55rem 0.6rem;
+  }
+
+  body.lhi-page-hero.about-page .meta-audience-consent a {
+    flex: 0 0 100%;
+    margin: 0.35rem 0 0;
+    order: 3;
+    text-align: center;
   }
 }
 
 body.lhi-page-hero .floating-actions:not(:has(a, button)) {
   display: none !important;
+}
+
+body.lhi-page-hero.dental-vision-page footer .footer-column h3,
+body.lhi-page-hero.dental-vision-page footer .footer-column li,
+body.lhi-page-hero.dental-vision-page footer .footer-bottom {
+  color: #1b2a4a !important;
+}
+
+body.dental-vision-page .proof-item .label,
+body.dental-vision-page .medicare-dental-note p {
+  color: #475569 !important;
+}
+
+body.lhi-page-hero .lhi-hero-shell .east-polk-medicare .lhi-lead-hero__field label,
+body.lhi-page-hero .lhi-hero-shell .lhi-lead-hero__field label {
+  color: #1b2a4a !important;
+}
+
+body.lhi-page-hero.aca-subsidy-estimator-page .form-group label,
+body.lhi-page-hero.aca-subsidy-estimator-page .form-group .help-text {
+  color: #334155 !important;
+}
+
+body.lhi-page-hero:not(.home-page) footer .footer-column h3 {
+  color: #fff;
 }

@@ -15,10 +15,17 @@ const OUT =
   process.env.HERO_SCREENSHOT_DIR || '/cursor/stores/self/media/sitewide-c';
 const scope = process.env.NON_BLOG_SCOPE || 'all';
 
-const VIEWPORTS = [
-  { w: 1280, h: 800, tag: '1280' },
-  { w: 390, h: 844, tag: '390' }
-];
+const LP_HERO_PNGS = process.argv.includes('--lp-hero-pngs');
+const VIEWPORTS = LP_HERO_PNGS
+  ? [
+      { w: 1280, h: 800, tag: '1280' },
+      { w: 768, h: 1024, tag: '768' },
+      { w: 390, h: 844, tag: '390' }
+    ]
+  : [
+      { w: 1280, h: 800, tag: '1280' },
+      { w: 390, h: 844, tag: '390' }
+    ];
 
 function contentType(pathname) {
   if (pathname.endsWith('.css')) return 'text/css';
@@ -56,7 +63,13 @@ function startServer() {
   });
 }
 
-const routes = gateRoutesForScope(scope);
+const routes = LP_HERO_PNGS
+  ? [
+      { url: '/lp/aca/', name: 'lp-aca' },
+      { url: '/lp/gap/', name: 'lp-gap' },
+      { url: '/lp/medicare/', name: 'lp-medicare' }
+    ]
+  : gateRoutesForScope(scope);
 mkdirSync(OUT, { recursive: true });
 const server = await startServer();
 const browser = await chromium.launch({

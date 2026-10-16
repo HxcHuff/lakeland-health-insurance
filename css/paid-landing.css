@@ -156,6 +156,37 @@ body.paid-landing-page .lp-identity-copy {
   max-width: none;
 }
 
+@media (max-width: 900px) {
+  body.paid-landing-page.lhi-page-hero .lhi-hero-shell .container.hero-grid:has(> .lp-lead-card) {
+    display: flex !important;
+    flex-direction: column;
+    gap: clamp(1rem, 3vw, 1.5rem);
+    grid-template-columns: unset;
+    max-width: min(100%, 620px);
+  }
+
+  body.paid-landing-page.lhi-page-hero .lhi-hero-shell .container.hero-grid:has(> .lp-lead-card) > .lhi-hero-lede-block,
+  body.paid-landing-page.lhi-page-hero .lhi-hero-shell .container.hero-grid:has(> .lp-lead-card) > .lp-lead-card {
+    grid-column: auto;
+    grid-row: auto;
+    max-width: none;
+    width: 100%;
+  }
+
+  body.paid-landing-page.lhi-page-hero .lhi-hero-shell .container.hero-grid:has(> .lp-lead-card) > .lhi-hero-lede-block {
+    order: 1;
+  }
+
+  body.paid-landing-page.lhi-page-hero .lhi-hero-shell .container.hero-grid:has(> .lp-lead-card) > .lp-lead-card {
+    order: 2;
+    margin-top: 0.25rem;
+  }
+
+  body.paid-landing-page.lhi-page-hero .lhi-hero-shell .container.hero-grid:has(> .lp-lead-card) .lp-intro h1 {
+    max-width: none;
+  }
+}
+
 .lp-identity {
   align-items: center;
   display: flex;

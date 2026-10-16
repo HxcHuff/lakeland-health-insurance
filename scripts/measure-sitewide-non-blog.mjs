@@ -628,6 +628,29 @@ const FORBIDDEN_RE = /\bHealthMarkets\b|\$0\b|\bFREE\b|\bfree quote\b/i;
  * Exempt: /thank-you/, /thanks.html, /newsletter/confirmed/, /book/, /chat.html, /newsletter/,
  * /get-help/, /life-insurance-dime-method/, /aca-subsidy-estimator/, /download-free-guide-here.html
  */
+function pushPaidLpLayoutIssues(row, issues) {
+  if (!/\/lp\/(aca|gap|medicare)\//.test(row.route)) return;
+  const vp = row.viewport;
+  const minCopy = vp === '1280' ? 640 : 300;
+  const minH1 = vp === '1280' ? 450 : 300;
+  if (row.lpCopyColumnWidth != null && row.lpCopyColumnWidth < minCopy) {
+    issues.push(`lp-copy-column-narrow:lpCopyColumnWidth=${row.lpCopyColumnWidth}`);
+  }
+  if (row.h1Width != null && row.h1Width < minH1) {
+    issues.push(`lp-h1-narrow:h1Width=${row.h1Width}`);
+  }
+  if (
+    row.lpCopyColumnWidth != null &&
+    row.h1Width != null &&
+    row.h1Width < row.lpCopyColumnWidth - 40
+  ) {
+    issues.push(`lp-h1-not-in-copy-column:h1Width=${row.h1Width},copy=${row.lpCopyColumnWidth}`);
+  }
+  if (vp === '1280' && row.ledeBbox?.bottom != null && row.ledeBbox.bottom > 800) {
+    issues.push(`lp-lede-below-fold:ledeBottom=${row.ledeBbox.bottom}`);
+  }
+}
+
 function evaluateRow(row) {
   const issues = [];
   const expectsLeadForm = !NO_LEAD_FORM_PAGES.has(row.route);
@@ -669,24 +692,7 @@ function evaluateRow(row) {
     } else if (row.formTop != null || row.formY != null) {
       issues.push('unexpected-lead-form');
     }
-    if (paidLanding) {
-      if (row.lpCopyColumnWidth != null && row.lpCopyColumnWidth < 640) {
-        issues.push(`lp-copy-column-narrow:lpCopyColumnWidth=${row.lpCopyColumnWidth}`);
-      }
-      if (row.h1Width != null && row.h1Width < 450) {
-        issues.push(`lp-h1-narrow:h1Width=${row.h1Width}`);
-      }
-      if (
-        row.lpCopyColumnWidth != null &&
-        row.h1Width != null &&
-        row.h1Width < row.lpCopyColumnWidth - 40
-      ) {
-        issues.push(`lp-h1-not-in-copy-column:h1Width=${row.h1Width},copy=${row.lpCopyColumnWidth}`);
-      }
-      if (row.ledeBbox?.bottom != null && row.ledeBbox.bottom > 800) {
-        issues.push(`lp-lede-below-fold:ledeBottom=${row.ledeBbox.bottom}`);
-      }
-    }
+    pushPaidLpLayoutIssues(row, issues);
     if (row.overflowPx > 12) issues.push(`overflow:overflowPx=${row.overflowPx}`);
     if (row.redScan?.hitCount > 0) issues.push(`red-alert-in-hero:count=${row.redScan.hitCount}`);
     if (row.contrastFails?.length > 0) {
@@ -782,6 +788,19 @@ function evaluateRow(row) {
     if (row.emptyDecorativeCount > 0) {
       issues.push(`empty-decorative:${row.emptyDecorativeCount}`);
     }
+    pushPaidLpLayoutIssues(row, issues);
+  }
+
+  if (row.viewport === '768') {
+    if (!shellOptional && !isGrayHeroBg(row.shellBg)) issues.push(`hero-not-gray:bg=${row.shellBg?.join(',')}`);
+    if (!paidLanding && !isNavyHeading(row.h1Color)) issues.push(`h1-not-navy:color=${row.h1Color?.join(',')}`);
+    if (row.overflowPx > 12) issues.push(`overflow:overflowPx=${row.overflowPx}`);
+    if (row.contrastFails?.length > 0) {
+      issues.push(
+        `contrast:${row.contrastFails.map((f) => `${f.selector}=${f.ratio}`).join(',')}`
+      );
+    }
+    pushPaidLpLayoutIssues(row, issues);
   }
 
   return issues;
@@ -814,6 +833,7 @@ const report = [];
 for (const { url, name } of routes) {
   for (const vp of [
     { tag: '1280', width: 1280, height: 800 },
+    { tag: '768', width: 768, height: 1024 },
     { tag: '390', width: 390, height: 844 }
   ]) {
     const metrics = await measurePage(page, server.baseUrl, url, vp);

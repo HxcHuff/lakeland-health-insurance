@@ -1313,17 +1313,37 @@ header .cta-button {
           width: 1px;
         }
 
+        .meta-audience-consent {
+          bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+          padding: 0.75rem 0.85rem;
+          width: calc(100% - 1rem);
+        }
+
+        .meta-audience-consent p {
+          font-size: 0.84rem;
+          line-height: 1.35;
+        }
+
         .meta-audience-consent-actions {
           align-items: stretch;
-          flex-direction: column;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          gap: 0.5rem;
         }
 
         .meta-audience-consent button {
-          width: 100%;
+          flex: 1 1 0;
+          font-size: 0.78rem;
+          min-height: 44px;
+          min-width: 0;
+          padding: 0.55rem 0.6rem;
+          width: auto;
         }
 
         .meta-audience-consent a {
-          margin: 0.15rem 0 0;
+          flex: 0 0 100%;
+          margin: 0.35rem 0 0;
+          order: 3;
           text-align: center;
         }
       }

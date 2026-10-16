@@ -28,10 +28,10 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/js/blog-cta.js', '20260803-brand-release'],
   ['/css/lead-hero.css', '20261016-nonblog-gates2'],
   ['/css/answer-pages.css', '20261016-pr337-c'],
-  ['/css/paid-landing.css', '20261016-pr337-lp2'],
+  ['/css/paid-landing.css', '20261016-pr337-lp3'],
   ['/js/lead-hero.js', '20261023-pr333-follow-up'],
 ]);
-const SERVICE_WORKER_CACHE_VERSION = '20261016-pr337-c';
+const SERVICE_WORKER_CACHE_VERSION = '20261016-pr337-d';
 
 /** Blog PR B ships newer cache tokens without sitewide HTML bumps. */
 const BLOG_RELEASE_ASSET_VERSIONS = new Map([
