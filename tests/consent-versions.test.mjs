@@ -104,7 +104,7 @@ test('private-medical request-consent sentence matches the other sitelink v1 for
   }
   const privateMedical = readFileSync(resolve(ROOT, 'private-medical-insurance/index.html'), 'utf8');
   assert.match(privateMedical, /class="lf2 /);
-  assert.match(privateMedical, /name="consent_text_version" value="site-aca-2026-10-v1"/);
+  assert.match(privateMedical, /name="consent_text_version" value="site-lead-v2-2026-11-v1"/);
   assert.match(privateMedical, /I am asking Lakeland Health Insurance to review and respond to this insurance request/);
 });
 

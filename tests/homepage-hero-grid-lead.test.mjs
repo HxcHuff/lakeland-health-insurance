@@ -13,9 +13,9 @@ const PRIORITY_SHELL = [
 const PRIORITY_V2_PINS = [
   'index.html',
   'plans/index.html',
+  'aca-health-insurance-lakeland-fl/index.html',
   'provider-prescription-check/index.html'
 ];
-const PRIORITY_SITELINK_PINS = ['aca-health-insurance-lakeland-fl/index.html'];
 
 function walkHtml(dir = ROOT, out = []) {
   for (const name of readdirSync(dir)) {
@@ -36,10 +36,6 @@ test('priority lead pages use homepage grid-lead shell pattern', () => {
   for (const rel of PRIORITY_V2_PINS) {
     const html = readFileSync(join(ROOT, rel), 'utf8');
     assert.match(html, /lead-hero.css\?v=20261016-lead-form-v2/, rel);
-  }
-  for (const rel of PRIORITY_SITELINK_PINS) {
-    const html = readFileSync(join(ROOT, rel), 'utf8');
-    assert.match(html, /lead-hero.css\?v=20261016-nonblog-gates2/, rel);
   }
 });
 
