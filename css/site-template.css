@@ -1548,3 +1548,14 @@ section.hero.light-hero .hero-kicker,
   outline: 2px solid #d4a843;
   outline-offset: 2px;
 }
+
+body.lhi-meta-notice-visible:not(:has(.meta-audience-notice--top)) {
+  padding-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (max-width: 900px) {
+  .meta-audience-notice--top {
+    bottom: auto;
+    top: max(0.55rem, env(safe-area-inset-top, 0px));
+  }
+}

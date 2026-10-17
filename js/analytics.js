@@ -1240,6 +1240,20 @@
     return Boolean(existing && String(existing.className || '').indexOf('meta-audience-notice') >= 0);
   }
 
+  function metaNoticePlacementClass() {
+    if (!w.matchMedia || !w.matchMedia('(max-width: 900px)').matches) return '';
+    if (!d.querySelector || !d.querySelector('main form, #leadForm, .lhi-lead-hero__form')) return '';
+    return ' meta-audience-notice--top';
+  }
+
+  function syncMetaNoticePlacement(prompt) {
+    if (!prompt) return;
+    var topClass = 'meta-audience-notice--top';
+    var useTop = metaNoticePlacementClass().indexOf(topClass) >= 0;
+    if (useTop) prompt.classList.add(topClass);
+    else prompt.classList.remove(topClass);
+  }
+
   function ensureMetaNoticeShell() {
     if (!d.body || !d.createElement) return null;
     var prompt = d.getElementById('metaAudienceConsentPrompt');
@@ -1248,7 +1262,7 @@
 
     prompt = d.createElement('div');
     prompt.id = 'metaAudienceConsentPrompt';
-    prompt.className = 'meta-audience-notice';
+    prompt.className = 'meta-audience-notice' + metaNoticePlacementClass();
     prompt.setAttribute('role', 'region');
     prompt.setAttribute('aria-label', 'Ad measurement notice');
 
@@ -1288,7 +1302,14 @@
 
     function renderPreference(decision) {
       if (status) status.textContent = preferenceMessage(decision);
-      if (prompt) prompt.hidden = !shouldShowMetaNotice();
+      var showNotice = shouldShowMetaNotice();
+      if (prompt) {
+        prompt.hidden = !showNotice;
+        syncMetaNoticePlacement(prompt);
+      }
+      if (d.body && d.body.classList) {
+        d.body.classList.toggle('lhi-meta-notice-visible', showNotice);
+      }
     }
 
     if (optOutButton && !optOutButton.__lhiMetaBound) {
