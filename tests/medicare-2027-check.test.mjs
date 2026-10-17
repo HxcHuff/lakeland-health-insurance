@@ -15,10 +15,10 @@ const V2_SMS_SNIPPET =
 const META_DESCRIPTION =
   'Request help checking whether your doctors appear in 2027 Medicare plan directories during Annual Enrollment (October 15 to December 7). A local Lakeland agent will review your options.';
 
-test('medicare-2027-check is a noindex demand-gen route excluded from sitemap and Meta audience', () => {
+test('medicare-2027-check is a noindex demand-gen route excluded from sitemap but Meta PageView eligible', () => {
   assert.match(HTML, /<meta name="robots" content="noindex, nofollow">/);
   assert.doesNotMatch(HTML, /<link rel="canonical"/);
-  assert.doesNotMatch(HTML, /meta-audience-eligible/i);
+  assert.match(HTML, /<meta name="meta-audience-eligible" content="pageview">/);
   assert.doesNotMatch(SITEMAP, /medicare-2027-check/);
   assert.match(HEADERS, /\/medicare-2027-check\/\n\s+X-Robots-Tag: noindex, nofollow/);
 });

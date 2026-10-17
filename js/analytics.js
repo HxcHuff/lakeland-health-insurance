@@ -899,20 +899,31 @@
     'lakelandhealthinsurance.com': true
   };
   var ELIGIBLE_PATHS = {
+    '/': true,
     '/get-help/': true,
     '/quote/': true,
     '/medicare/': true,
     '/medicare-broker-lakeland-fl/': true,
     '/aca-health-insurance-lakeland-fl/': true,
+    '/medicare-2027-check/': true,
     '/plans/': true,
-    '/thanks.html': true
+    '/thanks.html': true,
+    '/blog/orlando-health-watson-clinic-2027-plan.html': true
   };
   var UTM_QUERY_KEYS = {
     utm_source: true,
     utm_medium: true,
     utm_campaign: true,
     utm_term: true,
-    utm_content: true
+    utm_content: true,
+    utm_id: true
+  };
+  var TRACKING_CLICK_QUERY_KEYS = {
+    fbclid: true,
+    gclid: true,
+    gbraid: true,
+    wbraid: true,
+    msclkid: true
   };
   var UTM_VALUE_MAX_LENGTH = 64;
   var TRUSTED_EXTERNAL_REFERRERS = {
@@ -990,15 +1001,19 @@
     return /^[a-z0-9][a-z0-9 ._~+\-]*$/.test(text) ? text : null;
   }
 
+  function approvedTrackingClickId(value, minLength) {
+    var text = String(value || '').trim();
+    if (!text || text.length > 512 || /@|(?:\d[\s().-]*){7,}/.test(text)) return false;
+    if (text.length < minLength) return false;
+    return /^[A-Za-z0-9._~-]+$/.test(text);
+  }
+
   function approvedQueryValue(key, value) {
     var text = String(value || '');
-    if (key === 'fbclid') {
-      if (/@|(?:\d[\s().-]*){7,}/.test(text)) return false;
-      return text.length >= 20 && text.length <= 256 && /^[A-Za-z0-9_-]+$/.test(text);
-    }
-    if (key === 'gclid') {
-      if (/@|(?:\d[\s().-]*){7,}/.test(text)) return false;
-      return text.length >= 10 && text.length <= 256 && /^[A-Za-z0-9_-]+$/.test(text);
+    if (hasOwn(TRACKING_CLICK_QUERY_KEYS, key)) {
+      if (key === 'fbclid') return approvedTrackingClickId(text, 20);
+      if (key === 'gclid') return approvedTrackingClickId(text, 10);
+      return approvedTrackingClickId(text, 8);
     }
     if (key === 'zip_code') {
       return /^\d{5}$/.test(text);
@@ -1007,6 +1022,9 @@
       return Boolean(approvedCampaignSlug(text));
     }
     if (hasOwn(UTM_QUERY_KEYS, key)) {
+      if (key === 'utm_id') {
+        return /^\d{1,20}$/.test(String(text || '').trim());
+      }
       if (key === 'utm_campaign' && /^cid_\d{8,20}$/i.test(String(text || '').trim())) {
         return Boolean(sanitizeUtmValue(text));
       }
