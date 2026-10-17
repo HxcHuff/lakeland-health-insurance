@@ -88,7 +88,7 @@ async function loadHomepage(page, baseUrl, { bannerDismissed }) {
     },
     { key: BANNER_KEY, dismissed: bannerDismissed }
   );
-  await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=20261023-pr333-follow-up` });
+  await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=20261017-tpmo-10-74` });
   await page.waitForTimeout(500);
   await page.evaluate(() => window.scrollTo(0, 0));
 }

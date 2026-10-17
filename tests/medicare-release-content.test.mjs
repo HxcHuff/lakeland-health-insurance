@@ -3,10 +3,11 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
+import { TPMO_HTML_REGEX, TPMO_INVENTORY, TPMO_MEDICARE_LINK } from './lib/tpmo-10-74.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const CURRENT_SEASON_DISCLAIMER = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
-const MEDICARE_SHIP_DISCLAIMER = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
+const FOOTER_TPMO_PLAIN =
+  'Currently we represent 10 organizations which offer 74 products in your area. Please contact <a href="https://www.medicare.gov"';
 const INVENTORY_NOTE = 'Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
 const SUBJECT_TO_PLAN = 'Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
 const MEDICARE_SHIP_SURFACES = new Set([
@@ -105,11 +106,7 @@ test('current-season TPMO wording is exact, contextualized, subject to plan, and
   for (const relativePath of MEDICARE_MARKETING_SURFACES) {
     if (relativePath.startsWith('blog/')) continue;
     const html = source(relativePath);
-    const expectedDisclaimer =
-      MEDICARE_SHIP_SURFACES.has(relativePath) || html.includes('name="site-medicare-lead"')
-        ? MEDICARE_SHIP_DISCLAIMER
-        : CURRENT_SEASON_DISCLAIMER;
-    const disclaimerAt = html.indexOf(expectedDisclaimer);
+    const disclaimerAt = html.search(TPMO_HTML_REGEX);
     const mainEndsAt = html.lastIndexOf('</main>');
     const footerStart = html.search(/<footer[\s>]/i);
     const bottomZone = Math.min(
@@ -140,11 +137,12 @@ test('TPMO is in the sitewide footer template and bottom disclosure blocks', () 
   const coverageCenter = source('coverage-center/index.html');
 
   assert.match(footer, /class="footer-tpmo"/);
-  assert.ok(footer.includes(CURRENT_SEASON_DISCLAIMER), 'sitewide footer keeps the non-SHIP TPMO text for mixed pages');
-  assert.ok(footer.includes(MEDICARE_SHIP_DISCLAIMER), 'Medicare footer path uses the approved SHIP TPMO text');
+  assert.ok(footer.includes(FOOTER_TPMO_PLAIN), 'sitewide footer keeps the linked 10/74 SHIP TPMO text');
+  assert.ok(footer.includes(TPMO_INVENTORY), 'footer template keeps 10/74 inventory counts');
+  assert.ok(footer.includes(TPMO_MEDICARE_LINK), 'footer template links www.medicare.gov');
   assert.doesNotMatch(footer, /createElement\('a'\);\s*messenger/);
   assert.match(getHelp, /class="site-page-disclosures"/);
-  assert.ok(getHelp.includes(MEDICARE_SHIP_DISCLAIMER), 'Get Help shows the SHIP TPMO text in the bottom block');
+  assert.match(getHelp, TPMO_HTML_REGEX, 'Get Help shows the SHIP TPMO text in the bottom block');
   assert.match(getHelp, /Start my request/);
   assert.match(getHelp, /Call \(863\) 640-3102/);
   assert.match(getHelp, /href="tel:\+18636403102"/);

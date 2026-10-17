@@ -2,14 +2,13 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { test } from 'node:test';
+import { TPMO_HTML_REGEX, TPMO_INVENTORY } from './lib/tpmo-10-74.mjs';
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const MEDICARE_CANONICAL = readFileSync(resolve(ROOT, 'medicare/index.html'), 'utf8');
 const MEDICARE_TPMO_BLOCK = MEDICARE_CANONICAL.match(
   /<section class="site-page-disclosures"[\s\S]*?<\/section>/
 )?.[0];
-const FULL_SHIP =
-  'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
 const SKIP_DIRS = new Set(['.git', 'node_modules', 'search-engine-from-zip', '.ai-worker-local']);
 
 function walkHtml(dir = ROOT, out = []) {
@@ -60,11 +59,11 @@ test('every site-medicare-lead page includes the Medicare hub bottom TPMO block'
   for (const rel of walkHtml()) {
     const html = readFileSync(resolve(ROOT, rel), 'utf8');
     if (!html.includes('name="site-medicare-lead"')) continue;
-    assert.ok(html.includes(FULL_SHIP), `${rel} includes the approved SHIP TPMO sentence`);
-    assert.ok(html.includes('8 organizations which offer 65 products'), `${rel} keeps 8/65 inventory wording`);
+    assert.match(html, TPMO_HTML_REGEX, `${rel} includes the approved SHIP TPMO sentence`);
+    assert.ok(html.includes(TPMO_INVENTORY), `${rel} keeps 10/74 inventory wording`);
     const disclosures = html.match(/class="site-page-disclosures"[\s\S]*?<\/section>/g) || [];
     assert.equal(disclosures.length, 1, `${rel} keeps one bottom site-page-disclosures block`);
-    assert.ok(disclosures[0].includes(FULL_SHIP), `${rel} renders the SHIP TPMO sentence in the bottom disclosure block`);
+    assert.match(disclosures[0], TPMO_HTML_REGEX, `${rel} renders the SHIP TPMO sentence in the bottom disclosure block`);
     assert.ok(
       disclosures[0].includes('class="tpmo-standard-disclaimer"') ||
         disclosures[0].includes('Company inventory note:'),

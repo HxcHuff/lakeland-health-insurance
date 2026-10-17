@@ -3,11 +3,10 @@ import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
+import { TPMO_HTML_REGEX } from './lib/tpmo-10-74.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const PAGE = 'retiring-and-medicare-lakeland-fl/index.html';
-const FULL_SHIP =
-  'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
 
 function html() {
   return readFileSync(join(ROOT, PAGE), 'utf8');
@@ -26,7 +25,7 @@ test('T12 retiring-and-medicare-lakeland-fl page metadata and hero', () => {
   );
   assert.match(source, /rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/retiring-and-medicare-lakeland-fl\/"/);
   assert.match(source, /answer-pages\.css\?v=20261016-pr337-c/);
-  assert.match(source, /site-template\.js\?v=20261023-pr333-follow-up/);
+  assert.match(source, /site-template\.js\?v=20261017-tpmo-10-74/);
   assert.match(source, /How to decide \(neutral comparison\)[\s\S]*<div class="table-wrap">/);
   assert.match(source, /class="answer-snippet"/);
   assert.match(source, /seven-month Initial Enrollment Period/);
@@ -55,7 +54,7 @@ test('T12 page internal links and compliance surfaces', () => {
   ]) {
     assert.ok(source.includes(href), `expected link ${href}`);
   }
-  assert.ok(source.includes(FULL_SHIP));
+  assert.match(source, TPMO_HTML_REGEX);
   assert.doesNotMatch(source, /HealthMarkets/i);
   assert.doesNotMatch(source, /48-hour/i);
   assert.doesNotMatch(source, /\bFREE\b/);
