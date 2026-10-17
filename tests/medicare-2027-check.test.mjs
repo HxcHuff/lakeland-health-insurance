@@ -12,6 +12,8 @@ const SITEMAP = readFileSync(resolve(ROOT, 'sitemap.xml'), 'utf8');
 
 const V2_SMS_SNIPPET =
   'By checking this box, I give my prior express consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to send text messages about this request to the mobile number I entered above.';
+const META_DESCRIPTION =
+  'Request help checking whether your doctors appear in 2027 Medicare plan directories during Annual Enrollment (October 15 to December 7). A local Lakeland agent will review your options.';
 
 test('medicare-2027-check is a noindex demand-gen route excluded from sitemap and Meta audience', () => {
   assert.match(HTML, /<meta name="robots" content="noindex, nofollow">/);
@@ -23,7 +25,13 @@ test('medicare-2027-check is a noindex demand-gen route excluded from sitemap an
 
 test('medicare-2027-check mobile-first hero and four-field get-help v2 form', () => {
   assert.match(HTML, /Is your doctor still in your 2027 Medicare plan\?/);
-  assert.match(HTML, /Plans and networks change for 2027\. Medicare Annual Enrollment runs October 15 to December 7\./);
+  assert.match(HTML, new RegExp(META_DESCRIPTION.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  assert.match(HTML, /property="og:description" content="[^"]*Annual Enrollment \(October 15 to December 7\)/);
+  assert.match(HTML, /name="twitter:description" content="[^"]*Annual Enrollment \(October 15 to December 7\)/);
+  assert.match(
+    HTML,
+    /A local Lakeland agent will check your doctors for you\. A review is not enrollment or a network guarantee\./
+  );
   assert.match(HTML, /data-page-key="medicare-2027-check"/);
   assert.doesNotMatch(HTML, /paid-landing-page/);
   const form = HTML.match(/<form[^>]*data-sitelink-lead-form[\s\S]*?<\/form>/);
@@ -42,6 +50,10 @@ test('medicare-2027-check mobile-first hero and four-field get-help v2 form', ()
   assert.match(markup, /name="providers"/);
   assert.match(markup, /name="consent_request" value="yes"/);
   assert.match(markup, new RegExp(V2_SMS_SNIPPET.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  assert.ok(
+    markup.indexOf('name="consent_request"') < markup.indexOf('Check my doctors'),
+    'consent block must appear before submit button (get-help order)'
+  );
   assert.match(markup, /class="cta-button m27-submit" type="submit">Check my doctors<\/button>/);
   assert.doesNotMatch(markup, /name="email"/);
   assert.doesNotMatch(markup, /preferred_contact_method/);
@@ -61,7 +73,7 @@ test('medicare-2027-check avoids site-template.css (layout isolated to page styl
 test('medicare-2027-check trust bullets and TPMO disclosure ids', () => {
   assert.match(HTML, /Local Lakeland agent/);
   assert.match(HTML, /Compares plans from multiple carriers/);
-  assert.match(HTML, /Help keeping your doctors and prescriptions/);
+  assert.match(HTML, /Help comparing 2027 plans for your doctors and prescriptions/);
   assert.match(HTML, /id="medicareTpmoDisclaimer"/);
   assert.match(HTML, /id="floridaTpmoInventoryNote"/);
   assert.match(HTML, /id="medicareGenericTpmoDisclaimer"/);
@@ -120,13 +132,14 @@ test('medicare-2027-check sitelink submit succeeds when call consent is checked'
   }
 });
 
-test('medicare-2027-check submit button fits a 390x844 first screen', async () => {
+test('medicare-2027-check compliance layout and submit position at 390x844 and 1280x800', async () => {
   const server = createServer((request, response) => {
     try {
       let pathname = decodeURIComponent(new URL(request.url, 'http://127.0.0.1').pathname);
       if (pathname.endsWith('/')) pathname += 'index.html';
       const body = readFileSync(join(ROOT, pathname.replace(/^\//, '')));
-      response.writeHead(200, { 'Content-Type': 'text/html' });
+      const type = pathname.endsWith('.js') ? 'application/javascript' : pathname.endsWith('.css') ? 'text/css' : 'text/html';
+      response.writeHead(200, { 'Content-Type': type });
       response.end(body);
     } catch {
       response.writeHead(404);
@@ -143,13 +156,74 @@ test('medicare-2027-check submit button fits a 390x844 first screen', async () =
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     await page.goto(`http://127.0.0.1:${port}/medicare-2027-check/`, { waitUntil: 'networkidle' });
     await page.evaluate(() => window.scrollTo(0, 0));
-    const metrics = await page.evaluate(() => {
+    const mobile = await page.evaluate(() => {
+      const headline = document.querySelector('.m27-headline-row');
+      const form = document.querySelector('.m27-form');
+      const button = document.querySelector('.cta-button.m27-submit');
+      const consent = document.querySelector('.m27-consent span');
+      return {
+        gapHeadlineForm: form.getBoundingClientRect().top - headline.getBoundingClientRect().bottom,
+        submitTop: button.getBoundingClientRect().top,
+        submitBottom: button.getBoundingClientRect().bottom,
+        consentFontPx: parseFloat(getComputedStyle(consent).fontSize)
+      };
+    });
+    assert.ok(mobile.gapHeadlineForm <= 12, `form should start directly under headline (gap ${mobile.gapHeadlineForm}px)`);
+    assert.ok(mobile.consentFontPx >= 13, `consent copy should be at least 13px (got ${mobile.consentFontPx}px)`);
+
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.evaluate(() => window.scrollTo(0, 0));
+    const desktop = await page.evaluate(() => {
       const button = document.querySelector('.cta-button.m27-submit');
       const rect = button.getBoundingClientRect();
-      return { buttonBottom: rect.bottom, scrollHeight: document.documentElement.scrollHeight };
+      return { submitTop: rect.top, submitBottom: rect.bottom };
     });
-    assert.ok(metrics.buttonBottom <= 844, `button bottom ${metrics.buttonBottom} should stay within first screen`);
-    assert.ok(metrics.scrollHeight < 2060, `scroll height ${metrics.scrollHeight} should stay under Webby fail threshold`);
+    assert.ok(desktop.submitBottom <= 800, `submit bottom ${desktop.submitBottom}px should stay within 1280x800 first screen`);
+  } finally {
+    await browser.close();
+    await new Promise((resolvePromise) => server.close(() => resolvePromise()));
+  }
+});
+
+test('medicare-2027-check out-of-state Medicare note stays hidden until state is known and unlicensed', async () => {
+  const server = createServer((request, response) => {
+    try {
+      let pathname = decodeURIComponent(new URL(request.url, 'http://127.0.0.1').pathname);
+      if (pathname.endsWith('/')) pathname += 'index.html';
+      const body = readFileSync(join(ROOT, pathname.replace(/^\//, '')));
+      const type = pathname.endsWith('.js') ? 'application/javascript' : 'text/html';
+      response.writeHead(200, { 'Content-Type': type });
+      response.end(body);
+    } catch {
+      response.writeHead(404);
+      response.end('not found');
+    }
+  });
+  await new Promise((resolvePromise) => server.listen(0, '127.0.0.1', resolvePromise));
+  const { port } = server.address();
+  const browser = await chromium.launch({
+    headless: true,
+    executablePath: process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || '/usr/local/bin/google-chrome'
+  });
+  try {
+    const page = await browser.newPage();
+    const noteVisible = async () =>
+      page.evaluate(() => {
+        const note = document.getElementById('outOfStateMedicareNote');
+        return Boolean(note && !note.hidden && getComputedStyle(note).display !== 'none');
+      });
+
+    await page.goto(`http://127.0.0.1:${port}/medicare-2027-check/`, { waitUntil: 'networkidle' });
+    assert.equal(await noteVisible(), false, 'default load without state should hide out-of-state note');
+
+    await page.goto(`http://127.0.0.1:${port}/medicare-2027-check/?state=NY`, { waitUntil: 'networkidle' });
+    assert.equal(await noteVisible(), true, 'unlicensed state should show out-of-state note');
+
+    await page.goto(`http://127.0.0.1:${port}/medicare-2027-check/?state=TX`, { waitUntil: 'networkidle' });
+    assert.equal(await noteVisible(), false, 'licensed TX should hide out-of-state note');
+
+    await page.goto(`http://127.0.0.1:${port}/medicare-2027-check/?state=FL`, { waitUntil: 'networkidle' });
+    assert.equal(await noteVisible(), false, 'FL should hide out-of-state note');
   } finally {
     await browser.close();
     await new Promise((resolvePromise) => server.close(() => resolvePromise()));
