@@ -317,6 +317,67 @@
         text-overflow: unset !important;
       }
     }
+
+    /* Watson FB landing: calmer TCPA consent presentation (wording unchanged). */
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__card {
+      padding: 0.9rem 1rem 1rem;
+    }
+
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__fields {
+      gap: 0.625rem;
+    }
+
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__field:has(> label.lhi-lead-hero__consent) {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell .lhi-lead-hero__field > label.lhi-lead-hero__consent,
+    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell .lhi-lead-hero__field > label.lhi-lead-hero__consent span {
+      align-items: flex-start;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      color: #5b6475 !important;
+      font-size: 0.71875rem;
+      font-weight: 400;
+      gap: 0.45rem;
+      line-height: 1.35;
+      margin: 0;
+      padding: 0;
+    }
+
+    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell .lhi-lead-hero__field > label.lhi-lead-hero__consent {
+      display: flex;
+    }
+
+    body.lhi-fb-watson-2027-landing label.lhi-lead-hero__consent input[type="checkbox"] {
+      flex-shrink: 0;
+      height: 0.875rem;
+      margin-top: 0.1rem;
+      min-height: 0.875rem;
+      min-width: 0.875rem;
+      width: 0.875rem;
+    }
+
+    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell label.lhi-lead-hero__consent a {
+      color: #334155 !important;
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-offset: 0.12em;
+    }
+
+    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell label.lhi-lead-hero__consent a:hover,
+    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell label.lhi-lead-hero__consent a:focus-visible {
+      color: #1d4ed8 !important;
+    }
+
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__field:has(> .lhi-lead-hero__submit) {
+      margin-top: 0.25rem;
+    }
   </style>
 </head>
 <body class="blog-post lhi-page-hero lhi-fb-watson-2027-landing">
