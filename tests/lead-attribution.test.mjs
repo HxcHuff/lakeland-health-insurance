@@ -138,6 +138,7 @@ test('Forms acceptance mints receipt metadata, authorizes consent, and returns c
   assert.equal(result.ok, true);
   assert.equal(result.forms, true);
   assert.match(result.event_id, /^[0-9a-f-]{36}$/i);
+  assert.match(result.form_submit_complete_event_id, /^lhi_book_[a-z0-9]+_fcomp$/);
   assert.equal(Date.parse(result.server_received_at) <= Date.parse(result.accepted_at), true);
   assert.deepEqual({
     source_page_key: result.source_page_key,
@@ -381,9 +382,8 @@ test('Meta browser identifier validation rejects duplicates and non-Meta values'
   );
 });
 
-test('Meta CAPI requires explicit confirmed consent and honors GPC and DNT after Forms acceptance', async () => {
-  const scenarios = [
-    { cookie: '' },
+test('Meta CAPI uses default-allow consent and honors opt-out, GPC, and DNT after Forms acceptance', async () => {
+  const blocked = [
     { cookie: 'lhi_meta_audience_opt_out=1' },
     { cookie: 'lhi_meta_audience_consent=denied' },
     { cookie: 'lhi_meta_audience_consent=%E0%A4%A' },
@@ -392,15 +392,57 @@ test('Meta CAPI requires explicit confirmed consent and honors GPC and DNT after
     { dnt: '1' }
   ];
 
-  for (const headers of scenarios) {
+  for (const headers of blocked) {
     const { response, calls } = await invoke(getHelpPayload(), { headers });
     const result = JSON.parse(response.body);
     assert.equal(response.statusCode, 200);
     assert.equal(result.forms, true);
     assert.equal(result.capi, false);
-    assert.match(result.capi_error, /explicit Meta measurement consent unavailable/);
+    assert.match(result.capi_error, /CAPI skipped:/);
     assert.equal(calls.length, 1, 'only the Forms forward runs');
   }
+
+  const allowed = await invoke(getHelpPayload(), { headers: { cookie: '' } });
+  const allowedResult = JSON.parse(allowed.response.body);
+  assert.equal(allowedResult.forms, true);
+  assert.equal(allowedResult.capi, true);
+  assert.equal(allowed.calls.length, 2);
+});
+
+test('site lead forms send form_submit_complete to Meta but not the standard Lead event', async () => {
+  const startedAt = Date.now() - 2_000;
+  const payload = {
+    'form-name': 'site-medicare-lead',
+    started_at: String(startedAt),
+    human_check: Buffer.from(`${startedAt}:lakeland-human`).toString('base64'),
+    full_name: 'Jane Example',
+    phone: '863-555-1212',
+    email: 'jane@example.com',
+    zip_code: '33801',
+    source_url: 'https://lakelandhealthinsurance.com/blog/orlando-health-watson-clinic-2027-plan.html',
+    source_page: '/blog/orlando-health-watson-clinic-2027-plan.html',
+    consent_request: 'yes',
+    consent_call: 'yes',
+    consent_sms: 'yes',
+    consent_email: 'yes',
+    consent_text_version: 'site-medicare-2026-10-v1'
+  };
+  const { response, calls } = await invoke(payload, {
+    headers: {
+      cookie: '',
+      referer: 'https://lakelandhealthinsurance.com/blog/orlando-health-watson-clinic-2027-plan.html'
+    }
+  });
+  const result = JSON.parse(response.body);
+  assert.equal(response.statusCode, 200);
+  assert.equal(result.capi, true);
+  assert.match(result.form_submit_complete_event_id, /^lhi_book_[a-z0-9]+_fcomp$/);
+  assert.equal(calls.length, 2);
+  const meta = JSON.parse(calls[1].init.body);
+  assert.equal(meta.data.length, 1);
+  assert.equal(meta.data[0].event_name, 'form_submit_complete');
+  assert.equal('custom_data' in meta.data[0], false);
+  assert.equal(meta.data[0].user_data.client_ip_address, undefined);
 });
 
 test('server consent cookie parser distinguishes absence, malformed, duplicate, and approved state', () => {

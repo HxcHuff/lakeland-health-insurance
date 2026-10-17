@@ -11,7 +11,8 @@ assert.ok(loaderMatch, 'shared analytics asset contains the Meta audience loader
 const LOADER_SRC = loaderMatch[1];
 const PIXEL_ID = '1480756087079484';
 const ELIGIBLE_MARKER = '<meta name="meta-audience-eligible" content="pageview">';
-const ANALYTICS_VERSION = '/js/analytics.js?v=20261017-meta-notice-ux-v4';
+const ANALYTICS_VERSION = '/js/analytics.js?v=20261017-meta-conversion-events-v1';
+const CSS_VERSION = '/css/site-template.css?v=20261017-meta-conversion-events-v1';
 const CONSENT_KEY = 'lhi_meta_audience_consent';
 const ELIGIBLE_PAGES = [
   ['index.html', '/'],
@@ -667,7 +668,10 @@ test('static marker inventory exactly matches the reviewed 10-page landing ledge
     const html = readFileSync(join(ROOT, file), 'utf8');
     assert.equal((html.match(/<meta name="meta-audience-eligible" content="pageview">/g) || []).length, 1, file);
     assert.ok(html.indexOf(ELIGIBLE_MARKER) < html.indexOf('</head>'), file);
-    assert.match(html, /\/js\/analytics\.js\?v=20261017-meta-notice-ux-v4/, file);
+    assert.match(html, /\/js\/analytics\.js\?v=20261017-meta-conversion-events-v1/, file);
+    if (html.includes('/css/site-template.css')) {
+      assert.match(html, /\/css\/site-template\.css\?v=20261017-meta-conversion-events-v1/, file);
+    }
     if (file === 'medicare-2027-check/index.html') {
       assert.doesNotMatch(html, /<link rel="canonical"/i, file);
     } else {
@@ -710,6 +714,31 @@ test('static marker inventory exactly matches the reviewed 10-page landing ledge
   }
 });
 
+test('Meta conversion helpers fire trackSingle with empty params and honor opt-out', () => {
+  const { sandbox } = loadMetaAudience({
+    pathname: '/get-help/',
+    storage: makeStorage(),
+    cookie: ''
+  });
+  const callsBefore = queuedCalls(sandbox).length;
+  assert.equal(sandbox.lhiTrackMetaPhoneClick(), true);
+  assert.equal(sandbox.lhiTrackMetaPhoneClick(), false);
+  const conversionCalls = queuedCalls(sandbox).slice(callsBefore);
+  assert.equal(conversionCalls[0][0], 'trackSingle');
+  assert.equal(conversionCalls[0][1], PIXEL_ID);
+  assert.equal(conversionCalls[0][2], 'phone_click');
+  assert.equal(Object.keys(conversionCalls[0][3] || {}).length, 0);
+  assert.match(conversionCalls[0][4].eventID, /^lhi_ph_/);
+
+  const denied = loadMetaAudience({
+    pathname: '/get-help/',
+    storage: makeStorage({ [CONSENT_KEY]: 'denied' }),
+    cookie: 'lhi_meta_audience_consent=denied'
+  });
+  denied.sandbox.__LHI_META_AUDIENCE_INITIALIZED__ = true;
+  assert.equal(denied.sandbox.lhiTrackMetaPhoneClick(), false);
+});
+
 test('CSP and static source preserve the single-loader, intended-dataset contract', () => {
   const headers = readFileSync(join(ROOT, '_headers'), 'utf8');
   const lead = readFileSync(join(ROOT, 'netlify/functions/lead.js'), 'utf8');
@@ -737,7 +766,14 @@ test('CSP and static source preserve the single-loader, intended-dataset contrac
   assert.match(privacy, /does not inspect or transmit anything entered into a form/i);
   assert.match(privacy, /The PageView reports only the page path \(no query or campaign parameters\)\./);
   assert.match(privacy, /Measurement remains disabled on other intake pages/i);
-  assert.match(privacy, /server-side Meta Lead integration still requires the saved “allow” preference cookie/i);
+  assert.match(privacy, /matching server-side Conversions API events on eligible pages/i);
+  assert.match(LOADER_SRC, /lhiTrackMetaFormSubmitComplete/);
+  assert.match(LOADER_SRC, /lhiTrackMetaPhoneClick/);
+  assert.match(LOADER_SRC, /lhiTrackMetaMessageStart/);
+  assert.match(LOADER_SRC, /form_submit_complete/);
+  assert.match(LOADER_SRC, /phone_click/);
+  assert.match(LOADER_SRC, /message_start/);
+  assert.doesNotMatch(LOADER_SRC, /custom_data/);
   assert.match(privacy, /on by default until you opt out/i);
   assert.match(privacy, /Medicare 2027 doctor-check page/);
   assert.match(privacy, /Watson Clinic and Orlando Health 2027 Medicare article/);
