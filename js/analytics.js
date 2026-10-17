@@ -1220,17 +1220,22 @@
     }
   }
 
-  function isReviewedEligibleSurface() {
-    if (!w.location || !hasOwn(PROD_HOSTS, String(w.location.hostname || '').toLowerCase())) return false;
+  function isReviewedEligiblePath() {
+    if (!w.location) return false;
     var path = normalizePath(w.location.pathname);
     return hasOwn(ELIGIBLE_PATHS, path) && hasEligibilityMarker();
+  }
+
+  function isReviewedEligibleSurface() {
+    if (!w.location || !hasOwn(PROD_HOSTS, String(w.location.hostname || '').toLowerCase())) return false;
+    return isReviewedEligiblePath();
   }
 
   function shouldShowMetaNotice() {
     var decision = privacyDecision();
     if (!decision.allowed || decision.reason !== 'default-allow') return false;
     if (readNoticeDismissed()) return false;
-    if (isReviewedEligibleSurface()) return true;
+    if (isReviewedEligiblePath()) return true;
     var existing = d.getElementById('metaAudienceConsentPrompt');
     return Boolean(existing && String(existing.className || '').indexOf('meta-audience-notice') >= 0);
   }
