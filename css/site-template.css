@@ -1556,6 +1556,10 @@ body.lhi-meta-notice-visible:not(:has(.meta-audience-notice--top)) {
 @media (max-width: 900px) {
   .meta-audience-notice--top {
     bottom: auto;
-    top: max(0.55rem, env(safe-area-inset-top, 0px));
+    top: calc(var(--lhi-site-header-height, 88px) + env(safe-area-inset-top, 0px) + 0.35rem);
+  }
+
+  html[data-lhi-meta-notice-compact="1"] .meta-audience-notice--top {
+    top: calc(3.25rem + env(safe-area-inset-top, 0px) + 0.35rem);
   }
 }
