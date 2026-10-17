@@ -325,13 +325,13 @@ for (const required of [
   'href="tel:+18636403102"',
   'href="mailto:david@lakelandhealthinsurance.com"',
   'href="/get-help/"',
-  'src="/js/analytics.js?v=20261017-tpmo10-74-watson-pagespeed"'
+  'src="/js/analytics.js?v=20261017-meta-notice-ux-v4"'
 ]) {
   if (!home.includes(required)) issues.push(`index.html: required contact, CTA, or tracking integration is missing (${required})`);
 }
 if (
-  !home.includes('src="/js/analytics.js?v=20261017-tpmo10-74-watson-pagespeed"') &&
-  !home.includes('defer src="/js/analytics.js?v=20261017-tpmo10-74-watson-pagespeed"')
+  !home.includes('src="/js/analytics.js?v=20261017-meta-notice-ux-v4"') &&
+  !home.includes('defer src="/js/analytics.js?v=20261017-meta-notice-ux-v4"')
 ) {
   issues.push('index.html: required contact, CTA, or tracking integration is missing (analytics loader)');
 }
@@ -371,7 +371,7 @@ for (const required of [
   'href="tel:+18636403102"',
   'href="mailto:david@lakelandhealthinsurance.com"',
   'href="/get-help/"',
-  'src="/js/analytics.js?v=20261017-tpmo10-74-watson-pagespeed"'
+  'src="/js/analytics.js?v=20261017-meta-notice-ux-v4"'
 ]) {
   if (!about.includes(required)) issues.push(`about/index.html: required contact, CTA, or tracking integration is missing (${required})`);
 }
@@ -486,7 +486,7 @@ for (const rel of workPackageThreePages) {
   if (!hasCurrentDateModified(html)) issues.push(`${rel}: current machine-readable dateModified is missing`);
   if (!html.includes('href="/get-help/')) issues.push(`${rel}: Get Help action is missing`);
   if (!html.includes('href="tel:+18636403102"')) issues.push(`${rel}: phone action is missing`);
-  const expectedAnalyticsLoader = 'src="/js/analytics.js?v=20261017-tpmo10-74-watson-pagespeed"';
+  const expectedAnalyticsLoader = 'src="/js/analytics.js?v=20261017-meta-notice-ux-v4"';
   if (!html.includes(expectedAnalyticsLoader)) issues.push(`${rel}: analytics loader is missing`);
   if (!siteTemplateLoaderPattern.test(html)) issues.push(`${rel}: shared site shell is missing`);
   if (/\b(?:nationwide|across the United States|coverage across the nation)\b/i.test(text)) {
