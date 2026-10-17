@@ -87,6 +87,13 @@ for (const viewport of [
         return { ok: gap >= -1, gap: Math.round(gap), capBottom: Math.round(capBox.bottom), introTop: Math.round(introBox.top) };
       });
       assert.equal(overlap.ok, true, `expected non-overlap, got ${JSON.stringify(overlap)}`);
+      const chrome = await page.evaluate(() => {
+        const footers = document.querySelectorAll('footer');
+        const inMain = document.querySelectorAll('main footer');
+        return { footerCount: footers.length, footerInMain: inMain.length };
+      });
+      assert.equal(chrome.footerCount, 1, 'site chrome should leave exactly one footer');
+      assert.equal(chrome.footerInMain, 0, 'article must not contain a footer element');
     } finally {
       await browser.close();
       await server.close();
