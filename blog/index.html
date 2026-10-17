@@ -885,6 +885,33 @@
             margin-bottom: 0.5rem;
         }
 
+        #blog-featured-post {
+            margin-bottom: 1.25rem;
+        }
+
+        .article-card--featured {
+            border-color: rgba(212, 168, 67, 0.55);
+            box-shadow: 0 6px 28px rgba(15, 26, 46, 0.08);
+        }
+
+        .article-card--featured:hover {
+            border-color: var(--gold);
+        }
+
+        .featured-post-label {
+            background: var(--gold-soft);
+            border: 1px solid var(--gold);
+            border-radius: 999px;
+            color: var(--navy-deep);
+            font-family: inherit;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            line-height: 1;
+            padding: 4px 10px;
+            text-transform: uppercase;
+        }
+
         .visit-count-badge {
             background: var(--green-soft);
             border-radius: 999px;
@@ -1655,10 +1682,9 @@ header .cta-button {
                     </div>
                     <p class="library-status" id="library-status" aria-live="polite"></p>
                     <div id="filter-indicator"></div>
-                    <div id="blog-posts">
-
-                <article class="article-card" data-tags="Lakeland,Local,Networks,Watson Clinic,Orlando Health,Medicare,ACA">
-                    <div class="article-date">October 16, 2026</div>
+                    <div id="blog-featured-post" aria-label="Featured article">
+                <article class="article-card article-card--featured" data-tags="Lakeland,Local,Networks,Watson Clinic,Orlando Health,Medicare,ACA" data-featured-slug="orlando-health-watson-clinic-2027-plan">
+                    <div class="article-date"><span class="featured-post-label">Featured</span> October 16, 2026</div>
                     <h2 class="article-title"><a href="/blog/orlando-health-watson-clinic-2027-plan.html">Orlando Health and Watson Clinic: News for Lakeland Patients</a></h2>
                     <p class="article-excerpt">News not published online yet. David Huff spoke directly with the clinic in October 2026. Call or text (863) 640-3102 about your doctors and your 2027 plan.</p>
                     <div class="tag-container">
@@ -1668,6 +1694,8 @@ header .cta-button {
                         <span class="tag" onclick="filterByTag('Networks')">Networks</span>
                     </div>
                 </article>
+                    </div>
+                    <div id="blog-posts">
 
                 <article class="article-card" data-tags="ACA,Marketplace,Open Enrollment,Florida,Subsidies">
                     <div class="article-date">October 9, 2026</div>
