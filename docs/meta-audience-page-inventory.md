@@ -13,7 +13,6 @@ This inventory is the reviewed browser-tracking boundary. A page must appear bel
 - `/medicare/`
 - `/medicare-broker-lakeland-fl/`
 - `/aca-health-insurance-lakeland-fl/`
-- `/contact/`
 - `/plans/`
 - `/thanks.html`
 

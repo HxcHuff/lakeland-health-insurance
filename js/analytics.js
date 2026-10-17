@@ -904,7 +904,6 @@
     '/medicare/': true,
     '/medicare-broker-lakeland-fl/': true,
     '/aca-health-insurance-lakeland-fl/': true,
-    '/contact/': true,
     '/plans/': true,
     '/thanks.html': true
   };
@@ -1240,18 +1239,36 @@
     return Boolean(existing && String(existing.className || '').indexOf('meta-audience-notice') >= 0);
   }
 
+  function metaNoticeUsesTopPlacement() {
+    if (!w.matchMedia || !w.matchMedia('(max-width: 900px)').matches) return false;
+    var root = d.documentElement;
+    if (root && typeof root.getAttribute === 'function' && root.getAttribute('data-lhi-meta-notice-top') === '1') {
+      return true;
+    }
+    if (d.body && typeof d.body.getAttribute === 'function' && d.body.getAttribute('data-lhi-meta-notice-top') === '1') {
+      return true;
+    }
+    return false;
+  }
+
   function metaNoticePlacementClass() {
-    if (!w.matchMedia || !w.matchMedia('(max-width: 900px)').matches) return '';
-    if (!d.querySelector || !d.querySelector('main form, #leadForm, .lhi-lead-hero__form')) return '';
-    return ' meta-audience-notice--top';
+    return metaNoticeUsesTopPlacement() ? ' meta-audience-notice--top' : '';
   }
 
   function syncMetaNoticePlacement(prompt) {
     if (!prompt) return;
     var topClass = 'meta-audience-notice--top';
-    var useTop = metaNoticePlacementClass().indexOf(topClass) >= 0;
-    if (useTop) prompt.classList.add(topClass);
-    else prompt.classList.remove(topClass);
+    var useTop = metaNoticeUsesTopPlacement();
+    var current = String(prompt.className || '');
+    var hasTop = current.indexOf(topClass) >= 0;
+    if (useTop === hasTop) return;
+    if (prompt.classList && typeof prompt.classList.add === 'function') {
+      if (useTop) prompt.classList.add(topClass);
+      else prompt.classList.remove(topClass);
+      return;
+    }
+    if (useTop) prompt.className = (current + ' ' + topClass).trim();
+    else prompt.className = current.replace(topClass, '').replace(/\s+/g, ' ').trim();
   }
 
   function ensureMetaNoticeShell() {
@@ -1307,8 +1324,20 @@
         prompt.hidden = !showNotice;
         syncMetaNoticePlacement(prompt);
       }
-      if (d.body && d.body.classList) {
-        d.body.classList.toggle('lhi-meta-notice-visible', showNotice);
+      if (d.body) {
+        if (d.body.classList && typeof d.body.classList.toggle === 'function') {
+          d.body.classList.toggle('lhi-meta-notice-visible', showNotice);
+        } else if (showNotice) {
+          var bodyClass = String(d.body.className || '');
+          if (bodyClass.indexOf('lhi-meta-notice-visible') < 0) {
+            d.body.className = (bodyClass + ' lhi-meta-notice-visible').trim();
+          }
+        } else {
+          d.body.className = String(d.body.className || '')
+            .replace(/\blhi-meta-notice-visible\b/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+        }
       }
     }
 

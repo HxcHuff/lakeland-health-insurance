@@ -11,7 +11,7 @@ assert.ok(loaderMatch, 'shared analytics asset contains the Meta audience loader
 const LOADER_SRC = loaderMatch[1];
 const PIXEL_ID = '1480756087079484';
 const ELIGIBLE_MARKER = '<meta name="meta-audience-eligible" content="pageview">';
-const ANALYTICS_VERSION = '/js/analytics.js?v=20261017-meta-default-on';
+const ANALYTICS_VERSION = '/js/analytics.js?v=20261017-meta-compliance';
 const CONSENT_KEY = 'lhi_meta_audience_consent';
 const ELIGIBLE_PAGES = [
   ['get-help/index.html', '/get-help/'],
@@ -123,7 +123,9 @@ function loadMetaAudience({
   cookie = `${CONSENT_KEY}=granted`,
   controls = false,
   preexistingFbq = false,
-  trapFormAccess = false
+  trapFormAccess = false,
+  noticeTopMarker = false,
+  mobileLayout = false
 } = {}) {
   const scripts = [];
   const controlNodes = {};
@@ -152,6 +154,9 @@ function loadMetaAudience({
     },
     getElementById(id) { return controlNodes[id] || null; }
   };
+  const documentElement = makeNode('html', controlNodes);
+  document.documentElement = documentElement;
+  if (noticeTopMarker) documentElement.setAttribute('data-lhi-meta-notice-top', '1');
   if (controls) {
     const prompt = makeNode('div', controlNodes);
     if (controls !== 'privacy') {
@@ -215,6 +220,14 @@ function loadMetaAudience({
       }
     },
     navigator: { globalPrivacyControl, doNotTrack },
+    matchMedia(query) {
+      return {
+        matches: mobileLayout && String(query).includes('max-width: 900px'),
+        media: String(query),
+        addListener() {},
+        removeListener() {}
+      };
+    },
     window: null
   };
   sandbox.window = sandbox;
@@ -249,7 +262,7 @@ function htmlFiles(dir = ROOT, out = []) {
   return out;
 }
 
-test('all 8 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
+test('all 7 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
   assert.equal(ELIGIBLE_PAGES.length, 7);
   for (const [, pathname] of ELIGIBLE_PAGES) {
     const { sandbox, scripts, controls } = loadMetaAudience({ pathname });
@@ -580,12 +593,41 @@ test('form-bearing eligible pages never expose form state to the loader', () => 
   for (const [file, pathname] of ELIGIBLE_PAGES.filter(([file]) => FORM_BEARING_ELIGIBLE_FILES.has(file))) {
     const html = readFileSync(join(ROOT, file), 'utf8');
     assert.match(html, /<(?:form|input|textarea|select)\b/i, file);
-    const result = loadMetaAudience({ pathname, trapFormAccess: true });
+    assert.match(html, /data-lhi-meta-notice-top="1"/, file);
+    const result = loadMetaAudience({
+      pathname,
+      storage: makeStorage(),
+      cookie: '',
+      trapFormAccess: true,
+      noticeTopMarker: true,
+      mobileLayout: true
+    });
     assert.equal(result.scripts.length, 1, pathname);
-    assert.equal(result.accessedSelectors.length, 1, pathname);
+    assert.ok(result.accessedSelectors.length >= 1, pathname);
     assert.ok(result.accessedSelectors.every((selector) => selector === 'meta[name="meta-audience-eligible"][content="pageview"]'), pathname);
+    assert.ok(result.accessedSelectors.every((selector) => !/form|input|textarea|select|leadForm|lhi-lead-hero/i.test(selector)), pathname);
+    assert.match(result.controls.metaAudienceConsentPrompt.className, /meta-audience-notice--top/, pathname);
     assert.deepEqual(queuedCalls(result.sandbox), EXPECTED_CALLS, pathname);
   }
+});
+
+test('mobile top placement follows the page marker only', () => {
+  const marked = loadMetaAudience({
+    pathname: '/get-help/',
+    storage: makeStorage(),
+    cookie: '',
+    noticeTopMarker: true,
+    mobileLayout: true
+  });
+  assert.match(marked.controls.metaAudienceConsentPrompt.className, /meta-audience-notice--top/);
+
+  const unmarked = loadMetaAudience({
+    pathname: '/get-help/',
+    storage: makeStorage(),
+    cookie: '',
+    mobileLayout: true
+  });
+  assert.doesNotMatch(unmarked.controls.metaAudienceConsentPrompt.className, /meta-audience-notice--top/);
 });
 
 test('a pre-existing Meta runtime fails closed without adding calls or scripts', () => {
@@ -594,7 +636,7 @@ test('a pre-existing Meta runtime fails closed without adding calls or scripts',
   assert.equal(sandbox.__LHI_META_AUDIENCE_STATUS__.reason, 'preexisting-meta-runtime');
 });
 
-test('static marker inventory exactly matches the reviewed 8-page landing ledger', () => {
+test('static marker inventory exactly matches the reviewed 7-page landing ledger', () => {
   const marked = [];
   for (const file of htmlFiles()) {
     const html = readFileSync(file, 'utf8');
@@ -607,7 +649,7 @@ test('static marker inventory exactly matches the reviewed 8-page landing ledger
     const html = readFileSync(join(ROOT, file), 'utf8');
     assert.equal((html.match(/<meta name="meta-audience-eligible" content="pageview">/g) || []).length, 1, file);
     assert.ok(html.indexOf(ELIGIBLE_MARKER) < html.indexOf('</head>'), file);
-    assert.match(html, /\/js\/analytics\.js\?v=20261017-meta-default-on/, file);
+    assert.match(html, /\/js\/analytics\.js\?v=20261017-meta-compliance/, file);
     assert.match(html, new RegExp(`https://lakelandhealthinsurance\\.com${pathname === '/' ? '/' : pathname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`), file);
     if (FORM_BEARING_ELIGIBLE_FILES.has(file)) {
       assert.match(html, /<(?:form|input|textarea|select)\b/i, file);
@@ -660,7 +702,8 @@ test('CSP and static source preserve the single-loader, intended-dataset contrac
 
   assert.equal((LOADER_SRC.match(/1480756087079484/g) || []).length, 2);
   assert.doesNotMatch(LOADER_SRC, /1822900971216472/);
-  assert.doesNotMatch(LOADER_SRC, /FormData|document\.forms|\.elements\b|querySelector(?:All)?\([^)]*(?:input|form|textarea|select)|addEventListener\(['"](?:submit|input|change)/i);
+  assert.doesNotMatch(LOADER_SRC, /FormData|document\.forms|\.elements\b|querySelector(?:All)?\([^)]*(?:input|form|textarea|select)|getElementsByTagName\(['"]form['"]\)|getElementById\(['"]leadForm['"]\)|lhi-lead-hero__form|addEventListener\(['"](?:submit|input|change)/i);
+  assert.match(LOADER_SRC, /data-lhi-meta-notice-top/);
   assert.doesNotMatch(LOADER_SRC, /trackCustom|['"]Lead['"]|['"]Contact['"]|['"]Schedule['"]/);
   assert.match(lead, /const META_DATASET_ID = '1480756087079484'/);
   assert.match(lead, /const META_GRAPH_VERSION = 'v25\.0'/);
@@ -676,11 +719,13 @@ test('CSP and static source preserve the single-loader, intended-dataset contrac
   assert.match(privacy, /Measurement remains disabled on other intake pages/i);
   assert.match(privacy, /server-side Meta Lead integration still requires the saved “allow” preference cookie/i);
   assert.match(privacy, /on by default until you opt out/i);
+  assert.doesNotMatch(privacy, /Medicare broker, ACA, contact, plans/);
+  assert.match(privacy, /Medicare broker, ACA, plans, and the thanks confirmation page/);
   assert.match(readFileSync(join(ROOT, 'js/site-template.js'), 'utf8'), /Ad tracking choices/);
   assert.doesNotMatch(LOADER_SRC, /ensureConsentPrompt|CONSENT_STYLES_ID|createElement\(['"]aside['"]\)/i);
   assert.match(LOADER_SRC, /createElement\(['"]div['"]\)/);
   assert.equal((LOADER_SRC.match(/getElementById\(['"]metaAudienceConsentPrompt['"]\)/g) || []).length, 3);
-  assert.match(LOADER_SRC, /prompt\.hidden\s*=\s*!shouldShowMetaNotice\(\)/);
+  assert.match(LOADER_SRC, /prompt\.hidden\s*=\s*!showNotice/);
   assert.match(LOADER_SRC, /reason:\s*['"]default-allow['"]/);
   for (const [, pathname] of ELIGIBLE_PAGES) assert.ok(inventory.includes(`\`${pathname}\``), pathname);
 
