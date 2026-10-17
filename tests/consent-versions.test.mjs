@@ -11,6 +11,7 @@ const ACA_SITELINK_SHORT_FORM_PAGES = new Set([
   'aca-health-insurance-agent-polk-county-fl/index.html',
   'aca-health-insurance-lakeland-fl/index.html'
 ]);
+const GET_HELP_V2_NO_EMAIL_PAGES = new Set(['medicare-2027-check/index.html']);
 const SITELINK_PAGES = [
   'aca-health-insurance-agent-polk-county-fl/index.html',
   'aca-health-insurance-lakeland-fl/index.html',
@@ -81,6 +82,13 @@ test('documented consent label text matches the live HTML on every listed page',
           section.id === 'get-help-2026-07-30-v1' &&
           ACA_SITELINK_SHORT_FORM_PAGES.has(rel) &&
           (name === 'sms' || name === 'email')
+        ) {
+          continue;
+        }
+        if (
+          section.id === 'get-help-2026-09-29-v2' &&
+          GET_HELP_V2_NO_EMAIL_PAGES.has(rel) &&
+          name === 'email'
         ) {
           continue;
         }

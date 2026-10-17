@@ -284,8 +284,8 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   assert.match(QUOTE, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/quote\/">/);
   assert.match(PLANS, /https:\/\/lakelandhealthinsurance\.com\/plans\/#webpage/);
   assert.match(QUOTE, /https:\/\/lakelandhealthinsurance\.com\/quote\/#webpage/);
-  assert.match(PLANS, /\/js\/analytics\.js\?v=20261015-v6merge2/);
-  assert.match(QUOTE, /\/js\/analytics\.js\?v=20261015-v6merge2/);
+  assert.match(PLANS, /\/js\/analytics\.js\?v=20261016-pr345-analytics/);
+  assert.match(QUOTE, /\/js\/analytics\.js\?v=20261016-pr345-analytics/);
   assert.equal((SITE_TEMPLATE.match(/\['\/plans\/', 'Coverage Options'\]/g) || []).length, 1);
   assert.match(SITE_TEMPLATE, /<a href="\/plans\/">Coverage Options<\/a>/);
   assert.doesNotMatch(SITE_TEMPLATE, /['"]Plan Types['"]/);
@@ -307,7 +307,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
     assert.equal(source.includes('/js/site-template.js'), false, `${rel} owns focused paid-page chrome`);
   }
 
-  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261016-lhi-lead-title-contrast';/);
+  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261016-pr345-m27check';/);
   assert.match(SERVICE_WORKER, /const SITE_PHONE_URL = '\/js\/site-phone\.js\?v=20261015-v6merge2';/);
   assert.match(SERVICE_WORKER, /const SITE_TEMPLATE_URL = '\/js\/site-template\.js\?v=20261023-pr333-follow-up';/);
   assert.match(SERVICE_WORKER, /requestUrl\.pathname === '\/js\/site-template\.js'/);

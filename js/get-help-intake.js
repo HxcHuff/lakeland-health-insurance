@@ -266,6 +266,13 @@
         header_talk_to_david: true,
         footer_start_plan_review: true
       }
+    },
+    'medicare-2027-check': {
+      page_role: 'campaign',
+      cta_keys: {
+        start_review_hero: true,
+        request_review_hero: true
+      }
     }
   };
   var LICENSED_COVERAGE_STATES = {

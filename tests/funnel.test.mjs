@@ -960,7 +960,7 @@ test('first-party attribution loads immediately on the homepage, Get Help, and p
   for (const pathname of ['/', '/get-help/', '/lp/aca/', '/lp/medicare/', '/lp/gap/']) {
     const { appendedScripts } = loadAnalytics({ pathname });
     assert.ok(
-      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261015-v6merge2'),
+      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261016-pr345-funnel'),
       `${pathname} requests the attribution bus during analytics initialization`
     );
   }
@@ -973,7 +973,7 @@ test('first-party delivery bus loads immediately on any parsed tracked form page
   });
 
   assert.ok(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261015-v6merge2'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261016-pr345-funnel'),
     'a tracked city-page form requests the delivery bus during analytics initialization'
   );
 });
@@ -986,7 +986,7 @@ test('tracked form pages with a direct funnel script do not request it twice', (
   });
 
   assert.equal(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261015-v6merge2'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261016-pr345-funnel'),
     false
   );
 });
@@ -1268,7 +1268,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
     assert.equal(ctas.some((cta) => cta.ctaKey === null), false, `${expected.pageKey} has an unkeyed in-content Get Help CTA`);
     assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
-    assert.match(html, /\/js\/analytics\.js\?v=20261015-v6merge2/);
+    assert.match(html, /\/js\/analytics\.js\?v=20261016-pr345-analytics/);
 
     for (const cta of ctas) {
       const url = new URL(cta.href, 'https://lakelandhealthinsurance.com');
@@ -1644,7 +1644,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
 test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /David will reach out shortly\./);
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
-  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261015-v6merge2/);
+  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261016-pr345-analytics/);
 });
 
 test('direct thank-you visits show customer-facing help copy', () => {
@@ -2044,7 +2044,7 @@ test('legacy campaign aliases land on current canonical articles', () => {
 });
 
 test('shared release invalidates stale asset caches and keeps desktop navigation on one row', () => {
-  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261016-lhi-lead-title-contrast';/);
+  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261016-pr345-m27check';/);
   assert.match(SITE_TEMPLATE_CSS, /header \.nav-links\s*\{[^}]*flex-wrap:\s*nowrap;/s);
 });
 
@@ -2185,7 +2185,7 @@ test('Get Help stores only bounded Medicare attribution and approved campaign fi
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
   }
   assert.doesNotMatch(GET_HELP_HTML, /name="fbclid"/);
-  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20261012-get-help-out-of-state/);
+  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20261016-pr345-get-help-intake/);
   for (const field of [
     'lead_source',
     'lead_medium',
