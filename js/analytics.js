@@ -875,10 +875,11 @@
 /*
  * Lakeland Health Insurance — Meta audience PageView loader
  *
- * Default: off. The loader queues one standard PageView only when the current
- * production page is in the reviewed path allowlist and carries the exact
- * meta-audience-eligible marker, the URL/referrer pass the remaining gates,
- * and the visitor has saved an explicit site preference. First-party
+ * Default: on for website-audience PageView unless the visitor saves an opt-out
+ * or a supported browser privacy signal blocks measurement. The loader queues one
+ * standard PageView only when the current production page is in the reviewed path
+ * allowlist and carries the exact meta-audience-eligible marker and the
+ * URL/referrer pass the remaining gates. First-party
  * attribution is captured first. The reported PageView URL is then origin +
  * pathname only (no query, no hash). Raw utm_campaign, utm_term, and
  * utm_content values still fail closed when they look health-sensitive.
@@ -891,6 +892,7 @@
   var PIXEL_ID = '1480756087079484';
   var PIXEL_SCRIPT_SRC = 'https://connect.facebook.net/en_US/fbevents.js';
   var CONSENT_KEY = 'lhi_meta_audience_consent';
+  var NOTICE_DISMISSED_KEY = 'lhi_meta_audience_notice_dismissed';
   var LEGACY_OPT_OUT_KEY = 'lhi_meta_audience_opt_out';
   var INITIALIZED_KEY = '__LHI_META_AUDIENCE_INITIALIZED__';
   var PROD_HOSTS = {
@@ -1145,15 +1147,31 @@
       return { allowed: false, reason: 'visitor-declined' };
     }
 
-    if (stored.state === 'absent' && cookie.state === 'absent') {
-      return { allowed: false, reason: 'consent-required' };
+    if (stored.state === 'value' && stored.value === 'denied') {
+      return { allowed: false, reason: 'visitor-declined' };
     }
-    if (stored.state !== 'value' || cookie.state !== 'value' || stored.value !== cookie.value) {
+    if (cookie.state === 'value' && cookie.value === 'denied') {
+      return { allowed: false, reason: 'visitor-declined' };
+    }
+    if (stored.state === 'value' && cookie.state === 'value' && stored.value !== cookie.value) {
       return { allowed: false, reason: 'preference-state-uncertain' };
     }
-    if (stored.value === 'denied') return { allowed: false, reason: 'visitor-declined' };
-    if (stored.value !== 'granted') return { allowed: false, reason: 'preference-state-uncertain' };
-    return { allowed: true, reason: 'explicit-site-consent' };
+    if (stored.state === 'value' && cookie.state === 'absent') {
+      return { allowed: false, reason: 'preference-state-uncertain' };
+    }
+    if (cookie.state === 'value' && stored.state === 'absent') {
+      return { allowed: false, reason: 'preference-state-uncertain' };
+    }
+    if (stored.state === 'value' && stored.value === 'granted') {
+      return { allowed: true, reason: 'explicit-site-consent' };
+    }
+    if (cookie.state === 'value' && cookie.value === 'granted') {
+      return { allowed: true, reason: 'explicit-site-consent' };
+    }
+    if (stored.state === 'absent' && cookie.state === 'absent') {
+      return { allowed: true, reason: 'default-allow' };
+    }
+    return { allowed: false, reason: 'preference-state-uncertain' };
   }
 
   function setConsentPreference(value) {
@@ -1174,8 +1192,12 @@
   }
 
   function preferenceMessage(decision) {
-    if (decision.allowed) return 'Meta PageView is allowed on reviewed eligible pages in this browser.';
-    if (decision.reason === 'consent-required') return 'Meta measurement is off until you choose Allow.';
+    if (decision.allowed) {
+      if (decision.reason === 'default-allow') {
+        return 'Meta PageView measurement is on by default on reviewed eligible pages until you opt out.';
+      }
+      return 'Meta PageView is allowed on reviewed eligible pages in this browser.';
+    }
     if (decision.reason === 'visitor-declined') return 'Meta website-audience measurement is off for this browser.';
     if (decision.reason === 'global-privacy-control' || decision.reason === 'browser-opt-out-signal') {
       return 'A browser privacy signal keeps Meta measurement off.';
@@ -1183,33 +1205,134 @@
     return 'Meta measurement remains off because the preference state cannot be confirmed.';
   }
 
+  function readNoticeDismissed() {
+    var stored = readStorageState(NOTICE_DISMISSED_KEY);
+    return stored.state === 'value' && stored.value === '1';
+  }
+
+  function setNoticeDismissed() {
+    try {
+      if (!w.localStorage || typeof w.localStorage.setItem !== 'function') return false;
+      w.localStorage.setItem(NOTICE_DISMISSED_KEY, '1');
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function isReviewedEligiblePath() {
+    if (!w.location) return false;
+    var path = normalizePath(w.location.pathname);
+    return hasOwn(ELIGIBLE_PATHS, path) && hasEligibilityMarker();
+  }
+
+  function isReviewedEligibleSurface() {
+    if (!w.location || !hasOwn(PROD_HOSTS, String(w.location.hostname || '').toLowerCase())) return false;
+    return isReviewedEligiblePath();
+  }
+
+  function shouldShowMetaNotice() {
+    var decision = privacyDecision();
+    if (!decision.allowed || decision.reason !== 'default-allow') return false;
+    if (readNoticeDismissed()) return false;
+    if (isReviewedEligiblePath()) return true;
+    var existing = d.getElementById('metaAudienceConsentPrompt');
+    return Boolean(existing && String(existing.className || '').indexOf('meta-audience-notice') >= 0);
+  }
+
+  function metaNoticePlacementClass() {
+    if (!w.matchMedia || !w.matchMedia('(max-width: 900px)').matches) return '';
+    if (!d.querySelector || !d.querySelector('main form, #leadForm, .lhi-lead-hero__form')) return '';
+    return ' meta-audience-notice--top';
+  }
+
+  function syncMetaNoticePlacement(prompt) {
+    if (!prompt) return;
+    var topClass = 'meta-audience-notice--top';
+    var useTop = metaNoticePlacementClass().indexOf(topClass) >= 0;
+    if (useTop) prompt.classList.add(topClass);
+    else prompt.classList.remove(topClass);
+  }
+
+  function ensureMetaNoticeShell() {
+    if (!d.body || !d.createElement) return null;
+    var prompt = d.getElementById('metaAudienceConsentPrompt');
+    if (prompt) return prompt;
+    if (!shouldShowMetaNotice()) return null;
+
+    prompt = d.createElement('div');
+    prompt.id = 'metaAudienceConsentPrompt';
+    prompt.className = 'meta-audience-notice' + metaNoticePlacementClass();
+    prompt.setAttribute('role', 'region');
+    prompt.setAttribute('aria-label', 'Ad measurement notice');
+
+    var copy = d.createElement('p');
+    copy.textContent = 'We use cookies and the Meta pixel to measure our ads.';
+    prompt.appendChild(copy);
+
+    var actions = d.createElement('div');
+    actions.className = 'meta-audience-notice-actions';
+
+    var optOutButton = d.createElement('button');
+    optOutButton.type = 'button';
+    optOutButton.id = 'metaAudienceOptOut';
+    optOutButton.textContent = 'Opt out';
+    actions.appendChild(optOutButton);
+
+    var okButton = d.createElement('button');
+    okButton.type = 'button';
+    okButton.id = 'metaAudienceNoticeOk';
+    okButton.className = 'secondary';
+    okButton.textContent = 'OK';
+    actions.appendChild(okButton);
+
+    prompt.appendChild(actions);
+    d.body.appendChild(prompt);
+    return prompt;
+  }
+
   function configurePrivacyControls() {
     if (!d.getElementById) return;
+    ensureMetaNoticeShell();
     var optOutButton = d.getElementById('metaAudienceOptOut');
+    var okButton = d.getElementById('metaAudienceNoticeOk');
     var optInButton = d.getElementById('metaAudienceOptIn');
     var status = d.getElementById('metaAudiencePreferenceStatus');
     var prompt = d.getElementById('metaAudienceConsentPrompt');
-    if (!optOutButton && !optInButton && !status && !prompt) return;
 
     function renderPreference(decision) {
       if (status) status.textContent = preferenceMessage(decision);
-      if (prompt) prompt.hidden = decision.reason !== 'consent-required';
+      var showNotice = shouldShowMetaNotice();
+      if (prompt) {
+        prompt.hidden = !showNotice;
+        syncMetaNoticePlacement(prompt);
+      }
+      if (d.body && d.body.classList) {
+        d.body.classList.toggle('lhi-meta-notice-visible', showNotice);
+      }
     }
 
     if (optOutButton && !optOutButton.__lhiMetaBound) {
       optOutButton.__lhiMetaBound = true;
       optOutButton.addEventListener('click', function () {
         setConsentPreference('denied');
+        setNoticeDismissed();
+        renderPreference(privacyDecision());
+      });
+    }
+    if (okButton && !okButton.__lhiMetaBound) {
+      okButton.__lhiMetaBound = true;
+      okButton.addEventListener('click', function () {
+        setNoticeDismissed();
         renderPreference(privacyDecision());
       });
     }
     if (optInButton && !optInButton.__lhiMetaBound) {
       optInButton.__lhiMetaBound = true;
       optInButton.addEventListener('click', function () {
-        var saved = setConsentPreference('granted');
-        var decision = privacyDecision();
-        renderPreference(decision);
-        if (saved && decision.allowed) initialize();
+        setConsentPreference('granted');
+        setNoticeDismissed();
+        renderPreference(privacyDecision());
       });
     }
 

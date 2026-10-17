@@ -390,6 +390,7 @@
               <li><a href="/our-approach.html">Our Approach</a></li>
               <li><a href="${helpHref}">Request a plan review</a></li>
               <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+              <li><a href="/privacy-policy.html#meta-audience-choice">Ad tracking choices</a></li>
               <li><a href="/terms/">Terms of Service</a></li>
               <li><a href="/data-deletion/">Data Deletion</a></li>
             </ul>
