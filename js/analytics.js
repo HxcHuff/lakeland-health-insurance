@@ -899,21 +899,31 @@
     'lakelandhealthinsurance.com': true
   };
   var ELIGIBLE_PATHS = {
+    '/': true,
     '/get-help/': true,
     '/quote/': true,
     '/medicare/': true,
     '/medicare-broker-lakeland-fl/': true,
     '/aca-health-insurance-lakeland-fl/': true,
-    '/contact/': true,
+    '/medicare-2027-check/': true,
     '/plans/': true,
-    '/thanks.html': true
+    '/thanks.html': true,
+    '/blog/orlando-health-watson-clinic-2027-plan.html': true
   };
   var UTM_QUERY_KEYS = {
     utm_source: true,
     utm_medium: true,
     utm_campaign: true,
     utm_term: true,
-    utm_content: true
+    utm_content: true,
+    utm_id: true
+  };
+  var TRACKING_CLICK_QUERY_KEYS = {
+    fbclid: true,
+    gclid: true,
+    gbraid: true,
+    wbraid: true,
+    msclkid: true
   };
   var UTM_VALUE_MAX_LENGTH = 64;
   var TRUSTED_EXTERNAL_REFERRERS = {
@@ -991,15 +1001,19 @@
     return /^[a-z0-9][a-z0-9 ._~+\-]*$/.test(text) ? text : null;
   }
 
+  function approvedTrackingClickId(value, minLength) {
+    var text = String(value || '').trim();
+    if (!text || text.length > 512 || /@|(?:\d[\s().-]*){7,}/.test(text)) return false;
+    if (text.length < minLength) return false;
+    return /^[A-Za-z0-9._~-]+$/.test(text);
+  }
+
   function approvedQueryValue(key, value) {
     var text = String(value || '');
-    if (key === 'fbclid') {
-      if (/@|(?:\d[\s().-]*){7,}/.test(text)) return false;
-      return text.length >= 20 && text.length <= 256 && /^[A-Za-z0-9_-]+$/.test(text);
-    }
-    if (key === 'gclid') {
-      if (/@|(?:\d[\s().-]*){7,}/.test(text)) return false;
-      return text.length >= 10 && text.length <= 256 && /^[A-Za-z0-9_-]+$/.test(text);
+    if (hasOwn(TRACKING_CLICK_QUERY_KEYS, key)) {
+      if (key === 'fbclid') return approvedTrackingClickId(text, 20);
+      if (key === 'gclid') return approvedTrackingClickId(text, 10);
+      return approvedTrackingClickId(text, 8);
     }
     if (key === 'zip_code') {
       return /^\d{5}$/.test(text);
@@ -1008,6 +1022,9 @@
       return Boolean(approvedCampaignSlug(text));
     }
     if (hasOwn(UTM_QUERY_KEYS, key)) {
+      if (key === 'utm_id') {
+        return /^\d{1,20}$/.test(String(text || '').trim());
+      }
       if (key === 'utm_campaign' && /^cid_\d{8,20}$/i.test(String(text || '').trim())) {
         return Boolean(sanitizeUtmValue(text));
       }
@@ -1240,18 +1257,36 @@
     return Boolean(existing && String(existing.className || '').indexOf('meta-audience-notice') >= 0);
   }
 
+  function metaNoticeUsesTopPlacement() {
+    if (!w.matchMedia || !w.matchMedia('(max-width: 900px)').matches) return false;
+    var root = d.documentElement;
+    if (root && typeof root.getAttribute === 'function' && root.getAttribute('data-lhi-meta-notice-top') === '1') {
+      return true;
+    }
+    if (d.body && typeof d.body.getAttribute === 'function' && d.body.getAttribute('data-lhi-meta-notice-top') === '1') {
+      return true;
+    }
+    return false;
+  }
+
   function metaNoticePlacementClass() {
-    if (!w.matchMedia || !w.matchMedia('(max-width: 900px)').matches) return '';
-    if (!d.querySelector || !d.querySelector('main form, #leadForm, .lhi-lead-hero__form')) return '';
-    return ' meta-audience-notice--top';
+    return metaNoticeUsesTopPlacement() ? ' meta-audience-notice--top' : '';
   }
 
   function syncMetaNoticePlacement(prompt) {
     if (!prompt) return;
     var topClass = 'meta-audience-notice--top';
-    var useTop = metaNoticePlacementClass().indexOf(topClass) >= 0;
-    if (useTop) prompt.classList.add(topClass);
-    else prompt.classList.remove(topClass);
+    var useTop = metaNoticeUsesTopPlacement();
+    var current = String(prompt.className || '');
+    var hasTop = current.indexOf(topClass) >= 0;
+    if (useTop === hasTop) return;
+    if (prompt.classList && typeof prompt.classList.add === 'function') {
+      if (useTop) prompt.classList.add(topClass);
+      else prompt.classList.remove(topClass);
+      return;
+    }
+    if (useTop) prompt.className = (current + ' ' + topClass).trim();
+    else prompt.className = current.replace(topClass, '').replace(/\s+/g, ' ').trim();
   }
 
   function ensureMetaNoticeShell() {
@@ -1307,8 +1342,20 @@
         prompt.hidden = !showNotice;
         syncMetaNoticePlacement(prompt);
       }
-      if (d.body && d.body.classList) {
-        d.body.classList.toggle('lhi-meta-notice-visible', showNotice);
+      if (d.body) {
+        if (d.body.classList && typeof d.body.classList.toggle === 'function') {
+          d.body.classList.toggle('lhi-meta-notice-visible', showNotice);
+        } else if (showNotice) {
+          var bodyClass = String(d.body.className || '');
+          if (bodyClass.indexOf('lhi-meta-notice-visible') < 0) {
+            d.body.className = (bodyClass + ' lhi-meta-notice-visible').trim();
+          }
+        } else {
+          d.body.className = String(d.body.className || '')
+            .replace(/\blhi-meta-notice-visible\b/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+        }
       }
     }
 
