@@ -4,6 +4,7 @@ import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import vm from 'node:vm';
+import { TPMO_HTML_REGEX } from './lib/tpmo-10-74.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE_TEMPLATE = readFileSync(resolve(ROOT, 'js/site-template.js'), 'utf8');
@@ -15,8 +16,8 @@ const COVERAGE_CENTER = readFileSync(resolve(ROOT, 'coverage-center/index.html')
 const ACA = readFileSync(resolve(ROOT, 'aca-health-insurance-lakeland-fl/index.html'), 'utf8');
 const POLK_ACA = readFileSync(resolve(ROOT, 'aca-health-insurance-agent-polk-county-fl/index.html'), 'utf8');
 const MEDICARE = readFileSync(resolve(ROOT, 'medicare/index.html'), 'utf8');
-const TPMO = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
-const SHIP_TPMO = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
+const TPMO = 'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 74 products in your area. Please contact www.medicare.gov or 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
+const SHIP_TPMO = 'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 74 products in your area. Please contact www.medicare.gov or 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
 const HEALTHSHERPA = 'https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q';
 const SKIP_DIRS = new Set([
   '.git',
@@ -265,7 +266,7 @@ test('Coverage Center keeps a proof strip, shorter hero, and secondary HealthShe
   const medicare = COVERAGE_CENTER.slice(COVERAGE_CENTER.indexOf('id="medicare"'), COVERAGE_CENTER.indexOf('id="under-65"'));
   assert.match(under65, /healthsherpa.com/);
   assert.doesNotMatch(medicare, /healthsherpa.com/);
-  assert.match(COVERAGE_CENTER, new RegExp(SHIP_TPMO.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  assert.match(COVERAGE_CENTER, TPMO_HTML_REGEX);
 });
 
 test('Get Help is a 3-step who/details/contact flow with preserved fields and SMS consent', () => {
@@ -288,7 +289,7 @@ test('Get Help is a 3-step who/details/contact flow with preserved fields and SM
   assert.doesNotMatch(GET_HELP_HTML, /id="optionalPrivacyNote" hidden/);
   assert.match(GET_HELP_JS, /privacyNote.hidden = false/);
   assert.match(GET_HELP_HTML, /id="healthSherpaSecondary"/);
-  assert.match(GET_HELP_HTML, new RegExp(TPMO.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  assert.match(GET_HELP_HTML, TPMO_HTML_REGEX);
   assert.doesNotMatch(GET_HELP_HTML, /href="\/coverage-center\/">Coverage Center<\/a>/);
   assert.match(GET_HELP_JS, /HEALTHSHERPA_INTENTS/);
   assert.match(GET_HELP_JS, /healthSherpa.hidden = !hasOwn\(HEALTHSHERPA_INTENTS, intentKey\)/);

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Restore static bottom TPMO (8 orgs / 65 products + SHIP) on blog HTML pages.
+ * Restore static bottom TPMO (10 orgs / 74 products + SHIP) on blog HTML pages.
  * Matches /medicare/ site-page-disclosures wording for no-JS crawlers.
  */
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
@@ -8,7 +8,7 @@ import { join } from 'node:path';
 
 const ROOT = new URL('..', import.meta.url).pathname.replace(/\/$/, '');
 const TPMO_SHIP =
-  'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
+  'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 74 products in your area. Please contact www.medicare.gov or 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
 const INVENTORY_NOTE =
   'Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
 
