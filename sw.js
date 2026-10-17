@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lhi-20261017-tpmo10-74-meta-notice-ux-v3';
+const CACHE_NAME = 'lhi-20261017-meta-notice-ux-v4';
 const OFFLINE_URL = '/offline.html';
 const SITE_PHONE_URL = '/js/site-phone.js?v=20261015-v6merge2';
 const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261017-tpmo-10-74';
