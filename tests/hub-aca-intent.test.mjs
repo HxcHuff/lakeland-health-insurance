@@ -2,11 +2,10 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import test from 'node:test';
+import { TPMO_HTML_REGEX } from './lib/tpmo-10-74.mjs';
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const PRIMARY_BROKER = '/medicare-broker-lakeland-fl/';
-const TPMO =
-  'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
 
 function source(rel) {
   return readFileSync(join(ROOT, rel), 'utf8');
@@ -53,7 +52,7 @@ test('Medicare hub leads with Call David, then Get Help and the primary broker U
   assert.match(row, /class="btn primary" href="tel:\+18636403102">Call David</);
   assert.match(row, /Get Help</);
   assert.match(row, /Lakeland Medicare broker</);
-  assert.match(html, new RegExp(TPMO.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  assert.match(html, TPMO_HTML_REGEX);
 
   assert.match(html, /<title>Medicare Help in Lakeland, FL \| Doctors, Rx &amp; 2027 AEP<\/title>/);
   assert.match(html, /licensed Florida health agent \(FL #W371813 \/ NPN 18213932\)/);

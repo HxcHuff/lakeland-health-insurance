@@ -13,8 +13,8 @@
   const phoneDisplay = callTrackingPhone.display;
   const phoneHref = callTrackingPhone.href;
   const messengerHref = 'https://m.me/1068037236387352';
-  const tpmoDisclaimer = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
-  const medicareShipDisclaimer = 'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
+  const tpmoDisclaimer = 'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 74 products in your area. Please contact <a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer">www.medicare.gov</a> or 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
+  const medicareShipDisclaimer = 'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 74 products in your area. Please contact <a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer">www.medicare.gov</a> or 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
   const healthSherpaHref = 'https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q';
   const BANNER_ID = 'lhi-seasonal-banner';
   const SEASONAL_BANNER_TIMEZONE = 'America/New_York';

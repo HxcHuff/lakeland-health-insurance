@@ -4,6 +4,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { findFaqVisibleMatchIssues } from '../scripts/faq-visible-match.mjs';
+import { TPMO_HTML_REGEX } from './lib/tpmo-10-74.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const PAGE = 'local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/index.html';
@@ -21,7 +22,7 @@ test('LRH UnitedHealthcare 2027 answer page: URL, compliance guardrails, and cit
   assert.match(html, /meta name="lhi-chrome-intent" content="medicare"/);
   assert.match(html, /answer-pages\.css\?v=20261016-pr337-c/);
   assert.match(html, /class="site-page-disclosures"/);
-  assert.match(html, /Please contact Medicare\.gov, 1-800-MEDICARE, or your local State Health Insurance Program \(SHIP\)/);
+  assert.match(html, TPMO_HTML_REGEX);
 
   assert.doesNotMatch(html, /\bfree\b/i, 'must not use the word free');
   assert.doesNotMatch(html, /benefitmims\.com|practicesol\.com/i);
@@ -46,7 +47,7 @@ test('LRH UnitedHealthcare 2027 answer page: URL, compliance guardrails, and cit
 
   assert.match(html, /tel:\+18636403102/);
   assert.doesNotMatch(html, /474-2500|18634742500/, 'must not use the legacy 474-2500 call number');
-  assert.match(html, /site-template\.js\?v=20261023-pr333-follow-up/);
+  assert.match(html, /site-template\.js\?v=20261017-tpmo-10-74/);
   assert.match(html, /Florida residents/);
 
   const internalPromoLinks = [...html.matchAll(/<a href="\/[^"]*">([^<]+)<\/a>/g)]

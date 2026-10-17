@@ -8,7 +8,7 @@ const SITEMAP = readFileSync(join(ROOT, 'sitemap.xml'), 'utf8');
 const REDIRECTS = readFileSync(join(ROOT, '_redirects'), 'utf8');
 const HTML = readFileSync(join(ROOT, 'thank-you/index.html'), 'utf8');
 const CANONICAL = 'https://lakelandhealthinsurance.com/thank-you/';
-const TPMO_SNIPPET = '8 organizations which offer 65 products';
+const TPMO_SNIPPET = '10 organizations which offer 74 products';
 
 function rewriteRule(pathname) {
   const lines = REDIRECTS.split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !line.startsWith('#'));
@@ -44,6 +44,6 @@ test('QR thank-you page routes booking through the on-site book page', () => {
   assert.match(HTML, /<a class="btn primary" href="\/book\/">Book a review<\/a>/);
   assert.match(HTML, /href="tel:\+18636403102"/);
   assert.match(HTML, /href="mailto:david@lakelandhealthinsurance.com"/);
-  assert.match(HTML, /\/js\/analytics\.js\?v=20261017-watson-meta-v3/);
+  assert.match(HTML, /\/js\/analytics\.js\?v=20261017-tpmo10-74-watson-pagespeed/);
   assert.match(HTML, /thank-you-video-slot" hidden/);
 });

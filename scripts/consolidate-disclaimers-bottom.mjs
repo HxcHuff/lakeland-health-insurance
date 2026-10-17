@@ -23,15 +23,15 @@ const SKIP_DIRS = new Set([
 ]);
 
 const TPMO_OLD =
-  'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
+  'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 74 products in your area. Please contact www.medicare.gov or 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
 const TPMO_SHIP =
-  'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
+  'We do not offer every plan available in your area. Currently we represent 10 organizations which offer 74 products in your area. Please contact www.medicare.gov or 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
 const INVENTORY_NOTE =
   'Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.';
 
 const TPMO_CTA_RE = /<p\b[^>]*\btpmo-cta-disclaimer\b[^>]*>[\s\S]*?<\/p>\s*/gi;
 const INLINE_TPMO_STYLE_RE =
-  /<p\b[^>]*style="[^"]*"[^>]*>\s*We do not offer every plan available in your area\. Currently we represent 8 organizations which offer 65 products[\s\S]*?<\/p>\s*/gi;
+  /<p\b[^>]*style="[^"]*"[^>]*>\s*We do not offer every plan available in your area\. Currently we represent 10 organizations which offer 74 products[\s\S]*?<\/p>\s*/gi;
 const DISCLOSURE_SECTION_RE =
   /<section\b[^>]*\baria-label="[^"]*(?:disclosure|Disclosure|Legal|compliance)[^"]*"[^>]*>[\s\S]*?<\/section>\s*/gi;
 const DISCLOSURE_DIV_RE =

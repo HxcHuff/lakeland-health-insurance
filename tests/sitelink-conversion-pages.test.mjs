@@ -112,7 +112,7 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
     );
 
     assert.match(html, /\/js\/funnel\.js\?v=20261016-pr345-funnel/);
-    assert.match(html, /\/css\/site-template.css\?v=20261017-watson-meta-v3/);
+    assert.match(html, /\/css\/site-template.css\?v=20261017-tpmo10-74-watson-pagespeed/);
   });
 }
 
@@ -156,7 +156,7 @@ test('every public click-to-call link uses the verified E.164 target and tracked
     }
     assert.match(
       html,
-      /\/js\/analytics\.js\?v=20261017-watson-meta-v3/,
+      /\/js\/analytics\.js\?v=20261017-tpmo10-74-watson-pagespeed/,
       `${file} loads the canonical phone telemetry and forwarding-number handler`
     );
   }

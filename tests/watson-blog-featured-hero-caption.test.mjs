@@ -48,7 +48,7 @@ function startStaticServer() {
 
 async function prepareBlogPage(page, baseUrl, route) {
   await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle' });
-  await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=20261023-pr333-follow-up` });
+  await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=20261017-tpmo-10-74` });
   await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=20261023-pr333-follow-up` });
   await page.waitForTimeout(350);
   await page.evaluate(() => {

@@ -4,11 +4,9 @@ import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import vm from 'node:vm';
+import { assertApprovedStaticTpmo } from './lib/tpmo-10-74.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const OLD_TPMO = 'Please contact Medicare.gov or 1-800-MEDICARE to get information on all of your options.';
-const SHIP_TPMO = 'Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
-const FULL_SHIP = `We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. ${SHIP_TPMO}`;
 const SKIP_DIRS = new Set([
   '.ai-worker-local',
   '.git',
@@ -62,7 +60,7 @@ const MEDICARE_SHIP_PAGES = [
   'index.html'
 ];
 
-const NON_MEDICARE_KEEP_OLD = [
+const NON_MEDICARE_PAGES = [
   'about/index.html',
   'davenport-health-insurance/index.html',
   'privacy-policy.html',
@@ -117,12 +115,12 @@ function loadChrome() {
   return sandbox.LHISiteChrome;
 }
 
+
 test('Medicare hubs, landers, and Medicare blogs reuse the approved SHIP TPMO sentence', () => {
   for (const rel of MEDICARE_SHIP_PAGES) {
     if (rel.startsWith('blog/')) continue;
     const html = source(rel);
-    assert.ok(html.includes(FULL_SHIP), `${rel} includes the approved SHIP TPMO sentence`);
-    assert.ok(html.includes('8 organizations which offer 65 products'), `${rel} keeps 8/65`);
+    assertApprovedStaticTpmo(html, rel);
     assert.doesNotMatch(html, /State Health Insurance Assistance Program \(SHIP\)/);
     assert.doesNotMatch(html, /HealthMarkets/i);
   }
@@ -132,7 +130,7 @@ test('homepage keeps SHIP TPMO in static bottom disclosures and sticky bar stays
   const html = source('index.html');
   const disclosures = html.match(/class="site-page-disclosures"[\s\S]*?<\/section>/);
   assert.ok(disclosures, 'homepage exposes a bottom disclosure block');
-  assert.ok(disclosures[0].includes(FULL_SHIP), 'homepage static disclosures use the approved SHIP TPMO sentence');
+  assertApprovedStaticTpmo(disclosures[0], 'homepage static disclosures');
   assert.doesNotMatch(html, /class="tpmo-cta-disclaimer"/, 'homepage removes inline TPMO near CTAs');
 
   const sticky = html.match(/class="home-sticky-cta"[\s\S]*?<\/div>/);
@@ -145,18 +143,14 @@ test('Get Help keeps Medicare TPMO in the bottom disclosure block', () => {
   const html = source('get-help/index.html');
   const disclosures = html.match(/class="site-page-disclosures"[\s\S]*?<\/section>/);
   assert.ok(disclosures, 'get-help exposes a bottom disclosure block');
-  assert.match(
-    disclosures[0],
-    new RegExp(`id="medicareTpmoDisclaimer">${FULL_SHIP.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`)
-  );
+  assert.match(disclosures[0], /id="medicareTpmoDisclaimer"/);
+  assertApprovedStaticTpmo(disclosures[0], 'get-help medicareTpmoDisclaimer');
   assert.doesNotMatch(html, /class="tpmo-cta-disclaimer"/, 'get-help removes inline tpmo-cta-disclaimer class');
 });
 
-test('non-Medicare TPMO pages do not invent a SHIP line', () => {
-  for (const rel of NON_MEDICARE_KEEP_OLD) {
-    const html = source(rel);
-    assert.ok(html.includes(OLD_TPMO), `${rel} keeps the non-SHIP TPMO sentence`);
-    assert.equal(html.includes(SHIP_TPMO), false, `${rel} does not add SHIP`);
+test('non-Medicare TPMO pages use the approved 10/74 SHIP sentence', () => {
+  for (const rel of NON_MEDICARE_PAGES) {
+    assertApprovedStaticTpmo(source(rel), rel);
   }
 });
 
@@ -194,13 +188,13 @@ test('shared chrome uses SHIP on Medicare and compliance HOLD paths', () => {
 
 test('every static page mentioning Medicare includes the approved SHIP TPMO sentence', () => {
   const chrome = loadChrome();
-  const skip = new Set([...NON_MEDICARE_KEEP_OLD, ...FOOTER_INJECTED_SHIP_TPMO]);
+  const skip = new Set([...NON_MEDICARE_PAGES, ...FOOTER_INJECTED_SHIP_TPMO]);
   for (const rel of walkHtml()) {
     if (skip.has(rel) || isMultiState(rel) || rel.startsWith('blog/')) continue;
     const html = source(rel);
     if (!/\bMedicare\b/.test(html)) continue;
     if (!chrome.shouldUseShipDisclaimer(relToPathname(rel))) continue;
-    assert.ok(html.includes(FULL_SHIP), `${rel} includes the approved SHIP TPMO sentence in static HTML`);
+    assertApprovedStaticTpmo(html, `${rel} static HTML`);
   }
 });
 

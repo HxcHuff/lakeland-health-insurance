@@ -35,7 +35,7 @@ test('Medicare-topic blog samples embed site-medicare-lead', () => {
 
 test('blog posts include static site-page-disclosures TPMO (SHIP)', () => {
   const ship =
-    /Please contact Medicare\.gov, 1-800-MEDICARE, or your local State Health Insurance Program \(SHIP\)/;
+    /Please contact <a href="https:\/\/www\.medicare\.gov"[^>]*>www\.medicare\.gov<\/a> or 1-800-MEDICARE, or your local State Health Insurance Program \(SHIP\)/;
   for (const name of readdirSync(join(ROOT, 'blog'))) {
     if (!name.endsWith('.html')) continue;
     const html = readFileSync(join(ROOT, 'blog', name), 'utf8');
