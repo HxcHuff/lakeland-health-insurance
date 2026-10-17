@@ -680,7 +680,8 @@ test('CSP and static source preserve the single-loader, intended-dataset contrac
   assert.doesNotMatch(LOADER_SRC, /ensureConsentPrompt|CONSENT_STYLES_ID|createElement\(['"]aside['"]\)/i);
   assert.match(LOADER_SRC, /createElement\(['"]div['"]\)/);
   assert.equal((LOADER_SRC.match(/getElementById\(['"]metaAudienceConsentPrompt['"]\)/g) || []).length, 3);
-  assert.match(LOADER_SRC, /prompt\.hidden\s*=\s*!shouldShowMetaNotice\(\)/);
+  assert.match(LOADER_SRC, /prompt\.hidden\s*=\s*!showNotice/);
+  assert.match(LOADER_SRC, /shouldShowMetaNotice\(\)/);
   assert.match(LOADER_SRC, /reason:\s*['"]default-allow['"]/);
   for (const [, pathname] of ELIGIBLE_PAGES) assert.ok(inventory.includes(`\`${pathname}\``), pathname);
 
