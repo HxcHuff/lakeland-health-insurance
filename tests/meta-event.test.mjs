@@ -86,4 +86,25 @@ test('meta-event helper validation covers event ids and paths', () => {
   assert.equal(_test.approvedEventId('message_start', 'bad'), null);
   assert.equal(_test.normalizePath('/get-help'), '/get-help/');
   assert.equal(_test.ELIGIBLE_PATHS.has('/get-help/'), true);
+  assert.equal(_test.ELIGIBLE_PATHS.has('/aca-subsidy-estimator/'), true);
+  assert.equal(_test.ELIGIBLE_PATHS.has('/self-employed-health-insurance/'), true);
+});
+
+test('meta-event accepts phone_click on newly eligible ACA routes without custom_data', async () => {
+  for (const path of [
+    '/aca-subsidy-estimator/',
+    '/self-employed-health-insurance/',
+    '/aca-health-insurance-agent-polk-county-fl/'
+  ]) {
+    const { response, calls } = await invoke({
+      name: 'phone_click',
+      event_id: 'lhi_ph_abcdef0123456789',
+      path
+    });
+    assert.equal(response.statusCode, 200, path);
+    const meta = JSON.parse(calls[0].init.body);
+    assert.equal(meta.data[0].event_source_url, `https://lakelandhealthinsurance.com${path}`, path);
+    assert.equal('custom_data' in meta.data[0], false, path);
+    assert.doesNotMatch(JSON.stringify(meta), /55000|33805|"income"|"household"|"subsidy_amount"/i);
+  }
 });

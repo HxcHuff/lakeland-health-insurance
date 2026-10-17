@@ -11,8 +11,8 @@ assert.ok(loaderMatch, 'shared analytics asset contains the Meta audience loader
 const LOADER_SRC = loaderMatch[1];
 const PIXEL_ID = '1480756087079484';
 const ELIGIBLE_MARKER = '<meta name="meta-audience-eligible" content="pageview">';
-const ANALYTICS_VERSION = '/js/analytics.js?v=20261017-meta-conversion-events-v1';
-const CSS_VERSION = '/css/site-template.css?v=20261017-meta-conversion-events-v1';
+const ANALYTICS_VERSION = '/js/analytics.js?v=20261018-aca-tracking-gaps-v1';
+const CSS_VERSION = '/css/site-template.css?v=20261018-aca-tracking-gaps-v1';
 const CONSENT_KEY = 'lhi_meta_audience_consent';
 const ELIGIBLE_PAGES = [
   ['index.html', '/'],
@@ -21,6 +21,9 @@ const ELIGIBLE_PAGES = [
   ['medicare/index.html', '/medicare/'],
   ['medicare-broker-lakeland-fl/index.html', '/medicare-broker-lakeland-fl/'],
   ['aca-health-insurance-lakeland-fl/index.html', '/aca-health-insurance-lakeland-fl/'],
+  ['aca-health-insurance-agent-polk-county-fl/index.html', '/aca-health-insurance-agent-polk-county-fl/'],
+  ['aca-subsidy-estimator/index.html', '/aca-subsidy-estimator/'],
+  ['self-employed-health-insurance/index.html', '/self-employed-health-insurance/'],
   ['medicare-2027-check/index.html', '/medicare-2027-check/'],
   ['plans/index.html', '/plans/'],
   ['thanks.html', '/thanks.html'],
@@ -32,11 +35,16 @@ const FORM_BEARING_ELIGIBLE_FILES = new Set([
   'medicare/index.html',
   'plans/index.html',
   'aca-health-insurance-lakeland-fl/index.html',
+  'aca-health-insurance-agent-polk-county-fl/index.html',
+  'self-employed-health-insurance/index.html',
   'quote/index.html',
   'carriers/index.html',
   'medicare-broker-lakeland-fl/index.html',
   'medicare-2027-check/index.html',
   'blog/orlando-health-watson-clinic-2027-plan.html'
+]);
+const CALCULATOR_ELIGIBLE_FILES = new Set([
+  'aca-subsidy-estimator/index.html'
 ]);
 const PROMPT_SUPPRESSED_PATHS = [
   '/lp/aca/',
@@ -269,8 +277,8 @@ function htmlFiles(dir = ROOT, out = []) {
   return out;
 }
 
-test('all 10 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
-  assert.equal(ELIGIBLE_PAGES.length, 10);
+test('all 13 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
+  assert.equal(ELIGIBLE_PAGES.length, 13);
   for (const [, pathname] of ELIGIBLE_PAGES) {
     const { sandbox, scripts, controls } = loadMetaAudience({ pathname });
     assert.equal(scripts.length, 1, pathname);
@@ -655,7 +663,7 @@ test('approved ad query parameters load the Pixel on eligible routes and strip b
   assert.equal(rejected.sandbox.__LHI_META_AUDIENCE_STATUS__.reason, 'query-rejected');
 });
 
-test('static marker inventory exactly matches the reviewed 10-page landing ledger', () => {
+test('static marker inventory exactly matches the reviewed 13-page landing ledger', () => {
   const marked = [];
   for (const file of htmlFiles()) {
     const html = readFileSync(file, 'utf8');
@@ -668,9 +676,9 @@ test('static marker inventory exactly matches the reviewed 10-page landing ledge
     const html = readFileSync(join(ROOT, file), 'utf8');
     assert.equal((html.match(/<meta name="meta-audience-eligible" content="pageview">/g) || []).length, 1, file);
     assert.ok(html.indexOf(ELIGIBLE_MARKER) < html.indexOf('</head>'), file);
-    assert.match(html, /\/js\/analytics\.js\?v=20261017-meta-conversion-events-v1/, file);
+    assert.match(html, /\/js\/analytics\.js\?v=20261018-aca-tracking-gaps-v1/, file);
     if (html.includes('/css/site-template.css')) {
-      assert.match(html, /\/css\/site-template\.css\?v=20261017-meta-conversion-events-v1/, file);
+      assert.match(html, /\/css\/site-template\.css\?v=20261018-aca-tracking-gaps-v1/, file);
     }
     if (file === 'medicare-2027-check/index.html') {
       assert.doesNotMatch(html, /<link rel="canonical"/i, file);
@@ -679,7 +687,7 @@ test('static marker inventory exactly matches the reviewed 10-page landing ledge
     }
     if (FORM_BEARING_ELIGIBLE_FILES.has(file)) {
       assert.match(html, /<(?:form|input|textarea|select)\b/i, file);
-    } else {
+    } else if (!CALCULATOR_ELIGIBLE_FILES.has(file)) {
       assert.doesNotMatch(html, /<(?:form|input|textarea|select)\b/i, file);
     }
   }
@@ -697,7 +705,6 @@ test('static marker inventory exactly matches the reviewed 10-page landing ledge
   const explicitDenied = [
     'about/index.html',
     'carriers/index.html',
-    'aca-subsidy-estimator/index.html',
     'privacy-policy.html',
     'sms-policy.html',
     'current-client-review/index.html',
@@ -785,6 +792,14 @@ test('CSP and static source preserve the single-loader, intended-dataset contrac
   assert.match(LOADER_SRC, /prompt\.hidden\s*=\s*!showNotice/);
   assert.match(LOADER_SRC, /reason:\s*['"]default-allow['"]/);
   for (const [, pathname] of ELIGIBLE_PAGES) assert.ok(inventory.includes(`\`${pathname}\``), pathname);
+  for (const path of [
+    '/aca-health-insurance-agent-polk-county-fl/',
+    '/aca-subsidy-estimator/',
+    '/self-employed-health-insurance/'
+  ]) {
+    assert.match(LOADER_SRC, new RegExp(`['"]${path.replace(/\//g, '\\/')}['"]: true`), path);
+  }
+  assert.doesNotMatch(LOADER_SRC, /annual-income|household-size|applicant-age|bd-subsidy/);
 
   for (const file of htmlFiles()) {
     const html = readFileSync(file, 'utf8');
