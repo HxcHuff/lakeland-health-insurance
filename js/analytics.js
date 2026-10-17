@@ -1257,38 +1257,6 @@
     return Boolean(existing && String(existing.className || '').indexOf('meta-audience-notice') >= 0);
   }
 
-  function metaNoticeUsesTopPlacement() {
-    if (!w.matchMedia || !w.matchMedia('(max-width: 900px)').matches) return false;
-    var root = d.documentElement;
-    if (root && typeof root.getAttribute === 'function' && root.getAttribute('data-lhi-meta-notice-top') === '1') {
-      return true;
-    }
-    if (d.body && typeof d.body.getAttribute === 'function' && d.body.getAttribute('data-lhi-meta-notice-top') === '1') {
-      return true;
-    }
-    return false;
-  }
-
-  function metaNoticePlacementClass() {
-    return metaNoticeUsesTopPlacement() ? ' meta-audience-notice--top' : '';
-  }
-
-  function syncMetaNoticePlacement(prompt) {
-    if (!prompt) return;
-    var topClass = 'meta-audience-notice--top';
-    var useTop = metaNoticeUsesTopPlacement();
-    var current = String(prompt.className || '');
-    var hasTop = current.indexOf(topClass) >= 0;
-    if (useTop === hasTop) return;
-    if (prompt.classList && typeof prompt.classList.add === 'function') {
-      if (useTop) prompt.classList.add(topClass);
-      else prompt.classList.remove(topClass);
-      return;
-    }
-    if (useTop) prompt.className = (current + ' ' + topClass).trim();
-    else prompt.className = current.replace(topClass, '').replace(/\s+/g, ' ').trim();
-  }
-
   function ensureMetaNoticeShell() {
     if (!d.body || !d.createElement) return null;
     var prompt = d.getElementById('metaAudienceConsentPrompt');
@@ -1297,7 +1265,7 @@
 
     prompt = d.createElement('div');
     prompt.id = 'metaAudienceConsentPrompt';
-    prompt.className = 'meta-audience-notice' + metaNoticePlacementClass();
+    prompt.className = 'meta-audience-notice';
     prompt.setAttribute('role', 'region');
     prompt.setAttribute('aria-label', 'Ad measurement notice');
 
@@ -1340,7 +1308,6 @@
       var showNotice = shouldShowMetaNotice();
       if (prompt) {
         prompt.hidden = !showNotice;
-        syncMetaNoticePlacement(prompt);
       }
       if (d.body) {
         if (d.body.classList && typeof d.body.classList.toggle === 'function') {
