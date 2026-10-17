@@ -44,6 +44,6 @@ test('QR thank-you page routes booking through the on-site book page', () => {
   assert.match(HTML, /<a class="btn primary" href="\/book\/">Book a review<\/a>/);
   assert.match(HTML, /href="tel:\+18636403102"/);
   assert.match(HTML, /href="mailto:david@lakelandhealthinsurance.com"/);
-  assert.match(HTML, /\/js\/analytics\.js\?v=20261017-meta-default-on/);
+  assert.match(HTML, /\/js\/analytics\.js\?v=20261017-watson-pagespeed/);
   assert.match(HTML, /thank-you-video-slot" hidden/);
 });
