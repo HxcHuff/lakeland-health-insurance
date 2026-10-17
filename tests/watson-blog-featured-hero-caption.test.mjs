@@ -101,6 +101,32 @@ for (const viewport of [
   });
 }
 
+test('Watson FB landing hero lede is not line-clamped @390', async () => {
+  const server = await startStaticServer();
+  const browser = await chromium.launch({ headless: true, executablePath: CHROME_PATH });
+  try {
+    const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    await prepareBlogPage(page, server.baseUrl, WATSON);
+    const lede = await page.evaluate(() => {
+      const el = document.querySelector('.lhi-hero-lede-block > .lhi-hero-lede');
+      if (!el) return { ok: false, reason: 'missing-lede' };
+      const style = getComputedStyle(el);
+      const clamped = el.scrollHeight > el.clientHeight + 2;
+      return {
+        ok: style.display === 'block' && style.overflow === 'visible' && !clamped,
+        display: style.display,
+        overflow: style.overflow,
+        scrollHeight: el.scrollHeight,
+        clientHeight: el.clientHeight
+      };
+    });
+    assert.equal(lede.ok, true, `expected full mobile lede, got ${JSON.stringify(lede)}`);
+  } finally {
+    await browser.close();
+    await server.close();
+  }
+});
+
 for (const viewport of [
   { width: 1280, height: 800, tag: '1280' },
   { width: 390, height: 844, tag: '390' }

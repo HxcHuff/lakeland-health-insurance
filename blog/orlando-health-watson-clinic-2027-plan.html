@@ -167,11 +167,6 @@
       -webkit-text-fill-color: #0F1A2E !important;
       box-shadow: 0 4px 14px rgba(212, 168, 67, 0.35) !important;
     }
-    body.lhi-fb-watson-2027-landing.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block > .lhi-hero-lede {
-      -webkit-line-clamp: unset;
-      display: block;
-      overflow: visible;
-    }
     body.lhi-fb-watson-2027-landing .lhi-lead-hero__submit {
       background-color: #D4A843 !important;
       border: 2px solid #D4A843 !important;
@@ -310,6 +305,19 @@
   </style>
 
   <link rel="stylesheet" href="/css/lead-hero.css?v=20261016-lhi-lead-title-contrast" data-lhi-lead-hero-tail="">
+  <style>
+    /* After lead-hero.css: mobile blog posts clamp lede to 2 lines; Watson FB landing shows full lede on phones only. */
+    @media (max-width: 900px) {
+      body.lhi-fb-watson-2027-landing.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block > .lhi-hero-lede:not(.last-reviewed) {
+        display: block !important;
+        -webkit-box-orient: unset !important;
+        -webkit-line-clamp: unset !important;
+        overflow: visible !important;
+        white-space: normal !important;
+        text-overflow: unset !important;
+      }
+    }
+  </style>
 </head>
 <body class="blog-post lhi-page-hero lhi-fb-watson-2027-landing">
   <div class="compliance-banner">
