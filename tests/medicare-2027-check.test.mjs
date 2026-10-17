@@ -34,6 +34,8 @@ test('medicare-2027-check mobile-first hero and four-field get-help v2 form', ()
   );
   assert.match(HTML, /data-page-key="medicare-2027-check"/);
   assert.doesNotMatch(HTML, /paid-landing-page/);
+  assert.match(HTML, /class="cta-button m27-submit-style m27-mobile-jump" href="#medicare2027CheckForm">Check my doctors<\/a>/);
+  assert.doesNotMatch(HTML, /m27-mobile-jump[^>]*data-funnel/);
   const form = HTML.match(/<form[^>]*data-sitelink-lead-form[\s\S]*?<\/form>/);
   assert.ok(form, 'get-help sitelink form is present');
   const markup = form[0];
@@ -132,7 +134,7 @@ test('medicare-2027-check sitelink submit succeeds when call consent is checked'
   }
 });
 
-test('medicare-2027-check compliance layout and submit position at 390x844 and 1280x800', async () => {
+test('medicare-2027-check mobile jump CTA and submit positions at 390x844 and 1280x800', async () => {
   const server = createServer((request, response) => {
     try {
       let pathname = decodeURIComponent(new URL(request.url, 'http://127.0.0.1').pathname);
@@ -157,27 +159,44 @@ test('medicare-2027-check compliance layout and submit position at 390x844 and 1
     await page.goto(`http://127.0.0.1:${port}/medicare-2027-check/`, { waitUntil: 'networkidle' });
     await page.evaluate(() => window.scrollTo(0, 0));
     const mobile = await page.evaluate(() => {
-      const headline = document.querySelector('.m27-headline-row');
+      const hero = document.querySelector('.m27-hero-stack');
       const form = document.querySelector('.m27-form');
-      const button = document.querySelector('.cta-button.m27-submit');
+      const jump = document.querySelector('.m27-mobile-jump');
+      const button = document.querySelector('button.cta-button.m27-submit');
       const consent = document.querySelector('.m27-consent span');
+      const jumpRect = jump.getBoundingClientRect();
+      const submitRect = button.getBoundingClientRect();
       return {
-        gapHeadlineForm: form.getBoundingClientRect().top - headline.getBoundingClientRect().bottom,
-        submitTop: button.getBoundingClientRect().top,
-        submitBottom: button.getBoundingClientRect().bottom,
+        gapHeroForm: form.getBoundingClientRect().top - hero.getBoundingClientRect().bottom,
+        jumpTop: jumpRect.top,
+        jumpBottom: jumpRect.bottom,
+        jumpDisplay: getComputedStyle(jump).display,
+        submitTop: submitRect.top,
+        submitBottom: submitRect.bottom,
         consentFontPx: parseFloat(getComputedStyle(consent).fontSize)
       };
     });
-    assert.ok(mobile.gapHeadlineForm <= 12, `form should start directly under headline (gap ${mobile.gapHeadlineForm}px)`);
+    assert.equal(mobile.jumpDisplay, 'inline-flex', 'mobile jump CTA should be visible at 390px');
+    assert.ok(mobile.jumpBottom <= 844, `jump CTA bottom ${mobile.jumpBottom}px should stay on first screen`);
+    assert.ok(mobile.gapHeroForm <= 12, `form should start directly under hero stack (gap ${mobile.gapHeroForm}px)`);
     assert.ok(mobile.consentFontPx >= 13, `consent copy should be at least 13px (got ${mobile.consentFontPx}px)`);
 
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.evaluate(() => window.scrollTo(0, 0));
     const desktop = await page.evaluate(() => {
-      const button = document.querySelector('.cta-button.m27-submit');
-      const rect = button.getBoundingClientRect();
-      return { submitTop: rect.top, submitBottom: rect.bottom };
+      const jump = document.querySelector('.m27-mobile-jump');
+      const button = document.querySelector('button.cta-button.m27-submit');
+      const jumpRect = jump.getBoundingClientRect();
+      const submitRect = button.getBoundingClientRect();
+      return {
+        jumpDisplay: getComputedStyle(jump).display,
+        jumpTop: jumpRect.top,
+        jumpBottom: jumpRect.bottom,
+        submitTop: submitRect.top,
+        submitBottom: submitRect.bottom
+      };
     });
+    assert.equal(desktop.jumpDisplay, 'none', 'mobile jump CTA should be hidden above 640px');
     assert.ok(desktop.submitBottom <= 800, `submit bottom ${desktop.submitBottom}px should stay within 1280x800 first screen`);
   } finally {
     await browser.close();
