@@ -170,6 +170,13 @@ const MEDICARE_SOURCE_REGISTRY = Object.freeze({
       'header_talk_to_david',
       'footer_start_plan_review'
     ])
+  }),
+  'medicare-2027-check': Object.freeze({
+    page_role: 'campaign',
+    cta_keys: new Set([
+      'start_review_hero',
+      'request_review_hero'
+    ])
   })
 });
 const MEDICARE_ATTRIBUTION_FIELDS = [
@@ -317,6 +324,8 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'plan_interest',
     'referral_page',
     'source_page',
+    'consent_page',
+    'content_name',
     'source_page_key',
     'source_cta_key',
     'started_at',
@@ -656,8 +665,33 @@ function isGetHelpCanonicalPage(path) {
   return path === '/get-help/' || path === '/get-help';
 }
 
+const GET_HELP_V2_CONSENT_PAGES = new Set(['/get-help/', '/get-help', '/medicare-2027-check/', '/medicare-2027-check']);
+
+function isGetHelpV2ConsentPage(path) {
+  const normalized = sanitizeSourcePath(path);
+  return GET_HELP_V2_CONSENT_PAGES.has(normalized);
+}
+
+function resolveConsentPagePath(payload, headers, rawPayload) {
+  const raw = rawPayload && typeof rawPayload === 'object' ? rawPayload : payload;
+  const rawConsent = raw.consent_page ?? payload.consent_page;
+  if (rawConsent != null && String(rawConsent).trim() !== '') {
+    return sanitizeSourcePath(rawConsent);
+  }
+  const inferredRaw =
+    raw.source_url ||
+    payload.source_url ||
+    headerValue(headers, 'referer') ||
+    headerValue(headers, 'referrer') ||
+    '';
+  const inferred = sanitizeSourcePath(inferredRaw);
+  if (inferred && inferred !== '/') return inferred;
+  if (inferred === '/' && String(inferredRaw || '').trim()) return '/';
+  return '/get-help/';
+}
+
 function defaultGetHelpConsentTextVersion(consentPage) {
-  return isGetHelpCanonicalPage(consentPage)
+  return isGetHelpV2ConsentPage(consentPage)
     ? GET_HELP_CONSENT_TEXT_VERSION_V2
     : GET_HELP_CONSENT_TEXT_VERSION_V1;
 }
@@ -893,8 +927,9 @@ exports.handler = async (event) => {
   const sourcePath = sanitizeSourcePath(
     rawPayload.source_url || headerValue(headers, 'referer') || headerValue(headers, 'referrer') || ''
   );
+  const consentPagePath = resolveConsentPagePath(payload, headers, rawPayload);
 
-  const consentCheck = authorizeGetHelpConsent(payload, serverReceivedAt, sourcePath);
+  const consentCheck = authorizeGetHelpConsent(payload, serverReceivedAt, consentPagePath);
   if (!consentCheck.ok) {
     return {
       statusCode: 422,
@@ -920,7 +955,7 @@ exports.handler = async (event) => {
       };
     }
   }
-  applyNonGetHelpConsentRecord(payload, formName, sourcePath, serverReceivedAt);
+  applyNonGetHelpConsentRecord(payload, formName, consentPagePath, serverReceivedAt);
 
   const sourceUrl = eventSourceUrl(sourcePath);
   payload.source_url = sourcePath;
@@ -1242,6 +1277,8 @@ exports._test = {
   derivedCustomEventId,
   defaultConsentTextVersion,
   defaultGetHelpConsentTextVersion,
+  isGetHelpV2ConsentPage,
+  resolveConsentPagePath,
   filterPayloadForForm,
   metaBrowserIdentifier,
   metaMeasurementAllowed,

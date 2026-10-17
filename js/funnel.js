@@ -196,6 +196,14 @@
         header_talk_to_david: true,
         footer_start_plan_review: true
       }
+    },
+    'medicare-2027-check': {
+      path: '/medicare-2027-check/',
+      page_role: 'campaign',
+      cta_keys: {
+        start_review_hero: true,
+        request_review_hero: true
+      }
     }
   };
 
@@ -309,6 +317,7 @@
     var p = (w.location.pathname || '/').toLowerCase();
     if (p.indexOf('/lp/aca') === 0) return 'lp_aca';
     if (p.indexOf('/lp/medicare') === 0) return 'lp_medicare';
+    if (p.indexOf('/medicare-2027-check') === 0) return 'medicare-2027-check';
     if (p.indexOf('/lp/gap') === 0) return 'lp_gap';
     if (p.indexOf('/carriers/') === 0) return 'carrier_lp';
     if (p.indexOf('/blog/') === 0) return 'blog';
@@ -874,12 +883,37 @@
     });
   }
 
+  function usesSitelinkCheckboxConsent(form) {
+    if (form.hasAttribute && form.hasAttribute('data-sitelink-v2-consent')) return true;
+    return !sitelinkField(form, 'preferred_contact_method');
+  }
+
   function validateSitelinkContactPath(form) {
-    var preferredField = sitelinkField(form, 'preferred_contact_method');
     var phoneField = sitelinkField(form, 'phone');
+    var phone = String(phoneField && phoneField.value || '').trim();
+    if (usesSitelinkCheckboxConsent(form)) {
+      var callField = sitelinkField(form, 'consent_call');
+      var smsField = sitelinkField(form, 'consent_sms');
+      var callChecked = Boolean(callField && callField.checked);
+      var smsChecked = Boolean(smsField && smsField.checked);
+      setSitelinkField(form, 'consent_call', callChecked ? 'yes' : '');
+      setSitelinkField(form, 'consent_sms', smsChecked ? 'yes' : '');
+      setSitelinkField(form, 'consent_email', '');
+      if (!phone) {
+        showSitelinkStatus(form, 'Enter your phone number.');
+        if (phoneField && typeof phoneField.focus === 'function') phoneField.focus();
+        return false;
+      }
+      if (!callChecked && !smsChecked) {
+        showSitelinkStatus(form, 'Select at least one contact channel you authorize.');
+        return false;
+      }
+      return true;
+    }
+
+    var preferredField = sitelinkField(form, 'preferred_contact_method');
     var emailField = sitelinkField(form, 'email');
     var preferred = String(preferredField && preferredField.value || '').toLowerCase();
-    var phone = String(phoneField && phoneField.value || '').trim();
     var email = String(emailField && emailField.value || '').trim();
     var needsPhone = preferred === 'phone call' || preferred === 'text message';
 
@@ -898,6 +932,13 @@
       return false;
     }
     return true;
+  }
+
+  function showInlineSitelinkThankYou(form) {
+    var panel = form.closest('#m27LeadPanel') || form.parentElement;
+    var message = form.getAttribute('data-inline-thank-you-message') || 'Thanks — David will call you, usually same day.';
+    if (!panel) return;
+    panel.innerHTML = '<div class="m27-thanks" role="status" aria-live="polite"><h2>Request received</h2><p>' + message + ' Call or text <a href="tel:+18636403102">(863) 640-3102</a>.</p></div>';
   }
 
   function syncLandingMedicareDisclosures() {
@@ -995,6 +1036,10 @@
   }
 
   function redirectAfterLead(f) {
+    if (f.hasAttribute && f.hasAttribute('data-sitelink-inline-thank-you')) {
+      showInlineSitelinkThankYou(f);
+      return;
+    }
     w.location.href = f.getAttribute('action') || '/thanks.html';
   }
 
