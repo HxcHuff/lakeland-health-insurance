@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const TPMO_SNIPPET = '8 organizations which offer 65 products';
+const TPMO_SNIPPET = '10 organizations which offer 74 products';
 const SKIP_DIRS = new Set([
   '.ai-worker-local',
   '.git',

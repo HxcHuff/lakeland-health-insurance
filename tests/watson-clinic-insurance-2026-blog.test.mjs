@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import test from 'node:test';
 import { chromium } from 'playwright';
+import { assertApprovedStaticTpmo } from './lib/tpmo-10-74.mjs';
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const PAGE = 'blog/orlando-health-watson-clinic-insurance-2026.html';
@@ -69,13 +70,10 @@ test('Watson blog keeps #318 internal links', () => {
   assert.match(html, /href="\/retiring-and-medicare-lakeland-fl\/"/);
 });
 
-const FULL_SHIP =
-  'We do not offer every plan available in your area. Currently we represent 8 organizations which offer 65 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Program (SHIP) to get information on all of your options.';
-
 test('Watson blog keeps static bottom TPMO (SHIP) for no-JS compliance', () => {
   const html = source();
   assert.match(html, /class="site-page-disclosures"/, 'static bottom disclosure block');
-  assert.ok(html.includes(FULL_SHIP), 'SHIP TPMO in static HTML');
+  assertApprovedStaticTpmo(html, 'Watson blog static HTML');
   assert.doesNotMatch(html, /class="tpmo-cta-disclaimer"/, 'no inline TPMO near CTAs');
   assert.match(html, /site-template\.js/, 'shared chrome skips footer TPMO when static block exists');
 });

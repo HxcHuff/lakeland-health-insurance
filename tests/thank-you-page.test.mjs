@@ -8,7 +8,7 @@ const SITEMAP = readFileSync(join(ROOT, 'sitemap.xml'), 'utf8');
 const REDIRECTS = readFileSync(join(ROOT, '_redirects'), 'utf8');
 const HTML = readFileSync(join(ROOT, 'thank-you/index.html'), 'utf8');
 const CANONICAL = 'https://lakelandhealthinsurance.com/thank-you/';
-const TPMO_SNIPPET = '8 organizations which offer 65 products';
+const TPMO_SNIPPET = '10 organizations which offer 74 products';
 
 function rewriteRule(pathname) {
   const lines = REDIRECTS.split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !line.startsWith('#'));
