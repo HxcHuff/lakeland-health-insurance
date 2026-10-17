@@ -411,17 +411,33 @@ function metaBrowserIdentifier(cookieHeader, name) {
   return null;
 }
 
-function metaMeasurementAllowed(headers, cookieHeader) {
+function metaMeasurementBlocked(headers, cookieHeader) {
   const gpc = String(headerValue(headers, 'sec-gpc') || '').trim();
   const dnt = String(headerValue(headers, 'dnt') || '').trim().toLowerCase();
-  if (gpc && gpc !== '0') return false;
-  if (dnt && dnt !== '0' && dnt !== 'unspecified') return false;
+  if (gpc && gpc !== '0') return 'global-privacy-control';
+  if (dnt && dnt !== '0' && dnt !== 'unspecified') return 'browser-opt-out-signal';
 
   const legacyOptOut = readCookieState(cookieHeader, 'lhi_meta_audience_opt_out');
-  if (legacyOptOut.state === 'invalid' || legacyOptOut.state === 'value') return false;
+  if (legacyOptOut.state === 'invalid' || legacyOptOut.state === 'value') return 'visitor-declined';
 
   const consent = readCookieState(cookieHeader, 'lhi_meta_audience_consent');
-  return consent.state === 'value' && consent.value === 'granted';
+  if (consent.state === 'invalid') return 'preference-state-uncertain';
+  if (consent.state === 'value' && consent.value === 'denied') return 'visitor-declined';
+  return null;
+}
+
+function metaMeasurementAllowed(headers, cookieHeader) {
+  return !metaMeasurementBlocked(headers, cookieHeader);
+}
+
+function clientIpFromHeaders(headers) {
+  const forwarded = String(headerValue(headers, 'x-forwarded-for') || '').split(',')[0].trim();
+  const direct = String(
+    headerValue(headers, 'x-nf-client-connection-ip') || headerValue(headers, 'client-ip') || ''
+  ).trim();
+  const ip = forwarded || direct;
+  if (!ip || ip.length > 45 || !/^[\da-f.:]+$/i.test(ip)) return null;
+  return ip;
 }
 
 function headerValue(headers, name) {
@@ -1018,60 +1034,70 @@ exports.handler = async (event) => {
     capiError = 'CAPI skipped: Forms forward failed';
   } else if (isNewsletter) {
     capiError = 'CAPI skipped: newsletter subscriber is not a sales lead';
-  } else if (isSiteLead) {
-    capiError = 'CAPI skipped: site lead forms do not send PII to Meta';
   } else if (!IS_PROD_CONTEXT) {
     capiError = `CAPI skipped: production context not confirmed (${NETLIFY_CONTEXT}/${SITE_ENV})`;
-  } else if (!metaMeasurementAllowed(headers, cookieHeader)) {
-    capiError = 'CAPI skipped: explicit Meta measurement consent unavailable';
   } else if (CONFIGURED_META_DATASET_ID === META_DATASET_ID && ACCESS_TOKEN) {
-    try {
-      const userData = {};
-      if (fbp) userData.fbp = fbp;
-      if (fbc) userData.fbc = fbc;
+    const measurementBlock = metaMeasurementBlocked(headers, cookieHeader);
+    if (measurementBlock) {
+      capiError = `CAPI skipped: ${measurementBlock}`;
+    } else {
+      try {
+        const userData = {};
+        if (fbp) userData.fbp = fbp;
+        if (fbc) userData.fbc = fbc;
+        const clientIp = clientIpFromHeaders(headers);
+        const userAgent = String(headerValue(headers, 'user-agent') || '').trim().slice(0, 512);
+        if (clientIp) userData.client_ip_address = clientIp;
+        if (userAgent) userData.client_user_agent = userAgent;
 
-      const sharedEvent = {
-        event_time: eventTime,
-        action_source: 'website',
-        event_source_url: sourceUrl,
-        user_data: userData
-      };
-      const body = {
-        data: [{
-          ...sharedEvent,
-          event_name: 'Lead',
-          event_id: eventId,
-          custom_data: {
-            content_name: 'first_party_lead',
-            currency: 'USD',
-            value: 0
+        const sharedEvent = {
+          event_time: eventTime,
+          action_source: 'website',
+          event_source_url: sourceUrl,
+          user_data: userData
+        };
+        const body = { data: [] };
+        if (!isSiteLead) {
+          body.data.push({
+            ...sharedEvent,
+            event_name: 'Lead',
+            event_id: eventId,
+            custom_data: {
+              content_name: 'first_party_lead',
+              currency: 'USD',
+              value: 0
+            }
+          });
+        }
+        const customEventId = derivedCustomEventId(eventId, FORM_CUSTOM_SUFFIX);
+        if (customEventId) {
+          body.data.push({
+            ...sharedEvent,
+            event_name: FORM_CUSTOM_EVENT,
+            event_id: customEventId
+          });
+        }
+        if (!body.data.length) {
+          capiError = 'CAPI skipped: no Meta events configured';
+        } else {
+          if (TEST_EVENT_CODE) body.test_event_code = TEST_EVENT_CODE;
+
+          const url = `https://graph.facebook.com/${META_GRAPH_VERSION}/${META_DATASET_ID}/events?access_token=${encodeURIComponent(ACCESS_TOKEN)}`;
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+          });
+          capiOk = res.ok;
+          if (!res.ok) {
+            capiError = `CAPI ${res.status}`;
+            console.error(capiError);
           }
-        }]
-      };
-      const customEventId = derivedCustomEventId(eventId, FORM_CUSTOM_SUFFIX);
-      if (customEventId) {
-        body.data.push({
-          ...sharedEvent,
-          event_name: FORM_CUSTOM_EVENT,
-          event_id: customEventId
-        });
-      }
-      if (TEST_EVENT_CODE) body.test_event_code = TEST_EVENT_CODE;
-
-      const url = `https://graph.facebook.com/${META_GRAPH_VERSION}/${META_DATASET_ID}/events?access_token=${encodeURIComponent(ACCESS_TOKEN)}`;
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      capiOk = res.ok;
-      if (!res.ok) {
-        capiError = `CAPI ${res.status}`;
+        }
+      } catch (e) {
+        capiError = `CAPI exception${e && e.name ? ` (${e.name})` : ''}`;
         console.error(capiError);
       }
-    } catch (e) {
-      capiError = `CAPI exception${e && e.name ? ` (${e.name})` : ''}`;
-      console.error(capiError);
     }
   } else {
     capiError = 'Meta dataset configuration unavailable or mismatched';
@@ -1120,6 +1146,10 @@ exports.handler = async (event) => {
   if (formsOk) {
     responseBody.accepted_at = acceptedAt;
     if (medicareAttribution) Object.assign(responseBody, medicareAttribution);
+    if (!isNewsletter) {
+      const formCompleteId = derivedCustomEventId(eventId, FORM_CUSTOM_SUFFIX);
+      if (formCompleteId) responseBody.form_submit_complete_event_id = formCompleteId;
+    }
   }
 
   // PHI-free Forms-forward evidence. Netlify supplies the precise log time;
@@ -1282,6 +1312,8 @@ exports._test = {
   filterPayloadForForm,
   metaBrowserIdentifier,
   metaMeasurementAllowed,
+  metaMeasurementBlocked,
+  clientIpFromHeaders,
   readCookieState,
   minimizeGetHelpPayload,
   resolveConsentTextVersion,

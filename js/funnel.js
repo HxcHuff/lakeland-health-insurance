@@ -1188,6 +1188,12 @@
           submitLeadViaApi(f, formPayload(f, fd, content), function (apiResult) {
             if (name === 'Lead') {
               track(name, safeLeadPropsFromForm(f, fd, content, step, apiResult));
+              if (apiResult && apiResult.form_submit_complete_event_id &&
+                  typeof w.lhiTrackMetaFormSubmitComplete === 'function') {
+                try {
+                  w.lhiTrackMetaFormSubmitComplete(apiResult.form_submit_complete_event_id);
+                } catch (e) {}
+              }
             } else {
               track(name, { content_name: content, step: step });
             }
@@ -1241,6 +1247,9 @@
       a.__lhiMessengerWired = true;
       a.addEventListener('click', function () {
         track('messenger_click', { content_name: pageType() + '_messenger_click' });
+        if (typeof w.lhiTrackMetaMessageStart === 'function') {
+          try { w.lhiTrackMetaMessageStart(); } catch (e) {}
+        }
       });
     });
   }

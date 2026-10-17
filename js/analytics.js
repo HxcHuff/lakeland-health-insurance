@@ -773,6 +773,9 @@
       pushDataLayerEvent('PhoneCallClick', params);
       pushDataLayerEvent('phone_call_click', params);
       lastPhoneCanonicalAt = now;
+      if (typeof window.lhiTrackMetaPhoneClick === 'function') {
+        try { window.lhiTrackMetaPhoneClick(); } catch (e) {}
+      }
     }
 
     if (legacyName) {
@@ -1471,6 +1474,75 @@
     return !String(w.location && w.location.search || '') && !String(w.location && w.location.hash || '');
   }
 
+  var metaPhoneClickSent = false;
+  var metaMessageStartSent = false;
+
+  function metaLoaderActive() {
+    return Boolean(w[INITIALIZED_KEY] && typeof w.fbq === 'function');
+  }
+
+  function mintMetaClickEventId(prefix) {
+    var random = '';
+    try {
+      if (w.crypto && typeof w.crypto.getRandomValues === 'function') {
+        var bytes = new Uint8Array(8);
+        w.crypto.getRandomValues(bytes);
+        random = Array.prototype.map.call(bytes, function (byte) {
+          return ('0' + byte.toString(16)).slice(-2);
+        }).join('');
+      }
+    } catch (_) {}
+    if (!random) random = String(Date.now()) + String(Math.floor(Math.random() * 1e9));
+    return prefix + random.replace(/[^a-z0-9]/gi, '').slice(0, 32).toLowerCase();
+  }
+
+  function sendMetaEventBeacon(payload) {
+    if (!w.navigator || typeof w.navigator.sendBeacon !== 'function') return;
+    try {
+      var blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+      w.navigator.sendBeacon('/api/meta-event', blob);
+    } catch (_) {}
+  }
+
+  function trackMetaCustomEvent(eventName, eventID) {
+    if (eventName !== 'form_submit_complete' && eventName !== 'phone_click' && eventName !== 'message_start') {
+      return false;
+    }
+    if (!metaLoaderActive() || !eventID) return false;
+    w.fbq('trackSingle', PIXEL_ID, eventName, {}, { eventID: eventID });
+    return true;
+  }
+
+  w.lhiTrackMetaFormSubmitComplete = function (eventID) {
+    return trackMetaCustomEvent('form_submit_complete', String(eventID || '').trim());
+  };
+
+  w.lhiTrackMetaPhoneClick = function () {
+    if (metaPhoneClickSent) return false;
+    var eventID = mintMetaClickEventId('lhi_ph_');
+    if (!trackMetaCustomEvent('phone_click', eventID)) return false;
+    metaPhoneClickSent = true;
+    sendMetaEventBeacon({
+      name: 'phone_click',
+      event_id: eventID,
+      path: normalizePath(w.location && w.location.pathname)
+    });
+    return true;
+  };
+
+  w.lhiTrackMetaMessageStart = function () {
+    if (metaMessageStartSent) return false;
+    var eventID = mintMetaClickEventId('lhi_ms_');
+    if (!trackMetaCustomEvent('message_start', eventID)) return false;
+    metaMessageStartSent = true;
+    sendMetaEventBeacon({
+      name: 'message_start',
+      event_id: eventID,
+      path: normalizePath(w.location && w.location.pathname)
+    });
+    return true;
+  };
+
   function installFbq() {
     var queue = function () {
       if (queue.callMethod) queue.callMethod.apply(queue, arguments);
@@ -1564,6 +1636,15 @@
     w.LHI_scheduleAfterInteractive(initialize);
   } else {
     initialize();
+  }
+
+  if (w.__LHI_TEST === true) {
+    w.__LHI_META_AUDIENCE_TEST__ = {
+      trackMetaCustomEvent: trackMetaCustomEvent,
+      privacyDecision: privacyDecision,
+      normalizePath: normalizePath,
+      ELIGIBLE_PATHS: ELIGIBLE_PATHS
+    };
   }
 })(window, document);
 /* LHI_META_AUDIENCE_END */
