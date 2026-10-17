@@ -1240,9 +1240,18 @@
     return Boolean(existing && String(existing.className || '').indexOf('meta-audience-notice') >= 0);
   }
 
+  function pageHasLeadFormSurface() {
+    if (d.getElementById && d.getElementById('leadForm')) return true;
+    if (d.querySelector && d.querySelector('[data-lhi-site-lead]')) return true;
+    if (d.getElementsByClassName && d.getElementsByClassName('lhi-lead-hero__form').length) return true;
+    var main = d.querySelector ? d.querySelector('main') : null;
+    if (main && main.getElementsByTagName) return main.getElementsByTagName('form').length > 0;
+    return false;
+  }
+
   function metaNoticePlacementClass() {
     if (!w.matchMedia || !w.matchMedia('(max-width: 900px)').matches) return '';
-    if (!d.querySelector || !d.querySelector('main form, #leadForm, .lhi-lead-hero__form')) return '';
+    if (!pageHasLeadFormSurface()) return '';
     return ' meta-audience-notice--top';
   }
 
@@ -1250,8 +1259,11 @@
     if (!prompt) return;
     var topClass = 'meta-audience-notice--top';
     var useTop = metaNoticePlacementClass().indexOf(topClass) >= 0;
-    if (useTop) prompt.classList.add(topClass);
-    else prompt.classList.remove(topClass);
+    var current = String(prompt.className || '');
+    var hasTop = current.indexOf(topClass) >= 0;
+    if (useTop === hasTop) return;
+    if (useTop) prompt.className = (current + ' ' + topClass).trim();
+    else prompt.className = current.replace(topClass, '').replace(/\s+/g, ' ').trim();
   }
 
   function ensureMetaNoticeShell() {
@@ -1307,8 +1319,15 @@
         prompt.hidden = !showNotice;
         syncMetaNoticePlacement(prompt);
       }
-      if (d.body && d.body.classList) {
-        d.body.classList.toggle('lhi-meta-notice-visible', showNotice);
+      if (d.body) {
+        var bodyClass = String(d.body.className || '');
+        var bodyFlag = 'lhi-meta-notice-visible';
+        var hasBodyFlag = bodyClass.indexOf(bodyFlag) >= 0;
+        if (showNotice && !hasBodyFlag) {
+          d.body.className = (bodyClass + ' ' + bodyFlag).trim();
+        } else if (!showNotice && hasBodyFlag) {
+          d.body.className = bodyClass.replace(bodyFlag, '').replace(/\s+/g, ' ').trim();
+        }
       }
     }
 
