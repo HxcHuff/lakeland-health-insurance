@@ -409,6 +409,37 @@ test('Meta CAPI uses default-allow consent and honors opt-out, GPC, and DNT afte
   assert.equal(allowed.calls.length, 2);
 });
 
+test('site-aca-lead returns form_submit_complete_event_id for browser Meta tracking', async () => {
+  const startedAt = Date.now() - 2_000;
+  const payload = {
+    'form-name': 'site-aca-lead',
+    started_at: String(startedAt),
+    human_check: Buffer.from(`${startedAt}:lakeland-human`).toString('base64'),
+    full_name: 'Jane Example',
+    phone: '863-555-1212',
+    zip_code: '33801',
+    coverage_status: 'individual_marketplace',
+    source_url: 'https://lakelandhealthinsurance.com/self-employed-health-insurance/',
+    source_page: '/self-employed-health-insurance/',
+    consent_request: 'yes',
+    consent_text_version: 'site-aca-2026-10-v1'
+  };
+  const { response, calls } = await invoke(payload, {
+    headers: {
+      cookie: '',
+      referer: 'https://lakelandhealthinsurance.com/self-employed-health-insurance/'
+    }
+  });
+  const result = JSON.parse(response.body);
+  assert.equal(response.statusCode, 200);
+  assert.equal(result.forms, true);
+  assert.match(result.form_submit_complete_event_id, /^lhi_book_[a-z0-9]+_fcomp$/);
+  assert.equal(calls.length, 2);
+  const meta = JSON.parse(calls[1].init.body);
+  assert.equal(meta.data.length, 1);
+  assert.equal(meta.data[0].event_name, 'form_submit_complete');
+});
+
 test('site lead forms send form_submit_complete to Meta but not the standard Lead event', async () => {
   const startedAt = Date.now() - 2_000;
   const payload = {

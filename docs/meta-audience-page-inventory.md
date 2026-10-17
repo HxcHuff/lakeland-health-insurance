@@ -14,6 +14,9 @@ This inventory is the reviewed browser-tracking boundary. A page must appear bel
 - `/medicare/`
 - `/medicare-broker-lakeland-fl/`
 - `/aca-health-insurance-lakeland-fl/`
+- `/aca-health-insurance-agent-polk-county-fl/`
+- `/aca-subsidy-estimator/` (PageView and engagement events only; calculator inputs stay in-browser)
+- `/self-employed-health-insurance/`
 - `/medicare-2027-check/`
 - `/plans/`
 - `/thanks.html`
@@ -29,9 +32,9 @@ Approved query parameters on eligible routes include `fbclid`, `gclid`, `gbraid`
 - Newsletter, booking/chat pages, all `/lp/` pages, and any confirmation surface other than `/thanks.html`.
 
 `/book/` remains outside this audience-PageView inventory. Completed Calendly bookings on that page send a separate standard Meta `Schedule` conversion. See [`docs/meta-booked-appointment-conversion.md`](meta-booked-appointment-conversion.md).
-- Estimators, calculators, applications, enrollment, current-client, post-enrollment, policy-service, referral, and other operational workflows.
+- Calculators and estimators other than `/aca-subsidy-estimator/`, plus applications, enrollment, current-client, post-enrollment, policy-service, referral, and other operational workflows.
 - Medicaid status pages; provider, prescription, condition, mental-health, pre-existing-condition, claim, and hospital-bill pages.
-- Income, subsidy, employment, coverage-loss, retirement, student, self-employed, or other life-event/status pages that are not listed above.
+- Income, subsidy, employment, coverage-loss, retirement, student, or other life-event/status pages that are not listed above (except `/self-employed-health-insurance/`).
 - Product- and plan-intent routes other than `/plans/`, including `/carriers/` and carrier children, dental/vision, supplemental, private medical, short-term medical, and Health ProtectorGuard pages.
 - Privacy, SMS, consent, 404, offline, verification, and other utility pages.
 - `/links/`, which redirects to `/learning/` and is not a production landing page for this pixel.
