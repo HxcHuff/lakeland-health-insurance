@@ -639,6 +639,44 @@
     initSiteHeaderOffsetTracking(nextHeader);
     window.addEventListener('resize', scheduleSiteHeaderOffsetSync, { passive: true });
     window.addEventListener('orientationchange', scheduleSiteHeaderOffsetSync, { passive: true });
+    scheduleWelcomeBackPopup(pathname);
+  }
+
+  const WELCOME_BACK_VERSION = '20261018-welcome-back-v1';
+
+  function scheduleWelcomeBackPopup(pathname) {
+    var path = normalizePath(pathname || currentPathname());
+    if (path.indexOf('/lp/') === 0) return;
+    var excluded =
+      path.indexOf('/medicare-2027-check/') === 0 ||
+      path.indexOf('/get-help/') === 0 ||
+      path.indexOf('/thank-you/') === 0 ||
+      path.indexOf('/book/') === 0 ||
+      path === '/thanks.html' ||
+      /\/privacy-policy/i.test(path) ||
+      /\/terms/i.test(path) ||
+      path.indexOf('/data-deletion/') === 0 ||
+      /\/sms-policy/i.test(path);
+    if (excluded) return;
+
+    function injectAssets() {
+      if (document.querySelector('script[data-lhi-welcome-back]')) return;
+      var css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = '/css/welcome-back-popup.css?v=' + WELCOME_BACK_VERSION;
+      document.head.appendChild(css);
+      var script = document.createElement('script');
+      script.src = '/js/welcome-back-popup.js?v=' + WELCOME_BACK_VERSION;
+      script.defer = true;
+      script.setAttribute('data-lhi-welcome-back', 'true');
+      document.body.appendChild(script);
+    }
+
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(injectAssets, { timeout: 3500 });
+    } else {
+      window.setTimeout(injectAssets, 1500);
+    }
   }
 
   window.LHISiteChrome = {

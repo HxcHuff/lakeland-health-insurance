@@ -187,11 +187,19 @@ function buildWebsiteLeadPayload({
   const fromFull = splitName(firstField(source, ['full_name', 'name'], 200));
   const first = fromParts.first || fromFull.first;
   const last = fromParts.last || fromFull.last;
-  const name = [first, last].filter(Boolean).join(' ') || firstField(source, ['full_name', 'name'], 200);
+  let name = [first, last].filter(Boolean).join(' ') || firstField(source, ['full_name', 'name'], 200);
   const email = normalizeEmail(firstField(source, ['email'], 254));
   const phone = normalizePhone(firstField(source, ['phone', 'phone_number'], 32));
-  if (!name && !first) return null;
-  if (!email && !phone) return null;
+  const isReturningFeedback = form === 'returning-visitor-feedback';
+  const broughtBack = isReturningFeedback
+    ? firstField(source, ['brought_back'], 8000)
+    : '';
+  if (isReturningFeedback) {
+    if (!broughtBack) return null;
+    if (!name && !first) name = 'Returning visitor';
+  }
+  if (!isReturningFeedback && !name && !first) return null;
+  if (!isReturningFeedback && !email && !phone) return null;
 
   const lead = {
     source: 'website_form',
@@ -215,6 +223,20 @@ function buildWebsiteLeadPayload({
 
   const intent = firstField(source, ['normalized_intent', 'inquiry_type'], 160);
   if (intent) lead.intent = intent;
+  if (isReturningFeedback) {
+    const helpWith = firstField(source, ['help_with'], 8000);
+    const visitCount = firstField(source, ['visit_count'], 32);
+    const sourceTag = firstField(source, ['source_tag'], 80);
+    const summary = [
+      broughtBack ? `brought_back: ${broughtBack}` : null,
+      helpWith ? `help_with: ${helpWith}` : null,
+      visitCount ? `visit_count: ${visitCount}` : null,
+      sourceTag ? `source_tag: ${sourceTag}` : null
+    ].filter(Boolean).join(' | ').slice(0, 500);
+    lead.intent = 'returning_visitor_feedback';
+    lead.insurance_type = 'feedback';
+    if (summary) lead.notes = summary;
+  }
 
   const insuranceType = firstField(source, [
     'line_of_business',

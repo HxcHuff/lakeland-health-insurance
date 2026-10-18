@@ -196,6 +196,11 @@ const MEDICARE_GENERAL_INTAKE_EXCLUDED_FIELDS = new Set([
 ]);
 
 const NEWSLETTER_FORMS = new Set(['homepage-newsletter', 'newsletter-signup']);
+const RETURNING_VISITOR_FEEDBACK_FORM = 'returning-visitor-feedback';
+const NON_LEAD_CONVERSION_FORMS = new Set([
+  ...NEWSLETTER_FORMS,
+  RETURNING_VISITOR_FEEDBACK_FORM
+]);
 // Website sales/service forms forwarded to the Vercel lead bridge.
 const SITE_LEAD_FORMS = new Set(['site-medicare-lead', 'site-aca-lead']);
 
@@ -219,7 +224,8 @@ const WEBSITE_LEAD_RELAY_FORMS = new Set([
   'new-port-richey-health-insurance',
   'riverview-health-insurance',
   'st-petersburg-health-insurance',
-  'wesley-chapel-health-insurance'
+  'wesley-chapel-health-insurance',
+  RETURNING_VISITOR_FEEDBACK_FORM
 ]);
 
 const BOT_FIELDS = ['bot-field', 'website', 'company'];
@@ -372,7 +378,19 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
   'new-port-richey-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
   'riverview-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
   'st-petersburg-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
-  'wesley-chapel-health-insurance': leadFormFields(LOCAL_FORM_FIELDS)
+  'wesley-chapel-health-insurance': leadFormFields(LOCAL_FORM_FIELDS),
+  [RETURNING_VISITOR_FEEDBACK_FORM]: leadFormFields([
+    'brought_back',
+    'help_with',
+    'name',
+    'phone',
+    'consent',
+    'source_tag',
+    'visit_count',
+    'source_page',
+    'consent_text_version',
+    '_subject'
+  ])
 });
 
 function readCookieState(cookieHeader, name, maxValueLength = 128) {
@@ -626,6 +644,7 @@ const LP_GAP_CONSENT_TEXT_VERSION_V1 = 'lp-gap-2026-09-29-v1';
 const LP_GAP_CONSENT_TEXT_VERSION_V2 = 'lp-gap-2026-09-29-v2';
 const SITE_MEDICARE_CONSENT_TEXT_VERSION = 'site-medicare-2026-10-v1';
 const SITE_ACA_CONSENT_TEXT_VERSION = 'site-aca-2026-10-v1';
+const RETURNING_VISITOR_CONSENT_TEXT_VERSION = 'returning-visitor-feedback-2026-10-18-v1';
 const HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION = 'homepage-newsletter-2026-10-07-v1';
 const NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION = 'newsletter-signup-2026-10-07-v1';
 const NEWSLETTER_CONSENT_TEXT_VERSIONS = Object.freeze({
@@ -644,7 +663,8 @@ const LP_CONSENT_TEXT_VERSIONS = Object.freeze({
   'lp-medicare-lead': LP_MEDICARE_CONSENT_TEXT_VERSION_V2,
   'lp-gap-lead': LP_GAP_CONSENT_TEXT_VERSION_V2,
   'site-aca-lead': SITE_ACA_CONSENT_TEXT_VERSION,
-  'site-medicare-lead': SITE_MEDICARE_CONSENT_TEXT_VERSION
+  'site-medicare-lead': SITE_MEDICARE_CONSENT_TEXT_VERSION,
+  [RETURNING_VISITOR_FEEDBACK_FORM]: RETURNING_VISITOR_CONSENT_TEXT_VERSION
 });
 const CITY_HEALTH_INSURANCE_FORMS = Object.freeze([
   'tampa-health-insurance',
@@ -673,7 +693,8 @@ const ALLOWED_CONSENT_TEXT_VERSIONS = Object.freeze([
   SITE_MEDICARE_CONSENT_TEXT_VERSION,
   SITE_ACA_CONSENT_TEXT_VERSION,
   HOMEPAGE_NEWSLETTER_CONSENT_TEXT_VERSION,
-  NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION
+  NEWSLETTER_SIGNUP_CONSENT_TEXT_VERSION,
+  RETURNING_VISITOR_CONSENT_TEXT_VERSION
 ]);
 const ALLOWED_CONSENT_TEXT_VERSION_SET = new Set(ALLOWED_CONSENT_TEXT_VERSIONS);
 
@@ -815,6 +836,12 @@ function applyNonGetHelpConsentRecord(payload, formName, consentPage, serverRece
     payload.consent_sms = 'no';
     return;
   }
+  if (formName === RETURNING_VISITOR_FEEDBACK_FORM) {
+    if (String(payload.phone || '').trim() && isGrantedLpConsentValue(payload.consent)) {
+      applyLpMarketingConsentRecord(payload, formName, serverReceivedAt);
+    }
+    return;
+  }
   if (Object.prototype.hasOwnProperty.call(LP_CONSENT_TEXT_VERSIONS, formName)) {
     applyLpMarketingConsentRecord(payload, formName, serverReceivedAt);
   }
@@ -827,6 +854,18 @@ function authorizeNewsletterConsent(payload, formName) {
   }
   if (!normalizeEmail(payload.email)) {
     return { ok: false, error: 'valid email is required' };
+  }
+  return { ok: true };
+}
+
+function authorizeReturningVisitorFeedback(payload, formName) {
+  if (formName !== RETURNING_VISITOR_FEEDBACK_FORM) return { ok: true };
+  if (!String(payload.brought_back || '').trim()) {
+    return { ok: false, error: 'feedback is required' };
+  }
+  const hasPhone = Boolean(String(payload.phone || '').trim());
+  if (hasPhone && !isGrantedLpConsentValue(payload.consent)) {
+    return { ok: false, error: 'phone consent is required' };
   }
   return { ok: true };
 }
@@ -961,6 +1000,14 @@ exports.handler = async (event) => {
       body: JSON.stringify({ ok: false, error: newsletterConsentCheck.error })
     };
   }
+  const returningVisitorCheck = authorizeReturningVisitorFeedback(payload, formName);
+  if (!returningVisitorCheck.ok) {
+    return {
+      statusCode: 422,
+      headers: { ...cors.headers, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: false, error: returningVisitorCheck.error })
+    };
+  }
   if (NEWSLETTER_FORMS.has(formName)) {
     const rate = await checkNewsletterRateLimit(event, payload.email);
     if (!rate.ok) {
@@ -984,6 +1031,7 @@ exports.handler = async (event) => {
   payload.server_received_at = serverReceivedAt;
   const medicareAttribution = canonicalizeMedicareAttribution(payload);
   const isNewsletter = NEWSLETTER_FORMS.has(formName);
+  const isNonLeadConversion = NON_LEAD_CONVERSION_FORMS.has(formName);
   const isSiteLead = SITE_LEAD_FORMS.has(formName);
   const leadPriority = classifyLead(payload, formName);
   payload.lead_priority = leadPriority.level;
@@ -1032,8 +1080,8 @@ exports.handler = async (event) => {
   let capiError = null;
   if (!formsOk) {
     capiError = 'CAPI skipped: Forms forward failed';
-  } else if (isNewsletter) {
-    capiError = 'CAPI skipped: newsletter subscriber is not a sales lead';
+  } else if (isNonLeadConversion) {
+    capiError = 'CAPI skipped: non-lead conversion form';
   } else if (!IS_PROD_CONTEXT) {
     capiError = `CAPI skipped: production context not confirmed (${NETLIFY_CONTEXT}/${SITE_ENV})`;
   } else if (CONFIGURED_META_DATASET_ID === META_DATASET_ID && ACCESS_TOKEN) {
@@ -1057,7 +1105,7 @@ exports.handler = async (event) => {
           user_data: userData
         };
         const body = { data: [] };
-        if (!isSiteLead) {
+        if (!isSiteLead && !isNonLeadConversion) {
           body.data.push({
             ...sharedEvent,
             event_name: 'Lead',
@@ -1108,8 +1156,8 @@ exports.handler = async (event) => {
   let adsCapiError = null;
   if (!formsOk) {
     adsCapiError = 'Ads CAPI skipped: Forms forward failed';
-  } else if (isNewsletter) {
-    adsCapiError = 'Ads CAPI skipped: newsletter subscriber is not a sales lead';
+  } else if (isNonLeadConversion) {
+    adsCapiError = 'Ads CAPI skipped: non-lead conversion form';
   } else if (isSiteLead) {
     adsCapiError = 'Ads CAPI skipped: site lead forms do not send PII to ad platforms';
   } else {

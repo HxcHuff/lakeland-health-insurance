@@ -669,7 +669,8 @@ test('consent version resolver accepts only the explicit allowlist', () => {
     'site-medicare-2026-10-v1',
     'site-aca-2026-10-v1',
     'homepage-newsletter-2026-10-07-v1',
-    'newsletter-signup-2026-10-07-v1'
+    'newsletter-signup-2026-10-07-v1',
+    'returning-visitor-feedback-2026-10-18-v1'
   ]);
 });
 
