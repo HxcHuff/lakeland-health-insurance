@@ -40,7 +40,8 @@ const RELAY_FORMS = [
   'new-port-richey-health-insurance',
   'riverview-health-insurance',
   'st-petersburg-health-insurance',
-  'wesley-chapel-health-insurance'
+  'wesley-chapel-health-insurance',
+  'returning-visitor-feedback'
 ];
 
 const HOPPER_FORMS = new Set(['site-medicare-lead', 'site-aca-lead']);
@@ -284,6 +285,7 @@ test('relay inventory equals every active non-newsletter form and static Lead bl
       'lake-alfred-health-insurance',
       'largo-health-insurance',
       'new-port-richey-health-insurance',
+      'returning-visitor-feedback',
       'riverview-health-insurance',
       'st-petersburg-health-insurance',
       'subsidy-estimator-lead',
@@ -297,7 +299,9 @@ test('relay inventory equals every active non-newsletter form and static Lead bl
   for (let index = 0; index < RELAY_FORMS.length; index += 1) {
     const formName = RELAY_FORMS[index];
     const local = formName.endsWith('-health-insurance') || formName === 'aca-lakeland-lead';
-    const data = formName === 'subsidy-estimator-lead'
+    const data = formName === 'returning-visitor-feedback'
+      ? { name: 'Test Lead', brought_back: 'TEST returning visitor feedback', visit_count: '2' }
+      : formName === 'subsidy-estimator-lead'
       ? { first_name: 'Test', phone: '8635550118' }
       : local
         ? { full_name: 'Test Lead', phone_number: '8635550118' }
