@@ -24,7 +24,8 @@ const ELIGIBLE_PAGES = [
   ['medicare-2027-check/index.html', '/medicare-2027-check/'],
   ['plans/index.html', '/plans/'],
   ['thanks.html', '/thanks.html'],
-  ['blog/orlando-health-watson-clinic-2027-plan.html', '/blog/orlando-health-watson-clinic-2027-plan.html']
+  ['blog/orlando-health-watson-clinic-2027-plan.html', '/blog/orlando-health-watson-clinic-2027-plan.html'],
+  ['blog/orlando-health-watson-clinic-insurance-2026.html', '/blog/orlando-health-watson-clinic-insurance-2026.html']
 ];
 const FORM_BEARING_ELIGIBLE_FILES = new Set([
   'index.html',
@@ -36,7 +37,8 @@ const FORM_BEARING_ELIGIBLE_FILES = new Set([
   'carriers/index.html',
   'medicare-broker-lakeland-fl/index.html',
   'medicare-2027-check/index.html',
-  'blog/orlando-health-watson-clinic-2027-plan.html'
+  'blog/orlando-health-watson-clinic-2027-plan.html',
+  'blog/orlando-health-watson-clinic-insurance-2026.html'
 ]);
 const PROMPT_SUPPRESSED_PATHS = [
   '/lp/aca/',

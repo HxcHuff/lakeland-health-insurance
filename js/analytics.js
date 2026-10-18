@@ -911,7 +911,8 @@
     '/medicare-2027-check/': true,
     '/plans/': true,
     '/thanks.html': true,
-    '/blog/orlando-health-watson-clinic-2027-plan.html': true
+    '/blog/orlando-health-watson-clinic-2027-plan.html': true,
+    '/blog/orlando-health-watson-clinic-insurance-2026.html': true
   };
   var UTM_QUERY_KEYS = {
     utm_source: true,
@@ -1578,7 +1579,12 @@
       setStatus('skipped', 'already-initialized');
       return false;
     }
-    if (!w.location || !hasOwn(PROD_HOSTS, String(w.location.hostname || '').toLowerCase())) {
+    var host = String(w.location.hostname || '').toLowerCase();
+    var metaHostAllowed = hasOwn(PROD_HOSTS, host);
+    if (!metaHostAllowed && w.__LHI_ANALYTICS_DEBUG && /\.netlify\.app$/i.test(host)) {
+      metaHostAllowed = true;
+    }
+    if (!w.location || !metaHostAllowed) {
       setStatus('skipped', 'non-production-host');
       return false;
     }
@@ -1600,7 +1606,7 @@
       setStatus('skipped', 'referrer-rejected');
       return false;
     }
-    if (!hasApprovedQuery(w.location.search)) {
+    if (!hasApprovedQuery(w.location.search) && !w.__LHI_ANALYTICS_DEBUG) {
       setStatus('skipped', 'query-rejected');
       return false;
     }
