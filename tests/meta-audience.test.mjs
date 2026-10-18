@@ -271,8 +271,8 @@ function htmlFiles(dir = ROOT, out = []) {
   return out;
 }
 
-test('all 10 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
-  assert.equal(ELIGIBLE_PAGES.length, 10);
+test('all 11 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
+  assert.equal(ELIGIBLE_PAGES.length, 11);
   for (const [, pathname] of ELIGIBLE_PAGES) {
     const { sandbox, scripts, controls } = loadMetaAudience({ pathname });
     assert.equal(scripts.length, 1, pathname);
@@ -657,7 +657,7 @@ test('approved ad query parameters load the Pixel on eligible routes and strip b
   assert.equal(rejected.sandbox.__LHI_META_AUDIENCE_STATUS__.reason, 'query-rejected');
 });
 
-test('static marker inventory exactly matches the reviewed 10-page landing ledger', () => {
+test('static marker inventory exactly matches the reviewed 11-page landing ledger', () => {
   const marked = [];
   for (const file of htmlFiles()) {
     const html = readFileSync(file, 'utf8');
@@ -670,7 +670,11 @@ test('static marker inventory exactly matches the reviewed 10-page landing ledge
     const html = readFileSync(join(ROOT, file), 'utf8');
     assert.equal((html.match(/<meta name="meta-audience-eligible" content="pageview">/g) || []).length, 1, file);
     assert.ok(html.indexOf(ELIGIBLE_MARKER) < html.indexOf('</head>'), file);
-    assert.match(html, /\/js\/analytics\.js\?v=20261017-meta-conversion-events-v1/, file);
+    if (file === 'blog/orlando-health-watson-clinic-insurance-2026.html') {
+      assert.match(html, /\/js\/analytics\.js\?v=20261018-watson-2026-pagespeed-v2/, file);
+    } else {
+      assert.match(html, /\/js\/analytics\.js\?v=20261017-meta-conversion-events-v1/, file);
+    }
     if (html.includes('/css/site-template.css')) {
       assert.match(html, /\/css\/site-template\.css\?v=20261017-meta-conversion-events-v1/, file);
     }

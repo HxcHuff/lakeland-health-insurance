@@ -18,6 +18,7 @@ This inventory is the reviewed browser-tracking boundary. A page must appear bel
 - `/plans/`
 - `/thanks.html`
 - `/blog/orlando-health-watson-clinic-2027-plan.html`
+- `/blog/orlando-health-watson-clinic-insurance-2026.html`
 
 These routes are eligible only under the isolation boundary: the loader sends a load-time standard `PageView` after privacy gates pass (default-allow until opt-out), never reads or listens to form fields, and Meta automatic matching, automatic events, and automatic configuration remain disabled. Denied, uncertain, GPC, and DNT states remain fail-closed.
 
