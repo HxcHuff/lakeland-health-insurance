@@ -56,6 +56,7 @@ Scope: Lakeland Health Insurance website identity, authority, authorship, and st
 - URL: `https://lakelandhealthinsurance.com/`.
 - Phone: `+1-863-640-3102`.
 - Email: `david@lakelandhealthinsurance.com`.
+- Address: `2298 Lakeland Hills Blvd, Lakeland, FL 33805` (by appointment; disclosed in visible copy as `2298 Lakeland Hills Blvd, Lakeland, FL 33805 · By appointment`).
 - Service posture: local assistance in Lakeland and Polk County; remote assistance across Florida, subject to product and plan validation.
 - Mandatory boundary: `Lakeland Health Insurance is not an insurance carrier.`
 
@@ -84,7 +85,7 @@ Do not shorten this to “free,” “same price,” “no cost for everything,�
 
 ### Prohibited or unverified properties
 
-- `PostalAddress`, geo coordinates, opening hours, price range, awards, aggregate ratings, review counts, employee counts, or legal registration status without current evidence and an intentional publishing decision.
+- Unverified geo coordinates, walk-in retail hours (outside the verified `By appointment` posture at `2298 Lakeland Hills Blvd, Lakeland, FL 33805`), price range, awards, aggregate ratings, review counts, employee counts, or legal registration status without current evidence and an intentional publishing decision (`PostalAddress` remains excluded from the priority-page JSON-LD validator list while permitted on local city landing schemas when paired with `By appointment`).
 - `Offer`, `OfferCatalog`, price, carrier, benefit, premium, savings, provider, formulary, or availability schema without current product/state evidence and visible parity.
 - Any type or description that presents Lakeland Health Insurance as an insurer or carrier.
 
