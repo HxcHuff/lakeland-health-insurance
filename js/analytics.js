@@ -460,7 +460,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261016-pr345-funnel';
+    funnel.src = '/js/funnel.js?v=20261018-licensed-states-23-v1';
     document.head.appendChild(funnel);
   }
 
