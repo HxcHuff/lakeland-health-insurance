@@ -58,7 +58,7 @@ const siteSearchIndex = [
   {
     title: "States I'm Licensed In",
     url: "/states/",
-    excerpt: "David Huff is licensed in 22 states. Choose your state for Marketplace names, 2027 open enrollment dates, and a remote ACA plan review.",
+    excerpt: "David Huff is licensed in 23 states. Choose your state for Marketplace names, 2027 open enrollment dates, and a remote ACA plan review.",
     tags: ["States", "License", "Marketplace", "ACA", "Multi-state", "Kansas"]
   },
   {
