@@ -77,7 +77,7 @@ for (const [file, sourcePage, formName, consentVersion] of leadHeroPages) {
     assert.doesNotMatch(form, /no cost/i);
     assert.doesNotMatch(form, /\$0/);
     assert.match(html, /\/css\/lead-hero\.css\?v=20261016-lhi-lead-title-contrast/);
-    assert.match(html, /\/js\/lead-hero\.js\?v=20261023-pr333-follow-up/);
+    assert.match(html, /\/js\/lead-hero\.js\?v=20261018-licensed-states-23-v1/);
   });
 }
 
@@ -108,10 +108,10 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
     assert.match(html, /Do not enter/i);
     assert.match(
       form,
-      /<p class="sitelink-lead-privacy" data-sitelink-medicare-florida-note hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
+      /<p class="sitelink-lead-privacy" data-sitelink-medicare-florida-note hidden>Medicare reviews are available for residents of Alabama, Arizona, Florida, Georgia, Iowa, Indiana, Kansas, Louisiana, Maryland, Michigan, Missouri, Mississippi, North Carolina, Nebraska, New Jersey, Ohio, Oklahoma, South Carolina, Tennessee, Texas, Virginia, Washington, and West Virginia\.<\/p>/
     );
 
-    assert.match(html, /\/js\/funnel\.js\?v=20261016-pr345-funnel/);
+    assert.match(html, /\/js\/funnel\.js\?v=20261018-licensed-states-23-v1/);
     assert.match(html, /\/css\/site-template.css\?v=20261017-meta-conversion-events-v1/);
   });
 }

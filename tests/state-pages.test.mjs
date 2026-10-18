@@ -162,12 +162,12 @@ test('state pages show the verified license, pair the brand with David Huff, and
   }
 });
 
-test('hub lists all 22 licensed states and routes Florida to existing pages', () => {
+test('hub lists all 23 licensed states and routes Florida to existing pages', () => {
   const html = source('states/index.html');
   for (const name of [
     'Alabama', 'Arizona', 'Florida', 'Georgia', 'Iowa', 'Indiana', 'Kansas', 'Louisiana',
     'Maryland', 'Michigan', 'Missouri', 'Mississippi', 'North Carolina', 'Nebraska',
-    'New Jersey', 'Ohio', 'South Carolina', 'Tennessee', 'Texas', 'Virginia',
+    'New Jersey', 'Ohio', 'Oklahoma', 'South Carolina', 'Tennessee', 'Texas', 'Virginia',
     'Washington', 'West Virginia'
   ]) {
     assert.match(html, new RegExp(name));
@@ -183,7 +183,7 @@ test('hub lists all 22 licensed states and routes Florida to existing pages', ()
   assert.doesNotMatch(html, /page not live yet|not live yet|PAGE NOT LIVE/i);
   const graph = jsonLdBlocks(html).find((block) => Array.isArray(block['@graph']));
   const collection = graph['@graph'].find((node) => node['@type'] === 'CollectionPage');
-  assert.equal(collection.areaServed.length, 22);
+  assert.equal(collection.areaServed.length, 23);
   assert.ok(collection.areaServed.some((state) => state.name === 'Kansas'));
 });
 
@@ -277,7 +277,7 @@ test('Georgia FAQ states the Access certification requirement without claiming D
   assert.doesNotMatch(html, /I am a Georgia Access-certified agent|I completed Georgia Access certification/i);
 });
 
-test('get-help allowlists coverage_state and treats non-Medicare-licensed visitors as out-of-state', () => {
+test('get-help allowlists coverage_state and treats non-licensed visitors as out-of-state for Medicare', () => {
   const GET_HELP = source('js/get-help-intake.js');
   const sandbox = {
     document: {
@@ -305,6 +305,7 @@ test('get-help allowlists coverage_state and treats non-Medicare-licensed visito
   const intake = sandbox.LHIGetHelpIntake;
   assert.equal(intake.allowlistedCoverageState('TX'), 'TX');
   assert.equal(intake.allowlistedCoverageState('KS'), 'KS');
+  assert.equal(intake.allowlistedCoverageState('OK'), 'OK');
   assert.equal(intake.allowlistedCoverageState('ks'), 'KS');
   assert.equal(intake.allowlistedCoverageState('fl'), 'FL');
   assert.equal(intake.allowlistedCoverageState('XX'), '');
@@ -313,6 +314,8 @@ test('get-help allowlists coverage_state and treats non-Medicare-licensed visito
   assert.equal(intake.isOutOfStateMedicareCoverageState('NC'), false);
   assert.equal(intake.isOutOfStateMedicareCoverageState('FL'), false);
   assert.equal(intake.isOutOfStateMedicareCoverageState('AZ'), false);
+  assert.equal(intake.isOutOfStateMedicareCoverageState('OK'), false);
+  assert.equal(intake.isOutOfStateMedicareCoverageState('NJ'), false);
   assert.equal(intake.isOutOfStateMedicareCoverageState('CA'), true);
   assert.equal(intake.isOutOfStateMedicareCoverageState('NY'), true);
   assert.equal(intake.isOutOfStateMedicareCoverageState(''), false);
@@ -336,7 +339,7 @@ test('get-help allowlists coverage_state and treats non-Medicare-licensed visito
   assert.match(source('get-help/index.html'), /\.footer-tpmo\[hidden\] \{ display: none; \}/);
   assert.match(
     source('get-help/index.html'),
-    /<p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/
+    /<p class="form-tpmo" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Alabama, Arizona, Florida, Georgia, Iowa, Indiana, Kansas, Louisiana, Maryland, Michigan, Missouri, Mississippi, North Carolina, Nebraska, New Jersey, Ohio, Oklahoma, South Carolina, Tennessee, Texas, Virginia, Washington, and West Virginia\.<\/p>/
   );
   assert.match(source('get-help/index.html'), /id="medicareGenericTpmoDisclaimer"/);
   assert.match(
@@ -345,13 +348,14 @@ test('get-help allowlists coverage_state and treats non-Medicare-licensed visito
   );
 });
 
-test('public copy and search index say 22 licensed states and include Kansas', () => {
-  assert.match(source('about/index.html'), /Licensed in 22 states for ACA Marketplace reviews/);
-  assert.match(source('about/index.html'), /See all 22 states/);
+test('public copy and search index say 23 licensed states and include Kansas and Oklahoma', () => {
+  assert.match(source('about/index.html'), /Licensed in 23 states for ACA Marketplace reviews/);
+  assert.match(source('about/index.html'), /See all 23 states/);
   assert.match(source('about/index.html'), /Iowa, Indiana, Kansas, Louisiana/);
-  assert.match(source('get-help/index.html'), /Licensed in 22 states/);
-  assert.match(source('js/site-search.js'), /licensed in 22 states/);
-  assert.match(source('index.html'), /licensed in 21 more states/);
+  assert.match(source('about/index.html'), /Ohio, Oklahoma, South Carolina/);
+  assert.match(source('get-help/index.html'), /Licensed in 23 states/);
+  assert.match(source('js/site-search.js'), /licensed in 23 states/);
+  assert.match(source('index.html'), /licensed in 22 more states/);
   for (const rel of [
     'about/index.html',
     'get-help/index.html',

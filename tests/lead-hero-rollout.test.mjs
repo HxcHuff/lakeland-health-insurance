@@ -24,7 +24,7 @@ function walkHtml(dir = ROOT, out = []) {
 test('homepage ships site ACA lead hero above the fold', () => {
   const html = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
   assert.match(html, /\/css\/lead-hero.css\?v=20261016-lhi-lead-title-contrast/);
-  assert.match(html, /\/js\/lead-hero.js\?v=20261023-pr333-follow-up/);
+  assert.match(html, /\/js\/lead-hero.js\?v=20261018-licensed-states-23-v1/);
   assert.match(html, /data-form-name="site-aca-lead"/);
   assert.ok(html.includes('class="lhi-lead-hero'));
 });
@@ -44,9 +44,9 @@ test('sample blog post uses medicare site lead variant', () => {
 });
 
 const MEDICARE_SCOPE_NOTE =
-  /<p class="form-tpmo lhi-lead-hero__medicare-scope" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Arizona, Florida, Texas, North Carolina, South Carolina, Kansas, Tennessee, Alabama and Georgia\.<\/p>/;
+  /<p class="form-tpmo lhi-lead-hero__medicare-scope" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Alabama, Arizona, Florida, Georgia, Iowa, Indiana, Kansas, Louisiana, Maryland, Michigan, Missouri, Mississippi, North Carolina, Nebraska, New Jersey, Ohio, Oklahoma, South Carolina, Tennessee, Texas, Virginia, Washington, and West Virginia\.<\/p>/;
 
-test('every site-medicare-lead embed includes the nine-state Medicare scope note', () => {
+test('every site-medicare-lead embed includes the 23-state Medicare scope note', () => {
   for (const rel of walkHtml()) {
     const html = readFileSync(resolve(ROOT, rel), 'utf8');
     if (!html.includes('name="site-medicare-lead"')) continue;

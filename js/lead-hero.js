@@ -16,11 +16,25 @@
     AZ: true,
     FL: true,
     GA: true,
+    IA: true,
+    IN: true,
     KS: true,
+    LA: true,
+    MD: true,
+    MI: true,
+    MO: true,
+    MS: true,
     NC: true,
+    NE: true,
+    NJ: true,
+    OH: true,
+    OK: true,
     SC: true,
     TN: true,
-    TX: true
+    TX: true,
+    VA: true,
+    WA: true,
+    WV: true
   };
 
   function medicareCoverageStateFromQuery() {

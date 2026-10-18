@@ -81,7 +81,7 @@ test('medicare-2027-check trust bullets and TPMO disclosure ids', () => {
   assert.match(HTML, /id="medicareGenericTpmoDisclaimer"/);
   assert.match(HTML, /id="outOfStateMedicareNote"/);
   assert.match(HTML, /Licensed Insurance Agent #W371813/);
-  assert.match(HTML, /get-help-intake\.js\?v=20261016-pr345-get-help-intake/);
+  assert.match(HTML, /get-help-intake\.js\?v=20261018-licensed-states-23-v1/);
   assert.doesNotMatch(HTML, /\/lp\//);
 });
 
@@ -113,7 +113,7 @@ test('medicare-2027-check sitelink submit succeeds when call consent is checked'
   try {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     await page.goto(`http://127.0.0.1:${port}/medicare-2027-check/`, { waitUntil: 'networkidle' });
-    await page.addScriptTag({ url: `http://127.0.0.1:${port}/js/funnel.js?v=20261016-pr345-funnel` });
+    await page.addScriptTag({ url: `http://127.0.0.1:${port}/js/funnel.js?v=20261018-licensed-states-23-v1` });
     await page.waitForFunction(() => {
       const form = document.getElementById('medicare2027CheckForm');
       return Boolean(form && form.__lhiSitelinkLeadWired);
