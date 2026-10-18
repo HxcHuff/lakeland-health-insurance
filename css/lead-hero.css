@@ -985,6 +985,25 @@ body.has-seasonal-banner .lhi-lead-hero__intro .lhi-lead-hero__title {
   filter: brightness(1.03);
 }
 
+.lhi-lead-hero__guarantee {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem 0.85rem;
+  margin-top: 0.75rem;
+  font-size: 0.78rem;
+  color: var(--lhi-lead-muted, #475569);
+  line-height: 1.35;
+  text-align: center;
+}
+
+.lhi-lead-hero__guarantee span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
 .lhi-lead-hero__status {
   min-height: 1.2rem;
   font-size: 0.85rem;
