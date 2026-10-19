@@ -294,6 +294,58 @@
           </article>
         </div>
 
+        <article class="answer-card" id="interactive-verification-worksheet" aria-labelledby="worksheet-builder-title">
+          <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:0.75rem; margin-bottom:0.85rem;">
+            <div>
+              <p class="eyebrow" style="margin:0 0 0.25rem; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#2563EB;">Interactive Preparation Tool &middot; Browser-Only</p>
+              <h2 id="worksheet-builder-title" style="margin:0;">Build your 2027 doctor, hospital &amp; pharmacy check sheet</h2>
+            </div>
+            <span style="font-size:0.8rem; font-weight:600; color:#475569; background:#F1F5F9; padding:0.35rem 0.7rem; border-radius:999px;">Stays in your browser &middot; Never sent via form</span>
+          </div>
+          <p style="margin-bottom:1rem;">Select the local health systems you use and check off each verification step as you review a 2027 plan ID. Copy or print your worksheet to keep with your enrollment notes.</p>
+
+          <div style="margin-bottom:1.1rem;">
+            <strong style="display:block; font-size:0.9rem; color:#1B2A4A; margin-bottom:0.5rem;">1. Select health systems or facilities to verify on the exact 2027 plan ID:</strong>
+            <div id="rxCheckSystemChips" style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+              <button type="button" class="rx-chip" data-system="Watson Clinic (Main / Bartow Rd / Highlands / South)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Watson Clinic</button>
+              <button type="button" class="rx-chip" data-system="Lakeland Regional Health (Medical Center &amp; Physician Group)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Lakeland Regional Health</button>
+              <button type="button" class="rx-chip" data-system="BayCare (Winter Haven Hospital / Bartow Regional)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ BayCare / Winter Haven Hospital</button>
+              <button type="button" class="rx-chip" data-system="Orlando Health (Lakeland Highlands Hospital)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Orlando Health</button>
+              <button type="button" class="rx-chip" data-system="AdventHealth (Heart of Florida / Lake Wales / Centra Care)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ AdventHealth</button>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:0.85rem; margin-bottom:1.1rem;">
+            <div>
+              <label for="rxCheckPlanId" style="display:block; font-size:0.86rem; font-weight:700; color:#1B2A4A; margin-bottom:0.3rem;">2. 2027 Plan Name or Contract/Plan ID</label>
+              <input type="text" id="rxCheckPlanId" placeholder="e.g., H1234-001 or Marketplace Plan ID" autocomplete="off" style="width:100%; padding:0.55rem 0.75rem; border:1px solid #CBD5E1; border-radius:8px; font:inherit; font-size:0.9rem;">
+            </div>
+            <div>
+              <label for="rxCheckPharmacy" style="display:block; font-size:0.86rem; font-weight:700; color:#1B2A4A; margin-bottom:0.3rem;">3. Preferred Pharmacy &amp; ZIP Code</label>
+              <input type="text" id="rxCheckPharmacy" placeholder="e.g., Publix Pharmacy / Walgreens · 33805" autocomplete="off" style="width:100%; padding:0.55rem 0.75rem; border:1px solid #CBD5E1; border-radius:8px; font:inherit; font-size:0.9rem;">
+            </div>
+          </div>
+
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1rem; margin-bottom:1rem;">
+            <strong style="display:block; font-size:0.9rem; color:#1B2A4A; margin-bottom:0.55rem;">4. Check off each verification step before changing coverage:</strong>
+            <div style="display:grid; gap:0.45rem; font-size:0.9rem; color:#334155;">
+              <label style="display:flex; align-items:flex-start; gap:0.5rem; cursor:pointer;"><input type="checkbox" class="rx-step-cb" value="Matched primary care doctor and exact office street address in the 2027 plan directory"> <span>Matched primary care doctor &amp; exact office street address in the 2027 plan directory</span></label>
+              <label style="display:flex; align-items:flex-start; gap:0.5rem; cursor:pointer;"><input type="checkbox" class="rx-step-cb" value="Matched every specialist and hospital/surgical facility separately by exact 2027 plan ID"> <span>Matched every specialist and hospital/surgical facility separately by exact 2027 plan ID</span></label>
+              <label style="display:flex; align-items:flex-start; gap:0.5rem; cursor:pointer;"><input type="checkbox" class="rx-step-cb" value="Confirmed each medication's 2027 formulary tier, prior authorization, step therapy, and quantity limits"> <span>Confirmed each medication's 2027 formulary tier, prior authorization, step therapy, and quantity limits</span></label>
+              <label style="display:flex; align-items:flex-start; gap:0.5rem; cursor:pointer;"><input type="checkbox" class="rx-step-cb" value="Verified preferred vs. standard retail and mail-order pharmacy status for 2027"> <span>Verified preferred vs. standard retail and mail-order pharmacy status for 2027</span></label>
+              <label style="display:flex; align-items:flex-start; gap:0.5rem; cursor:pointer;"><input type="checkbox" class="rx-step-cb" value="Recorded confirmation date and source (plan directory + provider billing office)"> <span>Recorded confirmation date and source (plan directory + provider billing office)</span></label>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.75rem;">
+            <span id="rxCheckStatusText" style="font-size:0.86rem; font-weight:700; color:#1B2A4A;" aria-live="polite">0 of 5 verification steps checked</span>
+            <div style="display:flex; flex-wrap:wrap; gap:0.55rem;">
+              <button type="button" id="rxCopySummaryBtn" class="btn secondary" style="cursor:pointer;">Copy Verification Summary</button>
+              <button type="button" id="rxPrintWorksheetBtn" class="btn secondary" style="cursor:pointer;">Print Worksheet</button>
+            </div>
+          </div>
+        </article>
+
         <article class="answer-card">
           <h2>What to confirm before you choose</h2>
           <p>Ask which details have been checked, which source was used, and when it was checked. If a carrier directory and provider office disagree, resolve the difference before relying on the result. Keep a record of the plan ID, year, and location. A directory listing does not guarantee payment of a claim.</p>
@@ -365,6 +417,73 @@
       <p class="tpmo-inventory-note">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
 </section>
 </main>
+  <script>
+    (function () {
+      var chips = Array.prototype.slice.call(document.querySelectorAll('#rxCheckSystemChips .rx-chip'));
+      var cbs = Array.prototype.slice.call(document.querySelectorAll('.rx-step-cb'));
+      var statusEl = document.getElementById('rxCheckStatusText');
+      var copyBtn = document.getElementById('rxCopySummaryBtn');
+      var printBtn = document.getElementById('rxPrintWorksheetBtn');
+      var planInput = document.getElementById('rxCheckPlanId');
+      var pharmInput = document.getElementById('rxCheckPharmacy');
+      if (!chips.length || !statusEl) return;
+
+      function updateStatus() {
+        var checkedCount = cbs.filter(function (cb) { return cb.checked; }).length;
+        var selectedSystems = chips.filter(function (c) { return c.getAttribute('aria-pressed') === 'true'; }).length;
+        statusEl.textContent = checkedCount + ' of ' + cbs.length + ' verification steps checked' +
+          (selectedSystems ? ' · ' + selectedSystems + ' facility system(s) selected' : '');
+      }
+
+      chips.forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          var pressed = chip.getAttribute('aria-pressed') === 'true';
+          chip.setAttribute('aria-pressed', pressed ? 'false' : 'true');
+          chip.style.background = pressed ? '#F8FAFC' : '#1B2A4A';
+          chip.style.color = pressed ? '#1B2A4A' : '#FFFFFF';
+          chip.style.borderColor = pressed ? '#CBD5E1' : '#1B2A4A';
+          updateStatus();
+        });
+      });
+
+      cbs.forEach(function (cb) {
+        cb.addEventListener('change', updateStatus);
+      });
+
+      if (copyBtn) {
+        copyBtn.addEventListener('click', function () {
+          var selected = chips
+            .filter(function (c) { return c.getAttribute('aria-pressed') === 'true'; })
+            .map(function (c) { return c.getAttribute('data-system'); });
+          var lines = [
+            '2027 Provider & Prescription Verification Worksheet (Lakeland Health Insurance)',
+            'Date: ' + new Date().toISOString().slice(0, 10),
+            'Plan Name / Plan ID: ' + ((planInput && planInput.value.trim()) || 'Not entered yet'),
+            'Preferred Pharmacy & ZIP: ' + ((pharmInput && pharmInput.value.trim()) || 'Not entered yet'),
+            'Health Systems Selected: ' + (selected.length ? selected.join('; ') : 'None selected'),
+            '',
+            'Verification Checklist:'
+          ];
+          cbs.forEach(function (cb) {
+            lines.push((cb.checked ? '[x] ' : '[ ] ') + cb.value);
+          });
+          var text = lines.join('\n');
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () {
+              copyBtn.textContent = 'Copied to Clipboard';
+              setTimeout(function () { copyBtn.textContent = 'Copy Verification Summary'; }, 2200);
+            });
+          }
+        });
+      }
+
+      if (printBtn) {
+        printBtn.addEventListener('click', function () {
+          window.print();
+        });
+      }
+    })();
+  </script>
   <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
   <script src="/js/site-template.js?v=20261017-tpmo-10-74" defer></script>

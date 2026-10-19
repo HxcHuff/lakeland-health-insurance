@@ -184,14 +184,8 @@
   <main class="container">
     <div class="lhi-hero-shell">
 <section class="hero">
-      <div class="container hero-grid"><div class="lhi-hero-lede-block"><h1>Life Insurance Planning with the DIME Method</h1><p class="lhi-hero-lede" class="sub">DIME is a practical framework to estimate coverage: Debt + Income + Mortgage + Education. It gives you a rational starting target before comparing plan types.</p></div></div>
-
-
-
-
+      <div class="container hero-grid"><div class="lhi-hero-lede-block"><h1>Life Insurance Planning with the DIME Method</h1><p class="lhi-hero-lede sub">DIME is a practical framework to estimate coverage: Debt + Income + Mortgage + Education. It gives you a rational starting target before comparing plan types.</p></div>
 <div class="lhi-hero-deferred-block"></div>
-
-
       </div>
     </section>
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="product_page" aria-labelledby="life_insurance_dime_method-lead-title">
@@ -267,7 +261,51 @@
     </div>
   </div>
 </section>
-</div><section class="card">
+</div>
+    <section class="card" id="dime-calculator" aria-labelledby="dime-calc-heading">
+      <h2 id="dime-calc-heading">Interactive DIME Life Insurance Calculator</h2>
+      <p style="color:#475569; margin-bottom:1.15rem;">Enter your household estimates below. Everything stays in your browser and updates your starting target range in real time.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:1rem; margin-bottom:1.25rem;">
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1rem;">
+          <label for="dimeDebtInput" style="display:block; font-weight:700; color:#1B2A4A; font-size:0.92rem; margin-bottom:0.35rem;">D: Non-Mortgage Debt &amp; Final Expenses</label>
+          <input type="text" id="dimeDebtInput" value="$35,000" inputmode="numeric" style="width:100%; padding:0.6rem 0.75rem; border:1px solid #CBD5E1; border-radius:8px; font:inherit; font-weight:600; color:#0F172A; background:#FFFFFF;">
+          <span style="display:block; font-size:0.78rem; color:#64748B; margin-top:0.3rem;">Auto loans, credit cards, student loans, funeral costs</span>
+        </div>
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1rem;">
+          <label for="dimeIncomeInput" style="display:block; font-weight:700; color:#1B2A4A; font-size:0.92rem; margin-bottom:0.35rem;">I: Annual Household Income to Replace</label>
+          <input type="text" id="dimeIncomeInput" value="$70,000" inputmode="numeric" style="width:100%; padding:0.6rem 0.75rem; border:1px solid #CBD5E1; border-radius:8px; font:inherit; font-weight:600; color:#0F172A; background:#FFFFFF;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem; margin-top:0.5rem;">
+            <label for="dimeYearsInput" style="font-size:0.8rem; font-weight:600; color:#334155;">Years needed: <strong id="dimeYearsLabel">8</strong> yrs</label>
+            <input type="range" id="dimeYearsInput" min="1" max="25" value="8" style="width:110px; accent-color:#2563EB;">
+          </div>
+        </div>
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1rem;">
+          <label for="dimeMortgageInput" style="display:block; font-weight:700; color:#1B2A4A; font-size:0.92rem; margin-bottom:0.35rem;">M: Current Mortgage Payoff Balance</label>
+          <input type="text" id="dimeMortgageInput" value="$240,000" inputmode="numeric" style="width:100%; padding:0.6rem 0.75rem; border:1px solid #CBD5E1; border-radius:8px; font:inherit; font-weight:600; color:#0F172A; background:#FFFFFF;">
+          <span style="display:block; font-size:0.78rem; color:#64748B; margin-top:0.3rem;">Remaining balance to keep the family home</span>
+        </div>
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1rem;">
+          <label for="dimeEducationInput" style="display:block; font-weight:700; color:#1B2A4A; font-size:0.92rem; margin-bottom:0.35rem;">E: Projected Children's Education</label>
+          <input type="text" id="dimeEducationInput" value="$80,000" inputmode="numeric" style="width:100%; padding:0.6rem 0.75rem; border:1px solid #CBD5E1; border-radius:8px; font:inherit; font-weight:600; color:#0F172A; background:#FFFFFF;">
+          <span style="display:block; font-size:0.78rem; color:#64748B; margin-top:0.3rem;">College, trade school, or dependent tuition</span>
+        </div>
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1rem;">
+          <label for="dimeExistingInput" style="display:block; font-weight:700; color:#1B2A4A; font-size:0.92rem; margin-bottom:0.35rem;">Less: Existing Coverage or Liquid Savings</label>
+          <input type="text" id="dimeExistingInput" value="$0" inputmode="numeric" style="width:100%; padding:0.6rem 0.75rem; border:1px solid #CBD5E1; border-radius:8px; font:inherit; font-weight:600; color:#0F172A; background:#FFFFFF;">
+          <span style="display:block; font-size:0.78rem; color:#64748B; margin-top:0.3rem;">Individual policies or dedicated savings</span>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg, #0F1A2E 0%, #1B2A4A 100%); color:#FFFFFF; border-radius:14px; padding:1.35rem 1.5rem; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;" role="region" aria-live="polite" aria-label="DIME calculation result">
+        <div>
+          <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:#D4A843; font-weight:700;">Estimated Starting Coverage Target</div>
+          <div id="dimeTotalOutput" style="font-size:2.1rem; font-weight:800; color:#FFFFFF; line-height:1.15; margin:0.2rem 0;">$915,000</div>
+          <div id="dimeFormulaSummary" style="font-size:0.86rem; color:rgba(255,255,255,0.85);">Gross DIME need: $915,000 &middot; Suggested comparison band: $750,000 &ndash; $1,000,000</div>
+        </div>
+        <a href="#lhi-site-lead-form" class="cta-btn" style="background:#D4A843; color:#0F1A2E; font-weight:700; text-decoration:none; padding:0.75rem 1.25rem; border-radius:10px;">Compare Term Options With David</a>
+      </div>
+    </section>
+
+    <section class="card">
       <h2>How DIME Works</h2>
       <div class="dime-grid">
         <div class="dime-item">
@@ -366,6 +404,59 @@
   </div>
 </footer>
 
+  <script>
+    (function () {
+      var debtEl = document.getElementById('dimeDebtInput');
+      var incEl = document.getElementById('dimeIncomeInput');
+      var yrsEl = document.getElementById('dimeYearsInput');
+      var yrsLbl = document.getElementById('dimeYearsLabel');
+      var mtgEl = document.getElementById('dimeMortgageInput');
+      var eduEl = document.getElementById('dimeEducationInput');
+      var extEl = document.getElementById('dimeExistingInput');
+      var totalOut = document.getElementById('dimeTotalOutput');
+      var summaryOut = document.getElementById('dimeFormulaSummary');
+      if (!debtEl || !totalOut) return;
+
+      function parseNum(val) {
+        return parseInt(String(val || '').replace(/[^0-9]/g, ''), 10) || 0;
+      }
+      function fmt(n) {
+        return '$' + Math.round(n).toLocaleString('en-US');
+      }
+      function formatCurrencyInput(el) {
+        var raw = String(el.value || '').replace(/[^0-9]/g, '');
+        el.value = raw ? '$' + parseInt(raw, 10).toLocaleString('en-US') : '$0';
+      }
+      function updateDime() {
+        var d = parseNum(debtEl.value);
+        var inc = parseNum(incEl.value);
+        var yrs = parseInt(yrsEl.value, 10) || 8;
+        var m = parseNum(mtgEl.value);
+        var e = parseNum(eduEl.value);
+        var ex = parseNum(extEl.value);
+        if (yrsLbl) yrsLbl.textContent = String(yrs);
+        var gross = d + (inc * yrs) + m + e;
+        var net = Math.max(0, gross - ex);
+        var lowBand = Math.max(100000, Math.floor(net / 250000) * 250000);
+        var highBand = Math.max(250000, Math.ceil(net / 250000) * 250000);
+        if (lowBand === highBand) highBand += 250000;
+        totalOut.textContent = fmt(net);
+        if (summaryOut) {
+          summaryOut.textContent = 'Gross DIME need: ' + fmt(gross) +
+            (ex > 0 ? ' (minus ' + fmt(ex) + ' existing)' : '') +
+            ' · Suggested comparison band: ' + fmt(lowBand) + ' – ' + fmt(highBand);
+        }
+      }
+      [debtEl, incEl, mtgEl, eduEl, extEl].forEach(function (el) {
+        el.addEventListener('input', function () {
+          formatCurrencyInput(el);
+          updateDime();
+        });
+      });
+      yrsEl.addEventListener('input', updateDime);
+      updateDime();
+    })();
+  </script>
   <script src="/js/lead-hero.js?v=20261018-licensed-states-23-v1" defer></script>
 </body>
 </html>

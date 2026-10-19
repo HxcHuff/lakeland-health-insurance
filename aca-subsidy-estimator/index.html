@@ -1130,6 +1130,9 @@
                     <!-- Status Messages (gap / cliff) -->
                     <div id="status-message-area"></div>
 
+                    <!-- Silver CSR Tier Callout (100% - 250% FPL) -->
+                    <div id="csr-tier-callout" class="result-note" style="display:none; margin-top:0; margin-bottom:16px; background:#F0F5FF; border-left:4px solid #2563EB;"></div>
+
                     <!-- Why This Price Breakdown -->
                     <div class="price-breakdown" id="price-breakdown">
                         <button type="button" class="breakdown-toggle" id="breakdown-toggle">
@@ -1442,6 +1445,7 @@
             var hasMinimum = updateConfidence();
             var liveResults = document.getElementById('live-results');
             var statusArea = document.getElementById('status-message-area');
+            var csrCallout = document.getElementById('csr-tier-callout');
             var priceHero = document.getElementById('price-hero');
             var breakdownEl = document.getElementById('price-breakdown');
             var resultNote = document.getElementById('result-note');
@@ -1450,6 +1454,7 @@
             if (!hasMinimum) {
                 document.getElementById('price-value').textContent = '—';
                 liveResults.classList.add('hidden');
+                if (csrCallout) csrCallout.style.display = 'none';
                 return;
             }
 
@@ -1466,6 +1471,10 @@
 
             liveResults.classList.remove('hidden');
             statusArea.innerHTML = '';
+            if (csrCallout) {
+                csrCallout.style.display = 'none';
+                csrCallout.innerHTML = '';
+            }
 
             // -- COVERAGE GAP (below 100% FPL in Florida) --
             if (fplPercent < 100) {
@@ -1509,6 +1518,19 @@
             priceHero.style.display = '';
             breakdownEl.style.display = '';
             resultNote.style.display = '';
+
+            if (csrCallout && fplPercent >= 100 && fplPercent <= 250) {
+                var csrTier = fplPercent <= 150
+                    ? '94% Actuarial Value Silver CSR Tier (100%–150% FPL)'
+                    : (fplPercent <= 200
+                        ? '87% Actuarial Value Silver CSR Tier (150%–200% FPL)'
+                        : '73% Actuarial Value Silver CSR Tier (200%–250% FPL)');
+                csrCallout.style.display = 'block';
+                csrCallout.innerHTML =
+                    '<strong>Silver Cost-Sharing Reduction Check (' + csrTier + '):</strong> ' +
+                    'At ' + Math.round(fplPercent) + '% FPL, Cost-Sharing Reductions apply <em>only</em> to Silver Marketplace plans—not Bronze or Gold. ' +
+                    'Before choosing a lower-premium Bronze plan, compare how a CSR-enhanced Silver plan lowers the medical deductible, copays, and maximum out-of-pocket limit on HealthCare.gov.';
+            }
 
             // Update price hero — flag "near-zero" when a Bronze plan would likely be $0
             document.getElementById('price-value').textContent = fmt(netPremium);

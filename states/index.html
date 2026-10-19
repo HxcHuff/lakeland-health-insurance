@@ -461,6 +461,11 @@
         <article class="answer-card">
           <h2>Choose your state</h2>
           <p>State guides are available for Texas, North Carolina, South Carolina, Tennessee, and Alabama. Other licensed states show the official Marketplace and a phone number.</p>
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.75rem; margin:1rem 0 1.1rem; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:0.75rem 1rem;">
+            <label for="stateHubFilterInput" style="font-weight:700; color:#1B2A4A; font-size:0.92rem;">Quick filter:</label>
+            <input type="search" id="stateHubFilterInput" placeholder="Type a state name (e.g., Texas, North Carolina, Ohio)..." autocomplete="off" style="flex:1 1 240px; min-height:40px; padding:0.45rem 0.75rem; border:1px solid #CBD5E1; border-radius:8px; font:inherit; font-size:0.93rem; color:#0F172A; background:#FFFFFF;">
+            <span id="stateHubFilterCount" style="font-size:0.84rem; font-weight:600; color:#475569;" aria-live="polite">Showing all 23 licensed states</span>
+          </div>
           <div class="facts-table-wrap" role="region" aria-label="Open enrollment at a glance" tabindex="0">
           <table class="facts-table">
             <thead><tr><th scope="col">State</th><th scope="col">Where to enroll</th><th scope="col">Open Enrollment for 2027</th><th scope="col">Page</th></tr></thead>
@@ -662,6 +667,37 @@
           </div>
         </article>
 
+        <article class="answer-card" id="reviews" aria-labelledby="states-reviews-title">
+          <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1rem; margin-bottom:1.1rem;">
+            <div>
+              <h2 id="states-reviews-title" style="margin:0 0 0.35rem;">Verified 5-star Google reviews from clients</h2>
+              <p style="margin:0; color:#475569;">Public reviews left by verified clients on Google Business Profile.</p>
+            </div>
+            <a href="https://maps.google.com/?cid=5421693615683546210" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:0.5rem; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:999px; padding:0.5rem 0.95rem; font-weight:700; font-size:0.88rem; color:#1B2A4A; text-decoration:none;">
+              <span style="color:#D4A843;" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+              <span>5.0 on Google &middot; Read all reviews &rarr;</span>
+            </a>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:0.9rem;">
+            <blockquote style="margin:0; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1.1rem;">
+              <div style="color:#D4A843; font-size:0.92rem; letter-spacing:0.06em; margin-bottom:0.4rem;" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p style="margin:0 0 0.7rem; color:#334155; font-size:0.93rem; line-height:1.55;">&ldquo;He helped me find an affordable plan that works for my family and walked us through every step.&rdquo;</p>
+              <footer style="font-size:0.82rem; font-weight:700; color:#1B2A4A;">Elenita D. <span style="font-weight:500; color:#64748B;">&middot; Verified Google Review</span></footer>
+            </blockquote>
+            <blockquote style="margin:0; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1.1rem;">
+              <div style="color:#D4A843; font-size:0.92rem; letter-spacing:0.06em; margin-bottom:0.4rem;" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p style="margin:0 0 0.7rem; color:#334155; font-size:0.93rem; line-height:1.55;">&ldquo;David Huff took the time to listen to our situation and helped us find a plan that covered our doctors and prescriptions.&rdquo;</p>
+              <footer style="font-size:0.82rem; font-weight:700; color:#1B2A4A;">Dovonna R. <span style="font-weight:500; color:#64748B;">&middot; Verified Google Review</span></footer>
+            </blockquote>
+            <blockquote style="margin:0; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1.1rem;">
+              <div style="color:#D4A843; font-size:0.92rem; letter-spacing:0.06em; margin-bottom:0.4rem;" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p style="margin:0 0 0.7rem; color:#334155; font-size:0.93rem; line-height:1.55;">&ldquo;Knowledgeable, patient, and made comparing coverage options simple without any rush.&rdquo;</p>
+              <footer style="font-size:0.82rem; font-weight:700; color:#1B2A4A;">Travis H. <span style="font-weight:500; color:#64748B;">&middot; Verified Google Review</span></footer>
+            </blockquote>
+          </div>
+          <p style="margin:0.75rem 0 0; font-size:0.78rem; color:#64748B;">Individual experiences vary. Reviews reflect customer service experience and do not guarantee specific plan availability, tax credits, or benefit outcomes.</p>
+        </article>
+
         <article class="answer-card">
           <h2>Primary sources</h2>
           <ul class="source-list">
@@ -696,6 +732,33 @@
       <p class="tpmo-inventory-note">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
 </section>
   </main>
+  <script>
+    (function () {
+      var input = document.getElementById('stateHubFilterInput');
+      var countEl = document.getElementById('stateHubFilterCount');
+      if (!input) return;
+      var rows = Array.prototype.slice.call(document.querySelectorAll('.facts-table tbody tr'));
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.state-grid .state-card'));
+      input.addEventListener('input', function () {
+        var q = (input.value || '').trim().toLowerCase();
+        var visible = 0;
+        rows.forEach(function (row) {
+          var match = !q || row.textContent.toLowerCase().indexOf(q) !== -1;
+          row.style.display = match ? '' : 'none';
+        });
+        cards.forEach(function (card) {
+          var match = !q || card.textContent.toLowerCase().indexOf(q) !== -1;
+          card.style.display = match ? '' : 'none';
+          if (match) visible += 1;
+        });
+        if (countEl) {
+          countEl.textContent = !q
+            ? 'Showing all 23 licensed states'
+            : 'Showing ' + visible + ' of 23 licensed states';
+        }
+      });
+    })();
+  </script>
   <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
   <script src="/js/site-template.js?v=20261017-tpmo-10-74" defer></script>

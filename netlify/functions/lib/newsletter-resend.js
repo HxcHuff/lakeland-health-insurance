@@ -132,6 +132,9 @@ async function resendFetch(path, options = {}) {
   const apiKey = env('RESEND_API_KEY');
   if (!apiKey) return { ok: false, skipped: true, status: 0, error: 'resend_not_configured' };
   const res = await fetch(`${RESEND_API}${path}`, {
+    ...(typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function'
+      ? { signal: AbortSignal.timeout(5000) }
+      : {}),
     ...options,
     headers: {
       Authorization: `Bearer ${apiKey}`,

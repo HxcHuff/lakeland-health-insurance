@@ -710,6 +710,740 @@ const siteSearchIndex = [
     excerpt: "Virtual-first optimization, incentives workflow, and annual plan-change checklist.",
     tags: ["Carriers", "ACA", "Wellpoint"]
   },
+,
+  // Additional Sitemap & 2027 Local Network Guides
+  {
+    title: "Brandon, FL Health Insurance | 2027 ACA Help",
+    url: "/brandon-health-insurance/",
+    excerpt: "Compare 2027 ACA and Medicare options for Brandon families in Hillsborough County around doctors, prescriptions, and cost.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace"]
+  },
+  {
+    title: "Clearwater, FL Health Insurance | 2027 ACA Help",
+    url: "/clearwater-health-insurance/",
+    excerpt: "Compare 2027 ACA and Medicare options in Clearwater and Pinellas County around doctors, prescriptions, and timing.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace"]
+  },
+  {
+    title: "Largo, FL Health Insurance | 2027 ACA Help",
+    url: "/largo-health-insurance/",
+    excerpt: "Compare 2027 ACA and Medicare options in Largo and Pinellas County around doctors, prescriptions, and yearly cost.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace"]
+  },
+  {
+    title: "New Port Richey, FL | 2027 ACA & Medicare Help",
+    url: "/new-port-richey-health-insurance/",
+    excerpt: "Compare 2027 ACA and Medicare options in New Port Richey and Pasco County around doctors, prescriptions, and timing.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027","ACA","Marketplace"]
+  },
+  {
+    title: "Riverview, FL Health Insurance | 2027 ACA Help",
+    url: "/riverview-health-insurance/",
+    excerpt: "Compare 2027 ACA and Medicare options for Riverview households around doctors, prescriptions, and enrollment timing.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace"]
+  },
+  {
+    title: "St. Petersburg, FL | 2027 ACA & Medicare Help",
+    url: "/st-petersburg-health-insurance/",
+    excerpt: "Compare 2027 ACA and Medicare options in St. Petersburg and Pinellas County around doctors, prescriptions, and income.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027","ACA","Marketplace"]
+  },
+  {
+    title: "Wesley Chapel, FL | 2027 ACA & Medicare Help",
+    url: "/wesley-chapel-health-insurance/",
+    excerpt: "Compare 2027 ACA and Medicare options in Wesley Chapel and Pasco County around doctors, prescriptions, and cost.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027","ACA","Marketplace"]
+  },
+  {
+    title: "Florida Health Quotes: 2027 Plan Review",
+    url: "/quote/",
+    excerpt: "Compare 2027 ACA Marketplace plans online, start a Medicare review, or ask David Huff to review Florida coverage. A review is not enrollment.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Which Immigrants Still Qualify for Marketplace Subsidies in Florida?",
+    url: "/blog/marketplace-subsidy-immigrant-eligibility-florida.html",
+    excerpt: "For 2027 coverage, Marketplace premium tax credits are limited to lawful permanent residents, Cuban-Haitian entrants, and COFA migrants. This is not legal advice.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace"]
+  },
+  {
+    title: "Can I Buy a Catastrophic Health Plan in Florida If I'm Over 30?",
+    url: "/blog/catastrophic-health-plan-florida-over-30.html",
+    excerpt: "For 2027, catastrophic plans are open to people under 30 or age 30 and older with a hardship or affordability exemption. The 2026 expansion was paused in July.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Medicare Sent $90: Did I Get It, Who Qualifies, and Is That Call Real?",
+    url: "/blog/medicare-improvement-fund-90-rebate-florida.html",
+    excerpt: "CMS says eligible Original Medicare Part B members get a one-time $90 Medicare Improvement Fund premium rebate in October 2026. How to check eligibility, timing, and scam calls.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "Can I Get Help Paying Medicare Costs in Polk County?",
+    url: "/blog/medicare-extra-help-savings-programs-polk-county.html",
+    excerpt: "Extra Help through Social Security lowers Part D costs. Florida Medicare Savings Programs, applied through DCF, can pay the Part B premium and unlock Extra Help automatically.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "Is a Medicare Part B Giveback Plan Worth It in Polk County?",
+    url: "/blog/medicare-part-b-giveback-polk-county.html",
+    excerpt: "A Part B giveback lowers the Part B premium some Medicare Advantage members pay. It is not cash, and it is not worth a plan that blocks your doctors or drugs.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "How Should Lakeland Residents Compare Medicare Part D Drug Plans?",
+    url: "/medicare-part-d-lakeland-fl/",
+    excerpt: "Florida has 11 stand-alone Part D plans for 2027, none at $0 without Extra Help. Check every drug, dose, and pharmacy on Plan Finder before December 7.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "BayCare Medicare Advantage Plans 2027 in Polk County",
+    url: "/blog/baycare-medicare-advantage-plans-2027-polk-county.html",
+    excerpt: "For 2027 in Polk County, CMS and BayCare list BayCarePlus Complete (H2235-001) and BayCarePlus Rewards (H2235-002). BayCarePlus Premier members should read their Annual Notice of Change and confirm on Medicare Plan Finder.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "My Medicare Advantage Plan Is Ending. What Do I Do Now?",
+    url: "/blog/medicare-advantage-plan-ending-what-now.html",
+    excerpt: "A non-renewal letter ends that Medicare Advantage plan on December 31, not your Medicare. Use October 15–December 7, then the Special Enrollment Period through the last day of February.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "Privacy Policy",
+    url: "/privacy-policy.html",
+    excerpt: "See how Lakeland Health Insurance collects, uses, protects, and shares personal data, plus your choices for calls, texts, email, cookies, and privacy requests.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Terms of Service",
+    url: "/terms/",
+    excerpt: "Terms of Service for LakelandHealthInsurance.com, including who we are, website use, communications, and how to contact Lakeland Health Insurance.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Data Deletion",
+    url: "/data-deletion/",
+    excerpt: "How to ask Lakeland Health Insurance to delete personal data collected through Facebook Messenger, Facebook or Instagram lead ads, or website forms.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "SMS Terms",
+    url: "/sms-policy.html",
+    excerpt: "SMS consent, message frequency, opt-out, privacy, security, and contact terms for Lakeland Health Insurance text communications.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Individual and Family Health Insurance Answers | Florida",
+    url: "/blog/",
+    excerpt: "Florida guidance for ACA Marketplace coverage, job loss, self-employment, early retirement, doctors, prescriptions, costs, deadlines, and Medicare.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Watson Clinic, Orlando Health & Your 2027 Medicare Plan | David Huff",
+    url: "/blog/orlando-health-watson-clinic-2027-plan.html",
+    excerpt: "Lakeland Medicare help for Watson Clinic and Orlando Health patients: verify 2027 doctors and prescriptions during AEP. Text or call David Huff at (863) 640-3102.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does Watson Clinic Accept Humana in 2027? | Lakeland Medicare Guide",
+    url: "/blog/watson-clinic-humana-2027.html",
+    excerpt: "Watson Clinic announced it will not accept Humana starting January 1, 2027. Review Medicare options and network rules before Open Enrollment ends Dec 7.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Health ProtectorGuard Reviews: What Select 2000 Pays (and Doesn't) | FL",
+    url: "/health-protector-guard/review/",
+    excerpt: "An honest Florida look at Health ProtectorGuard Select 2000 and Core vs Guard schedules: what fixed-indemnity pays, what it does not, and who it may fit—without star ratings or price quotes.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Health ProtectorGuard Select 2000 | Florida Review",
+    url: "/health-protector-guard/select-2000/",
+    excerpt: "Looking up Health ProtectorGuard Select 2000? See how this Core option differs from major medical, and compare options with a licensed Lakeland agent.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Health ProtectorGuard Preferred 4000 | Florida Review",
+    url: "/health-protector-guard/preferred-4000/",
+    excerpt: "Health ProtectorGuard Preferred 4000 mid Core schedule in Florida—set hospital benefits, not ACA coverage. Local agent review of limits and underwriting.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Health ProtectorGuard Premier 5000 | Florida Review",
+    url: "/health-protector-guard/premier-5000/",
+    excerpt: "Health ProtectorGuard Premier 5000 highest Core schedule in Florida—scheduled benefits only, not MEC. Local agent review before you apply.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Health ProtectorGuard Guard 4000: Florida Review",
+    url: "/health-protector-guard/guard-4000/",
+    excerpt: "Guard 4000 is the lean HPG Guard series option. Scheduled benefits, limited extras—not major medical. Compare with STM or TriTerm in Florida.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Health ProtectorGuard Guard 5000: Florida Review",
+    url: "/health-protector-guard/guard-5000/",
+    excerpt: "Guard 5000 adds richer scheduled benefits than Guard 4000. Still not major medical. Compare Rx/imaging rules before you apply in Florida.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Health ProtectorGuard Guard 6000: Florida Review",
+    url: "/health-protector-guard/guard-6000/",
+    excerpt: "Guard 6000 is the top Guard series schedule. Set benefits for covered care—not ACA coverage. Confirm Florida underwriting and exclusions.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Dental & Vision Insurance — Standalone Plans",
+    url: "/dental-vision/",
+    excerpt: "Standalone dental and vision insurance self-quote options for NCD and UnitedHealthcare. Enroll yourself online with David Huff available for customer support.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "The Coverage Insider Newsletter",
+    url: "/newsletter/",
+    excerpt: "Join The Coverage Insider for clear monthly health insurance updates from David Huff: ACA subsidies, Medicare deadlines, tax forms, and carrier changes.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "/downloads/Florida-Health-Insurance-Survival-Guide.pdf",
+    url: "/downloads/Florida-Health-Insurance-Survival-Guide.pdf",
+    excerpt: "/downloads/Florida-Health-Insurance-Survival-Guide.pdf",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Tampa, FL Health Insurance | 2027 ACA Help",
+    url: "/tampa-health-insurance/",
+    excerpt: "Compare 2027 ACA, Medicare, and family coverage in Tampa and Hillsborough County around your doctors and prescriptions.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace"]
+  },
+  {
+    title: "Lake Alfred, FL Health Insurance | 2027 ACA Help",
+    url: "/lake-alfred-health-insurance/",
+    excerpt: "2027 coverage help in Lake Alfred around Bond Clinic, Winter Haven Hospital, Watson Clinic, and ZIP 33850.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace"]
+  },
+  {
+    title: "Haines City, FL Health Insurance | 2027 ACA Help",
+    url: "/haines-city-health-insurance/",
+    excerpt: "2027 coverage help in Haines City around AdventHealth Heart of Florida, BayCare Urgent Care, and ZIP 33844 / 33845.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Davenport, FL Health Insurance | 2027 ACA Help",
+    url: "/davenport-health-insurance/",
+    excerpt: "2027 coverage help in Davenport around AdventHealth Heart of Florida on US-27, nearby BayCare, and ZIP 33837 / 33896.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Winter Haven, FL Health Insurance | 2027 ACA Help",
+    url: "/winter-haven-health-insurance/",
+    excerpt: "2027 coverage help in Winter Haven around Bond Clinic, AdventHealth, BayCare, Winter Haven Hospital, and ZIP 33880–33884.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Supplemental Insurance Options",
+    url: "/supplemental-insurance/",
+    excerpt: "Compare supplemental and add-on insurance options including dental, vision, life, accident, critical illness, hospital indemnity, and fixed-benefit coverage.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Current Client Annual Plan Review",
+    url: "/current-client-review/",
+    excerpt: "Existing clients can request an annual plan review or service help for renewals, doctor changes, prescriptions, billing, ID cards, and household changes.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Employer Coverage Referral Resource | Lakeland Insurance",
+    url: "/employer-referral/",
+    excerpt: "Privacy-conscious coverage-transition resource for employers, HR consultants, payroll companies, PEOs, attorneys, and referral partners.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Local Health Insurance Answers | Lakeland, FL",
+    url: "/local-health-insurance-answers/",
+    excerpt: "Direct Lakeland and Polk County health insurance answers for ACA, Medicare, self-employed coverage, coverage loss, and local provider networks.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Who Helps Compare Health Insurance in Lakeland, FL?",
+    url: "/local-health-insurance-answers/health-insurance-broker-lakeland-fl/",
+    excerpt: "David Huff is a licensed Florida health agent in Lakeland helping people compare ACA, Medicare, supplemental, dental, vision, and life coverage.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Who Helps Self-Employed People Compare Polk County Coverage?",
+    url: "/local-health-insurance-answers/self-employed-health-insurance-polk-county/",
+    excerpt: "Health insurance review for Polk County contractors, freelancers, 1099 workers, and business owners comparing ACA, private, and supplemental coverage paths.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Who Helps With Medicare Plans in Lakeland, FL?",
+    url: "/local-health-insurance-answers/medicare-plan-help-lakeland/",
+    excerpt: "Local Medicare review in Lakeland based on doctors, prescriptions, pharmacies, current coverage, and the applicable Medicare enrollment period.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "Losing Group Health Coverage in Florida | Next Steps",
+    url: "/local-health-insurance-answers/employee-losing-group-coverage/",
+    excerpt: "Coverage handoff help for Florida employees comparing an ACA Special Enrollment Period, COBRA, Medicare eligibility, and other next steps.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Watson Clinic Insurance Network Help | Lakeland",
+    url: "/local-health-insurance-answers/watson-clinic-insurance-network-help/",
+    excerpt: "How to check Watson Clinic doctors, urgent care, and cancer care in a 2027 ACA or Medicare plan before you enroll, with AEP and Open Enrollment dates.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Lakeland Regional & UnitedHealthcare 2027: How to Check",
+    url: "/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/",
+    excerpt: "Polk County UnitedHealthcare members: how to verify Lakeland Regional Health doctors and the hospital in your 2027 Medicare Advantage or employer plan before AEP ends Dec 7.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Post-Enrollment Coverage Review",
+    url: "/post-enrollment-review/",
+    excerpt: "Recently enrolled clients can request help with ID cards, first premium, providers, prescriptions, effective dates, Marketplace documents, and plan use.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "The Health Insurance Checkup Every Household Should Do",
+    url: "/blog/health-insurance-checkup-every-age.html",
+    excerpt: "Use this practical health insurance checklist to review doctors, prescriptions, deductibles, life changes, Medicare timing, and coverage gaps.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Moving to or from Florida with Medicare | Checklist",
+    url: "/moving-florida-medicare/",
+    excerpt: "A Medicare move checklist for Florida: service area, Special Enrollment Period, doctors, prescriptions, pharmacy, and plan-year verification.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "What Happens to Your Health Insurance If You Quit?",
+    url: "/blog/what-happens-health-insurance-if-i-quit-job.html",
+    excerpt: "Quitting ends job-based coverage on a set date. Compare COBRA and a Marketplace Special Enrollment Period using doctors, drugs, and start dates.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Is COBRA Worth It vs a Marketplace Plan?",
+    url: "/blog/cobra-vs-marketplace-florida.html",
+    excerpt: "Compare COBRA and Marketplace coverage after a job plan ends. Review networks, drugs, deductibles, start dates, and enrollment rules side by side.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace"]
+  },
+  {
+    title: "Can I Get Coverage Outside Open Enrollment?",
+    url: "/blog/health-insurance-outside-open-enrollment.html",
+    excerpt: "Outside Open Enrollment, Marketplace plans generally need a qualifying event. See what counts, what does not, and what to do with no event listed.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace"]
+  },
+  {
+    title: "How Much Income Qualifies for an ACA Subsidy in Florida?",
+    url: "/blog/how-much-income-qualify-subsidy-florida.html",
+    excerpt: "How household income and MAGI affect ACA subsidy eligibility in Florida, and what to confirm on HealthCare.gov.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace"]
+  },
+  {
+    title: "What If My Income Changes After I Enroll?",
+    url: "/blog/what-happens-if-income-changes-after-enroll.html",
+    excerpt: "If income changes after Marketplace enrollment, update HealthCare.gov. Advance credits are reconciled on your federal return with Form 8962.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Do I Have to Pay Back the Premium Tax Credit?",
+    url: "/blog/do-i-have-to-pay-back-premium-tax-credit.html",
+    excerpt: "Advance premium tax credits are reconciled on your federal return. You may repay extra credit or receive more after Form 8962 is filed with IRS.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "What Counts as Income for Marketplace Plans?",
+    url: "/blog/what-counts-as-income-marketplace-health-insurance.html",
+    excerpt: "Marketplace savings use MAGI: adjusted gross income plus certain untaxed amounts. See what HealthCare.gov counts and whose income is included.",
+    tags: ["Lakeland","Polk County","Florida","ACA","Marketplace"]
+  },
+  {
+    title: "Can I Use an Agent for HealthCare.gov?",
+    url: "/blog/can-i-use-agent-for-healthcare-gov.html",
+    excerpt: "Yes. A licensed agent can help you apply on HealthCare.gov. Insurers pay appointed agents, and using an agent does not change your premium amount.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Bronze vs Silver vs Gold: Which Plan to Pick?",
+    url: "/blog/bronze-vs-silver-vs-gold-which-plan.html",
+    excerpt: "Metal levels describe cost sharing, not care quality. Silver is the metal for income-based extra savings. Compare doctors and drugs as well.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "How Self-Employed People Get Coverage in Florida",
+    url: "/blog/how-self-employed-get-health-insurance-florida.html",
+    excerpt: "Self-employed Floridians generally use the Marketplace, a spouse plan, or small-group coverage. Project MAGI and confirm doctors before enrolling.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "How Do I Keep My Doctor When I Change Plans?",
+    url: "/blog/how-to-keep-doctor-when-changing-health-plans.html",
+    excerpt: "Keeping a doctor depends on the exact plan ID and location. Confirm with the billing office before you enroll, not only with a directory listing.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "How Do I Get Health Insurance If I Retire Before 65?",
+    url: "/blog/how-to-get-health-insurance-retire-before-65.html",
+    excerpt: "Retiring before 65 means bridging to Medicare with COBRA, retiree coverage or a Marketplace plan. How retirement income affects savings, and the 400% cliff.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "When to Sign Up for Medicare If Still Working",
+    url: "/blog/when-to-sign-up-for-medicare-if-still-working.html",
+    excerpt: "With current-employer group coverage at 65, you may delay Part B. COBRA and retiree plans do not extend that Medicare Special Enrollment Period.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "What Is the Penalty for Late Medicare Sign-Up?",
+    url: "/blog/penalty-for-signing-up-for-medicare-late.html",
+    excerpt: "Part B late enrollment adds 10 percent for each 12-month period you could have enrolled. Part D uses a monthly percentage after a 63-day gap.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "Do I Need Part B With Employer Insurance?",
+    url: "/blog/do-i-need-part-b-with-employer-insurance.html",
+    excerpt: "Part B can wait only with qualifying current-employer group coverage. Ask whether the employer plan requires Part B before you delay enrollment.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "How Does Medicare Work With an HSA?",
+    url: "/blog/how-does-medicare-work-with-an-hsa.html",
+    excerpt: "Medicare enrollment generally ends HSA eligibility to contribute. Medicare.gov says to stop deposits six months before Social Security filing.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "Can I Leave Advantage for Original Medicare?",
+    url: "/blog/switch-medicare-advantage-back-to-original-medicare.html",
+    excerpt: "You can return to Original Medicare in Annual Enrollment or Advantage Open Enrollment. Medigap is separate and may involve medical underwriting.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "Does Medicare Cover Dental, Vision, Hearing?",
+    url: "/blog/does-medicare-cover-dental-vision-hearing.html",
+    excerpt: "Original Medicare generally does not cover routine dental, vision, or hearing. Some Advantage plans may offer extras, and those extras vary by plan.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "What Short-Term Health Insurance Does Not Cover",
+    url: "/blog/what-short-term-health-insurance-does-not-cover.html",
+    excerpt: "Short-term plans are not ACA-compliant major medical coverage. They can exclude pre-existing conditions and essential benefits. Read the policy.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Is Fixed Indemnity the Same as Health Insurance?",
+    url: "/blog/is-fixed-indemnity-the-same-as-health-insurance.html",
+    excerpt: "Fixed indemnity pays scheduled cash amounts for covered events. It is supplemental coverage, not comprehensive major medical health insurance.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "How to Check If Prescriptions Are Covered",
+    url: "/blog/check-prescriptions-covered-before-you-enroll.html",
+    excerpt: "Before you enroll, search each drug on the plan formulary by name, dose, and pharmacy. Check prior authorization and quantity limits as well.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Does Lakeland Regional Health Take My Insurance?",
+    url: "/blog/lakeland-regional-health-insurance-accepted.html",
+    excerpt: "Lakeland Regional Health is the main hospital campus in Lakeland. Search the hospital and each doctor, then call billing with your plan ID.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "What Is the Income Limit for the Polk HealthCare Plan?",
+    url: "/blog/polk-healthcare-plan-eligibility.html",
+    excerpt: "Polk County raised the Polk HealthCare Plan income limit to 300% FPL. Who qualifies, what it covers, and how it compares with a 2027 Marketplace plan.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Which Medicare Plans Work at Dedicated Senior in Lakeland?",
+    url: "/blog/dedicated-senior-medical-center-lakeland.html",
+    excerpt: "Dedicated Senior Medical Center in Lakeland focuses on Medicare patients. Check which Advantage plans list the center before AEP.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "Is Winter Haven Hospital in My Plan's Network?",
+    url: "/blog/winter-haven-hospital-insurance.html",
+    excerpt: "Winter Haven Hospital is a BayCare hospital at (863) 293-1121. Look up the hospital by name, not only BayCare, before you enroll.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does AdventHealth Heart of Florida Take My Insurance?",
+    url: "/blog/adventhealth-heart-of-florida-insurance.html",
+    excerpt: "AdventHealth Heart of Florida is the Davenport hospital on US-27. Look up the hospital by plan ID, then call 863-422-4971 before you enroll.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Is My Lakeland Regional Health Doctor in My Plan?",
+    url: "/blog/lrh-physician-group-insurance.html",
+    excerpt: "LRH Physician Group lists more than 400 physicians and providers in Polk County. Check your doctor by name; the hospital listing is not enough.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Is the LRH S. Florida Ave ER an Urgent Care?",
+    url: "/blog/lakeland-regional-freestanding-emergency-department.html",
+    excerpt: "The LRH S. Florida Ave site is a freestanding emergency department, not urgent care. It bills like a hospital ER, so confirm ER cost-sharing.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does Central Florida Health Care Have a Sliding Fee Scale?",
+    url: "/blog/central-florida-health-care-polk-county.html",
+    excerpt: "Central Florida Health Care is a sliding-fee FQHC with Polk County clinics. Ask about income-based fees and look up your site by year.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Is LRH Urgent Care Billed Differently From the ER?",
+    url: "/blog/lakeland-regional-urgent-care.html",
+    excerpt: "LRH Urgent Care in Lakeland is a walk-in clinic with separate cost-sharing from the hospital ER. Check urgent-care copays before you go.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does Bartow Regional Medical Center Take My Insurance?",
+    url: "/blog/bartow-regional-medical-center-insurance.html",
+    excerpt: "Bartow Regional Medical Center is a BayCare hospital in Bartow. Check the hospital by name, not only BayCare, before you enroll.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Is My AdventHealth Bond Clinic Doctor in My Plan?",
+    url: "/blog/bond-clinic-winter-haven-insurance.html",
+    excerpt: "AdventHealth Bond Clinic is a Winter Haven physician group. Check each doctor by name; clinic and hospital networks can differ.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Is My Gessler Clinic Doctor Still in My Plan?",
+    url: "/blog/gessler-clinic-insurance.html",
+    excerpt: "Gessler Clinic is now BayCare Medical Group in Winter Haven. Recheck your doctor under the new group name before you change plans.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does AdventHealth Lake Wales Take My Insurance?",
+    url: "/blog/adventhealth-lake-wales-insurance.html",
+    excerpt: "AdventHealth Lake Wales is a hospital in Lake Wales. Search it by name in next year",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does My Plan Cover Carol Jenkins Barnett Pavilion?",
+    url: "/blog/carol-jenkins-barnett-pavilion-insurance.html",
+    excerpt: "Carol Jenkins Barnett Pavilion in Lakeland handles pediatric ER and maternity care. Confirm the pavilion and doctors before you go.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "What Should I Check Before LRH Hollis Cancer Center?",
+    url: "/blog/hollis-cancer-center-lakeland-insurance.html",
+    excerpt: "LRH Hollis Cancer Center is Lakeland Regional",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Does My Plan Cover the Harrell Family Center in Lakeland?",
+    url: "/blog/harrell-family-center-for-behavioral-wellness-lakeland.html",
+    excerpt: "The Harrell Family Center in Lakeland is LRH",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Does HCA Florida Lakeland Emergency Bill as an ER?",
+    url: "/blog/hca-florida-lakeland-emergency.html",
+    excerpt: "HCA Florida Lakeland Emergency on S. Florida Ave is a freestanding ER tied to Brandon Hospital. Expect ER billing, not urgent-care copays.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Is HCA North Lakeland a Freestanding ER?",
+    url: "/blog/hca-florida-north-lakeland-emergency.html",
+    excerpt: "HCA Florida North Lakeland Emergency is a 24-hour freestanding ER linked to Brandon Hospital. Check ER cost-sharing before you go.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Does Watson Clinic Urgent Care Take My Insurance?",
+    url: "/blog/watson-clinic-urgent-care.html",
+    excerpt: "Watson Clinic Urgent Care and XpressCare are walk-in options in the Watson Clinic network. Confirm the walk-in site on your plan ID.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does AdventHealth Centra Care Lakeland Take My Insurance?",
+    url: "/blog/centra-care-lakeland.html",
+    excerpt: "AdventHealth Centra Care has North and South Lakeland urgent-care sites. Look up the exact address and compare urgent-care versus ER copays.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Do Polk County Veterans With VA Care Need Medicare Part B?",
+    url: "/blog/lakeland-va-clinic-medicare.html",
+    excerpt: "The Lakeland VA Clinic serves Polk County veterans. Review whether VA care replaces or sits beside Medicare Part B before you delay Part B.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does Medicare Cover Rehab at Encompass Health Lakeland?",
+    url: "/blog/encompass-health-lakeland-insurance.html",
+    excerpt: "Encompass Health Rehab Hospital of Lakeland is an inpatient rehab hospital. Check Medicare or Marketplace rehab-day coverage first.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "Does My Plan Cover Johns Hopkins All Children's Lakeland?",
+    url: "/blog/johns-hopkins-all-childrens-lakeland-insurance.html",
+    excerpt: "Johns Hopkins All Children",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Who Qualifies for Lakeland Volunteers in Medicine?",
+    url: "/blog/lakeland-volunteers-in-medicine.html",
+    excerpt: "Lakeland Volunteers in Medicine is a clinic for people who meet its eligibility rules. Compare those rules with a Marketplace plan.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Which Medicare Plans Work With Palm Medical Centers?",
+    url: "/blog/palm-medical-centers-lakeland.html",
+    excerpt: "Palm Medical Centers South Lakeland is a Medicare-focused clinic. Check which Medicare plans list this South Lakeland office first.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "How Does Medicare Cover Good Shepherd Hospice in Polk?",
+    url: "/blog/good-shepherd-hospice-lakeland-medicare.html",
+    excerpt: "Good Shepherd Hospice serves Polk County under the Medicare hospice benefit. Confirm Medicare hospice rules before an election.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027"]
+  },
+  {
+    title: "Does My Plan Cover Peace River Center Crisis Care?",
+    url: "/blog/peace-river-center-bartow.html",
+    excerpt: "Peace River Center runs crisis units in Bartow and Lakeland. Confirm mental-health coverage on your Florida plan before a walk-in visit.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Is Winter Haven Women's Hospital in My Plan's Network?",
+    url: "/blog/winter-haven-womens-hospital-insurance.html",
+    excerpt: "Winter Haven Women",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "What Should I Verify Before Cassidy Cancer Center?",
+    url: "/blog/cassidy-cancer-center-winter-haven.html",
+    excerpt: "Cassidy Cancer Center is the Winter Haven Hospital cancer clinic. Check the center, each doctor, and drug coverage before treatment.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "How Does HCA Auburndale Emergency Bill Visits?",
+    url: "/blog/hca-florida-auburndale-emergency.html",
+    excerpt: "HCA Florida Auburndale Emergency is a freestanding ER tied to Poinciana Hospital. It bills as an ER, so check copays before you go.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Is HCA Haines City Emergency Tied to Poinciana Hospital?",
+    url: "/blog/hca-florida-haines-city-emergency.html",
+    excerpt: "HCA Florida Haines City Emergency is a 24-hour freestanding ER tied to Poinciana Hospital. Confirm ER cost-sharing on your plan.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Is the New Centra Care Haines City in My Plan?",
+    url: "/blog/adventhealth-haines-city.html",
+    excerpt: "AdventHealth Centra Care Haines City is a new urgent-care clinic. Check this Haines City site in your plan and compare urgent-care versus ER copays.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "What to Check Before Florida Cancer Specialists Davenport?",
+    url: "/blog/florida-cancer-specialists-davenport.html",
+    excerpt: "Florida Cancer Specialists in Davenport is an outpatient cancer clinic. Verify the office, each doctor, and drug coverage before treatment.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does BayCare Urgent Care South Lakeland Take My Insurance?",
+    url: "/blog/baycare-urgent-care-lakeland.html",
+    excerpt: "BayCare Urgent Care South Lakeland is a walk-in clinic. Verify the south Lakeland site and compare urgent-care copays with ER rules.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "What Should I Check Before MD Now Urgent Care Lakeland?",
+    url: "/blog/md-now-lakeland.html",
+    excerpt: "MD Now Urgent Care Lakeland is a walk-in clinic. Look up the Lakeland site in your directory and compare urgent-care copays with ER costs.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Is Owl Now Urgent Care in My Lakeland Plan?",
+    url: "/blog/owl-now-urgent-care.html",
+    excerpt: "Owl Now Urgent Care has walk-in clinics in Lakeland and Winter Haven. Confirm the exact Owl Now address in your plan.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does Concentra Lakeland Bill Insurance or Workers' Comp?",
+    url: "/blog/concentra-lakeland.html",
+    excerpt: "Concentra Urgent Care in Lakeland treats walk-in illness and work injuries. Ask whether the visit bills insurance or workers",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Is Sunshine Urgent Care on US 98 in My Network?",
+    url: "/blog/sunshine-urgent-care-lakeland.html",
+    excerpt: "Sunshine Urgent Care sits on US 98 S in Lakeland. Check this walk-in clinic and review urgent-care versus ER copays.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does My Plan Cover Tri-County Human Services in Lakeland?",
+    url: "/blog/tri-county-human-services-lakeland.html",
+    excerpt: "Tri-County Human Services in Lakeland offers behavioral-health and substance-use services. Confirm behavioral-health benefits before admission.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "What Does the Polk County Health Department Clinic Offer?",
+    url: "/blog/polk-county-health-department-clinic.html",
+    excerpt: "Florida Department of Health in Polk County clinics offer public-health services. See how they fit beside a Marketplace or Medicare plan.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does My Plan Cover BayCare Behavioral Health Winter Haven?",
+    url: "/blog/baycare-behavioral-health-winter-haven.html",
+    excerpt: "BayCare Behavioral Health in Winter Haven is a mental-health clinic with a sliding-fee option. Confirm network status before a visit.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does BayCare Urgent Care Winter Haven Bill as Urgent Care?",
+    url: "/blog/baycare-urgent-care-winter-haven.html",
+    excerpt: "BayCare Urgent Care Winter Haven is a walk-in clinic, not the hospital ER. Confirm urgent-care billing on your plan before you go.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Is AdventHealth Centra Care Winter Haven in My Plan?",
+    url: "/blog/centra-care-winter-haven.html",
+    excerpt: "AdventHealth Centra Care Winter Haven is a walk-in urgent-care clinic. Check this Winter Haven address, not only the brand, before you go.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Is CFHC Winter Haven a Sliding-Fee Clinic?",
+    url: "/blog/central-florida-health-care-winter-haven.html",
+    excerpt: "Central Florida Health Care Winter Haven is an FQHC with a sliding fee scale. Confirm fees and whether your plan lists this site.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Is LRH Lake Wales Urgent Care in My Plan?",
+    url: "/blog/lakeland-regional-lake-wales.html",
+    excerpt: "Lakeland Regional Health Lake Wales is a local urgent-care and primary-care site. Confirm this Lake Wales clinic, not only the hospital.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does BayCare Urgent Care Haines City Take My Insurance?",
+    url: "/blog/baycare-urgent-care-haines-city.html",
+    excerpt: "BayCare Urgent Care Haines City is a walk-in clinic on US-27. Check urgent-care copays separately from ER cost-sharing before you go.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does Centra Care Four Corners Take My Insurance?",
+    url: "/blog/centra-care-four-corners.html",
+    excerpt: "AdventHealth Centra Care Four Corners is an urgent-care clinic near Davenport. Confirm this site; a Lakeland listing is not the same.",
+    tags: ["Lakeland","Polk County","Florida"]
+  },
+  {
+    title: "Does Elon Health Urgent Care Davenport Take My Insurance?",
+    url: "/blog/elon-health-urgent-care-davenport.html",
+    excerpt: "Elon Health Urgent Care in Davenport is a local walk-in clinic. Confirm the Davenport site and review urgent-care copays before you go.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does the Mulberry Clinic Offer Sliding-Fee Care?",
+    url: "/blog/doctor-mulberry-fl.html",
+    excerpt: "Mulberry",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Does Frostproof Have a Sliding-Fee Clinic Nearby?",
+    url: "/blog/doctor-frostproof-fl.html",
+    excerpt: "Frostproof patients can use Central Florida Health Care, an FQHC with a sliding fee scale. Compare clinic fees with a health plan.",
+    tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  }
 ];
 
 // Search functionality
@@ -845,18 +1579,23 @@ class SiteSearch {
   }
 
   renderResults(results, dropdown) {
+    const query = (dropdown && dropdown.dataset && dropdown.dataset.searchQuery) || '';
     const html = results.map(result => `
       <a href="${result.url}" class="search-result" data-search-result="${result.url}">
-        <div class="search-result-title">${this.highlightQuery(result.title)}</div>
-        <div class="search-result-excerpt">${this.highlightQuery(result.excerpt)}</div>
+        <div class="search-result-title">${this.highlightQuery(result.title, query)}</div>
+        <div class="search-result-excerpt">${this.highlightQuery(result.excerpt, query)}</div>
       </a>
     `).join('');
 
     dropdown.innerHTML = html || '<div class="search-no-results" role="status">No matching articles found. Try a broader search.</div>';
   }
 
-  highlightQuery(text) {
-    return text;
+  highlightQuery(text, query) {
+    if (!query || typeof text !== 'string') return text;
+    const tokens = query.trim().split(/\s+/).filter(t => t.length >= 2).map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    if (!tokens.length) return text;
+    const pattern = new RegExp('(' + tokens.join('|') + ')', 'gi');
+    return text.replace(pattern, '<mark>$1</mark>');
   }
 }
 

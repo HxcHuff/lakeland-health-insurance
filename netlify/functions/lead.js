@@ -649,7 +649,7 @@ function clientIpFromHeaders(headers) {
   const direct = String(
     headerValue(headers, 'x-nf-client-connection-ip') || headerValue(headers, 'client-ip') || ''
   ).trim();
-  const ip = forwarded || direct;
+  const ip = direct || forwarded;
   if (!ip || ip.length > 45 || !/^[\da-f.:]+$/i.test(ip)) return null;
   return ip;
 }
@@ -1300,7 +1300,10 @@ exports.handler = async (event) => {
           const res = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            ...(typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function'
+              ? { signal: AbortSignal.timeout(5000) }
+              : {})
           });
           capiOk = res.ok;
           if (!res.ok) {
