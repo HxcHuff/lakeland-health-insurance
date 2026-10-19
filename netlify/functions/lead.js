@@ -66,6 +66,7 @@ const MEDICARE_SOURCE_REGISTRY = Object.freeze({
       'start_review_hero',
       'request_review_process',
       'start_review_final',
+      'csnp_section',
       'menu_get_help',
       'header_talk_to_david',
       'footer_start_plan_review'
@@ -77,10 +78,20 @@ const MEDICARE_SOURCE_REGISTRY = Object.freeze({
       'plan_review_medicare_lane'
     ])
   }),
+  learning: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_medicare',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
   aep_2026_polk_county_checklist: Object.freeze({
     page_role: 'education',
     cta_keys: new Set([
       'request_review_final',
+      'star_ratings_faq',
       'menu_get_help',
       'header_talk_to_david',
       'footer_start_plan_review'
@@ -90,6 +101,14 @@ const MEDICARE_SOURCE_REGISTRY = Object.freeze({
     page_role: 'education',
     cta_keys: new Set([
       'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  city_of_lakeland_retiree_medicare_spouse_premium: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
       'menu_get_help',
       'header_talk_to_david',
       'footer_start_plan_review'
@@ -146,6 +165,28 @@ const MEDICARE_SOURCE_REGISTRY = Object.freeze({
       'footer_start_plan_review'
     ])
   }),
+  working_past_65_medicare_lakeland_fl: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_mid',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  retiring_and_medicare_lakeland_fl: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_mid',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
   best_medicare_broker_lakeland_fl: Object.freeze({
     page_role: 'selection',
     cta_keys: new Set([
@@ -175,7 +216,180 @@ const MEDICARE_SOURCE_REGISTRY = Object.freeze({
     page_role: 'campaign',
     cta_keys: new Set([
       'start_review_hero',
-      'request_review_hero'
+      'request_review_hero',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_2027_check: Object.freeze({
+    page_role: 'campaign',
+    cta_keys: new Set([
+      'start_review_hero',
+      'request_review_hero',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  orlando_health_watson_clinic_insurance_2026: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_mid',
+      'request_review_final',
+      'provider_check_alert',
+      'provider_check_body',
+      'provider_check_bottom',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  orlando_health_watson_clinic_2027_plan: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_mid',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  watson_clinic_humana_2027: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  baycare_medicare_advantage_plans_2027_polk: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  lakeland_regional_unitedhealthcare_2027: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  watson_clinic_insurance_network_help: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_mid',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_plan_help_lakeland: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_mid',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_advantage_lakeland_2026: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  orlando_health_polk_county_expansion_2026: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_part_b_giveback_polk_county: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_advantage_plan_ending_what_now: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_extra_help_savings_programs_polk_county: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_improvement_fund_90_rebate_florida: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_mid',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medigap_plan_g_vs_plan_n: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_part_d_lakeland_fl: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'exceptions_aep',
+      'request_review_mid',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
     ])
   })
 });

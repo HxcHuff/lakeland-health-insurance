@@ -60,6 +60,16 @@
         plan_review_medicare_lane: true
       }
     },
+    learning: {
+      path: '/learning/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_medicare: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
     aep_2026_polk_county_checklist: {
       path: '/blog/aep-2026-polk-county-checklist.html/',
       page_role: 'education',
@@ -246,6 +256,17 @@
         footer_start_plan_review: true
       }
     },
+    watson_clinic_humana_2027: {
+      path: '/blog/watson-clinic-humana-2027.html/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
     baycare_medicare_advantage_plans_2027_polk: {
       path: '/blog/baycare-medicare-advantage-plans-2027-polk-county.html/',
       page_role: 'education',
@@ -262,6 +283,30 @@
       page_role: 'education',
       cta_keys: {
         request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    watson_clinic_insurance_network_help: {
+      path: '/local-health-insurance-answers/watson-clinic-insurance-network-help/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_plan_help_lakeland: {
+      path: '/local-health-insurance-answers/medicare-plan-help-lakeland/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
         request_review_final: true,
         menu_get_help: true,
         header_talk_to_david: true,
@@ -295,6 +340,64 @@
       page_role: 'education',
       cta_keys: {
         request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_advantage_plan_ending_what_now: {
+      path: '/blog/medicare-advantage-plan-ending-what-now.html/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_extra_help_savings_programs_polk_county: {
+      path: '/blog/medicare-extra-help-savings-programs-polk-county.html/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_improvement_fund_90_rebate_florida: {
+      path: '/blog/medicare-improvement-fund-90-rebate-florida.html/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medigap_plan_g_vs_plan_n: {
+      path: '/blog/medigap-plan-g-vs-plan-n.html/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_part_d_lakeland_fl: {
+      path: '/medicare-part-d-lakeland-fl/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        exceptions_aep: true,
+        request_review_mid: true,
         request_review_final: true,
         menu_get_help: true,
         header_talk_to_david: true,

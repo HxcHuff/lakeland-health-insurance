@@ -51,6 +51,7 @@
         start_review_hero: true,
         request_review_process: true,
         start_review_final: true,
+        csnp_section: true,
         menu_get_help: true,
         header_talk_to_david: true,
         footer_start_plan_review: true
@@ -61,6 +62,16 @@
       page_role: 'hub',
       cta_keys: {
         plan_review_medicare_lane: true
+      }
+    },
+    '/learning/': {
+      page_key: 'learning',
+      page_role: 'education',
+      cta_keys: {
+        request_review_medicare: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
       }
     },
     '/blog/aep-2026-polk-county-checklist.html/': {
@@ -203,7 +214,7 @@
       }
     },
     '/medicare-2027-check/': {
-      page_key: 'medicare_2027_check',
+      page_key: 'medicare-2027-check',
       page_role: 'campaign',
       cta_keys: {
         start_review_hero: true,
@@ -240,6 +251,17 @@
         footer_start_plan_review: true
       }
     },
+    '/blog/watson-clinic-humana-2027.html/': {
+      page_key: 'watson_clinic_humana_2027',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
     '/blog/baycare-medicare-advantage-plans-2027-polk-county.html/': {
       page_key: 'baycare_medicare_advantage_plans_2027_polk',
       page_role: 'education',
@@ -256,6 +278,30 @@
       page_role: 'education',
       cta_keys: {
         request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/local-health-insurance-answers/watson-clinic-insurance-network-help/': {
+      page_key: 'watson_clinic_insurance_network_help',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/local-health-insurance-answers/medicare-plan-help-lakeland/': {
+      page_key: 'medicare_plan_help_lakeland',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
         request_review_final: true,
         menu_get_help: true,
         header_talk_to_david: true,
@@ -289,6 +335,64 @@
       page_role: 'education',
       cta_keys: {
         request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/medicare-advantage-plan-ending-what-now.html/': {
+      page_key: 'medicare_advantage_plan_ending_what_now',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/medicare-extra-help-savings-programs-polk-county.html/': {
+      page_key: 'medicare_extra_help_savings_programs_polk_county',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/medicare-improvement-fund-90-rebate-florida.html/': {
+      page_key: 'medicare_improvement_fund_90_rebate_florida',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/medigap-plan-g-vs-plan-n.html/': {
+      page_key: 'medigap_plan_g_vs_plan_n',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/medicare-part-d-lakeland-fl/': {
+      page_key: 'medicare_part_d_lakeland_fl',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        exceptions_aep: true,
+        request_review_mid: true,
         request_review_final: true,
         menu_get_help: true,
         header_talk_to_david: true,
@@ -387,10 +491,11 @@
   }
 
   function registryForPageKey(pageKey) {
+    var normalizedKey = pageKey === 'medicare_2027_check' ? 'medicare-2027-check' : pageKey;
     var paths = Object.keys(MEDICARE_PAGE_REGISTRY);
     for (var i = 0; i < paths.length; i += 1) {
       var registered = MEDICARE_PAGE_REGISTRY[paths[i]];
-      if (registered.page_key === pageKey) return registered;
+      if (registered.page_key === normalizedKey) return registered;
     }
     return null;
   }
@@ -889,6 +994,7 @@
       transport_type: 'beacon'
     };
     pushDataLayerEvent('sms_cta_click', params);
+    try { window.gtag('event', 'sms_cta_click', params); } catch (e) {}
     if (typeof window.lhiTrackMetaSmsCtaClick === 'function') {
       try { window.lhiTrackMetaSmsCtaClick(); } catch (e) {}
     }

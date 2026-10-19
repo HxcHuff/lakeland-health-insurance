@@ -155,6 +155,7 @@
         start_review_hero: true,
         request_review_process: true,
         start_review_final: true,
+        csnp_section: true,
         menu_get_help: true,
         header_talk_to_david: true,
         footer_start_plan_review: true
@@ -169,7 +170,10 @@
     learning: {
       page_role: 'education',
       cta_keys: {
-        request_review_medicare: true
+        request_review_medicare: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
       }
     },
     aep_2026_polk_county_checklist: {
@@ -186,6 +190,14 @@
       page_role: 'education',
       cta_keys: {
         request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    city_of_lakeland_retiree_medicare_spouse_premium: {
+      page_role: 'education',
+      cta_keys: {
         menu_get_help: true,
         header_talk_to_david: true,
         footer_start_plan_review: true
@@ -242,6 +254,28 @@
         footer_start_plan_review: true
       }
     },
+    working_past_65_medicare_lakeland_fl: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    retiring_and_medicare_lakeland_fl: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
     best_medicare_broker_lakeland_fl: {
       page_role: 'selection',
       cta_keys: {
@@ -271,7 +305,180 @@
       page_role: 'campaign',
       cta_keys: {
         start_review_hero: true,
-        request_review_hero: true
+        request_review_hero: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_2027_check: {
+      page_role: 'campaign',
+      cta_keys: {
+        start_review_hero: true,
+        request_review_hero: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    orlando_health_watson_clinic_insurance_2026: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        provider_check_alert: true,
+        provider_check_body: true,
+        provider_check_bottom: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    orlando_health_watson_clinic_2027_plan: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    watson_clinic_humana_2027: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    baycare_medicare_advantage_plans_2027_polk: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    lakeland_regional_unitedhealthcare_2027: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    watson_clinic_insurance_network_help: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_plan_help_lakeland: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_advantage_lakeland_2026: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    orlando_health_polk_county_expansion_2026: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_part_b_giveback_polk_county: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_advantage_plan_ending_what_now: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_extra_help_savings_programs_polk_county: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_improvement_fund_90_rebate_florida: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medigap_plan_g_vs_plan_n: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_part_d_lakeland_fl: {
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        exceptions_aep: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
       }
     }
   };
