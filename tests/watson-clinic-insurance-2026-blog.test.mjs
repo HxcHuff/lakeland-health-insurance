@@ -70,6 +70,19 @@ test('Watson blog keeps #318 internal links', () => {
   assert.match(html, /href="\/retiring-and-medicare-lakeland-fl\/"/);
 });
 
+test('Watson blog includes mid-article Text Me Your Doctor SMS CTA', () => {
+  const html = source();
+  assert.match(html, /lhi-sms-doctor-cta/);
+  assert.match(html, /Checking whether your Watson Clinic doctor is in network for 2027\?/);
+  assert.match(
+    html,
+    /href="sms:\+18636403102\?body=Hi%20David%2C%20can%20you%20check%20if%20my%20Watson%20Clinic%20doctor%20is%20in-network%3F"/
+  );
+  assert.match(html, /data-lhi-sms-cta="watson_doctor_network_2027"/);
+  assert.match(html, /Text me your doctor:/);
+  assert.match(html, /\(863\) 640-3102/);
+});
+
 test('Watson blog keeps static bottom TPMO (SHIP) for no-JS compliance', () => {
   const html = source();
   assert.match(html, /class="site-page-disclosures"/, 'static bottom disclosure block');
