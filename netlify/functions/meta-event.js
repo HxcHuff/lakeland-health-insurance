@@ -1,5 +1,5 @@
 // Netlify Function: /api/meta-event
-// Fire-and-forget browser beacons for neutral Meta custom events (phone_click, message_start).
+// Fire-and-forget browser beacons for neutral Meta custom events (phone_click, message_start, sms_cta_click).
 
 const crypto = require('crypto');
 
@@ -10,7 +10,7 @@ const ACCESS_TOKEN = process.env.META_CAPI_ACCESS_TOKEN;
 const TEST_EVENT_CODE = process.env.META_CAPI_TEST_EVENT_CODE;
 const PRIMARY_SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const MAX_JSON_BODY_BYTES = 2 * 1024;
-const ALLOWED_EVENTS = new Set(['phone_click', 'message_start']);
+const ALLOWED_EVENTS = new Set(['phone_click', 'message_start', 'sms_cta_click']);
 const ELIGIBLE_PATHS = new Set([
   '/',
   '/get-help/',
@@ -21,6 +21,7 @@ const ELIGIBLE_PATHS = new Set([
   '/medicare-2027-check/',
   '/plans/',
   '/thanks.html',
+  '/blog/orlando-health-watson-clinic-insurance-2026.html',
   '/blog/orlando-health-watson-clinic-2027-plan.html'
 ]);
 const RATE_LIMIT_STORE = 'meta-event-rate-v1';
@@ -158,6 +159,7 @@ function approvedEventId(eventName, value) {
   const text = String(value || '').trim();
   if (eventName === 'phone_click') return /^lhi_ph_[a-z0-9]{8,48}$/i.test(text) ? text : null;
   if (eventName === 'message_start') return /^lhi_ms_[a-z0-9]{8,48}$/i.test(text) ? text : null;
+  if (eventName === 'sms_cta_click') return /^lhi_smc_[a-z0-9]{8,48}$/i.test(text) ? text : null;
   return null;
 }
 

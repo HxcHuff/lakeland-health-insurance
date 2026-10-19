@@ -44,9 +44,10 @@ async function invoke(body, { headers = {}, method = 'POST' } = {}) {
   }
 }
 
-test('meta-event allowlists phone_click and message_start with empty custom_data', async () => {
-  for (const name of ['phone_click', 'message_start']) {
-    const prefix = name === 'phone_click' ? 'lhi_ph_' : 'lhi_ms_';
+test('meta-event allowlists phone_click, message_start, and sms_cta_click with empty custom_data', async () => {
+  for (const name of ['phone_click', 'message_start', 'sms_cta_click']) {
+    const prefix =
+      name === 'phone_click' ? 'lhi_ph_' : name === 'message_start' ? 'lhi_ms_' : 'lhi_smc_';
     const { response, calls } = await invoke({
       name,
       event_id: `${prefix}abcdef0123456789`,
@@ -84,6 +85,7 @@ test('meta-event rejects ineligible paths and opt-out signals', async () => {
 test('meta-event helper validation covers event ids and paths', () => {
   assert.equal(_test.approvedEventId('phone_click', 'lhi_ph_abcdef0123456789'), 'lhi_ph_abcdef0123456789');
   assert.equal(_test.approvedEventId('message_start', 'bad'), null);
+  assert.equal(_test.approvedEventId('sms_cta_click', 'lhi_smc_abcdef0123456789'), 'lhi_smc_abcdef0123456789');
   assert.equal(_test.normalizePath('/get-help'), '/get-help/');
   assert.equal(_test.ELIGIBLE_PATHS.has('/get-help/'), true);
 });

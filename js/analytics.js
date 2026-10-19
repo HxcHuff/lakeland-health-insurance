@@ -881,8 +881,29 @@
     trackPhoneClick(label || 'click_to_call_button', 'phone_call');
   };
 
+  function trackSmsCtaClick(label) {
+    if (!IS_PROD) return;
+    var params = {
+      event_category: 'engagement',
+      event_label: label || 'sms_cta',
+      transport_type: 'beacon'
+    };
+    pushDataLayerEvent('sms_cta_click', params);
+    if (typeof window.lhiTrackMetaSmsCtaClick === 'function') {
+      try { window.lhiTrackMetaSmsCtaClick(); } catch (e) {}
+    }
+  }
+
   document.addEventListener('click', function (event) {
     handleMedicarePointer(event, true);
+    var smsLink = event.target && event.target.closest ? event.target.closest('[data-lhi-sms-cta]') : null;
+    if (smsLink) {
+      var smsLabel = smsLink.getAttribute('data-lhi-sms-cta') ||
+        smsLink.getAttribute('data-analytics-label') ||
+        'sms_cta';
+      trackSmsCtaClick(smsLabel);
+      return;
+    }
     var link = event.target && event.target.closest ? event.target.closest('a[href^="tel:"]') : null;
     if (!link) return;
     var label = link.__lhiPhoneAnalyticsLabel ||
@@ -1004,6 +1025,7 @@
     '/medicare-2027-check/': true,
     '/plans/': true,
     '/thanks.html': true,
+    '/blog/orlando-health-watson-clinic-insurance-2026.html': true,
     '/blog/orlando-health-watson-clinic-2027-plan.html': true
   };
   var UTM_QUERY_KEYS = {
@@ -1598,7 +1620,12 @@
   }
 
   function trackMetaCustomEvent(eventName, eventID) {
-    if (eventName !== 'form_submit_complete' && eventName !== 'phone_click' && eventName !== 'message_start') {
+    if (
+      eventName !== 'form_submit_complete' &&
+      eventName !== 'phone_click' &&
+      eventName !== 'message_start' &&
+      eventName !== 'sms_cta_click'
+    ) {
       return false;
     }
     if (!metaLoaderActive() || !eventID) return false;
@@ -1630,6 +1657,21 @@
     metaMessageStartSent = true;
     sendMetaEventBeacon({
       name: 'message_start',
+      event_id: eventID,
+      path: normalizePath(w.location && w.location.pathname)
+    });
+    return true;
+  };
+
+  var metaSmsCtaClickSent = false;
+
+  w.lhiTrackMetaSmsCtaClick = function () {
+    if (metaSmsCtaClickSent) return false;
+    var eventID = mintMetaClickEventId('lhi_smc_');
+    if (!trackMetaCustomEvent('sms_cta_click', eventID)) return false;
+    metaSmsCtaClickSent = true;
+    sendMetaEventBeacon({
+      name: 'sms_cta_click',
       event_id: eventID,
       path: normalizePath(w.location && w.location.pathname)
     });

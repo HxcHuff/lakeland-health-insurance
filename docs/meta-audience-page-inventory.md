@@ -1,6 +1,6 @@
 # Meta website-audience page inventory
 
-Reviewed: 2026-10-17
+Reviewed: 2026-10-18
 Dataset/Pixel ID: `1480756087079484`
 Browser event: standard `PageView` only on reviewed routes (default-on until opt-out)
 
@@ -17,6 +17,7 @@ This inventory is the reviewed browser-tracking boundary. A page must appear bel
 - `/medicare-2027-check/`
 - `/plans/`
 - `/thanks.html`
+- `/blog/orlando-health-watson-clinic-insurance-2026.html`
 - `/blog/orlando-health-watson-clinic-2027-plan.html`
 
 These routes are eligible only under the isolation boundary: the loader sends a load-time standard `PageView` after privacy gates pass (default-allow until opt-out), never reads or listens to form fields, and Meta automatic matching, automatic events, and automatic configuration remain disabled. Denied, uncertain, GPC, and DNT states remain fail-closed.

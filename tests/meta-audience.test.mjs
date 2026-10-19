@@ -24,6 +24,7 @@ const ELIGIBLE_PAGES = [
   ['medicare-2027-check/index.html', '/medicare-2027-check/'],
   ['plans/index.html', '/plans/'],
   ['thanks.html', '/thanks.html'],
+  ['blog/orlando-health-watson-clinic-insurance-2026.html', '/blog/orlando-health-watson-clinic-insurance-2026.html'],
   ['blog/orlando-health-watson-clinic-2027-plan.html', '/blog/orlando-health-watson-clinic-2027-plan.html']
 ];
 const FORM_BEARING_ELIGIBLE_FILES = new Set([
@@ -36,6 +37,7 @@ const FORM_BEARING_ELIGIBLE_FILES = new Set([
   'carriers/index.html',
   'medicare-broker-lakeland-fl/index.html',
   'medicare-2027-check/index.html',
+  'blog/orlando-health-watson-clinic-insurance-2026.html',
   'blog/orlando-health-watson-clinic-2027-plan.html'
 ]);
 const PROMPT_SUPPRESSED_PATHS = [
@@ -269,8 +271,8 @@ function htmlFiles(dir = ROOT, out = []) {
   return out;
 }
 
-test('all 10 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
-  assert.equal(ELIGIBLE_PAGES.length, 10);
+test('all 11 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
+  assert.equal(ELIGIBLE_PAGES.length, 11);
   for (const [, pathname] of ELIGIBLE_PAGES) {
     const { sandbox, scripts, controls } = loadMetaAudience({ pathname });
     assert.equal(scripts.length, 1, pathname);
@@ -642,7 +644,7 @@ test('approved ad query parameters load the Pixel on eligible routes and strip b
     '?fbclid=IwY2xjawNeutralOpaqueClickIdentifier123&utm_source=facebook&utm_medium=paid_social&utm_campaign=watson-2027'
   ];
   for (const search of adQueries) {
-    for (const pathname of ['/', '/medicare-2027-check/', '/blog/orlando-health-watson-clinic-2027-plan.html']) {
+    for (const pathname of ['/', '/medicare-2027-check/', '/blog/orlando-health-watson-clinic-insurance-2026.html', '/blog/orlando-health-watson-clinic-2027-plan.html']) {
       const { sandbox, scripts } = loadMetaAudience({ pathname, search });
       assert.equal(scripts.length, 1, `${pathname} ${search}`);
       assert.equal(sandbox.location.search, '', `${pathname} ${search}`);
@@ -655,7 +657,7 @@ test('approved ad query parameters load the Pixel on eligible routes and strip b
   assert.equal(rejected.sandbox.__LHI_META_AUDIENCE_STATUS__.reason, 'query-rejected');
 });
 
-test('static marker inventory exactly matches the reviewed 10-page landing ledger', () => {
+test('static marker inventory exactly matches the reviewed 11-page landing ledger', () => {
   const marked = [];
   for (const file of htmlFiles()) {
     const html = readFileSync(file, 'utf8');
