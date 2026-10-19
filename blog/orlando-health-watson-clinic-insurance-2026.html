@@ -2,6 +2,7 @@
 <html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="meta-audience-eligible" content="pageview">
   <title>Watson Clinic Insurance Accepted 2026 &amp; 2027 | Lakeland Guide</title>
   <meta name="description" content="What insurance does Watson Clinic accept in 2026 and 2027? Review Medicare Advantage, Marketplace, and commercial plan types, 2027 network changes, and how to verify your doctor before you enroll.">
   <link rel="canonical" href="https://lakelandhealthinsurance.com/blog/orlando-health-watson-clinic-insurance-2026.html">
@@ -746,6 +747,37 @@
         loadScript('/js/funnel.js?v=20261018-licensed-states-23-v1');
         loadScript('/js/chat-widget.js?v=20261016-pr-c-chat');
         loadScript('/js/blog-cta.js?v=20260803-brand-release');
+      }
+      function wireFastLeadSubmit() {
+        var form = document.querySelector('form[name="site-aca-lead"]');
+        if (!form || form.__lhiDeferredLeadWired) return;
+        form.__lhiDeferredLeadWired = true;
+        function ensureBundle() {
+          loadDeferredBundle();
+        }
+        form.addEventListener('focusin', ensureBundle, { capture: true, passive: true });
+        form.addEventListener('pointerdown', ensureBundle, { capture: true, passive: true });
+        form.addEventListener('submit', function (event) {
+          ensureBundle();
+          if (window.LHI) return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          var attempts = 0;
+          var timer = window.setInterval(function () {
+            attempts += 1;
+            if (window.LHI) {
+              window.clearInterval(timer);
+              if (typeof form.requestSubmit === 'function') form.requestSubmit();
+              return;
+            }
+            if (attempts > 240) window.clearInterval(timer);
+          }, 25);
+        }, { capture: true });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', wireFastLeadSubmit, { once: true });
+      } else {
+        wireFastLeadSubmit();
       }
       if (document.readyState === 'complete') {
         scheduleAfterPaint(loadDeferredBundle);
