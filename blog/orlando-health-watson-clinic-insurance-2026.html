@@ -259,7 +259,16 @@
     .lhi-sms-doctor-cta { background: var(--greenbg); border-left: 4px solid var(--green); }
     .lhi-sms-doctor-cta p { margin: 0; color: var(--navy); font-weight: 600; }
     .lhi-sms-doctor-cta .lhi-sms-cta-link { border: 2px solid var(--navy); }
-    .lhi-sms-doctor-cta .lhi-sms-cta-number { font-weight: 700; }
+    .lhi-sms-doctor-cta .lhi-sms-cta-number { font-weight: 700; white-space: nowrap; }
+    @media (max-width: 767px) {
+      .lhi-sms-doctor-cta .lhi-sms-cta-link {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2rem;
+      }
+      .lhi-sms-doctor-cta .lhi-sms-cta-label { display: block; }
+    }
     @media (min-width: 768px) {
       .lhi-sms-doctor-cta .lhi-sms-cta-link .lhi-sms-cta-number::before { content: ' · '; font-weight: 600; }
     }
