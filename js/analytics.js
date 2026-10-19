@@ -201,6 +201,99 @@
         header_talk_to_david: true,
         footer_start_plan_review: true
       }
+    },
+    '/medicare-2027-check/': {
+      page_key: 'medicare_2027_check',
+      page_role: 'campaign',
+      cta_keys: {
+        start_review_hero: true,
+        request_review_hero: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/orlando-health-watson-clinic-insurance-2026.html/': {
+      page_key: 'orlando_health_watson_clinic_insurance_2026',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        provider_check_alert: true,
+        provider_check_body: true,
+        provider_check_bottom: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/orlando-health-watson-clinic-2027-plan.html/': {
+      page_key: 'orlando_health_watson_clinic_2027_plan',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/baycare-medicare-advantage-plans-2027-polk-county.html/': {
+      page_key: 'baycare_medicare_advantage_plans_2027_polk',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/': {
+      page_key: 'lakeland_regional_unitedhealthcare_2027',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/medicare-advantage-lakeland-2026.html/': {
+      page_key: 'medicare_advantage_lakeland_2026',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/orlando-health-polk-county-expansion-2026.html/': {
+      page_key: 'orlando_health_polk_county_expansion_2026',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/medicare-part-b-giveback-polk-county.html/': {
+      page_key: 'medicare_part_b_giveback_polk_county',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
     }
   };
 
