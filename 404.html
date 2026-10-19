@@ -25,6 +25,18 @@
     <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
     <link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2">
+    <script>
+      (function () {
+        var path = window.location.pathname || '';
+        var match = path.match(/^(\/.*?\/)(utm_[a-z]+=[^/]*|fbclid=[^/]*.*)$/i);
+        if (match) {
+          var base = match[1];
+          var qs = match[2];
+          var search = window.location.search ? '&' + window.location.search.slice(1) : '';
+          window.location.replace(base + '?' + qs + search + (window.location.hash || ''));
+        }
+      })();
+    </script>
 
     <!-- Google Analytics --><style>
         :root {

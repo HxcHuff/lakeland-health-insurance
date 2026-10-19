@@ -209,6 +209,12 @@
 /lp/aca.html /lp/aca/index.html 200
 /lp/aca /lp/aca/index.html 200
 /lp/aca/ /lp/aca/index.html 200
+/lp/aca/utm_* /lp/aca/?utm_:splat 302!
+/lp/medicare/utm_* /lp/medicare/?utm_:splat 302!
+/lp/gap/utm_* /lp/gap/?utm_:splat 302!
+/lp/aca/fbclid=* /lp/aca/?fbclid=:splat 302!
+/lp/medicare/fbclid=* /lp/medicare/?fbclid=:splat 302!
+/lp/gap/fbclid=* /lp/gap/?fbclid=:splat 302!
 
 # Medicare local bridge pages
 /medicare/east-polk /medicare/east-polk/index.html 200
