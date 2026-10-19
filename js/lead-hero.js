@@ -112,17 +112,16 @@
     d.body.classList.toggle(BODY_FORM_IN_VIEW, Boolean(inView));
   }
 
-  function usesShellSiblingLeadForm() {
+  function isMedicareLeadSurface() {
     return Boolean(
-      d.querySelector(
-        '.lhi-hero-shell > .lhi-hero-grid-lead, .lhi-hero-shell .hero-grid > .lhi-hero-grid-lead, .lhi-hero-shell .answer-grid > .lhi-hero-grid-lead'
-      )
+      d.querySelector('.lhi-lead-hero[data-variant="medicare"]') ||
+      d.querySelector('meta[name="lhi-chrome-intent"][content="medicare"]')
     );
   }
 
   function ensureStickyBar() {
-    if (usesShellSiblingLeadForm() && !d.body.classList.contains('home-page')) return null;
     if (!d.querySelector('.lhi-lead-hero') || d.getElementById('lhi-lead-sticky-bar')) return null;
+    var quoteLabel = isMedicareLeadSurface() ? 'Request review' : 'Get a quote';
     var bar = d.createElement('div');
     bar.id = 'lhi-lead-sticky-bar';
     bar.className = STICKY_CLASS;
@@ -130,7 +129,7 @@
     bar.setAttribute('aria-label', 'Quick contact');
     bar.innerHTML =
       '<a class="lhi-lead-sticky__call" href="' + PHONE_HREF + '" data-lhi-sticky-call>Call ' + PHONE_DISPLAY + '</a>' +
-      '<a class="lhi-lead-sticky__quote" href="#lhi-site-lead-form" data-lhi-sticky-quote>Get a quote</a>';
+      '<a class="lhi-lead-sticky__quote" href="#lhi-site-lead-form" data-lhi-sticky-quote>' + quoteLabel + '</a>';
     d.body.appendChild(bar);
 
     var call = bar.querySelector('[data-lhi-sticky-call]');
@@ -177,10 +176,18 @@
   }
 
   function wireStickyObserver(bar) {
-    if (!bar || !('IntersectionObserver' in w)) return;
+    if (!bar) return;
     var heroForm = d.getElementById('lhi-site-lead-form');
     if (!heroForm) heroForm = d.querySelector('.lhi-lead-hero__card');
     if (!heroForm) return;
+    if (typeof heroForm.getBoundingClientRect === 'function') {
+      var rect = heroForm.getBoundingClientRect();
+      var vh = w.innerHeight || 844;
+      if (rect.bottom > 64 && rect.top < vh) {
+        setLeadFormInView(true);
+      }
+    }
+    if (!('IntersectionObserver' in w)) return;
     var observer = new w.IntersectionObserver(function (entries) {
       var visible = entries.some(function (entry) {
         return entry.isIntersecting && entry.intersectionRatio >= 0.08;

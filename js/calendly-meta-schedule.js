@@ -494,6 +494,11 @@
     }
     bindBookingFacade();
     setStatus('ready', 'facade-idle');
+    if (typeof w.requestIdleCallback === 'function') {
+      w.requestIdleCallback(function () {
+        activateBookingEmbed();
+      }, { timeout: 1200 });
+    }
     w.addEventListener('message', handleScheduled);
     return true;
   }

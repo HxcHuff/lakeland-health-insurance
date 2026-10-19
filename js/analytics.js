@@ -684,7 +684,7 @@
   var initialPath = normalizePath(window.location.pathname);
   var hasTrackedForm = typeof document.querySelector === 'function'
     && document.querySelector('form[data-funnel-track], form[data-funnel-step]');
-  if (hasTrackedForm || initialMedicareContext || initialPath === '/' || initialPath === '/get-help/' || initialPath.indexOf('/lp/') === 0) {
+  if (hasTrackedForm || initialMedicareContext || initialPath === '/' || initialPath === '/get-help/' || initialPath === '/thanks.html/' || initialPath === '/thanks/' || initialPath.indexOf('/lp/') === 0) {
     loadFunnelBus();
   }
 
