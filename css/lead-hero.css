@@ -3680,3 +3680,36 @@ body.lhi-page-hero.aca-subsidy-estimator-page .form-group .help-text {
 body.lhi-page-hero:not(.home-page) footer .footer-column h3 {
   color: #fff;
 }
+
+.lhi-hero-lede-block .lhi-david-pull-quote {
+  border: 0;
+  margin: clamp(1rem, 2vw, 1.5rem) 0 0;
+  padding: 0;
+}
+
+.lhi-hero-lede-block .lhi-david-pull-quote__rule {
+  background: var(--gold, #D4A843);
+  border: 0;
+  height: 3px;
+  margin: 0 0 12px;
+  width: 48px;
+}
+
+.lhi-hero-lede-block .lhi-david-pull-quote p {
+  color: var(--navy, #1B2A4A) !important;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.25;
+  margin: 0 0 8px;
+}
+
+.lhi-hero-lede-block .lhi-david-pull-quote-attribution {
+  color: #64748B !important;
+  font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
