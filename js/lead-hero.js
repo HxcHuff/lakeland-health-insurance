@@ -64,11 +64,72 @@
     if (status) status.textContent = message || '';
   }
 
+  function stampInitialLeadSpamGuard(form) {
+    if (!form) return;
+    var startedInput = form.querySelector('input[name="started_at"]');
+    if (startedInput && !String(startedInput.value || '').trim()) {
+      var navOffset = w.performance && typeof w.performance.now === 'function'
+        ? Math.max(0, Math.round(w.performance.now()))
+        : 0;
+      var startedAt = String(Date.now() - navOffset);
+      startedInput.value = startedAt;
+      var humanInput = form.querySelector('input[name="human_check"]');
+      if (humanInput && typeof w.btoa === 'function') {
+        try {
+          humanInput.value = w.btoa(startedAt + ':lakeland-human');
+        } catch (e) {}
+      }
+    }
+  }
+
+  function ensureFunnelScriptLoaded() {
+    if (w.LHI || d.querySelector('script[src*="/js/funnel.js"]')) return;
+    var script = d.createElement('script');
+    script.src = '/js/funnel.js?v=20261018-licensed-states-23-v1';
+    script.defer = true;
+    (d.head || d.documentElement).appendChild(script);
+  }
+
+  function defaultAutofilledCoverageStatus(form) {
+    if (!form) return;
+    var select = form.querySelector('select[name="coverage_status"]');
+    if (!select || String(select.value || '').trim()) return;
+    var nameInput = form.querySelector('input[name="full_name"]');
+    var phoneInput = form.querySelector('input[name="phone"]');
+    var zipInput = form.querySelector('input[name="zip_code"]');
+    var hasContact = Boolean(
+      (nameInput && String(nameInput.value || '').trim()) ||
+      (phoneInput && String(phoneInput.value || '').trim()) ||
+      (zipInput && String(zipInput.value || '').trim())
+    );
+    if (!hasContact) return;
+    var preferredOrder = ['current_plan_review', 'not_sure', 'medicare_advantage', 'individual_marketplace'];
+    for (var i = 0; i < preferredOrder.length; i += 1) {
+      var candidate = preferredOrder[i];
+      var opt = select.querySelector('option[value="' + candidate + '"]');
+      if (opt) {
+        select.value = candidate;
+        return;
+      }
+    }
+  }
+
   function wireSiteLeadForms() {
     d.querySelectorAll('form[data-lhi-site-lead-form]').forEach(function (form) {
+      stampInitialLeadSpamGuard(form);
       if (form.__lhiSiteLeadWired) return;
       form.__lhiSiteLeadWired = true;
+      form.addEventListener('focusin', ensureFunnelScriptLoaded, { capture: true, passive: true });
+      form.addEventListener('pointerdown', ensureFunnelScriptLoaded, { capture: true, passive: true });
+      var submitBtn = form.querySelector('.lhi-lead-hero__submit, button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.addEventListener('click', function () {
+          ensureFunnelScriptLoaded();
+          defaultAutofilledCoverageStatus(form);
+        }, { capture: true });
+      }
       form.addEventListener('submit', function () {
+        defaultAutofilledCoverageStatus(form);
         showLeadStatus(form, 'Sending your request…');
         w.setTimeout(function () {
           if (d.contains(form)) {

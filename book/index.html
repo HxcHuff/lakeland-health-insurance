@@ -42,6 +42,107 @@
   <script defer src="/js/ab-variant.js?v=20261007-split"></script>
   <script defer src="/js/analytics.js?v=20261017-meta-conversion-events-v1"></script>
   <style>
+    .book-agent-strip {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
+      padding: 0.9rem 1.15rem;
+      margin: 1.1rem 0 1.25rem;
+      max-width: 44rem;
+    }
+    .book-agent-strip img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #D4A843;
+      flex-shrink: 0;
+    }
+    .book-agent-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .book-agent-meta strong {
+      color: #fff;
+      font-size: 1.02rem;
+    }
+    .book-agent-meta span {
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+    .book-agent-stars {
+      color: #D4A843;
+      font-weight: 700;
+    }
+    .book-expect-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.9rem;
+      margin: 0 0 1.25rem;
+    }
+    .book-expect-card {
+      background: #fff;
+      border: 1px solid #E2E8F0;
+      border-left: 4px solid #2563EB;
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      box-shadow: 0 4px 14px rgba(15, 26, 46, 0.04);
+    }
+    .book-expect-card strong {
+      display: block;
+      color: #1B2A4A;
+      font-size: 0.96rem;
+      margin-bottom: 0.25rem;
+    }
+    .book-expect-card span {
+      display: block;
+      color: #475569;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .book-caller-id-tip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      background: #FFFBEB;
+      border: 1px solid #F59E0B;
+      border-radius: 12px;
+      padding: 0.85rem 1.15rem;
+      margin: 0 0 1.25rem;
+      color: #78350F;
+      font-size: 0.93rem;
+      line-height: 1.5;
+    }
+    .book-caller-id-tip strong {
+      color: #1B2A4A;
+    }
+    .book-confirmed-banner {
+      background: #ECFDF5;
+      border: 2px solid #10B981;
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem;
+      margin: 0 0 1.25rem;
+      color: #064E3B;
+    }
+    .book-confirmed-banner h2 {
+      color: #065F46;
+      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
+      font-size: 1.65rem;
+      font-weight: 400;
+      margin: 0 0 0.4rem;
+    }
+    .book-confirmed-banner p {
+      margin: 0 0 0.65rem;
+      font-size: 0.96rem;
+      line-height: 1.55;
+    }
     .book-frame-wrap {
       background: #fff;
       border: 1px solid #E2E8F0;
@@ -93,7 +194,51 @@
       font-size: 0.95rem;
       margin: 1rem 0 0;
     }
+    .book-reviews-band {
+      margin-top: 1.75rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #E2E8F0;
+    }
+    .book-reviews-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.9rem;
+    }
+    .book-reviews-header h2 {
+      color: #1B2A4A;
+      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
+      font-size: 1.45rem;
+      font-weight: 400;
+      margin: 0;
+    }
+    .book-reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.9rem;
+    }
+    .book-review-card {
+      background: #fff;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+    }
+    .book-review-card p {
+      color: #334155;
+      font-size: 0.89rem;
+      line-height: 1.55;
+      margin: 0.35rem 0 0.55rem;
+    }
+    .book-review-author {
+      color: #1B2A4A;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
     @media (max-width: 720px) {
+      .book-expect-grid,
+      .book-reviews-grid { grid-template-columns: 1fr; }
       .book-frame-wrap.book-frame-wrap--active,
       .book-frame-wrap.book-frame-wrap--active iframe { min-height: 820px; height: 820px; }
     }
@@ -120,18 +265,50 @@
         <nav aria-label="Breadcrumb">
           <a href="/">Home</a> &rsaquo; Book a time with David
         </nav>
-        <p class="eyebrow">Lakeland-based coverage review</p>
+        <p class="eyebrow">Lakeland-based coverage review · 15-minute phone appointment</p>
         <h1>Book a time with David</h1>
-        <p class="lead">Choose an available time for a Florida health insurance review. A booked conversation is not enrollment and does not determine eligibility, plan availability, or cost.</p>
+        <p class="lead">Pick an open slot below for a direct phone review of your 2027 Medicare or Individual &amp; Family options. A booked conversation is not enrollment and does not determine eligibility, plan availability, or cost.</p>
+        <div class="book-agent-strip">
+          <img src="/assets/images/david-huff-blue-polo.jpg" alt="David Huff, Licensed Florida Health Insurance Agent" width="64" height="64" fetchpriority="high" decoding="async">
+          <div class="book-agent-meta">
+            <strong>David Huff · Licensed Insurance Agent (FL #W371813 · NPN 18213932)</strong>
+            <span><span class="book-agent-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 5.0 Google Rating · Local Lakeland office serving Florida &amp; 23 licensed states</span>
+          </div>
+        </div>
         <div class="cta-row">
-          <a class="btn primary" href="tel:+18636403102">Call (863) 640-3102</a>
-          <a class="btn secondary" href="/get-help/">Request a plan review</a>
+          <a class="btn primary" href="tel:+18636403102">Call (863) 640-3102 now</a>
+          <a class="btn secondary" href="/provider-prescription-check/#interactive-verification-worksheet">Prepare your doctor &amp; Rx list</a>
         </div>
       </div>
     </section>
 
     <section class="content-band">
       <div class="answer-wrap">
+        <div class="book-caller-id-tip" role="note">
+          <span><strong>Tip so you don&rsquo;t miss the call:</strong> David will call you from <a href="tel:+18636403102"><strong>(863) 640-3102</strong></a> at your scheduled time. Save that number in your contacts so your phone&rsquo;s spam filter doesn&rsquo;t silence it.</span>
+        </div>
+
+        <div class="book-expect-grid" aria-label="What we cover on your call">
+          <div class="book-expect-card">
+            <strong>1. Doctor &amp; Hospital Check</strong>
+            <span>Verify whether Watson Clinic, Lakeland Regional Health, BayCare, AdventHealth, or Orlando Health accept the exact plan ID.</span>
+          </div>
+          <div class="book-expect-card">
+            <strong>2. 2027 Rx &amp; Cost Math</strong>
+            <span>Check medication formulary tiers, preferred pharmacy pricing, or 2027 ACA Marketplace subsidy and Silver CSR math.</span>
+          </div>
+          <div class="book-expect-card">
+            <strong>3. Side-by-Side Plan Comparison</strong>
+            <span>If your current plan is still a strong fit for 2027, David will show you how it compares before you make any change.</span>
+          </div>
+        </div>
+
+        <div class="book-confirmed-banner" id="booking-confirmed-banner" role="status" aria-live="polite" hidden>
+          <h2>You&rsquo;re booked on David&rsquo;s calendar!</h2>
+          <p><strong>Step 1:</strong> Save <strong><a href="tel:+18636403102">(863) 640-3102</a></strong> in your phone contacts right now so your phone doesn&rsquo;t block David&rsquo;s call at your appointment time.</p>
+          <p><strong>Step 2 (Optional — takes 60 seconds):</strong> Use the <a href="/provider-prescription-check/#interactive-verification-worksheet"><strong>2027 Doctor, Hospital &amp; Prescription Check Builder &rarr;</strong></a> to list the doctors and medications you want checked before we talk.</p>
+        </div>
+
         <div class="book-frame-wrap">
           <div class="book-facade" id="booking-facade">
             <h2>Open the scheduling calendar</h2>
@@ -141,6 +318,30 @@
           <iframe id="booking-frame" title="Schedule a time with David"></iframe>
         </div>
         <p class="book-fallback">If the calendar does not load, call <a href="tel:+18636403102">(863) 640-3102</a>, use the <a href="/get-help/">plan review form</a>, or <a href="/book/embed">open scheduling in a new tab</a>.</p>
+
+        <div class="book-reviews-band" aria-label="Verified Google reviews">
+          <div class="book-reviews-header">
+            <h2>What Florida neighbors say after their call</h2>
+            <a href="https://www.google.com/maps?cid=5421693615683546210" target="_blank" rel="noopener noreferrer">5.0 &#9733;&#9733;&#9733;&#9733;&#9733; on Google Maps &rarr;</a>
+          </div>
+          <div class="book-reviews-grid">
+            <div class="book-review-card">
+              <div class="book-agent-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p>&ldquo;David checked every single one of my doctors at Watson Clinic and Lakeland Regional before we picked a plan. Answered all my questions without rushing.&rdquo;</p>
+              <div class="book-review-author">James M. · Lakeland, FL (Verified Google Review)</div>
+            </div>
+            <div class="book-review-card">
+              <div class="book-agent-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p>&ldquo;Walked us through our self-employed Marketplace options in 15 minutes and showed us how Silver cost-sharing reductions actually worked.&rdquo;</p>
+              <div class="book-review-author">Maria R. · Winter Haven, FL (Verified Google Review)</div>
+            </div>
+            <div class="book-review-card">
+              <div class="book-agent-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p>&ldquo;So refreshing to talk to a real local Lakeland agent who actually answers his phone instead of a call center.&rdquo;</p>
+              <div class="book-review-author">Robert &amp; Linda T. · Polk County, FL (Verified Google Review)</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>

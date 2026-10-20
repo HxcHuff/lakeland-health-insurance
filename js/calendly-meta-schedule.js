@@ -411,6 +411,15 @@
     }
   }
 
+  function revealBookingConfirmationBanner() {
+    var banner = d.getElementById('booking-confirmed-banner');
+    if (!banner) return;
+    banner.hidden = false;
+    if (typeof banner.scrollIntoView === 'function') {
+      try { banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (_) {}
+    }
+  }
+
   function handleScheduled(event) {
     if (!isScheduledMessage(event, w.location && w.location.origin)) return false;
     if (fired) {
@@ -418,6 +427,7 @@
       return false;
     }
     fired = true;
+    revealBookingConfirmationBanner();
 
     var eventId = makeEventId();
     var customEventId = derivedCustomEventId(eventId, BOOKING_CUSTOM_SUFFIX);
@@ -498,6 +508,10 @@
       w.requestIdleCallback(function () {
         activateBookingEmbed();
       }, { timeout: 1200 });
+    } else if (typeof w.setTimeout === 'function') {
+      w.setTimeout(function () {
+        activateBookingEmbed();
+      }, 600);
     }
     w.addEventListener('message', handleScheduled);
     return true;

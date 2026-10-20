@@ -967,7 +967,10 @@
     }
     var startedInput = form.elements && form.elements.started_at;
     if (startedInput && String(startedInput.value || '').trim()) return;
-    var startedAt = String(Date.now());
+    var navOffset = w.performance && typeof w.performance.now === 'function'
+      ? Math.max(0, Math.round(w.performance.now()))
+      : 0;
+    var startedAt = String(Date.now() - navOffset);
     setAttributionField(form, 'started_at', startedAt);
     try {
       setAttributionField(form, 'human_check', w.btoa(startedAt + ':lakeland-human'));
@@ -990,7 +993,10 @@
     setSitelinkField(form, 'source_page', String(w.location.pathname || '/').slice(0, 160));
     setSitelinkField(form, 'referral_page', sitelinkReferralClass());
 
-    var startedAt = String(Date.now());
+    var navOffset = w.performance && typeof w.performance.now === 'function'
+      ? Math.max(0, Math.round(w.performance.now()))
+      : 0;
+    var startedAt = String(Date.now() - navOffset);
     setSitelinkField(form, 'started_at', startedAt);
     try {
       setSitelinkField(form, 'human_check', w.btoa(startedAt + ':lakeland-human'));
@@ -1151,7 +1157,7 @@
     var panel = form.closest('#m27LeadPanel') || form.parentElement;
     var message = form.getAttribute('data-inline-thank-you-message') || 'Thanks — David will call you, usually same day.';
     if (!panel) return;
-    panel.innerHTML = '<div class="m27-thanks" role="status" aria-live="polite"><h2>Request received</h2><p>' + message + ' Call or text <a href="tel:+18636403102">(863) 640-3102</a>.</p></div>';
+    panel.innerHTML = '<div class="m27-thanks" role="status" aria-live="polite"><h2>Request received</h2><p>' + message + ' Call or text <a href="tel:+18636403102">(863) 640-3102</a>.</p><p style="margin:0.85rem 0;"><a class="cta-button m27-submit-style" href="/book/" data-funnel-booking>Want an exact time? Pick a 15-min slot on David\u2019s calendar \u2192</a></p><p style="font-size:0.88rem;opacity:0.92;margin:0.5rem 0 0;">Tip: Save <strong>(863) 640-3102</strong> in your contacts now so your phone doesn\u2019t silence David\u2019s call.</p></div>';
   }
 
   function syncLandingMedicareDisclosures() {

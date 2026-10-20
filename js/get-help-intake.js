@@ -1002,9 +1002,16 @@
 
   function showError(message) {
     var box = byId('errorSummary');
+    var status = byId('formStatus');
+    if (status) {
+      status.textContent = message || '';
+    }
     if (!box) return;
     box.textContent = message;
     box.hidden = !message;
+    if (message && typeof box.scrollIntoView === 'function') {
+      try { box.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+    }
   }
 
   function validateStep(step) {

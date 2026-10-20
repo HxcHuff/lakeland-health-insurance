@@ -773,89 +773,9 @@
   <script src="/js/site-template.js?v=20261017-tpmo-10-74" defer=""></script>
   <script src="/js/lead-hero.js?v=20261018-licensed-states-23-v1" defer=""></script>
   <script src="/js/site-phone.js?v=20261015-v6merge2" defer=""></script>
-  <script>
-    (function () {
-      var loaded = {};
-      function loadScript(src) {
-        if (loaded[src]) return;
-        loaded[src] = true;
-        var el = document.createElement('script');
-        el.src = src;
-        el.defer = true;
-        document.head.appendChild(el);
-      }
-      function scheduleAfterPaint(fn) {
-        var fired = false;
-        function fire() {
-          if (fired) return;
-          fired = true;
-          fn();
-        }
-        ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
-          window.addEventListener(ev, fire, { passive: true, capture: true, once: true });
-        });
-        if ('requestIdleCallback' in window) {
-          window.requestIdleCallback(fire, { timeout: 3500 });
-        } else {
-          window.setTimeout(fire, 3500);
-        }
-      }
-      function loadDeferredBundle() {
-        loadScript('/js/analytics.js?v=20261017-meta-conversion-events-v1');
-        loadScript('/js/funnel.js?v=20261018-licensed-states-23-v1');
-        loadScript('/js/chat-widget.js?v=20261016-pr-c-chat');
-        loadScript('/js/blog-cta.js?v=20260803-brand-release');
-      }
-      function wireFastLeadSubmit() {
-        var form = document.querySelector('form[name="site-aca-lead"]');
-        if (!form || form.__lhiDeferredLeadWired) return;
-        form.__lhiDeferredLeadWired = true;
-        function ensureBundle() {
-          loadDeferredBundle();
-        }
-        form.addEventListener('focusin', ensureBundle, { capture: true, passive: true });
-        form.addEventListener('pointerdown', ensureBundle, { capture: true, passive: true });
-        form.addEventListener('submit', function (event) {
-          ensureBundle();
-          if (window.LHI) return;
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          var attempts = 0;
-          var timer = window.setInterval(function () {
-            attempts += 1;
-            if (window.LHI) {
-              window.clearInterval(timer);
-              if (typeof form.requestSubmit === 'function') form.requestSubmit();
-              return;
-            }
-            if (attempts > 240) window.clearInterval(timer);
-          }, 25);
-        }, { capture: true });
-      }
-      function wireSmsDoctorCta() {
-        document.querySelectorAll('[data-lhi-sms-cta]').forEach(function (link) {
-          link.addEventListener('pointerdown', function () {
-            loadDeferredBundle();
-          }, { passive: true, capture: true });
-        });
-      }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function () {
-          wireFastLeadSubmit();
-          wireSmsDoctorCta();
-        }, { once: true });
-      } else {
-        wireFastLeadSubmit();
-        wireSmsDoctorCta();
-      }
-      if (document.readyState === 'complete') {
-        scheduleAfterPaint(loadDeferredBundle);
-      } else {
-        window.addEventListener('load', function () {
-          scheduleAfterPaint(loadDeferredBundle);
-        }, { once: true });
-      }
-    })();
-  </script>
+  <script src="/js/analytics.js?v=20261017-meta-conversion-events-v1" defer=""></script>
+  <script src="/js/funnel.js?v=20261018-licensed-states-23-v1" defer=""></script>
+  <script src="/js/chat-widget.js?v=20261016-pr-c-chat" defer=""></script>
+  <script src="/js/blog-cta.js?v=20260803-brand-release" defer=""></script>
 
 </body></html>

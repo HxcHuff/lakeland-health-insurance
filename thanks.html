@@ -145,6 +145,56 @@
     }
     .btn-primary { background: var(--blue); color: #fff; }
     .btn-secondary { background: #fff; border: 1px solid var(--border); color: var(--navy); }
+    .btn-book-gold {
+      background: var(--gold);
+      color: #0F1A2E;
+      box-shadow: 0 6px 18px rgba(212, 168, 67, 0.32);
+    }
+    .btn-book-gold:hover { background: #e0b650; }
+    .instant-book-card {
+      background: linear-gradient(135deg, #1B2A4A 0%, #1E3A8A 100%);
+      border: 2px solid var(--gold);
+      border-radius: 12px;
+      color: #fff;
+      padding: clamp(20px, 3.2vw, 30px);
+      margin-bottom: 18px;
+    }
+    .instant-book-badge {
+      display: inline-block;
+      background: rgba(212, 168, 67, 0.2);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+    .instant-book-card h2 {
+      color: #fff;
+      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
+      font-size: clamp(1.55rem, 3.2vw, 2.1rem);
+      font-weight: 400;
+      margin: 0 0 8px;
+    }
+    .instant-book-card p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.98rem;
+      line-height: 1.55;
+      margin: 0 0 14px;
+      max-width: 44rem;
+    }
+    .instant-book-caller-note {
+      background: rgba(255, 255, 255, 0.1);
+      border-left: 3px solid var(--gold);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.95);
+      margin-top: 12px;
+    }
     .privacy-note {
       border-left: 4px solid var(--gold);
       color: var(--muted);
@@ -209,9 +259,22 @@
     <section class="hero thanks-hero" aria-labelledby="thanksTitle">
       <p class="eyebrow" id="thanksEyebrow">Request received</p>
       <h1 id="thanksTitle">Your request was received.</h1>
-      <p class="subtitle" id="thanksSubtitle">David personally reviews each request and will call or text during normal business hours. If you need help immediately, call (863) 640-3102.</p>
+      <p class="subtitle" id="thanksSubtitle">David reviews each request and will call or text from (863) 640-3102 during normal business hours. Want to skip phone tag? Pick an exact 15-minute slot below.</p>
     </section>
     <section class="thanks-panel">
+
+      <div class="instant-book-card" id="instantBookCard">
+        <span class="instant-book-badge">Fastest Option · Skip Phone Tag</span>
+        <h2>Want to pick the exact time David calls you?</h2>
+        <p>Lock in a 15-minute slot on David&rsquo;s live calendar right now so you know the exact time to expect his call.</p>
+        <div class="cta-row" style="margin-top: 10px;">
+          <a class="btn btn-book-gold" href="/book/" id="thanksBookBtn" data-funnel-booking>Book a 15-minute slot on David&rsquo;s calendar &rarr;</a>
+          <a class="btn btn-secondary" href="tel:+18636403102" data-analytics-label="thanks_immediate_call">Or call David now: (863) 640-3102</a>
+        </div>
+        <div class="instant-book-caller-note">
+          <strong>Important:</strong> Save <strong>(863) 640-3102</strong> in your phone contacts now so your phone&rsquo;s spam filter doesn&rsquo;t silence David&rsquo;s call.
+        </div>
+      </div>
 
       <div class="next-grid" id="nextGrid">
         <div class="next-card">
@@ -233,17 +296,13 @@
       </div>
 
       <div class="next-card" style="margin-top: 16px;">
-        <h2>While you wait, make your list</h2>
+        <h2>While you wait, build your 2027 Doctor &amp; Rx Checklist</h2>
         <ul>
-          <li>Doctors with office address</li>
-          <li>Medications with strength</li>
-          <li>Pharmacy</li>
+          <li>Primary care doctors, specialists, and hospital systems (Watson Clinic, LRH, BayCare, AdventHealth, Orlando Health)</li>
+          <li>Medications with dosage and preferred pharmacy</li>
+          <li>Copy, print, or bring your summary to your call with David</li>
         </ul>
-        <p><a href="/provider-prescription-check/">Check doctors and prescriptions for 2027</a></p>
-        <div class="cta-row" style="margin-top: 12px;">
-          <a class="btn btn-primary" href="tel:+18636403102" data-analytics-label="thanks_immediate_call">Call David: (863) 640-3102</a>
-          <a class="btn btn-secondary" href="/book/">Book a time on David's calendar</a>
-        </div>
+        <p><a href="/provider-prescription-check/#interactive-verification-worksheet"><strong>Open the 2027 Doctor, Hospital &amp; Prescription Check Builder &rarr;</strong></a></p>
       </div>
 
       <div class="cta-row" id="ctaRow">
@@ -270,6 +329,9 @@
         text('thanksTitle', 'David will reach out shortly.');
         ['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'].forEach(hide);
         return;
+      }
+      if (kind === 'Subscriber') {
+        hide('instantBookCard');
       }
 
       var copy = {
