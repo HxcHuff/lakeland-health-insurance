@@ -294,7 +294,7 @@
           </article>
         </div>
 
-        <article class="answer-card" id="interactive-verification-worksheet" aria-labelledby="worksheet-builder-title">
+        <article class="answer-card" id="interactive-verification-worksheet" aria-labelledby="worksheet-builder-title" style="scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 20px);">
           <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:0.75rem; margin-bottom:0.85rem;">
             <div>
               <p class="eyebrow" style="margin:0 0 0.25rem; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#2563EB;">Interactive Preparation Tool &middot; Browser-Only</p>
@@ -307,11 +307,15 @@
           <div style="margin-bottom:1.1rem;">
             <strong style="display:block; font-size:0.9rem; color:#1B2A4A; margin-bottom:0.5rem;">1. Select health systems or facilities to verify on the exact 2027 plan ID:</strong>
             <div id="rxCheckSystemChips" style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-              <button type="button" class="rx-chip" data-system="Watson Clinic (Main / Bartow Rd / Highlands / South)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Watson Clinic</button>
-              <button type="button" class="rx-chip" data-system="Lakeland Regional Health (Medical Center &amp; Physician Group)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Lakeland Regional Health</button>
-              <button type="button" class="rx-chip" data-system="BayCare (Winter Haven Hospital / Bartow Regional)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ BayCare / Winter Haven Hospital</button>
-              <button type="button" class="rx-chip" data-system="Orlando Health (Lakeland Highlands Hospital)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Orlando Health</button>
-              <button type="button" class="rx-chip" data-system="AdventHealth (Heart of Florida / Lake Wales / Centra Care)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ AdventHealth</button>
+              <button type="button" class="rx-chip" data-key="watson" data-label="Watson Clinic" data-system="Watson Clinic (Main / Bartow Rd / Highlands / South)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Watson Clinic</button>
+              <button type="button" class="rx-chip" data-key="lrh" data-label="Lakeland Regional Health" data-system="Lakeland Regional Health (Medical Center &amp; Physician Group)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Lakeland Regional Health</button>
+              <button type="button" class="rx-chip" data-key="baycare" data-label="BayCare / Winter Haven Hospital" data-system="BayCare (Winter Haven Hospital / Bartow Regional)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ BayCare / Winter Haven Hospital</button>
+              <button type="button" class="rx-chip" data-key="orlando" data-label="Orlando Health" data-system="Orlando Health (Lakeland Highlands Hospital)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Orlando Health</button>
+              <button type="button" class="rx-chip" data-key="advent" data-label="AdventHealth" data-system="AdventHealth (Heart of Florida / Lake Wales / Centra Care)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ AdventHealth</button>
+            </div>
+            <div id="rxSystemWatchouts" hidden style="margin-top:0.85rem; background:#EFF6FF; border:1px solid #BFDBFE; border-left:4px solid #2563EB; border-radius:10px; padding:0.85rem 1rem; font-size:0.88rem; color:#1E293B;">
+              <strong style="display:block; color:#1B2A4A; margin-bottom:0.4rem;">2027 Polk County Network Watchouts for Your Selected Facilities:</strong>
+              <ul id="rxSystemWatchoutList" style="margin:0; padding-left:1.2rem; display:grid; gap:0.35rem;"></ul>
             </div>
           </div>
 
@@ -342,6 +346,7 @@
             <div style="display:flex; flex-wrap:wrap; gap:0.55rem;">
               <button type="button" id="rxCopySummaryBtn" class="btn secondary" style="cursor:pointer;">Copy Verification Summary</button>
               <button type="button" id="rxPrintWorksheetBtn" class="btn secondary" style="cursor:pointer;">Print Worksheet</button>
+              <a href="#lhi-site-lead-form" class="btn primary">Request David's Plan-ID Check</a>
             </div>
           </div>
         </article>
@@ -422,26 +427,67 @@
       var chips = Array.prototype.slice.call(document.querySelectorAll('#rxCheckSystemChips .rx-chip'));
       var cbs = Array.prototype.slice.call(document.querySelectorAll('.rx-step-cb'));
       var statusEl = document.getElementById('rxCheckStatusText');
+      var watchoutBox = document.getElementById('rxSystemWatchouts');
+      var watchoutList = document.getElementById('rxSystemWatchoutList');
       var copyBtn = document.getElementById('rxCopySummaryBtn');
       var printBtn = document.getElementById('rxPrintWorksheetBtn');
       var planInput = document.getElementById('rxCheckPlanId');
       var pharmInput = document.getElementById('rxCheckPharmacy');
       if (!chips.length || !statusEl) return;
 
+      var WATCHOUTS = {
+        watson: {
+          html: '<strong>Watson Clinic:</strong> Starting January 1, 2027, Watson Clinic no longer accepts Humana plans, and some Medicare Advantage HMOs are specialty-only (no Watson Clinic PCP). Verify your doctor by exact 2027 plan ID or call Patient Relations at (863) 680-7213. <a href="/blog/watson-clinic-humana-2027.html">Read the 2027 Watson Clinic Humana guide</a>.',
+          text: 'Watson Clinic: No longer accepts Humana starting Jan 1, 2027; check whether HMO is full participation vs. specialty-only.'
+        },
+        lrh: {
+          html: '<strong>Lakeland Regional Health:</strong> Hospital facility contracts (1324 Lakeland Hills Blvd) and LRH Physician Group doctors are verified separately. <a href="/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/">See LRH &amp; 2027 network check</a>.',
+          text: 'Lakeland Regional Health: Verify hospital facility and LRH Physician Group doctors separately on the 2027 plan ID.'
+        },
+        baycare: {
+          html: '<strong>BayCare / Winter Haven Hospital:</strong> Confirm Winter Haven Hospital, Bartow Regional Medical Center, and BayCare Medical Group (formerly Gessler Clinic) under the exact 2027 plan ID. <a href="/blog/baycare-medicare-advantage-plans-2027-polk-county.html">See BayCare 2027 Polk County guide</a>.',
+          text: 'BayCare / Winter Haven Hospital: Verify hospital facility and BayCare Medical Group (including former Gessler Clinic doctors) by 2027 plan ID.'
+        },
+        orlando: {
+          html: '<strong>Orlando Health Lakeland Highlands Hospital:</strong> The hospital at 4000 Lakeland Highlands Rd has separate facility contracts from Watson Clinic physicians. Confirm both the hospital and your attending specialist. <a href="/blog/orlando-health-watson-clinic-insurance-2026.html">Read the Orlando Health &amp; Watson Clinic guide</a>.',
+          text: 'Orlando Health Lakeland Highlands Hospital: Verify hospital facility contract (4000 Lakeland Highlands Rd) separately from Watson Clinic physician group.'
+        },
+        advent: {
+          html: '<strong>AdventHealth:</strong> Check AdventHealth Heart of Florida (Davenport), AdventHealth Lake Wales, Bond Clinic, and Centra Care walk-in addresses separately on your 2027 directory.',
+          text: 'AdventHealth: Verify Heart of Florida, Lake Wales, Bond Clinic, and Centra Care locations separately.'
+        }
+      };
+
       function updateStatus() {
         var checkedCount = cbs.filter(function (cb) { return cb.checked; }).length;
-        var selectedSystems = chips.filter(function (c) { return c.getAttribute('aria-pressed') === 'true'; }).length;
+        var activeChips = chips.filter(function (c) { return c.getAttribute('aria-pressed') === 'true'; });
         statusEl.textContent = checkedCount + ' of ' + cbs.length + ' verification steps checked' +
-          (selectedSystems ? ' · ' + selectedSystems + ' facility system(s) selected' : '');
+          (activeChips.length ? ' · ' + activeChips.length + ' facility system(s) selected' : '');
+
+        if (watchoutBox && watchoutList) {
+          watchoutList.innerHTML = '';
+          activeChips.forEach(function (chip) {
+            var key = chip.getAttribute('data-key');
+            if (WATCHOUTS[key]) {
+              var li = document.createElement('li');
+              li.innerHTML = WATCHOUTS[key].html;
+              watchoutList.appendChild(li);
+            }
+          });
+          watchoutBox.hidden = activeChips.length === 0;
+        }
       }
 
       chips.forEach(function (chip) {
         chip.addEventListener('click', function () {
           var pressed = chip.getAttribute('aria-pressed') === 'true';
-          chip.setAttribute('aria-pressed', pressed ? 'false' : 'true');
-          chip.style.background = pressed ? '#F8FAFC' : '#1B2A4A';
-          chip.style.color = pressed ? '#1B2A4A' : '#FFFFFF';
-          chip.style.borderColor = pressed ? '#CBD5E1' : '#1B2A4A';
+          var nextPressed = !pressed;
+          var label = chip.getAttribute('data-label') || chip.textContent.replace(/^[+\u2713]\s*/, '');
+          chip.setAttribute('aria-pressed', nextPressed ? 'true' : 'false');
+          chip.textContent = (nextPressed ? '\u2713 ' : '+ ') + label;
+          chip.style.background = nextPressed ? '#1B2A4A' : '#F8FAFC';
+          chip.style.color = nextPressed ? '#FFFFFF' : '#1B2A4A';
+          chip.style.borderColor = nextPressed ? '#1B2A4A' : '#CBD5E1';
           updateStatus();
         });
       });
@@ -452,18 +498,23 @@
 
       if (copyBtn) {
         copyBtn.addEventListener('click', function () {
-          var selected = chips
-            .filter(function (c) { return c.getAttribute('aria-pressed') === 'true'; })
-            .map(function (c) { return c.getAttribute('data-system'); });
+          var activeChips = chips.filter(function (c) { return c.getAttribute('aria-pressed') === 'true'; });
+          var selected = activeChips.map(function (c) { return c.getAttribute('data-system'); });
           var lines = [
             '2027 Provider & Prescription Verification Worksheet (Lakeland Health Insurance)',
             'Date: ' + new Date().toISOString().slice(0, 10),
             'Plan Name / Plan ID: ' + ((planInput && planInput.value.trim()) || 'Not entered yet'),
             'Preferred Pharmacy & ZIP: ' + ((pharmInput && pharmInput.value.trim()) || 'Not entered yet'),
-            'Health Systems Selected: ' + (selected.length ? selected.join('; ') : 'None selected'),
-            '',
-            'Verification Checklist:'
+            'Health Systems Selected: ' + (selected.length ? selected.join('; ') : 'None selected')
           ];
+          if (activeChips.length) {
+            lines.push('', '2027 Local Network Notes:');
+            activeChips.forEach(function (chip) {
+              var key = chip.getAttribute('data-key');
+              if (WATCHOUTS[key]) lines.push('- ' + WATCHOUTS[key].text);
+            });
+          }
+          lines.push('', 'Verification Checklist:');
           cbs.forEach(function (cb) {
             lines.push((cb.checked ? '[x] ' : '[ ] ') + cb.value);
           });
