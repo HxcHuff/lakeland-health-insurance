@@ -643,6 +643,7 @@ test('approved ad query parameters load the Pixel on eligible routes and strip b
     '?msclkid=OpaqueMicrosoftClickIdentifier123456',
     '?utm_source=facebook&utm_medium=paid_social&utm_campaign=lhi_site_retargeting&utm_content=blog_v1&utm_term=brand-help&utm_id=1234567890',
     '?utm_source=facebook&utm_medium=paid&utm_campaign=cid_120214567890&utm_content=adid_120214567891',
+    '?utm_source=facebook&utm_medium=paid&utm_campaign=lhi-aca-traffic&utm_content=aca-oe2027-local&utm_id=120252519702910324&hsa_acc=187024526874011&hsa_cam=120252519702910324&hsa_grp=120252519703520324&hsa_ad=120252519704180324&hsa_src=[SITE_SOURCE_NAME]&hsa_net=facebook&hsa_ver=3',
     '?fbclid=IwY2xjawNeutralOpaqueClickIdentifier123&utm_source=facebook&utm_medium=paid_social&utm_campaign=watson-2027'
   ];
   for (const search of adQueries) {

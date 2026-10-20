@@ -1245,6 +1245,13 @@
     if (key === 'gad_source') {
       return /^\d{1,5}$/.test(String(text || '').trim());
     }
+    if (key === 'hsa_acc' || key === 'hsa_cam' || key === 'hsa_grp' || key === 'hsa_ad' || key === 'hsa_ver' || key === 'hsa_la' || key === 'hsa_ol') {
+      return /^\d{1,24}$/.test(String(text || '').trim());
+    }
+    if (key === 'hsa_src' || key === 'hsa_net' || key === 'hsa_mt' || key === 'hsa_tgt' || key === 'hsa_kw') {
+      if (looksSensitive(text)) return false;
+      return /^(?:\[site_source_name\]|[a-z0-9][a-z0-9._~:\[\]-]{0,63})$/i.test(String(text || '').trim());
+    }
     if (key === 'zip_code') {
       return /^\d{5}$/.test(text);
     }
