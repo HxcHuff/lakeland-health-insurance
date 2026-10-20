@@ -547,6 +547,14 @@
 <p>I built my practice around those conversations. When you share your doctor list and medications, I pull the official 2027 provider directories and formularies for the plans you are weighing. We compare totals—premium, drug costs, and access—not just a friendly name on a brochure.</p>
 <p>Medicare Annual Enrollment runs October 15 through December 7, 2026, per <a href="https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/joining-a-plan" rel="noopener noreferrer">Medicare.gov</a>. If you received an Annual Notice of Change, bring it to the review.</p>
 
+<section class="card safe lhi-sms-doctor-cta" aria-labelledby="watson-2027-mid-sms-heading">
+  <p id="watson-2027-mid-sms-heading" style="margin:0 0 8px;font-weight:700;color:#1B2A4A;">Checking whether your Watson Clinic or Orlando Health doctor is in network for 2027?</p>
+  <div class="cta-row" style="margin-top:8px;">
+    <a class="cta-button lhi-hero-gold-primary" href="sms:+18636403102?body=Hi%20David%2C%20can%20you%20check%20if%20my%20Watson%20Clinic%20and%20Orlando%20Health%20doctors%20are%20in-network%20for%202027%3F" data-lhi-sms-cta="watson_2027_plan_mid_sms" data-analytics-label="watson_2027_plan_mid_sms" style="background-color:#D4A843 !important;border:2px solid #D4A843 !important;color:#0F1A2E !important;font-weight:700;">Text me your doctor: (863) 640-3102</a>
+    <a class="cta-button secondary" href="tel:+18636403102">Call (863) 640-3102</a>
+  </div>
+</section>
+
 <h2>Doctor-access checklist for 2027</h2>
 <p>Before you enroll—or before you decide to keep your current plan—work through this list:</p>
 <ol>
@@ -604,6 +612,34 @@
         el.defer = true;
         document.head.appendChild(el);
       }
+      function wireFastLeadSubmit() {
+        var form = document.querySelector('form[name="site-medicare-lead"]');
+        if (!form || form.__lhiDeferredLeadWired) return;
+        form.__lhiDeferredLeadWired = true;
+        form.addEventListener('focusin', loadAnalytics, { capture: true, passive: true });
+        form.addEventListener('pointerdown', loadAnalytics, { capture: true, passive: true });
+        form.addEventListener('submit', function (event) {
+          loadAnalytics();
+          if (window.LHI) return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          var attempts = 0;
+          var timer = window.setInterval(function () {
+            attempts += 1;
+            if (window.LHI) {
+              window.clearInterval(timer);
+              if (typeof form.requestSubmit === 'function') form.requestSubmit();
+              return;
+            }
+            if (attempts > 240) window.clearInterval(timer);
+          }, 25);
+        }, { capture: true });
+      }
+      function wireSmsDoctorCta() {
+        document.querySelectorAll('[data-lhi-sms-cta], a[href^="tel:"]').forEach(function (link) {
+          link.addEventListener('pointerdown', loadAnalytics, { passive: true, capture: true });
+        });
+      }
       function scheduleAfterPaint(fn) {
         var fired = false;
         function fire() {
@@ -615,10 +651,19 @@
           window.addEventListener(ev, fire, { passive: true, capture: true, once: true });
         });
         if ('requestIdleCallback' in window) {
-          window.requestIdleCallback(fire, { timeout: 3500 });
+          window.requestIdleCallback(fire, { timeout: 1200 });
         } else {
-          window.setTimeout(fire, 3500);
+          window.setTimeout(fire, 1200);
         }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+          wireFastLeadSubmit();
+          wireSmsDoctorCta();
+        }, { once: true });
+      } else {
+        wireFastLeadSubmit();
+        wireSmsDoctorCta();
       }
       if (document.readyState === 'complete') {
         scheduleAfterPaint(loadAnalytics);

@@ -7,6 +7,7 @@ import { test } from 'node:test';
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
 const EXCLUDED_DIRECTORIES = new Set([
   '.ai-worker-local',
+  '.claude',
   '.git',
   '.netlify',
   'node_modules',

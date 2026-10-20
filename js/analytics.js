@@ -505,9 +505,9 @@
   function approvedCampaignValue(value) {
     var text = String(value || '').trim().toLowerCase();
     if (!text) return null;
-    // Google Ads suffixes prefix {campaignid} so platform IDs remain
+    // Google Ads and Meta Ads suffixes prefix platform IDs so they remain
     // distinguishable from untrusted phone-like numeric values.
-    if (/^cid_\d{8,20}$/.test(text)) {
+    if (/^(?:cid|aid|adid|adset)_\d{8,20}$/.test(text)) {
       return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
     }
     if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
@@ -1202,7 +1202,7 @@
   function sanitizeUtmValue(value) {
     var text = String(value || '').trim().toLowerCase();
     if (!text) return null;
-    if (/^cid_\d{8,20}$/.test(text)) {
+    if (/^(?:cid|aid|adid|adset)_\d{8,20}$/.test(text)) {
       return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
     }
     if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
@@ -1213,7 +1213,7 @@
   function approvedCampaignSlug(value) {
     var text = String(value || '').trim().toLowerCase();
     if (!text || text.length > 80) return null;
-    if (/^cid_\d{8,20}$/.test(text)) return text;
+    if (/^(?:cid|aid|adid|adset)_\d{8,20}$/.test(text)) return text;
     if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
     return /^[a-z0-9][a-z0-9._~-]*$/.test(text) ? text : null;
   }
@@ -1239,6 +1239,12 @@
       if (key === 'gclid') return approvedTrackingClickId(text, 10);
       return approvedTrackingClickId(text, 8);
     }
+    if (key === 'gad_campaignid') {
+      return /^\d{1,20}$/.test(String(text || '').trim());
+    }
+    if (key === 'gad_source') {
+      return /^\d{1,5}$/.test(String(text || '').trim());
+    }
     if (key === 'zip_code') {
       return /^\d{5}$/.test(text);
     }
@@ -1249,7 +1255,7 @@
       if (key === 'utm_id') {
         return /^\d{1,20}$/.test(String(text || '').trim());
       }
-      if (key === 'utm_campaign' && /^cid_\d{8,20}$/i.test(String(text || '').trim())) {
+      if ((key === 'utm_campaign' || key === 'utm_content') && /^(?:cid|aid|adid|adset)_\d{8,20}$/i.test(String(text || '').trim())) {
         return Boolean(sanitizeUtmValue(text));
       }
       if (looksSensitive(text)) return false;

@@ -98,6 +98,17 @@
     .m27-status { min-height: 1.2em; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
     .m27-trust { list-style: none; padding: 18px 0 0; margin: 0; display: grid; gap: 8px; font-size: 0.9rem; color: var(--navy); }
     .m27-trust li::before { content: "✓ "; color: #2563EB; font-weight: 800; }
+    .m27-direct-actions { margin: 14px 0 0; padding: 12px; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 4px 14px rgba(27,42,74,.05); }
+    .m27-direct-label { margin: 0 0 8px; font-size: 0.85rem; font-weight: 700; color: var(--navy); }
+    .m27-direct-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+    .m27-sms-btn, .m27-call-btn { flex: 1 1 200px; display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 8px 14px; border-radius: 100px; font-size: 0.9rem; font-weight: 700; text-decoration: none; text-align: center; }
+    .m27-sms-btn { background: var(--navy); color: #fff; border: 2px solid var(--navy); }
+    .m27-call-btn { background: #fff; color: var(--navy); border: 2px solid var(--navy); }
+    .m27-consent-group--needs-channel { outline: 2px solid #D97706; outline-offset: 4px; border-radius: 6px; background: #FFFBEB; }
+    .m27-review-card { margin: 16px 0 0; padding: 14px; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
+    .m27-review-stars { color: var(--gold); font-size: 1rem; line-height: 1; margin-bottom: 6px; }
+    .m27-review-quote { margin: 0 0 6px; font-size: 0.88rem; font-style: italic; color: #334155; }
+    .m27-review-author { margin: 0; font-size: 0.8rem; font-weight: 700; color: var(--navy); }
     .m27-call { margin: 14px 0 0; font-size: 0.95rem; font-weight: 700; }
     .m27-address { margin: 6px 0 0; font-size: 0.82rem; color: var(--muted); }
     .m27-thanks { padding: 18px 0; }
@@ -330,13 +341,28 @@
       </form>
     </div>
 
+    <div class="m27-direct-actions" aria-label="Direct contact options">
+      <p class="m27-direct-label">Prefer not to fill out a form? Tap to text or call David directly:</p>
+      <div class="m27-direct-buttons">
+        <a class="m27-sms-btn" href="sms:+18636403102?body=Hi%20David%2C%20can%20you%20check%20if%20my%20doctors%20are%20in-network%20for%202027%3F" data-lhi-sms-cta="medicare_2027_check_sms" data-analytics-label="medicare_2027_check_sms">Text David My Doctor's Name</a>
+        <a class="m27-call-btn" href="tel:+18636403102">Call (863) 640-3102</a>
+      </div>
+    </div>
+
     <ul class="m27-trust" aria-label="Why work with David">
       <li>Local Lakeland agent</li>
       <li>Compares plans from multiple carriers</li>
       <li>Help comparing 2027 plans for your doctors and prescriptions</li>
+      <li>Checks 2027 directories for Watson Clinic, Orlando Health, Lakeland Regional, and BayCare</li>
     </ul>
     <p class="m27-call">Call or text <a href="tel:+18636403102">(863) 640-3102</a></p>
     <p class="m27-address">2298 Lakeland Hills Blvd, Lakeland, FL 33805</p>
+
+    <aside class="m27-review-card" aria-label="Verified client review">
+      <div class="m27-review-stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+      <p class="m27-review-quote">&ldquo;What a great experience! All our questions were answered and the process was so easy. David Huff makes everything a breeze. 10 out of 10!!!!&rdquo;</p>
+      <p class="m27-review-author">Richard R. &middot; 5-star Google review (Lakeland, FL)</p>
+    </aside>
 
     <section class="site-page-disclosures" aria-label="Medicare disclosures">
       <p class="m27-agent">David Huff, Licensed Insurance Agent #W371813</p>
@@ -362,6 +388,27 @@
           var firstName = document.getElementById('medicare2027Name');
           if (firstName) firstName.focus({ preventScroll: true });
         });
+      }
+      var formEl = document.getElementById('medicare2027CheckForm');
+      if (formEl) {
+        var reqBox = formEl.querySelector('input[name="consent_request"]');
+        var callBox = formEl.querySelector('input[name="consent_call"]');
+        var smsBox = formEl.querySelector('input[name="consent_sms"]');
+        var channelGroup = formEl.querySelector('.m27-consent-group');
+        function syncChannelHighlight() {
+          if (!channelGroup || !callBox || !smsBox) return;
+          if (callBox.checked || smsBox.checked) {
+            channelGroup.classList.remove('m27-consent-group--needs-channel');
+          }
+        }
+        if (callBox) callBox.addEventListener('change', syncChannelHighlight);
+        if (smsBox) smsBox.addEventListener('change', syncChannelHighlight);
+        formEl.addEventListener('submit', function () {
+          if (reqBox && reqBox.checked && callBox && smsBox && !callBox.checked && !smsBox.checked && channelGroup) {
+            channelGroup.classList.add('m27-consent-group--needs-channel');
+            channelGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, true);
       }
       var note = document.getElementById('outOfStateMedicareNote');
       var intake = window.LHIGetHelpIntake;

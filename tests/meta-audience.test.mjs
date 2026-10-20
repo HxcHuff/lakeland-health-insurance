@@ -637,10 +637,12 @@ test('approved ad query parameters load the Pixel on eligible routes and strip b
   const adQueries = [
     '?fbclid=IwY2xjawNeutralOpaqueClickIdentifier123',
     '?gclid=OpaqueGoogleClickIdentifier123',
+    '?gclid=OpaqueGoogleClickIdentifier123&gad_source=1&gad_campaignid=21839482910',
     '?gbraid=OpaqueGoogleBraidIdentifier123456',
     '?wbraid=OpaqueGoogleWbraidIdentifier12345',
     '?msclkid=OpaqueMicrosoftClickIdentifier123456',
     '?utm_source=facebook&utm_medium=paid_social&utm_campaign=lhi_site_retargeting&utm_content=blog_v1&utm_term=brand-help&utm_id=1234567890',
+    '?utm_source=facebook&utm_medium=paid&utm_campaign=cid_120214567890&utm_content=adid_120214567891',
     '?fbclid=IwY2xjawNeutralOpaqueClickIdentifier123&utm_source=facebook&utm_medium=paid_social&utm_campaign=watson-2027'
   ];
   for (const search of adQueries) {
