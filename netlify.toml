@@ -14,8 +14,8 @@
 # successful production deploy of lakelandhealthinsurance.com and fail-opens
 # on every error so it cannot fail the deploy. No extra secrets required.
 
-[functions."google-lead-crm-retry"]
-  schedule = "*/15 * * * *"
+# [functions."google-lead-crm-retry"]
+#   schedule = "*/15 * * * *"
 
 # huffsherpa-relay-retry was removed. Do not reschedule it.
 [functions."lead-bridge-retry"]
