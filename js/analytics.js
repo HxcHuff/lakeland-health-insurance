@@ -1024,12 +1024,43 @@
     handleMedicarePointer(event, false);
   }, { capture: true });
 
+  function persistGoogleAdsLinkerCookies() {
+    try {
+      if (typeof document === 'undefined' || typeof URLSearchParams !== 'function') return;
+      var qs = new URLSearchParams(landingSearch());
+      var gclid = approvedGa4ClickId(qs.get('gclid'));
+      var gbraid = approvedGa4ClickId(qs.get('gbraid'));
+      var wbraid = approvedGa4ClickId(qs.get('wbraid'));
+      if (!gclid && !gbraid && !wbraid) return;
+      var nowSec = Math.floor(Date.now() / 1000);
+      var dt = new Date();
+      dt.setTime(dt.getTime() + 90 * 86400000);
+      var expires = '; expires=' + dt.toUTCString();
+      var secure = (typeof location !== 'undefined' && location.protocol === 'https:') ? '; Secure' : '';
+      var suffix = expires + '; path=/; SameSite=Lax' + secure;
+      if (gclid) {
+        document.cookie = '_gcl_aw=GCL.' + nowSec + '.' + gclid + suffix;
+      }
+      if (gbraid) {
+        document.cookie = '_gcl_gb=GCL.' + nowSec + '.' + gbraid + suffix;
+      }
+      if (wbraid) {
+        document.cookie = '_gcl_ag=GCL.' + nowSec + '.' + wbraid + suffix;
+      }
+    } catch (e) {}
+  }
+
   function init(){
     if(loaded)return;loaded=true;
 
     loadFunnelBus();
 
     if (IS_PROD) {
+      /* Preserve Google Ads Conversion Linker cookies (_gcl_aw / _gcl_gb / _gcl_ag)
+         from the snapshotted landing query before or after stripLocationForPixel()
+         removes query params from window.location.search. */
+      persistGoogleAdsLinkerCookies();
+
       /* Consent default must precede GTM and every gtag config so the first
          GA4 hit can be page_view rather than a later custom event. */
       ensureGoogleConsentDefault();

@@ -842,6 +842,7 @@ test('GA4 page_location keeps sanitized UTMs and gclid after the landing query i
     'https://lakelandhealthinsurance.com/get-help/?utm_source=facebook&utm_medium=social&utm_campaign=florida_brand&gclid=OpaqueGoogleClickIdentifier123'
   );
   assert.doesNotMatch(pageViews[0][2].page_location, /zip_code|intent=/);
+  assert.match(loaded.sandbox.document.cookie, /_gcl_aw=GCL\.\d+\.OpaqueGoogleClickIdentifier123/);
 });
 
 test('listener-order-safe DOMContentLoaded retry does not load Ads phone conversion tags for late template links', () => {
