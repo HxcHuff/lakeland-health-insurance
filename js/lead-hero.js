@@ -182,14 +182,28 @@
 
   function ensureStickyBar() {
     if (!d.querySelector('.lhi-lead-hero') || d.getElementById('lhi-lead-sticky-bar')) return null;
-    var quoteLabel = isMedicareLeadSurface() ? 'Request review' : 'Get a quote';
+    var isMed = isMedicareLeadSurface();
+    var quoteLabel = isMed ? 'Review form' : 'Get quote';
+    var path = String(w.location && w.location.pathname || '').toLowerCase();
+    var smsBody = 'Hi David, I have a question about health insurance in Lakeland.';
+    if (path.indexOf('watson') !== -1 || path.indexOf('orlando') !== -1) {
+      smsBody = 'Hi David, can you check if my Watson Clinic / Orlando Health doctors are in-network for 2027?';
+    } else if (isMed) {
+      smsBody = 'Hi David, can you check my doctors and 2027 Medicare plan options?';
+    } else if (path.indexOf('aca') !== -1 || path.indexOf('marketplace') !== -1) {
+      smsBody = 'Hi David, can you help me check 2027 Marketplace subsidy and plan options?';
+    }
+    var rawPhone = PHONE_HREF.replace('tel:', '');
+    var smsHref = 'sms:' + rawPhone + '?body=' + encodeURIComponent(smsBody);
+
     var bar = d.createElement('div');
     bar.id = 'lhi-lead-sticky-bar';
     bar.className = STICKY_CLASS;
     bar.setAttribute('role', 'region');
     bar.setAttribute('aria-label', 'Quick contact');
     bar.innerHTML =
-      '<a class="lhi-lead-sticky__call" href="' + PHONE_HREF + '" data-lhi-sticky-call>Call ' + PHONE_DISPLAY + '</a>' +
+      '<a class="lhi-lead-sticky__call" href="' + PHONE_HREF + '" data-lhi-sticky-call>Call David</a>' +
+      '<a class="lhi-lead-sticky__sms" href="' + smsHref + '" data-lhi-sms-cta="sticky_bar_sms" data-analytics-label="sticky_bar_sms">Text David</a>' +
       '<a class="lhi-lead-sticky__quote" href="#lhi-site-lead-form" data-lhi-sticky-quote>' + quoteLabel + '</a>';
     d.body.appendChild(bar);
 

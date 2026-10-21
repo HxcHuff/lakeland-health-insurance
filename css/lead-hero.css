@@ -1021,11 +1021,13 @@ body.has-seasonal-banner .lhi-lead-hero__intro .lhi-lead-hero__title {
   min-height: calc(3.25rem + env(safe-area-inset-bottom, 0));
   visibility: hidden;
   pointer-events: none;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom, 0));
-  background: rgba(15, 26, 46, 0.96);
-  box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.18);
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.35rem;
+  padding: 0.55rem 0.5rem calc(0.55rem + env(safe-area-inset-bottom, 0));
+  background: rgba(15, 26, 46, 0.97);
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .lhi-lead-sticky.is-visible {
@@ -1035,22 +1037,35 @@ body.has-seasonal-banner .lhi-lead-hero__intro .lhi-lead-hero__title {
 }
 
 .lhi-lead-sticky a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   text-decoration: none;
   font-weight: 700;
   border-radius: 999px;
-  padding: 0.65rem 0.5rem;
-  font-size: 0.9rem;
+  padding: 0.65rem 0.25rem;
+  font-size: 0.84rem;
+  white-space: nowrap;
+  line-height: 1.2;
 }
 
 .lhi-lead-sticky__call {
   background: #fff;
-  color: var(--lhi-lead-navy);
+  color: var(--lhi-lead-navy, #1B2A4A);
+  border: 1px solid #E2E8F0;
+}
+
+.lhi-lead-sticky__sms {
+  background: #D4A843;
+  color: #0F1A2E;
+  border: 1px solid #D4A843;
 }
 
 .lhi-lead-sticky__quote {
-  background: var(--lhi-lead-green);
+  background: var(--lhi-lead-green, #10B981);
   color: #fff;
+  border: 1px solid var(--lhi-lead-green, #10B981);
 }
 
 body.lhi-lead-sticky-active {
@@ -2523,19 +2538,13 @@ body.lhi-page-hero:not(.home-page) .lhi-hero-shell .lhi-hero-deferred-block a.bt
 }
 
 @media (max-width: 900px) {
-  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell > .lhi-hero-grid-lead) .lhi-lead-sticky,
-  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell > .lhi-hero-grid-lead) #lhi-lead-sticky-bar,
-  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .hero-grid > .lhi-hero-grid-lead) .lhi-lead-sticky,
-  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .hero-grid > .lhi-hero-grid-lead) #lhi-lead-sticky-bar,
-  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .answer-grid > .lhi-hero-grid-lead) .lhi-lead-sticky,
-  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .answer-grid > .lhi-hero-grid-lead) #lhi-lead-sticky-bar {
+  body.lhi-page-hero.lhi-lead-form-in-view .lhi-lead-sticky,
+  body.lhi-page-hero.lhi-lead-form-in-view #lhi-lead-sticky-bar {
     display: none !important;
   }
 
-  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell > .lhi-hero-grid-lead),
-  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .hero-grid > .lhi-hero-grid-lead),
-  body.lhi-page-hero:not(.home-page):has(.lhi-hero-shell .answer-grid > .lhi-hero-grid-lead) {
-    padding-bottom: 0;
+  body.lhi-page-hero.lhi-lead-form-in-view {
+    padding-bottom: 0 !important;
   }
 }
 
