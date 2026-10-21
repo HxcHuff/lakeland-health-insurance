@@ -851,6 +851,12 @@ const siteSearchIndex = [
     tags: ["Lakeland","Polk County","Florida","Medicare","2027","Doctors and Networks","Provider Check"]
   },
   {
+    title: "Ever Wanted Medigap Plan G? If Your Plan Is Ending, You Have Guaranteed Issue",
+    url: "/blog/switch-to-medigap-plan-g-non-renewal.html",
+    excerpt: "If your Medicare Advantage plan is non-renewing for 2027 in Polk County, federal rules grant a 63-day Guaranteed Issue right to buy Medicare Supplement Plan G without health questions.",
+    tags: ["Lakeland","Polk County","Florida","Medicare","2027","Medigap","Plan G","Guaranteed Issue"]
+  },
+  {
     title: "Health ProtectorGuard Reviews: What Select 2000 Pays (and Doesn't) | FL",
     url: "/health-protector-guard/review/",
     excerpt: "An honest Florida look at Health ProtectorGuard Select 2000 and Core vs Guard schedules: what fixed-indemnity pays, what it does not, and who it may fit—without star ratings or price quotes.",

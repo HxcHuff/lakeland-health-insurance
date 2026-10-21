@@ -371,7 +371,7 @@ const FIRST_TOUCH_FIELDS = [
 
 function walkHtml(dir, out = []) {
   for (const name of readdirSync(dir)) {
-    if (['node_modules', 'search-engine-from-zip', '.git'].includes(name)) continue;
+    if (['node_modules', 'search-engine-from-zip', '.git', '.claude'].includes(name)) continue;
     const path = join(dir, name);
     if (statSync(path).isDirectory()) walkHtml(path, out);
     else if (name.endsWith('.html')) out.push(path);

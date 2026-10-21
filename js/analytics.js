@@ -262,6 +262,17 @@
         footer_start_plan_review: true
       }
     },
+    '/blog/switch-to-medigap-plan-g-non-renewal.html/': {
+      page_key: 'switch_to_medigap_plan_g_non_renewal',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
     '/blog/baycare-medicare-advantage-plans-2027-polk-county.html/': {
       page_key: 'baycare_medicare_advantage_plans_2027_polk',
       page_role: 'education',

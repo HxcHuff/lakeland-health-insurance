@@ -9,6 +9,7 @@ import { assertApprovedStaticTpmo } from './lib/tpmo-10-74.mjs';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SKIP_DIRS = new Set([
   '.ai-worker-local',
+  '.claude',
   '.git',
   '.netlify',
   '.playwright-cli',

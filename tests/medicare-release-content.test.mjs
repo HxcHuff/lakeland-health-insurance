@@ -79,6 +79,7 @@ const MEDICARE_MARKETING_SURFACES = [
 
 const SKIP_DIRS = new Set([
   '.ai-worker-local',
+  '.claude',
   '.git',
   '.netlify',
   'node_modules',

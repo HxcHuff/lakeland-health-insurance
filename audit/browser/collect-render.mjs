@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { chromium } from 'playwright';
 import {
@@ -170,7 +170,9 @@ export async function observePage(context, url, profile, config, origin, screens
 }
 
 export async function collectRenderObservations({ config, origin, urls, screenshotDir }) {
-  const browser = await chromium.launch({ headless: true });
+  const macChrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+  const executablePath = process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || (existsSync(macChrome) ? macChrome : undefined);
+  const browser = await chromium.launch({ headless: true, ...(executablePath ? { executablePath } : {}) });
   const rows = [];
   try {
     for (const profile of config.browser.profiles) {

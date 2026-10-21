@@ -197,7 +197,7 @@ test('shared chrome uses one phone display, booking CTA, schema name, and asset 
   assert.doesNotMatch(dental, /"name": "Lakeland Health Insurance — Dental &amp; Vision \(David Huff\)"/);
   assert.doesNotMatch(dental, /David The Insurance Dude/);
 
-  const skip = new Set(['.git', 'node_modules', 'netlify', '.netlify', 'output', 'tests', 'scripts', 'audit', 'search-engine-from-zip']);
+  const skip = new Set(['.git', '.claude', 'node_modules', 'netlify', '.netlify', 'output', 'tests', 'scripts', 'audit', 'search-engine-from-zip']);
   const walk = (dir, files = []) => {
     for (const name of readdirSync(dir, { withFileTypes: true })) {
       if (skip.has(name.name)) continue;
@@ -221,7 +221,7 @@ test('shared chrome uses one phone display, booking CTA, schema name, and asset 
 });
 
 test('internal links do not point at redirected URLs', () => {
-  const skip = new Set(['.git', 'node_modules', 'netlify', '.netlify', 'output', 'tests', 'scripts', 'audit']);
+  const skip = new Set(['.git', '.claude', 'node_modules', 'netlify', '.netlify', 'output', 'tests', 'scripts', 'audit']);
   const files = [];
   const walk = (dir) => {
     for (const name of readdirSync(dir, { withFileTypes: true })) {
