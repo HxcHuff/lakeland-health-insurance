@@ -115,5 +115,36 @@
 </footer>
 <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 <script defer src="/js/site-template.js?v=20261017-tpmo-10-74"></script>
+<script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var isEs = params.get("lang") === "es" || (params.get("utm_source") || "").indexOf("-es") !== -1;
+    if (!isEs) return;
+    document.documentElement.lang = "es";
+    document.title = "Gracias | Lakeland Health Insurance";
+    var eyebrow = document.querySelector(".answer-hero .eyebrow");
+    if (eyebrow) eyebrow.textContent = "De parte de David Huff";
+    var h1 = document.querySelector(".answer-hero h1");
+    if (h1) h1.textContent = "¡Muchas gracias!";
+    var lead = document.querySelector(".answer-hero .lead");
+    if (lead) {
+      lead.textContent = "Gracias por su confianza y por permitirme ayudarle con su cobertura de salud en Florida. Soy David Huff, su agente local de seguros autorizado en Lakeland. Si en algún momento tiene preguntas sobre sus beneficios, médicos o pólizas, o si desea recomendar a un familiar o amigo, estoy a su disposición todo el año.";
+    }
+    var btns = document.querySelectorAll(".answer-hero .cta-row a");
+    if (btns[0]) btns[0].textContent = "Agendar una revisión";
+    if (btns[1]) btns[1].textContent = "Dejar una reseña en Google";
+    if (btns[2]) btns[2].textContent = "Llamar al (863) 640-3102";
+    if (btns[3]) btns[3].textContent = "Enviar correo a David";
+    var cardH2 = document.querySelector(".answer-card h2");
+    if (cardH2) cardH2.textContent = "Comuníquese conmigo directamente";
+    var cardPs = document.querySelectorAll(".answer-card p");
+    if (cardPs[0]) {
+      cardPs[0].innerHTML = 'Teléfono / Texto: <a href="tel:+18636403102">(863) 640-3102</a><br>Correo electrónico: <a href="mailto:david@lakelandhealthinsurance.com">david@lakelandhealthinsurance.com</a>';
+    }
+    if (cardPs[1]) {
+      cardPs[1].innerHTML = '¿Prefiere programar una llamada? Use <a href="/book/">Agendar una revisión</a> para elegir un horario disponible en mi calendario.';
+    }
+  })();
+</script>
 </body>
 </html>
