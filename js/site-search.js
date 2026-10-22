@@ -1563,6 +1563,78 @@ const siteSearchIndex = [
     url: "/blog/sentara-health-inova-virginia-marketplace-2027.html",
     excerpt: "How Hampton Roads, Northern Virginia, and Richmond residents can verify Sentara Norfolk General, Inova Fairfax, and VCU Health networks for 2027.",
     tags: ["ACA","Medicare","Sentara Health","Inova","Virginia","Northern Virginia","Hampton Roads","2027"]
+  },
+  {
+    title: "AdventHealth Orlando vs. Orlando Health 2027: Central Florida ACA & Medicare Guide",
+    url: "/blog/adventhealth-orlando-vs-orlando-health-2027.html",
+    excerpt: "Compare 2027 Orange, Seminole, Osceola, and Lake County plans for AdventHealth Orlando, ORMC, Winnie Palmer, Arnold Palmer, and Nemours Children's Hospital.",
+    tags: ["ACA","Medicare","AdventHealth","Orlando Health","ORMC","Winnie Palmer","Orlando","Central Florida","2027"]
+  },
+  {
+    title: "Baptist Health South Florida & Jackson Health 2027: Miami-Dade ACA & Medicare Guide",
+    url: "/blog/baptist-health-south-florida-jackson-health-miami-2027.html",
+    excerpt: "Verify 2027 Miami-Dade and Monroe County plans for Baptist Hospital of Miami, Miami Cancer Institute, Jackson Memorial, UHealth, and Mount Sinai.",
+    tags: ["ACA","Medicare","Baptist Health South Florida","Jackson Memorial","UHealth","Miami Cancer Institute","Miami","2027"]
+  },
+  {
+    title: "Sarasota Memorial & Millennium Physician Group 2027: Suncoast ACA & Medicare Guide",
+    url: "/blog/sarasota-memorial-millennium-physician-group-2027.html",
+    excerpt: "How Sarasota, Venice, North Port, and Bradenton residents can verify Sarasota Memorial Hospital, First Physicians Group, and Millennium Physician Group for 2027.",
+    tags: ["ACA","Medicare","Sarasota Memorial Hospital","Millennium Physician Group","Sarasota","Venice","Bradenton","2027"]
+  },
+  {
+    title: "Cleveland Clinic Florida 2027 Network Guide: Weston, Martin & Indian River",
+    url: "/blog/cleveland-clinic-florida-weston-martin-indian-river-2027.html",
+    excerpt: "Compare 2027 Broward, Palm Beach, Martin, St. Lucie, and Indian River County plans for Cleveland Clinic Weston, Tradition, Martin, and Vero Beach.",
+    tags: ["ACA","Medicare","Cleveland Clinic Florida","Weston","Stuart","Port St. Lucie","Vero Beach","Treasure Coast","2027"]
+  },
+  {
+    title: "UF Health Shands & SIMEDHealth 2027: Gainesville & Ocala ACA & Medicare Guide",
+    url: "/blog/uf-health-shands-simedhealth-gainesville-2027.html",
+    excerpt: "How Alachua and Marion County residents can verify UF Health Shands Hospital, UF Health Physicians, SIMEDHealth, and HCA Florida North Florida for 2027.",
+    tags: ["ACA","Medicare","UF Health Shands","SIMEDHealth","Gainesville","Ocala","Alachua County","2027"]
+  },
+  {
+    title: "Ascension Sacred Heart vs. Baptist Pensacola 2027: Panhandle ACA & Medicare Guide",
+    url: "/blog/ascension-sacred-heart-baptist-pensacola-2027.html",
+    excerpt: "Verify 2027 Escambia, Santa Rosa, and Okaloosa County plans for Ascension Sacred Heart, Studer Family Children's, Baptist Hospital Pensacola, and Andrews Institute.",
+    tags: ["ACA","Medicare","Ascension Sacred Heart","Baptist Pensacola","Andrews Institute","Pensacola","Panhandle","2027"]
+  },
+  {
+    title: "Piedmont vs. Wellstar vs. Emory 2027: Georgia Access ACA & Medicare Guide",
+    url: "/blog/piedmont-wellstar-emory-georgia-access-2027.html",
+    excerpt: "Compare 2027 Metro Atlanta, Augusta, Macon, and Savannah plans on Georgia Access for Piedmont Healthcare, Wellstar, Emory Healthcare, Northside, and CHOA.",
+    tags: ["ACA","Medicare","Piedmont Healthcare","Wellstar","Emory Healthcare","Georgia Access","Atlanta","2027"]
+  },
+  {
+    title: "UAB Medicine & Huntsville Hospital 2027: Alabama ACA & Medicare Guide",
+    url: "/blog/uab-medicine-huntsville-hospital-alabama-2027.html",
+    excerpt: "How Birmingham, Huntsville, Mobile, and Montgomery residents can verify UAB Hospital, UAB St. Vincent's, Huntsville Hospital, Grandview, and USA Health for 2027.",
+    tags: ["ACA","Medicare","UAB Medicine","Huntsville Hospital","Birmingham","Huntsville","Alabama","2027"]
+  },
+  {
+    title: "Prisma Health vs. MUSC Health 2027: South Carolina ACA & Medicare Guide",
+    url: "/blog/prisma-health-musc-health-south-carolina-2027.html",
+    excerpt: "Compare 2027 Greenville, Columbia, and Charleston plans for Prisma Health, MUSC Health, Bon Secours St. Francis, and Roper St. Francis Healthcare.",
+    tags: ["ACA","Medicare","Prisma Health","MUSC Health","Greenville","Columbia","Charleston","South Carolina","2027"]
+  },
+  {
+    title: "Corewell Health, Henry Ford & Michigan Medicine 2027: Michigan ACA & Medicare Guide",
+    url: "/blog/corewell-health-henry-ford-michigan-medicine-2027.html",
+    excerpt: "Verify 2027 Metro Detroit, Ann Arbor, and Grand Rapids plans for Corewell Health (Beaumont & Spectrum), Henry Ford Health, and University of Michigan Health.",
+    tags: ["ACA","Medicare","Corewell Health","Beaumont","Henry Ford Health","Michigan Medicine","Detroit","Grand Rapids","Michigan","2027"]
+  },
+  {
+    title: "IU Health, Franciscan & Ascension St. Vincent 2027: Indiana ACA & Medicare Guide",
+    url: "/blog/iu-health-franciscan-health-ascension-indiana-2027.html",
+    excerpt: "How Indianapolis, Carmel, Fort Wayne, and Northwest Indiana residents can verify IU Health, Riley Children's, Franciscan, Ascension, Community, and Parkview for 2027.",
+    tags: ["ACA","Medicare","IU Health","Franciscan Health","Ascension St. Vincent","Community Health","Parkview","Indianapolis","Indiana","2027"]
+  },
+  {
+    title: "Banner Health, HonorHealth & Mayo Clinic Arizona 2027: Phoenix & Tucson Guide",
+    url: "/blog/banner-health-honorhealth-mayo-arizona-2027.html",
+    excerpt: "Compare 2027 Maricopa and Pima County plans for Banner Health, HonorHealth, Dignity Health, Tucson Medical Center, and Mayo Clinic Arizona.",
+    tags: ["ACA","Medicare","Banner Health","HonorHealth","Mayo Clinic Arizona","Phoenix","Scottsdale","Tucson","Arizona","2027"]
   }
 ];
 
