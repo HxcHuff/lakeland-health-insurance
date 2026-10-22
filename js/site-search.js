@@ -1449,6 +1449,120 @@ const siteSearchIndex = [
     url: "/blog/doctor-frostproof-fl.html",
     excerpt: "Frostproof patients can use Central Florida Health Care, an FQHC with a sliding fee scale. Compare clinic fees with a health plan.",
     tags: ["Lakeland","Polk County","Florida","Doctors and Networks","Provider Check"]
+  },
+  {
+    title: "Watson Clinic 2027 ACA Marketplace Insurance Guide",
+    url: "/blog/watson-clinic-aca-marketplace-insurance-2027.html",
+    excerpt: "Which 2027 Florida HealthCare.gov Marketplace plans cover Watson Clinic doctors and Orlando Health Lakeland Highlands Hospital.",
+    tags: ["ACA","Marketplace","Watson Clinic","Lakeland","Polk County","2027","Doctors and Networks"]
+  },
+  {
+    title: "Lakeland Regional Health vs. Orlando Health 2027 ACA Comparison",
+    url: "/blog/lakeland-regional-vs-orlando-health-aca-2027.html",
+    excerpt: "Side-by-side 2027 Polk County Marketplace network comparison for Lakeland Regional Health Medical Center and Orlando Health Lakeland Highlands Hospital.",
+    tags: ["ACA","Marketplace","Lakeland Regional Health","Orlando Health","Lakeland","Polk County","2027"]
+  },
+  {
+    title: "Cigna & Molina Exiting Florida ACA Marketplace for 2027: Action Guide",
+    url: "/blog/cigna-molina-exiting-florida-marketplace-2027.html",
+    excerpt: "How Cigna and Molina policyholders in Lakeland and Polk County can avoid unwanted auto-reenrollment and choose a 2027 replacement plan.",
+    tags: ["ACA","Marketplace","Cigna","Molina","Polk County","Florida","2027"]
+  },
+  {
+    title: "Davenport & Haines City 2027 ACA Health Insurance Guide",
+    url: "/blog/davenport-haines-city-aca-health-insurance-2027.html",
+    excerpt: "Four Corners and US-27 cross-county network guide for AdventHealth Heart of Florida, HCA Poinciana, and Orlando Health Horizon West.",
+    tags: ["ACA","Marketplace","Davenport","Haines City","Four Corners","Polk County","2027"]
+  },
+  {
+    title: "Polk County Self-Employed & 1099 ACA Health Insurance 2027 Guide",
+    url: "/blog/self-employed-1099-aca-polk-county-2027.html",
+    excerpt: "MAGI calculation, Schedule C deductions, Silver CSR tiers, and Bronze HSA rules for Lakeland and Winter Haven freelancers and small business owners.",
+    tags: ["ACA","Marketplace","1099","Lakeland","Winter Haven","Polk County","2027"]
+  },
+  {
+    title: "Bond Clinic & Winter Haven Hospital 2027: ACA & Medicare Guide",
+    url: "/blog/bond-clinic-winter-haven-aca-medicare-2027.html",
+    excerpt: "How Winter Haven, Auburndale, and Lake Alfred residents can align AdventHealth Bond Clinic, Gessler Clinic, and BayCare Winter Haven Hospital for 2027.",
+    tags: ["ACA","Medicare","Bond Clinic","Winter Haven Hospital","Winter Haven","Polk County","2027"]
+  },
+  {
+    title: "BayCare vs. Tampa General 2027: ACA & Medicare Network Guide",
+    url: "/blog/baycare-tampa-general-aca-medicare-2027.html",
+    excerpt: "Compare St. Joseph's, Morton Plant, Winter Haven Hospital, and Tampa General Hospital (TGH / USF Health) network participation for 2027.",
+    tags: ["ACA","Medicare","BayCare","Tampa General","Tampa Bay","Florida","2027"]
+  },
+  {
+    title: "Moffitt Cancer Center 2027 Insurance Accepted: ACA & Medicare Guide",
+    url: "/blog/moffitt-cancer-center-insurance-accepted-2027.html",
+    excerpt: "Which 2027 Florida ACA Marketplace, Original Medicare + Medigap, and Medicare Advantage plans cover Moffitt Cancer Center in Tampa.",
+    tags: ["ACA","Medicare","Moffitt Cancer Center","Oncology","Tampa","Florida","2027"]
+  },
+  {
+    title: "Lee Health Dropping UnitedHealthcare in 2027: SWFL Patient Guide",
+    url: "/blog/lee-health-unitedhealthcare-2027-drop.html",
+    excerpt: "What Fort Myers, Cape Coral, and Lee County patients need to know about the Lee Health and UnitedHealthcare split and 2027 replacement plans.",
+    tags: ["ACA","Medicare","Lee Health","UnitedHealthcare","Fort Myers","Cape Coral","2027"]
+  },
+  {
+    title: "Broward Health & Memorial Healthcare 2027: South Florida Network Guide",
+    url: "/blog/broward-health-memorial-florida-blue-out-of-network.html",
+    excerpt: "How Fort Lauderdale, Hollywood, and Broward County patients can navigate 2027 hospital network tiers and protect access to Broward Health and Memorial.",
+    tags: ["ACA","Medicare","Broward Health","Memorial Healthcare","Fort Lauderdale","South Florida","2027"]
+  },
+  {
+    title: "Baptist Health Jacksonville & Florida Blue 2027: Patient Network Guide",
+    url: "/blog/baptist-health-jacksonville-florida-blue-2027.html",
+    excerpt: "How Jacksonville, Duval, Clay, and St. Johns County residents can verify Baptist Medical Center, Wolfson Children's, and Baptist MD Anderson for 2027.",
+    tags: ["ACA","Medicare","Baptist Health Jacksonville","Wolfson Childrens","Jacksonville","Florida","2027"]
+  },
+  {
+    title: "Health First & UnitedHealthcare Brevard 2027: Space Coast Guide",
+    url: "/blog/health-first-unitedhealthcare-brevard-2027.html",
+    excerpt: "Melbourne, Viera, Cocoa Beach, and Palm Bay guide to verifying Holmes Regional, Viera Hospital, and Health First Medical Group for 2027.",
+    tags: ["ACA","Medicare","Health First","Holmes Regional","Brevard County","Space Coast","2027"]
+  },
+  {
+    title: "Baylor Scott & White vs. Humana 2027: Texas Network Guide",
+    url: "/blog/baylor-scott-white-humana-texas-2027.html",
+    excerpt: "How Dallas-Fort Worth, Austin, Temple, and Waco patients can verify Baylor Scott & White Health Medicare Advantage and ACA Marketplace access for 2027.",
+    tags: ["ACA","Medicare","Baylor Scott and White","Humana","Texas","Dallas","Austin","2027"]
+  },
+  {
+    title: "Houston Methodist & Memorial Hermann 2027: ACA & Medicare Guide",
+    url: "/blog/houston-methodist-memorial-hermann-aca-medicare-2027.html",
+    excerpt: "Compare Texas Medical Center, Houston Methodist, Memorial Hermann, and MD Anderson network participation across Harris, Fort Bend, and Montgomery counties.",
+    tags: ["ACA","Medicare","Houston Methodist","Memorial Hermann","MD Anderson","Houston","Texas","2027"]
+  },
+  {
+    title: "BJC HealthCare & WashU St. Louis 2027 Network: Patient Guide",
+    url: "/blog/bjc-healthcare-washu-aetna-anthem-st-louis-2027.html",
+    excerpt: "How St. Louis and St. Charles County residents can verify Barnes-Jewish Hospital, St. Louis Children's Hospital, and WashU Medicine network access for 2027.",
+    tags: ["ACA","Medicare","BJC HealthCare","Barnes-Jewish","WashU","St. Louis","Missouri","2027"]
+  },
+  {
+    title: "OhioHealth & Kettering Health 2027 Network: Ohio Patient Guide",
+    url: "/blog/ohiohealth-kettering-health-anthem-humana-ohio-2027.html",
+    excerpt: "Columbus, Franklin County, Dayton, and Miami Valley guide to OhioHealth, OSU Wexner Medical Center, and Kettering Health network contracts for 2027.",
+    tags: ["ACA","Medicare","OhioHealth","Kettering Health","OSU Wexner","Columbus","Dayton","Ohio","2027"]
+  },
+  {
+    title: "Atrium Health & Novant Health 2027: North Carolina ACA & Medicare Guide",
+    url: "/blog/atrium-health-novant-health-aca-north-carolina-2027.html",
+    excerpt: "How Charlotte, Mecklenburg County, Winston-Salem, and Triad residents can compare Atrium Health, Wake Forest Baptist, and Novant Health networks for 2027.",
+    tags: ["ACA","Medicare","Atrium Health","Novant Health","Charlotte","North Carolina","2027"]
+  },
+  {
+    title: "Vanderbilt Health & TriStar 2027: Tennessee ACA & Medicare Guide",
+    url: "/blog/vanderbilt-health-tristar-aca-tennessee-2027.html",
+    excerpt: "Nashville, Williamson, Rutherford, and Sumner County guide to Vanderbilt University Medical Center (VUMC) and HCA TriStar Health networks for 2027.",
+    tags: ["ACA","Medicare","Vanderbilt Health","VUMC","TriStar","Nashville","Tennessee","2027"]
+  },
+  {
+    title: "Sentara Health & Inova 2027: Virginia Marketplace & Medicare Guide",
+    url: "/blog/sentara-health-inova-virginia-marketplace-2027.html",
+    excerpt: "How Hampton Roads, Northern Virginia, and Richmond residents can verify Sentara Norfolk General, Inova Fairfax, and VCU Health networks for 2027.",
+    tags: ["ACA","Medicare","Sentara Health","Inova","Virginia","Northern Virginia","Hampton Roads","2027"]
   }
 ];
 
