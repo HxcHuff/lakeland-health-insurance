@@ -307,19 +307,33 @@ test('retired best-broker URLs 301 to the primary commercial broker page', () =>
   assert.equal(existsSync(join(ROOT, 'best-medicare-broker-lakeland-fl/index.html')), false);
 });
 
-test('GSC redirect-error URLs force one hop to an absolute apex HTTPS destination', () => {
+test('retired GSC error URLs return 410 Gone and blog aliases force 301 to canonical .html', () => {
   const rules = parseRedirects(REDIRECTS);
-  const aliases = new Map([
-    ['/dudes-corner/', 'https://lakelandhealthinsurance.com/about/'],
-    ['/dudes-corner/fixed-indemnity-dudes-take.html', 'https://lakelandhealthinsurance.com/blog/fixed-indemnity-analysis.html'],
-    ['/blog/how-to-use-health-insurance-without-going-broke', 'https://lakelandhealthinsurance.com/blog/how-to-use-health-insurance-without-going-broke.html'],
-    ['/carriers/aca-florida-2026/', 'https://lakelandhealthinsurance.com/carriers/'],
-    ['/blog/florida-insurance-guide', 'https://lakelandhealthinsurance.com/blog/florida-insurance-guide.html'],
-    ['/blog/florida-insurance-guide/index.html', 'https://lakelandhealthinsurance.com/blog/florida-insurance-guide.html'],
-    ['/blog/5-critical-health-insurance-mistakes', 'https://lakelandhealthinsurance.com/blog/5-critical-health-insurance-mistakes.html']
+  const retired410s = [
+    '/dudes-corner',
+    '/dudes-corner/',
+    '/dudes-corner/subsidy-cliff-dudes-take.html',
+    '/dudes-corner/fixed-indemnity-dudes-take.html',
+    '/carriers/aca-florida-2026',
+    '/carriers/aca-florida-2026/',
+    '/carriers/aca-florida-2026/anything'
+  ];
+
+  for (const source of retired410s) {
+    const rule = matchingRule(rules, source);
+    assert.ok(rule, `${source} has a matching rule`);
+    assert.equal(rule.status, 410, source);
+    assert.equal(rule.forced, true, source);
+  }
+
+  const blogAliases = new Map([
+    ['/blog/how-to-use-health-insurance-without-going-broke', '/blog/how-to-use-health-insurance-without-going-broke.html'],
+    ['/blog/florida-insurance-guide', '/blog/florida-insurance-guide.html'],
+    ['/blog/florida-insurance-guide/index.html', '/blog/florida-insurance-guide.html'],
+    ['/blog/5-critical-health-insurance-mistakes', '/blog/5-critical-health-insurance-mistakes.html']
   ]);
 
-  for (const [source, expected] of aliases) {
+  for (const [source, expected] of blogAliases) {
     const rule = matchingRule(rules, source);
     assert.ok(rule, `${source} has an explicit redirect`);
     assert.equal(rule.status, 301, source);
