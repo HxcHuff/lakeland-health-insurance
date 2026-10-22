@@ -40,7 +40,9 @@ test('robots.txt names AI crawlers with the same Allow and Disallow rules', () =
   for (const agent of agents) {
     assert.match(robots, new RegExp(`User-agent: ${agent}\\nAllow: /`));
     assert.match(robots, new RegExp(`User-agent: ${agent}[\\s\\S]*?Disallow: /thanks\\.html`));
+    assert.match(robots, new RegExp(`User-agent: ${agent}[\\s\\S]*?Disallow: /assets/ads/`));
   }
+  assert.match(robots, /User-agent: \*[\s\S]*?Disallow: \/assets\/ads\//);
   assert.match(robots, /Sitemap: https:\/\/lakelandhealthinsurance.com\/sitemap.xml/);
   assert.match(robots, /User-agent: \*/);
 });

@@ -10,8 +10,14 @@
 /404.html
   X-Robots-Tag: noindex, nofollow
 
+/assets/ads/
+  X-Robots-Tag: noindex, nofollow
+
 /assets/ads/*
-  X-Robots-Tag: noindex
+  X-Robots-Tag: noindex, nofollow
+
+/assets/ads/*/
+  X-Robots-Tag: noindex, nofollow
 
 /medicare-2027-check/
   X-Robots-Tag: noindex, nofollow
