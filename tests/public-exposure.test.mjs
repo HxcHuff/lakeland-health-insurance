@@ -304,7 +304,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 291);
+  assert.equal(templateConsumers.length, 297);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_PHONE_LOADER), true, `${relative(ROOT, file)} loads the shared phone config before site chrome`);
@@ -346,7 +346,7 @@ test('audit source and runtime evidence stay outside the public Netlify boundary
   assert.match(REDIRECTS, /^\/\.audit-data\/\*\s+\/404\.html\s+404!$/m);
 });
 
-test('Wave 3 & Wave 4 2027 hospital network guides include No Surprises Act emergency disclosures and 5-link related modules', () => {
+test('Wave 3, Wave 4 & Wave 5 2027 hospital network guides include No Surprises Act emergency disclosures and 5-link related modules', () => {
   const wave3Files = [
     'blog/sarasota-memorial-millennium-physician-group-2027.html',
     'blog/uf-health-shands-simedhealth-gainesville-2027.html',
@@ -373,6 +373,12 @@ test('Wave 3 & Wave 4 2027 hospital network guides include No Surprises Act emer
     'blog/rwjbarnabas-hackensack-meridian-atlantic-health-new-jersey-2027.html',
     'blog/uw-medicine-providence-multicare-washington-healthplanfinder-2027.html',
     'blog/wvu-medicine-camc-vandalia-mountain-health-west-virginia-2027.html',
+    'blog/mayo-clinic-jacksonville-aca-medicare-2027.html',
+    'blog/sylvester-cancer-center-uhealth-miami-2027.html',
+    'blog/nemours-childrens-hospital-orlando-jacksonville-2027.html',
+    'blog/md-anderson-cancer-center-houston-aca-medicare-2027.html',
+    'blog/ut-southwestern-parkland-children-dallas-2027.html',
+    'blog/cleveland-clinic-uh-case-western-ohio-2027.html',
   ];
   const reciprocalSiblingFiles = [
     'blog/atrium-health-novant-health-aca-north-carolina-2027.html',
@@ -381,6 +387,7 @@ test('Wave 3 & Wave 4 2027 hospital network guides include No Surprises Act emer
     'blog/broward-health-memorial-florida-blue-out-of-network.html',
     'blog/davenport-haines-city-aca-health-insurance-2027.html',
     'blog/health-first-unitedhealthcare-brevard-2027.html',
+    'blog/houston-methodist-memorial-hermann-aca-medicare-2027.html',
     'blog/lee-health-unitedhealthcare-2027-drop.html',
     'blog/ohiohealth-kettering-health-anthem-humana-ohio-2027.html',
     'blog/vanderbilt-health-tristar-aca-tennessee-2027.html',

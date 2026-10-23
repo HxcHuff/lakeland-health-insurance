@@ -1713,6 +1713,42 @@ const siteSearchIndex = [
     url: "/blog/wvu-medicine-camc-vandalia-mountain-health-west-virginia-2027.html",
     excerpt: "Compare 2027 Morgantown, Charleston, Huntington, Parkersburg, and Wheeling plans for WVU Medicine, Vandalia Health (CAMC & Mon Health), and Marshall Health Network.",
     tags: ["ACA","Medicare","WVU Medicine","CAMC","Vandalia Health","Mon Health","Marshall Health Network","Morgantown","Charleston","West Virginia","2027"]
+  },
+  {
+    title: "Mayo Clinic Jacksonville 2027: ACA Marketplace & Medicare Access Guide",
+    url: "/blog/mayo-clinic-jacksonville-aca-medicare-2027.html",
+    excerpt: "Compare 2027 Duval and St. Johns County ACA Marketplace tiers and Original Medicare + Medigap Plan G rules for Mayo Clinic in Florida (Jacksonville).",
+    tags: ["ACA","Medicare","Mayo Clinic Jacksonville","BlueOptions","Medigap Plan G","Jacksonville","Duval County","St Johns County","2027"]
+  },
+  {
+    title: "Sylvester Cancer Center & UHealth Miami 2027: ACA, Medicare & Continuity of Care Guide",
+    url: "/blog/sylvester-cancer-center-uhealth-miami-2027.html",
+    excerpt: "Verify 2027 Miami-Dade, Broward, and Palm Beach County plans for Sylvester Comprehensive Cancer Center, UHealth Tower, and Bascom Palmer Eye Institute.",
+    tags: ["ACA","Medicare","Sylvester Cancer Center","UHealth","Bascom Palmer","Miami","Miami-Dade","Broward","Palm Beach","2027"]
+  },
+  {
+    title: "Nemours Children's Health Orlando & Jacksonville 2027: ACA & KidCare Guide",
+    url: "/blog/nemours-childrens-hospital-orlando-jacksonville-2027.html",
+    excerpt: "How Central and Northeast Florida parents can verify 2027 ACA Marketplace, Florida KidCare, and Wolfson Children's Hospital pediatric network access at Nemours.",
+    tags: ["ACA","Pediatric","Nemours Childrens Health","Lake Nona","Orlando","Jacksonville","Wolfson Childrens","Florida KidCare","2027"]
+  },
+  {
+    title: "UT MD Anderson Cancer Center Houston 2027: Texas ACA & Medicare Access Guide",
+    url: "/blog/md-anderson-cancer-center-houston-aca-medicare-2027.html",
+    excerpt: "Compare 2027 Texas HealthCare.gov HMO restrictions, Original Medicare + Medigap Plan G acceptance, and continuity-of-care rules for MD Anderson in Houston.",
+    tags: ["ACA","Medicare","MD Anderson Cancer Center","Blue Advantage HMO","Medigap","Houston","Texas Medical Center","Texas","2027"]
+  },
+  {
+    title: "UT Southwestern, Parkland & Children's Health Dallas 2027: DFW ACA & Medicare Guide",
+    url: "/blog/ut-southwestern-parkland-children-dallas-2027.html",
+    excerpt: "Verify 2027 Dallas, Tarrant, Collin, and Denton County plans for UT Southwestern Clements University Hospital, Simmons Cancer Center, Parkland, and Children's Health.",
+    tags: ["ACA","Medicare","UT Southwestern","Simmons Cancer Center","Parkland Hospital","Childrens Health Dallas","Dallas","DFW","Texas","2027"]
+  },
+  {
+    title: "Cleveland Clinic, University Hospitals (UH) & MetroHealth 2027: Ohio ACA & Medicare Guide",
+    url: "/blog/cleveland-clinic-uh-case-western-ohio-2027.html",
+    excerpt: "Compare 2027 Cuyahoga, Summit, Lorain, Lake, and Stark County plans for Cleveland Clinic Main Campus, UH Seidman & Rainbow Babies, and MetroHealth.",
+    tags: ["ACA","Medicare","Cleveland Clinic","University Hospitals","UH Seidman","UH Rainbow Babies","MetroHealth","Cleveland","Akron","Ohio","2027"]
   }
 ];
 
