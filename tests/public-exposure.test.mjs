@@ -345,3 +345,49 @@ test('audit source and runtime evidence stay outside the public Netlify boundary
   assert.match(REDIRECTS, /^\/audit\/\*\s+\/404\.html\s+404!$/m);
   assert.match(REDIRECTS, /^\/\.audit-data\/\*\s+\/404\.html\s+404!$/m);
 });
+
+test('Wave 3 2027 hospital network guides include No Surprises Act emergency disclosures and 5-link related modules', () => {
+  const wave3Files = [
+    'blog/sarasota-memorial-millennium-physician-group-2027.html',
+    'blog/uf-health-shands-simedhealth-gainesville-2027.html',
+    'blog/cleveland-clinic-florida-weston-martin-indian-river-2027.html',
+    'blog/ascension-sacred-heart-baptist-pensacola-2027.html',
+    'blog/baptist-health-south-florida-jackson-health-miami-2027.html',
+    'blog/adventhealth-orlando-vs-orlando-health-2027.html',
+    'blog/piedmont-wellstar-emory-georgia-access-2027.html',
+    'blog/uab-medicine-huntsville-hospital-alabama-2027.html',
+    'blog/prisma-health-musc-health-south-carolina-2027.html',
+    'blog/corewell-health-henry-ford-michigan-medicine-2027.html',
+    'blog/iu-health-franciscan-health-ascension-indiana-2027.html',
+    'blog/banner-health-honorhealth-mayo-arizona-2027.html',
+  ];
+  const reciprocalSiblingFiles = [
+    'blog/atrium-health-novant-health-aca-north-carolina-2027.html',
+    'blog/baptist-health-jacksonville-florida-blue-2027.html',
+    'blog/baylor-scott-white-humana-texas-2027.html',
+    'blog/broward-health-memorial-florida-blue-out-of-network.html',
+    'blog/davenport-haines-city-aca-health-insurance-2027.html',
+    'blog/health-first-unitedhealthcare-brevard-2027.html',
+    'blog/lee-health-unitedhealthcare-2027-drop.html',
+    'blog/ohiohealth-kettering-health-anthem-humana-ohio-2027.html',
+    'blog/vanderbilt-health-tristar-aca-tennessee-2027.html',
+  ];
+
+  for (const rel of wave3Files) {
+    const html = readFileSync(join(ROOT, rel), 'utf8');
+    assert.match(html, /No Surprises Act/, `${rel} includes federal No Surprises Act emergency room protection disclosure`);
+    const relatedSection = html.match(/<h2>Related Regional Network Guides<\/h2>\s*<ul>([\s\S]*?)<\/ul>/);
+    assert.ok(relatedSection, `${rel} includes Related Regional Network Guides list`);
+    const itemCount = (relatedSection[1].match(/<li>/g) || []).length;
+    assert.equal(itemCount, 5, `${rel} maintains 5 links in Related Regional Network Guides`);
+  }
+
+  for (const rel of reciprocalSiblingFiles) {
+    const html = readFileSync(join(ROOT, rel), 'utf8');
+    const relatedSection = html.match(/<h2>Related Regional Network Guides<\/h2>\s*<ul>([\s\S]*?)<\/ul>/);
+    assert.ok(relatedSection, `${rel} includes Related Regional Network Guides list`);
+    const itemCount = (relatedSection[1].match(/<li>/g) || []).length;
+    assert.equal(itemCount, 5, `${rel} maintains 5 links in Related Regional Network Guides`);
+  }
+});
+
