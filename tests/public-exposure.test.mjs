@@ -304,7 +304,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 278);
+  assert.equal(templateConsumers.length, 291);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_PHONE_LOADER), true, `${relative(ROOT, file)} loads the shared phone config before site chrome`);
@@ -346,7 +346,7 @@ test('audit source and runtime evidence stay outside the public Netlify boundary
   assert.match(REDIRECTS, /^\/\.audit-data\/\*\s+\/404\.html\s+404!$/m);
 });
 
-test('Wave 3 2027 hospital network guides include No Surprises Act emergency disclosures and 5-link related modules', () => {
+test('Wave 3 & Wave 4 2027 hospital network guides include No Surprises Act emergency disclosures and 5-link related modules', () => {
   const wave3Files = [
     'blog/sarasota-memorial-millennium-physician-group-2027.html',
     'blog/uf-health-shands-simedhealth-gainesville-2027.html',
@@ -360,6 +360,19 @@ test('Wave 3 2027 hospital network guides include No Surprises Act emergency dis
     'blog/corewell-health-henry-ford-michigan-medicine-2027.html',
     'blog/iu-health-franciscan-health-ascension-indiana-2027.html',
     'blog/banner-health-honorhealth-mayo-arizona-2027.html',
+    'blog/tallahassee-memorial-hca-capital-big-bend-2027.html',
+    'blog/halifax-health-adventhealth-daytona-volusia-2027.html',
+    'blog/nch-healthcare-physicians-regional-naples-collier-2027.html',
+    'blog/ochsner-health-lcmc-health-louisiana-2027.html',
+    'blog/ummc-baptist-memorial-nmhs-mississippi-2027.html',
+    'blog/integris-health-ou-health-saint-francis-oklahoma-2027.html',
+    'blog/ku-health-system-saint-lukes-ascension-via-christi-kansas-2027.html',
+    'blog/ui-health-care-unitypoint-mercyone-iowa-2027.html',
+    'blog/nebraska-medicine-chi-health-bryan-health-nebraska-2027.html',
+    'blog/johns-hopkins-medstar-ummc-maryland-health-connection-2027.html',
+    'blog/rwjbarnabas-hackensack-meridian-atlantic-health-new-jersey-2027.html',
+    'blog/uw-medicine-providence-multicare-washington-healthplanfinder-2027.html',
+    'blog/wvu-medicine-camc-vandalia-mountain-health-west-virginia-2027.html',
   ];
   const reciprocalSiblingFiles = [
     'blog/atrium-health-novant-health-aca-north-carolina-2027.html',

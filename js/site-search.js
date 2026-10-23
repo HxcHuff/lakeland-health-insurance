@@ -1635,6 +1635,84 @@ const siteSearchIndex = [
     url: "/blog/banner-health-honorhealth-mayo-arizona-2027.html",
     excerpt: "Compare 2027 Maricopa and Pima County plans for Banner Health, HonorHealth, Dignity Health, Tucson Medical Center, and Mayo Clinic Arizona.",
     tags: ["ACA","Medicare","Banner Health","HonorHealth","Mayo Clinic Arizona","Phoenix","Scottsdale","Tucson","Arizona","2027"]
+  },
+  {
+    title: "Tallahassee Memorial vs. HCA Florida Capital 2027: Big Bend ACA & Medicare Guide",
+    url: "/blog/tallahassee-memorial-hca-capital-big-bend-2027.html",
+    excerpt: "Compare 2027 Leon, Gadsden, Wakulla, and Jefferson County plans for Tallahassee Memorial HealthCare (TMH), HCA Florida Capital Hospital, and Capital Health Plan.",
+    tags: ["ACA","Medicare","Tallahassee Memorial","TMH","HCA Florida Capital","Capital Health Plan","Tallahassee","Leon County","2027"]
+  },
+  {
+    title: "Halifax Health vs. AdventHealth Daytona Beach 2027: Volusia & Flagler Guide",
+    url: "/blog/halifax-health-adventhealth-daytona-volusia-2027.html",
+    excerpt: "Verify 2027 Daytona Beach, Port Orange, Ormond Beach, DeLand, Deltona, and Palm Coast plans for Halifax Health, UF Health Deltona, and AdventHealth East Florida.",
+    tags: ["ACA","Medicare","Halifax Health","AdventHealth Daytona Beach","UF Health Deltona","Daytona Beach","Volusia County","Flagler County","2027"]
+  },
+  {
+    title: "NCH Healthcare vs. Physicians Regional 2027: Naples & Collier County Guide",
+    url: "/blog/nch-healthcare-physicians-regional-naples-collier-2027.html",
+    excerpt: "How Naples, Marco Island, Bonita Springs, and Immokalee residents can verify NCH Baker, NCH North Naples, and Physicians Regional Healthcare System for 2027.",
+    tags: ["ACA","Medicare","NCH Healthcare","Physicians Regional","Naples","Marco Island","Collier County","2027"]
+  },
+  {
+    title: "Ochsner Health, LCMC Health & Willis-Knighton 2027: Louisiana ACA & Medicare Guide",
+    url: "/blog/ochsner-health-lcmc-health-louisiana-2027.html",
+    excerpt: "Compare 2027 New Orleans, Baton Rouge, Lafayette, and Shreveport plans for Ochsner Health, LCMC Health, Our Lady of the Lake (FMOLHS), and Willis-Knighton.",
+    tags: ["ACA","Medicare","Ochsner Health","LCMC Health","Willis-Knighton","New Orleans","Baton Rouge","Shreveport","Louisiana","2027"]
+  },
+  {
+    title: "UMMC, Baptist Memorial & NMHS 2027: Mississippi ACA & Medicare Guide",
+    url: "/blog/ummc-baptist-memorial-nmhs-mississippi-2027.html",
+    excerpt: "Verify 2027 Jackson, DeSoto County, Tupelo, Hattiesburg, and Gulfport plans for UMMC, Baptist Memorial, St. Dominic, North Mississippi Health Services, and Forrest General.",
+    tags: ["ACA","Medicare","UMMC","Baptist Memorial","North Mississippi Health Services","Jackson","Tupelo","Gulfport","Mississippi","2027"]
+  },
+  {
+    title: "INTEGRIS Health, OU Health & Saint Francis 2027: Oklahoma ACA & Medicare Guide",
+    url: "/blog/integris-health-ou-health-saint-francis-oklahoma-2027.html",
+    excerpt: "How Oklahoma City, Edmond, Norman, Tulsa, and Broken Arrow residents can verify INTEGRIS Baptist, OU Health Stephenson Cancer Center, Mercy, Saint Francis, and Hillcrest for 2027.",
+    tags: ["ACA","Medicare","INTEGRIS Health","OU Health","Saint Francis","Hillcrest","Oklahoma City","Tulsa","Oklahoma","2027"]
+  },
+  {
+    title: "KU Health System, Saint Luke's & Ascension Via Christi 2027: Kansas Guide",
+    url: "/blog/ku-health-system-saint-lukes-ascension-via-christi-kansas-2027.html",
+    excerpt: "Compare 2027 Overland Park, Olathe, Kansas City KS, Wichita, and Topeka plans across Blue KC and BCBS of Kansas for KU Med, Saint Luke's, AdventHealth, and Via Christi.",
+    tags: ["ACA","Medicare","KU Health System","KU Med","Saint Lukes","Ascension Via Christi","Overland Park","Wichita","Kansas","2027"]
+  },
+  {
+    title: "UI Health Care, UnityPoint Health & MercyOne 2027: Iowa ACA & Medicare Guide",
+    url: "/blog/ui-health-care-unitypoint-mercyone-iowa-2027.html",
+    excerpt: "Verify 2027 Des Moines, Cedar Rapids, Iowa City, Davenport, and Waterloo plans for University of Iowa Health Care, UnityPoint Health, MercyOne, and The Iowa Clinic.",
+    tags: ["ACA","Medicare","UI Health Care","UnityPoint Health","MercyOne","The Iowa Clinic","Des Moines","Cedar Rapids","Iowa City","Iowa","2027"]
+  },
+  {
+    title: "Nebraska Medicine, CHI Health & Bryan Health 2027: Omaha & Lincoln Guide",
+    url: "/blog/nebraska-medicine-chi-health-bryan-health-nebraska-2027.html",
+    excerpt: "Compare 2027 Omaha, Bellevue, Lincoln, Grand Island, and Kearney plans for Nebraska Medicine, Methodist Health System, CHI Health, and Bryan Health.",
+    tags: ["ACA","Medicare","Nebraska Medicine","CHI Health","Bryan Health","Methodist Hospital","Omaha","Lincoln","Nebraska","2027"]
+  },
+  {
+    title: "Johns Hopkins, MedStar & UMMC 2027: Maryland Health Connection & Medicare Guide",
+    url: "/blog/johns-hopkins-medstar-ummc-maryland-health-connection-2027.html",
+    excerpt: "How Baltimore, Towson, Columbia, Bethesda, Silver Spring, and Annapolis residents can verify Johns Hopkins Medicine, UMMS, MedStar, and LifeBridge for 2027.",
+    tags: ["ACA","Medicare","Johns Hopkins Medicine","UMMS","UMMC","MedStar Health","Maryland Health Connection","Baltimore","Bethesda","Maryland","2027"]
+  },
+  {
+    title: "RWJBarnabas, Hackensack Meridian & Atlantic Health 2027: New Jersey Guide",
+    url: "/blog/rwjbarnabas-hackensack-meridian-atlantic-health-new-jersey-2027.html",
+    excerpt: "Compare 2027 Get Covered New Jersey Tier 1/Tier 2 EPO and Medicare plans for RWJBarnabas Health, Hackensack Meridian, Atlantic Health, Cooper, and Virtua.",
+    tags: ["ACA","Medicare","RWJBarnabas Health","Hackensack Meridian","Atlantic Health","Cooper","Virtua","Get Covered NJ","New Jersey","2027"]
+  },
+  {
+    title: "UW Medicine, Providence Swedish & MultiCare 2027: Washington Healthplanfinder Guide",
+    url: "/blog/uw-medicine-providence-multicare-washington-healthplanfinder-2027.html",
+    excerpt: "Verify 2027 Seattle, Bellevue, Tacoma, Everett, Spokane, and Vancouver plans for UW Medicine, Fred Hutch, Providence Swedish, MultiCare, and VMFH.",
+    tags: ["ACA","Medicare","UW Medicine","Fred Hutch","Providence Swedish","MultiCare","Washington Healthplanfinder","Seattle","Spokane","Washington","2027"]
+  },
+  {
+    title: "WVU Medicine, CAMC Vandalia Health & Marshall Health 2027: West Virginia Guide",
+    url: "/blog/wvu-medicine-camc-vandalia-mountain-health-west-virginia-2027.html",
+    excerpt: "Compare 2027 Morgantown, Charleston, Huntington, Parkersburg, and Wheeling plans for WVU Medicine, Vandalia Health (CAMC & Mon Health), and Marshall Health Network.",
+    tags: ["ACA","Medicare","WVU Medicine","CAMC","Vandalia Health","Mon Health","Marshall Health Network","Morgantown","Charleston","West Virginia","2027"]
   }
 ];
 
