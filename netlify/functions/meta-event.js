@@ -22,7 +22,8 @@ const ELIGIBLE_PATHS = new Set([
   '/plans/',
   '/thanks.html',
   '/blog/orlando-health-watson-clinic-insurance-2026.html',
-  '/blog/orlando-health-watson-clinic-2027-plan.html'
+  '/blog/orlando-health-watson-clinic-2027-plan.html',
+  '/blog/watson-clinic-humana-2027.html'
 ]);
 const RATE_LIMIT_STORE = 'meta-event-rate-v1';
 const DEDUPE_STORE = 'meta-event-dedupe-v1';

@@ -25,7 +25,8 @@ const ELIGIBLE_PAGES = [
   ['plans/index.html', '/plans/'],
   ['thanks.html', '/thanks.html'],
   ['blog/orlando-health-watson-clinic-insurance-2026.html', '/blog/orlando-health-watson-clinic-insurance-2026.html'],
-  ['blog/orlando-health-watson-clinic-2027-plan.html', '/blog/orlando-health-watson-clinic-2027-plan.html']
+  ['blog/orlando-health-watson-clinic-2027-plan.html', '/blog/orlando-health-watson-clinic-2027-plan.html'],
+  ['blog/watson-clinic-humana-2027.html', '/blog/watson-clinic-humana-2027.html']
 ];
 const FORM_BEARING_ELIGIBLE_FILES = new Set([
   'index.html',
@@ -38,7 +39,8 @@ const FORM_BEARING_ELIGIBLE_FILES = new Set([
   'medicare-broker-lakeland-fl/index.html',
   'medicare-2027-check/index.html',
   'blog/orlando-health-watson-clinic-insurance-2026.html',
-  'blog/orlando-health-watson-clinic-2027-plan.html'
+  'blog/orlando-health-watson-clinic-2027-plan.html',
+  'blog/watson-clinic-humana-2027.html'
 ]);
 const PROMPT_SUPPRESSED_PATHS = [
   '/lp/aca/',
@@ -271,8 +273,8 @@ function htmlFiles(dir = ROOT, out = []) {
   return out;
 }
 
-test('all 11 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
-  assert.equal(ELIGIBLE_PAGES.length, 11);
+test('all 12 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
+  assert.equal(ELIGIBLE_PAGES.length, 12);
   for (const [, pathname] of ELIGIBLE_PAGES) {
     const { sandbox, scripts, controls } = loadMetaAudience({ pathname });
     assert.equal(scripts.length, 1, pathname);
@@ -644,10 +646,11 @@ test('approved ad query parameters load the Pixel on eligible routes and strip b
     '?utm_source=facebook&utm_medium=paid_social&utm_campaign=lhi_site_retargeting&utm_content=blog_v1&utm_term=brand-help&utm_id=1234567890',
     '?utm_source=facebook&utm_medium=paid&utm_campaign=cid_120214567890&utm_content=adid_120214567891',
     '?utm_source=facebook&utm_medium=paid&utm_campaign=lhi-aca-traffic&utm_content=aca-oe2027-local&utm_id=120252519702910324&hsa_acc=187024526874011&hsa_cam=120252519702910324&hsa_grp=120252519703520324&hsa_ad=120252519704180324&hsa_src=[SITE_SOURCE_NAME]&hsa_net=facebook&hsa_ver=3',
-    '?fbclid=IwY2xjawNeutralOpaqueClickIdentifier123&utm_source=facebook&utm_medium=paid_social&utm_campaign=watson-2027'
+    '?fbclid=IwY2xjawNeutralOpaqueClickIdentifier123&utm_source=facebook&utm_medium=paid_social&utm_campaign=watson-2027',
+    '?fbclid=IwY2xjawNeutralOpaqueClickIdentifier123&utm_source=fb_ig&utm_medium=paid_social&utm_campaign=lhi_2027_polk_traffic_lpv&utm_term=lakeland_25mi_lpv&utm_content=watson_sunset_clean_photo_2027'
   ];
   for (const search of adQueries) {
-    for (const pathname of ['/', '/medicare-2027-check/', '/blog/orlando-health-watson-clinic-insurance-2026.html', '/blog/orlando-health-watson-clinic-2027-plan.html']) {
+    for (const pathname of ['/', '/medicare-2027-check/', '/blog/orlando-health-watson-clinic-insurance-2026.html', '/blog/orlando-health-watson-clinic-2027-plan.html', '/blog/watson-clinic-humana-2027.html']) {
       const { sandbox, scripts } = loadMetaAudience({ pathname, search });
       assert.equal(scripts.length, 1, `${pathname} ${search}`);
       assert.equal(sandbox.location.search, '', `${pathname} ${search}`);
