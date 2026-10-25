@@ -312,8 +312,7 @@ test('retired GSC error URLs return 410 Gone and blog aliases force 301 to canon
   const retired410s = [
     '/dudes-corner',
     '/dudes-corner/',
-    '/dudes-corner/subsidy-cliff-dudes-take.html',
-    '/dudes-corner/fixed-indemnity-dudes-take.html',
+    '/dudes-corner/index.html',
     '/carriers/aca-florida-2026',
     '/carriers/aca-florida-2026/',
     '/carriers/aca-florida-2026/anything'
@@ -327,6 +326,8 @@ test('retired GSC error URLs return 410 Gone and blog aliases force 301 to canon
   }
 
   const blogAliases = new Map([
+    ['/dudes-corner/subsidy-cliff-dudes-take.html', '/blog/aca-subsidy-cliff.html'],
+    ['/dudes-corner/fixed-indemnity-dudes-take.html', 'https://lakelandhealthinsurance.com/blog/fixed-indemnity-analysis.html'],
     ['/blog/how-to-use-health-insurance-without-going-broke', '/blog/how-to-use-health-insurance-without-going-broke.html'],
     ['/blog/florida-insurance-guide', '/blog/florida-insurance-guide.html'],
     ['/blog/florida-insurance-guide/index.html', '/blog/florida-insurance-guide.html'],

@@ -168,11 +168,11 @@
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="product_page" aria-labelledby="hospital_wise-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
-      <h2 class="lhi-lead-hero__title" id="hospital_wise-lead-title">Get a Marketplace plan comparison</h2>
+      <h2 class="lhi-lead-hero__title" id="hospital_wise-lead-title">Request a HospitalWise coverage review</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="hospital_wiseForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="hospital_wiseForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Request a HospitalWise coverage review">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/hospital-wise/">
         <input type="hidden" name="source_template" value="product_page">
@@ -217,9 +217,10 @@
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="hospital_wise_coverage_status">Coverage type</label>
             <select id="hospital_wise_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
-                  <option value="individual_marketplace">Individual Marketplace coverage</option>
-                  <option value="family_marketplace">Family Marketplace coverage</option>
+                                    <option value="" selected disabled>Select one</option>
+                  <option value="hospital_indemnity">HospitalWise hospital indemnity coverage</option>
+                  <option value="supplemental_bundle">Supplemental hospital &amp; accident options</option>
+                  <option value="major_medical_comparison">Compare with major medical / ACA</option>
                   <option value="not_sure">Not sure yet</option>
             </select>
           </div>
@@ -230,7 +231,7 @@
             </label>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <button class="lhi-lead-hero__submit" type="submit">Get my quote</button>
+            <button class="lhi-lead-hero__submit" type="submit">Request my HospitalWise review</button>
           </div>
         </div>
         <p class="lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>

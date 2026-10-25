@@ -1039,11 +1039,11 @@ header .cta-button {
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="product_page" aria-labelledby="short_term_medical-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
-      <h2 class="lhi-lead-hero__title" id="short_term_medical-lead-title">Get a Marketplace plan comparison</h2>
+      <h2 class="lhi-lead-hero__title" id="short_term_medical-lead-title">Request a short-term medical review</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="short_term_medicalForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="short_term_medicalForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Request a short-term medical review">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/short-term-medical/">
         <input type="hidden" name="source_template" value="product_page">
@@ -1088,9 +1088,10 @@ header .cta-button {
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="short_term_medical_coverage_status">Coverage type</label>
             <select id="short_term_medical_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
-                  <option value="individual_marketplace">Individual Marketplace coverage</option>
-                  <option value="family_marketplace">Family Marketplace coverage</option>
+                                    <option value="" selected disabled>Select one</option>
+                  <option value="short_term_medical">Short-term medical temporary bridge</option>
+                  <option value="cobra_vs_stm_vs_aca">Compare STM vs. COBRA vs. ACA Marketplace</option>
+                  <option value="individual_marketplace">ACA Marketplace major medical</option>
                   <option value="not_sure">Not sure yet</option>
             </select>
           </div>
@@ -1101,7 +1102,7 @@ header .cta-button {
             </label>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <button class="lhi-lead-hero__submit" type="submit">Get my quote</button>
+            <button class="lhi-lead-hero__submit" type="submit">Compare temporary coverage options</button>
           </div>
         </div>
         <p class="lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>

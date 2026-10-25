@@ -191,11 +191,11 @@
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="product_page" aria-labelledby="life_insurance_dime_method-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
-      <h2 class="lhi-lead-hero__title" id="life_insurance_dime_method-lead-title">Get a Marketplace plan comparison</h2>
+      <h2 class="lhi-lead-hero__title" id="life_insurance_dime_method-lead-title">Request a life insurance coverage review</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="life_insurance_dime_methodForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="life_insurance_dime_methodForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Request a life insurance coverage review">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/life-insurance-dime-method/">
         <input type="hidden" name="source_template" value="product_page">
@@ -240,9 +240,10 @@
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="life_insurance_dime_method_coverage_status">Coverage type</label>
             <select id="life_insurance_dime_method_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
-                  <option value="individual_marketplace">Individual Marketplace coverage</option>
-                  <option value="family_marketplace">Family Marketplace coverage</option>
+                                    <option value="" selected disabled>Select one</option>
+                  <option value="term_life">Term life insurance (10–30 year)</option>
+                  <option value="dime_needs_review">Review my DIME coverage calculation</option>
+                  <option value="final_expense_whole_life">Whole life or final expense coverage</option>
                   <option value="not_sure">Not sure yet</option>
             </select>
           </div>
@@ -253,7 +254,7 @@
             </label>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <button class="lhi-lead-hero__submit" type="submit">Get my quote</button>
+            <button class="lhi-lead-hero__submit" type="submit">Compare life insurance options</button>
           </div>
         </div>
         <p class="lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>
@@ -437,14 +438,20 @@
         if (yrsLbl) yrsLbl.textContent = String(yrs);
         var gross = d + (inc * yrs) + m + e;
         var net = Math.max(0, gross - ex);
-        var lowBand = Math.max(100000, Math.floor(net / 250000) * 250000);
-        var highBand = Math.max(250000, Math.ceil(net / 250000) * 250000);
-        if (lowBand === highBand) highBand += 250000;
         totalOut.textContent = fmt(net);
         if (summaryOut) {
-          summaryOut.textContent = 'Gross DIME need: ' + fmt(gross) +
-            (ex > 0 ? ' (minus ' + fmt(ex) + ' existing)' : '') +
-            ' · Suggested comparison band: ' + fmt(lowBand) + ' – ' + fmt(highBand);
+          if (net <= 0) {
+            summaryOut.textContent = 'Gross DIME need: ' + fmt(gross) +
+              (ex > 0 ? ' (minus ' + fmt(ex) + ' existing)' : '') +
+              ' · No additional coverage need calculated under these inputs';
+          } else {
+            var lowBand = Math.max(100000, Math.floor(net / 250000) * 250000);
+            var highBand = Math.max(250000, Math.ceil(net / 250000) * 250000);
+            if (lowBand === highBand) highBand += 250000;
+            summaryOut.textContent = 'Gross DIME need: ' + fmt(gross) +
+              (ex > 0 ? ' (minus ' + fmt(ex) + ' existing)' : '') +
+              ' · Suggested comparison band: ' + fmt(lowBand) + ' – ' + fmt(highBand);
+          }
         }
       }
       [debtEl, incEl, mtgEl, eduEl, extEl].forEach(function (el) {

@@ -65,7 +65,12 @@
 /links /learning/ 301!
 /links/ /learning/ 301!
 /links/index.html /learning/ 301!
-# Retired humor section: permanently removed. 410 Gone tells search engines to drop them immediately.
+# Retired humor section: preserve 1-hop 301s where a direct topic equivalent survives; return 410 Gone for the retired section and remaining paths.
+/dudes-corner/subsidy-cliff-dudes-take.html /blog/aca-subsidy-cliff.html 301!
+/dudes-corner/subsidy-cliff-dudes-take /blog/aca-subsidy-cliff.html 301!
+/dudes-corner/subsidy-cliff-dudes-take/ /blog/aca-subsidy-cliff.html 301!
+/dudes-corner/fixed-indemnity-dudes-take.html https://lakelandhealthinsurance.com/blog/fixed-indemnity-analysis.html 301!
+/dudes-corner/fixed-indemnity-dudes-take.html/ https://lakelandhealthinsurance.com/blog/fixed-indemnity-analysis.html 301!
 /dudes-corner /404.html 410!
 /dudes-corner/* /404.html 410!
 
