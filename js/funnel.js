@@ -907,7 +907,13 @@
 
   function setSitelinkField(form, name, value) {
     var input = sitelinkField(form, name);
-    if (input) input.value = value || '';
+    if (!input) return;
+    if (String(input.type || '').toLowerCase() === 'checkbox') {
+      input.value = 'yes';
+      input.checked = Boolean(value);
+      return;
+    }
+    input.value = value || '';
   }
 
   function ensureAttributionField(form, name) {
@@ -1126,6 +1132,8 @@
       var smsField = sitelinkField(form, 'consent_sms');
       var callChecked = Boolean(callField && callField.checked);
       var smsChecked = Boolean(smsField && smsField.checked);
+      if (callField && typeof callField.setCustomValidity === 'function') callField.setCustomValidity('');
+      if (smsField && typeof smsField.setCustomValidity === 'function') smsField.setCustomValidity('');
       setSitelinkField(form, 'consent_call', callChecked ? 'yes' : '');
       setSitelinkField(form, 'consent_sms', smsChecked ? 'yes' : '');
       setSitelinkField(form, 'consent_email', '');
@@ -1136,6 +1144,13 @@
       }
       if (!callChecked && !smsChecked) {
         showSitelinkStatus(form, 'Select at least one contact channel you authorize.');
+        if (callField && typeof callField.setCustomValidity === 'function') {
+          callField.setCustomValidity('Select at least one contact channel you authorize.');
+          if (typeof callField.reportValidity === 'function') {
+            try { callField.reportValidity(); } catch (e) {}
+          }
+        }
+        if (callField && typeof callField.focus === 'function') callField.focus();
         return false;
       }
       return true;
@@ -1169,6 +1184,26 @@
     var message = form.getAttribute('data-inline-thank-you-message') || 'Thanks — David will call you, usually same day.';
     if (!panel) return;
     panel.innerHTML = '<div class="m27-thanks" role="status" aria-live="polite"><h2>Request received</h2><p>' + message + ' Call or text <a href="tel:+18636403102">(863) 640-3102</a>.</p><p style="margin:0.85rem 0;"><a class="cta-button m27-submit-style" href="/book/" data-funnel-booking>Want an exact time? Pick a 15-min slot on David\u2019s calendar \u2192</a></p><p style="font-size:0.88rem;opacity:0.92;margin:0.5rem 0 0;">Tip: Save <strong>(863) 640-3102</strong> in your contacts now so your phone doesn\u2019t silence David\u2019s call.</p></div>';
+    try {
+      track('LeadReceiptView', {
+        content_name: 'lead_thank_you',
+        step: 'complete',
+        source_page_type: pageType(),
+        source_page_path: cleanAnalyticsPath(w.location.pathname) || '/'
+      });
+    } catch (e) {}
+    try {
+      if (typeof w.gtag === 'function') {
+        w.gtag('event', 'ads_conversion_Request_quote_1', {
+          send_to: 'G-W45RMKHXV0',
+          page_location: (w.location && w.location.origin || '') + '/thanks.html',
+          transport_type: 'beacon'
+        });
+      }
+      if (typeof w.gtag_report_conversion === 'function') {
+        w.gtag_report_conversion();
+      }
+    } catch (e) {}
   }
 
   function syncLandingMedicareDisclosures() {
@@ -1187,6 +1222,18 @@
       wireSitelinkCoverageChoice(form);
       syncStandaloneMedicareScopeNote(form);
       initializeSitelinkAttribution(form);
+      ['consent_call', 'consent_sms'].forEach(function (fieldName) {
+        var el = sitelinkField(form, fieldName);
+        if (el && typeof el.addEventListener === 'function') {
+          el.addEventListener('change', function () {
+            var cField = sitelinkField(form, 'consent_call');
+            var sField = sitelinkField(form, 'consent_sms');
+            if (cField && typeof cField.setCustomValidity === 'function') cField.setCustomValidity('');
+            if (sField && typeof sField.setCustomValidity === 'function') sField.setCustomValidity('');
+            showSitelinkStatus(form, '');
+          });
+        }
+      });
       form.addEventListener('submit', function (event) {
         showSitelinkStatus(form, '');
         syncSitelinkCoverageChoice(form);
