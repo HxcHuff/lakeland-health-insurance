@@ -75,7 +75,9 @@ function verifySignature(body, signature) {
 }
 
 // --- RESOLVE PAGE TOKEN IF SYSTEM USER TOKEN IS CONFIGURED ---
-async function resolveMetaAccessToken(pageId) {
+async function resolveMetaAccessToken(pageId, relayToken = "") {
+  const fromRelay = String(relayToken || "").trim();
+  if (fromRelay) return fromRelay;
   const baseToken = getEnv("META_PAGE_ACCESS_TOKEN");
   if (!baseToken || !pageId) return baseToken;
   try {
@@ -348,6 +350,7 @@ export default async (req, context) => {
       return new Response("Invalid signature", { status: 403 });
     }
 
+    const relayPageToken = (req.headers.get("x-meta-page-access-token") || "").trim();
     const payload = JSON.parse(rawBody);
     console.log("Webhook received:", JSON.stringify(payload, null, 2));
 
@@ -356,10 +359,11 @@ export default async (req, context) => {
         if (change.field !== "leadgen") continue;
 
         const { leadgen_id, form_id, ad_id, created_time, page_id } = change.value;
+        const effectivePageId = page_id || entry.id || null;
         console.log(`Processing lead: ${leadgen_id}`);
 
         try {
-          const pageToken = await resolveMetaAccessToken(page_id);
+          const pageToken = await resolveMetaAccessToken(effectivePageId, relayPageToken);
           const leadData = await fetchLeadData(leadgen_id, pageToken);
           const parsed = parseLeadFields(leadData.field_data);
           const formName = await fetchFormName(form_id, pageToken);
@@ -372,7 +376,7 @@ export default async (req, context) => {
             ad_id: ad_id || leadData.ad_id || null,
             campaign_id: leadData.campaign_id || null,
             campaign_name: leadData.campaign_name || null,
-            page_id,
+            page_id: effectivePageId,
             created_time: created_time || leadData.created_time || null,
             ...parsed,
             raw_payload: leadData,
