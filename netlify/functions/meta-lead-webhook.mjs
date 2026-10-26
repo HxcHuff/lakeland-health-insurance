@@ -3,6 +3,7 @@
  * Lakeland Health Insurance — David Huff
  *
  * Receives Meta leadgen webhook events, fetches full lead data,
+ * forwards the lead to Lead Bridge (HubSpot 247504188 + Hopper CRM),
  * and sends email/SMS notifications.
  *
  * Endpoint: https://lakelandhealthinsurance.com/api/meta-lead-webhook
@@ -17,7 +18,34 @@ import crypto from "crypto";
 // --- HELPERS ---
 
 function getEnv(key) {
-  return Netlify.env.get(key) || "";
+  if (typeof Netlify !== "undefined" && Netlify?.env?.get) {
+    return Netlify.env.get(key) || process.env[key] || "";
+  }
+  return process.env[key] || "";
+}
+
+const STANDARD_KEYS = new Set([
+  "full_name",
+  "first_name",
+  "last_name",
+  "email",
+  "phone_number",
+  "phone",
+  "city",
+  "state",
+  "zip_code",
+  "zip",
+  "post_code",
+]);
+
+function splitFullName(fullName) {
+  const parts = String(fullName || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+  if (!parts.length) return { firstName: "", lastName: "" };
+  if (parts.length === 1) return { firstName: parts[0], lastName: "" };
+  return { firstName: parts[0], lastName: parts.slice(1).join(" ") };
 }
 
 // --- WEBHOOK VERIFICATION (GET) ---
@@ -46,10 +74,27 @@ function verifySignature(body, signature) {
   return `sha256=${expected}` === signature;
 }
 
+// --- RESOLVE PAGE TOKEN IF SYSTEM USER TOKEN IS CONFIGURED ---
+async function resolveMetaAccessToken(pageId) {
+  const baseToken = getEnv("META_PAGE_ACCESS_TOKEN");
+  if (!baseToken || !pageId) return baseToken;
+  try {
+    const res = await fetch(
+      `https://graph.facebook.com/v22.0/me/accounts?fields=id,access_token&access_token=${encodeURIComponent(baseToken)}`
+    );
+    if (!res.ok) return baseToken;
+    const data = await res.json();
+    const matched = (data.data || []).find((p) => String(p.id) === String(pageId));
+    return matched?.access_token || baseToken;
+  } catch {
+    return baseToken;
+  }
+}
+
 // --- FETCH FULL LEAD DATA FROM META ---
-async function fetchLeadData(leadgenId) {
-  const token = getEnv("META_PAGE_ACCESS_TOKEN");
-  const url = `https://graph.facebook.com/v19.0/${leadgenId}?access_token=${token}`;
+async function fetchLeadData(leadgenId, token) {
+  const authToken = token || getEnv("META_PAGE_ACCESS_TOKEN");
+  const url = `https://graph.facebook.com/v22.0/${leadgenId}?fields=id,created_time,field_data,ad_id,campaign_id,campaign_name,form_id&access_token=${encodeURIComponent(authToken)}`;
   const res = await fetch(url);
   if (!res.ok) {
     const err = await res.text();
@@ -59,9 +104,9 @@ async function fetchLeadData(leadgenId) {
 }
 
 // --- FETCH FORM DETAILS ---
-async function fetchFormName(formId) {
-  const token = getEnv("META_PAGE_ACCESS_TOKEN");
-  const url = `https://graph.facebook.com/v19.0/${formId}?fields=name&access_token=${token}`;
+async function fetchFormName(formId, token) {
+  const authToken = token || getEnv("META_PAGE_ACCESS_TOKEN");
+  const url = `https://graph.facebook.com/v22.0/${formId}?fields=name&access_token=${encodeURIComponent(authToken)}`;
   try {
     const res = await fetch(url);
     const data = await res.json();
@@ -71,21 +116,124 @@ async function fetchFormName(formId) {
   }
 }
 
-// --- PARSE LEAD FIELDS ---
-function parseLeadFields(fieldData) {
+// --- PARSE LEAD FIELDS (INCLUDING CUSTOM QUALIFYING QUESTIONS) ---
+export function parseLeadFields(fieldData) {
   const fields = {};
+  const customAnswers = {};
   for (const item of fieldData || []) {
     const key = item.name?.toLowerCase().replace(/\s+/g, "_");
-    if (key) fields[key] = item.values?.[0] || "";
+    const val = item.values?.[0] || "";
+    if (!key) continue;
+    fields[key] = val;
+    if (!STANDARD_KEYS.has(key) && val) {
+      customAnswers[key] = val;
+    }
   }
+  const fullName =
+    fields.full_name || `${fields.first_name || ""} ${fields.last_name || ""}`.trim();
+  const split = splitFullName(fullName);
+  const firstName = fields.first_name || split.firstName;
+  const lastName = fields.last_name || split.lastName;
+
   return {
-    full_name: fields.full_name || `${fields.first_name || ""} ${fields.last_name || ""}`.trim(),
+    first_name: firstName,
+    last_name: lastName,
+    full_name: fullName,
     email: fields.email || "",
     phone: fields.phone_number || fields.phone || "",
     city: fields.city || "",
     state: fields.state || "FL",
     zip: fields.zip_code || fields.zip || fields.post_code || "",
+    custom_answers: customAnswers,
   };
+}
+
+function inferInsuranceType(formName = "", customAnswers = {}) {
+  const combined = `${formName} ${JSON.stringify(customAnswers)}`.toLowerCase();
+  if (combined.includes("medicare") || combined.includes("turning_65") || combined.includes("medigap")) {
+    return "Medicare";
+  }
+  return "ACA / Marketplace";
+}
+
+function formatQualifyingAnswers(customAnswers = {}) {
+  const entries = Object.entries(customAnswers || {}).filter(([, v]) => Boolean(v));
+  if (!entries.length) return "";
+  return entries
+    .map(([k, v]) => `${k.replace(/_/g, " ")}: ${v}`)
+    .join(" | ");
+}
+
+// --- FORWARD TO LEAD BRIDGE (HUBSPOT 247504188 + HOPPER CRM) ---
+async function forwardLeadToBridge(lead) {
+  const baseUrl = String(getEnv("LEAD_BRIDGE_URL") || "").trim().replace(/\/+$/, "");
+  const bridgeKey = String(getEnv("LEAD_BRIDGE_KEY") || "").trim();
+  if (!baseUrl || !bridgeKey) {
+    console.log("LEAD_BRIDGE_URL / LEAD_BRIDGE_KEY not configured — skipping bridge forward");
+    return { ok: false, skipped: true };
+  }
+
+  const endpoint = baseUrl.endsWith("/website/lead")
+    ? baseUrl
+    : `${baseUrl}/website/lead`;
+  const qualifyingSummary = formatQualifyingAnswers(lead.custom_answers);
+  const insuranceType = inferInsuranceType(lead.form_name, lead.custom_answers);
+  const notes = [
+    `Meta Instant Form: ${lead.form_name || lead.form_id || "Meta Lead Ad"}`,
+    `Line of Business: ${insuranceType}`,
+    qualifyingSummary ? `Qualifying Answers: ${qualifyingSummary}` : "",
+    lead.ad_id ? `Ad ID: ${lead.ad_id}` : "",
+    lead.campaign_id ? `Campaign ID: ${lead.campaign_id}` : "",
+  ]
+    .filter(Boolean)
+    .join(" | ");
+
+  const payload = {
+    source: "website_form",
+    submission_id: String(lead.leadgen_id || ""),
+    first_name: lead.first_name || "",
+    last_name: lead.last_name || "",
+    name: lead.full_name || "",
+    email: lead.email || "",
+    phone: lead.phone || "",
+    zip: lead.zip || "",
+    state: lead.state || "FL",
+    form_name: lead.form_name || "meta_instant_form",
+    intent: insuranceType,
+    insurance_type: insuranceType,
+    utm_source: "facebook",
+    utm_medium: "paid_social",
+    utm_campaign: lead.campaign_name || lead.campaign_id || "meta_instant_form",
+    message: notes,
+    notes,
+    consent: {
+      request: true,
+      call: true,
+      sms: false,
+      email: Boolean(lead.email),
+      granted: true,
+    },
+  };
+
+  try {
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-bridge-key": bridgeKey,
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      console.error("Lead bridge forward failed:", res.status, await res.text());
+      return { ok: false, status: res.status };
+    }
+    console.log("Lead forwarded to Lead Bridge (HubSpot + Hopper CRM)");
+    return { ok: true, status: res.status };
+  } catch (err) {
+    console.error("Lead bridge forward exception:", err);
+    return { ok: false, error: String(err?.message || err) };
+  }
 }
 
 // --- SEND EMAIL NOTIFICATION ---
@@ -98,12 +246,16 @@ async function sendEmailNotification(lead) {
     return;
   }
 
+  const qualifyingSummary = formatQualifyingAnswers(lead.custom_answers);
+  const insuranceType = inferInsuranceType(lead.form_name, lead.custom_answers);
+
   const body = [
-    `NEW LEAD — ${lead.full_name || "Unknown"}`,
+    `NEW META INSTANT FORM LEAD — ${lead.full_name || "Unknown"}`,
     ``,
-    `Source: Meta Lead Ad`,
+    `Source: Meta Lead Ad (${insuranceType})`,
     `Campaign: ${lead.campaign_name || lead.campaign_id || "Unknown"}`,
     `Form: ${lead.form_name || "Unknown"}`,
+    qualifyingSummary ? `Qualifying Answers: ${qualifyingSummary}` : null,
     ``,
     `Name: ${lead.full_name}`,
     `Email: ${lead.email}`,
@@ -112,9 +264,10 @@ async function sendEmailNotification(lead) {
     ``,
     `Time: ${new Date().toLocaleString("en-US", { timeZone: "America/New_York" })}`,
     ``,
-    `ACTION: Text this lead via FB Business Suite ASAP.`,
-    `SLA target: < 2 hours from submission.`,
-  ].join("\n");
+    `ACTION: Call or text this lead ASAP (also synced to Hopper CRM & HubSpot).`,
+  ]
+    .filter((line) => line !== null)
+    .join("\n");
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -125,7 +278,7 @@ async function sendEmailNotification(lead) {
     body: JSON.stringify({
       from: "LHI Bot <leads@lakelandhealthinsurance.com>",
       to: NOTIFY_EMAIL,
-      subject: `New Lead: ${lead.full_name || "Meta Lead Form"}`,
+      subject: `New ${insuranceType} Lead: ${lead.full_name || "Meta Instant Form"}`,
       text: body,
     }),
   });
@@ -146,12 +299,15 @@ async function sendSmsNotification(lead) {
     return;
   }
 
+  const qualifyingSummary = formatQualifyingAnswers(lead.custom_answers);
   const message = [
     `[LHI] New Lead: ${lead.full_name || "Unknown"}`,
     `Phone: ${lead.phone || "N/A"}`,
-    `Source: Meta Lead Ad`,
-    `Action: Text via FB Business Suite`,
-  ].join("\n");
+    `Form: ${lead.form_name || "Meta Instant Form"}`,
+    qualifyingSummary ? `Details: ${qualifyingSummary}` : null,
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   const params = new URLSearchParams({
     To: TWILIO_TO,
@@ -203,19 +359,21 @@ export default async (req, context) => {
         console.log(`Processing lead: ${leadgen_id}`);
 
         try {
-          const leadData = await fetchLeadData(leadgen_id);
+          const pageToken = await resolveMetaAccessToken(page_id);
+          const leadData = await fetchLeadData(leadgen_id, pageToken);
           const parsed = parseLeadFields(leadData.field_data);
-          const formName = await fetchFormName(form_id);
+          const formName = await fetchFormName(form_id, pageToken);
 
           const lead = {
             source: "meta_lead_form",
             leadgen_id,
             form_id,
             form_name: formName,
-            ad_id: ad_id || null,
+            ad_id: ad_id || leadData.ad_id || null,
             campaign_id: leadData.campaign_id || null,
             campaign_name: leadData.campaign_name || null,
             page_id,
+            created_time: created_time || leadData.created_time || null,
             ...parsed,
             raw_payload: leadData,
             status: "new",
@@ -223,6 +381,7 @@ export default async (req, context) => {
           };
 
           await Promise.all([
+            forwardLeadToBridge(lead),
             sendEmailNotification(lead),
             sendSmsNotification(lead),
           ]);

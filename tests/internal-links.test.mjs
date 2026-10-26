@@ -62,7 +62,14 @@ test('required contextual links and blog-index listings are present', () => {
     ['aca-health-insurance-lakeland-fl/index.html', '/carriers/oscar-aca-2026/'],
     ['blog/index.html', '/health-insurance-texas/'],
     ['carriers/index.html', '/carriers/oscar-aca-2026/'],
-    ['coverage-center/index.html', '/states/']
+    ['coverage-center/index.html', '/states/'],
+    ['learning/index.html', '/dental-vision/'],
+    ['medicare/index.html', '/dental-vision/'],
+    ['blog/dental-insurance-guide.html', '/dental-vision/'],
+    ['blog/medicaid-work-requirements-florida-coverage-2026.html', '/losing-coverage/'],
+    ['blog/what-happens-health-insurance-if-i-quit-job.html', '/losing-coverage/'],
+    ['blog/self-employed-1099-aca-polk-county-2027.html', '/self-employed-health-insurance/'],
+    ['self-employed-health-insurance/index.html', '/blog/self-employed-1099-aca-polk-county-2027.html']
   ];
   for (const [file, href] of required) {
     const html = readFileSync(join(ROOT, file), 'utf8');

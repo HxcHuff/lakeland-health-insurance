@@ -1131,6 +1131,44 @@
     return false;
   };
 
+  function mountMobileSmsStickyDock() {
+    if (window.__LHI_TEST || typeof document === 'undefined' || !document.body || !document.querySelector) return;
+    if (document.getElementById('lhiMobileSmsDock')) return;
+    var existingSmsLink = document.querySelector('a[href^="sms:+18636403102"]');
+    if (!existingSmsLink) return;
+    var smsHref = existingSmsLink.getAttribute('href') || 'sms:+18636403102?body=Hi%20David%2C%20can%20you%20help%20me%20check%20my%20doctors%20and%202027%20health%20plan%20options%3F';
+
+    var style = document.createElement('style');
+    style.id = 'lhiMobileSmsDockStyle';
+    style.textContent =
+      '#lhiMobileSmsDock{display:none}' +
+      '@media(max-width:768px){' +
+      'body{padding-bottom:74px!important}' +
+      '#lhiMobileSmsDock{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:9990;background:#102033;border-top:2px solid #f5b301;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));gap:8px;box-shadow:0 -4px 16px rgba(16,32,51,0.28);align-items:center;justify-content:space-between}' +
+      '#lhiMobileSmsDock a{flex:1;display:inline-flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;font-family:inherit;font-weight:800;font-size:13.5px;line-height:1.2;padding:11px 8px;border-radius:8px}' +
+      '#lhiMobileSmsDock .lhi-dock-sms{background:#f5b301;color:#102033;flex:1.45}' +
+      '#lhiMobileSmsDock .lhi-dock-call{background:#1c3554;color:#ffffff;border:1px solid rgba(255,255,255,0.28);flex:1}' +
+      '}';
+    document.head.appendChild(style);
+
+    var dock = document.createElement('div');
+    dock.id = 'lhiMobileSmsDock';
+    dock.setAttribute('role', 'region');
+    dock.setAttribute('aria-label', 'Quick text or call David Huff');
+    dock.innerHTML =
+      '<a class="lhi-dock-sms" href="' + smsHref.replace(/"/g, '&quot;') + '" data-lhi-sms-cta="mobile_sticky_sms_dock" data-analytics-label="mobile_sticky_sms_dock">&#x1F4AC; Text David Your Doctor</a>' +
+      '<a class="lhi-dock-call" href="tel:+18636403102" data-analytics-label="mobile_sticky_call_dock">&#x1F4DE; (863) 640-3102</a>';
+    document.body.appendChild(dock);
+  }
+
+  if (!window.__LHI_TEST && typeof document !== 'undefined') {
+    if (document.readyState === 'loading' && document.addEventListener) {
+      document.addEventListener('DOMContentLoaded', mountMobileSmsStickyDock, { once: true });
+    } else {
+      mountMobileSmsStickyDock();
+    }
+  }
+
   if (window.__LHI_TEST) {
     flushLeadFirstTouchWaiters();
   }
