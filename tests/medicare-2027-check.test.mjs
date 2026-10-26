@@ -1,12 +1,19 @@
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import test from 'node:test';
 import { chromium } from 'playwright';
 
+const CHROME_PATH =
+  process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH ||
+  (existsSync('/usr/local/bin/google-chrome')
+    ? '/usr/local/bin/google-chrome'
+    : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome');
+
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const HTML = readFileSync(resolve(ROOT, 'medicare-2027-check/index.html'), 'utf8');
+const ACA_HTML = readFileSync(resolve(ROOT, 'aca-2027-check/index.html'), 'utf8');
 const HEADERS = readFileSync(resolve(ROOT, '_headers'), 'utf8');
 const SITEMAP = readFileSync(resolve(ROOT, 'sitemap.xml'), 'utf8');
 
@@ -15,12 +22,18 @@ const V2_SMS_SNIPPET =
 const META_DESCRIPTION =
   'Request help checking whether your doctors appear in 2027 Medicare plan directories during Annual Enrollment (October 15 to December 7). A local Lakeland agent will review your options.';
 
-test('medicare-2027-check is a noindex demand-gen route excluded from sitemap but Meta PageView eligible', () => {
+test('medicare-2027-check and aca-2027-check are noindex demand-gen routes excluded from sitemap but Meta PageView eligible', () => {
   assert.match(HTML, /<meta name="robots" content="noindex, nofollow">/);
   assert.doesNotMatch(HTML, /<link rel="canonical"/);
   assert.match(HTML, /<meta name="meta-audience-eligible" content="pageview">/);
   assert.doesNotMatch(SITEMAP, /medicare-2027-check/);
   assert.match(HEADERS, /\/medicare-2027-check\/\n\s+X-Robots-Tag: noindex, nofollow/);
+
+  assert.match(ACA_HTML, /<meta name="robots" content="noindex, nofollow">/);
+  assert.doesNotMatch(ACA_HTML, /<link rel="canonical"/);
+  assert.match(ACA_HTML, /<meta name="meta-audience-eligible" content="pageview">/);
+  assert.doesNotMatch(SITEMAP, /aca-2027-check/);
+  assert.match(HEADERS, /\/aca-2027-check\/\n\s+X-Robots-Tag: noindex, nofollow/);
 });
 
 test('medicare-2027-check mobile-first hero and four-field get-help v2 form', () => {
@@ -34,8 +47,9 @@ test('medicare-2027-check mobile-first hero and four-field get-help v2 form', ()
   );
   assert.match(HTML, /data-page-key="medicare-2027-check"/);
   assert.doesNotMatch(HTML, /paid-landing-page/);
-  assert.match(HTML, /class="cta-button m27-submit-style m27-mobile-jump" href="#medicare2027CheckForm">Check my doctors<\/a>/);
-  assert.doesNotMatch(HTML, /m27-mobile-jump[^>]*data-funnel/);
+  assert.doesNotMatch(HTML, /m27-mobile-jump/);
+  assert.match(HTML, /<label for="medicare2027Name">Your name<\/label>/);
+  assert.doesNotMatch(HTML, /placeholder="33805"/);
   const form = HTML.match(/<form[^>]*data-sitelink-lead-form[\s\S]*?<\/form>/);
   assert.ok(form, 'get-help sitelink form is present');
   const markup = form[0];
@@ -66,6 +80,27 @@ test('medicare-2027-check mobile-first hero and four-field get-help v2 form', ()
   assert.match(markup, /type="checkbox" name="consent_sms"/);
   assert.doesNotMatch(markup, /lp-medicare-lead/);
   assert.match(markup, /data-sitelink-inline-thank-you/);
+});
+
+test('aca-2027-check mobile-first hero and four-field get-help v2 form', () => {
+  assert.match(ACA_HTML, /Are your doctors &amp; hospital in your 2027 ACA plan\?/);
+  assert.match(ACA_HTML, /ACA Open Enrollment runs November 1 to January 15/);
+  assert.match(ACA_HTML, /data-page-key="aca-2027-check"/);
+  assert.doesNotMatch(ACA_HTML, /site-template\.css/);
+  assert.doesNotMatch(ACA_HTML, /m27-mobile-jump/);
+  assert.match(ACA_HTML, /<label for="aca2027Name">Your name<\/label>/);
+  assert.doesNotMatch(ACA_HTML, /placeholder="33805"/);
+  const form = ACA_HTML.match(/<form[^>]*data-sitelink-lead-form[\s\S]*?<\/form>/);
+  assert.ok(form, 'get-help sitelink form is present on aca-2027-check');
+  const markup = form[0];
+  assert.match(markup, /name="get-help"/);
+  assert.match(markup, /name="consent_text_version" value="get-help-2026-09-29-v2"/);
+  assert.match(markup, /name="consent_page" value="\/aca-2027-check\/"/);
+  assert.match(markup, /name="source_page_key" value="aca-2027-check"/);
+  assert.match(markup, /name="normalized_intent" value="aca"/);
+  assert.match(markup, /name="line_of_business" value="ACA Marketplace"/);
+  assert.match(markup, new RegExp(V2_SMS_SNIPPET.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  assert.match(markup, /class="cta-button m27-submit" type="submit">Check my 2027 options<\/button>/);
 });
 
 test('medicare-2027-check avoids site-template.css (layout isolated to page styles)', () => {
@@ -108,7 +143,7 @@ test('medicare-2027-check sitelink submit succeeds when call consent is checked'
   const { port } = server.address();
   const browser = await chromium.launch({
     headless: true,
-    executablePath: process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || '/usr/local/bin/google-chrome'
+    executablePath: CHROME_PATH
   });
   try {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
@@ -134,7 +169,7 @@ test('medicare-2027-check sitelink submit succeeds when call consent is checked'
   }
 });
 
-test('medicare-2027-check mobile jump CTA and submit positions at 390x844 and 1280x800', async () => {
+test('medicare-2027-check single submit CTA and form layout at 390x844 and 1280x800', async () => {
   const server = createServer((request, response) => {
     try {
       let pathname = decodeURIComponent(new URL(request.url, 'http://127.0.0.1').pathname);
@@ -152,7 +187,7 @@ test('medicare-2027-check mobile jump CTA and submit positions at 390x844 and 12
   const { port } = server.address();
   const browser = await chromium.launch({
     headless: true,
-    executablePath: process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || '/usr/local/bin/google-chrome'
+    executablePath: CHROME_PATH
   });
   try {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
@@ -164,39 +199,29 @@ test('medicare-2027-check mobile jump CTA and submit positions at 390x844 and 12
       const jump = document.querySelector('.m27-mobile-jump');
       const button = document.querySelector('button.cta-button.m27-submit');
       const consent = document.querySelector('.m27-consent span');
-      const jumpRect = jump.getBoundingClientRect();
       const submitRect = button.getBoundingClientRect();
       return {
+        hasJump: Boolean(jump),
         gapHeroForm: form.getBoundingClientRect().top - hero.getBoundingClientRect().bottom,
-        jumpTop: jumpRect.top,
-        jumpBottom: jumpRect.bottom,
-        jumpDisplay: getComputedStyle(jump).display,
         submitTop: submitRect.top,
         submitBottom: submitRect.bottom,
         consentFontPx: parseFloat(getComputedStyle(consent).fontSize)
       };
     });
-    assert.equal(mobile.jumpDisplay, 'inline-flex', 'mobile jump CTA should be visible at 390px');
-    assert.ok(mobile.jumpBottom <= 844, `jump CTA bottom ${mobile.jumpBottom}px should stay on first screen`);
+    assert.equal(mobile.hasJump, false, 'duplicate mobile jump CTA should be removed');
     assert.ok(mobile.gapHeroForm <= 12, `form should start directly under hero stack (gap ${mobile.gapHeroForm}px)`);
     assert.ok(mobile.consentFontPx >= 13, `consent copy should be at least 13px (got ${mobile.consentFontPx}px)`);
 
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.evaluate(() => window.scrollTo(0, 0));
     const desktop = await page.evaluate(() => {
-      const jump = document.querySelector('.m27-mobile-jump');
       const button = document.querySelector('button.cta-button.m27-submit');
-      const jumpRect = jump.getBoundingClientRect();
       const submitRect = button.getBoundingClientRect();
       return {
-        jumpDisplay: getComputedStyle(jump).display,
-        jumpTop: jumpRect.top,
-        jumpBottom: jumpRect.bottom,
         submitTop: submitRect.top,
         submitBottom: submitRect.bottom
       };
     });
-    assert.equal(desktop.jumpDisplay, 'none', 'mobile jump CTA should be hidden above 640px');
     assert.ok(desktop.submitBottom <= 800, `submit bottom ${desktop.submitBottom}px should stay within 1280x800 first screen`);
   } finally {
     await browser.close();
@@ -222,7 +247,7 @@ test('medicare-2027-check out-of-state Medicare note stays hidden until state is
   const { port } = server.address();
   const browser = await chromium.launch({
     headless: true,
-    executablePath: process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || '/usr/local/bin/google-chrome'
+    executablePath: CHROME_PATH
   });
   try {
     const page = await browser.newPage();
@@ -267,7 +292,7 @@ test('medicare-2027-check H1 offset and gold submit styles at 390x844', async ()
   const { port } = server.address();
   const browser = await chromium.launch({
     headless: true,
-    executablePath: process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || '/usr/local/bin/google-chrome'
+    executablePath: CHROME_PATH
   });
   try {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });

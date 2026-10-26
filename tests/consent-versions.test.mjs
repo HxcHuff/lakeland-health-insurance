@@ -11,7 +11,7 @@ const ACA_SITELINK_SHORT_FORM_PAGES = new Set([
   'aca-health-insurance-agent-polk-county-fl/index.html',
   'aca-health-insurance-lakeland-fl/index.html'
 ]);
-const GET_HELP_V2_NO_EMAIL_PAGES = new Set(['medicare-2027-check/index.html']);
+const GET_HELP_V2_NO_EMAIL_PAGES = new Set(['medicare-2027-check/index.html', 'aca-2027-check/index.html']);
 const SITELINK_PAGES = [
   'aca-health-insurance-agent-polk-county-fl/index.html',
   'aca-health-insurance-lakeland-fl/index.html',

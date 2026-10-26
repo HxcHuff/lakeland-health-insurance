@@ -970,7 +970,7 @@
     var copy = byId('intent-copy');
     if (copy) copy.textContent = cfg.intro;
     var eyebrow = byId('intent-eyebrow');
-    if (eyebrow) eyebrow.textContent = cfg.label;
+    if (eyebrow) eyebrow.textContent = intentKey === 'not-sure' ? 'Licensed Florida Plan Review' : cfg.label;
     var privacyNote = byId('optionalPrivacyNote');
     if (privacyNote) privacyNote.hidden = false;
     var healthSherpa = byId('healthSherpaSecondary');

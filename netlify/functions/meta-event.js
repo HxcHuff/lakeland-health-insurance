@@ -19,11 +19,16 @@ const ELIGIBLE_PATHS = new Set([
   '/medicare-broker-lakeland-fl/',
   '/aca-health-insurance-lakeland-fl/',
   '/medicare-2027-check/',
+  '/aca-2027-check/',
   '/plans/',
   '/thanks.html',
   '/blog/orlando-health-watson-clinic-insurance-2026.html',
   '/blog/orlando-health-watson-clinic-2027-plan.html',
-  '/blog/watson-clinic-humana-2027.html'
+  '/blog/watson-clinic-humana-2027.html',
+  '/blog/switch-to-medigap-plan-g-non-renewal.html',
+  '/blog/medicare-advantage-plan-ending-what-now.html',
+  '/blog/medicare-part-b-giveback-polk-county.html',
+  '/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/'
 ]);
 const RATE_LIMIT_STORE = 'meta-event-rate-v1';
 const DEDUPE_STORE = 'meta-event-dedupe-v1';

@@ -22,11 +22,16 @@ const ELIGIBLE_PAGES = [
   ['medicare-broker-lakeland-fl/index.html', '/medicare-broker-lakeland-fl/'],
   ['aca-health-insurance-lakeland-fl/index.html', '/aca-health-insurance-lakeland-fl/'],
   ['medicare-2027-check/index.html', '/medicare-2027-check/'],
+  ['aca-2027-check/index.html', '/aca-2027-check/'],
   ['plans/index.html', '/plans/'],
   ['thanks.html', '/thanks.html'],
   ['blog/orlando-health-watson-clinic-insurance-2026.html', '/blog/orlando-health-watson-clinic-insurance-2026.html'],
   ['blog/orlando-health-watson-clinic-2027-plan.html', '/blog/orlando-health-watson-clinic-2027-plan.html'],
-  ['blog/watson-clinic-humana-2027.html', '/blog/watson-clinic-humana-2027.html']
+  ['blog/watson-clinic-humana-2027.html', '/blog/watson-clinic-humana-2027.html'],
+  ['blog/switch-to-medigap-plan-g-non-renewal.html', '/blog/switch-to-medigap-plan-g-non-renewal.html'],
+  ['blog/medicare-advantage-plan-ending-what-now.html', '/blog/medicare-advantage-plan-ending-what-now.html'],
+  ['blog/medicare-part-b-giveback-polk-county.html', '/blog/medicare-part-b-giveback-polk-county.html'],
+  ['local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/index.html', '/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/']
 ];
 const FORM_BEARING_ELIGIBLE_FILES = new Set([
   'index.html',
@@ -38,9 +43,14 @@ const FORM_BEARING_ELIGIBLE_FILES = new Set([
   'carriers/index.html',
   'medicare-broker-lakeland-fl/index.html',
   'medicare-2027-check/index.html',
+  'aca-2027-check/index.html',
   'blog/orlando-health-watson-clinic-insurance-2026.html',
   'blog/orlando-health-watson-clinic-2027-plan.html',
-  'blog/watson-clinic-humana-2027.html'
+  'blog/watson-clinic-humana-2027.html',
+  'blog/switch-to-medigap-plan-g-non-renewal.html',
+  'blog/medicare-advantage-plan-ending-what-now.html',
+  'blog/medicare-part-b-giveback-polk-county.html',
+  'local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/index.html'
 ]);
 const PROMPT_SUPPRESSED_PATHS = [
   '/lp/aca/',
@@ -273,8 +283,8 @@ function htmlFiles(dir = ROOT, out = []) {
   return out;
 }
 
-test('all 12 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
-  assert.equal(ELIGIBLE_PAGES.length, 12);
+test('all 17 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
+  assert.equal(ELIGIBLE_PAGES.length, 17);
   for (const [, pathname] of ELIGIBLE_PAGES) {
     const { sandbox, scripts, controls } = loadMetaAudience({ pathname });
     assert.equal(scripts.length, 1, pathname);
@@ -663,6 +673,15 @@ test('approved ad query parameters load the Pixel on eligible routes and strip b
   assert.equal(rejected.sandbox.__LHI_META_AUDIENCE_STATUS__.reason, 'query-rejected');
 });
 
+test('paid ad click signals bypass LHI_scheduleAfterInteractive while organic loads defer', () => {
+  const scheduledCallbacks = [];
+  const organic = loadMetaAudience({ pathname: '/medicare-2027-check/', search: '' });
+  assert.equal(organic.scripts.length, 1);
+
+  assert.match(LOADER_SRC, /function hasPaidAdClickSignal\(\)/);
+  assert.match(LOADER_SRC, /!hasPaidAdClickSignal\(\) && typeof w\.LHI_scheduleAfterInteractive === 'function'/);
+});
+
 test('static marker inventory exactly matches the reviewed 11-page landing ledger', () => {
   const marked = [];
   for (const file of htmlFiles()) {
@@ -680,7 +699,7 @@ test('static marker inventory exactly matches the reviewed 11-page landing ledge
     if (html.includes('/css/site-template.css')) {
       assert.match(html, /\/css\/site-template\.css\?v=20261017-meta-conversion-events-v1/, file);
     }
-    if (file === 'medicare-2027-check/index.html') {
+    if (file === 'medicare-2027-check/index.html' || file === 'aca-2027-check/index.html') {
       assert.doesNotMatch(html, /<link rel="canonical"/i, file);
     } else {
       assert.match(html, new RegExp(`https://lakelandhealthinsurance\\.com${pathname === '/' ? '/' : pathname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`), file);

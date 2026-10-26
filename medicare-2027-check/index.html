@@ -41,34 +41,6 @@
     .m27-consent-group legend { font-size: 0.8125rem; font-weight: 700; color: var(--navy); margin-bottom: 2px; padding: 0; line-height: 1.35; }
     .m27-consent-help { font-size: 0.8125rem; color: var(--muted); margin: 0 0 2px; line-height: 1.35; }
     .m27-consent-after { margin-top: 8px; padding-top: 0; border-top: 0; }
-    .m27-main a.cta-button.m27-submit-style {
-      background: var(--gold);
-      color: var(--navy-deep);
-      border: none;
-      border-radius: 100px;
-      font-weight: 600;
-      font-family: inherit;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(212, 168, 67, 0.3);
-      text-decoration: none;
-      text-align: center;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      min-height: 44px;
-      font-size: 0.98rem;
-      margin-top: 10px;
-    }
-    .m27-main a.cta-button.m27-submit-style:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(212, 168, 67, 0.45);
-    }
-    .m27-main a.cta-button.m27-submit-style:focus-visible {
-      outline: 2px solid var(--navy-deep);
-      outline-offset: 2px;
-    }
     .m27-page #outOfStateMedicareNote[hidden] { display: none !important; }
     .m27-page #outOfStateMedicareNote { font-size: 0.8125rem; margin: 6px 0 0; }
     .m27-main button.cta-button.m27-submit {
@@ -118,7 +90,6 @@
     .m27-agent { font-weight: 700; color: var(--navy); }
     .form-tpmo { margin: 0 0 10px; }
     @media (max-width: 640px) {
-      .m27-main a.cta-button.m27-submit-style { display: inline-flex; }
       .m27-consent { margin: 2px 0 0; }
       .m27-consent-group { margin: 2px 0 0; }
       .m27-consent-help { margin: 0; }
@@ -127,9 +98,6 @@
       .m27-field label { margin-bottom: 2px; }
       .m27-form { padding: 10px; }
       .m27-main button.cta-button.m27-submit { margin-top: 6px; min-height: 42px; }
-    }
-    @media (min-width: 641px) {
-      .m27-main a.cta-button.m27-submit-style { display: none !important; }
     }
     @media (min-width: 480px) {
       .m27-fields { grid-template-columns: 1fr 1fr; }
@@ -216,7 +184,7 @@
       .meta-audience-notice-actions { flex: 0 0 auto; gap: 0.35rem; margin-top: 0; }
       .meta-audience-notice button { font-size: 0.75rem; padding: 0.15rem 0.2rem; }
       body.m27-page.lhi-meta-notice-visible {
-        padding-bottom: calc(3.25rem + env(safe-area-inset-bottom, 0px));
+        padding-bottom: calc(4.25rem + env(safe-area-inset-bottom, 0px));
       }
     }
   </style>
@@ -238,7 +206,6 @@
           <p class="m27-subhead">Plans and networks change for 2027. Medicare Annual Enrollment runs October 15 to December 7. A local Lakeland agent will check your doctors for you. A review is not enrollment or a network guarantee.</p>
         </div>
       </div>
-      <a class="cta-button m27-submit-style m27-mobile-jump" href="#medicare2027CheckForm">Check my doctors</a>
     </div>
 
     <div class="m27-form-wrap" id="m27LeadPanel">
@@ -297,8 +264,8 @@
 
         <div class="m27-fields">
           <div class="m27-field">
-            <label for="medicare2027Name">First name</label>
-            <input id="medicare2027Name" name="full_name" autocomplete="given-name" required>
+            <label for="medicare2027Name">Your name</label>
+            <input id="medicare2027Name" name="full_name" autocomplete="name" required>
           </div>
           <div class="m27-field">
             <label for="medicare2027Phone">Phone</label>
@@ -306,7 +273,7 @@
           </div>
           <div class="m27-field">
             <label for="medicare2027Zip">ZIP code</label>
-            <input id="medicare2027Zip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="33805" required>
+            <input id="medicare2027Zip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" required>
           </div>
           <div class="m27-field">
             <label for="medicare2027Doctor">Doctor's name (optional)</label>
@@ -378,17 +345,6 @@
   <script src="/js/get-help-intake.js?v=20261018-licensed-states-23-v1" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      var jump = document.querySelector('.m27-mobile-jump');
-      if (jump) {
-        jump.addEventListener('click', function (event) {
-          var form = document.getElementById('medicare2027CheckForm');
-          if (!form) return;
-          event.preventDefault();
-          form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          var firstName = document.getElementById('medicare2027Name');
-          if (firstName) firstName.focus({ preventScroll: true });
-        });
-      }
       var formEl = document.getElementById('medicare2027CheckForm');
       if (formEl) {
         var reqBox = formEl.querySelector('input[name="consent_request"]');

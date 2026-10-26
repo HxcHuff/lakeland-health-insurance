@@ -1171,11 +1171,16 @@
     '/medicare-broker-lakeland-fl/': true,
     '/aca-health-insurance-lakeland-fl/': true,
     '/medicare-2027-check/': true,
+    '/aca-2027-check/': true,
     '/plans/': true,
     '/thanks.html': true,
     '/blog/orlando-health-watson-clinic-insurance-2026.html': true,
     '/blog/orlando-health-watson-clinic-2027-plan.html': true,
-    '/blog/watson-clinic-humana-2027.html': true
+    '/blog/watson-clinic-humana-2027.html': true,
+    '/blog/switch-to-medigap-plan-g-non-renewal.html': true,
+    '/blog/medicare-advantage-plan-ending-what-now.html': true,
+    '/blog/medicare-part-b-giveback-polk-county.html': true,
+    '/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/': true
   };
   var UTM_QUERY_KEYS = {
     utm_source: true,
@@ -1928,8 +1933,14 @@
     return true;
   }
 
+  function hasPaidAdClickSignal() {
+    var search = String(w.location && w.location.search || '');
+    if (!search) return false;
+    return /[?&](?:fbclid|gclid|gbraid|wbraid|msclkid)=|[?&]utm_medium=paid(?:_social)?(?:&|$)/i.test(search);
+  }
+
   preparePrivacyControls();
-  if (typeof w.LHI_scheduleAfterInteractive === 'function') {
+  if (!hasPaidAdClickSignal() && typeof w.LHI_scheduleAfterInteractive === 'function') {
     w.LHI_scheduleAfterInteractive(initialize);
   } else {
     initialize();
