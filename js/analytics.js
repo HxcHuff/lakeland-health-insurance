@@ -1208,6 +1208,7 @@
     '/medicare/': true,
     '/medicare-broker-lakeland-fl/': true,
     '/aca-health-insurance-lakeland-fl/': true,
+    '/aca-health-insurance-agent-polk-county-fl/': true,
     '/medicare-2027-check/': true,
     '/aca-2027-check/': true,
     '/plans/': true,

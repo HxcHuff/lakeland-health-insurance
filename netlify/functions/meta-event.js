@@ -18,6 +18,7 @@ const ELIGIBLE_PATHS = new Set([
   '/medicare/',
   '/medicare-broker-lakeland-fl/',
   '/aca-health-insurance-lakeland-fl/',
+  '/aca-health-insurance-agent-polk-county-fl/',
   '/medicare-2027-check/',
   '/aca-2027-check/',
   '/plans/',

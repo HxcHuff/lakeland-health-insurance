@@ -21,6 +21,7 @@ const ELIGIBLE_PAGES = [
   ['medicare/index.html', '/medicare/'],
   ['medicare-broker-lakeland-fl/index.html', '/medicare-broker-lakeland-fl/'],
   ['aca-health-insurance-lakeland-fl/index.html', '/aca-health-insurance-lakeland-fl/'],
+  ['aca-health-insurance-agent-polk-county-fl/index.html', '/aca-health-insurance-agent-polk-county-fl/'],
   ['medicare-2027-check/index.html', '/medicare-2027-check/'],
   ['aca-2027-check/index.html', '/aca-2027-check/'],
   ['plans/index.html', '/plans/'],
@@ -39,6 +40,7 @@ const FORM_BEARING_ELIGIBLE_FILES = new Set([
   'medicare/index.html',
   'plans/index.html',
   'aca-health-insurance-lakeland-fl/index.html',
+  'aca-health-insurance-agent-polk-county-fl/index.html',
   'quote/index.html',
   'carriers/index.html',
   'medicare-broker-lakeland-fl/index.html',
@@ -283,8 +285,8 @@ function htmlFiles(dir = ROOT, out = []) {
   return out;
 }
 
-test('all 17 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
-  assert.equal(ELIGIBLE_PAGES.length, 17);
+test('all 18 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
+  assert.equal(ELIGIBLE_PAGES.length, 18);
   for (const [, pathname] of ELIGIBLE_PAGES) {
     const { sandbox, scripts, controls } = loadMetaAudience({ pathname });
     assert.equal(scripts.length, 1, pathname);

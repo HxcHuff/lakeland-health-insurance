@@ -14,6 +14,7 @@ This inventory is the reviewed browser-tracking boundary. A page must appear bel
 - `/medicare/`
 - `/medicare-broker-lakeland-fl/`
 - `/aca-health-insurance-lakeland-fl/`
+- `/aca-health-insurance-agent-polk-county-fl/`
 - `/medicare-2027-check/`
 - `/aca-2027-check/`
 - `/plans/`
