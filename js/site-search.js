@@ -1749,6 +1749,42 @@ const siteSearchIndex = [
     url: "/blog/cleveland-clinic-uh-case-western-ohio-2027.html",
     excerpt: "Compare 2027 Cuyahoga, Summit, Lorain, Lake, and Stark County plans for Cleveland Clinic Main Campus, UH Seidman & Rainbow Babies, and MetroHealth.",
     tags: ["ACA","Medicare","Cleveland Clinic","University Hospitals","UH Seidman","UH Rainbow Babies","MetroHealth","Cleveland","Akron","Ohio","2027"]
+  },
+  {
+    title: "2027 Florida ACA Auto-Renewal Warning: 5 Things Polk County Families Must Check",
+    url: "/blog/aca-auto-renewal-2027-florida-polk-county.html",
+    excerpt: "Why letting HealthCare.gov auto-renew your 2026 plan into 2027 can change your monthly net premium, benchmark Silver tax credit, and Lakeland hospital or doctor network.",
+    tags: ["ACA","Auto-Renewal","Open Enrollment","Lakeland","Polk County","Florida","HealthCare.gov","2027"]
+  },
+  {
+    title: "2027 Florida ACA Subsidy & Income Guide: MAGI Rules and Silver CSR Tiers in Polk County",
+    url: "/blog/aca-subsidy-income-limits-florida-2027.html",
+    excerpt: "How 2027 Modified Adjusted Gross Income (MAGI), Federal Poverty Level (FPL) rules, and Silver Cost-Sharing Reductions (73%, 87%, and 94% AV) work for Lakeland and Polk County households.",
+    tags: ["ACA","Subsidies","MAGI","FPL","Silver CSR","Lakeland","Polk County","Florida","2027"]
+  },
+  {
+    title: "2027 Polk County ACA Hospital & Doctor Network Guide: LRH, Watson Clinic, BayCare & AdventHealth",
+    url: "/blog/polk-county-aca-hospital-doctor-network-guide-2027.html",
+    excerpt: "How to verify whether Lakeland Regional Health, Orlando Health Lakeland Highlands, Watson Clinic, BayCare Winter Haven, and AdventHealth accept your exact 2027 Marketplace plan ID.",
+    tags: ["ACA","Provider Networks","Lakeland Regional Health","Watson Clinic","Orlando Health","BayCare","AdventHealth","Polk County","2027"]
+  },
+  {
+    title: "How to Read Your 2027 Medicare ANOC Letter: 6 Changes Lakeland Seniors Should Check",
+    url: "/blog/how-to-read-2027-medicare-anoc-letter-lakeland.html",
+    excerpt: "A practical 6-point checklist for Lakeland and Polk County Medicare beneficiaries reviewing their 2027 Annual Notice of Change (ANOC) before the December 7 AEP deadline.",
+    tags: ["Medicare","ANOC","Annual Notice of Change","AEP","Lakeland","Polk County","2027"]
+  },
+  {
+    title: "2027 Medicare Part D Out-of-Pocket Cap & Formulary Changes: Polk County Guide",
+    url: "/blog/medicare-part-d-2027-cap-drug-changes-polk-county.html",
+    excerpt: "How the 2027 Medicare Part D annual out-of-pocket cap, Medicare Prescription Payment Plan, formulary tier shifts, and preferred retail pharmacies affect your real prescription costs.",
+    tags: ["Medicare","Part D","Prescriptions","Formulary","Lakeland","Polk County","2027"]
+  },
+  {
+    title: "2027 Medicare Advantage Dental, Vision & OTC Card Changes in Lakeland, FL",
+    url: "/blog/medicare-advantage-dental-otc-changes-lakeland-2027.html",
+    excerpt: "Why 2027 supplemental dental, vision, and OTC allowance cards are shifting in Polk County—and how to verify your dentists, doctors, and prescriptions first.",
+    tags: ["Medicare","Dental","Vision","OTC","Medicare Advantage","Lakeland","Polk County","2027"]
   }
 ];
 
