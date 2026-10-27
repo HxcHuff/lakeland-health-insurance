@@ -1363,7 +1363,7 @@
   function hasApprovedQuery(search) {
     var raw = String(search || '');
     if (!raw) return true;
-    if (raw === '?' || raw.charAt(0) !== '?' || raw.length > 512 || typeof w.URLSearchParams !== 'function') {
+    if (raw === '?' || raw.charAt(0) !== '?' || raw.length > 2048 || typeof w.URLSearchParams !== 'function') {
       return false;
     }
 
@@ -1390,6 +1390,9 @@
   function hasApprovedReferrer(rawReferrer) {
     var raw = String(rawReferrer || '');
     if (!raw) return true;
+    if (/^android-app:\/\/(?:com\.facebook\.katana|com\.instagram\.android|com\.google\.android\.googlequicksearchbox)\/?$/i.test(raw)) {
+      return true;
+    }
     if (typeof w.URL !== 'function' || !w.location) return false;
 
     try {
@@ -1399,7 +1402,7 @@
         var path = normalizePath(referrer.pathname);
         return hasOwn(ELIGIBLE_PATHS, path);
       }
-      return referrer.protocol === 'https:' && !referrer.port && referrer.pathname === '/' &&
+      return (referrer.protocol === 'https:' || referrer.protocol === 'http:') && !referrer.port && referrer.pathname === '/' &&
         hasOwn(TRUSTED_EXTERNAL_REFERRERS, referrer.hostname.toLowerCase());
     } catch (_) {
       return false;
@@ -1769,8 +1772,35 @@
     return snapshot;
   }
 
+  function persistMetaBrowserCookiesFromLocation() {
+    if (!w.location || typeof w.URLSearchParams !== 'function') return;
+    try {
+      var qs = new w.URLSearchParams(String(w.location.search || ''));
+      var rawFbclid = String(qs.get('fbclid') || '').trim();
+      var nowMs = Date.now();
+      var secure = w.location.protocol === 'https:' ? '; Secure' : '';
+      var expires = '';
+      try {
+        var dt = new Date();
+        dt.setTime(nowMs + 90 * 86400000);
+        expires = '; expires=' + dt.toUTCString();
+      } catch (_) {}
+      var suffix = expires + '; path=/; SameSite=Lax' + secure;
+
+      if (rawFbclid && approvedTrackingClickId(rawFbclid, 20) && /^[A-Za-z0-9._~-]+$/.test(rawFbclid)) {
+        d.cookie = '_fbc=fb.1.' + nowMs + '.' + rawFbclid + suffix;
+      }
+      var existingFbp = readCookieState('_fbp');
+      if (existingFbp.state === 'absent') {
+        var rand = String(Math.floor(1000000000 + Math.random() * 9000000000));
+        d.cookie = '_fbp=fb.1.' + nowMs + '.' + rand + suffix;
+      }
+    } catch (_) {}
+  }
+
   function captureFirstPartyAttribution() {
     snapshotLandingQuery();
+    persistMetaBrowserCookiesFromLocation();
     if (w.LHI && typeof w.LHI.getAttribution === 'function') {
       try { w.LHI.getAttribution(); } catch (_) {}
     } else {

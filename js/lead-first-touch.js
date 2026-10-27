@@ -68,6 +68,19 @@
 
   function landingSearch() {
     try {
+      if (w.LHILandingQuery && w.LHILandingQuery.search != null) {
+        return String(w.LHILandingQuery.search || '');
+      }
+    } catch (e) {}
+    try {
+      if (w.sessionStorage && typeof w.sessionStorage.getItem === 'function') {
+        var stored = JSON.parse(w.sessionStorage.getItem('lhi_landing_query') || 'null');
+        if (stored && stored.search != null && stored.pathname === String(w.location && w.location.pathname || '/')) {
+          return String(stored.search || '');
+        }
+      }
+    } catch (e) {}
+    try {
       return String(w.location && w.location.search || '');
     } catch (e) {
       return '';
@@ -140,7 +153,7 @@
     if ((medium === 'cpc' || medium === 'ppc') && source === 'google') return 'google_ads';
 
     if (clickType === 'fbclid') return 'facebook';
-    if (source === 'facebook' || source === 'instagram' || source === 'fb' || source === 'ig') return 'facebook';
+    if (source === 'facebook' || source === 'instagram' || source === 'fb' || source === 'ig' || source === 'fb_ig' || source === 'meta') return 'facebook';
     if (facebookReferrer(ref)) return 'facebook';
 
     if (source === 'chatgpt' || source === 'openai') return 'chatgpt';

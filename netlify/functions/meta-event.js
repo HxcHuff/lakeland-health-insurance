@@ -115,14 +115,14 @@ function readCookieState(cookieHeader, name, maxValueLength = 128) {
 }
 
 function metaBrowserIdentifier(cookieHeader, name) {
-  const maxLength = name === '_fbc' ? 320 : 96;
+  const maxLength = name === '_fbc' ? 560 : 96;
   const state = readCookieState(cookieHeader, name, maxLength);
   if (state.state !== 'value') return null;
   if (name === '_fbp') {
     return /^fb\.[12]\.\d{10,16}\.\d{5,32}$/.test(state.value) ? state.value : null;
   }
   if (name === '_fbc') {
-    return /^fb\.[12]\.\d{10,16}\.[A-Za-z0-9_-]{20,256}$/.test(state.value) ? state.value : null;
+    return /^fb\.[12]\.\d{10,16}\.[A-Za-z0-9._~-]{20,512}$/.test(state.value) ? state.value : null;
   }
   return null;
 }

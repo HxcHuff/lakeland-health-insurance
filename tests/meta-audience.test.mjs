@@ -659,14 +659,19 @@ test('approved ad query parameters load the Pixel on eligible routes and strip b
     '?utm_source=facebook&utm_medium=paid&utm_campaign=cid_120214567890&utm_content=adid_120214567891',
     '?utm_source=facebook&utm_medium=paid&utm_campaign=lhi-aca-traffic&utm_content=aca-oe2027-local&utm_id=120252519702910324&hsa_acc=187024526874011&hsa_cam=120252519702910324&hsa_grp=120252519703520324&hsa_ad=120252519704180324&hsa_src=[SITE_SOURCE_NAME]&hsa_net=facebook&hsa_ver=3',
     '?fbclid=IwY2xjawNeutralOpaqueClickIdentifier123&utm_source=facebook&utm_medium=paid_social&utm_campaign=watson-2027',
-    '?fbclid=IwY2xjawNeutralOpaqueClickIdentifier123&utm_source=fb_ig&utm_medium=paid_social&utm_campaign=lhi_2027_polk_traffic_lpv&utm_term=lakeland_25mi_lpv&utm_content=watson_sunset_clean_photo_2027'
+    '?fbclid=IwY2xjawNeutralOpaqueClickIdentifier123&utm_source=fb_ig&utm_medium=paid_social&utm_campaign=lhi_2027_polk_traffic_lpv&utm_term=lakeland_25mi_lpv&utm_content=watson_sunset_clean_photo_2027',
+    '?utm_source=fb_ig&utm_medium=paid_social&utm_campaign=lhi_2027_polk_aca_traffic_lpv&utm_term=lakeland_25mi_lpv&utm_content=aca_sunset_clean_photo_2027&utm_id=120252519702910324&hsa_acc=187024526874011&hsa_cam=120252519702910324&hsa_grp=120252519703520324&hsa_ad=120252643263050324&hsa_src=[SITE_SOURCE_NAME]&hsa_net=facebook&hsa_ver=3&fbclid=' + 'PAZXh0bgNhZW0BMABhZGlkAas256OpaqueClickIdToken'.repeat(5)
   ];
   for (const search of adQueries) {
     for (const pathname of ['/', '/medicare-2027-check/', '/blog/orlando-health-watson-clinic-insurance-2026.html', '/blog/orlando-health-watson-clinic-2027-plan.html', '/blog/watson-clinic-humana-2027.html']) {
-      const { sandbox, scripts } = loadMetaAudience({ pathname, search });
+      const { sandbox, scripts, document } = loadMetaAudience({ pathname, search, referrer: 'http://m.facebook.com/' });
       assert.equal(scripts.length, 1, `${pathname} ${search}`);
       assert.equal(sandbox.location.search, '', `${pathname} ${search}`);
       assert.equal(sandbox.__LHI_META_AUDIENCE_STATUS__.page_url, `https://lakelandhealthinsurance.com${pathname}`, `${pathname} ${search}`);
+      assert.match(document.cookie, /_fbp=fb\.1\.\d{10,16}\.\d{10}/, `${pathname} ${search}`);
+      if (search.includes('fbclid=')) {
+        assert.match(document.cookie, /_fbc=fb\.1\.\d{10,16}\.[A-Za-z0-9._~-]{20,}/, `${pathname} ${search}`);
+      }
     }
   }
 
