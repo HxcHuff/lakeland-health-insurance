@@ -412,6 +412,26 @@ const MEDICARE_GENERAL_INTAKE_EXCLUDED_FIELDS = new Set([
 const NEWSLETTER_FORMS = new Set(['homepage-newsletter', 'newsletter-signup']);
 // Website sales/service forms forwarded to the Vercel lead bridge.
 const SITE_LEAD_FORMS = new Set(['site-medicare-lead', 'site-aca-lead']);
+const META_ELIGIBLE_PATHS = new Set([
+  '/',
+  '/get-help/',
+  '/quote/',
+  '/medicare/',
+  '/medicare-broker-lakeland-fl/',
+  '/aca-health-insurance-lakeland-fl/',
+  '/aca-health-insurance-agent-polk-county-fl/',
+  '/medicare-2027-check/',
+  '/aca-2027-check/',
+  '/plans/',
+  '/thanks.html',
+  '/blog/orlando-health-watson-clinic-insurance-2026.html',
+  '/blog/orlando-health-watson-clinic-2027-plan.html',
+  '/blog/watson-clinic-humana-2027.html',
+  '/blog/switch-to-medigap-plan-g-non-renewal.html',
+  '/blog/medicare-advantage-plan-ending-what-now.html',
+  '/blog/medicare-part-b-giveback-polk-county.html',
+  '/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/'
+]);
 
 const WEBSITE_LEAD_RELAY_FORMS = new Set([
   'get-help',
@@ -1271,7 +1291,8 @@ exports.handler = async (event) => {
           user_data: userData
         };
         const body = { data: [] };
-        if (!isSiteLead) {
+        const isEligibleMetaLeadPath = META_ELIGIBLE_PATHS.has(sanitizeSourcePath(sourcePath));
+        if (!isSiteLead || isEligibleMetaLeadPath) {
           body.data.push({
             ...sharedEvent,
             event_name: 'Lead',

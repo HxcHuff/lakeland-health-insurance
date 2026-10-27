@@ -409,7 +409,7 @@ test('Meta CAPI uses default-allow consent and honors opt-out, GPC, and DNT afte
   assert.equal(allowed.calls.length, 2);
 });
 
-test('site lead forms send form_submit_complete to Meta but not the standard Lead event', async () => {
+test('site lead forms send Lead + form_submit_complete on reviewed eligible paths and only form_submit_complete on non-eligible paths', async () => {
   const startedAt = Date.now() - 2_000;
   const payload = {
     'form-name': 'site-medicare-lead',
@@ -439,10 +439,33 @@ test('site lead forms send form_submit_complete to Meta but not the standard Lea
   assert.match(result.form_submit_complete_event_id, /^lhi_book_[a-z0-9]+_fcomp$/);
   assert.equal(calls.length, 2);
   const meta = JSON.parse(calls[1].init.body);
-  assert.equal(meta.data.length, 1);
-  assert.equal(meta.data[0].event_name, 'form_submit_complete');
-  assert.equal('custom_data' in meta.data[0], false);
-  assert.equal(meta.data[0].user_data.client_ip_address, undefined);
+  assert.equal(meta.data.length, 2);
+  assert.equal(meta.data[0].event_name, 'Lead');
+  assert.deepEqual(meta.data[0].custom_data, {
+    content_name: 'first_party_lead',
+    currency: 'USD',
+    value: 0
+  });
+  assert.equal(meta.data[1].event_name, 'form_submit_complete');
+  assert.equal('custom_data' in meta.data[1], false);
+  assert.equal(meta.data[1].user_data.client_ip_address, undefined);
+
+  const nonEligiblePayload = {
+    ...payload,
+    'form-name': 'site-aca-lead',
+    source_url: 'https://lakelandhealthinsurance.com/losing-medicaid-florida/',
+    source_page: '/losing-medicaid-florida/',
+    consent_text_version: 'site-aca-2026-10-v1'
+  };
+  const nonEligible = await invoke(nonEligiblePayload, {
+    headers: {
+      cookie: '',
+      referer: 'https://lakelandhealthinsurance.com/losing-medicaid-florida/'
+    }
+  });
+  const nonEligibleMeta = JSON.parse(nonEligible.calls[1].init.body);
+  assert.equal(nonEligibleMeta.data.length, 1);
+  assert.equal(nonEligibleMeta.data[0].event_name, 'form_submit_complete');
 });
 
 test('server consent cookie parser distinguishes absence, malformed, duplicate, and approved state', () => {
