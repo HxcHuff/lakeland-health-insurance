@@ -404,6 +404,36 @@ test('query, fragment, and referrer gates reject uncertain or user-like data', (
   });
   assert.equal(brand.scripts.length, 1);
   assert.equal(brand.sandbox.location.search, '');
+
+  for (const shimReferrer of [
+    'https://l.facebook.com/l.php?u=https%3A%2F%2Flakelandhealthinsurance.com%2Fmedicare-2027-check%2F&h=AT1OpaqueToken',
+    'https://lm.facebook.com/l.php?u=https%3A%2F%2Flakelandhealthinsurance.com%2Fget-help%2F',
+    'http://m.facebook.com/l.php',
+    'https://l.instagram.com/?u=https%3A%2F%2Flakelandhealthinsurance.com%2Fget-help%2F&e=AT2OpaqueToken'
+  ]) {
+    const shim = loadMetaAudience({
+      pathname: '/get-help/',
+      search: '?utm_source=fb_ig&utm_medium=paid_social&utm_campaign=lhi_2027_polk_traffic_lpv&fbclid=PAZXh0bgNhZW0BMABhZGlkAas256OpaqueClickIdToken',
+      referrer: shimReferrer
+    });
+    assert.equal(shim.scripts.length, 1, shimReferrer);
+    assert.match(shim.document.cookie, /_fbc=fb\.1\.\d{10,16}\.PAZXh0bgNhZW0BMABhZGlkAas256OpaqueClickIdToken/, shimReferrer);
+  }
+
+  const googleQueryReferrer = loadMetaAudience({
+    pathname: '/get-help/',
+    referrer: 'https://www.google.com/?q=private'
+  });
+  assert.equal(googleQueryReferrer.scripts.length, 0);
+
+  const nonEligibleFbcCapture = loadMetaAudience({
+    pathname: '/lp/aca/',
+    marker: false,
+    search: '?utm_source=fb_ig&utm_medium=paid_social&utm_campaign=lhi_2027_polk_aca_traffic_lpv&fbclid=PAZXh0bgNhZW0BMABhZGlkAas256OpaqueClickIdToken'
+  });
+  assert.equal(nonEligibleFbcCapture.scripts.length, 0);
+  assert.match(nonEligibleFbcCapture.document.cookie, /_fbc=fb\.1\.\d{10,16}\.PAZXh0bgNhZW0BMABhZGlkAas256OpaqueClickIdToken/);
+  assert.match(decodeURIComponent(nonEligibleFbcCapture.document.cookie), /lhi_2027_polk_aca_traffic_lpv/);
 });
 
 test('health slugs in raw campaign or term values skip the Pixel', () => {

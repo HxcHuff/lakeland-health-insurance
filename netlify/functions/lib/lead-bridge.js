@@ -233,6 +233,35 @@ function buildWebsiteLeadPayload({
     if (value) lead[field] = value;
   }
 
+  if (!lead.utm_source) {
+    const fallbackSource = firstField(source, ['lead_source'], 64).toLowerCase();
+    if (fallbackSource && /^[a-z0-9][a-z0-9._~-]{0,63}$/.test(fallbackSource)) {
+      lead.utm_source = fallbackSource;
+    }
+  }
+  if (!lead.utm_medium) {
+    const fallbackMedium = firstField(source, ['lead_medium'], 64).toLowerCase();
+    if (fallbackMedium && /^[a-z0-9][a-z0-9._~-]{0,63}$/.test(fallbackMedium)) {
+      lead.utm_medium = fallbackMedium;
+    }
+  }
+  if (!lead.utm_campaign) {
+    const fallbackCampaign = firstField(source, ['lead_campaign'], 80).toLowerCase();
+    if (fallbackCampaign && /^[a-z0-9][a-z0-9._~-]{0,79}$/.test(fallbackCampaign)) {
+      lead.utm_campaign = fallbackCampaign;
+    }
+  }
+
+  const clickIdType = firstField(source, ['click_id_type'], 16).toLowerCase();
+  if (['gclid', 'gbraid', 'wbraid', 'fbclid'].includes(clickIdType)) {
+    lead.click_id_type = clickIdType;
+  }
+
+  const leadChannel = firstField(source, ['lead_channel'], 32).toLowerCase();
+  if (['google_ads', 'facebook', 'chatgpt', 'google_organic', 'direct', 'other'].includes(leadChannel)) {
+    lead.lead_channel = leadChannel;
+  }
+
   const created = cleanText(createdAt || source.server_received_at, 40);
   const createdIso = created && Number.isFinite(Date.parse(created))
     ? new Date(created).toISOString()

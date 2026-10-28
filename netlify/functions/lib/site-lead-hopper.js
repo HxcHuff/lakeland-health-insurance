@@ -38,6 +38,32 @@ function mapInsuranceType(formName) {
   return formName === 'site-medicare-lead' ? 'MEDICARE' : 'ACA';
 }
 
+function deriveHopperSource(lead) {
+  const clickType = cleanText(lead.click_id_type, 16).toLowerCase();
+  const channel = cleanText(lead.lead_channel, 32).toLowerCase();
+  const utmSource = cleanText(lead.utm_source || lead.first_utm_source, 64).toLowerCase();
+  const utmMedium = cleanText(lead.utm_medium || lead.first_utm_medium, 64).toLowerCase();
+
+  if (
+    clickType === 'fbclid'
+    || channel === 'facebook'
+    || /^(?:facebook|fb|fb_ig|instagram|ig|meta)$/.test(utmSource)
+  ) {
+    return 'facebook_ads';
+  }
+  if (
+    Boolean(lead.gclid || lead.gbraid || lead.wbraid)
+    || clickType === 'gclid'
+    || clickType === 'gbraid'
+    || clickType === 'wbraid'
+    || channel === 'google_ads'
+    || (utmSource === 'google' && /^(?:cpc|ppc|paid)$/.test(utmMedium))
+  ) {
+    return 'google_ads';
+  }
+  return 'lhi_site_lead_form';
+}
+
 function buildHopperBody(websiteLead) {
   const lead = websiteLead || {};
   const fullName = cleanText(lead.name || [lead.first_name, lead.last_name].filter(Boolean).join(' '), 120);
@@ -46,11 +72,17 @@ function buildHopperBody(websiteLead) {
   const lastName = lead.last_name || last;
   const phone = normalizePhone(lead.phone);
   const zip = cleanText(lead.zip, 10);
+  const utmSource = cleanText(lead.utm_source || lead.first_utm_source, 80);
+  const utmCampaign = cleanText(lead.utm_campaign || lead.first_utm_campaign, 120);
+  const utmContent = cleanText(lead.utm_content || lead.first_utm_content, 120);
   const notes = [
     `Site lead form: ${lead.form_name}`,
     lead.page_url ? `page_url=${lead.page_url}` : null,
     lead.intent ? `intent=${lead.intent}` : null,
-    lead.insurance_type ? `insurance_type=${lead.insurance_type}` : null
+    lead.insurance_type ? `insurance_type=${lead.insurance_type}` : null,
+    utmSource ? `utm_source=${utmSource}` : null,
+    utmCampaign ? `utm_campaign=${utmCampaign}` : null,
+    lead.click_id_type ? `click_id_type=${lead.click_id_type}` : null
   ].filter(Boolean).join(' | ');
 
   return {
@@ -58,7 +90,11 @@ function buildHopperBody(websiteLead) {
     lastName: lastName || undefined,
     phone: phone || undefined,
     zipCode: zip || undefined,
-    source: 'lhi_site_lead_form',
+    source: deriveHopperSource(lead),
+    campaign: utmCampaign || undefined,
+    utmSource: utmSource || undefined,
+    utmCampaign: utmCampaign || undefined,
+    utmContent: utmContent || undefined,
     status: 'NEW_LEAD',
     insuranceType: mapInsuranceType(websiteLead.form_name),
     notes

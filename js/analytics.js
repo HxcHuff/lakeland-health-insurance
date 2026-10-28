@@ -1693,6 +1693,16 @@
     'bing.com': true,
     'www.bing.com': true
   };
+  var META_SHIM_REFERRERS = {
+    'facebook.com': true,
+    'www.facebook.com': true,
+    'm.facebook.com': true,
+    'l.facebook.com': true,
+    'lm.facebook.com': true,
+    'instagram.com': true,
+    'www.instagram.com': true,
+    'l.instagram.com': true
+  };
 
   function hasOwn(object, key) {
     return Boolean(object) && Object.prototype.hasOwnProperty.call(object, key);
@@ -1774,12 +1784,15 @@
     if (key === 'gad_source') {
       return /^\d{1,5}$/.test(String(text || '').trim());
     }
-    if (key === 'hsa_acc' || key === 'hsa_cam' || key === 'hsa_grp' || key === 'hsa_ad' || key === 'hsa_ver' || key === 'hsa_la' || key === 'hsa_ol') {
+    if (key === 'hsa_acc' || key === 'hsa_cam' || key === 'hsa_grp' || key === 'hsa_ad' || key === 'hsa_ver' || key === 'hsa_la' || key === 'hsa_ol' || key === 'campaign_id' || key === 'adset_id' || key === 'ad_id') {
       return /^\d{1,24}$/.test(String(text || '').trim());
     }
-    if (key === 'hsa_src' || key === 'hsa_net' || key === 'hsa_mt' || key === 'hsa_tgt' || key === 'hsa_kw') {
+    if (key === 'hsa_src' || key === 'hsa_net' || key === 'hsa_mt' || key === 'hsa_tgt' || key === 'hsa_kw' || key === 'placement' || key === 'site_source_name' || key === 'fb_source') {
       if (looksSensitive(text)) return false;
       return /^(?:\[site_source_name\]|[a-z0-9][a-z0-9._~:\[\]-]{0,63})$/i.test(String(text || '').trim());
+    }
+    if (key === 'brid') {
+      return approvedTrackingClickId(text, 6);
     }
     if (key === 'zip_code') {
       return /^\d{5}$/.test(text);
@@ -1842,13 +1855,21 @@
 
     try {
       var referrer = new w.URL(raw, w.location.origin);
-      if (referrer.username || referrer.password || referrer.search || referrer.hash) return false;
+      if (referrer.username || referrer.password || referrer.hash) return false;
       if (referrer.origin === w.location.origin) {
+        if (referrer.search) return false;
         var path = normalizePath(referrer.pathname);
         return hasOwn(ELIGIBLE_PATHS, path);
       }
-      return (referrer.protocol === 'https:' || referrer.protocol === 'http:') && !referrer.port && referrer.pathname === '/' &&
-        hasOwn(TRUSTED_EXTERNAL_REFERRERS, referrer.hostname.toLowerCase());
+      if ((referrer.protocol !== 'https:' && referrer.protocol !== 'http:') || referrer.port) {
+        return false;
+      }
+      var host = referrer.hostname.toLowerCase();
+      if (!hasOwn(TRUSTED_EXTERNAL_REFERRERS, host)) return false;
+      if (hasOwn(META_SHIM_REFERRERS, host)) {
+        return referrer.pathname === '/' || referrer.pathname === '/l.php';
+      }
+      return !referrer.search && referrer.pathname === '/';
     } catch (_) {
       return false;
     }
@@ -2403,6 +2424,13 @@
       return false;
     }
 
+    var privacy = privacyDecision();
+    var capturedFirstParty = false;
+    if (privacy.allowed && !w.fbq && !w._fbq) {
+      captureFirstPartyAttribution();
+      capturedFirstParty = true;
+    }
+
     var path = normalizePath(w.location.pathname);
     if (!hasOwn(ELIGIBLE_PATHS, path) || !hasEligibilityMarker()) {
       setStatus('skipped', 'page-not-eligible');
@@ -2421,7 +2449,6 @@
       return false;
     }
 
-    var privacy = privacyDecision();
     if (!privacy.allowed) {
       setStatus('skipped', privacy.reason);
       return false;
@@ -2431,7 +2458,9 @@
       return false;
     }
 
-    captureFirstPartyAttribution();
+    if (!capturedFirstParty) {
+      captureFirstPartyAttribution();
+    }
     if (!stripLocationForPixel()) {
       setStatus('skipped', 'query-not-stripped');
       return false;

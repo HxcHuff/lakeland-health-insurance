@@ -584,7 +584,7 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
   'lp-medicare-lead': leadFormFields(LP_COMMON_FIELDS, ['medicare_stage', 'age_timeline']),
   'lp-gap-lead': leadFormFields(LP_COMMON_FIELDS, ['coverage_situation']),
   'aca-lakeland-lead': leadFormFields(LOCAL_FORM_FIELDS, ['income_range', 'employment_status']),
-  'subsidy-estimator-lead': leadFormFields(LEAD_ATTRIBUTION_FIELDS, [
+  'subsidy-estimator-lead': leadFormFields(LEAD_ATTRIBUTION_FIELDS, FIRST_TOUCH_WITH_SOURCE, [
     'first_name',
     'email',
     'phone',

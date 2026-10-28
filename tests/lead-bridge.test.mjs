@@ -238,6 +238,29 @@ test('website lead payload keeps contact, intent, consent, UTMs, and the submiss
   assert.equal(Object.hasOwn(lead, 'lhi_lead_source'), false);
   assert.equal(Object.hasOwn(lead, 'lhi_gclid'), false);
   assert.equal(Object.hasOwn(lead, 'preferred_click_id'), false);
+
+  const fbLead = buildWebsiteLeadPayload({
+    formName: 'site-medicare-lead',
+    submissionId: SUBMISSION_ID,
+    createdAt: '2026-09-30T15:59:00.000Z',
+    filtered: {
+      full_name: 'Cathryn Example',
+      phone: '8635550199',
+      zip_code: '33803',
+      lead_source: 'fb_ig',
+      lead_medium: 'paid_social',
+      lead_campaign: 'lhi_2027_playbook_d_warm_rtg',
+      click_id_type: 'fbclid',
+      lead_channel: 'facebook',
+      consent: 'yes'
+    }
+  });
+  assert.equal(fbLead.source, 'website_form');
+  assert.equal(fbLead.utm_source, 'fb_ig');
+  assert.equal(fbLead.utm_medium, 'paid_social');
+  assert.equal(fbLead.utm_campaign, 'lhi_2027_playbook_d_warm_rtg');
+  assert.equal(fbLead.click_id_type, 'fbclid');
+  assert.equal(fbLead.lead_channel, 'facebook');
 });
 
 test('website lead payload keeps valid click IDs and HubSpot attribution fields', () => {

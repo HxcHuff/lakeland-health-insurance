@@ -121,6 +121,60 @@ test('first-touch UTMs are not overwritten while still valid', () => {
   assert.equal(touch.gclid, 'FirstGclid-001');
 });
 
+test('unattributed organic or direct first-touch upgrades when a paid Meta ad click arrives', () => {
+  const local = makeStorage();
+  const organic = loadFirstTouch({
+    localStorage: local,
+    pathname: '/',
+    search: '',
+    referrer: 'https://www.google.com/'
+  });
+  assert.equal(organic.LHILeadFirstTouch.getFirstTouch().lead_channel, 'google_organic');
+
+  const retargeted = loadFirstTouch({
+    localStorage: local,
+    pathname: '/medicare-broker-lakeland-fl/',
+    search: '?utm_source=fb_ig&utm_medium=paid_social&utm_campaign=lhi_2027_playbook_d_warm_rtg&fbclid=PAZXh0bgNhZW0BMABhZGlkAas256Opaque',
+    referrer: 'https://l.facebook.com/l.php'
+  });
+  const touch = retargeted.LHILeadFirstTouch.getFirstTouch();
+  assert.equal(touch.landing_page, '/medicare-broker-lakeland-fl/');
+  assert.equal(touch.utm_source, 'fb_ig');
+  assert.equal(touch.utm_medium, 'paid_social');
+  assert.equal(touch.utm_campaign, 'lhi_2027_playbook_d_warm_rtg');
+  assert.equal(touch.click_id_type, 'fbclid');
+  assert.equal(touch.lead_channel, 'facebook');
+  assert.equal(JSON.stringify(touch).includes('PAZXh0bg'), false);
+
+  const form = {
+    elements: {
+      lead_source: { type: 'hidden', value: '' },
+      lead_medium: { value: '' },
+      lead_campaign: { value: '' },
+      utm_source: { value: '' },
+      utm_medium: { value: '' },
+      utm_campaign: { value: '' },
+      landing_page: { value: '' },
+      referrer: { value: '' },
+      click_id_type: { value: '' },
+      lead_channel: { value: '' },
+      gclid: { value: '' },
+      gbraid: { value: '' },
+      wbraid: { value: '' },
+      click_timestamp: { value: '' }
+    },
+    querySelector() {
+      return null;
+    }
+  };
+  retargeted.LHILeadFirstTouch.applyToForm(form);
+  assert.equal(form.elements.utm_source.value, 'fb_ig');
+  assert.equal(form.elements.utm_medium.value, 'paid_social');
+  assert.equal(form.elements.utm_campaign.value, 'lhi_2027_playbook_d_warm_rtg');
+  assert.equal(form.elements.click_id_type.value, 'fbclid');
+  assert.equal(form.elements.lead_channel.value, 'facebook');
+});
+
 test('newer Google click IDs refresh stored values and extend TTL', () => {
   const local = makeStorage();
   local.setItem('lhi_first_touch', JSON.stringify({

@@ -18,7 +18,7 @@
   function approvedCampaignValue(value) {
     var text = String(value || '').trim().toLowerCase();
     if (!text) return null;
-    if (/^cid_\d{8,20}$/.test(text)) {
+    if (/^(?:cid|aid|adid|adset)_\d{8,20}$/.test(text)) {
       return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
     }
     if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
@@ -280,20 +280,41 @@
     }
   }
 
-  function mergeIncomingGoogleClicks(existing) {
+  function hasIncomingPaidSocialSignal(qs, clickType) {
+    if (!qs || typeof qs.get !== 'function') return false;
+    var source = String(sanitizeUtmKey('utm_source', qs.get('utm_source')) || '').toLowerCase();
+    var medium = String(sanitizeUtmKey('utm_medium', qs.get('utm_medium')) || '').toLowerCase();
+    var isMetaSource = source === 'facebook' || source === 'instagram' || source === 'fb' || source === 'ig' || source === 'fb_ig' || source === 'meta';
+    var isPaidMedium = medium === 'paid' || medium === 'paid_social' || medium === 'cpc' || medium === 'ppc';
+    if (clickType === 'fbclid' && medium !== 'social' && medium !== 'organic') return true;
+    return isMetaSource && isPaidMedium;
+  }
+
+  function mergeIncomingPaidClicks(existing) {
     var qs = new URLSearchParams(landingSearch());
     var incoming = readGoogleClickIdsFromQuery(qs);
-    if (!incoming.hasIncoming) return existing;
     var clickType = detectClickIdType(qs);
-    return normalizeRecord(applyGoogleClickIdsToRecord(Object.assign({}, existing), incoming, clickType));
+    if (incoming.hasIncoming) {
+      return normalizeRecord(applyGoogleClickIdsToRecord(Object.assign({}, existing), incoming, clickType));
+    }
+    var hasPriorAdOrUtm = hasStoredGoogleClickId(existing)
+      || String(existing && existing.click_id_type || 'none') !== 'none'
+      || hasAnyUtm(existing);
+    if (!hasPriorAdOrUtm && hasIncomingPaidSocialSignal(qs, clickType)) {
+      return captureFromCurrentPage();
+    }
+    return existing;
+  }
+
+  function mergeIncomingGoogleClicks(existing) {
+    return mergeIncomingPaidClicks(existing);
   }
 
   function captureIfNeeded() {
-    var qs = new URLSearchParams(landingSearch());
     var local = readJsonStorage(w.localStorage);
     if (isValidRecord(local)) {
       var normalized = normalizeRecord(local);
-      var refreshed = mergeIncomingGoogleClicks(normalized);
+      var refreshed = mergeIncomingPaidClicks(normalized);
       writeJsonStorage(w.localStorage, refreshed);
       writeJsonStorage(w.sessionStorage, refreshed);
       return refreshed;
@@ -307,7 +328,7 @@
   function getFirstTouch() {
     var session = readJsonStorage(w.sessionStorage);
     if (isValidRecord(session)) {
-      return mergeIncomingGoogleClicks(normalizeRecord(session));
+      return mergeIncomingPaidClicks(normalizeRecord(session));
     }
     return captureIfNeeded();
   }
@@ -363,6 +384,21 @@
         input = form.querySelector('input[name="' + name + '"]');
       }
       if (input) input.value = map[name];
+    });
+    var utmFallbackMap = {
+      utm_source: touch.utm_source || '',
+      utm_medium: touch.utm_medium || '',
+      utm_campaign: touch.utm_campaign || ''
+    };
+    Object.keys(utmFallbackMap).forEach(function (name) {
+      if (!utmFallbackMap[name]) return;
+      var input = form.elements && form.elements[name];
+      if (!input && typeof form.querySelector === 'function') {
+        input = form.querySelector('input[name="' + name + '"]');
+      }
+      if (input && !String(input.value || '').trim()) {
+        input.value = utmFallbackMap[name];
+      }
     });
   }
 
