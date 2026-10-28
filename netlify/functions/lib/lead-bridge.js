@@ -62,7 +62,8 @@ const RAW_SAFE_EXTRAS = Object.freeze([
   'consent_call_state',
   'consent_sms_state',
   'consent_email_state',
-  'state'
+  'state',
+  'coverage_state'
 ]);
 const PERMANENT_STATUSES = new Set([400, 401, 403, 404, 422]);
 
@@ -210,7 +211,7 @@ function buildWebsiteLeadPayload({
   const zip = normalizeZip(firstField(source, ['zip_code', 'zip'], 10));
   if (zip) lead.zip = zip;
 
-  const state = normalizeState(firstField(source, ['state'], 32));
+  const state = normalizeState(firstField(source, ['state', 'coverage_state'], 32));
   if (state) lead.state = state;
 
   const intent = firstField(source, ['normalized_intent', 'inquiry_type'], 160);

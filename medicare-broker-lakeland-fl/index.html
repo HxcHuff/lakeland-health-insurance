@@ -643,6 +643,22 @@
 <div class="eyebrow">Licensed local Medicare agent · Lakeland, FL</div>
 <h1>Medicare broker in Lakeland, FL — licensed local agent for doctors, prescriptions, and AEP.</h1>
 <p class="lhi-hero-lede hero-identity"><strong>Direct answer:</strong> David Huff (FL #W371813), Lakeland Health Insurance, 2298 Lakeland Hills Blvd, Lakeland, FL 33805, <a href="tel:+18636403102">(863) 640-3102</a>, by appointment. Service area: Lakeland, Polk County, and nearby Central Florida communities. See also <a href="/local-health-insurance-answers/medicare-plan-help-lakeland/">Medicare plan help in Lakeland</a>.</p>
+<div class="lhi-step1-micro" data-lhi-step1-intake data-source-page-key="medicare_broker_lakeland_fl" role="region" aria-label="Step 1: Enter Florida ZIP code and coverage type">
+  <p class="lhi-step1-micro__eyebrow">Step 1 of 2 &middot; Florida ZIP &amp; coverage check</p>
+  <div class="lhi-step1-micro__row">
+    <label class="sr-only" for="medicareBrokerStep1Zip">5-digit Florida ZIP code</label>
+    <input class="lhi-step1-micro__zip" id="medicareBrokerStep1Zip" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="33805" data-step1-zip>
+    <label class="sr-only" for="medicareBrokerStep1Intent">Coverage type</label>
+    <select class="lhi-step1-micro__intent" id="medicareBrokerStep1Intent" data-step1-intent>
+      <option value="medicare" selected>Medicare (65+)</option>
+      <option value="provider-check">Doctor / Rx check</option>
+      <option value="under-65">Under-65 / ACA</option>
+      <option value="lost-coverage">Losing coverage</option>
+    </select>
+    <button class="lhi-step1-micro__btn" type="button" data-step1-continue>Continue</button>
+  </div>
+  <p class="lhi-step1-micro__error" data-step1-error role="status" aria-live="polite"></p>
+</div>
 </div>
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="medicare" data-form-name="site-medicare-lead" data-source-template="medicare_hub" aria-labelledby="medicare_broker_lakeland_fl-lead-title">
   <div class="lhi-lead-hero__grid">

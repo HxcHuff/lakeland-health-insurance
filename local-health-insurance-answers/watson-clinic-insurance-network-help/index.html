@@ -187,6 +187,22 @@
     <p class="eyebrow">Local network checks</p>
     <h1>Who helps check Watson Clinic and Lakeland insurance networks?</h1>
     <p class="lead lhi-hero-lede">In Lakeland, the insurance question is rarely just the carrier name. The exact doctor, location, facility, referral path, pharmacy, prescription list, plan ID, and benefit year all matter.</p>
+    <div class="lhi-step1-micro" data-lhi-step1-intake data-step1-form="#local_health_insurance_answers_watson_clForm" data-source-page-key="watson_clinic_insurance_network_help" role="region" aria-label="Step 1: Enter Florida ZIP code and coverage type">
+      <p class="lhi-step1-micro__eyebrow">Step 1 of 2 &middot; Florida ZIP &amp; coverage check</p>
+      <div class="lhi-step1-micro__row">
+        <label class="sr-only" for="watsonHelpStep1Zip">5-digit Florida ZIP code</label>
+        <input class="lhi-step1-micro__zip" id="watsonHelpStep1Zip" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="33805" data-step1-zip>
+        <label class="sr-only" for="watsonHelpStep1Intent">Coverage type</label>
+        <select class="lhi-step1-micro__intent" id="watsonHelpStep1Intent" data-step1-intent>
+          <option value="medicare" selected>Medicare (65+)</option>
+          <option value="provider-check">Doctor / Rx check</option>
+          <option value="under-65">Under-65 / ACA</option>
+          <option value="lost-coverage">Losing coverage</option>
+        </select>
+        <button class="lhi-step1-micro__btn" type="button" data-step1-continue>Continue</button>
+      </div>
+      <p class="lhi-step1-micro__error" data-step1-error role="status" aria-live="polite"></p>
+    </div>
         </div>
       </div>
     </section>

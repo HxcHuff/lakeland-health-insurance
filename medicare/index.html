@@ -154,6 +154,22 @@
             <p class="eyebrow">Medicare AEP 2027 | Lakeland &amp; Polk County</p>
             <h1 id="medicare-title">Medicare help built around your real care.</h1>
             <p class="lead lhi-hero-lede">Compare doctors, prescriptions, and enrollment timing with a licensed Lakeland agent before you choose a 2027 plan. A review is not enrollment.</p>
+            <div class="lhi-step1-micro" data-lhi-step1-intake data-step1-form="#medicareLeadForm" data-source-page-key="medicare" role="region" aria-label="Step 1: Enter Florida ZIP code and coverage type">
+              <p class="lhi-step1-micro__eyebrow">Step 1 of 2 &middot; Florida ZIP &amp; coverage check</p>
+              <div class="lhi-step1-micro__row">
+                <label class="sr-only" for="medicareHubStep1Zip">5-digit Florida ZIP code</label>
+                <input class="lhi-step1-micro__zip" id="medicareHubStep1Zip" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="33805" data-step1-zip>
+                <label class="sr-only" for="medicareHubStep1Intent">Coverage type</label>
+                <select class="lhi-step1-micro__intent" id="medicareHubStep1Intent" data-step1-intent>
+                  <option value="medicare" selected>Medicare (65+)</option>
+                  <option value="provider-check">Doctor / Rx check</option>
+                  <option value="under-65">Under-65 / ACA</option>
+                  <option value="lost-coverage">Losing coverage</option>
+                </select>
+                <button class="lhi-step1-micro__btn" type="button" data-step1-continue>Continue</button>
+              </div>
+              <p class="lhi-step1-micro__error" data-step1-error role="status" aria-live="polite"></p>
+            </div>
             <form class="sitelink-lead-form" name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="medicareLeadForm" data-sitelink-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="sitelink_medicare_lead" aria-label="Request a Medicare review">
               <input type="hidden" name="form-name" value="get-help">
               <div hidden aria-hidden="true">
@@ -885,5 +901,6 @@
   </div>
 </footer>
 
+  <script src="/js/lead-hero.js?v=20261018-licensed-states-23-v1" defer></script>
 </body>
 </html>

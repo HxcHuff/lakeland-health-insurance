@@ -184,7 +184,8 @@
       font-weight: 800;
     }
 
-    .help-hero .hs-secondary {
+    .help-hero .hs-secondary,
+    .help-secondary-meta .hs-secondary {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(246, 231, 193, 0.28);
       border-radius: 10px;
@@ -197,9 +198,27 @@
       text-align: left;
     }
 
-    .help-hero .hs-secondary[hidden] { display: none; }
+    .help-secondary-meta {
+      background: linear-gradient(180deg, #162440 0%, #1B2A4A 100%);
+      color: #fff;
+      padding: 24px 20px 30px;
+      text-align: center;
+    }
 
-    .help-hero .hs-secondary strong {
+    .help-secondary-meta__inner {
+      margin: 0 auto;
+      max-width: 720px;
+    }
+
+    .help-secondary-meta .review-note + .review-note {
+      margin-top: 8px;
+    }
+
+    .help-hero .hs-secondary[hidden],
+    .help-secondary-meta .hs-secondary[hidden] { display: none; }
+
+    .help-hero .hs-secondary strong,
+    .help-secondary-meta .hs-secondary strong {
       color: #F6E7C1;
       display: block;
       font-size: 0.75rem;
@@ -208,7 +227,8 @@
       text-transform: uppercase;
     }
 
-    .help-hero .hs-secondary a {
+    .help-hero .hs-secondary a,
+    .help-secondary-meta .hs-secondary a {
       color: #F6E7C1;
       display: inline-block;
       font-weight: 800;
@@ -278,9 +298,9 @@
     .form-stepper {
       display: grid;
       gap: 8px;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       list-style: none;
-      margin: 0 0 1.1rem;
+      margin: 0 0 0.85rem;
       padding: 0;
     }
 
@@ -330,7 +350,60 @@
     }
 
     /* Reserve the default six-choice footprint before the intake script hydrates it. */
-    #intentOptions { min-height: 212px; }
+    #intentOptions { min-height: 168px; }
+
+    .step1-zip-row {
+      margin: 0 0 12px;
+    }
+
+    .step1-zip-row input {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      max-width: 220px;
+    }
+
+    .step2-summary-bar {
+      align-items: center;
+      background: var(--lhi-band);
+      border: 1px solid var(--lhi-line);
+      border-radius: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 0.88rem;
+      gap: 8px 12px;
+      justify-content: space-between;
+      margin: 0 0 12px;
+      padding: 8px 12px;
+    }
+
+    .step2-summary-bar strong {
+      color: var(--lhi-navy);
+    }
+
+    .step2-summary-edit {
+      background: transparent;
+      border: 0;
+      color: var(--lhi-blue);
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding: 2px 4px;
+      text-decoration: underline;
+    }
+
+    details.optional-panel > summary {
+      color: var(--lhi-navy);
+      cursor: pointer;
+      font-size: 0.98rem;
+      font-weight: 800;
+      list-style: revert;
+    }
+
+    details.optional-panel[open] > summary {
+      margin-bottom: 0.85rem;
+    }
 
     .choice {
       align-items: flex-start;
@@ -530,18 +603,50 @@
     }
 
     @media (max-width: 620px) {
-      .lp-header-inner { padding: 10px 16px; }
-      .lp-brand { font-size: 18px; }
-      body.get-help-page header .brand-name { font-size: 18px; }
-      .help-hero { padding: 156px 16px 30px; }
-      body.has-seasonal-banner.get-help-page .help-hero { padding-top: 196px; }
-      .help-copy h1 { font-size: 28px; }
-      .help-copy > p:not(.eyebrow):not(.review-note) { font-size: 16px; }
+      .lp-header-inner { padding: 8px 14px; }
+      .lp-brand { font-size: 17px; }
+      body.get-help-page header .brand-name { font-size: 17px; }
+      .help-hero { padding: 76px 14px 12px; }
+      body.has-seasonal-banner.get-help-page .help-hero { padding-top: 112px; }
+      .eyebrow { font-size: 11px; margin: 0 0 6px; padding: 3px 10px; }
+      .help-copy h1 { font-size: 24px; line-height: 1.12; margin: 0 0 6px; }
+      .help-copy > p:not(.eyebrow):not(.review-note) {
+        display: -webkit-box;
+        font-size: 13.5px;
+        line-height: 1.38;
+        margin: 0 auto 4px;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+      }
       .review-note { font-size: 13px; }
-      .form-section { padding: 32px 16px 42px; }
-      .form-shell { padding: 20px 16px; }
-      .option-grid, .field-grid { grid-template-columns: 1fr; }
-      #intentOptions { min-height: 414px; }
+      .form-section { padding: 10px 12px 24px; }
+      .form-shell { padding: 12px 12px 14px; }
+      .progress { font-size: 0.78rem; margin-bottom: 0.35rem; }
+      .form-stepper { gap: 6px; margin-bottom: 0.6rem; }
+      .form-stepper li { font-size: 0.74rem; padding: 6px 8px; }
+      .form-step h2 { font-size: 1.35rem; margin-bottom: 0.35rem; }
+      .step-help { font-size: 0.84rem; line-height: 1.35; margin-bottom: 0.6rem; }
+      .step1-zip-row { margin-bottom: 8px; }
+      .step1-zip-row input { max-width: none; min-height: 42px; padding: 8px 10px; }
+      .step1-zip-row .field-help { font-size: 0.76rem; }
+      #intentOptions {
+        gap: 6px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        min-height: 152px;
+      }
+      #intentOptions .choice {
+        align-items: center;
+        gap: 6px;
+        min-height: 44px;
+        padding: 7px 8px;
+      }
+      #intentOptions .choice span {
+        font-size: 0.79rem;
+        line-height: 1.2;
+      }
+      .field-grid { grid-template-columns: 1fr; }
+      .step-actions { margin-top: 10px; }
       .quick-actions, .step-actions { flex-direction: column; }
       .action-link, .ghost-button, .form-button { width: 100%; }
     }
@@ -564,20 +669,7 @@
       <div class="help-copy" aria-labelledby="get-help-title">
         <p class="eyebrow" id="intent-eyebrow">Licensed Florida Plan Review</p>
         <h1 id="get-help-title">Request a licensed plan review.</h1>
-        <p id="intent-copy">This form starts a plan review with David Huff, licensed Florida health agent—it is not enrollment. Tell him what you need help with and when; share only basic contact and timing here, and discuss sensitive coverage details during private follow-up.</p>
-        <div class="quick-actions" aria-label="Ways to get help">
-          <a class="action-link primary" href="#leadForm">Start my request</a>
-          <a class="action-link secondary" href="tel:+18636403102">Call (863) 640-3102</a>
-          <a class="action-link secondary" href="/book/">Book a time with David</a>
-        </div>
-        <p class="review-note">David Huff, FL License #W371813, follows up through a channel you authorize. A review request is not enrollment.</p>
-        <p class="review-note">Licensed in 23 states. If you live outside Florida, start with <a href="/states/">States I'm licensed in</a>.</p>
-        <p class="review-note">For background first, see <a href="/aca-health-insurance-lakeland-fl/">individual and family coverage</a> or <a href="/medicare/">Medicare coverage review</a>.</p>
-        <aside class="hs-secondary" id="healthSherpaSecondary" hidden>
-          <strong>Optional self-service during Marketplace Open Enrollment</strong>
-          Compare ACA plans yourself on HealthSherpa. This is secondary to a licensed review and is not Medicare enrollment. HealthSherpa is a private enrollment site, not HealthCare.gov.
-          <a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer" data-funnel-external-quote data-analytics-label="get_help_aca_self_service">Open HealthSherpa</a>
-        </aside>
+        <p id="intent-copy">Start a plan review with David Huff, licensed Florida health agent (FL #W371813). Enter your 5-digit ZIP code and coverage type below. A review is not enrollment.</p>
       </div>
     </section>
 
@@ -600,6 +692,7 @@
           <input type="hidden" name="source_page_role" id="sourcePageRoleInput">
           <input type="hidden" name="source_cta_key" id="sourceCtaKeyInput">
           <input type="hidden" name="coverage_state" id="coverageStateInput">
+          <input type="hidden" name="state" id="stateInput">
           <input type="hidden" name="content_cluster" id="contentClusterInput">
           <input type="hidden" name="event_id" id="eventIdInput">
           <input type="hidden" name="server_received_at" id="serverReceivedAtInput">
@@ -643,53 +736,38 @@
           <input type="hidden" name="lead_priority_reason">
           <input type="hidden" name="ab_variant" id="abVariantInput">
 
-          <div class="progress" id="progressText">Step 1 of 3</div>
+          <div class="progress" id="progressText">Step 1 of 2</div>
           <ol class="form-stepper" aria-label="Request steps">
-            <li data-stepper="1" aria-current="step">1. Who / what</li>
-            <li data-stepper="2">2. Details</li>
-            <li data-stepper="3">3. Contact &amp; consent</li>
+            <li data-stepper="1" aria-current="step">1. ZIP &amp; coverage</li>
+            <li data-stepper="2">2. Contact &amp; consent</li>
           </ol>
           <div class="error-summary" id="errorSummary" role="alert" hidden></div>
 
           <div class="form-step" data-step="1">
-            <h2 id="form-title" tabindex="-1">Who is this request for?</h2>
-            <p class="step-help">Choose the closest match. Details come next.</p>
+            <h2 id="form-title" tabindex="-1">Start your Florida plan review</h2>
+            <p class="step-help">Enter your 5-digit ZIP code and choose your coverage type.</p>
+            <div class="field step1-zip-row">
+              <label for="zipCode">5-digit ZIP code</label>
+              <input id="zipCode" name="zip_code" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="33805" autocomplete="postal-code" aria-describedby="zipCodeHelp" required>
+              <p class="field-help" id="zipCodeHelp">Use the Florida ZIP code where coverage will be used.</p>
+            </div>
             <fieldset>
-              <legend class="visually-hidden">Inquiry type</legend>
+              <legend class="visually-hidden">Coverage type</legend>
               <div class="option-grid" id="intentOptions"></div>
             </fieldset>
             <div class="step-actions">
               <span></span>
-              <button class="form-button" type="button" data-next>Continue</button>
+              <button class="form-button" type="button" data-next id="step1ContinueButton">Continue</button>
             </div>
           </div>
 
           <div class="form-step" data-step="2" hidden>
-            <h2 tabindex="-1">What details should David review?</h2>
-            <p class="step-help">Start with timing. Optional fields can be skipped.</p>
-            <fieldset>
-              <legend class="visually-hidden">When you need help</legend>
-              <div class="option-grid">
-                <label class="choice"><input type="radio" name="need_timing" value="As soon as possible" required><span>As soon as possible</span></label>
-                <label class="choice"><input type="radio" name="need_timing" value="Within 30 days"><span>Within 30 days</span></label>
-                <label class="choice"><input type="radio" name="need_timing" value="Preparing for a future date"><span>Preparing for a future date</span></label>
-                <label class="choice"><input type="radio" name="need_timing" value="Just researching"><span>Just researching</span></label>
-              </div>
-            </fieldset>
-            <div class="optional-panel" aria-labelledby="optionalTitle">
-              <h3 id="optionalTitle">Optional details David can review before following up</h3>
-              <p class="consent-help" id="optionalPrivacyNote">Do not enter medication names, medical details, policy or member numbers, Medicare numbers, Social Security numbers, or medical records in optional fields.</p>
-              <div class="field-grid" id="optionalFields"></div>
+            <div class="step2-summary-bar" id="step2SummaryBar">
+              <span>Reviewing: <strong id="step2SummaryText">Florida Plan Review</strong></span>
+              <button class="step2-summary-edit" type="button" data-prev>Edit ZIP / coverage</button>
             </div>
-            <div class="step-actions">
-              <button class="ghost-button" type="button" data-prev>Back</button>
-              <button class="form-button" type="button" data-next>Continue</button>
-            </div>
-          </div>
-
-          <div class="form-step" data-step="3" hidden>
             <h2 tabindex="-1">How should David follow up?</h2>
-            <p class="step-help">Enter your name and ZIP code, then choose how David may contact you. Add a phone number or email address for each channel you authorize.</p>
+            <p class="step-help">Enter your contact details and authorize how David may reach you.</p>
             <div class="field-grid">
               <div class="field full">
                 <label for="fullName">Full name</label>
@@ -703,44 +781,6 @@
                 <label for="email">Email, if authorizing email</label>
                 <input id="email" name="email" type="email" autocomplete="email">
               </div>
-              <div class="field">
-                <label for="zipCode">ZIP code</label>
-                <input id="zipCode" name="zip_code" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="33805" autocomplete="postal-code" aria-describedby="zipCodeHelp" required>
-                <p class="field-help" id="zipCodeHelp">Use the ZIP code where coverage will be used.</p>
-              </div>
-              <div class="field">
-                <label for="preferredContact">Preferred contact method</label>
-                <select id="preferredContact" name="preferred_contact_method" required>
-                  <option value="">Select one</option>
-                  <option>Phone call</option>
-                  <option>Text message</option>
-                  <option>Email</option>
-                  <option>First available</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="bestTimeToReach">Best time to reach you</label>
-                <select id="bestTimeToReach" name="best_time_to_reach" required>
-                  <option value="">Select one</option>
-                  <option>Morning</option>
-                  <option>Afternoon</option>
-                  <option>Evening</option>
-                  <option>Anytime during business hours</option>
-                </select>
-              </div>
-              <div class="field full">
-                <label for="coverageStatus">What coverage do you have now?</label>
-                <select id="coverageStatus" name="coverage_status" required>
-                  <option value="">Select one</option>
-                  <option>Uninsured</option>
-                  <option>Employer plan</option>
-                  <option>Marketplace / ACA</option>
-                  <option>Medicare</option>
-                  <option>COBRA</option>
-                  <option>Short-term</option>
-                  <option>Not sure</option>
-                </select>
-              </div>
             </div>
 
             <label class="consent">
@@ -750,7 +790,7 @@
 
             <fieldset class="consent-group">
               <legend>Choose each contact channel you authorize</legend>
-              <p class="consent-help">Select at least one. The authorized channel must match the contact method and information you provided.</p>
+              <p class="consent-help">Select at least one. The authorized channel must match the contact information you provided.</p>
               <label class="consent">
                 <input type="checkbox" name="consent_call" value="yes">
                 <span>I authorize a telephone call about this request.</span>
@@ -766,6 +806,53 @@
             </fieldset>
             <p class="consent-help">Consent is not a condition of purchase. See the <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>. Withdrawing one channel does not withdraw another.</p>
 
+            <details class="optional-panel">
+              <summary id="optionalTitle">Optional details David can review before following up</summary>
+              <p class="consent-help" id="optionalPrivacyNote">Do not enter medication names, medical details, policy or member numbers, Medicare numbers, Social Security numbers, or medical records in optional fields.</p>
+              <fieldset style="margin-top:12px;">
+                <legend class="group-label" style="margin-bottom:6px;">When do you need help?</legend>
+                <div class="option-grid">
+                  <label class="choice"><input type="radio" name="need_timing" value="As soon as possible" checked required><span>As soon as possible</span></label>
+                  <label class="choice"><input type="radio" name="need_timing" value="Within 30 days"><span>Within 30 days</span></label>
+                  <label class="choice"><input type="radio" name="need_timing" value="Preparing for a future date"><span>Preparing for a future date</span></label>
+                  <label class="choice"><input type="radio" name="need_timing" value="Just researching"><span>Just researching</span></label>
+                </div>
+              </fieldset>
+              <div class="field-grid" style="margin-top:12px;">
+                <div class="field">
+                  <label for="preferredContact">Preferred contact method</label>
+                  <select id="preferredContact" name="preferred_contact_method" required>
+                    <option value="First available" selected>First available</option>
+                    <option value="Phone call">Phone call</option>
+                    <option value="Text message">Text message</option>
+                    <option value="Email">Email</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="bestTimeToReach">Best time to reach you</label>
+                  <select id="bestTimeToReach" name="best_time_to_reach" required>
+                    <option value="Anytime during business hours" selected>Anytime during business hours</option>
+                    <option value="Morning">Morning</option>
+                    <option value="Afternoon">Afternoon</option>
+                    <option value="Evening">Evening</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label for="coverageStatus">What coverage do you have now?</label>
+                  <select id="coverageStatus" name="coverage_status" required>
+                    <option value="Not sure" selected>Not sure</option>
+                    <option value="Uninsured">Uninsured</option>
+                    <option value="Employer plan">Employer plan</option>
+                    <option value="Marketplace / ACA">Marketplace / ACA</option>
+                    <option value="Medicare">Medicare</option>
+                    <option value="COBRA">COBRA</option>
+                    <option value="Short-term">Short-term</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field-grid" id="optionalFields" style="margin-top:12px;"></div>
+            </details>
+
             <div class="step-actions">
               <button class="ghost-button" type="button" data-prev>Back</button>
               <button class="form-button" type="submit" id="submitButton">Send My Request</button>
@@ -775,6 +862,24 @@
         </form>
       </div>
       <p class="page-privacy">Your request is handled under our <a href="/privacy-policy.html">Privacy Policy</a>.</p>
+    </section>
+
+    <section class="help-secondary-meta" aria-label="Direct contact and licensing information">
+      <div class="help-secondary-meta__inner">
+        <div class="quick-actions" aria-label="Ways to get help">
+          <a class="action-link primary" href="#leadForm">Start my request</a>
+          <a class="action-link secondary" href="tel:+18636403102">Call (863) 640-3102</a>
+          <a class="action-link secondary" href="/book/">Book a time with David</a>
+        </div>
+        <p class="review-note">David Huff, FL License #W371813, follows up through a channel you authorize. A review request is not enrollment.</p>
+        <p class="review-note">Licensed in 23 states. If you live outside Florida, start with <a href="/states/">States I'm licensed in</a>.</p>
+        <p class="review-note">For background first, see <a href="/aca-health-insurance-lakeland-fl/">individual and family coverage</a> or <a href="/medicare/">Medicare coverage review</a>.</p>
+        <aside class="hs-secondary" id="healthSherpaSecondary" hidden>
+          <strong>Optional self-service during Marketplace Open Enrollment</strong>
+          Compare ACA plans yourself on HealthSherpa. This is secondary to a licensed review and is not Medicare enrollment. HealthSherpa is a private enrollment site, not HealthCare.gov.
+          <a href="https://www.healthsherpa.com/?_agent_id=david-huff-ngdu8q" target="_blank" rel="noopener noreferrer" data-funnel-external-quote data-analytics-label="get_help_aca_self_service">Open HealthSherpa</a>
+        </aside>
+      </div>
     </section>
   
 

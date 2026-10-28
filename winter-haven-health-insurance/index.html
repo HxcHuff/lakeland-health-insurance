@@ -672,7 +672,24 @@
       <div class="container hero-grid hero-content"><div class="lhi-hero-lede-block"><div>
           <div class="hero-kicker">Winter Haven · 33880 · 33881 · 33884</div>
           <h1>Winter Haven Health Insurance That Starts With Your Doctors</h1>
-          <p class="lhi-hero-lede">David Huff helps Winter Haven residents compare <strong>2027</strong> ACA Marketplace, Medicare, short-term, dental, vision, and supplemental coverage in Polk County after checking the providers you actually use.</p></div></div>
+          <p class="lhi-hero-lede">David Huff helps Winter Haven residents compare <strong>2027</strong> ACA Marketplace, Medicare, short-term, dental, vision, and supplemental coverage in Polk County after checking the providers you actually use.</p>
+          <div class="lhi-step1-micro" data-lhi-step1-intake data-source-page-key="winter_haven_health_insurance" role="region" aria-label="Step 1: Enter Florida ZIP code and coverage type">
+            <p class="lhi-step1-micro__eyebrow">Step 1 of 2 &middot; Florida ZIP &amp; coverage check</p>
+            <div class="lhi-step1-micro__row">
+              <label class="sr-only" for="winterHavenStep1Zip">5-digit Florida ZIP code</label>
+              <input class="lhi-step1-micro__zip" id="winterHavenStep1Zip" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="33880" data-step1-zip>
+              <label class="sr-only" for="winterHavenStep1Intent">Coverage type</label>
+              <select class="lhi-step1-micro__intent" id="winterHavenStep1Intent" data-step1-intent>
+                <option value="under-65" selected>Under-65 / ACA</option>
+                <option value="medicare">Medicare (65+)</option>
+                <option value="provider-check">Doctor / Rx check</option>
+                <option value="lost-coverage">Losing coverage</option>
+              </select>
+              <button class="lhi-step1-micro__btn" type="button" data-step1-continue>Continue</button>
+            </div>
+            <p class="lhi-step1-micro__error" data-step1-error role="status" aria-live="polite"></p>
+          </div>
+          </div></div>
 
 
         <div class="hero-panel" aria-label="Winter Haven coverage priorities">

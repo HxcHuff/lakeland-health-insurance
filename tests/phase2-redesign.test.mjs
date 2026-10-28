@@ -269,12 +269,10 @@ test('Coverage Center keeps a proof strip, shorter hero, and secondary HealthShe
   assert.match(COVERAGE_CENTER, TPMO_HTML_REGEX);
 });
 
-test('Get Help is a 3-step who/details/contact flow with preserved fields and SMS consent', () => {
-  assert.match(GET_HELP_HTML, /1. Who \/ what/);
-  assert.match(GET_HELP_HTML, /2. Details/);
-  assert.match(GET_HELP_HTML, /3. Contact &amp; consent/);
-  assert.match(GET_HELP_HTML, /Who is this request for\?/);
-  assert.match(GET_HELP_HTML, /What details should David review\?/);
+test('Get Help is a 2-step micro-commitment ZIP/coverage to contact/consent flow with preserved fields and SMS consent', () => {
+  assert.match(GET_HELP_HTML, /1\. ZIP &amp; coverage/);
+  assert.match(GET_HELP_HTML, /2\. Contact &amp; consent/);
+  assert.match(GET_HELP_HTML, /Start your Florida plan review/);
   assert.match(GET_HELP_HTML, /How should David follow up\?/);
   assert.match(GET_HELP_HTML, /Start my request/);
   assert.match(GET_HELP_HTML, /Call \(863\) 640-3102/);
@@ -294,7 +292,7 @@ test('Get Help is a 3-step who/details/contact flow with preserved fields and SM
   assert.match(GET_HELP_JS, /HEALTHSHERPA_INTENTS/);
   assert.match(GET_HELP_JS, /healthSherpa.hidden = !hasOwn\(HEALTHSHERPA_INTENTS, intentKey\)/);
   const focusableStepHeadings = GET_HELP_HTML.match(/<h2[^>]*tabindex="-1"[^>]*>/g) || [];
-  assert.equal(focusableStepHeadings.length, 3);
+  assert.equal(focusableStepHeadings.length, 2);
 });
 
 test('HealthSherpa is labeled secondary on under-65 and ACA surfaces, not as a Medicare enrollment path', () => {

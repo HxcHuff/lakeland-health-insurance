@@ -114,11 +114,230 @@
     }
   }
 
+  function zipToStateCode(rawZip) {
+    var digits = String(rawZip || '').replace(/\D/g, '').slice(0, 5);
+    if (digits.length !== 5) return '';
+    var p = parseInt(digits.slice(0, 3), 10);
+    if (p >= 320 && p <= 349) return 'FL';
+    if (p >= 350 && p <= 369) return 'AL';
+    if (p >= 850 && p <= 865) return 'AZ';
+    if ((p >= 300 && p <= 319) || p === 398 || p === 399) return 'GA';
+    if (p >= 500 && p <= 528) return 'IA';
+    if (p >= 460 && p <= 479) return 'IN';
+    if (p >= 660 && p <= 679) return 'KS';
+    if (p >= 700 && p <= 714) return 'LA';
+    if (p >= 206 && p <= 219) return 'MD';
+    if (p >= 480 && p <= 499) return 'MI';
+    if (p >= 630 && p <= 658) return 'MO';
+    if (p >= 386 && p <= 397) return 'MS';
+    if (p >= 270 && p <= 289) return 'NC';
+    if (p >= 680 && p <= 693) return 'NE';
+    if (p >= 70 && p <= 89) return 'NJ';
+    if (p >= 430 && p <= 459) return 'OH';
+    if (p >= 730 && p <= 749) return 'OK';
+    if (p >= 290 && p <= 299) return 'SC';
+    if (p >= 370 && p <= 385) return 'TN';
+    if ((p >= 750 && p <= 799) || p === 885) return 'TX';
+    if (p === 201 || (p >= 220 && p <= 246)) return 'VA';
+    if (p >= 980 && p <= 994) return 'WA';
+    if (p >= 247 && p <= 268) return 'WV';
+    if (p >= 900 && p <= 961) return 'CA';
+    if (p >= 100 && p <= 149) return 'NY';
+    return '';
+  }
+
+  function ensureHiddenInput(form, name, value) {
+    if (!form) return;
+    var input = form.querySelector('input[name="' + name + '"]');
+    if (!input) {
+      input = d.createElement('input');
+      input.type = 'hidden';
+      input.name = name;
+      form.appendChild(input);
+    }
+    input.value = value || '';
+  }
+
+  function syncStep1CoverageToLeadForm(form, rawIntent) {
+    if (!form) return;
+    var intent = String(rawIntent || '').trim().toLowerCase();
+    var choiceRadio = form.querySelector('input[name="coverage_choice"][value="' + (intent === 'medicare' ? 'medicare' : 'marketplace') + '"]');
+    if (choiceRadio) {
+      choiceRadio.checked = true;
+      try { choiceRadio.dispatchEvent(new w.Event('change', { bubbles: true })); } catch (e) {}
+    }
+    var select = form.querySelector('select[name="coverage_status"]');
+    if (select) {
+      var candidates = intent === 'medicare'
+        ? ['medicare_advantage', 'current_plan_review', 'turning_65', 'not_sure']
+        : intent === 'lost-coverage'
+          ? ['losing_coverage', 'individual_marketplace', 'not_sure']
+          : intent === 'provider-check'
+            ? ['current_plan_review', 'medicare_advantage', 'individual_marketplace', 'not_sure']
+            : ['individual_marketplace', 'family_marketplace', 'self_employed', 'current_plan_review', 'not_sure'];
+      for (var i = 0; i < candidates.length; i += 1) {
+        var opt = select.querySelector('option[value="' + candidates[i] + '"]');
+        if (opt) {
+          select.value = candidates[i];
+          break;
+        }
+      }
+    }
+  }
+
+  function wireHeroStep1MicroIntakes() {
+    d.querySelectorAll('[data-lhi-step1-intake]').forEach(function (box) {
+      if (box.__lhiStep1Wired) return;
+      box.__lhiStep1Wired = true;
+      var zipInput = box.querySelector('[data-step1-zip]');
+      var intentInput = box.querySelector('[data-step1-intent]');
+      var continueBtn = box.querySelector('[data-step1-continue]');
+      var errorEl = box.querySelector('[data-step1-error]');
+      var targetSelector = box.getAttribute('data-step1-form') || '';
+
+      function resolveStep2Form() {
+        if (targetSelector) {
+          var explicitForm = d.querySelector(targetSelector);
+          if (explicitForm) return explicitForm;
+        }
+        return d.querySelector('form[data-lhi-site-lead-form], form[data-sitelink-lead-form]');
+      }
+
+      function markStarted() {
+        ensureFunnelScriptLoaded();
+        var step2 = resolveStep2Form();
+        if (typeof w.lhiTrackFormStart === 'function') {
+          try { w.lhiTrackFormStart(step2 || box); } catch (e) {}
+        }
+      }
+
+      function syncToStep2() {
+        var step2 = resolveStep2Form();
+        var cleanZip = zipInput ? String(zipInput.value || '').replace(/\D/g, '').slice(0, 5) : '';
+        if (zipInput && zipInput.value !== cleanZip && /^\d+$/.test(String(zipInput.value || ''))) {
+          zipInput.value = cleanZip;
+        }
+        if (errorEl && cleanZip.length === 5) errorEl.textContent = '';
+        var stateCode = cleanZip.length === 5 ? zipToStateCode(cleanZip) : '';
+        if (stateCode && isMedicareLeadSurface()) {
+          var showOut = isOutOfStateMedicareCoverageState(stateCode);
+          d.querySelectorAll('#outOfStateMedicareNote').forEach(function (note) {
+            note.hidden = !showOut;
+          });
+        }
+        if (!step2) return cleanZip;
+        if (cleanZip.length === 5) {
+          var step2Zip = step2.querySelector('input[name="zip_code"]');
+          if (step2Zip) step2Zip.value = cleanZip;
+          if (stateCode) {
+            ensureHiddenInput(step2, 'coverage_state', stateCode);
+            ensureHiddenInput(step2, 'state', stateCode);
+          }
+        }
+        if (intentInput) {
+          syncStep1CoverageToLeadForm(step2, intentInput.value);
+        }
+        return cleanZip;
+      }
+
+      if (zipInput) {
+        ['focus', 'input', 'change'].forEach(function (evt) {
+          zipInput.addEventListener(evt, function () {
+            markStarted();
+            syncToStep2();
+          });
+        });
+        zipInput.addEventListener('keydown', function (ev) {
+          if (ev && ev.key === 'Enter') {
+            ev.preventDefault();
+            if (continueBtn) continueBtn.click();
+          }
+        });
+      }
+      if (intentInput) {
+        ['focus', 'change'].forEach(function (evt) {
+          intentInput.addEventListener(evt, function () {
+            markStarted();
+            syncToStep2();
+          });
+        });
+      }
+      if (continueBtn) {
+        continueBtn.addEventListener('click', function () {
+          markStarted();
+          var cleanZip = syncToStep2();
+          if (!/^\d{5}$/.test(cleanZip)) {
+            if (errorEl) errorEl.textContent = 'Enter a 5-digit ZIP code to continue.';
+            if (zipInput && typeof zipInput.focus === 'function') zipInput.focus();
+            return;
+          }
+          if (errorEl) errorEl.textContent = '';
+          var selectedIntent = intentInput ? String(intentInput.value || 'not-sure').trim().toLowerCase() : 'not-sure';
+          var stateCode = zipToStateCode(cleanZip) || 'FL';
+          var step2 = resolveStep2Form();
+          var forceGetHelp = box.getAttribute('data-step1-route') === 'get-help';
+          var formName = step2 ? String(step2.getAttribute('name') || '') : '';
+          var hasCoverageChoice = Boolean(step2 && step2.hasAttribute && step2.hasAttribute('data-sitelink-coverage-choice'));
+          var fixedIntentInput = (!hasCoverageChoice && step2 && step2.querySelector)
+            ? step2.querySelector('input[type="hidden"][name="normalized_intent"]')
+            : null;
+          var fixedIntent = fixedIntentInput ? String(fixedIntentInput.value || '').trim().toLowerCase() : '';
+          var isMedicareOnlyForm = formName === 'site-medicare-lead' || fixedIntent === 'medicare';
+          var isAcaOnlyForm = formName === 'site-aca-lead' || fixedIntent === 'aca';
+          var laneMismatch = Boolean(
+            (isMedicareOnlyForm && (selectedIntent === 'under-65' || selectedIntent === 'aca' || selectedIntent === 'lost-coverage')) ||
+            (isAcaOnlyForm && selectedIntent === 'medicare')
+          );
+
+          if (!step2 || forceGetHelp || laneMismatch) {
+            if (typeof w.lhiTrackPlanReviewCtaClick === 'function') {
+              try { w.lhiTrackPlanReviewCtaClick('step1_continue_get_help'); } catch (e) {}
+            }
+            var params = new URLSearchParams();
+            params.set('zip_code', cleanZip);
+            params.set('intent', selectedIntent === 'aca' ? 'under-65' : selectedIntent);
+            if (stateCode) params.set('state', stateCode);
+            var pageKey = box.getAttribute('data-source-page-key') || (d.body && d.body.getAttribute('data-page-key')) || '';
+            if (pageKey && selectedIntent === 'medicare') {
+              params.set('source_page_key', pageKey);
+              params.set('source_cta_key', 'request_review_hero');
+            }
+            w.location.href = '/get-help/?' + params.toString();
+            return;
+          }
+
+          box.classList.add('is-step1-complete');
+          var card = step2.closest('.lhi-lead-hero__card') || step2;
+          if (card && card.classList) card.classList.add('is-step2-active');
+          var nameInput = step2.querySelector('input[name="full_name"]');
+          if (nameInput) {
+            scrollToLeadTarget(card);
+            if (typeof nameInput.focus === 'function') {
+              try { nameInput.focus({ preventScroll: true }); } catch (e) { nameInput.focus(); }
+            }
+          }
+        });
+      }
+    });
+  }
+
   function wireSiteLeadForms() {
     d.querySelectorAll('form[data-lhi-site-lead-form]').forEach(function (form) {
       stampInitialLeadSpamGuard(form);
       if (form.__lhiSiteLeadWired) return;
       form.__lhiSiteLeadWired = true;
+      var zipEl = form.querySelector('input[name="zip_code"]');
+      if (zipEl) {
+        ['input', 'change'].forEach(function (evt) {
+          zipEl.addEventListener(evt, function () {
+            var code = zipToStateCode(zipEl.value);
+            if (code) {
+              ensureHiddenInput(form, 'coverage_state', code);
+              ensureHiddenInput(form, 'state', code);
+            }
+          });
+        });
+      }
       form.addEventListener('focusin', ensureFunnelScriptLoaded, { capture: true, passive: true });
       form.addEventListener('pointerdown', ensureFunnelScriptLoaded, { capture: true, passive: true });
       var submitBtn = form.querySelector('.lhi-lead-hero__submit, button[type="submit"]');
@@ -339,6 +558,7 @@
 
   function init() {
     consolidateBlogHeroCopy();
+    wireHeroStep1MicroIntakes();
     wireSiteLeadForms();
     syncMedicareScopeNotes();
     var bar = ensureStickyBar();

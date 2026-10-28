@@ -204,10 +204,10 @@ test('get-help step navigation moves focus after user-triggered transitions only
   const script = source('js/get-help-intake.js');
   const focusableStepHeadings = html.match(/<h2[^>]*tabindex="-1"[^>]*>/g) || [];
 
-  assert.equal(focusableStepHeadings.length, 3);
+  assert.equal(focusableStepHeadings.length, 2);
   assert.match(html, /\.form-step h2:focus-visible\s*{/);
   assert.match(script, /showStep\(1, false\)/);
-  assert.match(script, /showStep\(Math\.min\(3, step \+ 1\), true\)/);
+  assert.match(script, /showStep\(Math\.min\(2, step \+ 1\), true\)/);
   assert.match(script, /showStep\(Math\.max\(1, currentStep\(\) - 1\), true\)/);
 });
 

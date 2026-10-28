@@ -82,13 +82,13 @@
 # Do not duplicate them here — Netlify processes _redirects first and
 # duplicates cause drift.
 
-# Versioned static assets (?v= bumps invalidate via query); long immutable CDN cache.
+# Align with _headers (1h max-age + stale-while-revalidate) so JS/CSS updates propagate cleanly.
 [[headers]]
   for = "/css/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
 
 [[headers]]
   for = "/js/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"

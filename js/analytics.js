@@ -624,22 +624,102 @@
   }
 
   function emitMedicareEvent(eventName, params) {
+    ensureGuardedGtag();
     var payload = Object.assign({ event_id: makeMeasurementEventId() }, params || {});
     pushDataLayerEvent(eventName, payload);
     var ga4Name = eventName === 'MedicareContentView' ? 'medicare_content_view' : 'medicare_cta_click';
     try { window.gtag('event', ga4Name, Object.assign({ transport_type: 'beacon' }, payload)); } catch (e) {}
   }
 
+  var POLK_PLAN_REVIEW_LANDERS = {
+    '/winter-haven-health-insurance/': { page_key: 'winter_haven_health_insurance', page_role: 'city_lander' },
+    '/haines-city-health-insurance/': { page_key: 'haines_city_health_insurance', page_role: 'city_lander' },
+    '/lake-alfred-health-insurance/': { page_key: 'lake_alfred_health_insurance', page_role: 'city_lander' },
+    '/davenport-health-insurance/': { page_key: 'davenport_health_insurance', page_role: 'city_lander' },
+    '/aca-health-insurance-lakeland-fl/': { page_key: 'aca_health_insurance_lakeland_fl', page_role: 'city_lander' },
+    '/aca-health-insurance-agent-polk-county-fl/': { page_key: 'aca_health_insurance_agent_polk_county_fl', page_role: 'city_lander' },
+    '/aca-2027-check/': { page_key: 'aca_2027_check', page_role: 'lander' },
+    '/local-health-insurance-answers/self-employed-health-insurance-polk-county/': { page_key: 'self_employed_health_insurance_polk_county', page_role: 'city_lander' },
+    '/local-health-insurance-answers/health-insurance-broker-lakeland-fl/': { page_key: 'health_insurance_broker_lakeland_fl', page_role: 'city_lander' },
+    '/local-health-insurance-answers/employee-losing-group-coverage/': { page_key: 'employee_losing_group_coverage', page_role: 'city_lander' },
+    '/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/': { page_key: 'lakeland_regional_unitedhealthcare_2027', page_role: 'education' }
+  };
+
+  function inferPlanReviewCtaKey(link) {
+    if (!link) return 'plan_review_cta';
+    if (link.closest && link.closest('.cta-group, header')) return 'header_talk_to_david';
+    if (link.closest && link.closest('.dropdown-menu')) return 'menu_get_help';
+    if (link.closest && link.closest('footer')) return 'footer_start_plan_review';
+    if (link.closest && link.closest('.lhi-hero-shell, .hero, .answer-hero, .article-hero')) return 'request_review_hero';
+    return 'request_review_body';
+  }
+
+  function emitFallbackPlanReviewCtaClick(link, medicareCtx) {
+    if (!link) return false;
+    var explicit = String(link.getAttribute('data-medicare-cta') || '');
+    /* Never override explicit data-medicare-cta validation (invalid explicit keys must stay rejected). */
+    if (explicit) return false;
+    var normalizedCurrent = normalizePath(window.location.pathname);
+    /* Coverage Center keeps strict lane-only Medicare CTA attribution. */
+    if (normalizedCurrent === '/coverage-center/') return false;
+    var url = safeLinkUrl(link);
+    if (!url || url.origin !== window.location.origin) return false;
+    if (normalizePath(url.pathname) !== '/get-help/') return false;
+
+    var polkEntry = hasOwn(POLK_PLAN_REVIEW_LANDERS, normalizedCurrent)
+      ? POLK_PLAN_REVIEW_LANDERS[normalizedCurrent]
+      : null;
+    if (!medicareCtx && !polkEntry) return false;
+
+    ensureGuardedGtag();
+    var ctaKey = inferPlanReviewCtaKey(link);
+    var payload = {
+      event_id: makeMeasurementEventId(),
+      page_key: medicareCtx ? medicareCtx.page_key : polkEntry.page_key,
+      page_role: medicareCtx ? medicareCtx.page_role : polkEntry.page_role,
+      cta_key: ctaKey,
+      page_location: ga4PageLocation(),
+      transport_type: 'beacon'
+    };
+    try { window.gtag('event', 'medicare_cta_click', payload); } catch (e) {}
+    return true;
+  }
+
+  window.lhiTrackPlanReviewCtaClick = function (ctaKey, pageKeyOverride) {
+    ensureGuardedGtag();
+    var normalizedCurrent = normalizePath(window.location.pathname);
+    var medicareCtx = medicarePageContext(window.location.pathname);
+    var polkEntry = hasOwn(POLK_PLAN_REVIEW_LANDERS, normalizedCurrent)
+      ? POLK_PLAN_REVIEW_LANDERS[normalizedCurrent]
+      : null;
+    var resolvedKey = String(pageKeyOverride || (medicareCtx && medicareCtx.page_key) || (polkEntry && polkEntry.page_key) || normalizedCurrent.replace(/^\/+|\/+$/g, '').replace(/[^a-z0-9]+/gi, '_') || 'home');
+    var payload = {
+      event_id: makeMeasurementEventId(),
+      page_key: resolvedKey,
+      cta_key: String(ctaKey || 'step1_continue_get_help'),
+      page_location: ga4PageLocation(),
+      transport_type: 'beacon'
+    };
+    try { window.gtag('event', 'medicare_cta_click', payload); } catch (e) {}
+  };
+
   function handleMedicarePointer(event, shouldTrack) {
-    var context = medicarePageContext(window.location.pathname);
-    if (!context || !event.target || !event.target.closest) return;
+    if (!event.target || !event.target.closest) return;
     var link = event.target.closest('a');
     if (!link) return;
-    var ctaKey = ctaKeyForLink(link, context);
-    if (!ctaKey) return;
-    prepareMedicareGetHelpLink(link, context, ctaKey);
-    if (!shouldTrack) return;
-    emitMedicareEvent('MedicareCtaClick', Object.assign({}, context, { cta_key: ctaKey }));
+    var context = medicarePageContext(window.location.pathname);
+    if (context) {
+      var ctaKey = ctaKeyForLink(link, context);
+      if (ctaKey) {
+        prepareMedicareGetHelpLink(link, context, ctaKey);
+        if (!shouldTrack) return;
+        emitMedicareEvent('MedicareCtaClick', Object.assign({}, context, { cta_key: ctaKey }));
+        return;
+      }
+    }
+    if (shouldTrack) {
+      emitFallbackPlanReviewCtaClick(link, context);
+    }
   }
 
   function loadAbVariant() {
@@ -817,11 +897,373 @@
     return 'a[href="' + WEBSITE_CALL_TRACKING_HREF + '"], a[data-lhi-business-phone="' + BUSINESS_PHONE_E164 + '"]';
   }
 
+  var QUARANTINED_GA_EVENTS = {
+    ads_conversion_Blog_Views_1: true,
+    ads_conversion_Form_1: true
+  };
+  var VERIFIED_ONLY_GA_EVENTS = {
+    generate_lead: true,
+    ads_conversion_Request_quote_1: true
+  };
+  var FORM_START_SESSION_KEY = 'lhi_form_start_sent';
+  var FORM_START_COLLECT_SESSION_KEY = 'lhi_form_start_collect_sent';
+  var formStartSentMemory = false;
+  var formStartCollectSentMemory = false;
+  var verifiedLeadEventIds = {};
+  var gtagDispatchedByEventId = {
+    generate_lead: {},
+    ads_conversion_Request_quote_1: {}
+  };
+  var gtagVerifiedAllowance = {
+    generate_lead: 0,
+    ads_conversion_Request_quote_1: 0
+  };
+  var collectVerifiedAllowance = {
+    generate_lead: 0,
+    ads_conversion_Request_quote_1: 0
+  };
+
+  function approvedLeadEventId(value) {
+    var text = String(value || '').trim();
+    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(text)) {
+      return text.toLowerCase();
+    }
+    if (/^lhi_book_[a-z0-9]{6,24}_[a-z0-9]{4,16}$/i.test(text)) {
+      return text.toLowerCase();
+    }
+    return '';
+  }
+
+  function isFormStartSent() {
+    if (formStartSentMemory) return true;
+    try {
+      if (window.sessionStorage && window.sessionStorage.getItem(FORM_START_SESSION_KEY) === '1') {
+        formStartSentMemory = true;
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  function markFormStartSent() {
+    formStartSentMemory = true;
+    try {
+      if (window.sessionStorage && typeof window.sessionStorage.setItem === 'function') {
+        window.sessionStorage.setItem(FORM_START_SESSION_KEY, '1');
+      }
+    } catch (e) {}
+  }
+
+  function isFormStartCollectSent() {
+    if (formStartCollectSentMemory) return true;
+    try {
+      if (window.sessionStorage && window.sessionStorage.getItem(FORM_START_COLLECT_SESSION_KEY) === '1') {
+        formStartCollectSentMemory = true;
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  function markFormStartCollectSent() {
+    formStartCollectSentMemory = true;
+    try {
+      if (window.sessionStorage && typeof window.sessionStorage.setItem === 'function') {
+        window.sessionStorage.setItem(FORM_START_COLLECT_SESSION_KEY, '1');
+      }
+    } catch (e) {}
+  }
+
+  function isGaCollectUrl(rawUrl) {
+    var text = String(rawUrl || '');
+    if (!text) return false;
+    return /(?:^|\/\/)(?:[a-z0-9-]+\.)*google-analytics\.com\/g\/collect(?:\?|$)|(?:^|\/\/)analytics\.google\.com\/g\/collect(?:\?|$)/i.test(text);
+  }
+
+  function extractParamFromQueryText(queryText, key) {
+    if (!queryText) return '';
+    try {
+      var qs = new URLSearchParams(String(queryText).replace(/^\?/, ''));
+      return String(qs.get(key) || '');
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function shouldAllowGaCollectEventName(eventName) {
+    if (!eventName) return true;
+    if (hasOwn(QUARANTINED_GA_EVENTS, eventName)) return false;
+    if (hasOwn(VERIFIED_ONLY_GA_EVENTS, eventName)) {
+      if (collectVerifiedAllowance[eventName] > 0) {
+        collectVerifiedAllowance[eventName] -= 1;
+        return true;
+      }
+      return false;
+    }
+    if (eventName === 'form_start') {
+      if (isFormStartCollectSent()) return false;
+      markFormStartCollectSent();
+      return true;
+    }
+    return true;
+  }
+
+  function filterGaCollectRequest(rawUrl, rawBody) {
+    var urlStr = String(rawUrl || '');
+    var qIndex = urlStr.indexOf('?');
+    var urlQuery = qIndex >= 0 ? urlStr.slice(qIndex + 1) : '';
+    var urlEventName = extractParamFromQueryText(urlQuery, 'en');
+
+    if (typeof rawBody === 'string' && rawBody.trim()) {
+      var lines = rawBody.split(/\r?\n/);
+      var keptLines = [];
+      for (var i = 0; i < lines.length; i += 1) {
+        var line = lines[i];
+        if (!line.trim()) continue;
+        var lineEvent = extractParamFromQueryText(line, 'en') || urlEventName;
+        if (shouldAllowGaCollectEventName(lineEvent)) {
+          keptLines.push(line);
+        }
+      }
+      if (!keptLines.length) return { allow: false, body: '' };
+      return { allow: true, body: keptLines.join('\n') };
+    }
+
+    if (!shouldAllowGaCollectEventName(urlEventName)) {
+      return { allow: false, body: rawBody };
+    }
+    return { allow: true, body: rawBody };
+  }
+
+  function installGaCollectTransportGuard() {
+    if (window.__LHI_GA_TRANSPORT_GUARD__) return;
+    window.__LHI_GA_TRANSPORT_GUARD__ = true;
+
+    try {
+      if (window.navigator && typeof window.navigator.sendBeacon === 'function' && !window.navigator.sendBeacon.__lhiGuarded) {
+        var origBeacon = window.navigator.sendBeacon.bind(window.navigator);
+        var guardedBeacon = function (url, data) {
+          if (isGaCollectUrl(url)) {
+            if (typeof data === 'string' || data == null) {
+              var decision = filterGaCollectRequest(url, typeof data === 'string' ? data : '');
+              if (!decision.allow) return true;
+              return origBeacon(url, typeof data === 'string' ? decision.body : data);
+            }
+            var beaconCheck = filterGaCollectRequest(url, '');
+            if (!beaconCheck.allow) return true;
+          }
+          return origBeacon(url, data);
+        };
+        guardedBeacon.__lhiGuarded = true;
+        window.navigator.sendBeacon = guardedBeacon;
+      }
+    } catch (e) {}
+
+    try {
+      if (typeof window.fetch === 'function' && !window.fetch.__lhiGuarded) {
+        var origFetch = window.fetch;
+        var guardedFetch = function (input, init) {
+          var reqUrl = typeof input === 'string' ? input : (input && input.url ? input.url : '');
+          if (isGaCollectUrl(reqUrl)) {
+            var bodyStr = init && typeof init.body === 'string' ? init.body : '';
+            var decision = filterGaCollectRequest(reqUrl, bodyStr);
+            if (!decision.allow) {
+              if (typeof window.Response === 'function') {
+                return Promise.resolve(new window.Response('', { status: 204 }));
+              }
+              return Promise.resolve({ ok: true, status: 204, text: function () { return Promise.resolve(''); } });
+            }
+            if (bodyStr && decision.body !== bodyStr) {
+              var nextInit = Object.assign({}, init, { body: decision.body });
+              return origFetch.call(window, input, nextInit);
+            }
+          }
+          return origFetch.apply(window, arguments);
+        };
+        guardedFetch.__lhiGuarded = true;
+        window.fetch = guardedFetch;
+      }
+    } catch (e) {}
+
+    try {
+      if (typeof window.XMLHttpRequest === 'function' && window.XMLHttpRequest.prototype && !window.XMLHttpRequest.prototype.__lhiGuarded) {
+        var origOpen = window.XMLHttpRequest.prototype.open;
+        var origSend = window.XMLHttpRequest.prototype.send;
+        window.XMLHttpRequest.prototype.open = function (method, url) {
+          this.__lhiGaUrl = String(url || '');
+          return origOpen.apply(this, arguments);
+        };
+        window.XMLHttpRequest.prototype.send = function (body) {
+          if (this.__lhiGaUrl && isGaCollectUrl(this.__lhiGaUrl)) {
+            var bodyStr = typeof body === 'string' ? body : '';
+            var decision = filterGaCollectRequest(this.__lhiGaUrl, bodyStr);
+            if (!decision.allow) return;
+            if (bodyStr && decision.body !== bodyStr) {
+              return origSend.call(this, decision.body);
+            }
+          }
+          return origSend.apply(this, arguments);
+        };
+        window.XMLHttpRequest.prototype.__lhiGuarded = true;
+      }
+    } catch (e) {}
+  }
+
+  function shouldAllowGtagArguments(args) {
+    if (!args || args[0] !== 'event') return true;
+    var eventName = String(args[1] || '');
+    if (hasOwn(QUARANTINED_GA_EVENTS, eventName)) return false;
+    if (hasOwn(VERIFIED_ONLY_GA_EVENTS, eventName)) {
+      if (gtagVerifiedAllowance[eventName] > 0) {
+        gtagVerifiedAllowance[eventName] -= 1;
+        return true;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  function ensureGuardedGtag() {
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag === 'function' && window.gtag.__lhiGuardedGtag) {
+      return window.gtag;
+    }
+    var previous = typeof window.gtag === 'function' ? window.gtag : null;
+    var guarded = function () {
+      if (!shouldAllowGtagArguments(arguments)) return;
+      if (previous) {
+        return previous.apply(this, arguments);
+      }
+      window.dataLayer.push(arguments);
+    };
+    guarded.__lhiGuardedGtag = true;
+    window.gtag = guarded;
+    return guarded;
+  }
+
+  installGaCollectTransportGuard();
+  if (typeof window.gtag === 'function') {
+    ensureGuardedGtag();
+  }
+
+  function resolveFormIdForTelemetry(target) {
+    if (typeof target === 'string' && target.trim()) {
+      return target.trim().slice(0, 80);
+    }
+    if (target && typeof target === 'object') {
+      var explicit = (target.getAttribute && (target.getAttribute('data-form-id') || target.getAttribute('id') || target.getAttribute('name') || target.getAttribute('data-form-name'))) || target.id || target.name || '';
+      if (explicit && String(explicit).trim()) return String(explicit).trim().slice(0, 80);
+    }
+    return 'get-help';
+  }
+
+  window.lhiTrackFormStart = function (formOrId) {
+    if (isFormStartSent()) return false;
+    markFormStartSent();
+    ensureGuardedGtag();
+    var formId = resolveFormIdForTelemetry(formOrId);
+    var payload = {
+      form_id: formId,
+      page_location: ga4PageLocation()
+    };
+    pushDataLayerEvent('form_start', payload);
+    try { window.gtag('event', 'form_start', payload); } catch (e) {}
+    return true;
+  };
+
+  window.lhiEmitVerifiedLeadConversions = function (rawEventId, meta) {
+    var eventId = approvedLeadEventId(rawEventId);
+    if (!eventId) return false;
+    verifiedLeadEventIds[eventId] = true;
+    ensureGuardedGtag();
+    var formId = resolveFormIdForTelemetry(meta && meta.form_id ? meta.form_id : 'get-help');
+    var pageLoc = ga4PageLocation();
+
+    if (!gtagDispatchedByEventId.generate_lead[eventId]) {
+      gtagDispatchedByEventId.generate_lead[eventId] = true;
+      gtagVerifiedAllowance.generate_lead += 1;
+      collectVerifiedAllowance.generate_lead += 1;
+      try {
+        window.gtag('event', 'generate_lead', {
+          event_id: eventId,
+          form_id: formId,
+          page_location: pageLoc,
+          transport_type: 'beacon'
+        });
+      } catch (e) {}
+    }
+
+    if (!gtagDispatchedByEventId.ads_conversion_Request_quote_1[eventId]) {
+      gtagDispatchedByEventId.ads_conversion_Request_quote_1[eventId] = true;
+      gtagVerifiedAllowance.ads_conversion_Request_quote_1 += 1;
+      collectVerifiedAllowance.ads_conversion_Request_quote_1 += 1;
+      try {
+        window.gtag('event', 'ads_conversion_Request_quote_1', {
+          event_id: eventId,
+          form_id: formId,
+          page_location: pageLoc,
+          transport_type: 'beacon'
+        });
+      } catch (e) {}
+    }
+
+    if (typeof window.lhiTrackMetaLead === 'function') {
+      try { window.lhiTrackMetaLead(eventId); } catch (e) {}
+    }
+    return true;
+  };
+
+  function isIgnoredFormStartField(el) {
+    if (!el || !el.getAttribute) return true;
+    var tag = String(el.tagName || '').toLowerCase();
+    var type = String(el.getAttribute('type') || '').toLowerCase();
+    var name = String(el.getAttribute('name') || '').toLowerCase();
+    if (type === 'hidden') return true;
+    if (name === 'bot-field' || name === 'website' || name === 'company') return true;
+    if (tag === 'input' || tag === 'select' || tag === 'textarea') return false;
+    return true;
+  }
+
+  function findEligibleLeadFormContainer(target) {
+    if (!target || typeof target.closest !== 'function') return null;
+    var step1 = target.closest('[data-lhi-step1-intake]');
+    if (step1) return step1;
+    var form = target.closest('form#leadForm, form[data-funnel-track], form[data-sitelink-lead-form], form[data-lhi-site-lead-form], form.hero-zip-form');
+    if (!form) return null;
+    var funnelEvent = String((form.getAttribute && form.getAttribute('data-funnel-event')) || '');
+    if (funnelEvent === 'Subscriber') return null;
+    return form;
+  }
+
+  if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
+    ['focusin', 'input', 'change'].forEach(function (evtName) {
+      document.addEventListener(evtName, function (event) {
+        if (isFormStartSent()) return;
+        var el = event && event.target;
+        if (isIgnoredFormStartField(el)) return;
+        var container = findEligibleLeadFormContainer(el);
+        if (!container) return;
+        window.lhiTrackFormStart(container);
+      }, { capture: true });
+    });
+
+    document.addEventListener('click', function (event) {
+      if (isFormStartSent()) return;
+      var target = event && event.target;
+      if (!target || typeof target.closest !== 'function') return;
+      var btn = target.closest('[data-step1-continue], [data-lhi-step1-intake] button, form#leadForm [data-next], form#leadForm [data-choice-group] button');
+      if (!btn) return;
+      var container = findEligibleLeadFormContainer(btn);
+      if (!container) return;
+      window.lhiTrackFormStart(container);
+    }, { capture: true });
+  }
+
   function ensureGoogleConsentDefault() {
     if (googleConsentDefaultSet) return;
     googleConsentDefaultSet = true;
     window.dataLayer = window.dataLayer || [];
-    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    ensureGuardedGtag();
     /* Match the live GTM consent-initialization defaults so the first hit is
        not held behind an unset consent state. Default must precede every
        gtag config, including the eager Ads website-call tag. */
@@ -839,7 +1281,7 @@
 
   function ensureGoogleTagScript(destinationId) {
     window.dataLayer = window.dataLayer || [];
-    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    ensureGuardedGtag();
     ensureGoogleConsentDefault();
     if (googleTagScriptRequested) return false;
 
@@ -1341,6 +1783,9 @@
     }
     if (key === 'zip_code') {
       return /^\d{5}$/.test(text);
+    }
+    if (key === 'state' || key === 'coverage_state') {
+      return /^[A-Za-z]{2}$/.test(String(text || '').trim());
     }
     if (key === 'intent' || key === 'source_page_key' || key === 'source_cta_key') {
       return Boolean(approvedCampaignSlug(text));
@@ -2025,3 +2470,31 @@
   }
 })(window, document);
 /* LHI_META_AUDIENCE_END */
+
+(function (w) {
+  'use strict';
+  var ACTIVE_META_DATASET_ID = '1480756087079484';
+  var sentMetaLeadIds = {};
+
+  function validVerifiedEventId(value) {
+    var text = String(value || '').trim();
+    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(text)) {
+      return text.toLowerCase();
+    }
+    if (/^lhi_book_[a-z0-9]{6,24}_[a-z0-9]{4,16}$/i.test(text)) {
+      return text.toLowerCase();
+    }
+    return '';
+  }
+
+  /* Fires Meta Pixel standard Lead ONLY after a verified 200 OK submission response
+     from /api/lead on dataset 1480756087079484 — never on initial page load. */
+  w.lhiTrackMetaLead = function (eventID) {
+    var cleanId = validVerifiedEventId(eventID);
+    if (!cleanId || sentMetaLeadIds[cleanId]) return false;
+    if (w.__LHI_META_AUDIENCE_INITIALIZED__ !== true || typeof w.fbq !== 'function') return false;
+    sentMetaLeadIds[cleanId] = true;
+    w.fbq('trackSingle', ACTIVE_META_DATASET_ID, 'Lead', {}, { eventID: cleanId });
+    return true;
+  };
+})(window);

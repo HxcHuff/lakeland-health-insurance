@@ -959,6 +959,62 @@
     });
   }
 
+  function zipToUsStateCode(rawZip) {
+    var digits = String(rawZip || '').replace(/\D/g, '').slice(0, 5);
+    if (digits.length !== 5) return '';
+    var p = parseInt(digits.slice(0, 3), 10);
+    if (p >= 320 && p <= 349) return 'FL';
+    if (p >= 350 && p <= 369) return 'AL';
+    if (p >= 850 && p <= 865) return 'AZ';
+    if ((p >= 300 && p <= 319) || p === 398 || p === 399) return 'GA';
+    if (p >= 500 && p <= 528) return 'IA';
+    if (p >= 460 && p <= 479) return 'IN';
+    if (p >= 660 && p <= 679) return 'KS';
+    if (p >= 700 && p <= 714) return 'LA';
+    if (p >= 206 && p <= 219) return 'MD';
+    if (p >= 480 && p <= 499) return 'MI';
+    if (p >= 630 && p <= 658) return 'MO';
+    if (p >= 386 && p <= 397) return 'MS';
+    if (p >= 270 && p <= 289) return 'NC';
+    if (p >= 680 && p <= 693) return 'NE';
+    if (p >= 70 && p <= 89) return 'NJ';
+    if (p >= 430 && p <= 459) return 'OH';
+    if (p >= 730 && p <= 749) return 'OK';
+    if (p >= 290 && p <= 299) return 'SC';
+    if (p >= 370 && p <= 385) return 'TN';
+    if ((p >= 750 && p <= 799) || p === 885) return 'TX';
+    if (p === 201 || (p >= 220 && p <= 246)) return 'VA';
+    if (p >= 980 && p <= 994) return 'WA';
+    if (p >= 247 && p <= 268) return 'WV';
+    if (p >= 900 && p <= 961) return 'CA';
+    if (p >= 100 && p <= 149) return 'NY';
+    if (p >= 600 && p <= 629) return 'IL';
+    if (p >= 10 && p <= 27) return 'MA';
+    if (p >= 150 && p <= 196) return 'PA';
+    if (p >= 800 && p <= 816) return 'CO';
+    return '';
+  }
+
+  function updateStep2Summary() {
+    var summary = byId('step2SummaryText');
+    if (!summary) return;
+    var zipEl = byId('zipCode');
+    var zip = zipEl ? String(zipEl.value || '').trim() : '';
+    var checked = document.querySelector && document.querySelector('input[name="inquiry_type"]:checked');
+    var label = checked ? String(checked.value || '').trim() : 'Plan Review';
+    summary.textContent = (zip ? 'ZIP ' + zip + ' · ' : '') + label;
+  }
+
+  function syncCoverageStatusForIntent(intentKey) {
+    var select = byId('coverageStatus');
+    if (!select || select.__lhiUserTouched) return;
+    var desired = 'Not sure';
+    if (intentKey === 'medicare') desired = 'Medicare';
+    else if (intentKey === 'under-65' || intentKey === 'aca') desired = 'Marketplace / ACA';
+    else if (intentKey === 'lost-coverage') desired = 'Employer plan';
+    select.value = desired;
+  }
+
   function applyIntent(intentKey) {
     var cfg = INTENTS[intentKey] || INTENTS[DEFAULT_INTENT];
     setValue('normalizedIntentInput', intentKey);
@@ -975,7 +1031,9 @@
     if (privacyNote) privacyNote.hidden = false;
     var healthSherpa = byId('healthSherpaSecondary');
     if (healthSherpa) healthSherpa.hidden = !hasOwn(HEALTHSHERPA_INTENTS, intentKey);
+    syncCoverageStatusForIntent(intentKey);
     renderOptionalFields(intentKey);
+    updateStep2Summary();
   }
 
   function currentStep() {
@@ -988,7 +1046,7 @@
       node.hidden = Number(node.getAttribute('data-step')) !== step;
     });
     var progress = byId('progressText');
-    if (progress) progress.textContent = 'Step ' + step + ' of 3';
+    if (progress) progress.textContent = 'Step ' + step + ' of 2';
     document.querySelectorAll('.form-stepper [data-stepper]').forEach(function (node) {
       if (Number(node.getAttribute('data-stepper')) === step) {
         node.setAttribute('aria-current', 'step');
@@ -996,6 +1054,7 @@
         node.removeAttribute('aria-current');
       }
     });
+    if (step === 2) updateStep2Summary();
     var title = document.querySelector('.form-step[data-step="' + step + '"] h2');
     if (focusTitle && title && title.focus) title.focus();
   }
@@ -1016,13 +1075,25 @@
 
   function validateStep(step) {
     showError('');
-    if (step === 1 && !document.querySelector('input[name="inquiry_type"]:checked')) {
-      showError('Choose what you need help with.');
-      return false;
-    }
-    if (step === 2 && !document.querySelector('input[name="need_timing"]:checked')) {
-      showError('Choose when you need this handled.');
-      return false;
+    if (step === 1) {
+      var zipEl = byId('zipCode');
+      var cleanZip = zipEl ? String(zipEl.value || '').replace(/\D/g, '').slice(0, 5) : '';
+      if (zipEl && zipEl.value !== cleanZip && cleanZip) zipEl.value = cleanZip;
+      if (!/^\d{5}$/.test(cleanZip)) {
+        showError('Enter your 5-digit ZIP code to continue.');
+        if (zipEl && typeof zipEl.focus === 'function') zipEl.focus();
+        return false;
+      }
+      var derivedState = zipToUsStateCode(cleanZip);
+      if (derivedState) {
+        setValue('coverageStateInput', derivedState);
+        setValue('stateInput', derivedState);
+        syncGetHelpMedicareDisclosures(derivedState);
+      }
+      if (!document.querySelector('input[name="inquiry_type"]:checked')) {
+        showError('Choose what you need help with.');
+        return false;
+      }
     }
     return true;
   }
@@ -1099,8 +1170,11 @@
     var qs = new URLSearchParams(landingSearch());
     var stored = persistClickIds(readStoredAttribution(), qs);
     var medicareSource = medicareSourceContext(qs);
+    var initialZip = qsValue(qs, 'zip_code');
+    var resolvedState = resolveCoverageState(qs) || zipToUsStateCode(initialZip);
     setValue('zipCode', qsValue(qs, 'zip_code'));
-    setValue('coverageStateInput', resolveCoverageState(qs));
+    setValue('coverageStateInput', resolvedState);
+    setValue('stateInput', resolvedState);
     setValue('sourcePageInput', String(window.location.pathname || '/').slice(0, 160));
     setValue('referralPageInput', referralClass());
     setValue('sourcePageKeyInput', medicareSource && medicareSource.source_page_key);
@@ -1132,12 +1206,56 @@
     try { setValue('humanCheckInput', btoa(startedAt + ':lakeland-human')); } catch (e) {}
   }
 
+  function autoSyncPreferredContact(form) {
+    if (!form) return;
+    var prefSelect = byId('preferredContact');
+    if (!prefSelect || prefSelect.__lhiUserTouched) return;
+    var hasCall = Boolean(form.consent_call && form.consent_call.checked);
+    var hasSms = Boolean(form.consent_sms && form.consent_sms.checked);
+    var hasEmail = Boolean(form.consent_email && form.consent_email.checked);
+    var count = (hasCall ? 1 : 0) + (hasSms ? 1 : 0) + (hasEmail ? 1 : 0);
+    if (count > 1) prefSelect.value = 'First available';
+    else if (hasCall) prefSelect.value = 'Phone call';
+    else if (hasSms) prefSelect.value = 'Text message';
+    else if (hasEmail) prefSelect.value = 'Email';
+    else prefSelect.value = 'First available';
+  }
+
   function initSubmitState() {
     var form = byId('leadForm');
     var status = byId('formStatus');
     var button = byId('submitButton');
     if (!form) return;
+    var prefSelect = byId('preferredContact');
+    if (prefSelect) {
+      prefSelect.addEventListener('change', function () {
+        prefSelect.__lhiUserTouched = true;
+      });
+    }
+    var covSelect = byId('coverageStatus');
+    if (covSelect) {
+      covSelect.addEventListener('change', function () {
+        covSelect.__lhiUserTouched = true;
+      });
+    }
+    ['consent_call', 'consent_sms', 'consent_email'].forEach(function (name) {
+      var cb = form[name];
+      if (cb && typeof cb.addEventListener === 'function') {
+        cb.addEventListener('change', function () {
+          autoSyncPreferredContact(form);
+        });
+      }
+    });
     form.addEventListener('submit', function (event) {
+      autoSyncPreferredContact(form);
+      var zipEl = byId('zipCode');
+      if (zipEl && /^\d{5}$/.test(String(zipEl.value || '').trim())) {
+        var zipState = zipToUsStateCode(zipEl.value);
+        if (zipState) {
+          setValue('coverageStateInput', zipState);
+          setValue('stateInput', zipState);
+        }
+      }
       if (!form.checkValidity()) {
         showError('Complete the required contact fields and consent before sending.');
         return;
@@ -1180,7 +1298,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     initAttribution();
     var qs = new URLSearchParams(landingSearch());
-    var coverageState = resolveCoverageState(qs);
+    var initialZip = qsValue(qs, 'zip_code');
+    var coverageState = resolveCoverageState(qs) || zipToUsStateCode(initialZip);
     var hideMedicare = isOutOfStateMedicareCoverageState(coverageState);
     var selected = normalizeIntent(qs.get('intent'));
     var product = qs.get('product');
@@ -1194,12 +1313,50 @@
         syncGetHelpMedicareDisclosures(coverageState);
       });
     }
+
+    var zipEl = byId('zipCode');
+    if (zipEl) {
+      ['focus', 'input', 'change'].forEach(function (evtName) {
+        zipEl.addEventListener(evtName, function () {
+          if (typeof window.lhiTrackFormStart === 'function') {
+            try { window.lhiTrackFormStart('leadForm'); } catch (e) {}
+          }
+          var cleaned = String(zipEl.value || '').replace(/\D/g, '').slice(0, 5);
+          if (cleaned.length === 5) {
+            var derived = zipToUsStateCode(cleaned);
+            if (derived) {
+              setValue('coverageStateInput', derived);
+              setValue('stateInput', derived);
+              syncGetHelpMedicareDisclosures(derived);
+            }
+            updateStep2Summary();
+          }
+        });
+      });
+      zipEl.addEventListener('keydown', function (ev) {
+        if (ev && ev.key === 'Enter' && currentStep() === 1) {
+          ev.preventDefault();
+          var nextBtn = byId('step1ContinueButton');
+          if (nextBtn) nextBtn.click();
+        }
+      });
+    }
+
     showStep(1, false);
+    if (/^\d{5}$/.test(initialZip) && (qs.has('intent') || qs.has('product'))) {
+      if (typeof window.lhiTrackFormStart === 'function') {
+        try { window.lhiTrackFormStart('leadForm'); } catch (e) {}
+      }
+      showStep(2, false);
+    }
 
     document.querySelectorAll('[data-next]').forEach(function (button) {
       button.addEventListener('click', function () {
+        if (typeof window.lhiTrackFormStart === 'function') {
+          try { window.lhiTrackFormStart('leadForm'); } catch (e) {}
+        }
         var step = currentStep();
-        if (validateStep(step)) showStep(Math.min(3, step + 1), true);
+        if (validateStep(step)) showStep(Math.min(2, step + 1), true);
       });
     });
 

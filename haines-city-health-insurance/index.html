@@ -639,7 +639,24 @@
       <div class="container hero-grid hero-content"><div class="lhi-hero-lede-block"><div>
           <div class="hero-kicker">Haines City · 33844 · 33845</div>
           <h1>Haines City Health Insurance Built Around Heart of Florida and BayCare</h1>
-          <p class="lhi-hero-lede">David Huff helps Haines City residents compare <strong>2027</strong> ACA Marketplace, Medicare, short-term, dental, vision, and supplemental coverage in Polk County after checking the providers you actually use.</p></div></div>
+          <p class="lhi-hero-lede">David Huff helps Haines City residents compare <strong>2027</strong> ACA Marketplace, Medicare, short-term, dental, vision, and supplemental coverage in Polk County after checking the providers you actually use.</p>
+          <div class="lhi-step1-micro" data-lhi-step1-intake data-source-page-key="haines_city_health_insurance" role="region" aria-label="Step 1: Enter Florida ZIP code and coverage type">
+            <p class="lhi-step1-micro__eyebrow">Step 1 of 2 &middot; Florida ZIP &amp; coverage check</p>
+            <div class="lhi-step1-micro__row">
+              <label class="sr-only" for="hainesCityStep1Zip">5-digit Florida ZIP code</label>
+              <input class="lhi-step1-micro__zip" id="hainesCityStep1Zip" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="33844" data-step1-zip>
+              <label class="sr-only" for="hainesCityStep1Intent">Coverage type</label>
+              <select class="lhi-step1-micro__intent" id="hainesCityStep1Intent" data-step1-intent>
+                <option value="under-65" selected>Under-65 / ACA</option>
+                <option value="medicare">Medicare (65+)</option>
+                <option value="provider-check">Doctor / Rx check</option>
+                <option value="lost-coverage">Losing coverage</option>
+              </select>
+              <button class="lhi-step1-micro__btn" type="button" data-step1-continue>Continue</button>
+            </div>
+            <p class="lhi-step1-micro__error" data-step1-error role="status" aria-live="polite"></p>
+          </div>
+          </div></div>
 
 
         <div class="hero-panel" aria-label="Haines City coverage priorities">

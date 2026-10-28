@@ -1193,18 +1193,206 @@
         source_page_path: cleanAnalyticsPath(w.location.pathname) || '/'
       });
     } catch (e) {}
-    try {
-      if (typeof w.gtag === 'function') {
-        w.gtag('event', 'ads_conversion_Request_quote_1', {
-          send_to: 'G-W45RMKHXV0',
-          page_location: (w.location && w.location.origin || '') + '/thanks.html',
-          transport_type: 'beacon'
+  }
+
+  function zipToStateCode(rawZip) {
+    var digits = String(rawZip || '').replace(/\D/g, '').slice(0, 5);
+    if (digits.length !== 5) return '';
+    var p = parseInt(digits.slice(0, 3), 10);
+    if (p >= 320 && p <= 349) return 'FL';
+    if (p >= 350 && p <= 369) return 'AL';
+    if (p >= 850 && p <= 865) return 'AZ';
+    if ((p >= 300 && p <= 319) || p === 398 || p === 399) return 'GA';
+    if (p >= 500 && p <= 528) return 'IA';
+    if (p >= 460 && p <= 479) return 'IN';
+    if (p >= 660 && p <= 679) return 'KS';
+    if (p >= 700 && p <= 714) return 'LA';
+    if (p >= 206 && p <= 219) return 'MD';
+    if (p >= 480 && p <= 499) return 'MI';
+    if (p >= 630 && p <= 658) return 'MO';
+    if (p >= 386 && p <= 397) return 'MS';
+    if (p >= 270 && p <= 289) return 'NC';
+    if (p >= 680 && p <= 693) return 'NE';
+    if (p >= 70 && p <= 89) return 'NJ';
+    if (p >= 430 && p <= 459) return 'OH';
+    if (p >= 730 && p <= 749) return 'OK';
+    if (p >= 290 && p <= 299) return 'SC';
+    if (p >= 370 && p <= 385) return 'TN';
+    if ((p >= 750 && p <= 799) || p === 885) return 'TX';
+    if (p === 201 || (p >= 220 && p <= 246)) return 'VA';
+    if (p >= 980 && p <= 994) return 'WA';
+    if (p >= 247 && p <= 268) return 'WV';
+    if (p >= 900 && p <= 961) return 'CA';
+    if (p >= 100 && p <= 149) return 'NY';
+    if (p >= 600 && p <= 629) return 'IL';
+    if (p >= 10 && p <= 27) return 'MA';
+    if (p >= 150 && p <= 196) return 'PA';
+    if (p >= 800 && p <= 816) return 'CO';
+    return '';
+  }
+
+  function syncFormZipStateFields(form, rawZip) {
+    if (!form || typeof form.querySelector !== 'function') return '';
+    var stateCode = zipToStateCode(rawZip);
+    if (!stateCode) return '';
+    setAttributionField(form, 'coverage_state', stateCode);
+    setAttributionField(form, 'state', stateCode);
+    return stateCode;
+  }
+
+  function applyStep1CoverageToForm(form, rawIntent) {
+    if (!form || typeof form.querySelector !== 'function') return;
+    var intent = String(rawIntent || '').trim().toLowerCase();
+    var choiceRadio = form.querySelector('input[name="coverage_choice"][value="' + (intent === 'medicare' ? 'medicare' : 'marketplace') + '"]');
+    if (choiceRadio) {
+      choiceRadio.checked = true;
+      syncSitelinkCoverageChoice(form);
+    }
+    var select = form.querySelector('select[name="coverage_status"]');
+    if (select) {
+      var candidates = intent === 'medicare'
+        ? ['medicare_advantage', 'current_plan_review', 'turning_65', 'not_sure']
+        : intent === 'lost-coverage'
+          ? ['losing_coverage', 'individual_marketplace', 'not_sure']
+          : intent === 'provider-check'
+            ? ['current_plan_review', 'medicare_advantage', 'individual_marketplace', 'not_sure']
+            : ['individual_marketplace', 'family_marketplace', 'self_employed', 'current_plan_review', 'not_sure'];
+      for (var i = 0; i < candidates.length; i += 1) {
+        var opt = select.querySelector('option[value="' + candidates[i] + '"]');
+        if (opt) {
+          select.value = candidates[i];
+          break;
+        }
+      }
+    }
+  }
+
+  function wireStep1MicroIntakes() {
+    if (!d.querySelectorAll) return;
+    d.querySelectorAll('[data-lhi-step1-intake]').forEach(function (box) {
+      if (box.__lhiStep1Wired) return;
+      box.__lhiStep1Wired = true;
+      var zipInput = box.querySelector('[data-step1-zip]');
+      var intentInput = box.querySelector('[data-step1-intent]');
+      var continueBtn = box.querySelector('[data-step1-continue]');
+      var errorEl = box.querySelector('[data-step1-error]');
+      var targetSelector = box.getAttribute('data-step1-form') || '';
+
+      function resolveStep2Form() {
+        if (targetSelector) {
+          var explicitForm = d.querySelector(targetSelector);
+          if (explicitForm) return explicitForm;
+        }
+        return d.querySelector('form[data-lhi-site-lead-form], form[data-sitelink-lead-form]');
+      }
+
+      function markStarted() {
+        var step2 = resolveStep2Form();
+        if (typeof w.lhiTrackFormStart === 'function') {
+          try { w.lhiTrackFormStart(step2 || box); } catch (e) {}
+        }
+      }
+
+      function syncToStep2() {
+        var step2 = resolveStep2Form();
+        var cleanZip = zipInput ? String(zipInput.value || '').replace(/\D/g, '').slice(0, 5) : '';
+        if (zipInput && zipInput.value !== cleanZip && /^\d+$/.test(String(zipInput.value || ''))) {
+          zipInput.value = cleanZip;
+        }
+        if (errorEl && cleanZip.length === 5) errorEl.textContent = '';
+        if (!step2) return cleanZip;
+        if (cleanZip.length === 5) {
+          var step2Zip = step2.querySelector('input[name="zip_code"]');
+          if (step2Zip) step2Zip.value = cleanZip;
+          syncFormZipStateFields(step2, cleanZip);
+        }
+        if (intentInput) {
+          applyStep1CoverageToForm(step2, intentInput.value);
+        }
+        return cleanZip;
+      }
+
+      if (zipInput) {
+        ['focus', 'input', 'change'].forEach(function (evt) {
+          zipInput.addEventListener(evt, function () {
+            markStarted();
+            syncToStep2();
+          });
+        });
+        zipInput.addEventListener('keydown', function (ev) {
+          if (ev && ev.key === 'Enter') {
+            ev.preventDefault();
+            if (continueBtn) continueBtn.click();
+          }
         });
       }
-      if (typeof w.gtag_report_conversion === 'function') {
-        w.gtag_report_conversion();
+      if (intentInput) {
+        ['focus', 'change'].forEach(function (evt) {
+          intentInput.addEventListener(evt, function () {
+            markStarted();
+            syncToStep2();
+          });
+        });
       }
-    } catch (e) {}
+      if (continueBtn) {
+        continueBtn.addEventListener('click', function () {
+          markStarted();
+          var cleanZip = syncToStep2();
+          if (!/^\d{5}$/.test(cleanZip)) {
+            if (errorEl) errorEl.textContent = 'Enter a 5-digit ZIP code to continue.';
+            if (zipInput && typeof zipInput.focus === 'function') zipInput.focus();
+            return;
+          }
+          if (errorEl) errorEl.textContent = '';
+          var selectedIntent = intentInput ? String(intentInput.value || 'not-sure').trim().toLowerCase() : 'not-sure';
+          var stateCode = zipToStateCode(cleanZip) || 'FL';
+          var step2 = resolveStep2Form();
+          var forceGetHelp = box.getAttribute('data-step1-route') === 'get-help';
+          var formName = step2 ? String(step2.getAttribute('name') || '') : '';
+          var hasCoverageChoice = Boolean(step2 && step2.hasAttribute && step2.hasAttribute('data-sitelink-coverage-choice'));
+          var fixedIntentInput = (!hasCoverageChoice && step2 && step2.querySelector)
+            ? step2.querySelector('input[type="hidden"][name="normalized_intent"]')
+            : null;
+          var fixedIntent = fixedIntentInput ? String(fixedIntentInput.value || '').trim().toLowerCase() : '';
+          var isMedicareOnlyForm = formName === 'site-medicare-lead' || fixedIntent === 'medicare';
+          var isAcaOnlyForm = formName === 'site-aca-lead' || fixedIntent === 'aca';
+          var laneMismatch = Boolean(
+            (isMedicareOnlyForm && (selectedIntent === 'under-65' || selectedIntent === 'aca' || selectedIntent === 'lost-coverage')) ||
+            (isAcaOnlyForm && selectedIntent === 'medicare')
+          );
+
+          if (!step2 || forceGetHelp || laneMismatch) {
+            if (typeof w.lhiTrackPlanReviewCtaClick === 'function') {
+              try { w.lhiTrackPlanReviewCtaClick('step1_continue_get_help'); } catch (e) {}
+            }
+            var params = new URLSearchParams();
+            params.set('zip_code', cleanZip);
+            params.set('intent', selectedIntent === 'aca' ? 'under-65' : selectedIntent);
+            if (stateCode) params.set('state', stateCode);
+            var pageKey = box.getAttribute('data-source-page-key') || (d.body && d.body.getAttribute('data-page-key')) || '';
+            if (pageKey && selectedIntent === 'medicare') {
+              params.set('source_page_key', pageKey);
+              params.set('source_cta_key', 'request_review_hero');
+            }
+            w.location.href = '/get-help/?' + params.toString();
+            return;
+          }
+
+          box.classList.add('is-step1-complete');
+          var card = step2.closest('.lhi-lead-hero__card') || step2;
+          if (card && card.classList) card.classList.add('is-step2-active');
+          var nameInput = step2.querySelector('input[name="full_name"]');
+          if (nameInput) {
+            if (typeof nameInput.scrollIntoView === 'function') {
+              try { nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+            }
+            if (typeof nameInput.focus === 'function') {
+              try { nameInput.focus({ preventScroll: true }); } catch (e) { nameInput.focus(); }
+            }
+          }
+        });
+      }
+    });
   }
 
   function syncLandingMedicareDisclosures() {
@@ -1444,10 +1632,25 @@
       function trackFormStart() {
         if (f.__lhiFormStarted) return;
         f.__lhiFormStarted = true;
+        if (name === 'Lead' && typeof w.lhiTrackFormStart === 'function') {
+          try { w.lhiTrackFormStart(f); } catch (e) {}
+        }
         track('StartLead', { content_name: content, step: 'start' });
         var intakeContext = medicareIntakeContext();
         if (intakeContext) {
           track('MedicareIntakeStart', Object.assign({ content_name: 'get_help_medicare', step: 'start' }, intakeContext));
+        }
+      }
+
+      if (typeof f.querySelector === 'function') {
+        var zipEl = f.querySelector('input[name="zip_code"]');
+        if (zipEl && !zipEl.__lhiZipStateWired) {
+          zipEl.__lhiZipStateWired = true;
+          ['input', 'change'].forEach(function (evt) {
+            zipEl.addEventListener(evt, function () {
+              syncFormZipStateFields(f, zipEl.value);
+            });
+          });
         }
       }
 
@@ -1457,6 +1660,12 @@
 
       f.addEventListener('submit', function (e) {
         initializeFormAttribution(f);
+        if (typeof f.querySelector === 'function') {
+          var currentZipEl = f.querySelector('input[name="zip_code"]');
+          if (currentZipEl && String(currentZipEl.value || '').trim()) {
+            syncFormZipStateFields(f, currentZipEl.value);
+          }
+        }
         var fd = new FormData(f);
         trackFormStart();
 
@@ -1466,6 +1675,14 @@
           submitLeadViaApi(f, formPayload(f, fd, content), function (apiResult) {
             if (name === 'Lead') {
               track(name, safeLeadPropsFromForm(f, fd, content, step, apiResult));
+              if (apiResult && apiResult.event_id &&
+                  typeof w.lhiEmitVerifiedLeadConversions === 'function') {
+                try {
+                  w.lhiEmitVerifiedLeadConversions(apiResult.event_id, {
+                    form_id: f.id || (typeof f.getAttribute === 'function' && f.getAttribute('name')) || content
+                  });
+                } catch (e) {}
+              }
               if (apiResult && apiResult.form_submit_complete_event_id &&
                   typeof w.lhiTrackMetaFormSubmitComplete === 'function') {
                 try {
@@ -1576,6 +1793,7 @@
   function boot() {
     getAttribution(); // persist UTMs on first hit
     wireHeroZipForms();
+    wireStep1MicroIntakes();
     wireSitelinkLeadForms();
     wireForms();
     syncLandingMedicareDisclosures();
@@ -1588,6 +1806,7 @@
     if (w.MutationObserver) {
       new MutationObserver(function () {
         wireHeroZipForms();
+        wireStep1MicroIntakes();
         wireSitelinkLeadForms();
         wireForms();
       }).observe(d.body, { childList: true, subtree: true });

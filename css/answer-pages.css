@@ -2082,4 +2082,15 @@ a:focus-visible,
   .hub-readiness-card h2 {
     color: #000 !important;
   }
+
+  .lhi-step1-micro {
+    display: none !important;
+  }
+}
+
+@media (max-width: 960px) {
+  .medicare-hero .lhi-step1-micro,
+  .answer-hero:not(.medicare-hero) .lhi-step1-micro {
+    order: 2;
+  }
 }

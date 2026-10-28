@@ -461,7 +461,23 @@
 <section class="hero">
   <div class="container hero-grid">
 <div class="lhi-hero-lede-block"><h1>Watson Clinic, Orlando Health and Your 2027 Medicare Plan: What Lakeland Patients Should Do Now</h1>
-<p class="lhi-hero-lede">I'm David Huff, a licensed Medicare agent here in Lakeland. Many of my neighbors see Watson Clinic and Orlando Health doctors, and each fall we check their 2027 plan options against the doctors and prescriptions they rely on. Annual Enrollment runs October 15 through December 7.</p>
+<p class="lhi-hero-lede">David Huff, licensed Florida health agent in Lakeland (FL #W371813), compares 2027 Medicare plan options against your Watson Clinic and Orlando Health doctors and prescriptions. Annual Enrollment runs October 15 through December 7.</p>
+<div class="lhi-step1-micro" data-lhi-step1-intake data-step1-form="#orlando_health_watson_clinic_2027_planForm" data-source-page-key="orlando_health_watson_clinic_2027_plan" role="region" aria-label="Step 1: Enter Florida ZIP code and coverage type">
+  <p class="lhi-step1-micro__eyebrow">Step 1 of 2 &middot; Florida ZIP &amp; coverage check</p>
+  <div class="lhi-step1-micro__row">
+    <label class="sr-only" for="watson2027Step1Zip">5-digit Florida ZIP code</label>
+    <input class="lhi-step1-micro__zip" id="watson2027Step1Zip" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="33805" data-step1-zip>
+    <label class="sr-only" for="watson2027Step1Intent">Coverage type</label>
+    <select class="lhi-step1-micro__intent" id="watson2027Step1Intent" data-step1-intent>
+      <option value="medicare" selected>Medicare (65+)</option>
+      <option value="provider-check">Doctor / Rx check</option>
+      <option value="under-65">Under-65 / ACA</option>
+      <option value="lost-coverage">Losing coverage</option>
+    </select>
+    <button class="lhi-step1-micro__btn" type="button" data-step1-continue>Continue</button>
+  </div>
+  <p class="lhi-step1-micro__error" data-step1-error role="status" aria-live="polite"></p>
+</div>
 <div class="cta-row">
   <a class="cta-button lhi-hero-gold-primary" href="sms:+18636403102?body=Hi%20David%2C%20can%20you%20check%20my%20Watson%20Clinic%20and%20Orlando%20Health%20doctors%20for%202027%3F" data-lhi-sms-cta="watson_2027_plan_hero_sms" data-analytics-label="watson_2027_plan_hero_sms">Text David</a>
   <a class="cta-button secondary" href="tel:+18636403102">Call (863) 640-3102</a>
