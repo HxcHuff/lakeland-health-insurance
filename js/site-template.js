@@ -298,6 +298,7 @@
       ['/carriers/', 'Carriers'],
       ['/states/', "States I'm licensed in"],
       ['/blog/', 'Blog'],
+      ['/newsletter/', 'Newsletter'],
       ['/learning/', 'Learn'],
       ['/about/', 'About'],
       [helpHref, 'Get Help'],
@@ -387,6 +388,7 @@
               <li><a href="/plans/">Coverage Options</a></li>
               ${showHealthSherpa ? `<li><a href="${healthSherpaHref}" target="_blank" rel="noopener noreferrer">Self-Service ACA Quote</a></li>` : ''}
               <li><a href="/blog/">Blog</a></li>
+              <li><a href="/newsletter/">Newsletter</a></li>
               <li><a href="/our-approach.html">Our Approach</a></li>
               <li><a href="${helpHref}">Request a plan review</a></li>
               <li><a href="/privacy-policy.html">Privacy Policy</a></li>

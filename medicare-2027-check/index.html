@@ -331,6 +331,28 @@
       <p class="m27-review-author">Richard R. &middot; 5-star Google review (Lakeland, FL)</p>
     </aside>
 
+    <section class="m27-newsletter-card" id="coverage-insider-newsletter" aria-label="The Coverage Insider email newsletter" style="margin:1.75rem auto 0; max-width:560px; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1.35rem 1.25rem; text-align:left;">
+      <p style="font-size:0.76rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#0F766E; margin:0 0 0.3rem;">Email-Only Option &middot; No Phone Calls</p>
+      <h2 style="font-size:1.22rem; color:#1B2A4A; margin:0 0 0.45rem;">Not ready for a call yet? Join <em>The Coverage Insider</em></h2>
+      <p style="color:#475569; font-size:0.92rem; line-height:1.5; margin:0 0 0.9rem;">Get one focused monthly email from David Huff with 2027 Florida Medicare deadlines, local hospital directory reminders, and coverage tips. <a href="/newsletter/" style="color:#1B2A4A; text-decoration:underline;">About the newsletter</a>.</p>
+      <form name="homepage-newsletter" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" data-funnel-track data-funnel-event="Subscriber" data-funnel-name="medicare_2027_check_newsletter_optin">
+        <input type="hidden" name="form-name" value="homepage-newsletter">
+        <input type="hidden" name="source_page" value="/medicare-2027-check/">
+        <input type="hidden" name="consent_text_version" value="homepage-newsletter-2026-10-07-v1">
+        <input type="hidden" name="_subject" value="New newsletter signup (Medicare 2027 Check LP)">
+        <p style="display:none;"><label>Do not fill this out: <input name="bot-field"></label></p>
+        <div style="display:flex; flex-wrap:wrap; gap:0.55rem; margin-bottom:0.7rem;">
+          <label for="m27-newsletter-email" style="position:absolute; left:-9999px;">Email address</label>
+          <input id="m27-newsletter-email" type="email" name="email" required autocomplete="email" placeholder="you@example.com" style="flex:1 1 220px; padding:11px 13px; border:1px solid #CBD5E1; border-radius:8px; font-size:0.98rem; font-family:inherit; background:#FFFFFF;">
+          <button type="submit" class="cta-button" style="padding:11px 18px; font-size:0.95rem; cursor:pointer;">Subscribe</button>
+        </div>
+        <label style="display:flex; align-items:flex-start; gap:0.5rem; font-size:0.78rem; color:#64748B; line-height:1.45;">
+          <input type="checkbox" name="consent" required style="margin-top:3px; flex-shrink:0;">
+          <span>I agree to receive email newsletters from Lakeland Health Insurance with general health insurance and Medicare education tips. This is not consent to sales calls, texts, or Medicare plan marketing contact. Unsubscribe anytime.</span>
+        </label>
+      </form>
+    </section>
+
     <section class="site-page-disclosures" aria-label="Medicare disclosures">
       <p class="m27-agent">David Huff, Licensed Insurance Agent #W371813</p>
       <p>Medicare has neither reviewed nor endorsed this information. Lakeland Health Insurance and David Huff are not connected with or endorsed by the U.S. government or the federal Medicare program.</p>
@@ -343,6 +365,7 @@
 
   <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
   <script src="/js/get-help-intake.js?v=20261018-licensed-states-23-v1" defer></script>
+  <script src="/js/funnel.js?v=20261018-licensed-states-23-v1" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var formEl = document.getElementById('medicare2027CheckForm');
