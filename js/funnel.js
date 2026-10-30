@@ -1299,7 +1299,9 @@
         if (zipInput && zipInput.value !== cleanZip && /^\d+$/.test(String(zipInput.value || ''))) {
           zipInput.value = cleanZip;
         }
-        if (errorEl && cleanZip.length === 5) errorEl.textContent = '';
+        if (errorEl && cleanZip.length === 5 && (!errorEl.classList || !errorEl.classList.contains('is-success'))) {
+          errorEl.textContent = '';
+        }
         if (!step2) return cleanZip;
         if (cleanZip.length === 5) {
           var step2Zip = step2.querySelector('input[name="zip_code"]');
@@ -1339,11 +1341,17 @@
           markStarted();
           var cleanZip = syncToStep2();
           if (!/^\d{5}$/.test(cleanZip)) {
-            if (errorEl) errorEl.textContent = 'Enter a 5-digit ZIP code to continue.';
+            if (errorEl) {
+              if (errorEl.classList) errorEl.classList.remove('is-success');
+              errorEl.textContent = 'Enter a 5-digit ZIP code to continue.';
+            }
             if (zipInput && typeof zipInput.focus === 'function') zipInput.focus();
             return;
           }
-          if (errorEl) errorEl.textContent = '';
+          if (errorEl) {
+            if (errorEl.classList) errorEl.classList.remove('is-success');
+            errorEl.textContent = '';
+          }
           var selectedIntent = intentInput ? String(intentInput.value || 'not-sure').trim().toLowerCase() : 'not-sure';
           var stateCode = zipToStateCode(cleanZip) || 'FL';
           var step2 = resolveStep2Form();
@@ -1379,6 +1387,10 @@
           }
 
           box.classList.add('is-step1-complete');
+          if (errorEl) {
+            if (errorEl.classList) errorEl.classList.add('is-success');
+            errorEl.textContent = 'ZIP ' + cleanZip + ' saved. Enter your name and phone in Step 2.';
+          }
           var card = step2.closest('.lhi-lead-hero__card') || step2;
           if (card && card.classList) card.classList.add('is-step2-active');
           var nameInput = step2.querySelector('input[name="full_name"]');

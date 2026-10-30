@@ -11,7 +11,7 @@ assert.ok(loaderMatch, 'shared analytics asset contains the Meta audience loader
 const LOADER_SRC = loaderMatch[1];
 const PIXEL_ID = '1480756087079484';
 const ELIGIBLE_MARKER = '<meta name="meta-audience-eligible" content="pageview">';
-const ANALYTICS_VERSION = '/js/analytics.js?v=20261017-meta-conversion-events-v1';
+const ANALYTICS_VERSION = '/js/analytics.js?v=20261030-step1-cache-bust-v1';
 const CSS_VERSION = '/css/site-template.css?v=20261017-meta-conversion-events-v1';
 const CONSENT_KEY = 'lhi_meta_audience_consent';
 const ELIGIBLE_PAGES = [
@@ -732,7 +732,7 @@ test('static marker inventory exactly matches the reviewed 11-page landing ledge
     const html = readFileSync(join(ROOT, file), 'utf8');
     assert.equal((html.match(/<meta name="meta-audience-eligible" content="pageview">/g) || []).length, 1, file);
     assert.ok(html.indexOf(ELIGIBLE_MARKER) < html.indexOf('</head>'), file);
-    assert.match(html, /\/js\/analytics\.js\?v=20261017-meta-conversion-events-v1/, file);
+    assert.match(html, /\/js\/analytics\.js\?v=20261030-step1-cache-bust-v1/, file);
     if (html.includes('/css/site-template.css')) {
       assert.match(html, /\/css\/site-template\.css\?v=20261017-meta-conversion-events-v1/, file);
     }

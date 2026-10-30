@@ -23,21 +23,26 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/css/blog-unified.css', '20261023-pr333-follow-up'],
   ['/js/chat-widget.js', '20261016-pr-c-chat'],
   ['/js/site-phone.js', '20261015-v6merge2'],
-  ['/js/site-template.js', '20261017-tpmo-10-74'],
-  ['/js/site-search.js', '20261018-licensed-states-23-v1'],
+  ['/js/site-template.js', '20261030-step1-cache-bust-v1'],
+  ['/js/site-search.js', '20261030-step1-cache-bust-v1'],
   ['/js/blog-cta.js', '20260803-brand-release'],
-  ['/css/lead-hero.css', '20261016-lhi-lead-title-contrast'],
-  ['/css/answer-pages.css', '20261016-pr337-c'],
+  ['/css/lead-hero.css', '20261030-step1-cache-bust-v1'],
+  ['/css/answer-pages.css', '20261030-step1-cache-bust-v1'],
   ['/css/paid-landing.css', '20261016-pr337-lp3'],
-  ['/js/lead-hero.js', '20261018-licensed-states-23-v1'],
+  ['/js/lead-hero.js', '20261030-step1-cache-bust-v1'],
+  ['/js/funnel.js', '20261030-step1-cache-bust-v1'],
+  ['/js/analytics.js', '20261030-step1-cache-bust-v1'],
+  ['/js/get-help-intake.js', '20261030-step1-cache-bust-v1'],
+  ['/js/lead-first-touch.js', '20261030-step1-cache-bust-v1'],
+  ['/js/calendly-meta-schedule.js', '20261030-step1-cache-bust-v1'],
 ]);
-const SERVICE_WORKER_CACHE_VERSION = '20261018-licensed-states-23-v1';
+const SERVICE_WORKER_CACHE_VERSION = '20261030-step1-cache-bust-v1';
 
 /** Blog PR B ships newer cache tokens without sitewide HTML bumps. */
 const BLOG_RELEASE_ASSET_VERSIONS = new Map([
   ['/css/blog-unified.css', '20261023-pr333-follow-up'],
-  ['/css/lead-hero.css', '20261016-lhi-lead-title-contrast'],
-  ['/js/lead-hero.js', '20261018-licensed-states-23-v1']
+  ['/css/lead-hero.css', '20261030-step1-cache-bust-v1'],
+  ['/js/lead-hero.js', '20261030-step1-cache-bust-v1']
 ]);
 
 const FORBIDDEN_PUBLIC_FILES = [
@@ -128,14 +133,12 @@ for (const file of seen) {
     const version =
       rel.startsWith('blog/') && BLOG_RELEASE_ASSET_VERSIONS.has(assetPath)
         ? BLOG_RELEASE_ASSET_VERSIONS.get(assetPath)
-        : rel.startsWith('lp/') && assetPath === '/css/lead-hero.css'
-          ? '20261016-nonblog-gates2'
-          : assetVersion;
+        : assetVersion;
     const expected = `${assetPath}?v=${version}`;
-    const pattern = new RegExp(`${escapeRegExp(assetPath)}(?:\\?[^\"'\\s<>]*)?`, 'g');
+    const pattern = new RegExp(`(?:href|src)=["'](${escapeRegExp(assetPath)}(?:\\?[^"'\\s<>]*)?)["']`, 'g');
     for (const match of html.matchAll(pattern)) {
-      if (match[0] !== expected) {
-        issues.push(`${rel}: stale shared asset reference "${match[0]}" (expected "${expected}")`);
+      if (match[1] !== expected) {
+        issues.push(`${rel}: stale shared asset reference "${match[1]}" (expected "${expected}")`);
       }
     }
   }

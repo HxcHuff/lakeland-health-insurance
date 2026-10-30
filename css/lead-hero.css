@@ -3753,7 +3753,7 @@ body.lhi-page-hero:not(.home-page) footer .footer-column h3 {
   align-items: center;
   display: grid;
   gap: 6px;
-  grid-template-columns: 92px minmax(0, 1fr) auto;
+  grid-template-columns: 104px minmax(0, 1fr) auto;
 }
 
 .lhi-step1-micro__zip,
@@ -3771,9 +3771,14 @@ body.lhi-page-hero:not(.home-page) footer .footer-column h3 {
 }
 
 .lhi-step1-micro__zip {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 700;
   padding: 8px 9px;
+}
+
+.lhi-step1-micro__zip::placeholder {
+  color: #64748b;
+  font-weight: 500;
 }
 
 .lhi-step1-micro__intent {
@@ -3819,6 +3824,10 @@ body.lhi-page-hero:not(.home-page) footer .footer-column h3 {
   font-weight: 700;
   line-height: 1.3;
   margin: 5px 0 0 !important;
+}
+
+.lhi-step1-micro__error.is-success {
+  color: #166534 !important;
 }
 
 .lhi-step1-micro__error:empty {

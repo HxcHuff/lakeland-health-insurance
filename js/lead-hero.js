@@ -85,7 +85,7 @@
   function ensureFunnelScriptLoaded() {
     if (w.LHI || d.querySelector('script[src*="/js/funnel.js"]')) return;
     var script = d.createElement('script');
-    script.src = '/js/funnel.js?v=20261018-licensed-states-23-v1';
+    script.src = '/js/funnel.js?v=20261030-step1-cache-bust-v1';
     script.defer = true;
     (d.head || d.documentElement).appendChild(script);
   }
@@ -217,7 +217,9 @@
         if (zipInput && zipInput.value !== cleanZip && /^\d+$/.test(String(zipInput.value || ''))) {
           zipInput.value = cleanZip;
         }
-        if (errorEl && cleanZip.length === 5) errorEl.textContent = '';
+        if (errorEl && cleanZip.length === 5 && !errorEl.classList.contains('is-success')) {
+          errorEl.textContent = '';
+        }
         var stateCode = cleanZip.length === 5 ? zipToStateCode(cleanZip) : '';
         if (stateCode && isMedicareLeadSurface()) {
           var showOut = isOutOfStateMedicareCoverageState(stateCode);
@@ -267,11 +269,17 @@
           markStarted();
           var cleanZip = syncToStep2();
           if (!/^\d{5}$/.test(cleanZip)) {
-            if (errorEl) errorEl.textContent = 'Enter a 5-digit ZIP code to continue.';
+            if (errorEl) {
+              errorEl.classList.remove('is-success');
+              errorEl.textContent = 'Enter a 5-digit ZIP code to continue.';
+            }
             if (zipInput && typeof zipInput.focus === 'function') zipInput.focus();
             return;
           }
-          if (errorEl) errorEl.textContent = '';
+          if (errorEl) {
+            errorEl.classList.remove('is-success');
+            errorEl.textContent = '';
+          }
           var selectedIntent = intentInput ? String(intentInput.value || 'not-sure').trim().toLowerCase() : 'not-sure';
           var stateCode = zipToStateCode(cleanZip) || 'FL';
           var step2 = resolveStep2Form();
@@ -307,6 +315,10 @@
           }
 
           box.classList.add('is-step1-complete');
+          if (errorEl) {
+            errorEl.classList.add('is-success');
+            errorEl.textContent = 'ZIP ' + cleanZip + ' saved. Enter your name and phone in Step 2.';
+          }
           var card = step2.closest('.lhi-lead-hero__card') || step2;
           if (card && card.classList) card.classList.add('is-step2-active');
           var nameInput = step2.querySelector('input[name="full_name"]');

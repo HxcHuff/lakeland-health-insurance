@@ -638,6 +638,13 @@
 
     wireMenu();
     loadBbbSeal();
+    if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator && typeof navigator.serviceWorker.getRegistration === 'function') {
+      try {
+        navigator.serviceWorker.getRegistration('/').then(function (reg) {
+          if (reg && typeof reg.update === 'function') reg.update();
+        }).catch(function () {});
+      } catch (error) {}
+    }
     initSiteHeaderOffsetTracking(nextHeader);
     window.addEventListener('resize', scheduleSiteHeaderOffsetSync, { passive: true });
     window.addEventListener('orientationchange', scheduleSiteHeaderOffsetSync, { passive: true });

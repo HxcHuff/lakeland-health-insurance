@@ -22,7 +22,7 @@
 
   if (!window.__LHI_TEST && !window.LHILeadFirstTouch && typeof document !== 'undefined' && document.createElement) {
     var firstTouchScript = document.createElement('script');
-    firstTouchScript.src = '/js/lead-first-touch.js?v=20261008-first-touch-sync';
+    firstTouchScript.src = '/js/lead-first-touch.js?v=20261030-step1-cache-bust-v1';
     firstTouchScript.async = false;
     firstTouchScript.onload = flushLeadFirstTouchWaiters;
     firstTouchScript.onerror = flushLeadFirstTouchWaiters;
@@ -749,7 +749,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261018-licensed-states-23-v1';
+    funnel.src = '/js/funnel.js?v=20261030-step1-cache-bust-v1';
     document.head.appendChild(funnel);
   }
 

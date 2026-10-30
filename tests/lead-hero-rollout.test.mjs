@@ -23,8 +23,8 @@ function walkHtml(dir = ROOT, out = []) {
 
 test('homepage ships site ACA lead hero above the fold', () => {
   const html = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
-  assert.match(html, /\/css\/lead-hero.css\?v=20261016-lhi-lead-title-contrast/);
-  assert.match(html, /\/js\/lead-hero.js\?v=20261018-licensed-states-23-v1/);
+  assert.match(html, /\/css\/lead-hero.css\?v=20261030-step1-cache-bust-v1/);
+  assert.match(html, /\/js\/lead-hero.js\?v=20261030-step1-cache-bust-v1/);
   assert.match(html, /data-form-name="site-aca-lead"/);
   assert.ok(html.includes('class="lhi-lead-hero'));
 });

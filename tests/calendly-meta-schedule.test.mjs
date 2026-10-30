@@ -264,7 +264,7 @@ async function invoke(body, {
 test('booking page keeps the Schedule converter without hardcoding the calendar account', () => {
   assert.match(BOOK_HTML, /id="booking-frame"/);
   assert.doesNotMatch(BOOK_HTML, /src="\/book\/embed"/);
-  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261013-facade/);
+  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261030-step1-cache-bust-v1/);
   assert.match(BOOK_HTML, /id="booking-facade-activate"/);
   assert.doesNotMatch(BOOK_HTML, /healthmarkets|calendly\.com\/dhuff|\bfbq\s*\(/i);
   assert.match(REDIRECTS, /\/book\/embed https:\/\/calendly\.com\/dhuff-healthmarkets\?embed_domain=lakelandhealthinsurance\.com&embed_type=Inline/);

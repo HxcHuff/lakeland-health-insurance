@@ -597,3 +597,108 @@ test('generate_lead, ads_conversion_Request_quote_1, and Meta Lead (148075608707
     await browser.close();
   }
 });
+
+test('Orlando Health & Watson Clinic guide Step-1 and Step-2 boxes render styled, show confirmation, route Medicare to /get-help/, and submit ACA leads on desktop & mobile', async () => {
+  const browser = await chromium.launch({ headless: true, executablePath: CHROME_PATH });
+  try {
+    // 1. Desktop (1280x860): Step 1 -> Step 2 inline ACA transition + green confirmation + full Step-2 submit
+    const desktopCtx = await browser.newContext({ viewport: { width: 1280, height: 860 } });
+    const desktopPage = await desktopCtx.newPage();
+    const verifiedEventId = '22222222-3333-4444-a555-666666666666';
+    const harness = await attachProductionHarness(desktopPage, {
+      holdThanksNavigation: true,
+      leadApiResponder: () => ({
+        status: 200,
+        body: { ok: true, forms: true, event_id: verifiedEventId }
+      })
+    });
+
+    await desktopPage.goto('https://lakelandhealthinsurance.com/blog/orlando-health-watson-clinic-insurance-2026.html', {
+      waitUntil: 'networkidle'
+    });
+    await desktopPage.waitForTimeout(300);
+
+    // Ensure CSS loaded cleanly: .sr-only labels are clipped to 1px, Step-1 card has styled background & border, and placeholder is "ZIP code"
+    const step1Diagnostics = await desktopPage.evaluate(() => {
+      const box = document.querySelector('[data-lhi-step1-intake]');
+      const zip = document.getElementById('watsonGuideStep1Zip');
+      const srLabel = box ? box.querySelector('label.sr-only') : null;
+      const boxStyle = box ? window.getComputedStyle(box) : null;
+      const srRect = srLabel ? srLabel.getBoundingClientRect() : null;
+      return {
+        placeholder: zip ? zip.getAttribute('placeholder') : '',
+        borderRadius: boxStyle ? boxStyle.borderRadius : '',
+        srWidth: srRect ? srRect.width : 999,
+        srHeight: srRect ? srRect.height : 999
+      };
+    });
+    assert.equal(step1Diagnostics.placeholder, 'ZIP code', 'Step-1 ZIP placeholder is explicit text, not a misleading numeric ZIP');
+    assert.equal(step1Diagnostics.borderRadius, '10px', 'Step-1 micro-intake card CSS is applied');
+    assert.ok(step1Diagnostics.srWidth <= 2 && step1Diagnostics.srHeight <= 2, '.sr-only labels are visually hidden');
+
+    // Select Under-65 / ACA + enter ZIP 33805 + click Continue
+    await desktopPage.fill('#watsonGuideStep1Zip', '33805');
+    await desktopPage.selectOption('#watsonGuideStep1Intent', 'under-65');
+    await desktopPage.click('[data-lhi-step1-intake] [data-step1-continue]');
+
+    const inlineTransition = await desktopPage.evaluate(() => {
+      const step2Zip = document.getElementById('blog_orlando_health_watson_clinic_insura_zip_code');
+      const step2Coverage = document.getElementById('blog_orlando_health_watson_clinic_insura_coverage_status');
+      const statusEl = document.querySelector('[data-lhi-step1-intake] [data-step1-error]');
+      return {
+        zipVal: step2Zip ? step2Zip.value : '',
+        coverageVal: step2Coverage ? step2Coverage.value : '',
+        statusText: statusEl ? statusEl.textContent : '',
+        isSuccess: statusEl ? statusEl.classList.contains('is-success') : false,
+        activeId: document.activeElement ? document.activeElement.id : ''
+      };
+    });
+    assert.equal(inlineTransition.zipVal, '33805');
+    assert.equal(inlineTransition.coverageVal, 'individual_marketplace');
+    assert.equal(inlineTransition.statusText, 'ZIP 33805 saved. Enter your name and phone in Step 2.');
+    assert.equal(inlineTransition.isSuccess, true);
+    assert.equal(inlineTransition.activeId, 'blog_orlando_health_watson_clinic_insura_full_name');
+
+    // Complete Step-2 lead card ("Check my doctor's coverage") and submit
+    await desktopPage.fill('#blog_orlando_health_watson_clinic_insura_full_name', 'David Desktop Test');
+    await desktopPage.fill('#blog_orlando_health_watson_clinic_insura_phone', '8635550199');
+    await desktopPage.check('#blog_orlando_health_watson_clinic_insura_consent');
+    await desktopPage.click('#blog_orlando_health_watson_clinic_insuraForm button[type="submit"]');
+    await desktopPage.waitForURL('**/thanks.html**', { timeout: 5000 });
+
+    assert.equal(harness.leadApiRequests.length, 1);
+    assert.equal(harness.leadApiRequests[0].zip_code, '33805');
+    assert.equal(harness.leadApiRequests[0].coverage_status, 'individual_marketplace');
+    await desktopCtx.close();
+
+    // 2. Mobile (390x844): Selecting Medicare (65+) routes to /get-help/ Step 2 with TPMO guardrails
+    const mobileCtx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const mobilePage = await mobileCtx.newPage();
+    await attachProductionHarness(mobilePage);
+
+    await mobilePage.goto('https://lakelandhealthinsurance.com/blog/orlando-health-watson-clinic-insurance-2026.html', {
+      waitUntil: 'networkidle'
+    });
+    await mobilePage.fill('#watsonGuideStep1Zip', '33805');
+    await mobilePage.selectOption('#watsonGuideStep1Intent', 'medicare');
+    await Promise.all([
+      mobilePage.waitForURL((u) => u.pathname === '/get-help/'),
+      mobilePage.click('[data-lhi-step1-intake] [data-step1-continue]')
+    ]);
+    await mobilePage.waitForTimeout(350);
+
+    const routedState = await mobilePage.evaluate(() => ({
+      step2Active: Boolean(document.querySelector('.form-step[data-step="2"]:not([hidden])')),
+      zip: document.getElementById('zipCode')?.value || '',
+      inquiry: document.querySelector('#intentOptions input[name="inquiry_type"]:checked')?.value || '',
+      state: document.getElementById('stateInput')?.value || ''
+    }));
+    assert.equal(routedState.step2Active, true, 'Routing Medicare from Watson guide opens /get-help/ directly at Step 2');
+    assert.equal(routedState.zip, '33805');
+    assert.equal(routedState.inquiry, 'Medicare');
+    assert.equal(routedState.state, 'FL');
+    await mobileCtx.close();
+  } finally {
+    await browser.close();
+  }
+});
