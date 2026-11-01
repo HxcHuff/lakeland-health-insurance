@@ -986,7 +986,7 @@
   function isGaCollectUrl(rawUrl) {
     var text = String(rawUrl || '');
     if (!text) return false;
-    return /(?:^|\/\/)(?:[a-z0-9-]+\.)*google-analytics\.com\/g\/collect(?:\?|$)|(?:^|\/\/)analytics\.google\.com\/g\/collect(?:\?|$)/i.test(text);
+    return /(?:^|\/\/)(?:[a-z0-9-]+\.)*google-analytics\.com\/g\/collect(?:\?|$)|(?:^|\/\/)analytics\.google\.com\/g\/collect(?:\?|$)|(?:^|\/\/)(?:www\.)?google\.com\/g\/collect(?:\?|$)/i.test(text);
   }
 
   function extractParamFromQueryText(queryText, key) {

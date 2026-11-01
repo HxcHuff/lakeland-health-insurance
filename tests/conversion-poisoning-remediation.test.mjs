@@ -228,7 +228,9 @@ async function attachProductionHarness(page, options = {}) {
     }
 
     if (
-      (url.hostname.includes('google-analytics.com') || url.hostname === 'analytics.google.com') &&
+      (url.hostname.includes('google-analytics.com') ||
+        url.hostname === 'analytics.google.com' ||
+        url.hostname === 'www.google.com') &&
       url.pathname.includes('/g/collect')
     ) {
       const enQuery = url.searchParams.get('en');
