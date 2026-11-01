@@ -222,12 +222,15 @@ async function attachProductionHarness(page, options = {}) {
       await route.fulfill({
         status: 200,
         contentType: 'application/javascript; charset=utf-8',
-        body: '/* gtm stub */'
+        body: options.gtmBody || '/* gtm stub */'
       });
       return;
     }
 
-    if (url.hostname.includes('google-analytics.com') && url.pathname.includes('/g/collect')) {
+    if (
+      (url.hostname.includes('google-analytics.com') || url.hostname === 'analytics.google.com') &&
+      url.pathname.includes('/g/collect')
+    ) {
       const enQuery = url.searchParams.get('en');
       if (enQuery) {
         gaEvents.push({
@@ -698,6 +701,76 @@ test('Orlando Health & Watson Clinic guide Step-1 and Step-2 boxes render styled
     assert.equal(routedState.inquiry, 'Medicare');
     assert.equal(routedState.state, 'FL');
     await mobileCtx.close();
+  } finally {
+    await browser.close();
+  }
+});
+
+test('Combined Google Tag / GTM duplicate page_view is deduplicated and stripped dl keeps paid Meta UTMs', async () => {
+  const browser = await chromium.launch({ headless: true, executablePath: CHROME_PATH });
+  try {
+    // Case A: GTM Tag 4 (AW-300112445 / GT-K4LKHVFH) fires a stripped window.location.href page_view
+    // to analytics.google.com/g/collect after stripLocationForPixel() removes ?utm_* from location.search.
+    const gtmCombinedTagSim = `
+      (function () {
+        var stripped = window.location.href;
+        var u = 'https://analytics.google.com/g/collect?v=2&tid=G-W45RMKHXV0&_fv=1&_ss=1&en=page_view&dl=' +
+          encodeURIComponent(stripped) + '&dr=' + encodeURIComponent(document.referrer || '');
+        navigator.sendBeacon(u, '');
+      })();
+    `;
+
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const page = await context.newPage();
+    const harness = await attachProductionHarness(page, { gtmBody: gtmCombinedTagSim });
+
+    const paidMetaUrl =
+      'https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/?utm_source=fb_ig&utm_medium=paid_social&utm_campaign=lhi_2027_polk_aca_traffic_lpv&utm_term=lakeland_25mi_lpv&utm_content=aca_sunset_clean_photo_2027&fbclid=PAZXh0bgNhZW0BMABhZGlkAas256OpaqueClickIdToken';
+
+    await page.goto(paidMetaUrl, {
+      referer: 'https://l.instagram.com/',
+      waitUntil: 'networkidle'
+    });
+    await page.waitForTimeout(350);
+
+    // 1. Address bar was stripped for Meta Pixel privacy, and Meta received only standard PageView
+    const currentHref = await page.evaluate(() => window.location.href);
+    assert.equal(currentHref, 'https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/');
+    assert.ok(harness.metaBeacons.some((b) => b.id === '1480756087079484' && b.ev === 'PageView'));
+
+    // 2. GA4 received strictly ONE page_view (not 2.0x), and its dl retained full sanitized UTMs
+    const pageViews = harness.gaEvents.filter((e) => e.en === 'page_view');
+    assert.equal(pageViews.length, 1, `Expected strictly 1 page_view, got ${JSON.stringify(pageViews)}`);
+    assert.equal(
+      pageViews[0].dl,
+      'https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/?utm_source=fb_ig&utm_medium=paid_social&utm_campaign=lhi_2027_polk_aca_traffic_lpv&utm_content=aca_sunset_clean_photo_2027&utm_term=lakeland_25mi_lpv'
+    );
+
+    // 3. Verify transport guard also rewrites stripped dl if GTM fires BEFORE on-page page_view on a fresh route
+    harness.gaEvents.length = 0;
+    await page.goto(
+      'https://lakelandhealthinsurance.com/medicare-2027-check/?utm_source=fb_ig&utm_medium=paid_social&utm_campaign=lhi_2027_polk_aep_lpv&utm_content=watson_alert_2027&fbclid=PAZXh0bgNhZW0BMABhZGlkAas256OpaqueClickIdToken2',
+      { referer: 'https://m.facebook.com/', waitUntil: 'domcontentloaded' }
+    );
+    // Inject an immediate stripped-URL beacon simulating a cached GTM Tag 4 race
+    await page.evaluate(() => {
+      const stripped = window.location.origin + window.location.pathname;
+      navigator.sendBeacon(
+        'https://analytics.google.com/g/collect?v=2&tid=G-W45RMKHXV0&_fv=1&_ss=1&en=page_view&dl=' +
+          encodeURIComponent(stripped),
+        ''
+      );
+    });
+    await page.waitForTimeout(450);
+
+    const medicarePageViews = harness.gaEvents.filter((e) => e.en === 'page_view');
+    assert.equal(medicarePageViews.length, 1, 'Cached GTM race still emits strictly 1 page_view');
+    assert.equal(
+      medicarePageViews[0].dl,
+      'https://lakelandhealthinsurance.com/medicare-2027-check/?utm_source=fb_ig&utm_medium=paid_social&utm_campaign=lhi_2027_polk_aep_lpv&utm_content=watson_alert_2027'
+    );
+
+    await context.close();
   } finally {
     await browser.close();
   }

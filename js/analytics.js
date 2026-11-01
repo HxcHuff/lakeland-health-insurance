@@ -628,7 +628,12 @@
     var payload = Object.assign({ event_id: makeMeasurementEventId() }, params || {});
     pushDataLayerEvent(eventName, payload);
     var ga4Name = eventName === 'MedicareContentView' ? 'medicare_content_view' : 'medicare_cta_click';
-    try { window.gtag('event', ga4Name, Object.assign({ transport_type: 'beacon' }, payload)); } catch (e) {}
+    try {
+      window.gtag('event', ga4Name, Object.assign({
+        page_location: ga4PageLocation(),
+        transport_type: 'beacon'
+      }, payload));
+    } catch (e) {}
   }
 
   var POLK_PLAN_REVIEW_LANDERS = {
@@ -671,6 +676,7 @@
       : null;
     if (!medicareCtx && !polkEntry) return false;
 
+    ensureInitializedForEvent();
     ensureGuardedGtag();
     var ctaKey = inferPlanReviewCtaKey(link);
     var payload = {
@@ -686,6 +692,7 @@
   }
 
   window.lhiTrackPlanReviewCtaClick = function (ctaKey, pageKeyOverride) {
+    ensureInitializedForEvent();
     ensureGuardedGtag();
     var normalizedCurrent = normalizePath(window.location.pathname);
     var medicareCtx = medicarePageContext(window.location.pathname);
@@ -713,6 +720,7 @@
       if (ctaKey) {
         prepareMedicareGetHelpLink(link, context, ctaKey);
         if (!shouldTrack) return;
+        ensureInitializedForEvent();
         emitMedicareEvent('MedicareCtaClick', Object.assign({}, context, { cta_key: ctaKey }));
         return;
       }
@@ -922,6 +930,7 @@
     generate_lead: 0,
     ads_conversion_Request_quote_1: 0
   };
+  var ga4PageViewCollectPath = '';
 
   function approvedLeadEventId(value) {
     var text = String(value || '').trim();
@@ -990,7 +999,41 @@
     }
   }
 
-  function shouldAllowGaCollectEventName(eventName) {
+  function strippedCurrentPageLocation() {
+    return String((window.location && window.location.origin) || '') +
+      String((window.location && window.location.pathname) || '/');
+  }
+
+  function rewriteCollectQueryDl(queryText) {
+    if (!queryText) return queryText;
+    var strippedLoc = strippedCurrentPageLocation();
+    var canonicalLoc = ga4PageLocation();
+    if (!canonicalLoc || canonicalLoc === strippedLoc) return queryText;
+    return String(queryText).replace(/(^|&)dl=([^&]*)/g, function (full, prefix, encodedDl) {
+      var decoded = '';
+      try {
+        decoded = decodeURIComponent(encodedDl);
+      } catch (e) {
+        return full;
+      }
+      if (decoded === strippedLoc) {
+        return prefix + 'dl=' + encodeURIComponent(canonicalLoc);
+      }
+      return full;
+    });
+  }
+
+  function rewriteCollectUrlDl(rawUrl) {
+    var urlStr = String(rawUrl || '');
+    var qIndex = urlStr.indexOf('?');
+    if (qIndex < 0) return urlStr;
+    var base = urlStr.slice(0, qIndex);
+    var query = urlStr.slice(qIndex + 1);
+    var nextQuery = rewriteCollectQueryDl(query);
+    return nextQuery === query ? urlStr : base + '?' + nextQuery;
+  }
+
+  function shouldAllowGaCollectEventName(eventName, targetId) {
     if (!eventName) return true;
     if (hasOwn(QUARANTINED_GA_EVENTS, eventName)) return false;
     if (hasOwn(VERIFIED_ONLY_GA_EVENTS, eventName)) {
@@ -1005,14 +1048,21 @@
       markFormStartCollectSent();
       return true;
     }
+    if (eventName === 'page_view' && (!targetId || targetId === 'G-W45RMKHXV0')) {
+      var currentPath = normalizePath(window.location && window.location.pathname || '/');
+      if (ga4PageViewCollectPath === currentPath) return false;
+      ga4PageViewCollectPath = currentPath;
+      return true;
+    }
     return true;
   }
 
   function filterGaCollectRequest(rawUrl, rawBody) {
-    var urlStr = String(rawUrl || '');
-    var qIndex = urlStr.indexOf('?');
-    var urlQuery = qIndex >= 0 ? urlStr.slice(qIndex + 1) : '';
+    var nextUrl = rewriteCollectUrlDl(rawUrl);
+    var qIndex = nextUrl.indexOf('?');
+    var urlQuery = qIndex >= 0 ? nextUrl.slice(qIndex + 1) : '';
     var urlEventName = extractParamFromQueryText(urlQuery, 'en');
+    var urlTid = extractParamFromQueryText(urlQuery, 'tid');
 
     if (typeof rawBody === 'string' && rawBody.trim()) {
       var lines = rawBody.split(/\r?\n/);
@@ -1021,18 +1071,19 @@
         var line = lines[i];
         if (!line.trim()) continue;
         var lineEvent = extractParamFromQueryText(line, 'en') || urlEventName;
-        if (shouldAllowGaCollectEventName(lineEvent)) {
-          keptLines.push(line);
+        var lineTid = extractParamFromQueryText(line, 'tid') || urlTid;
+        if (shouldAllowGaCollectEventName(lineEvent, lineTid)) {
+          keptLines.push(rewriteCollectQueryDl(line));
         }
       }
-      if (!keptLines.length) return { allow: false, body: '' };
-      return { allow: true, body: keptLines.join('\n') };
+      if (!keptLines.length) return { allow: false, url: nextUrl, body: '' };
+      return { allow: true, url: nextUrl, body: keptLines.join('\n') };
     }
 
-    if (!shouldAllowGaCollectEventName(urlEventName)) {
-      return { allow: false, body: rawBody };
+    if (!shouldAllowGaCollectEventName(urlEventName, urlTid)) {
+      return { allow: false, url: nextUrl, body: rawBody };
     }
-    return { allow: true, body: rawBody };
+    return { allow: true, url: nextUrl, body: rawBody };
   }
 
   function installGaCollectTransportGuard() {
@@ -1047,10 +1098,11 @@
             if (typeof data === 'string' || data == null) {
               var decision = filterGaCollectRequest(url, typeof data === 'string' ? data : '');
               if (!decision.allow) return true;
-              return origBeacon(url, typeof data === 'string' ? decision.body : data);
+              return origBeacon(decision.url || url, typeof data === 'string' ? decision.body : data);
             }
             var beaconCheck = filterGaCollectRequest(url, '');
             if (!beaconCheck.allow) return true;
+            return origBeacon(beaconCheck.url || url, data);
           }
           return origBeacon(url, data);
         };
@@ -1073,9 +1125,12 @@
               }
               return Promise.resolve({ ok: true, status: 204, text: function () { return Promise.resolve(''); } });
             }
-            if (bodyStr && decision.body !== bodyStr) {
-              var nextInit = Object.assign({}, init, { body: decision.body });
-              return origFetch.call(window, input, nextInit);
+            var nextInput = typeof input === 'string' ? (decision.url || input) : input;
+            var nextInit = (bodyStr && decision.body !== bodyStr)
+              ? Object.assign({}, init, { body: decision.body })
+              : init;
+            if (nextInput !== input || nextInit !== init) {
+              return origFetch.call(window, nextInput, nextInit);
             }
           }
           return origFetch.apply(window, arguments);
@@ -1090,7 +1145,15 @@
         var origOpen = window.XMLHttpRequest.prototype.open;
         var origSend = window.XMLHttpRequest.prototype.send;
         window.XMLHttpRequest.prototype.open = function (method, url) {
-          this.__lhiGaUrl = String(url || '');
+          var raw = String(url || '');
+          if (isGaCollectUrl(raw)) {
+            var rewritten = rewriteCollectUrlDl(raw);
+            this.__lhiGaUrl = rewritten;
+            var openArgs = Array.prototype.slice.call(arguments);
+            openArgs[1] = rewritten;
+            return origOpen.apply(this, openArgs);
+          }
+          this.__lhiGaUrl = raw;
           return origOpen.apply(this, arguments);
         };
         window.XMLHttpRequest.prototype.send = function (body) {
@@ -1160,6 +1223,7 @@
   window.lhiTrackFormStart = function (formOrId) {
     if (isFormStartSent()) return false;
     markFormStartSent();
+    ensureInitializedForEvent();
     ensureGuardedGtag();
     var formId = resolveFormIdForTelemetry(formOrId);
     var payload = {
@@ -1175,6 +1239,7 @@
     var eventId = approvedLeadEventId(rawEventId);
     if (!eventId) return false;
     verifiedLeadEventIds[eventId] = true;
+    ensureInitializedForEvent();
     ensureGuardedGtag();
     var formId = resolveFormIdForTelemetry(meta && meta.form_id ? meta.form_id : 'get-help');
     var pageLoc = ga4PageLocation();
@@ -1441,9 +1506,11 @@
 
   function trackSmsCtaClick(label) {
     if (!IS_PROD) return;
+    ensureInitializedForEvent();
     var params = {
       event_category: 'engagement',
       event_label: label || 'sms_cta',
+      page_location: ga4PageLocation(),
       transport_type: 'beacon'
     };
     pushDataLayerEvent('sms_cta_click', params);
@@ -1503,6 +1570,12 @@
     } catch (e) {}
   }
 
+  function ensureInitializedForEvent() {
+    if (IS_PROD && !loaded) {
+      init();
+    }
+  }
+
   function init(){
     if(loaded)return;loaded=true;
 
@@ -1518,6 +1591,27 @@
          GA4 hit can be page_view rather than a later custom event. */
       ensureGoogleConsentDefault();
 
+      /* No-phone pages request gtag.js here; website-call pages reuse the eager
+         AW request. Initialize GA4 with canonical ga4PageLocation() before GTM
+         so stripLocationForPixel() never causes Combined Google Tag GT-K4LKHVFH
+         to start the session with a stripped URL and social referrer. */
+      var initialPageLocation = ga4PageLocation();
+      ensureGoogleTagScript('G-W45RMKHXV0');
+      window.gtag('set', {
+        page_location: initialPageLocation,
+        page_title: document.title
+      });
+      window.gtag('config', 'G-W45RMKHXV0', {
+        send_page_view: false,
+        debug_mode: IS_ANALYTICS_DEBUG,
+        page_location: initialPageLocation,
+        page_title: document.title
+      });
+      /* On-page owns the first GA4 hit. Keep config auto page_view off so this
+         manual event is not doubled with the config command. send_to pins it
+         to GA4, not the Ads website-call tag. */
+      sendGa4PageView();
+
       /* Google Tag Manager */
       window.dataLayer=window.dataLayer||[];
       window.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
@@ -1525,29 +1619,39 @@
       g.async=true;
       g.src='https://www.googletagmanager.com/gtm.js?id=GTM-W6MZ7XT6';
       document.head.appendChild(g);
-      /* No-phone pages request gtag.js here; website-call pages reuse the eager
-         AW request. In both paths the shared loader restores the queue first. */
-      ensureGoogleTagScript('G-W45RMKHXV0');
-      window.gtag('config', 'G-W45RMKHXV0', {
-        send_page_view: false,
-        debug_mode: IS_ANALYTICS_DEBUG
-      });
-      /* On-page owns the first GA4 hit. Keep config auto page_view off so this
-         manual event is not doubled with the config command. send_to pins it
-         to GA4, not the Ads website-call tag. */
-      sendGa4PageView();
     }
 
     emitInitialMedicareContentView();
   }
-  /* Defer general GTM/GA4 initialization until after LCP/FCP (see
-     scheduleAfterInteractive). Clarity and other GTM tags follow the same gate. */
+
+  function hasPaidLandingSignal() {
+    var search = landingSearch();
+    if (!search) return false;
+    return /[?&](?:fbclid|gclid|gbraid|wbraid|msclkid)=|[?&]utm_medium=(?:paid(?:_social)?|cpc|ppc)(?:&|$)/i.test(search);
+  }
+
+  /* Defer general GTM/GA4 initialization until after LCP/FCP on organic loads
+     (see scheduleAfterInteractive). Paid ad clicks initialize promptly after
+     DOM parse so fast mobile bounces are not missed by GA4. */
   function scheduleInit() {
+    if (hasPaidLandingSignal()) {
+      window.setTimeout(init, 0);
+      return;
+    }
     scheduleAfterInteractive(init);
   }
 
   if (document.readyState === 'complete') {
     scheduleInit();
+  } else if (hasPaidLandingSignal() && typeof document.addEventListener === 'function') {
+    if (document.readyState === 'interactive') {
+      window.setTimeout(init, 0);
+    } else {
+      document.addEventListener('DOMContentLoaded', function () {
+        window.setTimeout(init, 0);
+      }, { once: true });
+      window.addEventListener('load', scheduleInit, { once: true });
+    }
   } else {
     window.addEventListener('load', scheduleInit, { once: true });
   }
