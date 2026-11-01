@@ -3,7 +3,7 @@
  * Lakeland Health Insurance — David Huff
  *
  * Receives Meta leadgen webhook events, fetches full lead data,
- * forwards the lead to Lead Bridge (HubSpot 247504188 + Hopper CRM),
+ * forwards the lead to Lead Bridge (Hopper CRM),
  * and sends email/SMS notifications.
  *
  * Endpoint: https://lakelandhealthinsurance.com/api/meta-lead-webhook
@@ -166,7 +166,7 @@ function formatQualifyingAnswers(customAnswers = {}) {
     .join(" | ");
 }
 
-// --- FORWARD TO LEAD BRIDGE (HUBSPOT 247504188 + HOPPER CRM) ---
+// --- FORWARD TO LEAD BRIDGE (HOPPER CRM) ---
 async function forwardLeadToBridge(lead) {
   const baseUrl = String(getEnv("LEAD_BRIDGE_URL") || "").trim().replace(/\/+$/, "");
   const bridgeKey = String(getEnv("LEAD_BRIDGE_KEY") || "").trim();
@@ -230,7 +230,7 @@ async function forwardLeadToBridge(lead) {
       console.error("Lead bridge forward failed:", res.status, await res.text());
       return { ok: false, status: res.status };
     }
-    console.log("Lead forwarded to Lead Bridge (HubSpot + Hopper CRM)");
+    console.log("Lead forwarded to Lead Bridge (Hopper CRM)");
     return { ok: true, status: res.status };
   } catch (err) {
     console.error("Lead bridge forward exception:", err);
@@ -266,7 +266,7 @@ async function sendEmailNotification(lead) {
     ``,
     `Time: ${new Date().toLocaleString("en-US", { timeZone: "America/New_York" })}`,
     ``,
-    `ACTION: Call or text this lead ASAP (also synced to Hopper CRM & HubSpot).`,
+    `ACTION: Call or text this lead ASAP (also synced to Hopper CRM).`,
   ]
     .filter((line) => line !== null)
     .join("\n");
