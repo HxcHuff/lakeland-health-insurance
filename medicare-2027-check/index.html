@@ -391,12 +391,55 @@
       }
       var note = document.getElementById('outOfStateMedicareNote');
       var intake = window.LHIGetHelpIntake;
+      var qs = new URLSearchParams(window.location.search);
+      var state = intake ? intake.resolveCoverageState(qs) : (qs.get('state') || '').toUpperCase();
+      var utmBag = ((qs.get('utm_campaign') || '') + ' ' + (qs.get('utm_content') || '')).toLowerCase();
+      function applyOhioMedicarePersonalization() {
+        var h1 = document.getElementById('medicare-2027-headline');
+        var sub = document.querySelector('.m27-subhead');
+        var docInput = document.getElementById('medicare2027Doctor');
+        var trustList = document.querySelector('.m27-trust');
+        var smsBtn = document.querySelector('.m27-sms-btn');
+        var agentLine = document.querySelector('.m27-agent');
+        if (h1) h1.textContent = 'Are Kettering Health & Miami Valley Hospital in your 2027 Medicare plan?';
+        if (sub) sub.textContent = 'Plans and hospital networks change for 2027. Medicare Annual Enrollment runs October 15 to December 7. David Huff (licensed Ohio agent, NPN #18213932) will check your Dayton, Miami Valley, or Columbus doctors for you. A review is not enrollment or a network guarantee.';
+        if (docInput) docInput.placeholder = 'e.g. Kettering Health, Miami Valley Hospital, OhioHealth';
+        if (trustList) {
+          trustList.innerHTML =
+            '<li>Licensed in Ohio (NPN #18213932)</li>' +
+            '<li>Compares 2027 Medicare Advantage &amp; Medigap plans from multiple Ohio carriers</li>' +
+            '<li>Help comparing 2027 plans for your doctors, hospitals, and prescriptions</li>' +
+            '<li>Checks 2027 directories for Kettering Health, Miami Valley Hospital (Premier Health), and OhioHealth</li>' +
+            '<li><a href="/blog/ohiohealth-kettering-health-anthem-humana-ohio-2027.html">Read the full 2027 Kettering Health, Miami Valley &amp; OhioHealth network guide &rarr;</a></li>';
+        }
+        if (smsBtn) {
+          smsBtn.href = 'sms:+18636403102?body=Hi%20David%2C%20can%20you%20check%20if%20my%20Kettering%20Health%20or%20Miami%20Valley%20Hospital%20doctors%20are%20in-network%20for%202027%3F';
+        }
+        if (agentLine) agentLine.textContent = 'David Huff, Licensed Insurance Agent (FL #W371813 · NPN #18213932 · Licensed in OH)';
+      }
+      if (state === 'OH' || utmBag.indexOf('kettering') !== -1 || utmBag.indexOf('miami') !== -1 || utmBag.indexOf('ohio') !== -1) {
+        state = 'OH';
+        applyOhioMedicarePersonalization();
+      }
+      var zipInput = document.getElementById('medicare2027Zip');
+      if (zipInput) {
+        zipInput.addEventListener('input', function () {
+          var clean = String(zipInput.value || '').replace(/\D/g, '').slice(0, 5);
+          if (clean.length === 5) {
+            var prefix = parseInt(clean.slice(0, 3), 10);
+            if (prefix >= 430 && prefix <= 459) {
+              applyOhioMedicarePersonalization();
+              if (intake && typeof intake.syncGetHelpMedicareDisclosures === 'function') {
+                intake.syncGetHelpMedicareDisclosures('OH');
+              }
+            }
+          }
+        });
+      }
       if (!intake || typeof intake.syncGetHelpMedicareDisclosures !== 'function') {
         if (note) note.hidden = true;
         return;
       }
-      var qs = new URLSearchParams(window.location.search);
-      var state = intake.resolveCoverageState(qs);
       if (!state && note) note.hidden = true;
       intake.syncGetHelpMedicareDisclosures(state);
     });

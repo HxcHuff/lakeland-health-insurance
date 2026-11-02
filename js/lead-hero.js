@@ -292,7 +292,8 @@
           var fixedIntent = fixedIntentInput ? String(fixedIntentInput.value || '').trim().toLowerCase() : '';
           var isMedicareOnlyForm = formName === 'site-medicare-lead' || fixedIntent === 'medicare';
           var isAcaOnlyForm = formName === 'site-aca-lead' || fixedIntent === 'aca';
-          var laneMismatch = Boolean(
+          var stayOnPage = Boolean(box.hasAttribute && box.hasAttribute('data-stay-on-page'));
+          var laneMismatch = !stayOnPage && Boolean(
             (isMedicareOnlyForm && (selectedIntent === 'under-65' || selectedIntent === 'aca' || selectedIntent === 'lost-coverage')) ||
             (isAcaOnlyForm && selectedIntent === 'medicare')
           );
@@ -417,7 +418,11 @@
     var quoteLabel = isMed ? 'Review form' : 'Get quote';
     var path = String(w.location && w.location.pathname || '').toLowerCase();
     var smsBody = 'Hi David, I have a question about health insurance in Lakeland.';
-    if (path.indexOf('watson') !== -1 || path.indexOf('orlando') !== -1) {
+    if (path.indexOf('kettering') !== -1 || path.indexOf('miami-valley') !== -1 || path.indexOf('ohiohealth') !== -1) {
+      smsBody = 'Hi David, can you check if my Kettering Health, Miami Valley Hospital, or OhioHealth doctors are in-network for 2027?';
+    } else if (path.indexOf('cleveland-clinic-uh') !== -1 || path.indexOf('ohio') !== -1) {
+      smsBody = 'Hi David, can you check if my Ohio doctors and hospitals are in-network for 2027?';
+    } else if (path.indexOf('watson') !== -1 || path.indexOf('orlando') !== -1) {
       smsBody = 'Hi David, can you check if my Watson Clinic / Orlando Health doctors are in-network for 2027?';
     } else if (isMed) {
       smsBody = 'Hi David, can you check my doctors and 2027 Medicare plan options?';

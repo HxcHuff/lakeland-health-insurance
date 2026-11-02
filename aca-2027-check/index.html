@@ -361,6 +361,47 @@
           }
         }, true);
       }
+      var qs = new URLSearchParams(window.location.search);
+      var state = String(qs.get('state') || '').toUpperCase();
+      var utmBag = ((qs.get('utm_campaign') || '') + ' ' + (qs.get('utm_content') || '')).toLowerCase();
+      function applyOhioAcaPersonalization() {
+        var h1 = document.getElementById('aca-2027-headline');
+        var sub = document.querySelector('.m27-subhead');
+        var docInput = document.getElementById('aca2027Doctor');
+        var trustList = document.querySelector('.m27-trust');
+        var smsBtn = document.querySelector('.m27-sms-btn');
+        var agentLine = document.querySelector('.m27-agent');
+        if (h1) h1.textContent = 'Are Kettering Health, Miami Valley & OhioHealth in your 2027 ACA plan?';
+        if (sub) sub.textContent = 'Plans, hospital sub-networks, and tax credits change for 2027. ACA Open Enrollment runs November 1 to January 15 (enroll by December 15 for January 1 coverage). David Huff (licensed Ohio agent, NPN #18213932) will check your doctors and 2027 HealthCare.gov options for you. A review is not enrollment or a network guarantee.';
+        if (docInput) docInput.placeholder = 'e.g. Kettering Health, Miami Valley Hospital, OhioHealth';
+        if (trustList) {
+          trustList.innerHTML =
+            '<li>Licensed in Ohio (NPN #18213932)</li>' +
+            '<li>Compares 2027 Ohio HealthCare.gov ACA plans from Anthem, Ambetter, Medical Mutual, Molina, Oscar &amp; UHC</li>' +
+            '<li>Checks 2027 directories for Kettering Health, Miami Valley Hospital (Premier Health), Dayton Children\'s, and OhioHealth</li>' +
+            '<li>Reviews 2027 premium tax credit (APTC) and Silver cost-sharing reduction eligibility</li>' +
+            '<li><a href="/blog/ohiohealth-kettering-health-anthem-humana-ohio-2027.html">Read the full 2027 Kettering Health, Miami Valley &amp; OhioHealth network guide &rarr;</a></li>';
+        }
+        if (smsBtn) {
+          smsBtn.href = 'sms:+18636403102?body=Hi%20David%2C%20can%20you%20check%20my%20Kettering%20Health%20or%20Miami%20Valley%20doctors%20and%202027%20Ohio%20ACA%20options%3F';
+        }
+        if (agentLine) agentLine.textContent = 'David Huff, Licensed Insurance Agent (FL #W371813 · NPN #18213932 · Licensed in OH)';
+      }
+      if (state === 'OH' || utmBag.indexOf('kettering') !== -1 || utmBag.indexOf('miami') !== -1 || utmBag.indexOf('ohio') !== -1) {
+        applyOhioAcaPersonalization();
+      }
+      var zipInput = document.getElementById('aca2027Zip');
+      if (zipInput) {
+        zipInput.addEventListener('input', function () {
+          var clean = String(zipInput.value || '').replace(/\D/g, '').slice(0, 5);
+          if (clean.length === 5) {
+            var prefix = parseInt(clean.slice(0, 3), 10);
+            if (prefix >= 430 && prefix <= 459) {
+              applyOhioAcaPersonalization();
+            }
+          }
+        });
+      }
     });
   </script>
 </body>

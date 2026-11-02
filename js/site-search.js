@@ -1541,10 +1541,10 @@ const siteSearchIndex = [
     tags: ["ACA","Medicare","BJC HealthCare","Barnes-Jewish","WashU","St. Louis","Missouri","2027"]
   },
   {
-    title: "OhioHealth & Kettering Health 2027 Network: Ohio Patient Guide",
+    title: "Kettering Health, Miami Valley Hospital & OhioHealth 2027 Network: Ohio Guide",
     url: "/blog/ohiohealth-kettering-health-anthem-humana-ohio-2027.html",
-    excerpt: "Columbus, Franklin County, Dayton, and Miami Valley guide to OhioHealth, OSU Wexner Medical Center, and Kettering Health network contracts for 2027.",
-    tags: ["ACA","Medicare","OhioHealth","Kettering Health","OSU Wexner","Columbus","Dayton","Ohio","2027"]
+    excerpt: "Dayton, Miami Valley, and Columbus guide to Kettering Health, Premier Health (Miami Valley Hospital), OhioHealth, and OSU Wexner network contracts for 2027.",
+    tags: ["ACA","Medicare","Kettering Health","Miami Valley Hospital","Premier Health","OhioHealth","OSU Wexner","Dayton","Columbus","Ohio","2027"]
   },
   {
     title: "Atrium Health & Novant Health 2027: North Carolina ACA & Medicare Guide",
