@@ -1303,7 +1303,10 @@
     var hideMedicare = isOutOfStateMedicareCoverageState(coverageState);
     var selected = normalizeIntent(qs.get('intent'));
     var product = qs.get('product');
+    var utmCampaign = String(qs.get('utm_campaign') || '').toLowerCase();
     if (!hideMedicare && (product === 'medicare' || product === 'medicare-advantage')) selected = 'medicare';
+    else if (!qs.has('intent') && !product && utmCampaign.indexOf('aca') !== -1) selected = 'under-65';
+    else if (!hideMedicare && !qs.has('intent') && !product && (utmCampaign.indexOf('medicare') !== -1 || utmCampaign.indexOf('aep') !== -1)) selected = 'medicare';
     if (hideMedicare && selected === 'medicare') selected = 'under-65';
     renderIntentOptions(selected, hideMedicare);
     applyIntent(selected);

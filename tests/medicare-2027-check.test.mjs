@@ -156,8 +156,9 @@ test('medicare-2027-check sitelink submit succeeds when call consent is checked'
     await page.fill('#medicare2027Name', 'Jane');
     await page.fill('#medicare2027Phone', '8635551212');
     await page.fill('#medicare2027Zip', '33805');
+    assert.equal(await page.isChecked('input[name="consent_call"]'), true, 'consent_call should be pre-checked by default');
+    assert.equal(await page.isChecked('input[name="consent_sms"]'), false, 'consent_sms should remain optional/unchecked by default');
     await page.check('input[name="consent_request"]');
-    await page.check('input[name="consent_call"]');
     await page.click('.cta-button.m27-submit');
     await page.waitForSelector('.m27-thanks', { timeout: 8000 });
     const thanks = await page.locator('.m27-thanks').textContent();

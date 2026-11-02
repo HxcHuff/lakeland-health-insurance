@@ -111,9 +111,45 @@
       font-size: 13px;
       font-weight: 700;
       letter-spacing: 0.04em;
-      margin: 0 0 20px;
+      margin: 0;
       padding: 6px 16px;
       text-transform: none;
+    }
+
+    .help-agent-strip {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 0 0 14px;
+    }
+
+    .help-agent-avatar {
+      border: 2px solid rgba(212, 168, 67, 0.75);
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.22);
+      flex: 0 0 36px;
+      height: 36px;
+      object-fit: cover;
+      width: 36px;
+    }
+
+    .help-agent-call {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 999px;
+      color: #fff;
+      display: inline-flex;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 5px 12px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .help-agent-call:hover {
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .help-copy > p:not(.eyebrow):not(.review-note) {
@@ -606,9 +642,12 @@
       .lp-header-inner { padding: 8px 14px; }
       .lp-brand { font-size: 17px; }
       body.get-help-page header .brand-name { font-size: 17px; }
-      .help-hero { padding: 76px 14px 12px; }
-      body.has-seasonal-banner.get-help-page .help-hero { padding-top: 112px; }
-      .eyebrow { font-size: 11px; margin: 0 0 6px; padding: 3px 10px; }
+      .help-hero { padding: 72px 14px 10px; }
+      body.has-seasonal-banner.get-help-page .help-hero { padding-top: 108px; }
+      .help-agent-strip { gap: 6px; margin: 0 0 6px; }
+      .help-agent-avatar { flex: 0 0 28px; height: 28px; width: 28px; }
+      .eyebrow { font-size: 11px; margin: 0; padding: 3px 10px; }
+      .help-agent-call { font-size: 11px; padding: 3px 9px; }
       .help-copy h1 { font-size: 24px; line-height: 1.12; margin: 0 0 6px; }
       .help-copy > p:not(.eyebrow):not(.review-note) {
         display: -webkit-box;
@@ -667,7 +706,11 @@
   <main id="main-content">
     <section class="help-hero">
       <div class="help-copy" aria-labelledby="get-help-title">
-        <p class="eyebrow" id="intent-eyebrow">Licensed Florida Plan Review</p>
+        <div class="help-agent-strip">
+          <img class="help-agent-avatar" src="/.netlify/images?url=/assets/images/david-huff-blue-polo.jpg&amp;w=96&amp;fm=webp&amp;q=82" width="36" height="36" alt="David Huff, licensed Florida health agent" decoding="async" fetchpriority="high">
+          <p class="eyebrow" id="intent-eyebrow">Licensed Florida Plan Review</p>
+          <a class="help-agent-call" href="tel:+18636403102">Call (863) 640-3102</a>
+        </div>
         <h1 id="get-help-title">Request a licensed plan review.</h1>
         <p id="intent-copy">Start a plan review with David Huff, licensed Florida health agent (FL #W371813). Enter your 5-digit ZIP code and coverage type below. A review is not enrollment.</p>
       </div>
@@ -792,7 +835,7 @@
               <legend>Choose each contact channel you authorize</legend>
               <p class="consent-help">Select at least one. The authorized channel must match the contact information you provided.</p>
               <label class="consent">
-                <input type="checkbox" name="consent_call" value="yes">
+                <input type="checkbox" name="consent_call" value="yes" checked>
                 <span>I authorize a telephone call about this request.</span>
               </label>
               <label class="consent">
