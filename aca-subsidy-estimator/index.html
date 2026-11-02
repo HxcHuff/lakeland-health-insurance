@@ -1276,6 +1276,265 @@
             line-height: 1.4;
         }
 
+        /* Input-First Locked Results State & Soft-Gate Appointment Modal */
+        .results-stage-wrap {
+            position: relative;
+            margin-top: 12px;
+        }
+        .live-results.results-locked {
+            filter: blur(9px);
+            opacity: 0.38;
+            pointer-events: none;
+            user-select: none;
+            max-height: 440px;
+            overflow: hidden;
+            transition: filter 0.28s ease, opacity 0.28s ease, max-height 0.35s ease;
+        }
+        .estimator-unlock-banner {
+            position: absolute;
+            inset: 18px 12px auto 12px;
+            z-index: 5;
+            background: rgba(255, 255, 255, 0.97);
+            border: 2px solid var(--blue);
+            border-radius: 16px;
+            padding: 24px 22px;
+            text-align: center;
+            box-shadow: 0 18px 42px rgba(15, 26, 46, 0.16);
+        }
+        .estimator-unlock-banner[hidden] {
+            display: none !important;
+        }
+        .estimator-unlock-badge {
+            display: inline-block;
+            background: var(--sky-soft);
+            color: var(--blue);
+            font-size: 0.76rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 4px 12px;
+            border-radius: 999px;
+            margin-bottom: 10px;
+        }
+        .estimator-unlock-banner h3 {
+            margin: 0 0 8px;
+            font-size: 1.22rem;
+            color: var(--navy);
+        }
+        .estimator-unlock-banner p {
+            margin: 0 auto 16px;
+            max-width: 540px;
+            font-size: 0.92rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+        .calculate-btn.ready-pulse {
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.24), 0 10px 24px rgba(27, 42, 74, 0.22);
+        }
+        .polk-strategy-card {
+            background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%);
+            border: 1.5px solid #BFDBFE;
+            border-left: 5px solid var(--navy);
+            border-radius: 12px;
+            padding: 16px 18px;
+            margin-bottom: 18px;
+        }
+        .polk-strategy-card h4 {
+            margin: 0 0 6px;
+            font-size: 0.98rem;
+            color: var(--navy);
+        }
+        .polk-strategy-card p {
+            margin: 0 0 12px;
+            font-size: 0.88rem;
+            color: var(--gray-700);
+            line-height: 1.55;
+        }
+        .polk-strategy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--navy);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            padding: 9px 14px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .polk-strategy-btn:hover {
+            background: var(--blue);
+        }
+
+        /* Dismissible Soft-Gate Modal */
+        .aca-soft-gate-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(15, 26, 46, 0.72);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            overflow-y: auto;
+        }
+        .aca-soft-gate-backdrop[hidden] {
+            display: none !important;
+        }
+        .aca-soft-gate-dialog {
+            background: var(--white);
+            border-radius: 18px;
+            max-width: 560px;
+            width: 100%;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: 24px 24px 20px;
+            position: relative;
+            box-shadow: 0 25px 60px rgba(15, 26, 46, 0.38);
+            border: 1px solid var(--gray-200);
+        }
+        .aca-soft-gate-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 36px;
+            height: 36px;
+            border-radius: 999px;
+            border: 1px solid var(--gray-200);
+            background: var(--gray-50);
+            color: var(--gray-700);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .aca-soft-gate-close:hover {
+            background: var(--gray-200);
+            color: var(--navy);
+        }
+        .aca-soft-gate-pill {
+            display: inline-block;
+            background: #DCFCE7;
+            color: #166534;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 999px;
+            margin-bottom: 10px;
+            letter-spacing: 0.02em;
+        }
+        .aca-soft-gate-title {
+            margin: 0 0 6px;
+            font-size: 1.32rem;
+            line-height: 1.28;
+            color: var(--navy);
+            padding-right: 28px;
+        }
+        .aca-soft-gate-sub {
+            margin: 0 0 14px;
+            font-size: 0.88rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+        .aca-soft-gate-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .aca-soft-gate-field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .aca-soft-gate-field.full-span {
+            grid-column: 1 / -1;
+        }
+        .aca-soft-gate-field label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+        .aca-soft-gate-field input,
+        .aca-soft-gate-field select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 0.92rem;
+            font-family: inherit;
+            color: var(--gray-800);
+            background: var(--white);
+        }
+        .aca-soft-gate-consent-box {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin: 10px 0 12px;
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            line-height: 1.42;
+        }
+        .aca-soft-gate-consent-box label {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 7px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .aca-soft-gate-consent-box input[type="checkbox"] {
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+        .aca-soft-gate-consent-box fieldset {
+            border: none;
+            padding: 0;
+            margin: 6px 0 0;
+        }
+        .aca-soft-gate-consent-box legend {
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 4px;
+            font-size: 0.76rem;
+        }
+        .aca-soft-gate-submit {
+            width: 100%;
+            padding: 13px 16px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+            color: var(--white);
+            font-size: 0.98rem;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .aca-soft-gate-skip {
+            width: 100%;
+            margin-top: 10px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            border: 1.5px solid var(--gray-300);
+            background: var(--white);
+            color: var(--navy);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+        .aca-soft-gate-skip:hover {
+            background: var(--sky-soft);
+            border-color: var(--blue);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero-section {
@@ -1328,6 +1587,17 @@
             }
             .metal-tier-grid {
                 grid-template-columns: 1fr;
+            }
+            .aca-soft-gate-grid {
+                grid-template-columns: 1fr;
+            }
+            .aca-soft-gate-dialog {
+                padding: 20px 16px 16px;
+            }
+            .estimator-unlock-banner {
+                position: relative;
+                inset: auto;
+                margin-bottom: 14px;
             }
         }
     </style>
@@ -1518,13 +1788,22 @@
                     <div class="help-text">Tobacco use can affect your premium but not your subsidy amount.</div>
                 </div>
 
-                <button type="button" class="calculate-btn" id="calculate-estimate-btn" style="margin-top:4px; margin-bottom:8px;">
-                    Calculate / Update 2027 Estimate
+                <button type="button" class="calculate-btn ready-pulse" id="calculate-estimate-btn" style="margin-top:4px; margin-bottom:8px;">
+                    Calculate My 2027 Tax Credit &amp; Plan Match &rarr;
                 </button>
 
                 <!-- Live Results (replaces old button + results-panel) -->
                 <p class="help-text" id="estimate-prompt" role="status" hidden>Enter an age from 0 to 64 and a positive projected annual income to see the 2027 illustration. Review the default household size and tobacco selection.</p>
-                <div class="live-results" id="live-results" aria-live="polite">
+                <div class="results-stage-wrap" id="results-stage-wrap">
+                    <div class="estimator-unlock-banner" id="estimator-unlock-banner">
+                        <span class="estimator-unlock-badge">Ready to Calculate</span>
+                        <h3>Your 2027 Polk County Tax Credit &amp; Metal-Tier Match Are Ready</h3>
+                        <p>Adjust your Age, Projected 2027 Income, Household Size, and Tobacco status above, then click <strong>Calculate My 2027 Tax Credit &amp; Plan Match</strong> to reveal your monthly tax credit, Silver CSR tier, and Bronze / Silver / Gold comparison.</p>
+                        <button type="button" class="calculate-btn" id="unlock-results-trigger-btn" style="max-width:420px; margin:0 auto;">
+                            Calculate My 2027 Tax Credit &amp; Plan Match &rarr;
+                        </button>
+                    </div>
+                <div class="live-results results-locked" id="live-results" aria-live="polite">
                     <!-- Price Hero -->
                     <div class="live-price-hero" id="price-hero">
                         <div class="price-label">Illustrative Monthly Benchmark Net Premium</div>
@@ -1622,6 +1901,15 @@
                         </div>
                     </div>
 
+                    <!-- Dynamic Polk County 2027 Carrier Strategy & Re-open Appointment Modal -->
+                    <div class="polk-strategy-card" id="polk-2027-strategy-callout">
+                        <h4 id="polk-strategy-title">2027 Polk County Carrier &amp; Network Strategy</h4>
+                        <p id="polk-strategy-body">In the 100%–200% FPL range, Silver plans include Cost-Sharing Reductions (CSR) that lower deductibles and out-of-pocket maximums. Compare Ambetter Signature Silver and AvMed Entrust Silver against narrow sub-networks to verify Orlando Health, BayCare, Bond Clinic, and AdventHealth participation.</p>
+                        <button type="button" class="polk-strategy-btn" id="reopen-soft-gate-btn">
+                            Request My 2027 Polk Carrier Breakdown / Schedule 10-Min Review &rarr;
+                        </button>
+                    </div>
+
                     <!-- Why This Price Breakdown -->
                     <div class="price-breakdown" id="price-breakdown">
                         <button type="button" class="breakdown-toggle open" id="breakdown-toggle">
@@ -1665,6 +1953,7 @@
                         Uses the 2026 HHS poverty guidelines for 2027 coverage (the guidelines in effect when Open Enrollment begins; 26 CFR 1.36B-1(h)).
                         Florida has not expanded Medicaid under the ACA. For official eligibility, visit HealthCare.gov.
                     </div>
+                </div>
                 </div>
 
                 <!-- Get Exact Quote CTA (replaces old calculate button) -->
@@ -1771,6 +2060,127 @@
             </div>
         </div>
     </section>
+
+    <!-- Optional Dismissible Soft-Gate Appointment & Carrier Breakdown Modal -->
+    <div class="aca-soft-gate-backdrop" id="acaEstimatorSoftGateModal" role="dialog" aria-modal="true" aria-labelledby="acaSoftGateTitle" hidden>
+        <div class="aca-soft-gate-dialog">
+            <button type="button" class="aca-soft-gate-close" id="acaSoftGateCloseBtn" aria-label="Close popup and view 2027 subsidy estimate">&times;</button>
+            <span class="aca-soft-gate-pill" id="acaSoftGateReadyBadge">&#10003; Your 2027 Polk County Subsidy Math Is Ready Behind This Box</span>
+            <h3 class="aca-soft-gate-title" id="acaSoftGateTitle">Want Your 2027 Polk Carrier &amp; Doctor Breakdown &mdash; or Schedule a 10-Min Review?</h3>
+            <p class="aca-soft-gate-sub">Optional: Have David Huff (Licensed FL Agent #W371813) text or call you to compare 2027 Polk County plan IDs for your doctors (Orlando Health, AdventHealth, Bond Clinic, BayCare, Watson Clinic), or skip below to view your 2027 estimate right now. Calculator inputs stay in your browser.</p>
+
+            <div id="acaSoftGateFormPanel">
+                <form class="sitelink-lead-form" name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="acaEstimatorSoftGateForm" data-sitelink-lead-form data-sitelink-v2-consent data-sitelink-inline-thank-you data-funnel-track data-funnel-event="Lead" data-funnel-name="aca_estimator_soft_gate_lead" data-inline-thank-you-message="Thanks — David received your request and will reach out during your selected window." aria-label="Optional 2027 ACA carrier breakdown and appointment request">
+                    <input type="hidden" name="form-name" value="get-help">
+                    <div hidden aria-hidden="true">
+                        <label>Do not fill this out <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+                        <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
+                        <label>Company <input name="company" tabindex="-1" autocomplete="off"></label>
+                    </div>
+                    <input type="hidden" name="normalized_intent" value="aca">
+                    <input type="hidden" name="inquiry_type" value="ACA Marketplace">
+                    <input type="hidden" name="line_of_business" value="ACA Marketplace">
+                    <input type="hidden" name="content_name" value="first_party_lead">
+                    <input type="hidden" name="source_page" value="/aca-subsidy-estimator/">
+                    <input type="hidden" name="consent_page" value="/aca-subsidy-estimator/">
+                    <input type="hidden" name="referral_page">
+                    <input type="hidden" name="_subject" value="New Lead: 2027 ACA Subsidy Estimator Appointment &amp; Carrier Breakdown">
+                    <input type="hidden" name="utm_source">
+                    <input type="hidden" name="utm_medium">
+                    <input type="hidden" name="utm_campaign">
+                    <input type="hidden" name="utm_term">
+                    <input type="hidden" name="utm_content">
+                    <input type="hidden" name="gclid">
+                    <input type="hidden" name="gbraid">
+                    <input type="hidden" name="wbraid">
+                    <input type="hidden" name="gad_campaignid">
+                    <input type="hidden" name="first_gclid">
+                    <input type="hidden" name="first_gbraid">
+                    <input type="hidden" name="first_wbraid">
+                    <input type="hidden" name="first_gad_campaignid">
+                    <input type="hidden" name="lead_source" value="">
+                    <input type="hidden" name="lead_medium" value="">
+                    <input type="hidden" name="lead_campaign" value="">
+                    <input type="hidden" name="landing_page" value="">
+                    <input type="hidden" name="referrer" value="">
+                    <input type="hidden" name="click_id_type" value="">
+                    <input type="hidden" name="lead_channel" value="">
+                    <input type="hidden" name="click_timestamp" value="">
+                    <input type="hidden" name="started_at">
+                    <input type="hidden" name="human_check">
+                    <input type="hidden" name="consent_text_version" value="get-help-2026-09-29-v2">
+                    <input type="hidden" name="consent_recorded_at">
+                    <input type="hidden" name="consent_request_state">
+                    <input type="hidden" name="consent_call_state">
+                    <input type="hidden" name="consent_sms_state">
+                    <input type="hidden" name="consent_withdrawal_state">
+                    <input type="hidden" name="consent_version_source">
+                    <input type="hidden" name="consent_version_mismatch">
+                    <input type="hidden" name="event_id">
+                    <input type="hidden" name="server_received_at">
+                    <input type="hidden" name="lead_priority">
+                    <input type="hidden" name="lead_priority_reason">
+                    <input type="hidden" name="source_url">
+
+                    <div class="aca-soft-gate-grid">
+                        <div class="aca-soft-gate-field">
+                            <label for="acaSoftGateName">Your name</label>
+                            <input id="acaSoftGateName" name="full_name" autocomplete="name" placeholder="First &amp; last name" required>
+                        </div>
+                        <div class="aca-soft-gate-field">
+                            <label for="acaSoftGatePhone">Phone number</label>
+                            <input id="acaSoftGatePhone" name="phone" type="tel" autocomplete="tel" placeholder="(863) 555-0199" required minlength="7">
+                        </div>
+                        <div class="aca-soft-gate-field">
+                            <label for="acaSoftGateZip">ZIP code</label>
+                            <input id="acaSoftGateZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" value="33805" required>
+                        </div>
+                        <div class="aca-soft-gate-field">
+                            <label for="acaSoftGateTime">Preferred appointment or review</label>
+                            <select id="acaSoftGateTime" name="best_time_to_reach">
+                                <option value="10-Min Phone Review - Today / ASAP">10-Min Phone Review &mdash; Today / ASAP</option>
+                                <option value="10-Min Phone Review - Morning (9am-12pm)">10-Min Phone Review &mdash; Morning (9am&ndash;12pm)</option>
+                                <option value="10-Min Phone Review - Afternoon (12pm-5pm)">10-Min Phone Review &mdash; Afternoon (12pm&ndash;5pm)</option>
+                                <option value="10-Min Phone Review - Evening (5pm-7pm)">10-Min Phone Review &mdash; Evening (5pm&ndash;7pm)</option>
+                                <option value="Text me my 2027 Polk Carrier & Doctor Breakdown first">Text me my 2027 Polk Carrier &amp; Doctor Breakdown first</option>
+                            </select>
+                        </div>
+                        <div class="aca-soft-gate-field full-span">
+                            <label for="acaSoftGateDoctors">Doctors, clinic, or current carrier (optional &mdash; do not enter medical conditions)</label>
+                            <input id="acaSoftGateDoctors" name="providers" autocomplete="off" placeholder="e.g., Ambetter renewal, Bond Clinic, AdventHealth, Orlando Health, BayCare">
+                        </div>
+                    </div>
+
+                    <div class="aca-soft-gate-consent-box">
+                        <label>
+                            <input type="checkbox" name="consent_request" value="yes" required>
+                            <span>I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage.</span>
+                        </label>
+                        <fieldset class="consent-group">
+                            <legend>Choose each contact channel you authorize (select at least one):</legend>
+                            <label>
+                                <input type="checkbox" name="consent_call" value="yes" checked>
+                                <span>I authorize a telephone call about this request.</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="consent_sms" value="yes">
+                                <span>By checking this box, I give my prior express consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to send text messages about this request to the mobile number I entered above. Consent is not a condition of purchase. Message frequency varies; msg &amp; data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
+                            </label>
+                        </fieldset>
+                    </div>
+
+                    <button type="submit" class="aca-soft-gate-submit">
+                        Request My 2027 Breakdown / Schedule Review &rarr;
+                    </button>
+                    <div class="sitelink-lead-status" data-sitelink-lead-status role="status" aria-live="polite" style="margin-top:6px; font-size:0.82rem; font-weight:600; color:var(--navy);"></div>
+                </form>
+            </div>
+
+            <button type="button" class="aca-soft-gate-skip" id="acaSoftGateSkipBtn">
+                No thanks &mdash; just show my 2027 subsidy math &rarr;
+            </button>
+        </div>
+    </div>
 
     </main>
     <footer>
@@ -2121,9 +2531,11 @@
 
         function updateMetalTierCards(benchmarkMonthly, tobaccoSurcharge, subsidyMonthly, fplPercent) {
             var metalGrid = document.getElementById('metal-tier-comparison');
+            var strategyCardEl = document.getElementById('polk-2027-strategy-callout');
             if (!metalGrid) return;
             if (fplPercent < 100) {
                 metalGrid.style.display = 'none';
+                if (strategyCardEl) strategyCardEl.style.display = 'none';
                 return;
             }
             metalGrid.style.display = '';
@@ -2161,6 +2573,23 @@
                 '~60% AV (~' + fmt(bronzeGross) + '/mo gross minus ' + fmt(subsidyMonthly) + '/mo APTC). Higher medical deductible.';
             document.getElementById('metal-gold-sub').textContent =
                 '~80% AV (~' + fmt(goldGross) + '/mo gross minus ' + fmt(subsidyMonthly) + '/mo APTC). Lower standard copays.';
+
+            var strategyCard = document.getElementById('polk-2027-strategy-callout');
+            var strategyTitle = document.getElementById('polk-strategy-title');
+            var strategyBody = document.getElementById('polk-strategy-body');
+            if (strategyCard && strategyTitle && strategyBody) {
+                strategyCard.style.display = '';
+                if (fplPercent >= 100 && fplPercent <= 200) {
+                    strategyTitle.textContent = '2027 Polk County Strategy (100%–200% FPL: Silver CSR Tier)';
+                    strategyBody.textContent = 'In the 100%–200% FPL range, Silver plans include Cost-Sharing Reductions (94% or 87% actuarial value) that reduce deductibles and out-of-pocket maximums. Compare Ambetter Signature Silver and AvMed Entrust Silver against narrow sub-networks to confirm Orlando Health, BayCare, Bond Clinic, and AdventHealth participation.';
+                } else if (fplPercent > 200 && fplPercent <= 400) {
+                    strategyTitle.textContent = '2027 Polk County Pricing Insight (200%–400% FPL: Compare Gold vs. Silver)';
+                    strategyBody.textContent = 'Because Cost-Sharing Reduction loads are priced into Silver benchmarks, several 2027 Polk County Gold plans (such as Oscar Gold and Ambetter Signature Gold) can price near the Silver benchmark while offering lower standard deductibles. Request a side-by-side plan ID check for your doctors.';
+                } else if (fplPercent > 400) {
+                    strategyTitle.textContent = '2027 Polk County Strategy (>400% FPL: 3-Track Unsubsidized Comparison)';
+                    strategyBody.textContent = 'Above 400% FPL, federal premium tax credits drop to $0 under 2027 IRS rules. Compare Track 2B (ACA Bronze HSA plans with pre-tax HSA contributions) alongside Track 1 (underwritten private PPO options for qualifying households) and verify 2027 Polk hospital network contracts.';
+                }
+            }
         }
 
         function runCalculation(isUserAction) {
@@ -2434,16 +2863,136 @@
             });
         });
 
-        // Explicit Calculate / Update button
+        // Explicit Calculate / Update button + Soft-Gate Appointment Modal
+        var _resultsUnlocked = false;
+        var _softGateShownOnce = false;
+
+        function unlockEstimatorResults() {
+            _resultsUnlocked = true;
+            var liveResultsEl = document.getElementById('live-results');
+            var unlockBannerEl = document.getElementById('estimator-unlock-banner');
+            var calcBtnEl = document.getElementById('calculate-estimate-btn');
+            if (liveResultsEl) {
+                liveResultsEl.classList.remove('results-locked');
+            }
+            if (unlockBannerEl) {
+                unlockBannerEl.hidden = true;
+            }
+            if (calcBtnEl) {
+                calcBtnEl.classList.remove('ready-pulse');
+                calcBtnEl.innerHTML = 'Update 2027 Estimate';
+            }
+        }
+
+        function openSoftGateModal() {
+            var modal = document.getElementById('acaEstimatorSoftGateModal');
+            if (!modal) return;
+            modal.hidden = false;
+            document.body.style.overflow = 'hidden';
+            var nameField = document.getElementById('acaSoftGateName');
+            if (nameField && typeof nameField.focus === 'function') {
+                setTimeout(function() {
+                    try { nameField.focus({ preventScroll: true }); } catch (e) { nameField.focus(); }
+                }, 60);
+            }
+        }
+
+        function closeSoftGateModal(scrollToResults) {
+            var modal = document.getElementById('acaEstimatorSoftGateModal');
+            if (modal) {
+                modal.hidden = true;
+            }
+            document.body.style.overflow = '';
+            unlockEstimatorResults();
+            if (scrollToResults) {
+                var resultsTarget = document.getElementById('live-results');
+                if (resultsTarget && typeof resultsTarget.scrollIntoView === 'function') {
+                    try {
+                        resultsTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } catch (e) {}
+                }
+            }
+        }
+
+        function handleCalculateAction() {
+            ensureFallbackValues(false);
+            syncSlidersFromInputs();
+            runCalculation(true);
+            unlockEstimatorResults();
+            document.getElementById('breakdown-toggle').classList.add('open');
+            document.getElementById('breakdown-body').classList.add('open');
+
+            if (!_softGateShownOnce) {
+                _softGateShownOnce = true;
+                openSoftGateModal();
+            } else {
+                var resultsTarget = document.getElementById('live-results');
+                if (resultsTarget && typeof resultsTarget.scrollIntoView === 'function') {
+                    try {
+                        resultsTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } catch (e) {}
+                }
+            }
+        }
+
         var calcBtn = document.getElementById('calculate-estimate-btn');
         if (calcBtn) {
-            calcBtn.addEventListener('click', function() {
-                ensureFallbackValues(false);
-                syncSlidersFromInputs();
-                runCalculation(true);
-                document.getElementById('breakdown-toggle').classList.add('open');
-                document.getElementById('breakdown-body').classList.add('open');
+            calcBtn.addEventListener('click', handleCalculateAction);
+        }
+
+        var unlockTriggerBtn = document.getElementById('unlock-results-trigger-btn');
+        if (unlockTriggerBtn) {
+            unlockTriggerBtn.addEventListener('click', handleCalculateAction);
+        }
+
+        var reopenSoftGateBtn = document.getElementById('reopen-soft-gate-btn');
+        if (reopenSoftGateBtn) {
+            reopenSoftGateBtn.addEventListener('click', function() {
+                openSoftGateModal();
             });
+        }
+
+        var softGateCloseBtn = document.getElementById('acaSoftGateCloseBtn');
+        if (softGateCloseBtn) {
+            softGateCloseBtn.addEventListener('click', function() {
+                closeSoftGateModal(true);
+            });
+        }
+
+        var softGateSkipBtn = document.getElementById('acaSoftGateSkipBtn');
+        if (softGateSkipBtn) {
+            softGateSkipBtn.addEventListener('click', function() {
+                closeSoftGateModal(true);
+            });
+        }
+
+        var softGateModalEl = document.getElementById('acaEstimatorSoftGateModal');
+        if (softGateModalEl) {
+            softGateModalEl.addEventListener('click', function(e) {
+                if (e.target === softGateModalEl) {
+                    closeSoftGateModal(true);
+                }
+            });
+        }
+
+        document.addEventListener('keydown', function(e) {
+            var modal = document.getElementById('acaEstimatorSoftGateModal');
+            if (e && e.key === 'Escape' && modal && !modal.hidden) {
+                closeSoftGateModal(true);
+            }
+        });
+
+        // Update skip button label once inline thank-you is rendered after form submit
+        var softGateFormPanel = document.getElementById('acaSoftGateFormPanel');
+        if (softGateFormPanel && window.MutationObserver) {
+            new MutationObserver(function() {
+                if (softGateFormPanel.querySelector('.m27-thanks')) {
+                    var skipBtn = document.getElementById('acaSoftGateSkipBtn');
+                    if (skipBtn) {
+                        skipBtn.innerHTML = 'Close &amp; View My 2027 Subsidy Results Below &darr;';
+                    }
+                }
+            }).observe(softGateFormPanel, { childList: true, subtree: true });
         }
 
         // "Why this price?" toggle
@@ -2549,6 +3098,7 @@
 
     <script src="/js/blog-theme.js?v=20261023-pr333-follow-up" defer></script>
     <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
+    <script src="/js/funnel.js?v=20261030-step1-cache-bust-v1" defer></script>
 
     <script src="/js/site-template.js?v=20261030-step1-cache-bust-v1" defer></script>
   <script src="/js/lead-hero.js?v=20261030-step1-cache-bust-v1" defer></script>

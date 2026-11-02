@@ -2267,6 +2267,10 @@ test('estimator keeps sensitive estimate inputs out of lead forms, URLs, and ana
   assert.doesNotMatch(ESTIMATOR_HTML, /gtag\(['"]event['"],\s*['"]subsidy_calculator_complete/);
   assert.match(ESTIMATOR_HTML, /href="\/get-help\/\?intent=aca"/);
   assert.match(ESTIMATOR_HTML, /Inputs stay in this browser/);
+  assert.match(ESTIMATOR_HTML, /id="acaEstimatorSoftGateModal"/);
+  assert.match(ESTIMATOR_HTML, /id="acaEstimatorSoftGateForm"/);
+  assert.match(ESTIMATOR_HTML, /id="acaSoftGateSkipBtn"/);
+  assert.match(ESTIMATOR_HTML, /class="live-results results-locked" id="live-results"/);
 });
 
 function makeAttributionForm({ eventName = 'Lead', sitelink = false } = {}) {

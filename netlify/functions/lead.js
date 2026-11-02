@@ -921,7 +921,7 @@ function isGetHelpCanonicalPage(path) {
   return path === '/get-help/' || path === '/get-help';
 }
 
-const GET_HELP_V2_CONSENT_PAGES = new Set(['/get-help/', '/get-help', '/medicare-2027-check/', '/medicare-2027-check', '/aca-2027-check/', '/aca-2027-check']);
+const GET_HELP_V2_CONSENT_PAGES = new Set(['/get-help/', '/get-help', '/medicare-2027-check/', '/medicare-2027-check', '/aca-2027-check/', '/aca-2027-check', '/aca-subsidy-estimator/', '/aca-subsidy-estimator']);
 
 function isGetHelpV2ConsentPage(path) {
   const normalized = sanitizeSourcePath(path);
