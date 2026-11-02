@@ -2186,7 +2186,7 @@ test('Get Help stores only bounded Medicare attribution and approved campaign fi
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
   }
   assert.doesNotMatch(GET_HELP_HTML, /name="fbclid"/);
-  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20261030-step1-cache-bust-v1/);
+  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20261102-default-under65-v1/);
   for (const field of [
     'lead_source',
     'lead_medium',

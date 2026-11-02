@@ -116,7 +116,7 @@ test('medicare-2027-check trust bullets and TPMO disclosure ids', () => {
   assert.match(HTML, /id="medicareGenericTpmoDisclaimer"/);
   assert.match(HTML, /id="outOfStateMedicareNote"/);
   assert.match(HTML, /Licensed Insurance Agent #W371813/);
-  assert.match(HTML, /get-help-intake\.js\?v=20261030-step1-cache-bust-v1/);
+  assert.match(HTML, /get-help-intake\.js\?v=20261102-default-under65-v1/);
   assert.doesNotMatch(HTML, /\/lp\//);
 });
 

@@ -1301,12 +1301,12 @@
     var initialZip = qsValue(qs, 'zip_code');
     var coverageState = resolveCoverageState(qs) || zipToUsStateCode(initialZip);
     var hideMedicare = isOutOfStateMedicareCoverageState(coverageState);
-    var selected = normalizeIntent(qs.get('intent'));
+    var storedAttr = readStoredAttribution();
+    var selected = qs.has('intent') ? normalizeIntent(qs.get('intent')) : 'under-65';
     var product = qs.get('product');
-    var utmCampaign = String(qs.get('utm_campaign') || '').toLowerCase();
+    var utmCampaign = String(qs.get('utm_campaign') || (storedAttr && storedAttr.utm_campaign) || '').toLowerCase();
     if (!hideMedicare && (product === 'medicare' || product === 'medicare-advantage')) selected = 'medicare';
-    else if (!qs.has('intent') && !product && utmCampaign.indexOf('aca') !== -1) selected = 'under-65';
-    else if (!hideMedicare && !qs.has('intent') && !product && (utmCampaign.indexOf('medicare') !== -1 || utmCampaign.indexOf('aep') !== -1)) selected = 'medicare';
+    else if (!hideMedicare && !qs.has('intent') && !product && (utmCampaign.indexOf('medicare') !== -1 || utmCampaign.indexOf('aep') !== -1 || /(?:^|[_-])ma(?:[_-]|$)/.test(utmCampaign))) selected = 'medicare';
     if (hideMedicare && selected === 'medicare') selected = 'under-65';
     renderIntentOptions(selected, hideMedicare);
     applyIntent(selected);

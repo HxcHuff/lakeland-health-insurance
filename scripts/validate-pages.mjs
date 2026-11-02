@@ -32,7 +32,7 @@ const RELEASE_ASSET_VERSIONS = new Map([
   ['/js/lead-hero.js', '20261030-step1-cache-bust-v1'],
   ['/js/funnel.js', '20261030-step1-cache-bust-v1'],
   ['/js/analytics.js', '20261030-step1-cache-bust-v1'],
-  ['/js/get-help-intake.js', '20261030-step1-cache-bust-v1'],
+  ['/js/get-help-intake.js', '20261102-default-under65-v1'],
   ['/js/lead-first-touch.js', '20261030-step1-cache-bust-v1'],
   ['/js/calendly-meta-schedule.js', '20261030-step1-cache-bust-v1'],
 ]);

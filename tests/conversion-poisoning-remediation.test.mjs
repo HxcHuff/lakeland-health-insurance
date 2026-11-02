@@ -395,6 +395,17 @@ test('Step-1 micro-commitment card is above the fold on 390x844 mobile, fires fo
       await page.goto('https://lakelandhealthinsurance.com/get-help/', { waitUntil: 'networkidle' });
       await page.waitForTimeout(300);
 
+      assert.equal(
+        await page.isChecked('#intentOptions input[data-intent="under-65"]'),
+        true,
+        '/get-help/ must pre-select "Health coverage for me or my family" (under-65) by default'
+      );
+      assert.equal(
+        await page.isChecked('#intentOptions input[data-intent="not-sure"]'),
+        false,
+        '/get-help/ must not pre-select "I am not sure yet" (not-sure) by default'
+      );
+
       await page.fill('#zipCode', '33805');
       await page.check('#intentOptions input[data-intent="medicare"]');
       await page.click('#step1ContinueButton');
