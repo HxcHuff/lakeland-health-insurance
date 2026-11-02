@@ -1182,9 +1182,22 @@
 
   function showInlineSitelinkThankYou(form) {
     var panel = form.closest('#m27LeadPanel') || form.parentElement;
-    var message = form.getAttribute('data-inline-thank-you-message') || 'Thanks — David will call you, usually same day.';
+    var message = form.getAttribute('data-inline-thank-you-message') || 'Thanks, David will call you, usually same day.';
     if (!panel) return;
-    panel.innerHTML = '<div class="m27-thanks" role="status" aria-live="polite"><h2>Request received</h2><p>' + message + ' Call or text <a href="tel:+18636403102">(863) 640-3102</a>.</p><p style="margin:0.85rem 0;"><a class="cta-button m27-submit-style" href="/book/" data-funnel-booking>Want an exact time? Pick a 15-min slot on David\u2019s calendar \u2192</a></p><p style="font-size:0.88rem;opacity:0.92;margin:0.5rem 0 0;">Tip: Save <strong>(863) 640-3102</strong> in your contacts now so your phone doesn\u2019t silence David\u2019s call.</p></div>';
+    try {
+      var fixedIntentEl = form.querySelector && form.querySelector('input[name="normalized_intent"]');
+      var fixedIntent = fixedIntentEl ? String(fixedIntentEl.value || '').trim().toLowerCase() : '';
+      var lane = fixedIntent.indexOf('aca') !== -1 ? 'aca' : fixedIntent.indexOf('medicare') !== -1 ? 'medicare' : 'unsure';
+      if (w.sessionStorage) {
+        w.sessionStorage.setItem('lhi_post_lead_ctx', JSON.stringify({
+          submitted: true,
+          intent: fixedIntent || 'generic',
+          lane: lane,
+          ts: Date.now()
+        }));
+      }
+    } catch (e) {}
+    panel.innerHTML = '<div class="m27-thanks" role="status" aria-live="polite"><h2>Request received</h2><p>' + message + ' Want to skip the callback queue? Call David right now at <a href="tel:+18636403102"><strong>(863) 640-3102</strong></a>.</p><p style="margin:0.85rem 0 0.55rem;"><a class="cta-button m27-submit-style" href="/provider-prescription-check/#interactive-verification-worksheet">Step 2 (60 sec): Preview 2027 Clinic &amp; Plan-ID Watchouts \u2192</a></p><p style="margin:0.55rem 0;"><a href="/book/" data-funnel-booking style="font-weight:700;text-decoration:underline;">Or pick an exact 15-min slot on David\u2019s calendar \u2192</a></p><p style="font-size:0.88rem;opacity:0.92;margin:0.5rem 0 0;">Tip: Save <strong>(863) 640-3102</strong> in your contacts now so your phone doesn\u2019t silence David\u2019s call.</p></div>';
     try {
       track('LeadReceiptView', {
         content_name: 'lead_thank_you',

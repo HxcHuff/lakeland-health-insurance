@@ -297,6 +297,7 @@
       ['/plans/', 'Coverage Options'],
       ['/carriers/', 'Carriers'],
       ['/states/', "States I'm licensed in"],
+      ['/current-client-review/', 'Current Clients'],
       ['/blog/', 'Blog'],
       ['/newsletter/', 'Newsletter'],
       ['/learning/', 'Learn'],
@@ -390,6 +391,7 @@
               <li><a href="/blog/">Blog</a></li>
               <li><a href="/newsletter/">Newsletter</a></li>
               <li><a href="/our-approach.html">Our Approach</a></li>
+              <li><a href="/current-client-review/">Current Clients</a></li>
               <li><a href="${helpHref}">Request a plan review</a></li>
               <li><a href="/privacy-policy.html">Privacy Policy</a></li>
               <li><a href="/privacy-policy.html#meta-audience-choice">Ad tracking choices</a></li>
@@ -417,9 +419,12 @@
     banner.className = 'seasonal-banner';
     banner.setAttribute('role', 'region');
     banner.setAttribute('aria-label', 'Medicare Annual Enrollment reminder');
+    var bannerText = intent === 'medicare'
+      ? 'Medicare Annual Enrollment is <strong>Oct 15–Dec 7</strong>. A review is not enrollment. <a href="/medicare/">See Medicare enrollment dates</a>'
+      : 'Medicare Annual Enrollment is <strong>Oct 15–Dec 7</strong> · 2027 ACA Open Enrollment is <strong>Nov 1–Jan 15</strong>. A review is not enrollment. <a href="/medicare/">See Medicare enrollment dates</a>';
     banner.innerHTML = `
       <div class="seasonal-banner-inner">
-        <p>Medicare Annual Enrollment is <strong>Oct 15–Dec 7</strong>. A review is not enrollment. <a href="/medicare/">See Medicare enrollment dates</a></p>
+        <p>${bannerText}</p>
         <button type="button" class="seasonal-banner-dismiss" aria-label="Dismiss Medicare enrollment reminder">Dismiss</button>
       </div>`;
     banner.querySelector('.seasonal-banner-dismiss').addEventListener('click', function () {

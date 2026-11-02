@@ -89,11 +89,11 @@
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="product_page" aria-labelledby="plans_index_html-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
-      <h2 class="lhi-lead-hero__title" id="plans_index_html-lead-title">Get a Marketplace plan comparison</h2>
+      <h2 class="lhi-lead-hero__title" id="plans_index_html-lead-title">Get an ACA Marketplace or Medicare plan comparison</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="plans_index_htmlForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="plans_index_htmlForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Get an ACA Marketplace or Medicare plan comparison">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/plans/">
         <input type="hidden" name="source_template" value="product_page">
@@ -138,10 +138,20 @@
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="plans_index_html_coverage_status">Coverage type</label>
             <select id="plans_index_html_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
-                  <option value="individual_marketplace">Individual Marketplace coverage</option>
-                  <option value="family_marketplace">Family Marketplace coverage</option>
-                  <option value="not_sure">Not sure yet</option>
+                  <option value="" selected disabled>Select coverage type</option>
+                  <optgroup label="ACA &amp; Individual/Family (Under 65)">
+                    <option value="individual_marketplace">Individual Marketplace coverage</option>
+                    <option value="family_marketplace">Family Marketplace coverage</option>
+                    <option value="losing_coverage">Losing employer coverage / COBRA</option>
+                    <option value="self_employed">Self-employed health coverage</option>
+                  </optgroup>
+                  <optgroup label="Medicare (Age 65+ &amp; 2027 AEP)">
+                    <option value="medicare_advantage">Medicare Advantage (Part C)</option>
+                    <option value="medicare_supplement">Medicare Supplement (Medigap Plan G/N)</option>
+                    <option value="part_d_rx">Part D Prescription Drug Plan ($2,000 Cap)</option>
+                    <option value="turning_65">Turning 65 soon</option>
+                  </optgroup>
+                  <option value="not_sure">Not sure yet &middot; Compare ACA &amp; Medicare</option>
             </select>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">

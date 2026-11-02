@@ -352,8 +352,15 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/medicare-part-d-2027-cap-explained.html</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
@@ -1115,9 +1122,30 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/carriers/</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/carriers/humana-medicare-2027/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/carriers/unitedhealthcare-medicare-2027/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/carriers/baycare-plus-medicare-2027/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
 
   <url>
@@ -1192,7 +1220,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/aca-subsidy-estimator/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -1492,7 +1520,14 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/marketplace-agent-fraud-cms-crackdown-florida/</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://lakelandhealthinsurance.com/2027-id-check/</loc>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>

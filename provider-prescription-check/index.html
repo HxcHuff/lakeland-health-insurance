@@ -294,17 +294,31 @@
           </article>
         </div>
 
-        <article class="answer-card" id="interactive-verification-worksheet" aria-labelledby="worksheet-builder-title" style="scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 20px);">
+        <article class="answer-card" id="interactive-verification-worksheet" aria-labelledby="worksheet-builder-title" style="scroll-margin-top: calc(var(--lhi-site-header-height, 108px) + 20px); border-top: 4px solid #D4A843;">
+          <div id="rxPostLeadWelcome" hidden style="background:#ECFDF5; border:1px solid #10B981; border-left:4px solid #059669; border-radius:10px; padding:0.85rem 1rem; margin-bottom:1rem; color:#064E3B; font-size:0.92rem; line-height:1.5;">
+            <strong style="display:block; color:#065F46; font-size:0.96rem; margin-bottom:0.2rem;">Request on File &middot; Step 2 Pre-Call Fast-Track</strong>
+            <span>David received your request. Tap your clinics, 2027 plan name, and pharmacy below to preview local 2027 contract watchouts right now, then call <a href="tel:+18636403102" style="color:#065F46; font-weight:800;">(863) 640-3102</a> with your Brief Code to skip phone tag and finish the live carrier lookup.</span>
+          </div>
+
           <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:0.75rem; margin-bottom:0.85rem;">
             <div>
-              <p class="eyebrow" style="margin:0 0 0.25rem; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#2563EB;">Interactive Preparation Tool &middot; Browser-Only</p>
-              <h2 id="worksheet-builder-title" style="margin:0;">Build your 2027 doctor, hospital &amp; pharmacy check sheet</h2>
+              <p class="eyebrow" style="margin:0 0 0.25rem; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#2563EB;">Interactive 2027 Pre-Call Diagnostic &middot; Browser-Only</p>
+              <h2 id="worksheet-builder-title" style="margin:0;">Build your 2027 doctor, plan-ID &amp; pharmacy check brief</h2>
             </div>
             <span style="font-size:0.8rem; font-weight:600; color:#475569; background:#F1F5F9; padding:0.35rem 0.7rem; border-radius:999px;">Stays in your browser &middot; Never sent via form</span>
           </div>
-          <p style="margin-bottom:1rem;">Select the local health systems you use and check off each verification step as you review a 2027 plan ID. Copy or print your worksheet to keep with your enrollment notes.</p>
+          <p style="margin-bottom:1.1rem;">Select your coverage track, local health systems, and the 2027 plan or pharmacy you are evaluating. This tool flags local 2027 contract watchouts immediately and stages the exact live directory and pricing items to verify with David before you enroll.</p>
 
           <div style="margin-bottom:1.1rem;">
+            <strong style="display:block; font-size:0.88rem; color:#1B2A4A; margin-bottom:0.45rem;">Coverage track you are checking for 2027:</strong>
+            <div style="display:flex; flex-wrap:wrap; gap:0.45rem;">
+              <button type="button" data-rx-lane="aca" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.42rem 0.85rem; font:inherit; font-size:0.85rem; font-weight:700; color:#1B2A4A; cursor:pointer;">Under-65 / Marketplace (ACA)</button>
+              <button type="button" data-rx-lane="medicare" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.42rem 0.85rem; font:inherit; font-size:0.85rem; font-weight:700; color:#1B2A4A; cursor:pointer;">Medicare (65+ or Disability)</button>
+              <button type="button" data-rx-lane="unsure" aria-pressed="true" style="background:#1E3A8A; border:1px solid #1E3A8A; border-radius:999px; padding:0.42rem 0.85rem; font:inherit; font-size:0.85rem; font-weight:700; color:#FFFFFF; cursor:pointer;">Comparing / Not Sure Yet</button>
+            </div>
+          </div>
+
+          <div style="margin-bottom:1.15rem;">
             <strong style="display:block; font-size:0.9rem; color:#1B2A4A; margin-bottom:0.5rem;">1. Select health systems or facilities to verify on the exact 2027 plan ID:</strong>
             <div id="rxCheckSystemChips" style="display:flex; flex-wrap:wrap; gap:0.5rem;">
               <button type="button" class="rx-chip" data-key="watson" data-label="Watson Clinic" data-system="Watson Clinic (Main / Bartow Rd / Highlands / South)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Watson Clinic</button>
@@ -312,27 +326,62 @@
               <button type="button" class="rx-chip" data-key="baycare" data-label="BayCare / Winter Haven Hospital" data-system="BayCare (Winter Haven Hospital / Bartow Regional)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ BayCare / Winter Haven Hospital</button>
               <button type="button" class="rx-chip" data-key="orlando" data-label="Orlando Health" data-system="Orlando Health (Lakeland Highlands Hospital)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Orlando Health</button>
               <button type="button" class="rx-chip" data-key="advent" data-label="AdventHealth" data-system="AdventHealth (Heart of Florida / Lake Wales / Centra Care)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ AdventHealth</button>
+              <button type="button" class="rx-chip" data-key="moffitt" data-label="Tampa Specialty (Moffitt / TGH)" data-system="Out-of-County Specialty Facilities (Tampa / Hillsborough)" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.45rem 0.85rem; font:inherit; font-size:0.86rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Tampa Specialty (Moffitt / TGH)</button>
             </div>
             <div id="rxSystemWatchouts" hidden style="margin-top:0.85rem; background:#EFF6FF; border:1px solid #BFDBFE; border-left:4px solid #2563EB; border-radius:10px; padding:0.85rem 1rem; font-size:0.88rem; color:#1E293B;">
-              <strong style="display:block; color:#1B2A4A; margin-bottom:0.4rem;">2027 Polk County Network Watchouts for Your Selected Facilities:</strong>
-              <ul id="rxSystemWatchoutList" style="margin:0; padding-left:1.2rem; display:grid; gap:0.35rem;"></ul>
+              <strong style="display:block; color:#1B2A4A; margin-bottom:0.4rem;">2027 Polk County &amp; Central Florida Watchouts for Your Selected Facilities:</strong>
+              <ul id="rxSystemWatchoutList" style="margin:0; padding-left:1.2rem; display:grid; gap:0.4rem;"></ul>
             </div>
           </div>
 
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:0.85rem; margin-bottom:1.1rem;">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:0.95rem; margin-bottom:1.1rem;">
             <div>
-              <label for="rxCheckPlanId" style="display:block; font-size:0.86rem; font-weight:700; color:#1B2A4A; margin-bottom:0.3rem;">2. 2027 Plan Name or Contract/Plan ID</label>
-              <input type="text" id="rxCheckPlanId" placeholder="e.g., H1234-001 or Marketplace Plan ID" autocomplete="off" style="width:100%; padding:0.55rem 0.75rem; border:1px solid #CBD5E1; border-radius:8px; font:inherit; font-size:0.9rem;">
+              <label for="rxCheckPlanId" style="display:block; font-size:0.86rem; font-weight:700; color:#1B2A4A; margin-bottom:0.3rem;">2. 2027 Plan Name, Tier, or Contract/Plan ID</label>
+              <input type="text" id="rxCheckPlanId" placeholder="e.g., Bronze 2149, Silver, H1234-001, or Plan G" autocomplete="off" style="width:100%; padding:0.58rem 0.75rem; border:1px solid #CBD5E1; border-radius:8px; font:inherit; font-size:0.9rem;">
+              <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.45rem;" aria-label="Quick plan structure examples">
+                <button type="button" data-rx-plan-sample="Bronze HMO" style="background:#F1F5F9; border:1px solid #CBD5E1; border-radius:6px; padding:0.2rem 0.5rem; font:inherit; font-size:0.76rem; font-weight:600; color:#334155; cursor:pointer;">Bronze HMO</button>
+                <button type="button" data-rx-plan-sample="Silver CSR Check" style="background:#F1F5F9; border:1px solid #CBD5E1; border-radius:6px; padding:0.2rem 0.5rem; font:inherit; font-size:0.76rem; font-weight:600; color:#334155; cursor:pointer;">Silver (CSR Check)</button>
+                <button type="button" data-rx-plan-sample="Medicare Advantage HMO/PPO" style="background:#F1F5F9; border:1px solid #CBD5E1; border-radius:6px; padding:0.2rem 0.5rem; font:inherit; font-size:0.76rem; font-weight:600; color:#334155; cursor:pointer;">Medicare Advantage</button>
+                <button type="button" data-rx-plan-sample="Medigap Plan G / N" style="background:#F1F5F9; border:1px solid #CBD5E1; border-radius:6px; padding:0.2rem 0.5rem; font:inherit; font-size:0.76rem; font-weight:600; color:#334155; cursor:pointer;">Medigap Plan G / N</button>
+                <button type="button" data-rx-plan-sample="Auto-Renewing Current Plan" style="background:#F1F5F9; border:1px solid #CBD5E1; border-radius:6px; padding:0.2rem 0.5rem; font:inherit; font-size:0.76rem; font-weight:600; color:#334155; cursor:pointer;">Auto-Renewing Plan</button>
+              </div>
+              <div id="rxPlanDiagnostic" hidden role="status" aria-live="polite" style="margin-top:0.65rem; background:#F8FAFC; border:1px solid #CBD5E1; border-left:4px solid #D4A843; border-radius:8px; padding:0.7rem 0.85rem; font-size:0.84rem; line-height:1.5;"></div>
             </div>
+
             <div>
               <label for="rxCheckPharmacy" style="display:block; font-size:0.86rem; font-weight:700; color:#1B2A4A; margin-bottom:0.3rem;">3. Preferred Pharmacy &amp; ZIP Code</label>
-              <input type="text" id="rxCheckPharmacy" placeholder="e.g., Publix Pharmacy / Walgreens · 33805" autocomplete="off" style="width:100%; padding:0.55rem 0.75rem; border:1px solid #CBD5E1; border-radius:8px; font:inherit; font-size:0.9rem;">
+              <input type="text" id="rxCheckPharmacy" placeholder="e.g., Publix, CVS, or Walgreens &middot; 33805" autocomplete="off" style="width:100%; padding:0.58rem 0.75rem; border:1px solid #CBD5E1; border-radius:8px; font:inherit; font-size:0.9rem;">
+              <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.45rem;" aria-label="Quick pharmacy options">
+                <button type="button" data-rx-pharm-sample="Publix" style="background:#F1F5F9; border:1px solid #CBD5E1; border-radius:6px; padding:0.2rem 0.55rem; font:inherit; font-size:0.76rem; font-weight:600; color:#334155; cursor:pointer;">Publix</button>
+                <button type="button" data-rx-pharm-sample="CVS" style="background:#F1F5F9; border:1px solid #CBD5E1; border-radius:6px; padding:0.2rem 0.55rem; font:inherit; font-size:0.76rem; font-weight:600; color:#334155; cursor:pointer;">CVS</button>
+                <button type="button" data-rx-pharm-sample="Walgreens" style="background:#F1F5F9; border:1px solid #CBD5E1; border-radius:6px; padding:0.2rem 0.55rem; font:inherit; font-size:0.76rem; font-weight:600; color:#334155; cursor:pointer;">Walgreens</button>
+                <button type="button" data-rx-pharm-sample="Walmart" style="background:#F1F5F9; border:1px solid #CBD5E1; border-radius:6px; padding:0.2rem 0.55rem; font:inherit; font-size:0.76rem; font-weight:600; color:#334155; cursor:pointer;">Walmart</button>
+                <button type="button" data-rx-pharm-sample="90-Day Mail Order" style="background:#F1F5F9; border:1px solid #CBD5E1; border-radius:6px; padding:0.2rem 0.55rem; font:inherit; font-size:0.76rem; font-weight:600; color:#334155; cursor:pointer;">Mail Order</button>
+              </div>
+              <div id="rxPharmacyDiagnostic" hidden role="status" aria-live="polite" style="margin-top:0.65rem; background:#F0FDF4; border:1px solid #BBF7D0; border-left:4px solid #16A34A; border-radius:8px; padding:0.7rem 0.85rem; font-size:0.84rem; line-height:1.5;"></div>
             </div>
           </div>
 
-          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1rem; margin-bottom:1rem;">
-            <strong style="display:block; font-size:0.9rem; color:#1B2A4A; margin-bottom:0.55rem;">4. Check off each verification step before changing coverage:</strong>
-            <div style="display:grid; gap:0.45rem; font-size:0.9rem; color:#334155;">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:0.95rem; margin-bottom:1.1rem;">
+            <div>
+              <label for="rxCheckDoctorNote" style="display:block; font-size:0.85rem; font-weight:700; color:#1B2A4A; margin-bottom:0.3rem;">Optional: Doctor or Office Street Note (browser-only)</label>
+              <input type="text" id="rxCheckDoctorNote" placeholder="e.g., Bartow Rd PCP, Cardiology, or Winter Haven office" autocomplete="off" style="width:100%; padding:0.55rem 0.75rem; border:1px solid #CBD5E1; border-radius:8px; font:inherit; font-size:0.88rem;">
+            </div>
+            <div>
+              <strong style="display:block; font-size:0.85rem; color:#1B2A4A; margin-bottom:0.35rem;">Optional: Priority items to flag for your call</strong>
+              <div style="display:flex; flex-wrap:wrap; gap:0.4rem;">
+                <button type="button" data-rx-priority="rx_tier" data-label="Brand-Name / Tier 3+ Rx" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.35rem 0.7rem; font:inherit; font-size:0.79rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Brand-Name / Tier 3+ Rx</button>
+                <button type="button" data-rx-priority="multi_spec" data-label="2+ Specialists" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.35rem 0.7rem; font:inherit; font-size:0.79rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ 2+ Specialists</button>
+                <button type="button" data-rx-priority="procedure" data-label="Planned 2027 Procedure" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.35rem 0.7rem; font:inherit; font-size:0.79rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Planned 2027 Procedure</button>
+                <button type="button" data-rx-priority="cost_compare" data-label="Deductible vs. Monthly Cost" aria-pressed="false" style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:999px; padding:0.35rem 0.7rem; font:inherit; font-size:0.79rem; font-weight:600; color:#1B2A4A; cursor:pointer;">+ Deductible vs. Monthly Cost</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1rem; margin-bottom:1.15rem;">
+            <strong style="display:block; font-size:0.9rem; color:#1B2A4A; margin-bottom:0.25rem;">4. Self-verification log (leave unchecked if you want David to verify live on the call):</strong>
+            <p style="margin:0 0 0.6rem; font-size:0.82rem; color:#475569;">Even when you check off a single plan directory, comparing competing 2027 plan IDs, facility tax IDs, and pharmacy counter tiers requires a live multi-carrier lookup.</p>
+            <div style="display:grid; gap:0.45rem; font-size:0.89rem; color:#334155;">
               <label style="display:flex; align-items:flex-start; gap:0.5rem; cursor:pointer;"><input type="checkbox" class="rx-step-cb" value="Matched primary care doctor and exact office street address in the 2027 plan directory"> <span>Matched primary care doctor &amp; exact office street address in the 2027 plan directory</span></label>
               <label style="display:flex; align-items:flex-start; gap:0.5rem; cursor:pointer;"><input type="checkbox" class="rx-step-cb" value="Matched every specialist and hospital/surgical facility separately by exact 2027 plan ID"> <span>Matched every specialist and hospital/surgical facility separately by exact 2027 plan ID</span></label>
               <label style="display:flex; align-items:flex-start; gap:0.5rem; cursor:pointer;"><input type="checkbox" class="rx-step-cb" value="Confirmed each medication's 2027 formulary tier, prior authorization, step therapy, and quantity limits"> <span>Confirmed each medication's 2027 formulary tier, prior authorization, step therapy, and quantity limits</span></label>
@@ -341,14 +390,48 @@
             </div>
           </div>
 
+          <div id="rxDiagnosticCard" style="background:linear-gradient(135deg, #1B2A4A 0%, #1E3A8A 100%); border:2px solid #D4A843; border-radius:14px; padding:1.2rem 1.25rem; color:#FFFFFF; margin-bottom:0.9rem;">
+            <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.5rem; margin-bottom:0.55rem;">
+              <span id="rxBriefCodeBadge" style="display:inline-block; background:rgba(212,168,67,0.2); border:1px solid #D4A843; color:#FDE68A; font-size:0.76rem; font-weight:800; letter-spacing:0.06em; text-transform:uppercase; padding:0.25rem 0.65rem; border-radius:999px;">Brief #2027-FL</span>
+              <span id="rxReadinessPct" style="font-size:0.8rem; font-weight:700; color:#FDE68A;">15% Pre-Call Prep Ready &middot; Live Carrier Lookup Remaining</span>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.16); border-radius:999px; height:9px; overflow:hidden; margin-bottom:0.75rem;" aria-hidden="true">
+              <div id="rxReadinessFill" style="width:15%; height:100%; background:linear-gradient(90deg, #2563EB 0%, #D4A843 100%); transition:width 0.25s ease;"></div>
+            </div>
+
+            <h3 id="rxReadinessHeadline" style="color:#FFFFFF; font-size:1.12rem; line-height:1.35; margin:0 0 0.65rem;">Tap your clinics, 2027 plan name, or pharmacy above to build your Pre-Call Brief</h3>
+
+            <div style="background:rgba(15,26,46,0.45); border:1px solid rgba(255,255,255,0.16); border-radius:10px; padding:0.85rem 0.95rem; margin-bottom:0.85rem;">
+              <strong style="display:block; color:#FDE68A; font-size:0.83rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.45rem;">Why Pre-Call Prep Stops at 75% &middot; 3 Items Requiring Live Agent Directory Lookup:</strong>
+              <ul id="rxPendingLiveList" style="margin:0; padding-left:1.15rem; font-size:0.86rem; line-height:1.5;"></ul>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.1); border-left:3px solid #D4A843; border-radius:8px; padding:0.7rem 0.9rem; margin-bottom:0.9rem;">
+              <span style="display:block; font-size:0.76rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#FDE68A; margin-bottom:0.2rem;">Fast-Track Opener When David Answers:</span>
+              <p id="rxCallOpenerText" style="margin:0; font-size:0.9rem; color:#FFFFFF; font-weight:600; line-height:1.45;">"Hi David, I ran the 2027 pre-check on your site (Brief #2027-FL). Can we run the live 2027 plan-ID and cost cross-check?"</p>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.82rem; color:rgba(255,255,255,0.92); margin-bottom:0.85rem;">
+              <span id="rxDeskStatusDot" style="width:9px; height:9px; border-radius:50%; background:#10B981; flex-shrink:0; display:inline-block;"></span>
+              <span id="rxDeskStatusText">Lakeland Desk Window &middot; Call (863) 640-3102 to run the remaining 2027 checks live</span>
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+              <a href="tel:+18636403102" data-analytics-label="worksheet_fasttrack_call" style="background:#D4A843; color:#0F1A2E; font-weight:800; font-size:0.94rem; text-decoration:none; padding:0.72rem 1.15rem; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(212,168,67,0.3);">Call David Now: (863) 640-3102</a>
+              <a id="rxSmsBriefBtn" href="sms:+18636403102?body=Hi%20David%2C%20I%20built%20my%202027%20pre-check%20on%20your%20site.%20When%20you%20have%20a%20few%20minutes%2C%20can%20we%20run%20the%20live%202027%20plan-ID%20lookup%3F" data-lhi-sms-cta="worksheet_precall_brief_sms" data-analytics-label="worksheet_precall_brief_sms" style="background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.5); color:#FFFFFF; font-weight:700; font-size:0.9rem; text-decoration:none; padding:0.72rem 1rem; border-radius:8px; display:inline-flex; align-items:center; justify-content:center;">Text My Brief Code to David</a>
+              <a id="rxSecondaryRouteBtn" href="#lhi-site-lead-form" style="background:transparent; border:1px solid rgba(255,255,255,0.38); color:#F8FAFC; font-weight:700; font-size:0.88rem; text-decoration:none; padding:0.72rem 0.95rem; border-radius:8px; display:inline-flex; align-items:center; justify-content:center;">Or Request Callback Form</a>
+            </div>
+          </div>
+
           <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.75rem;">
-            <span id="rxCheckStatusText" style="font-size:0.86rem; font-weight:700; color:#1B2A4A;" aria-live="polite">0 of 5 verification steps checked</span>
+            <span id="rxCheckStatusText" style="font-size:0.84rem; font-weight:700; color:#475569;" aria-live="polite">0 of 5 self-checks marked &middot; Final 2027 carrier cross-check pending</span>
             <div style="display:flex; flex-wrap:wrap; gap:0.55rem;">
               <button type="button" id="rxCopySummaryBtn" class="btn secondary" style="cursor:pointer;">Copy Verification Summary</button>
               <button type="button" id="rxPrintWorksheetBtn" class="btn secondary" style="cursor:pointer;">Print Worksheet</button>
-              <a href="#lhi-site-lead-form" class="btn primary">Request David's Plan-ID Check</a>
             </div>
           </div>
+          <p style="margin:0.75rem 0 0; font-size:0.79rem; color:#64748B;">Plan availability, benefits, networks, formularies, pharmacies, and costs depend on official 2027 plan documents and service area; savings are not guaranteed.</p>
         </article>
 
         <article class="answer-card">
@@ -422,119 +505,7 @@
       <p class="tpmo-inventory-note">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
 </section>
 </main>
-  <script>
-    (function () {
-      var chips = Array.prototype.slice.call(document.querySelectorAll('#rxCheckSystemChips .rx-chip'));
-      var cbs = Array.prototype.slice.call(document.querySelectorAll('.rx-step-cb'));
-      var statusEl = document.getElementById('rxCheckStatusText');
-      var watchoutBox = document.getElementById('rxSystemWatchouts');
-      var watchoutList = document.getElementById('rxSystemWatchoutList');
-      var copyBtn = document.getElementById('rxCopySummaryBtn');
-      var printBtn = document.getElementById('rxPrintWorksheetBtn');
-      var planInput = document.getElementById('rxCheckPlanId');
-      var pharmInput = document.getElementById('rxCheckPharmacy');
-      if (!chips.length || !statusEl) return;
-
-      var WATCHOUTS = {
-        watson: {
-          html: '<strong>Watson Clinic:</strong> Starting January 1, 2027, Watson Clinic no longer accepts Humana plans, and some Medicare Advantage HMOs are specialty-only (no Watson Clinic PCP). Verify your doctor by exact 2027 plan ID or call Patient Relations at (863) 680-7213. <a href="/blog/watson-clinic-humana-2027.html">Read the 2027 Watson Clinic Humana guide</a>.',
-          text: 'Watson Clinic: No longer accepts Humana starting Jan 1, 2027; check whether HMO is full participation vs. specialty-only.'
-        },
-        lrh: {
-          html: '<strong>Lakeland Regional Health:</strong> Hospital facility contracts (1324 Lakeland Hills Blvd) and LRH Physician Group doctors are verified separately. <a href="/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/">See LRH &amp; 2027 network check</a>.',
-          text: 'Lakeland Regional Health: Verify hospital facility and LRH Physician Group doctors separately on the 2027 plan ID.'
-        },
-        baycare: {
-          html: '<strong>BayCare / Winter Haven Hospital:</strong> Confirm Winter Haven Hospital, Bartow Regional Medical Center, and BayCare Medical Group (formerly Gessler Clinic) under the exact 2027 plan ID. <a href="/blog/baycare-medicare-advantage-plans-2027-polk-county.html">See BayCare 2027 Polk County guide</a>.',
-          text: 'BayCare / Winter Haven Hospital: Verify hospital facility and BayCare Medical Group (including former Gessler Clinic doctors) by 2027 plan ID.'
-        },
-        orlando: {
-          html: '<strong>Orlando Health Lakeland Highlands Hospital:</strong> The hospital at 4000 Lakeland Highlands Rd has separate facility contracts from Watson Clinic physicians. Confirm both the hospital and your attending specialist. <a href="/blog/orlando-health-watson-clinic-insurance-2026.html">Read the Orlando Health &amp; Watson Clinic guide</a>.',
-          text: 'Orlando Health Lakeland Highlands Hospital: Verify hospital facility contract (4000 Lakeland Highlands Rd) separately from Watson Clinic physician group.'
-        },
-        advent: {
-          html: '<strong>AdventHealth:</strong> Check AdventHealth Heart of Florida (Davenport), AdventHealth Lake Wales, Bond Clinic, and Centra Care walk-in addresses separately on your 2027 directory.',
-          text: 'AdventHealth: Verify Heart of Florida, Lake Wales, Bond Clinic, and Centra Care locations separately.'
-        }
-      };
-
-      function updateStatus() {
-        var checkedCount = cbs.filter(function (cb) { return cb.checked; }).length;
-        var activeChips = chips.filter(function (c) { return c.getAttribute('aria-pressed') === 'true'; });
-        statusEl.textContent = checkedCount + ' of ' + cbs.length + ' verification steps checked' +
-          (activeChips.length ? ' · ' + activeChips.length + ' facility system(s) selected' : '');
-
-        if (watchoutBox && watchoutList) {
-          watchoutList.innerHTML = '';
-          activeChips.forEach(function (chip) {
-            var key = chip.getAttribute('data-key');
-            if (WATCHOUTS[key]) {
-              var li = document.createElement('li');
-              li.innerHTML = WATCHOUTS[key].html;
-              watchoutList.appendChild(li);
-            }
-          });
-          watchoutBox.hidden = activeChips.length === 0;
-        }
-      }
-
-      chips.forEach(function (chip) {
-        chip.addEventListener('click', function () {
-          var pressed = chip.getAttribute('aria-pressed') === 'true';
-          var nextPressed = !pressed;
-          var label = chip.getAttribute('data-label') || chip.textContent.replace(/^[+\u2713]\s*/, '');
-          chip.setAttribute('aria-pressed', nextPressed ? 'true' : 'false');
-          chip.textContent = (nextPressed ? '\u2713 ' : '+ ') + label;
-          chip.style.background = nextPressed ? '#1B2A4A' : '#F8FAFC';
-          chip.style.color = nextPressed ? '#FFFFFF' : '#1B2A4A';
-          chip.style.borderColor = nextPressed ? '#1B2A4A' : '#CBD5E1';
-          updateStatus();
-        });
-      });
-
-      cbs.forEach(function (cb) {
-        cb.addEventListener('change', updateStatus);
-      });
-
-      if (copyBtn) {
-        copyBtn.addEventListener('click', function () {
-          var activeChips = chips.filter(function (c) { return c.getAttribute('aria-pressed') === 'true'; });
-          var selected = activeChips.map(function (c) { return c.getAttribute('data-system'); });
-          var lines = [
-            '2027 Provider & Prescription Verification Worksheet (Lakeland Health Insurance)',
-            'Date: ' + new Date().toISOString().slice(0, 10),
-            'Plan Name / Plan ID: ' + ((planInput && planInput.value.trim()) || 'Not entered yet'),
-            'Preferred Pharmacy & ZIP: ' + ((pharmInput && pharmInput.value.trim()) || 'Not entered yet'),
-            'Health Systems Selected: ' + (selected.length ? selected.join('; ') : 'None selected')
-          ];
-          if (activeChips.length) {
-            lines.push('', '2027 Local Network Notes:');
-            activeChips.forEach(function (chip) {
-              var key = chip.getAttribute('data-key');
-              if (WATCHOUTS[key]) lines.push('- ' + WATCHOUTS[key].text);
-            });
-          }
-          lines.push('', 'Verification Checklist:');
-          cbs.forEach(function (cb) {
-            lines.push((cb.checked ? '[x] ' : '[ ] ') + cb.value);
-          });
-          var text = lines.join('\n');
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(function () {
-              copyBtn.textContent = 'Copied to Clipboard';
-              setTimeout(function () { copyBtn.textContent = 'Copy Verification Summary'; }, 2200);
-            });
-          }
-        });
-      }
-
-      if (printBtn) {
-        printBtn.addEventListener('click', function () {
-          window.print();
-        });
-      }
-    })();
-  </script>
+  <script src="/js/precall-brief.js?v=20261030-precall-v1" defer></script>
   <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
   <script src="/js/site-template.js?v=20261030-step1-cache-bust-v1" defer></script>

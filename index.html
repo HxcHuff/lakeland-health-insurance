@@ -938,11 +938,11 @@
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="homepage" aria-labelledby="siteLead-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
-      <h2 class="lhi-lead-hero__title" id="siteLead-lead-title">Get a Marketplace plan comparison</h2>
+      <h2 class="lhi-lead-hero__title" id="siteLead-lead-title">Get an ACA Marketplace or Medicare plan comparison</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="siteLeadForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_homepage_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="siteLeadForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_homepage_lead" aria-label="Get an ACA Marketplace or Medicare plan comparison">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/">
         <input type="hidden" name="source_template" value="homepage">
@@ -987,10 +987,20 @@
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="siteLead_coverage_status">Coverage type</label>
             <select id="siteLead_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
-                  <option value="individual_marketplace">Individual Marketplace coverage</option>
-                  <option value="family_marketplace">Family Marketplace coverage</option>
-                  <option value="not_sure">Not sure yet</option>
+                  <option value="" selected disabled>Select coverage type</option>
+                  <optgroup label="ACA &amp; Individual/Family (Under 65)">
+                    <option value="individual_marketplace">Individual Marketplace coverage</option>
+                    <option value="family_marketplace">Family Marketplace coverage</option>
+                    <option value="losing_coverage">Losing employer coverage / COBRA</option>
+                    <option value="self_employed">Self-employed health coverage</option>
+                  </optgroup>
+                  <optgroup label="Medicare (Age 65+ &amp; 2027 AEP)">
+                    <option value="medicare_advantage">Medicare Advantage (Part C)</option>
+                    <option value="medicare_supplement">Medicare Supplement (Medigap Plan G/N)</option>
+                    <option value="part_d_rx">Part D Prescription Drug Plan ($2,000 Cap)</option>
+                    <option value="turning_65">Turning 65 soon</option>
+                  </optgroup>
+                  <option value="not_sure">Not sure yet · Compare ACA &amp; Medicare</option>
             </select>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
@@ -1005,7 +1015,9 @@
               <span>🔒 Licensed consultation</span>
               <span>🛡️ Zero spam · Never sold</span>
               <span>⭐ FL License #W371813</span>
+              <span>📵 No SSN needed</span>
             </div>
+            <p class="lhi-lead-hero__caller-note" style="margin:0.55rem 0 0;font-size:0.8rem;line-height:1.45;color:#475569;text-align:center;">David follows up from <strong>(863) 640-3102</strong> (save this number so your phone recognizes the call). Comparing 2027 paths? <a href="/aca-subsidy-estimator/" style="color:#1d4ed8;font-weight:600;">ACA Subsidy Estimator</a> &bull; <a href="/medicare/" style="color:#1d4ed8;font-weight:600;">Medicare AEP Review</a> &bull; <a href="/provider-prescription-check/" style="color:#1d4ed8;font-weight:600;">Doctor &amp; Rx Check</a> &bull; <a href="/2027-id-check/" style="color:#1d4ed8;font-weight:600;">2027 ID Check</a>.</p>
           </div>
         </div>
         <p class="lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>
@@ -1016,10 +1028,10 @@
 
             <div class="lhi-hero-deferred-block">
                 <div class="hero-content">
-                <aside class="hero-season" aria-label="2027 Medicare comparison">
-                    <p class="hero-season-kicker">Medicare, through December 7</p>
-                    <h2 class="hero-season-title">Compare 2027 Medicare plans now.</h2>
-                    <p>Official 2027 Medicare plan details are available to compare. Medicare Annual Enrollment runs October 15 through December 7. A review is not enrollment. Marketplace enrollment for 2027 starts November 1.</p>
+                <aside class="hero-season" aria-label="2027 Open Enrollment windows">
+                    <p class="hero-season-kicker">2027 Open Enrollment Is Live Now</p>
+                    <h2 class="hero-season-title">Compare 2027 ACA Marketplace &amp; Medicare plans.</h2>
+                    <p>For plan year 2027, HealthCare.gov Open Enrollment runs November 1 through January 15 (enroll by December 15 for coverage that starts January 1). Medicare Annual Enrollment runs October 15 through December 7. A review is not enrollment.</p>
                 </aside>
                 <p class="hero-path-links hero-path-links--deferred-mobile"><a href="/get-help/?intent=lost-coverage">Losing coverage now?</a> &bull; <a href="/medicare-broker-lakeland-fl/">Medicare broker in Lakeland</a> &bull; <a href="/local-health-insurance-answers/medicare-plan-help-lakeland/">Medicare plan help in Lakeland</a></p>
                 <ul class="hero-benefits hero-benefits--deferred-mobile" aria-label="Plan review benefits">
@@ -1101,33 +1113,33 @@
 
     <section class="start-paths" aria-labelledby="start-paths-title">
         <div class="container">
-            <p class="section-label" style="text-align:center;">Additional Services</p>
-            <h2 id="start-paths-title">Medicare and other coverage options remain available.</h2>
-            <p class="subtitle">Medicare, short-term, supplemental, and add-on paths stay available when they fit the situation.</p>
+            <p class="section-label" style="text-align:center;">Medicare Solutions &middot; Age 65+ &middot; 2027 AEP</p>
+            <h2 id="start-paths-title">Medicare Advantage, Medigap &amp; Part D reviews built around your doctors.</h2>
+            <p class="subtitle">Annual Enrollment is live through December 7. Verify your Polk County doctors, compare Watson Clinic &amp; BayCare networks, and review the 2027 $2,000 Part D prescription drug cap.</p>
             <div class="path-grid">
                 <a class="path-card" href="/medicare-broker-lakeland-fl/">
-                    <span class="path-label">Medicare</span>
+                    <span class="path-label">Local Agent</span>
                     <h3>Local Medicare agent</h3>
-                    <p>Licensed Lakeland agent review of Medicare Advantage, Medicare Supplement, and Part D around doctors, prescriptions, and AEP timing.</p>
+                    <p>Independent Lakeland agent review of Medicare Advantage, Medicare Supplement, and Part D around doctors, prescriptions, and AEP timing.</p>
                     <strong>Review Medicare with a licensed local agent &rarr;</strong>
                 </a>
-                <a class="path-card" href="/short-term-medical/">
-                    <span class="path-label">Short-term</span>
-                    <h3>Short-term coverage</h3>
-                    <p>Understand non-ACA temporary coverage limits, medical underwriting, exclusions, and state and product availability before applying.</p>
-                    <strong>Review short-term coverage &rarr;</strong>
+                <a class="path-card" href="/medicare/">
+                    <span class="path-label">AEP Review</span>
+                    <h3>2027 Medicare Guidance</h3>
+                    <p>Explore Medicare Advantage HMO/PPO options, Medigap Plan G and Plan N, and Part D coverage with clear, unbiased local comparisons.</p>
+                    <strong>Compare 2027 Medicare paths &rarr;</strong>
                 </a>
-                <a class="path-card" href="/health-protector-guard/">
-                    <span class="path-label">Fixed-benefit</span>
-                    <h3>Fixed-indemnity education</h3>
-                    <p>Understand scheduled-benefit design, limitations, and underwriting. Fixed-indemnity coverage is not comprehensive health insurance or ACA minimum essential coverage.</p>
-                    <strong>Review fixed-indemnity limitations &rarr;</strong>
+                <a class="path-card" href="/provider-prescription-check/">
+                    <span class="path-label">Doctor &amp; Rx Check</span>
+                    <h3>Hospital &amp; Network Verification</h3>
+                    <p>Verify Watson Clinic, Lakeland Regional Health, and BayCare participating status before you enroll or switch for 2027.</p>
+                    <strong>Verify your doctors &amp; medications &rarr;</strong>
                 </a>
                 <a class="path-card" href="/supplemental-insurance/">
-                    <span class="path-label">Add-ons</span>
-                    <h3>Dental, vision, life, and more</h3>
-                    <p>Round out coverage with practical add-ons, family protection, and plan combinations that do not create expensive overlap.</p>
-                    <strong>Review add-ons &rarr;</strong>
+                    <span class="path-label">Supplemental</span>
+                    <h3>Dental, Vision &amp; Indemnity</h3>
+                    <p>Round out coverage with practical dental, vision, hearing, and hospital indemnity protection that avoids expensive plan overlap.</p>
+                    <strong>Review supplemental options &rarr;</strong>
                 </a>
             </div>
             <div class="help-proof">

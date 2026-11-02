@@ -41,8 +41,8 @@
     "url": "https://lakelandhealthinsurance.com/carriers/",
     "name": "Health, Medicare & Supplemental Carriers | Lakeland",
     "description": "Browse health, Medicare, life, long-term care, and supplemental insurance carriers David Huff works with for Lakeland and Polk County, Florida.",
-    "dateModified": "2026-10-18",
-    "lastReviewed": "2026-10-18",
+    "dateModified": "2026-11-02",
+    "lastReviewed": "2026-11-02",
     "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
     "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
     "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
@@ -633,10 +633,20 @@
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="carriers_coverage_status">Coverage type</label>
             <select id="carriers_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
-                  <option value="individual_marketplace">Individual Marketplace coverage</option>
-                  <option value="family_marketplace">Family Marketplace coverage</option>
-                  <option value="not_sure">Not sure yet</option>
+                  <option value="" selected disabled>Select coverage type</option>
+                  <optgroup label="ACA &amp; Individual/Family (Under 65)">
+                    <option value="individual_marketplace">Individual Marketplace coverage</option>
+                    <option value="family_marketplace">Family Marketplace coverage</option>
+                    <option value="losing_coverage">Losing employer coverage / COBRA</option>
+                    <option value="self_employed">Self-employed health coverage</option>
+                  </optgroup>
+                  <optgroup label="Medicare (Age 65+ &amp; 2027 AEP)">
+                    <option value="medicare_advantage">Medicare Advantage (Part C)</option>
+                    <option value="medicare_supplement">Medicare Supplement (Medigap Plan G/N)</option>
+                    <option value="part_d_rx">Part D Prescription Drug Plan ($2,000 Cap)</option>
+                    <option value="turning_65">Turning 65 soon</option>
+                  </optgroup>
+                  <option value="not_sure">Not sure yet &middot; Compare ACA &amp; Medicare</option>
             </select>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
@@ -705,18 +715,18 @@
           <article class="carrier-item"><h3>Allstate Health Solutions</h3><p>Senior market and supplemental options through National General.</p><div class="tags"><span class="tag">Senior</span></div></article>
           <article class="carrier-item"><h3>America's 1st Choice</h3><p>Optimum and Freedom Medicare options where available.</p><div class="tags"><span class="tag blue">Medicare</span></div></article>
           <article class="carrier-item"><h3>Anthem Medicare</h3><p>Elevance Health Medicare products in eligible service areas.</p><div class="tags"><span class="tag blue">Medicare</span></div></article>
-          <article class="carrier-item"><h3>BayCare</h3><p>Medicare plan options tied closely to local provider access.</p><div class="tags"><span class="tag blue">Medicare</span></div></article>
+          <article class="carrier-item"><h3><a href="/carriers/baycare-plus-medicare-2027/">BayCarePlus Medicare</a></h3><p>Medicare Advantage options tied closely to Winter Haven Hospital and Bartow Regional.</p><div class="tags"><span class="tag blue">Medicare</span><span class="tag">Polk HMO</span></div></article>
           <article class="carrier-item"><h3>Centene / Wellcare Medicare</h3><p>Medicare plans reviewed by county, formulary, and network.</p><div class="tags"><span class="tag blue">Medicare</span></div></article>
           <article class="carrier-item"><h3>Devoted Health Medicare</h3><p>Medicare Advantage options where provider fit is central.</p><div class="tags"><span class="tag blue">Medicare</span></div></article>
           <article class="carrier-item"><h3>Health First Health Plan Medicare</h3><p>Medicare coverage options where available by service area.</p><div class="tags"><span class="tag blue">Medicare</span></div></article>
           <article class="carrier-item"><h3>HealthSpring Medicare</h3><p>Cigna Medicare products and related senior market options.</p><div class="tags"><span class="tag blue">Medicare</span></div></article>
           <article class="carrier-item"><h3>HealthSpring Supplemental</h3><p>Cigna supplemental products for eligible clients.</p><div class="tags"><span class="tag">Supplemental</span></div></article>
-          <article class="carrier-item"><h3>Humana</h3><p>Dental, vision, Medicare, and CarePlus options depending on product and county.</p><div class="tags"><span class="tag blue">Medicare</span><span class="tag">Dental/Vision</span></div></article>
+          <article class="carrier-item"><h3><a href="/carriers/humana-medicare-2027/">Humana Medicare</a></h3><p>Medicare Advantage HMO/PPO and CarePlus options with Watson Clinic network checks.</p><div class="tags"><span class="tag blue">Medicare</span><span class="tag">HMO/PPO</span></div></article>
           <article class="carrier-item"><h3>MedMutual PROTECT</h3><p>Senior and supplemental products that may help with gaps.</p><div class="tags"><span class="tag">Senior</span><span class="tag">Supplemental</span></div></article>
           <article class="carrier-item"><h3>Mutual of Omaha Medicare</h3><p>Medicare Supplement and senior product options.</p><div class="tags"><span class="tag blue">Medicare</span><span class="tag">Supplement</span></div></article>
           <article class="carrier-item"><h3>NCD</h3><p>Dental and vision-style supplemental coverage options.</p><div class="tags"><span class="tag">Dental/Vision</span></div></article>
           <article class="carrier-item"><h3>Physicians Mutual</h3><p>Senior market and supplemental coverage options.</p><div class="tags"><span class="tag">Senior</span><span class="tag">Supplemental</span></div></article>
-          <article class="carrier-item"><h3>UnitedHealthcare Medicare</h3><p>Medicare plans reviewed against doctors, prescriptions, and total yearly cost.</p><div class="tags"><span class="tag blue">Medicare</span></div></article>
+          <article class="carrier-item"><h3><a href="/carriers/unitedhealthcare-medicare-2027/">UnitedHealthcare Medicare</a></h3><p>AARP Medicare Advantage &amp; Medigap Supplement Plan G/N reviewed against doctors &amp; Part D.</p><div class="tags"><span class="tag blue">Medicare</span><span class="tag">AARP</span></div></article>
         </div>
       </div>
     </section>

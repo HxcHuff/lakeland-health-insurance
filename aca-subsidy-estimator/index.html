@@ -40,7 +40,7 @@
       "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
       "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
       "reviewedBy": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
-      "dateModified": "2026-10-01"
+      "dateModified": "2026-10-30"
     }
     </script>
 
@@ -1041,8 +1041,8 @@
         <div class="container hero-grid">
             <div class="lhi-hero-lede-block">
             <h1>2027 Lakeland ACA Subsidy Estimator</h1>
-            <p class="lhi-hero-lede">Explore how household income, tax-household size, age, and the 2027 IRS applicable percentages interact. This educational tool uses a fixed Lakeland benchmark assumption and does not quote a current plan.</p>
-      <p class="last-reviewed" style="color:#64748B;font-size:0.9rem;margin:0.35rem 0 0;">Last reviewed: October 1, 2026.</p>
+            <p class="lhi-hero-lede">Explore how household income, tax-household size, age, and 2027 IRS rules interact. Anchored directly to the newly released CMS 2027 Marketplace QHP Landscape benchmark for Polk County (Rating Area 24).</p>
+      <p class="last-reviewed" style="color:#64748B;font-size:0.9rem;margin:0.35rem 0 0;">Updated October 30, 2026 with official CMS Plan Year 2027 QHP Landscape data.</p>
             </div>
         </div>
     </section>
@@ -1105,7 +1105,7 @@
                 <div class="form-group">
                     <label for="zip-code">Benchmark geography</label>
                     <input type="text" id="zip-code" value="Lakeland 33805" readonly aria-describedby="zip-scope">
-                    <div class="help-text" id="zip-scope">Fixed to the page's Lakeland educational assumption. It is not a sourced quote for another ZIP code or Florida rating area.</div>
+                    <div class="help-text" id="zip-scope">Anchored to the official CMS 2027 benchmark for Polk County (Rating Area 24 / Lakeland ZIPs 33801–33815).</div>
                 </div>
 
                 <div class="form-group">
@@ -1171,8 +1171,8 @@
                     <!-- Disclaimer -->
                     <div class="disclaimer-box" id="disclaimer-box">
                         <strong>Disclaimer:</strong> This tool provides an educational estimate only and does not determine eligibility, premium, savings, or subsidy.
-                        The $450 age-21 benchmark is an explicit Lakeland illustration maintained by this site, not a live second-lowest-cost Silver plan quote.
-                        Actual premium tax credits depend on the official Marketplace application, MAGI, tax household, age, geographic rating area, and current benchmark Silver plan pricing.
+                        Benchmark pricing is anchored to the official CMS 2027 Marketplace QHP Landscape Second-Lowest Cost Silver Plan (SLCSP) for Polk County, FL ($548.84 base for age 21; AvMed Entrust Silver 550 HMO, Rating Area 24).
+                        Actual premium tax credits depend on official Marketplace submission, verified MAGI, tax household, age, and final plan enrollment.
                         Uses the 2026 HHS poverty guidelines for 2027 coverage (the guidelines in effect when Open Enrollment begins; 26 CFR 1.36B-1(h)).
                         Florida has not expanded Medicaid under the ACA. For official eligibility, visit HealthCare.gov.
                     </div>
@@ -1212,6 +1212,41 @@
                 <a href="/get-help/?intent=aca" class="cta-btn-secondary">
                     <span aria-hidden="true">&#128203;</span> Request an ACA Review
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="calculator-section" aria-labelledby="county-carrier-preview-heading" style="padding-bottom:0;">
+        <div class="container">
+            <div class="calculator-card" id="county-carrier-preview">
+                <h2 id="county-carrier-preview-heading">2027 Central Florida County Carrier &amp; Hospital Network Preview</h2>
+                <p class="subtitle">Select your Central Florida county to preview active 2027 ACA Marketplace carriers and local hospital/clinic network watchouts before locking in a plan. The subsidy math above remains anchored to the Polk County Rating Area 24 benchmark.</p>
+
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label for="county-preview-select">Select County to Preview 2027 Networks</label>
+                    <select id="county-preview-select" aria-describedby="county-preview-note">
+                        <option value="polk" selected>Polk County (Lakeland, Winter Haven, Bartow, Haines City, Davenport)</option>
+                        <option value="hillsborough">Hillsborough County (Tampa, Brandon, Riverview, Plant City)</option>
+                        <option value="orange">Orange County (Orlando, Winter Park, Apopka, Ocoee)</option>
+                        <option value="osceola">Osceola County (Kissimmee, St. Cloud, Celebration, Four Corners)</option>
+                        <option value="pasco">Pasco County (Wesley Chapel, New Port Richey, Land O&rsquo; Lakes, Zephyrhills)</option>
+                        <option value="pinellas">Pinellas County (St. Petersburg, Clearwater, Largo, Dunedin)</option>
+                    </select>
+                    <div class="help-text" id="county-preview-note">Carrier and hospital participation varies by exact 2027 plan ID and sub-network even within the same insurer.</div>
+                </div>
+
+                <div id="county-preview-card" class="result-note" style="background:#F8FAFC; border:1px solid #CBD5E1; border-left:4px solid #1B2A4A; padding:18px; border-radius:12px;">
+                    <h3 id="county-preview-title" style="margin:0 0 8px; color:#1B2A4A; font-size:1.1rem;">Polk County (Rating Area 24) &mdash; 2027 Carrier &amp; Hospital Snapshot</h3>
+                    <p id="county-preview-carriers" style="margin:0 0 10px; line-height:1.55;"><strong>2027 Marketplace Carriers to Compare:</strong> Florida Blue (BlueOptions / BlueSelect / MyBlue), Ambetter from Sunshine Health, AvMed, UnitedHealthcare Individual Exchange, Oscar Health, and Health First (verify exact ZIP and plan ID).</p>
+                    <p id="county-preview-watchout" style="margin:0 0 12px; line-height:1.55;"><strong>Key 2027 Hospital &amp; Clinic Watchouts:</strong> Verify <strong>Lakeland Regional Health</strong> facility vs. LRH Physician Group tax IDs separately; check <strong>Watson Clinic</strong> PCP vs. specialty-only sub-network rules (and note Watson Clinic no longer accepts Humana starting Jan 1, 2027); confirm <strong>BayCare (Winter Haven &amp; Bartow Regional)</strong>, <strong>Bond Clinic</strong>, and <strong>AdventHealth Heart of Florida / Lake Wales</strong> on your exact 2027 plan ID.</p>
+                    <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+                        <a id="county-preview-guide-link" href="/blog/polk-county-aca-hospital-doctor-network-guide-2027.html" style="font-weight:700; color:#2563EB; text-decoration:underline;">Read the 2027 Polk County Hospital &amp; Doctor Network Guide &rarr;</a>
+                        <span style="color:#94A3B8;">|</span>
+                        <a href="/blog/cigna-molina-exiting-florida-marketplace-2027.html" style="font-weight:600; color:#1B2A4A; text-decoration:underline;">2027 Florida Carrier Exit &amp; Auto-Renewal Guide</a>
+                        <span style="color:#94A3B8;">|</span>
+                        <a href="/get-help/?intent=aca" style="font-weight:700; color:#1B2A4A; text-decoration:underline;">Request a 2027 Plan &amp; Doctor Check</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1368,8 +1403,9 @@
             3.000   // 64
         ];
 
-        // -- Benchmark Silver plan base rate for a 21-year-old in ZIP 33805 --
-        var BASE_RATE_21 = 450;
+        // -- Official CMS 2027 Benchmark Silver (SLCSP) base rate for Age 21 in Polk County (Rating Area 24) --
+        // Source: CMS Plan Year 2027 Individual Medical Landscape (AvMed Entrust Silver 550 HMO, Plan ID: 19898FL0340025)
+        var BASE_RATE_21 = 548.84;
 
         function getAgeFactor(age) {
             if (age < 0) return CMS_AGE_FACTORS[0];
@@ -1617,6 +1653,67 @@
             this.classList.toggle('open');
             document.getElementById('breakdown-body').classList.toggle('open');
         });
+
+        // Interactive 2027 Central Florida County Carrier & Hospital Preview
+        var COUNTY_PREVIEWS = {
+            polk: {
+                title: 'Polk County (Rating Area 24) — 2027 Carrier & Hospital Snapshot',
+                carriers: 'Florida Blue (BlueOptions / BlueSelect / MyBlue), Ambetter from Sunshine Health, AvMed, UnitedHealthcare Individual Exchange, Oscar Health, and Health First (verify exact ZIP and plan ID).',
+                watchout: 'Verify Lakeland Regional Health facility vs. LRH Physician Group tax IDs separately; check Watson Clinic PCP vs. specialty-only sub-network rules (and note Watson Clinic no longer accepts Humana starting Jan 1, 2027); confirm BayCare (Winter Haven & Bartow Regional), Bond Clinic, and AdventHealth Heart of Florida / Lake Wales on your exact 2027 plan ID.',
+                guideHref: '/blog/polk-county-aca-hospital-doctor-network-guide-2027.html',
+                guideLabel: 'Read the 2027 Polk County Hospital & Doctor Network Guide →'
+            },
+            hillsborough: {
+                title: 'Hillsborough County (Tampa / Brandon / Riverview) — 2027 Carrier & Hospital Snapshot',
+                carriers: 'Florida Blue (BlueOptions / BlueSelect / MyBlue), Ambetter from Sunshine Health, AvMed, UnitedHealthcare Individual Exchange, and Oscar Health (verify exact Tampa Bay ZIP and 2027 plan ID).',
+                watchout: 'Confirm whether your 2027 HMO or EPO includes Tampa General Hospital (TGH) and USF Health faculty physicians, BayCare (St. Joseph’s & South Florida Baptist), AdventHealth Tampa, and Moffitt Cancer Center (many exchange HMOs exclude Moffitt or require strict prior authorization).',
+                guideHref: '/blog/baycare-tampa-general-aca-medicare-2027.html',
+                guideLabel: 'Read the 2027 BayCare & Tampa General Network Guide →'
+            },
+            orange: {
+                title: 'Orange County (Orlando / Winter Park / Apopka) — 2027 Carrier & Hospital Snapshot',
+                carriers: 'Florida Blue, Ambetter from Sunshine Health, AvMed, UnitedHealthcare Individual Exchange, Oscar Health, and Health First (verify exact Orange County ZIP and 2027 plan ID).',
+                watchout: 'Many narrow-network 2027 Marketplace HMOs force a split between Orlando Health (ORMC / Winnie Palmer) and AdventHealth Orlando—rarely covering both on the lowest-cost Silver tier. Families with pediatric specialists should also verify Nemours Children’s Hospital separately.',
+                guideHref: '/blog/adventhealth-orlando-vs-orlando-health-2027.html',
+                guideLabel: 'Read the 2027 AdventHealth Orlando vs. Orlando Health Guide →'
+            },
+            osceola: {
+                title: 'Osceola County (Kissimmee / St. Cloud / Four Corners) — 2027 Carrier & Hospital Snapshot',
+                carriers: 'Florida Blue, Ambetter from Sunshine Health, AvMed, UnitedHealthcare Individual Exchange, and Oscar Health (verify exact Osceola County ZIP and 2027 plan ID).',
+                watchout: 'Households near Four Corners, Celebration, and Kissimmee often cross county lines between AdventHealth Celebration/Kissimmee, Orlando Health St. Cloud, and Polk County clinics (Heart of Florida / Centra Care Four Corners). Verify regional HMO service-area boundaries before enrolling.',
+                guideHref: '/blog/davenport-haines-city-aca-health-insurance-2027.html',
+                guideLabel: 'Read the 2027 I-4 Corridor & Four Corners Network Guide →'
+            },
+            pasco: {
+                title: 'Pasco County (Wesley Chapel / New Port Richey / Zephyrhills) — 2027 Carrier & Hospital Snapshot',
+                carriers: 'Florida Blue, Ambetter from Sunshine Health, AvMed, UnitedHealthcare Individual Exchange, and Oscar Health (verify exact Pasco County ZIP and 2027 plan ID).',
+                watchout: 'Verify AdventHealth Wesley Chapel, AdventHealth Zephyrhills, and BayCare Morton Plant North Bay on your exact 2027 plan ID, and check whether Tampa specialty referrals (TGH / Moffitt) remain in-network across county lines.',
+                guideHref: '/wesley-chapel-health-insurance/',
+                guideLabel: 'See Wesley Chapel & Pasco County Coverage Help →'
+            },
+            pinellas: {
+                title: 'Pinellas County (St. Petersburg / Clearwater / Largo) — 2027 Carrier & Hospital Snapshot',
+                carriers: 'Florida Blue, Ambetter from Sunshine Health, AvMed, UnitedHealthcare Individual Exchange, and Oscar Health (verify exact Pinellas County ZIP and 2027 plan ID).',
+                watchout: 'Confirm BayCare (Morton Plant, St. Anthony’s, Mease Countryside/Dunedin), Orlando Health Bayfront Hospital St. Pete, and Johns Hopkins All Children’s Hospital on the exact 2027 Marketplace plan ID before December 15.',
+                guideHref: '/blog/baycare-tampa-general-aca-medicare-2027.html',
+                guideLabel: 'Read the 2027 Tampa Bay & BayCare Network Guide →'
+            }
+        };
+
+        var countySelect = document.getElementById('county-preview-select');
+        if (countySelect) {
+            countySelect.addEventListener('change', function() {
+                var data = COUNTY_PREVIEWS[this.value] || COUNTY_PREVIEWS.polk;
+                document.getElementById('county-preview-title').textContent = data.title;
+                document.getElementById('county-preview-carriers').innerHTML = '<strong>2027 Marketplace Carriers to Compare:</strong> ' + data.carriers;
+                document.getElementById('county-preview-watchout').innerHTML = '<strong>Key 2027 Hospital &amp; Clinic Watchouts:</strong> ' + data.watchout;
+                var link = document.getElementById('county-preview-guide-link');
+                if (link) {
+                    link.setAttribute('href', data.guideHref);
+                    link.textContent = data.guideLabel;
+                }
+            });
+        }
 
         // Initialize input completion on load (location, household and tobacco have defaults)
         document.addEventListener('DOMContentLoaded', function() {

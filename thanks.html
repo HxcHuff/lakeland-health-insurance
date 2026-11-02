@@ -201,7 +201,93 @@
       margin-top: 1.5rem;
       padding-left: 1rem;
     }
-    a:focus-visible { outline: 3px solid rgba(212, 168, 67, 0.75); outline-offset: 2px; }
+    .spot-check-card {
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      border-top: 4px solid var(--gold);
+      border-radius: 12px;
+      margin-top: 18px;
+      padding: clamp(18px, 3vw, 26px);
+      box-shadow: 0 10px 28px rgba(27, 42, 74, 0.06);
+    }
+    .spot-check-eyebrow {
+      display: inline-block;
+      background: #eff6ff;
+      color: var(--blue);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+    .spot-check-card h2 {
+      color: var(--navy);
+      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
+      font-size: clamp(1.45rem, 2.8vw, 1.9rem);
+      font-weight: 400;
+      margin: 0 0 6px;
+    }
+    .spot-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .spot-chip {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 999px;
+      color: var(--navy);
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 7px 13px;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    .spot-chip.is-active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #ffffff;
+    }
+    .spot-mini-chip {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      color: #334155;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.77rem;
+      font-weight: 600;
+      padding: 4px 9px;
+    }
+    .spot-reveal-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      margin-top: 16px;
+      padding: 16px;
+    }
+    .spot-pending-box {
+      background: linear-gradient(135deg, #1B2A4A 0%, #1E3A8A 100%);
+      border: 1px solid var(--gold);
+      border-radius: 10px;
+      color: #ffffff;
+      margin-top: 14px;
+      padding: 16px;
+    }
+    .spot-pending-box ul {
+      margin: 8px 0 12px;
+      padding-left: 1.15rem;
+      font-size: 0.88rem;
+      line-height: 1.52;
+      color: rgba(255, 255, 255, 0.93);
+    }
+    .spot-pending-box li + li { margin-top: 6px; }
+    .spot-pending-box strong { color: #fde68a; }
+    a:focus-visible, button:focus-visible { outline: 3px solid rgba(212, 168, 67, 0.75); outline-offset: 2px; }
     @media (max-width: 720px) {
       .thanks-wrap { padding: 112px 14px 44px; }
       .next-grid { grid-template-columns: 1fr; }
@@ -295,15 +381,87 @@
         </div>
       </div>
 
-      <div class="next-card" style="margin-top: 16px;">
-        <h2>While you wait, build your 2027 Doctor &amp; Rx Checklist</h2>
-        <ul>
-          <li>Primary care doctors, specialists, and hospital systems (Watson Clinic, LRH, BayCare, AdventHealth, Orlando Health)</li>
-          <li>Medications with dosage and preferred pharmacy</li>
-          <li>Copy, print, or bring your summary to your call with David</li>
-        </ul>
-        <p><a href="/provider-prescription-check/#interactive-verification-worksheet"><strong>Open the 2027 Doctor, Hospital &amp; Prescription Check Builder &rarr;</strong></a></p>
+      <div class="spot-check-card" id="thanksInteractiveSpotCheck">
+        <span class="spot-check-eyebrow">Step 2 While You Wait &middot; Instant 2027 Preview (Stays in Your Browser)</span>
+        <h2>Tap your clinics or pharmacy to preview 2027 local network watchouts right now</h2>
+        <p style="margin:0 0 14px; color:var(--muted); font-size:0.95rem; line-height:1.55;">See which 2027 Polk County and Central Florida contract shifts apply to you, plus unlock a Pre-Call Brief Code if you want to skip the callback queue and run the live carrier lookup with David right now.</p>
+
+        <div style="margin-bottom: 12px;">
+          <strong style="display:block; font-size:0.86rem; color:var(--navy);">1. Tap any health systems or hospitals you use:</strong>
+          <div class="spot-chip-row">
+            <button type="button" class="spot-chip" data-thanks-sys="watson" data-label="Watson Clinic" aria-pressed="false">+ Watson Clinic</button>
+            <button type="button" class="spot-chip" data-thanks-sys="lrh" data-label="Lakeland Regional Health" aria-pressed="false">+ Lakeland Regional Health</button>
+            <button type="button" class="spot-chip" data-thanks-sys="baycare" data-label="BayCare / Winter Haven" aria-pressed="false">+ BayCare / Winter Haven</button>
+            <button type="button" class="spot-chip" data-thanks-sys="orlando" data-label="Orlando Health" aria-pressed="false">+ Orlando Health</button>
+            <button type="button" class="spot-chip" data-thanks-sys="advent" data-label="AdventHealth" aria-pressed="false">+ AdventHealth</button>
+            <button type="button" class="spot-chip" data-thanks-sys="moffitt" data-label="Tampa Specialty (Moffitt / TGH)" aria-pressed="false">+ Tampa Specialty (Moffitt / TGH)</button>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:12px;">
+          <div>
+            <strong style="display:block; font-size:0.85rem; color:var(--navy); margin-bottom:4px;">2. 2027 Plan Type You Are Comparing (Optional)</strong>
+            <div class="spot-chip-row">
+              <button type="button" class="spot-chip" data-thanks-plan-sample="Bronze HMO" aria-pressed="false">Bronze HMO</button>
+              <button type="button" class="spot-chip" data-thanks-plan-sample="Silver CSR Check" aria-pressed="false">Silver (CSR)</button>
+              <button type="button" class="spot-chip" data-thanks-plan-sample="Medicare Advantage HMO/PPO" aria-pressed="false">Advantage</button>
+              <button type="button" class="spot-chip" data-thanks-plan-sample="Medigap Plan G / N" aria-pressed="false">Medigap G / N</button>
+              <button type="button" class="spot-chip" data-thanks-plan-sample="Auto-Renewing Current Plan" aria-pressed="false">Auto-Renewal</button>
+            </div>
+          </div>
+          <div>
+            <strong style="display:block; font-size:0.85rem; color:var(--navy); margin-bottom:4px;">3. Preferred Pharmacy Counter (Optional)</strong>
+            <div class="spot-chip-row">
+              <button type="button" class="spot-chip" data-thanks-pharm="Publix" aria-pressed="false">Publix</button>
+              <button type="button" class="spot-chip" data-thanks-pharm="CVS" aria-pressed="false">CVS</button>
+              <button type="button" class="spot-chip" data-thanks-pharm="Walgreens" aria-pressed="false">Walgreens</button>
+              <button type="button" class="spot-chip" data-thanks-pharm="Walmart" aria-pressed="false">Walmart</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="spot-reveal-box" id="thanksSpotReveal" hidden role="region" aria-live="polite">
+          <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px; margin-bottom:6px;">
+            <span id="thanksSpotBriefCode" style="background:#1B2A4A; color:#FDE68A; font-size:0.75rem; font-weight:800; letter-spacing:0.05em; text-transform:uppercase; padding:3px 10px; border-radius:999px;">Brief #2027-FL</span>
+            <span id="thanksSpotPct" style="font-size:0.8rem; font-weight:700; color:var(--navy);">55% Pre-Call Prep Staged &middot; 3 Live Contract Cross-Checks Remaining</span>
+          </div>
+          <div style="background:#e2e8f0; border-radius:999px; height:8px; overflow:hidden; margin-bottom:12px;" aria-hidden="true">
+            <div id="thanksSpotFill" style="width:55%; height:100%; background:linear-gradient(90deg, #2563EB 0%, #D4A843 100%); transition:width 0.25s ease;"></div>
+          </div>
+
+          <strong style="display:block; font-size:0.9rem; color:var(--navy); margin-bottom:6px;">2027 Watchouts Uncovered for Your Selection:</strong>
+          <ul id="thanksSpotWatchouts" style="margin:0; padding-left:1.2rem; font-size:0.88rem; color:#1e293b; line-height:1.52; display:grid; gap:6px;"></ul>
+
+          <div class="spot-pending-box">
+            <strong style="display:block; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.05em; color:#fde68a;">3 Contract-Level Items Locked for David&rsquo;s Live Carrier Lookup:</strong>
+            <ul id="thanksSpotPending"></ul>
+            <div style="background:rgba(255,255,255,0.1); border-left:3px solid #D4A843; border-radius:6px; padding:8px 11px; margin-bottom:10px;">
+              <span style="display:block; font-size:0.74rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#fde68a; margin-bottom:2px;">Want to skip the wait? Read this when David answers:</span>
+              <p id="thanksSpotOpener" style="margin:0; font-size:0.88rem; color:#ffffff; font-weight:600; line-height:1.45;"></p>
+            </div>
+            <p id="thanksSpotDeskStatus" style="margin:0 0 10px; font-size:0.81rem; color:rgba(255,255,255,0.9);"></p>
+            <div class="cta-row" style="margin-top:0;">
+              <a class="btn btn-book-gold" href="tel:+18636403102" data-analytics-label="thanks_spotcheck_call">Skip the Queue: Call David Now (863) 640-3102</a>
+              <a class="btn btn-secondary" id="thanksSpotSmsBtn" href="sms:+18636403102?body=Hi%20David%2C%20I%20just%20submitted%20my%20request%20and%20built%20my%202027%20pre-check.%20Can%20we%20run%20the%20live%202027%20plan-ID%20lookup%3F" data-lhi-sms-cta="thanks_spotcheck_sms" data-analytics-label="thanks_spotcheck_sms">Text My Brief Code to David</a>
+              <a class="btn btn-secondary" href="/provider-prescription-check/#interactive-verification-worksheet">Open Full Printable Worksheet &rarr;</a>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin:12px 0 0; font-size:0.84rem; color:var(--muted);">Want to add notes or print your full checklist? <a href="/provider-prescription-check/#interactive-verification-worksheet" style="color:var(--blue); font-weight:700;">Open the full 2027 Doctor, Plan-ID &amp; Pharmacy Worksheet &rarr;</a></p>
       </div>
+
+      <section class="spot-check-card" id="thanksVideoCard" aria-labelledby="thanksVideoHeading" style="margin-top:18px;">
+        <span class="spot-check-eyebrow">From David Huff &middot; Lakeland, FL</span>
+        <h2 id="thanksVideoHeading">Enrollment is just the beginning of the relationship</h2>
+        <p style="margin:0 0 12px; color:var(--muted); font-size:0.95rem; line-height:1.55;">A quick personal note from David on what to expect next &mdash; and why you can always call <a href="tel:+18636403102" style="color:var(--blue);font-weight:700;">(863) 640-3102</a> before sitting on hold with a carrier&rsquo;s 1-800 number.</p>
+        <div style="position:relative; width:100%; border-radius:12px; overflow:hidden; background:#0F1A2E; box-shadow:0 2px 10px rgba(0,0,0,0.15);">
+          <video controls playsinline preload="metadata" poster="/assets/images/video-poster-enrollment-beginning.jpg" style="display:block; width:100%; height:auto; max-height:480px; margin:0 auto;">
+            <source src="/assets/videos/enrollment-is-just-the-beginning.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </section>
 
       <div class="cta-row" id="ctaRow">
         <a class="btn btn-primary" href="tel:+18636403102" data-analytics-label="thanks_call_david">Call David</a>
@@ -450,6 +608,7 @@
       }
     })();
   </script>
+  <script src="/js/precall-brief.js?v=20261030-precall-v1" defer></script>
   <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
 
   <script src="/js/site-template.js?v=20261030-step1-cache-bust-v1" defer></script>

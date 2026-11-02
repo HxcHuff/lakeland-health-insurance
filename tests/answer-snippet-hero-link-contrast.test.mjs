@@ -1,12 +1,21 @@
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import test from 'node:test';
 import { chromium } from 'playwright';
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const ANSWER_PAGES_VERSION = '20261030-step1-cache-bust-v1';
+
+const CHROME_CANDIDATES = [
+  process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,
+  process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH,
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  '/Applications/Chromium.app/Contents/MacOS/Chromium',
+  '/usr/local/bin/google-chrome'
+].filter(Boolean);
+const CHROME_PATH = CHROME_CANDIDATES.find((candidate) => existsSync(candidate));
 
 const LOCAL_ANSWER_PAGES = [
   '/local-health-insurance-answers/',
@@ -94,7 +103,7 @@ test('rendered hero snippet links meet 4.5:1 contrast on all local answer pages'
   const origin = `http://127.0.0.1:${server.address().port}`;
   const browser = await chromium.launch({
     headless: true,
-    executablePath: process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || '/usr/local/bin/google-chrome',
+    executablePath: CHROME_PATH,
   });
 
   try {

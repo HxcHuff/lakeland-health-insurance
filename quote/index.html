@@ -122,11 +122,11 @@
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="medicare" data-form-name="site-medicare-lead" data-source-template="medicare_hub" aria-labelledby="quote-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
-      <h2 class="lhi-lead-hero__title" id="quote-lead-title">Request a Medicare plan review</h2>
+      <h2 class="lhi-lead-hero__title" id="quote-lead-title">Request a Medicare or ACA plan review</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-medicare-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="quoteForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_medicare_hub_lead" aria-label="Request a Medicare plan review">
+      <form class="lhi-lead-hero__form" name="site-medicare-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="quoteForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_medicare_hub_lead" aria-label="Request a Medicare or ACA plan review">
         <input type="hidden" name="form-name" value="site-medicare-lead">
         <input type="hidden" name="source_page" value="/quote/">
         <input type="hidden" name="source_template" value="medicare_hub">
@@ -171,12 +171,21 @@
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="quote_coverage_status">Coverage type</label>
             <select id="quote_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
-                  <option value="medicare_advantage">Medicare Advantage</option>
-                  <option value="medicare_supplement">Medicare Supplement</option>
-                  <option value="part_d">Part D prescription drug coverage</option>
-                  <option value="current_plan_review">Current Medicare plan review</option>
-                  <option value="not_sure">Not sure yet</option>
+                  <option value="" selected disabled>Select coverage type</option>
+                  <optgroup label="Medicare (Age 65+ &amp; 2027 AEP)">
+                    <option value="medicare_advantage">Medicare Advantage (Part C)</option>
+                    <option value="medicare_supplement">Medicare Supplement (Medigap Plan G/N)</option>
+                    <option value="part_d_rx">Part D Prescription Drug Plan ($2,000 Cap)</option>
+                    <option value="turning_65">Turning 65 soon</option>
+                    <option value="current_plan_review">Current Medicare plan review</option>
+                  </optgroup>
+                  <optgroup label="ACA &amp; Individual/Family (Under 65)">
+                    <option value="individual_marketplace">Individual Marketplace coverage</option>
+                    <option value="family_marketplace">Family Marketplace coverage</option>
+                    <option value="losing_coverage">Losing employer coverage / COBRA</option>
+                    <option value="self_employed">Self-employed health coverage</option>
+                  </optgroup>
+                  <option value="not_sure">Not sure yet &middot; Compare ACA &amp; Medicare</option>
             </select>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">

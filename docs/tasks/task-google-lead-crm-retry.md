@@ -1,8 +1,8 @@
 # Task: Investigate & Repair `google-lead-crm-retry` Netlify Function
 
-**Date Created:** October 20, 2026  
-**Status:** Queued for Tomorrow  
-**Priority:** High (Cron disabled on production branch to eliminate 502 error spam)
+**Date Created:** October 20, 2026
+**Status:** Resolved — Schedule Intentionally Disabled in `netlify.toml` (HubSpot Retired in Favor of Hopper CRM `aa02ed8b`)
+**Priority:** Closed (Cron remains disabled on production branch; Hopper CRM `/api/leads/ingest` is the active lead destination)
 
 ---
 

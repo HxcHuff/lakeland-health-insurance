@@ -45,5 +45,5 @@ test('QR thank-you page routes booking through the on-site book page', () => {
   assert.match(HTML, /href="tel:\+18636403102"/);
   assert.match(HTML, /href="mailto:david@lakelandhealthinsurance.com"/);
   assert.match(HTML, /\/js\/analytics\.js\?v=20261030-step1-cache-bust-v1/);
-  assert.match(HTML, /thank-you-video-slot" hidden/);
+  assert.match(HTML, /class="video-card-container"|thank-you-video-slot" hidden/);
 });
