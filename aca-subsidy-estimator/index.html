@@ -931,6 +931,351 @@
             margin-bottom: 4px;
         }
 
+        /* Interactive Scenario Presets */
+        .scenario-bar {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            margin-bottom: 24px;
+        }
+        .scenario-bar-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gray-500);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .scenario-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .scenario-pill {
+            background: var(--white);
+            border: 1.5px solid var(--gray-200);
+            border-radius: 999px;
+            padding: 7px 13px;
+            font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--navy);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .scenario-pill:hover {
+            border-color: var(--blue);
+            background: var(--sky-soft);
+        }
+        .scenario-pill.active {
+            background: var(--navy);
+            color: var(--white);
+            border-color: var(--navy);
+        }
+
+        /* Label row with live badge & range sliders */
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+        .label-row label {
+            margin-bottom: 0;
+        }
+        .field-live-badge {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--blue);
+            background: var(--sky-soft);
+            border: 1px solid #BFDBFE;
+            padding: 2px 10px;
+            border-radius: 999px;
+        }
+        .range-slider-wrap {
+            margin-top: 10px;
+        }
+        .calc-range-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px !important;
+            padding: 0 !important;
+            border: none !important;
+            border-radius: 999px !important;
+            background: linear-gradient(90deg, var(--blue) 0%, #60A5FA 100%) !important;
+            outline: none;
+            cursor: pointer;
+        }
+        .calc-range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--navy);
+            border: 3px solid var(--white);
+            box-shadow: 0 2px 6px rgba(15, 26, 46, 0.35);
+            cursor: pointer;
+        }
+        .calc-range-slider::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--navy);
+            border: 3px solid var(--white);
+            box-shadow: 0 2px 6px rgba(15, 26, 46, 0.35);
+            cursor: pointer;
+        }
+        .range-scale {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-top: 4px;
+        }
+        .nudge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .nudge-btn {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 5px 10px;
+            font-family: 'DM Sans', 'DM Sans Fallback', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .nudge-btn:hover {
+            background: var(--sky-soft);
+            border-color: var(--blue);
+            color: var(--navy);
+        }
+
+        /* Hero KPI Sub-Strip */
+        .hero-kpi-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(27, 42, 74, 0.12);
+        }
+        .hero-kpi-box {
+            background: rgba(255, 255, 255, 0.78);
+            border-radius: 10px;
+            padding: 10px 8px;
+            text-align: center;
+        }
+        .hero-kpi-box .kpi-title {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: var(--gray-500);
+            margin-bottom: 2px;
+        }
+        .hero-kpi-box .kpi-val {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--navy);
+        }
+
+        /* Interactive FPL Spectrum & Threshold Radar */
+        .fpl-spectrum-card {
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            margin-bottom: 16px;
+        }
+        .fpl-spectrum-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .fpl-spectrum-header h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin: 0;
+        }
+        .fpl-spectrum-badge {
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: var(--sky-soft);
+            color: var(--blue);
+        }
+        .fpl-bar-wrap {
+            position: relative;
+            padding-top: 22px;
+            margin-bottom: 10px;
+        }
+        .fpl-marker {
+            position: absolute;
+            top: 0;
+            transform: translateX(-50%);
+            background: var(--navy);
+            color: var(--white);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+            transition: left 0.25s ease;
+            z-index: 2;
+        }
+        .fpl-marker::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 5px 5px 0 5px;
+            border-style: solid;
+            border-color: var(--navy) transparent transparent transparent;
+        }
+        .fpl-segments {
+            display: grid;
+            grid-template-columns: 22% 11% 11% 11% 33% 12%;
+            height: 12px;
+            border-radius: 999px;
+            overflow: hidden;
+            gap: 2px;
+            background: var(--white);
+        }
+        .fpl-seg {
+            height: 100%;
+        }
+        .fpl-seg.seg-gap { background: #94A3B8; }
+        .fpl-seg.seg-csr94 { background: #16A34A; }
+        .fpl-seg.seg-csr87 { background: #22C55E; }
+        .fpl-seg.seg-csr73 { background: #3B82F6; }
+        .fpl-seg.seg-std { background: #60A5FA; }
+        .fpl-seg.seg-cliff { background: #F59E0B; }
+        .fpl-cutoff-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin-top: 12px;
+        }
+        .fpl-cutoff-cell {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 7px 6px;
+            text-align: center;
+            font-size: 0.75rem;
+        }
+        .fpl-cutoff-cell.active-zone {
+            background: var(--sky-soft);
+            border-color: var(--blue);
+        }
+        .fpl-cutoff-cell .cutoff-pct {
+            display: block;
+            font-weight: 700;
+            color: var(--navy);
+        }
+        .fpl-cutoff-cell .cutoff-amt {
+            display: block;
+            color: var(--gray-600);
+            font-weight: 600;
+            margin-top: 1px;
+        }
+        .fpl-cutoff-cell .cutoff-tag {
+            display: block;
+            font-size: 0.68rem;
+            color: var(--gray-500);
+            margin-top: 1px;
+        }
+        .fpl-threshold-insight {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid var(--gray-100);
+            font-size: 0.86rem;
+            color: var(--gray-700);
+            line-height: 1.55;
+        }
+
+        /* 3-Metal-Tier Illustrative Comparison */
+        .metal-tier-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .metal-card {
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 16px 14px;
+            text-align: center;
+            position: relative;
+        }
+        .metal-card.featured {
+            border-color: var(--blue);
+            background: var(--sky-soft);
+        }
+        .metal-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            margin-bottom: 6px;
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+        .metal-card.featured .metal-badge {
+            background: var(--blue);
+            color: var(--white);
+        }
+        .metal-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+        .metal-price {
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1.15;
+        }
+        .metal-price span {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--gray-500);
+        }
+        .metal-sub {
+            font-size: 0.78rem;
+            color: var(--gray-600);
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero-section {
@@ -974,6 +1319,15 @@
             .confidence-chip {
                 font-size: 0.7rem;
                 padding: 2px 8px;
+            }
+            .hero-kpi-strip {
+                grid-template-columns: 1fr;
+            }
+            .fpl-cutoff-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .metal-tier-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1059,30 +1413,77 @@
                 <div class="confidence-meter">
                     <div class="confidence-label">
                         <span>Inputs completed</span>
-                        <span class="confidence-pct" id="confidence-pct">3 of 5</span>
+                        <span class="confidence-pct" id="confidence-pct">5 of 5</span>
                     </div>
                     <div class="confidence-track">
-                        <div class="confidence-fill" id="confidence-fill"></div>
+                        <div class="confidence-fill full" id="confidence-fill" style="width:100%;"></div>
                     </div>
                     <div class="confidence-steps">
-                        <span class="confidence-chip" id="chip-age">Age</span>
-                        <span class="confidence-chip" id="chip-income">Income</span>
-                        <span class="confidence-chip" id="chip-household">Household</span>
-                        <span class="confidence-chip" id="chip-zip">Fixed location</span>
-                        <span class="confidence-chip" id="chip-tobacco">Tobacco</span>
+                        <span class="confidence-chip done" id="chip-age">Age</span>
+                        <span class="confidence-chip done" id="chip-income">Income</span>
+                        <span class="confidence-chip done" id="chip-household">Household</span>
+                        <span class="confidence-chip done" id="chip-zip">Fixed location</span>
+                        <span class="confidence-chip done" id="chip-tobacco">Tobacco</span>
+                    </div>
+                </div>
+
+                <!-- Quick-Test 2027 Scenarios -->
+                <div class="scenario-bar" id="scenario-presets">
+                    <div class="scenario-bar-title">
+                        <span>Quick-Test 2027 Polk County Scenarios</span>
+                        <span style="font-weight:500; text-transform:none; letter-spacing:0;">Click any preset or customize below</span>
+                    </div>
+                    <div class="scenario-pills">
+                        <button type="button" class="scenario-pill" data-age="35" data-income="25000" data-hh="1" data-tobacco="no">Single &middot; $25k (157% FPL)</button>
+                        <button type="button" class="scenario-pill active" data-age="35" data-income="55000" data-hh="4" data-tobacco="no">Family of 4 &middot; $55k (167% FPL)</button>
+                        <button type="button" class="scenario-pill" data-age="45" data-income="21000" data-hh="1" data-tobacco="no">Max 94% CSR &middot; $21k (132% FPL)</button>
+                        <button type="button" class="scenario-pill" data-age="60" data-income="78000" data-hh="2" data-tobacco="no">Couple Age 60 &middot; $78k (360% FPL)</button>
+                        <button type="button" class="scenario-pill" data-age="60" data-income="90000" data-hh="2" data-tobacco="no">Above 400% Cliff &middot; $90k</button>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="applicant-age">Exact Age</label>
-                    <input type="number" id="applicant-age" placeholder="35" min="0" max="64" inputmode="numeric">
+                    <div class="label-row">
+                        <label for="applicant-age">Exact Age</label>
+                        <span class="field-live-badge" id="age-factor-badge">Age 35 &middot; 1.222&times; CMS 3:1 factor</span>
+                    </div>
+                    <input type="number" id="applicant-age" value="35" placeholder="35" min="0" max="64" inputmode="numeric">
+                    <div class="range-slider-wrap">
+                        <input type="range" id="applicant-age-slider" class="calc-range-slider" min="0" max="64" step="1" value="35" aria-label="Adjust applicant age from 0 to 64">
+                        <div class="range-scale">
+                            <span>Age 0&ndash;20 (0.765&times;)</span>
+                            <span>Age 21 (1.000&times; Base)</span>
+                            <span>Age 45 (1.444&times;)</span>
+                            <span>Age 64 (3.000&times; Max)</span>
+                        </div>
+                    </div>
                     <div class="help-text">Age of the primary applicant (0&ndash;64). Those 65+ should explore Medicare.</div>
                 </div>
 
                 <div class="form-group">
-                    <label for="annual-income">Projected 2027 Annual Income</label>
-                    <input type="text" id="annual-income" placeholder="$55,000" inputmode="numeric">
-                    <div class="help-text">Your total expected MAGI for 2027. Be as precise as possible.</div>
+                    <div class="label-row">
+                        <label for="annual-income">Projected 2027 Annual Income</label>
+                        <span class="field-live-badge" id="income-fpl-badge">167% FPL &middot; 87% Silver CSR</span>
+                    </div>
+                    <input type="text" id="annual-income" value="$55,000" placeholder="$55,000" inputmode="numeric">
+                    <div class="range-slider-wrap">
+                        <input type="range" id="annual-income-slider" class="calc-range-slider" min="10000" max="180000" step="500" value="55000" aria-label="Adjust projected 2027 annual household MAGI">
+                        <div class="range-scale">
+                            <span>$10,000</span>
+                            <span id="slider-label-100fpl">100% FPL: $33,000</span>
+                            <span id="slider-label-250fpl">250% CSR: $82,500</span>
+                            <span id="slider-label-400fpl">400% Cliff: $132,000</span>
+                        </div>
+                    </div>
+                    <div class="nudge-row" aria-label="Quick income adjustments">
+                        <button type="button" class="nudge-btn" data-nudge="-5000">&minus;$5,000</button>
+                        <button type="button" class="nudge-btn" data-nudge="-1000">&minus;$1,000</button>
+                        <button type="button" class="nudge-btn" data-nudge="1000">+$1,000</button>
+                        <button type="button" class="nudge-btn" data-nudge="5000">+$5,000</button>
+                        <button type="button" class="nudge-btn" data-jump-fpl="150">Test 150% FPL</button>
+                        <button type="button" class="nudge-btn" data-jump-fpl="400">Test 400% Cliff</button>
+                    </div>
+                    <div class="help-text">Your total expected household MAGI for 2027. Drag the slider or type any amount to test how income changes affect your tax credit.</div>
                 </div>
 
                 <div class="form-group">
@@ -1099,7 +1500,7 @@
                         <option value="9">9 people</option>
                         <option value="10">10 people</option>
                     </select>
-                    <div class="help-text">Include yourself, your spouse, and any tax dependents.</div>
+                    <div class="help-text">Include yourself, your spouse, and any tax dependents on your 2027 federal return.</div>
                 </div>
 
                 <div class="form-group">
@@ -1117,48 +1518,136 @@
                     <div class="help-text">Tobacco use can affect your premium but not your subsidy amount.</div>
                 </div>
 
+                <button type="button" class="calculate-btn" id="calculate-estimate-btn" style="margin-top:4px; margin-bottom:8px;">
+                    Calculate / Update 2027 Estimate
+                </button>
+
                 <!-- Live Results (replaces old button + results-panel) -->
-                <p class="help-text" id="estimate-prompt" role="status">Enter an age from 0 to 64 and a positive projected annual income to see the 2027 illustration. Review the default household size and tobacco selection.</p>
-                <div class="live-results hidden" id="live-results">
+                <p class="help-text" id="estimate-prompt" role="status" hidden>Enter an age from 0 to 64 and a positive projected annual income to see the 2027 illustration. Review the default household size and tobacco selection.</p>
+                <div class="live-results" id="live-results" aria-live="polite">
                     <!-- Price Hero -->
                     <div class="live-price-hero" id="price-hero">
-                        <div class="price-label">Illustrative Monthly Amount</div>
-                        <div class="price-value" id="price-value">&mdash;</div>
-                        <div class="price-period">per month after subsidy</div>
+                        <div class="price-label">Illustrative Monthly Benchmark Net Premium</div>
+                        <div class="price-value" id="price-value">$235</div>
+                        <div class="price-period" id="price-period-text">per month after $436/mo estimated tax credit</div>
+                        <div class="zero-badge">Illustrative Bronze plans often $0/mo at this tier</div>
+                        <div class="hero-kpi-strip" id="hero-kpi-strip">
+                            <div class="hero-kpi-box">
+                                <span class="kpi-title">Monthly Tax Credit</span>
+                                <span class="kpi-val" id="hero-monthly-aptc">$436/mo</span>
+                            </div>
+                            <div class="hero-kpi-box">
+                                <span class="kpi-title">Annual 2027 Tax Credit</span>
+                                <span class="kpi-val" id="hero-annual-aptc">$5,229/yr</span>
+                            </div>
+                            <div class="hero-kpi-box">
+                                <span class="kpi-title">2027 FPL &amp; CSR Tier</span>
+                                <span class="kpi-val" id="hero-tier-badge">167% FPL (87% AV)</span>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Status Messages (gap / cliff) -->
                     <div id="status-message-area"></div>
 
+                    <!-- Interactive 2027 FPL Spectrum & Threshold Radar -->
+                    <div class="fpl-spectrum-card" id="fpl-spectrum-card">
+                        <div class="fpl-spectrum-header">
+                            <h4>2027 Federal Poverty Level (FPL) &amp; Subsidy Cliff Meter</h4>
+                            <span class="fpl-spectrum-badge" id="fpl-spectrum-badge">167% FPL &middot; 4-Person Household</span>
+                        </div>
+                        <div class="fpl-bar-wrap">
+                            <div class="fpl-marker" id="fpl-marker-pin" style="left:37%;">167% FPL</div>
+                            <div class="fpl-segments" role="img" aria-label="FPL zones from below 100% coverage gap through 400% subsidy cliff">
+                                <div class="fpl-seg seg-gap" title="Below 100% FPL: Florida Non-Expansion Coverage Gap"></div>
+                                <div class="fpl-seg seg-csr94" title="100% to 150% FPL: 94% AV Silver CSR Tier"></div>
+                                <div class="fpl-seg seg-csr87" title="150% to 200% FPL: 87% AV Silver CSR Tier"></div>
+                                <div class="fpl-seg seg-csr73" title="200% to 250% FPL: 73% AV Silver CSR Tier"></div>
+                                <div class="fpl-seg seg-std" title="250% to 400% FPL: Standard APTC Tax Credit"></div>
+                                <div class="fpl-seg seg-cliff" title="Above 400% FPL: 2027 Subsidy Cliff ($0 APTC)"></div>
+                            </div>
+                        </div>
+                        <div class="fpl-cutoff-grid" id="fpl-cutoff-grid">
+                            <div class="fpl-cutoff-cell" id="cutoff-cell-100">
+                                <span class="cutoff-pct">100% FPL</span>
+                                <span class="cutoff-amt" id="cutoff-100">$33,000</span>
+                                <span class="cutoff-tag">FL APTC Floor</span>
+                            </div>
+                            <div class="fpl-cutoff-cell" id="cutoff-cell-150">
+                                <span class="cutoff-pct">150% FPL</span>
+                                <span class="cutoff-amt" id="cutoff-150">$49,500</span>
+                                <span class="cutoff-tag">94% Silver CSR</span>
+                            </div>
+                            <div class="fpl-cutoff-cell active-zone" id="cutoff-cell-200">
+                                <span class="cutoff-pct">200% FPL</span>
+                                <span class="cutoff-amt" id="cutoff-200">$66,000</span>
+                                <span class="cutoff-tag">87% Silver CSR</span>
+                            </div>
+                            <div class="fpl-cutoff-cell" id="cutoff-cell-250">
+                                <span class="cutoff-pct">250% FPL</span>
+                                <span class="cutoff-amt" id="cutoff-250">$82,500</span>
+                                <span class="cutoff-tag">73% Silver CSR</span>
+                            </div>
+                            <div class="fpl-cutoff-cell" id="cutoff-cell-400">
+                                <span class="cutoff-pct">400% FPL</span>
+                                <span class="cutoff-amt" id="cutoff-400">$132,000</span>
+                                <span class="cutoff-tag">Subsidy Cliff</span>
+                            </div>
+                        </div>
+                        <div class="fpl-threshold-insight" id="fpl-threshold-insight"></div>
+                    </div>
+
                     <!-- Silver CSR Tier Callout (100% - 250% FPL) -->
-                    <div id="csr-tier-callout" class="result-note" style="display:none; margin-top:0; margin-bottom:16px; background:#F0F5FF; border-left:4px solid #2563EB;"></div>
+                    <div id="csr-tier-callout" class="result-note" style="display:block; margin-top:0; margin-bottom:16px; background:#F0F5FF; border-left:4px solid #2563EB;"></div>
+
+                    <!-- 3-Metal-Tier Illustrative Comparison -->
+                    <div class="metal-tier-grid" id="metal-tier-comparison">
+                        <div class="metal-card">
+                            <span class="metal-badge">Lower Monthly Rate</span>
+                            <div class="metal-name">Illustrative Bronze</div>
+                            <div class="metal-price" id="metal-bronze-net">$74<span>/mo</span></div>
+                            <div class="metal-sub" id="metal-bronze-sub">~60% actuarial value; higher annual deductible; no CSR extra savings.</div>
+                        </div>
+                        <div class="metal-card featured">
+                            <span class="metal-badge" id="metal-silver-badge">87% AV Silver CSR</span>
+                            <div class="metal-name">Benchmark Silver</div>
+                            <div class="metal-price" id="metal-silver-net">$235<span>/mo</span></div>
+                            <div class="metal-sub" id="metal-silver-sub">Polk County SLCSP benchmark ($671/mo gross). Only tier eligible for CSR.</div>
+                        </div>
+                        <div class="metal-card">
+                            <span class="metal-badge">Richer Standard Benefits</span>
+                            <div class="metal-name">Illustrative Gold</div>
+                            <div class="metal-price" id="metal-gold-net">$315<span>/mo</span></div>
+                            <div class="metal-sub" id="metal-gold-sub">~80% actuarial value; applies the same monthly APTC credit toward Gold.</div>
+                        </div>
+                    </div>
 
                     <!-- Why This Price Breakdown -->
                     <div class="price-breakdown" id="price-breakdown">
-                        <button type="button" class="breakdown-toggle" id="breakdown-toggle">
-                            <span>Why this price?</span>
+                        <button type="button" class="breakdown-toggle open" id="breakdown-toggle">
+                            <span>Why this price? (2027 IRS &amp; CMS Math Breakdown)</span>
                             <span class="arrow">&#9660;</span>
                         </button>
-                        <div class="breakdown-body" id="breakdown-body">
+                        <div class="breakdown-body open" id="breakdown-body">
                             <div class="breakdown-row">
-                                <span class="row-label"><span class="row-icon">&#127981;</span> Base Premium, age <span id="bd-age">--</span></span>
-                                <span class="row-value" id="bd-base">--</span>
+                                <span class="row-label"><span class="row-icon">&#127981;</span> Base Benchmark Silver, age <span id="bd-age">35</span></span>
+                                <span class="row-value" id="bd-base">$671/mo</span>
                             </div>
                             <div class="breakdown-row">
-                                <span class="row-label"><span class="row-icon">&#128200;</span> Your FPL Level</span>
-                                <span class="row-value" id="bd-fpl">--</span>
+                                <span class="row-label"><span class="row-icon">&#128200;</span> Your 2027 FPL Level</span>
+                                <span class="row-value" id="bd-fpl">167% FPL</span>
                             </div>
                             <div class="breakdown-row">
-                                <span class="row-label"><span class="row-icon">&#128176;</span> IRS Expected Contribution</span>
-                                <span class="row-value" id="bd-contribution">--</span>
+                                <span class="row-label"><span class="row-icon">&#128176;</span> IRS Expected Contribution (Rev. Proc. 2026-26)</span>
+                                <span class="row-value" id="bd-contribution">5.13% of income ($235/mo)</span>
                             </div>
                             <div class="breakdown-row subsidy-row">
-                                <span class="row-label"><span class="row-icon">&#127775;</span> Your Tax Credit (APTC)</span>
-                                <span class="row-value" id="bd-subsidy">--</span>
+                                <span class="row-label"><span class="row-icon">&#127775;</span> Your Monthly Tax Credit (APTC)</span>
+                                <span class="row-value" id="bd-subsidy">-$436/mo ($5,229/yr)</span>
                             </div>
                             <div class="breakdown-row total-row">
-                                <span class="row-label">Your Estimated Cost</span>
-                                <span class="row-value" id="bd-total">--</span>
+                                <span class="row-label">Your Estimated Benchmark Silver Cost</span>
+                                <span class="row-value" id="bd-total">$235/mo</span>
                             </div>
                         </div>
                     </div>
@@ -1499,12 +1988,182 @@
         var _calcDebounce = null;
         var _estimatorCompleteTracked = false;
 
-        function liveCalculate() {
-            clearTimeout(_calcDebounce);
-            _calcDebounce = setTimeout(runCalculation, 150);
+        function ensureFallbackValues(skipActiveField) {
+            var ageInput = document.getElementById('applicant-age');
+            var incInput = document.getElementById('annual-income');
+            if (ageInput.value.trim() === '' && (!skipActiveField || document.activeElement !== ageInput)) {
+                ageInput.value = '35';
+            }
+            if (parseIncome(incInput.value) <= 0 && (!skipActiveField || document.activeElement !== incInput)) {
+                incInput.value = '$55,000';
+            }
         }
 
-        function runCalculation() {
+        function syncSlidersFromInputs() {
+            var ageVal = Number(document.getElementById('applicant-age').value);
+            var ageSlider = document.getElementById('applicant-age-slider');
+            if (ageSlider && !isNaN(ageVal) && ageVal >= 0 && ageVal <= 64) {
+                ageSlider.value = String(ageVal);
+            }
+            var incVal = parseIncome(document.getElementById('annual-income').value);
+            var incSlider = document.getElementById('annual-income-slider');
+            if (incSlider && incVal > 0) {
+                incSlider.value = String(Math.min(180000, Math.max(10000, incVal)));
+            }
+        }
+
+        function updateScenarioActiveState(age, income, hh, tobacco) {
+            var pills = document.querySelectorAll('#scenario-presets .scenario-pill');
+            pills.forEach(function(pill) {
+                var match = Number(pill.getAttribute('data-age')) === age &&
+                            Number(pill.getAttribute('data-income')) === income &&
+                            Number(pill.getAttribute('data-hh')) === hh &&
+                            pill.getAttribute('data-tobacco') === tobacco;
+                pill.classList.toggle('active', match);
+            });
+        }
+
+        function liveCalculate() {
+            clearTimeout(_calcDebounce);
+            syncSlidersFromInputs();
+            _calcDebounce = setTimeout(function() {
+                runCalculation(true);
+            }, 80);
+        }
+
+        function getFplMarkerLeftPct(fplPercent) {
+            // Map FPL % across the 6 visual bar segments (22% | 11% | 11% | 11% | 33% | 12%)
+            if (fplPercent <= 0) return 2;
+            if (fplPercent < 100) return Math.max(3, (fplPercent / 100) * 22);
+            if (fplPercent <= 150) return 22 + ((fplPercent - 100) / 50) * 11;
+            if (fplPercent <= 200) return 33 + ((fplPercent - 150) / 50) * 11;
+            if (fplPercent <= 250) return 44 + ((fplPercent - 200) / 50) * 11;
+            if (fplPercent <= 400) return 55 + ((fplPercent - 250) / 150) * 33;
+            return Math.min(97, 88 + Math.min(1, (fplPercent - 400) / 100) * 9);
+        }
+
+        function updateFplSpectrum(fpl, fplPercent, income, householdSize, benchmarkMonthly) {
+            var f100 = fpl;
+            var f150 = Math.round(fpl * 1.5);
+            var f200 = Math.round(fpl * 2.0);
+            var f250 = Math.round(fpl * 2.5);
+            var f400 = Math.round(fpl * 4.0);
+
+            document.getElementById('cutoff-100').textContent = fmt(f100);
+            document.getElementById('cutoff-150').textContent = fmt(f150);
+            document.getElementById('cutoff-200').textContent = fmt(f200);
+            document.getElementById('cutoff-250').textContent = fmt(f250);
+            document.getElementById('cutoff-400').textContent = fmt(f400);
+
+            var s100 = document.getElementById('slider-label-100fpl');
+            var s250 = document.getElementById('slider-label-250fpl');
+            var s400 = document.getElementById('slider-label-400fpl');
+            if (s100) s100.textContent = '100% FPL: ' + fmt(f100);
+            if (s250) s250.textContent = '250% CSR: ' + fmt(f250);
+            if (s400) s400.textContent = '400% Cliff: ' + fmt(f400);
+
+            var marker = document.getElementById('fpl-marker-pin');
+            if (marker) {
+                marker.style.left = getFplMarkerLeftPct(fplPercent).toFixed(1) + '%';
+                marker.textContent = Math.round(fplPercent) + '% FPL';
+            }
+
+            var hhLabel = householdSize === 1 ? '1-Person Household' : householdSize + '-Person Household';
+            var specBadge = document.getElementById('fpl-spectrum-badge');
+            if (specBadge) {
+                specBadge.textContent = Math.round(fplPercent) + '% FPL · ' + hhLabel;
+            }
+
+            // Highlight active cutoff cell
+            var cellIds = ['cutoff-cell-100', 'cutoff-cell-150', 'cutoff-cell-200', 'cutoff-cell-250', 'cutoff-cell-400'];
+            cellIds.forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.classList.remove('active-zone');
+            });
+            var activeCellId = fplPercent < 100 ? 'cutoff-cell-100'
+                : (fplPercent <= 150 ? 'cutoff-cell-150'
+                : (fplPercent <= 200 ? 'cutoff-cell-200'
+                : (fplPercent <= 250 ? 'cutoff-cell-250' : 'cutoff-cell-400')));
+            var activeCell = document.getElementById(activeCellId);
+            if (activeCell) activeCell.classList.add('active-zone');
+
+            // Threshold radar insight
+            var insightEl = document.getElementById('fpl-threshold-insight');
+            if (!insightEl) return;
+
+            if (fplPercent < 100) {
+                var toFloor = Math.max(0, f100 - income);
+                insightEl.innerHTML =
+                    '<strong>Threshold Radar:</strong> Projected MAGI is <strong>' + fmt(toFloor) + ' below</strong> the 100% FPL Florida Marketplace floor (' + fmt(f100) + ' for a ' + hhLabel.toLowerCase() + '). At exactly ' + fmt(f100) + ', you qualify for maximum APTC and the <strong>94% Actuarial Value Silver CSR tier</strong>.';
+            } else if (fplPercent > 400) {
+                var overCliff = income - f400;
+                var cliffContribMonthly = (f400 * 0.1022) / 12;
+                var restoredSubsidyMonthly = Math.max(0, benchmarkMonthly - cliffContribMonthly);
+                var restoredNote = restoredSubsidyMonthly > 0
+                    ? ' At exactly 400% FPL (' + fmt(f400) + '), the estimated benchmark tax credit would be <strong>' + fmt(restoredSubsidyMonthly) + '/mo (' + fmt(restoredSubsidyMonthly * 12) + '/yr)</strong>.'
+                    : ' At this age and income, the 10.22% IRS expected contribution exceeds the benchmark Silver premium even at 400% FPL.';
+                insightEl.innerHTML =
+                    '<strong>2027 Subsidy Cliff Alert:</strong> Projected MAGI is <strong>' + fmt(overCliff) + ' above</strong> the 400% FPL cutoff (' + fmt(f400) + ').' + restoredNote + ' Consult your tax advisor on whether pre-tax HSA, Traditional IRA, 401(k), or business deductions affect your 2027 MAGI.';
+            } else {
+                var cliffBuffer = f400 - income;
+                var nextCsrNote = '';
+                if (fplPercent > 150 && fplPercent <= 200) {
+                    nextCsrNote = ' You are <strong>' + fmt(income - f150) + ' above</strong> the 150% FPL cutoff (' + fmt(f150) + ') for the 94% AV Silver CSR tier.';
+                } else if (fplPercent > 200 && fplPercent <= 250) {
+                    nextCsrNote = ' You are <strong>' + fmt(income - f200) + ' above</strong> the 200% FPL cutoff (' + fmt(f200) + ') for the 87% AV Silver CSR tier.';
+                } else if (fplPercent > 250 && fplPercent <= 310) {
+                    nextCsrNote = ' You are <strong>' + fmt(income - f250) + ' above</strong> the 250% FPL cutoff (' + fmt(f250) + ') for the 73% AV Silver CSR tier.';
+                }
+                insightEl.innerHTML =
+                    '<strong>Threshold Radar:</strong> You have <strong>' + fmt(cliffBuffer) + ' of MAGI buffer</strong> before reaching the 2027 400% FPL subsidy cliff (' + fmt(f400) + ').' + nextCsrNote;
+            }
+        }
+
+        function updateMetalTierCards(benchmarkMonthly, tobaccoSurcharge, subsidyMonthly, fplPercent) {
+            var metalGrid = document.getElementById('metal-tier-comparison');
+            if (!metalGrid) return;
+            if (fplPercent < 100) {
+                metalGrid.style.display = 'none';
+                return;
+            }
+            metalGrid.style.display = '';
+
+            // Illustrative Polk County metal-tier relativity vs SLCSP benchmark
+            var bronzeGross = (benchmarkMonthly * 0.76) + tobaccoSurcharge;
+            var silverGross = benchmarkMonthly + tobaccoSurcharge;
+            var goldGross = (benchmarkMonthly * 1.12) + tobaccoSurcharge;
+
+            var bronzeNet = Math.max(0, bronzeGross - subsidyMonthly);
+            var silverNet = Math.max(0, silverGross - subsidyMonthly);
+            var goldNet = Math.max(0, goldGross - subsidyMonthly);
+
+            document.getElementById('metal-bronze-net').innerHTML = fmt(bronzeNet) + '<span>/mo</span>';
+            document.getElementById('metal-silver-net').innerHTML = fmt(silverNet) + '<span>/mo</span>';
+            document.getElementById('metal-gold-net').innerHTML = fmt(goldNet) + '<span>/mo</span>';
+
+            var silverBadge = document.getElementById('metal-silver-badge');
+            var silverSub = document.getElementById('metal-silver-sub');
+            if (fplPercent >= 100 && fplPercent <= 150) {
+                silverBadge.textContent = '94% AV Silver CSR';
+                silverSub.textContent = 'Polk SLCSP (' + fmt(benchmarkMonthly) + '/mo gross) enhanced to 94% Platinum-level CSR value.';
+            } else if (fplPercent > 150 && fplPercent <= 200) {
+                silverBadge.textContent = '87% AV Silver CSR';
+                silverSub.textContent = 'Polk SLCSP (' + fmt(benchmarkMonthly) + '/mo gross) enhanced to 87% Gold-plus CSR value.';
+            } else if (fplPercent > 200 && fplPercent <= 250) {
+                silverBadge.textContent = '73% AV Silver CSR';
+                silverSub.textContent = 'Polk SLCSP (' + fmt(benchmarkMonthly) + '/mo gross) with 73% AV CSR reduced deductible/OOP.';
+            } else {
+                silverBadge.textContent = '70% Standard Silver';
+                silverSub.textContent = 'Polk SLCSP benchmark (' + fmt(benchmarkMonthly) + '/mo gross). Above 250% FPL, compare Bronze, Silver, and Gold.';
+            }
+
+            document.getElementById('metal-bronze-sub').textContent =
+                '~60% AV (~' + fmt(bronzeGross) + '/mo gross minus ' + fmt(subsidyMonthly) + '/mo APTC). Higher medical deductible.';
+            document.getElementById('metal-gold-sub').textContent =
+                '~80% AV (~' + fmt(goldGross) + '/mo gross minus ' + fmt(subsidyMonthly) + '/mo APTC). Lower standard copays.';
+        }
+
+        function runCalculation(isUserAction) {
             var hasMinimum = updateConfidence();
             var liveResults = document.getElementById('live-results');
             var statusArea = document.getElementById('status-message-area');
@@ -1512,6 +2171,8 @@
             var priceHero = document.getElementById('price-hero');
             var breakdownEl = document.getElementById('price-breakdown');
             var resultNote = document.getElementById('result-note');
+            var spectrumCard = document.getElementById('fpl-spectrum-card');
+            var metalGrid = document.getElementById('metal-tier-comparison');
 
             document.getElementById('estimate-prompt').hidden = hasMinimum;
             if (!hasMinimum) {
@@ -1527,10 +2188,29 @@
             var tobaccoBtn = document.querySelector('#tobacco-toggle .toggle-btn.active');
             var tobacco = tobaccoBtn ? tobaccoBtn.getAttribute('data-value') : 'no';
 
+            var ageFactor = getAgeFactor(age);
+            var ageBadge = document.getElementById('age-factor-badge');
+            if (ageBadge) {
+                ageBadge.textContent = 'Age ' + age + ' · ' + ageFactor.toFixed(3) + '× CMS 3:1 factor';
+            }
+
             var fpl = getFPL(householdSize);
             var fplPercent = (income / fpl) * 100;
             var benchmarkMonthly = getBenchmarkPremium(age);
             var tobaccoSurcharge = (tobacco === 'yes') ? benchmarkMonthly * 0.5 : 0;
+
+            updateScenarioActiveState(age, income, householdSize, tobacco);
+            updateFplSpectrum(fpl, fplPercent, income, householdSize, benchmarkMonthly);
+
+            var incBadge = document.getElementById('income-fpl-badge');
+            if (incBadge) {
+                var tierLabel = fplPercent < 100 ? 'Below 100% FL Floor'
+                    : (fplPercent <= 150 ? '94% Silver CSR'
+                    : (fplPercent <= 200 ? '87% Silver CSR'
+                    : (fplPercent <= 250 ? '73% Silver CSR'
+                    : (fplPercent <= 400 ? 'APTC Eligible' : 'Above 400% Cliff'))));
+                incBadge.textContent = Math.round(fplPercent) + '% FPL · ' + tierLabel;
+            }
 
             liveResults.classList.remove('hidden');
             statusArea.innerHTML = '';
@@ -1538,16 +2218,18 @@
                 csrCallout.style.display = 'none';
                 csrCallout.innerHTML = '';
             }
+            if (spectrumCard) spectrumCard.style.display = '';
 
             // -- COVERAGE GAP (below 100% FPL in Florida) --
             if (fplPercent < 100) {
                 priceHero.style.display = 'none';
                 breakdownEl.style.display = 'none';
                 resultNote.style.display = 'none';
+                if (metalGrid) metalGrid.style.display = 'none';
                 statusArea.innerHTML =
                     '<div class="status-message gap">' +
                     '<strong>Coverage Gap (' + Math.round(fplPercent) + '% FPL)</strong>' +
-                    'Your income is below 100% of the Federal Poverty Level. Florida has not expanded Medicaid, ' +
+                    'Your income is below 100% of the Federal Poverty Level (' + fmt(fpl) + ' for a household of ' + householdSize + '). Florida has not expanded Medicaid, ' +
                     'so this illustration does not show an estimated premium tax credit. Use the official Marketplace application and Florida eligibility pathways for a determination.' +
                     '</div>';
                 return;
@@ -1561,12 +2243,17 @@
                 breakdownEl.style.display = '';
                 resultNote.style.display = '';
                 document.getElementById('price-value').textContent = fmt(fullPremium);
+                document.getElementById('price-period-text').textContent = 'per month (full benchmark rate above 400% FPL)';
+                document.getElementById('hero-monthly-aptc').textContent = '$0/mo';
+                document.getElementById('hero-annual-aptc').textContent = '$0/yr';
+                document.getElementById('hero-tier-badge').textContent = Math.round(fplPercent) + '% FPL (>400% Cliff)';
                 statusArea.innerHTML =
                     '<div class="status-message cliff">' +
                     '<strong>Above Subsidy Threshold (' + Math.round(fplPercent) + '% FPL)</strong>' +
-                    'Under the stated 2027 assumptions, this illustration shows no estimated premium tax credit above 400% FPL. The official Marketplace and tax result controls.' +
+                    'Under the stated 2027 assumptions, this illustration shows no estimated premium tax credit above 400% FPL (' + fmt(fpl * 4) + ' for a household of ' + householdSize + '). The official Marketplace and tax result controls.' +
                     '</div>';
-                updateBreakdown(age, benchmarkMonthly, fplPercent, 0, 0, fullPremium);
+                updateMetalTierCards(benchmarkMonthly, tobaccoSurcharge, 0, fplPercent);
+                updateBreakdown(age, benchmarkMonthly, fplPercent, 0, 0, 0, fullPremium);
                 return;
             }
 
@@ -1581,6 +2268,17 @@
             priceHero.style.display = '';
             breakdownEl.style.display = '';
             resultNote.style.display = '';
+
+            var shortTier = fplPercent <= 150 ? '94% CSR'
+                : (fplPercent <= 200 ? '87% CSR'
+                : (fplPercent <= 250 ? '73% CSR' : 'Standard APTC'));
+            document.getElementById('price-period-text').textContent =
+                subsidyMonthly > 0
+                    ? 'per month after ' + fmt(subsidyMonthly) + '/mo estimated tax credit'
+                    : 'per month (expected contribution exceeds benchmark)';
+            document.getElementById('hero-monthly-aptc').textContent = fmt(subsidyMonthly) + '/mo';
+            document.getElementById('hero-annual-aptc').textContent = fmt(subsidyAnnual) + '/yr';
+            document.getElementById('hero-tier-badge').textContent = Math.round(fplPercent) + '% FPL (' + shortTier + ')';
 
             if (csrCallout && fplPercent >= 100 && fplPercent <= 250) {
                 var csrTier = fplPercent <= 150
@@ -1597,35 +2295,40 @@
 
             // Update price hero — flag "near-zero" when a Bronze plan would likely be $0
             document.getElementById('price-value').textContent = fmt(netPremium);
-            var isNearZero = netPremium < 50;
+            var isNearZero = netPremium < 50 || (benchmarkMonthly * 0.76 - subsidyMonthly) <= 5;
             priceHero.classList.toggle('zero-premium', isNearZero);
 
+            updateMetalTierCards(benchmarkMonthly, tobaccoSurcharge, subsidyMonthly, fplPercent);
+
             // Update breakdown
-            updateBreakdown(age, benchmarkMonthly, fplPercent, applicablePct, subsidyMonthly, netPremium);
+            updateBreakdown(age, benchmarkMonthly, fplPercent, applicablePct, expectedContribMonthly, subsidyMonthly, netPremium);
 
             // Record only a generic completion event. Household, income, age,
             // tobacco, FPL, subsidy, and premium values stay in this browser.
-            if (!_estimatorCompleteTracked && window.LHI && typeof window.LHI.track === 'function') {
+            if (isUserAction && !_estimatorCompleteTracked && window.LHI && typeof window.LHI.track === 'function') {
                 _estimatorCompleteTracked = true;
                 window.LHI.track('EstimatorComplete', { content_name: 'lakeland_2027_estimator' });
             }
         }
 
-        function updateBreakdown(age, benchmark, fplPct, applPct, subsidy, net) {
+        function updateBreakdown(age, benchmark, fplPct, applPct, expectedMonthly, subsidy, net) {
             document.getElementById('bd-age').textContent = age;
             document.getElementById('bd-base').textContent = fmt(benchmark) + '/mo';
             document.getElementById('bd-fpl').textContent = Math.round(fplPct) + '% FPL';
-            document.getElementById('bd-contribution').textContent = applPct ? applPct.toFixed(2) + '% of income' : 'N/A (above 400%)';
-            document.getElementById('bd-subsidy').textContent = subsidy > 0 ? '-' + fmt(subsidy) + '/mo' : '$0';
+            document.getElementById('bd-contribution').textContent = applPct
+                ? applPct.toFixed(2) + '% of income (' + fmt(expectedMonthly) + '/mo)'
+                : 'N/A (above 400%)';
+            document.getElementById('bd-subsidy').textContent = subsidy > 0
+                ? '-' + fmt(subsidy) + '/mo (' + fmt(subsidy * 12) + '/yr)'
+                : '$0';
             document.getElementById('bd-total').textContent = fmt(net) + '/mo';
         }
 
         // =====================================================================
-        // EVENT LISTENERS — real-time updates
+        // EVENT LISTENERS — real-time updates (input, change, sliders, presets)
         // =====================================================================
 
-        // Format income input as user types
-        document.getElementById('annual-income').addEventListener('input', function(e) {
+        function handleIncomeInput(e) {
             var raw = e.target.value.replace(/[^0-9]/g, '');
             if (raw.length > 0) {
                 e.target.value = '$' + parseInt(raw, 10).toLocaleString('en-US');
@@ -1633,10 +2336,50 @@
                 e.target.value = '';
             }
             liveCalculate();
+        }
+
+        document.getElementById('annual-income').addEventListener('input', handleIncomeInput);
+        document.getElementById('annual-income').addEventListener('change', function(e) {
+            ensureFallbackValues(false);
+            handleIncomeInput(e);
+            runCalculation(true);
         });
 
         document.getElementById('applicant-age').addEventListener('input', liveCalculate);
-        document.getElementById('household-size').addEventListener('change', liveCalculate);
+        document.getElementById('applicant-age').addEventListener('change', function() {
+            ensureFallbackValues(false);
+            syncSlidersFromInputs();
+            runCalculation(true);
+        });
+
+        var ageSliderEl = document.getElementById('applicant-age-slider');
+        if (ageSliderEl) {
+            var onAgeSlide = function() {
+                document.getElementById('applicant-age').value = this.value;
+                ensureFallbackValues(true);
+                runCalculation(true);
+            };
+            ageSliderEl.addEventListener('input', onAgeSlide);
+            ageSliderEl.addEventListener('change', onAgeSlide);
+        }
+
+        var incSliderEl = document.getElementById('annual-income-slider');
+        if (incSliderEl) {
+            var onIncSlide = function() {
+                var val = parseInt(this.value, 10) || 55000;
+                document.getElementById('annual-income').value = '$' + val.toLocaleString('en-US');
+                ensureFallbackValues(true);
+                runCalculation(true);
+            };
+            incSliderEl.addEventListener('input', onIncSlide);
+            incSliderEl.addEventListener('change', onIncSlide);
+        }
+
+        document.getElementById('household-size').addEventListener('change', function() {
+            ensureFallbackValues(false);
+            runCalculation(true);
+        });
+
         // Tobacco toggle handler
         document.getElementById('tobacco-toggle').addEventListener('click', function(e) {
             if (e.target.classList.contains('toggle-btn')) {
@@ -1644,9 +2387,64 @@
                     btn.classList.remove('active');
                 });
                 e.target.classList.add('active');
-                liveCalculate();
+                ensureFallbackValues(false);
+                runCalculation(true);
             }
         });
+
+        // Quick-test scenario preset pills
+        var presetContainer = document.getElementById('scenario-presets');
+        if (presetContainer) {
+            presetContainer.addEventListener('click', function(e) {
+                var btn = e.target.closest('.scenario-pill');
+                if (!btn) return;
+                var age = btn.getAttribute('data-age');
+                var income = parseInt(btn.getAttribute('data-income'), 10);
+                var hh = btn.getAttribute('data-hh');
+                var tobacco = btn.getAttribute('data-tobacco') || 'no';
+
+                document.getElementById('applicant-age').value = age;
+                document.getElementById('annual-income').value = '$' + income.toLocaleString('en-US');
+                document.getElementById('household-size').value = hh;
+                document.querySelectorAll('#tobacco-toggle .toggle-btn').forEach(function(tBtn) {
+                    tBtn.classList.toggle('active', tBtn.getAttribute('data-value') === tobacco);
+                });
+                syncSlidersFromInputs();
+                runCalculation(true);
+            });
+        }
+
+        // Quick income nudge & FPL jump buttons
+        document.querySelectorAll('.nudge-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                ensureFallbackValues(false);
+                var currentInc = parseIncome(document.getElementById('annual-income').value) || 55000;
+                var hh = parseInt(document.getElementById('household-size').value, 10) || 4;
+                var fpl = getFPL(hh);
+                var nextInc = currentInc;
+                if (this.hasAttribute('data-nudge')) {
+                    nextInc = Math.max(5000, currentInc + parseInt(this.getAttribute('data-nudge'), 10));
+                } else if (this.hasAttribute('data-jump-fpl')) {
+                    var targetPct = parseInt(this.getAttribute('data-jump-fpl'), 10);
+                    nextInc = Math.round(fpl * (targetPct / 100));
+                }
+                document.getElementById('annual-income').value = '$' + nextInc.toLocaleString('en-US');
+                syncSlidersFromInputs();
+                runCalculation(true);
+            });
+        });
+
+        // Explicit Calculate / Update button
+        var calcBtn = document.getElementById('calculate-estimate-btn');
+        if (calcBtn) {
+            calcBtn.addEventListener('click', function() {
+                ensureFallbackValues(false);
+                syncSlidersFromInputs();
+                runCalculation(true);
+                document.getElementById('breakdown-toggle').classList.add('open');
+                document.getElementById('breakdown-body').classList.add('open');
+            });
+        }
 
         // "Why this price?" toggle
         document.getElementById('breakdown-toggle').addEventListener('click', function() {
@@ -1715,9 +2513,14 @@
             });
         }
 
-        // Initialize input completion on load (location, household and tobacco have defaults)
+        // Initialize input completion and default 2027 illustration on load
+        ensureFallbackValues(false);
+        syncSlidersFromInputs();
+        runCalculation(false);
         document.addEventListener('DOMContentLoaded', function() {
-            updateConfidence();
+            ensureFallbackValues(false);
+            syncSlidersFromInputs();
+            runCalculation(false);
         });
 
         // Menu toggle function
