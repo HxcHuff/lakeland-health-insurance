@@ -305,78 +305,9 @@
       color:#0F1A2E !important;
       -webkit-text-fill-color:#0F1A2E !important;
     }
-    .lhi-slogan-photo-row {
-      align-items:center;
-      box-sizing:border-box;
-      display:grid;
-      gap:28px 36px;
-      grid-template-columns:minmax(0, 1fr) minmax(240px, 340px);
-      margin:8px auto 0;
-      max-width:960px;
-      padding:28px 20px 12px;
-      width:100%;
-    }
-    .lhi-slogan-photo-row .lhi-david-pull-quote {
-      border:0;
-      margin:0;
-      padding:0;
-    }
-    .lhi-slogan-photo-row .lhi-david-pull-quote__rule {
-      background:#D4A843;
-      border:0;
-      height:3px;
-      margin:0 0 18px;
-      width:56px;
-    }
-    .lhi-slogan-photo-row .lhi-david-pull-quote p:not(.lhi-david-pull-quote-attribution) {
-      color:#0F1A2E;
-      font-family:'Instrument Serif','Instrument Serif Fallback',serif;
-      font-size:clamp(2rem, 3.2vw, 2.75rem);
-      line-height:1.2;
-      margin:0 0 14px;
-    }
-    .lhi-slogan-photo-row .lhi-david-pull-quote p.lhi-david-pull-quote-attribution {
-      color:#64748B;
-      font-family:'DM Sans','DM Sans Fallback',sans-serif;
-      font-size:0.98rem;
-      font-weight:600;
-      line-height:1.4;
-      margin:0;
-    }
-    .lhi-slogan-photo-row > .lhi-post-body-intro {
-      grid-column:1 / -1;
-      margin:4px auto 0.5rem;
-      max-width:960px;
-      padding:0;
-      width:100%;
-    }
-    .lhi-slogan-photo-row .lhi-post-featured-hero {
-      margin:0 auto;
-      max-width:320px;
-      padding:0;
-      width:100%;
-    }
-    .lhi-slogan-photo-row .lhi-post-featured-hero img {
-      display:block;
-      width:100%;
-      height:auto;
-      border-radius:14px;
-      max-width:100%;
-    }
-    @media (max-width: 768px) {
-      .lhi-slogan-photo-row {
-        grid-template-columns:1fr;
-        padding-top:20px;
-        text-align:center;
-      }
-      .lhi-slogan-photo-row .lhi-david-pull-quote { order:1; }
-      .lhi-slogan-photo-row .lhi-david-pull-quote__rule { margin-inline:auto; }
-      .lhi-slogan-photo-row .lhi-david-pull-quote p:not(.lhi-david-pull-quote-attribution) { font-size:clamp(1.625rem, 6vw, 1.875rem); }
-      .lhi-slogan-photo-row .lhi-post-featured-hero { order:2; max-width:260px; }
-      .lhi-slogan-photo-row > .lhi-post-body-intro { order:3; }
-    }
     @media (max-width: 900px) {
-      body.lhi-fb-watson-2027-landing.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block > .lhi-hero-lede:not(.last-reviewed) {
+      body.lhi-fb-watson-2027-landing.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block > .lhi-hero-lede:not(.last-reviewed),
+      body.lhi-fb-watson-2027-landing.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block > .lhi-hero-lead:not(.last-reviewed) {
         display:block !important;
         -webkit-box-orient:unset !important;
         -webkit-line-clamp:unset !important;
@@ -384,6 +315,235 @@
         white-space:normal !important;
         text-overflow:unset !important;
       }
+    }
+    html { scroll-behavior: smooth; }
+    .lhi-hero-lead {
+      color: #334155 !important;
+      font-size: 1.04rem;
+      line-height: 1.65;
+      margin: 0 0 0.75rem !important;
+    }
+    .lhi-alert-box {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #D4A843;
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin: 20px 0 24px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+    }
+    .lhi-alert-box > p:first-child {
+      margin: 0 0 10px;
+      color: var(--navy);
+    }
+    .lhi-alert-box ul {
+      margin: 0 0 12px;
+      padding-left: 20px;
+    }
+    .lhi-alert-box li {
+      margin-bottom: 8px;
+      line-height: 1.55;
+    }
+    .lhi-alert-foot {
+      margin: 0;
+      font-size: 0.96rem;
+      color: #334155;
+    }
+    .lhi-alert-foot a {
+      color: #1d4ed8;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 0.14em;
+    }
+    .lhi-bottom-conversion {
+      margin: 3.5rem auto 2rem;
+      padding: 2.25rem;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      max-width: 1120px;
+    }
+    .lhi-bottom-conversion__grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 2.25rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .lhi-bottom-conversion { padding: 1.5rem 1.15rem; }
+      .lhi-bottom-conversion__grid { grid-template-columns: 1fr; gap: 1.75rem; }
+    }
+    .lhi-eyebrow {
+      display: inline-block;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #1d4ed8;
+      margin-bottom: 0.5rem;
+    }
+    .lhi-bottom-conversion__trust h2 {
+      margin-top: 0;
+    }
+    .lhi-verification-checklist {
+      margin: 1rem 0 1.5rem;
+      padding-left: 1.25rem;
+    }
+    .lhi-verification-checklist li {
+      margin-bottom: 0.65rem;
+      line-height: 1.5;
+    }
+    .lhi-advisor-card-compact {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+    }
+    .lhi-advisor-card-compact img {
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .lhi-advisor-card-compact p {
+      margin: 0.15rem 0 0;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: #334155;
+    }
+    .lhi-advisor-direct a {
+      color: #1d4ed8;
+      font-weight: 700;
+    }
+    .lhi-bottom-conversion__form-card {
+      background: #ffffff;
+      padding: 1.75rem;
+      border-radius: 14px;
+      border: 1px solid #dbeafe;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06);
+    }
+    .lhi-form-row--split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.875rem;
+    }
+    @media (max-width: 560px) {
+      .lhi-form-row--split { grid-template-columns: 1fr; }
+    }
+    .lhi-form-field, .lhi-form-fieldset {
+      margin-bottom: 0.95rem;
+    }
+    .lhi-form-fieldset {
+      border: 0;
+      padding: 0;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .lhi-form-field label, .lhi-form-fieldset legend {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: #0f172a;
+    }
+    .lhi-form-field input,
+    .lhi-form-field select,
+    .lhi-form-field textarea {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+    .lhi-checkbox-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+    .lhi-pill-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.75rem;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .lhi-pill-check input:checked + span {
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .lhi-btn-primary {
+      background-color: #D4A843;
+      border: 2px solid #D4A843;
+      border-radius: 999px;
+      color: #0F1A2E;
+      font-family: inherit;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+    .lhi-btn-primary:hover,
+    .lhi-btn-primary:focus-visible {
+      background-color: #c49838;
+      border-color: #c49838;
+      color: #0F1A2E;
+    }
+    .lhi-btn-submit {
+      width: 100%;
+      padding: 0.85rem 1.25rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .lhi-btn-secondary {
+      display: inline-block;
+      padding: 0.55rem 1rem;
+      background: #1B2A4A;
+      color: #ffffff !important;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .lhi-btn-secondary:hover,
+    .lhi-btn-secondary:focus-visible {
+      background: #1d4ed8;
+      color: #ffffff !important;
+    }
+    .lhi-form-status {
+      margin: 0 0 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #dc2626;
+    }
+    .lhi-form-status:empty {
+      display: none;
+    }
+    .lhi-form-disclaimer {
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      line-height: 1.45;
+      color: #475569;
+    }
+    .lhi-inline-jump {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: 1.5rem 0 2.25rem;
+      padding: 1rem 1.25rem;
+      background: #eff6ff;
+      border-left: 4px solid #1d4ed8;
+      border-radius: 8px;
     }
     body.lhi-fb-watson-2027-landing .lhi-lead-hero__card {
       padding:0.9rem 1rem 1rem;
@@ -482,7 +642,9 @@
         <div class="container hero-grid">
           <div class="lhi-hero-lede-block">
             <h1>Kettering Health, Miami Valley Hospital &amp; OhioHealth 2027 Network Guide: Dayton &amp; Columbus Medicare &amp; ACA Options</h1>
-            <p class="lhi-hero-lede">David Huff, licensed insurance agent in Ohio (NPN #18213932), verifies 2027 Medicare Advantage, Medigap, and HealthCare.gov ACA Marketplace networks for Kettering Health, Premier Health (Miami Valley Hospital), Dayton Children's, and OhioHealth across Dayton, the Miami Valley, and Central Ohio.</p>
+            <p class="lhi-hero-lead">
+              In 2027, Medicare Advantage (HMO/PPO) and HealthCare.gov ACA Marketplace plans across Dayton, the Miami Valley, and Columbus frequently split hospital access between <strong>Kettering Health</strong>, <strong>Premier Health (Miami Valley Hospital)</strong>, <strong>OhioHealth</strong>, and <strong>OSU Wexner Medical Center</strong>. Before you enroll with Anthem Blue Cross and Blue Shield, Humana, Medical Mutual, Devoted Health, Aetna, or UnitedHealthcare, verify both your hospital campus and your doctor's 10-digit NPI.
+            </p>
             <div class="lhi-step1-micro" data-lhi-step1-intake data-stay-on-page data-step1-form="#ohiohealth_kettering_health_anthem_humana_ohio_2027Form" data-source-page-key="ohiohealth_kettering_health_anthem_humana_ohio_2027" role="region" aria-label="Step 1: Enter Ohio ZIP code and coverage type">
               <p class="lhi-step1-micro__eyebrow">Step 1 of 2 &middot; Ohio ZIP &amp; hospital check</p>
               <div class="lhi-step1-micro__row">
@@ -510,7 +672,7 @@
             <div class="lhi-lead-hero__grid">
               <div class="lhi-lead-hero__intro">
                 <h2 class="lhi-lead-hero__title" id="ohiohealth_kettering_health_anthem_humana_ohio_2027-lead-title">Check your Kettering Health, Miami Valley &amp; OhioHealth doctors</h2>
-                <p class="lhi-lead-hero__note">Share your Ohio ZIP code and the hospitals or doctors you want to keep. David Huff, licensed insurance agent in Ohio (NPN #18213932), will verify your 2027 Medicare or Marketplace options. A review is not enrollment.</p>
+                <p class="lhi-lead-hero__note">Enter your Ohio ZIP code and the hospitals or doctors you want to keep for a side-by-side 2027 Medicare or Marketplace network check. A review is not enrollment.</p>
               </div>
               <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
                 <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="ohiohealth_kettering_health_anthem_humana_ohio_2027Form" data-lhi-site-lead-form data-sitelink-inline-thank-you data-inline-thank-you-message="Thanks — David will review your Ohio doctors and call you, usually same day." data-funnel-track="" data-funnel-event="Lead" data-funnel-name="site_blog_aca_lead" aria-label="Check your 2027 Kettering Health, Miami Valley Hospital, and OhioHealth plan options">
@@ -593,27 +755,24 @@
       </section>
     </div>
 
-    <section class="lhi-slogan-photo-row" aria-label="David Huff licensed Ohio health insurance agent">
-      <blockquote class="lhi-david-pull-quote">
-        <div class="lhi-david-pull-quote__rule" aria-hidden="true"></div>
-        <p>Where enrollment is just the beginning of the relationship.</p>
-        <p class="lhi-david-pull-quote-attribution">— David Huff · Licensed in Ohio (NPN #18213932)</p>
-      </blockquote>
-      <figure class="media lhi-post-featured-hero">
-        <picture>
-          <source type="image/jpeg" srcset="/assets/images/david-huff-blue-polo-480.jpg 480w, /assets/images/david-huff-blue-polo.jpg 900w" sizes="(max-width: 768px) 260px, 320px">
-          <img src="/assets/images/david-huff-blue-polo.jpg" srcset="/assets/images/david-huff-blue-polo-480.jpg 480w, /assets/images/david-huff-blue-polo.jpg 900w" sizes="(max-width: 768px) 260px, 320px" width="900" height="900" alt="David Huff, licensed health insurance agent serving Ohio and 22 other states" decoding="async" loading="lazy">
-        </picture>
-        <figcaption>David Huff · Licensed Insurance Agent (NPN #18213932)</figcaption>
-      </figure>
-      <div class="lhi-post-body-intro"><p>Licensed in Ohio (NPN #18213932) &middot; Comparing 2027 Medicare &amp; ACA Marketplace networks for Dayton, the Miami Valley, and Central Ohio</p></div>
-    </section>
-
     <div class="container">
       <p class="byline">By <strong>David Huff</strong>, Licensed Insurance Agent (NPN #18213932, licensed in OH &amp; 22 states) · Updated November 2, 2026</p>
 
-      <div class="card">
-        <strong>2027 Dayton, Miami Valley &amp; Central Ohio Network Alert:</strong> In Southwest Ohio (<strong>Montgomery, Greene, Warren, Miami, Clark, Preble, and Butler counties — Rating Area 8</strong>), 2027 insurance plans frequently split hospital and physician access between <strong>Kettering Health</strong> (and <strong>Kettering Physician Network / KPN</strong>) and <strong>Premier Health</strong> (<strong>Miami Valley Hospital</strong>, <strong>Miami Valley Hospital South</strong>, <strong>Atrium Medical Center</strong>, <strong>Upper Valley Medical Center</strong>, and <strong>Premier Physician Network / PPN</strong>). Meanwhile, in Central Ohio (<strong>Franklin, Delaware, Licking, Fairfield, and Union counties — Rating Area 7</strong>), narrow-network plans often divide between <strong>OhioHealth</strong> and <strong>The Ohio State University Wexner Medical Center (The James)</strong>. Always verify both your hospital campus and your doctor's 10-digit NPI before enrolling for 2027.
+      <div class="lhi-alert-box" role="note" aria-label="2027 Ohio Regional Network Split Alert">
+        <p><strong>2027 Ohio Regional Network Split Summary:</strong></p>
+        <ul>
+          <li>
+            <strong>Southwest Ohio — Rating Area 8 (Montgomery, Greene, Warren, Miami, Clark, Preble &amp; Butler Counties):</strong>
+            Narrow-network ACA Marketplace HMOs and select Medicare Advantage plans frequently cover either <strong>Kettering Health (KPN)</strong> or <strong>Premier Health (Miami Valley Hospital / Atrium / Upper Valley / PPN)</strong>—rarely both at Tier 1 rates.
+          </li>
+          <li>
+            <strong>Central Ohio — Rating Area 7 (Franklin, Delaware, Licking, Fairfield &amp; Union Counties):</strong>
+            Plans often divide inpatient and oncology access between <strong>OhioHealth</strong> (Riverside Methodist, Grant, Dublin Methodist) and <strong>OSU Wexner Medical Center / The James</strong>.
+          </li>
+        </ul>
+        <p class="lhi-alert-foot">
+          Always verify facility contracts and physician tax IDs/NPIs separately by exact 2027 plan ID—or <a href="#lhi-lead-bottom">request a custom doctor &amp; hospital check below</a>.
+        </p>
       </div>
 
       <h2>Why Dayton &amp; Miami Valley Patients Check Kettering Health vs. Miami Valley Hospital First</h2>
@@ -637,16 +796,6 @@
           <p><strong>Physician Group:</strong> Verify <strong>OhioHealth Physician Group</strong> vs. OSU Physicians by specific 2027 sub-network name.</p>
         </div>
       </div>
-
-      <section class="card safe lhi-sms-doctor-cta" aria-labelledby="kettering-2027-mid-sms-heading">
-        <p id="kettering-2027-mid-sms-heading" style="margin:0 0 8px;font-weight:700;color:#1B2A4A;">Want me to check whether your Kettering Health, Miami Valley Hospital, or OhioHealth doctors are in-network for 2027?</p>
-        <p style="margin:0 0 10px;font-size:0.98rem;color:#334155;">Text me your Ohio ZIP code and your doctor or hospital names. I pull the official 2027 Medicare or HealthCare.gov Marketplace directories and reply with a side-by-side comparison.</p>
-        <div class="cta-row" style="margin-top:8px;">
-          <a class="cta-button lhi-hero-gold-primary" href="sms:+18636403102?body=Hi%20David%2C%20can%20you%20check%20if%20my%20Kettering%20Health%20or%20Miami%20Valley%20Hospital%20doctors%20are%20in-network%20for%202027%3F" data-lhi-sms-cta="kettering_2027_mid_sms" data-analytics-label="kettering_2027_mid_sms" style="background-color:#D4A843 !important;border:2px solid #D4A843 !important;color:#0F1A2E !important;font-weight:700;">Text David Your Doctors: (863) 640-3102</a>
-          <a class="cta-button secondary" href="tel:+18636403102">Call (863) 640-3102</a>
-          <a class="cta-button secondary" href="#lhi-lead-hero">Use the Form Above</a>
-        </div>
-      </section>
 
       <h2>2027 Dayton, Miami Valley &amp; Central Ohio Hospital Network Comparison Matrix</h2>
       <p>Use this side-by-side table to see how <strong>Medicare Advantage (Part C)</strong>, <strong>Original Medicare + Medigap (Plan G / Plan N)</strong>, and <strong>Under-65 HealthCare.gov ACA Marketplace</strong> plans treat Southwest and Central Ohio's major health systems in 2027:</p>
@@ -694,6 +843,11 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <div class="lhi-inline-jump">
+        <span>Keeping doctors in both <strong>Kettering Health</strong> and <strong>Miami Valley Hospital</strong>, or splitting care between <strong>OhioHealth</strong> and <strong>OSU Wexner</strong>?</span>
+        <a href="#lhi-lead-bottom" class="lhi-btn-secondary">Run My 2027 Doctor &amp; Hospital Check ↓</a>
       </div>
 
       <h2>2027 Medicare Options in Dayton, Kettering &amp; the Miami Valley (AEP: Oct 15 – Dec 7)</h2>
@@ -750,9 +904,9 @@
 
       <section class="lhi-fb-closing" aria-labelledby="lhi-fb-closing-heading">
         <h2 id="lhi-fb-closing-heading">Ready to Check Your 2027 Kettering Health, Miami Valley, or OhioHealth Plan?</h2>
-        <p>Scroll up to the quick form, jump to our 30-second Ohio doctor check page, or text/call David Huff directly with your Ohio ZIP code and doctor list.</p>
+        <p>Use the form below, jump to our 30-second Ohio doctor check page, or text/call David Huff directly with your Ohio ZIP code and doctor list.</p>
         <div class="cta-row">
-          <a class="cta-button lhi-hero-gold-primary" href="#lhi-lead-hero">Check My 2027 Ohio Options</a>
+          <a class="cta-button lhi-hero-gold-primary" href="#lhi-lead-bottom">Check My 2027 Ohio Options</a>
           <a class="cta-button secondary" href="sms:+18636403102?body=Hi%20David%2C%20can%20you%20check%20if%20my%20Kettering%20Health%20or%20Miami%20Valley%20Hospital%20doctors%20are%20in-network%20for%202027%3F" data-lhi-sms-cta="kettering_2027_closing_sms" data-analytics-label="kettering_2027_closing_sms">Text David: (863) 640-3102</a>
           <a class="cta-button secondary" href="tel:+18636403102">Call (863) 640-3102</a>
           <a class="cta-button secondary" href="/medicare-2027-check/?state=OH&amp;utm_content=kettering_dayton_ma_2027">65+ Medicare Check</a>
@@ -760,6 +914,186 @@
         </div>
       </section>
     </div>
+
+    <section id="lhi-lead-bottom" class="lhi-bottom-conversion" aria-labelledby="lhi-bottom-form-title">
+      <div class="lhi-bottom-conversion__grid">
+
+        <!-- Left Column: Advisor Context + What You Receive -->
+        <div class="lhi-bottom-conversion__trust">
+          <span class="lhi-eyebrow">Direct Licensed Broker Verification · NPN #18213932</span>
+          <h2 id="lhi-bottom-form-title">Request Your 2027 Ohio Doctor &amp; Hospital Network Check</h2>
+          <p>
+            Carrier online directories often list a hospital campus as "in-network" even when the physician group practicing inside that building is out-of-network on a specific 2027 HMO or PPO sub-network.
+          </p>
+
+          <ul class="lhi-verification-checklist">
+            <li>
+              <strong>10-Digit NPI &amp; Tax ID Lookup:</strong> We verify your specific primary care and specialist NPIs across Kettering Physician Network (KPN), Premier Physician Network (PPN), OhioHealth Physician Group, and OSU Physicians.
+            </li>
+            <li>
+              <strong>Facility &amp; Outpatient Surgery Check:</strong> Confirm inpatient, ER, and ambulatory surgery center status at Kettering Health Main, Soin, Miami Valley Hospital (Main &amp; South), Atrium, Riverside Methodist, Grant, and Dayton Children's.
+            </li>
+            <li>
+              <strong>Side-by-Side 2027 Plan Breakdown:</strong> Clear comparison of Medicare Advantage vs. Medigap (Plan G / Plan N) or Under-65 HealthCare.gov Marketplace tiers. A review is not enrollment.
+            </li>
+          </ul>
+
+          <div class="lhi-advisor-card-compact">
+            <img
+              src="/assets/images/david-huff-blue-polo-480.jpg"
+              alt="David Huff, licensed health insurance agent in Ohio (NPN #18213932)"
+              width="72"
+              height="72"
+              loading="lazy"
+            />
+            <div>
+              <strong>David Huff</strong>
+              <p>Licensed Insurance Agent · Ohio &amp; 22 States (NPN #18213932 · FL #W371813)</p>
+              <p class="lhi-advisor-direct">
+                Prefer to text or call directly? <a href="sms:+18636403102">Text (863) 640-3102</a> or <a href="tel:+18636403102">Call (863) 640-3102</a>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Lead Form -->
+        <div class="lhi-bottom-conversion__form-card">
+          <form
+            id="ohio-network-check-bottom-form"
+            name="ohio-2027-network-check"
+            method="POST"
+            action="/get-help/?state=OH&amp;submitted=1&amp;source=blog_ohio_2027_bottom"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            novalidate
+          >
+            <input type="hidden" name="form-name" value="ohio-2027-network-check" />
+            <input type="hidden" name="state" value="OH" />
+            <input type="hidden" name="page_slug" value="ohiohealth-kettering-health-anthem-humana-ohio-2027" />
+            <input type="hidden" name="form_location" value="blog_bottom" />
+            <input type="hidden" name="systems_selected" value="" />
+            <p hidden aria-hidden="true">
+              <label>Don’t fill this out if you’re human: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+            </p>
+
+            <div class="lhi-form-row lhi-form-row--split">
+              <div class="lhi-form-field">
+                <label for="oh-bottom-zip">Ohio ZIP Code <span aria-hidden="true">*</span></label>
+                <input
+                  type="text"
+                  id="oh-bottom-zip"
+                  name="zip"
+                  inputmode="numeric"
+                  pattern="^(43|44|45)[0-9]{3}$"
+                  maxlength="5"
+                  placeholder="e.g., 45429 or 43214"
+                  required
+                  autocomplete="postal-code"
+                />
+              </div>
+
+              <div class="lhi-form-field">
+                <label for="oh-bottom-coverage">2027 Coverage Type <span aria-hidden="true">*</span></label>
+                <select id="oh-bottom-coverage" name="coverage_type" required>
+                  <option value="" disabled selected>Select coverage...</option>
+                  <option value="medicare_65_plus">Medicare (65+ / Turning 65)</option>
+                  <option value="aca_under_65">Under-65 / ACA Marketplace</option>
+                  <option value="medigap_supplement">Medicare Supplement (Plan G / N)</option>
+                  <option value="losing_coverage_sep">Losing Employer or Medicaid Coverage</option>
+                </select>
+              </div>
+            </div>
+
+            <fieldset class="lhi-form-fieldset">
+              <legend>Hospitals / Systems You Want to Keep (Check all that apply)</legend>
+              <div class="lhi-checkbox-pills">
+                <label class="lhi-pill-check">
+                  <input type="checkbox" name="systems" value="Kettering Health / KPN" />
+                  <span>Kettering Health / KPN</span>
+                </label>
+                <label class="lhi-pill-check">
+                  <input type="checkbox" name="systems" value="Premier Health / Miami Valley Hospital" />
+                  <span>Miami Valley / Premier (PPN)</span>
+                </label>
+                <label class="lhi-pill-check">
+                  <input type="checkbox" name="systems" value="OhioHealth" />
+                  <span>OhioHealth (Columbus/Central OH)</span>
+                </label>
+                <label class="lhi-pill-check">
+                  <input type="checkbox" name="systems" value="OSU Wexner / The James" />
+                  <span>OSU Wexner / The James</span>
+                </label>
+                <label class="lhi-pill-check">
+                  <input type="checkbox" name="systems" value="Dayton Childrens" />
+                  <span>Dayton Children's</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="lhi-form-field">
+              <label for="oh-bottom-doctors">Doctors, Clinics, or Prescriptions to Verify (Optional)</label>
+              <textarea
+                id="oh-bottom-doctors"
+                name="doctors_notes"
+                rows="2"
+                placeholder="e.g., Dr. Smith (KPN Primary Care), orthopedic specialist at Miami Valley South, Eliquis..."
+              ></textarea>
+            </div>
+
+            <div class="lhi-form-row lhi-form-row--split">
+              <div class="lhi-form-field">
+                <label for="oh-bottom-name">Full Name <span aria-hidden="true">*</span></label>
+                <input
+                  type="text"
+                  id="oh-bottom-name"
+                  name="full_name"
+                  placeholder="First &amp; Last Name"
+                  required
+                  autocomplete="name"
+                />
+              </div>
+
+              <div class="lhi-form-field">
+                <label for="oh-bottom-phone">Mobile or Best Phone <span aria-hidden="true">*</span></label>
+                <input
+                  type="tel"
+                  id="oh-bottom-phone"
+                  name="phone"
+                  placeholder="(937) 555-0199"
+                  required
+                  autocomplete="tel"
+                />
+              </div>
+            </div>
+
+            <div class="lhi-form-field">
+              <label for="oh-bottom-email">Email Address (Optional — for sending your written comparison)</label>
+              <input
+                type="email"
+                id="oh-bottom-email"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+              />
+            </div>
+
+            <p id="oh-bottom-form-status" class="lhi-form-status" role="status" aria-live="polite"></p>
+
+            <button type="submit" class="lhi-btn-primary lhi-btn-submit">
+              Verify My 2027 Ohio Doctors &amp; Plans →
+            </button>
+
+            <p class="lhi-form-disclaimer">
+              <strong>No-Obligation Review &amp; Consent:</strong> Submitting this form requests a 2027 provider and plan review from David Huff, Licensed Insurance Agent (NPN #18213932, licensed in OH &amp; 22 states), and does not enroll you in any plan. By providing your phone number, you agree to receive calls or text messages (including via automated technology from +1-863-270-7035 or +1-863-640-3102 between 8:00 AM and 9:00 PM local time) regarding your insurance inquiry. Consent is not a condition of purchase; message &amp; data rates may apply; reply STOP to opt out.
+            </p>
+            <p class="lhi-form-disclaimer lhi-form-disclaimer--tpmo">
+              <strong>Medicare Disclaimer:</strong> We do not offer every plan available in your area. Currently we represent multiple organizations offering Medicare Advantage and Prescription Drug products in your Ohio county, which varies by ZIP code. Please contact <a href="https://www.medicare.gov" target="_blank" rel="noopener">Medicare.gov</a>, 1-800-MEDICARE (TTY users should call 1-877-486-2048), 24 hours a day/7 days a week, or your local Ohio Senior Health Insurance Information Program (OSHIIP) to get information on all of your options.
+            </p>
+          </form>
+        </div>
+
+      </div>
+    </section>
   </main>
 
   <section class="site-page-disclosures" aria-label="Legal and compliance disclaimers">
@@ -798,4 +1132,103 @@
   <script src="/js/lead-hero.js?v=20261030-step1-cache-bust-v1" defer></script>
   <script src="/js/analytics.js?v=20261030-step1-cache-bust-v1" defer></script>
   <script src="/js/funnel.js?v=20261030-step1-cache-bust-v1" defer></script>
+  <script>
+    (function () {
+      const form = document.getElementById('ohio-network-check-bottom-form');
+      if (!form) return;
+
+      const statusEl = document.getElementById('oh-bottom-form-status');
+      const zipInput = document.getElementById('oh-bottom-zip');
+      let formStarted = false;
+
+      form.addEventListener('focusin', function () {
+        if (formStarted) return;
+        formStarted = true;
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'form_start', {
+            form_id: 'ohio-network-check-bottom-form',
+            form_location: 'blog_bottom',
+            state: 'OH'
+          });
+        }
+      }, { passive: true });
+
+      const heroZip = document.querySelector('main input[name="zip"], main input[type="text"][maxlength="5"]');
+      if (heroZip && zipInput) {
+        heroZip.addEventListener('input', function () {
+          if (/^(43|44|45)\d{3}$/.test(heroZip.value.trim()) && !zipInput.value) {
+            zipInput.value = heroZip.value.trim();
+          }
+        });
+      }
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        statusEl.textContent = '';
+
+        const zipVal = (zipInput.value || '').trim();
+        if (!/^(43|44|45)\d{3}$/.test(zipVal)) {
+          statusEl.textContent = 'Please enter a valid 5-digit Ohio ZIP code (starting with 43, 44, or 45).';
+          zipInput.focus();
+          return;
+        }
+
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting Request...';
+
+        const formData = new FormData(form);
+        formData.set('systems_selected', formData.getAll('systems').join(', '));
+
+        try {
+          const netlifyResp = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
+          });
+
+          fetch('https://google-ads-lead-relay.vercel.app/api/lead', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(Object.fromEntries(formData.entries())),
+            keepalive: true
+          }).catch(function () {});
+
+          if (!netlifyResp.ok) throw new Error('Submission failed');
+
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'generate_lead', {
+              form_id: 'ohio-network-check-bottom-form',
+              form_location: 'blog_bottom',
+              coverage_type: formData.get('coverage_type'),
+              state: 'OH'
+            });
+            window.gtag('event', 'form_submit', {
+              form_id: 'ohio-network-check-bottom-form'
+            });
+          }
+
+          if (typeof window.fbq === 'function') {
+            window.fbq('track', 'Lead', {
+              content_name: 'Ohio 2027 Hospital Network Check',
+              content_category: formData.get('coverage_type') || 'ohio_network_review',
+              state: 'OH'
+            });
+          }
+
+          window.location.href = form.getAttribute('action');
+        } catch (err) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+          statusEl.textContent = 'Could not submit right now. Please text or call (863) 640-3102 directly.';
+        }
+      });
+    })();
+  </script>
 </body></html>
