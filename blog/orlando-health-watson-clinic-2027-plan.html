@@ -496,6 +496,8 @@
         <input type="hidden" name="form-name" value="site-medicare-lead">
         <input type="hidden" name="source_page" value="/blog/orlando-health-watson-clinic-2027-plan.html">
         <input type="hidden" name="source_template" value="blog_post">
+        <input type="hidden" name="coverage_state" value="FL">
+        <input type="hidden" name="state" value="FL">
         <input type="hidden" name="consent_text_version" value="site-medicare-2026-10-v1">
         <input type="hidden" name="utm_source" id="orlando_health_watson_clinic_2027_plan_utm_source">
         <input type="hidden" name="utm_medium" id="orlando_health_watson_clinic_2027_plan_utm_medium">
@@ -535,15 +537,21 @@
             <input type="text" id="orlando_health_watson_clinic_2027_plan_zip_code" name="zip_code" required pattern="[0-9]{5}" maxlength="5" inputmode="numeric" autocomplete="postal-code">
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <label for="orlando_health_watson_clinic_2027_plan_coverage_status">Coverage type</label>
+            <label for="orlando_health_watson_clinic_2027_plan_coverage_status">Coverage type to check</label>
             <select id="orlando_health_watson_clinic_2027_plan_coverage_status" name="coverage_status" required>
                   <option value="" selected="" disabled="">Select one</option>
-                  <option value="medicare_advantage">Medicare Advantage</option>
-                  <option value="medicare_supplement">Medicare Supplement</option>
+                  <option value="medicare_advantage">Medicare Advantage (Part C)</option>
+                  <option value="medicare_supplement">Medicare Supplement (Plan G / Plan N)</option>
                   <option value="part_d">Part D prescription drug coverage</option>
-                  <option value="current_plan_review">Current Medicare plan review</option>
-                  <option value="not_sure">Not sure yet</option>
+                  <option value="individual_marketplace">Under-65 Individual Marketplace (ACA)</option>
+                  <option value="family_marketplace">Under-65 Family Marketplace (ACA)</option>
+                  <option value="current_plan_review">Doctor / Hospital network check (Watson Clinic / Orlando Health / LRH)</option>
+                  <option value="not_sure">Not sure yet — compare my 2027 options</option>
             </select>
+          </div>
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label for="orlando_health_watson_clinic_2027_plan_providers">Doctors or hospitals to keep (optional)</label>
+            <input type="text" id="orlando_health_watson_clinic_2027_plan_providers" name="providers" autocomplete="off" placeholder="e.g. Watson Clinic Main, Orlando Health Lakeland Highlands, LRH">
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label class="lhi-lead-hero__consent" for="orlando_health_watson_clinic_2027_plan_consent">

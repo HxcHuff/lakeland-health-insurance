@@ -175,10 +175,34 @@
     h3 { margin: 14px 0 8px; color: var(--navy); }
     .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
     .cta-row .cta-button { text-decoration: none; display: inline-block; }
+    body.lhi-fb-watson-2027-landing .lhi-hero-lede-block .cta-row a.cta-button.lhi-hero-gold-primary,
+    body.lhi-fb-watson-2027-landing .lhi-hero-deferred-block .cta-row a.cta-button.lhi-hero-gold-primary {
+      background-color:#D4A843 !important;
+      border:2px solid #D4A843 !important;
+      color:#0F1A2E !important;
+      -webkit-text-fill-color:#0F1A2E !important;
+      box-shadow:0 4px 14px rgba(212,168,67,0.35) !important;
+    }
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__submit {
+      background-color:#D4A843 !important;
+      border:2px solid #D4A843 !important;
+      border-radius:100px;
+      color:#0F1A2E !important;
+      font-family:inherit;
+      font-weight:700;
+      -webkit-text-fill-color:#0F1A2E !important;
+    }
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__submit:hover,
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__submit:focus-visible {
+      background-color:#c49838 !important;
+      border-color:#c49838 !important;
+      color:#0F1A2E !important;
+    }
+
   </style>
   <link rel="stylesheet" href="/css/lead-hero.css?v=20261030-step1-cache-bust-v1" data-lhi-lead-hero-tail="">
 </head>
-<body class="blog-post lhi-page-hero" data-page-key="piedmont_wellstar_emory_georgia_2027" data-page-role="education" data-content-cluster="georgia_hotspots">
+<body class="blog-post lhi-page-hero lhi-fb-watson-2027-landing" data-page-key="piedmont_wellstar_emory_georgia_2027" data-page-role="education" data-content-cluster="georgia_hotspots">
   <div class="compliance-banner">
     <strong>Insurance questions?</strong> Call <a href="tel:+18636403102">(863) 640-3102</a> or <a href="/get-help/">start a plan review</a>. GA License #3329737 · NPN 18213932
   </div>
@@ -230,14 +254,16 @@
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="blog_piedmont_wellstar_emory_georgia_acc-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
-      <h2 class="lhi-lead-hero__title" id="blog_piedmont_wellstar_emory_georgia_acc-lead-title">Get a Marketplace plan comparison</h2>
-      <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
+      <h2 class="lhi-lead-hero__title" id="blog_piedmont_wellstar_emory_georgia_acc-lead-title">Check your Piedmont, Emory, Wellstar &amp; Northside doctors</h2>
+      <p class="lhi-lead-hero__note">Enter your Georgia ZIP code and the Atlanta hospitals or doctors you want to keep for a 2027 Medicare or Marketplace network check with David Huff (Licensed in GA &middot; NPN #18213932). A review is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="blog_piedmont_wellstar_emory_georgia_accForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_blog_aca_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="blog_piedmont_wellstar_emory_georgia_accForm" data-lhi-site-lead-form data-sitelink-inline-thank-you data-inline-thank-you-message="Thanks — David will review your Georgia doctors and call you, usually same day." data-funnel-track data-funnel-event="Lead" data-funnel-name="site_blog_aca_lead" aria-label="Get a Marketplace plan comparison">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/blog/piedmont-wellstar-emory-georgia-access-2027.html">
         <input type="hidden" name="source_template" value="blog_post">
+        <input type="hidden" name="coverage_state" value="GA">
+        <input type="hidden" name="state" value="GA">
         <input type="hidden" name="consent_text_version" value="site-aca-2026-10-v1">
         <input type="hidden" name="utm_source" id="blog_piedmont_wellstar_emory_georgia_acc_utm_source">
         <input type="hidden" name="utm_medium" id="blog_piedmont_wellstar_emory_georgia_acc_utm_medium">
@@ -273,17 +299,25 @@
             <input type="tel" id="blog_piedmont_wellstar_emory_georgia_acc_phone" name="phone" required autocomplete="tel">
           </div>
           <div class="lhi-lead-hero__field">
-            <label for="blog_piedmont_wellstar_emory_georgia_acc_zip_code">ZIP code</label>
-            <input type="text" id="blog_piedmont_wellstar_emory_georgia_acc_zip_code" name="zip_code" required pattern="[0-9]{5}" maxlength="5" inputmode="numeric" autocomplete="postal-code">
+            <label for="blog_piedmont_wellstar_emory_georgia_acc_zip_code">Georgia ZIP code</label>
+            <input type="text" id="blog_piedmont_wellstar_emory_georgia_acc_zip_code" name="zip_code" required pattern="[0-9]{5}" maxlength="5" inputmode="numeric" autocomplete="postal-code" placeholder="30309">
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <label for="blog_piedmont_wellstar_emory_georgia_acc_coverage_status">Coverage type</label>
+            <label for="blog_piedmont_wellstar_emory_georgia_acc_coverage_status">Coverage type to check</label>
             <select id="blog_piedmont_wellstar_emory_georgia_acc_coverage_status" name="coverage_status" required>
                   <option value="" selected disabled>Select one</option>
-                  <option value="individual_marketplace">Individual Marketplace coverage</option>
-                  <option value="family_marketplace">Family Marketplace coverage</option>
-                  <option value="not_sure">Not sure yet</option>
+                  <option value="medicare_advantage">Medicare Advantage (Part C) — 2027 directory check</option>
+                  <option value="medicare_supplement">Original Medicare + Medigap (Plan G / Plan N)</option>
+                  <option value="individual_marketplace">Under-65 Individual Marketplace (HealthCare.gov)</option>
+                  <option value="family_marketplace">Under-65 Family Marketplace (HealthCare.gov)</option>
+                  <option value="current_plan_review">Doctor / Hospital network check (Piedmont / Emory / Wellstar / Northside)</option>
+                  <option value="losing_coverage">Retiring before 65 or losing employer coverage</option>
+                  <option value="not_sure">Not sure yet — compare my 2027 options</option>
             </select>
+          </div>
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label for="blog_piedmont_wellstar_emory_georgia_acc_providers">Doctors or hospitals to keep (optional)</label>
+            <input type="text" id="blog_piedmont_wellstar_emory_georgia_acc_providers" name="providers" autocomplete="off" placeholder="e.g. Piedmont Atlanta, Emory University Hospital, Wellstar Kennestone">
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label class="lhi-lead-hero__consent" for="blog_piedmont_wellstar_emory_georgia_acc_consent">
@@ -292,7 +326,7 @@
             </label>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <button class="lhi-lead-hero__submit" type="submit">Get my quote</button>
+            <button class="lhi-lead-hero__submit" type="submit">Check My 2027 Georgia Options</button>
           </div>
         </div>
         <p class="lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>
