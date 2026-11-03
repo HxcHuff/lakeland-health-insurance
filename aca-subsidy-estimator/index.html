@@ -1774,9 +1774,37 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="zip-code">Benchmark geography</label>
-                    <input type="text" id="zip-code" value="Lakeland 33805" readonly aria-describedby="zip-scope">
-                    <div class="help-text" id="zip-scope">Anchored to the official CMS 2027 benchmark for Polk County (Rating Area 24 / Lakeland ZIPs 33801–33815).</div>
+                    <div class="label-row">
+                        <label for="applicant-state">State &amp; Benchmark Geography (23 Licensed States)</label>
+                        <span class="field-live-badge" id="state-rule-badge">FL &middot; Non-Expansion (100% FPL Floor)</span>
+                    </div>
+                    <select id="applicant-state" aria-describedby="zip-scope">
+                        <option value="FL" selected>Florida (FL) &mdash; Polk County Rating Area 24 Benchmark</option>
+                        <option value="AL">Alabama (AL) &mdash; Non-Expansion (100% FPL Floor)</option>
+                        <option value="AZ">Arizona (AZ) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="GA">Georgia (GA) &mdash; Non-Expansion (100% FPL Floor)</option>
+                        <option value="IA">Iowa (IA) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="IN">Indiana (IN) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="KS">Kansas (KS) &mdash; Non-Expansion (100% FPL Floor)</option>
+                        <option value="LA">Louisiana (LA) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="MD">Maryland (MD) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="MI">Michigan (MI) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="MO">Missouri (MO) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="MS">Mississippi (MS) &mdash; Non-Expansion (100% FPL Floor)</option>
+                        <option value="NC">North Carolina (NC) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="NE">Nebraska (NE) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="NJ">New Jersey (NJ) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="OH">Ohio (OH) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="OK">Oklahoma (OK) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="SC">South Carolina (SC) &mdash; Non-Expansion (100% FPL Floor)</option>
+                        <option value="TN">Tennessee (TN) &mdash; Non-Expansion (100% FPL Floor)</option>
+                        <option value="TX">Texas (TX) &mdash; Non-Expansion (100% FPL Floor)</option>
+                        <option value="VA">Virginia (VA) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="WA">Washington (WA) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                        <option value="WV">West Virginia (WV) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                    </select>
+                    <input type="hidden" id="zip-code" value="Lakeland 33805">
+                    <div class="help-text" id="zip-scope">2026 HHS Poverty Guidelines, IRS Rev. Proc. 2026-26 applicable percentages (2.15%&ndash;10.22%), and the 400% FPL cliff apply across all 23 licensed states. Silver benchmark rate is anchored to CMS 2027 Polk County Rating Area 24 ($548.84 age-21 base).</div>
                 </div>
 
                 <div class="form-group">
@@ -2080,6 +2108,11 @@
                     <input type="hidden" name="normalized_intent" value="aca">
                     <input type="hidden" name="inquiry_type" value="ACA Marketplace">
                     <input type="hidden" name="line_of_business" value="ACA Marketplace">
+                    <input type="hidden" name="product_interest" value="2027 ACA Subsidy Estimator">
+                    <input type="hidden" name="state" id="acaSoftGateState" value="FL">
+                    <input type="hidden" name="coverage_state" id="acaSoftGateCoverageState" value="FL">
+                    <input type="hidden" name="source_page_key" value="aca-subsidy-estimator">
+                    <input type="hidden" name="source_cta_key" id="acaSoftGateCtaKey" value="estimator_soft_gate">
                     <input type="hidden" name="content_name" value="first_party_lead">
                     <input type="hidden" name="source_page" value="/aca-subsidy-estimator/">
                     <input type="hidden" name="consent_page" value="/aca-subsidy-estimator/">
@@ -2133,7 +2166,7 @@
                         </div>
                         <div class="aca-soft-gate-field">
                             <label for="acaSoftGateZip">ZIP code</label>
-                            <input id="acaSoftGateZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" value="33805" required>
+                            <input id="acaSoftGateZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="5-digit ZIP (e.g. 33805)" required>
                         </div>
                         <div class="aca-soft-gate-field">
                             <label for="acaSoftGateTime">Preferred appointment or review</label>
@@ -2802,6 +2835,87 @@
             };
             incSliderEl.addEventListener('input', onIncSlide);
             incSliderEl.addEventListener('change', onIncSlide);
+        }
+
+        var LICENSED_STATES_2027 = {
+            FL: { name: 'Florida', expanded: false },
+            AL: { name: 'Alabama', expanded: false },
+            AZ: { name: 'Arizona', expanded: true },
+            GA: { name: 'Georgia', expanded: false },
+            IA: { name: 'Iowa', expanded: true },
+            IN: { name: 'Indiana', expanded: true },
+            KS: { name: 'Kansas', expanded: false },
+            LA: { name: 'Louisiana', expanded: true },
+            MD: { name: 'Maryland', expanded: true },
+            MI: { name: 'Michigan', expanded: true },
+            MO: { name: 'Missouri', expanded: true },
+            MS: { name: 'Mississippi', expanded: false },
+            NC: { name: 'North Carolina', expanded: true },
+            NE: { name: 'Nebraska', expanded: true },
+            NJ: { name: 'New Jersey', expanded: true },
+            OH: { name: 'Ohio', expanded: true },
+            OK: { name: 'Oklahoma', expanded: true },
+            SC: { name: 'South Carolina', expanded: false },
+            TN: { name: 'Tennessee', expanded: false },
+            TX: { name: 'Texas', expanded: false },
+            VA: { name: 'Virginia', expanded: true },
+            WA: { name: 'Washington', expanded: true },
+            WV: { name: 'West Virginia', expanded: true }
+        };
+
+        function syncSelectedStateContext() {
+            var stateSelect = document.getElementById('applicant-state');
+            var code = (stateSelect && stateSelect.value) ? stateSelect.value.toUpperCase() : 'FL';
+            var info = LICENSED_STATES_2027[code] || LICENSED_STATES_2027.FL;
+            var badge = document.getElementById('state-rule-badge');
+            if (badge) {
+                badge.textContent = code + ' · ' + (info.expanded ? 'Medicaid Expansion (138% FPL Floor)' : 'Non-Expansion (100% FPL Floor)');
+            }
+            var stateHidden = document.getElementById('acaSoftGateState');
+            var covStateHidden = document.getElementById('acaSoftGateCoverageState');
+            if (stateHidden) stateHidden.value = code;
+            if (covStateHidden) covStateHidden.value = code;
+
+            var quoteBtn = document.getElementById('get-exact-quote-btn');
+            if (quoteBtn) {
+                quoteBtn.textContent = code === 'FL' ? 'Request a Florida ACA Review' : 'Request a ' + info.name + ' (' + code + ') 2027 ACA Review';
+            }
+            var modalTitle = document.getElementById('acaSoftGateTitle');
+            if (modalTitle) {
+                modalTitle.textContent = code === 'FL'
+                    ? 'Want Your 2027 Polk Carrier & Doctor Breakdown — or Schedule a 10-Min Review?'
+                    : 'Want Your 2027 ' + info.name + ' Carrier & Doctor Breakdown — or Schedule a 10-Min Review?';
+            }
+            return { code: code, info: info };
+        }
+
+        var stateSelectEl = document.getElementById('applicant-state');
+        if (stateSelectEl) {
+            try {
+                var qsState = new URLSearchParams(window.location.search || '').get('state');
+                if (qsState && LICENSED_STATES_2027[qsState.trim().toUpperCase()]) {
+                    stateSelectEl.value = qsState.trim().toUpperCase();
+                }
+            } catch (e) {}
+            syncSelectedStateContext();
+            stateSelectEl.addEventListener('change', function() {
+                syncSelectedStateContext();
+                ensureFallbackValues(false);
+                runCalculation(true);
+            });
+        }
+
+        var exactQuoteBtnEl = document.getElementById('get-exact-quote-btn');
+        if (exactQuoteBtnEl) {
+            exactQuoteBtnEl.addEventListener('click', function() {
+                var st = syncSelectedStateContext().code;
+                if (window.LHI && typeof window.LHI.track === 'function') {
+                    try { window.LHI.track('PlanReviewCtaClick', { content_name: 'aca_estimator_get_help_cta', step: 'click' }); } catch (e) {}
+                }
+                if (st && st !== 'FL') {
+                    this.setAttribute('href', '/get-help/?intent=aca&state=' + encodeURIComponent(st) + '&product=aca_estimator_2027');
+                }
+            });
         }
 
         document.getElementById('household-size').addEventListener('change', function() {
