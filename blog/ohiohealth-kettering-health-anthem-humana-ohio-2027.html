@@ -180,157 +180,260 @@
   }
   </script>
 
-  <style>
-    :root { --navy:#1B2A4A; --gold:#D4A843; --blue:#2563EB; --green:#16A34A; --red:#DC2626; --ink:#1E293B; --gray:#64748B; --light:#F8FAFC; --border:#E2E8F0; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:'DM Sans',sans-serif; color:var(--ink); background:#fff; line-height:1.75; }
-    .container { max-width:860px; margin:0 auto; padding:0 20px; }
-    main h2 { font-family:'Instrument Serif',serif; color:var(--navy); font-size:clamp(1.7rem,3.4vw,2.25rem); line-height:1.2; margin:2.2rem 0 0.75rem; font-weight:400; }
-    main h3 { color:var(--navy); font-size:1.22rem; margin:1.4rem 0 0.45rem; }
-    p, li { font-size:1.05rem; }
-    .byline { color:var(--gray); font-size:0.95rem; margin:0 0 1.25rem; }
-    .card { background:var(--light); border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:12px; padding:20px; margin:22px 0; }
-    .card.warn { border-left-color:var(--red); background:#FEF2F2; }
-    .card.safe { border-left-color:var(--green); background:#F0FDF4; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px; margin:20px 0; }
-    .box { border:1px solid var(--border); border-radius:12px; padding:18px; background:#fff; }
-    .table-wrap { overflow-x:auto; margin:22px 0; border:1px solid var(--border); border-radius:12px; }
-    table { width:100%; border-collapse:collapse; min-width:640px; }
-    th, td { padding:13px 15px; border-bottom:1px solid var(--border); text-align:left; vertical-align:top; font-size:0.96rem; }
-    th { background:var(--navy); color:#fff; font-weight:700; }
-    tr:nth-child(even) td { background:var(--light); }
-    .cta-row { display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; }
-    .cta-button { display:inline-block; background:var(--gold); color:#0F1A2E; font-weight:800; padding:12px 20px; border-radius:999px; text-decoration:none; }
-    .cta-button.secondary { background:#fff; color:var(--navy); border:2px solid var(--navy); }
-    .lhi-fb-closing { background:linear-gradient(135deg,#0F1A2E 0%,#1B2A4A 100%); color:#fff; border-radius:16px; padding:28px 24px; margin:34px 0; }
-    .lhi-fb-closing h2 { color:#fff; margin-top:0; }
-    .lhi-fb-closing p { color:rgba(255,255,255,0.9); }
-    .lhi-fb-closing .cta-button.secondary { background:transparent; color:#fff; border-color:rgba(255,255,255,0.65); }
-    .lhi-slogan-photo-row {
-      align-items: center;
-      display: grid;
-      gap: 24px 36px;
-      grid-template-columns: minmax(0, 1fr) minmax(240px, 340px);
-      margin: 0 auto 8px;
-      max-width: 1100px;
-      padding: 28px 20px 0;
-    }
-    .lhi-slogan-photo-row .lhi-david-pull-quote {
-      border: 0;
-      margin: 0;
-      padding: 0;
-    }
-    .lhi-slogan-photo-row .lhi-david-pull-quote__rule {
-      background: #D4A843;
-      border: 0;
-      height: 3px;
-      margin: 0 0 18px;
-      width: 56px;
-    }
-    .lhi-slogan-photo-row .lhi-david-pull-quote p {
-      color: #0F1A2E;
-      font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif;
-      font-size: clamp(2rem, 3.2vw, 2.75rem);
-      line-height: 1.2;
-      margin: 0 0 14px;
-    }
-    .lhi-slogan-photo-row .lhi-david-pull-quote-attribution {
-      color: #64748B;
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin: 0;
-    }
-    .lhi-slogan-photo-row > .lhi-post-body-intro {
-      grid-column: 1 / -1;
-      margin: 4px auto 1.25rem;
-      max-width: 1100px;
-      padding: 0 20px;
-      width: 100%;
-    }
-    .lhi-slogan-photo-row .lhi-post-featured-hero {
-      margin: 0;
-      max-width: none;
-      padding: 0;
-      width: 100%;
-    }
-    .lhi-slogan-photo-row .lhi-post-featured-hero img {
-      border-radius: 14px;
-      max-width: 100%;
-    }
-    @media (max-width: 768px) {
-      .lhi-slogan-photo-row {
-        grid-template-columns: 1fr;
-        padding-top: 20px;
-        text-align: center;
-      }
-      .lhi-slogan-photo-row .lhi-david-pull-quote { order: 1; }
-      .lhi-slogan-photo-row .lhi-david-pull-quote__rule { margin-inline: auto; }
-      .lhi-slogan-photo-row .lhi-david-pull-quote p { font-size: clamp(1.625rem, 6vw, 1.875rem); }
-      .lhi-slogan-photo-row .lhi-post-featured-hero { order: 2; }
-      .lhi-slogan-photo-row > .lhi-post-body-intro { order: 3; }
-    }
-    @media (max-width: 900px) {
-      body.lhi-fb-watson-2027-landing.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block > .lhi-hero-lede:not(.last-reviewed) {
-        display: block !important;
-        -webkit-box-orient: unset !important;
-        -webkit-line-clamp: unset !important;
-        overflow: visible !important;
-        white-space: normal !important;
-        text-overflow: unset !important;
-      }
-    }
-    body.lhi-fb-watson-2027-landing .lhi-lead-hero__card {
-      padding: 0.9rem 1rem 1rem;
-    }
-    body.lhi-fb-watson-2027-landing .lhi-lead-hero__fields {
-      gap: 0.625rem;
-    }
-    body.lhi-fb-watson-2027-landing .lhi-lead-hero__field:has(> label.lhi-lead-hero__consent) {
-      background: transparent;
-      border: none;
-      box-shadow: none;
-      margin: 0;
-      padding: 0;
-    }
-    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell .lhi-lead-hero__field > label.lhi-lead-hero__consent,
-    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell .lhi-lead-hero__field > label.lhi-lead-hero__consent span {
-      align-items: flex-start;
-      background: transparent;
-      border: none;
-      box-shadow: none;
-      color: #5b6475 !important;
-      font-size: 0.71875rem;
-      font-weight: 400;
-      gap: 0.45rem;
-      line-height: 1.35;
-      margin: 0;
-      padding: 0;
-    }
-    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell .lhi-lead-hero__field > label.lhi-lead-hero__consent {
-      display: flex;
-    }
-    body.lhi-fb-watson-2027-landing label.lhi-lead-hero__consent input[type="checkbox"] {
-      flex-shrink: 0;
-      height: 0.875rem;
-      margin-top: 0.1rem;
-      min-height: 0.875rem;
-      min-width: 0.875rem;
-      width: 0.875rem;
-    }
-    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell label.lhi-lead-hero__consent a {
-      color: #334155 !important;
-      font-weight: 500;
-      text-decoration: underline;
-      text-underline-offset: 0.12em;
-    }
-    body.lhi-fb-watson-2027-landing .lhi-lead-hero__field:has(> .lhi-lead-hero__submit) {
-      margin-top: 0.25rem;
-    }
-  </style>
   <link rel="preload" href="/css/blog-unified.css?v=20261023-pr333-follow-up" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="/css/blog-unified.css?v=20261023-pr333-follow-up"></noscript>
   <link rel="preload" href="/css/site-template.css?v=20261017-meta-conversion-events-v1" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="/css/site-template.css?v=20261017-meta-conversion-events-v1"></noscript>
+  <style>
+    :root { --navy:#1B2A4A; --gold:#D4A843; --blue:#2563EB; --green:#16A34A; --red:#DC2626; --ink:#1E293B; --gray:#64748B; --light:#F8FAFC; --border:#E2E8F0; --bg:#F8FAFC; --card:#FFFFFF; --line:#E2E8F0; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:'DM Sans','DM Sans Fallback',sans-serif; color:var(--ink); background:var(--bg); line-height:1.7; }
+    .container:not(.hero-grid) { max-width:960px; margin:0 auto; padding:0 20px; }
+    main h2 { font-family:'Instrument Serif','Instrument Serif Fallback',serif; color:var(--navy); font-size:clamp(1.7rem,3.4vw,2.2rem); line-height:1.18; margin:2rem 0 0.75rem; font-weight:400; }
+    main h3 { color:var(--navy); font-size:1.2rem; margin:1.25rem 0 0.45rem; }
+    p, li { font-size:1.04rem; }
+    p { margin:0 0 12px; }
+    ul, ol { margin:8px 0 16px; padding-left:22px; }
+    li { margin-bottom:8px; }
+    .byline { color:var(--gray); font-size:0.95rem; margin:0 0 1.25rem; }
+    .card { background:#fff !important; border:1px solid var(--border) !important; border-left:4px solid var(--gold) !important; border-radius:14px !important; padding:22px; margin:20px 0; }
+    .card h3 { margin-top:0; }
+    .card p:last-child { margin-bottom:0; }
+    .card.warn { border-left:4px solid var(--red) !important; background:#FEF2F2 !important; }
+    .card.safe { border-left:4px solid #2563EB !important; background:#EFF6FF !important; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin:20px 0; }
+    .box { border:1px solid var(--border); border-radius:14px; padding:20px; background:#fff; box-shadow:0 4px 16px rgba(15,23,42,0.05); }
+    .box h3 { margin-top:0; }
+    .box p:last-child { margin-bottom:0; }
+    .table-wrap { overflow-x:auto; margin:22px 0; border:1px solid var(--border); border-radius:14px; background:#fff; -webkit-overflow-scrolling:touch; }
+    table { width:100%; border-collapse:collapse; min-width:680px; }
+    th, td { padding:13px 15px; border-bottom:1px solid var(--border); text-align:left; vertical-align:top; font-size:0.95rem; line-height:1.55; }
+    th { background:var(--navy); color:#fff; font-weight:700; }
+    th:nth-child(1), td:nth-child(1) { min-width:155px; }
+    th:nth-child(2), td:nth-child(2) { min-width:175px; }
+    tr:nth-child(even) td { background:var(--light); }
+    @media (max-width: 768px) {
+      .table-wrap { border:0; background:transparent; overflow-x:visible; }
+      .table-wrap table { min-width:0; display:block; }
+      .table-wrap thead { display:none; }
+      .table-wrap tbody { display:grid; gap:16px; }
+      .table-wrap tr { display:block; background:#fff; border:1px solid var(--border); border-left:4px solid var(--navy); border-radius:14px; padding:14px 16px; box-shadow:0 4px 14px rgba(15,23,42,0.05); }
+      .table-wrap tr:nth-child(even) td { background:transparent; }
+      .table-wrap td { display:block; min-width:0 !important; padding:8px 0; border-bottom:1px solid var(--border); font-size:0.95rem; }
+      .table-wrap td:first-child { padding-top:0; font-size:1.05rem; color:var(--navy); }
+      .table-wrap td:last-child { border-bottom:0; padding-bottom:0; }
+      .table-wrap td[data-label]::before {
+        content:attr(data-label);
+        display:block;
+        font-size:0.75rem;
+        font-weight:800;
+        text-transform:uppercase;
+        letter-spacing:0.05em;
+        color:#475569;
+        margin-bottom:3px;
+      }
+    }
+    @media (max-width: 480px) {
+      .lhi-step1-micro__row {
+        grid-template-columns:78px minmax(0, 1fr) auto !important;
+        gap:5px !important;
+      }
+      .lhi-step1-micro__zip {
+        font-size:0.86rem !important;
+        padding:8px 6px !important;
+      }
+      .lhi-step1-micro__intent {
+        font-size:0.84rem !important;
+        padding:8px 4px !important;
+      }
+      .lhi-step1-micro__btn {
+        padding-left:11px !important;
+        padding-right:11px !important;
+      }
+    }
+    .media { margin:14px 0 4px; }
+    .media img { width:100%; height:auto; border-radius:14px; border:1px solid var(--border); box-shadow:0 8px 24px rgba(15,23,42,0.12); }
+    .media figcaption { color:var(--gray); font-size:0.9rem; margin-top:8px; text-align:center; }
+    .cta-row { display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; align-items:center; }
+    .cta-row .cta-button { text-decoration:none; display:inline-block; }
+    body.lhi-fb-watson-2027-landing .lhi-hero-lede-block .cta-row a.cta-button.lhi-hero-gold-primary {
+      background-color:#D4A843 !important;
+      border:2px solid #D4A843 !important;
+      color:#0F1A2E !important;
+      -webkit-text-fill-color:#0F1A2E !important;
+      box-shadow:0 4px 14px rgba(212,168,67,0.35) !important;
+    }
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__submit {
+      background-color:#D4A843 !important;
+      border:2px solid #D4A843 !important;
+      border-radius:100px;
+      color:#0F1A2E !important;
+      font-family:inherit;
+      font-weight:700;
+      -webkit-text-fill-color:#0F1A2E !important;
+    }
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__submit:hover,
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__submit:focus-visible {
+      background-color:#c49838 !important;
+      border-color:#c49838 !important;
+      color:#0F1A2E !important;
+    }
+    @media (max-width: 899px) {
+      body.lhi-fb-watson-2027-landing .lhi-hero-shell .hero-grid {
+        display:flex;
+        flex-direction:column;
+        gap:0;
+      }
+      body.lhi-fb-watson-2027-landing .lhi-hero-lede-block .cta-row { margin-bottom:16px; }
+      body.lhi-fb-watson-2027-landing .lhi-hero-grid-lead { margin-top:0; }
+    }
+    body.lhi-fb-watson-2027-landing .lhi-fb-closing {
+      background:#fff;
+      border:1px solid var(--border);
+      border-left:4px solid var(--gold);
+      border-radius:14px;
+      padding:24px;
+      margin:32px 0 12px;
+      box-shadow:0 8px 24px rgba(15,23,42,0.06);
+    }
+    body.lhi-fb-watson-2027-landing .lhi-fb-closing h2 { color:var(--navy); margin-top:0; }
+    body.lhi-fb-watson-2027-landing .lhi-fb-closing p { color:var(--ink); }
+    body.lhi-fb-watson-2027-landing .lhi-fb-closing .cta-row { margin-top:14px; }
+    body.lhi-fb-watson-2027-landing .lhi-fb-closing a.cta-button.lhi-hero-gold-primary {
+      background-color:#D4A843 !important;
+      border:2px solid #D4A843 !important;
+      color:#0F1A2E !important;
+      -webkit-text-fill-color:#0F1A2E !important;
+    }
+    .lhi-slogan-photo-row {
+      align-items:center;
+      box-sizing:border-box;
+      display:grid;
+      gap:28px 36px;
+      grid-template-columns:minmax(0, 1fr) minmax(240px, 340px);
+      margin:8px auto 0;
+      max-width:960px;
+      padding:28px 20px 12px;
+      width:100%;
+    }
+    .lhi-slogan-photo-row .lhi-david-pull-quote {
+      border:0;
+      margin:0;
+      padding:0;
+    }
+    .lhi-slogan-photo-row .lhi-david-pull-quote__rule {
+      background:#D4A843;
+      border:0;
+      height:3px;
+      margin:0 0 18px;
+      width:56px;
+    }
+    .lhi-slogan-photo-row .lhi-david-pull-quote p:not(.lhi-david-pull-quote-attribution) {
+      color:#0F1A2E;
+      font-family:'Instrument Serif','Instrument Serif Fallback',serif;
+      font-size:clamp(2rem, 3.2vw, 2.75rem);
+      line-height:1.2;
+      margin:0 0 14px;
+    }
+    .lhi-slogan-photo-row .lhi-david-pull-quote p.lhi-david-pull-quote-attribution {
+      color:#64748B;
+      font-family:'DM Sans','DM Sans Fallback',sans-serif;
+      font-size:0.98rem;
+      font-weight:600;
+      line-height:1.4;
+      margin:0;
+    }
+    .lhi-slogan-photo-row > .lhi-post-body-intro {
+      grid-column:1 / -1;
+      margin:4px auto 0.5rem;
+      max-width:960px;
+      padding:0;
+      width:100%;
+    }
+    .lhi-slogan-photo-row .lhi-post-featured-hero {
+      margin:0 auto;
+      max-width:320px;
+      padding:0;
+      width:100%;
+    }
+    .lhi-slogan-photo-row .lhi-post-featured-hero img {
+      display:block;
+      width:100%;
+      height:auto;
+      border-radius:14px;
+      max-width:100%;
+    }
+    @media (max-width: 768px) {
+      .lhi-slogan-photo-row {
+        grid-template-columns:1fr;
+        padding-top:20px;
+        text-align:center;
+      }
+      .lhi-slogan-photo-row .lhi-david-pull-quote { order:1; }
+      .lhi-slogan-photo-row .lhi-david-pull-quote__rule { margin-inline:auto; }
+      .lhi-slogan-photo-row .lhi-david-pull-quote p:not(.lhi-david-pull-quote-attribution) { font-size:clamp(1.625rem, 6vw, 1.875rem); }
+      .lhi-slogan-photo-row .lhi-post-featured-hero { order:2; max-width:260px; }
+      .lhi-slogan-photo-row > .lhi-post-body-intro { order:3; }
+    }
+    @media (max-width: 900px) {
+      body.lhi-fb-watson-2027-landing.lhi-page-hero.blog-post .lhi-hero-shell .lhi-hero-lede-block > .lhi-hero-lede:not(.last-reviewed) {
+        display:block !important;
+        -webkit-box-orient:unset !important;
+        -webkit-line-clamp:unset !important;
+        overflow:visible !important;
+        white-space:normal !important;
+        text-overflow:unset !important;
+      }
+    }
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__card {
+      padding:0.9rem 1rem 1rem;
+    }
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__fields {
+      gap:0.625rem;
+    }
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__field:has(> label.lhi-lead-hero__consent) {
+      background:transparent;
+      border:none;
+      box-shadow:none;
+      margin:0;
+      padding:0;
+    }
+    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell .lhi-lead-hero__field > label.lhi-lead-hero__consent,
+    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell .lhi-lead-hero__field > label.lhi-lead-hero__consent span {
+      align-items:flex-start;
+      background:transparent;
+      border:none;
+      box-shadow:none;
+      color:#5b6475 !important;
+      font-size:0.71875rem;
+      font-weight:400;
+      gap:0.45rem;
+      line-height:1.35;
+      margin:0;
+      padding:0;
+    }
+    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell .lhi-lead-hero__field > label.lhi-lead-hero__consent {
+      display:flex;
+    }
+    body.lhi-fb-watson-2027-landing label.lhi-lead-hero__consent input[type="checkbox"] {
+      flex-shrink:0;
+      height:0.875rem;
+      margin-top:0.1rem;
+      min-height:0.875rem;
+      min-width:0.875rem;
+      width:0.875rem;
+    }
+    body.lhi-fb-watson-2027-landing.lhi-page-hero .lhi-hero-shell label.lhi-lead-hero__consent a {
+      color:#334155 !important;
+      font-weight:500;
+      text-decoration:underline;
+      text-underline-offset:0.12em;
+    }
+    body.lhi-fb-watson-2027-landing .lhi-lead-hero__field:has(> .lhi-lead-hero__submit) {
+      margin-top:0.25rem;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/lead-hero.css?v=20261030-step1-cache-bust-v1" data-lhi-lead-hero-tail="">
 </head>
 <body class="blog-post lhi-page-hero lhi-fb-watson-2027-landing" data-page-key="ohiohealth_kettering_health_anthem_humana_ohio_2027" data-page-role="education" data-content-cluster="ohio_hospital_network_2027">
   <div class="compliance-banner">
@@ -375,7 +478,7 @@
 
   <main>
     <div class="lhi-hero-shell">
-      <section class="hero article-hero">
+      <section class="hero">
         <div class="container hero-grid">
           <div class="lhi-hero-lede-block">
             <h1>Kettering Health, Miami Valley Hospital &amp; OhioHealth 2027 Network Guide: Dayton &amp; Columbus Medicare &amp; ACA Options</h1>
@@ -384,13 +487,13 @@
               <p class="lhi-step1-micro__eyebrow">Step 1 of 2 &middot; Ohio ZIP &amp; hospital check</p>
               <div class="lhi-step1-micro__row">
                 <label class="sr-only" for="kettering2027Step1Zip">5-digit Ohio ZIP code</label>
-                <input class="lhi-step1-micro__zip" id="kettering2027Step1Zip" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="Ohio ZIP (e.g. 45429)" data-step1-zip>
+                <input class="lhi-step1-micro__zip" id="kettering2027Step1Zip" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="ZIP code" data-step1-zip>
                 <label class="sr-only" for="kettering2027Step1Intent">Coverage type</label>
                 <select class="lhi-step1-micro__intent" id="kettering2027Step1Intent" data-step1-intent>
-                  <option value="provider-check" selected>Doctor / Hospital check</option>
+                  <option value="provider-check" selected>Doctor check</option>
                   <option value="medicare">Medicare (65+)</option>
-                  <option value="under-65">Under-65 / ACA Marketplace</option>
-                  <option value="lost-coverage">Losing employer coverage</option>
+                  <option value="under-65">Under-65 / ACA</option>
+                  <option value="lost-coverage">Losing coverage</option>
                 </select>
                 <button class="lhi-step1-micro__btn" type="button" data-step1-continue>Continue</button>
               </div>
@@ -498,8 +601,8 @@
       </blockquote>
       <figure class="media lhi-post-featured-hero">
         <picture>
-          <source type="image/webp" srcset="/assets/images/watson-david-original-v5.webp 1080w" sizes="(max-width: 768px) 100vw, 520px">
-          <img src="/assets/images/watson-david-original-v5.jpg" srcset="/assets/images/watson-david-original-v5.jpg 1080w" sizes="(max-width: 768px) 100vw, 520px" width="1080" height="1080" alt="David Huff, licensed health insurance agent serving Ohio and 22 other states" decoding="async" loading="lazy">
+          <source type="image/jpeg" srcset="/assets/images/david-huff-blue-polo-480.jpg 480w, /assets/images/david-huff-blue-polo.jpg 900w" sizes="(max-width: 768px) 260px, 320px">
+          <img src="/assets/images/david-huff-blue-polo.jpg" srcset="/assets/images/david-huff-blue-polo-480.jpg 480w, /assets/images/david-huff-blue-polo.jpg 900w" sizes="(max-width: 768px) 260px, 320px" width="900" height="900" alt="David Huff, licensed health insurance agent serving Ohio and 22 other states" decoding="async" loading="lazy">
         </picture>
         <figcaption>David Huff · Licensed Insurance Agent (NPN #18213932)</figcaption>
       </figure>
@@ -560,34 +663,34 @@
           </thead>
           <tbody>
             <tr>
-              <td><strong>Kettering Health &amp; Kettering Physician Network (KPN)</strong></td>
-              <td>Montgomery, Greene, Warren, Miami, Butler, Preble (Kettering Main, Soin, Dayton/Grandview, Miamisburg/Sycamore, Washington Twp, Hamilton, Troy, Greene Memorial)</td>
-              <td><strong>Original Medicare + Medigap (Plan G/N):</strong> Accepted at all Kettering Health facilities accepting Medicare assignment with no network referrals.<br><strong>Medicare Advantage (HMO/PPO):</strong> Verify contract status by specific 2027 plan ID across Anthem, Humana, Devoted Health, Aetna, UnitedHealthcare, and Medical Mutual.</td>
-              <td><strong>Rating Area 8 (Dayton/Springfield):</strong> Select carrier HMO sub-networks cover Kettering Health and KPN while excluding competing hospital systems. Verify both the facility and your KPN physician's NPI before selecting a Bronze, Silver, or Gold tier.</td>
+              <td data-label="Health System &amp; Physician Group"><strong>Kettering Health &amp; Kettering Physician Network (KPN)</strong></td>
+              <td data-label="Primary Counties &amp; Campuses">Montgomery, Greene, Warren, Miami, Butler, Preble (Kettering Main, Soin, Dayton/Grandview, Miamisburg/Sycamore, Washington Twp, Hamilton, Troy, Greene Memorial)</td>
+              <td data-label="2027 Medicare Advantage vs. Medigap (65+)"><strong>Original Medicare + Medigap (Plan G/N):</strong> Accepted at all Kettering Health facilities accepting Medicare assignment with no network referrals.<br><strong>Medicare Advantage (HMO/PPO):</strong> Verify contract status by specific 2027 plan ID across Anthem, Humana, Devoted Health, Aetna, UnitedHealthcare, and Medical Mutual.</td>
+              <td data-label="2027 ACA Marketplace (Under 65)"><strong>Rating Area 8 (Dayton/Springfield):</strong> Select carrier HMO sub-networks cover Kettering Health and KPN while excluding competing hospital systems. Verify both the facility and your KPN physician's NPI before selecting a Bronze, Silver, or Gold tier.</td>
             </tr>
             <tr>
-              <td><strong>Premier Health &amp; Premier Physician Network (PPN)</strong></td>
-              <td>Montgomery, Warren, Miami, Butler, Greene (Miami Valley Hospital Level I Trauma, Miami Valley South in Centerville, Miami Valley North in Englewood, Atrium Medical Center in Middletown, Upper Valley in Troy)</td>
-              <td><strong>Original Medicare + Medigap (Plan G/N):</strong> Accepted across Miami Valley Hospital, Atrium Medical Center, Upper Valley, and PPN doctors accepting Medicare assignment.<br><strong>Medicare Advantage (HMO/PPO):</strong> Check whether your 2027 HMO or PPO includes both PPN specialists and Miami Valley Hospital outpatient surgery centers.</td>
-              <td><strong>Rating Area 8 (Dayton/Miami Valley):</strong> Several narrow-network Marketplace plans align specifically with Premier Health or Kettering Health—rarely both on the lowest-premium HMO. Always check whether Miami Valley Hospital South and Atrium Medical Center are Tier 1 in-network.</td>
+              <td data-label="Health System &amp; Physician Group"><strong>Premier Health &amp; Premier Physician Network (PPN)</strong></td>
+              <td data-label="Primary Counties &amp; Campuses">Montgomery, Warren, Miami, Butler, Greene (Miami Valley Hospital Level I Trauma, Miami Valley South in Centerville, Miami Valley North in Englewood, Atrium Medical Center in Middletown, Upper Valley in Troy)</td>
+              <td data-label="2027 Medicare Advantage vs. Medigap (65+)"><strong>Original Medicare + Medigap (Plan G/N):</strong> Accepted across Miami Valley Hospital, Atrium Medical Center, Upper Valley, and PPN doctors accepting Medicare assignment.<br><strong>Medicare Advantage (HMO/PPO):</strong> Check whether your 2027 HMO or PPO includes both PPN specialists and Miami Valley Hospital outpatient surgery centers.</td>
+              <td data-label="2027 ACA Marketplace (Under 65)"><strong>Rating Area 8 (Dayton/Miami Valley):</strong> Several narrow-network Marketplace plans align specifically with Premier Health or Kettering Health—rarely both on the lowest-premium HMO. Always check whether Miami Valley Hospital South and Atrium Medical Center are Tier 1 in-network.</td>
             </tr>
             <tr>
-              <td><strong>Dayton Children's Hospital</strong></td>
-              <td>Montgomery &amp; Warren (Dayton Main Campus &amp; Springboro South Campus)</td>
-              <td>Not applicable for standard adult Medicare (except pediatric ESRD/disability qualifiers).</td>
-              <td><strong>Essential Family Check:</strong> Parents enrolling children on 2027 HealthCare.gov family plans in Montgomery, Greene, or Warren counties should verify Dayton Children's Hospital and pediatric specialty clinics separately from adult hospital networks.</td>
+              <td data-label="Health System &amp; Physician Group"><strong>Dayton Children's Hospital</strong></td>
+              <td data-label="Primary Counties &amp; Campuses">Montgomery &amp; Warren (Dayton Main Campus &amp; Springboro South Campus)</td>
+              <td data-label="2027 Medicare Advantage vs. Medigap (65+)">Not applicable for standard adult Medicare (except pediatric ESRD/disability qualifiers).</td>
+              <td data-label="2027 ACA Marketplace (Under 65)"><strong>Essential Family Check:</strong> Parents enrolling children on 2027 HealthCare.gov family plans in Montgomery, Greene, or Warren counties should verify Dayton Children's Hospital and pediatric specialty clinics separately from adult hospital networks.</td>
             </tr>
             <tr>
-              <td><strong>OhioHealth &amp; OhioHealth Physician Group</strong></td>
-              <td>Franklin, Delaware, Marion, Pickaway, Richland, Athens (Riverside Methodist, Grant Medical Center, Dublin Methodist, Grady Memorial, Berger, Marion General, Mansfield)</td>
-              <td><strong>Original Medicare + Medigap (Plan G/N):</strong> Broad access across OhioHealth campuses accepting Medicare assignment.<br><strong>Medicare Advantage:</strong> Compare 2027 network directories and prior-authorization rules across Anthem, Humana, Devoted Health, Aetna, Mount Carmel MediGold, Medical Mutual, and UHC.</td>
-              <td><strong>Rating Area 7 (Columbus/Central OH):</strong> Verify whether your 2027 Anthem Pathway, Ambetter Buckeye, Medical Mutual, Molina, Oscar, or UHC Exchange plan includes OhioHealth hospitals and OhioHealth Physician Group clinics.</td>
+              <td data-label="Health System &amp; Physician Group"><strong>OhioHealth &amp; OhioHealth Physician Group</strong></td>
+              <td data-label="Primary Counties &amp; Campuses">Franklin, Delaware, Marion, Pickaway, Richland, Athens (Riverside Methodist, Grant Medical Center, Dublin Methodist, Grady Memorial, Berger, Marion General, Mansfield)</td>
+              <td data-label="2027 Medicare Advantage vs. Medigap (65+)"><strong>Original Medicare + Medigap (Plan G/N):</strong> Broad access across OhioHealth campuses accepting Medicare assignment.<br><strong>Medicare Advantage:</strong> Compare 2027 network directories and prior-authorization rules across Anthem, Humana, Devoted Health, Aetna, Mount Carmel MediGold, Medical Mutual, and UHC.</td>
+              <td data-label="2027 ACA Marketplace (Under 65)"><strong>Rating Area 7 (Columbus/Central OH):</strong> Verify whether your 2027 Anthem Pathway, Ambetter Buckeye, Medical Mutual, Molina, Oscar, or UHC Exchange plan includes OhioHealth hospitals and OhioHealth Physician Group clinics.</td>
             </tr>
             <tr>
-              <td><strong>OSU Wexner Medical Center &amp; The James Cancer Hospital</strong></td>
-              <td>Franklin &amp; Central/Southwest Ohio regional referrals (Columbus Main Campus, East Hospital, Outpatient Care Dublin &amp; New Albany)</td>
-              <td><strong>Oncology &amp; Quaternary Care Check:</strong> Original Medicare + Medigap provides direct access to The James Cancer Hospital without HMO network gates. Medicare Advantage enrollees should confirm in-network oncology and transplant referral pathways.</td>
-              <td>Narrow ACA HMO plans in Central and Southwest Ohio frequently require prior authorization or specific sub-network participation for non-emergency specialty care at OSU Wexner and The James.</td>
+              <td data-label="Health System &amp; Physician Group"><strong>OSU Wexner Medical Center &amp; The James Cancer Hospital</strong></td>
+              <td data-label="Primary Counties &amp; Campuses">Franklin &amp; Central/Southwest Ohio regional referrals (Columbus Main Campus, East Hospital, Outpatient Care Dublin &amp; New Albany)</td>
+              <td data-label="2027 Medicare Advantage vs. Medigap (65+)"><strong>Oncology &amp; Quaternary Care Check:</strong> Original Medicare + Medigap provides direct access to The James Cancer Hospital without HMO network gates. Medicare Advantage enrollees should confirm in-network oncology and transplant referral pathways.</td>
+              <td data-label="2027 ACA Marketplace (Under 65)">Narrow ACA HMO plans in Central and Southwest Ohio frequently require prior authorization or specific sub-network participation for non-emergency specialty care at OSU Wexner and The James.</td>
             </tr>
           </tbody>
         </table>

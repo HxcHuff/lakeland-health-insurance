@@ -1139,12 +1139,12 @@ body.lhi-lead-sticky-active {
     padding-top: calc(var(--lhi-site-header-height, 88px) + 12px);
   }
 
-  body.blog-post .article-hero,
-  body.blog-post .article-hero > .container {
+  body.blog-post:not(.lhi-page-hero) .article-hero,
+  body.blog-post:not(.lhi-page-hero) .article-hero > .container {
     display: contents;
   }
 
-  body.blog-post .article-hero h1 {
+  body.blog-post:not(.lhi-page-hero) .article-hero h1 {
     order: 1;
     margin: 0;
     padding: 5rem 1.25rem 0.65rem;
