@@ -1785,6 +1785,30 @@ const siteSearchIndex = [
     url: "/blog/medicare-advantage-dental-otc-changes-lakeland-2027.html",
     excerpt: "Why 2027 supplemental dental, vision, and OTC allowance cards are shifting in Polk County—and how to verify your dentists, doctors, and prescriptions first.",
     tags: ["Medicare","Dental","Vision","OTC","Medicare Advantage","Lakeland","Polk County","2027"]
+  },
+  {
+    title: "How Does the $2,400 Medicare Part D Cap Work in 2027? | Lakeland & Polk Guide",
+    url: "/local-health-insurance-answers/medicare-part-d-2400-cap-2027/",
+    excerpt: "For 2027, the Medicare Part D out-of-pocket cap is $2,400 and the maximum standard deductible is $615. See what counts toward the cap and how the Medicare Prescription Payment Plan works.",
+    tags: ["Medicare","Part D","$2400 Cap","TrOOP","Prescriptions","Lakeland","Polk County","2027"]
+  },
+  {
+    title: "Four Corners Health Insurance & Medicare: Polk, Osceola, Lake & Orange (2027)",
+    url: "/local-health-insurance-answers/four-corners-polk-osceola-lake-orange-insurance/",
+    excerpt: "Living in Four Corners (33896, 33897, 33837, 34714, 34747)? Why your exact county line (Polk, Osceola, Lake, or Orange) changes your 2027 ACA and Medicare plans.",
+    tags: ["Four Corners","Davenport","Clermont","Kissimmee","Polk County","Osceola County","Lake County","Orange County","ACA","Medicare","2027"]
+  },
+  {
+    title: "Best Medicare Setup for Florida Snowbirds (2027 Multi-State Guide)",
+    url: "/local-health-insurance-answers/snowbird-medicare-florida-multi-state-2027/",
+    excerpt: "Splitting the year between Lakeland or Polk County and another state? Compare 2027 Original Medicare + Medigap against Medicare Advantage PPO and HMO rules across 23 states.",
+    tags: ["Snowbird","Medicare","Multi-State","Medigap","Medicare Advantage","Lakeland","Polk County","Florida","2027"]
+  },
+  {
+    title: "Seguro Médico y Medicare en Lakeland y Polk County, FL (Guía 2027 en Español)",
+    url: "/local-health-insurance-answers/seguro-medico-medicare-lakeland-polk-county-es/",
+    excerpt: "Guía en español sobre planes del Mercado de Seguros Médicos (ACA) y Medicare 2027 (incluyendo el límite de $2,400 en medicamentos de la Parte D) en Lakeland y Polk County.",
+    tags: ["Espanol","Spanish","Seguro Medico","Medicare","ACA","Obamacare","Lakeland","Polk County","2027"]
   }
 ];
 
