@@ -1371,7 +1371,86 @@
     });
 
     initSubmitState();
+    applySpanishIfRequested(qs);
   });
+
+  function isSpanishRequest(qs) {
+    if (!qs) return false;
+    var lang = String(qs.get('lang') || '').toLowerCase();
+    var utmSource = String(qs.get('utm_source') || '').toLowerCase();
+    return lang === 'es' || utmSource.indexOf('-es') !== -1;
+  }
+
+  var ES_INTENT_LABELS = {
+    'under-65': 'Cobertura de salud para mí o mi familia',
+    'lost-coverage': 'Estoy perdiendo o cambiando de cobertura',
+    'medicare': 'Necesito ayuda con Medicare',
+    'dental-vision': 'Necesito cobertura dental o de visión',
+    'current-client-review': 'Ya tengo cobertura y necesito ayuda',
+    'not-sure': 'Aún no estoy seguro(a)'
+  };
+
+  var ES_INTENT_INTROS = {
+    'under-65': 'Revise opciones individuales y familiares según su cobertura actual, fecha de finalización, hogar, médicos y medicamentos.',
+    'aca': 'Reciba orientación sobre el Mercado ACA según su cobertura, tamaño del hogar, ingresos estimados, médicos y próximos pasos.',
+    'medicare': 'Comience con su situación de Medicare y su consulta general. No ingrese nombres de medicamentos, detalles médicos, números de póliza, números de Medicare ni números de Seguro Social en este formulario.',
+    'lost-coverage': 'Revise cuándo termina su cobertura, su estado de COBRA y los próximos pasos del Período de Inscripción Especial.',
+    'dental-vision': 'Revise opciones dentales y de visión según su código postal y cuándo necesita cobertura.',
+    'current-client-review': 'Solicite una revisión de su plan actual para renovación, médicos, medicamentos, facturación o tarjetas de identificación.',
+    'not-sure': 'Comience con el cambio de cobertura, fecha límite o pregunta sobre planes que necesita resolver.'
+  };
+
+  function applySpanishIfRequested(qs) {
+    if (!isSpanishRequest(qs)) return;
+    document.documentElement.lang = 'es';
+    document.title = 'Solicite una revisión de su plan | Lakeland Health Insurance';
+    var eyebrow = byId('intent-eyebrow');
+    if (eyebrow) eyebrow.textContent = 'Revisión de Planes en Florida con Licencia';
+    var h1 = byId('get-help-title');
+    if (h1) h1.textContent = 'Solicite una revisión de su plan con un agente con licencia.';
+    var copy = byId('intent-copy');
+    if (copy) copy.textContent = 'Inicie una revisión con David Huff, agente de seguros de salud con licencia en Florida (FL #W371813). Ingrese su código postal de 5 dígitos y el tipo de cobertura. Una revisión no es una inscripción.';
+    var step1Title = byId('form-title');
+    if (step1Title) step1Title.textContent = 'Comience la revisión de su plan en Florida';
+    var step1Help = document.querySelector('.form-step[data-step="1"] .step-help');
+    if (step1Help) step1Help.textContent = 'Ingrese su código postal de 5 dígitos y elija el tipo de cobertura.';
+    var zipLabel = document.querySelector('label[for="zipCode"]');
+    if (zipLabel) zipLabel.textContent = 'Código postal de 5 dígitos';
+    var zipHelp = byId('zipCodeHelp');
+    if (zipHelp) zipHelp.textContent = 'Use el código postal donde utilizará la cobertura.';
+    var step1Btn = byId('step1ContinueButton');
+    if (step1Btn) step1Btn.textContent = 'Continuar';
+    var stepper1 = document.querySelector('[data-stepper="1"]');
+    if (stepper1) stepper1.textContent = '1. Código postal y cobertura';
+    var stepper2 = document.querySelector('[data-stepper="2"]');
+    if (stepper2) stepper2.textContent = '2. Contacto y autorización';
+    var editBtn = document.querySelector('.step2-summary-edit');
+    if (editBtn) editBtn.textContent = 'Editar código postal / cobertura';
+    var step2Title = document.querySelector('.form-step[data-step="2"] h2');
+    if (step2Title) step2Title.textContent = '¿Cómo debe comunicarse David con usted?';
+    var step2Help = document.querySelector('.form-step[data-step="2"] .step-help');
+    if (step2Help) step2Help.textContent = 'Ingrese sus datos de contacto y autorice cómo puede comunicarse David.';
+    var nameLabel = document.querySelector('label[for="fullName"]');
+    if (nameLabel) nameLabel.textContent = 'Nombre completo';
+    var phoneLabel = document.querySelector('label[for="phone"]');
+    if (phoneLabel) phoneLabel.textContent = 'Teléfono (si autoriza llamadas o textos)';
+    var emailLabel = document.querySelector('label[for="email"]');
+    if (emailLabel) emailLabel.textContent = 'Correo electrónico (si autoriza correo)';
+    var submitBtn = byId('submitButton');
+    if (submitBtn) submitBtn.textContent = 'Enviar mi solicitud';
+    var prevBtn = document.querySelector('.form-step[data-step="2"] .ghost-button[data-prev]');
+    if (prevBtn) prevBtn.textContent = 'Atrás';
+    document.querySelectorAll('#intentOptions input[name="inquiry_type"]').forEach(function (input) {
+      var key = input.dataset && input.dataset.intent;
+      var span = input.parentElement && input.parentElement.querySelector('span');
+      if (key && span && ES_INTENT_LABELS[key]) {
+        span.textContent = ES_INTENT_LABELS[key];
+      }
+      input.addEventListener('change', function () {
+        if (copy && ES_INTENT_INTROS[key]) copy.textContent = ES_INTENT_INTROS[key];
+      });
+    });
+  }
 
   window.LHIGetHelpIntake = {
     normalizeIntent: normalizeIntent,

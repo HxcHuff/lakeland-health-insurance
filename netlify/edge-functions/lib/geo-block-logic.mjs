@@ -33,6 +33,7 @@ export const CRAWLER_USER_AGENT_TOKENS = [
   'Twitterbot',
   'LinkedInBot',
   'Slackbot',
+  'Chrome-Lighthouse',
 ];
 
 export const BLOCK_MESSAGE =

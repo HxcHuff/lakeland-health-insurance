@@ -137,7 +137,7 @@
 
         <section class="video-card-container">
           <h2>A message from David Huff</h2>
-          <p class="video-subtitle">Enrollment is just the beginning of our relationship &mdash; here is what you can expect next.</p>
+          <p class="video-subtitle">Enrollment is just the beginning of our relationship: here is what you can expect next.</p>
           <div class="video-frame-wrapper">
             <video controls playsinline preload="metadata" poster="/assets/images/video-poster-enrollment-beginning.jpg">
               <source src="/assets/videos/enrollment-is-just-the-beginning.mp4" type="video/mp4">
@@ -190,6 +190,10 @@
     if (cardPs[1]) {
       cardPs[1].innerHTML = '¿Prefiere programar una llamada? Use <a href="/book/">Agendar una revisión</a> para elegir un horario disponible en mi calendario.';
     }
+    var videoH2 = document.querySelector(".video-card-container h2");
+    if (videoH2) videoH2.textContent = "Un mensaje de David Huff";
+    var videoSub = document.querySelector(".video-card-container .video-subtitle");
+    if (videoSub) videoSub.textContent = "La inscripción es solo el comienzo de nuestra relación: esto es lo que puede esperar a continuación.";
   })();
 </script>
 </body>

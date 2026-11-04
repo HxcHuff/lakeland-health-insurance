@@ -28,3 +28,8 @@ export default async (request, context) => {
   const response = await context.next();
   return withGeoDebugHeader(response, 'allow');
 };
+
+export const config = {
+  path: '/*',
+  excludedPath: ['/css/*', '/js/*', '/fonts/*', '/assets/*', '/icons/*', '/.netlify/images*'],
+};

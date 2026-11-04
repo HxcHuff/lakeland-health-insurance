@@ -74,13 +74,24 @@ self.addEventListener('fetch', (event) => {
   // Skip external requests (analytics, pixels, etc.)
   if (!request.url.startsWith(self.location.origin)) return;
 
+  // Never cache serverless API, Netlify functions, or internal data endpoints
+  if (
+    requestUrl.pathname.startsWith('/api/') ||
+    requestUrl.pathname.startsWith('/.netlify/functions/') ||
+    requestUrl.pathname.startsWith('/data/')
+  ) {
+    return;
+  }
+
   // HTML pages: network-first with offline fallback
   if (request.headers.get('accept') && request.headers.get('accept').includes('text/html')) {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          }
           return response;
         })
         .catch(() => {
