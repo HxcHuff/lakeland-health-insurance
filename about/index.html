@@ -1436,11 +1436,11 @@ header .cta-button {
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="product_page" aria-labelledby="about_index_html-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
-      <h2 class="lhi-lead-hero__title" id="about_index_html-lead-title">Get a Marketplace plan comparison</h2>
+      <h2 class="lhi-lead-hero__title" id="about_index_html-lead-title">Request a 2027 ACA or Medicare plan review</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="about_index_htmlForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="about_index_htmlForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Request a 2027 ACA or Medicare plan review">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/about/">
         <input type="hidden" name="source_template" value="product_page">
@@ -1485,10 +1485,20 @@ header .cta-button {
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="about_index_html_coverage_status">Coverage type</label>
             <select id="about_index_html_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
-                  <option value="individual_marketplace">Individual Marketplace coverage</option>
-                  <option value="family_marketplace">Family Marketplace coverage</option>
-                  <option value="not_sure">Not sure yet</option>
+                  <option value="" selected disabled>Select coverage type</option>
+                  <optgroup label="ACA &amp; Individual/Family (Under 65)">
+                    <option value="individual_marketplace">Individual Marketplace coverage</option>
+                    <option value="family_marketplace">Family Marketplace coverage</option>
+                    <option value="losing_coverage">Losing employer coverage / COBRA</option>
+                    <option value="self_employed">Self-employed health coverage</option>
+                  </optgroup>
+                  <optgroup label="Medicare (Age 65+ &amp; 2027 AEP)">
+                    <option value="medicare_advantage">Medicare Advantage (Part C)</option>
+                    <option value="medicare_supplement">Medicare Supplement (Medigap Plan G/N)</option>
+                    <option value="part_d_rx">Part D Prescription Drug Plan ($2,400 Cap)</option>
+                    <option value="turning_65">Turning 65 soon</option>
+                  </optgroup>
+                  <option value="not_sure">Not sure yet · Compare ACA &amp; Medicare</option>
             </select>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
@@ -1498,7 +1508,7 @@ header .cta-button {
             </label>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <button class="lhi-lead-hero__submit" type="submit">Get my quote</button>
+            <button class="lhi-lead-hero__submit" type="submit">Request my plan review</button>
           </div>
         </div>
         <p class="lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>
@@ -1712,11 +1722,6 @@ header .cta-button {
             <h2 id="about-reviews-title" style="margin-bottom:0.75rem;">5.0 &#9733; from verified Google reviews</h2>
             <p style="text-align:center; color:var(--gray-600); max-width:680px; margin:0 auto 2rem;">Public reviews left by verified clients on <a href="https://maps.google.com/?cid=5421693615683546210" target="_blank" rel="noopener noreferrer" style="color:var(--navy); font-weight:700;">Google Business Profile &rarr;</a></p>
             <div class="reasons-grid">
-                <blockquote class="reason-card" style="margin:0;">
-                    <div style="color:var(--gold); font-size:0.95rem; letter-spacing:0.06em; margin-bottom:0.5rem;" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                    <p style="margin-bottom:0.85rem;">&ldquo;Always great information when trying to figure out the differences in plans. Very patient with all my questions.&rdquo;</p>
-                    <footer style="font-size:0.86rem; font-weight:700; color:var(--navy);">Richard R. <span style="font-weight:500; color:var(--gray-600);">&middot; Verified Google Review</span></footer>
-                </blockquote>
                 <blockquote class="reason-card" style="margin:0;">
                     <div style="color:var(--gold); font-size:0.95rem; letter-spacing:0.06em; margin-bottom:0.5rem;" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                     <p style="margin-bottom:0.85rem;">&ldquo;David Huff took the time to listen to our situation and helped us find a plan that covered our doctors and prescriptions.&rdquo;</p>

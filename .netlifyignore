@@ -1,4 +1,5 @@
 .claude/
+.cursor/
 .codex/
 .git/
 .github/
@@ -6,6 +7,7 @@
 node_modules/
 output/
 .playwright-cli/
+.playwright-mcp/
 .audit-data/
 
 # Local environment and credential files
@@ -88,5 +90,13 @@ ANALYTICS-TRACKING.md
 .~lock.*
 local-health-insurance-answers-desktop.png
 local-health-insurance-answers-mobile.png
+package.json
+package-lock.json
+icons/README.md
+ads/
+david_the_dude2.jpg
+about/david_the_dude2.jpg
+downloads/52002-G202506 (1).pdf
+downloads/Florida Health Insurance.pdf
 deploy-*.zip
 *.zip

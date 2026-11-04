@@ -193,18 +193,18 @@
 
       </div>
     </section>
-<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="medicare" data-form-name="site-medicare-lead" data-source-template="medicare_hub" aria-labelledby="health_insurance_broker_lakeland_fl-lead-title">
+<section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="medicare_hub" aria-labelledby="health_insurance_broker_lakeland_fl-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
-      <h2 class="lhi-lead-hero__title" id="health_insurance_broker_lakeland_fl-lead-title">Request a Medicare plan review</h2>
+      <h2 class="lhi-lead-hero__title" id="health_insurance_broker_lakeland_fl-lead-title">Request a 2027 ACA or Medicare plan review</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-medicare-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="health_insurance_broker_lakeland_flForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_medicare_hub_lead" aria-label="Request a Medicare plan review">
-        <input type="hidden" name="form-name" value="site-medicare-lead">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="health_insurance_broker_lakeland_flForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_medicare_hub_lead" aria-label="Request a 2027 ACA or Medicare plan review">
+        <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/health-insurance-broker-lakeland-fl/">
         <input type="hidden" name="source_template" value="medicare_hub">
-        <input type="hidden" name="consent_text_version" value="site-medicare-2026-10-v1">
+        <input type="hidden" name="consent_text_version" value="site-aca-2026-10-v1">
         <input type="hidden" name="utm_source" id="health_insurance_broker_lakeland_fl_utm_source">
         <input type="hidden" name="utm_medium" id="health_insurance_broker_lakeland_fl_utm_medium">
         <input type="hidden" name="utm_campaign" id="health_insurance_broker_lakeland_fl_utm_campaign">
@@ -245,22 +245,30 @@
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="health_insurance_broker_lakeland_fl_coverage_status">Coverage type</label>
             <select id="health_insurance_broker_lakeland_fl_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
-                  <option value="medicare_advantage">Medicare Advantage</option>
-                  <option value="medicare_supplement">Medicare Supplement</option>
-                  <option value="part_d">Part D prescription drug coverage</option>
-                  <option value="current_plan_review">Current Medicare plan review</option>
-                  <option value="not_sure">Not sure yet</option>
+                  <option value="" selected disabled>Select coverage type</option>
+                  <optgroup label="ACA &amp; Individual/Family (Under 65)">
+                    <option value="individual_marketplace">Individual Marketplace coverage</option>
+                    <option value="family_marketplace">Family Marketplace coverage</option>
+                    <option value="losing_coverage">Losing employer coverage / COBRA</option>
+                    <option value="self_employed">Self-employed health coverage</option>
+                  </optgroup>
+                  <optgroup label="Medicare (Age 65+ &amp; 2027 AEP)">
+                    <option value="medicare_advantage">Medicare Advantage (Part C)</option>
+                    <option value="medicare_supplement">Medicare Supplement (Medigap Plan G/N)</option>
+                    <option value="part_d_rx">Part D Prescription Drug Plan ($2,400 Cap)</option>
+                    <option value="turning_65">Turning 65 soon</option>
+                  </optgroup>
+                  <option value="not_sure">Not sure yet · Compare ACA &amp; Medicare</option>
             </select>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label class="lhi-lead-hero__consent" for="health_insurance_broker_lakeland_fl_consent">
               <input type="checkbox" id="health_insurance_broker_lakeland_fl_consent" name="consent" value="yes">
-              <span>By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my Medicare request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
+              <span>By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
             </label>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <button class="lhi-lead-hero__submit" type="submit">Request my Medicare review</button>
+            <button class="lhi-lead-hero__submit" type="submit">Request my plan review</button>
           </div>
         </div>
         <p class="form-tpmo lhi-lead-hero__medicare-scope" id="outOfStateMedicareNote" hidden>Medicare reviews are available for residents of Alabama, Arizona, Florida, Georgia, Iowa, Indiana, Kansas, Louisiana, Maryland, Michigan, Missouri, Mississippi, North Carolina, Nebraska, New Jersey, Ohio, Oklahoma, South Carolina, Tennessee, Texas, Virginia, Washington, and West Virginia.</p>

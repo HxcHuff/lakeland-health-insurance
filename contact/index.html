@@ -99,11 +99,11 @@
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="product_page" aria-labelledby="contact_index_html-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
-      <h2 class="lhi-lead-hero__title" id="contact_index_html-lead-title">Get a Marketplace plan comparison</h2>
+      <h2 class="lhi-lead-hero__title" id="contact_index_html-lead-title">Request a 2027 ACA or Medicare plan review</h2>
       <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
-      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="contact_index_htmlForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Get a Marketplace plan comparison">
+      <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="contact_index_htmlForm" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_product_lead" aria-label="Request a 2027 ACA or Medicare plan review">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/contact/">
         <input type="hidden" name="source_template" value="product_page">
@@ -148,10 +148,20 @@
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label for="contact_index_html_coverage_status">Coverage type</label>
             <select id="contact_index_html_coverage_status" name="coverage_status" required>
-                  <option value="" selected disabled>Select one</option>
-                  <option value="individual_marketplace">Individual Marketplace coverage</option>
-                  <option value="family_marketplace">Family Marketplace coverage</option>
-                  <option value="not_sure">Not sure yet</option>
+                  <option value="" selected disabled>Select coverage type</option>
+                  <optgroup label="ACA &amp; Individual/Family (Under 65)">
+                    <option value="individual_marketplace">Individual Marketplace coverage</option>
+                    <option value="family_marketplace">Family Marketplace coverage</option>
+                    <option value="losing_coverage">Losing employer coverage / COBRA</option>
+                    <option value="self_employed">Self-employed health coverage</option>
+                  </optgroup>
+                  <optgroup label="Medicare (Age 65+ &amp; 2027 AEP)">
+                    <option value="medicare_advantage">Medicare Advantage (Part C)</option>
+                    <option value="medicare_supplement">Medicare Supplement (Medigap Plan G/N)</option>
+                    <option value="part_d_rx">Part D Prescription Drug Plan ($2,400 Cap)</option>
+                    <option value="turning_65">Turning 65 soon</option>
+                  </optgroup>
+                  <option value="not_sure">Not sure yet · Compare ACA &amp; Medicare</option>
             </select>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
@@ -161,7 +171,7 @@
             </label>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <button class="lhi-lead-hero__submit" type="submit">Request my plan comparison</button>
+            <button class="lhi-lead-hero__submit" type="submit">Request my plan review</button>
             <div class="lhi-lead-hero__guarantee">
               <span>🔒 Licensed consultation</span>
               <span>🛡️ Zero spam · Never sold</span>
@@ -226,7 +236,7 @@
         <div class="two-col">
           <article class="answer-card">
             <h2>For a new coverage request</h2>
-            <p>Use the <a href="/get-help/">Get Help form</a> to choose the request type and separately authorize any desired contact channel. Phone, SMS, service email, and marketing email permissions are not combined.</p>
+            <p>Use the <a href="/get-help/">Get Help form</a> to choose the request type and how you would like to be contacted. You choose whether David may call or text you; consent is optional and is not a condition of purchase.</p>
             <p>If you only want to call, use <a href="tel:+18636403102">(863) 640-3102</a>. To pick a time on David&rsquo;s calendar, <a href="/book/">book a time with David</a>.</p>
           </article>
           <article class="answer-card">

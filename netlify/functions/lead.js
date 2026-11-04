@@ -1290,14 +1290,20 @@ exports.handler = async (event) => {
         if (clientIp) userData.client_ip_address = clientIp;
         if (userAgent) userData.client_user_agent = userAgent;
 
+        const isEligibleMetaLeadPath = META_ELIGIBLE_PATHS.has(sanitizeSourcePath(sourcePath));
+        // Site leads from non-eligible pages (clinical, hospital, oncology,
+        // behavioral-health guides) must not disclose the page path to Meta.
+        // Report only the site origin for those events.
+        const metaSourceUrl = (!isSiteLead || isEligibleMetaLeadPath)
+          ? sourceUrl
+          : `${FORMS_FORWARD_ORIGIN}/`;
         const sharedEvent = {
           event_time: eventTime,
           action_source: 'website',
-          event_source_url: sourceUrl,
+          event_source_url: metaSourceUrl,
           user_data: userData
         };
         const body = { data: [] };
-        const isEligibleMetaLeadPath = META_ELIGIBLE_PATHS.has(sanitizeSourcePath(sourcePath));
         if (!isSiteLead || isEligibleMetaLeadPath) {
           body.data.push({
             ...sharedEvent,

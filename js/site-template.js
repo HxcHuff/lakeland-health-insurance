@@ -407,6 +407,7 @@
         <div class="footer-bottom">
           <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>
           <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier.</p>
+          <p class="footer-aca-disclosure">Lakeland Health Insurance is a privately owned, licensed insurance agency. We are not affiliated with HealthCare.gov, the Health Insurance Marketplace, or any federal or state government agency.</p>
           <p style="margin-top: 1rem;">Powered by David the Insurance Dude</p>
         </div>
       </div>`;

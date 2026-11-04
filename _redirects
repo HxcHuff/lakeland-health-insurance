@@ -318,6 +318,26 @@
 /*.toml /404.html 404!
 /*.docx /404.html 404!
 /*.xlsx /404.html 404!
+# Explicit blocks for tracked repo tooling and unreferenced assets (Netlify only
+# honors a trailing splat, so the extension patterns above may not match).
+/.gitignore /404.html 404!
+/.netlifyignore /404.html 404!
+/package.json /404.html 404!
+/package-lock.json /404.html 404!
+/icons/README.md /404.html 404!
+/.claude/* /404.html 404!
+/.cursor/* /404.html 404!
+/.github/* /404.html 404!
+/.playwright-mcp/* /404.html 404!
+/ads/* /404.html 404!
+/david_the_dude2.jpg /404.html 404!
+/about/david_the_dude2.jpg /404.html 404!
+/local-health-insurance-answers-desktop.png /404.html 404!
+/local-health-insurance-answers-mobile.png /404.html 404!
+# Orphan carrier brochure and unreferenced PDF (no internal links, no form/state context).
+/downloads/52002-G202506%20(1).pdf /404.html 410!
+/downloads/52002-G202506* /404.html 410!
+/downloads/Florida%20Health%20Insurance.pdf /404.html 404!
 
 # Remaining blog extensionless and trailing-slash aliases
 /blog/3-things-changing-florida-health-insurance-may-2026 /blog/3-things-changing-florida-health-insurance-may-2026.html 301!
