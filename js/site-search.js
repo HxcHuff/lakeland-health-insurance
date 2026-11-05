@@ -1809,6 +1809,36 @@ const siteSearchIndex = [
     url: "/local-health-insurance-answers/seguro-medico-medicare-lakeland-polk-county-es/",
     excerpt: "Guía en español sobre planes del Mercado de Seguros Médicos (ACA) y Medicare 2027 (incluyendo el límite de $2,400 en medicamentos de la Parte D) en Lakeland y Polk County.",
     tags: ["Espanol","Spanish","Seguro Medico","Medicare","ACA","Obamacare","Lakeland","Polk County","2027"]
+  },
+  {
+    title: "One Spouse on Medicare, One on ACA Marketplace: 2027 Polk County Split-Age Couple Guide",
+    url: "/local-health-insurance-answers/spouse-on-medicare-under-65-aca-polk-county-2027/",
+    excerpt: "When one spouse is 65+ on Medicare and the younger spouse is 55-64 needing ACA coverage in Polk County: how the 2-person tax household ($21,640-$86,560) and Social Security MAGI rules work.",
+    tags: ["ACA","Medicare","Spouse on Medicare","Split-Age Couple","MAGI","Social Security","Lakeland","Polk County","2027"]
+  },
+  {
+    title: "2027 Polk County Family ACA Guide: Employer Plan Affordability (10.22% Rule) & Florida KidCare",
+    url: "/local-health-insurance-answers/polk-county-family-aca-employer-affordability-kidcare-2027/",
+    excerpt: "Working at Publix, Polk County Public Schools, a hospital, or a warehouse? How the 2027 IRS 10.22% family affordability test, Florida KidCare, and ACA family tax credits work.",
+    tags: ["ACA","Family Coverage","Employer Coverage","10.22% Rule","Florida KidCare","Publix","Polk County Public Schools","Lakeland","Polk County","2027"]
+  },
+  {
+    title: "Income Under $15,960 in Polk County? 2027 Florida Medicaid Gap, 100% FPL Floor & Polk HealthCare Plan",
+    url: "/local-health-insurance-answers/florida-medicaid-gap-100-fpl-polk-healthcare-plan-2027/",
+    excerpt: "Why Florida's $15,960 (100% FPL) income threshold matters for 2027 ACA subsidies and 94% Silver CSR plans, plus how the Polk HealthCare Plan and sliding-scale clinics work.",
+    tags: ["ACA","100% FPL","Medicaid Gap","Polk HealthCare Plan","Silver CSR","94% CSR","Lakeland","Polk County","Florida","2027"]
+  },
+  {
+    title: "2027 Polk County ACA Prescription Drug, Diabetes (Insulin/GLP-1) & Mental Health Guide",
+    url: "/local-health-insurance-answers/polk-county-aca-prescription-drug-diabetes-mental-health-2027/",
+    excerpt: "Compare 2027 Polk County ACA prescription drug tiers, Silver CSR vs Bronze drug deductibles, insulin and GLP-1 prior authorization rules, and outpatient mental health networks.",
+    tags: ["ACA","Prescriptions","Formulary","Diabetes","Insulin","GLP-1","Ozempic","Mounjaro","Mental Health","Therapy","Watson Clinic","Lakeland","Polk County","2027"]
+  },
+  {
+    title: "2027 ACA Health Insurance in Bartow, Auburndale & Lake Wales, FL | Polk County Corridor Guide",
+    url: "/local-health-insurance-answers/bartow-auburndale-lake-wales-aca-health-insurance-2027/",
+    excerpt: "Compare 2027 ACA Marketplace plans and hospital networks in Bartow (33830), Auburndale (33823), Lake Wales (33853, 33859, 33898), and Mulberry (33860).",
+    tags: ["ACA","Bartow","Auburndale","Lake Wales","Mulberry","BayCare Bartow Regional","AdventHealth Lake Wales","Watson Clinic Bartow","Polk County","2027"]
   }
 ];
 

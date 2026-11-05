@@ -1765,6 +1765,7 @@
     '/blog/switch-to-medigap-plan-g-non-renewal.html': true,
     '/blog/medicare-advantage-plan-ending-what-now.html': true,
     '/blog/medicare-part-b-giveback-polk-county.html': true,
+    '/blog/aca-subsidy-income-limits-florida-2027.html': true,
     '/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/': true
   };
   var UTM_QUERY_KEYS = {
