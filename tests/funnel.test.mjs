@@ -2624,8 +2624,15 @@ test('click-ID capture stays on the first-party attribution cookie and is not ga
 });
 
 test('estimator uses 2027 applicable percentages and 2026 HHS poverty guidelines', () => {
-  assert.match(ESTIMATOR_HTML, /<title>2027 Lakeland ACA Subsidy Estimator \| Educational Tool<\/title>/);
-  assert.match(ESTIMATOR_HTML, /<h1>2027 Lakeland ACA Subsidy Estimator<\/h1>/);
+  assert.match(ESTIMATOR_HTML, /<title>2027 ACA Subsidy &amp; Tax Credit Calculator \| Educational Tool<\/title>/);
+  assert.match(ESTIMATOR_HTML, /<h1>2027 ACA Subsidy &amp; Tax Credit Calculator<\/h1>/);
+  assert.match(ESTIMATOR_HTML, /id="estimator-zip-helper"/);
+  assert.match(ESTIMATOR_HTML, /function zipToStateCode23\(/);
+  assert.match(ESTIMATOR_HTML, /id="acaSoftGateLiveSummary"/);
+  assert.match(ESTIMATOR_HTML, /id="inline-estimator-lead-slot"/);
+  assert.match(ESTIMATOR_HTML, /function dockFormPanelInline\(/);
+  assert.match(ESTIMATOR_HTML, /name="need_timing"\s+id="acaSoftGateNeedTiming"\s+value="as_soon_as_possible"/);
+  assert.match(ESTIMATOR_HTML, /name="plan_interest"\s+id="acaSoftGatePlanInterest"/);
   assert.match(ESTIMATOR_HTML, /Projected 2027 Annual Income/);
   assert.doesNotMatch(ESTIMATOR_HTML, /This educational tool still uses 2026 IRS applicable percentages/);
   assert.doesNotMatch(ESTIMATOR_HTML, /Uses 2025 Federal Poverty Guidelines for 2026 coverage year/);

@@ -989,7 +989,7 @@
 
         var smsBtn = document.getElementById('ic-sms-estimate-btn');
         if (smsBtn) {
-          var msg = 'Hi David, I ran your 2027 Lakeland ACA calculator (Household: ' + hh + ', Age: ' + age + ', 2027 MAGI: ' + fmt(inc) + ' = ' + Math.round(fplPct) + '% FPL). Can we check my 2027 Polk County plans and doctors?';
+          var msg = 'Hi David, I ran the 2027 Lakeland ACA calculator and want to check my 2027 Polk County plans and doctors.';
           smsBtn.setAttribute('href', 'sms:+18636403102?body=' + encodeURIComponent(msg));
         }
       }
@@ -1038,6 +1038,8 @@
       var sendToFormBtn = document.getElementById('ic-send-to-form-btn');
       if (sendToFormBtn) {
         sendToFormBtn.addEventListener('click', function() {
+          var heroForm = document.getElementById('lhi-site-lead-form');
+          if (heroForm) heroForm.classList.add('is-step2-active');
           var nameInput = document.getElementById('acaLakelandLeadName');
           if (nameInput) {
             setTimeout(function() { try { nameInput.focus(); } catch (e) {} }, 250);

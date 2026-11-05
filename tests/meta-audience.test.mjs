@@ -32,6 +32,7 @@ const ELIGIBLE_PAGES = [
   ['blog/switch-to-medigap-plan-g-non-renewal.html', '/blog/switch-to-medigap-plan-g-non-renewal.html'],
   ['blog/medicare-advantage-plan-ending-what-now.html', '/blog/medicare-advantage-plan-ending-what-now.html'],
   ['blog/medicare-part-b-giveback-polk-county.html', '/blog/medicare-part-b-giveback-polk-county.html'],
+  ['blog/aca-subsidy-income-limits-florida-2027.html', '/blog/aca-subsidy-income-limits-florida-2027.html'],
   ['local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/index.html', '/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/']
 ];
 const FORM_BEARING_ELIGIBLE_FILES = new Set([
@@ -52,6 +53,7 @@ const FORM_BEARING_ELIGIBLE_FILES = new Set([
   'blog/switch-to-medigap-plan-g-non-renewal.html',
   'blog/medicare-advantage-plan-ending-what-now.html',
   'blog/medicare-part-b-giveback-polk-county.html',
+  'blog/aca-subsidy-income-limits-florida-2027.html',
   'local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/index.html'
 ]);
 const PROMPT_SUPPRESSED_PATHS = [
@@ -285,8 +287,8 @@ function htmlFiles(dir = ROOT, out = []) {
   return out;
 }
 
-test('all 18 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
-  assert.equal(ELIGIBLE_PAGES.length, 18);
+test('all 19 reviewed landing routes queue one isolated standard PageView with no custom data', () => {
+  assert.equal(ELIGIBLE_PAGES.length, 19);
   for (const [, pathname] of ELIGIBLE_PAGES) {
     const { sandbox, scripts, controls } = loadMetaAudience({ pathname });
     assert.equal(scripts.length, 1, pathname);

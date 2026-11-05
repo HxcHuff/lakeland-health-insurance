@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2027 Lakeland ACA Subsidy Estimator | Educational Tool</title>
-    <meta name="description" content="Explore a 2027 ACA premium tax credit estimate using a clearly labeled Lakeland benchmark assumption and current IRS applicable percentages.">
-    <meta property="og:title" content="2027 Lakeland ACA Subsidy Estimator">
-    <meta property="og:description" content="An educational estimate using a Lakeland benchmark assumption; not an eligibility or plan-price determination.">
+    <title>2027 ACA Subsidy &amp; Tax Credit Calculator | Educational Tool</title>
+    <meta name="description" content="Calculate your 2027 ACA Marketplace premium tax credit, Federal Poverty Level (FPL) %, Silver CSR tier (94%/87%/73%), and 400% FPL cliff across 23 licensed states.">
+    <meta property="og:title" content="2027 ACA Subsidy &amp; Tax Credit Calculator">
+    <meta property="og:description" content="Educational 2027 ACA Marketplace premium tax credit, Silver CSR, and 400% FPL cliff calculator across 23 licensed states.">
     <meta property="og:url" content="https://lakelandhealthinsurance.com/aca-subsidy-estimator/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Lakeland Health Insurance">
     <meta property="og:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ACA Subsidy Estimator | Premium Tax Credit Calculator">
-    <meta name="twitter:description" content="Estimate your 2027 ACA premium tax credit with the returned 400% FPL cliff and current IRS applicable percentages.">
+    <meta name="twitter:title" content="2027 ACA Subsidy &amp; Tax Credit Calculator">
+    <meta name="twitter:description" content="Estimate your 2027 ACA premium tax credit, Silver CSR tier, and 400% FPL cliff across 23 licensed states using IRS Rev. Proc. 2026-26.">
     <meta name="twitter:image" content="https://lakelandhealthinsurance.com/assets/images/david-huff-blue-polo.jpg">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1B2A4A">
@@ -31,8 +31,8 @@
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "@id": "https://lakelandhealthinsurance.com/aca-subsidy-estimator/#application",
-      "name": "ACA Subsidy Estimator",
-      "description": "Educational 2027 premium tax credit estimate using a Lakeland benchmark assumption.",
+      "name": "2027 ACA Subsidy & Tax Credit Calculator",
+      "description": "Educational 2027 ACA Marketplace premium tax credit and Silver CSR calculator across 23 licensed states using IRS Rev. Proc. 2026-26 applicable percentages.",
       "url": "https://lakelandhealthinsurance.com/aca-subsidy-estimator/",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Any",
@@ -40,7 +40,7 @@
       "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
       "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
       "reviewedBy": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
-      "dateModified": "2026-10-30"
+      "dateModified": "2026-11-05"
     }
     </script>
 
@@ -58,7 +58,7 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "ACA Subsidy Estimator",
+          "name": "2027 ACA Subsidy & Tax Credit Calculator",
           "item": "https://lakelandhealthinsurance.com/aca-subsidy-estimator/"
         }
       ]
@@ -1534,9 +1534,119 @@
             background: var(--sky-soft);
             border-color: var(--blue);
         }
+        .calc-state-zip-grid {
+            display: grid;
+            grid-template-columns: 1.55fr 1fr;
+            gap: 14px;
+            align-items: start;
+        }
+        .metal-card-cta {
+            margin-top: 12px;
+            width: 100%;
+            padding: 9px 12px;
+            border-radius: 8px;
+            border: 1.5px solid var(--navy);
+            background: var(--white);
+            color: var(--navy);
+            font-size: 0.82rem;
+            font-weight: 800;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .metal-card-cta:hover {
+            background: var(--navy);
+            color: var(--white);
+        }
+        .metal-card-cta--featured {
+            background: var(--navy);
+            color: var(--white);
+            border-color: var(--navy);
+        }
+        .metal-card-cta--featured:hover {
+            background: var(--blue);
+            border-color: var(--blue);
+        }
+        .aca-soft-gate-live-summary {
+            background: linear-gradient(135deg, #0F1A2E 0%, #1B2A4A 100%);
+            color: #FFFFFF;
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin: 0 0 14px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            border: 1px solid rgba(212, 168, 67, 0.45);
+        }
+        .aca-soft-gate-live-item {
+            text-align: center;
+        }
+        .aca-soft-gate-live-label {
+            display: block;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: rgba(255, 255, 255, 0.78);
+            margin-bottom: 2px;
+        }
+        .aca-soft-gate-live-val {
+            display: block;
+            font-size: 1.08rem;
+            font-weight: 800;
+            color: #FDE68A;
+            line-height: 1.2;
+        }
+        .aca-soft-gate-direct-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--gray-200);
+            font-size: 0.8rem;
+            color: var(--gray-600);
+        }
+        .aca-soft-gate-direct-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .aca-soft-gate-direct-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 11px;
+            border-radius: 8px;
+            background: #F1F5F9;
+            border: 1px solid #CBD5E1;
+            color: var(--navy);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+        .aca-soft-gate-direct-links a:hover {
+            background: #E2E8F0;
+        }
+        .inline-estimator-lead-slot {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1.5px solid #CBD5E1;
+        }
+        .inline-estimator-lead-slot .aca-soft-gate-consent-box {
+            background: #FFFFFF;
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
+            .calc-state-zip-grid {
+                grid-template-columns: 1fr;
+            }
+            .aca-soft-gate-live-summary {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
             .hero-section {
                 padding: 40px 0 35px;
             }
@@ -1655,7 +1765,7 @@
         <div class="breadcrumb">
             <a href="/">Home</a>
             <span class="separator">&rsaquo;</span>
-            ACA Subsidy Estimator
+            2027 ACA Subsidy &amp; Tax Credit Calculator
         </div>
     </div>
 
@@ -1664,9 +1774,9 @@
 <section class="hero">
         <div class="container hero-grid">
             <div class="lhi-hero-lede-block">
-            <h1>2027 Lakeland ACA Subsidy Estimator</h1>
-            <p class="lhi-hero-lede">Explore how household income, tax-household size, age, and 2027 IRS rules interact. Anchored directly to the newly released CMS 2027 Marketplace QHP Landscape benchmark for Polk County (Rating Area 24).</p>
-      <p class="last-reviewed" style="color:#64748B;font-size:0.9rem;margin:0.35rem 0 0;">Updated October 30, 2026 with official CMS Plan Year 2027 QHP Landscape data.</p>
+            <h1>2027 ACA Subsidy &amp; Tax Credit Calculator</h1>
+            <p class="lhi-hero-lede" id="estimator-hero-lede">Explore how your 2027 household income, tax-household size, age, and state interact under IRS Revenue Procedure 2026-26 (2.15%&ndash;10.22% expected contribution), Silver Cost-Sharing Reductions (94% / 87% / 73% CSR), and the 400% FPL subsidy cliff across 23 licensed states.</p>
+      <p class="last-reviewed" style="color:#64748B;font-size:0.9rem;margin:0.35rem 0 0;">Updated November 5, 2026 with official 2027 IRS Rev. Proc. 2026-26 &amp; CMS Plan Year 2027 QHP Landscape rules.</p>
             </div>
         </div>
     </section>
@@ -1676,7 +1786,7 @@
     <section class="calculator-section">
         <div class="container">
             <div class="calculator-card">
-                <h2>Estimate Your Subsidy</h2>
+                <h2>Estimate Your 2027 ACA Tax Credit</h2>
                 <p class="subtitle">Inputs stay in this browser. The estimate updates as you type and is not sent through analytics or included in the Get Help link.</p>
 
                 <!-- Input completion, not a confidence or eligibility score -->
@@ -1689,10 +1799,10 @@
                         <div class="confidence-fill full" id="confidence-fill" style="width:100%;"></div>
                     </div>
                     <div class="confidence-steps">
+                        <span class="confidence-chip done" id="chip-zip">State / ZIP</span>
                         <span class="confidence-chip done" id="chip-age">Age</span>
                         <span class="confidence-chip done" id="chip-income">Income</span>
                         <span class="confidence-chip done" id="chip-household">Household</span>
-                        <span class="confidence-chip done" id="chip-zip">Fixed location</span>
                         <span class="confidence-chip done" id="chip-tobacco">Tobacco</span>
                     </div>
                 </div>
@@ -1700,7 +1810,7 @@
                 <!-- Quick-Test 2027 Scenarios -->
                 <div class="scenario-bar" id="scenario-presets">
                     <div class="scenario-bar-title">
-                        <span>Quick-Test 2027 Polk County Scenarios</span>
+                        <span id="scenario-presets-heading">Quick-Test 2027 Household Scenarios</span>
                         <span style="font-weight:500; text-transform:none; letter-spacing:0;">Click any preset or customize below</span>
                     </div>
                     <div class="scenario-pills">
@@ -1710,6 +1820,51 @@
                         <button type="button" class="scenario-pill" data-age="60" data-income="78000" data-hh="2" data-tobacco="no">Couple Age 60 &middot; $78k (360% FPL)</button>
                         <button type="button" class="scenario-pill" data-age="60" data-income="90000" data-hh="2" data-tobacco="no">Above 400% Cliff &middot; $90k</button>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="calc-state-zip-grid">
+                        <div>
+                            <div class="label-row">
+                                <label for="applicant-state">Your State (23 Licensed States)</label>
+                                <span class="field-live-badge" id="state-rule-badge">FL &middot; Non-Expansion (100% FPL Floor)</span>
+                            </div>
+                            <select id="applicant-state" aria-describedby="zip-scope">
+                                <option value="FL" selected>Florida (FL) &mdash; Non-Expansion (100% FPL Floor)</option>
+                                <option value="AL">Alabama (AL) &mdash; Non-Expansion (100% FPL Floor)</option>
+                                <option value="AZ">Arizona (AZ) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="GA">Georgia (GA) &mdash; Non-Expansion (100% FPL Floor)</option>
+                                <option value="IA">Iowa (IA) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="IN">Indiana (IN) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="KS">Kansas (KS) &mdash; Non-Expansion (100% FPL Floor)</option>
+                                <option value="LA">Louisiana (LA) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="MD">Maryland (MD) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="MI">Michigan (MI) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="MO">Missouri (MO) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="MS">Mississippi (MS) &mdash; Non-Expansion (100% FPL Floor)</option>
+                                <option value="NC">North Carolina (NC) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="NE">Nebraska (NE) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="NJ">New Jersey (NJ) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="OH">Ohio (OH) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="OK">Oklahoma (OK) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="SC">South Carolina (SC) &mdash; Non-Expansion (100% FPL Floor)</option>
+                                <option value="TN">Tennessee (TN) &mdash; Non-Expansion (100% FPL Floor)</option>
+                                <option value="TX">Texas (TX) &mdash; Non-Expansion (100% FPL Floor)</option>
+                                <option value="VA">Virginia (VA) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="WA">Washington (WA) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                                <option value="WV">West Virginia (WV) &mdash; Medicaid Expansion (138% FPL Floor)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <div class="label-row">
+                                <label for="estimator-zip-helper">5-Digit ZIP (Optional)</label>
+                                <span class="field-live-badge" id="zip-detect-badge">Auto-sets state</span>
+                            </div>
+                            <input type="text" id="estimator-zip-helper" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" placeholder="Enter 5-digit ZIP" aria-label="Optional 5-digit ZIP code to auto-detect state">
+                        </div>
+                    </div>
+                    <input type="hidden" id="zip-code" value="2027 Benchmark">
+                    <div class="help-text" id="zip-scope">2026 HHS Poverty Guidelines, IRS Rev. Proc. 2026-26 applicable percentages (2.15%&ndash;10.22%), and the 400% FPL cliff apply across all 23 licensed states. Illustrative Silver benchmark is modeled on CMS 2027 FFM 3:1 age-curve pricing ($548.84 age-21 base).</div>
                 </div>
 
                 <div class="form-group">
@@ -1774,40 +1929,6 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="label-row">
-                        <label for="applicant-state">State &amp; Benchmark Geography (23 Licensed States)</label>
-                        <span class="field-live-badge" id="state-rule-badge">FL &middot; Non-Expansion (100% FPL Floor)</span>
-                    </div>
-                    <select id="applicant-state" aria-describedby="zip-scope">
-                        <option value="FL" selected>Florida (FL) &mdash; Polk County Rating Area 24 Benchmark</option>
-                        <option value="AL">Alabama (AL) &mdash; Non-Expansion (100% FPL Floor)</option>
-                        <option value="AZ">Arizona (AZ) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="GA">Georgia (GA) &mdash; Non-Expansion (100% FPL Floor)</option>
-                        <option value="IA">Iowa (IA) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="IN">Indiana (IN) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="KS">Kansas (KS) &mdash; Non-Expansion (100% FPL Floor)</option>
-                        <option value="LA">Louisiana (LA) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="MD">Maryland (MD) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="MI">Michigan (MI) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="MO">Missouri (MO) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="MS">Mississippi (MS) &mdash; Non-Expansion (100% FPL Floor)</option>
-                        <option value="NC">North Carolina (NC) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="NE">Nebraska (NE) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="NJ">New Jersey (NJ) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="OH">Ohio (OH) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="OK">Oklahoma (OK) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="SC">South Carolina (SC) &mdash; Non-Expansion (100% FPL Floor)</option>
-                        <option value="TN">Tennessee (TN) &mdash; Non-Expansion (100% FPL Floor)</option>
-                        <option value="TX">Texas (TX) &mdash; Non-Expansion (100% FPL Floor)</option>
-                        <option value="VA">Virginia (VA) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="WA">Washington (WA) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                        <option value="WV">West Virginia (WV) &mdash; Medicaid Expansion (138% FPL Floor)</option>
-                    </select>
-                    <input type="hidden" id="zip-code" value="Lakeland 33805">
-                    <div class="help-text" id="zip-scope">2026 HHS Poverty Guidelines, IRS Rev. Proc. 2026-26 applicable percentages (2.15%&ndash;10.22%), and the 400% FPL cliff apply across all 23 licensed states. Silver benchmark rate is anchored to CMS 2027 Polk County Rating Area 24 ($548.84 age-21 base).</div>
-                </div>
-
-                <div class="form-group">
                     <label>Tobacco Use</label>
                     <div class="toggle-group" id="tobacco-toggle">
                         <button type="button" class="toggle-btn active" data-value="no">No</button>
@@ -1825,8 +1946,8 @@
                 <div class="results-stage-wrap" id="results-stage-wrap">
                     <div class="estimator-unlock-banner" id="estimator-unlock-banner">
                         <span class="estimator-unlock-badge">Ready to Calculate</span>
-                        <h3>Your 2027 Polk County Tax Credit &amp; Metal-Tier Match Are Ready</h3>
-                        <p>Adjust your Age, Projected 2027 Income, Household Size, and Tobacco status above, then click <strong>Calculate My 2027 Tax Credit &amp; Plan Match</strong> to reveal your monthly tax credit, Silver CSR tier, and Bronze / Silver / Gold comparison.</p>
+                        <h3 id="unlock-banner-heading">Your 2027 ACA Tax Credit &amp; Metal-Tier Match Are Ready</h3>
+                        <p>Adjust your State, Age, Projected 2027 Income, Household Size, and Tobacco status above, then click <strong>Calculate My 2027 Tax Credit &amp; Plan Match</strong> to reveal your monthly tax credit, Silver CSR tier, and Bronze / Silver / Gold comparison.</p>
                         <button type="button" class="calculate-btn" id="unlock-results-trigger-btn" style="max-width:420px; margin:0 auto;">
                             Calculate My 2027 Tax Credit &amp; Plan Match &rarr;
                         </button>
@@ -1866,7 +1987,7 @@
                         <div class="fpl-bar-wrap">
                             <div class="fpl-marker" id="fpl-marker-pin" style="left:37%;">167% FPL</div>
                             <div class="fpl-segments" role="img" aria-label="FPL zones from below 100% coverage gap through 400% subsidy cliff">
-                                <div class="fpl-seg seg-gap" title="Below 100% FPL: Florida Non-Expansion Coverage Gap"></div>
+                                <div class="fpl-seg seg-gap" title="Below 100% FPL: Non-Expansion Coverage Gap / State Medicaid Zone"></div>
                                 <div class="fpl-seg seg-csr94" title="100% to 150% FPL: 94% AV Silver CSR Tier"></div>
                                 <div class="fpl-seg seg-csr87" title="150% to 200% FPL: 87% AV Silver CSR Tier"></div>
                                 <div class="fpl-seg seg-csr73" title="200% to 250% FPL: 73% AV Silver CSR Tier"></div>
@@ -1878,7 +1999,7 @@
                             <div class="fpl-cutoff-cell" id="cutoff-cell-100">
                                 <span class="cutoff-pct">100% FPL</span>
                                 <span class="cutoff-amt" id="cutoff-100">$33,000</span>
-                                <span class="cutoff-tag">FL APTC Floor</span>
+                                <span class="cutoff-tag" id="cutoff-100-tag">100% APTC Floor</span>
                             </div>
                             <div class="fpl-cutoff-cell" id="cutoff-cell-150">
                                 <span class="cutoff-pct">150% FPL</span>
@@ -1914,28 +2035,32 @@
                             <div class="metal-name">Illustrative Bronze</div>
                             <div class="metal-price" id="metal-bronze-net">$74<span>/mo</span></div>
                             <div class="metal-sub" id="metal-bronze-sub">~60% actuarial value; higher annual deductible; no CSR extra savings.</div>
+                            <button type="button" class="metal-card-cta" data-metal-tier="2027 Bronze Marketplace Plan">Compare 2027 Bronze Plans &rarr;</button>
                         </div>
                         <div class="metal-card featured">
                             <span class="metal-badge" id="metal-silver-badge">87% AV Silver CSR</span>
                             <div class="metal-name">Benchmark Silver</div>
                             <div class="metal-price" id="metal-silver-net">$235<span>/mo</span></div>
-                            <div class="metal-sub" id="metal-silver-sub">Polk County SLCSP benchmark ($671/mo gross). Only tier eligible for CSR.</div>
+                            <div class="metal-sub" id="metal-silver-sub">2027 SLCSP benchmark ($671/mo gross). Only tier eligible for CSR.</div>
+                            <button type="button" class="metal-card-cta metal-card-cta--featured" data-metal-tier="2027 Silver CSR Marketplace Plan">Compare 2027 Silver CSR Plans &rarr;</button>
                         </div>
                         <div class="metal-card">
                             <span class="metal-badge">Richer Standard Benefits</span>
                             <div class="metal-name">Illustrative Gold</div>
                             <div class="metal-price" id="metal-gold-net">$315<span>/mo</span></div>
                             <div class="metal-sub" id="metal-gold-sub">~80% actuarial value; applies the same monthly APTC credit toward Gold.</div>
+                            <button type="button" class="metal-card-cta" data-metal-tier="2027 Gold Marketplace Plan">Compare 2027 Gold Plans &rarr;</button>
                         </div>
                     </div>
 
-                    <!-- Dynamic Polk County 2027 Carrier Strategy & Re-open Appointment Modal -->
+                    <!-- Dynamic State-Aware 2027 Carrier Strategy & Inline Lead Docking Slot -->
                     <div class="polk-strategy-card" id="polk-2027-strategy-callout">
-                        <h4 id="polk-strategy-title">2027 Polk County Carrier &amp; Network Strategy</h4>
-                        <p id="polk-strategy-body">In the 100%–200% FPL range, Silver plans include Cost-Sharing Reductions (CSR) that lower deductibles and out-of-pocket maximums. Compare Ambetter Signature Silver and AvMed Entrust Silver against narrow sub-networks to verify Orlando Health, BayCare, Bond Clinic, and AdventHealth participation.</p>
+                        <h4 id="polk-strategy-title">2027 Marketplace Carrier &amp; Doctor Network Strategy</h4>
+                        <p id="polk-strategy-body">In the 100%&ndash;200% FPL range, Silver plans include Cost-Sharing Reductions (CSR) that lower deductibles and out-of-pocket maximums. Have David compare 2027 plans in your ZIP code to verify which carriers include your primary care doctors, specialists, and hospitals.</p>
                         <button type="button" class="polk-strategy-btn" id="reopen-soft-gate-btn">
-                            Request My 2027 Polk Carrier Breakdown / Schedule 10-Min Review &rarr;
+                            Request My 2027 Carrier Breakdown / Schedule 10-Min Review &rarr;
                         </button>
+                        <div id="inline-estimator-lead-slot" class="inline-estimator-lead-slot" hidden></div>
                     </div>
 
                     <!-- Why This Price Breakdown -->
@@ -1976,10 +2101,10 @@
                     <!-- Disclaimer -->
                     <div class="disclaimer-box" id="disclaimer-box">
                         <strong>Disclaimer:</strong> This tool provides an educational estimate only and does not determine eligibility, premium, savings, or subsidy.
-                        Benchmark pricing is anchored to the official CMS 2027 Marketplace QHP Landscape Second-Lowest Cost Silver Plan (SLCSP) for Polk County, FL ($548.84 base for age 21; AvMed Entrust Silver 550 HMO, Rating Area 24).
-                        Actual premium tax credits depend on official Marketplace submission, verified MAGI, tax household, age, and final plan enrollment.
+                        Illustrative benchmark pricing uses the standard CMS 3:1 age curve and a $548.84 age-21 base benchmark reference.
+                        Actual premium tax credits depend on official Marketplace submission, verified MAGI, tax household, age, ZIP code rating area, and final plan enrollment.
                         Uses the 2026 HHS poverty guidelines for 2027 coverage (the guidelines in effect when Open Enrollment begins; 26 CFR 1.36B-1(h)).
-                        Florida has not expanded Medicaid under the ACA. For official eligibility, visit HealthCare.gov.
+                        For official eligibility, visit HealthCare.gov.
                     </div>
                 </div>
                 </div>
@@ -1987,10 +2112,10 @@
                 <!-- Get Exact Quote CTA (replaces old calculate button) -->
                 <div id="cta-exact-quote" style="margin-top:28px; display:grid; gap:12px;">
                     <a href="/get-help/?intent=aca" class="calculate-btn" id="get-exact-quote-btn" style="display:block;text-align:center;text-decoration:none;color:var(--white);">
-                        Request a Florida ACA Review
+                        Request a 2027 ACA Plan Review
                     </a>
                     <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center;">
-                        <a href="sms:+18636403102?body=Hi%20David%2C%20can%20you%20help%20me%20review%20my%202027%20ACA%20Marketplace%20options%20in%20Florida%3F" data-lhi-sms-cta="aca_estimator_sms" data-analytics-label="aca_estimator_sms" style="flex:1 1 220px; text-align:center; padding:12px 16px; border-radius:10px; background:#0F1A2E; color:#FFFFFF; font-weight:700; text-decoration:none; font-size:0.95rem;">
+                        <a id="estimator-bottom-sms-btn" href="sms:+18636403102?body=Hi%20David%2C%20can%20you%20help%20me%20review%20my%202027%20ACA%20Marketplace%20options%3F" data-lhi-sms-cta="aca_estimator_sms" data-analytics-label="aca_estimator_sms" style="flex:1 1 220px; text-align:center; padding:12px 16px; border-radius:10px; background:#0F1A2E; color:#FFFFFF; font-weight:700; text-decoration:none; font-size:0.95rem;">
                             Text David: (863) 640-3102
                         </a>
                         <a href="/aca-2027-check/" style="flex:1 1 220px; text-align:center; padding:12px 16px; border-radius:10px; background:#F0F5FF; border:1px solid #BFDBFE; color:#1B2A4A; font-weight:700; text-decoration:none; font-size:0.95rem;">
@@ -2006,13 +2131,13 @@
     <!-- CTA Section -->
     <section class="cta-section">
         <div class="container">
-            <h2>Want Personalized Subsidy Help?</h2>
-            <p>David can help organize the Marketplace inputs and compare available Florida coverage after the official eligibility result is available. Tax questions and final premium-tax-credit reconciliation belong with a qualified tax professional. For local plan-review notes, see <a href="/aca-health-insurance-lakeland-fl/">Lakeland Marketplace help</a>.</p>
+            <h2 id="cta-section-heading">Want Personalized 2027 Subsidy &amp; Plan Help?</h2>
+            <p id="cta-section-body">David Huff (NPN #18213932, licensed across 23 states) can help organize your 2027 Marketplace inputs and compare available plans and doctor networks in your ZIP code after your official eligibility result is available. Tax questions and final premium-tax-credit reconciliation belong with a qualified tax professional. For Florida local plan-review notes, see <a href="/aca-health-insurance-lakeland-fl/">Florida &amp; Polk County Marketplace help</a>.</p>
             <div class="cta-buttons">
                 <a href="tel:+18636403102" class="cta-btn-primary">
                     <span aria-hidden="true">&#128222;</span> Call David: (863) 640-3102
                 </a>
-                <a href="sms:+18636403102?body=Hi%20David%2C%20can%20you%20help%20me%20review%20my%202027%20ACA%20Marketplace%20options%20in%20Florida%3F" class="cta-btn-secondary" data-lhi-sms-cta="aca_estimator_cta_sms" data-analytics-label="aca_estimator_cta_sms">
+                <a id="estimator-cta-band-sms-btn" href="sms:+18636403102?body=Hi%20David%2C%20can%20you%20help%20me%20review%20my%202027%20ACA%20Marketplace%20options%3F" class="cta-btn-secondary" data-lhi-sms-cta="aca_estimator_cta_sms" data-analytics-label="aca_estimator_cta_sms">
                     <span aria-hidden="true">&#128172;</span> Text David: (863) 640-3102
                 </a>
                 <a href="/get-help/?intent=aca" class="cta-btn-secondary">
@@ -2022,11 +2147,11 @@
         </div>
     </section>
 
-    <section class="calculator-section" aria-labelledby="county-carrier-preview-heading" style="padding-bottom:0;">
+    <section class="calculator-section" id="county-carrier-preview-section" aria-labelledby="county-carrier-preview-heading" style="padding-bottom:0;">
         <div class="container">
             <div class="calculator-card" id="county-carrier-preview">
                 <h2 id="county-carrier-preview-heading">2027 Central Florida County Carrier &amp; Hospital Network Preview</h2>
-                <p class="subtitle">Select your Central Florida county to preview active 2027 ACA Marketplace carriers and local hospital/clinic network watchouts before locking in a plan. The subsidy math above remains anchored to the Polk County Rating Area 24 benchmark.</p>
+                <p class="subtitle">Visiting from Central Florida? Select your county to preview active 2027 ACA Marketplace carriers and local hospital/clinic network watchouts before locking in a plan.</p>
 
                 <div class="form-group" style="margin-bottom:16px;">
                     <label for="county-preview-select">Select County to Preview 2027 Networks</label>
@@ -2057,17 +2182,22 @@
         </div>
     </section>
 
-    <section class="calculator-section" aria-labelledby="estimator-guides" style="padding-bottom:0;">
+    <section class="calculator-section" id="estimator-guides-section" aria-labelledby="estimator-guides" style="padding-bottom:0;">
         <div class="container">
             <div class="calculator-card">
-                <h2 id="estimator-guides">2027 Florida ACA &amp; Polk County Planning Guides</h2>
-                <p>Use these 2027 guides to review MAGI income rules, Silver Cost-Sharing Reductions, automatic re-enrollment checks, and Polk County hospital/doctor networks before finalizing a plan:</p>
+                <h2 id="estimator-guides">2027 ACA Subsidy, Household Situation &amp; Network Guides</h2>
+                <p>Use these 2027 guides to review MAGI income rules, Silver Cost-Sharing Reductions, mixed-Medicare couples, employer family affordability, and hospital/doctor networks before finalizing a plan:</p>
                 <ul style="padding-left:1.25rem; line-height:1.75;">
-                    <li><a href="/blog/aca-subsidy-income-limits-florida-2027.html"><strong>2027 Florida ACA Subsidy &amp; Income Guide:</strong></a> MAGI rules, FPL reference points, and Silver Cost-Sharing Reduction (CSR) tiers in Polk County.</li>
-                    <li><a href="/blog/aca-auto-renewal-2027-florida-polk-county.html"><strong>2027 Florida ACA Auto-Renewal Warning:</strong></a> 5 things Polk County families should verify before December 15 instead of letting HealthCare.gov auto-renew.</li>
-                    <li><a href="/blog/polk-county-aca-hospital-doctor-network-guide-2027.html"><strong>2027 Polk County ACA Hospital &amp; Doctor Network Guide:</strong></a> How to verify Lakeland Regional Health, Watson Clinic, BayCare, and AdventHealth on your exact 2027 plan ID.</li>
-                    <li><a href="/blog/self-employed-1099-aca-polk-county-2027.html"><strong>Self-Employed &amp; 1099 Health Insurance in Polk County (2027):</strong></a> Projecting Schedule C net income and checking doctors on HealthCare.gov.</li>
-                    <li><a href="/aca-2027-check/"><strong>2027 ACA Open Enrollment Doctor &amp; Rx Check:</strong></a> Fast 30-second Polk County review request.</li>
+                    <li><a href="/blog/aca-subsidy-income-limits-florida-2027.html"><strong>2027 ACA Subsidy &amp; Income Limits Guide:</strong></a> MAGI rules, FPL reference points, and Silver Cost-Sharing Reduction (CSR) tiers.</li>
+                    <li><a href="/local-health-insurance-answers/spouse-on-medicare-under-65-aca-polk-county-2027/"><strong>One Spouse on Medicare (65+), One Spouse Under 65 on ACA (2027):</strong></a> How joint 2-person tax household size and Social Security income affect the younger spouse's ACA subsidy.</li>
+                    <li><a href="/local-health-insurance-answers/polk-county-family-aca-employer-affordability-kidcare-2027/"><strong>2027 Employer Family Glitch, IRS 10.22% Affordability Rule &amp; KidCare:</strong></a> When spouses and children can claim ACA tax credits even with a workplace plan offer.</li>
+                    <li><a href="/local-health-insurance-answers/florida-medicaid-gap-100-fpl-polk-healthcare-plan-2027/"><strong>Below 100% FPL Non-Expansion Floor ($15,960 Single / $21,640 Couple):</strong></a> What counts toward 2027 MAGI and local safety-net options.</li>
+                    <li><a href="/local-health-insurance-answers/polk-county-aca-prescription-drug-diabetes-mental-health-2027/"><strong>2027 ACA Prescription Drug, Diabetes, Specialty Rx &amp; Mental Health Guide:</strong></a> How Silver CSR lowers copays and out-of-pocket caps for chronic care.</li>
+                    <li><a href="/local-health-insurance-answers/bartow-auburndale-lake-wales-aca-health-insurance-2027/"><strong>Central Florida Regional ACA Hospital &amp; Clinic Network Guide (2027):</strong></a> Checking hospital and clinic tax IDs before December 15.</li>
+                    <li><a href="/blog/aca-auto-renewal-2027-florida-polk-county.html"><strong>2027 ACA Auto-Renewal Warning:</strong></a> 5 things households should verify before December 15 instead of letting HealthCare.gov auto-renew.</li>
+                    <li><a href="/blog/polk-county-aca-hospital-doctor-network-guide-2027.html"><strong>2027 Hospital &amp; Doctor Network Verification Guide:</strong></a> How to verify hospital facilities and physician groups on your exact 2027 plan ID.</li>
+                    <li><a href="/blog/self-employed-1099-aca-polk-county-2027.html"><strong>Self-Employed &amp; 1099 Health Insurance Guide (2027):</strong></a> Projecting Schedule C net income, HSA/IRA deductions, and checking networks.</li>
+                    <li><a href="/aca-2027-check/"><strong>2027 ACA Open Enrollment Doctor &amp; Rx Check:</strong></a> Fast 30-second plan and provider review request.</li>
                 </ul>
             </div>
         </div>
@@ -2077,12 +2207,12 @@
         <div class="container">
             <div class="calculator-card">
                 <h2 id="estimator-sources">Primary sources and scope</h2>
-                <p>This implementation applies the 2027 percentages in IRS Revenue Procedure 2026-26 and uses the 2026 HHS poverty guidelines that apply to 2027 coverage. The Lakeland benchmark amount is a site-maintained illustration and must be replaced with the official benchmark for an eligibility or tax-credit determination.</p>
+                <p>This implementation applies the 2027 percentages in IRS Revenue Procedure 2026-26 and uses the 2026 HHS poverty guidelines that apply to 2027 coverage. The benchmark amount ($548.84 age-21 base) is a site-maintained illustration using standard CMS 3:1 age factors and must be replaced with the official ZIP-code benchmark for an eligibility or tax-credit determination.</p>
                 <ul style="padding-left:1.25rem;">
                     <li><a href="https://www.irs.gov/pub/irs-drop/rp-26-26.pdf" target="_blank" rel="noopener noreferrer">IRS Revenue Procedure 2026-26</a> — accessed October 1, 2026; 2027 premium tax credit applicable percentages (2.15% to 10.22%).</li>
                     <li><a href="https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines" target="_blank" rel="noopener noreferrer">HHS/ASPE, 2026 poverty guidelines</a> — accessed October 1, 2026; $15,960 for one person and $33,000 for a family of four, used for 2027 coverage.</li>
                     <li><a href="https://www.irs.gov/credits-deductions/premium-tax-credit-ptc-overview" target="_blank" rel="noopener noreferrer">IRS Premium Tax Credit overview</a> — accessed October 1, 2026; eligibility and reconciliation context.</li>
-                    <li><a href="https://www.healthcare.gov/reporting-changes/" target="_blank" rel="noopener noreferrer">HealthCare.gov: Report income and household changes</a> — accessed October 1, 2026; federal Marketplace guidance for Florida.</li>
+                    <li><a href="https://www.healthcare.gov/reporting-changes/" target="_blank" rel="noopener noreferrer">HealthCare.gov: Report income and household changes</a> — accessed October 1, 2026; federal Marketplace guidance.</li>
                 </ul>
                 <p style="margin-top:1rem;">This calculator provides an educational estimate. Actual eligibility and premium tax credits are determined by the Marketplace and reconciled on the federal tax return.</p>
             </div>
@@ -2093,124 +2223,152 @@
     <div class="aca-soft-gate-backdrop" id="acaEstimatorSoftGateModal" role="dialog" aria-modal="true" aria-labelledby="acaSoftGateTitle" hidden>
         <div class="aca-soft-gate-dialog">
             <button type="button" class="aca-soft-gate-close" id="acaSoftGateCloseBtn" aria-label="Close popup and view 2027 subsidy estimate">&times;</button>
-            <span class="aca-soft-gate-pill" id="acaSoftGateReadyBadge">&#10003; Your 2027 Polk County Subsidy Math Is Ready Behind This Box</span>
-            <h3 class="aca-soft-gate-title" id="acaSoftGateTitle">Want Your 2027 Polk Carrier &amp; Doctor Breakdown &mdash; or Schedule a 10-Min Review?</h3>
-            <p class="aca-soft-gate-sub">Optional: Have David Huff (Licensed FL Agent #W371813) text or call you to compare 2027 Polk County plan IDs for your doctors (Orlando Health, AdventHealth, Bond Clinic, BayCare, Watson Clinic), or skip below to view your 2027 estimate right now. Calculator inputs stay in your browser.</p>
+            <span class="aca-soft-gate-pill" id="acaSoftGateReadyBadge">&#10003; Your 2027 ACA Subsidy Estimate Is Ready</span>
+            <h3 class="aca-soft-gate-title" id="acaSoftGateTitle">Want the 2027 Plans &amp; Doctor Networks That Match This Estimate?</h3>
+            <p class="aca-soft-gate-sub" id="acaSoftGateSub">Optional: Have David Huff (Licensed Agent &middot; NPN #18213932) text or call you with the exact 2027 Marketplace plan IDs in your ZIP code that accept your doctors, or view the full breakdown below. Calculator inputs stay in your browser.</p>
 
-            <div id="acaSoftGateFormPanel">
-                <form class="sitelink-lead-form" name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="acaEstimatorSoftGateForm" data-sitelink-lead-form data-sitelink-v2-consent data-sitelink-inline-thank-you data-funnel-track data-funnel-event="Lead" data-funnel-name="aca_estimator_soft_gate_lead" data-inline-thank-you-message="Thanks — David received your request and will reach out during your selected window." aria-label="Optional 2027 ACA carrier breakdown and appointment request">
-                    <input type="hidden" name="form-name" value="get-help">
-                    <div hidden aria-hidden="true">
-                        <label>Do not fill this out <input name="bot-field" tabindex="-1" autocomplete="off"></label>
-                        <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
-                        <label>Company <input name="company" tabindex="-1" autocomplete="off"></label>
-                    </div>
-                    <input type="hidden" name="normalized_intent" value="aca">
-                    <input type="hidden" name="inquiry_type" value="ACA Marketplace">
-                    <input type="hidden" name="line_of_business" value="ACA Marketplace">
-                    <input type="hidden" name="product_interest" value="2027 ACA Subsidy Estimator">
-                    <input type="hidden" name="state" id="acaSoftGateState" value="FL">
-                    <input type="hidden" name="coverage_state" id="acaSoftGateCoverageState" value="FL">
-                    <input type="hidden" name="source_page_key" value="aca-subsidy-estimator">
-                    <input type="hidden" name="source_cta_key" id="acaSoftGateCtaKey" value="estimator_soft_gate">
-                    <input type="hidden" name="content_name" value="first_party_lead">
-                    <input type="hidden" name="source_page" value="/aca-subsidy-estimator/">
-                    <input type="hidden" name="consent_page" value="/aca-subsidy-estimator/">
-                    <input type="hidden" name="referral_page">
-                    <input type="hidden" name="_subject" value="New Lead: 2027 ACA Subsidy Estimator Appointment &amp; Carrier Breakdown">
-                    <input type="hidden" name="utm_source">
-                    <input type="hidden" name="utm_medium">
-                    <input type="hidden" name="utm_campaign">
-                    <input type="hidden" name="utm_term">
-                    <input type="hidden" name="utm_content">
-                    <input type="hidden" name="gclid">
-                    <input type="hidden" name="gbraid">
-                    <input type="hidden" name="wbraid">
-                    <input type="hidden" name="gad_campaignid">
-                    <input type="hidden" name="first_gclid">
-                    <input type="hidden" name="first_gbraid">
-                    <input type="hidden" name="first_wbraid">
-                    <input type="hidden" name="first_gad_campaignid">
-                    <input type="hidden" name="lead_source" value="">
-                    <input type="hidden" name="lead_medium" value="">
-                    <input type="hidden" name="lead_campaign" value="">
-                    <input type="hidden" name="landing_page" value="">
-                    <input type="hidden" name="referrer" value="">
-                    <input type="hidden" name="click_id_type" value="">
-                    <input type="hidden" name="lead_channel" value="">
-                    <input type="hidden" name="click_timestamp" value="">
-                    <input type="hidden" name="started_at">
-                    <input type="hidden" name="human_check">
-                    <input type="hidden" name="consent_text_version" value="get-help-2026-09-29-v2">
-                    <input type="hidden" name="consent_recorded_at">
-                    <input type="hidden" name="consent_request_state">
-                    <input type="hidden" name="consent_call_state">
-                    <input type="hidden" name="consent_sms_state">
-                    <input type="hidden" name="consent_withdrawal_state">
-                    <input type="hidden" name="consent_version_source">
-                    <input type="hidden" name="consent_version_mismatch">
-                    <input type="hidden" name="event_id">
-                    <input type="hidden" name="server_received_at">
-                    <input type="hidden" name="lead_priority">
-                    <input type="hidden" name="lead_priority_reason">
-                    <input type="hidden" name="source_url">
+            <!-- Live Browser-Only Summary of the Calculated Estimate -->
+            <div class="aca-soft-gate-live-summary" id="acaSoftGateLiveSummary" aria-live="polite">
+                <div class="aca-soft-gate-live-item">
+                    <span class="aca-soft-gate-live-label">Est. 2027 Tax Credit</span>
+                    <span class="aca-soft-gate-live-val" id="modal-live-aptc">$436/mo</span>
+                </div>
+                <div class="aca-soft-gate-live-item">
+                    <span class="aca-soft-gate-live-label">Est. Silver / Bronze</span>
+                    <span class="aca-soft-gate-live-val" id="modal-live-net">$235 / $74 mo</span>
+                </div>
+                <div class="aca-soft-gate-live-item">
+                    <span class="aca-soft-gate-live-label">2027 FPL &amp; CSR Tier</span>
+                    <span class="aca-soft-gate-live-val" id="modal-live-tier">167% FPL (87% CSR)</span>
+                </div>
+            </div>
 
-                    <div class="aca-soft-gate-grid">
-                        <div class="aca-soft-gate-field">
-                            <label for="acaSoftGateName">Your name</label>
-                            <input id="acaSoftGateName" name="full_name" autocomplete="name" placeholder="First &amp; last name" required>
+            <div id="acaSoftGateModalFormMount">
+                <div id="acaSoftGateFormPanel">
+                    <form class="sitelink-lead-form" name="get-help" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="acaEstimatorSoftGateForm" data-sitelink-lead-form data-sitelink-v2-consent data-sitelink-inline-thank-you data-funnel-track data-funnel-event="Lead" data-funnel-name="aca_estimator_soft_gate_lead" data-inline-thank-you-message="Thanks — David received your request and will reach out during your selected window." aria-label="Optional 2027 ACA carrier breakdown and appointment request">
+                        <input type="hidden" name="form-name" value="get-help">
+                        <div hidden aria-hidden="true">
+                            <label>Do not fill this out <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+                            <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
+                            <label>Company <input name="company" tabindex="-1" autocomplete="off"></label>
                         </div>
-                        <div class="aca-soft-gate-field">
-                            <label for="acaSoftGatePhone">Phone number</label>
-                            <input id="acaSoftGatePhone" name="phone" type="tel" autocomplete="tel" placeholder="(863) 555-0199" required minlength="7">
-                        </div>
-                        <div class="aca-soft-gate-field">
-                            <label for="acaSoftGateZip">ZIP code</label>
-                            <input id="acaSoftGateZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="5-digit ZIP (e.g. 33805)" required>
-                        </div>
-                        <div class="aca-soft-gate-field">
-                            <label for="acaSoftGateTime">Preferred appointment or review</label>
-                            <select id="acaSoftGateTime" name="best_time_to_reach">
-                                <option value="10-Min Phone Review - Today / ASAP">10-Min Phone Review &mdash; Today / ASAP</option>
-                                <option value="10-Min Phone Review - Morning (9am-12pm)">10-Min Phone Review &mdash; Morning (9am&ndash;12pm)</option>
-                                <option value="10-Min Phone Review - Afternoon (12pm-5pm)">10-Min Phone Review &mdash; Afternoon (12pm&ndash;5pm)</option>
-                                <option value="10-Min Phone Review - Evening (5pm-7pm)">10-Min Phone Review &mdash; Evening (5pm&ndash;7pm)</option>
-                                <option value="Text me my 2027 Polk Carrier & Doctor Breakdown first">Text me my 2027 Polk Carrier &amp; Doctor Breakdown first</option>
-                            </select>
-                        </div>
-                        <div class="aca-soft-gate-field full-span">
-                            <label for="acaSoftGateDoctors">Doctors, clinic, or current carrier (optional &mdash; do not enter medical conditions)</label>
-                            <input id="acaSoftGateDoctors" name="providers" autocomplete="off" placeholder="e.g., Ambetter renewal, Bond Clinic, AdventHealth, Orlando Health, BayCare">
-                        </div>
-                    </div>
+                        <input type="hidden" name="normalized_intent" value="aca">
+                        <input type="hidden" name="inquiry_type" value="ACA Marketplace">
+                        <input type="hidden" name="line_of_business" value="ACA Marketplace">
+                        <input type="hidden" name="product_interest" value="2027 ACA Subsidy Estimator">
+                        <input type="hidden" name="plan_interest" id="acaSoftGatePlanInterest" value="2027 ACA Benchmark Silver / Bronze / Gold">
+                        <input type="hidden" name="need_timing" id="acaSoftGateNeedTiming" value="as_soon_as_possible">
+                        <input type="hidden" name="state" id="acaSoftGateState" value="FL">
+                        <input type="hidden" name="coverage_state" id="acaSoftGateCoverageState" value="FL">
+                        <input type="hidden" name="source_page_key" value="aca-subsidy-estimator">
+                        <input type="hidden" name="source_cta_key" id="acaSoftGateCtaKey" value="estimator_soft_gate">
+                        <input type="hidden" name="content_name" value="first_party_lead">
+                        <input type="hidden" name="source_page" value="/aca-subsidy-estimator/">
+                        <input type="hidden" name="consent_page" value="/aca-subsidy-estimator/">
+                        <input type="hidden" name="referral_page">
+                        <input type="hidden" name="_subject" value="New Lead: 2027 ACA Subsidy Estimator Appointment &amp; Carrier Breakdown">
+                        <input type="hidden" name="utm_source">
+                        <input type="hidden" name="utm_medium">
+                        <input type="hidden" name="utm_campaign">
+                        <input type="hidden" name="utm_term">
+                        <input type="hidden" name="utm_content">
+                        <input type="hidden" name="gclid">
+                        <input type="hidden" name="gbraid">
+                        <input type="hidden" name="wbraid">
+                        <input type="hidden" name="gad_campaignid">
+                        <input type="hidden" name="first_gclid">
+                        <input type="hidden" name="first_gbraid">
+                        <input type="hidden" name="first_wbraid">
+                        <input type="hidden" name="first_gad_campaignid">
+                        <input type="hidden" name="lead_source" value="">
+                        <input type="hidden" name="lead_medium" value="">
+                        <input type="hidden" name="lead_campaign" value="">
+                        <input type="hidden" name="landing_page" value="">
+                        <input type="hidden" name="referrer" value="">
+                        <input type="hidden" name="click_id_type" value="">
+                        <input type="hidden" name="lead_channel" value="">
+                        <input type="hidden" name="click_timestamp" value="">
+                        <input type="hidden" name="started_at">
+                        <input type="hidden" name="human_check">
+                        <input type="hidden" name="consent_text_version" value="get-help-2026-09-29-v2">
+                        <input type="hidden" name="consent_recorded_at">
+                        <input type="hidden" name="consent_request_state">
+                        <input type="hidden" name="consent_call_state">
+                        <input type="hidden" name="consent_sms_state">
+                        <input type="hidden" name="consent_withdrawal_state">
+                        <input type="hidden" name="consent_version_source">
+                        <input type="hidden" name="consent_version_mismatch">
+                        <input type="hidden" name="event_id">
+                        <input type="hidden" name="server_received_at">
+                        <input type="hidden" name="lead_priority">
+                        <input type="hidden" name="lead_priority_reason">
+                        <input type="hidden" name="source_url">
 
-                    <div class="aca-soft-gate-consent-box">
-                        <label>
-                            <input type="checkbox" name="consent_request" value="yes" required>
-                            <span>I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage.</span>
-                        </label>
-                        <fieldset class="consent-group">
-                            <legend>Choose each contact channel you authorize (select at least one):</legend>
+                        <div class="aca-soft-gate-grid">
+                            <div class="aca-soft-gate-field">
+                                <label for="acaSoftGateName">Your name</label>
+                                <input id="acaSoftGateName" name="full_name" autocomplete="name" placeholder="First &amp; last name" required>
+                            </div>
+                            <div class="aca-soft-gate-field">
+                                <label for="acaSoftGatePhone">Phone number</label>
+                                <input id="acaSoftGatePhone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 234-5678" required minlength="7">
+                            </div>
+                            <div class="aca-soft-gate-field">
+                                <label for="acaSoftGateZip">ZIP code</label>
+                                <input id="acaSoftGateZip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="5-digit ZIP code" required>
+                            </div>
+                            <div class="aca-soft-gate-field">
+                                <label for="acaSoftGateTime">How should David send your 2027 options?</label>
+                                <select id="acaSoftGateTime" name="best_time_to_reach">
+                                    <option id="acaSoftGateTimeTextOpt" value="Text me my 2027 Carrier & Doctor Breakdown first" selected>Text me my 2027 Carrier &amp; Doctor Breakdown first</option>
+                                    <option value="10-Min Phone Review - Today / ASAP">10-Min Phone Review &mdash; Today / ASAP</option>
+                                    <option value="10-Min Phone Review - Morning (9am-12pm)">10-Min Phone Review &mdash; Morning (9am&ndash;12pm)</option>
+                                    <option value="10-Min Phone Review - Afternoon (12pm-5pm)">10-Min Phone Review &mdash; Afternoon (12pm&ndash;5pm)</option>
+                                    <option value="10-Min Phone Review - Evening (5pm-7pm)">10-Min Phone Review &mdash; Evening (5pm&ndash;7pm)</option>
+                                </select>
+                            </div>
+                            <div class="aca-soft-gate-field full-span">
+                                <label for="acaSoftGateDoctors">Doctors, clinic, or current carrier (optional &mdash; do not enter medical conditions)</label>
+                                <input id="acaSoftGateDoctors" name="providers" autocomplete="off" placeholder="e.g., primary care doctor, hospital system, clinic, or current carrier">
+                            </div>
+                        </div>
+
+                        <div class="aca-soft-gate-consent-box">
                             <label>
-                                <input type="checkbox" name="consent_call" value="yes">
-                                <span>I authorize a telephone call about this request.</span>
+                                <input type="checkbox" name="consent_request" value="yes" required>
+                                <span>I am asking Lakeland Health Insurance to review and respond to this insurance request. I understand this is not an enrollment, eligibility determination, or proof of coverage.</span>
                             </label>
-                            <label>
-                                <input type="checkbox" name="consent_sms" value="yes">
-                                <span>By checking this box, I give my prior express consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to send text messages about this request to the mobile number I entered above. Consent is not a condition of purchase. Message frequency varies; msg &amp; data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
-                            </label>
-                        </fieldset>
-                    </div>
+                            <fieldset class="consent-group">
+                                <legend>Choose each contact channel you authorize (select at least one):</legend>
+                                <label>
+                                    <input type="checkbox" name="consent_call" value="yes">
+                                    <span>I authorize a telephone call about this request.</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="consent_sms" value="yes">
+                                    <span>By checking this box, I give my prior express consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to send text messages about this request to the mobile number I entered above. Consent is not a condition of purchase. Message frequency varies; msg &amp; data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
+                                </label>
+                            </fieldset>
+                        </div>
 
-                    <button type="submit" class="aca-soft-gate-submit">
-                        Request My 2027 Breakdown / Schedule Review &rarr;
-                    </button>
-                    <div class="sitelink-lead-status" data-sitelink-lead-status role="status" aria-live="polite" style="margin-top:6px; font-size:0.82rem; font-weight:600; color:var(--navy);"></div>
-                </form>
+                        <button type="submit" class="aca-soft-gate-submit" id="acaSoftGateSubmitBtn">
+                            Send My 2027 Plan &amp; Doctor Breakdown &rarr;
+                        </button>
+                        <div class="sitelink-lead-status" data-sitelink-lead-status role="status" aria-live="polite" style="margin-top:6px; font-size:0.82rem; font-weight:600; color:var(--navy);"></div>
+
+                        <div class="aca-soft-gate-direct-bar">
+                            <span>Prefer instant text or call?</span>
+                            <div class="aca-soft-gate-direct-links">
+                                <a id="acaSoftGateDirectSms" href="sms:+18636403102?body=Hi%20David%2C%20I%20used%20the%202027%20ACA%20Subsidy%20Calculator%20and%20want%20to%20check%202027%20plans%20for%20my%20ZIP%20code." data-lhi-sms-cta="aca_estimator_modal_sms" data-analytics-label="aca_estimator_modal_sms">&#128172; Text David</a>
+                                <a href="tel:+18636403102">&#128222; Call (863) 640-3102</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <button type="button" class="aca-soft-gate-skip" id="acaSoftGateSkipBtn">
-                No thanks &mdash; just show my 2027 subsidy math &rarr;
+                View Full 2027 Tier Comparison &amp; Math Breakdown Below &darr;
             </button>
         </div>
     </div>
@@ -2485,7 +2643,80 @@
             return Math.min(97, 88 + Math.min(1, (fplPercent - 400) / 100) * 9);
         }
 
+        var LICENSED_STATES_2027 = {
+            FL: { name: 'Florida', expanded: false },
+            AL: { name: 'Alabama', expanded: false },
+            AZ: { name: 'Arizona', expanded: true },
+            GA: { name: 'Georgia', expanded: false },
+            IA: { name: 'Iowa', expanded: true },
+            IN: { name: 'Indiana', expanded: true },
+            KS: { name: 'Kansas', expanded: false },
+            LA: { name: 'Louisiana', expanded: true },
+            MD: { name: 'Maryland', expanded: true },
+            MI: { name: 'Michigan', expanded: true },
+            MO: { name: 'Missouri', expanded: true },
+            MS: { name: 'Mississippi', expanded: false },
+            NC: { name: 'North Carolina', expanded: true },
+            NE: { name: 'Nebraska', expanded: true },
+            NJ: { name: 'New Jersey', expanded: true },
+            OH: { name: 'Ohio', expanded: true },
+            OK: { name: 'Oklahoma', expanded: true },
+            SC: { name: 'South Carolina', expanded: false },
+            TN: { name: 'Tennessee', expanded: false },
+            TX: { name: 'Texas', expanded: false },
+            VA: { name: 'Virginia', expanded: true },
+            WA: { name: 'Washington', expanded: true },
+            WV: { name: 'West Virginia', expanded: true }
+        };
+
+        function zipToStateCode23(rawZip) {
+            var digits = String(rawZip || '').replace(/\D/g, '').slice(0, 5);
+            if (digits.length !== 5) return '';
+            var p = parseInt(digits.slice(0, 3), 10);
+            if (p >= 320 && p <= 349) return 'FL';
+            if (p >= 350 && p <= 369) return 'AL';
+            if (p >= 850 && p <= 865) return 'AZ';
+            if ((p >= 300 && p <= 319) || p === 398 || p === 399) return 'GA';
+            if (p >= 500 && p <= 528) return 'IA';
+            if (p >= 460 && p <= 479) return 'IN';
+            if (p >= 660 && p <= 679) return 'KS';
+            if (p >= 700 && p <= 714) return 'LA';
+            if (p >= 206 && p <= 219) return 'MD';
+            if (p >= 480 && p <= 499) return 'MI';
+            if (p >= 630 && p <= 658) return 'MO';
+            if (p >= 386 && p <= 397) return 'MS';
+            if (p >= 270 && p <= 289) return 'NC';
+            if (p >= 680 && p <= 693) return 'NE';
+            if (p >= 70 && p <= 89) return 'NJ';
+            if (p >= 430 && p <= 459) return 'OH';
+            if (p >= 730 && p <= 749) return 'OK';
+            if (p >= 290 && p <= 299) return 'SC';
+            if (p >= 370 && p <= 385) return 'TN';
+            if ((p >= 750 && p <= 799) || p === 885) return 'TX';
+            if (p === 201 || (p >= 220 && p <= 246)) return 'VA';
+            if (p >= 980 && p <= 994) return 'WA';
+            if (p >= 247 && p <= 268) return 'WV';
+            return '';
+        }
+
+        function getSelectedStateInfo() {
+            var stateSelect = document.getElementById('applicant-state');
+            var code = (stateSelect && stateSelect.value) ? stateSelect.value.toUpperCase() : 'FL';
+            var info = LICENSED_STATES_2027[code] || LICENSED_STATES_2027.FL;
+            return { code: code, info: info };
+        }
+
+        function updateModalLiveSummary(aptcText, netText, tierText) {
+            var elAptc = document.getElementById('modal-live-aptc');
+            var elNet = document.getElementById('modal-live-net');
+            var elTier = document.getElementById('modal-live-tier');
+            if (elAptc) elAptc.textContent = aptcText;
+            if (elNet) elNet.textContent = netText;
+            if (elTier) elTier.textContent = tierText;
+        }
+
         function updateFplSpectrum(fpl, fplPercent, income, householdSize, benchmarkMonthly) {
+            var st = getSelectedStateInfo();
             var f100 = fpl;
             var f150 = Math.round(fpl * 1.5);
             var f200 = Math.round(fpl * 2.0);
@@ -2497,6 +2728,11 @@
             document.getElementById('cutoff-200').textContent = fmt(f200);
             document.getElementById('cutoff-250').textContent = fmt(f250);
             document.getElementById('cutoff-400').textContent = fmt(f400);
+
+            var cutoff100Tag = document.getElementById('cutoff-100-tag');
+            if (cutoff100Tag) {
+                cutoff100Tag.textContent = st.info.expanded ? (st.code + ' 138% Medicaid') : (st.code + ' 100% Floor');
+            }
 
             var s100 = document.getElementById('slider-label-100fpl');
             var s250 = document.getElementById('slider-label-250fpl');
@@ -2514,7 +2750,7 @@
             var hhLabel = householdSize === 1 ? '1-Person Household' : householdSize + '-Person Household';
             var specBadge = document.getElementById('fpl-spectrum-badge');
             if (specBadge) {
-                specBadge.textContent = Math.round(fplPercent) + '% FPL · ' + hhLabel;
+                specBadge.textContent = Math.round(fplPercent) + '% FPL · ' + hhLabel + ' · ' + st.code;
             }
 
             // Highlight active cutoff cell
@@ -2536,21 +2772,29 @@
 
             if (fplPercent < 100) {
                 var toFloor = Math.max(0, f100 - income);
-                insightEl.innerHTML =
-                    '<strong>Threshold Radar:</strong> Projected MAGI is <strong>' + fmt(toFloor) + ' below</strong> the 100% FPL Florida Marketplace floor (' + fmt(f100) + ' for a ' + hhLabel.toLowerCase() + '). At exactly ' + fmt(f100) + ', you qualify for maximum APTC and the <strong>94% Actuarial Value Silver CSR tier</strong>.';
+                if (st.info.expanded) {
+                    var f138 = Math.round(fpl * 1.38);
+                    insightEl.innerHTML =
+                        '<strong>Threshold Radar (' + st.info.name + '):</strong> Projected MAGI is below 100% FPL (' + fmt(f100) + '). Because ' + st.info.name + ' has expanded Medicaid up to <strong>138% FPL (' + fmt(f138) + ')</strong>, households below 138% FPL typically qualify for state Medicaid rather than Marketplace tax credits.';
+                } else {
+                    insightEl.innerHTML =
+                        '<strong>Threshold Radar (' + st.info.name + '):</strong> Projected MAGI is <strong>' + fmt(toFloor) + ' below</strong> the 100% FPL ' + st.info.name + ' Marketplace floor (' + fmt(f100) + ' for a ' + hhLabel.toLowerCase() + '). At ' + fmt(f100) + ', you qualify for maximum APTC and the <strong>94% Actuarial Value Silver CSR tier</strong>.';
+                }
             } else if (fplPercent > 400) {
                 var overCliff = income - f400;
                 var cliffContribMonthly = (f400 * 0.1022) / 12;
                 var restoredSubsidyMonthly = Math.max(0, benchmarkMonthly - cliffContribMonthly);
                 var restoredNote = restoredSubsidyMonthly > 0
-                    ? ' At exactly 400% FPL (' + fmt(f400) + '), the estimated benchmark tax credit would be <strong>' + fmt(restoredSubsidyMonthly) + '/mo (' + fmt(restoredSubsidyMonthly * 12) + '/yr)</strong>.'
+                    ? ' At 400% FPL (' + fmt(f400) + '), the estimated benchmark tax credit would be <strong>' + fmt(restoredSubsidyMonthly) + '/mo (' + fmt(restoredSubsidyMonthly * 12) + '/yr)</strong>.'
                     : ' At this age and income, the 10.22% IRS expected contribution exceeds the benchmark Silver premium even at 400% FPL.';
                 insightEl.innerHTML =
-                    '<strong>2027 Subsidy Cliff Alert:</strong> Projected MAGI is <strong>' + fmt(overCliff) + ' above</strong> the 400% FPL cutoff (' + fmt(f400) + ').' + restoredNote + ' Consult your tax advisor on whether pre-tax HSA, Traditional IRA, 401(k), or business deductions affect your 2027 MAGI.';
+                    '<strong>2027 Subsidy Cliff Alert (' + st.info.name + '):</strong> Projected MAGI is <strong>' + fmt(overCliff) + ' above</strong> the 400% FPL cutoff (' + fmt(f400) + ').' + restoredNote + ' Consult your tax advisor on whether pre-tax HSA, Traditional IRA, 401(k), or business deductions affect your 2027 MAGI.';
             } else {
                 var cliffBuffer = f400 - income;
                 var nextCsrNote = '';
-                if (fplPercent > 150 && fplPercent <= 200) {
+                if (st.info.expanded && fplPercent < 138) {
+                    nextCsrNote = ' Note: ' + st.info.name + ' has expanded Medicaid up to 138% FPL (' + fmt(Math.round(fpl * 1.38)) + '); Marketplace APTC and Silver CSR generally begin above the state Medicaid threshold.';
+                } else if (fplPercent > 150 && fplPercent <= 200) {
                     nextCsrNote = ' You are <strong>' + fmt(income - f150) + ' above</strong> the 150% FPL cutoff (' + fmt(f150) + ') for the 94% AV Silver CSR tier.';
                 } else if (fplPercent > 200 && fplPercent <= 250) {
                     nextCsrNote = ' You are <strong>' + fmt(income - f200) + ' above</strong> the 200% FPL cutoff (' + fmt(f200) + ') for the 87% AV Silver CSR tier.';
@@ -2558,22 +2802,32 @@
                     nextCsrNote = ' You are <strong>' + fmt(income - f250) + ' above</strong> the 250% FPL cutoff (' + fmt(f250) + ') for the 73% AV Silver CSR tier.';
                 }
                 insightEl.innerHTML =
-                    '<strong>Threshold Radar:</strong> You have <strong>' + fmt(cliffBuffer) + ' of MAGI buffer</strong> before reaching the 2027 400% FPL subsidy cliff (' + fmt(f400) + ').' + nextCsrNote;
+                    '<strong>Threshold Radar (' + st.info.name + '):</strong> You have <strong>' + fmt(cliffBuffer) + ' of MAGI buffer</strong> before reaching the 2027 400% FPL subsidy cliff (' + fmt(f400) + ').' + nextCsrNote;
             }
         }
 
         function updateMetalTierCards(benchmarkMonthly, tobaccoSurcharge, subsidyMonthly, fplPercent) {
+            var st = getSelectedStateInfo();
             var metalGrid = document.getElementById('metal-tier-comparison');
-            var strategyCardEl = document.getElementById('polk-2027-strategy-callout');
+            var strategyCard = document.getElementById('polk-2027-strategy-callout');
+            var strategyTitle = document.getElementById('polk-strategy-title');
+            var strategyBody = document.getElementById('polk-strategy-body');
             if (!metalGrid) return;
+
             if (fplPercent < 100) {
                 metalGrid.style.display = 'none';
-                if (strategyCardEl) strategyCardEl.style.display = 'none';
+                if (strategyCard && strategyTitle && strategyBody) {
+                    strategyCard.style.display = '';
+                    strategyTitle.textContent = '2027 ' + st.info.name + ' Strategy (<100% FPL: Verify Household MAGI & Coverage Options)';
+                    strategyBody.textContent = st.info.expanded
+                        ? ('In ' + st.info.name + ', households below 138% FPL typically qualify for expanded Medicaid, while households above 138% FPL qualify for Marketplace tax credits and 94% Silver CSR. Request a review below to verify your 2027 household MAGI and plan options.')
+                        : ('In ' + st.info.name + ' (a non-expansion state), standard ACA premium tax credits start at 100% FPL. Request a quick review below to verify what income sources count toward 2027 household MAGI and compare available coverage options.');
+                }
                 return;
             }
             metalGrid.style.display = '';
 
-            // Illustrative Polk County metal-tier relativity vs SLCSP benchmark
+            // Illustrative metal-tier relativity vs SLCSP benchmark
             var bronzeGross = (benchmarkMonthly * 0.76) + tobaccoSurcharge;
             var silverGross = benchmarkMonthly + tobaccoSurcharge;
             var goldGross = (benchmarkMonthly * 1.12) + tobaccoSurcharge;
@@ -2590,16 +2844,16 @@
             var silverSub = document.getElementById('metal-silver-sub');
             if (fplPercent >= 100 && fplPercent <= 150) {
                 silverBadge.textContent = '94% AV Silver CSR';
-                silverSub.textContent = 'Polk SLCSP (' + fmt(benchmarkMonthly) + '/mo gross) enhanced to 94% Platinum-level CSR value.';
+                silverSub.textContent = '2027 SLCSP (' + fmt(benchmarkMonthly) + '/mo gross) enhanced to 94% Platinum-level CSR value.';
             } else if (fplPercent > 150 && fplPercent <= 200) {
                 silverBadge.textContent = '87% AV Silver CSR';
-                silverSub.textContent = 'Polk SLCSP (' + fmt(benchmarkMonthly) + '/mo gross) enhanced to 87% Gold-plus CSR value.';
+                silverSub.textContent = '2027 SLCSP (' + fmt(benchmarkMonthly) + '/mo gross) enhanced to 87% Gold-plus CSR value.';
             } else if (fplPercent > 200 && fplPercent <= 250) {
                 silverBadge.textContent = '73% AV Silver CSR';
-                silverSub.textContent = 'Polk SLCSP (' + fmt(benchmarkMonthly) + '/mo gross) with 73% AV CSR reduced deductible/OOP.';
+                silverSub.textContent = '2027 SLCSP (' + fmt(benchmarkMonthly) + '/mo gross) with 73% AV CSR reduced deductible/OOP.';
             } else {
                 silverBadge.textContent = '70% Standard Silver';
-                silverSub.textContent = 'Polk SLCSP benchmark (' + fmt(benchmarkMonthly) + '/mo gross). Above 250% FPL, compare Bronze, Silver, and Gold.';
+                silverSub.textContent = '2027 SLCSP benchmark (' + fmt(benchmarkMonthly) + '/mo gross). Above 250% FPL, compare Bronze, Silver, and Gold.';
             }
 
             document.getElementById('metal-bronze-sub').textContent =
@@ -2607,26 +2861,24 @@
             document.getElementById('metal-gold-sub').textContent =
                 '~80% AV (~' + fmt(goldGross) + '/mo gross minus ' + fmt(subsidyMonthly) + '/mo APTC). Lower standard copays.';
 
-            var strategyCard = document.getElementById('polk-2027-strategy-callout');
-            var strategyTitle = document.getElementById('polk-strategy-title');
-            var strategyBody = document.getElementById('polk-strategy-body');
             if (strategyCard && strategyTitle && strategyBody) {
                 strategyCard.style.display = '';
                 if (fplPercent >= 100 && fplPercent <= 200) {
-                    strategyTitle.textContent = '2027 Polk County Strategy (100%–200% FPL: Silver CSR Tier)';
-                    strategyBody.textContent = 'In the 100%–200% FPL range, Silver plans include Cost-Sharing Reductions (94% or 87% actuarial value) that reduce deductibles and out-of-pocket maximums. Compare Ambetter Signature Silver and AvMed Entrust Silver against narrow sub-networks to confirm Orlando Health, BayCare, Bond Clinic, and AdventHealth participation.';
+                    strategyTitle.textContent = '2027 ' + st.info.name + ' Strategy (100%–200% FPL: Silver CSR Tier)';
+                    strategyBody.textContent = 'In the 100%–200% FPL range, Silver plans include Cost-Sharing Reductions (94% or 87% actuarial value) that significantly reduce deductibles, copays, and out-of-pocket maximums. Have David compare 2027 ' + st.info.name + ' Silver CSR plans in your ZIP code to verify which carriers include your doctors and hospitals.';
                 } else if (fplPercent > 200 && fplPercent <= 400) {
-                    strategyTitle.textContent = '2027 Polk County Pricing Insight (200%–400% FPL: Compare Gold vs. Silver)';
-                    strategyBody.textContent = 'Because Cost-Sharing Reduction loads are priced into Silver benchmarks, several 2027 Polk County Gold plans (such as Oscar Gold and Ambetter Signature Gold) can price near the Silver benchmark while offering lower standard deductibles. Request a side-by-side plan ID check for your doctors.';
+                    strategyTitle.textContent = '2027 ' + st.info.name + ' Pricing Insight (200%–400% FPL: Compare Gold vs. Silver)';
+                    strategyBody.textContent = 'Because Cost-Sharing Reduction loads are priced into Silver benchmarks in many ' + st.info.name + ' rating areas, several 2027 Gold plans can price near the Silver benchmark while offering lower standard deductibles. Request a side-by-side 2027 ' + st.info.name + ' plan ID check for your doctors.';
                 } else if (fplPercent > 400) {
-                    strategyTitle.textContent = '2027 Polk County Strategy (>400% FPL: 3-Track Unsubsidized Comparison)';
-                    strategyBody.textContent = 'Above 400% FPL, federal premium tax credits drop to $0 under 2027 IRS rules. Compare Track 2B (ACA Bronze HSA plans with pre-tax HSA contributions) alongside Track 1 (underwritten private PPO options for qualifying households) and verify 2027 Polk hospital network contracts.';
+                    strategyTitle.textContent = '2027 ' + st.info.name + ' Strategy (>400% FPL: Unsubsidized & HSA Comparison)';
+                    strategyBody.textContent = 'Above 400% FPL, federal premium tax credits drop to $0 under 2027 IRS rules. Compare 2027 ' + st.info.name + ' ACA Bronze HSA plans (with pre-tax HSA contributions that reduce MAGI) alongside private PPO options where available in ' + st.info.name + '.';
                 }
             }
         }
 
         function runCalculation(isUserAction) {
             var hasMinimum = updateConfidence();
+            var st = getSelectedStateInfo();
             var liveResults = document.getElementById('live-results');
             var statusArea = document.getElementById('status-message-area');
             var csrCallout = document.getElementById('csr-tier-callout');
@@ -2666,7 +2918,7 @@
 
             var incBadge = document.getElementById('income-fpl-badge');
             if (incBadge) {
-                var tierLabel = fplPercent < 100 ? 'Below 100% FL Floor'
+                var tierLabel = fplPercent < 100 ? ('Below 100% ' + st.code + ' Floor')
                     : (fplPercent <= 150 ? '94% Silver CSR'
                     : (fplPercent <= 200 ? '87% Silver CSR'
                     : (fplPercent <= 250 ? '73% Silver CSR'
@@ -2682,24 +2934,39 @@
             }
             if (spectrumCard) spectrumCard.style.display = '';
 
-            // -- COVERAGE GAP (below 100% FPL in Florida) --
+            // -- BELOW 100% FPL --
             if (fplPercent < 100) {
                 priceHero.style.display = 'none';
                 breakdownEl.style.display = 'none';
                 resultNote.style.display = 'none';
                 if (metalGrid) metalGrid.style.display = 'none';
-                statusArea.innerHTML =
-                    '<div class="status-message gap">' +
-                    '<strong>Coverage Gap (' + Math.round(fplPercent) + '% FPL)</strong>' +
-                    'Your income is below 100% of the Federal Poverty Level (' + fmt(fpl) + ' for a household of ' + householdSize + '). Florida has not expanded Medicaid, ' +
-                    'so this illustration does not show an estimated premium tax credit. Use the official Marketplace application and Florida eligibility pathways for a determination.' +
-                    '</div>';
+                updateMetalTierCards(benchmarkMonthly, tobaccoSurcharge, 0, fplPercent);
+                updateModalLiveSummary(
+                    'Verify MAGI',
+                    fmt(fpl) + ' = 100% FPL',
+                    Math.round(fplPercent) + '% FPL (' + st.code + ')'
+                );
+                if (st.info.expanded) {
+                    statusArea.innerHTML =
+                        '<div class="status-message gap">' +
+                        '<strong>Medicaid Expansion Zone (' + Math.round(fplPercent) + '% FPL in ' + st.info.name + ')</strong>' +
+                        'Your projected income is below 100% of the Federal Poverty Level (' + fmt(fpl) + ' for a household of ' + householdSize + '). Because ' + st.info.name + ' has expanded Medicaid up to 138% FPL (' + fmt(Math.round(fpl * 1.38)) + '), households in this range are typically routed to state Medicaid rather than Marketplace premium tax credits.' +
+                        '</div>';
+                } else {
+                    statusArea.innerHTML =
+                        '<div class="status-message gap">' +
+                        '<strong>Coverage Gap (' + Math.round(fplPercent) + '% FPL in ' + st.info.name + ')</strong>' +
+                        'Your projected income is below 100% of the Federal Poverty Level (' + fmt(fpl) + ' for a household of ' + householdSize + '). ' + st.info.name + ' has not expanded Medicaid, ' +
+                        'so standard Marketplace premium tax credits begin at 100% FPL (' + fmt(fpl) + '). Use the official Marketplace application or request a 2027 MAGI review below.' +
+                        '</div>';
+                }
                 return;
             }
 
             // -- SUBSIDY CLIFF (above 400% FPL) --
             if (fplPercent > 400) {
                 var fullPremium = benchmarkMonthly + tobaccoSurcharge;
+                var fullBronze = (benchmarkMonthly * 0.76) + tobaccoSurcharge;
                 priceHero.style.display = '';
                 priceHero.classList.remove('zero-premium');
                 breakdownEl.style.display = '';
@@ -2716,6 +2983,11 @@
                     '</div>';
                 updateMetalTierCards(benchmarkMonthly, tobaccoSurcharge, 0, fplPercent);
                 updateBreakdown(age, benchmarkMonthly, fplPercent, 0, 0, 0, fullPremium);
+                updateModalLiveSummary(
+                    '$0/mo (>400% FPL)',
+                    fmt(fullPremium) + ' / ' + fmt(fullBronze) + ' mo',
+                    Math.round(fplPercent) + '% FPL · ' + st.code
+                );
                 return;
             }
 
@@ -2726,6 +2998,7 @@
             var subsidyMonthly = Math.max(0, benchmarkMonthly - expectedContribMonthly);
             var subsidyAnnual = subsidyMonthly * 12;
             var netPremium = Math.max(0, benchmarkMonthly + tobaccoSurcharge - subsidyMonthly);
+            var netBronzeEst = Math.max(0, (benchmarkMonthly * 0.76) + tobaccoSurcharge - subsidyMonthly);
 
             priceHero.style.display = '';
             breakdownEl.style.display = '';
@@ -2741,6 +3014,12 @@
             document.getElementById('hero-monthly-aptc').textContent = fmt(subsidyMonthly) + '/mo';
             document.getElementById('hero-annual-aptc').textContent = fmt(subsidyAnnual) + '/yr';
             document.getElementById('hero-tier-badge').textContent = Math.round(fplPercent) + '% FPL (' + shortTier + ')';
+
+            updateModalLiveSummary(
+                fmt(subsidyMonthly) + '/mo (' + fmt(subsidyAnnual) + '/yr)',
+                fmt(netPremium) + ' Silver / ' + fmt(netBronzeEst) + ' Bronze',
+                Math.round(fplPercent) + '% FPL (' + shortTier + ' · ' + st.code + ')'
+            );
 
             if (csrCallout && fplPercent >= 100 && fplPercent <= 250) {
                 var csrTier = fplPercent <= 150
@@ -2769,7 +3048,7 @@
             // tobacco, FPL, subsidy, and premium values stay in this browser.
             if (isUserAction && !_estimatorCompleteTracked && window.LHI && typeof window.LHI.track === 'function') {
                 _estimatorCompleteTracked = true;
-                window.LHI.track('EstimatorComplete', { content_name: 'lakeland_2027_estimator' });
+                window.LHI.track('EstimatorComplete', { content_name: 'aca_2027_estimator' });
             }
         }
 
@@ -2837,64 +3116,141 @@
             incSliderEl.addEventListener('change', onIncSlide);
         }
 
-        var LICENSED_STATES_2027 = {
-            FL: { name: 'Florida', expanded: false },
-            AL: { name: 'Alabama', expanded: false },
-            AZ: { name: 'Arizona', expanded: true },
-            GA: { name: 'Georgia', expanded: false },
-            IA: { name: 'Iowa', expanded: true },
-            IN: { name: 'Indiana', expanded: true },
-            KS: { name: 'Kansas', expanded: false },
-            LA: { name: 'Louisiana', expanded: true },
-            MD: { name: 'Maryland', expanded: true },
-            MI: { name: 'Michigan', expanded: true },
-            MO: { name: 'Missouri', expanded: true },
-            MS: { name: 'Mississippi', expanded: false },
-            NC: { name: 'North Carolina', expanded: true },
-            NE: { name: 'Nebraska', expanded: true },
-            NJ: { name: 'New Jersey', expanded: true },
-            OH: { name: 'Ohio', expanded: true },
-            OK: { name: 'Oklahoma', expanded: true },
-            SC: { name: 'South Carolina', expanded: false },
-            TN: { name: 'Tennessee', expanded: false },
-            TX: { name: 'Texas', expanded: false },
-            VA: { name: 'Virginia', expanded: true },
-            WA: { name: 'Washington', expanded: true },
-            WV: { name: 'West Virginia', expanded: true }
-        };
+        var _resultsUnlocked = false;
+        var _softGateShownOnce = false;
 
         function syncSelectedStateContext() {
-            var stateSelect = document.getElementById('applicant-state');
-            var code = (stateSelect && stateSelect.value) ? stateSelect.value.toUpperCase() : 'FL';
-            var info = LICENSED_STATES_2027[code] || LICENSED_STATES_2027.FL;
+            var st = getSelectedStateInfo();
+            var code = st.code;
+            var info = st.info;
             var badge = document.getElementById('state-rule-badge');
             if (badge) {
-                badge.textContent = code + ' · ' + (info.expanded ? 'Medicaid Expansion (138% FPL Floor)' : 'Non-Expansion (100% FPL Floor)');
+                badge.textContent = code + ' · ' + (info.expanded ? 'Medicaid Expansion (138% FPL)' : 'Non-Expansion (100% FPL Floor)');
             }
             var stateHidden = document.getElementById('acaSoftGateState');
             var covStateHidden = document.getElementById('acaSoftGateCoverageState');
             if (stateHidden) stateHidden.value = code;
             if (covStateHidden) covStateHidden.value = code;
 
-            var quoteBtn = document.getElementById('get-exact-quote-btn');
-            if (quoteBtn) {
-                quoteBtn.textContent = code === 'FL' ? 'Request a Florida ACA Review' : 'Request a ' + info.name + ' (' + code + ') 2027 ACA Review';
+            var unlockHeading = document.getElementById('unlock-banner-heading');
+            if (unlockHeading) {
+                unlockHeading.textContent = 'Your 2027 ' + info.name + ' Tax Credit & Metal-Tier Match Are Ready';
             }
+
+            var readyBadge = document.getElementById('acaSoftGateReadyBadge');
+            if (readyBadge) {
+                readyBadge.textContent = '\u2713 Your 2027 ' + info.name + ' Subsidy Estimate Is Ready';
+            }
+
             var modalTitle = document.getElementById('acaSoftGateTitle');
             if (modalTitle) {
-                modalTitle.textContent = code === 'FL'
-                    ? 'Want Your 2027 Polk Carrier & Doctor Breakdown — or Schedule a 10-Min Review?'
-                    : 'Want Your 2027 ' + info.name + ' Carrier & Doctor Breakdown — or Schedule a 10-Min Review?';
+                modalTitle.textContent = 'Want the 2027 ' + info.name + ' Plans & Doctor Networks That Match This Estimate?';
             }
-            return { code: code, info: info };
+
+            var modalSub = document.getElementById('acaSoftGateSub');
+            if (modalSub) {
+                modalSub.textContent = 'Optional: Have David Huff (Licensed Agent \u00b7 NPN #18213932) text or call you with the exact 2027 ' + info.name + ' Marketplace plan IDs for your ZIP code and doctors, or view the full breakdown below. Calculator inputs stay in your browser.';
+            }
+
+            var timeTextOpt = document.getElementById('acaSoftGateTimeTextOpt');
+            if (timeTextOpt) {
+                var optLabel = 'Text me my 2027 ' + info.name + ' Carrier & Doctor Breakdown first';
+                timeTextOpt.value = optLabel;
+                timeTextOpt.textContent = optLabel;
+            }
+
+            var reopenBtn = document.getElementById('reopen-soft-gate-btn');
+            if (reopenBtn) {
+                reopenBtn.innerHTML = 'Request My 2027 ' + info.name + ' Carrier Breakdown / Schedule 10-Min Review &rarr;';
+            }
+
+            var calcBtnEl = document.getElementById('calculate-estimate-btn');
+            if (calcBtnEl && _resultsUnlocked) {
+                calcBtnEl.innerHTML = 'Get My 2027 ' + info.name + ' Plan &amp; Doctor Breakdown &rarr;';
+            }
+
+            var quoteBtn = document.getElementById('get-exact-quote-btn');
+            if (quoteBtn) {
+                quoteBtn.textContent = 'Request a 2027 ' + info.name + ' (' + code + ') ACA Plan Review';
+            }
+
+            var smsHref = 'sms:+18636403102?body=' + encodeURIComponent('Hi David, can you help me review my 2027 ACA Marketplace options in ' + info.name + '?');
+            ['estimator-bottom-sms-btn', 'estimator-cta-band-sms-btn', 'acaSoftGateDirectSms'].forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.setAttribute('href', smsHref);
+            });
+
+            var countySec = document.getElementById('county-carrier-preview-section');
+            if (countySec) {
+                countySec.hidden = (code !== 'FL');
+            }
+
+            return st;
+        }
+
+        function handleZipSync(rawVal, sourceId) {
+            var digits = String(rawVal || '').replace(/\D/g, '').slice(0, 5);
+            var calcZipEl = document.getElementById('estimator-zip-helper');
+            var formZipEl = document.getElementById('acaSoftGateZip');
+            var zipBadge = document.getElementById('zip-detect-badge');
+            var stateSelect = document.getElementById('applicant-state');
+
+            if (sourceId !== 'estimator-zip-helper' && calcZipEl && digits.length === 5) {
+                calcZipEl.value = digits;
+            }
+            if (sourceId !== 'acaSoftGateZip' && formZipEl && digits.length === 5) {
+                formZipEl.value = digits;
+            }
+
+            if (digits.length === 5) {
+                var detected = zipToStateCode23(digits);
+                if (detected && LICENSED_STATES_2027[detected]) {
+                    if (stateSelect && stateSelect.value !== detected) {
+                        stateSelect.value = detected;
+                    }
+                    if (zipBadge) {
+                        zipBadge.textContent = '\u2713 ZIP ' + digits + ' \u2192 ' + detected;
+                    }
+                    syncSelectedStateContext();
+                    runCalculation(true);
+                } else if (zipBadge) {
+                    zipBadge.textContent = 'ZIP ' + digits;
+                }
+            } else if (zipBadge) {
+                zipBadge.textContent = 'Auto-sets state';
+            }
+        }
+
+        var calcZipHelperEl = document.getElementById('estimator-zip-helper');
+        if (calcZipHelperEl) {
+            ['input', 'change'].forEach(function(evt) {
+                calcZipHelperEl.addEventListener(evt, function() {
+                    var clean = this.value.replace(/\D/g, '').slice(0, 5);
+                    if (this.value !== clean) this.value = clean;
+                    handleZipSync(clean, 'estimator-zip-helper');
+                });
+            });
+        }
+
+        var softGateZipEl = document.getElementById('acaSoftGateZip');
+        if (softGateZipEl) {
+            ['input', 'change'].forEach(function(evt) {
+                softGateZipEl.addEventListener(evt, function() {
+                    handleZipSync(this.value, 'acaSoftGateZip');
+                });
+            });
         }
 
         var stateSelectEl = document.getElementById('applicant-state');
         if (stateSelectEl) {
             try {
-                var qsState = new URLSearchParams(window.location.search || '').get('state');
+                var sp = new URLSearchParams(window.location.search || '');
+                var qsState = sp.get('state');
+                var qsZip = sp.get('zip_code');
                 if (qsState && LICENSED_STATES_2027[qsState.trim().toUpperCase()]) {
                     stateSelectEl.value = qsState.trim().toUpperCase();
+                } else if (qsZip) {
+                    handleZipSync(qsZip, 'query');
                 }
             } catch (e) {}
             syncSelectedStateContext();
@@ -2977,12 +3333,9 @@
             });
         });
 
-        // Explicit Calculate / Update button + Soft-Gate Appointment Modal
-        var _resultsUnlocked = false;
-        var _softGateShownOnce = false;
-
         function unlockEstimatorResults() {
             _resultsUnlocked = true;
+            var st = getSelectedStateInfo();
             var liveResultsEl = document.getElementById('live-results');
             var unlockBannerEl = document.getElementById('estimator-unlock-banner');
             var calcBtnEl = document.getElementById('calculate-estimate-btn');
@@ -2994,13 +3347,45 @@
             }
             if (calcBtnEl) {
                 calcBtnEl.classList.remove('ready-pulse');
-                calcBtnEl.innerHTML = 'Update 2027 Estimate';
+                calcBtnEl.innerHTML = 'Get My 2027 ' + st.info.name + ' Plan &amp; Doctor Breakdown &rarr;';
             }
         }
 
-        function openSoftGateModal() {
+        function dockFormPanelToModal() {
+            var modalMount = document.getElementById('acaSoftGateModalFormMount');
+            var formPanel = document.getElementById('acaSoftGateFormPanel');
+            var inlineSlot = document.getElementById('inline-estimator-lead-slot');
+            var reopenBtn = document.getElementById('reopen-soft-gate-btn');
+            if (modalMount && formPanel && formPanel.parentElement !== modalMount) {
+                modalMount.appendChild(formPanel);
+            }
+            if (inlineSlot) inlineSlot.hidden = true;
+            if (reopenBtn) reopenBtn.hidden = false;
+        }
+
+        function dockFormPanelInline() {
+            var inlineSlot = document.getElementById('inline-estimator-lead-slot');
+            var formPanel = document.getElementById('acaSoftGateFormPanel');
+            var reopenBtn = document.getElementById('reopen-soft-gate-btn');
+            if (inlineSlot && formPanel) {
+                inlineSlot.appendChild(formPanel);
+                inlineSlot.hidden = false;
+                if (reopenBtn) reopenBtn.hidden = true;
+            }
+        }
+
+        function openSoftGateModal(ctaKey, planInterest) {
             var modal = document.getElementById('acaEstimatorSoftGateModal');
             if (!modal) return;
+            dockFormPanelToModal();
+            if (ctaKey) {
+                var ctaEl = document.getElementById('acaSoftGateCtaKey');
+                if (ctaEl) ctaEl.value = ctaKey;
+            }
+            if (planInterest) {
+                var planEl = document.getElementById('acaSoftGatePlanInterest');
+                if (planEl) planEl.value = planInterest;
+            }
             modal.hidden = false;
             document.body.style.overflow = 'hidden';
             var nameField = document.getElementById('acaSoftGateName');
@@ -3018,6 +3403,7 @@
             }
             document.body.style.overflow = '';
             unlockEstimatorResults();
+            dockFormPanelInline();
             if (scrollToResults) {
                 var resultsTarget = document.getElementById('live-results');
                 if (resultsTarget && typeof resultsTarget.scrollIntoView === 'function') {
@@ -3035,18 +3421,8 @@
             unlockEstimatorResults();
             document.getElementById('breakdown-toggle').classList.add('open');
             document.getElementById('breakdown-body').classList.add('open');
-
-            if (!_softGateShownOnce) {
-                _softGateShownOnce = true;
-                openSoftGateModal();
-            } else {
-                var resultsTarget = document.getElementById('live-results');
-                if (resultsTarget && typeof resultsTarget.scrollIntoView === 'function') {
-                    try {
-                        resultsTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    } catch (e) {}
-                }
-            }
+            _softGateShownOnce = true;
+            openSoftGateModal('estimator_calculate_btn');
         }
 
         var calcBtn = document.getElementById('calculate-estimate-btn');
@@ -3062,9 +3438,16 @@
         var reopenSoftGateBtn = document.getElementById('reopen-soft-gate-btn');
         if (reopenSoftGateBtn) {
             reopenSoftGateBtn.addEventListener('click', function() {
-                openSoftGateModal();
+                openSoftGateModal('estimator_strategy_callout');
             });
         }
+
+        document.querySelectorAll('.metal-card-cta').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var tier = this.getAttribute('data-metal-tier') || '2027 ACA Marketplace Plan';
+                openSoftGateModal('estimator_metal_tier_card', tier);
+            });
+        });
 
         var softGateCloseBtn = document.getElementById('acaSoftGateCloseBtn');
         if (softGateCloseBtn) {

@@ -25,6 +25,7 @@ This inventory is the reviewed browser-tracking boundary. A page must appear bel
 - `/blog/switch-to-medigap-plan-g-non-renewal.html`
 - `/blog/medicare-advantage-plan-ending-what-now.html`
 - `/blog/medicare-part-b-giveback-polk-county.html`
+- `/blog/aca-subsidy-income-limits-florida-2027.html`
 - `/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/`
 
 These routes are eligible only under the isolation boundary: the loader sends a load-time standard `PageView` after privacy gates pass (default-allow until opt-out), never reads or listens to form fields, and Meta automatic matching, automatic events, and automatic configuration remain disabled. Denied, uncertain, GPC, and DNT states remain fail-closed.

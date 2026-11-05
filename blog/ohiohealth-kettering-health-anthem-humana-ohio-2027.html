@@ -1220,12 +1220,8 @@
             });
           }
 
-          if (typeof window.fbq === 'function') {
-            window.fbq('track', 'Lead', {
-              content_name: 'Ohio 2027 Hospital Network Check',
-              content_category: formData.get('coverage_type') || 'ohio_network_review',
-              state: 'OH'
-            });
+          if (typeof window.lhiTrackMetaFormSubmitComplete === 'function') {
+            window.lhiTrackMetaFormSubmitComplete();
           }
 
           window.location.href = form.getAttribute('action');
