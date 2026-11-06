@@ -268,8 +268,8 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
 test('ACA pricing CTA reaches the quote actions without legacy router language', () => {
   assert.match(ACA, /href="\/quote\/">Get pricing or start a review<\/a>/);
   assert.doesNotMatch(ACA, /coverage router/i);
-  assert.match(ACA, /"dateModified": "2026-10-10"/);
-  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/aca-health-insurance-lakeland-fl\/<\/loc>\s*<lastmod>2026-10-10<\/lastmod>/);
+  assert.match(ACA, /"dateModified": "2026-11-04"/);
+  assert.match(SITEMAP, /<loc>https:\/\/lakelandhealthinsurance\.com\/aca-health-insurance-lakeland-fl\/<\/loc>\s*<lastmod>2026-11-04<\/lastmod>/);
 });
 
 test('private medical insurance route separates product categories and keeps intake privacy-minimized', () => {
@@ -300,7 +300,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 309);
+  assert.equal(templateConsumers.length, 319);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_PHONE_LOADER), true, `${relative(ROOT, file)} loads the shared phone config before site chrome`);
@@ -388,6 +388,7 @@ test('Wave 3, Wave 4 & Wave 5 2027 hospital network guides include No Surprises 
     'blog/md-anderson-cancer-center-houston-aca-medicare-2027.html',
     'blog/ut-southwestern-parkland-children-dallas-2027.html',
     'blog/cleveland-clinic-uh-case-western-ohio-2027.html',
+    'blog/adventhealth-unitedhealthcare-florida-2027.html',
   ];
   const reciprocalSiblingFiles = [
     'blog/atrium-health-novant-health-aca-north-carolina-2027.html',

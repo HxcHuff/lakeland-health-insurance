@@ -1839,6 +1839,12 @@ const siteSearchIndex = [
     url: "/local-health-insurance-answers/bartow-auburndale-lake-wales-aca-health-insurance-2027/",
     excerpt: "Compare 2027 ACA Marketplace plans and hospital networks in Bartow (33830), Auburndale (33823), Lake Wales (33853, 33859, 33898), and Mulberry (33860).",
     tags: ["ACA","Bartow","Auburndale","Lake Wales","Mulberry","BayCare Bartow Regional","AdventHealth Lake Wales","Watson Clinic Bartow","Polk County","2027"]
+  },
+  {
+    title: "AdventHealth & UnitedHealthcare in Florida (2027): Patient & Directory Guide",
+    url: "/blog/adventhealth-unitedhealthcare-florida-2027.html",
+    excerpt: "What the December 31, 2026 AdventHealth and UnitedHealthcare Florida contract deadline means for AdventHealth Heart of Florida, Lake Wales, Bond Clinic, Orlando, Tampa, and Centra Care patients in 2027.",
+    tags: ["AdventHealth","UnitedHealthcare","UHC","Heart of Florida","Bond Clinic","AdventHealth Lake Wales","AdventHealth Orlando","AdventHealth Tampa","Centra Care","Medicare","ACA","Polk County","Florida","2027"]
   }
 ];
 
