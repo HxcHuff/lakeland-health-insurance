@@ -538,6 +538,7 @@ const LP_COMMON_FIELDS = [
   'coverage_state',
   'best_time_to_reach',
   'coverage_status',
+  'providers',
   'consent',
   'source_page',
   'consent_text_version',
@@ -852,7 +853,13 @@ function canonicalizeMedicareAttribution(payload) {
 
 function minimizeGetHelpPayload(payload) {
   if (payload['form-name'] !== 'get-help' || payload.normalized_intent !== 'medicare') return payload;
-  MEDICARE_GENERAL_INTAKE_EXCLUDED_FIELDS.forEach((field) => delete payload[field]);
+  const preserveProviders =
+    payload.source_page_key === 'medicare-2027-check' ||
+    payload.source_page_key === 'medicare_2027_check';
+  MEDICARE_GENERAL_INTAKE_EXCLUDED_FIELDS.forEach((field) => {
+    if (preserveProviders && field === 'providers') return;
+    delete payload[field];
+  });
   return payload;
 }
 
