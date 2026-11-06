@@ -230,14 +230,16 @@
 <section class="lhi-lead-hero lhi-hero-grid-lead" id="lhi-lead-hero" data-variant="aca" data-form-name="site-aca-lead" data-source-template="blog_post" aria-labelledby="blog_nebraska_medicine_chi_health_bryan_-lead-title">
   <div class="lhi-lead-hero__grid">
     <div class="lhi-lead-hero__intro">
-      <h2 class="lhi-lead-hero__title" id="blog_nebraska_medicine_chi_health_bryan_-lead-title">Get a Marketplace plan comparison</h2>
-      <p class="lhi-lead-hero__note">Share a few details and David Huff, licensed Florida health agent, will follow up. This is not enrollment.</p>
+      <h2 class="lhi-lead-hero__title" id="blog_nebraska_medicine_chi_health_bryan_-lead-title">Check your Nebraska Medicine, CHI Health, or Bryan Health doctors for 2027</h2>
+      <p class="lhi-lead-hero__note">Enter your Nebraska ZIP code and the Nebraska Medicine, CHI Health, or Bryan Health hospitals or doctors you want to keep for a 2027 Medicare or Marketplace network check with David Huff (Licensed Nebraska Health Agent · NPN #18213932). A review is not enrollment.</p>
     </div>
     <div class="lhi-lead-hero__card" id="lhi-site-lead-form">
       <form class="lhi-lead-hero__form" name="site-aca-lead" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field" id="blog_nebraska_medicine_chi_health_bryan_Form" data-lhi-site-lead-form data-funnel-track data-funnel-event="Lead" data-funnel-name="site_blog_aca_lead" aria-label="Get a Marketplace plan comparison">
         <input type="hidden" name="form-name" value="site-aca-lead">
         <input type="hidden" name="source_page" value="/blog/nebraska-medicine-chi-health-bryan-health-nebraska-2027.html">
         <input type="hidden" name="source_template" value="blog_post">
+        <input type="hidden" name="coverage_state" value="NE">
+        <input type="hidden" name="state" value="NE">
         <input type="hidden" name="consent_text_version" value="site-aca-2026-10-v1">
         <input type="hidden" name="utm_source" id="blog_nebraska_medicine_chi_health_bryan__utm_source">
         <input type="hidden" name="utm_medium" id="blog_nebraska_medicine_chi_health_bryan__utm_medium">
@@ -280,10 +282,18 @@
             <label for="blog_nebraska_medicine_chi_health_bryan__coverage_status">Coverage type</label>
             <select id="blog_nebraska_medicine_chi_health_bryan__coverage_status" name="coverage_status" required>
                   <option value="" selected disabled>Select one</option>
-                  <option value="individual_marketplace">Individual Marketplace coverage</option>
-                  <option value="family_marketplace">Family Marketplace coverage</option>
-                  <option value="not_sure">Not sure yet</option>
+                  <option value="medicare_advantage">Medicare Advantage (Part C) — 2027 directory check</option>
+                  <option value="medicare_supplement">Original Medicare + Medigap (Plan G / Plan N)</option>
+                  <option value="individual_marketplace">Under-65 Individual Marketplace</option>
+                  <option value="family_marketplace">Under-65 Family Marketplace</option>
+                  <option value="current_plan_review">Doctor / Hospital network check (Nebraska Medicine, CHI Health, or Bryan Health)</option>
+                  <option value="losing_coverage">Retiring before 65 or losing employer coverage</option>
+                  <option value="not_sure">Not sure yet — compare my 2027 options</option>
             </select>
+          </div>
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label for="blog_nebraska_medicine_chi_health_bryan__providers">Doctors or hospitals to keep (optional)</label>
+            <input type="text" id="blog_nebraska_medicine_chi_health_bryan__providers" name="providers" autocomplete="off" placeholder="e.g. Nebraska Medicine, CHI Health, or Bryan Health">
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label class="lhi-lead-hero__consent" for="blog_nebraska_medicine_chi_health_bryan__consent">
