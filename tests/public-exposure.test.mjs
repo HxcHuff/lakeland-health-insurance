@@ -300,7 +300,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 323);
+  assert.equal(templateConsumers.length, 331);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_PHONE_LOADER), true, `${relative(ROOT, file)} loads the shared phone config before site chrome`);
@@ -389,6 +389,14 @@ test('Wave 3, Wave 4 & Wave 5 2027 hospital network guides include No Surprises 
     'blog/ut-southwestern-parkland-children-dallas-2027.html',
     'blog/cleveland-clinic-uh-case-western-ohio-2027.html',
     'blog/adventhealth-unitedhealthcare-florida-2027.html',
+    'blog/south-florida-baptist-hospital-plant-city-insurance-2027.html',
+    'blog/zephyrhills-wesley-chapel-florida-medical-clinic-adventhealth-2027.html',
+    'blog/orlando-health-watson-clinic-lakeland-highlands-hospital-2027.html',
+    'blog/hca-florida-poinciana-vs-adventhealth-heart-of-florida-2027.html',
+    'blog/why-florida-gold-plans-cost-less-than-silver-2027.html',
+    'blog/cheap-silver-plan-hospital-network-trap-florida-2027.html',
+    'blog/doctor-takes-insurance-but-plan-out-of-network-2027.html',
+    'blog/bartow-regional-medical-center-baycare-watson-clinic-2027.html',
   ];
   const reciprocalSiblingFiles = [
     'blog/atrium-health-novant-health-aca-north-carolina-2027.html',

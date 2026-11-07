@@ -1907,6 +1907,54 @@ const siteSearchIndex = [
       "Florida",
       "2027"
     ]
+  },
+  {
+    "title": "South Florida Baptist Hospital Insurance Accepted (2027)",
+    "url": "/blog/south-florida-baptist-hospital-plant-city-insurance-2027.html",
+    "excerpt": "Compare BayCare South Florida Baptist Hospital (Plant City) and cross-county Watson Clinic / LRH network rules for 2027.",
+    "tags": ["Plant City", "South Florida Baptist Hospital", "BayCare", "Hillsborough County", "Watson Clinic", "2027"]
+  },
+  {
+    "title": "Zephyrhills & Wesley Chapel Insurance Accepted (2027)",
+    "url": "/blog/zephyrhills-wesley-chapel-florida-medical-clinic-adventhealth-2027.html",
+    "excerpt": "Verify Florida Medical Clinic Orlando Health, AdventHealth Zephyrhills/Wesley Chapel, and BayCare Hospital Wesley Chapel for 2027.",
+    "tags": ["Zephyrhills", "Wesley Chapel", "Dade City", "Florida Medical Clinic", "AdventHealth", "BayCare", "2027"]
+  },
+  {
+    "title": "Orlando Health Lakeland Highlands Hospital 2027 Plans",
+    "url": "/blog/orlando-health-watson-clinic-lakeland-highlands-hospital-2027.html",
+    "excerpt": "How facility vs. physician split-billing works at 4000 Lakeland Highlands Rd for Watson Clinic and Orlando Health patients in 2027.",
+    "tags": ["Orlando Health", "Watson Clinic", "Lakeland Highlands Hospital", "Lakeland", "Polk County", "2027"]
+  },
+  {
+    "title": "HCA Poinciana vs AdventHealth Heart of Florida (2027)",
+    "url": "/blog/hca-florida-poinciana-vs-adventhealth-heart-of-florida-2027.html",
+    "excerpt": "Compare 2027 Polk vs. Osceola ZIP rules (34759 vs. 34758) for AdventHealth Heart of Florida, HCA Poinciana, and Horizon West.",
+    "tags": ["Poinciana", "Haines City", "Davenport", "Four Corners", "HCA Florida Poinciana", "AdventHealth", "2027"]
+  },
+  {
+    "title": "Why 2027 Florida Gold Plans Cost Less Than Silver",
+    "url": "/blog/why-florida-gold-plans-cost-less-than-silver-2027.html",
+    "excerpt": "Step-by-step guide to Silver Loading in Florida and why 200%–400% FPL households often pay less per month for Gold in 2027.",
+    "tags": ["Gold vs Silver", "Silver Loading", "ACA", "Marketplace", "Florida", "Polk County", "2027"]
+  },
+  {
+    "title": "Cheap Silver Plan Hospital Network Trap in Florida (2027)",
+    "url": "/blog/cheap-silver-plan-hospital-network-trap-florida-2027.html",
+    "excerpt": "Why saving $2 to $15/month on a look-alike Silver or Bronze plan in Florida can leave your local hospital out-of-network for 2027.",
+    "tags": ["Silver Plan", "Sub-Network", "Hospital Network", "ACA", "Marketplace", "Florida", "2027"]
+  },
+  {
+    "title": "Why Doctor Says We Take That Insurance & Still Denies",
+    "url": "/blog/doctor-takes-insurance-but-plan-out-of-network-2027.html",
+    "excerpt": "Why asking your doctor’s front desk if they take your carrier fails in 2027—and how to verify 10-digit NPIs and sub-networks.",
+    "tags": ["NPI Check", "Doctor Network", "Out of Network", "Watson Clinic", "Bond Clinic", "2027"]
+  },
+  {
+    "title": "Bartow Regional Medical Center Insurance Accepted (2027)",
+    "url": "/blog/bartow-regional-medical-center-baycare-watson-clinic-2027.html",
+    "excerpt": "How BayCare Bartow Regional Medical Center and Watson Clinic Bartow on Osprey Blvd contract separately for 2027 Medicare & ACA.",
+    "tags": ["Bartow", "Mulberry", "Fort Meade", "Bartow Regional Medical Center", "Watson Clinic Bartow", "BayCare", "2027"]
   }
 ];
 
