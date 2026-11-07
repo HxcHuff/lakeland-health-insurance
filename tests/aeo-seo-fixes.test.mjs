@@ -213,7 +213,7 @@ test('facility posts use one question for title, H1, and headline, without ellip
   const titles = {
     'blog/adventhealth-haines-city.html': 'Is the New Centra Care Haines City in My Plan?',
     'blog/centra-care-four-corners.html': 'Does Centra Care Four Corners Take My Insurance?',
-    'blog/lrh-physician-group-insurance.html': 'Is My Lakeland Regional Health Doctor in My Plan?',
+    'blog/lrh-physician-group-insurance.html': 'What Insurance Does LRH Physician Group Accept in 2027?',
   };
   for (const [rel, title] of Object.entries(titles)) {
     const html = source(rel);

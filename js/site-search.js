@@ -1845,6 +1845,68 @@ const siteSearchIndex = [
     url: "/blog/adventhealth-unitedhealthcare-florida-2027.html",
     excerpt: "What the December 31, 2026 AdventHealth and UnitedHealthcare Florida contract deadline means for AdventHealth Heart of Florida, Lake Wales, Bond Clinic, Orlando, Tampa, and Centra Care patients in 2027.",
     tags: ["AdventHealth","UnitedHealthcare","UHC","Heart of Florida","Bond Clinic","AdventHealth Lake Wales","AdventHealth Orlando","AdventHealth Tampa","Centra Care","Medicare","ACA","Polk County","Florida","2027"]
+  }  ,
+  {
+    "title": "Health ProtectorGuard Choice 1, Choice 3 & Choice Value Review (2027 Payouts)",
+    "url": "/blog/health-protector-guard-choice-1-choice-3-value-review.html",
+    "excerpt": "Compare UHOne Health ProtectorGuard Choice Value, Choice 1, Choice 2 & Choice 3 payout tables vs. Select 2000, Preferred 4000, Premier 5000 & Guard 4000.",
+    "tags": [
+      "Health ProtectorGuard",
+      "Choice 1",
+      "Choice 3",
+      "Choice Value",
+      "UHOne",
+      "Golden Rule",
+      "Fixed Indemnity",
+      "Florida",
+      "2027"
+    ]
+  }  ,
+  {
+    "title": "Orlando Health Insurance Accepted & Hospital Alternatives (2027 Central FL & Polk Guide)",
+    "url": "/blog/orlando-health-insurance-accepted-alternatives-2027.html",
+    "excerpt": "What insurance does Orlando Health accept in 2027, and what are the top hospital alternatives in Central Florida & Polk County? Compare ACA & Medicare.",
+    "tags": [
+      "Orlando Health",
+      "Orlando Health Alternatives",
+      "Insurance Accepted",
+      "AdventHealth",
+      "Lakeland Regional Health",
+      "BayCare",
+      "Watson Clinic",
+      "2027"
+    ]
+  }  ,
+  {
+    "title": "Do You Have to Renew Medicare Every Year? (2027 Florida Guide)",
+    "url": "/blog/do-you-have-to-renew-medicare-every-year-florida.html",
+    "excerpt": "Do you have to renew Medicare every year? See how Original Medicare (Parts A & B), Medicare Advantage, Part D ($2,400 cap) & Medigap auto-renew for 2027.",
+    "tags": [
+      "Medicare",
+      "Renew Medicare",
+      "Auto-Renewal",
+      "ANOC",
+      "Medicare Advantage",
+      "Part D",
+      "Medigap",
+      "Lakeland",
+      "Florida",
+      "2027"
+    ]
+  }  ,
+  {
+    "title": "Premier Advantage Fixed Indemnity & TriTerm vs. Health ProtectorGuard (2027 FL Review)",
+    "url": "/blog/premier-advantage-fixed-indemnity-vs-health-protector-guard-florida.html",
+    "excerpt": "Compare Premier Advantage fixed indemnity & TriTerm Medical vs. UHOne Health ProtectorGuard in Florida: daily hospital cash payouts, caps, and ACA options.",
+    "tags": [
+      "Premier Advantage",
+      "Fixed Indemnity",
+      "TriTerm Medical",
+      "Short Term Medical Plus Elite",
+      "Health ProtectorGuard",
+      "Florida",
+      "2027"
+    ]
   }
 ];
 

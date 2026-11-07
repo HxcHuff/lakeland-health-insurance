@@ -14,14 +14,14 @@ function html() {
 
 test('T12 retiring-and-medicare-lakeland-fl page metadata and hero', () => {
   const source = html();
-  assert.match(source, /<title>Retiring in Lakeland, FL and Need Medicare\? What to Do and When<\/title>/);
+  assert.match(source, /<title>Retiring &amp; Medicare in Lakeland, FL \(2027 Enrollment Guide\)<\/title>/);
   assert.match(
     source,
     /<h1>Retiring in Lakeland and Need Medicare: What to Do, Step by Step<\/h1>/
   );
   assert.match(
     source,
-    /name="description" content="Retiring in Lakeland, FL\? Learn when to enroll in Medicare, how to time Part B with your employer plan, and how to compare options in Polk County\."/
+    /name="description" content="Retiring in Lakeland or Polk County\? See the 8-month Part B Special Enrollment window, employer Form CMS-L564 rules, COBRA traps, and 2027 doctor checks\."/
   );
   assert.match(source, /rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/retiring-and-medicare-lakeland-fl\/"/);
   assert.match(source, /answer-pages\.css\?v=20261030-step1-cache-bust-v1/);
