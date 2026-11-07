@@ -26,7 +26,29 @@
   <link rel="stylesheet" href="/css/lead-hero.css?v=20261030-step1-cache-bust-v1">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
-  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
+  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @media (max-width: 768px) {
+      .table-wrap { border:0; background:transparent; overflow-x:visible; }
+      .table-wrap table { min-width:0; display:block; }
+      .table-wrap thead { display:none; }
+      .table-wrap tbody { display:grid; gap:14px; }
+      .table-wrap tr { display:block; background:#fff; border:1px solid #E2E8F0; border-left:4px solid #1B2A4A; border-radius:14px; padding:14px 16px; box-shadow:0 4px 14px rgba(15,23,42,0.05); }
+      .table-wrap tr:nth-child(even) td { background:transparent; }
+      .table-wrap td { display:block; min-width:0 !important; padding:8px 0; border-bottom:1px solid #E2E8F0; font-size:0.95rem; }
+      .table-wrap td:first-child { padding-top:0; font-size:1.03rem; color:#1B2A4A; }
+      .table-wrap td:last-child { border-bottom:0; padding-bottom:0; }
+      .table-wrap td[data-label]::before {
+        content:attr(data-label);
+        display:block;
+        font-size:0.75rem;
+        font-weight:800;
+        text-transform:uppercase;
+        letter-spacing:0.05em;
+        color:#475569;
+        margin-bottom:3px;
+      }
+    }
+  </style>
 
   <script type="application/ld+json">
 {
@@ -268,12 +290,12 @@
         <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <label for="blog_how_to_read_2027_medicare_anoc_let_full_name">Name</label>
-            <input type="text" id="blog_how_to_read_2027_medicare_anoc_let_full_name" name="full_name" required autocomplete="name">
+            <label for="blog_how_to_read_2027_medicare_anoc_let_full_name">Your Full Name</label>
+            <input type="text" id="blog_how_to_read_2027_medicare_anoc_let_full_name" name="full_name" required autocomplete="name" placeholder="Your first &amp; last name (not your doctor's name)">
           </div>
           <div class="lhi-lead-hero__field">
-            <label for="blog_how_to_read_2027_medicare_anoc_let_phone">Phone</label>
-            <input type="tel" id="blog_how_to_read_2027_medicare_anoc_let_phone" name="phone" required autocomplete="tel">
+            <label for="blog_how_to_read_2027_medicare_anoc_let_phone">Your Phone Number</label>
+            <input type="tel" id="blog_how_to_read_2027_medicare_anoc_let_phone" name="phone" required autocomplete="tel" placeholder="Your cell or home phone">
           </div>
           <div class="lhi-lead-hero__field">
             <label for="blog_how_to_read_2027_medicare_anoc_let_zip_code">ZIP code</label>
@@ -290,7 +312,11 @@
                   <option value="not_sure">Not sure yet</option>
             </select>
           </div>
-          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+                    <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label for="blog_how_to_read_2027_medicare_anoc_let_providers">Doctors or hospitals to keep (optional)</label>
+            <input type="text" id="blog_how_to_read_2027_medicare_anoc_let_providers" name="providers" autocomplete="off" placeholder="e.g. your primary care doctor, specialist, or hospital campus">
+          </div>
+<div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label class="lhi-lead-hero__consent" for="blog_how_to_read_2027_medicare_anoc_let_consent">
               <input type="checkbox" id="blog_how_to_read_2027_medicare_anoc_let_consent" name="consent" value="yes">
               <span>By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my Medicare request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
@@ -334,34 +360,34 @@
             </thead>
             <tbody>
               <tr>
-                <td><strong>1. Monthly Plan Premium &amp; Part B Giveback</strong></td>
-                <td>Check whether the plan premium stayed $0 or increased, and whether any Part B premium reduction ("giveback") shrank or ended for 2027.</td>
-                <td>Several Florida plans reduced Part B givebacks for 2027, which directly changes your net Social Security check. See our <a href="/blog/medicare-part-b-giveback-polk-county.html">Polk County Part B Giveback Guide</a>.</td>
+                <td data-label="ANOC Section"><strong>1. Monthly Plan Premium &amp; Part B Giveback</strong></td>
+                <td data-label="What to Look For (2026 vs. 2027 Column)">Check whether the plan premium stayed $0 or increased, and whether any Part B premium reduction ("giveback") shrank or ended for 2027.</td>
+                <td data-label="Why It Matters in Polk County">Several Florida plans reduced Part B givebacks for 2027, which directly changes your net Social Security check. See our <a href="/blog/medicare-part-b-giveback-polk-county.html">Polk County Part B Giveback Guide</a>.</td>
               </tr>
               <tr>
-                <td><strong>2. Maximum Out-of-Pocket (MOOP)</strong></td>
-                <td>Compare your 2026 vs. 2027 in-network (and combined PPO) Maximum Out-of-Pocket cap.</td>
-                <td>Your MOOP is your financial ceiling in a year with surgery, hospitalization, or Part B chemotherapy/infusions.</td>
+                <td data-label="ANOC Section"><strong>2. Maximum Out-of-Pocket (MOOP)</strong></td>
+                <td data-label="What to Look For (2026 vs. 2027 Column)">Compare your 2026 vs. 2027 in-network (and combined PPO) Maximum Out-of-Pocket cap.</td>
+                <td data-label="Why It Matters in Polk County">Your MOOP is your financial ceiling in a year with surgery, hospitalization, or Part B chemotherapy/infusions.</td>
               </tr>
               <tr>
-                <td><strong>3. Provider &amp; Hospital Directory</strong></td>
-                <td>Look for provider network notices affecting <strong>Watson Clinic</strong>, <strong>Lakeland Regional Health</strong>, <strong>Orlando Health Lakeland Highlands</strong>, <strong>BayCare Winter Haven</strong>, or <strong>Bond Clinic</strong>.</td>
-                <td>An ANOC booklet rarely lists every doctor that left the network—you must verify each physician NPI in the 2027 directory. See <a href="/blog/watson-clinic-humana-2027.html">Does Watson Clinic Accept Humana in 2027?</a></td>
+                <td data-label="ANOC Section"><strong>3. Provider &amp; Hospital Directory</strong></td>
+                <td data-label="What to Look For (2026 vs. 2027 Column)">Look for provider network notices affecting <strong>Watson Clinic</strong>, <strong>Lakeland Regional Health</strong>, <strong>Orlando Health Lakeland Highlands</strong>, <strong>BayCare Winter Haven</strong>, or <strong>Bond Clinic</strong>.</td>
+                <td data-label="Why It Matters in Polk County">An ANOC booklet rarely lists every doctor that left the network—you must verify each physician NPI in the 2027 directory. See <a href="/blog/watson-clinic-humana-2027.html">Does Watson Clinic Accept Humana in 2027?</a></td>
               </tr>
               <tr>
-                <td><strong>4. Inpatient Hospital &amp; Outpatient Surgery Copays</strong></td>
-                <td>Check days 1–5 or 1–7 daily hospital copays and ambulatory surgical center / outpatient hospital observation copays.</td>
-                <td>A plan with a $0 monthly premium can still raise inpatient hospital copays by $75–$150 per day for 2027.</td>
+                <td data-label="ANOC Section"><strong>4. Inpatient Hospital &amp; Outpatient Surgery Copays</strong></td>
+                <td data-label="What to Look For (2026 vs. 2027 Column)">Check days 1–5 or 1–7 daily hospital copays and ambulatory surgical center / outpatient hospital observation copays.</td>
+                <td data-label="Why It Matters in Polk County">A plan with a $0 monthly premium can still raise inpatient hospital copays by $75–$150 per day for 2027.</td>
               </tr>
               <tr>
-                <td><strong>5. Part D Drug Deductible &amp; Tier Structure</strong></td>
-                <td>Check if a new Part D drug deductible applies to Tiers 3, 4, and 5, or if Tier 3/4 switched from a flat copay to a percentage coinsurance.</td>
-                <td>Even with the 2027 Part D out-of-pocket cap, shifting a brand drug from a $47 copay to 25% coinsurance changes your monthly pharmacy bill.</td>
+                <td data-label="ANOC Section"><strong>5. Part D Drug Deductible &amp; Tier Structure</strong></td>
+                <td data-label="What to Look For (2026 vs. 2027 Column)">Check if a new Part D drug deductible applies to Tiers 3, 4, and 5, or if Tier 3/4 switched from a flat copay to a percentage coinsurance.</td>
+                <td data-label="Why It Matters in Polk County">Even with the 2027 Part D out-of-pocket cap, shifting a brand drug from a $47 copay to 25% coinsurance changes your monthly pharmacy bill.</td>
               </tr>
               <tr>
-                <td><strong>6. Dental, Vision, Hearing &amp; OTC Allowances</strong></td>
-                <td>Compare quarterly OTC/flex card amounts, annual comprehensive dental maximums, and dental network rules.</td>
-                <td>Many plans trimmed supplemental allowances or narrowed dental networks for 2027.</td>
+                <td data-label="ANOC Section"><strong>6. Dental, Vision, Hearing &amp; OTC Allowances</strong></td>
+                <td data-label="What to Look For (2026 vs. 2027 Column)">Compare quarterly OTC/flex card amounts, annual comprehensive dental maximums, and dental network rules.</td>
+                <td data-label="Why It Matters in Polk County">Many plans trimmed supplemental allowances or narrowed dental networks for 2027.</td>
               </tr>
             </tbody>
           </table>

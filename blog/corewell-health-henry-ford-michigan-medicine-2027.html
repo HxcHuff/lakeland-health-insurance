@@ -24,7 +24,29 @@
   <link rel="stylesheet" href="/css/lead-hero.css?v=20261030-step1-cache-bust-v1">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
-  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
+  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @media (max-width: 768px) {
+      .table-wrap { border:0; background:transparent; overflow-x:visible; }
+      .table-wrap table { min-width:0; display:block; }
+      .table-wrap thead { display:none; }
+      .table-wrap tbody { display:grid; gap:14px; }
+      .table-wrap tr { display:block; background:#fff; border:1px solid #E2E8F0; border-left:4px solid #1B2A4A; border-radius:14px; padding:14px 16px; box-shadow:0 4px 14px rgba(15,23,42,0.05); }
+      .table-wrap tr:nth-child(even) td { background:transparent; }
+      .table-wrap td { display:block; min-width:0 !important; padding:8px 0; border-bottom:1px solid #E2E8F0; font-size:0.95rem; }
+      .table-wrap td:first-child { padding-top:0; font-size:1.03rem; color:#1B2A4A; }
+      .table-wrap td:last-child { border-bottom:0; padding-bottom:0; }
+      .table-wrap td[data-label]::before {
+        content:attr(data-label);
+        display:block;
+        font-size:0.75rem;
+        font-weight:800;
+        text-transform:uppercase;
+        letter-spacing:0.05em;
+        color:#475569;
+        margin-bottom:3px;
+      }
+    }
+  </style>
 
       <script type="application/ld+json">
 {
@@ -384,12 +406,12 @@
         <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <label for="blog_corewell_health_henry_ford_michigan_full_name">Name</label>
-            <input type="text" id="blog_corewell_health_henry_ford_michigan_full_name" name="full_name" required autocomplete="name">
+            <label for="blog_corewell_health_henry_ford_michigan_full_name">Your Full Name</label>
+            <input type="text" id="blog_corewell_health_henry_ford_michigan_full_name" name="full_name" required autocomplete="name" placeholder="Your first &amp; last name (not your doctor's name)">
           </div>
           <div class="lhi-lead-hero__field">
-            <label for="blog_corewell_health_henry_ford_michigan_phone">Phone</label>
-            <input type="tel" id="blog_corewell_health_henry_ford_michigan_phone" name="phone" required autocomplete="tel">
+            <label for="blog_corewell_health_henry_ford_michigan_phone">Your Phone Number</label>
+            <input type="tel" id="blog_corewell_health_henry_ford_michigan_phone" name="phone" required autocomplete="tel" placeholder="Your cell or home phone">
           </div>
           <div class="lhi-lead-hero__field">
             <label for="blog_corewell_health_henry_ford_michigan_zip_code">ZIP code</label>
@@ -460,28 +482,28 @@
             </thead>
             <tbody>
               <tr>
-                <td><strong>Corewell Health (East &amp; West)</strong></td>
-                <td>Royal Oak, Troy, Dearborn, Grosse Pointe; Grand Rapids Butterworth, Blodgett &amp; Helen DeVos Children's</td>
-                <td>Priority Health, Blue Care Network (BCN) / BCBSM, select Molina and Ambetter tiers</td>
-                <td>Original Medicare + Medigap, Priority Health Medicare, BCBSM Medicare Advantage</td>
+                <td data-label="Michigan Health System"><strong>Corewell Health (East &amp; West)</strong></td>
+                <td data-label="Primary Campuses">Royal Oak, Troy, Dearborn, Grosse Pointe; Grand Rapids Butterworth, Blodgett &amp; Helen DeVos Children's</td>
+                <td data-label="2027 ACA Marketplace Access">Priority Health, Blue Care Network (BCN) / BCBSM, select Molina and Ambetter tiers</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap, Priority Health Medicare, BCBSM Medicare Advantage</td>
               </tr>
               <tr>
-                <td><strong>Henry Ford Health (incl. former Ascension SE MI)</strong></td>
-                <td>Henry Ford Detroit, West Bloomfield, Macomb, Jackson, St. John, Providence Southfield/Novi, Genesys</td>
-                <td>HAP (Health Alliance Plan), BCN / BCBSM, select Marketplace HMO sub-networks</td>
-                <td>Original Medicare + Medigap, HAP Medicare Advantage, BCBSM, and select PPOs</td>
+                <td data-label="Michigan Health System"><strong>Henry Ford Health (incl. former Ascension SE MI)</strong></td>
+                <td data-label="Primary Campuses">Henry Ford Detroit, West Bloomfield, Macomb, Jackson, St. John, Providence Southfield/Novi, Genesys</td>
+                <td data-label="2027 ACA Marketplace Access">HAP (Health Alliance Plan), BCN / BCBSM, select Marketplace HMO sub-networks</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap, HAP Medicare Advantage, BCBSM, and select PPOs</td>
               </tr>
               <tr>
-                <td><strong>Michigan Medicine (UM Health)</strong></td>
-                <td>Ann Arbor Academic Medical Center, UM Health-Sparrow (Lansing), UM Health-West (Kent County)</td>
-                <td>BCN / BCBSM, Priority Health, Physicians Health Plan (PHP) / regional tiers; verify Ann Arbor referral rules</td>
-                <td>Original Medicare + Medigap and contracted Medicare Advantage plans</td>
+                <td data-label="Michigan Health System"><strong>Michigan Medicine (UM Health)</strong></td>
+                <td data-label="Primary Campuses">Ann Arbor Academic Medical Center, UM Health-Sparrow (Lansing), UM Health-West (Kent County)</td>
+                <td data-label="2027 ACA Marketplace Access">BCN / BCBSM, Priority Health, Physicians Health Plan (PHP) / regional tiers; verify Ann Arbor referral rules</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap and contracted Medicare Advantage plans</td>
               </tr>
               <tr>
-                <td><strong>Trinity Health Michigan &amp; McLaren Health Care</strong></td>
-                <td>Trinity Health Ann Arbor, Livonia, Oakland (Pontiac), Grand Rapids, Muskegon; McLaren Flint, Macomb, Oakland, Greater Lansing</td>
-                <td>BCN / BCBSM, McLaren Health Plan, Priority Health, Ambetter, Molina</td>
-                <td>Original Medicare + Medigap and participating regional Medicare Advantage plans</td>
+                <td data-label="Michigan Health System"><strong>Trinity Health Michigan &amp; McLaren Health Care</strong></td>
+                <td data-label="Primary Campuses">Trinity Health Ann Arbor, Livonia, Oakland (Pontiac), Grand Rapids, Muskegon; McLaren Flint, Macomb, Oakland, Greater Lansing</td>
+                <td data-label="2027 ACA Marketplace Access">BCN / BCBSM, McLaren Health Plan, Priority Health, Ambetter, Molina</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap and participating regional Medicare Advantage plans</td>
               </tr>
             </tbody>
           </table>

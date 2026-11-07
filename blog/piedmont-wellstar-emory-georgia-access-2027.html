@@ -24,7 +24,29 @@
   <link rel="stylesheet" href="/css/lead-hero.css?v=20261030-step1-cache-bust-v1">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
-  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
+  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @media (max-width: 768px) {
+      .table-wrap { border:0; background:transparent; overflow-x:visible; }
+      .table-wrap table { min-width:0; display:block; }
+      .table-wrap thead { display:none; }
+      .table-wrap tbody { display:grid; gap:14px; }
+      .table-wrap tr { display:block; background:#fff; border:1px solid #E2E8F0; border-left:4px solid #1B2A4A; border-radius:14px; padding:14px 16px; box-shadow:0 4px 14px rgba(15,23,42,0.05); }
+      .table-wrap tr:nth-child(even) td { background:transparent; }
+      .table-wrap td { display:block; min-width:0 !important; padding:8px 0; border-bottom:1px solid #E2E8F0; font-size:0.95rem; }
+      .table-wrap td:first-child { padding-top:0; font-size:1.03rem; color:#1B2A4A; }
+      .table-wrap td:last-child { border-bottom:0; padding-bottom:0; }
+      .table-wrap td[data-label]::before {
+        content:attr(data-label);
+        display:block;
+        font-size:0.75rem;
+        font-weight:800;
+        text-transform:uppercase;
+        letter-spacing:0.05em;
+        color:#475569;
+        margin-bottom:3px;
+      }
+    }
+  </style>
 
       <script type="application/ld+json">
 {
@@ -404,12 +426,12 @@
         <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <label for="blog_piedmont_wellstar_emory_georgia_acc_full_name">Name</label>
-            <input type="text" id="blog_piedmont_wellstar_emory_georgia_acc_full_name" name="full_name" required autocomplete="name">
+            <label for="blog_piedmont_wellstar_emory_georgia_acc_full_name">Your Full Name</label>
+            <input type="text" id="blog_piedmont_wellstar_emory_georgia_acc_full_name" name="full_name" required autocomplete="name" placeholder="Your first &amp; last name (not your doctor's name)">
           </div>
           <div class="lhi-lead-hero__field">
-            <label for="blog_piedmont_wellstar_emory_georgia_acc_phone">Phone</label>
-            <input type="tel" id="blog_piedmont_wellstar_emory_georgia_acc_phone" name="phone" required autocomplete="tel">
+            <label for="blog_piedmont_wellstar_emory_georgia_acc_phone">Your Phone Number</label>
+            <input type="tel" id="blog_piedmont_wellstar_emory_georgia_acc_phone" name="phone" required autocomplete="tel" placeholder="Your cell or home phone">
           </div>
           <div class="lhi-lead-hero__field">
             <label for="blog_piedmont_wellstar_emory_georgia_acc_zip_code">Georgia ZIP code</label>
@@ -476,28 +498,28 @@
             </thead>
             <tbody>
               <tr>
-                <td><strong>Piedmont Healthcare</strong></td>
-                <td>Piedmont Atlanta, Fayette, Newnan, Mountainside, Athens Regional, Augusta, Macon, Columbus</td>
-                <td>Select Anthem BCBS Pathway, Ambetter of Peach State, Oscar, Alliant, and CareSource sub-networks (verify county tier)</td>
-                <td>Original Medicare + Medigap and contracted Medicare Advantage PPO/HMO plans</td>
+                <td data-label="Georgia Health System"><strong>Piedmont Healthcare</strong></td>
+                <td data-label="Major Campuses">Piedmont Atlanta, Fayette, Newnan, Mountainside, Athens Regional, Augusta, Macon, Columbus</td>
+                <td data-label="2027 Georgia Access ACA Networks">Select Anthem BCBS Pathway, Ambetter of Peach State, Oscar, Alliant, and CareSource sub-networks (verify county tier)</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap and contracted Medicare Advantage PPO/HMO plans</td>
               </tr>
               <tr>
-                <td><strong>Wellstar Health System</strong></td>
-                <td>Wellstar Kennestone (Marietta), Cobb, Paulding, Douglas, North Fulton (Roswell), Wellstar MCG Health (Augusta)</td>
-                <td>Participation varies by county and issuer; verify Wellstar Medical Group and hospital NPI before enrolling</td>
-                <td>Original Medicare + Medigap and participating Medicare Advantage plans</td>
+                <td data-label="Georgia Health System"><strong>Wellstar Health System</strong></td>
+                <td data-label="Major Campuses">Wellstar Kennestone (Marietta), Cobb, Paulding, Douglas, North Fulton (Roswell), Wellstar MCG Health (Augusta)</td>
+                <td data-label="2027 Georgia Access ACA Networks">Participation varies by county and issuer; verify Wellstar Medical Group and hospital NPI before enrolling</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap and participating Medicare Advantage plans</td>
               </tr>
               <tr>
-                <td><strong>Emory Healthcare</strong></td>
-                <td>Emory University Hospital, Emory Saint Joseph's, Emory Midtown, Johns Creek, Decatur, Winship Cancer Institute</td>
-                <td>Selective ACA HMO/EPO inclusion; verify both Emory Hospital facility and Emory Clinic faculty physicians</td>
-                <td>Original Medicare + Medigap and contracted Medicare Advantage plans</td>
+                <td data-label="Georgia Health System"><strong>Emory Healthcare</strong></td>
+                <td data-label="Major Campuses">Emory University Hospital, Emory Saint Joseph's, Emory Midtown, Johns Creek, Decatur, Winship Cancer Institute</td>
+                <td data-label="2027 Georgia Access ACA Networks">Selective ACA HMO/EPO inclusion; verify both Emory Hospital facility and Emory Clinic faculty physicians</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap and contracted Medicare Advantage plans</td>
               </tr>
               <tr>
-                <td><strong>Northside Hospital &amp; CHOA</strong></td>
-                <td>Northside Atlanta, Forsyth, Gwinnett, Cherokee; Children's Healthcare of Atlanta (Arthur M. Blank, Scottish Rite, Hughes Spalding)</td>
-                <td>Verify maternity (Northside) and pediatric specialty (CHOA) participation on your exact Georgia Access plan ID</td>
-                <td>Original Medicare + Medigap and select Medicare Advantage networks for Northside</td>
+                <td data-label="Georgia Health System"><strong>Northside Hospital &amp; CHOA</strong></td>
+                <td data-label="Major Campuses">Northside Atlanta, Forsyth, Gwinnett, Cherokee; Children's Healthcare of Atlanta (Arthur M. Blank, Scottish Rite, Hughes Spalding)</td>
+                <td data-label="2027 Georgia Access ACA Networks">Verify maternity (Northside) and pediatric specialty (CHOA) participation on your exact Georgia Access plan ID</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap and select Medicare Advantage networks for Northside</td>
               </tr>
             </tbody>
           </table>

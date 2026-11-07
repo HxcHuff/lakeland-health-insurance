@@ -27,7 +27,29 @@
   <link rel="stylesheet" href="/css/lead-hero.css?v=20261030-step1-cache-bust-v1">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
-  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
+  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @media (max-width: 768px) {
+      .table-wrap { border:0; background:transparent; overflow-x:visible; }
+      .table-wrap table { min-width:0; display:block; }
+      .table-wrap thead { display:none; }
+      .table-wrap tbody { display:grid; gap:14px; }
+      .table-wrap tr { display:block; background:#fff; border:1px solid #E2E8F0; border-left:4px solid #1B2A4A; border-radius:14px; padding:14px 16px; box-shadow:0 4px 14px rgba(15,23,42,0.05); }
+      .table-wrap tr:nth-child(even) td { background:transparent; }
+      .table-wrap td { display:block; min-width:0 !important; padding:8px 0; border-bottom:1px solid #E2E8F0; font-size:0.95rem; }
+      .table-wrap td:first-child { padding-top:0; font-size:1.03rem; color:#1B2A4A; }
+      .table-wrap td:last-child { border-bottom:0; padding-bottom:0; }
+      .table-wrap td[data-label]::before {
+        content:attr(data-label);
+        display:block;
+        font-size:0.75rem;
+        font-weight:800;
+        text-transform:uppercase;
+        letter-spacing:0.05em;
+        color:#475569;
+        margin-bottom:3px;
+      }
+    }
+  </style>
 
     <script type="application/ld+json">
 {
@@ -417,12 +439,12 @@
         <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <label for="blog_aca_subsidy_income_limits_florida__full_name">Name</label>
-            <input type="text" id="blog_aca_subsidy_income_limits_florida__full_name" name="full_name" required autocomplete="name">
+            <label for="blog_aca_subsidy_income_limits_florida__full_name">Your Full Name</label>
+            <input type="text" id="blog_aca_subsidy_income_limits_florida__full_name" name="full_name" required autocomplete="name" placeholder="Your first &amp; last name (not your doctor's name)">
           </div>
           <div class="lhi-lead-hero__field">
-            <label for="blog_aca_subsidy_income_limits_florida__phone">Phone</label>
-            <input type="tel" id="blog_aca_subsidy_income_limits_florida__phone" name="phone" required autocomplete="tel">
+            <label for="blog_aca_subsidy_income_limits_florida__phone">Your Phone Number</label>
+            <input type="tel" id="blog_aca_subsidy_income_limits_florida__phone" name="phone" required autocomplete="tel" placeholder="Your cell or home phone">
           </div>
           <div class="lhi-lead-hero__field">
             <label for="blog_aca_subsidy_income_limits_florida__zip_code">ZIP code</label>
@@ -437,7 +459,11 @@
                   <option value="not_sure">Not sure yet</option>
             </select>
           </div>
-          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+                    <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label for="blog_aca_subsidy_income_limits_florida__providers">Doctors or hospitals to keep (optional)</label>
+            <input type="text" id="blog_aca_subsidy_income_limits_florida__providers" name="providers" autocomplete="off" placeholder="e.g. your primary care doctor, specialist, or hospital campus">
+          </div>
+<div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label class="lhi-lead-hero__consent" for="blog_aca_subsidy_income_limits_florida__consent">
               <input type="checkbox" id="blog_aca_subsidy_income_limits_florida__consent" name="consent" value="yes">
               <span>By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
@@ -617,52 +643,52 @@
             </thead>
             <tbody>
               <tr>
-                <td><strong>1 Person</strong></td>
-                <td>$15,960</td>
-                <td>$23,940</td>
-                <td>$31,920</td>
-                <td>$39,900</td>
-                <td>$63,840</td>
+                <td data-label="Household Size"><strong>1 Person</strong></td>
+                <td data-label="100% FPL (FL Subsidy Floor)">$15,960</td>
+                <td data-label="150% FPL (Max 94% Silver CSR)">$23,940</td>
+                <td data-label="200% FPL (87% Silver CSR)">$31,920</td>
+                <td data-label="250% FPL (73% Silver CSR)">$39,900</td>
+                <td data-label="400% FPL (2027 Subsidy Cliff)">$63,840</td>
               </tr>
               <tr>
-                <td><strong>2 People</strong></td>
-                <td>$21,640</td>
-                <td>$32,460</td>
-                <td>$43,280</td>
-                <td>$54,100</td>
-                <td>$86,560</td>
+                <td data-label="Household Size"><strong>2 People</strong></td>
+                <td data-label="100% FPL (FL Subsidy Floor)">$21,640</td>
+                <td data-label="150% FPL (Max 94% Silver CSR)">$32,460</td>
+                <td data-label="200% FPL (87% Silver CSR)">$43,280</td>
+                <td data-label="250% FPL (73% Silver CSR)">$54,100</td>
+                <td data-label="400% FPL (2027 Subsidy Cliff)">$86,560</td>
               </tr>
               <tr>
-                <td><strong>3 People</strong></td>
-                <td>$27,320</td>
-                <td>$40,980</td>
-                <td>$54,640</td>
-                <td>$68,300</td>
-                <td>$109,280</td>
+                <td data-label="Household Size"><strong>3 People</strong></td>
+                <td data-label="100% FPL (FL Subsidy Floor)">$27,320</td>
+                <td data-label="150% FPL (Max 94% Silver CSR)">$40,980</td>
+                <td data-label="200% FPL (87% Silver CSR)">$54,640</td>
+                <td data-label="250% FPL (73% Silver CSR)">$68,300</td>
+                <td data-label="400% FPL (2027 Subsidy Cliff)">$109,280</td>
               </tr>
               <tr>
-                <td><strong>4 People</strong></td>
-                <td>$33,000</td>
-                <td>$49,500</td>
-                <td>$66,000</td>
-                <td>$82,500</td>
-                <td>$132,000</td>
+                <td data-label="Household Size"><strong>4 People</strong></td>
+                <td data-label="100% FPL (FL Subsidy Floor)">$33,000</td>
+                <td data-label="150% FPL (Max 94% Silver CSR)">$49,500</td>
+                <td data-label="200% FPL (87% Silver CSR)">$66,000</td>
+                <td data-label="250% FPL (73% Silver CSR)">$82,500</td>
+                <td data-label="400% FPL (2027 Subsidy Cliff)">$132,000</td>
               </tr>
               <tr>
-                <td><strong>5 People</strong></td>
-                <td>$38,680</td>
-                <td>$58,020</td>
-                <td>$77,360</td>
-                <td>$96,700</td>
-                <td>$154,720</td>
+                <td data-label="Household Size"><strong>5 People</strong></td>
+                <td data-label="100% FPL (FL Subsidy Floor)">$38,680</td>
+                <td data-label="150% FPL (Max 94% Silver CSR)">$58,020</td>
+                <td data-label="200% FPL (87% Silver CSR)">$77,360</td>
+                <td data-label="250% FPL (73% Silver CSR)">$96,700</td>
+                <td data-label="400% FPL (2027 Subsidy Cliff)">$154,720</td>
               </tr>
               <tr>
-                <td><strong>6 People</strong></td>
-                <td>$44,360</td>
-                <td>$66,540</td>
-                <td>$88,720</td>
-                <td>$110,900</td>
-                <td>$177,440</td>
+                <td data-label="Household Size"><strong>6 People</strong></td>
+                <td data-label="100% FPL (FL Subsidy Floor)">$44,360</td>
+                <td data-label="150% FPL (Max 94% Silver CSR)">$66,540</td>
+                <td data-label="200% FPL (87% Silver CSR)">$88,720</td>
+                <td data-label="250% FPL (73% Silver CSR)">$110,900</td>
+                <td data-label="400% FPL (2027 Subsidy Cliff)">$177,440</td>
               </tr>
             </tbody>
           </table>

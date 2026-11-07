@@ -24,7 +24,29 @@
   <link rel="stylesheet" href="/css/lead-hero.css?v=20261030-step1-cache-bust-v1">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
-  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
+  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @media (max-width: 768px) {
+      .table-wrap { border:0; background:transparent; overflow-x:visible; }
+      .table-wrap table { min-width:0; display:block; }
+      .table-wrap thead { display:none; }
+      .table-wrap tbody { display:grid; gap:14px; }
+      .table-wrap tr { display:block; background:#fff; border:1px solid #E2E8F0; border-left:4px solid #1B2A4A; border-radius:14px; padding:14px 16px; box-shadow:0 4px 14px rgba(15,23,42,0.05); }
+      .table-wrap tr:nth-child(even) td { background:transparent; }
+      .table-wrap td { display:block; min-width:0 !important; padding:8px 0; border-bottom:1px solid #E2E8F0; font-size:0.95rem; }
+      .table-wrap td:first-child { padding-top:0; font-size:1.03rem; color:#1B2A4A; }
+      .table-wrap td:last-child { border-bottom:0; padding-bottom:0; }
+      .table-wrap td[data-label]::before {
+        content:attr(data-label);
+        display:block;
+        font-size:0.75rem;
+        font-weight:800;
+        text-transform:uppercase;
+        letter-spacing:0.05em;
+        color:#475569;
+        margin-bottom:3px;
+      }
+    }
+  </style>
 
       <script type="application/ld+json">
 {
@@ -405,12 +427,12 @@
         <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <label for="blog_baylor_scott_white_humana_texas_202_full_name">Name</label>
-            <input type="text" id="blog_baylor_scott_white_humana_texas_202_full_name" name="full_name" required autocomplete="name">
+            <label for="blog_baylor_scott_white_humana_texas_202_full_name">Your Full Name</label>
+            <input type="text" id="blog_baylor_scott_white_humana_texas_202_full_name" name="full_name" required autocomplete="name" placeholder="Your first &amp; last name (not your doctor's name)">
           </div>
           <div class="lhi-lead-hero__field">
-            <label for="blog_baylor_scott_white_humana_texas_202_phone">Phone</label>
-            <input type="tel" id="blog_baylor_scott_white_humana_texas_202_phone" name="phone" required autocomplete="tel">
+            <label for="blog_baylor_scott_white_humana_texas_202_phone">Your Phone Number</label>
+            <input type="tel" id="blog_baylor_scott_white_humana_texas_202_phone" name="phone" required autocomplete="tel" placeholder="Your cell or home phone">
           </div>
           <div class="lhi-lead-hero__field">
             <label for="blog_baylor_scott_white_humana_texas_202_zip_code">Texas ZIP code</label>
@@ -490,28 +512,28 @@
             </thead>
             <tbody>
               <tr>
-                <td><strong>Baylor Scott &amp; White Health Plan</strong></td>
-                <td>Integrated HMO/EPO</td>
-                <td>Direct In-Network</td>
-                <td>Comprehensive access with coordinated care throughout BSW system facilities.</td>
+                <td data-label="Plan Carrier"><strong>Baylor Scott &amp; White Health Plan</strong></td>
+                <td data-label="Network Structure">Integrated HMO/EPO</td>
+                <td data-label="BSW Hospital Network Access">Direct In-Network</td>
+                <td data-label="Considerations">Comprehensive access with coordinated care throughout BSW system facilities.</td>
               </tr>
               <tr>
-                <td><strong>Blue Cross Blue Shield of Texas</strong></td>
-                <td>Blue Advantage HMO</td>
-                <td>Contract Dependent</td>
-                <td>Specific plan variants must be verified; requires primary care referral for specialists.</td>
+                <td data-label="Plan Carrier"><strong>Blue Cross Blue Shield of Texas</strong></td>
+                <td data-label="Network Structure">Blue Advantage HMO</td>
+                <td data-label="BSW Hospital Network Access">Contract Dependent</td>
+                <td data-label="Considerations">Specific plan variants must be verified; requires primary care referral for specialists.</td>
               </tr>
               <tr>
-                <td><strong>Oscar Health Texas</strong></td>
-                <td>Selective EPO</td>
-                <td>Tiered / Participating</td>
-                <td>Digital-first primary care with contracted access across DFW and Austin facilities.</td>
+                <td data-label="Plan Carrier"><strong>Oscar Health Texas</strong></td>
+                <td data-label="Network Structure">Selective EPO</td>
+                <td data-label="BSW Hospital Network Access">Tiered / Participating</td>
+                <td data-label="Considerations">Digital-first primary care with contracted access across DFW and Austin facilities.</td>
               </tr>
               <tr>
-                <td><strong>Original Medicare + Medigap</strong></td>
-                <td>Traditional Medicare (Parts A &amp; B)</td>
-                <td>100% In-Network</td>
-                <td>BSW accepts Medicare assignment; standard Medigap Plan G covers cost-sharing anywhere.</td>
+                <td data-label="Plan Carrier"><strong>Original Medicare + Medigap</strong></td>
+                <td data-label="Network Structure">Traditional Medicare (Parts A &amp; B)</td>
+                <td data-label="BSW Hospital Network Access">100% In-Network</td>
+                <td data-label="Considerations">BSW accepts Medicare assignment; standard Medigap Plan G covers cost-sharing anywhere.</td>
               </tr>
             </tbody>
           </table>

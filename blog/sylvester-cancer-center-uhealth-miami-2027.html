@@ -24,7 +24,29 @@
   <link rel="stylesheet" href="/css/lead-hero.css?v=20261030-step1-cache-bust-v1">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
-  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
+  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @media (max-width: 768px) {
+      .table-wrap { border:0; background:transparent; overflow-x:visible; }
+      .table-wrap table { min-width:0; display:block; }
+      .table-wrap thead { display:none; }
+      .table-wrap tbody { display:grid; gap:14px; }
+      .table-wrap tr { display:block; background:#fff; border:1px solid #E2E8F0; border-left:4px solid #1B2A4A; border-radius:14px; padding:14px 16px; box-shadow:0 4px 14px rgba(15,23,42,0.05); }
+      .table-wrap tr:nth-child(even) td { background:transparent; }
+      .table-wrap td { display:block; min-width:0 !important; padding:8px 0; border-bottom:1px solid #E2E8F0; font-size:0.95rem; }
+      .table-wrap td:first-child { padding-top:0; font-size:1.03rem; color:#1B2A4A; }
+      .table-wrap td:last-child { border-bottom:0; padding-bottom:0; }
+      .table-wrap td[data-label]::before {
+        content:attr(data-label);
+        display:block;
+        font-size:0.75rem;
+        font-weight:800;
+        text-transform:uppercase;
+        letter-spacing:0.05em;
+        color:#475569;
+        margin-bottom:3px;
+      }
+    }
+  </style>
 
       <script type="application/ld+json">
 {
@@ -374,12 +396,12 @@
         <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <label for="blog_sylvester_cancer_center_uhealth_mia_full_name">Name</label>
-            <input type="text" id="blog_sylvester_cancer_center_uhealth_mia_full_name" name="full_name" required autocomplete="name">
+            <label for="blog_sylvester_cancer_center_uhealth_mia_full_name">Your Full Name</label>
+            <input type="text" id="blog_sylvester_cancer_center_uhealth_mia_full_name" name="full_name" required autocomplete="name" placeholder="Your first &amp; last name (not your doctor's name)">
           </div>
           <div class="lhi-lead-hero__field">
-            <label for="blog_sylvester_cancer_center_uhealth_mia_phone">Phone</label>
-            <input type="tel" id="blog_sylvester_cancer_center_uhealth_mia_phone" name="phone" required autocomplete="tel">
+            <label for="blog_sylvester_cancer_center_uhealth_mia_phone">Your Phone Number</label>
+            <input type="tel" id="blog_sylvester_cancer_center_uhealth_mia_phone" name="phone" required autocomplete="tel" placeholder="Your cell or home phone">
           </div>
           <div class="lhi-lead-hero__field">
             <label for="blog_sylvester_cancer_center_uhealth_mia_zip_code">ZIP code</label>
@@ -394,7 +416,11 @@
                   <option value="not_sure">Not sure yet</option>
             </select>
           </div>
-          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+                    <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label for="blog_sylvester_cancer_center_uhealth_mia_providers">Doctors or hospitals to keep (optional)</label>
+            <input type="text" id="blog_sylvester_cancer_center_uhealth_mia_providers" name="providers" autocomplete="off" placeholder="e.g. your primary care doctor, specialist, or hospital campus">
+          </div>
+<div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label class="lhi-lead-hero__consent" for="blog_sylvester_cancer_center_uhealth_mia_consent">
               <input type="checkbox" id="blog_sylvester_cancer_center_uhealth_mia_consent" name="consent" value="yes">
               <span>By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
@@ -438,28 +464,28 @@
             </thead>
             <tbody>
               <tr>
-                <td><strong>Sylvester Comprehensive Cancer Center</strong></td>
-                <td>Miami Health District Main Campus, Coral Gables, Kendall, Doral, Plantation, Deerfield Beach</td>
-                <td>Florida Blue (BlueOptions PPO / select BlueCare HMO with referral) and contracted exchange tiers; excluded from many ultra-narrow value HMOs</td>
-                <td>Original Medicare + Medigap accepted system-wide; verify specific Medicare Advantage HMO/PPO oncology network status</td>
+                <td data-label="UHealth Facility / Specialty Division"><strong>Sylvester Comprehensive Cancer Center</strong></td>
+                <td data-label="Primary Locations">Miami Health District Main Campus, Coral Gables, Kendall, Doral, Plantation, Deerfield Beach</td>
+                <td data-label="2027 ACA Marketplace Access">Florida Blue (BlueOptions PPO / select BlueCare HMO with referral) and contracted exchange tiers; excluded from many ultra-narrow value HMOs</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap accepted system-wide; verify specific Medicare Advantage HMO/PPO oncology network status</td>
               </tr>
               <tr>
-                <td><strong>UHealth Tower &amp; University of Miami Medical Group</strong></td>
-                <td>1400 NW 12th Ave (Miami), UHealth Doral, Lennar Foundation Medical Center</td>
-                <td>Verify both UHealth Tower inpatient status and UM Medical Group specialist NPI on HealthCare.gov</td>
-                <td>Original Medicare + Medigap Plan G/N and contracted South Florida Medicare Advantage plans</td>
+                <td data-label="UHealth Facility / Specialty Division"><strong>UHealth Tower &amp; University of Miami Medical Group</strong></td>
+                <td data-label="Primary Locations">1400 NW 12th Ave (Miami), UHealth Doral, Lennar Foundation Medical Center</td>
+                <td data-label="2027 ACA Marketplace Access">Verify both UHealth Tower inpatient status and UM Medical Group specialist NPI on HealthCare.gov</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap Plan G/N and contracted South Florida Medicare Advantage plans</td>
               </tr>
               <tr>
-                <td><strong>Bascom Palmer Eye Institute</strong></td>
-                <td>Miami Main Campus, Palm Beach Gardens, Naples, Plantation, Coral Gables</td>
-                <td>Medical ophthalmology and retinal surgery billed under medical benefits (separate from routine vision); verify UHealth tier</td>
-                <td>Covered under Medicare Part B medical benefits; confirm MA prior authorization rules for ophthalmic surgery</td>
+                <td data-label="UHealth Facility / Specialty Division"><strong>Bascom Palmer Eye Institute</strong></td>
+                <td data-label="Primary Locations">Miami Main Campus, Palm Beach Gardens, Naples, Plantation, Coral Gables</td>
+                <td data-label="2027 ACA Marketplace Access">Medical ophthalmology and retinal surgery billed under medical benefits (separate from routine vision); verify UHealth tier</td>
+                <td data-label="2027 Medicare Access">Covered under Medicare Part B medical benefits; confirm MA prior authorization rules for ophthalmic surgery</td>
               </tr>
               <tr>
-                <td><strong>Jackson Memorial Hospital &amp; Holtz Children's (Academic Partner)</strong></td>
-                <td>Miami Health District (Civic Center)</td>
-                <td>Public Health Trust contracts separately from UHealth Tower; check both if your UM surgeon operates at Jackson</td>
-                <td>Original Medicare + Medigap and Jackson-contracted Medicare Advantage plans</td>
+                <td data-label="UHealth Facility / Specialty Division"><strong>Jackson Memorial Hospital &amp; Holtz Children's (Academic Partner)</strong></td>
+                <td data-label="Primary Locations">Miami Health District (Civic Center)</td>
+                <td data-label="2027 ACA Marketplace Access">Public Health Trust contracts separately from UHealth Tower; check both if your UM surgeon operates at Jackson</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap and Jackson-contracted Medicare Advantage plans</td>
               </tr>
             </tbody>
           </table>

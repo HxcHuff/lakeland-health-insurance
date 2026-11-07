@@ -24,7 +24,29 @@
   <link rel="stylesheet" href="/css/lead-hero.css?v=20261030-step1-cache-bust-v1">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
-  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
+  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @media (max-width: 768px) {
+      .table-wrap { border:0; background:transparent; overflow-x:visible; }
+      .table-wrap table { min-width:0; display:block; }
+      .table-wrap thead { display:none; }
+      .table-wrap tbody { display:grid; gap:14px; }
+      .table-wrap tr { display:block; background:#fff; border:1px solid #E2E8F0; border-left:4px solid #1B2A4A; border-radius:14px; padding:14px 16px; box-shadow:0 4px 14px rgba(15,23,42,0.05); }
+      .table-wrap tr:nth-child(even) td { background:transparent; }
+      .table-wrap td { display:block; min-width:0 !important; padding:8px 0; border-bottom:1px solid #E2E8F0; font-size:0.95rem; }
+      .table-wrap td:first-child { padding-top:0; font-size:1.03rem; color:#1B2A4A; }
+      .table-wrap td:last-child { border-bottom:0; padding-bottom:0; }
+      .table-wrap td[data-label]::before {
+        content:attr(data-label);
+        display:block;
+        font-size:0.75rem;
+        font-weight:800;
+        text-transform:uppercase;
+        letter-spacing:0.05em;
+        color:#475569;
+        margin-bottom:3px;
+      }
+    }
+  </style>
 
       <script type="application/ld+json">
 {
@@ -380,12 +402,12 @@
         <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <label for="blog_ku_health_system_saint_lukes_ascens_full_name">Name</label>
-            <input type="text" id="blog_ku_health_system_saint_lukes_ascens_full_name" name="full_name" required autocomplete="name">
+            <label for="blog_ku_health_system_saint_lukes_ascens_full_name">Your Full Name</label>
+            <input type="text" id="blog_ku_health_system_saint_lukes_ascens_full_name" name="full_name" required autocomplete="name" placeholder="Your first &amp; last name (not your doctor's name)">
           </div>
           <div class="lhi-lead-hero__field">
-            <label for="blog_ku_health_system_saint_lukes_ascens_phone">Phone</label>
-            <input type="tel" id="blog_ku_health_system_saint_lukes_ascens_phone" name="phone" required autocomplete="tel">
+            <label for="blog_ku_health_system_saint_lukes_ascens_phone">Your Phone Number</label>
+            <input type="tel" id="blog_ku_health_system_saint_lukes_ascens_phone" name="phone" required autocomplete="tel" placeholder="Your cell or home phone">
           </div>
           <div class="lhi-lead-hero__field">
             <label for="blog_ku_health_system_saint_lukes_ascens_zip_code">ZIP code</label>
@@ -452,28 +474,28 @@
             </thead>
             <tbody>
               <tr>
-                <td><strong>The University of Kansas Health System (KU Med)</strong></td>
-                <td>Kansas City KS Main Campus, Indian Creek, Olathe Hospital, St. Francis (Topeka), KU Cancer Center, University of Kansas Physicians (UKP)</td>
-                <td>Verify both hospital facility and UKP faculty NPIs across Blue KC (Johnson/Wyandotte), BCBSKS, Ambetter, Medica, and UHC</td>
-                <td>Original Medicare + Medigap and contracted KC / Topeka Medicare Advantage plans</td>
+                <td data-label="Kansas Health System"><strong>The University of Kansas Health System (KU Med)</strong></td>
+                <td data-label="Major Campuses &amp; Medical Groups">Kansas City KS Main Campus, Indian Creek, Olathe Hospital, St. Francis (Topeka), KU Cancer Center, University of Kansas Physicians (UKP)</td>
+                <td data-label="2027 ACA Marketplace Access">Verify both hospital facility and UKP faculty NPIs across Blue KC (Johnson/Wyandotte), BCBSKS, Ambetter, Medica, and UHC</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap and contracted KC / Topeka Medicare Advantage plans</td>
               </tr>
               <tr>
-                <td><strong>Saint Luke's &amp; AdventHealth (Johnson County / KC)</strong></td>
-                <td>Saint Luke's South (Overland Park) &amp; Plaza (KCMO); AdventHealth Shawnee Mission, South Overland Park &amp; Lenexa</td>
-                <td>Select Blue KC, Medica (Balance by Medica / Medica Connect), Ambetter, and Oscar KC sub-networks</td>
-                <td>Original Medicare + Medigap and participating bi-state Kansas City Medicare Advantage plans</td>
+                <td data-label="Kansas Health System"><strong>Saint Luke's &amp; AdventHealth (Johnson County / KC)</strong></td>
+                <td data-label="Major Campuses &amp; Medical Groups">Saint Luke's South (Overland Park) &amp; Plaza (KCMO); AdventHealth Shawnee Mission, South Overland Park &amp; Lenexa</td>
+                <td data-label="2027 ACA Marketplace Access">Select Blue KC, Medica (Balance by Medica / Medica Connect), Ambetter, and Oscar KC sub-networks</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap and participating bi-state Kansas City Medicare Advantage plans</td>
               </tr>
               <tr>
-                <td><strong>Ascension Via Christi &amp; Wesley (Wichita Metro)</strong></td>
-                <td>Ascension Via Christi St. Francis &amp; St. Joseph; Wesley Medical Center &amp; Wesley Woodlawn (Sedgwick County)</td>
-                <td>Check whether BCBSKS Solutions, Ambetter, Medica, Oscar, or UHC sub-networks align with Via Christi or Wesley</td>
-                <td>Original Medicare + Medigap and contracted South Central Kansas Medicare Advantage plans</td>
+                <td data-label="Kansas Health System"><strong>Ascension Via Christi &amp; Wesley (Wichita Metro)</strong></td>
+                <td data-label="Major Campuses &amp; Medical Groups">Ascension Via Christi St. Francis &amp; St. Joseph; Wesley Medical Center &amp; Wesley Woodlawn (Sedgwick County)</td>
+                <td data-label="2027 ACA Marketplace Access">Check whether BCBSKS Solutions, Ambetter, Medica, Oscar, or UHC sub-networks align with Via Christi or Wesley</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap and contracted South Central Kansas Medicare Advantage plans</td>
               </tr>
               <tr>
-                <td><strong>Stormont Vail Health &amp; LMH Health (I-70 Corridor)</strong></td>
-                <td>Stormont Vail Hospital &amp; Cotton O'Neil Clinic (Topeka/Manhattan); LMH Health (Lawrence)</td>
-                <td>Verify Cotton O'Neil Clinic NPIs alongside Stormont Vail Hospital and check referral rules to KU Med</td>
-                <td>Original Medicare + Medigap and participating Northeast Kansas Medicare Advantage networks</td>
+                <td data-label="Kansas Health System"><strong>Stormont Vail Health &amp; LMH Health (I-70 Corridor)</strong></td>
+                <td data-label="Major Campuses &amp; Medical Groups">Stormont Vail Hospital &amp; Cotton O'Neil Clinic (Topeka/Manhattan); LMH Health (Lawrence)</td>
+                <td data-label="2027 ACA Marketplace Access">Verify Cotton O'Neil Clinic NPIs alongside Stormont Vail Hospital and check referral rules to KU Med</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap and participating Northeast Kansas Medicare Advantage networks</td>
               </tr>
             </tbody>
           </table>

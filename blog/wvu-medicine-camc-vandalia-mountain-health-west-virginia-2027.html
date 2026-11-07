@@ -24,7 +24,29 @@
   <link rel="stylesheet" href="/css/lead-hero.css?v=20261030-step1-cache-bust-v1">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
-  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
+  <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @media (max-width: 768px) {
+      .table-wrap { border:0; background:transparent; overflow-x:visible; }
+      .table-wrap table { min-width:0; display:block; }
+      .table-wrap thead { display:none; }
+      .table-wrap tbody { display:grid; gap:14px; }
+      .table-wrap tr { display:block; background:#fff; border:1px solid #E2E8F0; border-left:4px solid #1B2A4A; border-radius:14px; padding:14px 16px; box-shadow:0 4px 14px rgba(15,23,42,0.05); }
+      .table-wrap tr:nth-child(even) td { background:transparent; }
+      .table-wrap td { display:block; min-width:0 !important; padding:8px 0; border-bottom:1px solid #E2E8F0; font-size:0.95rem; }
+      .table-wrap td:first-child { padding-top:0; font-size:1.03rem; color:#1B2A4A; }
+      .table-wrap td:last-child { border-bottom:0; padding-bottom:0; }
+      .table-wrap td[data-label]::before {
+        content:attr(data-label);
+        display:block;
+        font-size:0.75rem;
+        font-weight:800;
+        text-transform:uppercase;
+        letter-spacing:0.05em;
+        color:#475569;
+        margin-bottom:3px;
+      }
+    }
+  </style>
 
       <script type="application/ld+json">
 {
@@ -380,12 +402,12 @@
         <p class="lhi-lead-hero__honeypot" hidden><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="lhi-lead-hero__fields">
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
-            <label for="blog_wvu_medicine_camc_vandalia_mountain_full_name">Name</label>
-            <input type="text" id="blog_wvu_medicine_camc_vandalia_mountain_full_name" name="full_name" required autocomplete="name">
+            <label for="blog_wvu_medicine_camc_vandalia_mountain_full_name">Your Full Name</label>
+            <input type="text" id="blog_wvu_medicine_camc_vandalia_mountain_full_name" name="full_name" required autocomplete="name" placeholder="Your first &amp; last name (not your doctor's name)">
           </div>
           <div class="lhi-lead-hero__field">
-            <label for="blog_wvu_medicine_camc_vandalia_mountain_phone">Phone</label>
-            <input type="tel" id="blog_wvu_medicine_camc_vandalia_mountain_phone" name="phone" required autocomplete="tel">
+            <label for="blog_wvu_medicine_camc_vandalia_mountain_phone">Your Phone Number</label>
+            <input type="tel" id="blog_wvu_medicine_camc_vandalia_mountain_phone" name="phone" required autocomplete="tel" placeholder="Your cell or home phone">
           </div>
           <div class="lhi-lead-hero__field">
             <label for="blog_wvu_medicine_camc_vandalia_mountain_zip_code">ZIP code</label>
@@ -452,28 +474,28 @@
             </thead>
             <tbody>
               <tr>
-                <td><strong>WVU Medicine (Statewide System)</strong></td>
-                <td>J.W. Ruby Memorial &amp; WVU Children's (Morgantown), United Hospital Center, Camden Clark, Wheeling, Thomas Hospitals (Charleston), Berkeley/Jefferson, WVU Cancer Institute</td>
-                <td>Highmark BCBS West Virginia (my Direct Blue / Blue Solutions) and select CareSource Marketplace networks (verify UHA faculty NPI)</td>
-                <td>Original Medicare + Medigap, Peak Health Medicare Advantage, Highmark, and contracted MA plans</td>
+                <td data-label="West Virginia Health System"><strong>WVU Medicine (Statewide System)</strong></td>
+                <td data-label="Major Campuses &amp; Medical Groups">J.W. Ruby Memorial &amp; WVU Children's (Morgantown), United Hospital Center, Camden Clark, Wheeling, Thomas Hospitals (Charleston), Berkeley/Jefferson, WVU Cancer Institute</td>
+                <td data-label="2027 ACA Marketplace Access">Highmark BCBS West Virginia (my Direct Blue / Blue Solutions) and select CareSource Marketplace networks (verify UHA faculty NPI)</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap, Peak Health Medicare Advantage, Highmark, and contracted MA plans</td>
               </tr>
               <tr>
-                <td><strong>Vandalia Health (CAMC, Mon Health &amp; Davis)</strong></td>
-                <td>CAMC Memorial, General, Women &amp; Children's (Charleston); Mon Health Medical Center (Morgantown); Davis Medical Center (Elkins)</td>
-                <td>Verify CAMC Physicians and Mon Health Medical Group NPIs across Highmark BCBS WV and CareSource plans</td>
-                <td>Original Medicare + Medigap, Peak Health, and participating Kanawha / North Central WV Medicare Advantage plans</td>
+                <td data-label="West Virginia Health System"><strong>Vandalia Health (CAMC, Mon Health &amp; Davis)</strong></td>
+                <td data-label="Major Campuses &amp; Medical Groups">CAMC Memorial, General, Women &amp; Children's (Charleston); Mon Health Medical Center (Morgantown); Davis Medical Center (Elkins)</td>
+                <td data-label="2027 ACA Marketplace Access">Verify CAMC Physicians and Mon Health Medical Group NPIs across Highmark BCBS WV and CareSource plans</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap, Peak Health, and participating Kanawha / North Central WV Medicare Advantage plans</td>
               </tr>
               <tr>
-                <td><strong>Marshall Health Network (Mountain Health)</strong></td>
-                <td>Cabell Huntington Hospital, St. Mary's Medical Center (Huntington), Edwards Comprehensive Cancer Center, Marshall Health &amp; HIMG</td>
-                <td>Confirm Cabell Huntington, St. Mary's, Marshall Health faculty, and HIMG group tax IDs in Cabell/Wayne/Putnam counties</td>
-                <td>Original Medicare + Medigap, Peak Health, and contracted Tri-State Medicare Advantage PPO/HMO networks</td>
+                <td data-label="West Virginia Health System"><strong>Marshall Health Network (Mountain Health)</strong></td>
+                <td data-label="Major Campuses &amp; Medical Groups">Cabell Huntington Hospital, St. Mary's Medical Center (Huntington), Edwards Comprehensive Cancer Center, Marshall Health &amp; HIMG</td>
+                <td data-label="2027 ACA Marketplace Access">Confirm Cabell Huntington, St. Mary's, Marshall Health faculty, and HIMG group tax IDs in Cabell/Wayne/Putnam counties</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap, Peak Health, and contracted Tri-State Medicare Advantage PPO/HMO networks</td>
               </tr>
               <tr>
-                <td><strong>Southern WV &amp; Border Referral Systems</strong></td>
-                <td>Raleigh General &amp; Beckley ARH (Beckley); Valley Health War Memorial &amp; Hampshire Memorial (Eastern Panhandle)</td>
-                <td>Check out-of-state border rules for Winchester Medical Center (VA), UPMC/AHN (Pittsburgh), or Marietta Memorial (OH)</td>
-                <td>Original Medicare + Medigap and participating regional Medicare Advantage plans</td>
+                <td data-label="West Virginia Health System"><strong>Southern WV &amp; Border Referral Systems</strong></td>
+                <td data-label="Major Campuses &amp; Medical Groups">Raleigh General &amp; Beckley ARH (Beckley); Valley Health War Memorial &amp; Hampshire Memorial (Eastern Panhandle)</td>
+                <td data-label="2027 ACA Marketplace Access">Check out-of-state border rules for Winchester Medical Center (VA), UPMC/AHN (Pittsburgh), or Marietta Memorial (OH)</td>
+                <td data-label="2027 Medicare Access">Original Medicare + Medigap and participating regional Medicare Advantage plans</td>
               </tr>
             </tbody>
           </table>
