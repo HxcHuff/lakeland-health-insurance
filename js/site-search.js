@@ -1955,6 +1955,172 @@ const siteSearchIndex = [
     "url": "/blog/bartow-regional-medical-center-baycare-watson-clinic-2027.html",
     "excerpt": "How BayCare Bartow Regional Medical Center and Watson Clinic Bartow on Osprey Blvd contract separately for 2027 Medicare & ACA.",
     "tags": ["Bartow", "Mulberry", "Fort Meade", "Bartow Regional Medical Center", "Watson Clinic Bartow", "BayCare", "2027"]
+  }  ,
+  {
+    "title": "Brandon, Riverview & Sun City Hospital Insurance (2027)",
+    "url": "/blog/brandon-riverview-sun-city-center-hospital-insurance-2027.html",
+    "excerpt": "What insurance do AdventHealth Riverview, BayCare St. Joseph's-South, HCA Brandon & South Shore accept in 2027? Compare ACA & Medicare. (863) 640-3102",
+    "tags": [
+      "Brandon",
+      "Riverview",
+      "Sun City Center",
+      "AdventHealth Riverview",
+      "St. Josephs South",
+      "HCA Florida Brandon",
+      "Hillsborough County",
+      "2027"
+    ]
+  }  ,
+  {
+    "title": "Clermont & Leesburg Hospital Insurance Accepted (2027)",
+    "url": "/blog/clermont-leesburg-lake-county-hospital-insurance-2027.html",
+    "excerpt": "What insurance do Orlando Health South Lake (Clermont), AdventHealth Waterman & UF Health Leesburg accept in 2027? Compare ACA & Medicare. (863) 640-3102",
+    "tags": [
+      "Clermont",
+      "Leesburg",
+      "Mount Dora",
+      "Tavares",
+      "Lake County",
+      "Orlando Health South Lake",
+      "AdventHealth Waterman",
+      "UF Health Leesburg",
+      "2027"
+    ]
+  }  ,
+  {
+    "title": "The Villages & Ocala Hospital Insurance Accepted (2027)",
+    "url": "/blog/the-villages-ocala-hospital-insurance-accepted-2027.html",
+    "excerpt": "What insurance do UF Health Spanish Plaines (The Villages), AdventHealth Ocala & HCA Florida Ocala accept in 2027? Compare ACA & Medicare. (863) 640-3102",
+    "tags": [
+      "The Villages",
+      "Ocala",
+      "UF Health Spanish Plaines",
+      "AdventHealth Ocala",
+      "HCA Florida Ocala",
+      "Sumter County",
+      "Marion County",
+      "2027"
+    ]
+  }  ,
+  {
+    "title": "Kissimmee, Celebration & St. Cloud Insurance List (2027)",
+    "url": "/blog/kissimmee-celebration-st-cloud-hospital-insurance-2027.html",
+    "excerpt": "What insurance do AdventHealth Celebration, AdventHealth Kissimmee, Orlando Health St. Cloud & HCA Osceola accept in 2027? Call David at (863) 640-3102.",
+    "tags": [
+      "Kissimmee",
+      "Celebration",
+      "St. Cloud",
+      "Osceola County",
+      "AdventHealth Celebration",
+      "Orlando Health St. Cloud",
+      "HCA Florida Osceola",
+      "2027"
+    ]
+  }  ,
+  {
+    "title": "St. Pete & Clearwater Hospital Insurance Accepted (2027)",
+    "url": "/blog/st-petersburg-clearwater-baycare-bayfront-insurance-2027.html",
+    "excerpt": "What insurance do BayCare Morton Plant, St. Anthony's, Orlando Health Bayfront & Johns Hopkins All Children's accept in 2027? Call (863) 640-3102.",
+    "tags": [
+      "St. Petersburg",
+      "Clearwater",
+      "Largo",
+      "Pinellas County",
+      "Morton Plant",
+      "St. Anthonys Hospital",
+      "Orlando Health Bayfront",
+      "Johns Hopkins All Childrens",
+      "2027"
+    ]
+  }  ,
+  {
+    "title": "West Palm Beach & Boca Raton Hospital Insurance (2027)",
+    "url": "/blog/west-palm-beach-boca-raton-hospital-insurance-2027.html",
+    "excerpt": "What insurance do Jupiter Medical Center, Baptist Health Boca Raton/Bethesda, Good Samaritan & HCA JFK accept in 2027? Compare ACA & Medicare. (863) 640-3102",
+    "tags": [
+      "West Palm Beach",
+      "Boca Raton",
+      "Boynton Beach",
+      "Delray Beach",
+      "Jupiter",
+      "Palm Beach County",
+      "Jupiter Medical Center",
+      "Baptist Health",
+      "Good Samaritan",
+      "HCA Florida JFK",
+      "2027"
+    ]
+  }  ,
+  {
+    "title": "Duke Health, UNC Health & WakeMed Insurance List (2027)",
+    "url": "/blog/duke-health-unc-health-wakemed-raleigh-durham-2027.html",
+    "excerpt": "What insurance do Duke Health, UNC Health & WakeMed accept in Raleigh, Durham & Chapel Hill for 2027? Compare NC ACA & Medicare. Call (863) 640-3102.",
+    "tags": [
+      "Raleigh",
+      "Durham",
+      "Chapel Hill",
+      "Cary",
+      "North Carolina",
+      "Duke Health",
+      "UNC Health",
+      "UNC Rex",
+      "WakeMed",
+      "2027"
+    ]
+  }  ,
+  {
+    "title": "Austin & San Antonio Hospital Insurance Accepted (2027)",
+    "url": "/blog/ascension-seton-st-davids-methodist-austin-san-antonio-2027.html",
+    "excerpt": "What insurance do Ascension Seton, St. David's (Austin), Methodist & Baptist Health (San Antonio) accept in 2027? Compare TX ACA & Medicare. (863) 640-3102",
+    "tags": [
+      "Austin",
+      "San Antonio",
+      "Round Rock",
+      "New Braunfels",
+      "Texas",
+      "Ascension Seton",
+      "St. Davids HealthCare",
+      "Methodist Healthcare San Antonio",
+      "Baptist Health System",
+      "2027"
+    ]
+  }  ,
+  {
+    "title": "TriHealth, UC Health & Christ Hospital Insurance (2027)",
+    "url": "/blog/trihealth-uc-health-christ-hospital-cincinnati-2027.html",
+    "excerpt": "What insurance do TriHealth, UC Health, The Christ Hospital & Mercy Health accept in Cincinnati for 2027? Compare OH ACA & Medicare. (863) 640-3102",
+    "tags": [
+      "Cincinnati",
+      "West Chester",
+      "Mason",
+      "Ohio",
+      "TriHealth",
+      "Bethesda North",
+      "Good Samaritan",
+      "UC Health",
+      "The Christ Hospital",
+      "Mercy Health",
+      "2027"
+    ]
+  }  ,
+  {
+    "title": "Knoxville & Chattanooga Hospital Insurance List (2027)",
+    "url": "/blog/ut-medical-center-covenant-erlanger-knoxville-chattanooga-2027.html",
+    "excerpt": "What insurance do UT Medical Center, Covenant Health (Knoxville), Erlanger & CHI Memorial (Chattanooga) accept in 2027? Call David at (863) 640-3102.",
+    "tags": [
+      "Knoxville",
+      "Chattanooga",
+      "Maryville",
+      "Oak Ridge",
+      "Tennessee",
+      "UT Medical Center",
+      "Covenant Health",
+      "Parkwest",
+      "Erlanger",
+      "CHI Memorial",
+      "Parkridge",
+      "2027"
+    ]
   }
 ];
 

@@ -605,6 +605,48 @@
     } catch (e) {}
   }
 
+  function normalizeGa4UtmSource(rawSource, rawMedium) {
+    var src = approvedCampaignValue(rawSource);
+    var med = approvedCampaignValue(rawMedium);
+    if (!src) return null;
+    if (src === 'fb_ig' || src === 'fbig' || src === 'meta' || src === 'facebook_instagram') {
+      return 'fb';
+    }
+    if ((src === 'an' || src === 'msg') && (med === 'paid_social' || med === 'paid_msg' || med === 'paid' || med === 'cpc' || med === 'ppc')) {
+      return 'fb';
+    }
+    return src;
+  }
+
+  function normalizeGa4UtmMedium(rawMedium, rawSource) {
+    var med = approvedCampaignValue(rawMedium);
+    var src = approvedCampaignValue(rawSource);
+    if (!med) return null;
+    if (med === 'paid_msg' && (!src || src === 'fb' || src === 'facebook' || src === 'fb_ig' || src === 'fbig' || src === 'ig' || src === 'instagram' || src === 'meta' || src === 'msg' || src === 'an')) {
+      return 'paid_social';
+    }
+    return med;
+  }
+
+  function hasMetaPaidAdClickSignal(qs) {
+    if (!qs || typeof qs.get !== 'function') return false;
+    var fbclid = approvedGa4ClickId(qs.get('fbclid'));
+    var hasAdIdParam = Boolean(
+      approvedGa4CampaignId(qs.get('hsa_ad')) ||
+      approvedGa4CampaignId(qs.get('hsa_cam')) ||
+      approvedGa4CampaignId(qs.get('hsa_grp')) ||
+      approvedGa4CampaignId(qs.get('ad_id')) ||
+      approvedGa4CampaignId(qs.get('adset_id')) ||
+      approvedGa4CampaignId(qs.get('campaign_id')) ||
+      approvedGa4CampaignId(qs.get('utm_id'))
+    );
+    if (fbclid && hasAdIdParam) return true;
+    if (fbclid && /(?:PAZXh0bgNhZW0|IwZXh0bgNhZW0BMABhZGlk|BhZGlkA|YWRpZA)/.test(fbclid)) {
+      return true;
+    }
+    return false;
+  }
+
   function prepareMedicareGetHelpLink(link, context, ctaKey) {
     var url = safeLinkUrl(link);
     if (!url || url.origin !== window.location.origin || normalizePath(url.pathname) !== '/get-help/') return url;
@@ -612,7 +654,11 @@
     url.searchParams.set('source_page_key', context.page_key);
     url.searchParams.set('source_cta_key', ctaKey);
     var current = new URLSearchParams(landingSearch());
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (key) {
+    var normSource = normalizeGa4UtmSource(current.get('utm_source'), current.get('utm_medium'));
+    var normMedium = normalizeGa4UtmMedium(current.get('utm_medium'), current.get('utm_source'));
+    if (normSource) url.searchParams.set('utm_source', normSource);
+    if (normMedium) url.searchParams.set('utm_medium', normMedium);
+    ['utm_campaign', 'utm_term', 'utm_content'].forEach(function (key) {
       var approved = key === 'utm_term'
         ? approvedCampaignTerm(current.get(key))
         : approvedCampaignValue(current.get(key));
@@ -1008,7 +1054,7 @@
     if (!queryText) return queryText;
     var strippedLoc = strippedCurrentPageLocation();
     var canonicalLoc = ga4PageLocation();
-    if (!canonicalLoc || canonicalLoc === strippedLoc) return queryText;
+    if (!canonicalLoc) return queryText;
     return String(queryText).replace(/(^|&)dl=([^&]*)/g, function (full, prefix, encodedDl) {
       var decoded = '';
       try {
@@ -1016,7 +1062,12 @@
       } catch (e) {
         return full;
       }
-      if (decoded === strippedLoc) {
+      if (
+        decoded !== canonicalLoc &&
+        (decoded === strippedLoc ||
+          decoded.indexOf(strippedLoc + '?') === 0 ||
+          decoded.indexOf(strippedLoc + '#') === 0)
+      ) {
         return prefix + 'dl=' + encodeURIComponent(canonicalLoc);
       }
       return full;
@@ -1407,7 +1458,19 @@
     var pathname = String(window.location.pathname || '/');
     var qs = new URLSearchParams(landingSearch());
     var kept = [];
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (key) {
+    var rawSource = qs.get('utm_source');
+    var rawMedium = qs.get('utm_medium');
+    var source = normalizeGa4UtmSource(rawSource, rawMedium);
+    var medium = normalizeGa4UtmMedium(rawMedium, rawSource);
+    if (!source && medium === 'paid_social' && (qs.get('fbclid') || qs.get('utm_id'))) {
+      source = 'fb';
+    } else if (!source && !medium && hasMetaPaidAdClickSignal(qs)) {
+      source = 'fb';
+      medium = 'paid_social';
+    }
+    if (source) kept.push('utm_source=' + encodeURIComponent(source));
+    if (medium) kept.push('utm_medium=' + encodeURIComponent(medium));
+    ['utm_campaign', 'utm_content'].forEach(function (key) {
       var approved = approvedCampaignValue(qs.get(key));
       if (approved) kept.push(encodeURIComponent(key) + '=' + encodeURIComponent(approved));
     });
@@ -1906,6 +1969,10 @@
       return /^[A-Za-z]{2}$/.test(String(text || '').trim());
     }
     if (key === 'intent' || key === 'source_page_key' || key === 'source_cta_key') {
+      return Boolean(approvedCampaignSlug(text));
+    }
+    if (key === 'ref') {
+      if (looksSensitive(text)) return false;
       return Boolean(approvedCampaignSlug(text));
     }
     if (hasOwn(UTM_QUERY_KEYS, key)) {
