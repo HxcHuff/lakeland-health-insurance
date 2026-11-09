@@ -160,6 +160,7 @@ By checking this box, I give my prior express written consent for Lakeland Healt
 - Forms: `homepage-newsletter`
 - Pages:
   - `index.html`
+  - `blog/index.html`
 
 ### consent
 

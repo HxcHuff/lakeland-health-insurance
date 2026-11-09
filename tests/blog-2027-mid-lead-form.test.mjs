@@ -55,3 +55,18 @@ test('lead-hero.css styles .lhi-lead-hero--mid in-flow with visible intro and un
   assert.match(css, /section\.lhi-lead-hero\.lhi-lead-hero--mid\s+\.lhi-lead-hero__intro[\s\S]*?display:\s*block\s*!important/);
   assert.match(css, /\.lhi-hero-shell:not\(:has\(\.lhi-lead-hero\)\)\s+\.lhi-hero-lede-block\s*>\s*\.lhi-hero-lede/);
 });
+
+test('blog index (/blog/) uses multi-state H1, email-only newsletter capture, and mid-page lead CTA with email field', () => {
+  const html = readFileSync(join(ROOT, 'blog/index.html'), 'utf8');
+  assert.match(html, /<h1>Health insurance answers for individuals and families\.<\/h1>/);
+  assert.doesNotMatch(html, /<h1>Florida health insurance answers/i);
+  assert.match(html, /<h2 id="article-library-heading">Latest health insurance guidance<\/h2>/);
+  assert.match(html, /<section class="lhi-lead-hero lhi-lead-hero--mid"[^>]*id="lhi-lead-hero"/);
+  assert.match(html, /id="coverage-insider-newsletter"[\s\S]*?name="homepage-newsletter"/);
+  assert.match(html, /id="blog_email"\s+name="email"/);
+
+  const searchIdx = html.indexOf('class="blog-index-tools"');
+  const featuredIdx = html.indexOf('id="featured-under65-heading"');
+  const leadIdx = html.indexOf('id="lhi-lead-hero"');
+  assert.ok(searchIdx > 0 && featuredIdx > searchIdx && leadIdx > featuredIdx, 'blog/index.html places #lhi-lead-hero below search and opening coverage options');
+});

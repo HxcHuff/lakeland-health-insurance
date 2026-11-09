@@ -71,6 +71,7 @@ function buildHopperBody(websiteLead) {
   const firstName = lead.first_name || first;
   const lastName = lead.last_name || last;
   const phone = normalizePhone(lead.phone);
+  const email = cleanText(lead.email, 160).toLowerCase();
   const zip = cleanText(lead.zip, 10);
   const utmSource = cleanText(lead.utm_source || lead.first_utm_source, 80);
   const utmCampaign = cleanText(lead.utm_campaign || lead.first_utm_campaign, 120);
@@ -89,6 +90,7 @@ function buildHopperBody(websiteLead) {
     firstName: firstName || undefined,
     lastName: lastName || undefined,
     phone: phone || undefined,
+    email: email || undefined,
     zipCode: zip || undefined,
     source: deriveHopperSource(lead),
     campaign: utmCampaign || undefined,
