@@ -843,6 +843,34 @@ test('GA4 page_location keeps sanitized UTMs and gclid after the landing query i
   );
   assert.doesNotMatch(pageViews[0][2].page_location, /zip_code|intent=/);
   assert.match(loaded.sandbox.document.cookie, /_gcl_aw=GCL\.\d+\.OpaqueGoogleClickIdentifier123/);
+
+  const metaPaidOtherNormalized = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/aca-2027-check/',
+    search: '?ref=carrier_exit_fl_2027&utm_source=fb_ig&utm_medium=paid_msg&utm_campaign=lhi_2027_aca_msg_polk_fl&utm_content=aca_msg01_exit_crosswalk_2027&utm_term=polk_central_fl_u65',
+    readyState: 'complete'
+  });
+  metaPaidOtherNormalized.runTimeouts();
+  const metaPageViews = gtagCommands(metaPaidOtherNormalized.dataLayer).filter((entry) => entry[0] === 'event' && entry[1] === 'page_view');
+  assert.equal(metaPageViews.length, 1);
+  assert.equal(
+    metaPageViews[0][2].page_location,
+    'https://lakelandhealthinsurance.com/aca-2027-check/?utm_source=fb&utm_medium=paid_social&utm_campaign=lhi_2027_aca_msg_polk_fl&utm_content=aca_msg01_exit_crosswalk_2027&utm_term=polk_central_fl_u65'
+  );
+
+  const barePaidFbclid = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/medicare-2027-check/',
+    search: '?fbclid=PAZXh0bgNhZW0BMABhZGlkAas256OpaqueClickIdToken',
+    readyState: 'complete'
+  });
+  barePaidFbclid.runTimeouts();
+  const barePageViews = gtagCommands(barePaidFbclid.dataLayer).filter((entry) => entry[0] === 'event' && entry[1] === 'page_view');
+  assert.equal(barePageViews.length, 1);
+  assert.equal(
+    barePageViews[0][2].page_location,
+    'https://lakelandhealthinsurance.com/medicare-2027-check/?utm_source=fb&utm_medium=paid_social'
+  );
 });
 
 test('listener-order-safe DOMContentLoaded retry does not load Ads phone conversion tags for late template links', () => {

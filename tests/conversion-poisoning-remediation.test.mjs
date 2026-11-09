@@ -751,12 +751,12 @@ test('Combined Google Tag / GTM duplicate page_view is deduplicated and stripped
     assert.equal(currentHref, 'https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/');
     assert.ok(harness.metaBeacons.some((b) => b.id === '1480756087079484' && b.ev === 'PageView'));
 
-    // 2. GA4 received strictly ONE page_view (not 2.0x), and its dl retained full sanitized UTMs
+    // 2. GA4 received strictly ONE page_view (not 2.0x), and its dl normalized utm_source=fb_ig -> fb for Paid Social
     const pageViews = harness.gaEvents.filter((e) => e.en === 'page_view');
     assert.equal(pageViews.length, 1, `Expected strictly 1 page_view, got ${JSON.stringify(pageViews)}`);
     assert.equal(
       pageViews[0].dl,
-      'https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/?utm_source=fb_ig&utm_medium=paid_social&utm_campaign=lhi_2027_polk_aca_traffic_lpv&utm_content=aca_sunset_clean_photo_2027&utm_term=lakeland_25mi_lpv'
+      'https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/?utm_source=fb&utm_medium=paid_social&utm_campaign=lhi_2027_polk_aca_traffic_lpv&utm_content=aca_sunset_clean_photo_2027&utm_term=lakeland_25mi_lpv'
     );
 
     // 3. Verify transport guard also rewrites stripped dl if GTM fires BEFORE on-page page_view on a fresh route
@@ -780,7 +780,7 @@ test('Combined Google Tag / GTM duplicate page_view is deduplicated and stripped
     assert.equal(medicarePageViews.length, 1, 'Cached GTM race still emits strictly 1 page_view');
     assert.equal(
       medicarePageViews[0].dl,
-      'https://lakelandhealthinsurance.com/medicare-2027-check/?utm_source=fb_ig&utm_medium=paid_social&utm_campaign=lhi_2027_polk_aep_lpv&utm_content=watson_alert_2027'
+      'https://lakelandhealthinsurance.com/medicare-2027-check/?utm_source=fb&utm_medium=paid_social&utm_campaign=lhi_2027_polk_aep_lpv&utm_content=watson_alert_2027'
     );
 
     await context.close();

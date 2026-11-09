@@ -342,6 +342,7 @@ test('query, fragment, and referrer gates reject uncertain or user-like data', (
     { search: '?utm_content=33801' },
     { search: '?utm_content=medicare-tips' },
     { search: '?intent=jane%40example.com' },
+    { search: '?ref=medicare-cancer-plan' },
     { search: '?zip_code=863-555-1212' },
     { search: '?fbclid=IwAR8635551212SensitiveValue' },
     { search: '?utm_source=meta&utm_source=facebook' },
@@ -371,6 +372,12 @@ test('query, fragment, and referrer gates reject uncertain or user-like data', (
     search: '?intent=medicare&zip_code=33805&gclid=OpaqueGoogleClickIdentifier123&utm_term=health-insurance&source_page_key=medicare&source_cta_key=start_review_hero&utm_campaign=florida_brand'
   });
   assert.equal(landingQuery.scripts.length, 1);
+
+  const messengerRefQuery = loadMetaAudience({
+    pathname: '/aca-2027-check/',
+    search: '?ref=carrier_exit_fl_2027&utm_source=fb&utm_medium=paid_social&utm_campaign=lhi_2027_aca_msg_polk_fl&utm_content=aca_msg01_exit_crosswalk_2027&utm_term=polk_central_fl_u65&utm_id=120252758161420324'
+  });
+  assert.equal(messengerRefQuery.scripts.length, 1);
 
   const campaignSlug = loadMetaAudience({
     pathname: '/quote/',
