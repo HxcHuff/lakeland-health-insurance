@@ -3867,3 +3867,139 @@ form.sitelink-lead-form.is-step2-active {
     width: 100%;
   }
 }
+
+/* ==========================================================================
+   2027 / Facebook Blog Guides — Value-First Hero + Mid-Article Lead Form
+   Moves .lhi-lead-hero out of .lhi-hero-shell to halfway down the article
+   (.lhi-lead-hero--mid) so visitors immediately see the headline, full lede,
+   and opening educational sections/tables before the full lead form.
+   ========================================================================== */
+
+body.lhi-page-hero.blog-post .lhi-hero-shell:not(:has(.lhi-lead-hero)) .lhi-hero-lede-block > .lhi-hero-lede:not(.last-reviewed),
+body.lhi-page-hero.blog-post .lhi-hero-shell:not(:has(.lhi-lead-hero)) .lhi-hero-lede-block > .lhi-hero-lead:not(.last-reviewed) {
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  -webkit-box-orient: initial !important;
+  overflow: visible !important;
+  max-width: 68ch !important;
+}
+
+body.lhi-page-hero.blog-post .lhi-hero-shell:not(:has(.lhi-lead-hero)) .lhi-hero-deferred-block {
+  border-top: 0 !important;
+  margin-top: 12px !important;
+  padding-top: 0 !important;
+}
+
+body.lhi-page-hero.blog-post .lhi-hero-shell:not(:has(.lhi-lead-hero)) .lhi-hero-deferred-block .cta-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  align-items: center !important;
+  margin-top: 4px !important;
+}
+
+@media (min-width: 901px) {
+  body.lhi-page-hero.blog-post .lhi-hero-shell:not(:has(.lhi-lead-hero)) > .hero > .container.hero-grid,
+  body.lhi-page-hero.blog-post .lhi-hero-shell:not(:has(.lhi-lead-hero)) > header.hero > .container.hero-grid,
+  body.lhi-page-hero.blog-post .lhi-hero-shell:not(:has(.lhi-lead-hero)) > .article-hero > .container.hero-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    max-width: 1040px !important;
+    row-gap: 12px !important;
+  }
+
+  body.lhi-page-hero.blog-post .lhi-hero-shell:not(:has(.lhi-lead-hero)) .lhi-hero-lede-block,
+  body.lhi-page-hero.blog-post .lhi-hero-shell:not(:has(.lhi-lead-hero)) .lhi-hero-deferred-block {
+    grid-column: 1 / -1 !important;
+    max-width: 860px !important;
+  }
+}
+
+body.blog-post section.lhi-lead-hero.lhi-lead-hero--mid,
+section.lhi-lead-hero.lhi-lead-hero--mid {
+  order: unset !important;
+  background: linear-gradient(180deg, #f0f5ff 0%, #f8fafc 100%) !important;
+  border: 2px solid #cbd5e1 !important;
+  border-top: 4px solid #d4a843 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 28px rgba(15, 26, 46, 0.08) !important;
+  margin: 26px auto !important;
+  max-width: 1040px !important;
+  padding: 24px 22px !important;
+}
+
+body.blog-post section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__grid,
+section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 18px !important;
+  align-items: start !important;
+  max-width: 100% !important;
+}
+
+@media (min-width: 901px) {
+  body.blog-post div.container > section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__grid {
+    grid-template-columns: minmax(250px, 0.85fr) minmax(380px, 1.15fr) !important;
+    gap: 24px !important;
+  }
+}
+
+body.blog-post section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__intro,
+section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__intro {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body.blog-post section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__title,
+section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__title {
+  color: #1b2a4a !important;
+  font-family: 'Instrument Serif', 'Instrument Serif Fallback', serif !important;
+  font-size: clamp(1.4rem, 2.3vw, 1.8rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.22 !important;
+  margin: 0 0 8px !important;
+}
+
+body.blog-post section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__note,
+section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__note {
+  color: #334155 !important;
+  font-size: 0.96rem !important;
+  line-height: 1.55 !important;
+  margin: 0 !important;
+}
+
+body.blog-post section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__card,
+section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__card {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 14px rgba(15, 26, 46, 0.05) !important;
+  padding: 18px 18px 16px !important;
+  width: 100% !important;
+}
+
+body.blog-post section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__field > label.lhi-lead-hero__consent,
+body.blog-post section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__field > label.lhi-lead-hero__consent span,
+section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__field > label.lhi-lead-hero__consent,
+section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__field > label.lhi-lead-hero__consent span {
+  color: #475569 !important;
+}
+
+body.blog-post section.lhi-lead-hero.lhi-lead-hero--mid label.lhi-lead-hero__consent a,
+section.lhi-lead-hero.lhi-lead-hero--mid label.lhi-lead-hero__consent a {
+  color: #1e40af !important;
+  text-decoration: underline !important;
+}
+
+@media (max-width: 600px) {
+  body.blog-post section.lhi-lead-hero.lhi-lead-hero--mid,
+  section.lhi-lead-hero.lhi-lead-hero--mid {
+    padding: 18px 14px !important;
+    margin: 20px auto !important;
+  }
+
+  body.blog-post section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__card,
+  section.lhi-lead-hero.lhi-lead-hero--mid .lhi-lead-hero__card {
+    padding: 14px 12px !important;
+  }
+}
