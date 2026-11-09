@@ -430,6 +430,7 @@ const META_ELIGIBLE_PATHS = new Set([
   '/blog/switch-to-medigap-plan-g-non-renewal.html',
   '/blog/medicare-advantage-plan-ending-what-now.html',
   '/blog/medicare-part-b-giveback-polk-county.html',
+  '/blog/aca-subsidy-income-limits-florida-2027.html',
   '/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/'
 ]);
 
@@ -1311,18 +1312,16 @@ exports.handler = async (event) => {
           user_data: userData
         };
         const body = { data: [] };
-        if (!isSiteLead || isEligibleMetaLeadPath) {
-          body.data.push({
-            ...sharedEvent,
-            event_name: 'Lead',
-            event_id: eventId,
-            custom_data: {
-              content_name: 'first_party_lead',
-              currency: 'USD',
-              value: 0
-            }
-          });
-        }
+        body.data.push({
+          ...sharedEvent,
+          event_name: 'Lead',
+          event_id: eventId,
+          custom_data: {
+            content_name: 'first_party_lead',
+            currency: 'USD',
+            value: 0
+          }
+        });
         const customEventId = derivedCustomEventId(eventId, FORM_CUSTOM_SUFFIX);
         if (customEventId) {
           body.data.push({

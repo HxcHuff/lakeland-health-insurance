@@ -88,4 +88,5 @@ test('meta-event helper validation covers event ids and paths', () => {
   assert.equal(_test.approvedEventId('sms_cta_click', 'lhi_smc_abcdef0123456789'), 'lhi_smc_abcdef0123456789');
   assert.equal(_test.normalizePath('/get-help'), '/get-help/');
   assert.equal(_test.ELIGIBLE_PATHS.has('/get-help/'), true);
+  assert.equal(_test.ELIGIBLE_PATHS.has('/blog/aca-subsidy-income-limits-florida-2027.html'), true);
 });

@@ -29,6 +29,7 @@ const ELIGIBLE_PATHS = new Set([
   '/blog/switch-to-medigap-plan-g-non-renewal.html',
   '/blog/medicare-advantage-plan-ending-what-now.html',
   '/blog/medicare-part-b-giveback-polk-county.html',
+  '/blog/aca-subsidy-income-limits-florida-2027.html',
   '/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/'
 ]);
 const RATE_LIMIT_STORE = 'meta-event-rate-v1';

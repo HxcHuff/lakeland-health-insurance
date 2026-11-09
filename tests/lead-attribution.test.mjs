@@ -409,7 +409,7 @@ test('Meta CAPI uses default-allow consent and honors opt-out, GPC, and DNT afte
   assert.equal(allowed.calls.length, 2);
 });
 
-test('site lead forms send Lead + form_submit_complete on reviewed eligible paths and only form_submit_complete on non-eligible paths', async () => {
+test('site lead forms send Lead + form_submit_complete on all paths while scrubbing event_source_url to origin on non-eligible paths', async () => {
   const startedAt = Date.now() - 2_000;
   const payload = {
     'form-name': 'site-medicare-lead',
@@ -441,6 +441,7 @@ test('site lead forms send Lead + form_submit_complete on reviewed eligible path
   const meta = JSON.parse(calls[1].init.body);
   assert.equal(meta.data.length, 2);
   assert.equal(meta.data[0].event_name, 'Lead');
+  assert.equal(meta.data[0].event_source_url, 'https://lakelandhealthinsurance.com/blog/orlando-health-watson-clinic-2027-plan.html');
   assert.deepEqual(meta.data[0].custom_data, {
     content_name: 'first_party_lead',
     currency: 'USD',
@@ -464,8 +465,16 @@ test('site lead forms send Lead + form_submit_complete on reviewed eligible path
     }
   });
   const nonEligibleMeta = JSON.parse(nonEligible.calls[1].init.body);
-  assert.equal(nonEligibleMeta.data.length, 1);
-  assert.equal(nonEligibleMeta.data[0].event_name, 'form_submit_complete');
+  assert.equal(nonEligibleMeta.data.length, 2);
+  assert.equal(nonEligibleMeta.data[0].event_name, 'Lead');
+  assert.equal(nonEligibleMeta.data[0].event_source_url, 'https://lakelandhealthinsurance.com/');
+  assert.deepEqual(nonEligibleMeta.data[0].custom_data, {
+    content_name: 'first_party_lead',
+    currency: 'USD',
+    value: 0
+  });
+  assert.equal(nonEligibleMeta.data[1].event_name, 'form_submit_complete');
+  assert.equal(nonEligibleMeta.data[1].event_source_url, 'https://lakelandhealthinsurance.com/');
 });
 
 test('server consent cookie parser distinguishes absence, malformed, duplicate, and approved state', () => {
