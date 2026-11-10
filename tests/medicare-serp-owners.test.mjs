@@ -12,20 +12,20 @@ const LEARNING = readFileSync(resolve(ROOT, 'learning/index.html'), 'utf8');
 const HOME = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
 
 test('Medicare hub owns help/decision SERP, not broker phrasing in title', () => {
-  assert.match(MEDICARE, /<title>Medicare Help in Lakeland, FL \| Doctors, Rx &amp; 2027 AEP<\/title>/);
+  assert.match(MEDICARE, /<title>2027 Medicare Plan Comparison Lakeland, FL \| Advantage &amp; Medigap<\/title>/);
   assert.match(
     MEDICARE,
-    /content="Local Medicare review for Lakeland and Polk County\. Compare 2027 Advantage, Medigap, and Part D around your doctors and drugs\. A review is not enrollment\."/
+    /content="Compare 2027 Lakeland Medicare Advantage, Supplement \(Plan G\/N\) &amp; Part D \(\$2,400 Rx cap\)\. Check Watson Clinic, LRH &amp; BayCare doctors with David: \(863\) 640-3102\."/
   );
   assert.doesNotMatch(MEDICARE, /<title>[^<]*Medicare Broker[^<]*<\/title>/i);
   assert.match(MEDICARE, /href="\/medicare-broker-lakeland-fl\/"/);
 });
 
 test('Broker page owns commercial broker SERP while keeping cite-ready direct answer', () => {
-  assert.match(BROKER, /<title>Medicare Broker in Lakeland, FL \| Licensed Local Review<\/title>/);
+  assert.match(BROKER, /<title>Medicare Broker in Lakeland, FL \| Advantage &amp; Supplement Agent<\/title>/);
   assert.match(
     BROKER,
-    /content="Looking for Medicare help in Lakeland\? A licensed Florida health agent reviews your doctors and prescriptions with you\. Call \(863\) 640-3102 for a review\."/
+    /content="Local Lakeland Medicare insurance broker &amp; agent David Huff \(FL #W371813\) compares 2027 Medicare Advantage, Supplement \(Plan G\/N\) &amp; Part D plans: \(863\) 640-3102\."/
   );
   assert.match(BROKER, /<h1>Medicare broker in Lakeland, FL — licensed local agent for doctors, prescriptions, and AEP\.<\/h1>/);
   assert.match(BROKER, /Direct answer:\s*who can help review Medicare Advantage in Lakeland/i);

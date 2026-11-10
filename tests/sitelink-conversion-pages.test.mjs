@@ -101,6 +101,8 @@ for (const [file, sourcePage, sourcePageKey, defaultIntent] of acaSitelinkPages)
     assert.match(form, new RegExp(`name="source_page" value="${escapeRegex(sourcePage)}"`));
     assert.match(form, new RegExp(`name="source_page_key" value="${escapeRegex(sourcePageKey)}"`));
     assert.match(form, new RegExp(`name="normalized_intent" value="${escapeRegex(defaultIntent)}"`));
+    assert.match(form, /<input id="aca(?:Lakeland|Polk)LeadEmail" name="email" type="email" autocomplete="email" placeholder="you@example\.com">/);
+    assert.doesNotMatch(form, /<input name="email" type="email" tabindex="-1"/);
     assert.doesNotMatch(form, /<textarea/i);
     assert.doesNotMatch(form, /tips and updates/i);
     assert.doesNotMatch(form, /\bfree\b/i);
