@@ -55,3 +55,79 @@ test('site lead hopper posts minimized payload to quick-add', async () => {
   assert.equal(fbBody.utmCampaign, 'lhi_2027_polk_traffic_lpv');
   assert.equal(fbBody.utmContent, 'watson_sunset_clean_photo_2027');
 });
+
+test('site lead hopper forwards state and non-PHI operational context and classifies transient timeouts vs 4xx', async () => {
+  const env = {
+    HOPPER_INTAKE_URL: 'https://huff-health-app.vercel.app/api/leads/quick-add',
+    HOPPER_INTAKE_KEY: 'test-hopper-key'
+  };
+  const calls = [];
+  const okResult = await deliverSiteLeadToHopper({
+    form_name: 'site-aca-lead',
+    name: 'Morgan Ohio',
+    first_name: 'Morgan',
+    last_name: 'Ohio',
+    phone: '9375550199',
+    zip: '45429',
+    state: 'OH',
+    coverage_status: 'individual_marketplace',
+    best_time_to_reach: 'morning',
+    page_url: 'https://lakelandhealthinsurance.com/blog/ohiohealth-kettering-health-anthem-humana-ohio-2027.html'
+  }, {
+    environment: env,
+    fetchImpl: async (url, options) => {
+      calls.push({ url: String(url), options });
+      return new Response('{}', { status: 200 });
+    }
+  });
+
+  assert.equal(okResult.ok, true);
+  const body = JSON.parse(calls[0].options.body);
+  assert.equal(body.state, 'OH');
+  assert.match(body.notes, /state=OH/);
+  assert.match(body.notes, /coverage_status=individual_marketplace/);
+  assert.match(body.notes, /best_time_to_reach=morning/);
+
+  const serverError = await deliverSiteLeadToHopper({
+    form_name: 'site-aca-lead',
+    name: 'Morgan Ohio',
+    phone: '9375550199'
+  }, {
+    environment: env,
+    fetchImpl: async () => new Response('upstream error', { status: 503 })
+  });
+  assert.equal(serverError.ok, false);
+  assert.equal(serverError.permanent, false);
+  assert.equal(serverError.error, 'hopper_503');
+
+  const badRequest = await deliverSiteLeadToHopper({
+    form_name: 'site-aca-lead',
+    name: 'Morgan Ohio',
+    phone: '9375550199'
+  }, {
+    environment: env,
+    fetchImpl: async () => new Response('bad request', { status: 422 })
+  });
+  assert.equal(badRequest.ok, false);
+  assert.equal(badRequest.permanent, true);
+  assert.equal(badRequest.error, 'hopper_422');
+
+  const timedOut = await deliverSiteLeadToHopper({
+    form_name: 'site-aca-lead',
+    name: 'Morgan Ohio',
+    phone: '9375550199'
+  }, {
+    environment: env,
+    timeoutMilliseconds: 10,
+    fetchImpl: async (_url, options) => new Promise((_resolve, reject) => {
+      options.signal.addEventListener('abort', () => {
+        const abortErr = new Error('The operation was aborted');
+        abortErr.name = 'AbortError';
+        reject(abortErr);
+      });
+    })
+  });
+  assert.equal(timedOut.ok, false);
+  assert.equal(timedOut.permanent, false);
+  assert.equal(timedOut.error, 'hopper_timeout');
+});

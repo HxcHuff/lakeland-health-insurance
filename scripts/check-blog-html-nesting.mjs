@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /** Structural HTML checks for blog/*.html (151 files). */
-import { readFileSync, writeFileSync, readdirSync, mkdirSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, readdirSync, mkdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { chromium } from 'playwright';
 
@@ -45,9 +45,12 @@ const CHECK_EVAL = (html) => {
   return issues;
 };
 
+const DEFAULT_CHROME_PATH = existsSync('/usr/local/bin/google-chrome')
+  ? '/usr/local/bin/google-chrome'
+  : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const browser = await chromium.launch({
   headless: true,
-  executablePath: process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || '/usr/local/bin/google-chrome'
+  executablePath: process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || DEFAULT_CHROME_PATH
 });
 const page = await browser.newPage();
 

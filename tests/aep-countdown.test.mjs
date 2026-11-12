@@ -26,10 +26,10 @@ test('primary broker page ships a no-JS AEP default instead of -- days', () => {
   assert.match(BROKER_HTML, /id="countdownNumber">October 15</);
   assert.doesNotMatch(BROKER_HTML, /id="countdownNumber">-- days</);
   assert.match(BROKER_HTML, /src="\/js\/aep-countdown\.js\?v=20260923-aep-countdown"/);
-  assert.match(BROKER_HTML, /<title>Medicare Broker in Lakeland, FL \| Licensed Local Review<\/title>/);
+  assert.match(BROKER_HTML, /<title>Medicare Broker in Lakeland, FL \| Advantage &amp; Supplement Agent<\/title>/);
   assert.match(
     BROKER_HTML,
-    /content="Looking for Medicare help in Lakeland\? A licensed Florida health agent reviews your doctors and prescriptions with you\. Call \(863\) 640-3102 for a review\."/
+    /content="Local Lakeland Medicare insurance broker &amp; agent David Huff \(FL #W371813\) compares 2027 Medicare Advantage, Supplement \(Plan G\/N\) &amp; Part D plans: \(863\) 640-3102\."/
   );
   assert.match(BROKER_HTML, /Direct answer:\s*who can help review Medicare Advantage in Lakeland/i);
 });

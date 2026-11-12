@@ -475,6 +475,27 @@ test('site lead forms send Lead + form_submit_complete on all paths while scrubb
   });
   assert.equal(nonEligibleMeta.data[1].event_name, 'form_submit_complete');
   assert.equal(nonEligibleMeta.data[1].event_source_url, 'https://lakelandhealthinsurance.com/');
+
+  const nonEligibleGetHelp = await invoke(getHelpPayload({
+    source_url: 'https://lakelandhealthinsurance.com/losing-medicaid-florida/',
+    source_page: '/losing-medicaid-florida/'
+  }), {
+    headers: {
+      cookie: '',
+      referer: 'https://lakelandhealthinsurance.com/losing-medicaid-florida/'
+    }
+  });
+  const nonEligibleGetHelpMeta = JSON.parse(nonEligibleGetHelp.calls[1].init.body);
+  assert.equal(nonEligibleGetHelpMeta.data[0].event_source_url, 'https://lakelandhealthinsurance.com/');
+  assert.equal(nonEligibleGetHelpMeta.data[1].event_source_url, 'https://lakelandhealthinsurance.com/');
+
+  assert.equal(_test.isProductionContext({ LHI_SITE_ENV: 'production' }), true);
+  assert.equal(_test.isProductionContext({ LHI_SITE_ENV: 'production', CONTEXT: '' }), true);
+  assert.equal(_test.isProductionContext({ LHI_SITE_ENV: 'production', CONTEXT: 'production' }), true);
+  assert.equal(_test.isProductionContext({ LHI_SITE_ENV: 'production', CONTEXT: 'deploy-preview' }), false);
+  assert.equal(_test.isProductionContext({ LHI_SITE_ENV: 'production', CONTEXT: 'branch-deploy' }), false);
+  assert.equal(_test.isProductionContext({ LHI_SITE_ENV: 'preview', CONTEXT: 'production' }), false);
+  assert.equal(_test.isProductionContext({ CONTEXT: 'production' }), false);
 });
 
 test('server consent cookie parser distinguishes absence, malformed, duplicate, and approved state', () => {

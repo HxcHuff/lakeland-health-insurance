@@ -17,6 +17,11 @@ const {
   collectSanitizedClickIds,
   hubSpotClickAttribution
 } = require('./campaign-attribution');
+const {
+  SITE_LEAD_FORMS,
+  deliverSiteLeadToHopper,
+  hopperConfigured
+} = require('./site-lead-hopper');
 
 const PRIMARY_SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const PRODUCTION_SITE_ID = 'b6ad2d8f-d771-44f4-89b5-7ab30350950e';
@@ -224,6 +229,11 @@ function buildWebsiteLeadPayload({
     'plan_interest'
   ], 160);
   if (insuranceType) lead.insurance_type = insuranceType;
+
+  for (const field of ['coverage_status', 'best_time_to_reach', 'medicare_stage', 'age_timeline']) {
+    const value = firstField(source, [field], 80);
+    if (value) lead[field] = value;
+  }
 
   const pageUrl = pageUrlFrom(source);
   if (pageUrl) lead.page_url = pageUrl;
@@ -807,10 +817,53 @@ async function deliverWebsiteLead({
   }
 }
 
+async function enqueueWebsiteLeadOutbox({
+  lead,
+  reason,
+  permanent = false,
+  status,
+  environment = process.env,
+  logger,
+  now = () => Date.now(),
+  event,
+  storeFactory,
+  blobsImport
+} = {}) {
+  if (!lead || typeof lead !== 'object' || !SUBMISSION_ID.test(String(lead.submission_id || ''))) {
+    return false;
+  }
+  const resolvedFactory = typeof storeFactory === 'function'
+    ? storeFactory
+    : createProductionStoreFactory({ environment, blobsImport });
+  const store = await openBridgeStore(resolvedFactory, event);
+  let queued = false;
+  if (store) {
+    try {
+      queued = await enqueueFailedLead({
+        store,
+        lead,
+        reason,
+        nowMilliseconds: Number(now()),
+        permanent: Boolean(permanent)
+      });
+    } catch {
+      queued = false;
+    }
+  }
+  safeLog(logger, {
+    form_name: lead.form_name,
+    outcome: queued ? 'QUEUED' : 'FAILED',
+    reason: reason || 'delivery_failed',
+    ...(status != null ? { status } : {})
+  });
+  return queued;
+}
+
 async function retryStoredLead({
   record,
   store,
   config,
+  environment = process.env,
   fetchImpl,
   logger,
   now,
@@ -831,6 +884,55 @@ async function retryStoredLead({
     }
     safeLog(logger, { form_name: lead.form_name, outcome: 'FAILED', reason: 'retention_expired' });
     return 'EXPIRED';
+  }
+
+  if (SITE_LEAD_FORMS.has(lead.form_name)) {
+    if (!hopperConfigured(environment)) {
+      safeLog(logger, { form_name: lead.form_name, outcome: 'FAILED', reason: 'hopper_not_configured' });
+      return 'SKIPPED';
+    }
+    const hopper = await deliverSiteLeadToHopper(lead, {
+      fetchImpl,
+      environment,
+      setTimer,
+      clearTimer,
+      timeoutMilliseconds
+    });
+    if (hopper && hopper.ok === true) {
+      try {
+        await store.delete(key);
+      } catch {
+        // Delivery already succeeded; a leftover key will no-op on the next scan.
+      }
+      safeLog(logger, {
+        form_name: lead.form_name,
+        outcome: 'DELIVERED',
+        reason: 'hopper_retry',
+        status: hopper.status
+      });
+      return 'DELIVERED';
+    }
+    const hopperPermanent = Boolean(hopper && hopper.permanent);
+    const hopperReason = (hopper && hopper.error) || 'hopper_delivery_failed';
+    await enqueueFailedLead({
+      store,
+      lead,
+      reason: hopperReason,
+      nowMilliseconds,
+      permanent: hopperPermanent
+    });
+    safeLog(logger, {
+      form_name: lead.form_name,
+      outcome: hopperPermanent ? 'FAILED' : 'QUEUED',
+      reason: hopperReason,
+      ...(hopper && hopper.status != null ? { status: hopper.status } : {})
+    });
+    return hopperPermanent ? 'FAILED' : 'QUEUED';
+  }
+
+  if (!config) {
+    safeLog(logger, { form_name: lead.form_name, outcome: 'FAILED', reason: 'missing_configuration' });
+    return 'SKIPPED';
   }
 
   const result = await postWebsiteLead({
@@ -896,7 +998,8 @@ function createBridgeRetryHandler({
       };
     }
     const config = readBridgeConfig(environment);
-    if (!config) {
+    const hasHopper = hopperConfigured(environment);
+    if (!config && !hasHopper) {
       safeLog(logger, {
         outcome: 'FAILED',
         reason: 'missing_configuration'
@@ -952,6 +1055,7 @@ function createBridgeRetryHandler({
       record,
       store,
       config,
+      environment,
       fetchImpl,
       logger,
       now,
@@ -980,6 +1084,7 @@ module.exports = {
   createBridgeRetryHandler,
   createProductionStoreFactory,
   deliverWebsiteLead,
+  enqueueWebsiteLeadOutbox,
   isProductionContext,
   outboxKey,
   postWebsiteLead,

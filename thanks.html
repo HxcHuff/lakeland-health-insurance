@@ -489,8 +489,21 @@
       var kind = marker && marker.kind ? marker.kind : 'generic';
       var isLeadConfirmation = Boolean(marker && (kind === 'Lead' || !marker.kind));
 
+      var markerState = marker && typeof marker.coverage_state === 'string'
+        ? marker.coverage_state.trim().toUpperCase()
+        : '';
+      var markerPath = marker && typeof marker.page_path === 'string'
+        ? marker.page_path.toLowerCase()
+        : '';
+      var isNonFloridaPath = /\/health-insurance-(?!florida\b)[a-z-]+|-(?:ohio|texas|georgia|north-carolina|south-carolina|tennessee|virginia|indiana|michigan|missouri|alabama|arizona|iowa|kansas|louisiana|maryland|mississippi|nebraska|new-jersey|oklahoma|washington|west-virginia|houston|dallas|austin|charlotte|raleigh|atlanta|st-louis|cleveland)-/.test(markerPath);
+      var isNonFloridaLead = Boolean((/^[A-Z]{2}$/.test(markerState) && markerState !== 'FL') || isNonFloridaPath);
+
       function text(id, value) { var el = document.getElementById(id); if (el && value) el.textContent = value; }
       function hide(id) { var el = document.getElementById(id); if (el) el.hidden = true; }
+
+      if (isNonFloridaLead) {
+        ['thanksInteractiveSpotCheck', 'thanksFbGroupCard'].forEach(hide);
+      }
 
       if (isLeadConfirmation) {
         text('thanksTitle', 'David will reach out shortly.');

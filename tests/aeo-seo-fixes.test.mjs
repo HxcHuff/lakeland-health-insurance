@@ -47,7 +47,7 @@ test('robots.txt names AI crawlers with the same Allow and Disallow rules', () =
   assert.match(robots, /User-agent: \*/);
 });
 
-test('llms.txt lists sitemap URLs and excludes Georgia', () => {
+test('llms.txt lists sitemap URLs including Georgia', () => {
   const llms = source('llms.txt');
   const sitemap = source('sitemap.xml');
   const urls = [...llms.matchAll(/https:\/\/lakelandhealthinsurance\.com\/[^\s)]+/g)].map((match) => match[0].replace(/[.,]$/, ''));
@@ -58,7 +58,7 @@ test('llms.txt lists sitemap URLs and excludes Georgia', () => {
     const rel = pathname.endsWith('/') ? `${pathname}index.html` : pathname;
     assert.equal(existsSync(join(ROOT, rel || 'index.html')), true, rel);
   }
-  assert.doesNotMatch(llms, /health-insurance-georgia/);
+  assert.match(llms, /health-insurance-georgia/);
   assert.match(
     llms,
     /We do not offer every plan available in your area\. Currently we represent 10 organizations which offer 74 products in your area\. Please contact www\.medicare\.gov or 1-800-MEDICARE, or your local State Health Insurance Program \(SHIP\) to get information on all of your options\./,

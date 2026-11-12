@@ -1,12 +1,16 @@
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import test from 'node:test';
 import { chromium } from 'playwright';
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
-const CHROME_PATH = process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH || '/usr/local/bin/google-chrome';
+const CHROME_PATH =
+  process.env.PLAYWRIGHT_CHROME_EXECUTABLE_PATH ||
+  (existsSync('/usr/local/bin/google-chrome')
+    ? '/usr/local/bin/google-chrome'
+    : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome');
 const WATSON =
   '/blog/orlando-health-watson-clinic-2027-plan.html';
 const CONTROL_POSTS = [

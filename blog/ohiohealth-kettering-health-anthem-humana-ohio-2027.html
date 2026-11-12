@@ -196,16 +196,8 @@
   },
   "areaServed": [
     {
-      "@type": "City",
-      "name": "Lakeland"
-    },
-    {
-      "@type": "AdministrativeArea",
-      "name": "Polk County"
-    },
-    {
-      "@type": "AdministrativeArea",
-      "name": "Florida"
+      "@type": "State",
+      "name": "Ohio"
     }
   ],
   "audience": {
@@ -1079,86 +1071,51 @@
         <!-- Right Column: Lead Form -->
         <div class="lhi-bottom-conversion__form-card">
           <form
+            class="lhi-lead-hero__form"
             id="ohio-network-check-bottom-form"
-            name="ohio-2027-network-check"
+            name="site-aca-lead"
             method="POST"
-            action="/get-help/?state=OH&amp;submitted=1&amp;source=blog_ohio_2027_bottom"
+            action="/thanks.html"
             data-netlify="true"
-            netlify-honeypot="bot-field"
-            novalidate
+            data-netlify-honeypot="bot-field"
+            data-lhi-site-lead-form
+            data-funnel-track=""
+            data-funnel-event="Lead"
+            data-funnel-name="site_blog_aca_lead"
+            aria-label="Request your 2027 Ohio doctor and hospital network check"
           >
-            <input type="hidden" name="form-name" value="ohio-2027-network-check" />
-            <input type="hidden" name="state" value="OH" />
-            <input type="hidden" name="page_slug" value="ohiohealth-kettering-health-anthem-humana-ohio-2027" />
-            <input type="hidden" name="form_location" value="blog_bottom" />
-            <input type="hidden" name="systems_selected" value="" />
-            <p hidden aria-hidden="true">
-              <label>Don’t fill this out if you’re human: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+            <input type="hidden" name="form-name" value="site-aca-lead">
+            <input type="hidden" name="source_page" value="/blog/ohiohealth-kettering-health-anthem-humana-ohio-2027.html">
+            <input type="hidden" name="source_template" value="blog_post">
+            <input type="hidden" name="coverage_state" value="OH">
+            <input type="hidden" name="state" value="OH">
+            <input type="hidden" name="consent_text_version" value="site-aca-2026-10-v1">
+            <input type="hidden" name="utm_source">
+            <input type="hidden" name="utm_medium">
+            <input type="hidden" name="utm_campaign">
+            <input type="hidden" name="utm_term">
+            <input type="hidden" name="utm_content">
+            <input type="hidden" name="gclid">
+            <input type="hidden" name="gbraid">
+            <input type="hidden" name="wbraid">
+            <input type="hidden" name="gad_campaignid">
+            <input type="hidden" name="first_gclid">
+            <input type="hidden" name="first_gbraid">
+            <input type="hidden" name="first_wbraid">
+            <input type="hidden" name="first_gad_campaignid">
+            <input type="hidden" name="lead_source" value="">
+            <input type="hidden" name="lead_medium" value="">
+            <input type="hidden" name="lead_campaign" value="">
+            <input type="hidden" name="landing_page" value="">
+            <input type="hidden" name="referrer" value="">
+            <input type="hidden" name="click_id_type" value="">
+            <input type="hidden" name="lead_channel" value="">
+            <input type="hidden" name="click_timestamp" value="">
+            <input type="hidden" name="started_at">
+            <input type="hidden" name="human_check">
+            <p class="lhi-lead-hero__honeypot" hidden aria-hidden="true">
+              <label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
             </p>
-
-            <div class="lhi-form-row lhi-form-row--split">
-              <div class="lhi-form-field">
-                <label for="oh-bottom-zip">Ohio ZIP Code <span aria-hidden="true">*</span></label>
-                <input
-                  type="text"
-                  id="oh-bottom-zip"
-                  name="zip"
-                  inputmode="numeric"
-                  pattern="^(43|44|45)[0-9]{3}$"
-                  maxlength="5"
-                  placeholder="e.g., 45429 or 43214"
-                  required
-                  autocomplete="postal-code"
-                />
-              </div>
-
-              <div class="lhi-form-field">
-                <label for="oh-bottom-coverage">2027 Coverage Type <span aria-hidden="true">*</span></label>
-                <select id="oh-bottom-coverage" name="coverage_type" required>
-                  <option value="" disabled selected>Select coverage...</option>
-                  <option value="medicare_65_plus">Medicare (65+ / Turning 65)</option>
-                  <option value="aca_under_65">Under-65 / ACA Marketplace</option>
-                  <option value="medigap_supplement">Medicare Supplement (Plan G / N)</option>
-                  <option value="losing_coverage_sep">Losing Employer or Medicaid Coverage</option>
-                </select>
-              </div>
-            </div>
-
-            <fieldset class="lhi-form-fieldset">
-              <legend>Hospitals / Systems You Want to Keep (Check all that apply)</legend>
-              <div class="lhi-checkbox-pills">
-                <label class="lhi-pill-check">
-                  <input type="checkbox" name="systems" value="Kettering Health / KPN" />
-                  <span>Kettering Health / KPN</span>
-                </label>
-                <label class="lhi-pill-check">
-                  <input type="checkbox" name="systems" value="Premier Health / Miami Valley Hospital" />
-                  <span>Miami Valley / Premier (PPN)</span>
-                </label>
-                <label class="lhi-pill-check">
-                  <input type="checkbox" name="systems" value="OhioHealth" />
-                  <span>OhioHealth (Columbus/Central OH)</span>
-                </label>
-                <label class="lhi-pill-check">
-                  <input type="checkbox" name="systems" value="OSU Wexner / The James" />
-                  <span>OSU Wexner / The James</span>
-                </label>
-                <label class="lhi-pill-check">
-                  <input type="checkbox" name="systems" value="Dayton Childrens" />
-                  <span>Dayton Children's</span>
-                </label>
-              </div>
-            </fieldset>
-
-            <div class="lhi-form-field">
-              <label for="oh-bottom-doctors">Doctors, Clinics, or Prescriptions to Verify (Optional)</label>
-              <textarea
-                id="oh-bottom-doctors"
-                name="doctors_notes"
-                rows="2"
-                placeholder="e.g., Dr. Smith (KPN Primary Care), orthopedic specialist at Miami Valley South, Eliquis..."
-              ></textarea>
-            </div>
 
             <div class="lhi-form-row lhi-form-row--split">
               <div class="lhi-form-field">
@@ -1170,7 +1127,7 @@
                   placeholder="First &amp; Last Name"
                   required
                   autocomplete="name"
-                />
+                >
               </div>
 
               <div class="lhi-form-field">
@@ -1182,30 +1139,74 @@
                   placeholder="(937) 555-0199"
                   required
                   autocomplete="tel"
-                />
+                >
+              </div>
+            </div>
+
+            <div class="lhi-form-row lhi-form-row--split">
+              <div class="lhi-form-field">
+                <label for="oh-bottom-zip">Ohio ZIP Code <span aria-hidden="true">*</span></label>
+                <input
+                  type="text"
+                  id="oh-bottom-zip"
+                  name="zip_code"
+                  inputmode="numeric"
+                  pattern="[0-9]{5}"
+                  maxlength="5"
+                  placeholder="e.g., 45429 or 43214"
+                  required
+                  autocomplete="postal-code"
+                >
+              </div>
+
+              <div class="lhi-form-field">
+                <label for="oh-bottom-coverage">2027 Coverage Type <span aria-hidden="true">*</span></label>
+                <select id="oh-bottom-coverage" name="coverage_status" required>
+                  <option value="" disabled selected>Select coverage...</option>
+                  <option value="medicare_advantage">Medicare Advantage (65+ / Turning 65)</option>
+                  <option value="medicare_supplement">Medicare Supplement (Plan G / N)</option>
+                  <option value="individual_marketplace">Under-65 Individual Marketplace (HealthCare.gov)</option>
+                  <option value="family_marketplace">Under-65 Family Marketplace (HealthCare.gov)</option>
+                  <option value="losing_coverage">Losing Employer or Medicaid Coverage</option>
+                  <option value="current_plan_review">Kettering / Miami Valley / OhioHealth Doctor Check</option>
+                </select>
               </div>
             </div>
 
             <div class="lhi-form-field">
-              <label for="oh-bottom-email">Email Address (Optional — for sending your written comparison)</label>
+              <label for="oh-bottom-email">Email Address (Optional)</label>
               <input
                 type="email"
                 id="oh-bottom-email"
                 name="email"
                 placeholder="you@example.com"
                 autocomplete="email"
-              />
+              >
             </div>
 
-            <p id="oh-bottom-form-status" class="lhi-form-status" role="status" aria-live="polite"></p>
+            <div class="lhi-form-field">
+              <label for="oh-bottom-doctors">Hospitals or Doctors to Keep (Optional)</label>
+              <input
+                type="text"
+                id="oh-bottom-doctors"
+                name="providers"
+                autocomplete="off"
+                placeholder="e.g., Kettering Health Main, Miami Valley Hospital, OhioHealth, KPN PCP"
+              >
+            </div>
 
-            <button type="submit" class="lhi-btn-primary lhi-btn-submit">
-              Verify My 2027 Ohio Doctors &amp; Plans →
+            <div class="lhi-form-field">
+              <label class="lhi-lead-hero__consent" for="oh-bottom-consent">
+                <input type="checkbox" id="oh-bottom-consent" name="consent" value="yes">
+                <span>By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my health insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
+              </label>
+            </div>
+
+            <p id="oh-bottom-form-status" class="lhi-form-status lhi-lead-hero__status" data-lhi-lead-status role="status" aria-live="polite"></p>
+
+            <button type="submit" class="lhi-btn-primary lhi-btn-submit lhi-lead-hero__submit">
+              Verify My 2027 Ohio Doctors &amp; Plans
             </button>
-
-            <p class="lhi-form-disclaimer">
-              <strong>No-Obligation Review &amp; Consent:</strong> Submitting this form requests a 2027 provider and plan review from David Huff, Licensed Insurance Agent (NPN #18213932, licensed in OH &amp; 22 states), and does not enroll you in any plan. By providing your phone number, you agree to receive calls or text messages (including via automated technology from +1-863-270-7035 or +1-863-640-3102 between 8:00 AM and 9:00 PM local time) regarding your insurance inquiry. Consent is not a condition of purchase; message &amp; data rates may apply; reply STOP to opt out.
-            </p>
           </form>
         </div>
 
@@ -1219,7 +1220,7 @@
   </section>
 
   <footer class="container">
-    <p class="small">Lakeland Health Insurance | David Huff, Licensed Insurance Agent (FL #W371813 · NPN #18213932 · Licensed in OH &amp; 22 other states) | <a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms/">Terms of Service</a> · <a href="/data-deletion/">Data Deletion</a></p>
+    <p class="small">Lakeland Health Insurance | <a href="/about/">David Huff</a>, Licensed Insurance Agent (FL #W371813 · NPN #18213932 · Licensed in OH &amp; 22 other states) | <a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms/">Terms of Service</a> · <a href="/data-deletion/">Data Deletion</a></p>
   </footer>
 
   <script>
@@ -1249,99 +1250,4 @@
   <script src="/js/lead-hero.js?v=20261030-step1-cache-bust-v1" defer></script>
   <script src="/js/analytics.js?v=20261030-step1-cache-bust-v1" defer></script>
   <script src="/js/funnel.js?v=20261030-step1-cache-bust-v1" defer></script>
-  <script>
-    (function () {
-      const form = document.getElementById('ohio-network-check-bottom-form');
-      if (!form) return;
-
-      const statusEl = document.getElementById('oh-bottom-form-status');
-      const zipInput = document.getElementById('oh-bottom-zip');
-      let formStarted = false;
-
-      form.addEventListener('focusin', function () {
-        if (formStarted) return;
-        formStarted = true;
-        if (typeof window.gtag === 'function') {
-          window.gtag('event', 'form_start', {
-            form_id: 'ohio-network-check-bottom-form',
-            form_location: 'blog_bottom',
-            state: 'OH'
-          });
-        }
-      }, { passive: true });
-
-      const heroZip = document.querySelector('main input[name="zip"], main input[type="text"][maxlength="5"]');
-      if (heroZip && zipInput) {
-        heroZip.addEventListener('input', function () {
-          if (/^(43|44|45)\d{3}$/.test(heroZip.value.trim()) && !zipInput.value) {
-            zipInput.value = heroZip.value.trim();
-          }
-        });
-      }
-
-      form.addEventListener('submit', async function (e) {
-        e.preventDefault();
-        statusEl.textContent = '';
-
-        const zipVal = (zipInput.value || '').trim();
-        if (!/^(43|44|45)\d{3}$/.test(zipVal)) {
-          statusEl.textContent = 'Please enter a valid 5-digit Ohio ZIP code (starting with 43, 44, or 45).';
-          zipInput.focus();
-          return;
-        }
-
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-        }
-
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.textContent;
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Submitting Request...';
-
-        const formData = new FormData(form);
-        formData.set('systems_selected', formData.getAll('systems').join(', '));
-
-        try {
-          const netlifyResp = await fetch('/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams(formData).toString()
-          });
-
-          fetch('https://google-ads-lead-relay.vercel.app/api/lead', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(Object.fromEntries(formData.entries())),
-            keepalive: true
-          }).catch(function () {});
-
-          if (!netlifyResp.ok) throw new Error('Submission failed');
-
-          if (typeof window.gtag === 'function') {
-            window.gtag('event', 'generate_lead', {
-              form_id: 'ohio-network-check-bottom-form',
-              form_location: 'blog_bottom',
-              coverage_type: formData.get('coverage_type'),
-              state: 'OH'
-            });
-            window.gtag('event', 'form_submit', {
-              form_id: 'ohio-network-check-bottom-form'
-            });
-          }
-
-          if (typeof window.lhiTrackMetaFormSubmitComplete === 'function') {
-            window.lhiTrackMetaFormSubmitComplete();
-          }
-
-          window.location.href = form.getAttribute('action');
-        } catch (err) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = originalBtnText;
-          statusEl.textContent = 'Could not submit right now. Please text or call (863) 640-3102 directly.';
-        }
-      });
-    })();
-  </script>
 </body></html>

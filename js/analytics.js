@@ -409,6 +409,84 @@
         header_talk_to_david: true,
         footer_start_plan_review: true
       }
+    },
+    '/medicare-supplement-lakeland-fl/': {
+      page_key: 'medicare_supplement_lakeland_fl',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/carriers/baycare-plus-medicare-2027/': {
+      page_key: 'baycare_plus_medicare_2027',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/carriers/humana-medicare-2027/': {
+      page_key: 'humana_medicare_2027',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/carriers/unitedhealthcare-medicare-2027/': {
+      page_key: 'unitedhealthcare_medicare_2027',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/local-health-insurance-answers/medicare-part-d-2400-cap-2027/': {
+      page_key: 'medicare_part_d_2400_cap_2027',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/local-health-insurance-answers/snowbird-medicare-florida-multi-state-2027/': {
+      page_key: 'snowbird_medicare_florida_multi_state_2027',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    '/blog/medicare-part-d-2027-cap-drug-changes-polk-county.html/': {
+      page_key: 'medicare_part_d_2027_cap_drug_changes_polk_county',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
     }
   };
 

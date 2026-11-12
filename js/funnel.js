@@ -1700,6 +1700,20 @@
           submitLeadViaApi(f, formPayload(f, fd, content), function (apiResult) {
             if (name === 'Lead') {
               track(name, safeLeadPropsFromForm(f, fd, content, step, apiResult));
+              var submittedState = String(fd.get('coverage_state') || fd.get('state') || '').trim().toUpperCase();
+              if (/^[A-Z]{2}$/.test(submittedState)) {
+                ['lhi_submission_completed', 'lhi_lead_submitted'].forEach(function (storageKey) {
+                  try {
+                    var existingRaw = sessionStorage.getItem(storageKey);
+                    if (!existingRaw) return;
+                    var existingMarker = JSON.parse(existingRaw);
+                    if (existingMarker && typeof existingMarker === 'object') {
+                      existingMarker.coverage_state = submittedState;
+                      sessionStorage.setItem(storageKey, JSON.stringify(existingMarker));
+                    }
+                  } catch (err) {}
+                });
+              }
               if (apiResult && apiResult.event_id &&
                   typeof w.lhiEmitVerifiedLeadConversions === 'function') {
                 try {

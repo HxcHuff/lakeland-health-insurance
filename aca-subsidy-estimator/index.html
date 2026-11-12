@@ -40,7 +40,7 @@
       "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
       "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
       "reviewedBy": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
-      "dateModified": "2026-11-05"
+      "dateModified": "2026-11-12"
     }
     </script>
 
@@ -2196,6 +2196,7 @@
                     <li><a href="/local-health-insurance-answers/bartow-auburndale-lake-wales-aca-health-insurance-2027/"><strong>Central Florida Regional ACA Hospital &amp; Clinic Network Guide (2027):</strong></a> Checking hospital and clinic tax IDs before December 15.</li>
                     <li><a href="/blog/aca-auto-renewal-2027-florida-polk-county.html"><strong>2027 ACA Auto-Renewal Warning:</strong></a> 5 things households should verify before December 15 instead of letting HealthCare.gov auto-renew.</li>
                     <li><a href="/blog/polk-county-aca-hospital-doctor-network-guide-2027.html"><strong>2027 Hospital &amp; Doctor Network Verification Guide:</strong></a> How to verify hospital facilities and physician groups on your exact 2027 plan ID.</li>
+                    <li><a href="/blog/check-doctors-by-npi-plan-id-polk-county-2027.html"><strong>How to Check Doctors by NPI &amp; 2027 Plan ID:</strong></a> Cross-checking Type 1 physician NPIs, Type 2 hospital facility NPIs, and sub-network tiers before enrolling.</li>
                     <li><a href="/blog/self-employed-1099-aca-polk-county-2027.html"><strong>Self-Employed &amp; 1099 Health Insurance Guide (2027):</strong></a> Projecting Schedule C net income, HSA/IRA deductions, and checking networks.</li>
                     <li><a href="/aca-2027-check/"><strong>2027 ACA Open Enrollment Doctor &amp; Rx Check:</strong></a> Fast 30-second plan and provider review request.</li>
                 </ul>
@@ -2864,11 +2865,11 @@
             if (strategyCard && strategyTitle && strategyBody) {
                 strategyCard.style.display = '';
                 if (fplPercent >= 100 && fplPercent <= 200) {
-                    strategyTitle.textContent = '2027 ' + st.info.name + ' Strategy (100%–200% FPL: Silver CSR Tier)';
-                    strategyBody.textContent = 'In the 100%–200% FPL range, Silver plans include Cost-Sharing Reductions (94% or 87% actuarial value) that significantly reduce deductibles, copays, and out-of-pocket maximums. Have David compare 2027 ' + st.info.name + ' Silver CSR plans in your ZIP code to verify which carriers include your doctors and hospitals.';
+                    strategyTitle.textContent = '2027 ' + st.info.name + ' Strategy (100%–200% FPL: Silver CSR Sub-Network Check)';
+                    strategyBody.textContent = 'In the 100%–200% FPL range, enhanced Cost-Sharing Reductions (94% or 87% actuarial value) apply only to Silver plans—and insurers attach different hospital sub-networks (such as Signature vs. Thrive, or HMO vs. EPO) to different Silver Plan IDs. Verify your doctors by NPI and hospital facility on the exact 14-character 2027 ' + st.info.name + ' Silver Plan ID before enrolling.';
                 } else if (fplPercent > 200 && fplPercent <= 400) {
-                    strategyTitle.textContent = '2027 ' + st.info.name + ' Pricing Insight (200%–400% FPL: Compare Gold vs. Silver)';
-                    strategyBody.textContent = 'Because Cost-Sharing Reduction loads are priced into Silver benchmarks in many ' + st.info.name + ' rating areas, several 2027 Gold plans can price near the Silver benchmark while offering lower standard deductibles. Request a side-by-side 2027 ' + st.info.name + ' plan ID check for your doctors.';
+                    strategyTitle.textContent = '2027 ' + st.info.name + ' Silver-Loading Check (200%–400% FPL: Compare Gold vs. Silver)';
+                    strategyBody.textContent = 'Above 200% FPL, 94% and 87% Cost-Sharing Reductions end. Because CSR loading is priced into Silver benchmarks in Florida and many ' + st.info.name + ' rating areas, certain 2027 Gold plans can have a lower monthly net premium than comparable Silver plans while carrying lower medical deductibles. Compare exact 2027 ' + st.info.name + ' Gold and Silver Plan IDs and doctor NPIs before selecting Silver by default.';
                 } else if (fplPercent > 400) {
                     strategyTitle.textContent = '2027 ' + st.info.name + ' Strategy (>400% FPL: Unsubsidized & HSA Comparison)';
                     strategyBody.textContent = 'Above 400% FPL, federal premium tax credits drop to $0 under 2027 IRS rules. Compare 2027 ' + st.info.name + ' ACA Bronze HSA plans (with pre-tax HSA contributions that reduce MAGI) alongside private PPO options where available in ' + st.info.name + '.';
@@ -3027,11 +3028,18 @@
                     : (fplPercent <= 200
                         ? '87% Actuarial Value Silver CSR Tier (150%–200% FPL)'
                         : '73% Actuarial Value Silver CSR Tier (200%–250% FPL)');
+                var csrExtra = fplPercent <= 200
+                    ? 'Insurers also attach different hospital sub-networks (such as Signature vs. Thrive, or HMO vs. EPO) to different Silver Plan IDs—verify each doctor by NPI and hospital facility on the exact 14-character 2027 Plan ID.'
+                    : 'Because 73% CSR provides a smaller deductible reduction above 200% FPL and Silver benchmarks include CSR loading, compare 2027 Gold Plan IDs side by side with 73% Silver—certain Gold plans can carry a lower monthly net premium and lower medical deductible.';
                 csrCallout.style.display = 'block';
                 csrCallout.innerHTML =
                     '<strong>Silver Cost-Sharing Reduction Check (' + csrTier + '):</strong> ' +
-                    'At ' + Math.round(fplPercent) + '% FPL, Cost-Sharing Reductions apply <em>only</em> to Silver Marketplace plans—not Bronze or Gold. ' +
-                    'Before choosing a lower-premium Bronze plan, compare how a CSR-enhanced Silver plan lowers the medical deductible, copays, and maximum out-of-pocket limit on HealthCare.gov.';
+                    'At ' + Math.round(fplPercent) + '% FPL, Cost-Sharing Reductions apply <em>only</em> to Silver Marketplace plans—not Bronze or Gold. ' + csrExtra;
+            } else if (csrCallout && fplPercent > 250 && fplPercent <= 400) {
+                csrCallout.style.display = 'block';
+                csrCallout.innerHTML =
+                    '<strong>2027 Silver-Loading Check (' + Math.round(fplPercent) + '% FPL — Compare Gold vs. Silver):</strong> ' +
+                    'Above 250% FPL, Silver plans carry standard 70% actuarial value with no Cost-Sharing Reductions. Because CSR loading is built into Silver benchmark rates in Florida and other rating areas, certain 2027 Gold (~80% AV) plans can have a lower monthly net premium than comparable Silver plans while carrying lower medical deductibles. Compare exact 2027 Gold and Silver Plan IDs and doctor NPIs before selecting Silver by default.';
             }
 
             // Update price hero — flag "near-zero" when a Bronze plan would likely be $0

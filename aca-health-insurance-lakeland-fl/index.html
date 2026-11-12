@@ -82,7 +82,7 @@
         "@id": "https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/#webpage",
         "url": "https://lakelandhealthinsurance.com/aca-health-insurance-lakeland-fl/",
         "name": "ACA Health Insurance in Lakeland, FL | Eligibility & Dates",
-        "dateModified": "2026-11-04",
+        "dateModified": "2026-11-12",
         "inLanguage": "en-US",
         "isPartOf": {"@id": "https://lakelandhealthinsurance.com/#website"},
         "publisher": {"@id": "https://lakelandhealthinsurance.com/#agency"},
@@ -506,8 +506,12 @@
               <div class="inline-calc-metal">
                 <div class="inline-calc-metal-title"><span>Est. Gold (~80% AV)</span></div>
                 <div class="inline-calc-metal-price" id="ic-gold-net">$902/mo</div>
-                <div class="inline-calc-metal-note" id="ic-gold-note">In Polk County, several 2027 Gold plans price near Silver while offering lower deductibles above 200% FPL.</div>
+                <div class="inline-calc-metal-note" id="ic-gold-note">In Polk County, certain 2027 Gold plans can have a lower monthly net premium than comparable Silver plans above 200% FPL.</div>
               </div>
+            </div>
+
+            <div class="inline-calc-radar" id="ic-arbitrage-box" style="margin-top: 12px; margin-bottom: 0; background: #F0F5FF; border-left-color: #2563EB;">
+              <strong>2027 Polk Silver-Loading Check (200%&ndash;400% FPL):</strong> Above 200% FPL, 94% and 87% Cost-Sharing Reductions end. Because Florida Silver benchmark rates include CSR loading, certain 2027 Gold plans in Polk County can have a lower monthly net premium than comparable Silver plans while carrying lower medical deductibles. Compare exact 2027 Gold and Silver Plan IDs and <a href="/blog/check-doctors-by-npi-plan-id-polk-county-2027.html" style="color:#1D4ED8;font-weight:700;">verify your Polk doctors by NPI</a> before selecting Silver by default.
             </div>
 
             <div class="cta-row" style="margin-top: 16px; justify-content: space-between;">
@@ -993,6 +997,20 @@
             csrHint = ' You are <strong>' + fmt(inc - f250) + ' above</strong> the 250% FPL cutoff (' + fmt(f250) + ') for the 73% Silver CSR tier.';
           }
           radarBox.innerHTML = '<strong>Threshold Radar:</strong> You have <strong>' + fmt(buffer) + ' of MAGI buffer</strong> before reaching the 2027 400% FPL subsidy cliff (' + fmt(f400) + ').' + csrHint;
+        }
+
+        var arbBox = document.getElementById('ic-arbitrage-box');
+        if (arbBox) {
+          if (fplPct >= 100 && fplPct <= 200) {
+            arbBox.hidden = false;
+            var csrPctLabel = fplPct <= 150 ? '94%' : '87%';
+            arbBox.innerHTML = '<strong>2027 Polk Silver CSR Sub-Network Check (' + csrPctLabel + ' AV):</strong> Enhanced Cost-Sharing Reductions apply <em>only</em> to Silver plans, and Polk carriers attach different hospital sub-networks (such as <em>Signature</em> vs. <em>Thrive</em>, or HMO vs. EPO) to different Silver Plan IDs. <a href="/blog/check-doctors-by-npi-plan-id-polk-county-2027.html" style="color:#1D4ED8;font-weight:700;">Verify Watson Clinic, LRH, Orlando Health, BayCare, or AdventHealth by NPI &amp; 14-character Plan ID</a> before enrolling.';
+          } else if (fplPct > 200 && fplPct <= 400) {
+            arbBox.hidden = false;
+            arbBox.innerHTML = '<strong>2027 Polk Silver-Loading Check (Compare Gold vs. Silver):</strong> Above 200% FPL, 94% and 87% Cost-Sharing Reductions end. Because Florida Silver benchmark rates include CSR loading, certain 2027 Gold plans in Polk County can have a lower monthly net premium than comparable Silver plans while carrying lower medical deductibles. Compare exact 2027 Gold and Silver Plan IDs and <a href="/blog/check-doctors-by-npi-plan-id-polk-county-2027.html" style="color:#1D4ED8;font-weight:700;">verify your Polk doctors by NPI</a> before selecting Silver by default.';
+          } else {
+            arbBox.hidden = true;
+          }
         }
 
         var smsBtn = document.getElementById('ic-sms-estimate-btn');

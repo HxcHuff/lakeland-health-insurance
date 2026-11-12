@@ -54,7 +54,7 @@ test('Medicare hub leads with Call David, then Get Help and the primary broker U
   assert.match(row, /Lakeland Medicare broker</);
   assert.match(html, TPMO_HTML_REGEX);
 
-  assert.match(html, /<title>Medicare Help in Lakeland, FL \| Doctors, Rx &amp; 2027 AEP<\/title>/);
+  assert.match(html, /<title>2027 Medicare Plan Comparison Lakeland, FL \| Advantage &amp; Medigap<\/title>/);
   assert.match(html, /licensed Florida health agent \(FL #W371813 \/ NPN 18213932\)/);
   assert.doesNotMatch(html, /<title>[^<]*Medicare Broker[^<]*<\/title>/i);
   assert.doesNotMatch(html, /Florida Blue|HealthMarkets|broker license/i);

@@ -11,6 +11,7 @@ const {
   _test
 } = require('../netlify/functions/submission-created.js');
 const { relaySchema } = require('../netlify/functions/lead.js');
+const { createBridgeRetryHandler, OUTBOX } = require('../netlify/functions/lib/lead-bridge.js');
 const { signNetlifyEventBody } = require('../netlify/functions/lib/netlify-event-signature.js');
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -542,6 +543,48 @@ test('signed site lead submissions still reach Hopper on the happy path', async 
   assert.equal(result.statusCode, 200);
   assert.equal(fixture.calls.length, 1);
   assert.equal(fixture.calls[0].url, HOPPER_URL);
+});
+
+test('failed Hopper delivery queues site lead in outbox and scheduled retry reconciles to Hopper', async () => {
+  const store = memoryStore();
+  const fixture = makeHandler({
+    store,
+    fetchImpl: bridgeFetch([], { status: 503, ok: false }),
+    now: () => NOW
+  });
+  const result = await fixture.handler(siteLeadSubmission('site-aca-lead', {
+    coverage_state: 'OH',
+    coverage_status: 'individual_marketplace'
+  }));
+  assert.equal(result.statusCode, 200);
+  assert.equal(store.entries.size, 1);
+  assert.equal(store.entries.values().next().value.metadata.state, 'PENDING');
+
+  const retryCalls = [];
+  const retry = createBridgeRetryHandler({
+    environment: {
+      CONTEXT: 'production',
+      LHI_SITE_ENV: 'production',
+      HOPPER_INTAKE_URL: HOPPER_URL,
+      HOPPER_INTAKE_KEY: 'synthetic-hopper-key-001'
+    },
+    fetchImpl: bridgeFetch(retryCalls, { status: 200, ok: true }),
+    storeFactory: async () => store,
+    now: () => NOW + OUTBOX.retryBaseMilliseconds + 1
+  });
+  const retryOutcome = await retry({});
+  assert.equal(retryOutcome.statusCode, 200);
+  assert.deepEqual(JSON.parse(retryOutcome.body), {
+    ok: true,
+    outcome: 'RECONCILED',
+    processed: 1
+  });
+  assert.equal(retryCalls.length, 1);
+  assert.equal(retryCalls[0].url, HOPPER_URL);
+  const hopperBody = JSON.parse(retryCalls[0].options.body);
+  assert.equal(hopperBody.state, 'OH');
+  assert.match(hopperBody.notes, /coverage_status=individual_marketplace/);
+  assert.equal(store.entries.size, 0);
 });
 
 test('other allowlisted lead forms also build a website lead for the bridge', () => {

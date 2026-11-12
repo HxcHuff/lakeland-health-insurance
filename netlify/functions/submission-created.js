@@ -25,6 +25,7 @@ const { relaySchema } = require('./lead.js');
 const {
   buildWebsiteLeadPayload,
   deliverWebsiteLead,
+  enqueueWebsiteLeadOutbox,
   readBridgeConfig
 } = require('./lib/lead-bridge');
 const { deliverSiteLeadToHopper, SITE_LEAD_FORMS } = require('./lib/site-lead-hopper');
@@ -242,9 +243,28 @@ function createSubmissionCreatedHandler({
           environment,
           logger
         );
-        const hopper = await deliverSiteLeadToHopper(normalized.websiteLead, { fetchImpl, environment });
+        const hopper = await deliverSiteLeadToHopper(normalized.websiteLead, {
+          fetchImpl,
+          environment,
+          setTimer,
+          clearTimer,
+          ...(timeoutMilliseconds != null ? { timeoutMilliseconds } : {})
+        });
         if (!hopper || hopper.ok !== true) {
-          safeLog(logger, formName, 'FAILED', (hopper && hopper.error) || 'hopper_delivery_failed');
+          const hopperReason = (hopper && hopper.error) || 'hopper_delivery_failed';
+          await enqueueWebsiteLeadOutbox({
+            lead: normalized.websiteLead,
+            reason: hopperReason,
+            permanent: Boolean(hopper && hopper.permanent),
+            status: hopper && hopper.status,
+            environment,
+            logger,
+            now,
+            event,
+            storeFactory: bridgeStoreFactory,
+            blobsImport: bridgeBlobsImport
+          });
+          safeLog(logger, formName, 'FAILED', hopperReason);
         } else {
           safeLog(logger, formName, 'ACCEPTED', 'hopper');
         }

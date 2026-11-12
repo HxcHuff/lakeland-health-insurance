@@ -35,9 +35,15 @@ function sanitizeSourceUrl(rawUrl, headers) {
   return `${fallbackOrigin}/`;
 }
 
+function isProductionContext(env = process.env) {
+  const siteEnv = String(env && env.LHI_SITE_ENV || '').trim();
+  const buildContext = String(env && env.CONTEXT || '').trim();
+  return siteEnv === 'production' && (!buildContext || buildContext === 'production');
+}
+
 async function sendAdsLead({ eventId, headers, cookieHeader, sourceUrl }) {
-  const netlifyContext = process.env.CONTEXT || 'production';
-  if (netlifyContext !== 'production') {
+  const netlifyContext = String(process.env.CONTEXT || '').trim() || 'unset';
+  if (!isProductionContext(process.env)) {
     return { ok: false, skipped: true, error: `OpenAI Ads skipped: non-production Netlify context (${netlifyContext})` };
   }
   if (!OPENAI_ADS_PIXEL_ID || !OPENAI_ADS_CAPI_KEY) {
@@ -92,6 +98,7 @@ async function sendAdsLead({ eventId, headers, cookieHeader, sourceUrl }) {
 module.exports = {
   sendAdsLead,
   _test: {
+    isProductionContext,
     sanitizeSourceUrl,
     pickRawCookie
   }

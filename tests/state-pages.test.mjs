@@ -15,6 +15,7 @@ const TPMO = 'We do not offer every plan available in your area. Currently we re
 const LIVE = [
   ['states/index.html', '/states/'],
   ['health-insurance-texas/index.html', '/health-insurance-texas/'],
+  ['health-insurance-georgia/index.html', '/health-insurance-georgia/'],
   ['health-insurance-north-carolina/index.html', '/health-insurance-north-carolina/'],
   ['health-insurance-south-carolina/index.html', '/health-insurance-south-carolina/'],
   ['health-insurance-tennessee/index.html', '/health-insurance-tennessee/'],
@@ -22,8 +23,7 @@ const LIVE = [
 ];
 
 const ALL_STATE_HTML = [
-  ...LIVE,
-  ['health-insurance-georgia/index.html', '/health-insurance-georgia/']
+  ...LIVE
 ];
 
 function source(rel) {
@@ -53,14 +53,14 @@ test('live hub and published FFE pages are indexable and listed in sitemap.xml',
   }
 });
 
-test('Georgia stays noindex, out of the sitemap, and unlinked from the hub, About, and site search', () => {
+test('Georgia is indexable, listed in sitemap.xml, and linked from the hub, About, and site search', () => {
   const html = source('health-insurance-georgia/index.html');
-  assert.match(html, /<meta name="robots" content="noindex, nofollow">/);
-  assert.doesNotMatch(SITEMAP, /health-insurance-georgia/);
-  assert.match(readFileSync(join(ROOT, '_headers'), 'utf8'), /\/health-insurance-georgia\/\n\s+X-Robots-Tag: noindex, nofollow/);
-  assert.doesNotMatch(source('states/index.html'), /href="\/health-insurance-georgia\//);
-  assert.doesNotMatch(source('about/index.html'), /href="\/health-insurance-georgia\//);
-  assert.doesNotMatch(source('js/site-search.js'), /\/health-insurance-georgia\//);
+  assert.match(html, /<meta name="robots" content="index, follow">/);
+  assert.match(SITEMAP, /https:\/\/lakelandhealthinsurance\.com\/health-insurance-georgia\//);
+  assert.doesNotMatch(readFileSync(join(ROOT, '_headers'), 'utf8'), /\/health-insurance-georgia\//);
+  assert.match(source('states/index.html'), /href="\/health-insurance-georgia\/"/);
+  assert.match(source('about/index.html'), /href="\/health-insurance-georgia\/"/);
+  assert.match(source('js/site-search.js'), /\/health-insurance-georgia\//);
   assert.doesNotMatch(source('states/index.html'), /Wave 1|Draft Georgia|Pending certification|page not live yet/i);
   assert.doesNotMatch(source('about/index.html'), /drafted page pending|Wave 1/);
 });
@@ -274,12 +274,11 @@ test('hub cites official exchange sources and omits the unverified Maryland dead
   assert.doesNotMatch(html, /appointed to discuss|appointed in the state where you live|I compare plans from the insurers I'm licensed in the states listed below/);
 });
 
-test('Georgia FAQ states the Access certification requirement without claiming David is certified', () => {
+test('Georgia FAQ states the Access certification requirement and PY2027 Georgia Access certification', () => {
   const html = source('health-insurance-georgia/index.html');
-  const required = 'An agent needs a Georgia license and Georgia Access certification for the plan year to help with a Georgia Access application. I hold a Georgia nonresident license #3329737. Reviews happen by phone and screen share. You keep your account login, and you approve any application or plan change.';
+  const required = 'Yes. An agent needs a Georgia license and Georgia Access certification for the plan year to help with a Georgia Access application. I hold a Georgia nonresident license #3329737. I am certified with Georgia Access for plan year 2027, and reviews happen by phone and screen share. You keep your account login, and you approve any application or plan change.';
   assert.equal(html.split(required).length - 1, 2);
   assert.doesNotMatch(html, /Yes, as long as the agent holds a Georgia license\./);
-  assert.doesNotMatch(html, /I am a Georgia Access-certified agent|I completed Georgia Access certification/i);
 });
 
 test('get-help allowlists coverage_state and treats non-licensed visitors as out-of-state for Medicare', () => {

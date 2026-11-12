@@ -31,11 +31,19 @@ const FORM_CUSTOM_SUFFIX = 'fcomp';
 const CONFIGURED_META_DATASET_ID = String(process.env.META_PIXEL_ID || '').trim();
 const ACCESS_TOKEN = process.env.META_CAPI_ACCESS_TOKEN;
 const TEST_EVENT_CODE = process.env.META_CAPI_TEST_EVENT_CODE; // optional
-// Netlify injects CONTEXT=production|deploy-preview|branch-deploy|dev.
-// Only fire CAPI on the production context — previews/branches must stay quiet.
+function isProductionContext(env = process.env) {
+  const siteEnv = String(env && env.LHI_SITE_ENV || '').trim();
+  const buildContext = String(env && env.CONTEXT || '').trim();
+  return siteEnv === 'production' && (!buildContext || buildContext === 'production');
+}
+
+// Netlify injects CONTEXT=production|deploy-preview|branch-deploy|dev at build
+// time, while Lambda runtime invocations may omit CONTEXT and rely on LHI_SITE_ENV=production.
+// Only fire CAPI on confirmed production context — previews/branches must stay quiet.
 const NETLIFY_CONTEXT = process.env.CONTEXT || 'unknown';
 const SITE_ENV = process.env.LHI_SITE_ENV || 'unknown';
-const IS_PROD_CONTEXT = NETLIFY_CONTEXT === 'production' && SITE_ENV === 'production';
+const IS_PROD_CONTEXT = (NETLIFY_CONTEXT === 'production' && SITE_ENV === 'production')
+  || isProductionContext(process.env);
 
 const PRIMARY_SITE_ORIGIN = 'https://lakelandhealthinsurance.com';
 const MAX_JSON_BODY_BYTES = 64 * 1024;
@@ -391,6 +399,98 @@ const MEDICARE_SOURCE_REGISTRY = Object.freeze({
       'header_talk_to_david',
       'footer_start_plan_review'
     ])
+  }),
+  medicare_supplement_lakeland_fl: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_mid',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  switch_to_medigap_plan_g_non_renewal: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_supplement_lakeland_fl: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_mid',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  baycare_plus_medicare_2027: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  humana_medicare_2027: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  unitedhealthcare_medicare_2027: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_part_d_2400_cap_2027: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  snowbird_medicare_florida_multi_state_2027: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
+  }),
+  medicare_part_d_2027_cap_drug_changes_polk_county: Object.freeze({
+    page_role: 'education',
+    cta_keys: new Set([
+      'request_review_hero',
+      'request_review_final',
+      'menu_get_help',
+      'header_talk_to_david',
+      'footer_start_plan_review'
+    ])
   })
 });
 const MEDICARE_ATTRIBUTION_FIELDS = [
@@ -432,6 +532,10 @@ const META_ELIGIBLE_PATHS = new Set([
   '/blog/medicare-part-b-giveback-polk-county.html',
   '/blog/aca-subsidy-income-limits-florida-2027.html',
   '/local-health-insurance-answers/lakeland-regional-unitedhealthcare-2027/'
+]);
+const AD_SAFE_SOURCE_PATHS = new Set([
+  ...META_ELIGIBLE_PATHS,
+  '/carriers/'
 ]);
 
 const WEBSITE_LEAD_RELAY_FORMS = new Set([
@@ -546,8 +650,8 @@ const LP_COMMON_FIELDS = [
   'ab_variant'
 ];
 const FORM_FIELD_ALLOWLIST = Object.freeze({
-  'homepage-newsletter': leadFormFields(['email', 'consent', 'source_page', '_subject']),
-  'newsletter-signup': leadFormFields(['first_name', 'last_name', 'email', 'phone', 'interest', 'consent', 'source_page', '_subject']),
+  'homepage-newsletter': leadFormFields(['email', 'consent', 'consent_text_version', 'source_page', '_subject']),
+  'newsletter-signup': leadFormFields(['first_name', 'last_name', 'email', 'phone', 'interest', 'consent', 'consent_text_version', 'source_page', '_subject']),
   'get-help': leadFormFields(LEAD_ATTRIBUTION_FIELDS, GET_HELP_OPTIONAL_FIELDS, [
     'full_name',
     'phone',
@@ -555,6 +659,7 @@ const FORM_FIELD_ALLOWLIST = Object.freeze({
     'zip_code',
     'state',
     'coverage_state',
+    'coverage_choice',
     'inquiry_type',
     'normalized_intent',
     'line_of_business',
@@ -1276,14 +1381,18 @@ exports.handler = async (event) => {
   }
 
   // Fire Meta Conversions API only after Netlify Forms accepted the request.
+  const runtimeNetlifyContext = process.env.CONTEXT || 'unknown';
+  const runtimeSiteEnv = process.env.LHI_SITE_ENV || 'unknown';
+  const isAdSafeSourcePath = AD_SAFE_SOURCE_PATHS.has(sanitizeSourcePath(sourcePath));
+  const adSafeSourceUrl = isAdSafeSourcePath ? sourceUrl : `${FORMS_FORWARD_ORIGIN}/`;
   let capiOk = false;
   let capiError = null;
   if (!formsOk) {
     capiError = 'CAPI skipped: Forms forward failed';
   } else if (isNewsletter) {
     capiError = 'CAPI skipped: newsletter subscriber is not a sales lead';
-  } else if (!IS_PROD_CONTEXT) {
-    capiError = `CAPI skipped: production context not confirmed (${NETLIFY_CONTEXT}/${SITE_ENV})`;
+  } else if (!isProductionContext(process.env)) {
+    capiError = `CAPI skipped: production context not confirmed (${runtimeNetlifyContext}/${runtimeSiteEnv})`;
   } else if (CONFIGURED_META_DATASET_ID === META_DATASET_ID && ACCESS_TOKEN) {
     const measurementBlock = metaMeasurementBlocked(headers, cookieHeader);
     if (measurementBlock) {
@@ -1298,13 +1407,11 @@ exports.handler = async (event) => {
         if (clientIp) userData.client_ip_address = clientIp;
         if (userAgent) userData.client_user_agent = userAgent;
 
-        const isEligibleMetaLeadPath = META_ELIGIBLE_PATHS.has(sanitizeSourcePath(sourcePath));
-        // Site leads from non-eligible pages (clinical, hospital, oncology,
-        // behavioral-health guides) must not disclose the page path to Meta.
-        // Report only the site origin for those events.
-        const metaSourceUrl = (!isSiteLead || isEligibleMetaLeadPath)
-          ? sourceUrl
-          : `${FORMS_FORWARD_ORIGIN}/`;
+        // Leads from non-reviewed pages (clinical, hospital, oncology,
+        // Medicaid, subsidy/income calculators, behavioral-health guides) must
+        // not disclose the page path to third-party ad platforms. Report only
+        // the site origin for those events.
+        const metaSourceUrl = adSafeSourceUrl;
         const sharedEvent = {
           event_time: eventTime,
           action_source: 'website',
@@ -1374,7 +1481,7 @@ exports.handler = async (event) => {
         eventId,
         headers,
         cookieHeader,
-        sourceUrl
+        sourceUrl: adSafeSourceUrl
       });
       adsCapiOk = result.ok;
       if (result.error) {
@@ -1564,6 +1671,7 @@ exports._test = {
   defaultConsentTextVersion,
   defaultGetHelpConsentTextVersion,
   isGetHelpV2ConsentPage,
+  isProductionContext,
   resolveConsentPagePath,
   filterPayloadForForm,
   metaBrowserIdentifier,

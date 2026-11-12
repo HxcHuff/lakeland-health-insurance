@@ -92,6 +92,18 @@ const siteSearchIndex = [
     tags: ["Alabama", "ACA", "Marketplace", "HealthCare.gov"]
   },
   {
+    title: "Georgia ACA Health Insurance Agent | Georgia Access Help",
+    url: "/health-insurance-georgia/",
+    excerpt: "Licensed in Georgia (#3329737). A 2027 Georgia Access plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Georgia", "Georgia Access", "ACA", "Marketplace", "georgiaaccess.gov"]
+  },
+  {
+    title: "New Jersey ACA Health Insurance Agent | Get Covered NJ Help",
+    url: "/health-insurance-new-jersey/",
+    excerpt: "Licensed in New Jersey (#3000946026). A 2027 Get Covered New Jersey plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["New Jersey", "Get Covered NJ", "ACA", "Marketplace"]
+  },
+  {
     title: "CMS Marketplace Agent Crackdown: Lakeland FL Guide (2026)",
     url: "/marketplace-agent-fraud-cms-crackdown-florida/",
     excerpt: "CMS canceled unauthorized Marketplace enrollments and sent agent termination notices. What Lakeland and Polk shoppers should check before Open Enrollment.",
@@ -1789,7 +1801,7 @@ const siteSearchIndex = [
   {
     title: "How Does the $2,400 Medicare Part D Cap Work in 2027? | Lakeland & Polk Guide",
     url: "/local-health-insurance-answers/medicare-part-d-2400-cap-2027/",
-    excerpt: "For 2027, the Medicare Part D out-of-pocket cap is $2,400 and the maximum standard deductible is $615. See what counts toward the cap and how the Medicare Prescription Payment Plan works.",
+    excerpt: "For 2027, the Medicare Part D out-of-pocket cap is $2,400 and the maximum standard deductible is $700. See what counts toward the cap and how the Medicare Prescription Payment Plan works.",
     tags: ["Medicare","Part D","$2400 Cap","TrOOP","Prescriptions","Lakeland","Polk County","2027"]
   },
   {
@@ -2119,6 +2131,43 @@ const siteSearchIndex = [
       "Erlanger",
       "CHI Memorial",
       "Parkridge",
+      "2027"
+    ]
+  },
+  {
+    "title": "How to Check Your Doctors by NPI & 2027 Plan ID in Polk County (Avoid Split-Billing Surprises)",
+    "url": "/blog/check-doctors-by-npi-plan-id-polk-county-2027.html",
+    "excerpt": "Step-by-step 2027 Polk County provider verification guide: cross-check Type 1 physician NPIs, Type 2 hospital facility NPIs, Ambetter Signature vs. Thrive sub-networks, and 14-character HIOS or CMS Plan IDs.",
+    "tags": [
+      "NPI",
+      "Plan ID",
+      "HIOS ID",
+      "Provider Networks",
+      "Doctors",
+      "Split Billing",
+      "Watson Clinic",
+      "Lakeland Regional Health",
+      "Orlando Health",
+      "BayCare",
+      "AdventHealth",
+      "Polk County",
+      "2027"
+    ]
+  },
+  {
+    "title": "Medicare Supplement (Medigap) in Lakeland, FL | Plan G, Plan N & 2027 63-Day Guaranteed Issue Rules",
+    "url": "/medicare-supplement-lakeland-fl/",
+    "excerpt": "Compare Medigap Plan G vs. Plan N in Lakeland and Polk County, FL: standardized nationwide Original Medicare access, Florida issue-age rating, 63-day Guaranteed Issue windows, and 2027 Part D ($2,400 cap) pairing.",
+    "tags": [
+      "Medigap",
+      "Medicare Supplement",
+      "Plan G",
+      "Plan N",
+      "Guaranteed Issue",
+      "63-Day Window",
+      "Issue-Age Rating",
+      "Lakeland",
+      "Polk County",
       "2027"
     ]
   }
