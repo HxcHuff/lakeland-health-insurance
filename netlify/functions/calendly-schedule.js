@@ -238,14 +238,14 @@ exports.handler = async (event) => {
 
   const customEvent = resolveCustomEventId(payload, eventId);
   if (!customEvent.ok) {
-    return json(customEvent.statusCode, cors.headers, { ok: false, error: customEvent.error });
+    return json(customEvent.statusCode, { ...cors.headers, 'Cache-Control': 'no-store' }, { ok: false, error: customEvent.error });
   }
   const customEventId = customEvent.eventId;
 
   const netlifyContext = runtimeLabel(process.env.CONTEXT);
   const siteEnv = runtimeLabel(process.env.LHI_SITE_ENV);
   if (!isProductionContext(process.env)) {
-    return json(200, cors.headers, {
+    return json(200, { ...cors.headers, 'Cache-Control': 'no-store' }, {
       ok: false,
       skipped: true,
       event_id: eventId,
@@ -257,7 +257,7 @@ exports.handler = async (event) => {
   const cookieHeader = headers.cookie || '';
   const blocked = measurementBlocked(headers, cookieHeader);
   if (blocked) {
-    return json(200, cors.headers, {
+    return json(200, { ...cors.headers, 'Cache-Control': 'no-store' }, {
       ok: false,
       skipped: true,
       event_id: eventId,
@@ -268,7 +268,7 @@ exports.handler = async (event) => {
 
   if (CONFIGURED_META_DATASET_ID !== META_DATASET_ID || !ACCESS_TOKEN) {
     console.warn('Meta dataset configuration unavailable or mismatched');
-    return json(200, cors.headers, {
+    return json(200, { ...cors.headers, 'Cache-Control': 'no-store' }, {
       ok: false,
       skipped: true,
       event_id: eventId,
@@ -282,6 +282,10 @@ exports.handler = async (event) => {
   const fbc = metaBrowserIdentifier(cookieHeader, '_fbc');
   if (fbp) userData.fbp = fbp;
   if (fbc) userData.fbc = fbc;
+  const clientIp = scheduleClientIpFromHeaders(headers);
+  const userAgent = String(scheduleHeaderValue(headers, 'user-agent') || '').trim().slice(0, 512);
+  if (clientIp) userData.client_ip_address = clientIp;
+  if (userAgent) userData.client_user_agent = userAgent;
 
   const eventTime = Math.floor(Date.now() / 1000);
   const sharedEvent = {
@@ -318,6 +322,9 @@ exports.handler = async (event) => {
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      ...(typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function'
+        ? { signal: AbortSignal.timeout(8000) }
+        : {}),
       body: JSON.stringify(body)
     });
     capiOk = res.ok;
@@ -337,7 +344,7 @@ exports.handler = async (event) => {
     outcome: capiOk ? 'accepted' : 'failed'
   }));
 
-  return json(capiOk ? 200 : 502, cors.headers, {
+  return json(capiOk ? 200 : 502, { ...cors.headers, 'Cache-Control': 'no-store' }, {
     ok: capiOk,
     event_id: eventId,
     custom_event_id: customEventId,
@@ -348,12 +355,30 @@ exports.handler = async (event) => {
   });
 };
 
+function scheduleHeaderValue(headers, name) {
+  if (!headers || typeof headers !== 'object') return '';
+  const target = String(name || '').toLowerCase();
+  for (const [k, v] of Object.entries(headers)) {
+    if (String(k).toLowerCase() === target && v != null) return String(v);
+  }
+  return '';
+}
+
+function scheduleClientIpFromHeaders(headers) {
+  const nf = String(scheduleHeaderValue(headers, 'x-nf-client-connection-ip') || '').trim();
+  const xff = String(scheduleHeaderValue(headers, 'x-forwarded-for') || '').split(',')[0].trim();
+  const clientIp = String(scheduleHeaderValue(headers, 'client-ip') || '').trim();
+  const raw = nf || xff || clientIp;
+  return /^[0-9a-fA-F:.]{3,45}$/.test(raw) ? raw : '';
+}
+
 exports._test = {
   ALLOWED_ORIGINS,
   BOOKING_CUSTOM_EVENT,
   BOOKING_SOURCE_URL,
   META_DATASET_ID,
   approvedEventId,
+  clientIpFromHeaders: scheduleClientIpFromHeaders,
   corsPolicy,
   derivedCustomEventId,
   isProductionContext,

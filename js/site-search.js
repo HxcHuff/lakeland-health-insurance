@@ -2315,6 +2315,57 @@ class SiteSearch {
     `).join('');
 
     dropdown.innerHTML = html || '<div class="search-no-results" role="status">No matching articles found. Try a broader search.</div>';
+    this.scheduleSearchTelemetry(query, results.length);
+  }
+
+  sanitizeTelemetryQuery(rawQuery) {
+    const cleaned = String(rawQuery || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    if (cleaned.length < 2) return '';
+    if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(cleaned)) return '';
+    if (/\b\d{5,}\b|\b\d{3}[-.\s)]*\d{3}[-.\s]*\d{4}\b/.test(cleaned)) return '';
+    return cleaned.slice(0, 60);
+  }
+
+  emitSearchTelemetry(cleanQuery, resultCount) {
+    if (!cleanQuery) return false;
+    const count = Number(resultCount) || 0;
+    const dedupeKey = `${cleanQuery}|${count}`;
+    if (this._lastTelemetryKey === dedupeKey) return false;
+    this._lastTelemetryKey = dedupeKey;
+    const params = {
+      search_term: cleanQuery,
+      search_results_count: count,
+      content_name: 'site_search'
+    };
+    if (typeof window !== 'undefined' && window.LHI && typeof window.LHI.track === 'function') {
+      try {
+        window.LHI.track('view_search_results', params);
+        if (count === 0) window.LHI.track('search_zero_results', params);
+        return true;
+      } catch (e) {}
+    }
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      try {
+        window.gtag('event', 'view_search_results', Object.assign({ transport_type: 'beacon' }, params));
+        if (count === 0) {
+          window.gtag('event', 'search_zero_results', Object.assign({ transport_type: 'beacon' }, params));
+        }
+        return true;
+      } catch (e) {}
+    }
+    return false;
+  }
+
+  scheduleSearchTelemetry(rawQuery, resultCount) {
+    const cleanQuery = this.sanitizeTelemetryQuery(rawQuery);
+    if (!cleanQuery || typeof setTimeout !== 'function') return;
+    if (this._telemetryTimer && typeof clearTimeout === 'function') {
+      clearTimeout(this._telemetryTimer);
+    }
+    this._telemetryTimer = setTimeout(() => {
+      this._telemetryTimer = null;
+      this.emitSearchTelemetry(cleanQuery, resultCount);
+    }, 750);
   }
 
   highlightQuery(text, query) {

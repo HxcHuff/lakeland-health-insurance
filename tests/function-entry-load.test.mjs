@@ -19,7 +19,8 @@ const ENTRIES = [
   'lead-bridge-retry.js',
   'deploy-succeeded.js',
   'openai-ads-config.js',
-  'newsletter-confirm.js'
+  'newsletter-confirm.js',
+  'lead-outcome-webhook.js'
 ];
 
 function functionSources(dir = FUNCTIONS, out = []) {

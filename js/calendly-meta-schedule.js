@@ -23,7 +23,8 @@
   var CONSENT_KEY = 'lhi_meta_audience_consent';
   var LEGACY_OPT_OUT_KEY = 'lhi_meta_audience_opt_out';
   var PROD_HOSTS = {
-    'lakelandhealthinsurance.com': true
+    'lakelandhealthinsurance.com': true,
+    'www.lakelandhealthinsurance.com': true
   };
   var fired = false;
   var pixelQueued = false;
@@ -40,7 +41,7 @@
   }
 
   function normalizePath(pathname) {
-    var path = String(pathname || '/');
+    var path = String(pathname || '/').split(/[?#]/, 1)[0].toLowerCase();
     if (path.charAt(0) !== '/') return '';
     path = path.replace(/\/index\.html$/i, '/');
     if (path !== '/' && path.charAt(path.length - 1) !== '/' && !/\.[a-z0-9]+$/i.test(path)) {
@@ -345,7 +346,8 @@
       w.gtag('event', 'schedule_appointment', {
         event_category: 'conversion',
         event_label: 'booking_page',
-        event_id: eventId
+        event_id: eventId,
+        transport_type: 'beacon'
       });
       return true;
     } catch (_) {
@@ -468,17 +470,12 @@
 
   function preparePixel() {
     if (!isProductionHost(w.location && w.location.hostname)) {
-      setStatus('ready', 'non-production-host');
       return false;
     }
-    var blocked = privacyBlocked();
-    if (blocked) {
-      setStatus('ready', blocked);
+    if (privacyBlocked()) {
       return false;
     }
-    var readyReason = ensurePixel();
-    setStatus('ready', readyReason);
-    return readyReason !== 'pixel-unavailable';
+    return ensureBookingMetaCookiesFromSearch(w.__LHI_BOOKING_UTM_SEARCH__);
   }
 
   function bindBookingFacade() {
@@ -487,9 +484,93 @@
     trigger.setAttribute('data-lhi-bound', '1');
     trigger.addEventListener('click', function (event) {
       event.preventDefault();
+      trackBookingFunnelStep('calendly_facade_click', { step: 'facade_click' });
       activateBookingEmbed();
     });
     return true;
+  }
+
+  function preserveLandingQueryForBook(rawSearch) {
+    var search = String(rawSearch || '');
+    if (!search || search === '?') return;
+    if (!w.LHILandingQuery) w.LHILandingQuery = search;
+    try {
+      if (w.sessionStorage && typeof w.sessionStorage.getItem === 'function' && typeof w.sessionStorage.setItem === 'function') {
+        if (!w.sessionStorage.getItem('lhi_landing_query')) {
+          w.sessionStorage.setItem('lhi_landing_query', search);
+        }
+      }
+    } catch (e) {}
+  }
+
+  function ensureBookingMetaCookiesFromSearch(rawSearch) {
+    if (!w.location || !isProductionHost(w.location.hostname) || privacyBlocked()) return false;
+    var hostname = String(w.location.hostname || '').toLowerCase();
+    var cookieDomain = (hostname === 'lakelandhealthinsurance.com' || hostname.slice(-28) === '.lakelandhealthinsurance.com')
+      ? '; domain=.lakelandhealthinsurance.com'
+      : '';
+    if (!readCookie('_fbp')) {
+      var fbpVal = 'fb.1.' + Date.now() + '.' + Math.floor(1000000000 + Math.random() * 9000000000);
+      d.cookie = '_fbp=' + fbpVal + '; path=/; max-age=7776000; SameSite=Lax; Secure' + cookieDomain;
+    }
+    var search = String(rawSearch || '');
+    var fbclid = '';
+    if (search && typeof w.URLSearchParams === 'function') {
+      try {
+        fbclid = String(new w.URLSearchParams(search).get('fbclid') || '').trim();
+      } catch (e) {}
+    }
+    if (!fbclid && search) {
+      var fbMatch = search.match(/[?&]fbclid=([^&#]+)/i);
+      if (fbMatch) {
+        try { fbclid = String(decodeURIComponent(fbMatch[1]) || '').trim(); } catch (e) { fbclid = fbMatch[1]; }
+      }
+    }
+    if (fbclid && /^[A-Za-z0-9._~-]{12,512}$/.test(fbclid) && !readCookie('_fbc')) {
+      var fbcVal = 'fb.1.' + Date.now() + '.' + fbclid;
+      d.cookie = '_fbc=' + fbcVal + '; path=/; max-age=7776000; SameSite=Lax; Secure' + cookieDomain;
+    }
+    return true;
+  }
+
+  var bookingFunnelStepsSent = {};
+
+  function trackBookingFunnelStep(eventName, extra) {
+    if (!eventName || bookingFunnelStepsSent[eventName]) return false;
+    bookingFunnelStepsSent[eventName] = true;
+    var payload = Object.assign({ page_type: 'booking' }, extra || {});
+    if (w.LHI && typeof w.LHI.track === 'function') {
+      try {
+        w.LHI.track(eventName, payload);
+        return true;
+      } catch (e) {}
+    }
+    if (Array.isArray(w.dataLayer)) {
+      w.dataLayer.push(Object.assign({ event: eventName }, payload));
+      return true;
+    }
+    return false;
+  }
+
+  function onWindowMessage(event) {
+    if (!event || !isCalendlyOrigin(event.origin, w.location && w.location.origin)) return;
+    var eventName = event.data && event.data.event;
+    if (eventName === 'calendly.event_type_viewed') {
+      trackBookingFunnelStep('calendly_event_type_viewed', { step: 'event_type_viewed' });
+      return;
+    }
+    if (eventName === 'calendly.date_and_time_selected') {
+      trackBookingFunnelStep('calendly_time_selected', { step: 'time_selected' });
+      return;
+    }
+    if (eventName === 'calendly.event_scheduled') {
+      handleScheduled(event);
+    }
+  }
+
+  function prepareBookingBrowserState() {
+    preserveLandingQueryForBook(w.__LHI_BOOKING_UTM_SEARCH__);
+    preparePixel();
   }
 
   function init() {
@@ -498,6 +579,7 @@
       return false;
     }
     w.__LHI_BOOKING_UTM_SEARCH__ = w.location.search || '';
+    prepareBookingBrowserState();
     if (!stripLocationForPixel()) {
       setStatus('skipped', 'query-not-stripped');
       return false;
@@ -513,7 +595,7 @@
         activateBookingEmbed();
       }, 600);
     }
-    w.addEventListener('message', handleScheduled);
+    w.addEventListener('message', onWindowMessage);
     return true;
   }
 

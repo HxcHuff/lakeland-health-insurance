@@ -72,7 +72,27 @@
     '/winter-haven-health-insurance/'
   ];
 
-  const MULTI_STATE_PAGE_RE = /^\/health-insurance-(alabama|arizona|georgia|iowa|indiana|louisiana|maryland|michigan|missouri|mississippi|north-carolina|nebraska|new-jersey|ohio|south-carolina|tennessee|texas|virginia|washington|west-virginia)\/$/;
+  const MULTI_STATE_PAGE_RE = /^\/health-insurance-(alabama|arizona|georgia|iowa|indiana|kansas|louisiana|maryland|michigan|missouri|mississippi|north-carolina|nebraska|new-jersey|ohio|oklahoma|south-carolina|tennessee|texas|virginia|washington|west-virginia)\/$/;
+
+  const NON_MEDICARE_TPMO_EXEMPT_PATHS = [
+    '/aca-health-insurance-lakeland-fl/',
+    '/aca-health-insurance-agent-polk-county-fl/',
+    '/aca-subsidy-estimator/',
+    '/aca-2027-check/',
+    '/2027-id-check/',
+    '/lp/aca/',
+    '/losing-coverage/',
+    '/losing-medicaid-florida/',
+    '/self-employed-health-insurance/',
+    '/turning-26/',
+    '/retiring-before-65-florida/',
+    '/short-term-medical/',
+    '/private-medical-insurance/',
+    '/health-protector-guard/',
+    '/accident-wise/',
+    '/advantage-guard/',
+    '/hospital-safeguard-gi/'
+  ];
 
   const LOSING_COVERAGE_PATHS = [
     '/losing-coverage/',
@@ -120,7 +140,13 @@
   }
 
   function shouldShowTpmoDisclaimer(pathname) {
-    return !isMultiStatePage(pathname);
+    if (isMultiStatePage(pathname)) return false;
+    var path = normalizePath(pathname);
+    var raw = rawPath(pathname);
+    if (pathMatches(path, NON_MEDICARE_TPMO_EXEMPT_PATHS) || pathMatches(raw, NON_MEDICARE_TPMO_EXEMPT_PATHS)) {
+      return false;
+    }
+    return true;
   }
 
   function pathLooksLikeMedicare(pathname) {
@@ -374,7 +400,7 @@
               <li><a href="/wesley-chapel-health-insurance/">Wesley Chapel</a></li>
               <li><a href="/winter-haven-health-insurance/">Winter Haven</a></li>
               <li>Polk County</li>
-              <li>Remote assistance across Florida</li>
+              <li>${isMultiStatePage(pathname) ? 'Remote assistance across 23 licensed states' : 'Remote assistance across Florida'}</li>
               <li><a href="/states/">States I'm licensed in</a></li>
             </ul>
           </div>
@@ -405,7 +431,7 @@
           <p class="tpmo-inventory-note">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
         </div>` : ''}
         <div class="footer-bottom">
-          <p>&copy; <span data-current-year></span> Lakeland Health Insurance. Lakeland-based health insurance assistance for Florida residents.</p>
+          <p>&copy; <span data-current-year></span> Lakeland Health Insurance. ${isMultiStatePage(pathname) ? 'Lakeland-based licensed health insurance assistance across 23 licensed states.' : 'Lakeland-based health insurance assistance for Florida residents.'}</p>
           <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier.</p>
           <p class="footer-aca-disclosure">Lakeland Health Insurance is a privately owned, licensed insurance agency. We are not affiliated with HealthCare.gov, the Health Insurance Marketplace, or any federal or state government agency.</p>
           <p style="margin-top: 1rem;">Powered by David the Insurance Dude</p>
@@ -644,11 +670,21 @@
 
     wireMenu();
     loadBbbSeal();
-    if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator && typeof navigator.serviceWorker.getRegistration === 'function') {
+    if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
       try {
-        navigator.serviceWorker.getRegistration('/').then(function (reg) {
-          if (reg && typeof reg.update === 'function') reg.update();
-        }).catch(function () {});
+        var swProto = typeof location !== 'undefined' && location.protocol;
+        var canRegisterSw = !swProto || swProto === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+        if (typeof navigator.serviceWorker.getRegistration === 'function') {
+          navigator.serviceWorker.getRegistration('/').then(function (reg) {
+            if (reg && typeof reg.update === 'function') {
+              reg.update();
+            } else if (canRegisterSw && typeof navigator.serviceWorker.register === 'function') {
+              navigator.serviceWorker.register('/sw.js').catch(function () {});
+            }
+          }).catch(function () {});
+        } else if (canRegisterSw && typeof navigator.serviceWorker.register === 'function') {
+          navigator.serviceWorker.register('/sw.js').catch(function () {});
+        }
       } catch (error) {}
     }
     initSiteHeaderOffsetTracking(nextHeader);

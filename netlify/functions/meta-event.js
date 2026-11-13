@@ -144,11 +144,11 @@ function measurementBlocked(headers, cookieHeader) {
 }
 
 function clientIpFromHeaders(headers) {
-  const forwarded = String(headerValue(headers, 'x-forwarded-for') || '').split(',')[0].trim();
   const direct = String(
     headerValue(headers, 'x-nf-client-connection-ip') || headerValue(headers, 'client-ip') || ''
   ).trim();
-  const ip = forwarded || direct;
+  const forwarded = String(headerValue(headers, 'x-forwarded-for') || '').split(',')[0].trim();
+  const ip = direct || forwarded;
   if (!ip || ip.length > 45 || !/^[\da-f.:]+$/i.test(ip)) return null;
   return ip;
 }
@@ -204,12 +204,27 @@ async function checkRateLimit(event, headers) {
   const bucket = Math.floor(Date.now() / RATE_WINDOW_MS);
   const key = `v1/${sha256(`${ip}:${bucket}`)}`;
   try {
-    const existing = await store.get(key, { type: 'json' });
-    const count = existing && typeof existing.count === 'number' ? existing.count : 0;
-    if (count >= MAX_EVENTS_PER_WINDOW) return { ok: false, error: 'rate_limited' };
-    await store.setJSON(key, { count: count + 1 }, { metadata: { bucket } });
-    return { ok: true };
-  } catch (_) {
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const record = typeof store.getWithMetadata === 'function'
+        ? await store.getWithMetadata(key, { type: 'json' })
+        : { data: await store.get(key, { type: 'json' }), etag: undefined };
+      const existing = record && record.data;
+      const count = existing && typeof existing.count === 'number' ? existing.count : 0;
+      if (count >= MAX_EVENTS_PER_WINDOW) return { ok: false, error: 'rate_limited' };
+      const opts = { metadata: { bucket } };
+      if (record && record.etag) opts.onlyIfMatch = record.etag;
+      else if (!existing) opts.onlyIfNew = true;
+      const writeResult = await store.setJSON(key, { count: count + 1 }, opts);
+      if (!writeResult || writeResult.modified !== false) {
+        return { ok: true };
+      }
+    }
+    return { ok: false, error: 'rate_limited' };
+  } catch (err) {
+    console.warn(JSON.stringify({
+      type: 'meta_event_rate_limit_store_error_v1',
+      error: err && err.name ? err.name : 'unknown'
+    }));
     return { ok: true, skipped: true };
   }
 }
@@ -222,9 +237,16 @@ async function claimEventId(event, eventId) {
   try {
     const existing = await store.get(key);
     if (existing) return { ok: false, duplicate: true };
-    await store.set(key, '1', { metadata: { created: Date.now() } });
+    const writeResult = await store.set(key, '1', { onlyIfNew: true, metadata: { created: Date.now() } });
+    if (writeResult && writeResult.modified === false) {
+      return { ok: false, duplicate: true };
+    }
     return { ok: true };
-  } catch (_) {
+  } catch (err) {
+    console.warn(JSON.stringify({
+      type: 'meta_event_dedupe_store_error_v1',
+      error: err && err.name ? err.name : 'unknown'
+    }));
     return { ok: true, skipped: true };
   }
 }
@@ -232,7 +254,7 @@ async function claimEventId(event, eventId) {
 function json(statusCode, headers, body) {
   return {
     statusCode,
-    headers: { ...headers, 'Content-Type': 'application/json' },
+    headers: { ...headers, 'Cache-Control': 'no-store', 'Content-Type': 'application/json' },
     body: JSON.stringify(body)
   };
 }
@@ -352,16 +374,19 @@ exports.handler = async (event) => {
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      ...(typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function'
+        ? { signal: AbortSignal.timeout(8000) }
+        : {}),
       body: JSON.stringify(body)
     });
     if (!res.ok) {
       console.error(`Meta event CAPI ${res.status}`);
-      return json(502, cors.headers, { ok: false, error: `CAPI ${res.status}`, event_id: eventId });
+      return json(502, { ...cors.headers, 'Cache-Control': 'no-store' }, { ok: false, error: `CAPI ${res.status}`, event_id: eventId });
     }
-    return json(200, cors.headers, { ok: true, event_id: eventId });
+    return json(200, { ...cors.headers, 'Cache-Control': 'no-store' }, { ok: true, event_id: eventId });
   } catch (e) {
     console.error(`Meta event CAPI exception${e && e.name ? ` (${e.name})` : ''}`);
-    return json(502, cors.headers, { ok: false, error: 'CAPI exception', event_id: eventId });
+    return json(502, { ...cors.headers, 'Cache-Control': 'no-store' }, { ok: false, error: 'CAPI exception', event_id: eventId });
   }
 };
 

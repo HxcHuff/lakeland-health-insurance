@@ -89,4 +89,87 @@ test('meta-event helper validation covers event ids and paths', () => {
   assert.equal(_test.normalizePath('/get-help'), '/get-help/');
   assert.equal(_test.ELIGIBLE_PATHS.has('/get-help/'), true);
   assert.equal(_test.ELIGIBLE_PATHS.has('/blog/aca-subsidy-income-limits-florida-2027.html'), true);
+  assert.equal(
+    _test.clientIpFromHeaders({
+      'x-nf-client-connection-ip': '198.51.100.7',
+      'x-forwarded-for': '203.0.113.99'
+    }),
+    '198.51.100.7'
+  );
+});
+
+test('meta-event prefers x-nf-client-connection-ip, sets no-store + timeout signal, and enforces CAS dedupe/rate-limit', async () => {
+  const records = new Map();
+  let simulateContention = false;
+
+  _test.blobsImport(async () => ({
+    getStore: () => ({
+      async get(key) {
+        return records.has(key) ? records.get(key).data : null;
+      },
+      async getWithMetadata(key) {
+        return records.has(key) ? { ...records.get(key) } : null;
+      },
+      async set(key, value, opts = {}) {
+        if (opts.onlyIfNew && records.has(key)) return { modified: false };
+        records.set(key, { data: value, etag: 'etag-1' });
+        return { modified: true };
+      },
+      async setJSON(key, value, opts = {}) {
+        if (simulateContention) {
+          simulateContention = false;
+          return { modified: false };
+        }
+        if (opts.onlyIfNew && records.has(key)) return { modified: false };
+        if (opts.onlyIfMatch && records.get(key)?.etag !== opts.onlyIfMatch) return { modified: false };
+        records.set(key, { data: value, etag: `etag-${value.count}` });
+        return { modified: true };
+      }
+    })
+  }));
+
+  try {
+    const first = await invoke({
+      name: 'phone_click',
+      event_id: 'lhi_ph_abcdef0123450001',
+      path: '/get-help/'
+    }, {
+      headers: {
+        'x-nf-client-connection-ip': '198.51.100.42',
+        'x-forwarded-for': '192.0.2.1'
+      }
+    });
+    assert.equal(first.response.statusCode, 200);
+    assert.equal(first.response.headers['Cache-Control'], 'no-store');
+    assert.equal(first.calls.length, 1);
+    assert.ok(first.calls[0].init.signal, 'expected AbortSignal on CAPI fetch');
+    assert.equal(
+      JSON.parse(first.calls[0].init.body).data[0].user_data.client_ip_address,
+      '198.51.100.42'
+    );
+
+    const dup = await invoke({
+      name: 'phone_click',
+      event_id: 'lhi_ph_abcdef0123450001',
+      path: '/get-help/'
+    }, {
+      headers: { 'x-nf-client-connection-ip': '198.51.100.42' }
+    });
+    assert.equal(dup.response.statusCode, 200);
+    assert.equal(JSON.parse(dup.response.body).duplicate, true);
+    assert.equal(dup.calls.length, 0);
+
+    simulateContention = true;
+    const retryWin = await invoke({
+      name: 'phone_click',
+      event_id: 'lhi_ph_abcdef0123450002',
+      path: '/get-help/'
+    }, {
+      headers: { 'x-nf-client-connection-ip': '198.51.100.42' }
+    });
+    assert.equal(retryWin.response.statusCode, 200);
+    assert.equal(retryWin.calls.length, 1);
+  } finally {
+    _test.blobsImport(() => import('@netlify/blobs'));
+  }
 });

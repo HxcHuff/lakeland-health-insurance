@@ -1139,3 +1139,84 @@ test('source URL sanitizer keeps only same-site paths', () => {
   assert.equal(_test.sanitizeSourcePath('https://www.lakelandhealthinsurance.com/lp/medicare/?gclid=secret'), '/lp/medicare/');
   assert.equal(_test.sanitizeSourcePath('https://evil.example/get-help/?email=jane@example.com'), '/');
 });
+
+test('forms_forward_outcome_v1 records timing_ms and legacy_spam_guard without PII', async () => {
+  const signed = await invoke(getHelpPayload());
+  assert.equal(signed.response.statusCode, 200);
+  const signedOutcome = signed.logs
+    .filter(([level, msg]) => level === 'info' && typeof msg === 'string' && msg.includes('forms_forward_outcome_v1'))
+    .map(([, msg]) => JSON.parse(msg))[0];
+  assert.ok(signedOutcome, 'forms_forward_outcome_v1 logged');
+  assert.equal(signedOutcome.legacy_spam_guard, false);
+  assert.equal(typeof signedOutcome.timing_ms?.forms, 'number');
+  assert.equal(typeof signedOutcome.timing_ms?.meta_capi, 'number');
+  assert.equal(typeof signedOutcome.timing_ms?.ads_capi, 'number');
+  assert.equal(typeof signedOutcome.timing_ms?.total, 'number');
+  assert.equal(JSON.stringify(signedOutcome).includes('jane@example.com'), false);
+  assert.equal(JSON.stringify(signedOutcome).includes('Jane Example'), false);
+
+  const legacyPayload = getHelpPayload();
+  delete legacyPayload.started_at;
+  delete legacyPayload.human_check;
+  const legacy = await invoke(legacyPayload);
+  assert.equal(legacy.response.statusCode, 200);
+  const legacyOutcome = legacy.logs
+    .filter(([level, msg]) => level === 'info' && typeof msg === 'string' && msg.includes('forms_forward_outcome_v1'))
+    .map(([, msg]) => JSON.parse(msg))[0];
+  assert.equal(legacyOutcome.legacy_spam_guard, true);
+});
+
+test('startDoubleOptIn exception after Forms acceptance returns 200 with failed newsletter status', async () => {
+  const prevResend = process.env.RESEND_API_KEY;
+  const prevSecret = process.env.NEWSLETTER_CONFIRM_SECRET;
+  const originalFetch = global.fetch;
+  const originalError = console.error;
+  const originalInfo = console.info;
+  process.env.RESEND_API_KEY = 'test-resend-key';
+  process.env.NEWSLETTER_CONFIRM_SECRET = 'test-confirm-secret-123';
+  global.fetch = async (url) => {
+    if (String(url).startsWith('https://api.resend.com/')) {
+      throw new Error('Resend unreachable');
+    }
+    return { ok: true, status: 200 };
+  };
+  console.info = () => {};
+  console.error = () => {};
+
+  try {
+    const response = await handler({
+      httpMethod: 'POST',
+      headers: {
+        origin: 'https://lakelandhealthinsurance.com',
+        referer: 'https://lakelandhealthinsurance.com/newsletter/',
+        cookie: 'lhi_meta_audience_consent=granted'
+      },
+      body: JSON.stringify({
+        'form-name': 'newsletter-signup',
+        ...spamGuardFields(),
+        first_name: 'Reader',
+        email: 'reader@example.com',
+        interest: 'Medicare',
+        consent: 'on',
+        consent_text_version: 'newsletter-signup-2026-10-07-v1',
+        consent_page: '/newsletter/',
+        source_page: '/newsletter/'
+      })
+    });
+    assert.equal(response.statusCode, 200);
+    assert.equal(response.headers['Cache-Control'], 'no-store');
+    const body = JSON.parse(response.body);
+    assert.equal(body.ok, true);
+    assert.equal(body.forms, true);
+    assert.equal(body.newsletter_confirmation, 'failed');
+    assert.equal(body.newsletter_confirmation_error, 'double_opt_in_exception');
+  } finally {
+    global.fetch = originalFetch;
+    console.error = originalError;
+    console.info = originalInfo;
+    if (prevResend == null) delete process.env.RESEND_API_KEY;
+    else process.env.RESEND_API_KEY = prevResend;
+    if (prevSecret == null) delete process.env.NEWSLETTER_CONFIRM_SECRET;
+    else process.env.NEWSLETTER_CONFIRM_SECRET = prevSecret;
+  }
+});

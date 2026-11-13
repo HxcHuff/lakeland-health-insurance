@@ -1711,7 +1711,7 @@
             }
         }
     </style>
-    <script defer src="/js/analytics.js?v=20261030-step1-cache-bust-v1"></script>
+    <script defer src="/js/analytics.js?v=20261112-audit-release-v1"></script>
     <link rel="stylesheet" href="/css/site-template.css?v=20261017-meta-conversion-events-v1">
 
 </head>
@@ -2071,7 +2071,7 @@
                         </button>
                         <div class="breakdown-body open" id="breakdown-body">
                             <div class="breakdown-row">
-                                <span class="row-label"><span class="row-icon">&#127981;</span> Base Benchmark Silver, age <span id="bd-age">35</span></span>
+                                <span class="row-label"><span class="row-icon">&#127981;</span> Illustrative Benchmark Silver (SLCSP), age <span id="bd-age">35</span>, household of <span id="bd-hh">4</span></span>
                                 <span class="row-value" id="bd-base">$671/mo</span>
                             </div>
                             <div class="breakdown-row">
@@ -2101,7 +2101,7 @@
                     <!-- Disclaimer -->
                     <div class="disclaimer-box" id="disclaimer-box">
                         <strong>Disclaimer:</strong> This tool provides an educational estimate only and does not determine eligibility, premium, savings, or subsidy.
-                        Illustrative benchmark pricing uses the standard CMS 3:1 age curve and a $548.84 age-21 base benchmark reference.
+                        Illustrative benchmark pricing uses the standard CMS 3:1 age curve and a $548.84 age-21 base benchmark reference (multi-person households illustrate two adults at the entered age plus up to three dependents under age 21 per standard CMS family rating rules).
                         Actual premium tax credits depend on official Marketplace submission, verified MAGI, tax household, age, ZIP code rating area, and final plan enrollment.
                         Uses the 2026 HHS poverty guidelines for 2027 coverage (the guidelines in effect when Open Enrollment begins; 26 CFR 1.36B-1(h)).
                         For official eligibility, visit HealthCare.gov.
@@ -2505,8 +2505,13 @@
             return CMS_AGE_FACTORS[age - 20]; // index 1 = age 21
         }
 
-        function getBenchmarkPremium(age) {
-            return BASE_RATE_21 * getAgeFactor(age);
+        function getBenchmarkPremium(age, householdSize) {
+            var single = BASE_RATE_21 * getAgeFactor(age);
+            var hh = Math.max(1, parseInt(householdSize, 10) || 1);
+            if (hh === 1) return single;
+            var childRate = BASE_RATE_21 * CMS_AGE_FACTORS[0];
+            var cappedChildren = Math.min(3, Math.max(0, hh - 2));
+            return (single * 2) + (childRate * cappedChildren);
         }
 
         function getFPL(householdSize) {
@@ -2588,7 +2593,28 @@
         // REAL-TIME CALCULATION ENGINE
         // =====================================================================
         var _calcDebounce = null;
-        var _estimatorCompleteTracked = false;
+        var _estimatorUnlockTracked = false;
+        var _lastSoftGateTrigger = null;
+
+        function getCurrentEstimatorZip() {
+            var z1 = document.getElementById('estimator-zip-helper');
+            var z2 = document.getElementById('acaSoftGateZip');
+            var raw = (z1 && z1.value) || (z2 && z2.value) || '';
+            var digits = String(raw).replace(/\D/g, '').slice(0, 5);
+            return digits.length === 5 ? digits : '';
+        }
+
+        function updateExactQuoteHref(code) {
+            var quoteBtn = document.getElementById('get-exact-quote-btn');
+            if (!quoteBtn) return;
+            var stateCode = code || getSelectedStateInfo().code || 'FL';
+            var zip5 = getCurrentEstimatorZip();
+            var href = '/get-help/?intent=aca&product=aca_estimator_2027&state=' + encodeURIComponent(stateCode);
+            if (zip5) {
+                href += '&zip_code=' + encodeURIComponent(zip5);
+            }
+            quoteBtn.setAttribute('href', href);
+        }
 
         function ensureFallbackValues(skipActiveField) {
             var ageInput = document.getElementById('applicant-age');
@@ -2760,7 +2786,8 @@
                 var el = document.getElementById(id);
                 if (el) el.classList.remove('active-zone');
             });
-            var activeCellId = fplPercent < 100 ? 'cutoff-cell-100'
+            var inMedicaidThreshold = st.info.expanded ? (fplPercent <= 138) : (fplPercent < 100);
+            var activeCellId = inMedicaidThreshold ? 'cutoff-cell-100'
                 : (fplPercent <= 150 ? 'cutoff-cell-150'
                 : (fplPercent <= 200 ? 'cutoff-cell-200'
                 : (fplPercent <= 250 ? 'cutoff-cell-250' : 'cutoff-cell-400')));
@@ -2771,12 +2798,12 @@
             var insightEl = document.getElementById('fpl-threshold-insight');
             if (!insightEl) return;
 
-            if (fplPercent < 100) {
+            if (inMedicaidThreshold) {
                 var toFloor = Math.max(0, f100 - income);
                 if (st.info.expanded) {
                     var f138 = Math.round(fpl * 1.38);
                     insightEl.innerHTML =
-                        '<strong>Threshold Radar (' + st.info.name + '):</strong> Projected MAGI is below 100% FPL (' + fmt(f100) + '). Because ' + st.info.name + ' has expanded Medicaid up to <strong>138% FPL (' + fmt(f138) + ')</strong>, households below 138% FPL typically qualify for state Medicaid rather than Marketplace tax credits.';
+                        '<strong>Threshold Radar (' + st.info.name + '):</strong> Projected MAGI is ' + Math.round(fplPercent) + '% FPL (' + fmt(income) + '). Because ' + st.info.name + ' has expanded Medicaid up to <strong>138% FPL (' + fmt(f138) + ')</strong>, households at or below 138% FPL typically qualify for state Medicaid rather than Marketplace tax credits.';
                 } else {
                     insightEl.innerHTML =
                         '<strong>Threshold Radar (' + st.info.name + '):</strong> Projected MAGI is <strong>' + fmt(toFloor) + ' below</strong> the 100% FPL ' + st.info.name + ' Marketplace floor (' + fmt(f100) + ' for a ' + hhLabel.toLowerCase() + '). At ' + fmt(f100) + ', you qualify for maximum APTC and the <strong>94% Actuarial Value Silver CSR tier</strong>.';
@@ -2793,9 +2820,7 @@
             } else {
                 var cliffBuffer = f400 - income;
                 var nextCsrNote = '';
-                if (st.info.expanded && fplPercent < 138) {
-                    nextCsrNote = ' Note: ' + st.info.name + ' has expanded Medicaid up to 138% FPL (' + fmt(Math.round(fpl * 1.38)) + '); Marketplace APTC and Silver CSR generally begin above the state Medicaid threshold.';
-                } else if (fplPercent > 150 && fplPercent <= 200) {
+                if (fplPercent > 150 && fplPercent <= 200) {
                     nextCsrNote = ' You are <strong>' + fmt(income - f150) + ' above</strong> the 150% FPL cutoff (' + fmt(f150) + ') for the 94% AV Silver CSR tier.';
                 } else if (fplPercent > 200 && fplPercent <= 250) {
                     nextCsrNote = ' You are <strong>' + fmt(income - f200) + ' above</strong> the 200% FPL cutoff (' + fmt(f200) + ') for the 87% AV Silver CSR tier.';
@@ -2815,13 +2840,16 @@
             var strategyBody = document.getElementById('polk-strategy-body');
             if (!metalGrid) return;
 
-            if (fplPercent < 100) {
+            var inMedicaidThreshold = st.info.expanded ? (fplPercent <= 138) : (fplPercent < 100);
+            if (inMedicaidThreshold) {
                 metalGrid.style.display = 'none';
                 if (strategyCard && strategyTitle && strategyBody) {
                     strategyCard.style.display = '';
-                    strategyTitle.textContent = '2027 ' + st.info.name + ' Strategy (<100% FPL: Verify Household MAGI & Coverage Options)';
+                    strategyTitle.textContent = st.info.expanded
+                        ? ('2027 ' + st.info.name + ' Strategy (<=138% FPL: State Medicaid Zone & MAGI Check)')
+                        : ('2027 ' + st.info.name + ' Strategy (<100% FPL: Verify Household MAGI & Coverage Options)');
                     strategyBody.textContent = st.info.expanded
-                        ? ('In ' + st.info.name + ', households below 138% FPL typically qualify for expanded Medicaid, while households above 138% FPL qualify for Marketplace tax credits and 94% Silver CSR. Request a review below to verify your 2027 household MAGI and plan options.')
+                        ? ('In ' + st.info.name + ', households at or below 138% FPL typically qualify for expanded Medicaid, while households above 138% FPL qualify for Marketplace tax credits and 94% Silver CSR. Request a review below to verify your 2027 household MAGI and plan options.')
                         : ('In ' + st.info.name + ' (a non-expansion state), standard ACA premium tax credits start at 100% FPL. Request a quick review below to verify what income sources count toward 2027 household MAGI and compare available coverage options.');
                 }
                 return;
@@ -2877,6 +2905,35 @@
             }
         }
 
+        function getEstimatorTelemetryProps(extra) {
+            var st = getSelectedStateInfo();
+            var hh = parseInt((document.getElementById('household-size') || {}).value, 10) || 1;
+            var income = parseIncome((document.getElementById('annual-income') || {}).value);
+            var fpl = getFPL(hh);
+            var fplPercent = fpl > 0 ? (income / fpl) * 100 : 0;
+            var fplBand = fplPercent < 100 ? 'under_100'
+                : (fplPercent <= 138 ? '100_to_138'
+                : (fplPercent <= 150 ? '139_to_150'
+                : (fplPercent <= 200 ? '151_to_200'
+                : (fplPercent <= 250 ? '201_to_250'
+                : (fplPercent <= 400 ? '251_to_400' : 'over_400')))));
+            var hhBucket = hh <= 1 ? '1' : (hh === 2 ? '2' : (hh === 3 ? '3' : '4_plus'));
+            return Object.assign({
+                fpl_band: fplBand,
+                household_bucket: hhBucket,
+                state_code: st.code,
+                expansion_state: Boolean(st.info.expanded)
+            }, extra || {});
+        }
+
+        function trackEstimatorEvent(eventName, extra) {
+            if (window.LHI && typeof window.LHI.track === 'function') {
+                try {
+                    window.LHI.track(eventName, getEstimatorTelemetryProps(extra));
+                } catch (e) {}
+            }
+        }
+
         function runCalculation(isUserAction) {
             var hasMinimum = updateConfidence();
             var st = getSelectedStateInfo();
@@ -2911,15 +2968,17 @@
 
             var fpl = getFPL(householdSize);
             var fplPercent = (income / fpl) * 100;
-            var benchmarkMonthly = getBenchmarkPremium(age);
+            var benchmarkMonthly = getBenchmarkPremium(age, householdSize);
             var tobaccoSurcharge = (tobacco === 'yes') ? benchmarkMonthly * 0.5 : 0;
+            var inMedicaidThreshold = st.info.expanded ? (fplPercent <= 138) : (fplPercent < 100);
 
             updateScenarioActiveState(age, income, householdSize, tobacco);
             updateFplSpectrum(fpl, fplPercent, income, householdSize, benchmarkMonthly);
 
             var incBadge = document.getElementById('income-fpl-badge');
             if (incBadge) {
-                var tierLabel = fplPercent < 100 ? ('Below 100% ' + st.code + ' Floor')
+                var tierLabel = inMedicaidThreshold
+                    ? (st.info.expanded ? (st.code + ' Medicaid Zone') : ('Below 100% ' + st.code + ' Floor'))
                     : (fplPercent <= 150 ? '94% Silver CSR'
                     : (fplPercent <= 200 ? '87% Silver CSR'
                     : (fplPercent <= 250 ? '73% Silver CSR'
@@ -2935,23 +2994,23 @@
             }
             if (spectrumCard) spectrumCard.style.display = '';
 
-            // -- BELOW 100% FPL --
-            if (fplPercent < 100) {
+            // -- MEDICAID EXPANSION ZONE (<=138% FPL in expanded states) OR NON-EXPANSION GAP (<100% FPL) --
+            if (inMedicaidThreshold) {
                 priceHero.style.display = 'none';
                 breakdownEl.style.display = 'none';
                 resultNote.style.display = 'none';
                 if (metalGrid) metalGrid.style.display = 'none';
                 updateMetalTierCards(benchmarkMonthly, tobaccoSurcharge, 0, fplPercent);
                 updateModalLiveSummary(
-                    'Verify MAGI',
-                    fmt(fpl) + ' = 100% FPL',
+                    st.info.expanded ? 'Medicaid Zone' : 'Verify MAGI',
+                    fmt(Math.round(fpl * (st.info.expanded ? 1.38 : 1))) + ' = ' + (st.info.expanded ? '138%' : '100%') + ' FPL',
                     Math.round(fplPercent) + '% FPL (' + st.code + ')'
                 );
                 if (st.info.expanded) {
                     statusArea.innerHTML =
                         '<div class="status-message gap">' +
                         '<strong>Medicaid Expansion Zone (' + Math.round(fplPercent) + '% FPL in ' + st.info.name + ')</strong>' +
-                        'Your projected income is below 100% of the Federal Poverty Level (' + fmt(fpl) + ' for a household of ' + householdSize + '). Because ' + st.info.name + ' has expanded Medicaid up to 138% FPL (' + fmt(Math.round(fpl * 1.38)) + '), households in this range are typically routed to state Medicaid rather than Marketplace premium tax credits.' +
+                        'Your projected income (' + fmt(income) + ' for a household of ' + householdSize + ') is at or below 138% of the Federal Poverty Level (' + fmt(Math.round(fpl * 1.38)) + '). Because ' + st.info.name + ' has expanded Medicaid up to 138% FPL, households in this range are typically routed to state Medicaid rather than Marketplace premium tax credits.' +
                         '</div>';
                 } else {
                     statusArea.innerHTML =
@@ -2983,7 +3042,7 @@
                     'Under the stated 2027 assumptions, this illustration shows no estimated premium tax credit above 400% FPL (' + fmt(fpl * 4) + ' for a household of ' + householdSize + '). The official Marketplace and tax result controls.' +
                     '</div>';
                 updateMetalTierCards(benchmarkMonthly, tobaccoSurcharge, 0, fplPercent);
-                updateBreakdown(age, benchmarkMonthly, fplPercent, 0, 0, 0, fullPremium);
+                updateBreakdown(age, householdSize, benchmarkMonthly, fplPercent, 0, 0, 0, fullPremium);
                 updateModalLiveSummary(
                     '$0/mo (>400% FPL)',
                     fmt(fullPremium) + ' / ' + fmt(fullBronze) + ' mo',
@@ -2992,7 +3051,7 @@
                 return;
             }
 
-            // -- SUBSIDY ELIGIBLE (100-400% FPL) --
+            // -- SUBSIDY ELIGIBLE (100-400% non-expansion / >138-400% expanded) --
             var applicablePct = getApplicablePercentage(fplPercent);
             var expectedContribAnnual = income * (applicablePct / 100);
             var expectedContribMonthly = expectedContribAnnual / 12;
@@ -3050,18 +3109,13 @@
             updateMetalTierCards(benchmarkMonthly, tobaccoSurcharge, subsidyMonthly, fplPercent);
 
             // Update breakdown
-            updateBreakdown(age, benchmarkMonthly, fplPercent, applicablePct, expectedContribMonthly, subsidyMonthly, netPremium);
-
-            // Record only a generic completion event. Household, income, age,
-            // tobacco, FPL, subsidy, and premium values stay in this browser.
-            if (isUserAction && !_estimatorCompleteTracked && window.LHI && typeof window.LHI.track === 'function') {
-                _estimatorCompleteTracked = true;
-                window.LHI.track('EstimatorComplete', { content_name: 'aca_2027_estimator' });
-            }
+            updateBreakdown(age, householdSize, benchmarkMonthly, fplPercent, applicablePct, expectedContribMonthly, subsidyMonthly, netPremium);
         }
 
-        function updateBreakdown(age, benchmark, fplPct, applPct, expectedMonthly, subsidy, net) {
+        function updateBreakdown(age, householdSize, benchmark, fplPct, applPct, expectedMonthly, subsidy, net) {
             document.getElementById('bd-age').textContent = age;
+            var bdHhEl = document.getElementById('bd-hh');
+            if (bdHhEl) bdHhEl.textContent = householdSize;
             document.getElementById('bd-base').textContent = fmt(benchmark) + '/mo';
             document.getElementById('bd-fpl').textContent = Math.round(fplPct) + '% FPL';
             document.getElementById('bd-contribution').textContent = applPct
@@ -3181,6 +3235,7 @@
             if (quoteBtn) {
                 quoteBtn.textContent = 'Request a 2027 ' + info.name + ' (' + code + ') ACA Plan Review';
             }
+            updateExactQuoteHref(code);
 
             var smsHref = 'sms:+18636403102?body=' + encodeURIComponent('Hi David, can you help me review my 2027 ACA Marketplace options in ' + info.name + '?');
             ['estimator-bottom-sms-btn', 'estimator-cta-band-sms-btn', 'acaSoftGateDirectSms'].forEach(function(id) {
@@ -3221,11 +3276,17 @@
                     }
                     syncSelectedStateContext();
                     runCalculation(true);
-                } else if (zipBadge) {
-                    zipBadge.textContent = 'ZIP ' + digits;
+                } else {
+                    if (zipBadge) {
+                        zipBadge.textContent = 'ZIP ' + digits;
+                    }
+                    updateExactQuoteHref();
                 }
-            } else if (zipBadge) {
-                zipBadge.textContent = 'Auto-sets state';
+            } else {
+                if (zipBadge) {
+                    zipBadge.textContent = 'Auto-sets state';
+                }
+                updateExactQuoteHref();
             }
         }
 
@@ -3273,12 +3334,8 @@
         if (exactQuoteBtnEl) {
             exactQuoteBtnEl.addEventListener('click', function() {
                 var st = syncSelectedStateContext().code;
-                if (window.LHI && typeof window.LHI.track === 'function') {
-                    try { window.LHI.track('PlanReviewCtaClick', { content_name: 'aca_estimator_get_help_cta', step: 'click' }); } catch (e) {}
-                }
-                if (st && st !== 'FL') {
-                    this.setAttribute('href', '/get-help/?intent=aca&state=' + encodeURIComponent(st) + '&product=aca_estimator_2027');
-                }
+                updateExactQuoteHref(st);
+                trackEstimatorEvent('PlanReviewCtaClick', { content_name: 'aca_estimator_get_help_cta', step: 'click' });
             });
         }
 
@@ -3359,6 +3416,32 @@
             }
         }
 
+        function hasSoftGateThanks() {
+            return Boolean(document.querySelector('#acaSoftGateFormPanel .m27-thanks'));
+        }
+
+        function isElementVisibleFocusable(el) {
+            if (!el || !document.body || !document.body.contains(el)) return false;
+            if (el.disabled || el.hidden) return false;
+            if (typeof el.closest === 'function' && el.closest('[hidden]')) return false;
+            if (el.style && (el.style.display === 'none' || el.style.visibility === 'hidden')) return false;
+            return true;
+        }
+
+        function getModalFocusableElements(modal) {
+            if (!modal || typeof modal.querySelectorAll !== 'function') return [];
+            var candidates = modal.querySelectorAll(
+                'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            );
+            var list = [];
+            for (var i = 0; i < candidates.length; i++) {
+                if (isElementVisibleFocusable(candidates[i])) {
+                    list.push(candidates[i]);
+                }
+            }
+            return list;
+        }
+
         function dockFormPanelToModal() {
             var modalMount = document.getElementById('acaSoftGateModalFormMount');
             var formPanel = document.getElementById('acaSoftGateFormPanel');
@@ -3382,9 +3465,10 @@
             }
         }
 
-        function openSoftGateModal(ctaKey, planInterest) {
+        function openSoftGateModal(ctaKey, planInterest, triggerEl) {
             var modal = document.getElementById('acaEstimatorSoftGateModal');
             if (!modal) return;
+            _lastSoftGateTrigger = triggerEl || document.activeElement || null;
             dockFormPanelToModal();
             if (ctaKey) {
                 var ctaEl = document.getElementById('acaSoftGateCtaKey');
@@ -3395,79 +3479,124 @@
                 if (planEl) planEl.value = planInterest;
             }
             modal.hidden = false;
-            document.body.style.overflow = 'hidden';
+            if (document.body) document.body.style.overflow = 'hidden';
+            trackEstimatorEvent('estimator_soft_gate_open', {
+                cta_key: ctaKey || 'estimator_soft_gate',
+                plan_interest: planInterest || 'default'
+            });
             var nameField = document.getElementById('acaSoftGateName');
-            if (nameField && typeof nameField.focus === 'function') {
+            var fallbackClose = document.getElementById('acaSoftGateCloseBtn');
+            var targetFocus = isElementVisibleFocusable(nameField)
+                ? nameField
+                : (isElementVisibleFocusable(fallbackClose) ? fallbackClose : getModalFocusableElements(modal)[0]);
+            if (targetFocus && typeof targetFocus.focus === 'function') {
                 setTimeout(function() {
-                    try { nameField.focus({ preventScroll: true }); } catch (e) { nameField.focus(); }
+                    try { targetFocus.focus({ preventScroll: true }); } catch (e) { targetFocus.focus(); }
                 }, 60);
             }
         }
 
-        function closeSoftGateModal(scrollToResults) {
+        function closeSoftGateModal(scrollToResults, reason) {
             var modal = document.getElementById('acaEstimatorSoftGateModal');
+            var wasOpen = Boolean(modal && !modal.hidden);
             if (modal) {
                 modal.hidden = true;
             }
-            document.body.style.overflow = '';
+            if (document.body) document.body.style.overflow = '';
             unlockEstimatorResults();
             dockFormPanelInline();
-            if (scrollToResults) {
-                var resultsTarget = document.getElementById('live-results');
-                if (resultsTarget && typeof resultsTarget.scrollIntoView === 'function') {
-                    try {
-                        resultsTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    } catch (e) {}
-                }
+            if (wasOpen) {
+                trackEstimatorEvent('estimator_soft_gate_dismiss', {
+                    dismiss_reason: reason || 'close',
+                    form_submitted: hasSoftGateThanks()
+                });
+            }
+            var resultsTarget = document.getElementById('live-results');
+            if (scrollToResults && resultsTarget && typeof resultsTarget.scrollIntoView === 'function') {
+                try {
+                    resultsTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } catch (e) {}
+            }
+            var restoreTarget = (reason !== 'skip_btn' && isElementVisibleFocusable(_lastSoftGateTrigger))
+                ? _lastSoftGateTrigger
+                : null;
+            _lastSoftGateTrigger = null;
+            if (restoreTarget && typeof restoreTarget.focus === 'function') {
+                try { restoreTarget.focus({ preventScroll: true }); } catch (e) { restoreTarget.focus(); }
+            } else if (resultsTarget && typeof resultsTarget.focus === 'function') {
+                if (!resultsTarget.hasAttribute('tabindex')) resultsTarget.tabIndex = -1;
+                try { resultsTarget.focus({ preventScroll: true }); } catch (e) { resultsTarget.focus(); }
             }
         }
 
-        function handleCalculateAction() {
+        function handleCalculateAction(triggerEl) {
             ensureFallbackValues(false);
             syncSlidersFromInputs();
             runCalculation(true);
             unlockEstimatorResults();
-            document.getElementById('breakdown-toggle').classList.add('open');
-            document.getElementById('breakdown-body').classList.add('open');
+            var breakdownToggle = document.getElementById('breakdown-toggle');
+            var breakdownBody = document.getElementById('breakdown-body');
+            if (breakdownToggle) breakdownToggle.classList.add('open');
+            if (breakdownBody) breakdownBody.classList.add('open');
             _softGateShownOnce = true;
-            openSoftGateModal('estimator_calculate_btn');
+            if (!_estimatorUnlockTracked) {
+                _estimatorUnlockTracked = true;
+                trackEstimatorEvent('estimator_unlock_click', { cta_key: 'estimator_calculate_btn' });
+            }
+            if (hasSoftGateThanks()) {
+                dockFormPanelInline();
+                var resultsEl = document.getElementById('live-results');
+                if (resultsEl && typeof resultsEl.scrollIntoView === 'function') {
+                    try { resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+                }
+                return;
+            }
+            openSoftGateModal('estimator_calculate_btn', '', triggerEl);
         }
 
         var calcBtn = document.getElementById('calculate-estimate-btn');
         if (calcBtn) {
-            calcBtn.addEventListener('click', handleCalculateAction);
+            calcBtn.addEventListener('click', function() {
+                handleCalculateAction(this);
+            });
         }
 
         var unlockTriggerBtn = document.getElementById('unlock-results-trigger-btn');
         if (unlockTriggerBtn) {
-            unlockTriggerBtn.addEventListener('click', handleCalculateAction);
+            unlockTriggerBtn.addEventListener('click', function() {
+                handleCalculateAction(this);
+            });
         }
 
         var reopenSoftGateBtn = document.getElementById('reopen-soft-gate-btn');
         if (reopenSoftGateBtn) {
             reopenSoftGateBtn.addEventListener('click', function() {
-                openSoftGateModal('estimator_strategy_callout');
+                openSoftGateModal('estimator_strategy_callout', '', this);
             });
         }
 
         document.querySelectorAll('.metal-card-cta').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var tier = this.getAttribute('data-metal-tier') || '2027 ACA Marketplace Plan';
-                openSoftGateModal('estimator_metal_tier_card', tier);
+                trackEstimatorEvent('estimator_metal_cta_click', {
+                    metal_tier: tier,
+                    cta_key: 'estimator_metal_tier_card'
+                });
+                openSoftGateModal('estimator_metal_tier_card', tier, this);
             });
         });
 
         var softGateCloseBtn = document.getElementById('acaSoftGateCloseBtn');
         if (softGateCloseBtn) {
             softGateCloseBtn.addEventListener('click', function() {
-                closeSoftGateModal(true);
+                closeSoftGateModal(true, 'close_btn');
             });
         }
 
         var softGateSkipBtn = document.getElementById('acaSoftGateSkipBtn');
         if (softGateSkipBtn) {
             softGateSkipBtn.addEventListener('click', function() {
-                closeSoftGateModal(true);
+                closeSoftGateModal(true, 'skip_btn');
             });
         }
 
@@ -3475,15 +3604,37 @@
         if (softGateModalEl) {
             softGateModalEl.addEventListener('click', function(e) {
                 if (e.target === softGateModalEl) {
-                    closeSoftGateModal(true);
+                    closeSoftGateModal(true, 'backdrop');
                 }
             });
         }
 
         document.addEventListener('keydown', function(e) {
             var modal = document.getElementById('acaEstimatorSoftGateModal');
-            if (e && e.key === 'Escape' && modal && !modal.hidden) {
-                closeSoftGateModal(true);
+            if (!e || !modal || modal.hidden) return;
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                closeSoftGateModal(true, 'escape');
+                return;
+            }
+            if (e.key === 'Tab') {
+                var focusables = getModalFocusableElements(modal);
+                if (!focusables.length) {
+                    e.preventDefault();
+                    return;
+                }
+                var first = focusables[0];
+                var last = focusables[focusables.length - 1];
+                var active = document.activeElement;
+                if (e.shiftKey) {
+                    if (active === first || !modal.contains(active)) {
+                        e.preventDefault();
+                        last.focus();
+                    }
+                } else if (active === last || !modal.contains(active)) {
+                    e.preventDefault();
+                    first.focus();
+                }
             }
         });
 
@@ -3491,10 +3642,15 @@
         var softGateFormPanel = document.getElementById('acaSoftGateFormPanel');
         if (softGateFormPanel && window.MutationObserver) {
             new MutationObserver(function() {
-                if (softGateFormPanel.querySelector('.m27-thanks')) {
+                if (hasSoftGateThanks()) {
                     var skipBtn = document.getElementById('acaSoftGateSkipBtn');
                     if (skipBtn) {
                         skipBtn.innerHTML = 'Close &amp; View My 2027 Subsidy Results Below &darr;';
+                    }
+                    var inlineSlot = document.getElementById('inline-estimator-lead-slot');
+                    var modalEl = document.getElementById('acaEstimatorSoftGateModal');
+                    if (inlineSlot && modalEl && modalEl.hidden) {
+                        dockFormPanelInline();
                     }
                 }
             }).observe(softGateFormPanel, { childList: true, subtree: true });
@@ -3602,10 +3758,10 @@
     </script>
 
     <script src="/js/blog-theme.js?v=20261023-pr333-follow-up" defer></script>
-    <script src="/js/site-phone.js?v=20261015-v6merge2"></script>
-    <script src="/js/funnel.js?v=20261030-step1-cache-bust-v1" defer></script>
+    <script defer src="/js/site-phone.js?v=20261015-v6merge2"></script>
+    <script src="/js/funnel.js?v=20261112-audit-release-v1" defer></script>
 
-    <script src="/js/site-template.js?v=20261030-step1-cache-bust-v1" defer></script>
-  <script src="/js/lead-hero.js?v=20261030-step1-cache-bust-v1" defer></script>
+    <script src="/js/site-template.js?v=20261112-audit-release-v1" defer></script>
+  <script src="/js/lead-hero.js?v=20261112-audit-release-v1" defer></script>
 </body>
 </html>

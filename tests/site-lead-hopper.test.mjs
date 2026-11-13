@@ -131,3 +131,59 @@ test('site lead hopper forwards state and non-PHI operational context and classi
   assert.equal(timedOut.permanent, false);
   assert.equal(timedOut.error, 'hopper_timeout');
 });
+
+test('site lead hopper gives Google click IDs priority over stale Facebook UTM, accepts email-only leads, and maps Medicare insurance types', async () => {
+  const env = {
+    HOPPER_INTAKE_URL: 'https://huff-health-app.vercel.app/api/leads/quick-add',
+    HOPPER_INTAKE_KEY: 'test-hopper-key'
+  };
+  const calls = [];
+  const fetchImpl = async (url, options) => {
+    calls.push({ url: String(url), options });
+    return new Response('{}', { status: 200 });
+  };
+
+  const gclidWins = await deliverSiteLeadToHopper({
+    form_name: 'site-medicare-lead',
+    name: 'Pat Google',
+    phone: '',
+    email: 'pat.google@example.test',
+    zip: '33813',
+    state: 'FL',
+    coverage_status: 'medicare_advantage',
+    gclid: 'GCLID-12345',
+    utm_source: 'fb_ig',
+    utm_medium: 'paid_social',
+    utm_campaign: 'lhi_search_polk',
+    consent: { granted: true, call: false, sms: true, email: false }
+  }, { environment: env, fetchImpl });
+
+  assert.equal(gclidWins.ok, true);
+  assert.equal(calls.length, 1);
+  const body = JSON.parse(calls[0].options.body);
+  assert.equal(body.source, 'google_ads');
+  assert.equal(body.email, 'pat.google@example.test');
+  assert.equal(body.insuranceType, 'MEDICARE_ADVANTAGE');
+  assert.equal(body.customFields.gclid, 'GCLID-12345');
+  assert.equal(body.customFields.utmMedium, 'paid_social');
+  assert.equal(body.customFields.formName, 'site-medicare-lead');
+  assert.equal(body.customFields.consentSms, true);
+
+  const suppResult = await deliverSiteLeadToHopper({
+    form_name: 'site-medicare-lead',
+    name: 'Pat Supp',
+    phone: '8635550111',
+    coverage_status: 'medicare_supplement'
+  }, { environment: env, fetchImpl });
+  assert.equal(suppResult.ok, true);
+  assert.equal(JSON.parse(calls[1].options.body).insuranceType, 'MEDICARE_SUPPLEMENT');
+
+  const noContact = await deliverSiteLeadToHopper({
+    form_name: 'site-aca-lead',
+    name: 'No Contact'
+  }, { environment: env, fetchImpl });
+  assert.equal(noContact.ok, false);
+  assert.equal(noContact.permanent, true);
+  assert.equal(noContact.error, 'contact_required');
+  assert.equal(calls.length, 2);
+});

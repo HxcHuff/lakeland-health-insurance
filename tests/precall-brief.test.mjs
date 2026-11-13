@@ -149,3 +149,11 @@ test('post-form thanks.html spot-check hands off state to provider-prescription-
     await new Promise((r) => server.close(r));
   }
 });
+
+test('precall-brief emits non-PHI worksheet telemetry events cleanly', () => {
+  const briefSrc = readFileSync(resolve(ROOT, 'js/precall-brief.js'), 'utf8');
+  assert.match(briefSrc, /precall_brief_engaged/);
+  assert.match(briefSrc, /precall_brief_summary_copied/);
+  assert.match(briefSrc, /precall_brief_printed/);
+  assert.doesNotMatch(briefSrc, /emitPreCallEvent(?:Once)?\([^)]*(?:doctorNote|planText|pharmacyText)/i);
+});

@@ -864,7 +864,7 @@
     abVariantRequested = true;
     var ab = document.createElement('script');
     ab.async = true;
-    ab.src = '/js/ab-variant.js?v=20261007-split';
+    ab.src = '/js/ab-variant.js?v=20261112-audit-release-v1';
     document.head.appendChild(ab);
   }
 
@@ -881,7 +881,7 @@
     funnelRequested = true;
     var funnel = document.createElement('script');
     funnel.async = true;
-    funnel.src = '/js/funnel.js?v=20261030-step1-cache-bust-v1';
+    funnel.src = '/js/funnel.js?v=20261112-audit-release-v1';
     document.head.appendChild(funnel);
   }
 
@@ -907,7 +907,7 @@
   var initialPath = normalizePath(window.location.pathname);
   var hasTrackedForm = typeof document.querySelector === 'function'
     && document.querySelector('form[data-funnel-track], form[data-funnel-step]');
-  if (hasTrackedForm || initialMedicareContext || initialPath === '/' || initialPath === '/get-help/' || initialPath === '/thanks.html/' || initialPath === '/thanks/' || initialPath.indexOf('/lp/') === 0) {
+  if (hasTrackedForm || initialMedicareContext || initialPath === '/' || initialPath === '/get-help/' || initialPath === '/book/' || initialPath === '/thanks.html/' || initialPath === '/thanks/' || initialPath.indexOf('/lp/') === 0) {
     loadFunnelBus();
   }
 
@@ -1563,12 +1563,102 @@
     return origin + pathname + (kept.length ? '?' + kept.join('&') : '');
   }
 
+  var ga4PageViewSent = false;
+  var pendingAnalyticsDiagnostics = [];
+  var jsRuntimeErrorCount = 0;
+  var sentJsRuntimeErrors = {};
+
+  function sanitizeDiagnosticText(value, maxLen) {
+    var text = String(value || '')
+      .replace(/https?:\/\/([^\s/?#]+)\/[^\s?#]*\?[^\s]*/gi, 'https://$1/[path]')
+      .replace(/\?[^\s"'`]+/g, '')
+      .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, '[email]')
+      .replace(/\b(?:\+?1[-.\s]*)?\(?\d{3}\)?[-.\s]*\d{3}[-.\s]*\d{4}\b/g, '[phone]')
+      .replace(/\b\d{5,}\b/g, '[num]')
+      .replace(/\s+/g, ' ')
+      .trim();
+    return text.slice(0, maxLen || 100);
+  }
+
+  function diagnosticsDeviceClass() {
+    var width = 0;
+    try {
+      width = Number(window.innerWidth || (document && document.documentElement && document.documentElement.clientWidth) || 0);
+    } catch (e) {}
+    if (width > 0 && width < 768) return 'mobile';
+    if (width >= 768 && width < 1024) return 'tablet';
+    if (width >= 1024) return 'desktop';
+    return 'unknown';
+  }
+
+  function diagnosticsPageType() {
+    var path = normalizePath(window.location && window.location.pathname || '/');
+    if (path === '/') return 'home';
+    if (path === '/get-help/') return 'get_help';
+    if (path.indexOf('/thanks') === 0) return 'conversion';
+    if (path.indexOf('/lp/') === 0) return 'lp';
+    if (path.indexOf('/blog/') === 0) return 'blog';
+    if (path.indexOf('/book') === 0) return 'booking';
+    if (path.indexOf('/carriers/') === 0) return 'carrier_lp';
+    if (path.indexOf('/aca-subsidy-estimator') === 0) return 'estimator';
+    if (path.indexOf('medicare') !== -1) return 'medicare';
+    if (path.indexOf('aca') !== -1) return 'aca';
+    return 'site';
+  }
+
+  function flushAnalyticsDiagnostics() {
+    if (!ga4PageViewSent || !IS_PROD || !pendingAnalyticsDiagnostics.length) return;
+    ensureGuardedGtag();
+    var items = pendingAnalyticsDiagnostics.splice(0, pendingAnalyticsDiagnostics.length);
+    for (var i = 0; i < items.length; i += 1) {
+      try {
+        window.gtag('event', items[i].name, items[i].params);
+      } catch (e) {}
+    }
+  }
+
+  function emitAnalyticsDiagnostic(name, params) {
+    if (!IS_PROD || !name) return false;
+    var cleanParams = {
+      page_location: ga4PageLocation(),
+      page_type: diagnosticsPageType(),
+      device_class: diagnosticsDeviceClass(),
+      non_interaction: true,
+      transport_type: 'beacon'
+    };
+    if (params && typeof params === 'object') {
+      var keys = Object.keys(params);
+      for (var i = 0; i < keys.length; i += 1) {
+        var key = keys[i];
+        var val = params[key];
+        if (val == null || typeof val === 'function' || typeof val === 'object') continue;
+        cleanParams[key] = typeof val === 'string' ? sanitizeDiagnosticText(val, 120) : val;
+      }
+    }
+    if (!ga4PageViewSent) {
+      if (pendingAnalyticsDiagnostics.length < 25) {
+        pendingAnalyticsDiagnostics.push({ name: String(name), params: cleanParams });
+      }
+      return true;
+    }
+    ensureGuardedGtag();
+    try {
+      window.gtag('event', String(name), cleanParams);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  window.lhiEmitAnalyticsDiagnostic = emitAnalyticsDiagnostic;
+
   function sendGa4PageView() {
     window.gtag('event', 'page_view', {
       send_to: 'G-W45RMKHXV0',
       page_location: ga4PageLocation(),
       page_title: document.title
     });
+    ga4PageViewSent = true;
+    flushAnalyticsDiagnostics();
   }
 
   function emitInitialMedicareContentView() {
@@ -1797,6 +1887,131 @@
     window.addEventListener('load', scheduleInit, { once: true });
   }
 
+  function classifyCwvRating(metricName, value) {
+    if (metricName === 'LCP') return value <= 2500 ? 'good' : (value <= 4000 ? 'needs_improvement' : 'poor');
+    if (metricName === 'INP') return value <= 200 ? 'good' : (value <= 500 ? 'needs_improvement' : 'poor');
+    if (metricName === 'CLS') return value <= 0.1 ? 'good' : (value <= 0.25 ? 'needs_improvement' : 'poor');
+    if (metricName === 'FCP') return value <= 1800 ? 'good' : (value <= 3000 ? 'needs_improvement' : 'poor');
+    if (metricName === 'TTFB') return value <= 800 ? 'good' : (value <= 1800 ? 'needs_improvement' : 'poor');
+    return 'unknown';
+  }
+
+  function hasPaidLandingMarker() {
+    var search = '';
+    try { search = String(landingSearch() || (window.location && window.location.search) || ''); } catch (e) {}
+    return /(?:^|[?&])(?:gclid|gbraid|wbraid|fbclid|msclkid)=/i.test(search);
+  }
+
+  function reportRuntimeError(errorType, rawMessage, rawSource, lineNo) {
+    if (!IS_PROD || jsRuntimeErrorCount >= 3) return false;
+    var cleanMsg = sanitizeDiagnosticText(rawMessage || 'runtime_error', 120) || 'runtime_error';
+    var cleanSource = sanitizeDiagnosticText(rawSource || '', 80);
+    var dedupeKey = String(errorType || 'error') + '|' + cleanMsg + '|' + cleanSource;
+    if (hasOwn(sentJsRuntimeErrors, dedupeKey)) return false;
+    sentJsRuntimeErrors[dedupeKey] = true;
+    jsRuntimeErrorCount += 1;
+    return emitAnalyticsDiagnostic('js_runtime_error', {
+      error_type: String(errorType || 'error').slice(0, 32),
+      error_message: cleanMsg,
+      script_source: cleanSource || 'inline',
+      line_number: Number(lineNo) || 0
+    });
+  }
+
+  function installCwvAndErrorTelemetry() {
+    if (!IS_PROD || window.__LHI_TEST) return;
+    if (typeof window.addEventListener === 'function') {
+      window.addEventListener('error', function (evt) {
+        if (!evt) return;
+        reportRuntimeError('error', evt.message || (evt.error && evt.error.message), evt.filename || '', evt.lineno || 0);
+      });
+      window.addEventListener('unhandledrejection', function (evt) {
+        var reason = evt && evt.reason;
+        var msg = (reason && typeof reason === 'object' && reason.message) ? reason.message : String(reason || 'unhandled_rejection');
+        reportRuntimeError('unhandledrejection', msg, 'promise', 0);
+      });
+    }
+    if (typeof PerformanceObserver !== 'function') return;
+    var cwvValues = {};
+    var cwvFlushed = {};
+    var clsTotal = 0;
+    var maxInp = 0;
+    var paidFlag = hasPaidLandingMarker() ? '1' : '0';
+
+    function recordMetric(name, val) {
+      if (typeof val !== 'number' || !isFinite(val) || val < 0) return;
+      cwvValues[name] = name === 'CLS' ? Math.round(val * 1000) / 1000 : Math.round(val);
+    }
+
+    function observeType(type, opts, handler) {
+      try {
+        var obs = new PerformanceObserver(function (list) {
+          var entries = list && list.getEntries ? list.getEntries() : [];
+          for (var i = 0; i < entries.length; i += 1) handler(entries[i]);
+        });
+        obs.observe(Object.assign({ type: type, buffered: true }, opts || {}));
+      } catch (e) {}
+    }
+
+    observeType('largest-contentful-paint', null, function (entry) {
+      recordMetric('LCP', entry.startTime);
+    });
+    observeType('layout-shift', null, function (entry) {
+      if (!entry.hadRecentInput) {
+        clsTotal += Number(entry.value || 0);
+        recordMetric('CLS', clsTotal);
+      }
+    });
+    observeType('event', { durationThreshold: 40 }, function (entry) {
+      if (entry.interactionId && entry.duration > maxInp) {
+        maxInp = entry.duration;
+        recordMetric('INP', maxInp);
+      }
+    });
+    observeType('paint', null, function (entry) {
+      if (entry.name === 'first-contentful-paint') recordMetric('FCP', entry.startTime);
+    });
+    observeType('navigation', null, function (entry) {
+      if (typeof entry.responseStart === 'number' && typeof entry.requestStart === 'number' && entry.responseStart >= entry.requestStart) {
+        recordMetric('TTFB', entry.responseStart - entry.requestStart);
+      }
+    });
+
+    function flushCwv() {
+      var names = ['LCP', 'INP', 'CLS', 'FCP', 'TTFB'];
+      for (var i = 0; i < names.length; i += 1) {
+        var metric = names[i];
+        if (!hasOwn(cwvValues, metric) || cwvFlushed[metric]) continue;
+        cwvFlushed[metric] = true;
+        emitAnalyticsDiagnostic('cwv_metric', {
+          metric_name: metric,
+          metric_value: cwvValues[metric],
+          metric_rating: classifyCwvRating(metric, cwvValues[metric]),
+          paid_landing: paidFlag
+        });
+      }
+    }
+
+    if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'hidden') flushCwv();
+      });
+    }
+    if (typeof window.addEventListener === 'function') {
+      window.addEventListener('pagehide', flushCwv, { once: true });
+    }
+  }
+  installCwvAndErrorTelemetry();
+
+  if (window.__LHI_TEST === true) {
+    window.LHIAnalyticsDiagnostics = {
+      sanitizeDiagnosticText: sanitizeDiagnosticText,
+      classifyCwvRating: classifyCwvRating,
+      reportRuntimeError: reportRuntimeError,
+      flushAnalyticsDiagnostics: flushAnalyticsDiagnostics
+    };
+  }
+
   /* Google Ads "Insurance reality check" conversion wrapper. Defined globally
      so any reality-check CTA can use onclick="gtag_report_conversion(this.href)"
      for tel: / external links, or gtag_report_conversion() (no arg) inside JS
@@ -1821,6 +2036,7 @@
   function mountMobileSmsStickyDock() {
     if (window.__LHI_TEST || typeof document === 'undefined' || !document.body || !document.querySelector) return;
     if (document.getElementById('lhiMobileSmsDock')) return;
+    if (document.querySelector('.lhi-lead-hero') || document.getElementById('lhi-lead-sticky-bar')) return;
     var existingSmsLink = document.querySelector('a[href^="sms:+18636403102"]');
     if (!existingSmsLink) return;
     var smsHref = existingSmsLink.getAttribute('href') || 'sms:+18636403102?body=Hi%20David%2C%20can%20you%20help%20me%20check%20my%20doctors%20and%202027%20health%20plan%20options%3F';
@@ -1886,7 +2102,8 @@
   var LEGACY_OPT_OUT_KEY = 'lhi_meta_audience_opt_out';
   var INITIALIZED_KEY = '__LHI_META_AUDIENCE_INITIALIZED__';
   var PROD_HOSTS = {
-    'lakelandhealthinsurance.com': true
+    'lakelandhealthinsurance.com': true,
+    'www.lakelandhealthinsurance.com': true
   };
   var ELIGIBLE_PATHS = {
     '/': true,
@@ -1959,10 +2176,21 @@
       state: state,
       reason: reason
     };
+    if (typeof w.lhiEmitAnalyticsDiagnostic === 'function' &&
+        (state === 'skipped' || state === 'blocked') &&
+        reason && reason !== 'non-production-host' && reason !== 'already-initialized') {
+      try {
+        w.lhiEmitAnalyticsDiagnostic('lhi_meta_skip_reason', {
+          skip_state: state,
+          skip_reason: reason,
+          path: normalizePath(w.location && w.location.pathname) || '/'
+        });
+      } catch (_) {}
+    }
   }
 
   function normalizePath(pathname) {
-    var path = String(pathname || '/');
+    var path = String(pathname || '/').split(/[?#]/, 1)[0].toLowerCase();
     if (path.charAt(0) !== '/') return '';
     path = path.replace(/\/index\.html$/i, '/');
     if (path !== '/' && path.charAt(path.length - 1) !== '/' && !/\.[a-z0-9]+$/i.test(path)) {
@@ -2106,7 +2334,15 @@
     try {
       var referrer = new w.URL(raw, w.location.origin);
       if (referrer.username || referrer.password || referrer.hash) return false;
-      if (referrer.origin === w.location.origin) {
+      var referrerHost = String(referrer.hostname || '').toLowerCase();
+      var currentHost = String((w.location && w.location.hostname) || '').toLowerCase();
+      var currentProto = (w.location && w.location.protocol) || 'https:';
+      var sameSiteOrigin = referrer.origin === w.location.origin ||
+        (referrer.protocol === currentProto &&
+         !referrer.port &&
+         hasOwn(PROD_HOSTS, referrerHost) &&
+         hasOwn(PROD_HOSTS, currentHost));
+      if (sameSiteOrigin) {
         if (referrer.search) return false;
         var path = normalizePath(referrer.pathname);
         return hasOwn(ELIGIBLE_PATHS, path);

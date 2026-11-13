@@ -194,16 +194,27 @@ async function addContactToNewsletterSegment(email) {
   return { ok: false, error: `resend_segment_${result.status}` };
 }
 
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 async function sendConfirmationEmail({ email, firstName, confirmLink }) {
   const from = env('NEWSLETTER_FROM') || 'David Huff <newsletter@lakelandhealthinsurance.com>';
-  const greeting = firstName ? `Hi ${firstName},` : 'Hi,';
+  const safeFirstName = String(firstName || '').replace(/[\r\n]+/g, ' ').trim();
+  const greeting = safeFirstName ? `Hi ${safeFirstName},` : 'Hi,';
+  const safeConfirmLink = String(confirmLink || '').replace(/[\r\n\s]+/g, '');
   const text = [
     greeting,
     '',
     'Please confirm your email to join The Coverage Insider newsletter from Lakeland Health Insurance.',
     'You will receive occasional educational emails about general health insurance and Medicare topics for Florida readers — not sales calls or plan marketing texts.',
     '',
-    `Confirm your subscription: ${confirmLink}`,
+    `Confirm your subscription: ${safeConfirmLink}`,
     '',
     'If you did not request this, ignore this email. You will not be added until you confirm. To cancel this request or stop future newsletter email, reply to this message, write Lakeland Health Insurance, 2298 Lakeland Hills Blvd, Lakeland, FL 33805, or call (863) 640-3102.',
     '',
@@ -211,10 +222,10 @@ async function sendConfirmationEmail({ email, firstName, confirmLink }) {
   ].join('\n');
 
   const html = [
-    `<p>${greeting}</p>`,
+    `<p>${escapeHtml(greeting)}</p>`,
     '<p>Please confirm your email to join <strong>The Coverage Insider</strong> newsletter from Lakeland Health Insurance.</p>',
     '<p>You will receive occasional educational emails about general health insurance and Medicare topics for Florida readers — not sales calls or plan marketing texts.</p>',
-    `<p><a href="${confirmLink}">Confirm your subscription</a></p>`,
+    `<p><a href="${escapeHtml(safeConfirmLink)}">Confirm your subscription</a></p>`,
     '<p style="font-size:14px;color:#555;">If you did not request this, ignore this email. You will not be added until you confirm. To cancel this request or stop future newsletter email, reply to this message, write Lakeland Health Insurance, 2298 Lakeland Hills Blvd, Lakeland, FL 33805, or call (863) 640-3102.</p>',
     `<p style="font-size:12px;color:#777;">${canSpamFooterHtml()}</p>`
   ].join('');

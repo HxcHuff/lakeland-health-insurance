@@ -728,3 +728,97 @@ test('website lead bridge never texts or emails a lead', () => {
   assert.equal(/x-bridge-key/.test(bridge), true);
   assert.equal(bridge.includes('google-ads-lead-relay.vercel.app'), false);
 });
+
+test('outbox retry purges expired FAILED PII records, skips unconfigured Hopper items without starving Bridge due slots, cleans invalid JSON, and emits summary telemetry', async () => {
+  const store = memoryStore();
+  const expiredId = 'aaaaaaaaaaaaaaaaaaaaaa01';
+  const expiredKey = outboxKey(expiredId);
+  await store.set(expiredKey, JSON.stringify({ source: 'website_form', submission_id: expiredId, form_name: 'get-help' }), {
+    metadata: {
+      state: 'FAILED',
+      form_name: 'get-help',
+      created_at: new Date(NOW - 8 * 86400_000).toISOString(),
+      expires_at: new Date(NOW - 1000).toISOString(),
+      attempt_count: '3'
+    }
+  });
+
+  const corruptKey = outboxKey('aaaaaaaaaaaaaaaaaaaaaa02');
+  await store.set(corruptKey, '{not-valid-json', {
+    metadata: {
+      state: 'PENDING',
+      form_name: 'get-help',
+      created_at: new Date(NOW - 60_000).toISOString(),
+      expires_at: new Date(NOW + 86400_000).toISOString(),
+      next_attempt_at: new Date(NOW - 1000).toISOString()
+    }
+  });
+
+  for (let i = 0; i < 12; i += 1) {
+    const subId = `bbbbbbbbbbbbbbbbbbbbbb${String(i).padStart(2, '0')}`;
+    await store.set(outboxKey(subId), JSON.stringify({
+      source: 'website_form',
+      submission_id: subId,
+      form_name: 'site-medicare-lead',
+      name: 'Skipped Lead',
+      phone: '8635550118'
+    }), {
+      metadata: {
+        state: 'PENDING',
+        form_name: 'site-medicare-lead',
+        created_at: new Date(NOW - 120_000).toISOString(),
+        expires_at: new Date(NOW + 86400_000).toISOString(),
+        next_attempt_at: new Date(NOW - 1000).toISOString()
+      }
+    });
+  }
+
+  const bridgeLeadId = 'cccccccccccccccccccccc01';
+  await store.set(outboxKey(bridgeLeadId), JSON.stringify({
+    source: 'website_form',
+    submission_id: bridgeLeadId,
+    submitted_at: new Date(NOW - 60_000).toISOString(),
+    form_name: 'get-help',
+    phone: '8635550199',
+    zip: '33801'
+  }), {
+    metadata: {
+      state: 'PENDING',
+      form_name: 'get-help',
+      created_at: new Date(NOW - 60_000).toISOString(),
+      expires_at: new Date(NOW + 86400_000).toISOString(),
+      next_attempt_at: new Date(NOW - 1000).toISOString(),
+      attempt_count: '1'
+    }
+  });
+
+  const calls = [];
+  const logs = [];
+  const retry = createBridgeRetryHandler({
+    environment: productionEnv(),
+    fetchImpl: routedFetch(calls),
+    logger: (entry) => logs.push(entry),
+    now: () => NOW,
+    storeFactory: async () => store
+  });
+
+  const res = await retry({});
+  assert.equal(res.statusCode, 200);
+  assert.deepEqual(JSON.parse(res.body), {
+    ok: true,
+    outcome: 'RECONCILED',
+    processed: 2
+  });
+  assert.equal(calls.length, 1);
+  assert.equal(store.entries.has(expiredKey), false);
+  assert.equal(store.entries.has(corruptKey), false);
+  assert.equal(store.entries.has(outboxKey(bridgeLeadId)), false);
+
+  const summary = logs.find((entry) => entry.event === 'website_lead_outbox_summary_v1');
+  assert.ok(summary);
+  assert.equal(summary.expired_purged_count, 1);
+  assert.equal(summary.failed_purged_count, 1);
+  assert.equal(summary.skipped_unconfigured_count, 12);
+  assert.equal(summary.invalid_count, 1);
+  assert.equal(summary.delivered_count, 1);
+});

@@ -989,7 +989,7 @@ test('first-party attribution loads immediately on the homepage, Get Help, and p
   for (const pathname of ['/', '/get-help/', '/lp/aca/', '/lp/medicare/', '/lp/gap/']) {
     const { appendedScripts } = loadAnalytics({ pathname });
     assert.ok(
-      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261030-step1-cache-bust-v1'),
+      appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261112-audit-release-v1'),
       `${pathname} requests the attribution bus during analytics initialization`
     );
   }
@@ -1002,7 +1002,7 @@ test('first-party delivery bus loads immediately on any parsed tracked form page
   });
 
   assert.ok(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261030-step1-cache-bust-v1'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261112-audit-release-v1'),
     'a tracked city-page form requests the delivery bus during analytics initialization'
   );
 });
@@ -1015,7 +1015,7 @@ test('tracked form pages with a direct funnel script do not request it twice', (
   });
 
   assert.equal(
-    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261030-step1-cache-bust-v1'),
+    appendedScripts.some((script) => script.src === '/js/funnel.js?v=20261112-audit-release-v1'),
     false
   );
 });
@@ -1297,7 +1297,7 @@ test('Medicare source pages declare exact roles and deterministic keyed Get Help
     assert.ok(ctas.length > 0, `${expected.pageKey} has Get Help CTAs`);
     assert.equal(ctas.some((cta) => cta.ctaKey === null), false, `${expected.pageKey} has an unkeyed in-content Get Help CTA`);
     assert.deepEqual(ctas.map((cta) => cta.ctaKey).sort(), expected.ctaKeys);
-    assert.match(html, /\/js\/analytics\.js\?v=20261030-step1-cache-bust-v1/);
+    assert.match(html, /\/js\/analytics\.js\?v=20261112-audit-release-v1/);
 
     for (const cta of ctas) {
       const url = new URL(cta.href, 'https://lakelandhealthinsurance.com');
@@ -1673,7 +1673,7 @@ test('Subscriber form posts through /api/lead and never fires Lead', async () =>
 test('completed lead receipt shows only the short follow-up message', () => {
   assert.match(THANKS_SRC, /David will reach out shortly\./);
   assert.match(THANKS_SRC, /\['thanksEyebrow', 'thanksSubtitle', 'nextGrid', 'ctaRow', 'privacyNote'\]\.forEach\(hide\)/);
-  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261030-step1-cache-bust-v1/);
+  assert.match(THANKS_SRC, /\/js\/analytics\.js\?v=20261112-audit-release-v1/);
 });
 
 test('direct thank-you visits show customer-facing help copy', () => {
@@ -2073,7 +2073,7 @@ test('legacy campaign aliases land on current canonical articles', () => {
 });
 
 test('shared release invalidates stale asset caches and keeps desktop navigation on one row', () => {
-  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261030-step1-cache-bust-v1';/);
+  assert.match(SERVICE_WORKER_SRC, /const CACHE_NAME = 'lhi-20261112-audit-release-v1';/);
   assert.match(SITE_TEMPLATE_CSS, /header \.nav-links\s*\{[^}]*flex-wrap:\s*nowrap;/s);
 });
 
@@ -2214,7 +2214,7 @@ test('Get Help stores only bounded Medicare attribution and approved campaign fi
     assert.match(GET_HELP_HTML, new RegExp(`name="${field}"`));
   }
   assert.doesNotMatch(GET_HELP_HTML, /name="fbclid"/);
-  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20261102-default-under65-v1/);
+  assert.match(GET_HELP_HTML, /get-help-intake\.js\?v=20261112-audit-release-v1/);
   for (const field of [
     'lead_source',
     'lead_medium',
@@ -2671,4 +2671,454 @@ test('estimator uses 2027 applicable percentages and 2026 HHS poverty guidelines
   assert.match(ESTIMATOR_HTML, /initialPct: 0\.0215, finalPct: 0\.0215/);
   assert.match(ESTIMATOR_HTML, /initialPct: 0\.1022, finalPct: 0\.1022/);
   assert.doesNotMatch(ESTIMATOR_HTML, /Rev\. Proc\. 2025-25/);
+});
+
+test('funnel submitLeadViaApi unlocks buttons, shows inline errors without alert, and records timeout/error telemetry', async () => {
+  function runSubmitScenario({ pathname, formName, fields, fetchImpl }) {
+    const dataLayer = [];
+    const dispatched = [];
+    const alerts = [];
+    const submitBtn = {
+      type: 'submit',
+      disabled: false,
+      textContent: 'Request Review',
+      dataset: {},
+      attributes: {}
+    };
+    const errNodes = [];
+    const formListeners = {};
+    const form = {
+      nodeType: 1,
+      __submitted: false,
+      attributes: { name: formName, 'data-lhi-lead-api': '1' },
+      elements: Object.entries(fields).map(([name, value]) => ({ name, value, type: 'hidden' })),
+      firstChild: submitBtn,
+      getAttribute(name) { return Object.hasOwn(this.attributes, name) ? this.attributes[name] : null; },
+      hasAttribute(name) { return Object.hasOwn(this.attributes, name); },
+      setAttribute(name, value) { this.attributes[name] = String(value); },
+      addEventListener(type, cb) { formListeners[type] = cb; },
+      querySelector(sel) {
+        if (sel && sel.includes('data-lhi-form-error')) {
+          return errNodes.find((n) => n.getAttribute && n.getAttribute('data-lhi-form-error') === '1') || null;
+        }
+        if (sel === 'button[type="submit"], input[type="submit"]') return submitBtn;
+        if (sel === 'input[name="email"]' || sel === '[name="email"]') return null;
+        return null;
+      },
+      querySelectorAll(sel) {
+        if (sel === 'button[type="submit"], input[type="submit"]') return [submitBtn];
+        if (sel === 'input[name], select[name], textarea[name]') return this.elements;
+        return [];
+      },
+      insertBefore(node) {
+        errNodes.push(node);
+        return node;
+      },
+      appendChild(node) {
+        errNodes.push(node);
+        return node;
+      },
+      dispatchEvent(evt) { dispatched.push(evt); },
+      submit() { this.__submitted = true; }
+    };
+
+    const sandbox = {
+      __LHI_IS_PROD: false,
+      __LHI_TEST: true,
+      crypto: globalThis.crypto,
+      TextEncoder: globalThis.TextEncoder,
+      AbortController: globalThis.AbortController,
+      CustomEvent: class CustomEvent {
+        constructor(type, opts = {}) { this.type = type; this.detail = opts.detail; }
+      },
+      navigator: { userAgent: 'node-test', sendBeacon: () => true },
+      document: {
+        cookie: '',
+        referrer: '',
+        readyState: 'complete',
+        location: { pathname, search: '', href: `http://localhost${pathname}` },
+        createElement(tag) {
+          const attrs = {};
+          return {
+            tagName: tag.toUpperCase(),
+            className: '',
+            textContent: '',
+            children: [],
+            style: {},
+            hidden: false,
+            setAttribute(k, v) { attrs[k] = String(v); },
+            getAttribute(k) { return attrs[k] || null; },
+            appendChild(child) { this.children.push(child); return child; }
+          };
+        },
+        createTextNode(txt) {
+          return { nodeType: 3, nodeValue: String(txt) };
+        },
+        querySelectorAll(sel) {
+          if (sel && sel.includes('form')) return [form];
+          return [];
+        },
+        querySelector() { return null; },
+        addEventListener() {}
+      },
+      location: { pathname, search: '', href: `http://localhost${pathname}` },
+      URLSearchParams: globalThis.URLSearchParams,
+      URL: globalThis.URL,
+      Promise, Date, Math, JSON, Object, String, RegExp, Array, Uint8Array, Blob, Error,
+      FormData: class FormData {
+        constructor(f) {
+          this._entries = f.elements.map((el) => [el.name, el.value]);
+        }
+        entries() { return this._entries[Symbol.iterator](); }
+        forEach(fn) { this._entries.forEach(([k, v]) => fn(v, k)); }
+        get(k) {
+          const hit = this._entries.find(([name]) => name === k);
+          return hit ? hit[1] : null;
+        }
+      },
+      fetch: fetchImpl,
+      setTimeout,
+      clearTimeout,
+      alert(msg) { alerts.push(msg); },
+      dispatchEvent(evt) { dispatched.push(evt); },
+      dataLayer
+    };
+    sandbox.window = sandbox;
+    vm.createContext(sandbox);
+    vm.runInContext(FUNNEL_SRC, sandbox, { filename: 'funnel.js' });
+    return { sandbox, form, formListeners, submitBtn, errNodes, alerts, dispatched, dataLayer };
+  }
+
+  // Case 1: 422 on get-help -> unlock button, restore original label, show inline error, no alert, non-PII lead_api_error
+  const retryable = runSubmitScenario({
+    pathname: '/get-help/',
+    formName: 'get-help',
+    fields: {
+      'form-name': 'get-help',
+      email: 'jane@example.com',
+      phone: '863-555-1212',
+      full_name: 'Jane Example'
+    },
+    fetchImpl: () => Promise.resolve({
+      ok: false,
+      status: 422,
+      json: () => Promise.resolve({ ok: false, retry: true, error: 'request consent is required' })
+    })
+  });
+  retryable.formListeners.submit({ preventDefault() {}, stopImmediatePropagation() {} });
+  await flushPromises(8);
+
+  assert.equal(retryable.submitBtn.disabled, false);
+  assert.equal(retryable.submitBtn.textContent, 'Request Review');
+  assert.equal(retryable.alerts.length, 0);
+  assert.equal(retryable.form.__submitted, false);
+  const inlineErrors = retryable.errNodes.filter((n) => n.getAttribute('data-lhi-form-error') === '1');
+  assert.equal(inlineErrors.length, 1);
+  assert.match(inlineErrors[0].textContent, /wait a moment.*send your request again/i);
+  assert.equal(retryable.dispatched.some((e) => e.type === 'lhi:lead-api-error' && e.detail.status === 422 && e.detail.form === retryable.form), true);
+  const apiErrorEvent = retryable.dataLayer.find((entry) => entry && entry[0] === 'event' && entry[1] === 'lead_api_error');
+  assert.ok(apiErrorEvent, 'lead_api_error GA4 event emitted');
+  assert.equal(JSON.stringify(apiErrorEvent).includes('jane@example.com'), false);
+  assert.equal(JSON.stringify(apiErrorEvent).includes('Jane Example'), false);
+
+  // Case 2: AbortError on /lp/aca/ -> timeout & native fallback telemetry + AbortSignal passed
+  let seenSignal = null;
+  const timedOut = runSubmitScenario({
+    pathname: '/lp/aca/',
+    formName: 'lp-aca-lead',
+    fields: {
+      'form-name': 'lp-aca-lead',
+      email: 'jane@example.com',
+      phone: '863-555-1212'
+    },
+    fetchImpl: (_url, init) => {
+      seenSignal = init && init.signal;
+      const err = new Error('The operation was aborted');
+      err.name = 'AbortError';
+      return Promise.reject(err);
+    }
+  });
+  timedOut.formListeners.submit({ preventDefault() {}, stopImmediatePropagation() {} });
+  await flushPromises(8);
+
+  assert.ok(seenSignal && 'aborted' in seenSignal, 'AbortController signal passed to fetch');
+  assert.equal(timedOut.form.__submitted, true);
+  assert.ok(timedOut.dataLayer.some((entry) => entry && entry[0] === 'event' && entry[1] === 'lead_timeout'));
+  assert.ok(timedOut.dataLayer.some((entry) => entry && entry[0] === 'event' && entry[1] === 'lead_native_fallback'));
+});
+
+test('estimator handles expansion Medicaid, multi-person SLCSP, ZIP CTA preservation, and .m27-thanks re-docking', () => {
+  const scriptMatches = [...ESTIMATOR_HTML.matchAll(/<script>([\s\S]*?)<\/script>/g)];
+  const calcScript = scriptMatches.map((m) => m[1]).find((src) => src.includes('var FPL_2026'));
+  assert.ok(calcScript, 'estimator inline calculator script located');
+
+  function makeStubEl(id, initial = {}) {
+    const listeners = {};
+    const classes = new Set(initial.classes || []);
+    const attrs = new Map(Object.entries(initial.attrs || {}));
+    const el = {
+      id,
+      value: initial.value ?? '',
+      textContent: initial.textContent ?? '',
+      innerHTML: initial.innerHTML ?? '',
+      hidden: Boolean(initial.hidden),
+      disabled: false,
+      style: {},
+      children: [],
+      parentElement: null,
+      tabIndex: 0,
+      focused: false,
+      _hasThanks: false,
+      attributes: attrs,
+      classList: {
+        add(c) { classes.add(c); },
+        remove(c) { classes.delete(c); },
+        toggle(c, force) {
+          if (force === undefined) {
+            if (classes.has(c)) classes.delete(c);
+            else classes.add(c);
+          } else if (force) classes.add(c);
+          else classes.delete(c);
+        },
+        contains(c) { return classes.has(c); }
+      },
+      setAttribute(k, v) { attrs.set(k, String(v)); },
+      getAttribute(k) { return attrs.has(k) ? attrs.get(k) : null; },
+      hasAttribute(k) { return attrs.has(k); },
+      addEventListener(type, cb) { (listeners[type] ||= []).push(cb); },
+      dispatch(type, evt = {}) { (listeners[type] || []).forEach((cb) => cb.call(el, evt)); },
+      appendChild(child) {
+        if (child.parentElement && child.parentElement.children) {
+          child.parentElement.children = child.parentElement.children.filter((c) => c !== child);
+        }
+        child.parentElement = el;
+        el.children.push(child);
+        return child;
+      },
+      querySelectorAll(sel) {
+        if (sel.includes('button')) return modalFocusables;
+        if (sel.includes('.scenario-pill') || sel.includes('.toggle-btn')) return [];
+        return [];
+      },
+      querySelector(sel) {
+        if (sel === '.m27-thanks' && el._hasThanks) return { className: 'm27-thanks' };
+        return null;
+      },
+      focus() { el.focused = true; sandbox.document.activeElement = el; },
+      scrollIntoView() {},
+      closest() { return null; }
+    };
+    return el;
+  }
+
+  const els = new Map();
+  const ids = [
+    'chip-zip', 'chip-age', 'chip-income', 'chip-household', 'chip-tobacco',
+    'applicant-age', 'applicant-age-slider', 'annual-income', 'annual-income-slider',
+    'household-size', 'applicant-state', 'estimator-zip-helper', 'acaSoftGateZip',
+    'zip-detect-badge', 'confidence-fill', 'confidence-pct', 'estimate-prompt',
+    'live-results', 'status-message-area', 'csr-tier-callout', 'price-hero',
+    'price-breakdown', 'result-note', 'fpl-spectrum-card', 'metal-tier-comparison',
+    'age-factor-badge', 'income-fpl-badge', 'price-value', 'price-period-text',
+    'hero-monthly-aptc', 'hero-annual-aptc', 'hero-tier-badge', 'cutoff-100',
+    'cutoff-150', 'cutoff-200', 'cutoff-250', 'cutoff-400', 'cutoff-100-tag',
+    'slider-label-100fpl', 'slider-label-250fpl', 'slider-label-400fpl',
+    'fpl-marker-pin', 'fpl-spectrum-badge', 'cutoff-cell-100', 'cutoff-cell-150',
+    'cutoff-cell-200', 'cutoff-cell-250', 'cutoff-cell-400', 'fpl-threshold-insight',
+    'polk-2027-strategy-callout', 'polk-strategy-title', 'polk-strategy-body',
+    'bd-age', 'bd-hh', 'bd-base', 'bd-fpl', 'bd-contribution', 'bd-subsidy', 'bd-total',
+    'modal-live-aptc', 'modal-live-net', 'modal-live-tier', 'state-context-eyebrow',
+    'estimator-hero-sub', 'estimator-state-pill', 'estimator-unlock-banner',
+    'acaSoftGateState', 'acaSoftGateCoverageState', 'acaSoftGateReadyBadge',
+    'acaSoftGateTitle', 'acaSoftGateSub', 'acaSoftGateTimeTextOpt',
+    'reopen-soft-gate-btn', 'calculate-estimate-btn', 'get-exact-quote-btn',
+    'county-carrier-preview-section', 'tobacco-toggle', 'scenario-presets',
+    'unlock-results-trigger-btn', 'acaEstimatorSoftGateModal', 'acaSoftGateModalFormMount',
+    'acaSoftGateFormPanel', 'inline-estimator-lead-slot', 'acaSoftGateCloseBtn',
+    'acaSoftGateSkipBtn', 'acaSoftGateName', 'acaSoftGateCtaKey', 'acaSoftGatePlanInterest',
+    'breakdown-toggle', 'breakdown-body', 'county-tabs', 'county-title', 'county-carriers',
+    'county-watchout', 'county-guide-link', 'estimator-bottom-sms-btn',
+    'estimator-cta-band-sms-btn', 'acaSoftGateDirectSms'
+  ];
+  for (const id of ids) els.set(id, makeStubEl(id));
+  els.get('applicant-age').value = '35';
+  els.get('annual-income').value = '$19,950';
+  els.get('household-size').value = '1';
+  els.get('applicant-state').value = 'AZ';
+  els.get('acaEstimatorSoftGateModal').hidden = true;
+  els.get('inline-estimator-lead-slot').hidden = true;
+  const formPanel = els.get('acaSoftGateFormPanel');
+  els.get('acaSoftGateModalFormMount').appendChild(formPanel);
+  const modalFocusables = [els.get('acaSoftGateCloseBtn'), els.get('acaSoftGateName'), els.get('acaSoftGateSkipBtn')];
+
+  const tracked = [];
+  const docListeners = {};
+  const sandbox = {
+    LHI: { track(name, props) { tracked.push({ name, props }); } },
+    document: {
+      body: { style: {}, contains() { return true; } },
+      activeElement: null,
+      getElementById(id) {
+        if (id === 'acaSoftGateName' && formPanel._hasThanks) return null;
+        if (!els.has(id)) els.set(id, makeStubEl(id));
+        return els.get(id);
+      },
+      querySelector(sel) {
+        if (sel === '#acaSoftGateFormPanel .m27-thanks' && formPanel._hasThanks) return { className: 'm27-thanks' };
+        return null;
+      },
+      querySelectorAll() { return []; },
+      addEventListener(type, cb) { (docListeners[type] ||= []).push(cb); }
+    },
+    location: { search: '' },
+    URLSearchParams: globalThis.URLSearchParams,
+    setTimeout(fn) { fn(); return 1; },
+    clearTimeout() {},
+    Number, String, Boolean, Math, Object, parseInt, isNaN, encodeURIComponent
+  };
+  sandbox.window = sandbox;
+  vm.createContext(sandbox);
+  vm.runInContext(calcScript, sandbox, { filename: 'aca-subsidy-estimator.js' });
+
+  // 1. Multi-person benchmark scaling
+  assert.ok(sandbox.getBenchmarkPremium(35, 4) > sandbox.getBenchmarkPremium(35, 1));
+
+  // 2. Expansion state (AZ) routes 125% FPL ($19,950 for 1 person) to Medicaid zone; FL does not
+  assert.match(els.get('status-message-area').innerHTML, /Medicaid Expansion Zone/);
+  assert.equal(els.get('cutoff-100-tag').textContent, 'AZ 138% Medicaid');
+  assert.equal(els.get('price-hero').style.display, 'none');
+
+  els.get('applicant-state').value = 'FL';
+  sandbox.syncSelectedStateContext();
+  sandbox.runCalculation(true);
+  assert.equal(els.get('status-message-area').innerHTML, '');
+  assert.notEqual(els.get('price-hero').style.display, 'none');
+  assert.equal(tracked.some((e) => e.name === 'EstimatorComplete' || e.name === 'Lead'), false);
+
+  // 3. ZIP + state CTA carry-through works for FL and non-FL
+  sandbox.handleZipSync('33801', 'estimator-zip-helper');
+  assert.equal(
+    els.get('get-exact-quote-btn').getAttribute('href'),
+    '/get-help/?intent=aca&product=aca_estimator_2027&state=FL&zip_code=33801'
+  );
+
+  // 4. Open modal via Calculate, Tab wraps focus, Escape dismisses cleanly, and .m27-thanks stays inline on re-calculate
+  els.get('calculate-estimate-btn').dispatch('click');
+  assert.equal(els.get('acaEstimatorSoftGateModal').hidden, false);
+  assert.ok(tracked.some((e) => e.name === 'estimator_unlock_click'));
+  assert.ok(tracked.some((e) => e.name === 'estimator_soft_gate_open'));
+
+  sandbox.document.activeElement = els.get('acaSoftGateSkipBtn');
+  let tabPrevented = false;
+  (docListeners.keydown || []).forEach((cb) => cb({ key: 'Tab', shiftKey: false, preventDefault() { tabPrevented = true; } }));
+  assert.equal(tabPrevented, true);
+  assert.equal(els.get('acaSoftGateCloseBtn').focused, true);
+
+  (docListeners.keydown || []).forEach((cb) => cb({ key: 'Escape', preventDefault() {} }));
+  assert.equal(els.get('acaEstimatorSoftGateModal').hidden, true);
+  assert.equal(formPanel.parentElement, els.get('inline-estimator-lead-slot'));
+  assert.ok(tracked.some((e) => e.name === 'estimator_soft_gate_dismiss'));
+
+  formPanel._hasThanks = true;
+  els.get('calculate-estimate-btn').dispatch('click');
+  assert.equal(els.get('acaEstimatorSoftGateModal').hidden, true);
+  assert.equal(formPanel.parentElement, els.get('inline-estimator-lead-slot'));
+});
+
+test('analytics telemetry flushes lhi_meta_skip_reason after page_view, scrubs js_runtime_error PII, and avoids lead-hero SMS dock collision', () => {
+  assert.match(
+    ANALYTICS_SRC,
+    /if \(document\.querySelector\('\.lhi-lead-hero'\) \|\| document\.getElementById\('lhi-lead-sticky-bar'\)\) return;/
+  );
+
+  const loaded = loadAnalytics({
+    hostname: 'www.lakelandhealthinsurance.com',
+    pathname: '/about/',
+    readyState: 'complete'
+  });
+
+  // Before deferred init completes, diagnostic events queue rather than overtaking page_view
+  assert.equal(
+    gtagCommands(loaded.dataLayer).some((entry) => entry[0] === 'event' && entry[1] === 'lhi_meta_skip_reason'),
+    false
+  );
+
+  const diag = loaded.sandbox.LHIAnalyticsDiagnostics;
+  assert.equal(diag.classifyCwvRating('LCP', 2100), 'good');
+  assert.equal(diag.classifyCwvRating('INP', 350), 'needs_improvement');
+  assert.equal(diag.classifyCwvRating('CLS', 0.31), 'poor');
+
+  assert.equal(
+    diag.reportRuntimeError('error', 'Failed for jane@example.com call (863) 640-3102 at https://lakelandhealthinsurance.com/get-help/?email=secret', 'https://lakelandhealthinsurance.com/js/funnel.js?v=1', 42),
+    true
+  );
+  // Deduplicates identical errors and caps at 3 per view
+  assert.equal(
+    diag.reportRuntimeError('error', 'Failed for jane@example.com call (863) 640-3102 at https://lakelandhealthinsurance.com/get-help/?email=secret', 'https://lakelandhealthinsurance.com/js/funnel.js?v=1', 42),
+    false
+  );
+  assert.equal(diag.reportRuntimeError('error', 'Error two', '/js/a.js', 10), true);
+  assert.equal(diag.reportRuntimeError('unhandledrejection', 'Error three', 'promise', 0), true);
+  assert.equal(diag.reportRuntimeError('error', 'Error four over cap', '/js/b.js', 99), false);
+
+  loaded.runTimeouts();
+
+  const events = gtagCommands(loaded.dataLayer).filter((entry) => entry[0] === 'event');
+  assert.equal(events[0][1], 'page_view', 'page_view remains the first GA4 event');
+
+  const skipEvents = events.filter((entry) => entry[1] === 'lhi_meta_skip_reason');
+  assert.equal(skipEvents.length, 1);
+  assert.equal(skipEvents[0][2].skip_reason, 'page-not-eligible');
+  assert.equal(skipEvents[0][2].non_interaction, true);
+
+  const errEvents = events.filter((entry) => entry[1] === 'js_runtime_error');
+  assert.equal(errEvents.length, 3);
+  assert.doesNotMatch(JSON.stringify(errEvents[0][2]), /jane@example\.com|863.*640.*3102|email=secret/);
+  assert.match(errEvents[0][2].error_message, /\[email\]/);
+  assert.match(errEvents[0][2].error_message, /\[phone\]/);
+
+  const nonProd = loadAnalytics({ hostname: 'localhost', pathname: '/about/', readyState: 'complete' });
+  assert.equal(nonProd.sandbox.LHIAnalyticsDiagnostics.reportRuntimeError('error', 'Local error', '/js/a.js', 1), false);
+});
+
+test('funnel bridges new Step 1B events to GA4 and skips data-lhi-messenger-entry buttons', () => {
+  const gtagCalls = [];
+  const taggedBtn = {
+    attributes: { 'data-lhi-messenger-entry': '1' },
+    __listeners: {},
+    hasAttribute(name) { return Boolean(this.attributes[name]); },
+    getAttribute(name) { return this.attributes[name] || null; },
+    addEventListener(type, cb) { this.__listeners[type] = cb; }
+  };
+  const chatBtn = {
+    attributes: { 'data-analytics-label': 'chat_page_messenger' },
+    __listeners: {},
+    hasAttribute(name) { return Boolean(this.attributes[name]); },
+    getAttribute(name) { return this.attributes[name] || null; },
+    addEventListener(type, cb) { this.__listeners[type] = cb; }
+  };
+  const w = loadFunnel({
+    pathname: '/chat/',
+    gtagImpl: (...args) => gtagCalls.push(args),
+    selectorResults: { 'a[href*="m.me/"]': [taggedBtn, chatBtn] }
+  });
+
+  assert.equal(taggedBtn.__listeners.click, undefined, 'data-lhi-messenger-entry is not double-wired by funnel.js');
+  chatBtn.__listeners.click();
+
+  w.LHI.track('EstimatorComplete', { state_code: 'FL' });
+  w.LHI.track('PlanReviewCtaClick', { cta_key: 'test_cta' });
+  w.LHI.track('ab_variant_exposure', { ab_test_id: 'home_hero_primary_cta_v1', ab_variant: 'control' });
+  w.LHI.track('calendly_facade_click', { step: 'facade_click' });
+
+  const ga4Names = gtagCalls.filter((c) => c[0] === 'event').map((c) => c[1]);
+  assert.deepEqual(ga4Names, [
+    'messenger_click',
+    'estimator_complete',
+    'plan_review_cta_click',
+    'ab_variant_exposure',
+    'calendly_facade_click'
+  ]);
+  const msgEntry = w.dataLayer.find((e) => e && e.event === 'messenger_click');
+  assert.equal(msgEntry.event_params.content_name, 'chat_page_messenger');
 });

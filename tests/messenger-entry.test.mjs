@@ -13,7 +13,7 @@ const HOME = readFileSync(join(ROOT, 'index.html'), 'utf8');
 const BOOK = readFileSync(join(ROOT, 'book/index.html'), 'utf8');
 const MEDICARE = readFileSync(join(ROOT, 'medicare/index.html'), 'utf8');
 const BLOG = readFileSync(join(ROOT, 'blog/index.html'), 'utf8');
-const ENTRY_HREF = '/js/messenger-entry.js?v=20261006-messenger';
+const ENTRY_HREF = '/js/messenger-entry.js?v=20261112-audit-release-v1';
 const PAGE_ID = '1068037236387352';
 const GREETING = 'Hi, this is David Huff, a licensed health insurance agent here in Lakeland. What can I help you with?';
 const SKIP_DIRS = new Set([
@@ -316,9 +316,9 @@ test('only homepage, /book/, and /medicare/ load the messenger helper', () => {
     if (html.includes('/js/messenger-entry.js')) loaded.push(rel);
   }
   assert.deepEqual(loaded.sort(), [...allowed].sort());
-  assert.match(HOME, new RegExp(`site-template\\.js\\?v=20261030-step1-cache-bust-v1" defer></script>\\s*<script src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
-  assert.match(BOOK, new RegExp(`site-template\\.js\\?v=20261030-step1-cache-bust-v1"></script>\\s*<script defer src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
-  assert.match(MEDICARE, new RegExp(`site-template\\.js\\?v=20261030-step1-cache-bust-v1" defer></script>\\s*<script src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
+  assert.match(HOME, new RegExp(`site-template\\.js\\?v=20261112-audit-release-v1" defer></script>\\s*<script src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
+  assert.match(BOOK, new RegExp(`site-template\\.js\\?v=20261112-audit-release-v1"></script>\\s*<script defer src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
+  assert.match(MEDICARE, new RegExp(`site-template\\.js\\?v=20261112-audit-release-v1" defer></script>\\s*<script src="${ENTRY_HREF.replace(/[.?/]/g, '\\$&')}"`));
   assert.doesNotMatch(BLOG, /messenger-entry\.js/);
   assert.doesNotMatch(readFileSync(join(ROOT, 'medicare/east-polk/index.html'), 'utf8'), /messenger-entry\.js/);
 });
@@ -347,4 +347,18 @@ test('footer and static m.me links use the Facey-confirmed Page Inbox without a 
       assert.equal(href, `https://m.me/${PAGE_ID}`, `${relative(ROOT, file)} footer href stays greeting-free`);
     }
   }
+});
+
+test('messenger-entry avoids double-firing with funnel.js and chat.html delegates m.me click cleanly', () => {
+  const { sandbox, body } = loadEntry({ pathname: '/', withFloatingActions: true });
+  let metaStartCount = 0;
+  sandbox.lhiTrackMetaMessageStart = () => { metaStartCount += 1; };
+  const btn = sandbox.LHIMessengerEntry.mount('/');
+  assert.equal(btn.getAttribute('data-lhi-messenger-entry'), 'true');
+  btn.listeners.click[0]();
+  assert.equal(metaStartCount, 1);
+
+  const chatHtml = readFileSync(join(ROOT, 'chat.html'), 'utf8');
+  assert.doesNotMatch(chatHtml, /onclick="[^"]*messenger_click/i);
+  assert.match(chatHtml, /data-analytics-label="chat_page_messenger"/);
 });

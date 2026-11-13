@@ -264,7 +264,7 @@ async function invoke(body, {
 test('booking page keeps the Schedule converter without hardcoding the calendar account', () => {
   assert.match(BOOK_HTML, /id="booking-frame"/);
   assert.doesNotMatch(BOOK_HTML, /src="\/book\/embed"/);
-  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261030-step1-cache-bust-v1/);
+  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261112-audit-release-v1/);
   assert.match(BOOK_HTML, /id="booking-facade-activate"/);
   assert.doesNotMatch(BOOK_HTML, /healthmarkets|calendly\.com\/dhuff|\bfbq\s*\(/i);
   assert.match(REDIRECTS, /\/book\/embed https:\/\/calendly\.com\/dhuff-healthmarkets\?embed_domain=lakelandhealthinsurance\.com&embed_type=Inline/);
@@ -687,4 +687,69 @@ test('privacy skips still win when CONTEXT is empty in production', async () => 
     assert.equal(JSON.parse(dnt.response.body).error, 'CAPI skipped: browser-opt-out-signal');
     assert.equal(dnt.calls.length, 0);
   });
+});
+
+test('CAPI forwards client_ip_address (preferring x-nf-client-connection-ip) and client_user_agent with no-store & timeout', async () => {
+  assert.equal(
+    _test.clientIpFromHeaders({
+      'x-nf-client-connection-ip': '198.51.100.88',
+      'x-forwarded-for': '203.0.113.10'
+    }),
+    '198.51.100.88'
+  );
+  assert.equal(_test.clientIpFromHeaders({ 'x-forwarded-for': 'not-an-ip' }), '');
+
+  const { response, calls } = await invoke(SCHEDULE_BODY, {
+    headers: {
+      'x-nf-client-connection-ip': '198.51.100.88',
+      'x-forwarded-for': '203.0.113.10',
+      'user-agent': 'CalendlyTestAgent/2.0'
+    }
+  });
+  assert.equal(response.statusCode, 200);
+  assert.equal(response.headers['Cache-Control'], 'no-store');
+  assert.equal(calls.length, 1);
+  assert.ok(calls[0].init.signal, 'expected AbortSignal on CAPI fetch');
+  const metaBody = JSON.parse(calls[0].init.body);
+  assert.equal(metaBody.data[0].user_data.client_ip_address, '198.51.100.88');
+  assert.equal(metaBody.data[0].user_data.client_user_agent, 'CalendlyTestAgent/2.0');
+});
+
+test('www booking host normalizes uppercase paths, captures fbclid cookies, emits Calendly funnel steps, and sets beacon transport', () => {
+  const wwwBooking = loadBookingScript({
+    hostname: 'www.lakelandhealthinsurance.com',
+    pathname: '/BOOK/',
+    search: '?utm_source=facebook&utm_campaign=polk_medicare&fbclid=PAZXh0bgNhZW0BMABhZGlkAas256OpaqueClickIdToken'
+  });
+  assert.equal(wwwBooking.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'facade-idle');
+  assert.equal(wwwBooking.sandbox.__LHI_BOOKING_UTM_SEARCH__.includes('fbclid='), true);
+  assert.equal(wwwBooking.sandbox.LHILandingQuery.includes('utm_campaign=polk_medicare'), true);
+  assert.match(wwwBooking.sandbox.document.cookie, /_fbc=fb\.1\.\d+\.PAZXh0bgNhZW0BMABhZGlkAas256OpaqueClickIdToken/);
+
+  const noFbclid = loadBookingScript({
+    hostname: 'www.lakelandhealthinsurance.com',
+    pathname: '/book/',
+    search: '?utm_source=google&utm_campaign=medicare'
+  });
+  assert.match(noFbclid.sandbox.document.cookie, /_fbp=fb\.1\.\d+\.\d+/);
+
+  const stepEvents = [];
+  wwwBooking.sandbox.LHI = {
+    track(name, params) {
+      stepEvents.push({ name, params });
+    }
+  };
+  wwwBooking.activateBooking();
+  const handler = wwwBooking.listeners.find((entry) => entry.type === 'message').handler;
+  handler({ origin: 'https://calendly.com', data: { event: 'calendly.event_type_viewed' } });
+  handler({ origin: 'https://calendly.com', data: { event: 'calendly.date_and_time_selected' } });
+  handler({ origin: 'https://calendly.com', data: { event: 'calendly.event_scheduled' } });
+
+  assert.deepEqual(stepEvents.map((e) => e.name), [
+    'calendly_facade_click',
+    'calendly_event_type_viewed',
+    'calendly_time_selected'
+  ]);
+  const schedGtag = wwwBooking.gtagCalls.find((call) => call[1] === 'schedule_appointment');
+  assert.equal(schedGtag[2].transport_type, 'beacon');
 });

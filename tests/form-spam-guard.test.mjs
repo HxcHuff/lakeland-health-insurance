@@ -11,11 +11,12 @@ const {
   _test: spamTest
 } = require('../netlify/functions/lib/form-spam-guard.js');
 
-test('honeypot detection only checks bot-field', () => {
+test('honeypot detection checks bot-field, website, and company', () => {
   assert.equal(honeypotFilled({ 'bot-field': '' }), false);
+  assert.equal(honeypotFilled({ full_name: 'David Huff' }), false);
   assert.equal(honeypotFilled({ 'bot-field': 'filled' }), true);
-  assert.equal(honeypotFilled({ website: 'https://spam.example' }), false);
-  assert.equal(honeypotFilled({ company: 'Acme' }), false);
+  assert.equal(honeypotFilled({ website: 'https://spam.example' }), true);
+  assert.equal(honeypotFilled({ company: 'Acme' }), true);
 });
 
 test('legacy clients without started_at and human_check skip timing checks', () => {

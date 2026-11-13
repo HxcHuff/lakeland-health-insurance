@@ -612,3 +612,42 @@ test('other allowlisted lead forms also build a website lead for the bridge', ()
     assert.ok(normalized.websiteLead.name || normalized.websiteLead.first);
   }
 });
+
+test('non-SITE_LEAD_FORMS also reject forged webhook signatures and honeypot spam before relay', async () => {
+  const fixture = makeHandler();
+  const forgedGetHelp = submission({ form_name: 'get-help' });
+  forgedGetHelp.headers = {
+    'x-webhook-signature': signNetlifyEventBody('{"payload":{}}', EVENT_JWS_SECRET)
+  };
+  await expectRelayFailure(fixture.handler(forgedGetHelp), 'invalid_event_signature');
+  assert.equal(fixture.calls.length, 0);
+
+  const spamLpAca = submission({
+    form_name: 'lp-aca-lead',
+    data: {
+      full_name: 'Bot Lead',
+      phone: '8635550118',
+      'bot-field': 'bot-spam'
+    }
+  });
+  await expectRelayFailure(fixture.handler(spamLpAca), 'spam_rejected');
+  assert.equal(fixture.calls.length, 0);
+});
+
+test('submission-created fails visibly when both Hopper and outbox fail on a transient error', async () => {
+  const failingStore = {
+    ...memoryStore(),
+    async set() {
+      throw new Error('blobs down');
+    }
+  };
+  const fixture = makeHandler({
+    store: failingStore,
+    fetchImpl: bridgeFetch([], { status: 503, ok: false }),
+    now: () => NOW
+  });
+  await expectRelayFailure(
+    fixture.handler(siteLeadSubmission('site-aca-lead')),
+    'outbox_enqueue_failed'
+  );
+});

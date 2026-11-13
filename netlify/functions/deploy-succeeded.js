@@ -124,8 +124,15 @@ function selectUrls(entries, deployDate) {
   };
 }
 
+function withFetchTimeout(options = {}, ms = 8000) {
+  if (typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function' && !options.signal) {
+    return { ...options, signal: AbortSignal.timeout(ms) };
+  }
+  return { ...options };
+}
+
 async function postIndexNow(urls, fetchImpl) {
-  const response = await fetchImpl(INDEXNOW_ENDPOINT, {
+  const response = await fetchImpl(INDEXNOW_ENDPOINT, withFetchTimeout({
     method: 'POST',
     headers: { 'content-type': 'application/json; charset=utf-8' },
     body: JSON.stringify({
@@ -134,7 +141,7 @@ async function postIndexNow(urls, fetchImpl) {
       keyLocation: INDEXNOW_KEY_LOCATION,
       urlList: urls
     })
-  });
+  }));
   const text = await response.text().catch(() => '');
   return { status: response.status, ok: response.ok, body: text.slice(0, 500) };
 }
@@ -142,7 +149,7 @@ async function postIndexNow(urls, fetchImpl) {
 function jsonResponse(statusCode, payload) {
   return {
     statusCode,
-    headers: { 'content-type': 'application/json; charset=utf-8' },
+    headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
     body: JSON.stringify(payload)
   };
 }
@@ -183,7 +190,7 @@ async function pingIndexNow({
     return { skipped: true, reason: 'fetch-unavailable' };
   }
 
-  const sitemapResponse = await fetchImpl(SITEMAP_URL, { method: 'GET' });
+  const sitemapResponse = await fetchImpl(SITEMAP_URL, withFetchTimeout({ method: 'GET' }));
   if (!sitemapResponse.ok) {
     console.log(`indexnow sitemap fetch failed: ${sitemapResponse.status}`);
     return { skipped: true, reason: `sitemap-http-${sitemapResponse.status}` };

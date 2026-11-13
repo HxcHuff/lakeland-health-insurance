@@ -62,3 +62,4 @@ Disallow: /assets/ads/
 Disallow: /google79927e3ae56b9c82.html
 
 Sitemap: https://lakelandhealthinsurance.com/sitemap.xml
+Sitemap: https://lakelandhealthinsurance.com/sitemap_index.xml

@@ -75,6 +75,11 @@
   from = "/api/newsletter-confirm"
   to = "/.netlify/functions/newsletter-confirm"
   status = 200
+
+[[redirects]]
+  from = "/api/lead-outcome-webhook"
+  to = "/.netlify/functions/lead-outcome-webhook"
+  status = 200
   force = true
 
 # NOTE: Page/blog redirects (PDF casing, non-.html → .html, /lp/ aliases,

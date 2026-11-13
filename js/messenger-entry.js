@@ -69,6 +69,9 @@
   }
 
   function trackClick() {
+    if (typeof w.lhiTrackMetaMessageStart === 'function') {
+      try { w.lhiTrackMetaMessageStart(); } catch (error) {}
+    }
     if (typeof w.trackMessengerClick === 'function') {
       try { w.trackMessengerClick(); } catch (error) {}
       return;

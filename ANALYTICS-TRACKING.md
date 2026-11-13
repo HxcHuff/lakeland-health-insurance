@@ -288,3 +288,28 @@ This map ends at Forms acceptance. `medicare_delivery_confirmed`, secure-intake 
 - Netlify previews should **not** receive production GA4 tracking — ensure tag only fires in production environment (`window.location.hostname === 'lakelandhealthinsurance.com'`)
 - If using environment variables, tag IDs above should be referenced via `.env` and not hardcoded
 - The untagged blog post may be a content type that lacks the tag include — check the blog post template separately from other page templates
+
+---
+
+## 2026-11 Telemetry, Conversion Integrity & Closed-Loop Architecture Update
+
+### Host Parity (`lakelandhealthinsurance.com` + `www.lakelandhealthinsurance.com`)
+- `/js/analytics.js` (Google IIFE + Meta Audience IIFE) and `/js/calendly-meta-schedule.js` recognize both `lakelandhealthinsurance.com` and `www.lakelandhealthinsurance.com` as production hosts, normalize URL paths lowercase before route checks, and preserve apex <-> `www.` same-site referrer eligibility without leaking query strings or fragments.
+
+### New Site & Funnel Telemetry Events (Strictly Non-PII / Non-PHI)
+All diagnostic and funnel events queue cleanly behind deferred GA4 `page_view` so `page_view` always lands first:
+- **`cwv_metric`**: Web Vitals (`LCP`, `INP`, `CLS`, `FCP`, `TTFB`) flushed via `PerformanceObserver` on `visibilitychange` (`hidden`) / `pagehide` with `metric_value`, `metric_rating` (`good` | `needs_improvement` | `poor`), `page_type`, `device_class`, `paid_landing`, `non_interaction: true`.
+- **`js_runtime_error`**: Unhandled browser errors (`error` and `unhandledrejection`), scrubbed of URL query strings, email addresses, phone numbers, and 5+ digit tokens, capped at 3 deduplicated events per page view (`non_interaction: true`).
+- **`lhi_meta_skip_reason`**: Production-only non-interaction diagnostic emitted when the Meta Pixel gate skips or blocks an event (`skip_state`, `skip_reason`, normalized `path`), excluding `non-production-host` and `already-initialized`.
+- **`ab_variant_exposure`**: Fired once per page view from `/js/ab-variant.js` with `ab_test_id`, `ab_variant`, and `non_interaction: true`.
+- **`view_search_results` & `search_zero_results`**: Debounced (750ms) site-search telemetry from `/js/site-search.js`; rejects queries containing email-like or 5+ digit numeric tokens.
+- **`calendly_facade_click`, `calendly_event_type_viewed`, `calendly_time_selected`**: Booking funnel micro-steps wired from `/js/calendly-meta-schedule.js` through `window.LHI.track`, paired with `schedule_appointment` (`transport_type: 'beacon'`) and browser `_fbp`/`_fbc` preservation prior to URL sanitization.
+- **`precall_brief_engaged`, `precall_brief_summary_copied`, `precall_brief_printed`**: Non-PHI worksheet telemetry from `/js/precall-brief.js` capturing surface engagement (`worksheet` | `thanks_spot_check`), readiness score, facility system count, and conflict flag — never doctor notes, Rx names, or user plan text.
+- **`lead_api_error`, `lead_timeout`, `lead_native_fallback`**: Lead delivery resilience telemetry from `/js/funnel.js` + `/js/get-help-intake.js` + `/js/lead-hero.js` (also surfaced server-side via durable retry outbox summary `website_lead_outbox_summary_v1` in `/api/lead`).
+- **`EstimatorComplete`, `PlanReviewCtaClick`, `StartLead`**: Mapped directly in `/js/funnel.js` (`directGA4Events`) to `estimator_complete`, `plan_review_cta_click`, and `start_lead`.
+
+### Closed-Loop Offline Conversions (`/api/lead-outcome-webhook`)
+- Netlify Function `/api/lead-outcome-webhook` ([`lead-outcome-webhook.js`](netlify/functions/lead-outcome-webhook.js)) accepts authenticated `POST` callbacks (`LEAD_OUTCOME_WEBHOOK_SECRET` via Bearer token, `x-lhi-webhook-secret`, or HMAC-SHA256 `x-lhi-webhook-signature`) from Hopper / HubSpot workflow transitions:
+  - Maps `qualify_lead` / `qualified` -> GA4 `qualify_lead` (`lead_stage: 'qualified'`)
+  - Maps `close_convert_lead` / `enrolled` / `closed_won` / `converted` -> GA4 `close_convert_lead` (`lead_stage: 'enrolled'`)
+- Enforces strict fail-closed validation (rejects PII/PHI fields with `400`, skips non-production contexts with `202`, deduplicates event replays per `(event_name, correlation_id)`, and forwards clean events to GA4 Measurement Protocol `G-W45RMKHXV0` via `GA4_MP_API_SECRET`).

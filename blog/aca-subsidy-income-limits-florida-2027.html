@@ -24,7 +24,6 @@
   <meta name="theme-color" content="#1B2A4A">
   <link rel="preload" href="/css/fonts.css?v=20261015-v6merge2" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="/css/fonts.css?v=20261015-v6merge2"></noscript>
-  <link rel="stylesheet" href="/css/lead-hero.css?v=20261030-step1-cache-bust-v1">
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin="" fetchpriority="high">
   <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/dm-sans-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -328,11 +327,11 @@
     .inline-calc-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 12px; margin-bottom: 16px; }
     .inline-calc-kpi { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; text-align: center; }
     .inline-calc-kpi.highlight { background: #ECFDF5; border-color: #10B981; }
-    .inline-calc-kpi.cliff-warn { background: #FEF2F2; border-color: #F87171; }
+    .inline-calc-kpi.cliff-warn { background: #FFFBEB; border-color: #D4A843; }
     .inline-calc-kpi-label { font-size: 0.76rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #475569; margin-bottom: 4px; }
     .inline-calc-kpi-val { font-size: 1.55rem; font-weight: 800; color: #1B2A4A; line-height: 1.15; }
     .inline-calc-kpi.highlight .inline-calc-kpi-val { color: #047857; }
-    .inline-calc-kpi.cliff-warn .inline-calc-kpi-val { color: #B91C1C; }
+    .inline-calc-kpi.cliff-warn .inline-calc-kpi-val { color: #1B2A4A; }
     .inline-calc-kpi-sub { font-size: 0.78rem; color: #475569; margin-top: 4px; }
     .inline-calc-cutoffs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 14px 0; }
     .inline-calc-cutoff { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px 6px; text-align: center; font-size: 0.78rem; }
@@ -646,6 +645,19 @@
         <input type="hidden" name="source_page" value="/blog/aca-subsidy-income-limits-florida-2027.html">
         <input type="hidden" name="source_template" value="blog_post">
         <input type="hidden" name="consent_text_version" value="site-aca-2026-10-v1">
+        <input type="hidden" name="consent_sms_state">
+        <input type="hidden" name="consent_call_state">
+        <input type="hidden" name="consent_recorded_at">
+        <input type="hidden" name="consent_page" value="/blog/aca-subsidy-income-limits-florida-2027.html">
+        <input type="hidden" name="consent_sms">
+        <input type="hidden" name="consent_call">
+        <input type="hidden" name="consent_version_source">
+        <input type="hidden" name="consent_version_mismatch">
+        <input type="hidden" name="event_id">
+        <input type="hidden" name="server_received_at">
+        <input type="hidden" name="source_url">
+        <input type="hidden" name="state">
+        <input type="hidden" name="coverage_state">
         <input type="hidden" name="utm_source" id="blog_aca_subsidy_income_limits_florida__utm_source">
         <input type="hidden" name="utm_medium" id="blog_aca_subsidy_income_limits_florida__utm_medium">
         <input type="hidden" name="utm_campaign" id="blog_aca_subsidy_income_limits_florida__utm_campaign">
@@ -986,8 +998,8 @@
   <script src="/js/chat-widget.js?v=20261016-pr-c-chat" defer></script>
   <script src="/js/blog-floating-actions.js" defer></script>
   <script src="/js/site-phone.js?v=20261015-v6merge2" defer></script>
-  <script src="/js/site-template.js?v=20261030-step1-cache-bust-v1" defer></script>
-  <script src="/js/lead-hero.js?v=20261030-step1-cache-bust-v1" defer></script>
-  <script src="/js/analytics.js?v=20261030-step1-cache-bust-v1" defer></script>
-  <script src="/js/funnel.js?v=20261030-step1-cache-bust-v1" defer></script>
+  <script src="/js/site-template.js?v=20261112-audit-release-v1" defer></script>
+  <script src="/js/lead-hero.js?v=20261112-audit-release-v1" defer></script>
+  <script src="/js/analytics.js?v=20261112-audit-release-v1" defer></script>
+  <script src="/js/funnel.js?v=20261112-audit-release-v1" defer></script>
 </body></html>

@@ -93,7 +93,7 @@ function relToPathname(rel) {
 }
 
 function isMultiState(rel) {
-  return rel === 'states/index.html' || /^health-insurance-(alabama|arizona|georgia|iowa|indiana|louisiana|maryland|michigan|missouri|mississippi|north-carolina|nebraska|new-jersey|ohio|south-carolina|tennessee|texas|virginia|washington|west-virginia)\/index\.html$/.test(rel);
+  return rel === 'states/index.html' || /^health-insurance-(alabama|arizona|georgia|iowa|indiana|kansas|louisiana|maryland|michigan|missouri|mississippi|north-carolina|nebraska|new-jersey|ohio|oklahoma|south-carolina|tennessee|texas|virginia|washington|west-virginia)\/index\.html$/.test(rel);
 }
 
 function loadChrome() {

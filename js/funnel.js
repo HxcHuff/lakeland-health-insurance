@@ -798,7 +798,26 @@
       ExternalQuoteClick: 'external_quote_click',
       messenger_click: 'messenger_click',
       LeadReceiptView: 'lead_receipt_view',
-      MedicareIntakeStart: 'medicare_intake_start'
+      MedicareIntakeStart: 'medicare_intake_start',
+      EstimatorComplete: 'estimator_complete',
+      PlanReviewCtaClick: 'plan_review_cta_click',
+      StartLead: 'start_lead',
+      ab_variant_exposure: 'ab_variant_exposure',
+      view_search_results: 'view_search_results',
+      search_zero_results: 'search_zero_results',
+      precall_brief_engaged: 'precall_brief_engaged',
+      precall_brief_summary_copied: 'precall_brief_summary_copied',
+      precall_brief_printed: 'precall_brief_printed',
+      calendly_facade_click: 'calendly_facade_click',
+      calendly_event_type_viewed: 'calendly_event_type_viewed',
+      calendly_time_selected: 'calendly_time_selected',
+      lead_api_error: 'lead_api_error',
+      lead_timeout: 'lead_timeout',
+      lead_native_fallback: 'lead_native_fallback',
+      estimator_unlock_click: 'estimator_unlock_click',
+      estimator_soft_gate_open: 'estimator_soft_gate_open',
+      estimator_soft_gate_dismiss: 'estimator_soft_gate_dismiss',
+      estimator_metal_cta_click: 'estimator_metal_cta_click'
     };
     var ga4Name = directGA4Events[name];
     if (!ga4Name) return;
@@ -1211,36 +1230,59 @@
   function zipToStateCode(rawZip) {
     var digits = String(rawZip || '').replace(/\D/g, '').slice(0, 5);
     if (digits.length !== 5) return '';
+    if (digits === '06390') return 'NY';
     var p = parseInt(digits.slice(0, 3), 10);
+    if (p === 5 || (p >= 100 && p <= 149)) return 'NY';
+    if (p >= 10 && p <= 27) return 'MA';
+    if (p >= 28 && p <= 29) return 'RI';
+    if (p >= 30 && p <= 38) return 'NH';
+    if (p >= 39 && p <= 49) return 'ME';
+    if (p >= 50 && p <= 59) return 'VT';
+    if (p >= 60 && p <= 69) return 'CT';
+    if (p >= 70 && p <= 89) return 'NJ';
+    if (p >= 150 && p <= 196) return 'PA';
+    if (p >= 197 && p <= 199) return 'DE';
+    if (p === 200 || (p >= 202 && p <= 205) || p === 569) return 'DC';
+    if (p === 201 || (p >= 220 && p <= 246)) return 'VA';
+    if (p >= 206 && p <= 219) return 'MD';
+    if (p >= 247 && p <= 268) return 'WV';
+    if (p >= 270 && p <= 289) return 'NC';
+    if (p >= 290 && p <= 299) return 'SC';
+    if ((p >= 300 && p <= 319) || p === 398 || p === 399) return 'GA';
     if (p >= 320 && p <= 349) return 'FL';
     if (p >= 350 && p <= 369) return 'AL';
-    if (p >= 850 && p <= 865) return 'AZ';
-    if ((p >= 300 && p <= 319) || p === 398 || p === 399) return 'GA';
-    if (p >= 500 && p <= 528) return 'IA';
-    if (p >= 460 && p <= 479) return 'IN';
-    if (p >= 660 && p <= 679) return 'KS';
-    if (p >= 700 && p <= 714) return 'LA';
-    if (p >= 206 && p <= 219) return 'MD';
-    if (p >= 480 && p <= 499) return 'MI';
-    if (p >= 630 && p <= 658) return 'MO';
-    if (p >= 386 && p <= 397) return 'MS';
-    if (p >= 270 && p <= 289) return 'NC';
-    if (p >= 680 && p <= 693) return 'NE';
-    if (p >= 70 && p <= 89) return 'NJ';
-    if (p >= 430 && p <= 459) return 'OH';
-    if (p >= 730 && p <= 749) return 'OK';
-    if (p >= 290 && p <= 299) return 'SC';
     if (p >= 370 && p <= 385) return 'TN';
-    if ((p >= 750 && p <= 799) || p === 885) return 'TX';
-    if (p === 201 || (p >= 220 && p <= 246)) return 'VA';
-    if (p >= 980 && p <= 994) return 'WA';
-    if (p >= 247 && p <= 268) return 'WV';
-    if (p >= 900 && p <= 961) return 'CA';
-    if (p >= 100 && p <= 149) return 'NY';
+    if (p >= 386 && p <= 397) return 'MS';
+    if (p >= 400 && p <= 427) return 'KY';
+    if (p >= 430 && p <= 459) return 'OH';
+    if (p >= 460 && p <= 479) return 'IN';
+    if (p >= 480 && p <= 499) return 'MI';
+    if (p >= 500 && p <= 528) return 'IA';
+    if (p >= 530 && p <= 549) return 'WI';
+    if (p >= 550 && p <= 567) return 'MN';
+    if (p >= 570 && p <= 577) return 'SD';
+    if (p >= 580 && p <= 588) return 'ND';
+    if (p >= 590 && p <= 599) return 'MT';
     if (p >= 600 && p <= 629) return 'IL';
-    if (p >= 10 && p <= 27) return 'MA';
-    if (p >= 150 && p <= 196) return 'PA';
+    if (p >= 630 && p <= 658) return 'MO';
+    if (p >= 660 && p <= 679) return 'KS';
+    if (p >= 680 && p <= 693) return 'NE';
+    if (p >= 700 && p <= 714) return 'LA';
+    if (p >= 716 && p <= 729) return 'AR';
+    if (p === 733 || (p >= 750 && p <= 799) || p === 885) return 'TX';
+    if (p >= 730 && p <= 749) return 'OK';
     if (p >= 800 && p <= 816) return 'CO';
+    if (p >= 820 && p <= 831) return 'WY';
+    if (p >= 832 && p <= 838) return 'ID';
+    if (p >= 840 && p <= 847) return 'UT';
+    if (p >= 850 && p <= 865) return 'AZ';
+    if (p >= 870 && p <= 884) return 'NM';
+    if (p >= 889 && p <= 898) return 'NV';
+    if (p >= 900 && p <= 961) return 'CA';
+    if (p >= 967 && p <= 968) return 'HI';
+    if (p >= 970 && p <= 979) return 'OR';
+    if (p >= 980 && p <= 994) return 'WA';
+    if (p >= 995 && p <= 999) return 'AK';
     return '';
   }
 
@@ -1534,15 +1576,103 @@
     w.location.href = f.getAttribute('action') || '/thanks.html';
   }
 
+  function setFormSubmittingState(f, isSubmitting) {
+    if (!f || typeof f.querySelectorAll !== 'function') return;
+    var buttons = f.querySelectorAll('button[type="submit"], input[type="submit"], #submitButton, .lhi-lead-hero__submit');
+    for (var i = 0; i < buttons.length; i += 1) {
+      var btn = buttons[i];
+      if (!btn) continue;
+      if (isSubmitting) {
+        if (!btn.dataset) btn.dataset = {};
+        if (!btn.dataset.lhiOrigLabel) {
+          btn.dataset.lhiOrigLabel = String(btn.tagName || '').toUpperCase() === 'INPUT'
+            ? String(btn.value || 'Submit')
+            : String(btn.textContent || 'Submit');
+        }
+        btn.disabled = true;
+        if (String(btn.tagName || '').toUpperCase() === 'INPUT') {
+          btn.value = 'Sending...';
+        } else if (btn.textContent !== 'Sending...') {
+          btn.textContent = 'Sending...';
+        }
+      } else {
+        btn.disabled = false;
+        var orig = btn.dataset && btn.dataset.lhiOrigLabel;
+        if (orig) {
+          if (String(btn.tagName || '').toUpperCase() === 'INPUT') btn.value = orig;
+          else btn.textContent = orig;
+        }
+      }
+    }
+  }
+
+  function showInlineLeadError(f, message) {
+    if (!f || typeof f.querySelector !== 'function') return;
+    var el = f.querySelector('#formError, [data-lhi-form-error], .lhi-lead-hero__status') ||
+      (typeof d.getElementById === 'function' ? d.getElementById('formError') : null);
+    if (!el && typeof d.createElement === 'function' && typeof f.appendChild === 'function') {
+      el = d.createElement('p');
+      el.setAttribute('data-lhi-form-error', '1');
+      el.setAttribute('role', 'alert');
+      el.className = 'lhi-form-error';
+      el.style.color = '#9f1d20';
+      el.style.fontWeight = '600';
+      el.style.marginTop = '8px';
+      f.appendChild(el);
+    }
+    if (el) {
+      el.textContent = message || '';
+      if (message) {
+        el.hidden = false;
+        if (el.style && el.style.display === 'none') el.style.display = '';
+      } else {
+        if (el.hasAttribute && el.hasAttribute('data-lhi-form-error')) el.hidden = true;
+      }
+    }
+  }
+
+  function dispatchFormApiError(f, message, status, reason) {
+    try {
+      if (typeof w.CustomEvent === 'function' && f && typeof f.dispatchEvent === 'function') {
+        f.dispatchEvent(new w.CustomEvent('lhi:lead-api-error', {
+          bubbles: true,
+          detail: { form: f, message: message, status: status, reason: reason }
+        }));
+      }
+    } catch (e) {}
+  }
+
   function submitLeadViaApi(f, payload, onDelivered) {
     if (f.__lhiApiSubmitting) return;
     f.__lhiApiSubmitting = true;
+    showInlineLeadError(f, '');
+    setFormSubmittingState(f, true);
 
-    fetch('/api/lead', {
+    var controller = typeof w.AbortController === 'function' ? new w.AbortController() : null;
+    var abortedByTimeout = false;
+    var startedAt = Date.now();
+    var timeoutId = controller ? w.setTimeout(function () {
+      abortedByTimeout = true;
+      try { controller.abort(); } catch (e) {}
+    }, 10000) : 0;
+
+    function clearTimeoutSafe() {
+      if (timeoutId && typeof w.clearTimeout === 'function') {
+        try { w.clearTimeout(timeoutId); } catch (e) {}
+      }
+      timeoutId = 0;
+    }
+
+    var formNameToken = cleanAnalyticsToken((payload && (payload['form-name'] || payload.form_name || payload.content_name)) || 'lead_form');
+    var fetchOpts = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    }).then(function (res) {
+    };
+    if (controller) fetchOpts.signal = controller.signal;
+
+    fetch('/api/lead', fetchOpts).then(function (res) {
+      clearTimeoutSafe();
       if (res.ok) {
         return (typeof res.json === 'function' ? res.json().catch(function () { return null; }) : Promise.resolve(null)).then(function (body) {
           if (body && body.ok === true && body.silent_spam_drop === true) {
@@ -1552,6 +1682,7 @@
           if (!body || body.ok !== true || body.forms !== true || !approvedEventID(body.event_id)) {
             var semanticError = new Error('lead api response was not a confirmed Forms acceptance');
             semanticError.status = 502;
+            semanticError.reason = 'unconfirmed_forms_acceptance';
             semanticError.noNativeFallback = true;
             throw semanticError;
           }
@@ -1561,11 +1692,21 @@
       }
       var err = new Error('lead api ' + res.status);
       err.status = res.status;
+      err.reason = 'http_' + res.status;
       throw err;
     }).catch(function (err) {
+      clearTimeoutSafe();
+      var elapsedMs = Math.max(0, Date.now() - startedAt);
+      if (abortedByTimeout || (err && err.name === 'AbortError')) {
+        track('lead_timeout', {
+          form_name: formNameToken,
+          elapsed_ms: elapsedMs
+        });
+      }
       if (err && ((err.status >= 400 && err.status < 500) || err.noNativeFallback)) {
         clearPendingLeadMarker();
         f.__lhiApiSubmitting = false;
+        setFormSubmittingState(f, false);
         var startedEl = f.elements && f.elements.started_at;
         var startedVal = startedEl && String(startedEl.value || '').trim();
         if (startedVal) {
@@ -1577,13 +1718,33 @@
         } else {
           ensureLeadSpamGuard(f);
         }
-        try { w.alert('Please wait a moment, then send your request again.'); } catch (e) {}
+        var errMsg = 'Please wait a moment, then send your request again.';
+        showInlineLeadError(f, errMsg);
+        dispatchFormApiError(f, errMsg, err.status || 422, err.reason || 'client_retryable');
+        track('lead_api_error', {
+          form_name: formNameToken,
+          status_code: Number(err.status || 422),
+          reason: cleanAnalyticsToken(err.reason || 'client_retryable')
+        });
         return;
       }
+      track('lead_native_fallback', {
+        form_name: formNameToken,
+        reason: cleanAnalyticsToken(abortedByTimeout ? 'timeout' : (err && err.reason) || 'network_error')
+      });
       try {
         f.submit();
       } catch (e) {
-        redirectAfterLead(f);
+        f.__lhiApiSubmitting = false;
+        setFormSubmittingState(f, false);
+        var fallbackMsg = 'We could not send your request right now. Please call (863) 640-3102 or try again.';
+        showInlineLeadError(f, fallbackMsg);
+        dispatchFormApiError(f, fallbackMsg, 500, 'native_submit_failed');
+        track('lead_api_error', {
+          form_name: formNameToken,
+          status_code: 500,
+          reason: 'native_submit_failed'
+        });
       }
     });
   }
@@ -1778,9 +1939,11 @@
 
     d.querySelectorAll('a[href*="m.me/"]').forEach(function (a) {
       if (a.__lhiMessengerWired) return;
+      if (a.hasAttribute && (a.hasAttribute('data-lhi-messenger-entry') || a.hasAttribute('data-lhi-page-inbox'))) return;
       a.__lhiMessengerWired = true;
       a.addEventListener('click', function () {
-        track('messenger_click', { content_name: pageType() + '_messenger_click' });
+        var label = (a.getAttribute && a.getAttribute('data-analytics-label')) || (pageType() + '_messenger_click');
+        track('messenger_click', { content_name: label });
         if (typeof w.lhiTrackMetaMessageStart === 'function') {
           try { w.lhiTrackMetaMessageStart(); } catch (e) {}
         }
@@ -1789,7 +1952,13 @@
   }
 
   // Boot ------------------------------------------------------------------
-  w.LHI = { track: track, pageType: pageType, session: getSession, getAttribution: getAttribution };
+  w.LHI = {
+    track: track,
+    pageType: pageType,
+    session: getSession,
+    getAttribution: getAttribution,
+    resetFormSubmit: function (form) { setFormSubmittingState(form, false); }
+  };
 
   /* Test-only surface. Tree-shaken for prod by the gate: only attaches when
      w.__LHI_TEST is set to true before this script evaluates (Node test

@@ -1,7 +1,7 @@
-const CACHE_NAME = 'lhi-20261030-step1-cache-bust-v1';
+const CACHE_NAME = 'lhi-20261112-audit-release-v1';
 const OFFLINE_URL = '/offline.html';
 const SITE_PHONE_URL = '/js/site-phone.js?v=20261015-v6merge2';
-const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261030-step1-cache-bust-v1';
+const SITE_TEMPLATE_URL = '/js/site-template.js?v=20261112-audit-release-v1';
 
 // Core pages to pre-cache for offline access
 const PRECACHE_URLS = [
@@ -74,8 +74,9 @@ self.addEventListener('fetch', (event) => {
   // Skip external requests (analytics, pixels, etc.)
   if (!request.url.startsWith(self.location.origin)) return;
 
-  // Never cache serverless API, Netlify functions, or internal data endpoints
+  // Never cache service worker script, serverless API, Netlify functions, or internal data endpoints
   if (
+    requestUrl.pathname === '/sw.js' ||
     requestUrl.pathname.startsWith('/api/') ||
     requestUrl.pathname.startsWith('/.netlify/functions/') ||
     requestUrl.pathname.startsWith('/data/')

@@ -234,15 +234,15 @@ function createSubmissionCreatedHandler({
       }
       formName = normalized.formName;
       requireProductionContext(environment);
+      requireVerifiedSiteLeadEvent(event, environment, logger);
+      requireSiteLeadSpamClear(
+        normalized.formData,
+        formName,
+        event,
+        environment,
+        logger
+      );
       if (SITE_LEAD_FORMS.has(formName)) {
-        requireVerifiedSiteLeadEvent(event, environment, logger);
-        requireSiteLeadSpamClear(
-          normalized.formData,
-          formName,
-          event,
-          environment,
-          logger
-        );
         const hopper = await deliverSiteLeadToHopper(normalized.websiteLead, {
           fetchImpl,
           environment,
@@ -252,7 +252,7 @@ function createSubmissionCreatedHandler({
         });
         if (!hopper || hopper.ok !== true) {
           const hopperReason = (hopper && hopper.error) || 'hopper_delivery_failed';
-          await enqueueWebsiteLeadOutbox({
+          const queued = await enqueueWebsiteLeadOutbox({
             lead: normalized.websiteLead,
             reason: hopperReason,
             permanent: Boolean(hopper && hopper.permanent),
@@ -265,6 +265,9 @@ function createSubmissionCreatedHandler({
             blobsImport: bridgeBlobsImport
           });
           safeLog(logger, formName, 'FAILED', hopperReason);
+          if (!queued && !(hopper && hopper.permanent)) {
+            fail('outbox_enqueue_failed', 503, hopperReason);
+          }
         } else {
           safeLog(logger, formName, 'ACCEPTED', 'hopper');
         }
@@ -284,12 +287,16 @@ function createSubmissionCreatedHandler({
         timeoutMilliseconds
       });
       if (!delivery || delivery.ok !== true) {
+        const bridgeReason = (delivery && delivery.reason) || 'bridge_delivery_failed';
         safeLog(
           logger,
           formName,
           'FAILED',
-          (delivery && delivery.reason) || 'bridge_delivery_failed'
+          bridgeReason
         );
+        if (delivery && delivery.queued === false && !delivery.permanent) {
+          fail('outbox_enqueue_failed', 503, bridgeReason);
+        }
         return response(200, { ok: true, outcome: 'ACCEPTED' });
       }
       safeLog(logger, formName, 'ACCEPTED', 'direct');

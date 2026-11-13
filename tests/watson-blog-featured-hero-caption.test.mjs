@@ -52,8 +52,8 @@ function startStaticServer() {
 
 async function prepareBlogPage(page, baseUrl, route) {
   await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle' });
-  await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=20261030-step1-cache-bust-v1` });
-  await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=20261030-step1-cache-bust-v1` });
+  await page.addScriptTag({ url: `${baseUrl}/js/site-template.js?v=20261112-audit-release-v1` });
+  await page.addScriptTag({ url: `${baseUrl}/js/lead-hero.js?v=20261112-audit-release-v1` });
   await page.waitForTimeout(350);
   await page.evaluate(() => {
     if (typeof window.LHIConsolidateBlogHeroCopy === 'function') {

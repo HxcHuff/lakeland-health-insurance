@@ -36,8 +36,13 @@ function hopperConfigured(environment = process.env) {
     && Boolean(env('HOPPER_INTAKE_KEY', environment));
 }
 
-function mapInsuranceType(formName) {
-  return formName === 'site-medicare-lead' ? 'MEDICARE' : 'ACA';
+function mapInsuranceType(formName, lead = {}) {
+  if (formName !== 'site-medicare-lead') return 'ACA';
+  const cov = cleanText(lead.coverage_status, 64).toLowerCase();
+  if (cov === 'medicare_advantage') return 'MEDICARE_ADVANTAGE';
+  if (cov === 'medicare_supplement') return 'MEDICARE_SUPPLEMENT';
+  if (cov === 'part_d' || cov === 'medicare_part_d') return 'PART_D';
+  return 'MEDICARE';
 }
 
 function deriveHopperSource(lead) {
@@ -46,21 +51,27 @@ function deriveHopperSource(lead) {
   const utmSource = cleanText(lead.utm_source || lead.first_utm_source, 64).toLowerCase();
   const utmMedium = cleanText(lead.utm_medium || lead.first_utm_medium, 64).toLowerCase();
 
-  if (
-    clickType === 'fbclid'
-    || channel === 'facebook'
-    || /^(?:facebook|fb|fb_ig|instagram|ig|meta)$/.test(utmSource)
-  ) {
+  if (clickType === 'fbclid') {
     return 'facebook_ads';
   }
   if (
-    Boolean(lead.gclid || lead.gbraid || lead.wbraid)
-    || clickType === 'gclid'
+    clickType === 'gclid'
     || clickType === 'gbraid'
     || clickType === 'wbraid'
-    || channel === 'google_ads'
-    || (utmSource === 'google' && /^(?:cpc|ppc|paid)$/.test(utmMedium))
+    || Boolean(lead.gclid || lead.gbraid || lead.wbraid)
   ) {
+    return 'google_ads';
+  }
+  if (channel === 'facebook') {
+    return 'facebook_ads';
+  }
+  if (channel === 'google_ads') {
+    return 'google_ads';
+  }
+  if (/^(?:facebook|fb|fb_ig|instagram|ig|meta)$/.test(utmSource)) {
+    return 'facebook_ads';
+  }
+  if (utmSource === 'google' && /^(?:cpc|ppc|paid)$/.test(utmMedium)) {
     return 'google_ads';
   }
   return 'lhi_site_lead_form';
@@ -69,6 +80,42 @@ function deriveHopperSource(lead) {
 function normalizeState(value) {
   const state = cleanText(value, 8).toUpperCase();
   return /^[A-Z]{2}$/.test(state) ? state : '';
+}
+
+function buildHopperCustomFields(lead) {
+  const customFields = {};
+  const setIfPresent = (key, value) => {
+    if (value !== undefined && value !== null && value !== '') {
+      customFields[key] = value;
+    }
+  };
+  const submissionId = cleanText(lead.submission_id, 64);
+  if (submissionId) {
+    setIfPresent('sourceEventId', `website:${submissionId}`);
+    setIfPresent('submissionId', submissionId);
+  }
+  setIfPresent('eventId', cleanText(lead.event_id, 64));
+  setIfPresent('formName', cleanText(lead.form_name, 80));
+  setIfPresent('pageUrl', cleanText(lead.page_url, 300));
+  setIfPresent('intent', cleanText(lead.intent, 80));
+  setIfPresent('utmMedium', cleanText(lead.utm_medium || lead.first_utm_medium, 80));
+  setIfPresent('gclid', cleanText(lead.gclid || lead.first_gclid, 128));
+  setIfPresent('gbraid', cleanText(lead.gbraid || lead.first_gbraid, 128));
+  setIfPresent('wbraid', cleanText(lead.wbraid || lead.first_wbraid, 128));
+  setIfPresent('clickIdType', cleanText(lead.click_id_type, 16));
+  setIfPresent('leadChannel', cleanText(lead.lead_channel, 32));
+  setIfPresent('clickTimestamp', cleanText(lead.lhi_click_captured_at || lead.created_at, 40));
+  setIfPresent('coverageStatus', cleanText(lead.coverage_status, 80));
+  setIfPresent('bestTimeToReach', cleanText(lead.best_time_to_reach, 80));
+  setIfPresent('medicareStage', cleanText(lead.medicare_stage, 80));
+  setIfPresent('ageTimeline', cleanText(lead.age_timeline, 80));
+  if (lead.consent && typeof lead.consent === 'object') {
+    customFields.consentGranted = Boolean(lead.consent.granted);
+    customFields.consentCall = Boolean(lead.consent.call);
+    customFields.consentSms = Boolean(lead.consent.sms);
+    customFields.consentEmail = Boolean(lead.consent.email);
+  }
+  return Object.keys(customFields).length ? customFields : undefined;
 }
 
 function buildHopperBody(websiteLead) {
@@ -116,8 +163,9 @@ function buildHopperBody(websiteLead) {
     utmCampaign: utmCampaign || undefined,
     utmContent: utmContent || undefined,
     status: 'NEW_LEAD',
-    insuranceType: mapInsuranceType(websiteLead.form_name),
-    notes
+    insuranceType: mapInsuranceType(websiteLead.form_name, lead),
+    notes,
+    customFields: buildHopperCustomFields(lead)
   };
 }
 
@@ -138,7 +186,7 @@ async function deliverSiteLeadToHopper(websiteLead, {
 
   const url = env('HOPPER_INTAKE_URL', environment) || DEFAULT_HOPPER_URL;
   const body = buildHopperBody(websiteLead);
-  if (!body.phone) return { ok: false, permanent: true, error: 'phone_required' };
+  if (!body.phone && !body.email) return { ok: false, permanent: true, error: 'contact_required' };
 
   const controller = typeof AbortController === 'function' ? new AbortController() : null;
   const timer = controller ? setTimer(() => controller.abort(), timeoutMilliseconds) : null;

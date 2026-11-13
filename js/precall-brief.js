@@ -488,6 +488,36 @@
     return items;
   }
 
+  var preCallEventsSent = {};
+
+  function emitPreCallEvent(name, params) {
+    if (!name) return false;
+    var payload = Object.assign({ non_interaction: false }, params || {});
+    if (w.LHI && typeof w.LHI.track === 'function') {
+      try {
+        w.LHI.track(name, payload);
+        return true;
+      } catch (e) {}
+    }
+    if (typeof w.gtag === 'function') {
+      try {
+        w.gtag('event', name, Object.assign({ transport_type: 'beacon' }, payload));
+        return true;
+      } catch (e) {}
+    }
+    return false;
+  }
+
+  function emitPreCallEventOnce(name, params) {
+    var key = String(name || '') + '|' + String((params && params.surface) || '');
+    if (preCallEventsSent[key]) return false;
+    if (emitPreCallEvent(name, params)) {
+      preCallEventsSent[key] = true;
+      return true;
+    }
+    return false;
+  }
+
   /* ------------------------------------------------------------------------
    * Surface A: Full Interactive Worksheet on /provider-prescription-check/
    * ------------------------------------------------------------------------ */
@@ -528,6 +558,16 @@
     var secondaryActionBtn = d.getElementById('rxSecondaryRouteBtn');
     var copyBtn = d.getElementById('rxCopySummaryBtn');
     var printBtn = d.getElementById('rxPrintWorksheetBtn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        emitPreCallEvent('precall_brief_summary_copied', { surface: 'worksheet' });
+      });
+    }
+    if (printBtn) {
+      printBtn.addEventListener('click', function () {
+        emitPreCallEvent('precall_brief_printed', { surface: 'worksheet' });
+      });
+    }
 
     if (postLeadBanner) {
       postLeadBanner.hidden = !postLead;
@@ -623,6 +663,15 @@
       var readiness = computeReadiness(state, planResult, pharmResult);
       var briefCode = buildBriefCode(state, planResult, pharmResult);
       var desk = getLakelandDeskStatus();
+
+      if (readiness.hasEngagement) {
+        emitPreCallEventOnce('precall_brief_engaged', {
+          surface: 'worksheet',
+          readiness_score: readiness.score,
+          system_count: state.systems.length,
+          has_conflict: Boolean(readiness.hasConflict)
+        });
+      }
 
       var checkedCount = state.checkedSteps.length;
       statusEl.textContent = checkedCount + ' of ' + cbs.length + ' self-checks marked' +
@@ -917,6 +966,15 @@
       var readiness = computeReadiness(state, planResult, pharmResult);
       var briefCode = buildBriefCode(state, planResult, pharmResult);
       var desk = getLakelandDeskStatus();
+
+      if (readiness.hasEngagement) {
+        emitPreCallEventOnce('precall_brief_engaged', {
+          surface: 'thanks_spot_check',
+          readiness_score: readiness.score,
+          system_count: state.systems.length,
+          has_conflict: Boolean(readiness.hasConflict)
+        });
+      }
 
       if (meterPct) {
         meterPct.textContent = readiness.score + '% Pre-Call Prep Staged · 3 Live Contract Cross-Checks Remaining';

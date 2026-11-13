@@ -6,6 +6,7 @@ const require = createRequire(import.meta.url);
 const resend = require('../netlify/functions/lib/newsletter-resend.js');
 const hopper = require('../netlify/functions/lib/newsletter-hopper.js');
 const confirm = require('../netlify/functions/newsletter-confirm.js');
+const rateLimit = require('../netlify/functions/lib/newsletter-rate-limit.js');
 
 test('normalizeEmail rejects invalid addresses', () => {
   assert.equal(resend.normalizeEmail(''), '');
@@ -59,4 +60,100 @@ test('hopper quick-add defaults when env unset', () => {
 
 test('newsletter confirm redirects to status page', () => {
   assert.equal(confirm._test.redirectPath('confirmed'), '/newsletter/confirmed/?status=confirmed');
+});
+
+test('startDoubleOptIn HTML-escapes firstName, strips CRLF, and sets AbortSignal timeout', async () => {
+  const prevKey = process.env.RESEND_API_KEY;
+  const prevSecret = process.env.NEWSLETTER_CONFIRM_SECRET;
+  const origFetch = globalThis.fetch;
+  const fetchCalls = [];
+  process.env.RESEND_API_KEY = 're_test_key';
+  process.env.NEWSLETTER_CONFIRM_SECRET = 'confirm-secret-xyz';
+  globalThis.fetch = async (url, init = {}) => {
+    const target = String(url);
+    fetchCalls.push({ url: target, init });
+    if (target.includes('/suppressions/') || (target.includes('/contacts/') && (!init.method || init.method === 'GET'))) {
+      return new Response('{}', { status: 404 });
+    }
+    return new Response(JSON.stringify({ id: 'res_123' }), { status: 200 });
+  };
+  try {
+    const out = await resend.startDoubleOptIn({
+      email: 'reader@example.test',
+      firstName: 'David\r\n<script>alert(1)</script>',
+      sourceForm: 'newsletter-signup',
+      signupPage: '/newsletter/'
+    });
+    assert.equal(out.ok, true);
+    const emailCall = fetchCalls.find((c) => c.url.endsWith('/emails'));
+    assert.ok(emailCall, 'expected Resend /emails call');
+    assert.ok(emailCall.init.signal, 'expected AbortSignal timeout on Resend request');
+    const sent = JSON.parse(emailCall.init.body);
+    assert.equal(sent.text.includes('\r'), false);
+    assert.equal(sent.text.includes('\n<script>'), false);
+    assert.equal(sent.html.includes('<script>'), false);
+    assert.ok(sent.html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
+  } finally {
+    globalThis.fetch = origFetch;
+    if (prevKey === undefined) delete process.env.RESEND_API_KEY;
+    else process.env.RESEND_API_KEY = prevKey;
+    if (prevSecret === undefined) delete process.env.NEWSLETTER_CONFIRM_SECRET;
+    else process.env.NEWSLETTER_CONFIRM_SECRET = prevSecret;
+  }
+});
+
+test('newsletter rate limit prefers x-nf-client-connection-ip over spoofed x-forwarded-for and retries CAS conflict', async () => {
+  const storeMap = new Map();
+  let forceConflictOnce = false;
+
+  rateLimit.blobsImport(async () => ({
+    getStore: () => ({
+      async get(key) {
+        return storeMap.has(key) ? storeMap.get(key).data : null;
+      },
+      async getWithMetadata(key) {
+        return storeMap.has(key) ? { ...storeMap.get(key) } : null;
+      },
+      async setJSON(key, value, opts = {}) {
+        if (forceConflictOnce) {
+          forceConflictOnce = false;
+          return { modified: false };
+        }
+        if (opts.onlyIfNew && storeMap.has(key)) return { modified: false };
+        if (opts.onlyIfMatch && storeMap.get(key)?.etag !== opts.onlyIfMatch) return { modified: false };
+        storeMap.set(key, { data: value, etag: `etag-${value.count}` });
+        return { modified: true };
+      }
+    })
+  }));
+
+  try {
+    forceConflictOnce = true;
+    for (let i = 0; i < rateLimit.MAX_ATTEMPTS; i += 1) {
+      const check = await rateLimit.checkNewsletterRateLimit(
+        {
+          headers: {
+            'x-nf-client-connection-ip': '198.51.100.77',
+            'x-forwarded-for': `203.0.113.${i + 1}`
+          }
+        },
+        'reader@example.test'
+      );
+      assert.equal(check.ok, true, `attempt ${i + 1} should succeed`);
+    }
+
+    const blocked = await rateLimit.checkNewsletterRateLimit(
+      {
+        headers: {
+          'x-nf-client-connection-ip': '198.51.100.77',
+          'x-forwarded-for': '203.0.113.250'
+        }
+      },
+      'reader@example.test'
+    );
+    assert.equal(blocked.ok, false);
+    assert.equal(blocked.error, 'rate_limited');
+  } finally {
+    rateLimit.blobsImport(() => import('@netlify/blobs'));
+  }
 });

@@ -54,13 +54,21 @@
 /icons/*
   Cache-Control: public, max-age=2592000
 
-# Unhashed CSS/JS — 7 days with stale-while-revalidate so returning
-# visitors get instant loads but a deploy still propagates within a week.
+# Service worker script must always revalidate so releases propagate immediately
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Unhashed CSS/JS — 1 hour with 24h stale-while-revalidate so returning
+# visitors get instant loads while a deploy propagates quickly.
 # Bump query string (?v=) on a critical change to force-bust.
 /css/*
   Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 /js/*
   Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+# Static images, videos, and downloads under /assets/
+/assets/*
+  Cache-Control: public, max-age=2592000
 
 # Top-level static images (hero photos, OG card)
 /*.jpg

@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 
-const HONEYPOT_FIELD_NAMES = ['bot-field'];
+const HONEYPOT_FIELD_NAMES = ['bot-field', 'website', 'company'];
 const HUMAN_CHECK_SECRET = 'lakeland-human';
 const GET_HELP_FORM = 'get-help';
 const MIN_SUBMIT_MS_DEFAULT = 2000;
@@ -10,6 +10,7 @@ const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 40;
 const RATE_LIMIT_BURST_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_BURST_MAX = 8;
+const MAX_RATE_LIMIT_BUCKETS = 512;
 
 const rateLimitBuckets = new Map();
 
@@ -41,6 +42,14 @@ function checkRateLimit(headers) {
 
   const ipHash = hashIdentifier(ip, 'lhi-lead-ip-v1');
   const now = Date.now();
+  if (rateLimitBuckets.size >= MAX_RATE_LIMIT_BUCKETS) {
+    for (const [key, existing] of rateLimitBuckets.entries()) {
+      const pruned = pruneRateLimitBucket(existing, now);
+      if (!pruned.hits.length && !pruned.burst.length) {
+        rateLimitBuckets.delete(key);
+      }
+    }
+  }
   const bucket = pruneRateLimitBucket(rateLimitBuckets.get(ipHash) || { hits: [], burst: [] }, now);
   bucket.burst.push(now);
   bucket.hits.push(now);
@@ -107,6 +116,7 @@ function evaluateLeadSpam(payload, formName, headers) {
 
   return {
     spam: false,
+    legacy: Boolean(timing.legacy),
     ipHash: rate.ipHash,
     emailHash,
     elapsedMs: timing.elapsedMs

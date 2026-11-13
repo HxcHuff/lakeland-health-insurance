@@ -151,3 +151,27 @@ test('a no-match query stays visible with actionable status text', () => {
   assert.match(dropdown.innerHTML, /role="status"/);
   assert.match(dropdown.innerHTML, /Try a broader search/);
 });
+
+test('search telemetry emits non-PII view_search_results and search_zero_results only', () => {
+  const { sandbox, search } = loadSearch();
+  const tracked = [];
+  sandbox.window.LHI = {
+    track(name, params) {
+      tracked.push({ name, params });
+    }
+  };
+  assert.equal(search.sanitizeTelemetryQuery('jane@example.com'), '');
+  assert.equal(search.sanitizeTelemetryQuery('863-640-3102'), '');
+  assert.equal(search.sanitizeTelemetryQuery('33801'), '');
+  assert.equal(search.sanitizeTelemetryQuery('Watson Clinic 2027'), 'watson clinic 2027');
+
+  assert.equal(search.emitSearchTelemetry('watson clinic', 3), true);
+  assert.equal(search.emitSearchTelemetry('watson clinic', 3), false);
+  assert.equal(search.emitSearchTelemetry('zzzzmissing', 0), true);
+
+  assert.deepEqual(tracked.map((t) => t.name), [
+    'view_search_results',
+    'view_search_results',
+    'search_zero_results'
+  ]);
+});

@@ -36,6 +36,8 @@ const OUTBOX = Object.freeze({
   keyPrefix: 'submission/',
   maximumAttempts: 12,
   maximumBatchSize: 10,
+  maximumMaintenancePerRun: 25,
+  maximumListPages: 5,
   retryBaseMilliseconds: 15 * 60 * 1000,
   retryMaximumMilliseconds: 6 * 60 * 60 * 1000,
   retentionMilliseconds: 7 * 24 * 60 * 60 * 1000
@@ -646,8 +648,29 @@ function readOutboxDate(metadata, name, fallback) {
   return Number.isFinite(value) ? value : fallback;
 }
 
-async function writeOutboxRecord(store, key, body, metadata) {
-  await store.set(key, body, { metadata });
+async function writeOutboxRecord(store, key, body, metadata, options = {}) {
+  const writeOptions = { metadata };
+  if (options.onlyIfMatch) writeOptions.onlyIfMatch = options.onlyIfMatch;
+  const result = await store.set(key, body, writeOptions);
+  if (result && result.modified === false) return false;
+  return true;
+}
+
+async function deferUnconfiguredRecord({ store, key, existing, reason, nowMilliseconds }) {
+  if (!store || typeof store.set !== 'function' || !existing) return false;
+  const metadata = {
+    ...(existing.metadata || {}),
+    last_reason: reason || 'missing_configuration',
+    next_attempt_at: new Date(nowMilliseconds + OUTBOX.retryBaseMilliseconds).toISOString(),
+    state: 'PENDING'
+  };
+  return writeOutboxRecord(
+    store,
+    key,
+    existing.data,
+    metadata,
+    existing.etag ? { onlyIfMatch: existing.etag } : {}
+  );
 }
 
 async function enqueueFailedLead({
@@ -659,39 +682,52 @@ async function enqueueFailedLead({
 }) {
   if (!store || typeof store.set !== 'function') return false;
   const key = outboxKey(lead.submission_id);
-  let existing = null;
-  try {
-    existing = typeof store.getWithMetadata === 'function'
-      ? await store.getWithMetadata(key)
-      : null;
-  } catch {
-    existing = null;
+  const storedData = canonicalLead(lead);
+  if (Buffer.byteLength(storedData, 'utf8') > PROTOCOL.maximumRequestBytes) {
+    return false;
   }
 
-  const storedData = canonicalLead(lead);
-  const createdAt = existing
-    ? readOutboxDate(existing.metadata, 'created_at', nowMilliseconds)
-    : nowMilliseconds;
-  const expiresAt = existing
-    ? readOutboxDate(existing.metadata, 'expires_at', createdAt + OUTBOX.retentionMilliseconds)
-    : nowMilliseconds + OUTBOX.retentionMilliseconds;
-  const attemptCount = existing ? readAttemptCount(existing.metadata) + 1 : 1;
-  const state = permanent || attemptCount >= OUTBOX.maximumAttempts || expiresAt <= nowMilliseconds
-    ? 'FAILED'
-    : 'PENDING';
-  const metadata = {
-    attempt_count: String(attemptCount),
-    created_at: new Date(createdAt).toISOString(),
-    expires_at: new Date(expiresAt).toISOString(),
-    form_name: lead.form_name,
-    last_reason: reason || '',
-    next_attempt_at: state === 'PENDING'
-      ? new Date(nowMilliseconds + retryDelay(attemptCount)).toISOString()
-      : '',
-    state
-  };
-  await writeOutboxRecord(store, key, storedData, metadata);
-  return state === 'PENDING';
+  for (let casAttempt = 0; casAttempt < 2; casAttempt += 1) {
+    let existing = null;
+    try {
+      existing = typeof store.getWithMetadata === 'function'
+        ? await store.getWithMetadata(key)
+        : null;
+    } catch {
+      existing = null;
+    }
+
+    const createdAt = existing
+      ? readOutboxDate(existing.metadata, 'created_at', nowMilliseconds)
+      : nowMilliseconds;
+    const expiresAt = existing
+      ? readOutboxDate(existing.metadata, 'expires_at', createdAt + OUTBOX.retentionMilliseconds)
+      : nowMilliseconds + OUTBOX.retentionMilliseconds;
+    const attemptCount = existing ? readAttemptCount(existing.metadata) + 1 : 1;
+    const state = permanent || attemptCount >= OUTBOX.maximumAttempts || expiresAt <= nowMilliseconds
+      ? 'FAILED'
+      : 'PENDING';
+    const metadata = {
+      attempt_count: String(attemptCount),
+      created_at: new Date(createdAt).toISOString(),
+      expires_at: new Date(expiresAt).toISOString(),
+      form_name: lead.form_name,
+      last_reason: reason || '',
+      next_attempt_at: state === 'PENDING'
+        ? new Date(nowMilliseconds + retryDelay(attemptCount)).toISOString()
+        : '',
+      state
+    };
+    const written = await writeOutboxRecord(
+      store,
+      key,
+      storedData,
+      metadata,
+      existing && existing.etag ? { onlyIfMatch: existing.etag } : {}
+    );
+    if (written) return state === 'PENDING';
+  }
+  return false;
 }
 
 async function openBridgeStore(storeFactory, event) {
@@ -804,6 +840,7 @@ async function deliverWebsiteLead({
       skipped: false,
       ok: false,
       queued,
+      permanent: Boolean(result.permanent),
       reason: result.reason,
       status: result.status
     };
@@ -859,7 +896,24 @@ async function enqueueWebsiteLeadOutbox({
   return queued;
 }
 
+function safeOutboxSummaryLog(logger, summary) {
+  const line = Object.freeze({
+    event: 'website_lead_outbox_summary_v1',
+    outcome: summary.skipped_unconfigured_count > 0 || summary.listing_truncated || summary.failed_count > 0
+      ? 'ATTENTION_REQUIRED'
+      : 'HEALTHY',
+    ...summary
+  });
+  try {
+    if (typeof logger === 'function') logger(line);
+    else console.info(JSON.stringify(line));
+  } catch {
+    // Observability must never alter delivery or disclose submission material.
+  }
+}
+
 async function retryStoredLead({
+  itemKey,
   record,
   store,
   config,
@@ -872,7 +926,16 @@ async function retryStoredLead({
   timeoutMilliseconds
 }) {
   const lead = parseStoredLead(record.data);
-  if (!lead) return 'INVALID';
+  if (!lead) {
+    if (itemKey) {
+      try {
+        await store.delete(itemKey);
+      } catch {
+        // Leave corrupt cleanup best-effort.
+      }
+    }
+    return 'INVALID';
+  }
   const nowMilliseconds = Number(now());
   const expiresAt = readOutboxDate(record.metadata, 'expires_at', 0);
   const key = outboxKey(lead.submission_id);
@@ -1020,9 +1083,24 @@ function createBridgeRetryHandler({
       };
     }
 
-    let listing;
+    const blobs = [];
+    let cursor;
+    let page = 0;
+    let listingTruncated = false;
     try {
-      listing = await store.list({ prefix: OUTBOX.keyPrefix });
+      do {
+        const listing = await store.list({
+          prefix: OUTBOX.keyPrefix,
+          ...(cursor ? { cursor } : {})
+        });
+        if (listing && Array.isArray(listing.blobs)) {
+          blobs.push(...listing.blobs);
+        }
+        if (listing && listing.truncated) listingTruncated = true;
+        cursor = listing && typeof listing.cursor === 'string' && listing.cursor ? listing.cursor : '';
+        page += 1;
+      } while (cursor && page < OUTBOX.maximumListPages);
+      if (cursor) listingTruncated = true;
     } catch {
       return {
         statusCode: 200,
@@ -1031,9 +1109,17 @@ function createBridgeRetryHandler({
       };
     }
 
-    const blobs = listing && Array.isArray(listing.blobs) ? listing.blobs : [];
     const nowMilliseconds = Number(now());
     const due = [];
+    let pendingCount = 0;
+    let failedCount = 0;
+    let skippedUnconfiguredCount = 0;
+    let expiredPurgedCount = 0;
+    let failedPurgedCount = 0;
+    let maintenanceCount = 0;
+    let maxAttemptCount = 0;
+    let oldestPendingAgeSeconds = 0;
+
     for (const item of blobs) {
       if (!item || typeof item.key !== 'string' || !item.key.startsWith(OUTBOX.keyPrefix)) continue;
       let record;
@@ -1044,14 +1130,85 @@ function createBridgeRetryHandler({
       }
       if (!record) continue;
       const state = String(record.metadata && record.metadata.state || 'PENDING');
-      if (state === 'FAILED') continue;
+      const expiresAt = readOutboxDate(record.metadata, 'expires_at', 0);
+      const parsed = parseStoredLead(record.data);
+      const resolvedFormName = String(
+        (record.metadata && record.metadata.form_name)
+        || (parsed && parsed.form_name)
+        || ''
+      );
+
+      // Purge expired PII records across both PENDING and FAILED states so Blobs retention stays bounded at 7 days.
+      if (!expiresAt || expiresAt <= nowMilliseconds) {
+        if (maintenanceCount < OUTBOX.maximumMaintenancePerRun) {
+          maintenanceCount += 1;
+          try {
+            await store.delete(item.key);
+            expiredPurgedCount += 1;
+            if (state === 'FAILED') failedPurgedCount += 1;
+          } catch {
+            // Leave expired cleanup best-effort.
+          }
+          safeLog(logger, {
+            form_name: resolvedFormName || null,
+            outcome: 'FAILED',
+            reason: state === 'FAILED' ? 'failed_retention_expired' : 'retention_expired'
+          });
+        } else {
+          if (state === 'FAILED') failedCount += 1;
+        }
+        continue;
+      }
+
+      if (state === 'FAILED') {
+        failedCount += 1;
+        continue;
+      }
+
+      pendingCount += 1;
+      const attemptCount = readAttemptCount(record.metadata);
+      if (attemptCount > maxAttemptCount) maxAttemptCount = attemptCount;
+      const createdAt = readOutboxDate(record.metadata, 'created_at', nowMilliseconds);
+      const ageSeconds = Math.max(0, Math.floor((nowMilliseconds - createdAt) / 1000));
+      if (ageSeconds > oldestPendingAgeSeconds) oldestPendingAgeSeconds = ageSeconds;
+
+      const isSiteLead = SITE_LEAD_FORMS.has(resolvedFormName);
+      const targetConfigured = isSiteLead ? hasHopper : Boolean(config);
       const nextAttemptAt = readOutboxDate(record.metadata, 'next_attempt_at', 0);
+
+      if (!targetConfigured) {
+        skippedUnconfiguredCount += 1;
+        const skipReason = isSiteLead ? 'hopper_not_configured' : 'missing_configuration';
+        safeLog(logger, {
+          form_name: resolvedFormName || null,
+          outcome: 'FAILED',
+          reason: skipReason
+        });
+        if ((!nextAttemptAt || nextAttemptAt <= nowMilliseconds) && maintenanceCount < OUTBOX.maximumMaintenancePerRun) {
+          maintenanceCount += 1;
+          try {
+            await deferUnconfiguredRecord({
+              store,
+              key: item.key,
+              existing: record,
+              reason: skipReason,
+              nowMilliseconds
+            });
+          } catch {
+            // Best-effort deferral keeps batch slots unblocked.
+          }
+        }
+        continue;
+      }
+
       if (state === 'PENDING' && nextAttemptAt > nowMilliseconds) continue;
-      due.push(record);
-      if (due.length >= OUTBOX.maximumBatchSize) break;
+      if (due.length < OUTBOX.maximumBatchSize) {
+        due.push({ itemKey: item.key, record });
+      }
     }
 
-    const outcomes = await Promise.all(due.map((record) => retryStoredLead({
+    const outcomes = await Promise.all(due.map(({ itemKey, record }) => retryStoredLead({
+      itemKey,
       record,
       store,
       config,
@@ -1063,6 +1220,34 @@ function createBridgeRetryHandler({
       clearTimer,
       timeoutMilliseconds
     })));
+
+    let deliveredCount = 0;
+    let requeuedCount = 0;
+    let failedMarkedCount = 0;
+    let invalidCount = 0;
+    for (const outcome of outcomes) {
+      if (outcome === 'DELIVERED') deliveredCount += 1;
+      else if (outcome === 'QUEUED') requeuedCount += 1;
+      else if (outcome === 'FAILED') failedMarkedCount += 1;
+      else if (outcome === 'EXPIRED') expiredPurgedCount += 1;
+      else if (outcome === 'INVALID') invalidCount += 1;
+    }
+
+    safeOutboxSummaryLog(logger, {
+      pending_count: pendingCount,
+      failed_count: failedCount,
+      due_count: due.length,
+      delivered_count: deliveredCount,
+      requeued_count: requeuedCount,
+      failed_marked_count: failedMarkedCount,
+      skipped_unconfigured_count: skippedUnconfiguredCount,
+      expired_purged_count: expiredPurgedCount,
+      failed_purged_count: failedPurgedCount,
+      invalid_count: invalidCount,
+      oldest_pending_age_seconds: oldestPendingAgeSeconds,
+      max_attempt_count: maxAttemptCount,
+      listing_truncated: listingTruncated
+    });
 
     return {
       statusCode: 200,

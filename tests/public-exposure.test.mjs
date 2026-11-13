@@ -21,7 +21,7 @@ const HOME = readFileSync(join(ROOT, 'index.html'), 'utf8');
 const BLOG = readFileSync(join(ROOT, 'blog/index.html'), 'utf8');
 const NETLIFY_IGNORE = readFileSync(join(ROOT, '.netlifyignore'), 'utf8');
 const SITE_PHONE_LOADER = '/js/site-phone.js?v=20261015-v6merge2';
-const SITE_TEMPLATE_LOADER = '/js/site-template.js?v=20261030-step1-cache-bust-v1';
+const SITE_TEMPLATE_LOADER = '/js/site-template.js?v=20261112-audit-release-v1';
 
 const RETIRED_FILES = [
   'blog/ads-manager-setup-checklist.html',
@@ -245,7 +245,7 @@ test('coverage center is a two-lane 2027 plan-review hub wired into get-help', (
   assert.match(COVERAGE_CENTER, /<title>Lakeland Coverage Center \| Medicare &amp; Under-65 Plan Help<\/title>/);
   assert.match(COVERAGE_CENTER, /\/css\/site-template.css\?v=20261017-meta-conversion-events-v1/);
   assert.match(COVERAGE_CENTER, /\/js\/site-phone\.js\?v=20261015-v6merge2/);
-  assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261030-step1-cache-bust-v1/);
+  assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261112-audit-release-v1/);
   assert.match(COVERAGE_CENTER, /"@type": "BreadcrumbList"/);
   assert.match(COVERAGE_CENTER, /Lakeland Health Insurance · Lakeland, FL 33805 · By appointment/);
   assert.match(COVERAGE_CENTER, /FL License #W371813 \/ NPN 18213932/);
@@ -289,8 +289,8 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   assert.match(QUOTE, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/quote\/">/);
   assert.match(PLANS, /https:\/\/lakelandhealthinsurance\.com\/plans\/#webpage/);
   assert.match(QUOTE, /https:\/\/lakelandhealthinsurance\.com\/quote\/#webpage/);
-  assert.match(PLANS, /\/js\/analytics\.js\?v=20261030-step1-cache-bust-v1/);
-  assert.match(QUOTE, /\/js\/analytics\.js\?v=20261030-step1-cache-bust-v1/);
+  assert.match(PLANS, /\/js\/analytics\.js\?v=20261112-audit-release-v1/);
+  assert.match(QUOTE, /\/js\/analytics\.js\?v=20261112-audit-release-v1/);
   assert.equal((SITE_TEMPLATE.match(/\['\/plans\/', 'Coverage Options'\]/g) || []).length, 1);
   assert.match(SITE_TEMPLATE, /<a href="\/plans\/">Coverage Options<\/a>/);
   assert.doesNotMatch(SITE_TEMPLATE, /['"]Plan Types['"]/);
@@ -312,9 +312,9 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
     assert.equal(source.includes('/js/site-template.js'), false, `${rel} owns focused paid-page chrome`);
   }
 
-  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261030-step1-cache-bust-v1';/);
+  assert.match(SERVICE_WORKER, /const CACHE_NAME = 'lhi-20261112-audit-release-v1';/);
   assert.match(SERVICE_WORKER, /const SITE_PHONE_URL = '\/js\/site-phone\.js\?v=20261015-v6merge2';/);
-  assert.match(SERVICE_WORKER, /const SITE_TEMPLATE_URL = '\/js\/site-template\.js\?v=20261030-step1-cache-bust-v1';/);
+  assert.match(SERVICE_WORKER, /const SITE_TEMPLATE_URL = '\/js\/site-template\.js\?v=20261112-audit-release-v1';/);
   assert.match(SERVICE_WORKER, /requestUrl\.pathname === '\/js\/site-template\.js'/);
   assert.match(SERVICE_WORKER, /requestUrl\.pathname\.startsWith\('\/css\/'\)/);
   assert.match(SERVICE_WORKER, /requestUrl\.pathname\.startsWith\('\/js\/'\)/);
@@ -337,9 +337,9 @@ test('shared-template and /css + /js assets revalidate network-first and fall ba
 
   for (const [assetPath, accept] of [
     ['/css/lead-hero.css?v=20261030-step1-cache-bust-v1', 'text/css'],
-    ['/js/lead-hero.js?v=20261030-step1-cache-bust-v1', 'application/javascript'],
-    ['/js/funnel.js?v=20261030-step1-cache-bust-v1', 'application/javascript'],
-    ['/js/analytics.js?v=20261030-step1-cache-bust-v1', 'application/javascript'],
+    ['/js/lead-hero.js?v=20261112-audit-release-v1', 'application/javascript'],
+    ['/js/funnel.js?v=20261112-audit-release-v1', 'application/javascript'],
+    ['/js/analytics.js?v=20261112-audit-release-v1', 'application/javascript'],
   ]) {
     const assetHarness = createServiceWorkerFetchHarness(async () => networkResponse, cachedResponse);
     assert.equal(await assetHarness.dispatch(assetPath, accept), networkResponse, `${assetPath} revalidates over network instead of serving stale cache`);

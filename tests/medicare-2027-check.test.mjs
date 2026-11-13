@@ -116,7 +116,7 @@ test('medicare-2027-check trust bullets and TPMO disclosure ids', () => {
   assert.match(HTML, /id="medicareGenericTpmoDisclaimer"/);
   assert.match(HTML, /id="outOfStateMedicareNote"/);
   assert.match(HTML, /Licensed Insurance Agent #W371813/);
-  assert.match(HTML, /get-help-intake\.js\?v=20261102-default-under65-v1/);
+  assert.match(HTML, /get-help-intake\.js\?v=20261112-audit-release-v1/);
   assert.doesNotMatch(HTML, /\/lp\//);
 });
 
@@ -148,7 +148,7 @@ test('medicare-2027-check sitelink submit succeeds when call consent is checked'
   try {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     await page.goto(`http://127.0.0.1:${port}/medicare-2027-check/`, { waitUntil: 'networkidle' });
-    await page.addScriptTag({ url: `http://127.0.0.1:${port}/js/funnel.js?v=20261030-step1-cache-bust-v1` });
+    await page.addScriptTag({ url: `http://127.0.0.1:${port}/js/funnel.js?v=20261112-audit-release-v1` });
     await page.waitForFunction(() => {
       const form = document.getElementById('medicare2027CheckForm');
       return Boolean(form && form.__lhiSitelinkLeadWired);
@@ -156,9 +156,10 @@ test('medicare-2027-check sitelink submit succeeds when call consent is checked'
     await page.fill('#medicare2027Name', 'Jane');
     await page.fill('#medicare2027Phone', '8635551212');
     await page.fill('#medicare2027Zip', '33805');
-    assert.equal(await page.isChecked('input[name="consent_call"]'), true, 'consent_call should be pre-checked by default');
+    assert.equal(await page.isChecked('input[name="consent_call"]'), false, 'consent_call should remain unchecked by default');
     assert.equal(await page.isChecked('input[name="consent_sms"]'), false, 'consent_sms should remain optional/unchecked by default');
     await page.check('input[name="consent_request"]');
+    await page.check('input[name="consent_call"]');
     await page.click('.cta-button.m27-submit');
     await page.waitForSelector('.m27-thanks', { timeout: 8000 });
     const thanks = await page.locator('.m27-thanks').textContent();

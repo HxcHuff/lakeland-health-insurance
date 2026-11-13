@@ -11,7 +11,7 @@ assert.ok(loaderMatch, 'shared analytics asset contains the Meta audience loader
 const LOADER_SRC = loaderMatch[1];
 const PIXEL_ID = '1480756087079484';
 const ELIGIBLE_MARKER = '<meta name="meta-audience-eligible" content="pageview">';
-const ANALYTICS_VERSION = '/js/analytics.js?v=20261030-step1-cache-bust-v1';
+const ANALYTICS_VERSION = '/js/analytics.js?v=20261112-audit-release-v1';
 const CSS_VERSION = '/css/site-template.css?v=20261017-meta-conversion-events-v1';
 const CONSENT_KEY = 'lhi_meta_audience_consent';
 const ELIGIBLE_PAGES = [
@@ -325,7 +325,7 @@ test('ineligible, unmarked, and non-production pages never create fbq or request
     { pathname: '/unreviewed/', marker: true },
     { pathname: '/get-help/', marker: false },
     { hostname: 'localhost', pathname: '/get-help/', marker: true },
-    { hostname: 'www.lakelandhealthinsurance.com', pathname: '/get-help/', marker: true }
+    { hostname: 'deploy-preview-42--lakelandhealthinsurance.netlify.app', pathname: '/get-help/', marker: true }
   ];
   for (const scenario of scenarios) {
     const { sandbox, scripts } = loadMetaAudience(scenario);
@@ -741,7 +741,7 @@ test('static marker inventory exactly matches the reviewed 11-page landing ledge
     const html = readFileSync(join(ROOT, file), 'utf8');
     assert.equal((html.match(/<meta name="meta-audience-eligible" content="pageview">/g) || []).length, 1, file);
     assert.ok(html.indexOf(ELIGIBLE_MARKER) < html.indexOf('</head>'), file);
-    assert.match(html, /\/js\/analytics\.js\?v=20261030-step1-cache-bust-v1/, file);
+    assert.match(html, /\/js\/analytics\.js\?v=20261112-audit-release-v1/, file);
     if (html.includes('/css/site-template.css')) {
       assert.match(html, /\/css\/site-template\.css\?v=20261017-meta-conversion-events-v1/, file);
     }
@@ -863,4 +863,22 @@ test('CSP and static source preserve the single-loader, intended-dataset contrac
     const html = readFileSync(file, 'utf8');
     assert.doesNotMatch(html, /connect\.facebook\.net|facebook\.com\/tr|\bfbq\s*\(/i, file);
   }
+});
+
+test('www production host, uppercase eligible paths, and apex-to-www referrers load Meta Pixel safely', () => {
+  const wwwResult = loadMetaAudience({
+    hostname: 'www.lakelandhealthinsurance.com',
+    pathname: '/GET-HELP/',
+    referrer: 'https://lakelandhealthinsurance.com/medicare/'
+  });
+  assert.equal(wwwResult.scripts.length, 1);
+  assert.equal(wwwResult.sandbox.__LHI_META_AUDIENCE_STATUS__.state, 'queued');
+
+  const apexFromWww = loadMetaAudience({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/get-help',
+    referrer: 'https://www.lakelandhealthinsurance.com/aca-2027-check/'
+  });
+  assert.equal(apexFromWww.scripts.length, 1);
+  assert.equal(apexFromWww.sandbox.__LHI_META_AUDIENCE_STATUS__.state, 'queued');
 });

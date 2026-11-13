@@ -100,9 +100,34 @@
     return persistVariant(resolveVariantId());
   }
 
+  function trackExposure(id) {
+    if (!id || w.__LHI_AB_EXPOSURE_SENT__) return;
+    w.__LHI_AB_EXPOSURE_SENT__ = true;
+    var params = {
+      ab_test_id: ACTIVE_TEST.id,
+      ab_variant: id,
+      non_interaction: true
+    };
+    if (w.LHI && typeof w.LHI.track === 'function') {
+      try {
+        w.LHI.track('ab_variant_exposure', params);
+        return;
+      } catch (e) {}
+    }
+    if (Array.isArray(w.dataLayer)) {
+      w.dataLayer.push(Object.assign({ event: 'ab_variant_exposure' }, params));
+    }
+    if (typeof w.gtag === 'function') {
+      try {
+        w.gtag('event', 'ab_variant_exposure', Object.assign({ transport_type: 'beacon' }, params));
+      } catch (e) {}
+    }
+  }
+
   function boot() {
     var id = getVariant();
     applyHomeHeroPrimary(id);
+    trackExposure(id);
   }
 
   w.LHIAbVariant = {

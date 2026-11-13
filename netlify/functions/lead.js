@@ -421,17 +421,6 @@ const MEDICARE_SOURCE_REGISTRY = Object.freeze({
       'footer_start_plan_review'
     ])
   }),
-  medicare_supplement_lakeland_fl: Object.freeze({
-    page_role: 'education',
-    cta_keys: new Set([
-      'request_review_hero',
-      'request_review_mid',
-      'request_review_final',
-      'menu_get_help',
-      'header_talk_to_david',
-      'footer_start_plan_review'
-    ])
-  }),
   baycare_plus_medicare_2027: Object.freeze({
     page_role: 'education',
     cta_keys: new Set([
@@ -1350,6 +1339,11 @@ exports.handler = async (event) => {
   let formsOk = false;
   let formsError = null;
   let acceptedAt = null;
+  const requestStartedAt = Date.now();
+  let formsMs = 0;
+  let metaCapiMs = 0;
+  let adsCapiMs = 0;
+  const formsStartedAt = Date.now();
   try {
     if (formName) {
       const params = new URLSearchParams();
@@ -1361,11 +1355,15 @@ exports.handler = async (event) => {
         params.set(k, String(v));
       });
       const siteUrl = `${FORMS_FORWARD_ORIGIN}/`;
-      const res = await fetch(siteUrl, {
+      const fetchOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: params.toString()
-      });
+      };
+      if (typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function') {
+        fetchOptions.signal = AbortSignal.timeout(8000);
+      }
+      const res = await fetch(siteUrl, fetchOptions);
       formsOk = res.ok;
       if (formsOk) acceptedAt = new Date().toISOString();
       if (!res.ok) {
@@ -1378,6 +1376,8 @@ exports.handler = async (event) => {
   } catch (e) {
     formsError = `Forms forward exception${e && e.name ? ` (${e.name})` : ''}`;
     console.error(formsError);
+  } finally {
+    formsMs = Date.now() - formsStartedAt;
   }
 
   // Fire Meta Conversions API only after Netlify Forms accepted the request.
@@ -1443,18 +1443,23 @@ exports.handler = async (event) => {
           if (TEST_EVENT_CODE) body.test_event_code = TEST_EVENT_CODE;
 
           const url = `https://graph.facebook.com/${META_GRAPH_VERSION}/${META_DATASET_ID}/events?access_token=${encodeURIComponent(ACCESS_TOKEN)}`;
-          const res = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-            ...(typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function'
-              ? { signal: AbortSignal.timeout(5000) }
-              : {})
-          });
-          capiOk = res.ok;
-          if (!res.ok) {
-            capiError = `CAPI ${res.status}`;
-            console.error(capiError);
+          const metaStartedAt = Date.now();
+          try {
+            const res = await fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body),
+              ...(typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function'
+                ? { signal: AbortSignal.timeout(5000) }
+                : {})
+            });
+            capiOk = res.ok;
+            if (!res.ok) {
+              capiError = `CAPI ${res.status}`;
+              console.error(capiError);
+            }
+          } finally {
+            metaCapiMs = Date.now() - metaStartedAt;
           }
         }
       } catch (e) {
@@ -1476,6 +1481,7 @@ exports.handler = async (event) => {
   } else if (isSiteLead) {
     adsCapiError = 'Ads CAPI skipped: site lead forms do not send PII to ad platforms';
   } else {
+    const adsStartedAt = Date.now();
     try {
       const result = await sendAdsLead({
         eventId,
@@ -1491,6 +1497,8 @@ exports.handler = async (event) => {
     } catch (e) {
       adsCapiError = `Ads CAPI exception${e && e.name ? ` (${e.name})` : ''}`;
       console.error(adsCapiError);
+    } finally {
+      adsCapiMs = Date.now() - adsStartedAt;
     }
   }
 
@@ -1525,6 +1533,13 @@ exports.handler = async (event) => {
     context: NETLIFY_CONTEXT,
     form: cleanLeadToken(formName) || 'unknown',
     outcome: formsOk ? 'accepted' : 'failed',
+    legacy_spam_guard: Boolean(spamEvaluation.legacy),
+    timing_ms: {
+      forms: formsMs,
+      meta_capi: metaCapiMs,
+      ads_capi: adsCapiMs,
+      total: Date.now() - requestStartedAt
+    },
     components: {
       forms: formsOk,
       meta_capi: capiOk,
@@ -1535,24 +1550,30 @@ exports.handler = async (event) => {
   if (!formsOk) {
     return {
       statusCode: 502,
-      headers: { ...cors.headers, 'Content-Type': 'application/json' },
+      headers: { ...cors.headers, 'Cache-Control': 'no-store', 'Content-Type': 'application/json' },
       body: JSON.stringify({ ok: false, error: 'forms forward failed', ...responseBody })
     };
   }
 
   if (isNewsletter) {
     const consentVersion = String(payload.consent_text_version || NEWSLETTER_CONSENT_TEXT_VERSIONS[formName] || '');
-    const doi = await startDoubleOptIn({
-      email: payload.email,
-      firstName: payload.first_name,
-      lastName: payload.last_name,
-      interest: payload.interest,
-      sourceForm: formName,
-      signupPage: sourcePath,
-      signupAt: serverReceivedAt,
-      consentVersion,
-      consentText: NEWSLETTER_CONSENT_COPY[consentVersion] || ''
-    });
+    let doi;
+    try {
+      doi = await startDoubleOptIn({
+        email: payload.email,
+        firstName: payload.first_name,
+        lastName: payload.last_name,
+        interest: payload.interest,
+        sourceForm: formName,
+        signupPage: sourcePath,
+        signupAt: serverReceivedAt,
+        consentVersion,
+        consentText: NEWSLETTER_CONSENT_COPY[consentVersion] || ''
+      });
+    } catch (e) {
+      console.error(`DOI exception${e && e.name ? ` (${e.name})` : ''}`);
+      doi = { ok: false, error: 'double_opt_in_exception' };
+    }
     if (doi.ok) {
       responseBody.newsletter_confirmation = 'sent';
     } else if (doi.suppressed) {
@@ -1568,7 +1589,7 @@ exports.handler = async (event) => {
 
   return {
     statusCode: 200,
-    headers: { ...cors.headers, 'Content-Type': 'application/json' },
+    headers: { ...cors.headers, 'Cache-Control': 'no-store', 'Content-Type': 'application/json' },
     body: JSON.stringify({ ok: true, ...responseBody })
   };
 };
