@@ -90,7 +90,10 @@ const TITLE_CAP_PAGES = [
   'about/index.html',
   'blog/cigna-exiting-aca-marketplace-polk-county-2026.html',
   'blog/why-florida-health-insurance-premiums-increased-2026.html',
-  'blog/florida-cancer-specialists-davenport.html'
+  'blog/florida-cancer-specialists-davenport.html',
+  'health-protector-guard/review/index.html',
+  'blog/baycare-medicare-advantage-plans-2027-polk-county.html',
+  'blog/orlando-health-insurance-accepted-alternatives-2027.html'
 ];
 
 const REDIRECTED = [
@@ -260,4 +263,30 @@ test('merged and duplicate URLs 301 in _redirects and are absent from the sitema
     assert.doesNotMatch(sitemap, new RegExp(url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }
   assert.doesNotMatch(sitemap, /\/blog\/index\.html/);
+});
+
+test('page-1 surge targets have aligned broker H1, homepage hub links, and Watson Clinic Medicaid FAQ', () => {
+  const broker = source('health-insurance-broker-lakeland-fl/index.html');
+  assert.match(broker, /<h1>Health Insurance &amp; Medicare Broker in Lakeland, FL<\/h1>/);
+
+  const home = source('index.html');
+  for (const href of [
+    '/health-insurance-broker-lakeland-fl/',
+    '/retiring-and-medicare-lakeland-fl/',
+    '/blog/turning-65-medicare-checklist-florida.html',
+    '/blog/baycare-medicare-advantage-plans-2027-polk-county.html',
+    '/blog/moffitt-cancer-center-insurance-accepted-2027.html',
+    '/blog/what-happens-health-insurance-if-i-quit-job.html',
+    '/blog/catastrophic-health-plan-florida-over-30.html',
+    '/health-protector-guard/select-2000/',
+    '/health-protector-guard/preferred-4000/',
+    '/health-protector-guard/premier-5000/',
+    '/health-protector-guard/review/'
+  ]) {
+    assert.ok(home.includes(`href="${href}"`), `index.html missing surge link ${href}`);
+  }
+
+  const watson = source('blog/orlando-health-watson-clinic-insurance-2026.html');
+  assert.match(watson, /"name": "Does Watson Clinic take Medicaid\?"/);
+  assert.match(watson, /<h3>Does Watson Clinic take Medicaid\?<\/h3>/);
 });
