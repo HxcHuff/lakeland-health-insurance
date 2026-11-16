@@ -25,13 +25,13 @@ const UTM_TERM_MAX_LENGTH = 80;
  * cap at 64 characters; drop the value when the result is empty.
  * Reject email/phone-like strings before stripping so they cannot become
  * stored tokens (for example jane@x.com must not become janexcom).
- * Google Ads cid_{campaignid} tokens stay intact because they are already
- * safe and must remain distinguishable from phone-like numbers.
+ * Approved platform ID tokens (cid_/aid_/adid_/adset_) stay intact because
+ * they are already safe and must remain distinguishable from phone-like numbers.
  */
 function sanitizeUtmValue(value) {
   const text = String(value || '').trim().toLowerCase();
   if (!text) return '';
-  if (/^cid_\d{8,20}$/.test(text)) {
+  if (/^(?:cid|aid|adid|adset)_\d{8,20}$/.test(text)) {
     return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
   }
   if (/@|(?:\d[\s().-]*){7,}/.test(text)) return '';

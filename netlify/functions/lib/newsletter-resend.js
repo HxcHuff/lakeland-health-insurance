@@ -424,6 +424,7 @@ async function completeDoubleOptIn(email, confirmedAt = new Date().toISOString()
       email_hash: sha256Prefix(normalized),
       status: patch.status
     }));
+    return { ok: false, error: 'contact_patch_failed' };
   }
 
   console.info(JSON.stringify({

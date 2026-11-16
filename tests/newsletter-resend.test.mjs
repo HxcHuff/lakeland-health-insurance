@@ -54,8 +54,12 @@ test('buildContactProperties stores consent metadata', () => {
   assert.equal(props.lhi_interest, 'medicare');
 });
 
-test('hopper quick-add defaults when env unset', () => {
+test('hopper quick-add defaults when env unset and maps interest types', () => {
   assert.equal(hopper.hopperConfigured(), false);
+  assert.equal(hopper._test.mapInterestToInsuranceType('medicare'), 'MEDICARE');
+  assert.equal(hopper._test.mapInterestToInsuranceType('medicare_supplement'), 'MEDICARE_SUPPLEMENT');
+  assert.equal(hopper._test.mapInterestToInsuranceType('aca'), 'ACA');
+  assert.equal(hopper._test.mapInterestToInsuranceType('general'), 'OTHER');
 });
 
 test('newsletter confirm redirects to status page', () => {

@@ -30,6 +30,7 @@
     '/plans/',
     '/lp/gap/',
     '/local-health-insurance-answers/',
+    '/medicare-supplement-lakeland-fl/',
     '/thank-you/',
     '/blog/orlando-health-watson-clinic-insurance-2026.html'
   ];
@@ -39,6 +40,7 @@
     '/medicare/east-polk/',
     '/medicare-broker-lakeland-fl/',
     '/medicare-part-d-lakeland-fl/',
+    '/medicare-supplement-lakeland-fl/',
     '/moving-florida-medicare/',
     '/working-past-65-medicare-lakeland-fl/',
     '/retiring-and-medicare-lakeland-fl/',
@@ -91,6 +93,8 @@
     '/health-protector-guard/',
     '/accident-wise/',
     '/advantage-guard/',
+    '/critical-guard/',
+    '/hospital-wise/',
     '/hospital-safeguard-gi/'
   ];
 

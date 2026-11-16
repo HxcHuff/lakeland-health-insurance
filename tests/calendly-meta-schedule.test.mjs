@@ -723,8 +723,12 @@ test('www booking host normalizes uppercase paths, captures fbclid cookies, emit
   });
   assert.equal(wwwBooking.sandbox.__LHI_CALENDLY_META_STATUS__.reason, 'facade-idle');
   assert.equal(wwwBooking.sandbox.__LHI_BOOKING_UTM_SEARCH__.includes('fbclid='), true);
-  assert.equal(wwwBooking.sandbox.LHILandingQuery.includes('utm_campaign=polk_medicare'), true);
+  assert.equal(wwwBooking.sandbox.LHILandingQuery.search.includes('utm_campaign=polk_medicare'), true);
+  assert.equal(wwwBooking.sandbox.LHILandingQuery.pathname, '/book/');
   assert.match(wwwBooking.sandbox.document.cookie, /_fbc=fb\.1\.\d+\.PAZXh0bgNhZW0BMABhZGlkAas256OpaqueClickIdToken/);
+
+  const wideFbc = `fb.1.1760000000.${'A'.repeat(260)}._~token`;
+  assert.equal(_test.metaBrowserIdentifier(`_fbc=${wideFbc}`, '_fbc'), wideFbc);
 
   const noFbclid = loadBookingScript({
     hostname: 'www.lakelandhealthinsurance.com',

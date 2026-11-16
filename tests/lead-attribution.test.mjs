@@ -1220,3 +1220,30 @@ test('startDoubleOptIn exception after Forms acceptance returns 200 with failed 
     else process.env.NEWSLETTER_CONFIRM_SECRET = prevSecret;
   }
 });
+
+test('Meta aid_/adid_/adset_ campaign tokens survive sanitizer while lead rate limit returns 429', async () => {
+  const sanitized = _test.sanitizeCampaignAttribution({
+    utm_source: 'aid_12021234567890',
+    utm_campaign: 'adset_9988776655',
+    utm_content: 'adid_1122334455',
+    utm_medium: 'paid_social'
+  });
+  assert.equal(sanitized.utm_source, 'aid_12021234567890');
+  assert.equal(sanitized.utm_campaign, 'adset_9988776655');
+  assert.equal(sanitized.utm_content, 'adid_1122334455');
+
+  const spamGuard = require('../netlify/functions/lib/form-spam-guard.js');
+  spamGuard._test.rateLimitBuckets.clear();
+  const burstHeaders = { 'x-nf-client-connection-ip': '198.51.100.222' };
+  let limitedResponse = null;
+  for (let i = 0; i < 10; i += 1) {
+    const out = await invoke(getHelpPayload(), { headers: burstHeaders });
+    if (out.response.statusCode === 429) {
+      limitedResponse = out.response;
+      break;
+    }
+  }
+  assert.ok(limitedResponse, 'burst triggers HTTP 429 rather than silent_spam_drop');
+  assert.equal(JSON.parse(limitedResponse.body).error, 'rate_limited');
+  spamGuard._test.rateLimitBuckets.clear();
+});

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import { after, test } from 'node:test';
-import handler, { config } from '../netlify/functions/meta-lead-webhook.mjs';
+import handler, { config, _test } from '../netlify/functions/meta-lead-webhook.mjs';
 
 const ENV_KEYS = [
   'META_VERIFY_TOKEN',
@@ -233,12 +233,15 @@ test('POST derives state from ZIP without FL default, sets timeouts, strips PII 
   }
 });
 
-test('POST returns 502 on bridge failure or non-HTTPS bridge config so Meta retries', async () => {
+test('POST returns 502 on bridge failure or non-HTTPS bridge config so Meta retries without duplicate notifications', async () => {
+  _test.clearLeadState();
   setEnv({
     META_APP_SECRET_4: 'app-secret-123',
     META_PAGE_ACCESS_TOKEN: 'page-token-xyz',
     LEAD_BRIDGE_URL: 'https://bridge.example.test/hooks',
-    LEAD_BRIDGE_KEY: 'bridge-key-123'
+    LEAD_BRIDGE_KEY: 'bridge-key-123',
+    RESEND_API_KEY: 're_test_key',
+    NOTIFY_EMAIL: 'david@lakelandhealthinsurance.com'
   });
 
   const body = JSON.stringify({
@@ -246,19 +249,30 @@ test('POST returns 502 on bridge failure or non-HTTPS bridge config so Meta retr
       id: '9988776655',
       changes: [{
         field: 'leadgen',
-        value: { leadgen_id: '123456789012', form_id: '5544332211', page_id: '9988776655' }
+        value: { leadgen_id: '223456789012', form_id: '5544332211', page_id: '9988776655' }
       }]
     }]
   });
 
+  let emailCount = 0;
+  let bridgeAttempt = 0;
   const origFetch = globalThis.fetch;
   globalThis.fetch = async (url) => {
     const target = String(url);
     if (target.includes('/me/accounts')) return new Response(JSON.stringify({ data: [] }), { status: 200 });
-    if (target.includes('/123456789012?')) {
-      return new Response(JSON.stringify({ id: '123456789012', field_data: [{ name: 'zip', values: ['33805'] }] }), { status: 200 });
+    if (target.includes('/223456789012?')) {
+      return new Response(JSON.stringify({ id: '223456789012', field_data: [{ name: 'zip', values: ['33805'] }] }), { status: 200 });
     }
     if (target.includes('/5544332211?')) return new Response(JSON.stringify({ name: 'Test Form' }), { status: 200 });
+    if (target === 'https://api.resend.com/emails') {
+      emailCount += 1;
+      return new Response(JSON.stringify({ id: 'email_1' }), { status: 200 });
+    }
+    if (target === 'https://bridge.example.test/hooks/website/lead') {
+      bridgeAttempt += 1;
+      if (bridgeAttempt === 1) return new Response('bridge down', { status: 500 });
+      return new Response(JSON.stringify({ ok: true }), { status: 200 });
+    }
     return new Response('bridge down', { status: 500 });
   };
 
@@ -272,7 +286,31 @@ test('POST returns 502 on bridge failure or non-HTTPS bridge config so Meta retr
     );
     assert.equal(bridgeDown.status, 502);
     assert.equal(bridgeDown.headers.get('cache-control'), 'no-store');
+    assert.equal(emailCount, 1);
 
+    // Retry succeeds on bridge and does NOT send a duplicate email notification
+    const bridgeRecovered = await handler(
+      new Request('https://lakelandhealthinsurance.com/api/meta-lead-webhook', {
+        method: 'POST',
+        headers: { 'x-hub-signature-256': signBody(body, 'app-secret-123') },
+        body
+      })
+    );
+    assert.equal(bridgeRecovered.status, 200);
+    assert.equal(emailCount, 1);
+
+    // Full replay skips already bridged + notified lead cleanly
+    const replay = await handler(
+      new Request('https://lakelandhealthinsurance.com/api/meta-lead-webhook', {
+        method: 'POST',
+        headers: { 'x-hub-signature-256': signBody(body, 'app-secret-123') },
+        body
+      })
+    );
+    assert.equal(replay.status, 200);
+    assert.equal(bridgeAttempt, 2);
+
+    _test.clearLeadState();
     process.env.LEAD_BRIDGE_URL = 'http://insecure.example.com/hooks';
     const invalidUrl = await handler(
       new Request('https://lakelandhealthinsurance.com/api/meta-lead-webhook', {

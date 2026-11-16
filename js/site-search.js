@@ -104,6 +104,36 @@ const siteSearchIndex = [
     tags: ["New Jersey", "Get Covered NJ", "ACA", "Marketplace"]
   },
   {
+    title: "Ohio ACA Health Insurance Agent | 2027 Marketplace Help",
+    url: "/health-insurance-ohio/",
+    excerpt: "Licensed in Ohio (#1241771). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Ohio", "ACA", "Marketplace", "HealthCare.gov", "OhioHealth", "Cleveland Clinic"]
+  },
+  {
+    title: "Michigan ACA Health Insurance Agent | 2027 Marketplace",
+    url: "/health-insurance-michigan/",
+    excerpt: "Licensed in Michigan (#18213932). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Michigan", "ACA", "Marketplace", "HealthCare.gov", "Healthy Michigan Plan"]
+  },
+  {
+    title: "Indiana ACA Health Insurance Agent | 2027 Marketplace",
+    url: "/health-insurance-indiana/",
+    excerpt: "Licensed in Indiana (#3529184). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Indiana", "ACA", "Marketplace", "HealthCare.gov", "Healthy Indiana Plan"]
+  },
+  {
+    title: "Virginia ACA Health Insurance Agent | 2027 Marketplace",
+    url: "/health-insurance-virginia/",
+    excerpt: "Licensed in Virginia (#1136622). A 2027 Virginia Insurance Marketplace review around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Virginia", "Virginia's Insurance Marketplace", "Virginia Premium Savings", "ACA"]
+  },
+  {
+    title: "Arizona ACA Health Insurance Agent | 2027 Marketplace",
+    url: "/health-insurance-arizona/",
+    excerpt: "Licensed in Arizona (#18213932). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Arizona", "ACA", "Marketplace", "HealthCare.gov", "AHCCCS"]
+  },
+  {
     title: "CMS Marketplace Agent Crackdown: Lakeland FL Guide (2026)",
     url: "/marketplace-agent-fraud-cms-crackdown-florida/",
     excerpt: "CMS canceled unauthorized Marketplace enrollments and sent agent termination notices. What Lakeland and Polk shoppers should check before Open Enrollment.",
@@ -693,36 +723,36 @@ const siteSearchIndex = [
     tags: ["Carriers", "Insurance Companies"]
   },
   {
-    title: "UnitedHealthcare ACA 2026 Playbook",
+    title: "UnitedHealthcare ACA Florida (2027) | Enrollment Guide",
     url: "/carriers/unitedhealthcare-aca-2026/",
-    excerpt: "HealthCare.gov enrollment flow, MyUHC setup, and practical benefit-use strategy.",
+    excerpt: "HealthCare.gov 2027 enrollment flow, MyUHC setup, and practical benefit-use strategy.",
     tags: ["Carriers", "ACA", "UnitedHealthcare"]
   },
   {
-    title: "Oscar ACA 2026 Playbook",
+    title: "Oscar ACA Plans in Florida (2027) | Enrollment Guide",
     url: "/carriers/oscar-aca-2026/",
-    excerpt: "App-first setup, network verification, and incentive-tracking workflow for 2026.",
+    excerpt: "App-first setup, network verification, and 2027 incentive-tracking workflow.",
     tags: ["Carriers", "ACA", "Oscar"]
   },
   {
-    title: "Molina ACA 2026 Playbook",
+    title: "Molina Florida ACA Exit (2027) | Replacement Plan Guide",
     url: "/carriers/molina-aca-2026/",
-    excerpt: "Portal setup, formulary checks, prior auth workflow, and renewal readiness.",
+    excerpt: "Molina Marketplace plans in Florida end Dec 31, 2026. Steps to compare 2027 replacement options.",
     tags: ["Carriers", "ACA", "Molina"]
   },
   {
-    title: "Ambetter ACA 2026 Playbook",
+    title: "Ambetter ACA Plans in Florida (2027) | Enrollment Guide",
     url: "/carriers/ambetter-aca-2026/",
-    excerpt: "Enrollment steps, referral checks, and preventive-first strategy for maximum value.",
+    excerpt: "2027 enrollment steps, referral checks, and preventive-first strategy for Florida households.",
     tags: ["Carriers", "ACA", "Ambetter"]
   },
   {
-    title: "Wellpoint ACA 2026 Playbook",
+    title: "Wellpoint ACA Plans in Florida (2027) | Enrollment Guide",
     url: "/carriers/wellpoint-aca-2026/",
-    excerpt: "Virtual-first optimization, incentives workflow, and annual plan-change checklist.",
+    excerpt: "Virtual-first optimization, incentives workflow, and 2027 annual plan-change checklist.",
     tags: ["Carriers", "ACA", "Wellpoint"]
   },
-,
+
   // Additional Sitemap & 2027 Local Network Guides
   {
     title: "Brandon, FL Health Insurance | 2027 ACA Help",

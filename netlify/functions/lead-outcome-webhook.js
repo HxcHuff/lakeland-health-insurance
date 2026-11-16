@@ -7,6 +7,9 @@ const GA4_DEFAULT_MEASUREMENT_ID = 'G-W45RMKHXV0';
 const GA4_MP_ENDPOINT = 'https://www.google-analytics.com/mp/collect';
 const FETCH_TIMEOUT_MS = 2500;
 const MAX_SEEN_KEYS = 2000;
+const OUTCOME_DEDUPE_STORE_NAME = 'lead-outcome-dedupe-v1';
+
+let blobsImport = () => import('@netlify/blobs');
 
 const OUTCOME_MAP = Object.freeze({
   qualify_lead: { name: 'qualify_lead', stage: 'qualified' },
@@ -239,6 +242,49 @@ function validateAndSanitizePayload(payload, secret) {
   };
 }
 
+async function getDedupeStore(event) {
+  try {
+    const blobs = await blobsImport();
+    if (!blobs || typeof blobs.getStore !== 'function') return null;
+    if (event && typeof blobs.connectLambda === 'function') {
+      blobs.connectLambda(event);
+    }
+    return blobs.getStore({ name: OUTCOME_DEDUPE_STORE_NAME, consistency: 'strong' });
+  } catch (_) {
+    return null;
+  }
+}
+
+function dedupeBlobKey(key) {
+  return `v1/${crypto.createHash('sha256').update(String(key)).digest('hex')}`;
+}
+
+async function claimOutcomeDedupeKey(event, key) {
+  if (!recordSeenKey(key)) return { claimed: false, store: null, blobKey: '' };
+  const store = await getDedupeStore(event);
+  if (!store) return { claimed: true, store: null, blobKey: '' };
+
+  const blobKey = dedupeBlobKey(key);
+  try {
+    const result = await store.setJSON(blobKey, { recorded_at: new Date().toISOString() }, { onlyIfNew: true });
+    if (result && result.modified === false) {
+      return { claimed: false, store, blobKey };
+    }
+    return { claimed: true, store, blobKey };
+  } catch (_) {
+    return { claimed: true, store: null, blobKey: '' };
+  }
+}
+
+async function releaseOutcomeDedupeKey(claim, key) {
+  seenOutcomeKeys.delete(key);
+  if (claim && claim.store && claim.blobKey && typeof claim.store.delete === 'function') {
+    try {
+      await claim.store.delete(claim.blobKey);
+    } catch (_) {}
+  }
+}
+
 function recordSeenKey(key) {
   if (seenOutcomeKeys.has(key)) return false;
   if (seenOutcomeKeys.size >= MAX_SEEN_KEYS) {
@@ -293,7 +339,8 @@ exports.handler = async function (event) {
     return response(503, { ok: false, error: 'ga4_mp_not_configured' });
   }
 
-  if (!recordSeenKey(validated.dedupeKey)) {
+  const claim = await claimOutcomeDedupeKey(event, validated.dedupeKey);
+  if (!claim.claimed) {
     return response(200, {
       ok: true,
       deduped: true,
@@ -314,7 +361,7 @@ exports.handler = async function (event) {
     });
     if (timeout) clearTimeout(timeout);
     if (!res.ok) {
-      seenOutcomeKeys.delete(validated.dedupeKey);
+      await releaseOutcomeDedupeKey(claim, validated.dedupeKey);
       return response(502, { ok: false, error: `ga4_mp_${res.status}` });
     }
     return response(200, {
@@ -323,7 +370,7 @@ exports.handler = async function (event) {
     });
   } catch (err) {
     if (timeout) clearTimeout(timeout);
-    seenOutcomeKeys.delete(validated.dedupeKey);
+    await releaseOutcomeDedupeKey(claim, validated.dedupeKey);
     return response(502, { ok: false, error: 'ga4_mp_request_failed' });
   }
 };
@@ -332,5 +379,8 @@ exports._test = {
   verifyRequestAuth,
   validateAndSanitizePayload,
   synthesizeClientId,
-  clearSeenKeys: () => seenOutcomeKeys.clear()
+  clearSeenKeys: () => seenOutcomeKeys.clear(),
+  blobsImport: (fn) => {
+    blobsImport = fn;
+  }
 };

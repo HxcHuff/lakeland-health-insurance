@@ -11,8 +11,57 @@ const RATE_LIMIT_MAX_REQUESTS = 40;
 const RATE_LIMIT_BURST_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_BURST_MAX = 8;
 const MAX_RATE_LIMIT_BUCKETS = 512;
+const PERSISTENT_STORE_NAME = 'lead-spam-rate-v1';
+
+let blobsImport = () => import('@netlify/blobs');
 
 const rateLimitBuckets = new Map();
+
+async function getRateLimitStore(event) {
+  try {
+    const blobs = await blobsImport();
+    if (!blobs || typeof blobs.getStore !== 'function') return null;
+    if (event && typeof blobs.connectLambda === 'function') {
+      blobs.connectLambda(event);
+    }
+    return blobs.getStore({ name: PERSISTENT_STORE_NAME, consistency: 'strong' });
+  } catch (_) {
+    return null;
+  }
+}
+
+async function checkPersistentLeadRateLimit(event, headers = {}) {
+  const ip = extractClientIp(headers);
+  if (!ip) return { limited: false, ipHash: null, skipped: true };
+  const ipHash = hashIdentifier(ip, 'lhi-lead-ip-v1');
+  const store = await getRateLimitStore(event);
+  if (!store) return { limited: false, ipHash, skipped: true };
+
+  const bucket = Math.floor(Date.now() / RATE_LIMIT_WINDOW_MS);
+  const key = `v1/${ipHash}/${bucket}`;
+  try {
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const record = typeof store.getWithMetadata === 'function'
+        ? await store.getWithMetadata(key, { type: 'json' })
+        : { data: await store.get(key, { type: 'json' }), etag: undefined };
+      const existing = record && record.data;
+      const count = existing && typeof existing.count === 'number' ? existing.count : 0;
+      if (count >= RATE_LIMIT_MAX_REQUESTS) {
+        return { limited: true, ipHash, skipped: false };
+      }
+      const opts = { metadata: { bucket } };
+      if (record && record.etag) opts.onlyIfMatch = record.etag;
+      else if (!existing) opts.onlyIfNew = true;
+      const writeResult = await store.setJSON(key, { count: count + 1 }, opts);
+      if (!writeResult || writeResult.modified !== false) {
+        return { limited: false, ipHash, skipped: false };
+      }
+    }
+    return { limited: true, ipHash, skipped: false };
+  } catch (_) {
+    return { limited: false, ipHash, skipped: true };
+  }
+}
 
 function hashIdentifier(value, salt = 'lhi-lead-spam-v1') {
   const normalized = String(value || '').trim().toLowerCase();
@@ -141,11 +190,15 @@ module.exports = {
   MIN_SUBMIT_MS_DEFAULT,
   MIN_SUBMIT_MS_GET_HELP,
   evaluateLeadSpam,
+  checkPersistentLeadRateLimit,
   buildSpamDropLog,
   hashIdentifier,
   extractClientIp,
   validateHumanTiming,
   honeypotFilled,
+  blobsImport: (fn) => {
+    blobsImport = fn;
+  },
   _test: {
     checkRateLimit,
     pruneRateLimitBucket,

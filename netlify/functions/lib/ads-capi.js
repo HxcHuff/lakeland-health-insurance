@@ -13,17 +13,17 @@ function pickRawCookie(cookieHeader, name) {
   return m ? m[1] : null;
 }
 
-function allowedOrigins(headers) {
+function allowedOrigins() {
   const origins = new Set(OPENAI_ADS_ALLOWED_ORIGINS);
-  const host = headers.host || '';
-  if (host && /^([a-z0-9.-]+)(?::\d+)?$/i.test(host)) {
-    origins.add(`https://${host}`.replace(/\/+$/, ''));
+  for (const candidate of [process.env.URL, process.env.DEPLOY_PRIME_URL]) {
+    const trimmed = String(candidate || '').trim().replace(/\/+$/, '');
+    if (trimmed) origins.add(trimmed);
   }
   return origins;
 }
 
-function sanitizeSourceUrl(rawUrl, headers) {
-  const origins = allowedOrigins(headers);
+function sanitizeSourceUrl(rawUrl) {
+  const origins = allowedOrigins();
   const fallbackOrigin = OPENAI_ADS_ALLOWED_ORIGINS[0] || 'https://lakelandhealthinsurance.com';
   try {
     const url = new URL(String(rawUrl || ''), fallbackOrigin);

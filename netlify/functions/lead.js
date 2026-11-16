@@ -10,6 +10,7 @@ const { checkNewsletterRateLimit } = require('./lib/newsletter-rate-limit');
 const { normalizeEmail, startDoubleOptIn } = require('./lib/newsletter-resend');
 const {
   buildSpamDropLog,
+  checkPersistentLeadRateLimit,
   evaluateLeadSpam
 } = require('./lib/form-spam-guard');
 const {
@@ -1272,13 +1273,35 @@ exports.handler = async (event) => {
     console.info(JSON.stringify(buildSpamDropLog(formName, eventId, spamEvaluation, {
       netlifyContext: NETLIFY_CONTEXT
     })));
-    if (spamEvaluation.reason === 'honeypot_filled' || spamEvaluation.reason === 'rate_limited') {
+    if (spamEvaluation.reason === 'honeypot_filled') {
       return buildSilentSpamResponse(cors.headers, eventId, serverReceivedAt);
+    }
+    if (spamEvaluation.reason === 'rate_limited') {
+      return {
+        statusCode: 429,
+        headers: { ...cors.headers, 'Content-Type': 'application/json', 'Retry-After': '60' },
+        body: JSON.stringify({ ok: false, error: 'rate_limited' })
+      };
     }
     return {
       statusCode: 422,
       headers: { ...cors.headers, 'Content-Type': 'application/json' },
       body: JSON.stringify({ ok: false, error: spamEvaluation.reason })
+    };
+  }
+  const persistentRate = await checkPersistentLeadRateLimit(event, headers);
+  if (persistentRate.limited) {
+    console.info(JSON.stringify(buildSpamDropLog(formName, eventId, {
+      reason: 'rate_limited',
+      ipHash: persistentRate.ipHash,
+      emailHash: spamEvaluation.emailHash
+    }, {
+      netlifyContext: NETLIFY_CONTEXT
+    })));
+    return {
+      statusCode: 429,
+      headers: { ...cors.headers, 'Content-Type': 'application/json', 'Retry-After': '60' },
+      body: JSON.stringify({ ok: false, error: 'rate_limited' })
     };
   }
   const eventTime = Math.floor(Date.parse(serverReceivedAt) / 1000);

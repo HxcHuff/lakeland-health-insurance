@@ -277,3 +277,66 @@ test('Florida Medicare guide title, H1, and headline no longer split 2026/2027',
   assert.match(html, /<h1>Florida Medicare Guide: Enrollment and Plan Strategy<\/h1>/);
   assert.match(html, /"headline": "Florida Medicare Guide: Enrollment and Plan Strategy"/);
 });
+
+
+import _s2Test from 'node:test';
+import _s2Assert from 'node:assert/strict';
+import { readFileSync as _s2ReadFileSync, readdirSync as _s2ReaddirSync } from 'node:fs';
+import { join as _s2Join, dirname as _s2Dirname, resolve as _s2Resolve } from 'node:path';
+import { fileURLToPath as _s2FileURLToPath } from 'node:url';
+
+const _S2_ROOT = _s2Resolve(_s2Dirname(_s2FileURLToPath(import.meta.url)), '..');
+
+function _s2WalkHtml(dir, out = []) {
+  for (const entry of _s2ReaddirSync(dir, { withFileTypes: true })) {
+    if (
+      entry.name.startsWith('.') ||
+      ['node_modules', 'artifacts', 'data', 'docs', 'netlify', 'scripts', 'tests', 'tools'].includes(entry.name)
+    ) {
+      continue;
+    }
+    const full = _s2Join(dir, entry.name);
+    if (entry.isDirectory()) {
+      _s2WalkHtml(full, out);
+    } else if (entry.name.endsWith('.html')) {
+      out.push(full);
+    }
+  }
+  return out;
+}
+
+_s2Test('Stage 2 SEO remediation: no truncated JSON-LD descriptions, no duplicate class attributes, clean site-search labels, and eager hero images', () => {
+  const brokenClassFiles = [];
+  for (const file of _s2WalkHtml(_S2_ROOT)) {
+    const html = _s2ReadFileSync(file, 'utf8')
+      .replace(/<script\b[\s\S]*?<\/script>/gi, '')
+      .replace(/<style\b[\s\S]*?<\/style>/gi, '');
+    if (/<[a-zA-Z0-9-]+\b[^>]*\sclass="[^"]*"[^>]*\sclass="/i.test(html)) {
+      brokenClassFiles.push(file);
+    }
+  }
+  _s2Assert.deepEqual(brokenClassFiles, [], `Duplicate class= attribute in HTML: ${brokenClassFiles.join(', ')}`);
+
+  for (const rel of ['blog/doctor-mulberry-fl.html', 'blog/johns-hopkins-all-childrens-lakeland-insurance.html']) {
+    const html = _s2ReadFileSync(_s2Join(_S2_ROOT, rel), 'utf8');
+    _s2Assert.doesNotMatch(html, /"description":\s*"[^"]*\.\.\."/, `${rel} must not contain truncated JSON-LD description`);
+  }
+
+  for (const rel of [
+    'medicare/index.html',
+    'medicare/east-polk/index.html',
+    'blog/dont-overlook-rx-costs-2027.html',
+    'blog/ohiohealth-kettering-health-anthem-humana-ohio-2027.html',
+    'blog/orlando-health-lakeland-quality-approval-2026.html',
+    'blog/orlando-health-watson-clinic-2027-plan.html',
+  ]) {
+    const html = _s2ReadFileSync(_s2Join(_S2_ROOT, rel), 'utf8');
+    const firstImg = html.match(/<img\b[^>]*>/i)?.[0] || '';
+    _s2Assert.match(firstImg, /\bfetchpriority="high"/i, `${rel} first image must set fetchpriority="high"`);
+    _s2Assert.doesNotMatch(firstImg, /\bloading="lazy"/i, `${rel} first image must not use loading="lazy"`);
+  }
+
+  const searchJs = _s2ReadFileSync(_s2Join(_S2_ROOT, 'js/site-search.js'), 'utf8');
+  _s2Assert.doesNotMatch(searchJs, /,\s*,/, 'js/site-search.js must not contain sparse array holes');
+  _s2Assert.doesNotMatch(searchJs, /\b2026 Playbook\b/, 'js/site-search.js must not label ACA carrier hubs as 2026 Playbook');
+});

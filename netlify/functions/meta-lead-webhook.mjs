@@ -52,6 +52,38 @@ const MAX_BODY_BYTES = 128 * 1024;
 const DEFAULT_FETCH_TIMEOUT_MS = 8000;
 const GRAPH_ID_RE = /^\d{5,30}$/;
 const RELAY_TOKEN_RE = /^[A-Za-z0-9._-]{16,512}$/;
+const META_IDEMPOTENCY_STORE = "meta-lead-webhook-v1";
+const inMemoryLeadState = new Map();
+
+async function getMetaIdempotencyStore() {
+  try {
+    const { getStore } = await import("@netlify/blobs");
+    return getStore({ name: META_IDEMPOTENCY_STORE, consistency: "strong" });
+  } catch {
+    return null;
+  }
+}
+
+async function readLeadState(safeLeadgenId) {
+  const store = await getMetaIdempotencyStore();
+  if (store) {
+    try {
+      const data = await store.get(`v1/${safeLeadgenId}`, { type: "json" });
+      if (data && typeof data === "object") return data;
+    } catch {}
+  }
+  return inMemoryLeadState.get(safeLeadgenId) || { bridged: false, notified: false };
+}
+
+async function writeLeadState(safeLeadgenId, nextState) {
+  inMemoryLeadState.set(safeLeadgenId, nextState);
+  const store = await getMetaIdempotencyStore();
+  if (store) {
+    try {
+      await store.setJSON(`v1/${safeLeadgenId}`, nextState);
+    } catch {}
+  }
+}
 
 const ZIP3_STATE_RANGES = [
   [5, 5, "NY"],
@@ -553,12 +585,27 @@ export default async (req, context) => {
             notified_at: new Date().toISOString(),
           };
 
-          const [bridgeResult] = await Promise.allSettled([
-            forwardLeadToBridge(lead),
-            sendEmailNotification(lead),
-            sendSmsNotification(lead),
+          const prevState = await readLeadState(safeLeadgenId);
+          if (prevState.bridged && prevState.notified) {
+            console.log(`Lead already processed (idempotent skip): ${safeLeadgenId}`);
+            continue;
+          }
+
+          const [bridgeResult, emailResult, smsResult] = await Promise.allSettled([
+            prevState.bridged ? Promise.resolve({ ok: true, skipped: true }) : forwardLeadToBridge(lead),
+            prevState.notified ? Promise.resolve(true) : sendEmailNotification(lead),
+            prevState.notified ? Promise.resolve(true) : sendSmsNotification(lead),
           ]);
           const bridgeValue = bridgeResult.status === "fulfilled" ? bridgeResult.value : null;
+          const bridgedNow = prevState.bridged || Boolean(bridgeValue && bridgeValue.ok);
+          const notifiedNow = prevState.notified || (emailResult.status === "fulfilled" && smsResult.status === "fulfilled");
+          if (bridgedNow || notifiedNow) {
+            await writeLeadState(safeLeadgenId, {
+              bridged: bridgedNow,
+              notified: notifiedNow,
+              updated_at: new Date().toISOString(),
+            });
+          }
           if (!bridgeValue || (!bridgeValue.ok && !bridgeValue.skipped)) {
             hasRetryableFailure = true;
           }
@@ -584,4 +631,8 @@ export default async (req, context) => {
 // --- ROUTE CONFIG ---
 export const config = {
   path: "/api/meta-lead-webhook",
+};
+
+export const _test = {
+  clearLeadState: () => inMemoryLeadState.clear(),
 };

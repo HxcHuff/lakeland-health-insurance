@@ -13,7 +13,14 @@ function hopperConfigured() {
 }
 
 function mapInterestToInsuranceType(interest) {
-  void interest;
+  const norm = String(interest || '').trim().toLowerCase();
+  if (!norm) return 'OTHER';
+  if (norm.includes('medicare_supplement') || norm.includes('medigap')) return 'MEDICARE_SUPPLEMENT';
+  if (norm.includes('medicare_advantage')) return 'MEDICARE_ADVANTAGE';
+  if (norm.includes('medicare')) return 'MEDICARE';
+  if (norm.includes('aca') || norm.includes('marketplace') || norm.includes('under-65') || norm.includes('under_65')) {
+    return 'ACA';
+  }
   return 'OTHER';
 }
 
@@ -80,5 +87,8 @@ async function notifyHopperOfConfirmedSubscriber(input) {
 module.exports = {
   DEFAULT_HOPPER_URL,
   hopperConfigured,
-  notifyHopperOfConfirmedSubscriber
+  notifyHopperOfConfirmedSubscriber,
+  _test: {
+    mapInterestToInsuranceType
+  }
 };

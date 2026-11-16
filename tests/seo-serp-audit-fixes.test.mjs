@@ -144,7 +144,7 @@ test('shortened city, carrier, and audit titles stay at or under 60 characters',
 test('carrier enrollment guide titles use the current plan year', () => {
   const titles = [
     ['carriers/ambetter-aca-2026/index.html', 'Ambetter ACA Plans in Florida (2027) | Enrollment Guide'],
-    ['carriers/molina-aca-2026/index.html', 'Molina ACA Plans in Florida (2027) | Enrollment Guide'],
+    ['carriers/molina-aca-2026/index.html', 'Molina Florida ACA Exit (2027) | Replacement Plan Guide'],
     ['carriers/oscar-aca-2026/index.html', 'Oscar ACA Plans in Florida (2027) | Enrollment Guide'],
     ['carriers/unitedhealthcare-aca-2026/index.html', 'UnitedHealthcare ACA Florida (2027) | Enrollment Guide'],
     ['carriers/wellpoint-aca-2026/index.html', 'Wellpoint ACA Plans in Florida (2027) | Enrollment Guide']

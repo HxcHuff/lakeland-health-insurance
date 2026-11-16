@@ -16,6 +16,11 @@ const LIVE = [
   ['states/index.html', '/states/'],
   ['health-insurance-texas/index.html', '/health-insurance-texas/'],
   ['health-insurance-georgia/index.html', '/health-insurance-georgia/'],
+  ['health-insurance-ohio/index.html', '/health-insurance-ohio/'],
+  ['health-insurance-michigan/index.html', '/health-insurance-michigan/'],
+  ['health-insurance-indiana/index.html', '/health-insurance-indiana/'],
+  ['health-insurance-virginia/index.html', '/health-insurance-virginia/'],
+  ['health-insurance-arizona/index.html', '/health-insurance-arizona/'],
   ['health-insurance-north-carolina/index.html', '/health-insurance-north-carolina/'],
   ['health-insurance-south-carolina/index.html', '/health-insurance-south-carolina/'],
   ['health-insurance-tennessee/index.html', '/health-insurance-tennessee/'],
@@ -107,7 +112,12 @@ const STATE_LICENSES = [
   ['health-insurance-south-carolina/index.html', 'South Carolina', '18213932'],
   ['health-insurance-tennessee/index.html', 'Tennessee', '2489827'],
   ['health-insurance-alabama/index.html', 'Alabama', '3000811681'],
-  ['health-insurance-georgia/index.html', 'Georgia', '3329737']
+  ['health-insurance-georgia/index.html', 'Georgia', '3329737'],
+  ['health-insurance-ohio/index.html', 'Ohio', '1241771'],
+  ['health-insurance-michigan/index.html', 'Michigan', '18213932'],
+  ['health-insurance-indiana/index.html', 'Indiana', '3529184'],
+  ['health-insurance-virginia/index.html', 'Virginia', '1136622'],
+  ['health-insurance-arizona/index.html', 'Arizona', '18213932']
 ];
 
 test('state-page JSON-LD includes InsuranceAgency, Service areaServed, breadcrumbs, and matching FAQPage text', () => {
@@ -183,7 +193,6 @@ test('hub lists all 23 licensed states and routes Florida to existing pages', ()
   assert.doesNotMatch(html, /Medicare help remains on the Florida Medicare page/);
   assert.match(html, /This hub is for ACA Marketplace coverage for people under 65 who are not on Medicare/);
   assert.doesNotMatch(html, /href="\/health-insurance-florida\//);
-  assert.doesNotMatch(html, /href="\/health-insurance-arizona\//);
   assert.doesNotMatch(html, /href="\/health-insurance-kansas\//);
   assert.doesNotMatch(html, /page not live yet|not live yet|PAGE NOT LIVE/i);
   const graph = jsonLdBlocks(html).find((block) => Array.isArray(block['@graph']));

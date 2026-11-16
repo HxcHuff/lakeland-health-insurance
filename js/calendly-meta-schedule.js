@@ -493,11 +493,27 @@
   function preserveLandingQueryForBook(rawSearch) {
     var search = String(rawSearch || '');
     if (!search || search === '?') return;
-    if (!w.LHILandingQuery) w.LHILandingQuery = search;
+    var pathname = normalizePath((w.location && w.location.pathname) || '/book/');
+    var snapshot = { search: search, pathname: pathname };
+    if (!w.LHILandingQuery || (typeof w.LHILandingQuery === 'object' && w.LHILandingQuery.search == null)) {
+      w.LHILandingQuery = snapshot;
+    } else if (typeof w.LHILandingQuery === 'string') {
+      w.LHILandingQuery = snapshot;
+    }
     try {
       if (w.sessionStorage && typeof w.sessionStorage.getItem === 'function' && typeof w.sessionStorage.setItem === 'function') {
-        if (!w.sessionStorage.getItem('lhi_landing_query')) {
-          w.sessionStorage.setItem('lhi_landing_query', search);
+        var existingRaw = w.sessionStorage.getItem('lhi_landing_query');
+        var hasValidSnapshot = false;
+        if (existingRaw) {
+          try {
+            var parsed = JSON.parse(existingRaw);
+            if (parsed && typeof parsed === 'object' && parsed.search != null) {
+              hasValidSnapshot = true;
+            }
+          } catch (_) {}
+        }
+        if (!hasValidSnapshot) {
+          w.sessionStorage.setItem('lhi_landing_query', JSON.stringify(snapshot));
         }
       }
     } catch (e) {}

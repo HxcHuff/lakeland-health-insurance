@@ -52,3 +52,24 @@ test('lead allowlist includes ab_variant on get-help', () => {
   assert.match(leadSrc, /'ab_variant'/);
   assert.match(leadSrc, /sanitizeAbVariantField/);
 });
+
+test('ab-variant emits defined ab_test_id string on exposure', () => {
+  const tracked = [];
+  globalThis.window = {
+    location: { protocol: 'https:', hostname: 'lakelandhealthinsurance.com', pathname: '/' },
+    LHI: { track(name, params) { tracked.push({ name, params }); } }
+  };
+  globalThis.document = {
+    cookie: '',
+    readyState: 'complete',
+    addEventListener() {},
+    querySelectorAll() { return []; }
+  };
+  const src = readFileSync(join(ROOT, 'js/ab-variant.js'), 'utf8');
+  // eslint-disable-next-line no-new-func
+  new Function('window', 'document', src)(globalThis.window, globalThis.document);
+  assert.equal(tracked.length, 1);
+  assert.equal(tracked[0].name, 'ab_variant_exposure');
+  assert.equal(tracked[0].params.ab_test_id, 'home-hero-primary-cta');
+  assert.equal(tracked[0].params.ab_variant, 'control');
+});

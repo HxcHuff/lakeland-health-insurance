@@ -1368,6 +1368,8 @@
         }
       }
       if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
         showError('Complete the required contact fields and consent before sending.');
         return;
       }

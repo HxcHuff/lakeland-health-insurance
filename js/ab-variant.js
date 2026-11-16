@@ -104,7 +104,7 @@
     if (!id || w.__LHI_AB_EXPOSURE_SENT__) return;
     w.__LHI_AB_EXPOSURE_SENT__ = true;
     var params = {
-      ab_test_id: ACTIVE_TEST.id,
+      ab_test_id: ACTIVE_TEST,
       ab_variant: id,
       non_interaction: true
     };

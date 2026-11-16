@@ -31,8 +31,12 @@ const ALLOWED_ORIGINS = new Set(
 );
 
 function headerValue(headers, name) {
-  if (!headers) return '';
-  return headers[name] || headers[name.toLowerCase()] || headers[name.toUpperCase()] || '';
+  if (!headers || typeof headers !== 'object') return '';
+  const target = String(name || '').toLowerCase();
+  for (const [k, v] of Object.entries(headers)) {
+    if (String(k).toLowerCase() === target && v != null) return String(v);
+  }
+  return '';
 }
 
 function normalizeOrigin(value) {
@@ -134,14 +138,14 @@ function readCookieState(cookieHeader, name, maxValueLength = 128) {
 }
 
 function metaBrowserIdentifier(cookieHeader, name) {
-  const maxLength = name === '_fbc' ? 320 : 96;
+  const maxLength = name === '_fbc' ? 560 : 96;
   const state = readCookieState(cookieHeader, name, maxLength);
   if (state.state !== 'value') return null;
   if (name === '_fbp') {
     return /^fb\.[12]\.\d{10,16}\.\d{5,32}$/.test(state.value) ? state.value : null;
   }
   if (name === '_fbc') {
-    return /^fb\.[12]\.\d{10,16}\.[A-Za-z0-9_-]{20,256}$/.test(state.value) ? state.value : null;
+    return /^fb\.[12]\.\d{10,16}\.[A-Za-z0-9._~-]{20,512}$/.test(state.value) ? state.value : null;
   }
   return null;
 }
@@ -283,7 +287,7 @@ exports.handler = async (event) => {
   if (fbp) userData.fbp = fbp;
   if (fbc) userData.fbc = fbc;
   const clientIp = scheduleClientIpFromHeaders(headers);
-  const userAgent = String(scheduleHeaderValue(headers, 'user-agent') || '').trim().slice(0, 512);
+  const userAgent = String(headerValue(headers, 'user-agent') || '').trim().slice(0, 512);
   if (clientIp) userData.client_ip_address = clientIp;
   if (userAgent) userData.client_user_agent = userAgent;
 
@@ -355,19 +359,10 @@ exports.handler = async (event) => {
   });
 };
 
-function scheduleHeaderValue(headers, name) {
-  if (!headers || typeof headers !== 'object') return '';
-  const target = String(name || '').toLowerCase();
-  for (const [k, v] of Object.entries(headers)) {
-    if (String(k).toLowerCase() === target && v != null) return String(v);
-  }
-  return '';
-}
-
 function scheduleClientIpFromHeaders(headers) {
-  const nf = String(scheduleHeaderValue(headers, 'x-nf-client-connection-ip') || '').trim();
-  const xff = String(scheduleHeaderValue(headers, 'x-forwarded-for') || '').split(',')[0].trim();
-  const clientIp = String(scheduleHeaderValue(headers, 'client-ip') || '').trim();
+  const nf = String(headerValue(headers, 'x-nf-client-connection-ip') || '').trim();
+  const xff = String(headerValue(headers, 'x-forwarded-for') || '').split(',')[0].trim();
+  const clientIp = String(headerValue(headers, 'client-ip') || '').trim();
   const raw = nf || xff || clientIp;
   return /^[0-9a-fA-F:.]{3,45}$/.test(raw) ? raw : '';
 }

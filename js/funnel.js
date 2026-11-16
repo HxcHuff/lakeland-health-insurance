@@ -414,6 +414,84 @@
         header_talk_to_david: true,
         footer_start_plan_review: true
       }
+    },
+    medicare_supplement_lakeland_fl: {
+      path: '/medicare-supplement-lakeland-fl/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_mid: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    baycare_plus_medicare_2027: {
+      path: '/carriers/baycare-plus-medicare-2027/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    humana_medicare_2027: {
+      path: '/carriers/humana-medicare-2027/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    unitedhealthcare_medicare_2027: {
+      path: '/carriers/unitedhealthcare-medicare-2027/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_part_d_2400_cap_2027: {
+      path: '/local-health-insurance-answers/medicare-part-d-2400-cap-2027/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    snowbird_medicare_florida_multi_state_2027: {
+      path: '/local-health-insurance-answers/snowbird-medicare-florida-multi-state-2027/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
+    },
+    medicare_part_d_2027_cap_drug_changes_polk_county: {
+      path: '/blog/medicare-part-d-2027-cap-drug-changes-polk-county.html/',
+      page_role: 'education',
+      cta_keys: {
+        request_review_hero: true,
+        request_review_final: true,
+        menu_get_help: true,
+        header_talk_to_david: true,
+        footer_start_plan_review: true
+      }
     }
   };
 
@@ -587,9 +665,9 @@
   function approvedCampaignValue(value) {
     var text = String(value || '').trim().toLowerCase();
     if (!text) return null;
-    // Google Ads suffixes prefix {campaignid} so platform IDs remain
+    // Platform ID tokens use approved prefixes so numeric IDs remain
     // distinguishable from untrusted phone-like numeric values.
-    if (/^cid_\d{8,20}$/.test(text)) {
+    if (/^(?:cid|aid|adid|adset)_\d{8,20}$/.test(text)) {
       return text.length <= UTM_VALUE_MAX_LENGTH ? text : text.slice(0, UTM_VALUE_MAX_LENGTH);
     }
     if (/@|(?:\d[\s().-]*){7,}/.test(text)) return null;
