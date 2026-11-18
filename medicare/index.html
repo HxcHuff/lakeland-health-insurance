@@ -113,7 +113,10 @@
         "author": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
         "reviewedBy": {"@id": "https://lakelandhealthinsurance.com/about/#david-huff"},
         "breadcrumb": {"@id": "https://lakelandhealthinsurance.com/medicare/#breadcrumb"},
-        "mainEntity": {"@id": "https://lakelandhealthinsurance.com/medicare/#service"}
+        "mainEntity": [
+          {"@id": "https://lakelandhealthinsurance.com/medicare/#service"},
+          {"@id": "https://lakelandhealthinsurance.com/medicare/#faq"}
+        ]
       },
       {
         "@type": "Service",
@@ -124,6 +127,52 @@
         "areaServed": [
           {"@type": "City", "name": "Lakeland", "containedInPlace": {"@type": "AdministrativeArea", "name": "Florida"}},
           {"@type": "AdministrativeArea", "name": "Polk County, Florida"}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://lakelandhealthinsurance.com/medicare/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "When can I compare 2027 Medicare plans in Lakeland, FL?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "As of October 1, 2026, people with Medicare can preview 2027 plan options. Medicare Annual Enrollment runs October 15 through December 7, and approved changes generally take effect January 1, 2027."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Turning 65 in Lakeland, FL: when does my 7-month Medicare Initial Enrollment Period start?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Your 7-month Initial Enrollment Period (IEP) begins 3 months before the month you turn 65, includes your birthday month, and ends 3 months after. Signing up during the first 3 months generally allows Part B and your chosen Medicare Advantage or Medigap + Part D plan to begin on the first day of your 65th birthday month."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I go back to Original Medicare from a Medicare Advantage plan?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, during an eligible enrollment window such as the Annual Enrollment Period (October 15 through December 7) or the Medicare Advantage Open Enrollment Period (January 1 through March 31, if already enrolled in Medicare Advantage). Before switching back to Original Medicare, confirm whether you qualify for guaranteed-issue Medigap or must pass medical underwriting in Florida, and select a standalone Part D prescription drug plan."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I check whether Watson Clinic, Lakeland Regional Health, or BayCare doctors are in network for 2027?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Check each provider and facility by exact location and NPI against the exact 2027 plan name, plan ID, service area, and contract year. Use the plan's current directory and confirm with the provider's billing office before changing coverage."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I delay Medicare Part B if I am still working past 65?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It depends on whether the group coverage is based on active employment at an employer with 20 or more employees. Confirm the rules with Social Security and the employer benefits administrator before delaying Part B. COBRA and retiree coverage do not count as active employer coverage for delaying Part B."
+            }
+          }
         ]
       },
       {
@@ -732,6 +781,14 @@
           <details open>
             <summary>When can I compare 2027 Medicare plans?</summary>
             <p>As of October 1, 2026, people with Medicare can preview 2027 plan options. Medicare Open Enrollment runs October 15 through December 7, and approved changes generally take effect January 1, 2027.</p>
+          </details>
+          <details open>
+            <summary>Turning 65 in Lakeland, FL: when does my 7-month Medicare Initial Enrollment Period start?</summary>
+            <p>Your 7-month Initial Enrollment Period (IEP) begins 3 months before the month you turn 65, includes your birthday month, and ends 3 months after. Signing up during the first 3 months generally allows Part B and your chosen Medicare Advantage or Medigap + Part D plan to begin on the first day of your 65th birthday month. See the <a href="/blog/turning-65-medicare-checklist-florida.html">Turning 65 Medicare Checklist</a>.</p>
+          </details>
+          <details open>
+            <summary>Can I go back to Original Medicare from a Medicare Advantage plan?</summary>
+            <p>Yes, during an eligible enrollment window such as the Annual Enrollment Period (October 15 through December 7) or the Medicare Advantage Open Enrollment Period (January 1 through March 31, if already enrolled in Medicare Advantage). Before switching back to Original Medicare, confirm whether you qualify for guaranteed-issue Medigap or must pass medical underwriting in Florida, and select a standalone Part D prescription drug plan. Read <a href="/blog/switch-medicare-advantage-back-to-original-medicare.html">how to switch from Medicare Advantage back to Original Medicare</a>.</p>
           </details>
           <details open>
             <summary>Does Medicare Open Enrollment create a new Medigap open enrollment period?</summary>
