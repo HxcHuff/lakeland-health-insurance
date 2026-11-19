@@ -131,7 +131,13 @@ const siteSearchIndex = [
     title: "Arizona ACA Health Insurance Agent | 2027 Marketplace",
     url: "/health-insurance-arizona/",
     excerpt: "Licensed in Arizona (#18213932). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
-    tags: ["Arizona", "ACA", "Marketplace", "HealthCare.gov", "AHCCCS"]
+    tags: ["Arizona", "ACA", "Marketplace", "HealthCare.gov", "AHCCCS", "Phoenix", "Tucson"]
+  },
+  {
+    title: "Washington ACA Health Insurance Agent | 2027 Healthplanfinder",
+    url: "/health-insurance-washington/",
+    excerpt: "Licensed in Washington (#1051160). A 2027 Washington Healthplanfinder review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Washington", "Washington Healthplanfinder", "Cascade Care", "Cascade Care Savings", "Apple Health", "ACA", "Marketplace"]
   },
   {
     title: "CMS Marketplace Agent Crackdown: Lakeland FL Guide (2026)",

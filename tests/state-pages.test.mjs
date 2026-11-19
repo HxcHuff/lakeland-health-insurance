@@ -21,6 +21,7 @@ const LIVE = [
   ['health-insurance-indiana/index.html', '/health-insurance-indiana/'],
   ['health-insurance-virginia/index.html', '/health-insurance-virginia/'],
   ['health-insurance-arizona/index.html', '/health-insurance-arizona/'],
+  ['health-insurance-washington/index.html', '/health-insurance-washington/'],
   ['health-insurance-north-carolina/index.html', '/health-insurance-north-carolina/'],
   ['health-insurance-south-carolina/index.html', '/health-insurance-south-carolina/'],
   ['health-insurance-tennessee/index.html', '/health-insurance-tennessee/'],
@@ -70,6 +71,38 @@ test('Georgia is indexable, listed in sitemap.xml, and linked from the hub, Abou
   assert.doesNotMatch(source('about/index.html'), /drafted page pending|Wave 1/);
 });
 
+test('Arizona and Washington hubs are indexable, wired across hubs/search/llms, and cite official exchanges', () => {
+  const az = source('health-insurance-arizona/index.html');
+  const wa = source('health-insurance-washington/index.html');
+  const statesHub = source('states/index.html');
+  const about = source('about/index.html');
+  const home = source('index.html');
+  const search = source('js/site-search.js');
+  const llms = source('llms.txt');
+
+  assert.match(az, /HealthCare\.gov/);
+  assert.match(az, /AHCCCS/);
+  assert.match(az, /name="state" value="AZ"/);
+  assert.match(az, /name="coverage_state" value="AZ"/);
+
+  assert.match(wa, /Washington Healthplanfinder/);
+  assert.match(wa, /wahealthplanfinder\.org/);
+  assert.match(wa, /Cascade Care Savings/);
+  assert.match(wa, /Washington Apple Health/);
+  assert.match(wa, /name="state" value="WA"/);
+  assert.match(wa, /name="coverage_state" value="WA"/);
+
+  for (const slug of ['/health-insurance-arizona/', '/health-insurance-washington/']) {
+    const escaped = slug.replace(/\//g, '\\/');
+    assert.match(SITEMAP, new RegExp(`https:\\/\\/lakelandhealthinsurance\\.com${escaped}`));
+    assert.match(statesHub, new RegExp(`href="${escaped}"`));
+    assert.match(about, new RegExp(`href="${escaped}"`));
+    assert.match(home, new RegExp(`href="${escaped}"`));
+    assert.match(search, new RegExp(escaped));
+    assert.match(llms, new RegExp(`https:\\/\\/lakelandhealthinsurance\\.com${escaped}`));
+  }
+});
+
 test('shipped state pages, hub, About, and get-help do not contain visible [TODO placeholders', () => {
   for (const rel of [
     'states/index.html',
@@ -117,7 +150,8 @@ const STATE_LICENSES = [
   ['health-insurance-michigan/index.html', 'Michigan', '18213932'],
   ['health-insurance-indiana/index.html', 'Indiana', '3529184'],
   ['health-insurance-virginia/index.html', 'Virginia', '1136622'],
-  ['health-insurance-arizona/index.html', 'Arizona', '18213932']
+  ['health-insurance-arizona/index.html', 'Arizona', '18213932'],
+  ['health-insurance-washington/index.html', 'Washington', '1051160']
 ];
 
 test('state-page JSON-LD includes InsuranceAgency, Service areaServed, breadcrumbs, and matching FAQPage text', () => {
@@ -144,6 +178,9 @@ test('state-page JSON-LD includes InsuranceAgency, Service areaServed, breadcrum
     const georgiaService = service?.areaServed?.name === 'Georgia';
     if (georgiaService) {
       assert.equal(service.areaServed.sameAs, 'https://en.wikipedia.org/wiki/Georgia_(U.S._state)');
+    }
+    if (service?.areaServed?.name === 'Washington') {
+      assert.equal(service.areaServed.sameAs, 'https://en.wikipedia.org/wiki/Washington_(state)');
     }
     assert.match(html, new RegExp(`<link rel="canonical" href="${ORIGIN}${url}">`));
   }
@@ -345,6 +382,11 @@ test('get-help allowlists coverage_state and treats non-licensed visitors as out
   assert.equal(intake.resolveCoverageState(new URLSearchParams('')), 'TX');
   assert.equal(intake.resolveCoverageState(new URLSearchParams(''), ''), '');
   assert.equal(intake.coverageStateFromReferrer('https://lakelandhealthinsurance.com/health-insurance-north-carolina/'), 'NC');
+  assert.equal(intake.coverageStateFromReferrer('https://lakelandhealthinsurance.com/health-insurance-arizona/'), 'AZ');
+  assert.equal(intake.coverageStateFromReferrer('https://lakelandhealthinsurance.com/health-insurance-washington/'), 'WA');
+  assert.equal(intake.allowlistedCoverageState('AZ'), 'AZ');
+  assert.equal(intake.allowlistedCoverageState('WA'), 'WA');
+  assert.equal(intake.isOutOfStateMedicareCoverageState('WA'), false);
   assert.equal(intake.resolveCoverageState(new URLSearchParams('state=FL')), 'FL');
   assert.match(source('get-help/index.html'), /id="outOfStateMedicareNote"/);
   assert.match(source('get-help/index.html'), /id="floridaTpmoInventoryNote"/);

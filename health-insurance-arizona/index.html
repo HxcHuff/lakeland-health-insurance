@@ -54,7 +54,7 @@
       "description": "Licensed in Arizona (#18213932). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
       "inLanguage": "en-US",
       "datePublished": "2026-11-16",
-      "dateModified": "2026-11-16",
+      "dateModified": "2026-11-18",
       "isPartOf": {
         "@id": "https://lakelandhealthinsurance.com/#website"
       },
@@ -144,7 +144,7 @@
           "telephone": "+1-863-640-3102",
           "contactType": "customer service"
         },
-        "serviceUrl": "https://lakelandhealthinsurance.com/get-help/"
+        "serviceUrl": "https://lakelandhealthinsurance.com/get-help/?state=AZ&intent=under-65"
       }
     },
     {
@@ -273,7 +273,7 @@
       <li><a href="/about/">About</a></li>
     </ul>
     <div class="cta-group">
-      <a href="/get-help/" class="cta-button">Request a plan review</a>
+      <a href="/get-help/?state=AZ&amp;intent=under-65" class="cta-button">Request a plan review</a>
     </div>
   </nav>
 </header>
@@ -287,7 +287,7 @@
             <a href="/">Home</a><span aria-hidden="true">/</span><a href="/states/">States I'm licensed in</a><span aria-hidden="true">/</span><span aria-current="page">Arizona</span>
           </nav>
           <p class="eyebrow">HealthCare.gov plan review · Under 65 · Arizona nonresident license #18213932 · NPN 18213932</p>
-          <h1>Arizona health insurance for 2027: check the plan before it renews</h1><p class="lhi-hero-lede byline">Updated November 16, 2026 · Lakeland Health Insurance, David Huff, licensed health agent, Arizona nonresident license #18213932.</p></div>
+          <h1>Arizona health insurance for 2027: check the plan before it renews</h1><p class="lhi-hero-lede byline">Updated November 18, 2026 · Lakeland Health Insurance, David Huff, licensed health agent, Arizona nonresident license #18213932.</p></div>
 
           <div class="cta-row">
             <a class="btn primary" href="/get-help/?state=AZ&amp;intent=under-65">Request a plan review</a>
@@ -333,8 +333,8 @@
         <input type="hidden" name="event_id">
         <input type="hidden" name="server_received_at">
         <input type="hidden" name="source_url">
-        <input type="hidden" name="state">
-        <input type="hidden" name="coverage_state">
+        <input type="hidden" name="state" value="AZ">
+        <input type="hidden" name="coverage_state" value="AZ">
         <input type="hidden" name="utm_source" id="health_insurance_arizona_utm_source">
         <input type="hidden" name="utm_medium" id="health_insurance_arizona_utm_medium">
         <input type="hidden" name="utm_campaign" id="health_insurance_arizona_utm_campaign">
@@ -382,6 +382,10 @@
             </select>
           </div>
           <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
+            <label for="health_insurance_arizona_providers">Doctors or hospitals to keep (optional)</label>
+            <input type="text" id="health_insurance_arizona_providers" name="providers" autocomplete="off" placeholder="e.g. Banner Health, HonorHealth, Mayo Clinic Arizona, or TMC">
+          </div>
+          <div class="lhi-lead-hero__field lhi-lead-hero__field--full">
             <label class="lhi-lead-hero__consent" for="health_insurance_arizona_consent">
               <input type="checkbox" id="health_insurance_arizona_consent" name="consent" value="yes">
               <span>By checking this box, I give my prior express written consent for Lakeland Health Insurance (David Huff, licensed insurance agent) to contact me about my insurance request, including marketing calls and text messages, at the phone number I provided, which may be sent using an automated system for the selection or dialing of telephone numbers. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See <a href="/sms-policy.html" target="_blank" rel="noopener noreferrer">SMS Terms</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
@@ -412,6 +416,16 @@
             </tbody>
           </table>
           <p style="margin-top:.9rem;">For 2026 and 2027 coverage, federal premium tax credits are generally available up to 400% of the federal poverty level ($63,840 single / $132,000 family of four using 2026 HHS guidelines), and excess advance credits carry full tax-time reconciliation without repayment caps. HealthCare.gov determines Marketplace eligibility, while your state Medicaid agency makes the final Medicaid decision.</p>
+        </article>
+
+        <article class="answer-card">
+          <h2>Where Arizona shoppers get tripped up in 2027</h2>
+          <ul>
+            <li><strong>Maricopa and Pima County HMOs split by hospital system.</strong> In Phoenix, Scottsdale, Mesa, Chandler, Gilbert, and Glendale, many HealthCare.gov plans build narrow sub-networks centered on either Banner Health, HonorHealth, Dignity Health, or Abrazo—while Tucson and Pima County plans contract separately around Banner - University Medical Center, Tucson Medical Center (TMC Health), or Northwest / Carondelet.</li>
+            <li><strong>Mayo Clinic Arizona is excluded from most narrow Marketplace HMOs.</strong> If you want access to Mayo Clinic Hospital in Phoenix or Mayo Clinic Scottsdale specialists, never assume a Bronze or Silver HMO includes them without checking the exact 2027 plan ID and NPI directory first.</li>
+            <li><strong>Uncapped tax-credit reconciliation hits variable 2027 income.</strong> Self-employed, seasonal, and commission households whose actual 2027 MAGI crosses 400% FPL—or finishes higher than estimated—must reconcile advance premium tax credits in full when filing their federal return.</li>
+            <li><strong>Dual-state and seasonal residents must verify home-ZIP network rules.</strong> Marketplace HMOs and EPOs generally cover out-of-state care only for emergencies, so under-65 households splitting the year between Arizona and another state should check service-area residency rules before enrolling.</li>
+          </ul>
         </article>
 
         <article class="answer-card">
@@ -468,7 +482,7 @@
 
         <article class="answer-card">
           <h2>Related Arizona &amp; Marketplace pages</h2>
-          <p class="related-links"><a href="/blog/banner-health-honorhealth-mayo-arizona-2027.html">Banner Health, HonorHealth &amp; Mayo Clinic Arizona 2027 Guide</a> · <a href="/states/">All 23 licensed states</a></p>
+          <p class="related-links"><a href="/blog/banner-health-honorhealth-mayo-arizona-2027.html">Banner Health, HonorHealth &amp; Mayo Clinic Arizona 2027 Guide</a> · <a href="/health-insurance-washington/">Washington</a> · <a href="/states/">All 23 licensed states</a></p>
           <p>State-neutral guides: <a href="/blog/deductible-vs-out-of-pocket-maximum.html">deductible vs. out-of-pocket maximum</a> · <a href="/blog/hmo-vs-ppo-vs-epo-explained.html">HMO vs PPO vs EPO</a> · <a href="/blog/bronze-vs-silver-vs-gold-which-plan.html">Bronze vs Silver vs Gold</a></p>
         </article>
       </div>

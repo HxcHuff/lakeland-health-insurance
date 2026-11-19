@@ -92,6 +92,13 @@ const STATE_ACA_PAGES = [
   '/health-insurance-tennessee/',
   '/health-insurance-alabama/',
   '/health-insurance-georgia/',
+  '/health-insurance-new-jersey/',
+  '/health-insurance-ohio/',
+  '/health-insurance-michigan/',
+  '/health-insurance-indiana/',
+  '/health-insurance-virginia/',
+  '/health-insurance-arizona/',
+  '/health-insurance-washington/',
   '/states/'
 ];
 

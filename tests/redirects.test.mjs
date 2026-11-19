@@ -52,6 +52,7 @@ const AFFECTED_DIRECTORY_PATHS = [
   '/health-insurance-indiana',
   '/health-insurance-virginia',
   '/health-insurance-arizona',
+  '/health-insurance-washington',
   '/health-insurance-north-carolina',
   '/health-insurance-south-carolina',
   '/health-insurance-tennessee',
@@ -272,6 +273,10 @@ test('direct controls have no 3xx rule and approved aliases terminate within two
     ['/index.html', '/'],
     ['/health-insurance-florida', '/aca-health-insurance-lakeland-fl/'],
     ['/health-insurance-florida/', '/aca-health-insurance-lakeland-fl/'],
+    ['/arizona', '/health-insurance-arizona/'],
+    ['/az', '/health-insurance-arizona/'],
+    ['/washington', '/health-insurance-washington/'],
+    ['/wa', '/health-insurance-washington/'],
     ['/calendly-book.html', '/book/'],
     ['/calendly-book', '/book/'],
     ['/calendly-book.html/', '/book/']
