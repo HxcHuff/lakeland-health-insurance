@@ -300,7 +300,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 349);
+  assert.equal(templateConsumers.length, 353);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_PHONE_LOADER), true, `${relative(ROOT, file)} loads the shared phone config before site chrome`);
@@ -397,6 +397,10 @@ test('Wave 3, Wave 4 & Wave 5 2027 hospital network guides include No Surprises 
     'blog/cheap-silver-plan-hospital-network-trap-florida-2027.html',
     'blog/doctor-takes-insurance-but-plan-out-of-network-2027.html',
     'blog/bartow-regional-medical-center-baycare-watson-clinic-2027.html',
+    'blog/providence-swedish-kadlec-unitedhealthcare-washington-2027.html',
+    'blog/providence-health-plan-exiting-washington-2027.html',
+    'blog/honorhealth-az-blue-best-life-medicare-2027.html',
+    'blog/cigna-exiting-arizona-marketplace-2027-rates.html',
   ];
   const reciprocalSiblingFiles = [
     'blog/atrium-health-novant-health-aca-north-carolina-2027.html',

@@ -9,7 +9,7 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/states/</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -93,14 +93,14 @@
 
   <url>
     <loc>https://lakelandhealthinsurance.com/health-insurance-arizona/</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://lakelandhealthinsurance.com/health-insurance-washington/</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -2276,6 +2276,30 @@
   <url>
     <loc>https://lakelandhealthinsurance.com/blog/check-doctors-by-npi-plan-id-polk-county-2027.html</loc>
     <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/providence-swedish-kadlec-unitedhealthcare-washington-2027.html</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/providence-health-plan-exiting-washington-2027.html</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/honorhealth-az-blue-best-life-medicare-2027.html</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://lakelandhealthinsurance.com/blog/cigna-exiting-arizona-marketplace-2027-rates.html</loc>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>

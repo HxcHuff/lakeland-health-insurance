@@ -1685,6 +1685,18 @@ const siteSearchIndex = [
     tags: ["ACA","Medicare","Banner Health","HonorHealth","Mayo Clinic Arizona","Phoenix","Scottsdale","Tucson","Arizona","2027"]
   },
   {
+    title: "HonorHealth Leaving AZ Blue Best Life HMO in 2027 (AZ Guide)",
+    url: "/blog/honorhealth-az-blue-best-life-medicare-2027.html",
+    excerpt: "HonorHealth doctors, specialists, and hospitals leave AZ Blue Best Life (HMO) Medicare Advantage Jan 1, 2027. See unaffected BCBSAZ plans and 2027 options.",
+    tags: ["Medicare","HonorHealth","AZ Blue","Best Life HMO","BCBSAZ","Scottsdale","Phoenix","Arizona","2027"]
+  },
+  {
+    title: "Cigna Exiting Arizona ACA Marketplace & 2027 Rate Hike Guide",
+    url: "/blog/cigna-exiting-arizona-marketplace-2027-rates.html",
+    excerpt: "Cigna is leaving Arizona's ACA Marketplace Dec 31, 2026 alongside a 27.9% avg 2027 rate jump. Compare AZ Blue, Ambetter, UHC, Oscar, Imperial, and Antidote.",
+    tags: ["ACA","Marketplace","Cigna","AZ Blue","Ambetter","Oscar","Antidote","Arizona","Phoenix","Tucson","2027"]
+  },
+  {
     title: "Tallahassee Memorial vs. HCA Florida Capital 2027: Big Bend ACA & Medicare Guide",
     url: "/blog/tallahassee-memorial-hca-capital-big-bend-2027.html",
     excerpt: "Compare 2027 Leon, Gadsden, Wakulla, and Jefferson County plans for Tallahassee Memorial HealthCare (TMH), HCA Florida Capital Hospital, and Capital Health Plan.",
@@ -1755,6 +1767,18 @@ const siteSearchIndex = [
     url: "/blog/uw-medicine-providence-multicare-washington-healthplanfinder-2027.html",
     excerpt: "Verify 2027 Seattle, Bellevue, Tacoma, Everett, Spokane, and Vancouver plans for UW Medicine, Fred Hutch, Providence Swedish, MultiCare, and VMFH.",
     tags: ["ACA","Medicare","UW Medicine","Fred Hutch","Providence Swedish","MultiCare","Washington Healthplanfinder","Seattle","Spokane","Washington","2027"]
+  },
+  {
+    title: "Providence, Swedish & Kadlec Leaving UnitedHealthcare (2027)",
+    url: "/blog/providence-swedish-kadlec-unitedhealthcare-washington-2027.html",
+    excerpt: "Providence, Swedish, PacMed, and Kadlec leave UnitedHealthcare Individual Medicare Advantage (HMO, PPO & C-SNP) Jan 1, 2027 in Washington. Compare 2027 options.",
+    tags: ["Medicare","Providence","Swedish","PacMed","Kadlec","UnitedHealthcare","MultiCare","Seattle","Spokane","Washington","2027"]
+  },
+  {
+    title: "Providence Health Plan Exiting Washington in 2027: Next Steps",
+    url: "/blog/providence-health-plan-exiting-washington-2027.html",
+    excerpt: "Providence Health Plan is ending WA Medicare Advantage and Individual plans Jan 1, 2027. Compare Devoted Health SW WA, Premera's 15-county expansion, and Medigap.",
+    tags: ["ACA","Medicare","Providence Health Plan","Devoted Health","Premera","Regence","Washington Healthplanfinder","Vancouver","Washington","2027"]
   },
   {
     title: "WVU Medicine, CAMC Vandalia Health & Marshall Health 2027: West Virginia Guide",
