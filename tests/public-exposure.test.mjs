@@ -300,7 +300,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 362);
+  assert.equal(templateConsumers.length, 373);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_PHONE_LOADER), true, `${relative(ROOT, file)} loads the shared phone config before site chrome`);
@@ -401,6 +401,17 @@ test('Wave 3, Wave 4 & Wave 5 2027 hospital network guides include No Surprises 
     'blog/providence-health-plan-exiting-washington-2027.html',
     'blog/honorhealth-az-blue-best-life-medicare-2027.html',
     'blog/cigna-exiting-arizona-marketplace-2027-rates.html',
+    'blog/bcbstx-memorial-hermann-christus-medicare-exit-2027.html',
+    'blog/baylor-scott-white-cigna-exiting-texas-aca-2027.html',
+    'blog/sentara-vcu-health-anthem-out-of-network-virginia-2027.html',
+    'blog/vanderbilt-health-aetna-medicare-out-of-network-2027.html',
+    'blog/unitedhealthcare-cigna-exiting-georgia-access-2027.html',
+    'blog/humana-uhc-molina-medicare-advantage-exits-2027.html',
+    'blog/caresource-cigna-molina-exiting-ohio-indiana-wv-2027.html',
+    'blog/kettering-health-anthem-genesis-medicare-ohio-2027.html',
+    'blog/cigna-molina-exiting-nc-sc-mississippi-aca-2027.html',
+    'blog/medica-cox-mending-exiting-iowa-kansas-mo-ok-2027.html',
+    'blog/sarasota-memorial-unitedhealthcare-2027-update.html',
   ];
   const reciprocalSiblingFiles = [
     'blog/atrium-health-novant-health-aca-north-carolina-2027.html',

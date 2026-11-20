@@ -2349,6 +2349,168 @@ const siteSearchIndex = [
       "HealthCare.gov",
       "2027"
     ]
+  },
+  {
+    "title": "BCBSTX, Memorial Hermann & CHRISTUS Medicare Exit (2027)",
+    "url": "/blog/bcbstx-memorial-hermann-christus-medicare-exit-2027.html",
+    "excerpt": "BCBSTX, Memorial Hermann Health Plan (14,000+ members) & CHRISTUS Health Plan (~9,000) end Texas Medicare Advantage plans Dec 31, 2026. See GI Medigap rights.",
+    "tags": [
+      "Texas",
+      "BCBSTX",
+      "Memorial Hermann",
+      "CHRISTUS",
+      "Medicare Advantage",
+      "Guaranteed Issue",
+      "Medigap",
+      "2027"
+    ]
+  },
+  {
+    "title": "Baylor Scott & White & Cigna Exiting Texas ACA (2027)",
+    "url": "/blog/baylor-scott-white-cigna-exiting-texas-aca-2027.html",
+    "excerpt": "Baylor Scott & White Health Plan (~100,000 Texans) and Cigna are exiting the Texas ACA Marketplace Dec 31, 2026. Compare 2027 TX replacements by Dec 15.",
+    "tags": [
+      "Texas",
+      "Baylor Scott & White",
+      "Cigna",
+      "ACA",
+      "Marketplace",
+      "HealthCare.gov",
+      "2027"
+    ]
+  },
+  {
+    "title": "Sentara & VCU Health Leaving Anthem in Virginia (2027)",
+    "url": "/blog/sentara-vcu-health-anthem-out-of-network-virginia-2027.html",
+    "excerpt": "Sentara Health (Anthem MA & ACA Exchange) and VCU Health (standard Anthem MA) go out of network Jan 1, 2027 in Virginia. Check unaffected plans & deadlines.",
+    "tags": [
+      "Virginia",
+      "Sentara Health",
+      "VCU Health",
+      "Anthem",
+      "Medicare Advantage",
+      "Virginia Marketplace",
+      "2027"
+    ]
+  },
+  {
+    "title": "Vanderbilt Health Leaving Aetna Medicare Advantage (2027)",
+    "url": "/blog/vanderbilt-health-aetna-medicare-out-of-network-2027.html",
+    "excerpt": "Vanderbilt Health goes out of network with all Aetna Medicare Advantage individual & group plans Jan 1, 2027 (plus select UHC plans). See TN alternatives.",
+    "tags": [
+      "Tennessee",
+      "Vanderbilt Health",
+      "Aetna",
+      "UnitedHealthcare",
+      "Medicare Advantage",
+      "Nashville",
+      "2027"
+    ]
+  },
+  {
+    "title": "UHC & Cigna Exiting Georgia Access ACA Marketplace (2027)",
+    "url": "/blog/unitedhealthcare-cigna-exiting-georgia-access-2027.html",
+    "excerpt": "UnitedHealthcare and Cigna are exiting Georgia Access ACA Marketplace effective Jan 1, 2027. PY2027 Georgia Access certified guide to Piedmont, Emory & Wellstar.",
+    "tags": [
+      "Georgia",
+      "Georgia Access",
+      "UnitedHealthcare",
+      "Cigna",
+      "ACA",
+      "Atlanta",
+      "2027"
+    ]
+  },
+  {
+    "title": "Humana, UHC & Molina Medicare Advantage Exits (2027)",
+    "url": "/blog/humana-uhc-molina-medicare-advantage-exits-2027.html",
+    "excerpt": "Roughly 1.7 million seniors face 2027 Medicare Advantage non-renewals across Humana (~600k), UHC (~390k) & Molina's MAPD exit. See 63-day GI Medigap rights.",
+    "tags": [
+      "Humana",
+      "UnitedHealthcare",
+      "Molina",
+      "Medicare Advantage",
+      "Non-Renewal",
+      "Guaranteed Issue",
+      "Medigap",
+      "2027"
+    ]
+  },
+  {
+    "title": "CareSource, Cigna & Molina Exiting OH, IN & WV ACA (2027)",
+    "url": "/blog/caresource-cigna-molina-exiting-ohio-indiana-wv-2027.html",
+    "excerpt": "CareSource exits OH, IN & WV ACA Marketplaces; Cigna exits OH & IN; Molina exits OH after Dec 31, 2026. Compare 2027 HealthCare.gov replacements by Dec 15.",
+    "tags": [
+      "Ohio",
+      "Indiana",
+      "West Virginia",
+      "CareSource",
+      "Cigna",
+      "Molina",
+      "ACA",
+      "HealthCare.gov",
+      "2027"
+    ]
+  },
+  {
+    "title": "Kettering Health Leaving Anthem Medicare in Ohio (2027)",
+    "url": "/blog/kettering-health-anthem-genesis-medicare-ohio-2027.html",
+    "excerpt": "Kettering Health goes out of network with Anthem Medicare Advantage (including MyCare) Jan 1, 2027 in Dayton/OH, plus Genesis HealthCare MA notices.",
+    "tags": [
+      "Ohio",
+      "Kettering Health",
+      "Genesis HealthCare",
+      "Anthem",
+      "Medicare Advantage",
+      "Dayton",
+      "2027"
+    ]
+  },
+  {
+    "title": "Cigna & Molina Exiting NC, SC & MS ACA Marketplace (2027)",
+    "url": "/blog/cigna-molina-exiting-nc-sc-mississippi-aca-2027.html",
+    "excerpt": "Cigna exits NC & Mississippi ACA and Molina exits SC & Mississippi after Dec 31, 2026. Compare 2027 HealthCare.gov plans for Atrium, Novant, MUSC & UMMC.",
+    "tags": [
+      "North Carolina",
+      "South Carolina",
+      "Mississippi",
+      "Cigna",
+      "Molina",
+      "ACA",
+      "HealthCare.gov",
+      "2027"
+    ]
+  },
+  {
+    "title": "Medica, Cox & Mending Exiting IA, KS, MO & OK ACA (2027)",
+    "url": "/blog/medica-cox-mending-exiting-iowa-kansas-mo-ok-2027.html",
+    "excerpt": "Medica exits IA, KS & OK ACA; Mending/Taro Health exits Oklahoma; Cox HealthPlans leaves HealthCare.gov in SW Missouri for 2027. Compare replacements.",
+    "tags": [
+      "Iowa",
+      "Kansas",
+      "Missouri",
+      "Oklahoma",
+      "Medica",
+      "Cox HealthPlans",
+      "Mending",
+      "Taro Health",
+      "ACA",
+      "2027"
+    ]
+  },
+  {
+    "title": "Sarasota Memorial & UnitedHealthcare 2027 Deal Update",
+    "url": "/blog/sarasota-memorial-unitedhealthcare-2027-update.html",
+    "excerpt": "UPDATE: Sarasota Memorial Hospital & First Physicians Group reached a new multi-year deal with UnitedHealthcare for Jan 1, 2027. See what IS still changing in SW FL.",
+    "tags": [
+      "Florida",
+      "Sarasota Memorial",
+      "First Physicians Group",
+      "UnitedHealthcare",
+      "Lee Health",
+      "Medicare Advantage",
+      "2027"
+    ]
   }
 ];
 
