@@ -93,7 +93,17 @@ const TITLE_CAP_PAGES = [
   'blog/florida-cancer-specialists-davenport.html',
   'health-protector-guard/review/index.html',
   'blog/baycare-medicare-advantage-plans-2027-polk-county.html',
-  'blog/orlando-health-insurance-accepted-alternatives-2027.html'
+  'blog/orlando-health-insurance-accepted-alternatives-2027.html',
+  'carriers/baycare-plus-medicare-2027/index.html',
+  'carriers/humana-medicare-2027/index.html',
+  'blog/switch-to-medigap-plan-g-non-renewal.html',
+  '2027-id-check/index.html',
+  'blog/orlando-health-lakeland-quality-approval-2026.html',
+  'blog/marketplace-subsidy-immigrant-eligibility-florida.html',
+  'blog/catastrophic-health-plan-florida-over-30.html',
+  'blog/health-insurance-outside-open-enrollment.html',
+  'local-health-insurance-answers/seguro-medico-medicare-lakeland-polk-county-es/index.html',
+  'local-health-insurance-answers/four-corners-polk-osceola-lake-orange-insurance/index.html'
 ];
 
 const REDIRECTED = [
@@ -289,4 +299,45 @@ test('page-1 surge targets have aligned broker H1, homepage hub links, and Watso
   const watson = source('blog/orlando-health-watson-clinic-insurance-2026.html');
   assert.match(watson, /"name": "Does Watson Clinic take Medicaid\?"/);
   assert.match(watson, /<h3>Does Watson Clinic take Medicaid\?<\/h3>/);
+});
+
+test('Wave 3 QA fixes eliminate blog 404 fetch, add search coverage, and close conversion gaps', () => {
+  const popularity = source('js/blog-popularity.js');
+  assert.doesNotMatch(popularity, /fetch\(DATA_URL/);
+
+  const home = source('index.html');
+  assert.match(home, /register\('\/sw\.js',\s*\{\s*updateViaCache:\s*'none'\s*\}\)/);
+
+  const search = source('js/site-search.js');
+  for (const url of [
+    '/blog/medicare-part-d-2027-cap-explained.html',
+    '/carriers/humana-medicare-2027/',
+    '/carriers/unitedhealthcare-medicare-2027/',
+    '/carriers/baycare-plus-medicare-2027/',
+    '/2027-id-check/'
+  ]) {
+    assert.ok(search.includes(`"${url}"`), `js/site-search.js missing ${url}`);
+  }
+
+  for (const rel of [
+    'carriers/baycare-plus-medicare-2027/index.html',
+    'carriers/humana-medicare-2027/index.html',
+    'carriers/unitedhealthcare-medicare-2027/index.html',
+    'health-protector-guard/review/index.html'
+  ]) {
+    const html = source(rel);
+    assert.match(html, /data-netlify="true"/, `${rel} missing lead form`);
+    assert.match(html, /href="sms:\+18636403102/, `${rel} missing SMS CTA`);
+    assert.match(html, /\/js\/lead-hero\.js/, `${rel} missing lead-hero.js`);
+    assert.match(html, /\/js\/funnel\.js/, `${rel} missing funnel.js`);
+  }
+
+  for (const rel of [
+    'blog/turning-65-medicare-checklist-florida.html',
+    'blog/florida-aca-enrollment-and-benefits-2026.html'
+  ]) {
+    const html = source(rel);
+    assert.match(html, /href="tel:\+18636403102"/, `${rel} missing tel CTA`);
+    assert.match(html, /href="sms:\+18636403102/, `${rel} missing sms CTA`);
+  }
 });

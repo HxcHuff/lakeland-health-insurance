@@ -140,6 +140,60 @@ const siteSearchIndex = [
     tags: ["Washington", "Washington Healthplanfinder", "Cascade Care", "Cascade Care Savings", "Apple Health", "ACA", "Marketplace"]
   },
   {
+    title: "Iowa ACA Health Insurance Agent | 2027 Marketplace Help",
+    url: "/health-insurance-iowa/",
+    excerpt: "Licensed in Iowa (#18213932). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Iowa", "ACA", "Marketplace", "HealthCare.gov", "UI Health Care", "UnityPoint", "MercyOne", "Des Moines"]
+  },
+  {
+    title: "Kansas ACA Health Insurance Agent | 2027 Marketplace Help",
+    url: "/health-insurance-kansas/",
+    excerpt: "Licensed in Kansas (#18213932). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Kansas", "ACA", "Marketplace", "HealthCare.gov", "KanCare", "KU Med", "Overland Park", "Wichita"]
+  },
+  {
+    title: "Louisiana ACA Health Insurance Agent | 2027 Marketplace",
+    url: "/health-insurance-louisiana/",
+    excerpt: "Licensed in Louisiana (#884531). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Louisiana", "ACA", "Marketplace", "HealthCare.gov", "Healthy Louisiana", "Ochsner", "LCMC", "New Orleans", "Baton Rouge"]
+  },
+  {
+    title: "Maryland ACA Health Insurance Agent | 2027 Exchange Help",
+    url: "/health-insurance-maryland/",
+    excerpt: "Licensed in Maryland (#3000829890). A 2027 Maryland Health Connection review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Maryland", "Maryland Health Connection", "Johns Hopkins", "MedStar", "UMMS", "ACA", "Marketplace", "Baltimore"]
+  },
+  {
+    title: "Mississippi ACA Health Insurance Agent | 2027 Marketplace",
+    url: "/health-insurance-mississippi/",
+    excerpt: "Licensed in Mississippi (#10669503). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Mississippi", "ACA", "Marketplace", "HealthCare.gov", "UMMC", "Baptist Memorial", "Jackson", "Gulfport"]
+  },
+  {
+    title: "Missouri ACA Health Insurance Agent | 2027 Marketplace",
+    url: "/health-insurance-missouri/",
+    excerpt: "Licensed in Missouri (#3000857686). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Missouri", "ACA", "Marketplace", "HealthCare.gov", "MO HealthNet", "BJC HealthCare", "WashU", "St. Louis", "Kansas City"]
+  },
+  {
+    title: "Nebraska ACA Health Insurance Agent | 2027 Marketplace",
+    url: "/health-insurance-nebraska/",
+    excerpt: "Licensed in Nebraska (#18213932). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Nebraska", "ACA", "Marketplace", "HealthCare.gov", "Heritage Health", "Nebraska Medicine", "Omaha", "Lincoln"]
+  },
+  {
+    title: "Oklahoma ACA Health Insurance Agent | 2027 Marketplace",
+    url: "/health-insurance-oklahoma/",
+    excerpt: "Licensed in Oklahoma (#3001037181). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["Oklahoma", "ACA", "Marketplace", "HealthCare.gov", "SoonerCare", "INTEGRIS", "OU Health", "Oklahoma City", "Tulsa"]
+  },
+  {
+    title: "West Virginia ACA Health Agent | 2027 Marketplace Help",
+    url: "/health-insurance-west-virginia/",
+    excerpt: "Licensed in West Virginia (#18213932). A 2027 HealthCare.gov plan review built around your doctors, prescriptions, and income. No separate agent fee.",
+    tags: ["West Virginia", "ACA", "Marketplace", "HealthCare.gov", "WVU Medicine", "CAMC", "Marshall Health", "Charleston", "Morgantown"]
+  },
+  {
     title: "CMS Marketplace Agent Crackdown: Lakeland FL Guide (2026)",
     url: "/marketplace-agent-fraud-cms-crackdown-florida/",
     excerpt: "CMS canceled unauthorized Marketplace enrollments and sent agent termination notices. What Lakeland and Polk shoppers should check before Open Enrollment.",
@@ -2228,6 +2282,71 @@ const siteSearchIndex = [
       "Issue-Age Rating",
       "Lakeland",
       "Polk County",
+      "2027"
+    ]
+  },
+  {
+    "title": "Medicare Part D $2,400 Cap in 2027: How it Works in Florida",
+    "url": "/blog/medicare-part-d-2027-cap-explained.html",
+    "excerpt": "The 2027 Medicare Part D $2,400 out-of-pocket cap eliminates the coverage gap (donut hole). Learn how it affects Florida Medicare Advantage, stand-alone Part D, and monthly payment plans.",
+    "tags": [
+      "Medicare Part D",
+      "$2,400 Cap",
+      "Prescription Drugs",
+      "Florida",
+      "2027"
+    ]
+  },
+  {
+    "title": "Humana Medicare Plans 2027 | Lakeland & Polk",
+    "url": "/carriers/humana-medicare-2027/",
+    "excerpt": "2027 guide to Humana Medicare Advantage and Part D in Polk County, FL, including the Watson Clinic network change and how to verify doctors.",
+    "tags": [
+      "Humana",
+      "CarePlus",
+      "Medicare Advantage",
+      "Watson Clinic",
+      "Polk County",
+      "2027"
+    ]
+  },
+  {
+    "title": "UnitedHealthcare Medicare Lakeland & Polk (2027) | Guide",
+    "url": "/carriers/unitedhealthcare-medicare-2027/",
+    "excerpt": "2027 guide to UnitedHealthcare AARP Medicare Advantage, Medigap Plan G/N, and Part D plans in Lakeland and Polk County, FL. Check Watson Clinic and LRH.",
+    "tags": [
+      "UnitedHealthcare",
+      "AARP",
+      "Medicare Advantage",
+      "Medigap",
+      "Polk County",
+      "2027"
+    ]
+  },
+  {
+    "title": "BayCarePlus Medicare 2027 (Polk County) | Guide",
+    "url": "/carriers/baycare-plus-medicare-2027/",
+    "excerpt": "2027 guide to BayCarePlus Medicare Advantage HMO plans in Winter Haven, Lakeland, and Polk County, FL. Network access, hospital checks, and benefits.",
+    "tags": [
+      "BayCare",
+      "BayCarePlus",
+      "Medicare Advantage",
+      "Winter Haven",
+      "Bartow",
+      "Polk County",
+      "2027"
+    ]
+  },
+  {
+    "title": "2027 Marketplace Agent ID Check | Lakeland FL",
+    "url": "/2027-id-check/",
+    "excerpt": "What to expect during a 2027 HealthCare.gov agent review: documented consent, the 15-minute phone or email approval code, and CMS identity verification.",
+    "tags": [
+      "Marketplace",
+      "ACA",
+      "Agent Approval",
+      "ID Check",
+      "HealthCare.gov",
       "2027"
     ]
   }

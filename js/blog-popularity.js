@@ -82,21 +82,17 @@
   }
 
   function init() {
-    fetch(DATA_URL, { cache: 'no-store' })
-      .then(function (response) {
-        if (!response.ok) throw new Error('Visit data unavailable');
-        return response.json();
-      })
-      .then(function (data) {
-        var counts = data && data.counts ? data.counts : {};
-        var articles = getArticleData(counts);
-        addCardBadges(articles);
-        renderPopularPosts(articles, data);
-      })
-      .catch(function () {
-        var section = document.getElementById('popular-posts');
-        if (section) section.hidden = true;
-      });
+    var data = typeof window !== 'undefined' ? window.__LHI_BLOG_VISITS__ : null;
+    if (!data || !data.counts || typeof data.counts !== 'object') {
+      var section = document.getElementById('popular-posts');
+      if (section) section.hidden = true;
+      return;
+    }
+
+    var counts = data.counts;
+    var articles = getArticleData(counts);
+    addCardBadges(articles);
+    renderPopularPosts(articles, data);
   }
 
   if (document.readyState === 'loading') {

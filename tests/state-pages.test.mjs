@@ -22,6 +22,15 @@ const LIVE = [
   ['health-insurance-virginia/index.html', '/health-insurance-virginia/'],
   ['health-insurance-arizona/index.html', '/health-insurance-arizona/'],
   ['health-insurance-washington/index.html', '/health-insurance-washington/'],
+  ['health-insurance-iowa/index.html', '/health-insurance-iowa/'],
+  ['health-insurance-kansas/index.html', '/health-insurance-kansas/'],
+  ['health-insurance-louisiana/index.html', '/health-insurance-louisiana/'],
+  ['health-insurance-maryland/index.html', '/health-insurance-maryland/'],
+  ['health-insurance-mississippi/index.html', '/health-insurance-mississippi/'],
+  ['health-insurance-missouri/index.html', '/health-insurance-missouri/'],
+  ['health-insurance-nebraska/index.html', '/health-insurance-nebraska/'],
+  ['health-insurance-oklahoma/index.html', '/health-insurance-oklahoma/'],
+  ['health-insurance-west-virginia/index.html', '/health-insurance-west-virginia/'],
   ['health-insurance-north-carolina/index.html', '/health-insurance-north-carolina/'],
   ['health-insurance-south-carolina/index.html', '/health-insurance-south-carolina/'],
   ['health-insurance-tennessee/index.html', '/health-insurance-tennessee/'],
@@ -103,6 +112,39 @@ test('Arizona and Washington hubs are indexable, wired across hubs/search/llms, 
   }
 });
 
+test('all 9 Wave 4 licensed state hubs complete the 23-state footprint across hubs, search, llms, and sitemap', () => {
+  const statesHub = source('states/index.html');
+  const about = source('about/index.html');
+  const home = source('index.html');
+  const search = source('js/site-search.js');
+  const llms = source('llms.txt');
+  const wave4 = [
+    ['health-insurance-iowa/index.html', '/health-insurance-iowa/', 'IA', /HealthCare\.gov/],
+    ['health-insurance-kansas/index.html', '/health-insurance-kansas/', 'KS', /KanCare/],
+    ['health-insurance-louisiana/index.html', '/health-insurance-louisiana/', 'LA', /Healthy Louisiana/],
+    ['health-insurance-maryland/index.html', '/health-insurance-maryland/', 'MD', /Maryland Health Connection/],
+    ['health-insurance-mississippi/index.html', '/health-insurance-mississippi/', 'MS', /medicaid\.ms\.gov/],
+    ['health-insurance-missouri/index.html', '/health-insurance-missouri/', 'MO', /MO HealthNet/],
+    ['health-insurance-nebraska/index.html', '/health-insurance-nebraska/', 'NE', /Heritage Health/],
+    ['health-insurance-oklahoma/index.html', '/health-insurance-oklahoma/', 'OK', /SoonerCare/],
+    ['health-insurance-west-virginia/index.html', '/health-insurance-west-virginia/', 'WV', /WVU Medicine/]
+  ];
+
+  for (const [rel, slug, code, expectedExchange] of wave4) {
+    const html = source(rel);
+    const escaped = slug.replace(/\//g, '\\/');
+    assert.match(html, expectedExchange, `${rel} cites expected exchange/Medicaid authority`);
+    assert.match(html, new RegExp(`name="state" value="${code}"`), `${rel} sets state hidden input`);
+    assert.match(html, new RegExp(`name="coverage_state" value="${code}"`), `${rel} sets coverage_state hidden input`);
+    assert.match(SITEMAP, new RegExp(`https:\\/\\/lakelandhealthinsurance\\.com${escaped}`), `${slug} in sitemap`);
+    assert.match(statesHub, new RegExp(`href="${escaped}"`), `${slug} linked on /states/`);
+    assert.match(about, new RegExp(`href="${escaped}"`), `${slug} linked on /about/`);
+    assert.match(home, new RegExp(`href="${escaped}"`), `${slug} linked on /`);
+    assert.match(search, new RegExp(escaped), `${slug} indexed in site-search.js`);
+    assert.match(llms, new RegExp(`https:\\/\\/lakelandhealthinsurance\\.com${escaped}`), `${slug} in llms.txt`);
+  }
+});
+
 test('shipped state pages, hub, About, and get-help do not contain visible [TODO placeholders', () => {
   for (const rel of [
     'states/index.html',
@@ -151,7 +193,16 @@ const STATE_LICENSES = [
   ['health-insurance-indiana/index.html', 'Indiana', '3529184'],
   ['health-insurance-virginia/index.html', 'Virginia', '1136622'],
   ['health-insurance-arizona/index.html', 'Arizona', '18213932'],
-  ['health-insurance-washington/index.html', 'Washington', '1051160']
+  ['health-insurance-washington/index.html', 'Washington', '1051160'],
+  ['health-insurance-iowa/index.html', 'Iowa', '18213932'],
+  ['health-insurance-kansas/index.html', 'Kansas', '18213932'],
+  ['health-insurance-louisiana/index.html', 'Louisiana', '884531'],
+  ['health-insurance-maryland/index.html', 'Maryland', '3000829890'],
+  ['health-insurance-mississippi/index.html', 'Mississippi', '10669503'],
+  ['health-insurance-missouri/index.html', 'Missouri', '3000857686'],
+  ['health-insurance-nebraska/index.html', 'Nebraska', '18213932'],
+  ['health-insurance-oklahoma/index.html', 'Oklahoma', '3001037181'],
+  ['health-insurance-west-virginia/index.html', 'West Virginia', '18213932']
 ];
 
 test('state-page JSON-LD includes InsuranceAgency, Service areaServed, breadcrumbs, and matching FAQPage text', () => {
@@ -230,7 +281,7 @@ test('hub lists all 23 licensed states and routes Florida to existing pages', ()
   assert.doesNotMatch(html, /Medicare help remains on the Florida Medicare page/);
   assert.match(html, /This hub is for ACA Marketplace coverage for people under 65 who are not on Medicare/);
   assert.doesNotMatch(html, /href="\/health-insurance-florida\//);
-  assert.doesNotMatch(html, /href="\/health-insurance-kansas\//);
+  assert.match(html, /href="\/health-insurance-kansas\//);
   assert.doesNotMatch(html, /page not live yet|not live yet|PAGE NOT LIVE/i);
   const graph = jsonLdBlocks(html).find((block) => Array.isArray(block['@graph']));
   const collection = graph['@graph'].find((node) => node['@type'] === 'CollectionPage');
@@ -384,6 +435,15 @@ test('get-help allowlists coverage_state and treats non-licensed visitors as out
   assert.equal(intake.coverageStateFromReferrer('https://lakelandhealthinsurance.com/health-insurance-north-carolina/'), 'NC');
   assert.equal(intake.coverageStateFromReferrer('https://lakelandhealthinsurance.com/health-insurance-arizona/'), 'AZ');
   assert.equal(intake.coverageStateFromReferrer('https://lakelandhealthinsurance.com/health-insurance-washington/'), 'WA');
+  for (const [slug, code] of [
+    ['iowa', 'IA'], ['kansas', 'KS'], ['louisiana', 'LA'], ['maryland', 'MD'],
+    ['mississippi', 'MS'], ['missouri', 'MO'], ['nebraska', 'NE'], ['oklahoma', 'OK'],
+    ['west-virginia', 'WV']
+  ]) {
+    assert.equal(intake.coverageStateFromReferrer(`https://lakelandhealthinsurance.com/health-insurance-${slug}/`), code);
+    assert.equal(intake.allowlistedCoverageState(code), code);
+    assert.equal(intake.isOutOfStateMedicareCoverageState(code), false);
+  }
   assert.equal(intake.allowlistedCoverageState('AZ'), 'AZ');
   assert.equal(intake.allowlistedCoverageState('WA'), 'WA');
   assert.equal(intake.isOutOfStateMedicareCoverageState('WA'), false);
