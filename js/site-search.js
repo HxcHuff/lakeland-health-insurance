@@ -2511,6 +2511,98 @@ const siteSearchIndex = [
       "Medicare Advantage",
       "2027"
     ]
+  },
+  {
+    "title": "Braven Health Exiting New Jersey Medicare Advantage (2027)",
+    "url": "/blog/braven-health-new-jersey-medicare-exit-2027.html",
+    "excerpt": "Braven Health ends individual Medicare Advantage across all 21 NJ counties Dec 31, 2026 (42,000+ members). See Dec 8-Feb 28 SEP and 63-day Medigap GI rights.",
+    "tags": [
+      "New Jersey",
+      "Braven Health",
+      "Hackensack Meridian",
+      "RWJBarnabas",
+      "Medicare Advantage",
+      "Medigap",
+      "2027"
+    ]
+  },
+  {
+    "title": "Wellmark BCBS Exiting All 98 Iowa Counties for Medicare Advantage (2027)",
+    "url": "/blog/wellmark-iowa-medicare-advantage-exit-2027.html",
+    "excerpt": "Wellmark Blue Cross Blue Shield discontinues Medicare Advantage across all 98 Iowa counties Dec 31, 2026. Review Dec 8-Feb 28 SEP and 63-day Medigap GI rights.",
+    "tags": [
+      "Iowa",
+      "Wellmark",
+      "UI Health Care",
+      "UnityPoint",
+      "MercyOne",
+      "Medicare Advantage",
+      "Medigap",
+      "2027"
+    ]
+  },
+  {
+    "title": "Health First Exiting Polk County Medicare Advantage (2027)",
+    "url": "/blog/health-first-exiting-polk-county-medicare-2027.html",
+    "excerpt": "Health First Health Plans withdraws from Polk County and 8 other Florida counties for 2027. Check Dec 8-Feb 28 SEP, 63-day Medigap GI, and Polk doctors.",
+    "tags": [
+      "Florida",
+      "Lakeland",
+      "Polk County",
+      "Winter Haven",
+      "Health First",
+      "Watson Clinic",
+      "Medicare Advantage",
+      "2027"
+    ]
+  },
+  {
+    "title": "2027 Medigap Birthday & Anniversary Rule States (WA, IN, VA, MO, MD, OK, LA)",
+    "url": "/medigap-birthday-anniversary-rules-2027/",
+    "excerpt": "See which 7 licensed states (WA, IN, VA, MO, MD, OK, LA) let existing Medigap Plan G and Plan N policyholders switch carriers in 2027 without health questions.",
+    "tags": [
+      "Medigap",
+      "Plan G",
+      "Plan N",
+      "Birthday Rule",
+      "Anniversary Rule",
+      "Washington",
+      "Indiana",
+      "Virginia",
+      "Missouri",
+      "Maryland",
+      "Oklahoma",
+      "Louisiana",
+      "2027"
+    ]
+  },
+  {
+    "title": "Life Insurance & Final Expense Broker in Lakeland, FL",
+    "url": "/life-insurance-lakeland-fl/",
+    "excerpt": "Compare Final Expense whole life, no-exam Term Life, mortgage protection, and business key-person life insurance in Lakeland & Polk County.",
+    "tags": [
+      "Life Insurance",
+      "Final Expense",
+      "Term Life",
+      "Mortgage Protection",
+      "Key-Person",
+      "Lakeland",
+      "Polk County"
+    ]
+  },
+  {
+    "title": "Small-Business Health Benefits in Lakeland, FL: CHOICE Arrangements (ICHRA)",
+    "url": "/small-business-choice-ichra-lakeland-fl/",
+    "excerpt": "Control monthly health benefit budgets with CHOICE Arrangements (ICHRA) for 2-50 employees in Lakeland & Polk County with fixed pre-tax allowances.",
+    "tags": [
+      "Small Business",
+      "ICHRA",
+      "CHOICE Arrangements",
+      "Group Health",
+      "Contractors",
+      "Lakeland",
+      "Polk County"
+    ]
   }
 ];
 

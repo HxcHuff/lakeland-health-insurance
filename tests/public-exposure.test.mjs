@@ -300,7 +300,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 373);
+  assert.equal(templateConsumers.length, 379);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_PHONE_LOADER), true, `${relative(ROOT, file)} loads the shared phone config before site chrome`);
@@ -412,6 +412,9 @@ test('Wave 3, Wave 4 & Wave 5 2027 hospital network guides include No Surprises 
     'blog/cigna-molina-exiting-nc-sc-mississippi-aca-2027.html',
     'blog/medica-cox-mending-exiting-iowa-kansas-mo-ok-2027.html',
     'blog/sarasota-memorial-unitedhealthcare-2027-update.html',
+    'blog/braven-health-new-jersey-medicare-exit-2027.html',
+    'blog/wellmark-iowa-medicare-advantage-exit-2027.html',
+    'blog/health-first-exiting-polk-county-medicare-2027.html',
   ];
   const reciprocalSiblingFiles = [
     'blog/atrium-health-novant-health-aca-north-carolina-2027.html',
