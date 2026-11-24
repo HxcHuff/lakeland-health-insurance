@@ -380,6 +380,17 @@
       }
       form.addEventListener('focusin', ensureFunnelScriptLoaded, { capture: true, passive: true });
       form.addEventListener('pointerdown', ensureFunnelScriptLoaded, { capture: true, passive: true });
+      form.addEventListener('keydown', function (ev) {
+        if (ev && ev.key === 'Enter') {
+          ensureFunnelScriptLoaded();
+          defaultAutofilledCoverageStatus(form);
+        }
+      }, { capture: true });
+      form.addEventListener('invalid', function (ev) {
+        if (ev && ev.target && ev.target.name === 'coverage_status') {
+          defaultAutofilledCoverageStatus(form);
+        }
+      }, { capture: true });
       var submitBtn = form.querySelector('.lhi-lead-hero__submit, button[type="submit"]');
       if (submitBtn) {
         if (!submitBtn.dataset.lhiOrigLabel) {

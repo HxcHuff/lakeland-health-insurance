@@ -3122,3 +3122,56 @@ test('funnel bridges new Step 1B events to GA4 and skips data-lhi-messenger-entr
   const msgEntry = w.dataLayer.find((e) => e && e.event === 'messenger_click');
   assert.equal(msgEntry.event_params.content_name, 'chat_page_messenger');
 });
+
+test('direct GA4 events pin send_to G-W45RMKHXV0, track unmarked sms: links, and support redirect flush callback', () => {
+  const gtagCalls = [];
+  const w = loadFunnel({
+    pathname: '/blog/bond-clinic-winter-haven-aca-medicare-2027.html',
+    gtagImpl: (...args) => gtagCalls.push(args)
+  });
+
+  w.LHI.track('StartLead', { content_name: 'site_blog_aca_lead', step: 'start' });
+  const startLeadCall = gtagCalls.find((c) => c[0] === 'event' && c[1] === 'start_lead');
+  assert.ok(startLeadCall, 'StartLead bridges to GA4 start_lead');
+  assert.equal(startLeadCall[2].send_to, 'G-W45RMKHXV0');
+
+  // Verify analytics.js routes verified lead conversions with send_to + onFlushed callback
+  const loaded = loadAnalytics({
+    hostname: 'lakelandhealthinsurance.com',
+    pathname: '/get-help/',
+    readyState: 'complete'
+  });
+  loaded.runTimeouts();
+
+  let flushed = 0;
+  const ok = loaded.sandbox.lhiEmitVerifiedLeadConversions('88888888-8888-4888-8888-888888888888', {
+    form_id: 'leadForm',
+    onFlushed: () => { flushed += 1; }
+  });
+  assert.equal(ok, true);
+
+  const commands = gtagCommands(loaded.dataLayer);
+  const genLead = commands.find((c) => c[0] === 'event' && c[1] === 'generate_lead');
+  const reqQuote = commands.find((c) => c[0] === 'event' && c[1] === 'ads_conversion_Request_quote_1');
+  assert.ok(genLead, 'generate_lead emitted');
+  assert.ok(reqQuote, 'ads_conversion_Request_quote_1 emitted');
+  assert.equal(genLead[2].send_to, 'G-W45RMKHXV0');
+  assert.equal(reqQuote[2].send_to, 'G-W45RMKHXV0');
+  assert.equal(typeof genLead[2].event_callback, 'function');
+  assert.equal(typeof reqQuote[2].event_callback, 'function');
+
+  genLead[2].event_callback();
+  assert.equal(flushed, 0, 'waits until both conversion callbacks finish');
+  reqQuote[2].event_callback();
+  assert.equal(flushed, 1, 'invokes onFlushed once both conversion callbacks finish');
+
+  // Verify analytics.js tracks unmarked a[href^="sms:"] links and pins send_to
+  assert.match(ANALYTICS_SRC, /closest\('\[data-lhi-sms-cta\], a\[href\^="sms:"\]'\)/);
+  assert.match(ANALYTICS_SRC, /send_to:\s*'G-W45RMKHXV0'[\s\S]*?'sms_cta_click'/);
+
+  // Verify funnel.js arms verified conversions before GTM Lead push and defers redirect until flush
+  assert.match(FUNNEL_SRC, /w\.lhiEmitVerifiedLeadConversions\(apiResult\.event_id[\s\S]*?onFlushed:/);
+  const emitIdx = FUNNEL_SRC.indexOf('w.lhiEmitVerifiedLeadConversions(apiResult.event_id');
+  const trackLeadIdx = FUNNEL_SRC.indexOf('track(name, safeLeadPropsFromForm(f, fd, content, step, apiResult))');
+  assert.ok(emitIdx > 0 && trackLeadIdx > emitIdx, 'lhiEmitVerifiedLeadConversions runs before GTM Lead dataLayer push');
+});

@@ -754,6 +754,7 @@
     var ga4Name = eventName === 'MedicareContentView' ? 'medicare_content_view' : 'medicare_cta_click';
     try {
       window.gtag('event', ga4Name, Object.assign({
+        send_to: 'G-W45RMKHXV0',
         page_location: ga4PageLocation(),
         transport_type: 'beacon'
       }, payload));
@@ -804,6 +805,7 @@
     ensureGuardedGtag();
     var ctaKey = inferPlanReviewCtaKey(link);
     var payload = {
+      send_to: 'G-W45RMKHXV0',
       event_id: makeMeasurementEventId(),
       page_key: medicareCtx ? medicareCtx.page_key : polkEntry.page_key,
       page_role: medicareCtx ? medicareCtx.page_role : polkEntry.page_role,
@@ -825,6 +827,7 @@
       : null;
     var resolvedKey = String(pageKeyOverride || (medicareCtx && medicareCtx.page_key) || (polkEntry && polkEntry.page_key) || normalizedCurrent.replace(/^\/+|\/+$/g, '').replace(/[^a-z0-9]+/gi, '_') || 'home');
     var payload = {
+      send_to: 'G-W45RMKHXV0',
       event_id: makeMeasurementEventId(),
       page_key: resolvedKey,
       cta_key: String(ctaKey || 'step1_continue_get_help'),
@@ -1360,49 +1363,107 @@
       page_location: ga4PageLocation()
     };
     pushDataLayerEvent('form_start', payload);
-    try { window.gtag('event', 'form_start', payload); } catch (e) {}
+    try {
+      window.gtag('event', 'form_start', Object.assign({
+        send_to: 'G-W45RMKHXV0'
+      }, payload));
+    } catch (e) {}
     return true;
   };
 
   window.lhiEmitVerifiedLeadConversions = function (rawEventId, meta) {
     var eventId = approvedLeadEventId(rawEventId);
-    if (!eventId) return false;
+    var onFlushed = meta && typeof meta.onFlushed === 'function' ? meta.onFlushed : null;
+    if (!eventId) {
+      if (onFlushed) {
+        try { onFlushed(); } catch (e) {}
+      }
+      return false;
+    }
     verifiedLeadEventIds[eventId] = true;
     ensureInitializedForEvent();
     ensureGuardedGtag();
     var formId = resolveFormIdForTelemetry(meta && meta.form_id ? meta.form_id : 'get-help');
     var pageLoc = ga4PageLocation();
+    var pendingCallbacks = 0;
+    var flushedCalled = false;
+    var flushTimer = 0;
+
+    function finishFlush() {
+      if (flushedCalled) return;
+      flushedCalled = true;
+      if (flushTimer && typeof window.clearTimeout === 'function') {
+        try { window.clearTimeout(flushTimer); } catch (e) {}
+        flushTimer = 0;
+      }
+      if (onFlushed) {
+        try { onFlushed(); } catch (e) {}
+      }
+    }
+
+    function markOneFlushed() {
+      pendingCallbacks -= 1;
+      if (pendingCallbacks <= 0) finishFlush();
+    }
 
     if (!gtagDispatchedByEventId.generate_lead[eventId]) {
       gtagDispatchedByEventId.generate_lead[eventId] = true;
       gtagVerifiedAllowance.generate_lead += 1;
       collectVerifiedAllowance.generate_lead += 1;
+      var genLeadParams = {
+        send_to: 'G-W45RMKHXV0',
+        event_id: eventId,
+        form_id: formId,
+        page_location: pageLoc,
+        transport_type: 'beacon'
+      };
+      if (onFlushed) {
+        pendingCallbacks += 1;
+        genLeadParams.event_callback = markOneFlushed;
+        genLeadParams.event_timeout = 450;
+      }
       try {
-        window.gtag('event', 'generate_lead', {
-          event_id: eventId,
-          form_id: formId,
-          page_location: pageLoc,
-          transport_type: 'beacon'
-        });
-      } catch (e) {}
+        window.gtag('event', 'generate_lead', genLeadParams);
+      } catch (e) {
+        if (onFlushed) markOneFlushed();
+      }
     }
 
     if (!gtagDispatchedByEventId.ads_conversion_Request_quote_1[eventId]) {
       gtagDispatchedByEventId.ads_conversion_Request_quote_1[eventId] = true;
       gtagVerifiedAllowance.ads_conversion_Request_quote_1 += 1;
       collectVerifiedAllowance.ads_conversion_Request_quote_1 += 1;
+      var adsQuoteParams = {
+        send_to: 'G-W45RMKHXV0',
+        event_id: eventId,
+        form_id: formId,
+        page_location: pageLoc,
+        transport_type: 'beacon'
+      };
+      if (onFlushed) {
+        pendingCallbacks += 1;
+        adsQuoteParams.event_callback = markOneFlushed;
+        adsQuoteParams.event_timeout = 450;
+      }
       try {
-        window.gtag('event', 'ads_conversion_Request_quote_1', {
-          event_id: eventId,
-          form_id: formId,
-          page_location: pageLoc,
-          transport_type: 'beacon'
-        });
-      } catch (e) {}
+        window.gtag('event', 'ads_conversion_Request_quote_1', adsQuoteParams);
+      } catch (e) {
+        if (onFlushed) markOneFlushed();
+      }
     }
 
     if (typeof window.lhiTrackMetaLead === 'function') {
       try { window.lhiTrackMetaLead(eventId); } catch (e) {}
+    }
+
+    if (onFlushed) {
+      if (pendingCallbacks <= 0) {
+        finishFlush();
+      } else if (typeof window.setTimeout === 'function') {
+        flushTimer = window.setTimeout(finishFlush, 500);
+      } else {
+        finishFlush();
+      }
     }
     return true;
   };
@@ -1620,6 +1681,7 @@
   function emitAnalyticsDiagnostic(name, params) {
     if (!IS_PROD || !name) return false;
     var cleanParams = {
+      send_to: 'G-W45RMKHXV0',
       page_location: ga4PageLocation(),
       page_type: diagnosticsPageType(),
       device_class: diagnosticsDeviceClass(),
@@ -1739,6 +1801,7 @@
     if (!IS_PROD) return;
     ensureInitializedForEvent();
     var params = {
+      send_to: 'G-W45RMKHXV0',
       event_category: 'engagement',
       event_label: label || 'sms_cta',
       page_location: ga4PageLocation(),
@@ -1753,10 +1816,11 @@
 
   document.addEventListener('click', function (event) {
     handleMedicarePointer(event, true);
-    var smsLink = event.target && event.target.closest ? event.target.closest('[data-lhi-sms-cta]') : null;
+    var smsLink = event.target && event.target.closest ? event.target.closest('[data-lhi-sms-cta], a[href^="sms:"]') : null;
     if (smsLink) {
       var smsLabel = smsLink.getAttribute('data-lhi-sms-cta') ||
         smsLink.getAttribute('data-analytics-label') ||
+        (smsLink.textContent || '').trim().slice(0, 60) ||
         'sms_cta';
       trackSmsCtaClick(smsLabel);
       return;

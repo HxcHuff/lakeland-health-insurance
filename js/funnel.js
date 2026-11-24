@@ -903,6 +903,7 @@
     var params = Object.assign({}, props.event_params || (name === 'MedicareIntakeStart' ? props : {}));
     delete params.event_params;
     if (props.page_type && !params.page_type) params.page_type = props.page_type;
+    params.send_to = 'G-W45RMKHXV0';
     params.original_event_name = name;
     params.transport_type = 'beacon';
 
@@ -1764,8 +1765,17 @@
             semanticError.noNativeFallback = true;
             throw semanticError;
           }
-          if (typeof onDelivered === 'function') onDelivered(body);
-          redirectAfterLead(f);
+          var redirected = false;
+          function proceed() {
+            if (redirected) return;
+            redirected = true;
+            redirectAfterLead(f);
+          }
+          if (typeof onDelivered === 'function') {
+            var deferredRedirect = onDelivered(body, proceed);
+            if (deferredRedirect === true) return;
+          }
+          proceed();
         });
       }
       var err = new Error('lead api ' + res.status);
@@ -1936,8 +1946,27 @@
         if ((name === 'Lead' || name === 'Subscriber') && !f.hasAttribute('data-funnel-api-opt-out')) {
           if (e && typeof e.preventDefault === 'function') e.preventDefault();
           if (e && typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
-          submitLeadViaApi(f, formPayload(f, fd, content), function (apiResult) {
+          submitLeadViaApi(f, formPayload(f, fd, content), function (apiResult, proceed) {
             if (name === 'Lead') {
+              var shouldDeferRedirect = Boolean(
+                !w.__LHI_TEST &&
+                typeof proceed === 'function' &&
+                !(f.hasAttribute && f.hasAttribute('data-sitelink-inline-thank-you')) &&
+                apiResult && apiResult.event_id &&
+                typeof w.lhiEmitVerifiedLeadConversions === 'function'
+              );
+              if (apiResult && apiResult.event_id &&
+                  typeof w.lhiEmitVerifiedLeadConversions === 'function') {
+                try {
+                  var emitted = w.lhiEmitVerifiedLeadConversions(apiResult.event_id, {
+                    form_id: f.id || (typeof f.getAttribute === 'function' && f.getAttribute('name')) || content,
+                    onFlushed: shouldDeferRedirect ? proceed : undefined
+                  });
+                  if (!emitted) shouldDeferRedirect = false;
+                } catch (e) {
+                  shouldDeferRedirect = false;
+                }
+              }
               track(name, safeLeadPropsFromForm(f, fd, content, step, apiResult));
               var submittedState = String(fd.get('coverage_state') || fd.get('state') || '').trim().toUpperCase();
               if (/^[A-Z]{2}$/.test(submittedState)) {
@@ -1953,20 +1982,13 @@
                   } catch (err) {}
                 });
               }
-              if (apiResult && apiResult.event_id &&
-                  typeof w.lhiEmitVerifiedLeadConversions === 'function') {
-                try {
-                  w.lhiEmitVerifiedLeadConversions(apiResult.event_id, {
-                    form_id: f.id || (typeof f.getAttribute === 'function' && f.getAttribute('name')) || content
-                  });
-                } catch (e) {}
-              }
               if (apiResult && apiResult.form_submit_complete_event_id &&
                   typeof w.lhiTrackMetaFormSubmitComplete === 'function') {
                 try {
                   w.lhiTrackMetaFormSubmitComplete(apiResult.form_submit_complete_event_id);
                 } catch (e) {}
               }
+              return shouldDeferRedirect;
             } else {
               track(name, { content_name: content, step: step });
             }
