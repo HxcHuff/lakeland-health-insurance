@@ -242,7 +242,7 @@ test('quote presents three direct actions without a routing form or plans detour
 
 test('coverage center is a two-lane 2027 plan-review hub wired into get-help', () => {
   assert.match(COVERAGE_CENTER, /<link rel="canonical" href="https:\/\/lakelandhealthinsurance\.com\/coverage-center\/">/);
-  assert.match(COVERAGE_CENTER, /<title>Lakeland Coverage Center \| Medicare &amp; Under-65 Plan Help<\/title>/);
+  assert.match(COVERAGE_CENTER, /<title>Polk County Coverage Triage Hub: ACA, Job Loss &amp; Turning 65<\/title>/);
   assert.match(COVERAGE_CENTER, /\/css\/site-template.css\?v=20261017-meta-conversion-events-v1/);
   assert.match(COVERAGE_CENTER, /\/js\/site-phone\.js\?v=20261015-v6merge2/);
   assert.match(COVERAGE_CENTER, /\/js\/site-template\.js\?v=20261112-audit-release-v1/);
@@ -300,7 +300,7 @@ test('coverage pages preserve canonicals, schema identifiers, analytics, and sha
   const templateConsumers = findDiscoveryFiles(ROOT).filter((file) => {
     return extname(file) === '.html' && readFileSync(file, 'utf8').includes('/js/site-template.js');
   });
-  assert.equal(templateConsumers.length, 379);
+  assert.equal(templateConsumers.length, 386);
   for (const file of templateConsumers) {
     const source = readFileSync(file, 'utf8');
     assert.equal(source.includes(SITE_PHONE_LOADER), true, `${relative(ROOT, file)} loads the shared phone config before site chrome`);

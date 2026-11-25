@@ -1966,8 +1966,26 @@
     return /(?:^|[?&])(?:gclid|gbraid|wbraid|fbclid|msclkid)=/i.test(search);
   }
 
+  function isThirdPartyOrBenignRuntimeNoise(errorType, rawMessage, rawSource, lineNo) {
+    var msg = String(rawMessage || '').trim();
+    var src = String(rawSource || '').trim();
+    if (/^ResizeObserver loop\b/i.test(msg)) return true;
+    if (errorType === 'error' && /^Script error\.?$/i.test(msg) && (!src || Number(lineNo) === 0)) return true;
+    if (/^(?:chrome-extension|moz-extension|safari-web-extension):/i.test(src)) return true;
+    if (src && /^https?:\/\//i.test(src)) {
+      try {
+        var host = new URL(src).hostname.toLowerCase();
+        if (host && host !== 'lakelandhealthinsurance.com' && host !== 'www.lakelandhealthinsurance.com') {
+          return true;
+        }
+      } catch (e) {}
+    }
+    return false;
+  }
+
   function reportRuntimeError(errorType, rawMessage, rawSource, lineNo) {
     if (!IS_PROD || jsRuntimeErrorCount >= 3) return false;
+    if (isThirdPartyOrBenignRuntimeNoise(errorType, rawMessage, rawSource, lineNo)) return false;
     var cleanMsg = sanitizeDiagnosticText(rawMessage || 'runtime_error', 120) || 'runtime_error';
     var cleanSource = sanitizeDiagnosticText(rawSource || '', 80);
     var dedupeKey = String(errorType || 'error') + '|' + cleanMsg + '|' + cleanSource;
