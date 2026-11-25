@@ -75,6 +75,7 @@
   ];
 
   const MULTI_STATE_PAGE_RE = /^\/health-insurance-(alabama|arizona|georgia|iowa|indiana|kansas|louisiana|maryland|michigan|missouri|mississippi|north-carolina|nebraska|new-jersey|ohio|oklahoma|south-carolina|tennessee|texas|virginia|washington|west-virginia)\/$/;
+  const MULTI_STATE_FOOTER_PATH_RE = /^\/medigap-birthday-anniversary-rules-2027\/$|^\/blog\/[^"'<>]*-(?:alabama|arizona|georgia|georgia-access|iowa|indiana|kansas|louisiana|maryland|michigan|missouri|mississippi|north-carolina|nebraska|new-jersey|ohio|oklahoma|south-carolina|tennessee|texas|virginia|washington|west-virginia|st-louis|cincinnati|raleigh-durham|knoxville-chattanooga|memphis|charlotte|atlanta|houston|dallas|austin|phoenix|seattle|indianapolis|columbus|cleveland|detroit|kansas-city|baltimore|richmond|birmingham|omaha|des-moines|oklahoma-city|new-orleans|bcbstx|braven-health|wellmark-iowa|kettering-health|ohiohealth|bjc-healthcare|trihealth|providence-swedish|baylor-scott-white|duke-health|atrium-health|piedmont-wellstar|prisma-health|ut-medical-center|medica-cox-mending)(?:-|\.|\/|$)/i;
 
   const NON_MEDICARE_TPMO_EXEMPT_PATHS = [
     '/aca-health-insurance-lakeland-fl/',
@@ -141,6 +142,15 @@
   function isMultiStatePage(pathname) {
     var path = normalizePath(pathname);
     return path === '/states/' || MULTI_STATE_PAGE_RE.test(path);
+  }
+
+  function isMultiStateFooterPage(pathname) {
+    var path = normalizePath(pathname);
+    if (isMultiStatePage(path)) return true;
+    if (/florida|lakeland|polk|orlando|tampa|miami|jacksonville|sarasota|naples|brevard|lee-health|moffitt|watson-clinic|bond-clinic|winter-haven/i.test(path)) {
+      return false;
+    }
+    return MULTI_STATE_FOOTER_PATH_RE.test(path);
   }
 
   function shouldShowTpmoDisclaimer(pathname) {
@@ -404,7 +414,7 @@
               <li><a href="/wesley-chapel-health-insurance/">Wesley Chapel</a></li>
               <li><a href="/winter-haven-health-insurance/">Winter Haven</a></li>
               <li>Polk County</li>
-              <li>${isMultiStatePage(pathname) ? 'Remote assistance across 23 licensed states' : 'Remote assistance across Florida'}</li>
+              <li>${isMultiStateFooterPage(pathname) ? 'Remote assistance across 23 licensed states' : 'Remote assistance across Florida'}</li>
               <li><a href="/states/">States I'm licensed in</a></li>
             </ul>
           </div>
@@ -435,7 +445,7 @@
           <p class="tpmo-inventory-note">Company inventory note: The counts above reflect the licensed company inventory for the 2027 plan year in the Lakeland/Polk County service area, confirmed for ZIP 33812, as of October 1, 2026. They are not CMS counts or statewide Florida totals. Counts and available products vary by ZIP code, service area, plan year, and current company authorization. Confirm the ZIP code and current approved platform inventory before relying on these figures. Plan availability, benefits, networks, formularies, pharmacies, and costs are subject to the applicable plan documents and service area.</p>
         </div>` : ''}
         <div class="footer-bottom">
-          <p>&copy; <span data-current-year></span> Lakeland Health Insurance. ${isMultiStatePage(pathname) ? 'Lakeland-based licensed health insurance assistance across 23 licensed states.' : 'Lakeland-based health insurance assistance for Florida residents.'}</p>
+          <p>&copy; <span data-current-year></span> Lakeland Health Insurance. ${isMultiStateFooterPage(pathname) ? 'Lakeland-based licensed health insurance assistance across 23 licensed states.' : 'Lakeland-based health insurance assistance for Florida residents.'}</p>
           <p>David Huff | FL License #W371813 | NPN 18213932 | Lakeland Health Insurance is not an insurance carrier.</p>
           <p class="footer-aca-disclosure">Lakeland Health Insurance is a privately owned, licensed insurance agency. We are not affiliated with HealthCare.gov, the Health Insurance Marketplace, or any federal or state government agency.</p>
           <p style="margin-top: 1rem;">Powered by David the Insurance Dude</p>
@@ -703,6 +713,7 @@
     shouldShowTpmoDisclaimer: shouldShowTpmoDisclaimer,
     shouldUseShipDisclaimer: shouldUseShipDisclaimer,
     isMultiStatePage: isMultiStatePage,
+    isMultiStateFooterPage: isMultiStateFooterPage,
     shouldShowSeasonalBanner: shouldShowSeasonalBanner,
     isWithinSeasonalBannerWindow: isWithinSeasonalBannerWindow,
     bannerStorageKey: seasonalBannerStorageKey,

@@ -477,23 +477,132 @@
     );
   }
 
+  var GOOGLE_REVIEWS_HREF = 'https://maps.google.com/?cid=5421693615683546210';
+  var AGENT_PHOTO_SRC = '/assets/images/david-huff-blue-polo-480.jpg';
+  var OUT_OF_STATE_PATH_RE = /(?:^\/states\/|^\/medigap-birthday-anniversary-rules-2027\/|^\/health-insurance-(?!broker-lakeland-fl)(alabama|arizona|georgia|iowa|indiana|kansas|louisiana|maryland|michigan|missouri|mississippi|north-carolina|nebraska|new-jersey|ohio|oklahoma|south-carolina|tennessee|texas|virginia|washington|west-virginia)\/|-(?:alabama|arizona|georgia|georgia-access|iowa|indiana|kansas|louisiana|maryland|michigan|missouri|mississippi|north-carolina|nebraska|new-jersey|ohio|oklahoma|south-carolina|tennessee|texas|virginia|washington|west-virginia|st-louis|cincinnati|raleigh-durham|knoxville-chattanooga|memphis|charlotte|atlanta|houston|dallas|austin|phoenix|seattle|indianapolis|columbus|cleveland|detroit|kansas-city|baltimore|richmond|birmingham|omaha|des-moines|oklahoma-city|new-orleans|bcbstx|braven-health|wellmark-iowa|kettering-health|ohiohealth|bjc-healthcare|trihealth|providence-swedish|baylor-scott-white|duke-health|atrium-health|piedmont-wellstar|prisma-health|ut-medical-center|medica-cox-mending)(?:-|\.|\/|$))/i;
+
+  function isOutOfStateLeadSurface(pathname) {
+    var path = String(pathname || '').toLowerCase();
+    if (!path) return false;
+    if (/florida|lakeland|polk|orlando|tampa|miami|jacksonville|sarasota|naples|brevard|lee-health|moffitt|watson-clinic|bond-clinic|winter-haven/i.test(path)) {
+      return false;
+    }
+    return OUT_OF_STATE_PATH_RE.test(path);
+  }
+
+  function buildContextSmsBody(pathname, isMed) {
+    var path = String(pathname || '').toLowerCase();
+    if (path.indexOf('braven-health') !== -1 || path.indexOf('new-jersey') !== -1) {
+      return 'Hi David, can you help me review my 2027 New Jersey coverage and doctor options?';
+    }
+    if (path.indexOf('wellmark-iowa') !== -1 || path.indexOf('-iowa') !== -1) {
+      return 'Hi David, can you help me review my 2027 Iowa coverage and doctor options?';
+    }
+    if (path.indexOf('baylor-scott-white') !== -1 || path.indexOf('houston-methodist') !== -1 || path.indexOf('bcbstx') !== -1 || path.indexOf('texas') !== -1) {
+      return 'Hi David, can you check my 2027 Texas doctor and plan options?';
+    }
+    if (path.indexOf('bjc-healthcare') !== -1 || path.indexOf('st-louis') !== -1 || path.indexOf('missouri') !== -1) {
+      return 'Hi David, can you check my 2027 Missouri doctor and plan options?';
+    }
+    if (path.indexOf('kettering') !== -1 || path.indexOf('miami-valley') !== -1 || path.indexOf('ohiohealth') !== -1) {
+      return 'Hi David, can you check if my Kettering Health, Miami Valley, or OhioHealth doctors are in-network for 2027?';
+    }
+    if (path.indexOf('trihealth') !== -1 || path.indexOf('cincinnati') !== -1 || path.indexOf('cleveland-clinic-uh') !== -1 || path.indexOf('ohio') !== -1) {
+      return 'Hi David, can you check if my Ohio doctors and hospitals are in-network for 2027?';
+    }
+    if (path.indexOf('duke-health') !== -1 || path.indexOf('atrium-health') !== -1 || path.indexOf('north-carolina') !== -1) {
+      return 'Hi David, can you check my 2027 North Carolina doctor and plan options?';
+    }
+    if (path.indexOf('prisma-health') !== -1 || path.indexOf('south-carolina') !== -1) {
+      return 'Hi David, can you check my 2027 South Carolina doctor and plan options?';
+    }
+    if (path.indexOf('piedmont') !== -1 || path.indexOf('georgia') !== -1) {
+      return 'Hi David, can you check my 2027 Georgia Access doctor and plan options?';
+    }
+    if (path.indexOf('ut-medical-center') !== -1 || path.indexOf('vanderbilt') !== -1 || path.indexOf('tennessee') !== -1) {
+      return 'Hi David, can you check my 2027 Tennessee doctor and plan options?';
+    }
+    if (path.indexOf('providence-swedish') !== -1 || path.indexOf('washington') !== -1) {
+      return 'Hi David, can you check my 2027 Washington doctor and plan options?';
+    }
+    if (path.indexOf('arizona') !== -1 || path.indexOf('phoenix') !== -1) {
+      return 'Hi David, can you check my 2027 Arizona doctor and plan options?';
+    }
+    if (path.indexOf('medigap-birthday') !== -1 || path.indexOf('medigap') !== -1) {
+      return 'Hi David, can you compare 2027 Medigap rates for my ZIP code?';
+    }
+    if (path.indexOf('life-insurance') !== -1) {
+      return 'Hi David, can you compare life insurance or final expense options for me?';
+    }
+    if (path.indexOf('ichra') !== -1 || path.indexOf('choice') !== -1) {
+      return 'Hi David, can you walk me through CHOICE / ICHRA small-business health options?';
+    }
+    if (path.indexOf('health-first') !== -1) {
+      return 'Hi David, my Health First plan is changing for 2027. Can you check my Polk County doctors and options?';
+    }
+    if (path.indexOf('moffitt') !== -1) {
+      return 'Hi David, can you check which 2027 plans include Moffitt Cancer Center in-network?';
+    }
+    if (path.indexOf('adventhealth') !== -1) {
+      return 'Hi David, can you check which 2027 plans cover my AdventHealth doctors and hospitals?';
+    }
+    if (path.indexOf('watson') !== -1 || path.indexOf('orlando') !== -1) {
+      return 'Hi David, can you check if my Watson Clinic or Orlando Health doctors are in-network for 2027?';
+    }
+    if (path.indexOf('baycare') !== -1 || path.indexOf('bond-clinic') !== -1 || path.indexOf('lakeland-regional') !== -1) {
+      return 'Hi David, can you check which 2027 plans cover my Polk County doctors and hospital?';
+    }
+    if (isOutOfStateLeadSurface(path)) {
+      return isMed
+        ? 'Hi David, can you check my doctors and 2027 Medicare plan options for my ZIP code?'
+        : 'Hi David, can you help me compare 2027 health insurance options for my ZIP code?';
+    }
+    if (isMed) {
+      return 'Hi David, can you check my doctors and 2027 Medicare plan options?';
+    }
+    if (path.indexOf('aca') !== -1 || path.indexOf('marketplace') !== -1 || path.indexOf('subsidy') !== -1) {
+      return 'Hi David, can you help me check 2027 Marketplace subsidy and plan options?';
+    }
+    return 'Hi David, can you help me compare 2027 health insurance options for my ZIP code?';
+  }
+
+  function ensureLeadHeroTrustStrip() {
+    if (d.body && d.body.classList && d.body.classList.contains('home-page')) return;
+    var path = String(w.location && w.location.pathname || '').toLowerCase();
+    var multiState = isOutOfStateLeadSurface(path);
+    var isMed = isMedicareLeadSurface();
+    var smsHref = 'sms:' + PHONE_HREF.replace('tel:', '') + '?body=' + encodeURIComponent(buildContextSmsBody(path, isMed));
+    var credLine = multiState
+      ? 'Licensed in 23 States · NPN 18213932'
+      : 'Licensed FL Agent #W371813 · NPN 18213932';
+
+    d.querySelectorAll('.lhi-lead-hero .lhi-lead-hero__card').forEach(function (card) {
+      if (!card || card.querySelector('.lhi-lead-hero__trust')) return;
+      var form = card.querySelector('form');
+      if (!form) return;
+      var strip = d.createElement('div');
+      strip.className = 'lhi-lead-hero__trust';
+      strip.setAttribute('aria-label', 'Direct contact with David Huff and verified Google rating');
+      strip.innerHTML =
+        '<div class="lhi-lead-hero__trust-agent">' +
+          '<img class="lhi-lead-hero__trust-photo" src="' + AGENT_PHOTO_SRC + '" alt="David Huff, Licensed Insurance Agent" width="44" height="44" loading="lazy" decoding="async">' +
+          '<div class="lhi-lead-hero__trust-meta">' +
+            '<strong>David Huff</strong>' +
+            '<span>' + credLine + '</span>' +
+            '<a class="lhi-lead-hero__trust-reviews" href="' + GOOGLE_REVIEWS_HREF + '" target="_blank" rel="noopener noreferrer">5.0 &#9733; &middot; 26 Google reviews</a>' +
+          '</div>' +
+        '</div>' +
+        '<a class="lhi-lead-hero__trust-sms" href="' + smsHref + '" data-lhi-sms-cta="lead_hero_trust_sms" data-analytics-label="lead_hero_trust_sms">Text David ' + PHONE_DISPLAY + '</a>';
+      card.appendChild(strip);
+    });
+  }
+
   function ensureStickyBar() {
     if (!d.querySelector('.lhi-lead-hero') || d.getElementById('lhi-lead-sticky-bar')) return null;
     var isMed = isMedicareLeadSurface();
     var quoteLabel = isMed ? 'Review form' : 'Get quote';
     var path = String(w.location && w.location.pathname || '').toLowerCase();
-    var smsBody = 'Hi David, I have a question about health insurance in Lakeland.';
-    if (path.indexOf('kettering') !== -1 || path.indexOf('miami-valley') !== -1 || path.indexOf('ohiohealth') !== -1) {
-      smsBody = 'Hi David, can you check if my Kettering Health, Miami Valley Hospital, or OhioHealth doctors are in-network for 2027?';
-    } else if (path.indexOf('cleveland-clinic-uh') !== -1 || path.indexOf('ohio') !== -1) {
-      smsBody = 'Hi David, can you check if my Ohio doctors and hospitals are in-network for 2027?';
-    } else if (path.indexOf('watson') !== -1 || path.indexOf('orlando') !== -1) {
-      smsBody = 'Hi David, can you check if my Watson Clinic / Orlando Health doctors are in-network for 2027?';
-    } else if (isMed) {
-      smsBody = 'Hi David, can you check my doctors and 2027 Medicare plan options?';
-    } else if (path.indexOf('aca') !== -1 || path.indexOf('marketplace') !== -1) {
-      smsBody = 'Hi David, can you help me check 2027 Marketplace subsidy and plan options?';
-    }
+    var smsBody = buildContextSmsBody(path, isMed);
     var rawPhone = PHONE_HREF.replace('tel:', '');
     var smsHref = 'sms:' + rawPhone + '?body=' + encodeURIComponent(smsBody);
 
@@ -637,11 +746,16 @@
   }
 
   w.LHIConsolidateBlogHeroCopy = consolidateBlogHeroCopy;
+  w.__LHI_LEAD_HERO_HELPERS__ = {
+    buildContextSmsBody: buildContextSmsBody,
+    isOutOfStateLeadSurface: isOutOfStateLeadSurface
+  };
 
   function init() {
     consolidateBlogHeroCopy();
     wireHeroStep1MicroIntakes();
     wireSiteLeadForms();
+    ensureLeadHeroTrustStrip();
     syncMedicareScopeNotes();
     var bar = ensureStickyBar();
     syncStickyVisibility(bar);
