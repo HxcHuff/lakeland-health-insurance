@@ -20,7 +20,7 @@ test('refund and plan-ending posts are listed, sourced, and carrier-neutral', ()
   const sitemap = source('sitemap.xml');
   const search = source('js/site-search.js');
 
-  assert.match(refund, /<title>The \$500 HealthCare.gov Refund Checks: Who Gets One in Florida<\/title>/);
+  assert.match(refund, /<title>\$500 HealthCare.gov Refund Checks: Who Gets One in Florida<\/title>/);
   assert.match(ending, /<title>My Marketplace Plan Is Ending in 2027\. What Now\?<\/title>/);
 
   assert.match(refund, /127,900/);
