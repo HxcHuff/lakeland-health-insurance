@@ -1771,6 +1771,7 @@
   }
 
   function trackPhoneClick(label, legacyName) {
+    ensureInitializedForEvent();
     var params = {
       event_category: 'engagement',
       event_label: label || 'phone_link',

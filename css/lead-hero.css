@@ -4293,3 +4293,42 @@ section.lhi-lead-hero.lhi-lead-hero--mid label.lhi-lead-hero__consent a {
     flex: 1 1 140px;
   }
 }
+
+.lhi-lead-hero__extras-toggle {
+  grid-column: 1 / -1;
+  justify-self: start;
+  background: none;
+  border: none;
+  padding: 2px 0;
+  color: #1d4ed8;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.lhi-lead-hero__extras-toggle:hover,
+.lhi-lead-hero__extras-toggle:focus-visible {
+  color: #1b2a4a;
+}
+
+.lhi-lead-hero__extras {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.lhi-lead-hero__extras.is-collapsed {
+  display: none;
+}
+
+.lhi-lead-hero__quick-note {
+  margin: 0 0 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #475569;
+  text-align: center;
+}

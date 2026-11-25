@@ -361,9 +361,83 @@
     });
   }
 
+  function simplifyLeadHeroForm(form) {
+    if (!form || form.__lhiQuickSimplified) return;
+    var fieldsWrap = form.querySelector('.lhi-lead-hero__fields');
+    if (!fieldsWrap) return;
+    form.__lhiQuickSimplified = true;
+
+    // Pre-select a smart default coverage_status so 3-field quick submit (Name, Phone, ZIP) never hits a required blocker
+    var select = form.querySelector('select[name="coverage_status"]');
+    if (select && !String(select.value || '').trim()) {
+      var isMed = isMedicareLeadSurface() || form.getAttribute('name') === 'site-medicare-lead';
+      var path = String(w.location && w.location.pathname || '').toLowerCase();
+      var order = isMed
+        ? ['medicare_advantage', 'current_plan_review', 'not_sure']
+        : (path.indexOf('hospital') !== -1 || path.indexOf('clinic') !== -1 || path.indexOf('moffitt') !== -1 || path.indexOf('adventhealth') !== -1)
+          ? ['current_plan_review', 'not_sure', 'individual_marketplace']
+          : ['not_sure', 'current_plan_review', 'individual_marketplace', 'medicare_advantage'];
+      for (var i = 0; i < order.length; i += 1) {
+        var opt = select.querySelector('option[value="' + order[i] + '"]');
+        if (opt) {
+          select.value = order[i];
+          break;
+        }
+      }
+      select.removeAttribute('required');
+    }
+
+    // Collapse secondary fields (coverage_status + optional providers) behind a 1-click toggle
+    var optionalFieldEls = [];
+    if (select) {
+      var selectField = select.closest('.lhi-lead-hero__field');
+      if (selectField) optionalFieldEls.push(selectField);
+    }
+    var providersInput = form.querySelector('input[name="providers"], textarea[name="providers"]');
+    if (providersInput) {
+      var provField = providersInput.closest('.lhi-lead-hero__field');
+      if (provField && optionalFieldEls.indexOf(provField) === -1) optionalFieldEls.push(provField);
+    }
+
+    if (optionalFieldEls.length > 0 && !form.querySelector('.lhi-lead-hero__extras-toggle')) {
+      var firstOpt = optionalFieldEls[0];
+      var toggleBtn = d.createElement('button');
+      toggleBtn.type = 'button';
+      toggleBtn.className = 'lhi-lead-hero__extras-toggle';
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.textContent = '+ Add plan type or doctors (optional)';
+
+      var extrasWrap = d.createElement('div');
+      extrasWrap.className = 'lhi-lead-hero__extras is-collapsed';
+      firstOpt.parentNode.insertBefore(toggleBtn, firstOpt);
+      firstOpt.parentNode.insertBefore(extrasWrap, firstOpt);
+      optionalFieldEls.forEach(function (el) {
+        extrasWrap.appendChild(el);
+      });
+
+      toggleBtn.addEventListener('click', function () {
+        var collapsed = extrasWrap.classList.toggle('is-collapsed');
+        toggleBtn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        toggleBtn.textContent = collapsed
+          ? '+ Add plan type or doctors (optional)'
+          : '− Hide optional details';
+      });
+    }
+
+    // Add concise speed & trust reassurance above submit button
+    var submitBtn = form.querySelector('.lhi-lead-hero__submit, button[type="submit"]');
+    if (submitBtn && !form.querySelector('.lhi-lead-hero__quick-note')) {
+      var note = d.createElement('p');
+      note.className = 'lhi-lead-hero__quick-note';
+      note.textContent = '3 quick fields · Takes 20 seconds · Goes directly to David Huff (no call centers)';
+      submitBtn.parentNode.insertBefore(note, submitBtn);
+    }
+  }
+
   function wireSiteLeadForms() {
     d.querySelectorAll('form[data-lhi-site-lead-form]').forEach(function (form) {
       stampInitialLeadSpamGuard(form);
+      simplifyLeadHeroForm(form);
       if (form.__lhiSiteLeadWired) return;
       form.__lhiSiteLeadWired = true;
       var zipEl = form.querySelector('input[name="zip_code"]');
@@ -594,6 +668,21 @@
     }
     if (path.indexOf('medigap-birthday') !== -1 || path.indexOf('medigap') !== -1) {
       return 'Hi David, can you compare 2027 Medigap rates for my ZIP code?';
+    }
+    if (path.indexOf('triterm') !== -1 || path.indexOf('tri-term') !== -1) {
+      return 'Hi David, can you compare 2027 TriTerm Medical (3-year) options and rates for my ZIP code?';
+    }
+    if (path.indexOf('short-term') !== -1) {
+      return 'Hi David, can you compare Short-Term Medical and TriTerm Medical options for my ZIP code?';
+    }
+    if (path.indexOf('supplemental') !== -1 || path.indexOf('protector-guard') !== -1 || path.indexOf('fixed-indemnity') !== -1 || path.indexOf('hospital-wise') !== -1 || path.indexOf('hospital-safeguard') !== -1 || path.indexOf('accident-wise') !== -1 || path.indexOf('critical-guard') !== -1) {
+      return 'Hi David, can you compare supplemental cash plans (fixed indemnity, hospital, accident, or critical illness) for my ZIP code?';
+    }
+    if (path.indexOf('dental-vision') !== -1 || path.indexOf('dental-insurance') !== -1) {
+      return 'Hi David, can you help me compare standalone dental and vision options for my ZIP code?';
+    }
+    if (path.indexOf('private-medical') !== -1 || path.indexOf('non-income') !== -1) {
+      return 'Hi David, can you compare private medical, TriTerm, and non-ACA health options for my ZIP code?';
     }
     if (path.indexOf('life-insurance') !== -1) {
       return 'Hi David, can you compare life insurance or final expense options for me?';
