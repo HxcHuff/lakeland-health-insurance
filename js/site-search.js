@@ -2603,7 +2603,140 @@ const siteSearchIndex = [
       "Lakeland",
       "Polk County"
     ]
-  }
+  },
+  // Wave 8 Long-Tail Search Answer Guides
+  {
+    title: "2027 Medicare Part B Premium & Deductible (Full CMS Chart)",
+    url: "/blog/2027-medicare-part-b-premium-deductible.html",
+    excerpt: "CMS set the 2027 Medicare Part B standard premium at $209.40/mo and deductible at $292. See 2027 IRMAA brackets, Part A $1,776 deductible & Medigap tips.",
+    tags: ["Medicare", "Part B", "2027 Costs", "IRMAA", "Deductible", "Part A"]
+  },
+  {
+    title: "What Happens When My Health Plan Drops Me? (2027 Guide)",
+    url: "/blog/what-happens-when-my-health-plan-drops-me-2027.html",
+    excerpt: "When a health plan drops you, your exact rights depend on why: carrier exit, non-payment grace period, job loss, or doctor drop. See 2027 SEP & GI rules.",
+    tags: ["Plan Dropped", "Cancellation", "Non-Renewal", "SEP", "Grace Period", "Medigap GI", "ACA", "Medicare"]
+  },
+  {
+    title: "Why Do I Have to Pay a Health Insurance Penalty? (2027)",
+    url: "/blog/why-do-i-have-to-pay-health-insurance-penalty-2027.html",
+    excerpt: "Confused by a health insurance penalty? Compare Medicare Part B (10%/yr), Part D (1%/mo), $0 federal ACA mandate vs 5 states, and 2027 Form 8962 repayment.",
+    tags: ["Penalty", "Late Enrollment Penalty", "Part B Penalty", "Part D Penalty", "ACA Mandate", "Form 8962", "Tax Clawback"]
+  },
+  {
+    title: "My Employer Health Insurance Is Increasing (2027 Options)",
+    url: "/blog/my-employer-health-insurance-is-increasing-2027.html",
+    excerpt: "Employer health insurance jumping for 2027? Check the IRS 10.22% affordability test, family split rules, SEP traps & when Marketplace subsidies unlock.",
+    tags: ["Employer Insurance Increasing", "10.22%", "Affordability Test", "Family Glitch", "ACA", "ICHRA", "Payroll Deduction"]
+  },
+  {
+    title: "How to Appeal 2027 Medicare IRMAA With Form SSA-44",
+    url: "/blog/how-to-appeal-medicare-irmaa-form-ssa-44-2027.html",
+    excerpt: "Got a 2027 Medicare IRMAA surcharge letter? See all 8 qualifying SSA-44 life-changing events, 2027 MAGI brackets ($112k/$224k) & step-by-step filing.",
+    tags: ["IRMAA", "Form SSA-44", "Medicare Appeal", "Part B Surcharge", "Retirement", "2027 MAGI"]
+  },
+  {
+    title: "What Counts as Creditable Coverage for Medicare? (2027)",
+    url: "/blog/what-is-creditable-coverage-for-medicare-2027.html",
+    excerpt: "Does COBRA, VA, ACA, or a small employer plan count as creditable coverage for Medicare Part B & Part D? Avoid 2027 lifetime penalties + Form CMS-L564.",
+    tags: ["Creditable Coverage", "COBRA Medicare", "CMS-L564", "20 Employee Rule", "VA Medicare", "Part B", "Part D"]
+  },
+  {
+    title: "Can You Be Denied Medigap for Pre-Existing Conditions? 2027",
+    url: "/blog/can-i-be-denied-medigap-for-pre-existing-conditions-2027.html",
+    excerpt: "Can insurers deny Medigap Plan G/N for health conditions in 2027? Learn your 6-month OEP, 63-day Guaranteed Issue rights, 12-month Trial Right & rules.",
+    tags: ["Medigap Denied", "Pre-Existing Conditions", "Medical Underwriting", "Guaranteed Issue", "Trial Right", "Plan G", "Plan N"]
+  },
+  {
+    title: "Form 1095-A & Form 8962 Guide: Fix Marketplace Tax Holds",
+    url: "/blog/what-is-form-1095-a-and-8962-marketplace-taxes-2027.html",
+    excerpt: "IRS rejected your return for missing Form 1095-A (F8962-070)? Learn Columns A-C, uncapped 2026/2027 APTC repayment & how to clear FTR subsidy holds.",
+    tags: ["Form 1095-A", "Form 8962", "F8962-070", "FTR", "APTC Repayment", "Marketplace Taxes", "SLCSP"]
+  },
+  {
+    title: "2027 ACA Out-of-Pocket Max ($12,000) & HSA Limits ($4,500)",
+    url: "/blog/2027-aca-out-of-pocket-maximum-and-hsa-limits.html",
+    excerpt: "CMS raised the 2027 ACA out-of-pocket max to $12,000 ($24,000 family) while IRS set 2027 HSA limits at $4,500 ($9,000 family). See CSR & MAGI strategies.",
+    tags: ["2027 Out-of-Pocket Maximum", "$12,000", "2027 HSA Limits", "$4,500", "HDHP", "CSR Silver", "MAGI"]
+  },
+  {
+    title: "Can I Switch Health Insurance Mid-Year? (2027 ACA & MA)",
+    url: "/blog/can-i-switch-health-insurance-mid-year-2027.html",
+    excerpt: "Can you change health insurance mid-year in 2027? Compare ACA Qualifying Life Events (note: 150% FPL SEP ended) vs Medicare MA OEP, 5-Star & Move SEPs.",
+    tags: ["Switch Mid-Year", "Special Enrollment Period", "150% FPL SEP", "MA OEP", "5-Star SEP", "Qualifying Life Event"]
+  },
+  {
+    title: "Health Insurance After Divorce or Separation (2027 Guide)",
+    url: "/blog/health-insurance-after-divorce-or-separation-2027.html",
+    excerpt: "Divorcing or separating in 2027? Compare 60-day ACA SEP vs 36-month COBRA, the Married Filing Separately subsidy bar, kids' plans & Medicare SSA-44.",
+    tags: ["Divorce Health Insurance", "Separation", "36-Month COBRA", "Married Filing Separately", "ACA SEP", "SSA-44"]
+  },
+  {
+    title: "Does Medicare Cover Nursing Homes or Assisted Living? 2027",
+    url: "/blog/does-medicare-cover-nursing-homes-assisted-living-2027.html",
+    excerpt: "Medicare does NOT pay for long-term assisted living, but covers short-term Skilled Nursing (SNF): 2027 Days 1-20 $0, Days 21-100 $222/day. See Medigap tips.",
+    tags: ["Nursing Home", "Assisted Living", "Skilled Nursing Facility", "SNF", "$222/day", "Observation Status", "Medigap"]
+  },
+  {
+    title: "How to Read a Summary of Benefits and Coverage (2027 SBC)",
+    url: "/blog/what-is-a-summary-of-benefits-and-coverage-sbc-2027.html",
+    excerpt: "Stop comparing plans by premium alone. Learn the 6 lines to inspect on every 2027 Summary of Benefits and Coverage (SBC): deductibles, drugs & ER traps.",
+    tags: ["Summary of Benefits", "SBC", "Embedded Deductible", "Coinsurance", "Out-of-Pocket Max", "Compare Plans"]
+  },
+  {
+    title: "Prior Authorization & Step Therapy Explained (2027 Rules)",
+    url: "/blog/prior-authorization-and-step-therapy-explained-2027.html",
+    excerpt: "Why did your health plan delay a surgery, MRI, or prescription? Learn 2027 CMS prior authorization timelines (72 hrs urgent / 7 days) & how to appeal.",
+    tags: ["Prior Authorization", "Step Therapy", "72 Hours", "7 Days", "Formulary Exception", "Medicare Advantage", "ACA"]
+  },
+  {
+    title: "No Surprises Act Explained (2027): Stop Balance Billing",
+    url: "/blog/what-is-no-surprises-act-balance-billing-protection-2027.html",
+    excerpt: "Got an out-of-network ER, air ambulance, or hospital anesthesiologist bill? Learn how the federal No Surprises Act protects you and how to dispute bills.",
+    tags: ["No Surprises Act", "Balance Billing", "Emergency Room", "Anesthesiologist", "Air Ambulance", "Ground Ambulance", "Good Faith Estimate"]
+  },
+  {
+    title: "Moving to a New State? Health Insurance Checklist (2027)",
+    url: "/blog/moving-to-a-new-state-health-insurance-checklist-2027.html",
+    excerpt: "Moving states in 2027? Learn the 60-day ACA Move SEP (and prior-coverage rule), Medicare Advantage Move SEP + Medigap GI rights & state exchange portals.",
+    tags: ["Moving States", "Move SEP", "Relocating", "Medicare Move SEP", "State Marketplace", "Medigap Travel"]
+  },
+  {
+    title: "Married Filing Separately: ACA Subsidy & IRMAA Rules 2027",
+    url: "/blog/married-filing-separately-aca-marketplace-medicare-2027.html",
+    excerpt: "Filing Married Filing Separately in 2027? Learn the ACA subsidy bar (plus 2 exceptions), uncapped Form 8962 clawback & the $670/mo Medicare IRMAA cliff.",
+    tags: ["Married Filing Separately", "MFS", "ACA Subsidy", "Form 8962", "Medicare IRMAA", "Head of Household"]
+  },
+  {
+    title: "The Case for an HSA in 2027: Triple Tax & MAGI Strategy",
+    url: "/blog/the-case-for-hsa-health-savings-account-2027.html",
+    excerpt: "Why an HSA is one of the smartest 2027 healthcare tools: triple tax advantage, $4,500/$9,000 limits, lowering ACA MAGI & building a medical retirement fund.",
+    tags: ["HSA", "Health Savings Account", "Triple Tax Advantage", "MAGI Reduction", "HDHP", "2027 HSA Limits", "400% FPL Cliff"]
+  },
+  {
+    title: "Does Social Security Count as Income for ACA & Medicare?",
+    url: "/blog/does-social-security-count-as-income-aca-marketplace-2027.html",
+    excerpt: "YES for ACA Marketplace: 100% of Social Security retirement & SSDI counts toward MAGI (even untaxed amounts), while SSI does NOT. See 2027 rules & tips.",
+    tags: ["Social Security Income", "Does Social Security Count", "SSDI", "SSI", "ACA MAGI", "SSA-1099", "Early Retiree"]
+  },
+  {
+    title: "Plan N Doctor Copays: How Many Visits Is Too Many? (2027)",
+    url: "/blog/medigap-plan-n-doctor-copays-break-even-vs-plan-g-2027.html",
+    excerpt: "Wondering how many $20 doctor visits make Medigap Plan N cost more than Plan G in 2027? See the exact break-even chart, $0 visits & excess-charge facts.",
+    tags: ["Plan N Copays", "Plan N vs Plan G", "Break-Even", "$20 Copay", "Part B Excess Charges", "Medigap 2027"]
+  },
+  {
+    title: "Health Insurance for College Kids: Nationwide Network Guide",
+    url: "/blog/college-student-health-insurance-nationwide-networks-2027.html",
+    excerpt: "Sending a student to an out-of-state college? Why home-state ACA HMOs fail away from home & the 4 best nationwide PPO, University SHIP & campus options.",
+    tags: ["College Student Health Insurance", "Nationwide Network", "Out-of-State College", "University SHIP", "PPO", "Age 26"]
+  },
+  {
+    title: "Why Is Employer Health Insurance Increasing So Much? 2027",
+    url: "/blog/why-is-employer-health-insurance-increasing-so-much-2027.html",
+    excerpt: "Why are 2027 employer health insurance renewals jumping 8% to 20%+? See the 5 cost drivers (GLP-1s, hospital fees, stop-loss) & ICHRA / 10.22% solutions.",
+    tags: ["Employer Coverage Increasing", "Why Health Insurance Going Up", "Small Business Renewal", "GLP-1 Costs", "ICHRA", "10.22%"]
+  },
 ];
 
 // Search functionality
