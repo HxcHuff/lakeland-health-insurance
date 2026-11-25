@@ -347,12 +347,15 @@
       [phoneHref, 'Call Now']
     ];
     const header = document.createElement('header');
+    const headerLicenseTag = isMultiStateFooterPage(pathname)
+      ? 'Licensed in 23 States · NPN #18213932'
+      : 'FL #W371813';
     header.innerHTML = `
       <nav class="container">
         <div class="logo-container">
           <a class="brand-name" href="/">
             Lakeland Health Insurance
-            <span class="license-tag">FL #W371813</span>
+            <span class="license-tag">${headerLicenseTag}</span>
           </a>
           <button class="menu-button" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
             <div class="ellipses" aria-hidden="true">

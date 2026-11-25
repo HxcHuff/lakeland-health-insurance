@@ -103,13 +103,15 @@ test('lead-hero trust strip renders David photo, 5.0 26 reviews, and geo-matched
         path: '/blog/braven-health-new-jersey-medicare-exit-2027.html',
         expectSmsMatch: /New%20Jersey/i,
         forbidSmsMatch: /Lakeland/i,
-        expectCredMatch: /Licensed in 23 States/
+        expectCredMatch: /Licensed in New Jersey #3000946026.*Licensed in 23 States/,
+        expectTransparencyMatch: /Licensed in New Jersey \(#3000946026\)/
       },
       {
         path: '/blog/baylor-scott-white-humana-texas-2027.html',
         expectSmsMatch: /Texas/i,
         forbidSmsMatch: /Lakeland/i,
-        expectCredMatch: /Licensed in 23 States/
+        expectCredMatch: /Licensed in Texas #2414025.*Licensed in 23 States/,
+        expectTransparencyMatch: /Licensed in Texas \(#2414025\)/
       }
     ];
 
@@ -124,6 +126,17 @@ test('lead-hero trust strip renders David photo, 5.0 26 reviews, and geo-matched
       assert.match(text, /David Huff/);
       assert.match(text, item.expectCredMatch);
       assert.match(text, /5\.0.*26 Google reviews/);
+      assert.match(text, /Direct to David Huff only/);
+      assert.match(text, /Never sold to third-party lead brokers/);
+
+      const callBtn = strip.locator('a[data-lhi-trust-call="lead_hero_trust_call"]');
+      assert.equal(await callBtn.getAttribute('href'), 'tel:+18636403102');
+
+      if (item.expectTransparencyMatch) {
+        const trans = page.locator('.lhi-lead-hero__intro .lhi-lead-hero__transparency').first();
+        await trans.waitFor({ state: 'visible', timeout: 5000 });
+        assert.match(await trans.textContent(), item.expectTransparencyMatch);
+      }
 
       const photoSrc = await strip.locator('img.lhi-lead-hero__trust-photo').getAttribute('src');
       assert.equal(photoSrc, '/assets/images/david-huff-blue-polo-480.jpg');

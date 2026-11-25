@@ -479,7 +479,71 @@
 
   var GOOGLE_REVIEWS_HREF = 'https://maps.google.com/?cid=5421693615683546210';
   var AGENT_PHOTO_SRC = '/assets/images/david-huff-blue-polo-480.jpg';
+  var STATE_LICENSE_REGISTRY = {
+    AL: { name: 'Alabama', license: '3000811681' },
+    AZ: { name: 'Arizona', license: '18213932' },
+    FL: { name: 'Florida', license: 'W371813' },
+    GA: { name: 'Georgia', license: '3329737' },
+    IA: { name: 'Iowa', license: '18213932' },
+    IN: { name: 'Indiana', license: '3529184' },
+    KS: { name: 'Kansas', license: '18213932' },
+    LA: { name: 'Louisiana', license: '884531' },
+    MD: { name: 'Maryland', license: '3000829890' },
+    MI: { name: 'Michigan', license: '18213932' },
+    MO: { name: 'Missouri', license: '3000857686' },
+    MS: { name: 'Mississippi', license: '10669503' },
+    NC: { name: 'North Carolina', license: '18213932' },
+    NE: { name: 'Nebraska', license: '18213932' },
+    NJ: { name: 'New Jersey', license: '3000946026' },
+    OH: { name: 'Ohio', license: '1241771' },
+    OK: { name: 'Oklahoma', license: '3001037181' },
+    SC: { name: 'South Carolina', license: '18213932' },
+    TN: { name: 'Tennessee', license: '2489827' },
+    TX: { name: 'Texas', license: '2414025' },
+    VA: { name: 'Virginia', license: '1136622' },
+    WA: { name: 'Washington', license: '1051160' },
+    WV: { name: 'West Virginia', license: '18213932' }
+  };
+  var PATH_STATE_HINTS = [
+    ['TX', /texas|bcbstx|baylor-scott-white|houston-methodist|austin-san-antonio/i],
+    ['NJ', /new-jersey|braven-health|rwjbarnabas/i],
+    ['MO', /missouri|st-louis|bjc-healthcare/i],
+    ['OH', /ohio|cincinnati|trihealth|kettering-health|ohiohealth|cleveland-clinic-uh/i],
+    ['NC', /north-carolina|duke-health|atrium-health|raleigh-durham|charlotte/i],
+    ['SC', /south-carolina|prisma-health/i],
+    ['GA', /georgia|piedmont-wellstar/i],
+    ['TN', /tennessee|vanderbilt|ut-medical-center|knoxville-chattanooga|memphis/i],
+    ['WA', /washington|providence-swedish|seattle/i],
+    ['AZ', /arizona|honorhealth|phoenix/i],
+    ['VA', /virginia|sentara-vcu/i],
+    ['IA', /iowa|wellmark-iowa/i],
+    ['IN', /indiana|indianapolis/i],
+    ['KS', /kansas|ku-health-system/i],
+    ['OK', /oklahoma|bcbsok|integris-health/i],
+    ['MS', /mississippi|patrius-health|ummc-baptist/i],
+    ['MD', /maryland|johns-hopkins-medstar/i],
+    ['NE', /nebraska|medica-bcbsne/i],
+    ['MI', /michigan|corewell-health/i],
+    ['AL', /alabama|uab-medicine/i],
+    ['LA', /louisiana|ochsner-health/i],
+    ['WV', /west-virginia|wvumedicine/i]
+  ];
   var OUT_OF_STATE_PATH_RE = /(?:^\/states\/|^\/medigap-birthday-anniversary-rules-2027\/|^\/health-insurance-(?!broker-lakeland-fl)(alabama|arizona|georgia|iowa|indiana|kansas|louisiana|maryland|michigan|missouri|mississippi|north-carolina|nebraska|new-jersey|ohio|oklahoma|south-carolina|tennessee|texas|virginia|washington|west-virginia)\/|-(?:alabama|arizona|georgia|georgia-access|iowa|indiana|kansas|louisiana|maryland|michigan|missouri|mississippi|north-carolina|nebraska|new-jersey|ohio|oklahoma|south-carolina|tennessee|texas|virginia|washington|west-virginia|st-louis|cincinnati|raleigh-durham|knoxville-chattanooga|memphis|charlotte|atlanta|houston|dallas|austin|phoenix|seattle|indianapolis|columbus|cleveland|detroit|kansas-city|baltimore|richmond|birmingham|omaha|des-moines|oklahoma-city|new-orleans|bcbstx|braven-health|wellmark-iowa|kettering-health|ohiohealth|bjc-healthcare|trihealth|providence-swedish|baylor-scott-white|duke-health|atrium-health|piedmont-wellstar|prisma-health|ut-medical-center|medica-cox-mending)(?:-|\.|\/|$))/i;
+
+  function detectPageStateCode(pathname, form) {
+    if (form && form.querySelector) {
+      var stInput = form.querySelector('input[name="coverage_state"], input[name="state"]');
+      var rawVal = stInput ? String(stInput.value || '').trim().toUpperCase() : '';
+      if (rawVal && rawVal !== 'FL' && Object.prototype.hasOwnProperty.call(STATE_LICENSE_REGISTRY, rawVal)) {
+        return rawVal;
+      }
+    }
+    var path = String(pathname || '').toLowerCase();
+    for (var i = 0; i < PATH_STATE_HINTS.length; i += 1) {
+      if (PATH_STATE_HINTS[i][1].test(path)) return PATH_STATE_HINTS[i][0];
+    }
+    return '';
+  }
 
   function isOutOfStateLeadSurface(pathname) {
     var path = String(pathname || '').toLowerCase();
@@ -572,28 +636,68 @@
     var multiState = isOutOfStateLeadSurface(path);
     var isMed = isMedicareLeadSurface();
     var smsHref = 'sms:' + PHONE_HREF.replace('tel:', '') + '?body=' + encodeURIComponent(buildContextSmsBody(path, isMed));
-    var credLine = multiState
-      ? 'Licensed in 23 States · NPN 18213932'
-      : 'Licensed FL Agent #W371813 · NPN 18213932';
 
-    d.querySelectorAll('.lhi-lead-hero .lhi-lead-hero__card').forEach(function (card) {
+    d.querySelectorAll('.lhi-lead-hero').forEach(function (section) {
+      var card = section.querySelector('.lhi-lead-hero__card');
       if (!card || card.querySelector('.lhi-lead-hero__trust')) return;
       var form = card.querySelector('form');
       if (!form) return;
+
+      var stateCode = multiState ? detectPageStateCode(path, form) : '';
+      var stateInfo = stateCode ? STATE_LICENSE_REGISTRY[stateCode] : null;
+      var credLine = stateInfo
+        ? 'Licensed in ' + stateInfo.name + ' #' + stateInfo.license + ' · Licensed in 23 States · NPN 18213932'
+        : (multiState
+          ? 'Licensed in 23 States · NPN 18213932'
+          : 'Licensed FL Agent #W371813 · NPN 18213932');
+
+      // On mid-article out-of-state sections, explain the FL-based 23-state licensing clearly inside .lhi-lead-hero__intro
+      if (multiState && section.classList.contains('lhi-lead-hero--mid')) {
+        var intro = section.querySelector('.lhi-lead-hero__intro');
+        if (intro && !intro.querySelector('.lhi-lead-hero__transparency')) {
+          var badgeText = stateInfo
+            ? 'Licensed in ' + stateInfo.name + ' (#' + stateInfo.license + ') · Remote help from our FL office'
+            : 'Licensed in 23 states · Remote help from our FL office';
+          var trans = d.createElement('ul');
+          trans.className = 'lhi-lead-hero__transparency';
+          trans.setAttribute('aria-label', 'Why our Florida-based agency can help in your state');
+          trans.innerHTML =
+            '<li>' + badgeText + '</li>' +
+            '<li>Direct to David Huff only · Never sold to third-party lead brokers</li>' +
+            '<li>Simple 3-field check · Written comparison by text, email, or brief call</li>';
+          intro.appendChild(trans);
+        }
+      }
+
       var strip = d.createElement('div');
       strip.className = 'lhi-lead-hero__trust';
       strip.setAttribute('aria-label', 'Direct contact with David Huff and verified Google rating');
       strip.innerHTML =
-        '<div class="lhi-lead-hero__trust-agent">' +
-          '<img class="lhi-lead-hero__trust-photo" src="' + AGENT_PHOTO_SRC + '" alt="David Huff, Licensed Insurance Agent" width="44" height="44" loading="lazy" decoding="async">' +
-          '<div class="lhi-lead-hero__trust-meta">' +
-            '<strong>David Huff</strong>' +
-            '<span>' + credLine + '</span>' +
-            '<a class="lhi-lead-hero__trust-reviews" href="' + GOOGLE_REVIEWS_HREF + '" target="_blank" rel="noopener noreferrer">5.0 &#9733; &middot; 26 Google reviews</a>' +
+        '<p class="lhi-lead-hero__trust-promise">Direct to David Huff only &middot; Never sold to third-party lead brokers &middot; No separate agent fee</p>' +
+        '<div class="lhi-lead-hero__trust-row">' +
+          '<div class="lhi-lead-hero__trust-agent">' +
+            '<img class="lhi-lead-hero__trust-photo" src="' + AGENT_PHOTO_SRC + '" alt="David Huff, Licensed Insurance Agent" width="44" height="44" loading="lazy" decoding="async">' +
+            '<div class="lhi-lead-hero__trust-meta">' +
+              '<strong>David Huff</strong>' +
+              '<span>' + credLine + '</span>' +
+              '<a class="lhi-lead-hero__trust-reviews" href="' + GOOGLE_REVIEWS_HREF + '" target="_blank" rel="noopener noreferrer">5.0 &#9733; &middot; 26 Google reviews</a>' +
+            '</div>' +
           '</div>' +
-        '</div>' +
-        '<a class="lhi-lead-hero__trust-sms" href="' + smsHref + '" data-lhi-sms-cta="lead_hero_trust_sms" data-analytics-label="lead_hero_trust_sms">Text David ' + PHONE_DISPLAY + '</a>';
+          '<div class="lhi-lead-hero__trust-actions">' +
+            '<a class="lhi-lead-hero__trust-sms" href="' + smsHref + '" data-lhi-sms-cta="lead_hero_trust_sms" data-analytics-label="lead_hero_trust_sms">Text David ' + PHONE_DISPLAY + '</a>' +
+            '<a class="lhi-lead-hero__trust-call" href="' + PHONE_HREF + '" data-lhi-trust-call="lead_hero_trust_call">Call ' + PHONE_DISPLAY + '</a>' +
+          '</div>' +
+        '</div>';
       card.appendChild(strip);
+
+      var callBtn = strip.querySelector('[data-lhi-trust-call]');
+      if (callBtn) {
+        callBtn.addEventListener('click', function () {
+          if (typeof w.lhiTrackPhoneClick === 'function') {
+            try { w.lhiTrackPhoneClick('lead_hero_trust_call', 'phone_call'); } catch (e) {}
+          }
+        });
+      }
     });
   }
 
