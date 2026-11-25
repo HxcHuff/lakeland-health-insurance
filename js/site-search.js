@@ -2662,7 +2662,7 @@ const siteSearchIndex = [
   {
     title: "Can I Switch Health Insurance Mid-Year? (2027 ACA & MA)",
     url: "/blog/can-i-switch-health-insurance-mid-year-2027.html",
-    excerpt: "Can you change health insurance mid-year in 2027? Compare ACA Qualifying Life Events (note: 150% FPL SEP ended) vs Medicare MA OEP, 5-Star & Move SEPs.",
+    excerpt: "Can you change health insurance mid-year in 2027? Compare ACA Qualifying Life Events (150% FPL SEP loses subsidies) vs Medicare MA OEP, 5-Star & Move SEPs.",
     tags: ["Switch Mid-Year", "Special Enrollment Period", "150% FPL SEP", "MA OEP", "5-Star SEP", "Qualifying Life Event"]
   },
   {
@@ -2734,7 +2734,7 @@ const siteSearchIndex = [
   {
     title: "Why Is Employer Health Insurance Increasing So Much? 2027",
     url: "/blog/why-is-employer-health-insurance-increasing-so-much-2027.html",
-    excerpt: "Why are 2027 employer health insurance renewals jumping 8% to 20%+? See the 5 cost drivers (GLP-1s, hospital fees, stop-loss) & ICHRA / 10.22% solutions.",
+    excerpt: "Why are 2027 employer health insurance renewals jumping so sharply? See the 5 cost drivers (GLP-1s, hospital fees, stop-loss) & ICHRA / 10.22% solutions.",
     tags: ["Employer Coverage Increasing", "Why Health Insurance Going Up", "Small Business Renewal", "GLP-1 Costs", "ICHRA", "10.22%"]
   },
 ];
