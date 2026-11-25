@@ -416,7 +416,7 @@
     } catch (e) {}
     return {
       open: false,
-      label: 'Priority Callback Queue · Text your Brief Code below or lock in a 15-minute slot on David\'s calendar'
+      label: 'Priority Callback Queue · Text your Brief Code below or request a follow-up online'
     };
   }
 
@@ -723,8 +723,8 @@
 
       if (secondaryActionBtn) {
         if (postLead) {
-          secondaryActionBtn.setAttribute('href', '/book/');
-          secondaryActionBtn.textContent = 'Or Pick Exact 15-Min Calendar Slot';
+          secondaryActionBtn.setAttribute('href', 'tel:+18636403102');
+          secondaryActionBtn.textContent = 'Or Call (863) 640-3102 Directly';
         } else if (state.lane === 'aca') {
           secondaryActionBtn.setAttribute('href', '/get-help/?intent=provider-check');
           secondaryActionBtn.textContent = 'Or Request Callback Online';

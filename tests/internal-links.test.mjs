@@ -53,8 +53,8 @@ test('required contextual links and blog-index listings are present', () => {
     ['blog/marketplace-plan-ending-2027-what-now.html', '/get-help/'],
     ['plans/index.html', '/quote/'],
     ['learning/index.html', '/quote/'],
-    ['get-help/index.html', '/book/'],
-    ['contact/index.html', '/book/'],
+    ['get-help/index.html', 'tel:+18636403102'],
+    ['contact/index.html', '/get-help/'],
     ['index.html', '/states/'],
     ['index.html', '/carriers/oscar-aca-2026/'],
     ['medicare/index.html', '/blog/baycare-medicare-advantage-plans-2027-polk-county.html'],
@@ -77,12 +77,13 @@ test('required contextual links and blog-index listings are present', () => {
   }
 });
 
-test('booking page stays on-site and does not expose the third-party account string', () => {
+test('booking page stays on-site with self-serve calendar removed and does not expose the third-party account string', () => {
   const html = readFileSync(join(ROOT, 'book/index.html'), 'utf8');
-  assert.match(html, /id="booking-frame"/);
+  assert.doesNotMatch(html, /id="booking-frame"/);
   assert.doesNotMatch(html, /src="\/book\/embed"/);
-  assert.match(html, /\/js\/calendly-meta-schedule\.js\?v=20261112-audit-release-v1/);
-  assert.match(html, /Book a time with David/);
+  assert.doesNotMatch(html, /calendly-meta-schedule\.js/);
+  assert.match(html, /Request a plan review with David/);
+  assert.match(html, /href="\/get-help\/"/);
   assert.doesNotMatch(html, /healthmarkets/i);
   assert.doesNotMatch(html, /calendly\.com\/dhuff/i);
   assert.doesNotMatch(html, /\bfbq\s*\(|connect\.facebook\.net/i);

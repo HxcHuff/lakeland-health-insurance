@@ -1295,7 +1295,7 @@
         }));
       }
     } catch (e) {}
-    panel.innerHTML = '<div class="m27-thanks" role="status" aria-live="polite"><h2>Request received</h2><p>' + message + ' Want to skip the callback queue? Call David right now at <a href="tel:+18636403102"><strong>(863) 640-3102</strong></a>.</p><p style="margin:0.85rem 0 0.55rem;"><a class="cta-button m27-submit-style" href="/provider-prescription-check/#interactive-verification-worksheet">Step 2 (60 sec): Preview 2027 Clinic &amp; Plan-ID Watchouts \u2192</a></p><p style="margin:0.55rem 0;"><a href="/book/" data-funnel-booking style="font-weight:700;text-decoration:underline;">Or pick an exact 15-min slot on David\u2019s calendar \u2192</a></p><p style="font-size:0.88rem;opacity:0.92;margin:0.5rem 0 0;">Tip: Save <strong>(863) 640-3102</strong> in your contacts now so your phone doesn\u2019t silence David\u2019s call.</p></div>';
+    panel.innerHTML = '<div class="m27-thanks" role="status" aria-live="polite"><h2>Request received</h2><p>' + message + ' Need an immediate answer? Call or text David at <a href="tel:+18636403102"><strong>(863) 640-3102</strong></a>.</p><p style="margin:0.85rem 0 0.55rem;"><a class="cta-button m27-submit-style" href="/provider-prescription-check/#interactive-verification-worksheet">Step 2 (60 sec): Preview 2027 Clinic &amp; Plan-ID Watchouts \u2192</a></p><p style="font-size:0.88rem;opacity:0.92;margin:0.5rem 0 0;">Tip: Save <strong>(863) 640-3102</strong> in your contacts now so your phone doesn\u2019t silence David\u2019s call or text.</p></div>';
     try {
       track('LeadReceiptView', {
         content_name: 'lead_thank_you',

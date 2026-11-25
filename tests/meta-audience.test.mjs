@@ -787,7 +787,7 @@ test('static marker inventory exactly matches the reviewed 11-page landing ledge
   }
 });
 
-test('Meta conversion helpers fire trackSingle with empty params and honor opt-out', () => {
+test('Meta conversion helpers fire trackSingleCustom with empty params and honor opt-out', () => {
   const { sandbox } = loadMetaAudience({
     pathname: '/get-help/',
     storage: makeStorage(),
@@ -796,12 +796,18 @@ test('Meta conversion helpers fire trackSingle with empty params and honor opt-o
   const callsBefore = queuedCalls(sandbox).length;
   assert.equal(sandbox.lhiTrackMetaPhoneClick(), true);
   assert.equal(sandbox.lhiTrackMetaPhoneClick(), false);
+  assert.equal(sandbox.lhiTrackMetaFormSubmitComplete('lhi_book_abc123_fcomp'), true);
   const conversionCalls = queuedCalls(sandbox).slice(callsBefore);
-  assert.equal(conversionCalls[0][0], 'trackSingle');
+  assert.equal(conversionCalls[0][0], 'trackSingleCustom');
   assert.equal(conversionCalls[0][1], PIXEL_ID);
   assert.equal(conversionCalls[0][2], 'phone_click');
   assert.equal(Object.keys(conversionCalls[0][3] || {}).length, 0);
   assert.match(conversionCalls[0][4].eventID, /^lhi_ph_/);
+  assert.equal(conversionCalls[1][0], 'trackSingleCustom');
+  assert.equal(conversionCalls[1][1], PIXEL_ID);
+  assert.equal(conversionCalls[1][2], 'form_submit_complete');
+  assert.equal(Object.keys(conversionCalls[1][3] || {}).length, 0);
+  assert.equal(conversionCalls[1][4].eventID, 'lhi_book_abc123_fcomp');
 
   const denied = loadMetaAudience({
     pathname: '/get-help/',

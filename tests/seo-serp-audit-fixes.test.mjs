@@ -195,8 +195,8 @@ test('shared chrome uses one phone display, booking CTA, schema name, and asset 
 
   for (const rel of schedulePages) {
     const html = source(rel);
-    assert.match(html, /href="\/book\/"[^>]*>Schedule a Plan Review/);
-    assert.doesNotMatch(html, /href="\/get-help\/"[^>]*>Schedule a Plan Review/);
+    assert.match(html, /href="\/get-help\/"[^>]*>Request a Plan Review/);
+    assert.doesNotMatch(html, /href="\/book\/"/);
   }
 
   for (const rel of fontPages) {

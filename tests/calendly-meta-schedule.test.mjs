@@ -261,15 +261,14 @@ async function invoke(body, {
   }
 }
 
-test('booking page keeps the Schedule converter without hardcoding the calendar account', () => {
-  assert.match(BOOK_HTML, /id="booking-frame"/);
+test('booking page keeps Calendly embed removed and does not redirect /book/embed to Calendly', () => {
+  assert.doesNotMatch(BOOK_HTML, /id="booking-frame"/);
   assert.doesNotMatch(BOOK_HTML, /src="\/book\/embed"/);
-  assert.match(BOOK_HTML, /\/js\/calendly-meta-schedule\.js\?v=20261112-audit-release-v1/);
-  assert.match(BOOK_HTML, /id="booking-facade-activate"/);
+  assert.doesNotMatch(BOOK_HTML, /calendly-meta-schedule\.js/);
+  assert.doesNotMatch(BOOK_HTML, /id="booking-facade-activate"/);
   assert.doesNotMatch(BOOK_HTML, /healthmarkets|calendly\.com\/dhuff|\bfbq\s*\(/i);
-  assert.match(REDIRECTS, /\/book\/embed https:\/\/calendly\.com\/dhuff-healthmarkets\?embed_domain=lakelandhealthinsurance\.com&embed_type=Inline/);
-  assert.match(REDIRECTS, /^\/book\/embed .* 302$/m);
-  assert.doesNotMatch(REDIRECTS, /^\/book\/embed .* 200$/m);
+  assert.doesNotMatch(REDIRECTS, /\/book\/embed https:\/\/calendly\.com/i);
+  assert.match(REDIRECTS, /^\/book\/embed \/book\/ 301!$/m);
   assert.match(REDIRECTS, /^\/calendly-book\.html \/book\/ 301!$/m);
   assert.match(NETLIFY_TOML, /from = "\/api\/calendly-schedule"/);
   assert.match(PRIVACY, /standard Meta <code>Schedule<\/code> conversion/);

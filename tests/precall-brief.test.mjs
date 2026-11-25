@@ -130,8 +130,8 @@ test('post-form thanks.html spot-check hands off state to provider-prescription-
     assert.match(pctText, /^75% Pre-Call Prep Ready/);
     assert.doesNotMatch(pctText, /100%/);
 
-    // Secondary CTA switches to /book/ because lead was already submitted
-    assert.equal(await page.locator('#rxSecondaryRouteBtn').getAttribute('href'), '/book/');
+    // Secondary CTA switches to direct call because lead was already submitted and calendar is off
+    assert.equal(await page.locator('#rxSecondaryRouteBtn').getAttribute('href'), 'tel:+18636403102');
 
     // SMS link never leaks free-text doctor note
     const smsHref = await page.locator('#rxSmsBriefBtn').getAttribute('href');

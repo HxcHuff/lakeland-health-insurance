@@ -2881,7 +2881,7 @@
       return false;
     }
     if (!metaLoaderActive() || !eventID) return false;
-    w.fbq('trackSingle', PIXEL_ID, eventName, {}, { eventID: eventID });
+    w.fbq('trackSingleCustom', PIXEL_ID, eventName, {}, { eventID: eventID });
     return true;
   }
 
