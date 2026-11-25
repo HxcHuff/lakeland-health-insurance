@@ -1966,9 +1966,17 @@
     return /(?:^|[?&])(?:gclid|gbraid|wbraid|fbclid|msclkid)=/i.test(search);
   }
 
+  function extractStackSourceUrl(stack) {
+    if (!stack) return '';
+    var match = String(stack).match(/(?:https?:\/\/|(?:chrome|moz|safari-web)-extension:\/\/)[^\s)'"]+/i);
+    if (!match) return '';
+    return match[0].replace(/:\d+(?::\d+)?$/, '');
+  }
+
   function isThirdPartyOrBenignRuntimeNoise(errorType, rawMessage, rawSource, lineNo) {
     var msg = String(rawMessage || '').trim();
     var src = String(rawSource || '').trim();
+    if (!msg && !src) return true;
     if (/^ResizeObserver loop\b/i.test(msg)) return true;
     if (errorType === 'error' && /^Script error\.?$/i.test(msg) && (!src || Number(lineNo) === 0)) return true;
     if (/^(?:chrome-extension|moz-extension|safari-web-extension):/i.test(src)) return true;
@@ -1979,6 +1987,13 @@
           return true;
         }
       } catch (e) {}
+    }
+    if (
+      errorType === 'unhandledrejection' &&
+      (!src || src === 'promise') &&
+      /^(?:AbortError|TypeError:\s*(?:Failed to fetch|Load failed|cancelled|canceled|NetworkError\b)|Failed to fetch|Load failed|NetworkError\b|The user aborted a request|The operation was aborted)/i.test(msg)
+    ) {
+      return true;
     }
     return false;
   }
@@ -2005,12 +2020,16 @@
     if (typeof window.addEventListener === 'function') {
       window.addEventListener('error', function (evt) {
         if (!evt) return;
-        reportRuntimeError('error', evt.message || (evt.error && evt.error.message), evt.filename || '', evt.lineno || 0);
+        var msg = evt.message || (evt.error && evt.error.message) || '';
+        var src = evt.filename || extractStackSourceUrl(evt.error && evt.error.stack) || '';
+        if (!msg && !src) return;
+        reportRuntimeError('error', msg, src, evt.lineno || 0);
       });
       window.addEventListener('unhandledrejection', function (evt) {
         var reason = evt && evt.reason;
         var msg = (reason && typeof reason === 'object' && reason.message) ? reason.message : String(reason || 'unhandled_rejection');
-        reportRuntimeError('unhandledrejection', msg, 'promise', 0);
+        var stackSrc = (reason && typeof reason === 'object' && reason.stack) ? extractStackSourceUrl(reason.stack) : '';
+        reportRuntimeError('unhandledrejection', msg, stackSrc || 'promise', 0);
       });
     }
     if (typeof PerformanceObserver !== 'function') return;

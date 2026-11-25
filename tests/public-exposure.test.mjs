@@ -345,6 +345,17 @@ test('shared-template and /css + /js assets revalidate network-first and fall ba
     assert.equal(await assetHarness.dispatch(assetPath, accept), networkResponse, `${assetPath} revalidates over network instead of serving stale cache`);
     assert.equal(assetHarness.fetchCalls[0][1].cache, 'no-cache');
   }
+
+  // Service worker catches cache.put() and offline cache-first fetch errors without unhandled rejections
+  assert.match(SERVICE_WORKER, /caches\.open\(CACHE_NAME\)\.then\(\(cache\) => cache\.put\(request, clone\)\)\.catch\(\(\) => \{\}\)/);
+  const offlineAssetHarness = createServiceWorkerFetchHarness(async () => { throw new Error('offline-image'); }, undefined);
+  await assert.doesNotReject(async () => {
+    await offlineAssetHarness.dispatch('/assets/missing.png', 'image/png');
+  });
+
+  // Shared site-template catches reg.update() promise rejections so SW checks never trigger js_runtime_error
+  const siteTemplateSrc = readFileSync(join(ROOT, 'js/site-template.js'), 'utf8');
+  assert.match(siteTemplateSrc, /return Promise\.resolve\(reg\.update\(\)\)\.catch\(function \(\) \{\}\);/);
 });
 
 test('audit source and runtime evidence stay outside the public Netlify boundary', () => {

@@ -3048,11 +3048,17 @@ test('analytics telemetry flushes lhi_meta_skip_reason after page_view, scrubs j
   assert.equal(diag.classifyCwvRating('INP', 350), 'needs_improvement');
   assert.equal(diag.classifyCwvRating('CLS', 0.31), 'poor');
 
-  // Suppresses cross-origin Script error., third-party hosts, and ResizeObserver noise
+  // Suppresses cross-origin Script error., third-party hosts, ResizeObserver noise, empty errors, and benign abort rejections
   assert.equal(diag.reportRuntimeError('error', 'Script error.', '', 0), false);
+  assert.equal(diag.reportRuntimeError('error', '', '', 0), false);
   assert.equal(diag.reportRuntimeError('error', 'ResizeObserver loop completed with undelivered notifications.', '/js/a.js', 12), false);
   assert.equal(diag.reportRuntimeError('error', 'Third-party failure', 'https://www.googletagmanager.com/gtm.js', 5), false);
   assert.equal(diag.reportRuntimeError('error', 'Extension failure', 'chrome-extension://abcdef/content.js', 1), false);
+  assert.equal(diag.reportRuntimeError('unhandledrejection', 'Third-party promise failure', 'https://connect.facebook.net/en_US/fbevents.js', 0), false);
+  assert.equal(diag.reportRuntimeError('unhandledrejection', 'Extension promise failure', 'chrome-extension://abcdef/inject.js', 0), false);
+  assert.equal(diag.reportRuntimeError('unhandledrejection', 'TypeError: Failed to fetch', 'promise', 0), false);
+  assert.equal(diag.reportRuntimeError('unhandledrejection', 'AbortError: The user aborted a request.', 'promise', 0), false);
+  assert.equal(diag.reportRuntimeError('unhandledrejection', 'Load failed', 'promise', 0), false);
 
   assert.equal(
     diag.reportRuntimeError('error', 'Failed for jane@example.com call (863) 640-3102 at https://lakelandhealthinsurance.com/get-help/?email=secret', 'https://lakelandhealthinsurance.com/js/funnel.js?v=1', 42),

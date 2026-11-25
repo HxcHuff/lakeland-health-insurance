@@ -3,7 +3,7 @@
   if (document.querySelector('.lhi-topbar')) return;
 
   var header = document.querySelector('header');
-  if (!header) return;
+  if (!header || !header.parentNode) return;
 
   var bar = document.createElement('div');
   bar.className = 'lhi-topbar';

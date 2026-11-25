@@ -1,5 +1,6 @@
 // In-flow CTA for blog posts. Contact tracking is handled by analytics.js.
 (function () {
+    if (!document.head || !document.body) return;
     var existingArticleCta = document.querySelector(
         'main .cta-section, main .cta-panel, main .article-cta, main .cta-box, ' +
         'main .quote-tool-cta, main .review-cta'

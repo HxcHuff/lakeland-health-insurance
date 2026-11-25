@@ -691,13 +691,13 @@
         if (typeof navigator.serviceWorker.getRegistration === 'function') {
           navigator.serviceWorker.getRegistration('/').then(function (reg) {
             if (reg && typeof reg.update === 'function') {
-              reg.update();
+              return Promise.resolve(reg.update()).catch(function () {});
             } else if (canRegisterSw && typeof navigator.serviceWorker.register === 'function') {
-              navigator.serviceWorker.register('/sw.js').catch(function () {});
+              return Promise.resolve(navigator.serviceWorker.register('/sw.js')).catch(function () {});
             }
           }).catch(function () {});
         } else if (canRegisterSw && typeof navigator.serviceWorker.register === 'function') {
-          navigator.serviceWorker.register('/sw.js').catch(function () {});
+          Promise.resolve(navigator.serviceWorker.register('/sw.js')).catch(function () {});
         }
       } catch (error) {}
     }

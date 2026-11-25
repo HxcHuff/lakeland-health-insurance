@@ -877,10 +877,10 @@
 
         var text = lines.join('\n');
         if (w.navigator && w.navigator.clipboard && w.navigator.clipboard.writeText) {
-          w.navigator.clipboard.writeText(text).then(function () {
+          Promise.resolve(w.navigator.clipboard.writeText(text)).then(function () {
             copyBtn.textContent = 'Copied Brief to Clipboard';
             w.setTimeout(function () { copyBtn.textContent = 'Copy Verification Summary'; }, 2400);
-          });
+          }).catch(function () {});
         }
       });
     }
