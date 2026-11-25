@@ -27,7 +27,7 @@ function get2027AndFacebookBlogFiles() {
 
 test('2027 and Facebook blog guides place #lhi-lead-hero mid-article (lhi-lead-hero--mid) after opening educational content', () => {
   const files = get2027AndFacebookBlogFiles();
-  assert.equal(files.length, 137, `expected 137 2027/Facebook blog guides, found ${files.length}`);
+  assert.equal(files.length, 140, `expected 140 2027/Facebook blog guides, found ${files.length}`);
 
   for (const rel of files) {
     const html = readFileSync(join(ROOT, rel), 'utf8');
